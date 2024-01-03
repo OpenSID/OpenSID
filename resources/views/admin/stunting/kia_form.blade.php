@@ -47,10 +47,6 @@
                         <div class="col-sm-9">
                             <select class="form-control required input-sm select2" id="ibu" name="id_ibu" style="width:100%;">
                                 <option value="">-- Cari NIK / Nama Ibu --</option>
-                                @foreach ($ibu as $data)
-                                    <option value="{{ $data->id }}" @selected($kia->ibu_id == $data->id)>NIK :
-                                        {{ $data->nik . ' - ' . $data->nama . ' - ' . $data->alamatWilayah }}</option>
-                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -90,6 +86,28 @@
 
 @push('scripts')
     <script>
+        $('#ibu').select2({
+            ajax: {
+                url: "{{ route('stunting.getIbu') }}",
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        q: params.term || '',
+                        page: params.page || 1,
+                    };
+                },
+                cache: true
+            },
+            placeholder: function() {
+                $(this).data('placeholder');
+            },
+            minimumInputLength: 0,
+            allowClear: true,
+            escapeMarkup: function(markup) {
+                return markup;
+            },
+        });
+
         $('#anak').on('change', function() {
             if (this.value == "") {
                 $('#perkiraan_lahir').prop("disabled", false);
@@ -99,42 +117,42 @@
             }
         });
 
-        $(".select2").select2();
+        $("#anak").select2();
 
-    $(function() {
-        $('#ibu').on('change', function() {
-            var ibu = $(this).val();
-            if(ibu) {
-                $.ajax({
-                    url: "{{ route('stunting.getAnak') }}",
-                    type: "GET",
-                    data: {
-                        ibu: ibu,
-                    },
-                    success:function(data) {
-                        $('#anak').empty();
-                        if (Object.keys(data).length === 0){
-                            $('#anak').prop('disabled', true);
-                        } else {
-                            $('#anak').prop('disabled', false);
-                            $('#anak').append($('<option>', {
-                                value: '',
-                                text: '-- Cari NIK / Nama Anak --'
-                            }));
-                            $.each(data, function(key, value) {
+        $(function() {
+            $('#ibu').on('change', function() {
+                var ibu = $(this).val();
+                if(ibu) {
+                    $.ajax({
+                        url: "{{ route('stunting.getAnak') }}",
+                        type: "GET",
+                        data: {
+                            ibu: ibu,
+                        },
+                        success:function(data) {
+                            $('#anak').empty();
+                            if (Object.keys(data).length === 0){
+                                $('#anak').prop('disabled', true);
+                            } else {
+                                $('#anak').prop('disabled', false);
                                 $('#anak').append($('<option>', {
-                                    value: value.id,
-                                    text: 'NIK: ' + value.nik + ' - ' + value.nama
+                                    value: '',
+                                    text: '-- Cari NIK / Nama Anak --'
                                 }));
-                            });
+                                $.each(data, function(key, value) {
+                                    $('#anak').append($('<option>', {
+                                        value: value.id,
+                                        text: 'NIK: ' + value.nik + ' - ' + value.nama
+                                    }));
+                                });
+                            }
                         }
-                    }
-                });
-            } else{
-                $('#anak').empty();
-                $('#anak').prop('disabled', true);
-            }
-       });
-    });
+                    });
+                } else{
+                    $('#anak').empty();
+                    $('#anak').prop('disabled', true);
+                }
+        });
+        });
     </script>
 @endpush

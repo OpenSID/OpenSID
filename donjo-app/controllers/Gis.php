@@ -58,13 +58,17 @@ class Gis extends Admin_Controller
 
     public function clear()
     {
-        unset($_SESSION['log'], $_SESSION['cari'], $_SESSION['filter'], $_SESSION['sex'], $_SESSION['warganegara'], $_SESSION['fisik'], $_SESSION['mental'], $_SESSION['menahun'], $_SESSION['golongan_darah'], $_SESSION['dusun'], $_SESSION['rw'], $_SESSION['rt'], $_SESSION['agama'], $_SESSION['umur_min'], $_SESSION['umur_max'], $_SESSION['pekerjaan_id'], $_SESSION['status'], $_SESSION['pendidikan_sedang_id'], $_SESSION['pendidikan_kk_id'], $_SESSION['status_penduduk'], $_SESSION['layer_penduduk'], $_SESSION['layer_keluarga'], $_SESSION['layer_wilayah'], $_SESSION['layer_lokasi'], $_SESSION['layer_area']);
+        $this->session->unset_userdata([
+            'log', 'cari', 'filter', 'sex',
+            'warganegara', 'fisik', 'mental', 'menahun',
+            'golongan_darah', 'dusun', 'rw', 'rt',
+            'agama', 'umur_min', 'umur_max', 'pekerjaan_id',
+            'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk',
+            'layer_penduduk', 'layer_keluarga', 'layer_wilayah', 'layer_lokasi', 'layer_area',
+        ]);
 
-        // ini status_penduduk
+        $this->session->set_userdata('layer_keluarga', 0);
 
-        // status kawin
-
-        $_SESSION['layer_keluarga'] == 0;
         redirect('gis');
     }
 
@@ -116,6 +120,7 @@ class Gis extends Admin_Controller
         $data['rw_gis']               = $this->wilayah_model->list_rw();
         $data['rt_gis']               = $this->wilayah_model->list_rt();
         $data['list_ref']             = $this->referensi_model->list_ref(STAT_PENDUDUK);
+        $data['list_bantuan']         = collect(unserialize(STAT_BANTUAN))->toArray() + collect($this->program_bantuan_model->list_program(0))->pluck('nama', 'lap')->toArray();
         $data['persil']               = $this->data_persil_model->list_data();
         $this->render('gis/maps', $data);
     }

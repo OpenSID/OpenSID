@@ -419,9 +419,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_column('kelompok', $fields);
         }
 
-        $this->load->model('kelompok_model');
-
-        if ($data_kelompok = $this->kelompok_model->list_data()) {
+        if ($data_kelompok = $this->db->get('kelompok')->result_array()) {
             foreach ($data_kelompok as $kelompok) {
                 $slug  = unique_slug('kelompok', $kelompok['nama'], $kelompok['id']);
                 $hasil = $hasil && $this->db->where('id', $kelompok['id'])->update('kelompok', ['slug' => $slug]);

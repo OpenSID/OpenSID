@@ -512,29 +512,25 @@ class Migrasi_fitur_premium_2102 extends MY_model
         // Misalnya hapus kalau ada dua entri 'mati' untuk penduduk yg sama.
         // https://stackoverflow.com/questions/6107167/mysql-delete-duplicate-records-but-keep-latest/6108860
         $hapus_dupl_sql = 'delete log_penduduk
+        from log_penduduk
+        inner join (
+            select max(id) as last_id, id_pend, kode_peristiwa
             from log_penduduk
-                inner join (
-                    select max(id) as last_id, id_pend, kode_peristiwa
-                    from log_penduduk
-                    group by id_pend, kode_peristiwa
-                        having count(*) > 1
-                    ) dup
-                on dup.id_pend = log_penduduk.id_pend and dup.kode_peristiwa = log_penduduk.kode_peristiwa
-            where log_penduduk.id < dup.last_id';
+            group by id_pend, kode_peristiwa
+                having count(*) > 1
+            ) dup
+            on dup.id_pend = log_penduduk.id_pend and dup.kode_peristiwa = log_penduduk.kode_peristiwa
+        where log_penduduk.id < dup.last_id';
         $hasil = $hasil && $this->db->query($hapus_dupl_sql);
 
         // Menambahkan data ke setting_aplikasi
-        $data_setting = [
+        $list_setting = [
             ['key' => 'tgl_data_lengkap', 'keterangan' => 'Atur data tanggal sudah lengkap', 'jenis' => 'datetime'],
             ['key' => 'tgl_data_lengkap_aktif', 'value' => 0, 'keterangan' => 'Aktif / Non-aktif data tanggal sudah lengkap', 'jenis' => 'boolean'],
         ];
 
-        foreach ($data_setting as $setting) {
-            $sql = $this->db->insert_string('setting_aplikasi', $setting);
-            $sql .= ' ON DUPLICATE KEY UPDATE
-                    keterangan = VALUES(keterangan),
-                    jenis = VALUES(jenis)';
-            $hasil = $hasil && $this->db->query($sql);
+        foreach ($list_setting as $setting) {
+            $hasil = $hasil && $this->tambah_setting($setting);
         }
 
         return $hasil;

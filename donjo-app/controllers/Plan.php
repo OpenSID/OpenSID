@@ -35,8 +35,6 @@
  *
  */
 
-use App\Models\Config;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan extends Admin_Controller
@@ -114,7 +112,7 @@ class Plan extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['lokasi']      = $this->plan_lokasi_model->get_lokasi($id);
+            $data['lokasi']      = $this->plan_lokasi_model->get_lokasi($id) ?? show_404();
             $data['form_action'] = site_url("plan/update/{$id}/{$p}/{$o}");
         } else {
             $data['lokasi']      = null;
@@ -132,13 +130,13 @@ class Plan extends Admin_Controller
         $data['p'] = $p;
         $data['o'] = $o;
         if ($id) {
-            $data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+            $data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id) ?? show_404();
         } else {
             $data['lokasi'] = null;
         }
 
-        $data['desa']                   = Config::first();
-        $data['wil_atas']               = Config::first();
+        $data['desa']                   = $this->header['desa'];
+        $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = $this->wilayah_model->list_dusun();
         $data['rw_gis']                 = $this->wilayah_model->list_rw();
         $data['rt_gis']                 = $this->wilayah_model->list_rt();

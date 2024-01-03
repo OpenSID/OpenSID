@@ -105,9 +105,9 @@ function ikut_case($format, $str)
 /**
  * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
  *
- * @param            string      Text yang akan ditambahi awal dan akhiran
- * @param            awal     Jumlah karakter &nbsp; pada awal text
- * @param            panjang  Panjang string yang dihasilkan,
+ * @param string      Text yang akan ditambahi awal dan akhiran
+ * @param awal     Jumlah karakter &nbsp; pada awal text
+ * @param panjang  Panjang string yang dihasilkan,
  *                            di mana setiap &nbsp; dihitung sebagai satu karakter
  * @param mixed $str
  * @param mixed $awal
@@ -266,38 +266,5 @@ if (! function_exists('QRCodeExist')) {
         $html->clear();
 
         return $inputs;
-    }
-}
-
-// Untuk Lampiran
-if (! function_exists('kotak')) {
-    function kotak($data_kolom, $max_kolom = 26)
-    {
-        $view = '';
-
-        for ($i = 0; $i < $max_kolom; $i++) {
-            $view .= '<td class="kotak padat tengah">';
-            if (isset($data_kolom[$i])) {
-                $view .= strtoupper($data_kolom[$i]);
-            } else {
-                $view .= '&nbsp;';
-            }
-            $view .= '</td>';
-        }
-
-        return $view;
-    }
-}
-
-if (! function_exists('checklist')) {
-    function checklist($kondisi_1, $kondisi_2)
-    {
-        $view = '<td class="kotak padat tengah">';
-        if ($kondisi_1 == $kondisi_2) {
-            $view .= '<img src="' . base_url('assets/images/check.png') . '" height="10" width="10"/>';
-        }
-        $view .= '</td>';
-
-        return $view;
     }
 }

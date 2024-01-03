@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogKeluarga extends BaseModel
 {
+    use ConfigId;
+
     /**
      * KETERANGAN id_peristiwa di log_keluarga
      * 1 - keluarga baru
@@ -86,4 +90,9 @@ class LogKeluarga extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    public function Keluarga()
+    {
+        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+    }
 }

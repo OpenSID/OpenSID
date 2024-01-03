@@ -38,11 +38,14 @@
 namespace App\Models;
 
 use App\Enums\StatusEnum;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pamong extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -78,9 +81,10 @@ class Pamong extends BaseModel
      */
     protected $guarded = [];
 
+    // TODO: OpenKab - Sementara di disable dulu observer pada relasi ini
     public function penduduk()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+        return $this->hasOne(Penduduk::class, 'id', 'id_pend')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**

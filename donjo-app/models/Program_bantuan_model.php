@@ -48,6 +48,7 @@ class Program_bantuan_model extends MY_Model
 
     public function __construct()
     {
+        parent::__construct();
         $this->load->model(['penduduk_model', 'rtm_model', 'kelompok_model', 'wilayah_model']);
     }
 
@@ -74,15 +75,15 @@ class Program_bantuan_model extends MY_Model
     public function list_program($sasaran = 0)
     {
         if ($sasaran > 0) {
-            $strSQL = 'SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status
-				FROM program p WHERE p.sasaran=' . $sasaran;
+            $this->db->where('p.sasaran', $sasaran);
         } else {
-            $strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap
-				FROM program p WHERE 1";
+            $this->db->select("CONCAT('50',p.id) as lap");
         }
-        $query = $this->db->query($strSQL);
 
-        return $query->result_array();
+        return $this->config_id('p', true)
+            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status')
+            ->get('program p')
+            ->result_array();
     }
 
     public function list_program_keluarga($kk_id)
@@ -91,10 +92,10 @@ class Program_bantuan_model extends MY_Model
         $no_kk   = $this->keluarga_model->get_nokk($kk_id);
         $sasaran = 2;
         $strSQL  = "
-			SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap, pp.peserta
-			FROM program p
-			LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '{$no_kk}'
-			WHERE p.sasaran = {$sasaran}";
+            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap, pp.peserta
+            FROM program p
+            LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '{$no_kk}'
+            WHERE p.sasaran = {$sasaran} AND p.config_id = {$this->config_id}";
         $query = $this->db->query($strSQL);
 
         return $query->result_array();
@@ -120,10 +121,13 @@ class Program_bantuan_model extends MY_Model
     {
         $this->sasaran_sql();
 
-        $jml_data = $this->db
+        $jml_data = $this->config_id('p', true)
             ->select('count(p.id) as jumlah')
             ->from('program p')
-            ->get()->row()->jumlah;
+            ->get()
+            ->row()
+            ->jumlah;
+
         $this->load->library('paging');
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
@@ -216,12 +220,12 @@ class Program_bantuan_model extends MY_Model
                     $select_sql = 'p.*, o.nama, s.nama as status_dasar, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
-					RIGHT JOIN tweb_penduduk o ON p.peserta = o.nik
+                    RIGHT JOIN tweb_penduduk o ON p.peserta = o.nik
                     LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
-					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
-					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE p.program_id =' . $slug;
+                    LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
+                    LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
+                    LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+                    WHERE p.program_id =' . $slug;
                 break;
 
             case 2:
@@ -230,14 +234,14 @@ class Program_bantuan_model extends MY_Model
                     $select_sql = 'p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . '
-					FROM program_peserta p
-					JOIN tweb_keluarga k ON p.peserta = k.no_kk
-					RIGHT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+                    FROM program_peserta p
+                    JOIN tweb_keluarga k ON p.peserta = k.no_kk
+                    RIGHT JOIN tweb_penduduk o ON k.nik_kepala = o.id
                     LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
-					RIGHT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
-					LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE p.program_id =' . $slug;
+                    RIGHT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
+                    LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
+                    LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+                    WHERE p.program_id =' . $slug;
                 break;
 
             case 3:
@@ -246,12 +250,12 @@ class Program_bantuan_model extends MY_Model
                     $select_sql = 'p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
-					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
-					RIGHT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+                    LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
+                    RIGHT JOIN tweb_penduduk o ON o.id = r.nik_kepala
                     LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
-					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE p.program_id=' . $slug;
+                    LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
+                    LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+                    WHERE p.program_id=' . $slug;
                 break;
 
             case 4:
@@ -260,19 +264,20 @@ class Program_bantuan_model extends MY_Model
                     $select_sql = 'p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
-					LEFT JOIN kelompok r ON r.id = p.peserta
-					RIGHT JOIN tweb_penduduk o ON o.id = r.id_ketua
+                    LEFT JOIN kelompok r ON r.id = p.peserta
+                    RIGHT JOIN tweb_penduduk o ON o.id = r.id_ketua
                     LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
-					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
-					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE p.program_id=' . $slug;
+                    LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
+                    LEFT JOIN tweb_keluarga k on k.id = o.id_kk
+                    LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
+                    WHERE p.program_id=' . $slug;
                 break;
 
             default:
                 break;
         }
 
+        $strSQL .= " AND p.config_id = {$this->config_id}";
         $strSQL .= $this->search_peserta_sql();
 
         return $strSQL;
@@ -280,10 +285,11 @@ class Program_bantuan_model extends MY_Model
 
     public function get_sasaran($id)
     {
-        $this->db->select('sasaran, nama');
-        $this->db->where('id', $id);
-        $query = $this->db->get('program');
-        $data  = $query->row_array();
+        $data = $this->config_id(null, true)
+            ->select('sasaran, nama')
+            ->where('id', $id)
+            ->get('program')
+            ->row_array();
 
         switch ($data['sasaran']) {
             case 1:
@@ -312,11 +318,10 @@ class Program_bantuan_model extends MY_Model
 
     private function get_program_data($p, $slug)
     {
-        $strSQL = 'SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
-			FROM program p
-			WHERE p.id = ' . $slug;
-        $query  = $this->db->query($strSQL);
-        $hasil0 = $query->row_array();
+        $hasil0 = $this->config_id(null, true)
+            ->where('id', $slug)
+            ->get('program')
+            ->row_array();
 
         $hasil0['paging'] = $this->paging_peserta($p, $slug, $hasil0['sasaran']);
 
@@ -472,13 +477,16 @@ class Program_bantuan_model extends MY_Model
     private function get_pilihan_penduduk($filter)
     {
         // Data penduduk
-        $strSQL = 'SELECT p.nik, p.nama, w.rt, w.rw, w.dusun
-			FROM penduduk_hidup p
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-			WHERE 1 ORDER BY nama';
-        $query = $this->db->query($strSQL);
-        $data  = '';
-        $data  = $query->result_array();
+        $hasil2 = [];
+        $query  = $this->config_id('p')
+            ->select('p.nik, p.nama, w.rt, w.rw, w.dusun')
+            ->from('penduduk_hidup p')
+            ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+            ->order_by('nama')
+            ->get();
+
+        $data = $query->result_array();
+
         if ($query->num_rows() > 0) {
             $j = 0;
 
@@ -504,10 +512,9 @@ class Program_bantuan_model extends MY_Model
 
     private function get_pilihan_kk($filter)
     {
-        // Data KK
-
         // Daftar keluarga, tidak termasuk keluarga yang sudah menjadi peserta
-        $query = $this->db
+        $hasil2 = [];
+        $query  = $this->config_id('p')
             ->select('k.no_kk, p.nama, p.nik, h.nama as kk_level, w.dusun, w.rw, w.rt')
             ->from('penduduk_hidup p')
             ->join('tweb_penduduk_hubungan h', 'h.id = p.kk_level', 'LEFT')
@@ -517,8 +524,8 @@ class Program_bantuan_model extends MY_Model
             ->order_by('p.id_kk')
             ->get();
 
-        $hasil2 = [];
-        $data   = $query->result_array();
+        $data = $query->result_array();
+
         if ($query->num_rows() > 0) {
             $j = 0;
 
@@ -542,15 +549,16 @@ class Program_bantuan_model extends MY_Model
     private function get_pilihan_rumah_tangga($filter)
     {
         // Data RTM
-
-        $strSQL = 'SELECT r.no_kk as id, o.nama, w.rt, w.rw, w.dusun  FROM tweb_rtm r
-			LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-			WHERE 1
-			';
-        $query  = $this->db->query($strSQL);
         $hasil2 = [];
-        $data   = $query->result_array();
+        $query  = $this->config_id('r')
+            ->select('r.no_kk as id, o.nama, w.rt, w.rw, w.dusun')
+            ->from('tweb_rtm r')
+            ->join('tweb_penduduk o', 'o.id = r.nik_kepala', 'LEFT')
+            ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'LEFT')
+            ->get();
+
+        $data = $query->result_array();
+
         if ($query->num_rows() > 0) {
             $j = 0;
 
@@ -574,13 +582,16 @@ class Program_bantuan_model extends MY_Model
     private function get_pilihan_kelompok($filter)
     {
         // Data Kelompok
-        $strSQL = 'SELECT k.id,k.nama as nama_kelompok, o.nama, w.rt, w.rw, w.dusun FROM kelompok k
-			LEFT JOIN tweb_penduduk o ON o.id = k.id_ketua
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-			WHERE 1';
-        $query  = $this->db->query($strSQL);
         $hasil2 = [];
-        $data   = $query->result_array();
+        $query  = $this->config_id('k')
+            ->select('k.id,k.nama as nama_kelompok, o.nama, w.rt, w.rw, w.dusun')
+            ->from('kelompok k')
+            ->join('tweb_penduduk o', 'o.id = k.id_ketua', 'LEFT')
+            ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'LEFT')
+            ->get();
+
+        $data = $query->result_array();
+
         if ($query->num_rows() > 0) {
             $j = 0;
 
@@ -612,20 +623,20 @@ class Program_bantuan_model extends MY_Model
     {
         if ($slug === false) {
             //Query untuk expiration status, jika end date sudah melebihi dari datenow maka status otomatis menjadi tidak aktif
-            $expirySQL = 'UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL';
+            $expirySQL = 'UPDATE program SET status = IF(edate < CURRENT_DATE(), 0, IF(edate > CURRENT_DATE(), 1, status)) WHERE status IS NOT NULL AND config_id = ' . $this->config_id;
             $this->db->query($expirySQL);
 
             $response['paging'] = $this->paging_bantuan($p);
 
             $this->sasaran_sql();
 
-            $data = $this->db
-                ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana')
+            $data = $this->config_id('p', true)
                 ->from('program p')
                 ->group_by('p.id')
                 ->limit($response['paging']->per_page, $response['paging']->offset)
                 ->get()
                 ->result_array();
+
             $response['program'] = collect($data)->map(function ($item, $key) {
                 $item['jml_peserta'] = $this->db->query($this->get_peserta_sql($item['id'], (int) $item['sasaran'], true))->row_array()['jumlah'];
 
@@ -670,7 +681,7 @@ class Program_bantuan_model extends MY_Model
         // Untuk program bantuan, $id '50<program_id>'
         $program_id = preg_replace('/^50/', '', $id);
 
-        return $this->db->select('*')->where('id', $program_id)->get('program')->row_array();
+        return $this->config_id(null, true)->where('id', $program_id)->get('program')->row_array();
     }
 
     /*
@@ -682,11 +693,14 @@ class Program_bantuan_model extends MY_Model
     public function get_peserta_program($cat, $id)
     {
         $data_program = false;
-        $strSQL       = "SELECT p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc, p.status
-			FROM program_peserta o
-			LEFT JOIN program p ON p.id = o.program_id
-			WHERE ((o.peserta='" . $id . "') AND (p.sasaran='" . $cat . "'))";
-        $query = $this->db->query($strSQL);
+        $query        = $this->config_id('o')
+            ->select('p.id AS id, o.peserta AS nik, o.id AS peserta_id,  p.nama AS nama, p.sdate, p.edate, p.ndesc, p.status')
+            ->from('program_peserta o')
+            ->join('program p', 'p.id = o.program_id')
+            ->where('o.peserta', $id)
+            ->where('p.sasaran', $cat)
+            ->get();
+
         if ($query->num_rows() > 0) {
             $data_program = $query->result_array();
         }
@@ -694,11 +708,13 @@ class Program_bantuan_model extends MY_Model
         switch ($cat) {
             case 1:
                 // Rincian Penduduk
-                $strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun
-					FROM tweb_penduduk o
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE o.nik='" . $id . "'";
-                $query = $this->db->query($strSQL);
+                $query = $this->config_id('o')
+                    ->select('o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun')
+                    ->from('tweb_penduduk o')
+                    ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster')
+                    ->where('o.nik', $id)
+                    ->get();
+
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
@@ -713,10 +729,14 @@ class Program_bantuan_model extends MY_Model
 
             case 2:
                 // KK
-                $strSQL = "SELECT o.nik_kepala, o.no_kk, p.nama, w.rt, w.rw, w.dusun FROM tweb_keluarga o
-					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster WHERE o.no_kk = '" . $id . "'";
-                $query = $this->db->query($strSQL);
+                $query = $this->config_id('o')
+                    ->select('o.nik_kepala, o.no_kk, p.nama, w.rt, w.rw, w.dusun')
+                    ->from('tweb_keluarga o')
+                    ->join('tweb_penduduk p', 'o.nik_kepala = p.id')
+                    ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster')
+                    ->where('o.no_kk', $id)
+                    ->get();
+
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
@@ -730,11 +750,14 @@ class Program_bantuan_model extends MY_Model
 
             case 3:
                 // RTM
-                $strSQL = "SELECT r.id, r.no_kk, o.nama, o.nik, w.rt, w.rw, w.dusun  FROM tweb_rtm r
-					LEFT JOIN tweb_penduduk o ON o.id = r.nik_kepala
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE r.no_kk={$id}";
-                $query = $this->db->query($strSQL);
+                $query = $this->config_id('r')
+                    ->select('r.id, r.no_kk, o.nama, o.nik, w.rt, w.rw, w.dusun')
+                    ->from('tweb_rtm r')
+                    ->join('tweb_penduduk o', 'o.id = r.nik_kepala')
+                    ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster')
+                    ->where('r.no_kk', $id)
+                    ->get();
+
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
@@ -748,11 +771,14 @@ class Program_bantuan_model extends MY_Model
 
             case 4:
                 // Kelompok
-                $strSQL = "SELECT k.id as id, k.nama as nama, p.nama as ketua, p.nik as nik, w.rt, w.rw, w.dusun FROM kelompok k
-				 LEFT JOIN tweb_penduduk p ON p.id = k.id_ketua
-				 LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-				 WHERE k.id='" . $id . "'";
-                $query = $this->db->query($strSQL);
+                $query = $this->config_id('k')
+                    ->select('k.id as id, k.nama as nama, p.nama as ketua, p.nik as nik, w.rt, w.rw, w.dusun')
+                    ->from('kelompok k')
+                    ->join('tweb_penduduk p', 'p.id = k.id_ketua')
+                    ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster')
+                    ->where('k.id', $id)
+                    ->get();
+
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
@@ -775,8 +801,9 @@ class Program_bantuan_model extends MY_Model
 
     public function set_program()
     {
-        $data           = $this->validasi_bantuan($this->input->post());
-        $data['userid'] = $this->session->user;
+        $data              = $this->validasi_bantuan($this->input->post());
+        $data['userid']    = auth()->id;
+        $data['config_id'] = $this->config_id;
 
         return $this->db->insert('program', $data);
     }
@@ -842,8 +869,7 @@ class Program_bantuan_model extends MY_Model
 
     public function hapus_peserta_program($peserta_id, $program_id)
     {
-        $this->db->where(['peserta' => $peserta_id, 'program_id' => $program_id]);
-        $this->db->delete('program_peserta');
+        $this->config_id()->where(['peserta' => $peserta_id, 'program_id' => $program_id])->delete('program_peserta');
     }
 
     public function hapus_peserta($peserta_id = '')
@@ -870,7 +896,7 @@ class Program_bantuan_model extends MY_Model
     // Mengambil data individu peserta menggunakan id tabel program_peserta
     public function get_program_peserta_by_id($id)
     {
-        $data = $this->db
+        $data = $this->config_id('pp')
             ->select('pp.*, p.sasaran')
             ->from('program_peserta pp')
             ->join('program p', 'pp.program_id = p.id')
@@ -921,7 +947,8 @@ class Program_bantuan_model extends MY_Model
     public function update_program($id)
     {
         $data  = $this->validasi_bantuan($this->input->post());
-        $hasil = $this->db->where('id', $id)
+        $hasil = $this->config_id()
+            ->where('id', $id)
             ->update('program', $data);
 
         if ($hasil) {
@@ -935,9 +962,16 @@ class Program_bantuan_model extends MY_Model
     public function jml_peserta_program($id = null)
     {
         if ($id) {
-            $jml_peserta = $this->db->select('count(v.program_id) as jml')->from('program p')->join('program_peserta v', 'p.id = v.program_id', 'left')->where('p.id', $id)->get()->row()->jml;
+            $jml_peserta = $this->config_id('p', true)
+                ->select('count(v.program_id) as jml')
+                ->from('program p')
+                ->join('program_peserta v', 'p.id = v.program_id', 'left')
+                ->where('p.id', $id)
+                ->get()
+                ->row()
+                ->jml;
         } else {
-            $jml_peserta = $this->db->get('program_peserta')->num_rows();
+            $jml_peserta = $this->config_id()->get('program_peserta')->num_rows();
         }
 
         return $jml_peserta;
@@ -952,24 +986,21 @@ class Program_bantuan_model extends MY_Model
             return;
         }
 
-        $hasil = $this->db->where('id', $id)->delete('program');
-        if ($hasil) {
-            $_SESSION['success'] = 1;
-            $_SESSION['pesan']   = 'Data program telah dihapus';
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $this->config_id()->where('id', $id)->delete('program');
+
+        status_sukses($this->db->affected_rows());
     }
 
     /* Mendapatkan daftar bantuan yang diterima oleh penduduk
-         parameter pencarian yang digunakan adalah nik ( data nik disimpan pada kolom peserta tabel program_peserta ).
-         Saat ini terbatas pada program bantuan perorangan
-    */
+     * parameter pencarian yang digunakan adalah nik ( data nik disimpan pada kolom peserta tabel program_peserta ).
+     * Saat ini terbatas pada program bantuan perorangan
+     */
     public function daftar_bantuan_yang_diterima($nik)
     {
-        return $this->db->select('p.*, pp.*')
-            ->where(['peserta' => $nik])
+        return $this->config_id('pp')
+            ->select('p.*, pp.*')
             ->join('program p', 'p.id = pp.program_id', 'left')
+            ->where(['peserta' => $nik])
             ->get('program_peserta pp')
             ->result_array();
     }
@@ -980,18 +1011,40 @@ class Program_bantuan_model extends MY_Model
 
     private function get_all_peserta_bantuan_query()
     {
-        $this->db
+        $dusun = $this->session->dusun;
+        $rw    = $this->session->rw;
+        $rt    = $this->session->rt;
+        if ($dusun = $this->session->dusun) {
+            $this->db->group_start();
+            $this->db->where('a.dusun', $dusun);
+            if ($rw = $this->session->rw) {
+                $this->db->where('a.rw', $rw);
+                if ($rt = $this->session->rt) {
+                    $this->db->where('a.rt', $rt);
+                }
+            }
+            $this->db->group_end();
+        }
+
+        $this->config_id('p', true)
             ->select('p.nama as program, pp.kartu_nama as peserta, pp.kartu_alamat AS alamat')
             ->from('program p')
             ->join('program_peserta pp', 'p.id = pp.program_id', 'left');
 
         // keluarga
         if ($this->input->post('stat') == 'bantuan_keluarga') {
-            $this->db->where('p.sasaran', '2');
+            $this->db
+                ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+                ->join('tweb_penduduk pd', 'k.nik_kepala = pd.id', 'left')
+                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
+                ->where('p.sasaran', '2');
         }
         // penduduk
         else {
-            $this->db->where('p.sasaran', '1');
+            $this->db
+                ->join('tweb_penduduk pd', 'pp.peserta = pd.nik', 'left')
+                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
+                ->where('p.sasaran', '1');
         }
     }
 
@@ -1036,14 +1089,16 @@ class Program_bantuan_model extends MY_Model
     public function get_peserta_bantuan($filter = [])
     {
         if ($filter) {
-            if ($status = $filter['status'] != '') {
-                $this->db->where('p.status', $status);
+            if ($filter['status'] != '') {
+                $this->db->where('p.status', $filter['status']);
             }
 
-            $tahun = $this->session->tahun;
-            if (isset($tahun)) {
-                $this->db->where('YEAR(p.sdate)', $tahun);
-                $this->db->or_where('YEAR(p.edate)', $tahun);
+            if ($filter['tahun'] != '') {
+                $this->db
+                    ->group_start()
+                    ->where('YEAR(u.sdate) <=', $filter['tahun'])
+                    ->where('YEAR(u.edate) >=', $filter['tahun'])
+                    ->group_end();
             }
         }
 
@@ -1066,7 +1121,7 @@ class Program_bantuan_model extends MY_Model
             $this->db->where('sasaran', $sasaran);
         }
 
-        return $this->db
+        return $this->config_id(null, true)
             ->select('min(date_format(sdate, "%Y")) as thn')
             ->from('program')
             ->where('DAYNAME(sdate) IS NOT NULL')
@@ -1093,7 +1148,7 @@ class Program_bantuan_model extends MY_Model
     //Ambil data yg dibutuhkan saja, ambil dr tabel penduduk_hidup
     public function get_penduduk($peserta_id)
     {
-        $data = $this->db
+        $data = $this->config_id('p')
             ->select('p.id as id, p.nama, p.nik, p.id_kk, p.id_rtm, p.rtm_level, x.nama AS sex, h.nama AS hubungan, p.tempatlahir, p.tanggallahir, a.nama AS agama, k.nama AS pendidikan, j.nama AS pekerjaan, w.nama AS warganegara, c.dusun, c.rw, c.rt')
             ->from('penduduk_hidup p')
             ->join('tweb_penduduk_sex x', 'x.id = p.sex', 'left')
@@ -1117,7 +1172,7 @@ class Program_bantuan_model extends MY_Model
 
     public function get_kk($id_kk)
     {
-        return $this->db
+        return $this->config_id('k')
             ->select('k.no_kk, p.nik as nik_kk, p.nama as nama_kk, k.alamat, c.*')
             ->from('keluarga_aktif k')
             ->join('penduduk_hidup p', 'p.id = k.nik_kepala', 'left')
@@ -1135,8 +1190,9 @@ class Program_bantuan_model extends MY_Model
         $this->session->success = 1;
         $sekarang               = $data_program['sdate'] ?? date('Y m d');
         $data_tambahan          = [
-            'userid' => $this->session->user,
-            'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
+            'userid'    => $this->session->user,
+            'status'    => ($data_program['edate'] < $sekarang) ? 0 : 1,
+            'config_id' => $this->config_id,
         ];
 
         $data_program = array_merge($data_program, $data_tambahan);
@@ -1159,13 +1215,13 @@ class Program_bantuan_model extends MY_Model
         $this->session->success = 1;
 
         if ($kosongkan_peserta == 1) {
-            $this->db->where('program_id', $program_id)->delete('program_peserta');
+            $this->config_id()->where('program_id', $program_id)->delete('program_peserta');
         }
 
         if ($data_diubah) {
             $data_diubah = explode(', ', ltrim($data_diubah, ', '));
 
-            $this->db->where_in('peserta', $data_diubah)->where('program_id', $program_id)->delete('program_peserta');
+            $this->config_id()->where_in('peserta', $data_diubah)->where('program_id', $program_id)->delete('program_peserta');
         }
 
         if ($data_peserta != null) {
@@ -1186,7 +1242,7 @@ class Program_bantuan_model extends MY_Model
                 // Penduduk
                 $sasaran_peserta = 'NIK';
 
-                $data = $this->db
+                $data = $this->config_id()
                     ->select('id, nik')
                     ->where('nik', $peserta)
                     ->get('penduduk_hidup')
@@ -1197,7 +1253,7 @@ class Program_bantuan_model extends MY_Model
                 // Keluarga
                 $sasaran_peserta = 'No. KK';
 
-                $data = $this->db
+                $data = $this->config_id('p')
                     ->select('k.id, p.nik')
                     ->from('penduduk_hidup p')
                     ->join('keluarga_aktif k', 'k.id = p.id_kk', 'left')
@@ -1211,7 +1267,7 @@ class Program_bantuan_model extends MY_Model
                 // no_rtm = no_kk
                 $sasaran_peserta = 'No. RTM';
 
-                $data = $this->db
+                $data = $this->config_id('p')
                     ->select('r.id, p.nik')
                     ->from('penduduk_hidup p')
                     ->join('tweb_rtm r', 'p.id = r.nik_kepala', 'left')
@@ -1224,7 +1280,7 @@ class Program_bantuan_model extends MY_Model
                 // Kelompok
                 $sasaran_peserta = 'Kode Kelompok';
 
-                $data = $this->db
+                $data = $this->config_id('p')
                     ->select('kl.id, p.nik')
                     ->from('penduduk_hidup p')
                     ->join('kelompok kl', 'p.id = kl.id_ketua', 'left')
@@ -1254,38 +1310,41 @@ class Program_bantuan_model extends MY_Model
     // peserta terkait perlu dihapus juga dari program jenis sasaran itu
     public function hapus_peserta_dari_sasaran($peserta, $sasaran)
     {
-        $peserta_hapus = $this->db
+        $peserta_hapus = $this->config_id('pp')
             ->select('pp.id')
             ->from('program_peserta pp')
             ->join('program p', 'p.id = pp.program_id')
             ->where('p.sasaran', $sasaran)
             ->where('pp.peserta', $peserta)
-            ->get()->result_array();
+            ->get()
+            ->result_array();
         $peserta_hapus = array_column($peserta_hapus, 'id');
         if (empty($peserta_hapus)) {
             return true;
         }
 
-        return $this->db
+        return $this->config_id()
             ->where_in('id', $peserta_hapus)
             ->delete('program_peserta');
     }
 
     public function peserta_duplikat($program)
     {
-        return $this->db
+        return $this->config_id('pp')
             ->select('pp.peserta, COUNT(peserta) as jumlah, MAX(pp.id) as id, MAX(p.nama) as nama, MAX(p.sasaran) as sasaran, MAX(pp.kartu_nama) as kartu_nama')
             ->from('program_peserta pp')
             ->join('program p', 'pp.program_id = p.id')
             ->where('pp.program_id', $program['id'])
             ->group_by('pp.peserta')
             ->having('COUNT(peserta) > 1')
-            ->get()->result_array() ?? [];
+            ->get()
+            ->result_array() ?? [];
     }
 
     public function peserta_tidak_valid($sasaran)
     {
-        $query = $this->db->select('pp.id, p.nama, p.sasaran, pp.peserta, pp.kartu_nama')
+        $query = $this->config_id('pp')
+            ->select('pp.id, p.nama, p.sasaran, pp.peserta, pp.kartu_nama')
             ->from('program_peserta pp')
             ->join('program p', 'p.id = pp.program_id')
             ->where('p.sasaran', $sasaran)

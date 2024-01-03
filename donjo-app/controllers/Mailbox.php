@@ -89,7 +89,7 @@ class Mailbox extends Admin_Controller
 
     public function form()
     {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('h');
 
         if (! empty($nik = $this->input->post('nik'))) {
             $data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
@@ -106,7 +106,7 @@ class Mailbox extends Admin_Controller
 
     public function kirim_pesan()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $post           = $this->input->post();
         $post['tipe']   = 2;
         $post['status'] = 2;
@@ -123,7 +123,7 @@ class Mailbox extends Admin_Controller
 
         $data['kat']          = $kat;
         $data['owner']        = $kat == 1 ? 'Pengirim' : 'Penerima';
-        $data['pesan']        = $this->web_komentar_model->get_komentar($id);
+        $data['pesan']        = $this->web_komentar_model->get_komentar($id) ?? show_404();
         $data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat);
 
         $this->render('mailbox/detail', $data);
@@ -133,9 +133,9 @@ class Mailbox extends Admin_Controller
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
-            $_SESSION['cari'] = $cari;
+            $this->session->cari = $cari;
         } else {
-            unset($_SESSION['cari']);
+            unset($this->session->cari);
         }
         redirect("mailbox/index/{$kat}");
     }
@@ -145,11 +145,11 @@ class Mailbox extends Admin_Controller
         $status = $this->input->post('status');
         if ($status != 0) {
             if ($status == 3) {
-                $_SESSION['filter_archived'] = true;
-                unset($_SESSION['filter_status']);
+                $this->session->filter_archived = true;
+                unset($this->session->filter_status);
             } else {
-                $_SESSION['filter_status'] = $status;
-                unset($_SESSION['filter_archived']);
+                $this->session->filter_status = $status;
+                unset($this->session->filter_archived);
             }
         } else {
             unset($_SESSION['filter_status'], $_SESSION['filter_archived']);
@@ -161,9 +161,9 @@ class Mailbox extends Admin_Controller
     {
         $nik = $this->input->post('nik');
         if (! empty($nik) && $nik != 0) {
-            $_SESSION['filter_nik'] = $nik;
+            $this->session->filter_nik = $nik;
         } else {
-            unset($_SESSION['filter_nik']);
+            unset($this->session->filter_nik);
         }
         redirect("mailbox/index/{$kat}");
     }
@@ -178,28 +178,28 @@ class Mailbox extends Admin_Controller
 
     public function archive($kat = 1, $p = 1, $o = 0, $id = '')
     {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('h');
         $this->web_komentar_model->archive($id);
         redirect("mailbox/index/{$kat}/{$p}/{$o}");
     }
 
     public function archive_all($kat = 1, $p = 1, $o = 0)
     {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('h');
         $this->web_komentar_model->archive_all();
         redirect("mailbox/index/{$kat}/{$p}/{$o}");
     }
 
     public function pesan_read($id = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->web_komentar_model->komentar_lock($id, 1);
         redirect('mailbox');
     }
 
     public function pesan_unread($id = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->web_komentar_model->komentar_lock($id, 2);
         redirect('mailbox');
     }

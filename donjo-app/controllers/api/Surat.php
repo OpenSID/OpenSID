@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Surat extends MY_Controller
 {
     /**
-     * @var \GuzzleHttp\Client
+     * @var GuzzleHttp\Client
      */
     protected $client;
 

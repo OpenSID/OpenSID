@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Galery extends BaseModel
 {
+    use ConfigId;
+
     public const PARRENT = 0;
 
     /**

@@ -24,11 +24,13 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="id_penduduk">Nama Anggota</label>
 									<div class="col-sm-5">
-										<select class="form-control input-sm select2-non-auto required" <?= jecho($pend, true, 'disabled') ?> id="id_penduduk" name="id_penduduk">
+										<select class="form-control input-sm required" <?= jecho($pend, true, 'disabled') ?> id="kelompok_penduduk" name="id_penduduk" data-kelompok="<?= $kelompok ?>">
 											<option value="">-- Silakan Masukan NIK / Nama --</option>
-											<?php foreach ($list_penduduk as $data) : ?>
-												<option value="<?= $data['id']; ?>" <?= selected($data['id'], $pend['id_penduduk']); ?>>NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat']; ?></option>
-											<?php endforeach; ?>
+											<?php if ($pend): ?>
+												<?php foreach ($list_penduduk as $data) : ?>
+													<option value="<?= $data['id']; ?>" <?= selected($data['id'], $pend['id_penduduk']); ?>>NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat']; ?></option>
+												<?php endforeach; ?>
+											<?php endif; ?>
 										</select>
 									</div>
 								</div>

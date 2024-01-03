@@ -1,4 +1,4 @@
-@if (!$cek_kades)
+@if (!$cek_kades && !empty($main->kode_desa))
     <div class="row">
         <div class="col-md-12">
             <div class="callout callout-warning">

@@ -35,9 +35,12 @@
  *
  */
 
+use App\Models\Config;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Ekspor_model extends CI_Model
+class Ekspor_model extends MY_Model
 {
     public function __construct()
     {
@@ -68,7 +71,7 @@ class Ekspor_model extends CI_Model
     // Expor data penduduk ke format Impor Excel
     public function expor()
     {
-        $filter = $this->db
+        $filter = $this->config_id('p')
             ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi'])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
@@ -149,13 +152,48 @@ class Ekspor_model extends CI_Model
     */
     public function backup()
     {
+        if (setting('multi_desa')) {
+            session_error('Backup database tidak diizinkan');
+
+            redirect('database');
+        }
+
         // Tabel dengan foreign key dan
         // semua views ditambah di belakang.
         $views = $this->database_model->get_views();
 
         // Cek tabel yang memiliki FK (SELECT DISTINCT TABLE_NAME FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = 'nama_database')
-        // Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
+        // Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang.
+        // Yang ditambahkan hanya tabel, view tidak ditambahkan.
         $ada_foreign_key = [
+            'program',
+            'dokumen',
+            'inventaris_jalan',
+            'suplemen',
+            'lokasi',
+            'analisis_indikator',
+            'buku_tamu',
+            'artikel',
+            'inventaris_peralatan',
+            'surat_masuk',
+            'keuangan_master',
+            'inbox',
+            'kategori',
+            'pelapak',
+            'produk_kategori',
+            'setting_modul',
+            'inventaris_gedung',
+            'inventaris_asset',
+            'inventaris_tanah',
+            'pembangunan',
+            'cdesa',
+            'tweb_penduduk',
+            'tweb_wil_clusterdesa',
+            'tweb_keluarga',
+            'tweb_rtm',
+            'tweb_desa_pamong',
+            'kontak_grup',
+            'user_grup',
             'suplemen_terdata',
             'kontak',
             'anggota_grup_kontak',
@@ -240,6 +278,81 @@ class Ekspor_model extends CI_Model
             'dtks_lampiran',
             'dtks_pengaturan_program',
             'dtks_ref_lampiran',
+            'laporan_sinkronisasi',
+            'log_sinkronisasi',
+            'menu',
+            'ibu_hamil',
+            'tweb_surat_format',
+            'posyandu',
+            'widget',
+            'anjungan',
+            'login_attempts',
+            'setting_aplikasi',
+            'media_sosial',
+            'kehadiran_alasan_keluar',
+            'sys_traffic',
+            'keuangan_manual_rinci',
+            'urls',
+            'inventaris_kontruksi',
+            'analisis_respon_hasil',
+            'polygon',
+            'log_tte',
+            'tweb_penduduk_umur',
+            'outbox',
+            'analisis_master',
+            'pengaduan',
+            'permohonan_surat',
+            'analisis_respon_bukti',
+            'log_tolak',
+            'log_restore_desa',
+            'kia',
+            'komentar',
+            'covid19_vaksin',
+            'statistics',
+            'user',
+            'klasifikasi_surat',
+            'bulanan_anak',
+            'surat_keluar',
+            'log_perubahan_penduduk',
+            'anjungan_menu',
+            'gambar_gallery',
+            'kelompok_master',
+            'tanah_kas_desa',
+            'tanah_desa',
+            'sasaran_paud',
+            'program_peserta',
+            'pesan_detail',
+            'kehadiran_pengaduan',
+            'ref_jabatan',
+            'gis_simbol',
+            'area',
+            'buku_keperluan',
+            'ref_syarat_surat',
+            'log_surat',
+            'analisis_respon',
+            'buku_pertanyaan',
+            'point',
+            'persil',
+            'pendapat',
+            'kehadiran_hari_libur',
+            'buku_kepuasan',
+            'sentitems',
+            'kehadiran_jam_kerja',
+            'notifikasi',
+            'log_hapus_penduduk',
+            'log_backup',
+            'kehadiran_perangkat_desa',
+            'line',
+            'kelompok',
+            'pembangunan_ref_dokumentasi',
+            'teks_berjalan',
+            'kader_pemberdayaan_masyarakat',
+            'garis',
+            'analisis_periode',
+            'analisis_kategori_indikator',
+            'pesan',
+            'analisis_klasifikasi',
+            'analisis_parameter',
         ];
 
         $prefs = [
@@ -331,6 +444,12 @@ class Ekspor_model extends CI_Model
 
     public function restore()
     {
+        if (setting('multi_desa')) {
+            session_error('Restore database tidak diizinkan');
+
+            redirect('database');
+        }
+
         $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
@@ -397,6 +516,30 @@ class Ekspor_model extends CI_Model
 
         $this->perbaiki_collation();
 
+        $this->load->helper('directory');
+
+        // Hapus isi folder desa/cache
+        $dir = config_item('cache_path');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        // ganti isi file app_key dengan config yang baru sesuai dengan database yang di restore
+        if (Schema::hasColumn('config', 'app_key')) {
+            $app_key = Config::first()->app_key;
+            if (empty($app_key)) {
+                $app_key = set_app_key();
+                Config::first()->update(['app_key' => $app_key]);
+            }
+
+            file_put_contents(DESAPATH . 'app_key', $app_key);
+        }
+
+        session_destroy();
+
         return true;
     }
 
@@ -431,6 +574,7 @@ class Ekspor_model extends CI_Model
     protected function ketentuan_backup_restore($ketentuan)
     {
         $ketentuan = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $ketentuan);
+        $ketentuan = preg_replace('/ENGINE=MyISAM|ENGINE=MEMORY|ENGINE=CSV|ENGINE=ARCHIVE|ENGINE=MRG_MYISAM|ENGINE=BLACKHOLE|ENGINE=FEDERATED/', 'ENGINE=InnoDB', $ketentuan);
 
         return preg_replace('/COLLATE=utf8_general_ci|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|utf8_general_ci;/', '', $ketentuan);
     }
@@ -473,17 +617,14 @@ class Ekspor_model extends CI_Model
      */
     public function hapus_penduduk_sinkronasi_opendk()
     {
-        $desa = $this->db
-            ->select('kode_desa')
-            ->get('config')
-            ->row();
-        $kode_desa = kode_wilayah($desa->kode_desa);
+        $kode_desa = kode_wilayah(identitas()->kode_desa);
 
-        $data_hapus = $this->db->select([
-            "CONCAT('{$kode_desa}') as desa_id",
-            'p.id_pend as id_pend_desa',
-            'p.foto',
-        ])
+        $data_hapus = $this->config_id('p')
+            ->select([
+                "CONCAT('{$kode_desa}') as desa_id",
+                'p.id_pend as id_pend_desa',
+                'p.foto',
+            ])
             ->from('log_hapus_penduduk p')
             ->get()
             ->result_array();
@@ -495,12 +636,14 @@ class Ekspor_model extends CI_Model
 
     public function tambah_penduduk_sinkronasi_opendk()
     {
-        $data = $this->db->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at'])
+        $data = $this->config_id('p')
+            ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at'])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
             ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
             ->order_by('k.no_kk ASC', 'p.kk_level ASC')
-            ->get()->result();
+            ->get()
+            ->result();
 
         for ($i = 0; $i < count($data); $i++) {
             $baris = $data[$i];

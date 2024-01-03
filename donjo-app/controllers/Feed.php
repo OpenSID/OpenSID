@@ -44,13 +44,12 @@ class Feed extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model(['feed_model']);
     }
 
     public function index()
     {
-        $data['data_config'] = Config::first();
+        $data['data_config'] = Config::appKey()->first();
         $data['feeds']       = $this->feed_model->list_feeds();
 
         $this->output->set_content_type('text/xml', 'UTF-8');

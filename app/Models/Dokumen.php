@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen extends BaseModel
 {
+    use ConfigId;
+
     public const DOKUMEN_WARGA = 1;
     public const ENABLE        = 1;
     public const DISABLE       = 0;

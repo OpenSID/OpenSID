@@ -308,7 +308,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $hasil = $hasil && $this->dbforge->create_table('kehadiran_jam_kerja', true);
         }
 
-        if (Schema::hasTable('kehadiran_jam_kerja') && JamKerja::count() != 7) {
+        if (Schema::hasTable('kehadiran_jam_kerja') && JamKerja::count() != 7 && identitas('id')) {
             if (JamKerja::truncate()) {
                 // Tambahkan data kehadiran jam kerja
                 $hari = [

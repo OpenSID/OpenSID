@@ -38,9 +38,12 @@
 namespace App\Models;
 
 use App\Enums\JawabanKepuasanEnum;
+use App\Traits\ConfigId;
 
 class BukuKepuasan extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

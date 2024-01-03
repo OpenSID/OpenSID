@@ -84,7 +84,7 @@ class Bumindes_tanah_desa extends Admin_Controller
     public function view_tanah_desa($id)
     {
         $data = [
-            'main'         => $this->tanah_desa_model->view_tanah_desa_by_id($id),
+            'main'         => $this->tanah_desa_model->view_tanah_desa_by_id($id) ?? show_404(),
             'main_content' => 'bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa',
             'subtitle'     => 'Buku Tanah di Desa',
             'selected_nav' => 'tanah',
@@ -99,7 +99,7 @@ class Bumindes_tanah_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
         if ($id) {
             $data = [
-                'main'        => $this->tanah_desa_model->view_tanah_desa_by_id($id),
+                'main'        => $this->tanah_desa_model->view_tanah_desa_by_id($id) ?? show_404(),
                 'form_action' => site_url("bumindes_tanah_desa/update_tanah_desa/{$id}"),
             ];
         } else {

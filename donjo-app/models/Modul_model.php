@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Modul_model extends CI_Model
+class Modul_model extends MY_Model
 {
     public function __construct()
     {
@@ -47,12 +47,15 @@ class Modul_model extends CI_Model
 
     public function list_data()
     {
-        $sql = 'SELECT u.* FROM setting_modul u WHERE hidden = 0 AND parent = 0 ';
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
-        $sql .= ' ORDER BY urut';
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $this->search_sql();
+        $this->filter_sql();
+
+        $data = $this->config_id()
+            ->where('hidden', 0)
+            ->where('parent', 0)
+            ->order_by('urut')
+            ->get('setting_modul')
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']       = $i + 1;
@@ -69,9 +72,12 @@ class Modul_model extends CI_Model
             return [];
         }
         $aktif = [];
-        $data  = $this->db->where('aktif', 1)->where('parent', 0)
+        $data  = $this->config_id()
+            ->where('aktif', 1)
+            ->where('parent', 0)
             ->order_by('urut')
-            ->get('setting_modul')->result_array();
+            ->get('setting_modul')
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             if ($this->ada_sub_modul($data[$i]['id'])) {
@@ -95,11 +101,12 @@ class Modul_model extends CI_Model
 
     private function ada_sub_modul($modul_id)
     {
-        $jml = $this->db
+        $jml = $this->config_id()
             ->select("count('id') as jml")
             ->where('parent', $modul_id)
             ->get('setting_modul')
-            ->row()->jml;
+            ->row()
+            ->jml;
 
         return $jml > 0;
     }
@@ -125,17 +132,13 @@ class Modul_model extends CI_Model
     {
         // jangan aktifkan jika demo dan di domain whitelist
         if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
-            // $this->db->where_not_in('slug', [
-            //     'layanan-pelanggan',
-            //     'pendaftaran-kerjasama',
-            // ]);
-            $this->db->where_not_in('id', [
-                313,
-                331,
+            $this->db->where_not_in('slug', [
+                'layanan-pelanggan',
+                'pendaftaran-kerjasama',
             ]);
         }
 
-        $data = $this->db
+        $data = $this->config_id()
             ->where('parent', $modul_id)
             ->where('hidden <>', 2)
             ->order_by('urut')
@@ -158,7 +161,8 @@ class Modul_model extends CI_Model
             $this->db->where('aktif', $status);
         }
 
-        $data = $this->db->select('modul')
+        $data = $this->config_id()
+            ->select('modul')
             ->where('hidden', 0)
             ->where('parent', 0)
             ->order_by('modul')
@@ -170,28 +174,24 @@ class Modul_model extends CI_Model
 
     private function search_sql()
     {
-        $cari = $this->session->cari;
-
-        if (isset($cari)) {
-            $kw = $this->db->escape_like_str($cari);
-            $kw = '%' . $kw . '%';
-
-            return " AND (u.modul LIKE '{$kw}' OR u.url LIKE '{$kw}')";
+        if ($cari = $this->session->cari) {
+            $this->db->grup_start()
+                ->like('modul', $cari)
+                ->or_like('url', $cari)
+                ->grup_end();
         }
     }
 
     private function filter_sql()
     {
-        $status = $this->session->status;
-
-        if (isset($status)) {
-            return " AND u.aktif = {$status}";
+        if ($status = $this->session->status) {
+            $this->db->where('aktif', $status);
         }
     }
 
     public function get_data($id)
     {
-        return $this->db->get_where('setting_modul', ['id' => $id])->row_array();
+        return $this->config_id()->get_where('setting_modul', ['id' => $id])->row_array();
     }
 
     public function update($id)
@@ -200,7 +200,7 @@ class Modul_model extends CI_Model
         $data['modul'] = strip_tags($data['modul']);
         $data['ikon']  = strip_tags($data['ikon']);
 
-        $outp = $this->db->where('id', $id)->update('setting_modul', $data);
+        $outp = $this->config_id()->where('id', $id)->update('setting_modul', $data);
         $this->lock($id, $data['aktif']);
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
@@ -211,18 +211,18 @@ class Modul_model extends CI_Model
     {
         $outp = true;
 
-        $submodul      = $this->db->select('id')->where('parent', $id)->get('setting_modul')->result_array();
+        $submodul      = $this->config_id()->select('id')->where('parent', $id)->get('setting_modul')->result_array();
         $list_submodul = array_column($submodul, 'id');
         if (empty($list_submodul)) {
             return;
         }
 
         foreach ($submodul as $modul) {
-            $sub           = $this->db->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
+            $sub           = $this->config_id()->select('id')->where('parent', $modul['id'])->get('setting_modul')->result_array();
             $list_submodul = array_merge($list_submodul, array_column($sub, 'id'));
         }
         $list_id = implode(',', $list_submodul);
-        $outp    = $outp && $this->db->where('id IN (' . $list_id . ')')->update('setting_modul', ['aktif' => $aktif]);
+        $outp    = $outp && $this->config_id()->where('id IN (' . $list_id . ')')->update('setting_modul', ['aktif' => $aktif]);
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $outp;
@@ -252,13 +252,12 @@ class Modul_model extends CI_Model
         switch ($this->setting->penggunaan_server) {
             case '1':
             case '5':
-                $outp = $outp && $this->db->update('setting_modul', ['aktif' => 1]);
+                $outp = $outp && $this->config_id()->update('setting_modul', ['aktif' => 1]);
                 // Kalau web tidak diaktifkan sama sekali, non-aktifkan modul Admin Web
                 if ($this->setting->offline_mode == 2) {
                     $modul_web = 13;
-                    $outp      = $outp && $this->db->where('id', $modul_web)
-                        ->update('setting_modul', ['aktif' => 0]);
-                    $outp = $outp && $this->set_aktif_submodul($modul_web, 0);
+                    $outp      = $outp && $this->config_id()->where('id', $modul_web)->update('setting_modul', ['aktif' => 0]);
+                    $outp      = $outp && $this->set_aktif_submodul($modul_web, 0);
                 }
                 break;
 
@@ -267,18 +266,17 @@ class Modul_model extends CI_Model
                 // dilakukan offline di kantor desa. Yaitu, hanya modul Admin Web yang aktif
                 // Kecuali Pengaturan selalu aktif
                 $modul_pengaturan = 11;
-                $outp             = $outp && $this->db->where('id <>', $modul_pengaturan)
+                $outp             = $outp && $this->config_id()->where('id <>', $modul_pengaturan)
                     ->where('parent <>', $modul_pengaturan)
                     ->update('setting_modul', ['aktif' => 0]);
                 $modul_web = 13;
-                $outp      = $outp && $this->db->where('id', $modul_web)
-                    ->update('setting_modul', ['aktif' => 1]);
-                $outp = $outp && $this->set_aktif_submodul($modul_web, 1);
+                $outp      = $outp && $this->config_id()->where('id', $modul_web)->update('setting_modul', ['aktif' => 1]);
+                $outp      = $outp && $this->set_aktif_submodul($modul_web, 1);
                 break;
 
             default:
                 // semua modul aktif
-                $outp = $outp && $this->db->update('setting_modul', ['aktif' => 1]);
+                $outp = $outp && $this->config_id()->update('setting_modul', ['aktif' => 1]);
                 break;
         }
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
@@ -294,7 +292,8 @@ class Modul_model extends CI_Model
         }
 
         // Periksa apakah modulnya aktif atau tidak
-        $aktif = $this->db->select('url')
+        $aktif = $this->config_id()
+            ->select('url')
             ->where('aktif', 1)
             ->get('setting_modul')
             ->result_array();
@@ -313,7 +312,7 @@ class Modul_model extends CI_Model
      */
     public function lock($id, $val)
     {
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->or_where('parent', $id)
             ->update('setting_modul', ['aktif' => $val]);

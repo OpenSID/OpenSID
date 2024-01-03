@@ -41,7 +41,7 @@
  * Saat ini pemisah menggunakan ','
  * Acuan: https://stackoverflow.com/questions/4249432/export-to-csv-via-php
  *
- * @param	string	nama tabel yang akan diekspor
+ * @param string	nama tabel yang akan diekspor
  * @param mixed $table
  *
  * @return string
@@ -50,6 +50,10 @@ function tulis_csv($table)
 {
     $CI = &get_instance();
     $CI->load->database();
+
+    if ($CI->db->field_exists('config_id', $table)) {
+        $CI->db->where('config_id', setting('config_id'));
+    }
 
     $data = $CI->db->get($table)->result_array();
     if (count($data) == 0) {
@@ -112,7 +116,7 @@ function get_csv($zip_file, $file_in_zip)
 /**
  * Paksa download file
  *
- * @param	string	nama file untuk didownload
+ * @param string	nama file untuk didownload
  * @param mixed $filename
  *
  * @return string

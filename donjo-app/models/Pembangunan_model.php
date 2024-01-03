@@ -78,6 +78,7 @@ class Pembangunan_model extends MY_Model
             ->group_by('p.id');
 
         $this->get_tipe();
+        $this->config_id('p');
 
         if ($search) {
             $this->db
@@ -110,6 +111,7 @@ class Pembangunan_model extends MY_Model
     public function list_lokasi_pembangunan($status = null)
     {
         $this->lokasi_pembangunan_query();
+        $this->config_id('p');
 
         if (null !== $status) {
             $this->db->where('p.status = 1');
@@ -127,6 +129,7 @@ class Pembangunan_model extends MY_Model
     {
         $post               = $this->input->post();
         $data               = $this->validasi($post);
+        $data['config_id']  = identitas('id');
         $data['created_at'] = date('Y-m-d H:i:s');
 
         if (empty($data['foto'])) {
@@ -151,6 +154,7 @@ class Pembangunan_model extends MY_Model
 
         unset($data['file_foto'], $data['old_foto']);
 
+        $this->config_id();
         $this->db->where('id', $id);
         $outp = $this->db->update($this->table, $data);
 
@@ -239,6 +243,8 @@ class Pembangunan_model extends MY_Model
 
     public function update_lokasi_maps($id, array $request)
     {
+        $this->config_id();
+
         return $this->db->where('id', $id)->update($this->table, [
             'lat'        => $request['lat'],
             'lng'        => $request['lng'],
@@ -249,6 +255,8 @@ class Pembangunan_model extends MY_Model
     public function delete($id)
     {
         $data = $this->find($id);
+
+        $this->config_id();
 
         if ($outp = $this->db->where('id', $id)->delete($this->table)) {
             // Hapus file
@@ -261,6 +269,7 @@ class Pembangunan_model extends MY_Model
     public function find($id)
     {
         $this->lokasi_pembangunan_query();
+        $this->config_id('p');
 
         return $this->db->select('p.*')
             ->from("{$this->table} p")
@@ -273,6 +282,7 @@ class Pembangunan_model extends MY_Model
     public function slug($slug = null)
     {
         $this->lokasi_pembangunan_query();
+        $this->config_id('p');
 
         return $this->db->select('p.*')
             ->from("{$this->table} p")
@@ -284,6 +294,8 @@ class Pembangunan_model extends MY_Model
 
     public function list_filter_tahun()
     {
+        $this->config_id();
+
         return $this->db
             ->select('tahun_anggaran')
             ->distinct()
@@ -294,6 +306,8 @@ class Pembangunan_model extends MY_Model
 
     public function unlock($id)
     {
+        $this->config_id();
+
         return $this->db->set('status', static::ENABLE)
             ->where('id', $id)
             ->update($this->table);
@@ -301,6 +315,8 @@ class Pembangunan_model extends MY_Model
 
     public function lock($id)
     {
+        $this->config_id();
+
         return $this->db->set('status', static::DISABLE)
             ->where('id', $id)
             ->update($this->table);

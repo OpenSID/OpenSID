@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Tanah_kas_desa_model extends CI_Model
+class Tanah_kas_desa_model extends MY_Model
 {
     public const ORDER_ABLE = [
         2 => 'nama_pemilik_asal',
@@ -46,14 +46,9 @@ class Tanah_kas_desa_model extends CI_Model
 
     protected $table = 'tanah_kas_desa';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function get_data(string $search = '')
     {
-        $builder = $this->db
+        $builder = $this->config_id('tkd')
             ->select('tkd.id,
 					atk.nama,
 					tkd.letter_c,
@@ -83,12 +78,10 @@ class Tanah_kas_desa_model extends CI_Model
 
     public function view_tanah_kas_desa_by_id($id)
     {
-        $this->db
+        return $this->config_id('tkd')
             ->select('*')
             ->from("{$this->table} tkd")
-            ->where('tkd.id', $id);
-
-        return $this->db
+            ->where('tkd.id', $id)
             ->get()
             ->row();
     }
@@ -113,6 +106,7 @@ class Tanah_kas_desa_model extends CI_Model
         }
 
         $result = [
+            'config_id'            => identitas('id'),
             'nama_pemilik_asal'    => $data['nama_pemilik_asal'],
             'letter_c'             => $data['letter_c'],
             'kelas'                => $data['kelas'],
@@ -147,7 +141,7 @@ class Tanah_kas_desa_model extends CI_Model
 
     public function delete_tanah_kas_desa($id)
     {
-        $hasil = $this->db->update($this->table, ['visible' => 0], ['id' => $id]);
+        $hasil = $this->config_id()->update($this->table, ['visible' => 0], ['id' => $id]);
         status_sukses($hasil);
     }
 
@@ -200,7 +194,7 @@ class Tanah_kas_desa_model extends CI_Model
         ];
 
         $id    = $data['id'];
-        $hasil = $this->db->update($this->table, $result, ['id' => $id]);
+        $hasil = $this->config_id()->update($this->table, $result, ['id' => $id]);
         status_sukses($hasil);
     }
 
@@ -261,12 +255,11 @@ class Tanah_kas_desa_model extends CI_Model
 
     private function check_old_letterc_persil($letterC_persil, $id)
     {
-        $this->db
+        $data = $this->config_id('tkd')
             ->select('tkd.letter_c')
             ->from("{$this->table} tkd")
             ->where((['tkd.visible' => 1, 'tkd.id' => $id]))
-            ->limit(1);
-        $data = $this->db
+            ->limit(1)
             ->get()
             ->row();
 
@@ -275,61 +268,51 @@ class Tanah_kas_desa_model extends CI_Model
 
     private function check_letterc_persil($letterC_persil)
     {
-        $this->db
+        return $this->config_id('tkd')
             ->select('tkd.letter_c')
             ->from("{$this->table} tkd")
             ->where((['tkd.visible' => 1, 'tkd.letter_c' => $letterC_persil]))
-            ->limit(1);
-
-        return $this->db
+            ->limit(1)
             ->get()
             ->row();
     }
 
     public function cetak_tanah_kas_desa()
     {
-        $this->db
+        return $this->config_id('tkd')
             ->select('tkd.*, atk.nama as asal, p.kode, ptk.nama as peruntukan_tanah')
             ->from("{$this->table} tkd")
             ->join('ref_asal_tanah_kas atk', 'tkd.nama_pemilik_asal = atk.id')
             ->join('ref_persil_kelas p', 'tkd.kelas = p.id')
             ->join('ref_peruntukan_tanah_kas ptk', 'tkd.peruntukan = ptk.id')
-            ->where('tkd.visible', 1);
-
-        return $this->db
+            ->where('tkd.visible', 1)
             ->get()
             ->result_array();
     }
 
     public function list_letter_c()
     {
-        $this->db
+        return $this->config_id_exist('cdesa', 'c')
             ->select('c.id, c.nomor, c.nama_kepemilikan')
-            ->from('cdesa c');
-
-        return $this->db
+            ->from('cdesa c')
             ->get()
             ->result_array();
     }
 
     public function list_asal_tanah_kas()
     {
-        $this->db
-            ->select('atk.*')
-            ->from('ref_asal_tanah_kas atk');
-
         return $this->db
+            ->select('atk.*')
+            ->from('ref_asal_tanah_kas atk')
             ->get()
             ->result_array();
     }
 
     public function list_peruntukan_tanah_kas()
     {
-        $this->db
-            ->select('ptk.*')
-            ->from('ref_peruntukan_tanah_kas ptk');
-
         return $this->db
+            ->select('ptk.*')
+            ->from('ref_peruntukan_tanah_kas ptk')
             ->get()
             ->result_array();
     }

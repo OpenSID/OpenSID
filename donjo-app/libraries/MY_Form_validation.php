@@ -71,7 +71,7 @@ class MY_Form_validation extends CI_Form_validation
             return false;
         }
 
-        /** @var \CI_DB_query_builder */
+        /** @var CI_DB_query_builder */
         $row = $this->CI->db
             ->from($table)
             ->select('1')
@@ -80,6 +80,10 @@ class MY_Form_validation extends CI_Form_validation
 
         if (! empty($ignoreField) && ! empty($ignoreValue) && ! preg_match('/^\{(\w+)\}$/', $ignoreValue)) {
             $row = $row->where("{$ignoreField} !=", $ignoreValue);
+        }
+
+        if ($this->CI->db->field_exists('config_id', $table)) {
+            $row = $row->where('config_id', identitas('id'));
         }
 
         return $row->get()->row() === null;

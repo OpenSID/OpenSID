@@ -52,26 +52,27 @@
 															<tbody>
 																<?php foreach ($subkategori as $data): ?>
 																	<tr>
+																		<?php $openKab = (null === $data['config_id']) ? 'disabled' : ''; ?>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																			<td><input <?= $openKab ?> type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<?php endif; ?>
 																		<td><?=$data['no']?></td>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<td nowrap>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="<?= site_url("kategori/urut/{$data['id']}/1/{$kategori}")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																					<a href="<?= site_url("kategori/urut/{$data['id']}/2/{$kategori}")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
-		                                      <a href="<?= site_url("kategori/ajax_add_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																					<a href="<?= site_url("kategori/urut/{$data['id']}/1/{$kategori}")?>" class="btn bg-olive btn-flat btn-sm <?= $openKab ?>"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																					<a href="<?= site_url("kategori/urut/{$data['id']}/2/{$kategori}")?>" class="btn bg-olive btn-flat btn-sm <?= $openKab ?>"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+		                                      <a href="<?= site_url("kategori/ajax_add_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm  <?= $openKab ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																					<?php if ($data['enabled'] == '2'): ?>
-																						<a href="<?= site_url("kategori/kategori_lock_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																						<a href="<?= site_url("kategori/kategori_lock_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm <?= $openKab ?>"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																					<?php elseif ($data['enabled'] == '1'): ?>
-																						<a href="<?= site_url("kategori/kategori_unlock_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																						<a href="<?= site_url("kategori/kategori_unlock_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm <?= $openKab ?>"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																					<?php endif; ?>
 																				<?php endif; ?>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="#" data-href="<?= site_url("kategori/delete_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																					<a href="#" data-href="<?= site_url("kategori/delete_sub_kategori/{$kategori}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= $openKab ?>"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
-																		  </td>
+																		</td>
 																		<?php endif; ?>
                                     <td width="50%"><?= $data['kategori']?></td>
                                     <td><?= $data['aktif']?></td>

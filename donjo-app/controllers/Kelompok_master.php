@@ -90,7 +90,7 @@ class Kelompok_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         if ($id) {
-            $data['kelompok_master'] = $this->kelompok_master_model->get_kelompok_master($id);
+            $data['kelompok_master'] = $this->kelompok_master_model->get_kelompok_master($id) ?? show_404();
             $data['form_action']     = site_url("{$this->controller}/update/{$id}");
         } else {
             $data['kelompok_master'] = null;

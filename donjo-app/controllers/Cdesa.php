@@ -130,7 +130,7 @@ class Cdesa extends Admin_Controller
         $data['mode']     = $mode;
         $data['penduduk'] = $this->cdesa_model->list_penduduk();
         if ($mode === 'edit') {
-            $data['cdesa'] = $this->cdesa_model->get_cdesa($id);
+            $data['cdesa'] = $this->cdesa_model->get_cdesa($id) ?? show_404();
             $this->ubah_pemilik($id, $data, $post);
         } else {
             switch ($post['jenis_pemilik']) {
@@ -231,7 +231,7 @@ class Cdesa extends Admin_Controller
         }
 
         if ($id_persil) {
-            $data['persil'] = $this->data_persil_model->get_persil($id_persil);
+            $data['persil'] = $this->data_persil_model->get_persil($id_persil) ?? show_404();
         } else {
             $data['persil'] = null;
         }
@@ -240,7 +240,7 @@ class Cdesa extends Admin_Controller
             $data['persil'] = $this->cdesa_model->get_persil($id_mutasi);
             $data['mutasi'] = $this->cdesa_model->get_mutasi($id_mutasi);
         }
-        $data['cdesa']      = $this->cdesa_model->get_cdesa($id_cdesa);
+        $data['cdesa']      = $this->cdesa_model->get_cdesa($id_cdesa) ?? show_404();
         $data['list_cdesa'] = $this->cdesa_model->list_c_desa(0, 0, [$id_cdesa]);
         $data['pemilik']    = $this->cdesa_model->get_pemilik($id_cdesa);
 
@@ -267,11 +267,17 @@ class Cdesa extends Admin_Controller
     public function hapus_mutasi($cdesa, $id_mutasi)
     {
         $this->redirect_hak_akses('u');
-        $id_persil = $this->db->select('id_persil')
+        $id_persil = $this->db
+            ->select('id_persil')
             ->where('id', $id_mutasi)
+            ->where('config_id', identitas('id'))
             ->get('mutasi_cdesa')
-            ->row()->id_persil;
-        $this->db->where('id', $id_mutasi)
+            ->row()
+            ->id_persil;
+
+        $this->db
+            ->where('id', $id_mutasi)
+            ->where('config_id', identitas('id'))
             ->delete('mutasi_cdesa');
         redirect("cdesa/mutasi/{$cdesa}/{$id_persil}");
     }
@@ -285,7 +291,9 @@ class Cdesa extends Admin_Controller
         }
         $ada = $this->db
             ->where('nomor', $nomor)
-            ->get('cdesa')->num_rows();
+            ->where('config_id', identitas('id'))
+            ->get('cdesa')
+            ->num_rows();
 
         if ($ada) {
             $this->form_validation->set_message('cek_nomor', 'Nomor C-Desa sudah ada');

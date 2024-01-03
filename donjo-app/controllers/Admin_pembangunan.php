@@ -214,7 +214,7 @@ class Admin_pembangunan extends Admin_Controller
     // Dokumentasi Pembangunan
     public function dokumentasi($id = null)
     {
-        $pembangunan                = $this->pembangunan->find($id);
+        $pembangunan                = $this->pembangunan->find($id) ?? show_404();
         $_SESSION['id_pembangunan'] = $id;
 
         if ($this->input->is_ajax_request()) {
@@ -250,7 +250,7 @@ class Admin_pembangunan extends Admin_Controller
         $id_pembangunan = $this->session->id_pembangunan;
 
         if ($id) {
-            $data['main']        = $this->dokumentasi->find($id);
+            $data['main']        = $this->dokumentasi->find($id) ?? show_404();
             $data['perubahan']   = $this->pembangunan->find($id_pembangunan)->perubahan_anggaran ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/dokumentasi_update/{$id}/{$id_pembangunan}");
         } else {

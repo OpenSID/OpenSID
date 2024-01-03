@@ -35,18 +35,13 @@
  *
  */
 
+use App\Models\UserGrup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup_model extends MY_Model
 {
-    public const KECUALI = [1, 2, 3, 4];
-
     protected $table = 'user_grup';
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function autocomplete()
     {
@@ -73,8 +68,7 @@ class Grup_model extends MY_Model
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
-        $this->db
-            ->from('user_grup g');
+        $this->config_id('g')->from('user_grup g');
         $this->search_sql();
         $this->filter_sql();
     }
@@ -131,10 +125,12 @@ class Grup_model extends MY_Model
     {
         // Ambil semua data dari var. global $_POST
         $data = [
-            'nama'       => $this->input->post('nama'),
+            'config_id'  => $this->config_id,
+            'nama'       => $nama = $this->input->post('nama'),
+            'slug'       => unique_slug('user_grup', $nama),
             'jenis'      => 2, // grup tambahan
-            'created_by' => $this->session->user,
-            'updated_by' => $this->session->user,
+            'created_by' => auth()->id,
+            'updated_by' => auth()->id,
         ];
         $outp = $this->db->insert($this->table, $data);
         $outp = $outp && $this->simpan_akses($this->db->insert_id());
@@ -145,15 +141,16 @@ class Grup_model extends MY_Model
     private function simpan_akses($id)
     {
         // Simpan data hak akses per modul; hapus dan ganti semua
-        $outp  = $this->db->where('id_grup', $id)->delete('grup_akses');
+        $outp  = $this->config_id()->where('id_grup', $id)->delete('grup_akses');
         $modul = $this->input->post('modul');
         $data  = [];
 
         for ($i = 0; $i < count($modul['id']); $i++) {
             $id_modul = $modul['id'][$i];
             $akses    = [
-                'id_grup'  => $id,
-                'id_modul' => $id_modul,
+                'config_id' => $this->config_id,
+                'id_grup'   => $id,
+                'id_modul'  => $id_modul,
             ];
             $akses_baca     = $modul['akses_baca'][$id_modul] ? 1 : 0;
             $akses_ubah     = $modul['akses_ubah'][$id_modul] ? 2 : 0;
@@ -178,11 +175,11 @@ class Grup_model extends MY_Model
     {
         $data = [
             'nama'       => $this->input->post('nama'),
-            'updated_by' => $this->session->user,
+            'updated_by' => auth()->id,
         ];
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
-            ->where_not_in('id', static::KECUALI)
+            ->where_not_in('id', UserGrup::getGrupSistem())
             ->update($this->table, $data);
         $outp = $outp && $this->simpan_akses($id);
 
@@ -191,7 +188,7 @@ class Grup_model extends MY_Model
 
     public function get_grup($id)
     {
-        return $this->db->where('id', $id)->get($this->table)->row_array();
+        return $this->config_id()->where('id', $id)->get($this->table)->row_array();
     }
 
     /**
@@ -208,9 +205,9 @@ class Grup_model extends MY_Model
             session_error_clear();
         }
 
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
-            ->where_not_in('id', static::KECUALI)
+            ->where_not_in('id', UserGrup::getGrupSistem())
             ->delete($this->table);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
@@ -231,7 +228,7 @@ class Grup_model extends MY_Model
 
     public function list_id_grup()
     {
-        $list = $this->db->select('id')->get('user_grup')->result_array();
+        $list = $this->config_id()->select('id')->get('user_grup')->result_array();
 
         return array_column($list, 'id');
     }
@@ -246,7 +243,7 @@ class Grup_model extends MY_Model
 
     public function grup_akses($id_grup)
     {
-        return $this->db
+        return $this->config_id('m')
             ->select('m.*')
             ->select('if(a.akses & 1 = 1, 1, 0) as akses_baca')
             ->select('if(a.akses & 2 = 2, 1, 0) as akses_ubah')
@@ -263,7 +260,7 @@ class Grup_model extends MY_Model
 
     private function get_submodul($grup, $modul)
     {
-        return $this->db
+        return $this->config_id('p')
             ->select('sub.id, sub.modul, sub.url')
             ->select('if(a.akses & 1 = 1, 1, 0) as akses_baca')
             ->select('if(a.akses & 2 = 2, 1, 0) as akses_ubah')
@@ -280,11 +277,12 @@ class Grup_model extends MY_Model
 
     public function akses_submodul($grup)
     {
-        $parent = $this->db
+        $parent = $this->config_id()
             ->select('id')
             ->where('parent', 0)
             ->where('aktif', 1)
-            ->get('setting_modul')->result_array();
+            ->get('setting_modul')
+            ->result_array();
         $parent = array_column($parent, 'id');
 
         $data = [];
@@ -307,7 +305,7 @@ class Grup_model extends MY_Model
 
     private function get_hak_akses($grup)
     {
-        $hak_akses = $this->db
+        $hak_akses = $this->config_id('a')
             ->select('if (m.url <> "", m.url, concat("Menu ", m.modul)) as url, a.akses')
             ->select('if(a.akses & 1 = 1 or m.parent = 0, 1, 0) as "b"')
             ->select('if(a.akses & 2 = 2, 1, 0) as "u"')
@@ -316,7 +314,8 @@ class Grup_model extends MY_Model
             ->join('setting_modul m', 'm.id = a.id_modul')
             ->where('id_grup', $grup)
             ->order_by('akses DESC')
-            ->get()->result_array();
+            ->get()
+            ->result_array();
 
         // Hilangkan kolom modul
         $akses_saja = $hak_akses;
@@ -327,29 +326,37 @@ class Grup_model extends MY_Model
     }
 
     /*
-      Memilih modul awal yg dapat diakses
-      Digunakan menentukan modul awal di donjo-app/controllers/Main.php
-    */
+     * Memilih modul awal yg dapat diakses
+     * Digunakan menentukan modul awal di donjo-app/controllers/Main.php
+     */
     public function modul_awal($grup)
     {
         if (! $this->session->hak_akses_url) {
-            $hak_akses                    = $this->get_hak_akses($grup);
-            $this->session->hak_akses_url = $hak_akses;
+            $this->session->hak_akses_url = $this->get_hak_akses($grup);
         }
+
         $modul = array_keys($this->session->hak_akses_url);
 
-        return $this->db
+        if (empty($modul)) {
+            unset($this->session->hak_akses_url);
+            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+            redirect('siteman/logout');
+        }
+
+        return $this->config_id()
             ->select('url')
             ->where('aktif', 1)
             ->where_in('url', $modul)
             ->limit(1)
             ->get('setting_modul')
-            ->row()->url;
+            ->row()
+            ->url;
     }
 
     /*
-      Cek hak akses url modul untuk mengaktifkan menu navigasi utama.
-      Dipanggil dari Modul_model.php
+        Cek hak akses url modul untuk mengaktifkan menu navigasi utama.
+        Dipanggil dari Modul_model.php
     */
     public function ada_akses_url($grup, $url_modul = '', $akses = '')
     {
@@ -362,9 +369,9 @@ class Grup_model extends MY_Model
     }
 
     /*
-      Cek hak akses untuk mengakses controller.
-      Dipanggil dari Admin_Controller
-    */
+     * Cek hak akses untuk mengakses controller.
+     * Dipanggil dari Admin_Controller
+     */
     public function ada_akses($grup, $controller, $akses)
     {
         if (! $this->session->hak_akses) {
