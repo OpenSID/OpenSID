@@ -118,9 +118,9 @@
                                         <td>
                                             @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                             <select id="data_utama" class="form-control input-sm select2 required" name="data_utama[]" multiple>
-                                                <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
+                                                <option value="1" @selected(in_array(1, $suratMaster->form_isian->individu->data ?? []))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
                                                 @foreach ($pendudukLuar as $index => $penduduk)
-                                                    <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                                    <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->individu->data ?? []))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -271,9 +271,9 @@
                                             <td>
                                                 @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
                                                 <select id="data_utama_{{ $item }}" class="form-control input-sm kategori" name="kategori_data_utama[{{ $item }}][]" multiple>
-                                                    <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
+                                                    <option value="1" @selected(in_array(1, $suratMaster->form_isian->{$item}->data ?? []))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
                                                     @foreach ($pendudukLuar as $index => $penduduk)
-                                                        <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
+                                                        <option value="{{ $index }}" @selected(in_array($index, $suratMaster->form_isian->{$item}->data ?? []))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
                                                     @endforeach
                                                 </select>
                                                 @push('scripts')
