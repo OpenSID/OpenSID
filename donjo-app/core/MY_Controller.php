@@ -342,7 +342,7 @@ class Web_Controller extends MY_Controller
         $data['nama_kepala_desa'] = $this->header['nama_kepala_desa'];
         $data['nip_kepala_desa']  = $this->header['nip_kepala_desa'];
 
-        $this->config->set_item('views_blade', array_merge(config_item('views_blade'), ["{$this->theme_folder}/{$this->theme}"]));
+        app()->make('view')->addLocation("{$this->theme_folder}/{$this->theme}");
 
         return view('layouts.maintenance', $data);
     }

@@ -56,3 +56,99 @@ if (ENVIRONMENT === 'development') {
         'filepath' => 'third_party/DevelBar/hooks',
     ];
 }
+
+/*
+|--------------------------------------------------------------------------
+| Create The Application
+|--------------------------------------------------------------------------
+|
+| Here we will load the environment and create the application instance
+| that serves as the central piece of this framework. We'll use this
+| application as an "IoC" container and router for this framework.
+|
+*/
+
+$app = new \App\Services\Laravel(FCPATH);
+
+$app->withFacades();
+
+$app->withEloquent();
+
+/*
+|--------------------------------------------------------------------------
+| Register Container Bindings
+|--------------------------------------------------------------------------
+|
+| Now we will register a few bindings in the service container. We will
+| register the exception handler and the console kernel. You may add
+| your own bindings here if you like or you can make another file.
+|
+*/
+
+// $app->singleton(
+//     Illuminate\Contracts\Console\Kernel::class,
+//     App\Console\Kernel::class
+// );
+
+/*
+|--------------------------------------------------------------------------
+| Register Config Files
+|--------------------------------------------------------------------------
+|
+| Now we will register the "app" configuration file. If the file exists in
+| your configuration directory it will be loaded; otherwise, we'll load
+| the default version. You may register other files below as needed.
+|
+*/
+$app->configure('app');
+
+/*
+|--------------------------------------------------------------------------
+| Register Service Providers
+|--------------------------------------------------------------------------
+|
+| Here we will register all of the application's service providers which
+| are used to bind services into the container. Service providers are
+| totally optional, so you are not required to uncomment this line.
+|
+*/
+
+// $app->register(App\Providers\AppServiceProvider::class);
+// $app->register(App\Providers\EventServiceProvider::class);
+
+/**
+ * Get instance ci baru bisa di load pada hook
+ * post_controller_constructor, post_controller, display_override, cache_override, post_system.
+ */
+$hook['post_controller_constructor'] = static function () use ($app): void {
+    $app->register(\App\Providers\ViewServiceProvider::class);
+
+    if (ENVIRONMENT == 'development') {
+        get_instance()->capsule  = $capsule;
+        get_instance()->queryOrm = [];
+    
+        /**
+         * Uncomment untuk listen semua query dari laravel database.
+         */
+        \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
+            // log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
+            //     return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+            // }, $query->sql));
+            get_instance()->queryOrm[] = $query;
+        });
+    }
+};
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
+
+$app->boot();

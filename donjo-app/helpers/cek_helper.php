@@ -43,14 +43,12 @@ define('WEBSITE_DEMO', [
     'beta2.opensid.or.id',
     'berputar.opendesa.id',
     'devpremium.opendesa.id',
-    'opensid.test',
+    'opensid-premium.test',
 ]);
 
 if (! function_exists('cek_anjungan')) {
     /**
      * - Fungsi validasi anjungan.
-     *
-     * @return string
      */
     function cek_anjungan(): bool
     {

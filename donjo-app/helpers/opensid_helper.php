@@ -1551,15 +1551,6 @@ function kasus_lain($kategori = null, $str = null)
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
 
-if (! function_exists('generateRandomKey')) {
-    function generateRandomKey(): string
-    {
-        return 'base64:' . base64_encode(
-            Encrypter::generateKey(config_item('cipher'))
-        );
-    }
-}
-
 if (! function_exists('updateConfigFile')) {
     function updateConfigFile(string $key, string $value): void
     {

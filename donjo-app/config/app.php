@@ -35,6 +35,10 @@
  *
  */
 
+$key = file_exists(DESAPATH)
+    ? file_get_contents(DESAPATH.'app_key')
+    : 'base64:rN3vXWFRHDKFP2sMySe9f4gna7WulisoXTqn7Yo4Ye8=';
+
 return [
 
     /*
@@ -48,7 +52,7 @@ return [
     |
     */
 
-    'key' => 'base64:rN3vXWFRHDKFP2sMySe9f4gna7WulisoXTqn7Yo4Ye8=',
+    'key' => $key,
 
     'cipher' => 'AES-256-CBC',
 

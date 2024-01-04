@@ -58,86 +58,6 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('view')) {
-    /**
-     * Get the evaluated view contents for the given view.
-     *
-     * @param string|null                                   $view
-     * @param array|\Illuminate\Contracts\Support\Arrayable $data
-     * @param array                                         $mergeData
-     * @param mixed                                         $returnView
-     *
-     * @return Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    function view($view = null, $data = [], $mergeData = [], $returnView = false)
-    {
-        $CI = &get_instance();
-
-        $container = new Container();
-
-        if (! get_instance()->session->instalasi) {
-            $desa = identitas();
-            $container->instance('db', Container::getInstance()->get('db'));
-        }
-
-        // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
-        // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
-
-        $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'), $container);
-
-        if (func_num_args() === 0) {
-            return $factory;
-        }
-
-        $factory->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
-
-        $factory->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
-
-        $factory->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
-
-        $factory->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
-
-        $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
-
-        $factory->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
-
-        if ($CI->session->db_error['code'] === 1049) {
-            $CI->session->error_db = null;
-            $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
-        } else {
-            $factory->share([
-                'ci'           => get_instance(),
-                'auth'         => $CI->session->isAdmin,
-                'controller'   => $CI->controller,
-                'desa'         => $desa ?? null,
-                'list_setting' => $CI->list_setting,
-                'modul'        => $CI->header['modul'],
-                'modul_ini'    => $CI->modul_ini,
-                'notif'        => [
-                    'surat'           => $CI->header['notif_permohonan_surat'],
-                    'opendkpesan'     => $CI->header['notif_pesan_opendk'],
-                    'inbox'           => $CI->header['notif_inbox'],
-                    'komentar'        => $CI->header['notif_komentar'],
-                    'langganan'       => $CI->header['notif_langganan'],
-                    'pengumuman'      => $CI->header['notif_pengumuman'],
-                    'permohonansurat' => $CI->header['notif_permohonan'],
-                ],
-                'kategori'             => $CI->header['kategori'],
-                'sub_modul_ini'        => $CI->sub_modul_ini,
-                'akses_modul'          => $CI->akses_modul,
-                'session'              => $CI->session,
-                'setting'              => $CI->setting,
-                'token'                => $CI->security->get_csrf_token_name(),
-                'perbaharui_langganan' => $CI->header['perbaharui_langganan'] ?? null,
-            ]);
-        }
-        if ($returnView) {
-            return $factory->render($view, $data, $mergeData);
-        }
-        echo $factory->render($view, $data, $mergeData);
-    }
-}
-
 if (! function_exists('set_session')) {
     function set_session($key = 'success', $value = '')
     {
@@ -526,6 +446,11 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
+        
+        config()->set('app.key', get_app_key());
+
+        // set config app.key untuk proses intall
+        config()->set('app.key', get_app_key());
 
         return true;
     }
@@ -1035,144 +960,5 @@ if (! function_exists('gis_simbols')) {
         $simbols = DB::table('gis_simbol')->get('simbol');
 
         return $simbols->map(static fn ($item): array => (array) $item)->toArray();
-    }
-}
-
-if (! function_exists('config')) {
-    /**
-     * Get / set the specified configuration value.
-     *
-     * If an array is passed as the key, we will assume you want to set an array of values.
-     *
-     * @param array|string|null $key
-     * @param mixed             $default
-     *
-     * @return Illuminate\Config\Repository|mixed
-     */
-    function config($key = null, $default = null)
-    {
-        if (null === $key) {
-            return app('new_config');
-        }
-
-        if (is_array($key)) {
-            return app('new_config')->set($key);
-        }
-
-        return app('new_config')->get($key, $default);
-    }
-}
-
-if (! function_exists('cache')) {
-    /**
-     * Get / set the specified cache value.
-     *
-     * If an array is passed, we'll assume you want to put to the cache.
-     *
-     * @param dynamic  key|key,default|data,expiration|null
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return Illuminate\Cache\CacheManager|mixed
-     */
-    function cache(...$arguments)
-    {
-        if ($arguments === []) {
-            return app('cache');
-        }
-
-        if (is_string($arguments[0])) {
-            return app('cache')->get(...$arguments);
-        }
-
-        if (! is_array($arguments[0])) {
-            throw new InvalidArgumentException(
-                'When setting a value in the cache, you must pass an array of key / value pairs.'
-            );
-        }
-
-        return app('cache')->put(key($arguments[0]), reset($arguments[0]), $arguments[1] ?? null);
-    }
-}
-
-if (! function_exists('resource_path')) {
-    /**
-     * Get the path to the resources folder.
-     */
-    function resource_path(string $path = ''): string
-    {
-        // return app()->resourcePath($path);
-        return app('path.resources') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-    }
-}
-
-if (! function_exists('storage_path')) {
-    /**
-     * Get the path to the storage folder.
-     */
-    function storage_path(string $path = ''): string
-    {
-        // return app()->storagePath($path);
-        return app('path.storage') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
-    }
-}
-
-if (! function_exists('app')) {
-    /**
-     * Get the available container instance.
-     *
-     * @param string|null $abstract
-     *
-     * @return Illuminate\Contracts\Foundation\Application|mixed
-     */
-    function app($abstract = null, array $parameters = [])
-    {
-        if (null === $abstract) {
-            return Container::getInstance();
-        }
-
-        return Container::getInstance()->make($abstract, $parameters);
-    }
-}
-
-if (! function_exists('encrypt')) {
-    /**
-     * - Fungsi untuk encrypt string.
-     *
-     * @param string $str
-     */
-    function encrypt($str): string
-    {
-        // Belum support instace jika belum ada koneksi
-        // return app('encrypter')->encryptString($str);
-        $key = base64_decode(\Illuminate\Support\Str::after(get_app_key(), 'base64:'));
-
-        return (new Encrypter($key, config_item('cipher')))->encryptString($str);
-    }
-}
-
-if (! function_exists('decrypt')) {
-    /**
-     * - Fungsi untuk decrypt string.
-     *
-     * @param string $str
-     */
-    function decrypt($str): string
-    {
-        // Belum support instace jika belum ada koneksi
-        // return app('encrypter')->decryptString($str);
-        $key = base64_decode(\Illuminate\Support\Str::after(get_app_key(), 'base64:'));
-
-        return (new Encrypter($key, config_item('cipher')))->decryptString($str);
-    }
-}
-
-if (! function_exists('config_path')) {
-    /**
-     * Get the configuration path.
-     */
-    function config_path(?string $path = ''): string
-    {
-        return app('path.config') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 }
