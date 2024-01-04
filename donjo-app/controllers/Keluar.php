@@ -146,6 +146,18 @@ class Keluar extends Admin_Controller
             $jabatanId       = $this->isAdmin->jabatan_id;
             $operator        = false;
             $isAdmin         = $this->isAdmin;
+            $redirectDelete  = '';
+            if (setting('tte')){
+                switch($state){
+                    case 'masuk':
+                        $redirectDelete  = 'masuk';
+                        break;
+                    case 'tolak':
+                        $redirectDelete  = 'ditolak';
+                        break;
+                    default:
+                }
+            }
             if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
                 $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
@@ -179,7 +191,7 @@ class Keluar extends Admin_Controller
                 ->when($state == 'tolak', static fn ($q) => $q->ditolak())
                 ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes): string {
+                ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
                     $aksi          = '';
                     $statusPeriksa = $row->statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes);
                     if ($state == 'arsip' && $canUpdate) {
@@ -190,7 +202,7 @@ class Keluar extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
                             // hapus surat draft
                             if ($canDelete) {
-                                $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $state . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                                $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                             }
                         }
                     }
@@ -242,7 +254,7 @@ class Keluar extends Admin_Controller
 
                         // hapus surat -->
                         if ($canDelete) {
-                            $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $state . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                            $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                         }
                     }
 
