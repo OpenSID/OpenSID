@@ -42,6 +42,7 @@ use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\LogPenduduk;
 
 class Surat_model extends MY_Model
 {
@@ -613,5 +614,10 @@ class Surat_model extends MY_Model
         $qrCode['viewqr'] = qrcode_generate($qrCode, true);
 
         return $qrCode;
+    }
+
+    public function get_data_mati($id = 0)
+    {
+        return LogPenduduk::where('id_pend', $id)->where('kode_peristiwa', '2')->first();
     }
 }

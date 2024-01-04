@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#7543](https://github.com/OpenSID/OpenSID/issues/7543) Perbaikan strict php 8.x pada halaman tambah surat.
 2. [#7550](https://github.com/OpenSID/OpenSID/issues/7550) Perbaikan tampilan offline mode.
+3. [#7556](https://github.com/OpenSID/OpenSID/issues/7556) Perbaikan cetak surat dengan lampiran F-2.01.
 
 
 #### TEKNIS
