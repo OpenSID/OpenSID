@@ -8,7 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#7550](https://github.com/OpenSID/OpenSID/issues/7550) Perbaikan tampilan offline mode.
 3. [#7556](https://github.com/OpenSID/OpenSID/issues/7556) Perbaikan cetak surat dengan lampiran F-2.01.
 4. [#7557](https://github.com/OpenSID/OpenSID/issues/7557) Perbaikan redirect setelah hapus surat.
-
+5. [#7555](https://github.com/OpenSID/OpenSID/issues/7555) Perbaikan daftar artikel yang tampil pada menu dan menu anjungan.
 
 #### TEKNIS
 

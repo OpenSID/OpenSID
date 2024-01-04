@@ -659,7 +659,7 @@ class Web_artikel_model extends MY_Model
 
         return $this->config_id()
             ->select('a.id, judul')
-            ->where('a.id_kategori', '999')
+            ->where('a.tipe', 'statis')
             ->get('artikel a')
             ->result_array();
     }
