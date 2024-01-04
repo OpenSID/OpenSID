@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Dokumen extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';
-    public $sub_modul_ini = 'informasi-publik'
+    public $sub_modul_ini = 'informasi-publik';
 
     public function __construct()
     {

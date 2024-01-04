@@ -54,7 +54,7 @@ class Bumindes_umum extends Admin_Controller
     // TABLES
     public function tables($page = 'peraturan', $page_number = 1, $offset = 0): void
     {
-        public $sub_modul_ini = 'administrasi-umum';
+        $this->sub_modul_ini = 'administrasi-umum';
 
         // set session
         $data['cari'] = $_SESSION['cari'] ?? '';

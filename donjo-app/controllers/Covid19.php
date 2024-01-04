@@ -60,7 +60,7 @@ class Covid19 extends Admin_Controller
 
     public function data_pemudik($page = 1): void
     {
-        public $sub_modul_ini = 'pendataan';
+        $this->sub_modul_ini = 'pendataan';
 
         if (isset($_POST['per_page'])) {
             $this->session->set_userdata('per_page', $_POST['per_page']);
