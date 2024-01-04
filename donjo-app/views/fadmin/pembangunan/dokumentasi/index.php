@@ -12,7 +12,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<?php if (can('u')): ?>
 								<a href="<?= site_url("{$this->controller}/dokumentasi_form") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru"><i class="fa fa-plus"></i>Tambah Data</a>
 							<?php endif; ?>
 							<a href="<?= site_url("{$this->controller}/dialog_daftar/{$pembangunan->id}/cetak") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Pembangunan" title="Cetak Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-print "></i> Cetak</a>
@@ -56,7 +56,7 @@
 													<thead class="bg-gray">
 														<tr>
 															<th width="20px" class="text-center">No</th>
-															<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<?php if (can('u')): ?>
 																<th width="80px" class="text-center">Aksi</th>
 															<?php endif; ?>
 															<th class="text-center">Gambar</th>
@@ -102,14 +102,14 @@
 			},
 			'columns': [
 				{'data': null},
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
+				<?php if (can('u')): ?>
 					{
 						'data': function(data) {
 							return `
-								<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<?php if (can('u')): ?>
 									<a href="<?= site_url("{$this->controller}/dokumentasi_form/"); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 								<?php endif; ?>
-								<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<?php if (can('u')): ?>
 									<a href="#" data-href="<?= site_url("{$this->controller}/dokumentasi_delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 								<?php endif; ?>
 							`

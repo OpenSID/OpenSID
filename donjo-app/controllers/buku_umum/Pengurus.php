@@ -46,6 +46,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengurus extends Admin_Controller
 {
+    public $modul_ini            = 'buku-administrasi-desa';
+    public $sub_modul_ini        = 'administrasi-umum';
+    public $kategori_pengaturan  = 'Pemerintah Desa';
     private array $_set_page     = ['20', '50', '100'];
     private array $_list_session = ['status', 'cari'];
 
@@ -53,9 +56,6 @@ class Pengurus extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
-        $this->modul_ini          = 'buku-administrasi-desa';
-        $this->sub_modul_ini      = 'administrasi-umum';
-        $this->header['kategori'] = 'Pemerintah Desa';
     }
 
     public function clear(): void
@@ -178,7 +178,6 @@ class Pengurus extends Admin_Controller
 
     private function set_validasi(): void
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
     }
 

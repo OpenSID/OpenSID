@@ -84,7 +84,7 @@
 
 		showCurrentPoint(posisi, peta_lapak);
 
-		<?php if ($this->CI->cek_hak_akses('u')): ?>
+		<?php if (can('u')): ?>
 			//Export/Import Peta dari file GPX
 			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/gpx.png')?>" alt="file icon"/>';
 			L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';

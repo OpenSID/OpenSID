@@ -76,6 +76,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_laporan extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
     private $_set_page;
     private $_list_session;
 
@@ -93,8 +95,6 @@ class Analisis_laporan extends Admin_Controller
         $this->load->model(['pamong_model', 'wilayah_model', 'analisis_laporan_model', 'analisis_respon_model', 'analisis_master_model']);
         $this->session->submenu  = 'Laporan Analisis';
         $this->session->asubmenu = 'analisis_laporan';
-        $this->modul_ini         = 'analisis';
-        $this->sub_modul_ini     = 'master-analisis';
         $this->_set_page         = ['50', '100', '200'];
         $this->_list_session     = ['cari', 'klasifikasi', 'dusun', 'rw', 'rt', 'jawab'];
     }

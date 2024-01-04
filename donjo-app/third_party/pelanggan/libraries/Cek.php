@@ -39,7 +39,7 @@ use GuzzleHttp\Exception\ClientException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Validasi
+class Cek
 {
     /**
      * @var CI_Controller

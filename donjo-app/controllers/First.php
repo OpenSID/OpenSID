@@ -49,11 +49,11 @@ class First extends Web_Controller
         parent::__construct();
         parent::clear_cluster_session();
 
-        $this->load->library('security/security_header', null, 'security_header');
-        $this->security_header->handle();
+        // $this->load->library('security/security_header', null, 'security_header');
+        // $this->security_header->handle();
 
-        $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
-        $this->security_trusted_host->handle();
+        // $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
+        // $this->security_trusted_host->handle();
 
         $this->load->model('first_artikel_m');
         $this->load->model('first_penduduk_m');
@@ -349,7 +349,6 @@ class First extends Web_Controller
 
     public function add_comment($id = 0): void
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('komentar', 'Komentar', 'required');
         $this->form_validation->set_rules('owner', 'Nama', 'required|max_length[50]');
         $this->form_validation->set_rules('no_hp', 'No HP', 'numeric|required|max_length[15]');

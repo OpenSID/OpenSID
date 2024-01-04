@@ -28,8 +28,8 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         '1f87db08236948d07391152dccb70f04' => __DIR__ . '/..' . '/google/apiclient-services/autoload.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         'b46ad4fe52f4d1899a2951c7e6ea56b0' => __DIR__ . '/..' . '/voku/portable-utf8/bootstrap.php',
-        'c905303744f29c32abf39880d9e36c05' => __DIR__ . '/..' . '/agungsugiarto/codeigniter-datables/src/helper.php',
         'a8d3953fd9959404dd22d3dfcd0a79f0' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
+        '6277681c1eab70b1b9eef89ccd4d8f18' => __DIR__ . '/..' . '/opensid/datatables/src/helper.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
     );
@@ -89,6 +89,7 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         'M' => 
         array (
             'Monolog\\' => 8,
+            'Modules\\' => 8,
             'Mike42\\' => 7,
         ),
         'L' => 
@@ -289,6 +290,10 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Modules\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/donjo-app/Modules',
+        ),
         'Mike42\\' => 
         array (
             0 => __DIR__ . '/..' . '/mike42/escpos-php/src/Mike42',
@@ -386,7 +391,7 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         ),
         'Fluent\\DataTables\\' => 
         array (
-            0 => __DIR__ . '/..' . '/agungsugiarto/codeigniter-datables/src',
+            0 => __DIR__ . '/..' . '/opensid/datatables/src',
         ),
         'Firebase\\JWT\\' => 
         array (

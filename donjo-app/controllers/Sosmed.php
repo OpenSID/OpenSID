@@ -39,13 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sosmed extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'media-sosial';
+
     public function __construct()
     {
         parent::__construct();
 
         $this->load->model('web_sosmed_model');
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'media-sosial';
     }
 
     public function index(): void

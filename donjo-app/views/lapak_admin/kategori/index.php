@@ -61,10 +61,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<div id="maincontent"></div>
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
+				<?php if (can('u')): ?>
 					<a href="<?= site_url("{$this->controller}/kategori_form/{$main->id}"); ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Tambah Data"><i class="fa fa fa-plus"></i> Tambah Data</a>
 				<?php endif; ?>
-				<?php if ($this->CI->cek_hak_akses('h')): ?>
+				<?php if (can('h')): ?>
 					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("{$this->controller}/kategori_delete_all"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 				<?php endif; ?>
 			</div>
@@ -143,11 +143,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							hapus = `<a href="#" data-href="<?= site_url("{$this->controller}/kategori_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
 						} else { hapus = ''}
 						return `
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if (can('u')): ?>
 							<a href="<?= site_url("{$this->controller}/kategori_form/"); ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Kategori"><i class="fa fa-edit"></i></a>
 							${status}
 						<?php endif; ?>
-						<?php if ($this->CI->cek_hak_akses('h')): ?>
+						<?php if (can('h')): ?>
 							${hapus}
 						<?php endif; ?>
 						`

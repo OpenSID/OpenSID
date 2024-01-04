@@ -1,7 +1,7 @@
 {!! form_open_multipart(ci_route('setting.new_update'), 'class="form-group" id="main_setting"') !!}
 <div class="modal-body">
     @foreach ($list_setting as $key => $pengaturan)
-        @if ($pengaturan->jenis != 'upload' && $pengaturan->kategori == $kategori)
+        @if ($pengaturan->jenis != 'upload' && $pengaturan->kategori == $kategori_pengaturan)
             <div class="form-group" id="form_{{ $pengaturan->key }}">
                 <label>{{ $pengaturan->judul }}</label>
                 @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')

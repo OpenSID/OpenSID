@@ -40,12 +40,15 @@ use App\Models\BukuPertanyaan;
 
 class Buku_pertanyaan extends Anjungan_Controller
 {
+    public $modul_ini     = 'buku-tamu';
+    public $sub_modul_ini = 'data-pertanyaan';
+    public $kategori_pengaturan = 'buku-tamu';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'buku-tamu';
-        $this->sub_modul_ini      = 'data-pertanyaan';
-        $this->header['kategori'] = 'buku-tamu';
+        public $modul_ini          = 'buku-tamu';
+        public $sub_modul_ini      = 'data-pertanyaan';
     }
 
     public function index()
@@ -131,7 +134,7 @@ class Buku_pertanyaan extends Anjungan_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = []): array
+    private function validate(array $request = []): array
     {
         return [
             'pertanyaan' => htmlentities($request['pertanyaan']),

@@ -1636,7 +1636,7 @@ if (! function_exists('ref')) {
      */
     function ref($alias)
     {
-        return get_instance()->db->get($alias)->result();
+        return $this->db->get($alias)->result();
     }
 }
 
@@ -2187,5 +2187,101 @@ if (! function_exists('get_hari')) {
         $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
 
         return $hari->dayName;
+    }
+}
+
+if (! function_exists('akas')) {
+    /**
+     * Class registry
+     *
+     * This function acts as a singleton. If the requested class does not
+     * exist it is instantiated and set to a static variable. If it has
+     * previously been instantiated the variable is returned.
+     *
+     * @param string	the class name being requested
+     * @param string	the directory where the class should be found
+     * @param mixed	an optional argument to pass to the class constructor
+     * @param mixed      $class
+     * @param mixed      $directory
+     * @param mixed|null $param
+     *
+     * @return object
+     */
+    function akas($class, $directory = '', $param = null)
+    {
+        static $_classes = [];
+
+        // Does the class exist? If so, we're done...
+        if (isset($_classes[$class])) {
+            return $_classes[$class];
+        }
+
+        $name = false;
+
+        // Look for the class first in the local application/libraries folder
+        // then in the native system/libraries folder
+        foreach ([APPPATH, BASEPATH] as $path) {
+            if (file_exists($path . $directory . '/' . $class . '.php')) {
+                $name = 'CI_' . $class;
+
+                if (class_exists($name, false) === false) {
+                    require_once $path . $directory . '/' . $class . '.php';
+                }
+
+                break;
+            }
+        }
+
+        // Is the request a class extension? If so we load it too
+        if (file_exists(APPPATH . $directory . '/' . config_item('subclass_prefix') . $class . '.php')) {
+            $name = config_item('subclass_prefix') . $class;
+
+            if (class_exists($name, false) === false) {
+                require_once APPPATH . $directory . '/' . $name . '.php';
+            }
+        }
+
+        // Did we find the class?
+        if ($name === false) {
+            // Note: We use exit() rather than show_error() in order to avoid a
+            // self-referencing loop with the Exceptions class
+            set_status_header(503);
+            echo 'Unable to locate the specified class: ' . $class . '.php';
+
+            exit(5); // EXIT_UNK_CLASS
+        }
+
+        // Keep track of what we just loaded
+        is_loaded($class);
+
+        $_classes[$class] = isset($param)
+            ? new $name($param)
+            : new $name();
+
+        return $_classes[$class];
+    }
+}
+
+if (! function_exists('forceRemoveDir')) {
+    function forceRemoveDir($dir)
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+
+            foreach ($objects as $object) {
+                if ($object != '.' && $object != '..') {
+                    $item = $dir . '/' . $object;
+
+                    if (is_dir($item)) {
+                        forceRemoveDir($item);
+                    } else {
+                        unlink($item);
+                    }
+                }
+            }
+
+            reset($objects);
+            rmdir($dir);
+        }
     }
 }

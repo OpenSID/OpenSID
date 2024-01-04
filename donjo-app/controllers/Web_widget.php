@@ -43,11 +43,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_widget extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'widget';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'widget';
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {

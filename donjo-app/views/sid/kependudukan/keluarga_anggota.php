@@ -52,7 +52,7 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
+				<?php if (can('u')): ?>
 					<div class="btn-group btn-group-vertical">
 						<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota</a>
 						<ul class="dropdown-menu" role="menu">
@@ -133,7 +133,7 @@
 										<tr>
 											<td class="padat"><?= ($key + 1); ?></td>
 											<td class="aksi">
-												<?php if ($this->CI->cek_hak_akses('u')): ?>
+												<?php if (can('u')): ?>
 													<a href="<?= site_url("penduduk/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
 													<a href="#" data-href="<?= site_url("keluarga/delete_anggota/{$p}/{$o}/{$kk}/{$data['id']}")?>" class="btn bg-purple btn-flat btn-sm" title="Pecah KK" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin memecah Data Keluarga ini?"><i class="fa fa-cut"></i></a>
 													<?php if ($kepala_kk['status_dasar'] == 1): ?>

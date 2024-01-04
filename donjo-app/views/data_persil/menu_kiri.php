@@ -7,7 +7,7 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<?php if ($this->CI->cek_hak_akses('u')): ?>
+			<?php if (can('u')): ?>
 				<li class='<?= jecho($this->tab_ini, 10, 'active') ?>'><a href="<?= site_url('cdesa/create')?>"><i class='fa fa-plus'></i> Tambah C-Desa</a></li>
 			<?php endif; ?>
 			<li class='<?= jecho($this->tab_ini, 12, 'active') ?>'><a href="<?= site_url('cdesa/clear')?>"><i class='fa fa-list'></i>Daftar C-DESA</a></li>

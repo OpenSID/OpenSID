@@ -45,12 +45,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup_kontak extends Admin_Controller
 {
+    public $modul_ini           = 'hubung-warga';
+    public $sub_modul_ini       = 'daftar-kontak';
+    public $kategori_pengaturan = 'hubung warga';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'hubung-warga';
-        $this->sub_modul_ini      = 'daftar-kontak';
-        $this->header['kategori'] = 'hubung warga';
     }
 
     public function index()

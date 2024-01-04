@@ -63,7 +63,7 @@ class Faker_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        get_instance()->load->helpers($this->helpers);
+        $this->load->helpers($this->helpers);
     }
 
     public function index($reset = 1)

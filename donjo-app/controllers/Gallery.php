@@ -39,13 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'galeri';
+
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model('web_gallery_model');
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'galeri';
     }
 
     public function clear(): void

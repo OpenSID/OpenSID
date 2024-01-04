@@ -40,16 +40,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </div>
-                                        </section>
-                                        </div>
                                         @push('css')
                                             <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
                                         @endpush

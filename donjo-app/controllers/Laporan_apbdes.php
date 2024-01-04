@@ -39,14 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_apbdes extends Admin_Controller
 {
-    protected $tipe = 'laporan_apbdes';
+    public $modul_ini     = 'keuangan';
+    public $sub_modul_ini = 'laporan-apbdes';
+    protected $tipe       = 'laporan_apbdes';
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Laporan_sinkronisasi_model', 'sinkronisasi');
-        $this->modul_ini     = 'keuangan';
-        $this->sub_modul_ini = 'laporan-apbdes';
         $this->sinkronisasi->set_tipe($this->tipe);
     }
 

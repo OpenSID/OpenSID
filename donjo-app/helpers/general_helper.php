@@ -59,14 +59,14 @@ if (! function_exists('asset')) {
 if (! function_exists('set_session')) {
     function set_session($key = 'success', $value = '')
     {
-        return get_instance()->session->set_flashdata($key, $value);
+        return ci()->session->set_flashdata($key, $value);
     }
 }
 
 if (! function_exists('session')) {
     function session($nama = '')
     {
-        return get_instance()->session->flashdata($nama);
+        return ci()->session->flashdata($nama);
     }
 }
 
@@ -102,29 +102,32 @@ if (! function_exists('can')) {
                     return [
                         $item->slug => [
                             'id_modul' => $item->id,
-                            'id_grup'  => $idGrup,
-                            'akses'    => $rbac,
-                            'baca'     => $rbac >= 1,
-                            'ubah'     => $rbac >= 3,
-                            'hapus'    => $rbac >= 7,
+                            // 'parent_slug' => Modul::find($item->parent)->slug ?? null,
+                            'id_grup' => $idGrup,
+                            'akses'   => $rbac,
+                            'baca'    => $rbac >= 1,
+                            'ubah'    => $rbac >= 3,
+                            'hapus'   => $rbac >= 7,
                         ],
                     ];
                 })->toArray();
             }
-            $grupAkses = GrupAkses::leftJoin('setting_modul', 'grup_akses.id_modul', '=', 'setting_modul.id')
+            $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
+                // ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
                 ->where('id_grup', $idGrup)
-                ->select('grup_akses.*')
-                ->selectRaw('setting_modul.slug as slug')
+                ->select('grup_akses.*', 's1.slug as slug')
+                // ->select('s2.slug as parent_slug')
                 ->get();
 
             return $grupAkses->mapWithKeys(static fn ($item) => [
                 $item->slug => [
                     'id_modul' => $item->id_modul,
-                    'id_grup'  => $item->id_grup,
-                    'akses'    => $item->akses,
-                    'baca'     => $item->akses >= 1,
-                    'ubah'     => $item->akses >= 3,
-                    'hapus'    => $item->akses >= 7,
+                    // 'parent_slug' => $item->parent_slug,
+                    'id_grup' => $item->id_grup,
+                    'akses'   => $item->akses,
+                    'baca'    => $item->akses >= 1,
+                    'ubah'    => $item->akses >= 3,
+                    'hapus'   => $item->akses >= 7,
                 ],
             ])->toArray();
         });
@@ -134,7 +137,7 @@ if (! function_exists('can')) {
         }
 
         if (null === $slugModul) {
-            $slugModul = get_instance()->akses_modul ?? get_instance()->sub_modul_ini ?? get_instance()->modul_ini;
+            $slugModul = ci()->akses_modul ?? (ci()->sub_modul_ini ?? ci()->modul_ini);
         }
 
         $alias = [
@@ -177,7 +180,7 @@ if (! function_exists('isCan')) {
             set_session('error', $pesan);
             session_error($pesan);
 
-            redirect(get_instance()->controller);
+            redirect(ci()->controller);
         }
     }
 }
@@ -186,7 +189,7 @@ if (! function_exists('isCan')) {
 if (! function_exists('json')) {
     function json($content = [], $header = 200): void
     {
-        get_instance()->output
+        ci()->output
             ->set_status_header($header)
             ->set_content_type('application/json', 'utf-8')
             ->set_output(json_encode($content, JSON_THROW_ON_ERROR))
@@ -196,7 +199,7 @@ if (! function_exists('json')) {
     }
 }
 
-// redirect()->route('example')->with('success', 'information');
+// redirect()->ci_route('example')->with('success', 'information');
 if (! function_exists('redirect_with')) {
     function redirect_with($key = 'success', $value = '', $to = '', $autodismis = null)
     {
@@ -207,7 +210,7 @@ if (! function_exists('redirect_with')) {
         }
 
         if (empty($to)) {
-            $to = get_instance()->controller;
+            $to = ci()->controller;
         }
 
         return redirect($to);
@@ -236,7 +239,7 @@ if (! function_exists('ci_route')) {
 if (! function_exists('setting')) {
     function setting($params = null)
     {
-        $getSetting = get_instance()->setting;
+        $getSetting = ci()->setting;
 
         if ($params && ! empty($getSetting)) {
             if (property_exists($getSetting, $params)) {
@@ -274,7 +277,7 @@ if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
         if ($params) {
-            return get_instance()->cache->hapus_cache_untuk_semua($params);
+            return ci()->cache->hapus_cache_untuk_semua($params);
         }
 
         return false;
@@ -396,7 +399,7 @@ if (! function_exists('folder')) {
     {
         $hasil = true;
 
-        get_instance()->load->helper('file');
+        ci()->load->helper('file');
 
         $folder = FCPATH . $folder;
 
@@ -431,7 +434,7 @@ if (! function_exists('folder_desa')) {
      */
     function folder_desa(): bool
     {
-        get_instance()->load->config('installer');
+        ci()->load->config('installer');
         $list_folder = array_merge(config_item('desa'), config_item('lainnya'));
 
         // Buat folder dan subfolder desa
@@ -475,7 +478,7 @@ if (! function_exists('auth')) {
 if (! function_exists('ci_db')) {
     function ci_db()
     {
-        return get_instance()->db;
+        return ci()->db;
     }
 }
 
@@ -958,5 +961,23 @@ if (! function_exists('gis_simbols')) {
         $simbols = DB::table('gis_simbol')->get('simbol');
 
         return $simbols->map(static fn ($item): array => (array) $item)->toArray();
+    }
+}
+
+if (! function_exists('admin_menu')) {
+    /**
+     * admin_menu untuk menampilkan menu admin yang aktif.
+     *
+     * @return mixed
+     */
+    function admin_menu()
+    {
+        $CI = &get_instance();
+
+        return cache()->remember("{$CI->session->user}_admin_menu", 604800, static function () use ($CI) {
+            $CI->load->model('modul_model');
+
+            return $CI->modul_model->list_aktif();
+        });
     }
 }

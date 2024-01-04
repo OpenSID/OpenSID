@@ -1,5 +1,5 @@
 <div class="box box-info">
-    <form id="validasi" action="{{ route('modul.ubah_server') }}" method="POST" class="form-horizontal">
+    <form id="validasi" action="{{ ci_route('modul.ubah_server') }}" method="POST" class="form-horizontal">
         <div class="box-body">
             <h4>Pengaturan Server</h4>
             <div class="form-group">
@@ -78,7 +78,7 @@
             </div>
             <a href="#" data-title="Acak Data" class="btn btn-social btn-danger btn-sm" data-toggle="modal" data-target="#confirm-acak"><i class='fa fa-trash-o'></i>Acak Data</a>
             <a
-                href="{{ route('database.mutakhirkan_data_server') }}"
+                href="{{ ci_route('database.mutakhirkan_data_server') }}"
                 title="Sinkronkan Data"
                 data-remote="false"
                 data-toggle="modal"

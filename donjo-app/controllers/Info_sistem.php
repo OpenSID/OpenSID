@@ -39,11 +39,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Info_sistem extends Admin_Controller
 {
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'info-sistem';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'info-sistem';
         $this->load->helper('directory');
     }
 

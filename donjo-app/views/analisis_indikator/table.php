@@ -30,10 +30,10 @@
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<?php if ($analisis_master['lock'] == 1): ?>
-								<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<?php if (can('u')): ?>
 									<a href="<?= site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if ($analisis_master['jenis'] == 1): ?>disabled<?php endif; ?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
 								<?php endif; ?>
-								<?php if ($this->CI->cek_hak_akses('h')): ?>
+								<?php if (can('h')): ?>
 									<a href="#confirm-delete" title="Hapus Data"
 										<?php if ($analisis_master['jenis'] != 1): ?>
 											onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/delete_all/{$p}/{$o}")?>')"
@@ -83,7 +83,7 @@
 														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<?php if (can('u')): ?>
 																		<th><input type="checkbox" id="checkall"/></th>
 																	<?php endif; ?>
 																	<th>No</th>
@@ -135,7 +135,7 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<?php if ($analisis_master['lock'] == 1 && $this->CI->cek_hak_akses('u')): ?>
+																		<?php if ($analisis_master['lock'] == 1 && isCan('u')): ?>
 																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<?php endif; ?>
 																		<td><?= $data['no']?></td>
@@ -144,10 +144,10 @@
 																				<?php if ($data['id_tipe'] == 1 || $data['id_tipe'] == 2): ?>
 																					<a href="<?= site_url("analisis_indikator/parameter/{$data['id']}")?>" class="btn bg-purple btn-flat btn-sm"  title="Jawaban"><i class='fa fa-list'></i></a>
 																				<?php endif; ?>
-																				<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<?php if (can('u')): ?>
 																					<a href="<?= site_url("analisis_indikator/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
 																				<?php endif; ?>
-																				<?php if ($analisis_master['jenis'] != 1 && $this->CI->cek_hak_akses('h')): ?>
+																				<?php if ($analisis_master['jenis'] != 1 && isCan('h')): ?>
 																					<a href="#" data-href="<?= site_url("analisis_indikator/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																			</td>

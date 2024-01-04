@@ -13,7 +13,7 @@
 		<a href="<?= site_url("{$this->controller}/form/{$kat}") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah">
 			<i class="fa fa-plus"></i>Tambah
 		</a>
-		<?php if ($this->CI->cek_hak_akses('h')) : ?>
+		<?php if (can('h')) : ?>
 			<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("{$this->controller}/delete_all/{$kat}/{$p}/{$o}") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 		<?php endif; ?>
 		<a href="<?= site_url("{$this->controller}/dialog_cetak/{$kat}") ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Dokumen" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Laporan">

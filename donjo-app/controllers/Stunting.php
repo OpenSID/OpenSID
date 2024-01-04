@@ -52,13 +52,14 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Stunting extends Admin_Controller
 {
+    public $modul_ini     = 'kesehatan';
+    public $sub_modul_ini = 'stunting';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->library('rekap');
         $this->load->helper('tglindo_helper');
-        $this->modul_ini     = 'kesehatan';
-        $this->sub_modul_ini = 'stunting';
     }
 
     public function index()

@@ -48,11 +48,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Permohonan_surat_admin extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'permohonan-surat';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'permohonan-surat';
     }
 
     public function index()

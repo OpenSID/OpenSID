@@ -43,6 +43,10 @@ use GuzzleHttp\Psr7;
 
 class Pelanggan_Controller extends Admin_Controller
 {
+    public $modul_ini           = 'info-desa';
+    public $sub_modul_ini       = 'layanan-pelanggan';
+    public $kategori_pengaturan = 'pelanggan';
+
     /**
      * @var Client HTTP Client
      */
@@ -59,10 +63,7 @@ class Pelanggan_Controller extends Admin_Controller
             show_404();
         }
 
-        $this->modul_ini          = 'info-desa';
-        $this->sub_modul_ini      = 'layanan-pelanggan';
-        $this->header['kategori'] = 'pelanggan';
-        $this->client             = new Client();
+        $this->client = new Client();
     }
 
     public function index(): void

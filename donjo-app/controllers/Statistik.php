@@ -41,14 +41,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Statistik extends Admin_Controller
 {
+    public $modul_ini            = 'statistik';
+    public $sub_modul_ini        = 'statistik-kependudukan';
     private array $_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun', 'filter_global'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
-        $this->modul_ini     = 'statistik';
-        $this->sub_modul_ini = 'statistik-kependudukan';
     }
 
     public function index(): void

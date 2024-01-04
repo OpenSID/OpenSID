@@ -42,6 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'kelompok';
     private array $_set_page     = ['20', '50', '100'];
     private array $_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex', 'status_dasar'];
     protected $tipe              = 'kelompok';
@@ -50,8 +52,6 @@ class Kelompok extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['kelompok_model', 'pamong_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'kelompok';
         $this->kelompok_model->set_tipe($this->tipe);
     }
 

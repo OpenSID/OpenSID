@@ -51,7 +51,7 @@
 							</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<?php if (can('u')): ?>
 									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 								<?php endif; ?>
 							</div>

@@ -39,14 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_inventaris_kekayaan extends Admin_Controller
 {
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
     private array $list_session = ['tahun'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['pamong_model', 'inventaris_laporan_model']);
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function index(): void

@@ -39,10 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gis extends Admin_Controller
 {
+    public $modul_ini           = 'pemetaan';
+    public $sub_modul_ini       = 'peta';
+    public $kategori_pengaturan = 'peta';
+
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model('penduduk_model');
         $this->load->model('plan_lokasi_model');
         $this->load->model('plan_area_model');
@@ -50,11 +53,7 @@ class Gis extends Admin_Controller
         $this->load->model('pembangunan_model');
         $this->load->model('pembangunan_dokumentasi_model');
         $this->load->model('data_persil_model');
-
         $this->load->model('wilayah_model');
-        $this->modul_ini          = 'pemetaan';
-        $this->sub_modul_ini      = 'peta';
-        $this->header['kategori'] = 'peta';
     }
 
     public function clear(): void

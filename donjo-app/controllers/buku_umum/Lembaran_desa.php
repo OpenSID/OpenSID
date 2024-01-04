@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lembaran_desa extends Admin_Controller
 {
+    public $modul_ini            = 'buku-administrasi-desa';
+    public $sub_modul_ini        = 'administrasi-umum';
     private array $_set_page     = ['20', '50', '100'];
     private array $_list_session = ['filter', 'cari', 'jenis_peraturan'];
 
@@ -47,8 +49,6 @@ class Lembaran_desa extends Admin_Controller
         parent::__construct();
 
         $this->load->model(['web_dokumen_model', 'pamong_model']);
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     // Buku Lembaran Desa dan Berita Desa

@@ -55,6 +55,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluar extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'arsip-layanan';
     private $isAdmin;
     private TinyMCE $tinymce;
 
@@ -63,9 +65,7 @@ class Keluar extends Admin_Controller
         parent::__construct();
         $this->tinymce = new TinyMCE();
         $this->load->helper('download');
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'arsip-layanan';
-        $this->isAdmin       = $this->session->isAdmin->pamong;
+        $this->isAdmin = $this->session->isAdmin->pamong;
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }
 

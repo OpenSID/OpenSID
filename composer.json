@@ -9,7 +9,6 @@
 	],
 	"require": {
 		"php": "^7.4 || ^8.0 || ^8.1",
-		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"codeigniter/framework": "^3.1",
 		"edwinhoksberg/php-fcm": "^1.2",
 		"google/apiclient": "^2.11",
@@ -27,6 +26,7 @@
 		"karriere/pdf-merge": "^2.1",
 		"league/flysystem": "^1.1",
 		"mike42/escpos-php": "^3.0",
+		"opensid/datatables": "1.x-dev",
 		"opensid/router": "dev-master",
 		"openspout/openspout": "^3.7",
 		"ramsey/uuid": "^4.2",
@@ -45,7 +45,8 @@
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
-			"App\\": "app/"
+			"App\\": "app/",
+			"Modules\\": "donjo-app/Modules/"
 		}
 	},
 	"config": {

@@ -49,14 +49,15 @@ use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'database';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'database';
     }
 
     public function index(): void

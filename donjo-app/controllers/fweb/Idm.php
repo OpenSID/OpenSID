@@ -48,7 +48,7 @@ class Idm extends Web_Controller
         $data = $this->includes;
         $this->_get_common_data($data);
 
-        $data['idm']            = idm($data['desa']['kode_desa'], $tahun);
+        $data['idm']            = idm(identitas('kode_desa'), $tahun);
         $data['halaman_statis'] = 'idm/index';
 
         $this->_get_common_data($data);

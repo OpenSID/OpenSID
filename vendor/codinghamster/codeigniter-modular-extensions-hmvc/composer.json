@@ -1,0 +1,13 @@
+{
+    "name": "codinghamster/codeigniter-modular-extensions-hmvc",
+    "description": "CodeIgniter framework modular extension - HMVC",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "third_party/MX/Loader.php",
+            "third_party/MX/Router.php"
+        ]
+    }
+}

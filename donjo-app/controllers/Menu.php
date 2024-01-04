@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Menu extends Admin_Controller
 {
+    public $modul_ini       = 'admin-web';
+    public $sub_modul_ini   = 'menu';
     protected $list_session = ['cari', 'filter', 'parrent'];
     protected $set_page     = ['10', '20', '50', '100'];
 
@@ -54,8 +56,6 @@ class Menu extends Admin_Controller
         $this->load->model('program_bantuan_model');
         $this->load->model('keuangan_model');
         $this->load->model('kelompok_model');
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'menu';
     }
 
     public function clear($parrent = 0): void

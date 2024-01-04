@@ -48,7 +48,7 @@
  */
 function tulis_csv($table)
 {
-    $data = get_instance()->db->where('config_id', identitas('id'))->get($table)->result_array();
+    $data = $this->db->where('config_id', identitas('id'))->get($table)->result_array();
     if (count($data) == 0) {
         return null;
     }

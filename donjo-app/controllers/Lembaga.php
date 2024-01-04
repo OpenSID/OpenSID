@@ -41,13 +41,12 @@ require_once APPPATH . 'controllers/Kelompok.php';
 
 class Lembaga extends Kelompok
 {
-    protected $tipe = 'lembaga';
+    public $modul_ini     = 'info-desa';
+    public $sub_modul_ini = 'lembaga-desa';
+    protected $tipe       = 'lembaga';
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->modul_ini     = 'info-desa';
-        $this->sub_modul_ini = 'lembaga-desa';
     }
 }

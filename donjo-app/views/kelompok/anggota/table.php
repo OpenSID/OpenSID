@@ -59,7 +59,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u')) : ?>
+							<?php if (can('u')) : ?>
 								<div class="btn-group btn-group-vertical">
 									<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota <?= $tipe; ?></a>
 									<ul class="dropdown-menu" role="menu">
@@ -72,7 +72,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									</ul>
 								</div>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('h')) : ?>
+							<?php if (can('h')) : ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("{$this->controller}/delete_anggota_all/{$kelompok['id']}"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<a href="<?= site_url("{$this->controller}/dialog_anggota/cetak/{$kelompok['id']}"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota <?= ucwords($tipe . ' ' . $kelompok['nama']); ?>"><i class="fa fa-print"></i> Cetak</a>
@@ -149,10 +149,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 															<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 															<td class="aksi">
-																<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																<?php if (can('u')) : ?>
 																	<a href="<?= site_url("{$this->controller}/form_anggota/{$kelompok['id']}/{$data['id_penduduk']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
 																<?php endif; ?>
-																<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																<?php if (can('h')) : ?>
 																	<a href="#" data-href="<?= site_url("{$this->controller}/delete_anggota/{$kelompok['id']}/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																<?php endif; ?>
 															</td>

@@ -41,13 +41,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Point extends Admin_Controller
 {
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model('plan_point_model');
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function index()

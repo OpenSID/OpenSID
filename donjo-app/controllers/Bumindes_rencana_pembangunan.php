@@ -42,6 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_rencana_pembangunan extends Admin_Controller
 {
+    public $modul_ini      = 'buku-administrasi-desa';
+    public $sub_modul_ini  = 'administrasi-pembangunan';
     protected $tipe        = 'rencana';
     protected array $order = [
         1  => 'judul',
@@ -61,8 +63,6 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         parent::__construct();
         $this->load->model('pembangunan_model', 'model');
         $this->load->model('pamong_model');
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-pembangunan';
         $this->model->set_tipe($this->tipe);
     }
 
@@ -95,7 +95,7 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         ]);
     }
 
-    public function dialog($aksi = ''): void
+    public function dialog(string $aksi = ''): void
     {
         $data = [
             'aksi'        => $aksi,

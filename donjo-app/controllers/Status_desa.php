@@ -41,12 +41,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Status_desa extends Admin_Controller
 {
+    public $modul_ini           = 'info-desa';
+    public $sub_modul_ini       = 'status-desa';
+    public $kategori_pengaturan = 'status sdgs';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'info-desa';
-        $this->sub_modul_ini      = 'status-desa';
-        $this->header['kategori'] = 'status sdgs';
     }
 
     public function index()
@@ -64,7 +65,7 @@ class Status_desa extends Admin_Controller
 
         $data = [
             'tahun' => (int) $tahun,
-            'idm'   => idm($this->header['desa']['kode_desa'], $tahun),
+            'idm'   => idm(identitas('kode_desa'), $tahun),
         ];
 
         return view('admin.status_desa.idm', $data);
@@ -73,7 +74,7 @@ class Status_desa extends Admin_Controller
     public function perbarui_idm(int $tahun): void
     {
         if (cek_koneksi_internet() && $tahun) {
-            $kode_desa = $this->header['desa']['kode_desa'];
+            $kode_desa = identitas('kode_desa');
             $cache     = 'idm_' . $tahun . '_' . $kode_desa . '.json';
 
             // Cek server Kemendes sebelum hapus cache
@@ -112,7 +113,7 @@ class Status_desa extends Admin_Controller
 
         $data = [
             'sdgs'      => sdgs(),
-            'kode_desa' => $this->header['desa']['kode_desa'],
+            'kode_desa' => identitas('kode_desa'),
         ];
 
         return view('admin.status_desa.sdgs', $data);

@@ -21,12 +21,12 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u')) : ?>
+							<?php if (can('u')) : ?>
 								<a href="<?= site_url('gallery/form') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 									<i class="fa fa-plus"></i> Tambah Album
 								</a>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('h')) : ?>
+							<?php if (can('h')) : ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("gallery/delete_all/{$p}/{$o}") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 						</div>
@@ -60,7 +60,7 @@
 														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																	<?php if (can('h')) : ?>
 																		<th><input type="checkbox" id="checkall" /></th>
 																	<?php endif; ?>
 																	<th>No</th>
@@ -91,17 +91,17 @@
 															<tbody>
 																<?php foreach ($main as $data) : ?>
 																	<tr>
-																		<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																		<?php if (can('h')) : ?>
 																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" /></td>
 																		<?php endif; ?>
 																		<td><?= $data['no'] ?></td>
 																		<td nowrap>
-																			<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																			<?php if (can('u')) : ?>
 																				<a href="<?= site_url('gallery/urut/' . encrypt($data['id']) . '/1') ?>" class="btn bg-olive btn-flat btn-sm" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																				<a href="<?= site_url('gallery/urut/' . encrypt($data['id']) . '/2') ?>" class="btn bg-olive btn-flat btn-sm" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																			<?php endif; ?>
 																			<a href="<?= site_url('gallery/sub_gallery/' . encrypt($data['id'])) ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Album"><i class="fa fa-bars"></i></a>
-																			<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																			<?php if (can('u')) : ?>
 																				<a href="<?= site_url("gallery/form/{$p}/{$o}/" . encrypt($data['id'])) ?>" class="btn btn-warning btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																				<?php if ($data['slider'] == '1') : ?>
 																					<a href="<?= site_url('gallery/slider_off/' . encrypt($data['id'])) ?>" class="btn bg-gray btn-flat btn-sm" title="Keluarkan Dari Slider"><i class="fa fa-play"></i></a>
@@ -114,7 +114,7 @@
 																					<a href="<?= site_url('gallery/gallery_unlock/' . encrypt($data['id'])) ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Album"><i class="fa fa-unlock"></i></a>
 																				<?php endif ?>
 																			<?php endif; ?>
-																			<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																			<?php if (can('h')) : ?>
 																				<a href="#" data-href="<?= site_url("gallery/delete/{$p}/{$o}/" . encrypt($data['id'])) ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		</td>

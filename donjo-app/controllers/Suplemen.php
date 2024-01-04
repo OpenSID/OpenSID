@@ -53,12 +53,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Suplemen extends Admin_Controller
 {
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'data-suplemen';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['pamong_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'data-suplemen';
     }
 
     public function index()

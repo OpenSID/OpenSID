@@ -2,6 +2,9 @@ Di rilis ini, versi 2401.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+### FITUR
+1. [#3319](https://github.com/OpenSID/premium/issues/3319) Penambahan manajemen modul plugin.
+
 #### BUG
 
 1. [#7543](https://github.com/OpenSID/OpenSID/issues/7543) Perbaikan strict php 8.x pada halaman tambah surat.

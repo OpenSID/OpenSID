@@ -47,11 +47,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Anjungan_menu extends Anjungan_Controller
 {
+    public $modul_ini     = 'anjungan';
+    public $sub_modul_ini = 'anjungan-menu';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'anjungan';
-        $this->sub_modul_ini = 'anjungan-menu';
     }
 
     public function index()
@@ -196,7 +197,7 @@ class Anjungan_menu extends Anjungan_Controller
         return redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected static function validated($request = [], $id = null): array
+    protected static function validated(array $request = [], $id = null): array
     {
         $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 

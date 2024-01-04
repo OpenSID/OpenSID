@@ -39,17 +39,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_persil extends Admin_Controller
 {
+    public $modul_ini           = 'pertanahan';
+    public $sub_modul_ini       = 'daftar-persil';
+    public $aliasController     = 'data_persil';
     private array $set_page     = ['20', '50', '100'];
     private array $list_session = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
 
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model(['data_persil_model', 'cdesa_model', 'pamong_model', 'wilayah_model']);
-        $this->controller    = 'data_persil';
-        $this->modul_ini     = 'pertanahan';
-        $this->sub_modul_ini = 'daftar-persil';
     }
 
     public function clear(): void
@@ -154,8 +153,6 @@ class Data_persil extends Admin_Controller
     public function simpan_persil($page = 1): void
     {
         $this->redirect_hak_akses('u');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('no_persil', 'Nomor Surat Persil', 'required|trim|numeric');
         $this->form_validation->set_rules('nomor_urut_bidang', 'Nomor Urut Bidang', 'required|trim|numeric|max_length[3]|less_than[1000]|greater_than[0]');
         $this->form_validation->set_rules('kelas', 'Kelas Tanah', 'required|trim|numeric');

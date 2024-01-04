@@ -41,6 +41,8 @@ require_once APPPATH . 'controllers/Bumindes_rencana_pembangunan.php';
 
 class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan
 {
+    public $modul_ini      = 'buku-administrasi-desa';
+    public $sub_modul_ini  = 'administrasi-pembangunan';
     protected $tipe        = 'kegiatan';
     protected array $order = [
         1  => 'judul',
@@ -57,7 +59,5 @@ class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-pembangunan';
     }
 }

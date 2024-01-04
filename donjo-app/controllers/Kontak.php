@@ -41,12 +41,13 @@ use App\Models\DaftarKontak;
 
 class Kontak extends Admin_Controller
 {
+    public $modul_ini           = 'hubung-warga';
+    public $sub_modul_ini       = 40;
+    public $kategori_pengaturan = 'hubung warga';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'hubung-warga';
-        $this->sub_modul_ini      = 40;
-        $this->header['kategori'] = 'hubung warga';
     }
 
     public function index()

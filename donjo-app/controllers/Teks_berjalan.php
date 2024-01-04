@@ -44,11 +44,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Teks_berjalan extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'teks-berjalan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'teks-berjalan';
     }
 
     public function index()

@@ -42,6 +42,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_masuk extends Admin_Controller
 {
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
+
     public function __construct()
     {
         parent::__construct();
@@ -52,9 +55,7 @@ class Surat_masuk extends Admin_Controller
         $this->load->model('pamong_model');
 
         $this->load->model('penomoran_surat_model');
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-umum';
-        $this->tab_ini       = 2;
+        $this->tab_ini = 2;
     }
 
     public function clear($id = 0): void

@@ -33,7 +33,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<?php if ($this->CI->cek_hak_akses('u')): ?>
+			<?php if (can('u')): ?>
 				<div class="col-md-6">
 					<div class="box box-info">
 						<div class="box-header with-border">

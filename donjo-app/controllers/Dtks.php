@@ -55,11 +55,12 @@ use Illuminate\Support\Facades\DB;
 
 class Dtks extends Admin_Controller
 {
+    public $modul_ini     = 'satu-data';
+    public $sub_modul_ini = 'dtks';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'satu-data';
-        $this->sub_modul_ini = 'dtks';
     }
 
     /**

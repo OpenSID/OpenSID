@@ -696,3 +696,15 @@ $config['cache_blade'] = STORAGEPATH . 'framework/views/';
 */
 $config['maximum_login_attempts'] = 3;
 $config['lockout_time']           = 300;                 // The number of seconds to lockout an account due to exceeded attempts
+
+$config['modules_locations'] = [
+    APPPATH . 'Modules/' => '../Modules/',
+];
+
+/*
+|--------------------------------------------------------------------------
+| URL marketplace plugin opensid
+|--------------------------------------------------------------------------
+|
+*/
+$config['url_marketplace'] = 'https://gist.githubusercontent.com/andifahruddinakas/d68f1555919322d3e8c13bc82cdfd5e9/raw/modules-plugin.json';

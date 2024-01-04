@@ -4,73 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9562b5deabf204561d2271e559822f93",
+    "content-hash": "769bc55ff8fd94963f4bf3e27f809a21",
     "packages": [
-        {
-            "name": "agungsugiarto/codeigniter-datables",
-            "version": "1.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/agungsugiarto/codeigniter-datatables.git",
-                "reference": "c71c233fb0d0fbb76f024485af3a2028a6a70c44"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/agungsugiarto/codeigniter-datatables/zipball/c71c233fb0d0fbb76f024485af3a2028a6a70c44",
-                "reference": "c71c233fb0d0fbb76f024485af3a2028a6a70c44",
-                "shasum": ""
-            },
-            "require": {
-                "codeigniter/framework": "^3.1",
-                "illuminate/database": "5.8.*|^6|^7|^8|^9",
-                "illuminate/filesystem": "5.8.*|^6|^7|^8|^9",
-                "illuminate/support": "5.8.*|^6|^7|^8|^9",
-                "illuminate/view": "5.8.*|^6|^7|^8|^9",
-                "php": "^7.1.3|^8"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0|^7.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/helper.php"
-                ],
-                "psr-4": {
-                    "Fluent\\DataTables\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Arjay Angeles",
-                    "email": "aqangeles@gmail.com"
-                },
-                {
-                    "name": "Agung Sugiarto",
-                    "email": "me.agungsugiarto@gmail.com"
-                }
-            ],
-            "description": "jQuery DataTables API for codeigniter3",
-            "keywords": [
-                "codeigniter3",
-                "datatables",
-                "jquery"
-            ],
-            "support": {
-                "source": "https://github.com/agungsugiarto/codeigniter-datatables/tree/1.x"
-            },
-            "time": "2022-01-30T05:20:41+00:00"
-        },
         {
             "name": "brick/math",
             "version": "0.9.3",
@@ -2276,17 +2211,86 @@
             "time": "2023-12-08T23:47:49+00:00"
         },
         {
+            "name": "opensid/datatables",
+            "version": "1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OpenSID/datatables.git",
+                "reference": "042b4b230d5f9d71364ca5b2aa7b6771c61f4be8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/datatables/zipball/042b4b230d5f9d71364ca5b2aa7b6771c61f4be8",
+                "reference": "042b4b230d5f9d71364ca5b2aa7b6771c61f4be8",
+                "shasum": ""
+            },
+            "require": {
+                "codeigniter/framework": "^3.1",
+                "illuminate/database": "5.8.*|^6|^7|^8|^9",
+                "illuminate/filesystem": "5.8.*|^6|^7|^8|^9",
+                "illuminate/support": "5.8.*|^6|^7|^8|^9",
+                "illuminate/view": "5.8.*|^6|^7|^8|^9",
+                "php": "^7.1.3|^8"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.8|^4.0|^5.0|^6.0|^7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "Fluent\\DataTables\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjay Angeles",
+                    "email": "aqangeles@gmail.com"
+                },
+                {
+                    "name": "Agung Sugiarto",
+                    "email": "me.agungsugiarto@gmail.com"
+                },
+                {
+                    "name": "OpenDesa",
+                    "email": "info@opendesa.id"
+                }
+            ],
+            "description": "jQuery DataTables API for codeigniter3",
+            "keywords": [
+                "codeigniter3",
+                "datatables",
+                "jquery"
+            ],
+            "support": {
+                "source": "https://github.com/OpenSID/datatables/tree/1.x"
+            },
+            "time": "2024-01-03T16:49:15+00:00"
+        },
+        {
             "name": "opensid/router",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/router.git",
-                "reference": "1d62886278411f300d8b56b8dc621ffaeada2e40"
+                "reference": "4d7e51caa534f8078e4a1a17af97d6eb93a163bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/router/zipball/1d62886278411f300d8b56b8dc621ffaeada2e40",
-                "reference": "1d62886278411f300d8b56b8dc621ffaeada2e40",
+                "url": "https://api.github.com/repos/OpenSID/router/zipball/4d7e51caa534f8078e4a1a17af97d6eb93a163bb",
+                "reference": "4d7e51caa534f8078e4a1a17af97d6eb93a163bb",
                 "shasum": ""
             },
             "require": {
@@ -2332,7 +2336,7 @@
                 "email": "anderson@ingenia.me",
                 "source": "https://github.com/OpenSID/router/tree/master"
             },
-            "time": "2024-01-03T06:31:17+00:00"
+            "time": "2024-01-04T07:39:43+00:00"
         },
         {
             "name": "openspout/openspout",
@@ -5301,7 +5305,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "agungsugiarto/codeigniter-datables": 20,
+        "opensid/datatables": 20,
         "opensid/router": 20,
         "themes/esensi": 20,
         "themes/natra": 20

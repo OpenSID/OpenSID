@@ -39,6 +39,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_periode extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
+
     public function __construct()
     {
         parent::__construct();
@@ -53,8 +56,6 @@ class Analisis_periode extends Admin_Controller
         $this->load->model(['analisis_periode_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Periode';
         $this->session->asubmenu = 'analisis_periode';
-        $this->modul_ini         = 'analisis';
-        $this->sub_modul_ini     = 'master-analisis';
     }
 
     public function clear(): void

@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
     private array $list_session = ['filter', 'cari', 'jenis_peraturan', 'tahun'];
     private array $_set_page    = ['50', '100', '200'];
 
@@ -47,8 +49,6 @@ class Dokumen_sekretariat extends Admin_Controller
         parent::__construct();
 
         $this->load->model('web_dokumen_model');
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function index($kat = 2, $p = 1, $o = 0): void

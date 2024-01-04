@@ -21,7 +21,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if (can('u')): ?>
 							<div class="btn-group btn-group-vertical">
 								<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Analisis Baru</a>
 								<ul class="dropdown-menu" role="menu">
@@ -34,10 +34,10 @@
 								</ul>
 							</div>
 						<?php endif; ?>
-						<?php if ($this->CI->cek_hak_akses('h')): ?>
+						<?php if (can('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("analisis_master/delete_all/{$p}/{$o}") ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if (can('u')): ?>
 							<a href="<?= site_url('analisis_master/import_analisis') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Analisis" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Analisis"><i class="fa fa-upload"></i> Impor Analisis</a>
 						<?php endif; ?>
 						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
@@ -78,7 +78,7 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<?php if ($this->CI->cek_hak_akses('u')): ?>
+																<?php if (can('u')): ?>
 																	<th><input type="checkbox" id="checkall" /></th>
 																<?php endif; ?>
 																<th>No</th>
@@ -111,7 +111,7 @@
 														<tbody>
 															<?php foreach ($main as $data) : ?>
 																<tr>
-																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<?php if (can('u')): ?>
 																		<td>
 																			<?php if ($data['jenis'] != 1) : ?>
 																				<input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" />
@@ -122,13 +122,13 @@
 																	<td nowrap>
 																		<a href="<?= site_url("analisis_master/menu/{$data['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a>
 																		<a href="<?= site_url("analisis_master/ekspor/{$data['id']}") ?>" class="btn bg-navy btn-flat btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<?php if (can('u')): ?>
 																			<a href="<?= site_url("analisis_master/form/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 																		<?php endif; ?>
-																		<?php if ($data['jenis'] != 1 && $this->CI->cek_hak_akses('u')) : ?>
+																		<?php if ($data['jenis'] != 1 && isCan('u')) : ?>
 																			<a href="#" data-href="<?= site_url("analisis_master/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
-																		<?php if ($data['gform_id'] != null && $data['gform_id'] != '' && $this->CI->cek_hak_akses('u')) : ?>
+																		<?php if ($data['gform_id'] != null && $data['gform_id'] != '' && isCan('u')) : ?>
 																			<a href="<?= site_url("analisis_master/update_gform/{$data['id']}") ?>" class="btn bg-navy btn-flat btn-sm" title="Update Data Google Form"><i class='fa fa-refresh'></i></a>
 																		<?php endif; ?>
 																	</td>

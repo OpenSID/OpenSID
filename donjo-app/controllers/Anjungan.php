@@ -42,11 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Anjungan extends Admin_Controller
 {
+    public $modul_ini     = 'anjungan';
+    public $sub_modul_ini = 'daftar-anjungan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'anjungan';
-        $this->sub_modul_ini = 'daftar-anjungan';
     }
 
     public function index()
@@ -169,7 +170,7 @@ class Anjungan extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validated($request = [], $id = null): array
+    protected static function validated(array $request = [], $id = null): array
     {
         $anjungan      = AnjunganModel::find($id);
         $ip_address    = AnjunganModel::tipe(1)->where('ip_address', $request['ip_address'])->first();

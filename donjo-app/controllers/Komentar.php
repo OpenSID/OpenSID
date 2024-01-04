@@ -39,13 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Komentar extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'komentar';
+
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model('web_komentar_model');
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'komentar';
     }
 
     public function clear(): void

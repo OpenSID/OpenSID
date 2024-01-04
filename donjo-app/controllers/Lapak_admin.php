@@ -39,10 +39,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lapak_admin extends Admin_Controller
 {
+    public $modul_ini = 'lapak';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'lapak';
         $this->load->model(['lapak_model', 'penduduk_model']);
     }
 

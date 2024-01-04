@@ -55,14 +55,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_master extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'pengaturan-surat';
     protected TinyMCE $tinymce;
 
     public function __construct()
     {
         parent::__construct();
-        $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'pengaturan-surat';
+        $this->tinymce = new TinyMCE();
         $this->load->library('MY_Upload', null, 'upload');
     }
 

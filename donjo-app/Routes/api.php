@@ -35,27 +35,28 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+// Internal API
+Route::group('internal_api', ['namespace' => 'internal_api'], static function () {
+    // Wilayah
+    Route::get('wilayah/get_rw', 'Wilayah@get_rw');
+    Route::get('wilayah/get_rt', 'Wilayah@get_rt');
+});
 
-class MY_Security extends CI_Security
-{
-    /**
-     * {@inheritDoc}
-     */
-    public function csrf_show_error(): void
-    {
-        // // ==== Uncomment berikut untuk debugging masalah CSRF
-        // print("<pre>".print_r(getallheaders(),true)."</pre>");
-        // print("<pre>".print_r($_POST, true)."</pre>");
-        // die();
+// Eksternal API
+Route::group('eksternal_api', ['namespace' => 'eksternal_api'], static function () {
+    // Sign
+    Route::get('sign/pdf', 'Sign@pdf');
 
-        show_error(
-            "Verifikasi CSRF Gagal. <br><br>
-            Kembali ke halaman sebelumnya di <a href='{$_SERVER['HTTP_REFERER']}'>sini</a>, dan ulangi.<br><br>
-            Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
-            Kalau masih bermasalah, silakan laporkan.",
-            403,
-            'Bad Request'
-        );
-    }
-}
+    // Surat Kecamatan
+    Route::group('surat_kecamatan', static function () {
+        Route::post('/kirim', 'Surat_kecamatan@kirim');
+        Route::get('/download/{jenis}/{nomor}/{desa}/{bulan}/{tahun}', 'Surat_kecamatan@download');
+    });
+
+    // TTE
+    Route::group('tte', static function () {
+        Route::get('/periksa_status/{nik?}', 'Tte@periksa_status');
+        Route::post('/sign_invisible', 'Tte@sign_invisible');
+        Route::post('/sign_visible', 'Tte@sign_visible');
+    });
+});

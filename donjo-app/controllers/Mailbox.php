@@ -39,14 +39,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mailbox extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'kotak-pesan';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('web_komentar_model');
         $this->load->model('mandiri_model');
         $this->load->model('mailbox_model');
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'kotak-pesan';
     }
 
     public function clear($kat = 1, $p = 1, $o = 0): void

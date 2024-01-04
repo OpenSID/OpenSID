@@ -35,20 +35,11 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+// Include helpers from modules
+$moduleDirectories = glob(APPPATH . 'Modules/*', GLOB_ONLYDIR);
 
-class Header_model extends MY_Model
-{
-    public function get_data()
-    {
-        $this->load->model('modul_model');
-        $outp['desa']  = collect(identitas())->toArray();
-        $outp['modul'] = $this->cache->pakai_cache(function () {
-            $this->load->model('modul_model');
-
-            return $this->modul_model->list_aktif();
-        }, "{$this->session->user}_cache_modul", 604800);
-
-        return $outp;
+foreach ($moduleDirectories as $moduleDirectory) {
+    foreach (glob($moduleDirectory . '/Helpers/*.php') as $file) {
+        require_once $file;
     }
 }

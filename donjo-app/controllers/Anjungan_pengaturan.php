@@ -43,11 +43,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Anjungan_pengaturan extends Anjungan_Controller
 {
+    public $modul_ini     = 'anjungan';
+    public $sub_modul_ini = 'pengaturan-anjungan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'anjungan';
-        $this->sub_modul_ini = 'pengaturan-anjungan';
     }
 
     public function index()
@@ -74,7 +75,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected static function validated($request = []): array
+    protected static function validated(array $request = []): array
     {
         return [
             'anjungan_artikel'         => json_encode($request['artikel'], JSON_THROW_ON_ERROR),

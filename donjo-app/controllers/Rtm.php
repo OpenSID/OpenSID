@@ -42,6 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Rtm extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'rumah-tangga';
     private array $_set_page     = ['50', '100', '200'];
     private array $_list_session = ['status_dasar', 'cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan'];
 
@@ -49,8 +51,6 @@ class Rtm extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']); // Session id_bos
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'rumah-tangga';
     }
 
     public function clear(): void

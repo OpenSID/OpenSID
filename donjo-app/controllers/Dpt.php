@@ -53,11 +53,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dpt extends Admin_Controller
 {
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'calon-pemilih';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'calon-pemilih';
     }
 
     public function index(): void
@@ -176,7 +177,7 @@ class Dpt extends Admin_Controller
         view('admin.dpt.dpt_cetak', $data);
     }
 
-    public function ajax_cetak($aksi = 'cetak'): void
+    public function ajax_cetak(string $aksi = 'cetak'): void
     {
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('dpt.cetak.' . $aksi);

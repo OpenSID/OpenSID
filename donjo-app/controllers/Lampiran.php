@@ -42,12 +42,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lampiran extends Admin_Controller
 {
+    public $modul_ini           = 'layanan-surat';
+    public $sub_modul_ini       = 'lampiran';
+    public $kategori_pengaturan = 'pengaturan-surat';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'layanan-surat';
-        $this->sub_modul_ini      = 'lampiran';
-        $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()

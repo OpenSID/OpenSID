@@ -42,10 +42,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaduan_admin extends Admin_Controller
 {
+    public $modul_ini = 'pengaduan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'pengaduan';
     }
 
     public function index()

@@ -20,7 +20,7 @@
                         <?php include 'donjo-app/views/gis/cetak_peta.php'; ?>
                     </div>
                 </div>
-                <?php if ($this->CI->cek_hak_akses('u')): ?>
+                <?php if (can('u')): ?>
                     <div class="box-footer">
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="lat">Warna Area</label>
@@ -140,7 +140,7 @@
         // Update value zoom ketika ganti zoom
         updateZoom(peta_wilayah);
 
-        <?php if ($this->CI->cek_hak_akses('u')): ?>
+        <?php if (can('u')): ?>
             // Export/Import Peta dari file GPX
             eximGpxRegion(peta_wilayah, multi);
 

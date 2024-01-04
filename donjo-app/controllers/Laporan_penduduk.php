@@ -41,12 +41,12 @@ require_once APPPATH . 'controllers/Laporan_apbdes.php';
 
 class Laporan_penduduk extends Laporan_apbdes
 {
-    protected $tipe = 'laporan_penduduk';
+    public $modul_ini     = 'statistik';
+    public $sub_modul_ini = 'laporan-penduduk';
+    protected $tipe       = 'laporan_penduduk';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'statistik';
-        $this->sub_modul_ini = 'laporan-penduduk';
     }
 }

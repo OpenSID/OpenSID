@@ -35,7 +35,7 @@
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<?php if (can('u')): ?>
 								<a href="<?= site_url("{$this->controller}/form"); ?>" title="Tambah Data" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Data</a>
 								<a href="<?= site_url("{$this->controller}/impor"); ?>" title="Impor Data" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-import" data-target="#impor" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i>Impor</a>
 							<?php endif; ?>
@@ -108,7 +108,7 @@
 															<tr>
 																<td class="padat"><?= ($key + $paging->offset + 1) ?></td>
 																<td class="aksi">
-																	<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																	<?php if (can('u')) : ?>
 																		<a href="<?= site_url("{$this->controller}/form?terdata={$data->id}") ?>" class="btn bg-orange btn-flat btn-sm" title="Update Vaksin"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
 																	<div class="btn-group">

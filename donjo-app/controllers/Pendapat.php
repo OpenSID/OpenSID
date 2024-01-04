@@ -42,14 +42,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pendapat extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'pendapat';
     protected ModelsPendapat $pendapat;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'pendapat';
-        $this->pendapat      = new ModelsPendapat();
+        $this->pendapat = new ModelsPendapat();
     }
 
     public function index()
