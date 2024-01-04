@@ -19,18 +19,18 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ route('klasifikasi.form') }}" class="btn btn-social  btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah">
+                        <a href="{{ ci_route('klasifikasi.form') }}" class="btn btn-social  btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah">
                             <i class="fa fa-plus"></i>Tambah
                         </a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('klasifikasi.delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('klasifikasi.delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     @endif
                     @if (can('u'))
                         <a
-                            href="{{ route('klasifikasi.impor') }}"
+                            href="{{ ci_route('klasifikasi.impor') }}"
                             class="btn btn-social bg-black btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                             title="Impor"
                             data-remote="false"
@@ -39,7 +39,7 @@
                             data-title="Impor"
                         ><i class="fa fa-upload "></i> Impor</a>
                     @endif
-                    <a href="{{ route('klasifikasi.ekspor') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ekspor"><i class="fa fa-download"></i> Unduh</a>
+                    <a href="{{ ci_route('klasifikasi.ekspor') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ekspor"><i class="fa fa-download"></i> Unduh</a>
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -99,7 +99,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('klasifikasi.datatables') }}",
+                    url: "{{ ci_route('klasifikasi.datatables') }}",
                     data: function(req) {
                         req.enable = $('select[name="enable"]').val();
                     },

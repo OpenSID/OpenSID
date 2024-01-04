@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### TEKNIS
 
 1. [#7545](https://github.com/OpenSID/OpenSID/issues/7545) Penyesuaian penggunaan komponen illuminate.
+2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penyesuaian route menggunakan library opensid/router.
 
 
 #### KEAMANAN

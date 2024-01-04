@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('keluar') }}">Daftar Surat Keluar</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('keluar') }}">Daftar Surat Keluar</a></li>
     <li class="breadcrumb-item active">Grafik Surat Keluar</li>
 @endsection
 

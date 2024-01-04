@@ -18,7 +18,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
-                    <a class="btn btn-social btn-sm bg-olive" title="Impor Surat" onclick="formAction('mainform', '{{ route('surat_master.impor_store') }}'); return false;"><i class="fa fa-upload"></i> Impor Surat</a>
+                    <a class="btn btn-social btn-sm bg-olive" title="Impor Surat" onclick="formAction('mainform', '{{ ci_route('surat_master.impor_store') }}'); return false;"><i class="fa fa-upload"></i> Impor Surat</a>
                 </div>
             @endif
         </div>

@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="active"><a href="{{ route('database') }}">Pengaturan Database</a></li>
+    <li class="active"><a href="{{ ci_route('database') }}">Pengaturan Database</a></li>
 @endsection
 
 @section('content')
@@ -15,9 +15,9 @@
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li {!! $act_tab == 1 ? 'class="active"' : '' !!}><a href="{{ route('database') }}">Backup {{ jecho(config_item('demo_mode'), false, ' /Restore') }}</a></li>
+            <li {!! $act_tab == 1 ? 'class="active"' : '' !!}><a href="{{ ci_route('database') }}">Backup {{ jecho(config_item('demo_mode'), false, ' /Restore') }}</a></li>
             @if (can('u'))
-                <li {!! $act_tab == 2 ? 'class="active"' : '' !!}><a href="{{ route('database.migrasi_cri') }}">Migrasi DB</a></li>
+                <li {!! $act_tab == 2 ? 'class="active"' : '' !!}><a href="{{ ci_route('database.migrasi_cri') }}">Migrasi DB</a></li>
             @endif
         </ul>
         <div class="tab-content">

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -76,7 +76,7 @@ class Pemilihan extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('pemilihan.form', $row->uuid) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('pemilihan.form', $row->uuid) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('u')) {
@@ -88,7 +88,7 @@ class Pemilihan extends Admin_Controller
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('pemilihan.delete', $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('pemilihan.delete', $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -109,11 +109,11 @@ class Pemilihan extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('pemilihan.update', $id);
+            $form_action = ci_route('pemilihan.update', $id);
             $pemilihan   = PemilihanModel::findOrFail($id);
         } else {
             $action      = 'Tambah';
-            $form_action = route('pemilihan.insert');
+            $form_action = ci_route('pemilihan.insert');
             $pemilihan   = null;
         }
 
@@ -152,13 +152,24 @@ class Pemilihan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'pemilihan/');
     }
 
-    public function delete($id = '')
+    public function delete($id)
     {
         isCan('h');
 
         $data = PemilihanModel::findOrFail($id);
 
-        if ($data->destroy($this->request['id_cb'] ?? $id)) {
+        if ($data->destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'pemilihan/');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'pemilihan/');
+    }
+
+    public function delete_all()
+    {
+        isCan('h');
+
+        if (PemilihanModel::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'pemilihan/');
         }
 

@@ -46,7 +46,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('kehadiran_jam_kerja.datatables') }}",
+                ajax: "{{ ci_route('kehadiran_jam_kerja.datatables') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

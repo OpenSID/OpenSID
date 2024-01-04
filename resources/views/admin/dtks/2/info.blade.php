@@ -22,7 +22,7 @@
             <li>
                 anggota keluarga <b>(agt)</b> [nama, nik, no.kk, ket.keberadaan, jenis kelamin, tgl lahir, umur,
                 stat.perkawinan, stat.kehamilan, penyakit kronis/menahun]
-                (sumber <a id="rtm_clear" href="{{ route('rtm/clear') }}">Kependudukan/Rumah Tangga</a> hanya yang
+                (sumber <a id="rtm_clear" href="{{ ci_route('rtm/clear') }}">Kependudukan/Rumah Tangga</a> hanya yang
                 berstatus
                 masih hidup)
             </li>
@@ -44,7 +44,7 @@
         </ol>
     </div>
     <div class="tab-pane" id="dtks-info-program-keluarga">
-        {!! form_open(route('dtks.savePengaturan') . '/2', 'class="form-program" id="form-program-keluarga"') !!}
+        {!! form_open(ci_route('dtks.savePengaturan') . '/2', 'class="form-program" id="form-program-keluarga"') !!}
         <input type="hidden" name='tipe_save' value='pengaturan_program'>
         <div class="table-responsive">
             <br>
@@ -172,7 +172,7 @@
         </form>
     </div>
     <div class="tab-pane" id="dtks-info-program-anggota">
-        {!! form_open(route('dtks.savePengaturan') . '/2', 'class="form-program" id="form-program-anggota"') !!}
+        {!! form_open(ci_route('dtks.savePengaturan') . '/2', 'class="form-program" id="form-program-anggota"') !!}
         <input type="hidden" name='tipe_save' value='pengaturan_program'>
         <br>
         <p>Data yang digunakan: penerima/pemilik jaminan atau ikut serta pada program dalam satu tahun terakhir</p>
@@ -513,7 +513,7 @@
             //         'value': $(el).val()
             //     });
             // });
-            ajax_save_dtks("{{ route('dtks.savePengaturan') . '/' . 2 }}", form);
+            ajax_save_dtks("{{ ci_route('dtks.savePengaturan') . '/' . 2 }}", form);
         });
     });
 </script>

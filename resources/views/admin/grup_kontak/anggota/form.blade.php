@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('daftar_kontak') }}">Grup Kontak</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('daftar_kontak') }}">Grup Kontak</a></li>
     <li class="active">Tambah Data</li>
 @endsection
 
@@ -32,7 +32,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="data-penduduk">
                         <div class="box-header with-border">
-                            <a href="{{ route('grup_kontak.anggota', $grupKontak->id_grup) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                            <a href="{{ ci_route('grup_kontak.anggota', $grupKontak->id_grup) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                                 <i class="fa fa-arrow-circle-left "></i>Kembali ke Grup Kontak
                             </a>
                         </div>
@@ -56,7 +56,7 @@
 
                     <div class="tab-pane" id="data-kontak">
                         <div class="box-header with-border">
-                            <a href="{{ route('grup_kontak.anggota', $grupKontak->id_grup) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                            <a href="{{ ci_route('grup_kontak.anggota', $grupKontak->id_grup) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                                 <i class="fa fa-arrow-circle-left "></i>Kembali ke Grup Kontak
                             </a>
                         </div>
@@ -99,7 +99,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('grup_kontak.penduduk', $grupKontak->id_grup) }}",
+                ajax: "{{ ci_route('grup_kontak.penduduk', $grupKontak->id_grup) }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -149,7 +149,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('grup_kontak.kontak', $grupKontak->id_grup) }}",
+                ajax: "{{ ci_route('grup_kontak.kontak', $grupKontak->id_grup) }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

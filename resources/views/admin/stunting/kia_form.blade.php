@@ -11,7 +11,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('stunting/kia') }}">Kesehatan Ibu dan Anak</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('stunting/kia') }}">Kesehatan Ibu dan Anak</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -26,7 +26,7 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ route('stunting.kia') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ ci_route('stunting.kia') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left "></i>Kembali ke Kesehatan Ibu dan Anak
                     </a>
                 </div>
@@ -92,7 +92,7 @@
     <script>
         $('#ibu').select2({
             ajax: {
-                url: "{{ route('stunting.getIbu') }}",
+                url: "{{ ci_route('stunting.getIbu') }}",
                 dataType: 'json',
                 data: function(params) {
                     return {
@@ -147,7 +147,7 @@
                 var ibu = $(this).val();
                 if (ibu) {
                     $.ajax({
-                        url: "{{ route('stunting.getAnak') }}",
+                        url: "{{ ci_route('stunting.getAnak') }}",
                         type: "GET",
                         data: {
                             ibu: ibu,

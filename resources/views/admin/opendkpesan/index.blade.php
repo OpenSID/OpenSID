@@ -19,8 +19,8 @@
                 <div class="box-body no-padding">
                     <div class="box-footer no-padding">
                         <ul class="nav nav-stacked">
-                            <li {{ jecho($selected_nav, 'pesan', 'class="active"') }}><a href="{{ route('opendk_pesan.clear') }}">Pesan</a></li>
-                            <li {{ jecho($selected_nav, 'arsip', 'class="active"') }}><a href="{{ route('opendk_pesan.clear.arsip') }}">Arsip</a></li>
+                            <li {{ jecho($selected_nav, 'pesan', 'class="active"') }}><a href="{{ ci_route('opendk_pesan.clear') }}">Pesan</a></li>
+                            <li {{ jecho($selected_nav, 'arsip', 'class="active"') }}><a href="{{ ci_route('opendk_pesan.clear.arsip') }}">Arsip</a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                         </form>
                     </div>
 
-                    <a href="{{ route('opendk_pesan.clear') }}" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
+                    <a href="{{ ci_route('opendk_pesan.clear') }}" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
                     </form>
                 </div>
                 <div class="box-body">

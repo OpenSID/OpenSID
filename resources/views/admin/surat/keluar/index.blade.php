@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('surat') }}">{{ $title }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">{{ $title }}</a></li>
 @endsection
 
 @section('content')
@@ -22,12 +22,12 @@
             <div class="box box-info">
                 @if ($tab_ini == 10)
                     <div class="box-header with-border">
-                        <a href="{{ route('keluar.perorangan') }}" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
-                        <a href="{{ route('keluar.graph') }}" class="btn btn-social bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
-                        <a href="{{ route('keluar.dialog_cetak/cetak') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
+                        <a href="{{ ci_route('keluar.perorangan') }}" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-archive"></i> Rekam Surat Perorangan</a>
+                        <a href="{{ ci_route('keluar.graph') }}" class="btn btn-social bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
+                        <a href="{{ ci_route('keluar.dialog_cetak/cetak') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
                             data-title="Cetak Arsip Layanan Surat"
                         ><i class="fa fa-print"></i> Cetak</a>
-                        <a href="{{ route('keluar.dialog_cetak/unduh') }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
+                        <a href="{{ ci_route('keluar.dialog_cetak/unduh') }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
                             data-title="Unduh Arsip Layanan Surat"
                         ><i class="fa fa-download"></i> Unduh</a>
                     </div>
@@ -120,7 +120,7 @@
         $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
-                    url: "{{ route('keluar.datatables') }}?state={{ $state }}",
+                    url: "{{ ci_route('keluar.datatables') }}?state={{ $state }}",
                     data: function(req) {
                         req.tahun = $('select[name=tahun]').val()
                         req.bulan = $('select[name=bulan]').val()
@@ -236,8 +236,8 @@
                     $('button.kembalikan').click(function(e) {
                         e.preventDefault();
                         var id = $(e.target).closest('button').data('id')
-                        var ulr_ajax = `{{ route('keluar.kembalikan') }}`;
-                        var redirect = `{{ route('tolak') }}`;
+                        var ulr_ajax = `{{ ci_route('keluar.kembalikan') }}`;
+                        var redirect = `{{ ci_route('tolak') }}`;
                         var pesan = `Kembalikan surat ke pemohon untuk diperbaiki?`;
                         ditolak(id, ulr_ajax, redirect, pesan);
                     });
@@ -258,7 +258,7 @@
                             Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di {{ config_item('nama_aplikasi') }} dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
                         </div>
                     @endif
-                    <object data='{{ route('keluar.unduh.tinymce') }}/${id}/true' style="width: 100%;min-height: 400px;" type="application/pdf"></object>
+                    <object data='{{ ci_route('keluar.unduh.tinymce') }}/${id}/true' style="width: 100%;min-height: 400px;" type="application/pdf"></object>
                     <input type="password" id="passphrase" autocomplete="off" class="swal2-input" placeholder="Masukkan Passphrase">
                 `,
                             showCancelButton: true,
@@ -276,7 +276,7 @@
                                 formData.append('id', id);
                                 formData.append('passphrase', passphrase);
 
-                                return fetch("{{ route('external_api.tte.sign_visible') }}", {
+                                return fetch("{{ ci_route('external_api.tte.sign_visible') }}", {
                                     method: 'post',
                                     body: formData,
                                 }).then(response => {
@@ -311,7 +311,7 @@
                                         title: 'Dokumen berhasil tertanda tangani secara elektronik',
                                         showConfirmButton: true,
                                     }).then((result) => {
-                                        window.location.replace("{{ route('masuk') }}");
+                                        window.location.replace("{{ ci_route('masuk') }}");
                                     })
                                 }
                             }
@@ -333,7 +333,7 @@
                                 formData.append('sidcsrf', getCsrfToken());
                                 formData.append('id', id);
 
-                                return fetch("{{ route('api.surat_kecamatan.kirim') }}", {
+                                return fetch("{{ ci_route('api.surat_kecamatan.kirim') }}", {
                                     method: 'post',
                                     body: formData,
                                 }).then(response => {
@@ -367,7 +367,7 @@
                                         title: 'Dokumen berhasil dikirim ke kecamatan',
                                         showConfirmButton: true,
                                     }).then((result) => {
-                                        window.location.replace("{{ route('keluar') }}");
+                                        window.location.replace("{{ ci_route('keluar') }}");
                                     })
                                 }
                             }
@@ -382,7 +382,7 @@
                 // update list bulan
                 $('select.filter-table[name=bulan]').find('option:gt(0)').remove()
                 if ($(this).val() != '') {
-                    $.get('{{ route('keluar.bulanTahun') }}/' + $(this).val(), {}, function(data) {
+                    $.get('{{ ci_route('keluar.bulanTahun') }}/' + $(this).val(), {}, function(data) {
                         for (var i in data.bulan) {
                             $('select.filter-table[name=bulan]').append('<option value="' + data.bulan[i]['bulan'] + '">' + data.bulan[i]['name'] + '</option>')
                         }
@@ -409,7 +409,7 @@
                     icon: 'warning',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "{{ route('keluar.perbaiki') }}";
+                        window.location.href = "{{ ci_route('keluar.perbaiki') }}";
                     }
                 })
             });

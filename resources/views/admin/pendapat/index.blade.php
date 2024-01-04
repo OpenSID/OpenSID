@@ -22,12 +22,12 @@
                     <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                         Tampilkan : <i class="fa fa-calendar"></i></button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ site_url('pendapat/detail/1') }}">Hari Ini</a></li>
-                        <li><a href="{{ site_url('pendapat/detail/2') }}">Kemarin</a></li>
-                        <li><a href="{{ site_url('pendapat/detail/3') }}">Minggu Ini</a></li>
-                        <li><a href="{{ site_url('pendapat/detail/4') }}">Bulan Ini</a></li>
-                        <li><a href="{{ site_url('pendapat/detail/5') }}">Tahun Ini</a></li>
-                        <li><a href="{{ site_url('pendapat/detail/6') }}">Semua</a></li>
+                        <li><a href="{{ ci_route('pendapat.detail.1') }}">Hari Ini</a></li>
+                        <li><a href="{{ ci_route('pendapat.detail.2') }}">Kemarin</a></li>
+                        <li><a href="{{ ci_route('pendapat.detail.3') }}">Minggu Ini</a></li>
+                        <li><a href="{{ ci_route('pendapat.detail.4') }}">Bulan Ini</a></li>
+                        <li><a href="{{ ci_route('pendapat.detail.5') }}">Tahun Ini</a></li>
+                        <li><a href="{{ ci_route('pendapat.detail.6') }}">Semua</a></li>
                     </ul>
                 </div>
             </div>

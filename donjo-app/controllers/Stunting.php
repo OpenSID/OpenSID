@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -83,11 +83,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formPosyandu', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('stunting.formPosyandu', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deletePosyandu', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('stunting.deletePosyandu', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -108,11 +108,11 @@ class Stunting extends Admin_Controller
 
         if ($id) {
             $data['action']     = 'Ubah';
-            $data['formAction'] = route('stunting.updatePosyandu', $id);
+            $data['formAction'] = ci_route('stunting.updatePosyandu', $id);
             $data['posyandu']   = Posyandu::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
-            $data['formAction'] = route('stunting.insertPosyandu');
+            $data['formAction'] = ci_route('stunting.insertPosyandu');
             $data['posyandu']   = null;
         }
 
@@ -143,11 +143,26 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting');
     }
 
-    public function deletePosyandu($id = null): void
+    public function deletePosyandu($id): void
     {
         $this->redirect_hak_akses('h');
 
-        $data = $this->request['id_cb'] ?? [$id];
+        if (IbuHamil::where('posyandu_id', $id)->exists() || Anak::where('posyandu_id', $id)->exists() || Paud::where('posyandu_id', $id)->exists()) {
+            redirect_with('error', 'Posyandu terkait masih digunakan pada ibu hamil/anak', 'stunting');
+        }
+
+        if (Posyandu::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'stunting');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'stunting');
+    }
+
+    public function deleteAllPosyandu(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        $data = $this->request['id_cb'];
 
         if (IbuHamil::whereIn('posyandu_id', $data)->exists() || Anak::whereIn('posyandu_id', $data)->exists() || Paud::whereIn('posyandu_id', $data)->exists()) {
             redirect_with('error', 'Posyandu terkait masih digunakan pada ibu hamil/anak', 'stunting');
@@ -193,11 +208,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formKia', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('stunting.formKia', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteKia', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('stunting.deleteKia', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -232,14 +247,14 @@ class Stunting extends Admin_Controller
 
         if ($id) {
             $data['action']     = 'Ubah';
-            $data['formAction'] = route('stunting.updateKia', $id);
+            $data['formAction'] = ci_route('stunting.updateKia', $id);
             $data['kia']        = KIA::with('ibu')->findOrFail($id);
             $data['ibu_text']   = 'NIK : ' . $data['kia']->ibu->nik . ' - ' . $data['kia']->ibu->nama . ' RT-' . $data['kia']->ibu->wilayah->rt . ', RW-' . $data['kia']->ibu->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $data['kia']->ibu->wilayah->dusun);
             $data['ibu']        = $data['ibu']->prepend(Penduduk::find($data['kia']->ibu_id));
             $data['anak']       = $data['anak']->where('id', '!=', $data['kia']->ibu_id)->prepend(Penduduk::find($data['kia']->anak_id));
         } else {
             $data['action']     = 'Tambah';
-            $data['formAction'] = route('stunting.insertKia');
+            $data['formAction'] = ci_route('stunting.insertKia');
             $data['kia']        = null;
         }
 
@@ -329,11 +344,26 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/kia');
     }
 
-    public function deleteKia($id = null): void
+    public function deleteKia($id): void
     {
         $this->redirect_hak_akses('h');
 
-        $data = $this->request['id_cb'] ?? [$id];
+        if (IbuHamil::where('kia_id', $id)->exists() || Anak::where('kia_id', $id)->exists() || Paud::where('kia_id', $id)->exists()) {
+            redirect_with('error', 'KIA terkait masih digunakan pada ibu hamil/anak', 'stunting/kia');
+        }
+
+        if (KIA::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'stunting/kia');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'stunting/kia');
+    }
+
+    public function deleteAllKia(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        $data = $this->request['id_cb'];
 
         if (IbuHamil::whereIn('kia_id', $data)->exists() || Anak::whereIn('kia_id', $data)->exists() || Paud::whereIn('kia_id', $data)->exists()) {
             redirect_with('error', 'KIA terkait masih digunakan pada ibu hamil/anak', 'stunting/kia');
@@ -402,11 +432,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formIbuHamil', $row->id_ibu_hamil) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('stunting.formIbuHamil', $row->id_ibu_hamil) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteIbuHamil', $row->id_ibu_hamil) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('stunting.deleteIbuHamil', $row->id_ibu_hamil) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -435,11 +465,11 @@ class Stunting extends Admin_Controller
 
         if ($id) {
             $data['action']     = 'Ubah';
-            $data['formAction'] = route('stunting.updateIbuHamil', $id);
+            $data['formAction'] = ci_route('stunting.updateIbuHamil', $id);
             $data['ibuHamil']   = IbuHamil::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
-            $data['formAction'] = route('stunting.insertIbuHamil');
+            $data['formAction'] = ci_route('stunting.insertIbuHamil');
             $data['ibuHamil']   = null;
         }
 
@@ -481,11 +511,22 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/pemantauan_ibu_hamil');
     }
 
-    public function deleteIbuHamil($id = null): void
+    public function deleteIbuHamil($id): void
     {
         $this->redirect_hak_akses('h');
 
-        if (IbuHamil::destroy($this->request['id_cb'] ?? $id)) {
+        if (IbuHamil::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_ibu_hamil');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'stunting/pemantauan_ibu_hamil');
+    }
+
+    public function deleteAllIbuHamil(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        if (IbuHamil::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_ibu_hamil');
         }
 
@@ -601,11 +642,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formAnak', $row->id_bulanan_anak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('stunting.formAnak', $row->id_bulanan_anak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteAnak', $row->id_bulanan_anak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('stunting.deleteAnak', $row->id_bulanan_anak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -648,11 +689,11 @@ class Stunting extends Admin_Controller
             $data['umur'] = $tanggal->diff(Carbon::now());
 
             $data['action']     = 'Ubah';
-            $data['formAction'] = route('stunting.updateAnak', $id);
+            $data['formAction'] = ci_route('stunting.updateAnak', $id);
             $data['anak']       = Anak::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
-            $data['formAction'] = route('stunting.insertAnak');
+            $data['formAction'] = ci_route('stunting.insertAnak');
             $data['anak']       = null;
         }
 
@@ -692,11 +733,22 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/pemantauan_anak');
     }
 
-    public function deleteAnak($id = null): void
+    public function deleteAnak($id): void
     {
         $this->redirect_hak_akses('h');
 
-        if (Anak::destroy($this->request['id_cb'] ?? $id)) {
+        if (Anak::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_anak');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'stunting/pemantauan_anak');
+    }
+
+    public function deleteAllAnak(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        if (Anak::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_anak');
         }
 
@@ -834,11 +886,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formPaud', $row->id_sasaran_paud) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('stunting.formPaud', $row->id_sasaran_paud) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deletePaud', $row->id_sasaran_paud) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('stunting.deletePaud', $row->id_sasaran_paud) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -865,11 +917,11 @@ class Stunting extends Admin_Controller
 
         if ($id) {
             $data['action']     = 'Ubah';
-            $data['formAction'] = route('stunting.updatePaud', $id);
+            $data['formAction'] = ci_route('stunting.updatePaud', $id);
             $data['paud']       = Paud::findOrFail($id);
         } else {
             $data['action']     = 'Tambah';
-            $data['formAction'] = route('stunting.insertPaud');
+            $data['formAction'] = ci_route('stunting.insertPaud');
             $data['paud']       = null;
         }
 
@@ -909,11 +961,22 @@ class Stunting extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'stunting/pemantauan_paud');
     }
 
-    public function deletePaud($id = null): void
+    public function deletePaud($id): void
     {
         $this->redirect_hak_akses('h');
 
-        if (Paud::destroy($this->request['id_cb'] ?? $id)) {
+        if (Paud::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_paud');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'stunting/pemantauan_paud');
+    }
+
+    public function deleteAllPaud(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        if (Paud::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_paud');
         }
 

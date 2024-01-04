@@ -8,7 +8,7 @@
 
 <div class="row">
 
-    <a href="{{ route('stunting.index') }}">
+    <a href="{{ ci_route('stunting.index') }}">
         <div class="col-lg-3 col-sm-6 col-xs-6">
             <div class="info-box bg-aqua">
                 <span class="info-box-icon"><i class="ion ion-location"></i></span>
@@ -25,7 +25,7 @@
         </div>
     </a>
 
-    <a href="{{ route('stunting.anak') }}">
+    <a href="{{ ci_route('stunting.anak') }}">
         <div class="col-lg-3 col-sm-6 col-xs-6">
             <div class="info-box bg-green">
                 <span class="info-box-icon"><i class="ion ion-stats-bars"></i></span>
@@ -42,7 +42,7 @@
         </div>
     </a>
 
-    <a href="{{ route('stunting.ibu_hamil') }}">
+    <a href="{{ ci_route('stunting.ibu_hamil') }}">
         <div class="col-lg-3 col-sm-6 col-xs-6">
             <div class="info-box bg-yellow">
                 <span class="info-box-icon"><i class="ion ion-stats-bars"></i></span>
@@ -59,7 +59,7 @@
         </div>
     </a>
 
-    <a href="{{ route('stunting.ibu_hamil') }}">
+    <a href="{{ ci_route('stunting.ibu_hamil') }}">
         <div class="col-lg-3 col-sm-6 col-xs-6">
             <div class="info-box bg-red">
                 <span class="info-box-icon"><i class="ion ion-stats-bars"></i></span>

@@ -44,7 +44,7 @@ class RetryMiddleware
     {
         $this->decider = $decider;
         $this->nextHandler = $nextHandler;
-        $this->delay = $delay ?: __CLASS__.'::exponentialDelay';
+        $this->delay = $delay ?: __CLASS__ . '::exponentialDelay';
     }
 
     /**
@@ -54,7 +54,7 @@ class RetryMiddleware
      */
     public static function exponentialDelay(int $retries): int
     {
-        return (int) 2 ** ($retries - 1) * 1000;
+        return (int) \pow(2, $retries - 1) * 1000;
     }
 
     public function __invoke(RequestInterface $request, array $options): PromiseInterface
@@ -64,7 +64,6 @@ class RetryMiddleware
         }
 
         $fn = $this->nextHandler;
-
         return $fn($request, $options)
             ->then(
                 $this->onFulfilled($request, $options),
@@ -86,7 +85,6 @@ class RetryMiddleware
             )) {
                 return $value;
             }
-
             return $this->doRetry($request, $options, $value);
         };
     }
@@ -105,14 +103,13 @@ class RetryMiddleware
             )) {
                 return P\Create::rejectionFor($reason);
             }
-
             return $this->doRetry($req, $options);
         };
     }
 
     private function doRetry(RequestInterface $request, array $options, ResponseInterface $response = null): PromiseInterface
     {
-        $options['delay'] = ($this->delay)(++$options['retries'], $response, $request);
+        $options['delay'] = ($this->delay)(++$options['retries'], $response);
 
         return $this($request, $options);
     }

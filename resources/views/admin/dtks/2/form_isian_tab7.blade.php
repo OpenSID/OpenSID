@@ -217,7 +217,7 @@
                 ev.preventDefault();
 
                 let form = $('#form-7-remove-lampiran').serializeArray();
-                ajax_save_dtks("{{ route('dtks.remove') . '/' . $dtks->id }}", form,
+                ajax_save_dtks("{{ ci_route('dtks.remove') . '/' . $dtks->id }}", form,
                     callback_success = function(data) {
                         $('#modal-confirm-delete-lampiran').modal('hide');
                         $(document).find('tr[data-id=' + $('#form-7-remove-lampiran #lampiran_id').val() + ']').remove();
@@ -250,7 +250,7 @@
                 }
 
                 let form = new FormData(this);
-                ajax_save_dtks("{{ route('dtks.save') . '/' . $dtks->id }}", form,
+                ajax_save_dtks("{{ ci_route('dtks.save') . '/' . $dtks->id }}", form,
                     callback_success = function(data) {
                         $('#judul_foto').val(null).trigger('change');
                         $('.select2-tags').append('<option value="' + data.data.judul + '">' + data.data.judul + '</option>')

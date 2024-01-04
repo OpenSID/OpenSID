@@ -9,7 +9,7 @@
 
 @section('breadcrumb')
     @if (!$utama)
-        <li><a href="{{ route('modul') }}">Daftar Modul</a></li>
+        <li><a href="{{ ci_route('modul') }}">Daftar Modul</a></li>
     @endif
     <li class="active">Pengaturan {{ $utama ? 'Modul' : 'Submodul' }}</li>
 @endsection
@@ -18,9 +18,9 @@
     <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <a href="{{ route('modul') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
+                <a href="{{ ci_route('modul') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
                 @if ($item['parent'] != '0')
-                    <a href="{{ route('modul.index', $item['parent']) }}" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
+                    <a href="{{ ci_route('modul.index', $item['parent']) }}" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
                 @endif
             </div>
             <div class="box-body">

@@ -63,7 +63,7 @@
 @endpush
 
 @section('breadcrumb')
-    <li><a href="{{ route('point.form') }}"> Simbol Lokasi</a></li>
+    <li><a href="{{ ci_route('point.form') }}"> Simbol Lokasi</a></li>
 @endsection
 
 @section('content')
@@ -80,7 +80,7 @@
                         <a href="#" id="btn_ikon" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="<?= site_url('simbol/salin_simbol_default') ?>" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Salin">
+                        <a href="{{ ci_route('simbol.salin_simbol_default') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Salin">
                             <i class="fa fa-copy"></i>Salin
                         </a>
                     @endif
@@ -97,7 +97,7 @@
                                                 <span class="glyphicon-class">{{ $data['simbol'] }}</span>
                                                 <a
                                                     href="#"
-                                                    data-href="{{ site_url("simbol/delete_simbol/{$data['id']}/{$data['simbol']}") }}"
+                                                    data-href="{{ ci_route("simbol.delete_simbol.{$data['id']}") }}"
                                                     style="margin-top:10px;"
                                                     class="btn btn-danger btn-sm btn-block"
                                                     title="Hapus"
@@ -123,7 +123,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
                         <h4 class="modal-title" id="myModalLabel">Tambah</h4>
                     </div>
-                    <form id="mainform" name="mainform" action="<?= site_url('simbol/tambah_simbol') ?>" method="post" enctype="multipart/form-data">
+                    <form id="mainform" name="mainform" action="{{ ci_route('simbol.tambah_simbol') }}" method="post" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label class="control-label">Pilih File Simbol</label>
@@ -137,7 +137,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <?= batal() ?>
+                            {!! batal() !!}
                             <button type="submit" class="btn btn-social btn-info btn-sm" id="simpan"><i class='fa fa-check'></i>Simpan</button>
                         </div>
                     </form>

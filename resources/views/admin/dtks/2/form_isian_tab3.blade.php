@@ -159,7 +159,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('dtks.save') . '/' . $dtks->id }}",
+                    url: "{{ ci_route('dtks.save') . '/' . $dtks->id }}",
                     data: form,
                 });
 
@@ -184,7 +184,7 @@
                         'value': $(el).val()
                     });
                 });
-                ajax_save_dtks("{{ route('dtks.save') . '/' . $dtks->id }}", form);
+                ajax_save_dtks("{{ ci_route('dtks.save') . '/' . $dtks->id }}", form);
             });
         });
     </script>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -81,13 +81,13 @@ class Suplemen extends Admin_Controller
                     $disabled = $row->terdata()->count() > 0 ? 'disabled' : 'data-target="#confirm-delete"';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
-                        $aksi .= '<a href="' . route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
-                        $aksi .= '<a href="' . route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('suplemen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal"' . $disabled . '><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal"' . $disabled . '><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -107,11 +107,11 @@ class Suplemen extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('suplemen.update', $id);
+            $form_action = ci_route('suplemen.update', $id);
             $suplemen    = ModelsSuplemen::with('terdata')->findOrFail($id);
         } else {
             $action      = 'Tambah';
-            $form_action = route('suplemen.create');
+            $form_action = ci_route('suplemen.create');
             $suplemen    = null;
         }
 
@@ -206,7 +206,7 @@ class Suplemen extends Admin_Controller
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('suplemen.delete_terdata', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete_terdata', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -232,11 +232,11 @@ class Suplemen extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('suplemen.update_terdata', $id);
+            $form_action = ci_route('suplemen.update_terdata', $id);
             $terdata     = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where('id_terdata', $id)->first();
         } else {
             $action      = 'Tambah';
-            $form_action = route('suplemen.create_terdata', $aksi);
+            $form_action = ci_route('suplemen.create_terdata', $aksi);
             $terdata     = null;
         }
 
@@ -269,13 +269,26 @@ class Suplemen extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'suplemen/rincian/' . $this->request['id_suplemen']);
     }
 
-    public function delete_terdata($id = null): void
+    public function delete_terdata($id): void
     {
         $this->redirect_hak_akses('h');
 
         $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
 
-        if (SuplemenTerdata::destroy($id ?? $this->request['id_cb'])) {
+        if (SuplemenTerdata::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'suplemen/rincian/' . $id_suplemen);
+    }
+
+    public function delete_all_terdata(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
+
+        if (SuplemenTerdata::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
         }
 
@@ -407,7 +420,7 @@ class Suplemen extends Admin_Controller
     public function impor_data($id)
     {
         $suplemen    = ModelsSuplemen::findOrFail($id);
-        $form_action = route('suplemen.impor');
+        $form_action = ci_route('suplemen.impor');
 
         return view('admin.suplemen.impor', ['suplemen' => $suplemen, 'form_action' => $form_action]);
     }

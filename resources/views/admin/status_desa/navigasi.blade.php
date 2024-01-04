@@ -1,5 +1,5 @@
 <div class="row">
-    <a href="{{ route('status_desa.navigasi', 'idm') }}">
+    <a href="{{ ci_route('status_desa.navigasi', 'idm') }}">
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="info-box bg-blue radius">
                 <span class="info-box-icon"><i class="fa fa-bar-chart-o fa-nav"></i></span>
@@ -9,7 +9,7 @@
             </div>
         </div>
     </a>
-    <a href="{{ route('status_desa.navigasi', 'sdgs') }}">
+    <a href="{{ ci_route('status_desa.navigasi', 'sdgs') }}">
         <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="info-box bg-green radius">
                 <span class="info-box-icon"><i class="fa fa-recycle fa-nav"></i></span>

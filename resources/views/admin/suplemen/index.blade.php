@@ -17,7 +17,7 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('suplemen.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ ci_route('suplemen.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
         </div>
         <div class="box-body">
@@ -62,7 +62,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('suplemen.datatables') }}",
+                    url: "{{ ci_route('suplemen.datatables') }}",
                     data: function(req) {
                         req.sasaran = $('#sasaran').val();
                     },

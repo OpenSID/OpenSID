@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('keluar') }}">Arsip Layanan Surat</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('keluar') }}">Arsip Layanan Surat</a></li>
     <li class="active">Rekam Surat Perseorangan</li>
 @endsection
 
@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ route('keluar') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
+                    <a href="{{ ci_route('keluar') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
                         <i class="fa fa-arrow-circle-left "></i>Kembali Ke Arsip Layanan Surat
                     </a>
                 </div>
@@ -34,7 +34,7 @@
                                     <td>
                                         <div class="form-group">
                                             <div>
-                                                <select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="{{ route('surat/list_penduduk_bersurat_ajax') }}">
+                                                <select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="{{ ci_route('surat/list_penduduk_bersurat_ajax') }}">
                                                 </select>
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
         $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
-                    url: "{{ route('keluar.perorangan_datatables') }}",
+                    url: "{{ ci_route('keluar.perorangan_datatables') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -196,7 +196,7 @@
                 $('tbody.info-penduduk').hide()
                 if ($(this).val() > 0) {
                     $('tbody.info-penduduk').show()
-                    $.get("{{ route('keluar.dataPenduduk') }}/" + $(this).val(), function(data) {
+                    $.get("{{ ci_route('keluar.dataPenduduk') }}/" + $(this).val(), function(data) {
                         if (data) {
                             $('tbody.info-penduduk td.ttl').text(data.ttl)
                             $('tbody.info-penduduk td.alamat').text(data.alamat)

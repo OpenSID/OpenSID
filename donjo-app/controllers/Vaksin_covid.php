@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -160,6 +160,11 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/sertifkat', $data);
     }
 
+    public function berkas_vaksin($id_penduduk, $vaksin_ke)
+    {
+        $this->berkas($id_penduduk, $vaksin_ke, false, false);
+    }
+
     public function berkas($id_penduduk, $vaksin_ke, $form = false, $tampil = false): void
     {
         $data = $this->vaksin_covid_model->data_penduduk($id_penduduk);
@@ -167,7 +172,7 @@ class Vaksin_covid extends Admin_Controller
         ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN, $tampil);
     }
 
-    public function update(): void
+    public function update()
     {
         $this->redirect_hak_akses('u');
         $this->vaksin_covid_model->update_vaksin();

@@ -23,8 +23,8 @@
                                     <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <a href="{{ route('pengunjung.cetak') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" target="_blank"><i class="fa fa-print "></i>Cetak</a>
-                                                <a href="{{ route('pengunjung.cetak.unduh') }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" target="_blank"><i class="fa fa-print "></i>Unduh</a>
+                                                <a href="{{ ci_route('pengunjung.cetak') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" target="_blank"><i class="fa fa-print "></i>Cetak</a>
+                                                <a href="{{ ci_route('pengunjung.cetak.unduh') }}" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" target="_blank"><i class="fa fa-print "></i>Unduh</a>
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="{{ route('pengunjung.detail', 1) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="{{ ci_route('pengunjung.detail', 1) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-xs-6">
@@ -54,7 +54,7 @@
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="{{ route('pengunjung.detail', 2) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="{{ ci_route('pengunjung.detail', 2) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-xs-6">
@@ -66,7 +66,7 @@
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="{{ route('pengunjung.detail', 3) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="{{ ci_route('pengunjung.detail', 3) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-xs-6">
@@ -78,7 +78,7 @@
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="{{ route('pengunjung.detail', 4) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="{{ ci_route('pengunjung.detail', 4) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-xs-6">
@@ -90,7 +90,7 @@
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="{{ route('pengunjung.detail', 5) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="{{ ci_route('pengunjung.detail', 5) }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-xs-6">
@@ -102,7 +102,7 @@
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="{{ route('pengunjung.detail') }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+                                        <a href="{{ ci_route('pengunjung.detail') }}" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>

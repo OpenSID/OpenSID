@@ -388,7 +388,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
                 <a class="btn-ok">
-                    <a href="{{ route('surat_master.restore_surat_bawaan', $suratMaster->url_surat) }}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Kembalikan</a>
+                    <a href="{{ ci_route('surat_master.restore_surat_bawaan', $suratMaster->url_surat) }}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Kembalikan</a>
                 </a>
             </div>
         </div>
@@ -460,7 +460,7 @@
             processing: true,
             serverSide: true,
             bPaginate: false,
-            ajax: "{{ route('surat_master.syaratsuratdatatables', $suratMaster->id) }}",
+            ajax: "{{ ci_route('surat_master.syaratSuratDatatables', $suratMaster->id) }}",
             columns: [{
                     data: 'ceklist',
                     class: 'padat',

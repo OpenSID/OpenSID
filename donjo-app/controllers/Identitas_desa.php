@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -61,12 +61,10 @@ class Identitas_desa extends Admin_Controller
 
     /**
      * View index identitas desa
-     *
-     * @return void
      */
-    public function index()
+    public function index(): void
     {
-        return view('admin.identitas_desa.index', [
+        view('admin.identitas_desa.index', [
             'main'      => $this->identitas_desa,
             'cek_kades' => $this->cek_kades,
         ]);
@@ -74,18 +72,16 @@ class Identitas_desa extends Admin_Controller
 
     /**
      * View form ubah identitas desa
-     *
-     * @return void
      */
-    public function form()
+    public function form(): void
     {
         isCan('u');
         $data['main']          = $this->identitas_desa;
         $data['cek_kades']     = $this->cek_kades;
-        $data['form_action']   = route('identitas_desa.update');
+        $data['form_action']   = ci_route('identitas_desa.update');
         $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
 
-        return view('admin.identitas_desa.form', $data);
+        view('admin.identitas_desa.form', $data);
     }
 
     /**
@@ -147,10 +143,10 @@ class Identitas_desa extends Admin_Controller
         $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['wilayah']      = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['breadcrumb']   = [
-            ['link' => route('identitas_desa'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
+            ['link' => route('identitas_desa.index'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
         ];
 
-        $data['form_action'] = route('identitas_desa.update_maps', $tipe);
+        $data['form_action'] = route('identitas_desa.update_maps', ['tipe' => $tipe]);
 
         $this->render('sid/wilayah/maps_' . $tipe, $data);
     }

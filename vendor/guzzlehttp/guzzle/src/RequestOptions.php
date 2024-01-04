@@ -5,7 +5,9 @@ namespace GuzzleHttp;
 /**
  * This class contains a list of built-in Guzzle request options.
  *
- * @see https://docs.guzzlephp.org/en/latest/request-options.html
+ * More documentation for each option can be found at http://guzzlephp.org/.
+ *
+ * @link http://docs.guzzlephp.org/en/v6/request-options.html
  */
 final class RequestOptions
 {
@@ -68,21 +70,9 @@ final class RequestOptions
     /**
      * connect_timeout: (float, default=0) Float describing the number of
      * seconds to wait while trying to connect to a server. Use 0 to wait
-     * 300 seconds (the default behavior).
+     * indefinitely (the default behavior).
      */
     public const CONNECT_TIMEOUT = 'connect_timeout';
-
-    /**
-     * crypto_method: (int) A value describing the minimum TLS protocol
-     * version to use.
-     *
-     * This setting must be set to one of the
-     * ``STREAM_CRYPTO_METHOD_TLS*_CLIENT`` constants. PHP 7.4 or higher is
-     * required in order to use TLS 1.3, and cURL 7.34.0 or higher is required
-     * in order to specify a crypto method, with cURL 7.52.0 or higher being
-     * required to use TLS 1.3.
-     */
-    public const CRYPTO_METHOD = 'crypto_method';
 
     /**
      * debug: (bool|resource) Set to true or set to a PHP stream returned by

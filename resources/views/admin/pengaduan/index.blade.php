@@ -45,7 +45,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('kehadiran_pengaduan.datatables') }}",
+                ajax: "{{ ci_route('kehadiran_pengaduan.datatables') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

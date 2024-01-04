@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('suplemen.rincian', $suplemen->id) }}">Daftar Terdata Suplemen</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('suplemen.rincian', $suplemen->id) }}">Daftar Terdata Suplemen</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -17,8 +17,8 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('suplemen') }}" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Suplemen</a>
-            <a href="{{ route('suplemen.rincian', $suplemen->id) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Terdata Suplemen</a>
+            <a href="{{ ci_route('suplemen') }}" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Suplemen</a>
+            <a href="{{ ci_route('suplemen.rincian', $suplemen->id) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Terdata Suplemen</a>
         </div>
         @include('admin.suplemen.rincian')
         <form id="main" name="main" method="POST" class="form-horizontal">
@@ -93,7 +93,7 @@
     <script>
         $('#terdata').select2({
             ajax: {
-                url: "{{ route('suplemen.apipenduduksuplemen') }}",
+                url: "{{ ci_route('suplemen.apipenduduksuplemen') }}",
                 dataType: 'json',
                 data: function(params) {
                     return {

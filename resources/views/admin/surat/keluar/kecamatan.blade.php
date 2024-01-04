@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('surat') }}">{{ $title }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">{{ $title }}</a></li>
 @endsection
 
 @section('content')
@@ -44,7 +44,7 @@
                                                             <tr>
                                                                 <td>
                                                                     @if ($item->log_verifikasi == 5)
-                                                                        <a href="{{ route('api.surat_kecamatan.download', $item->nomor) }}" target="_blank" class="btn btn-social bg-black btn-sm" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
+                                                                        <a href="{{ ci_route('api.surat_kecamatan.download', $item->nomor) }}" target="_blank" class="btn btn-social bg-black btn-sm" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
                                                                     @endif
                                                                 </td>
                                                                 <td>{{ $item->nama }}</td>

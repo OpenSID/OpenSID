@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('pengguna') }}">Pengguna</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('pengguna') }}">Pengguna</a></li>
     <li class="active">Profil</li>
 @endsection
 
@@ -55,7 +55,7 @@
                     <div class="input-group input-group-sm text-center">
                         <span class="input-group-btn">
                             @if ($userData->email_verified_at === null && !empty($userData->email))
-                                {!! form_open(route('pengguna.kirim_verifikasi')) !!}
+                                {!! form_open(ci_route('pengguna.kirim_verifikasi')) !!}
                                 <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
                                     Verifikasi Email</button>
                                 </form>
@@ -104,7 +104,7 @@
                     }
                 });
                 $.ajax({
-                        url: '{{ route('pengguna.kirim_otp_telegram') }}',
+                        url: '{{ ci_route('pengguna.kirim_otp_telegram') }}',
                         type: 'Post',
                         data: {
                             'sidcsrf': getCsrfToken(),
@@ -133,7 +133,7 @@
                                     formData.append('otp', otp);
 
                                     return fetch(
-                                            `{{ route('pengguna.verifikasi_telegram') }}`, {
+                                            `{{ ci_route('pengguna.verifikasi_telegram') }}`, {
                                                 method: 'POST',
                                                 body: formData,
                                             }).then(response => {

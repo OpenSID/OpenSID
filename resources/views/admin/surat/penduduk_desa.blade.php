@@ -28,7 +28,7 @@
             let _pendudukDesaElm = $(elm).closest('.penduduk_desa')
             _pendudukDesaElm.find('.data_penduduk_desa').empty()
             if (!$.isEmptyObject(_val)) {
-                $.get('{{ site_url('DataSuratPenduduk/index') }}', {
+                $.get('{{ ci_route('datasuratpenduduk.index') }}', {
                     id_surat: _idSurat,
                     id_penduduk: _val,
                     kategori: _kategori

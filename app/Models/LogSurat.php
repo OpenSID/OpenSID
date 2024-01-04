@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -95,9 +96,11 @@ class LogSurat extends BaseModel
         return $this->belongsTo(FormatSurat::class, 'id_format_surat');
     }
 
-    public function formatSuratArsip(){
+    public function formatSuratArsip()
+    {
         return $this->formatSurat()->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
-    }    
+    }
+
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_pend');
@@ -174,40 +177,18 @@ class LogSurat extends BaseModel
         $statusPeriksa = 0;
         if ($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1) {
             if ($this->verifikasi_kades == 1) {
-                if ($this->tte == null) {
-                    $statusPeriksa = $this->verifikasi_kades;
-                } else {
-                    $statusPeriksa = 2;
-                }
+                $statusPeriksa = $this->tte == null ? $this->verifikasi_kades : 2;
             }
         } elseif ($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1) {
             if ($this->verifikasi_sekdes == 1) {
                 if ($this->tte == null) {
-                    if ($this->verifikasi_kades == null) {
-                        $statusPeriksa = 1;
-                    } else {
-                        $statusPeriksa = $this->verifikasi_kades;
-                    }
+                    $statusPeriksa = $this->verifikasi_kades == null ? 1 : $this->verifikasi_kades;
                 } else {
                     $statusPeriksa = $this->tte;
                 }
             }
-        } else {
-            if ($this->verifikasi_operator == 1) {
-                if ($this->tte == null) {
-                    if ($this->verifikasi_kades === null) {
-                        if ($this->verifikasi_sekdes === null) {
-                            $statusPeriksa = 1;
-                        } else {
-                            $statusPeriksa = $this->verifikasi_sekdes;
-                        }
-                    } else {
-                        $statusPeriksa = $this->verifikasi_kades;
-                    }
-                } else {
-                    $statusPeriksa = $this->tte;
-                }
-            }
+        } elseif ($this->verifikasi_operator == 1) {
+            $statusPeriksa = $this->tte == null ? $this->verifikasi_kades ?? $this->verifikasi_sekdes ?? 1 : $this->tte;
         }
 
         return $statusPeriksa;
@@ -222,7 +203,7 @@ class LogSurat extends BaseModel
         } else {
             $berkas_rtf = $this->formatSurat->url_surat . '_' . $this->penduduk->nik . '_' . date('Y-m-d') . '.rtf';
         }
-        
+
         return LOKASI_ARSIP . $berkas_rtf;
     }
 
@@ -252,7 +233,7 @@ class LogSurat extends BaseModel
         return LOKASI_ARSIP . $berkas_lampiran;
     }
 
-    public function scopeMasuk($query, $isAdmin, $listJabatan = [])
+    public function scopeMasuk($query, $isAdmin, array $listJabatan = [])
     {
         $jabatanId       = $listJabatan['jabatan_id'];
         $jabatanKadesId  = $listJabatan['jabatan_kades_id'];
@@ -264,7 +245,7 @@ class LogSurat extends BaseModel
             ->when($isAdmin == null || ! in_array($jabatanId, [$jabatanKadesId, $jabatanSekdesId]), static fn ($q) => $q->where('verifikasi_operator', '=', '0'));
     }
 
-    public function scopeArsip($query, $isAdmin, $listJabatan = [])
+    public function scopeArsip($query, $isAdmin, array $listJabatan = [])
     {
         $jabatanId       = $listJabatan['jabatan_id'];
         $jabatanKadesId  = $listJabatan['jabatan_kades_id'];
@@ -319,42 +300,36 @@ class LogSurat extends BaseModel
         $setting || $setting = setting('penomoran_surat');
 
         switch ($type) {
-                // no break
+            // no break
             case 'log_surat':
                 if ($setting == 1) {
                     $surat = LogSurat::whereNull('deleted_at')
                         ->whereYear('tanggal', $thn)
                         ->whereStatus(1)
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
-                        ->first();                        
+                        ->first();
                 } else {
                     $surat = LogSurat::whereNull('deleted_at')
-                        ->whereYear('tanggal', $thn)                        
-                        ->rightJoin('tweb_surat_format','tweb_surat_format.id', '=', 'log_surat.id_format_surat')
-                        ->where(function($q) use ($url){
-                            return $q->where('url_surat', $url)->orWhereRaw("url_surat = REPLACE(REPLACE('{$url}', 'erangan', ''), '-', '_')");
-                        })
+                        ->whereYear('tanggal', $thn)
+                        ->rightJoin('tweb_surat_format', 'tweb_surat_format.id', '=', 'log_surat.id_format_surat')
+                        ->where(static fn ($q) => $q->where('url_surat', $url)->orWhereRaw("url_surat = REPLACE(REPLACE('{$url}', 'erangan', ''), '-', '_')"))
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
-                        ->first();                        
+                        ->first();
                 }
                 break;
 
             case 'surat_masuk':
-                $surat = SuratMasuk::whereYear('tanggal_surat', $thn)                        
-                        ->orderBy(DB::raw('CAST(nomor_urut as unsigned)'), 'desc')
-                        ->first();         
+                $surat = SuratMasuk::whereYear('tanggal_surat', $thn)
+                    ->orderBy(DB::raw('CAST(nomor_urut as unsigned)'), 'desc')
+                    ->first();
                 break;
 
             case 'surat_keluar':
-                $surat = SuratKeluar::whereYear('tanggal_surat', $thn)                        
-                        ->orderBy(DB::raw('CAST(nomor_urut as unsigned)'), 'desc')
-                        ->first();
+                $surat = SuratKeluar::whereYear('tanggal_surat', $thn)
+                    ->orderBy(DB::raw('CAST(nomor_urut as unsigned)'), 'desc')
+                    ->first();
         }
-        if ($surat) {
-            $surat = $surat->toArray();
-        } else {
-            $surat = ['no_surat' => 0];
-        }
+        $surat                                             = $surat ? $surat->toArray() : ['no_surat' => 0];
         $surat['nomor_urut']    || $surat['nomor_urut']    = $surat['no_surat'];
         $surat['no_surat']      || $surat['no_surat']      = $surat['nomor_urut'];
         $surat['tanggal_surat'] || $surat['tanggal_surat'] = $surat['tanggal'];
@@ -367,7 +342,7 @@ class LogSurat extends BaseModel
     public static function lastNomerSurat($url)
     {
         $settingNomer = setting('penomoran_surat');
-        $data = self::suratTerakhir('log_surat', $url);
+        $data         = self::suratTerakhir('log_surat', $url);
         if ($settingNomer == 2 && empty($data['nama'])) {
             $surat        = FormatSurat::find($url);
             $data['nama'] = $surat['nama'];

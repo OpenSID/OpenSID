@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -722,25 +722,25 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
             ->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left');
 
-            if ($this->session->layer_keluarga == 1) {
-                $this->db
-                    ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_kk = u.id_kk) AS jumlah_anggota')
-                    ->group_start()
-                        ->where('u.id_kk IS NOT NULL')
-                        ->where('u.id_kk != 0')
-                        ->where('u.kk_level', 1)
-                    ->group_end();
-            } else if ($this->session->layer_rtm == 1) {
-                $this->db
-                    ->select('rtm.id as rtm_id')
-                    ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_rtm = u.id_rtm) AS jumlah_anggota')
-                    ->join('tweb_rtm rtm', 'u.id_rtm = rtm.no_kk', 'left')
-                    ->group_start()
-                        ->where('u.id_rtm IS NOT NULL')
-                        ->where('u.id_rtm != 0')
-                        ->where('u.rtm_level', 1)
-                    ->group_end();
-            }
+        if ($this->session->layer_keluarga == 1) {
+            $this->db
+                ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_kk = u.id_kk) AS jumlah_anggota')
+                ->group_start()
+                ->where('u.id_kk IS NOT NULL')
+                ->where('u.id_kk != 0')
+                ->where('u.kk_level', 1)
+                ->group_end();
+        } elseif ($this->session->layer_rtm == 1) {
+            $this->db
+                ->select('rtm.id as rtm_id')
+                ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_rtm = u.id_rtm) AS jumlah_anggota')
+                ->join('tweb_rtm rtm', 'u.id_rtm = rtm.no_kk', 'left')
+                ->group_start()
+                ->where('u.id_rtm IS NOT NULL')
+                ->where('u.id_rtm != 0')
+                ->where('u.rtm_level', 1)
+                ->group_end();
+        }
         $this->search_sql();
         $this->dusun_sql();
         $this->rw_sql();

@@ -284,7 +284,7 @@
 			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil, TAMPIL_LUAS);
 
 			//PENDUDUK
-			<?php if (!empty($penduduk)) : ?>
+			<?php if (! empty($penduduk)) : ?>
 
 				var layer_penduduk = '<?= $layer_penduduk ?>';
 				var layer_keluarga = '<?= $layer_keluarga ?>';

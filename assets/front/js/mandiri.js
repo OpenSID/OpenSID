@@ -7,7 +7,7 @@ $(document).ready(function() {
 		'ordering': false,
 		'searching': false,
 		'ajax': {
-			'url': SITE_URL + '/fmandiri/surat/cek_syarat',
+			'url': SITE_URL + '/layanan-mandiri/surat/cek_syarat',
 			'type': "POST",
 			data: function ( d ) {
 				d.id_surat = $("#id_surat").val();

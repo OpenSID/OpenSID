@@ -5,7 +5,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Impor Lampiran</h4>
             </div>
-            {!! form_open(route('lampiran.impor'), 'id="validasi" enctype="multipart/form-data"') !!}
+            {!! form_open(ci_route('lampiran.impor'), 'id="validasi" enctype="multipart/form-data"') !!}
             <div class="modal-body">
                 <div class="form-group">
                     <label for="file" class="control-label">File Impor : </label>

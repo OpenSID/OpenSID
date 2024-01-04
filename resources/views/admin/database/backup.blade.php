@@ -31,7 +31,7 @@
                                                         <tr>
                                                             <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sql)</code></b></td>
                                                             <td class="col-sm-2">
-                                                                <a href="{{ route('database.exec_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
+                                                                <a href="{{ ci_route('database.exec_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
                                                                     title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
                                                                 ><i class="fa fa-download"></i> Unduh Database <b><code>{{ $size_sql }}</code></b></a>
                                                             </td>
@@ -40,7 +40,7 @@
                                                     <tr>
                                                         <td class="col-sm-10"><b>Backup Seluruh Database SID <code>(.sid)</code></b></td>
                                                         <td class="col-sm-2">
-                                                            <a href="{{ route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
+                                                            <a href="{{ ci_route('multiDB.backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm {{ $memory_limit ? '' : 'disabled' }}"
                                                                 title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah {{ $size_sql }}"
                                                             ><i class="fa fa-download"></i> Unduh Database <b><code>{{ $size_sql }}</code></b></a>
                                                         </td>
@@ -48,7 +48,7 @@
                                                     <tr>
                                                         <td class="col-sm-10"><b>Backup Seluruh Folder Desa SID <code>(.zip)</code></b> </td>
                                                         <td class="col-sm-2">
-                                                            <a href="{{ route('database.desa_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Perkiraan ukuran folder desa sebelum di compress adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa
+                                                            <a href="{{ ci_route('database.desa_backup') }}" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Perkiraan ukuran folder desa sebelum di compress adalah {{ $size_folder }}"><i class="fa fa-download"></i> Unduh Folder Desa
                                                                 <b><code>{{ $size_folder }}</code></b></a>
                                                         </td>
                                                     </tr>
@@ -74,11 +74,11 @@
                                                                         <li><a href="#" id="buat-job">Buat Backup Inkremental</a></li>
                                                                     @endif
                                                                     @if ($inkremental != null && $inkremental->status == '1' && $inkremental->ukuran != '0 Bytes')
-                                                                        <li><a href="{{ route('database.inkremental_download') }}">Download Backup Inkremental</a></li>
+                                                                        <li><a href="{{ ci_route('database.inkremental_download') }}">Download Backup Inkremental</a></li>
                                                                     @endif
-                                                                    <li><a href="{{ route('database.desa_inkremental') }}">Lihat Riwayat</a></li>
+                                                                    <li><a href="{{ ci_route('database.desa_inkremental') }}">Lihat Riwayat</a></li>
                                                                     @if ($inkremental->status == '0')
-                                                                        <li><a href="{{ route('database.batal_backup') }}">Batalkan Proses Backup</a></li>
+                                                                        <li><a href="{{ ci_route('database.batal_backup') }}">Batalkan Proses Backup</a></li>
                                                                     @endif
                                                                 </ul>
                                                             </div>
@@ -225,7 +225,7 @@
                                                                 </div>
                                                                 <div class="col-sm-12 col-md-3 col-lg-2">
                                                                     <button type="button" id="restore-desa" class="btn btn-block btn-success btn-sm {{ $restore == true ? 'hidden' : '' }}" disabled="disabled"><i class="fa fa-spin fa-refresh"></i>Restore</button>
-                                                                    <a class="btn btn-block btn-warning btn-sm {{ $restore == false ? 'hidden' : '' }}" href="{{ route('database.batal_restore') }}"><i class="fa fa-spin fa-refresh"></i>Batalkan proses restore</a>
+                                                                    <a class="btn btn-block btn-warning btn-sm {{ $restore == false ? 'hidden' : '' }}" href="{{ ci_route('database.batal_restore') }}"><i class="fa fa-spin fa-refresh"></i>Batalkan proses restore</a>
                                                                 </div>
                                                             </div>
                                                         </td>

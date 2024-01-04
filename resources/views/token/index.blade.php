@@ -45,7 +45,7 @@
             </h4>
             <hr>
             <div>
-                {!! form_open(route('token.update'), 'class="form-horizontal" id="validasi"') !!}
+                {!! form_open(ci_route('token.update'), 'class="form-horizontal" id="validasi"') !!}
                 <div class="form-group <?= $ci->session->has_userdata('error') ? 'has-error' : '' ?>">
                     <textarea
                         name="token"

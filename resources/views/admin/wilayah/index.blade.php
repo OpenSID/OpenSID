@@ -16,11 +16,11 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('wilayah.form_' . $level, $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ ci_route('wilayah.form_' . $level, $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if ($level == 'dusun')
                 <a
-                    href="{{ route('wilayah.dialog.cetak') }}"
+                    href="{{ ci_route('wilayah.dialog.cetak') }}"
                     class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                     title="Cetak Data"
                     data-remote="false"
@@ -29,7 +29,7 @@
                     data-title="Cetak Data"
                 ><i class="fa fa-print "></i> Cetak</a>
                 <a
-                    href="{{ route('wilayah.dialog.unduh') }}"
+                    href="{{ ci_route('wilayah.dialog.unduh') }}"
                     title="Unduh Data"
                     class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                     title="Unduh Data"
@@ -39,8 +39,8 @@
                     data-title="Unduh Data"
                 ><i class="fa fa-download"></i> Unduh</a>
             @else
-                <a href='{{ route('wilayah.cetak_' . $level, $parent) }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-                <a href='{{ route('wilayah.unduh_' . $level, $parent) }}' title="Unduh Data" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+                <a href='{{ ci_route('wilayah.cetak_' . $level, $parent) }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+                <a href='{{ ci_route('wilayah.unduh_' . $level, $parent) }}' title="Unduh Data" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
             @endif
 
             @if ($parent)
@@ -95,7 +95,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('wilayah.datatables') }}?parent={{ $parent }}&level={{ $level }}",
+                    url: "{{ ci_route('wilayah.datatables') }}?parent={{ $parent }}&level={{ $level }}",
                     data: function(req) {}
                 },
                 columns: [{
@@ -134,7 +134,7 @@
                         defaultContent: '-',
                         searchable: false,
                         orderable: false,
-                        visible: {{ in_array($level, ['dusun']) ? 1 : 0 }}
+                        visible: "{{ in_array($level, ['dusun']) ? 1 : 0 }}"
                     },
                     {
                         data: 'rts_count',
@@ -142,7 +142,7 @@
                         defaultContent: '-',
                         searchable: false,
                         orderable: false,
-                        visible: {{ in_array($level, ['dusun', 'rw']) ? 1 : 0 }}
+                        visible: "{{ in_array($level, ['dusun', 'rw']) ? 1 : 0 }}"
                     },
                     {
                         data: 'keluarga_aktif_count',
@@ -231,10 +231,8 @@
                                     }
                                 }, 'json');
                             });
-
                         }
                     }
-
                 },
                 footerCallback: function(row, data, start, end, display) {
                     var api = this.api();

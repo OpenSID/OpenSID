@@ -1,5 +1,40 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 use Illuminate\Container\Container;
 
 if (! function_exists('app')) {
@@ -23,12 +58,10 @@ if (! function_exists('app')) {
 if (! function_exists('base_path')) {
     /**
      * Get the path to the base of the install.
-     *
-     * @param  string  $path
      */
     function base_path(?string $path = ''): string
     {
-        return app()->basePath().($path ? '/'.$path : $path);
+        return app()->basePath() . ($path ? '/' . $path : $path);
     }
 }
 
@@ -70,13 +103,14 @@ if (! function_exists('config')) {
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
-     * @param  array|string|null  $key
-     * @param  mixed  $default
+     * @param array|string|null $key
+     * @param mixed             $default
+     *
      * @return mixed
      */
     function config($key = null, $default = null)
     {
-        if (is_null($key)) {
+        if (null === $key) {
             return app('config');
         }
 
@@ -92,7 +126,8 @@ if (! function_exists('database_path')) {
     /**
      * Get the path to the database directory of the install.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     function database_path($path = '')
@@ -105,7 +140,8 @@ if (! function_exists('decrypt')) {
     /**
      * Decrypt the given value.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     function decrypt($value)
@@ -118,7 +154,8 @@ if (! function_exists('encrypt')) {
     /**
      * Encrypt the given value.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     function encrypt($value)
@@ -131,9 +168,10 @@ if (! function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
      *
-     * @param  object|string  $event
-     * @param  mixed  $payload
-     * @param  bool  $halt
+     * @param object|string $event
+     * @param mixed         $payload
+     * @param bool          $halt
+     *
      * @return array|null
      */
     function event($event, $payload = [], $halt = false)
@@ -146,7 +184,8 @@ if (! function_exists('resource_path')) {
     /**
      * Get the path to the resources folder.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     function resource_path($path = '')
@@ -159,7 +198,8 @@ if (! function_exists('storage_path')) {
     /**
      * Get the path to the storage folder.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return string
      */
     function storage_path($path = '')
@@ -172,10 +212,12 @@ if (! function_exists('view')) {
     /**
      * Get the evaluated view contents for the given view.
      *
-     * @param  string  $view
-     * @param  array  $data
-     * @param  array  $mergeData
-     * @return \Illuminate\View\View
+     * @param string $view
+     * @param array  $data
+     * @param array  $mergeData
+     * @param mixed  $returnView
+     *
+     * @return Illuminate\View\View
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {

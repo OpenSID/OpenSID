@@ -21,15 +21,15 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ route('plan.form', $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ ci_route('plan.form', $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('plan.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('plan.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'
                             ></i>Hapus</a>
                     @endif
                     @if ($parent_jenis)
-                        <a href="{{ route('lokasi.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                        <a href="{{ ci_route('lokasi.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                             <i class="fa fa-arrow-circle-left "></i>Kembali ke Lokasi
                         </a>
                     @endif
@@ -107,7 +107,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('plan.datatables') }}?parent={{ $parent }}",
+                    url: "{{ ci_route('plan.datatables') }}?parent={{ $parent }}",
                     data: function(req) {
                         req.status = $('#status').val();
                         req.point = $('#point').val();
@@ -181,7 +181,7 @@
                 } else {
                     $('#subpoint').closest('div').hide()
                 }
-                $('#btn-add').attr('href', '{{ route('plan.form') }}/' + $(this).val())
+                $('#btn-add').attr('href', '{{ ci_route('plan.form') }}/' + $(this).val())
                 $('#subpoint').select2()
             })
 

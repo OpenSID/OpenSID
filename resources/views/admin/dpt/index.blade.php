@@ -20,7 +20,7 @@
                 <div class="row">
                     <a href="{{ site_url('pemilihan') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Daftar Pemilihan"><i class="fa fa-list"></i>Daftar Pemilihan</a>
                     <a
-                        href="{{ route('dpt.ajax_cetak.cetak') }}"
+                        href="{{ ci_route('dpt.ajax_cetak.cetak') }}"
                         class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         title="Cetak Data"
                         target="_blank"
@@ -30,7 +30,7 @@
                         data-title="Cetak Data"
                     ><i class="fa fa-print "></i> Cetak</a>
                     <a
-                        href="{{ route('dpt.ajax_cetak.unduh') }}"
+                        href="{{ ci_route('dpt.ajax_cetak.unduh') }}"
                         class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         title="Unduh Data"
                         data-remote="false"
@@ -124,7 +124,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('dpt.datatables') }}",
+                    url: "{{ ci_route('dpt.datatables') }}",
                     data: function(req) {
                         req.tgl_pemilihan = $('input[name=tgl_pemilihan]').val()
                         req.sex = $('select[name=sex]').val()
@@ -154,7 +154,7 @@
                         searchable: true,
                         orderable: true,
                         render: function(data, type, row) {
-                            return `<a href="{{ route('penduduk.detail.1.0') }}/${row.id}" id="test" name="${row.id}">${row.nik}</a>`
+                            return `<a href="{{ ci_route('penduduk.detail.1.0') }}/${row.id}" id="test" name="${row.id}">${row.nik}</a>`
                         },
                     },
                     {
@@ -176,7 +176,7 @@
                         orderable: true,
                         defaultContent: '',
                         render: function(data, type, row) {
-                            return row.id_kk ? `<a href="{{ route('keluarga.kartu_keluarga.1.0') }}/${row.id_kk}" >${row.keluarga.no_kk}</a>` : ``
+                            return row.id_kk ? `<a href="{{ ci_route('keluarga.kartu_keluarga.1.0') }}/${row.id_kk}" >${row.keluarga.no_kk}</a>` : ``
                         },
                     },
                     {

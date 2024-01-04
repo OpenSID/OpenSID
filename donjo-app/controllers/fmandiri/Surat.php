@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -100,9 +100,9 @@ class Surat extends Mandiri_Controller
                 redirect('layanan-mandiri/surat/buat');
             }
             $permohonan  = $obj->toArray();
-            $form_action = route("layanan-mandiri/surat/form/{$id}");
+            $form_action = ci_route("layanan-mandiri/surat/form/{$id}");
         } else {
-            $form_action = route('layanan-mandiri/surat/form');
+            $form_action = ci_route('layanan-mandiri/surat/form');
         }
 
         $data = [
@@ -193,7 +193,7 @@ class Surat extends Mandiri_Controller
         $data['anggota']  = $penduduk ? $penduduk->keluarga->anggota->toArray() : null;
         $this->get_data_untuk_form($url, $data);
         $data['surat_url']    = rtrim($_SERVER['REQUEST_URI'], '/clear');
-        $data['form_action']  = route("surat/cetak/{$url}");
+        $data['form_action']  = ci_route("surat/cetak/{$url}");
         $data['cek_anjungan'] = $this->cek_anjungan;
         $data['mandiri']      = 1; // Untuk tombol cetak/kirim surat
 

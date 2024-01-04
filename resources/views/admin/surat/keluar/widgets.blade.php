@@ -8,7 +8,7 @@
 @endif
 <div class="row">
     <div class="col-lg-3 col-sm-6 col-xs-12 widget-surat">
-        <a href="{{ route('keluar/masuk') }}">
+        <a href="{{ ci_route('keluar/masuk') }}">
             <div class="info-box bg-aqua {{ $tab_ini == 11 ? 'active' : '' }}">
                 <span class="info-box-icon"><i class="fa fa-envelope-o fa-nav"></i></span>
                 <div class="info-box-content">
@@ -24,7 +24,7 @@
     </div>
 
     <div class="col-lg-3 col-sm-6 col-xs-12 widget-surat">
-        <a href="{{ route('keluar') }}">
+        <a href="{{ ci_route('keluar') }}">
             <div class="info-box bg-green {{ $tab_ini == 10 ? 'active' : '' }}">
                 <span class="info-box-icon"><i class="fa fa-book fa-nav"></i></span>
                 <div class="info-box-content">
@@ -41,7 +41,7 @@
 
     @if ($operator && (setting('verifikasi_kades') == 1 || setting('verifikasi_sekdes') == 1))
         <div class="col-lg-3 col-sm-6 col-xs-12 widget-surat">
-            <a href="{{ route('keluar/ditolak') }}">
+            <a href="{{ ci_route('keluar/ditolak') }}">
                 <div class="info-box bg-red {{ $tab_ini == 12 ? 'active' : '' }}">
                     <span class="info-box-icon"><i class="fa fa-window-close fa-nav"></i></span>
                     <div class="info-box-content">
@@ -59,7 +59,7 @@
 
     @if (setting('api_opendk_key'))
         <div class="col-lg-3 col-sm-6 col-xs-12 widget-surat">
-            <a href="{{ route('keluar.kecamatan') }}">
+            <a href="{{ ci_route('keluar.kecamatan') }}">
                 <div class="info-box bg-orange {{ $tab_ini == 13 ? 'active' : '' }}">
                     <span class="info-box-icon"><i class="fa fa-share-square fa-nav"></i></span>
                     <div class="info-box-content">

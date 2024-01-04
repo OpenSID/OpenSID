@@ -24,7 +24,7 @@
                     <h4>{{ $masuk['jabatan']['nama'] }}</h4>
                 </div>
                 <div class="col-xm-12 text-center">
-                    {!! form_open_multipart(route('kehadiran.check-in-out'), 'name="check" id="validasi"') !!}
+                    {!! form_open_multipart(ci_route('kehadiran.check-in-out'), 'name="check" id="validasi"') !!}
                     <div class="checkbox">
                         @if (!$kehadiran && !$success)
                             <input type="hidden" name="status_kehadiran" value="hadir">
@@ -46,7 +46,7 @@
                     </form>
                 </div>
                 <div class="col-xm-12 text-center">
-                    <a class="btn bg-olive margin" href="{{ route('kehadiran.logout') }}">Selesai</a>
+                    <a class="btn bg-olive margin" href="{{ ci_route('kehadiran.logout') }}">Selesai</a>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
     <script>
         $(function() {
             var success = "{{ $success }}";
-            var url = "{{ route('kehadiran.logout') }}";
+            var url = "{{ ci_route('kehadiran.logout') }}";
 
             if (success) {
                 setTimeout(function() {

@@ -6,7 +6,7 @@
 <div class="col-md-12">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <a href="{{ route('dtks') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Dtks"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Data DTKS</a>
+            <a href="{{ ci_route('dtks') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Dtks"><i class="fa fa-arrow-circle-o-left"></i>Kembali Ke Data DTKS</a>
         </div>
         <div class="box-body tab-content" style="padding-left:30px; padding-right:30px">
             <table>
@@ -69,9 +69,9 @@
                                             <td>{{ $item ? $item->rtm->kepalaKeluarga->nama : '' }}</td>
                                             <td>{{ $item ? $item->keluarga->no_kk : '' }}</td>
                                             <td>{{ $item ? $item->keluarga->kepalaKeluarga->nama : '' }}</td>
-                                            <td><a href="{{ route('dtks.listAnggota') }}/{{ $item->id }}" title="Lihat Nama Anggota" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Daftar Anggota">{{ $item->dtks_anggota_count }}</a></td>
+                                            <td><a href="{{ ci_route('dtks.listAnggota') }}/{{ $item->id }}" title="Lihat Nama Anggota" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Daftar Anggota">{{ $item->dtks_anggota_count }}</a></td>
                                             <td>
-                                                <a href="{{ route('dtks.form', $item->id) }}" target="__blank" class="btn btn-primary btn-sm">
+                                                <a href="{{ ci_route('dtks.form', $item->id) }}" target="__blank" class="btn btn-primary btn-sm">
                                                     Lihat
                                                 </a>
                                             </td>

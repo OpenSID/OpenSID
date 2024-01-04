@@ -51,7 +51,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('daftar_kontak.datatablesPenduduk') }}",
+                ajax: "{{ ci_route('daftar_kontak.datatablesPenduduk') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

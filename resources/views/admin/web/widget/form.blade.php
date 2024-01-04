@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('web_widget') }}"> Widget</a></li>
+    <li><a href="{{ ci_route('web_widget') }}"> Widget</a></li>
     <li class="active">{{ $aksi }} Data</li>
 @endsection
 
@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ route('web_widget') }}" class="btn btn-social  btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Widget">
+                    <a href="{{ ci_route('web_widget') }}" class="btn btn-social  btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Widget">
                         <i class="fa fa-arrow-circle-left "></i>Kembali Ke Widget
                     </a>
                 </div>

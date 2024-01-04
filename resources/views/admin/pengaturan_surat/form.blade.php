@@ -12,7 +12,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('surat_master') }}">Daftar Surat</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat_master') }}">Daftar Surat</a></li>
     <li class="active">{{ $action }} Pengaturan Surat</li>
 @endsection
 
@@ -77,7 +77,7 @@
                 });
 
                 $.ajax({
-                    url: `{{ route('surat_master/update', $suratMaster->id) }}`,
+                    url: `{{ ci_route('surat_master/update', $suratMaster->id) }}`,
                     type: 'POST',
                     xhrFields: {
                         responseType: 'blob'

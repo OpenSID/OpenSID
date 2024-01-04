@@ -16,7 +16,7 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('mandiri.ajax_pin') }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
+                <a href="{{ ci_route('mandiri.ajax_pin') }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
             @endif
         </div>
         <div class="box-body">
@@ -58,7 +58,7 @@
                         <button type='button' class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title' id='myModalLabel">PIN Warga ({{ $info['nama'] }})</h4>
                     </div>
-                    <form action="{{ route('mandiri.kirim', $info['id_pend']) }}" method="post" id="validasi" target="_blank">
+                    <form action="{{ ci_route('mandiri.kirim', $info['id_pend']) }}" method="post" id="validasi" target="_blank">
                         <input type="hidden" id="pin" name="pin" value="{{ $info['pin'] }}">
                         <div class="modal-body">
                             Berikut adalah kode pin yang baru saja di hasilkan, silakan dicatat atau di ingat dengan baik,
@@ -100,7 +100,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('mandiri.datatables') }}",
+                ajax: "{{ ci_route('mandiri.datatables') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',

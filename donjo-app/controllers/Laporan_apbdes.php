@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -52,6 +52,15 @@ class Laporan_apbdes extends Admin_Controller
 
     public function index()
     {
+        $this->render('opendk/index', [
+            'judul' => ($this->tipe == 'laporan_apbdes') ? 'Laporan APBDes' : 'Laporan Penduduk',
+            'kolom' => ($this->tipe == 'laporan_apbdes') ? 'Semester' : 'Bulan',
+            'tahun' => $this->sinkronisasi->get_tahun(),
+        ]);
+    }
+
+    public function datatables()
+    {
         if ($this->input->is_ajax_request()) {
             $start  = $this->input->post('start');
             $length = $this->input->post('length');
@@ -68,18 +77,14 @@ class Laporan_apbdes extends Admin_Controller
             ]);
         }
 
-        $this->render('opendk/index', [
-            'judul' => ($this->tipe == 'laporan_apbdes') ? 'Laporan APBDes' : 'Laporan Penduduk',
-            'kolom' => ($this->tipe == 'laporan_apbdes') ? 'Semester' : 'Bulan',
-            'tahun' => $this->sinkronisasi->get_tahun(),
-        ]);
+        return show_404();
     }
 
-    public function form(int $id = 0): void
+    public function form(?int $id = 0): void
     {
         $this->redirect_hak_akses('u');
 
-        if ($id !== 0) {
+        if ($id) {
             $data['main']        = $this->sinkronisasi->find($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/update/{$id}");
         } else {

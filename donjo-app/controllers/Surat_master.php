@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -118,7 +118,7 @@ class Surat_master extends Admin_Controller
         $this->set_hak_akses_rfm();
 
         $data['action']      = $id ? 'Ubah' : 'Tambah';
-        $data['formAction']  = $id ? route('surat_master.update', $id) : route('surat_master.insert');
+        $data['formAction']  = $id ? ci_route('surat_master.update', $id) : ci_route('surat_master.insert');
         $data['suratMaster'] = $id ? FormatSurat::findOrFail($id) : null;
 
         if ($id) {
@@ -141,7 +141,7 @@ class Surat_master extends Admin_Controller
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratMaster']->kode_surat)->first();
 
-            $data['formAction'] = route('surat_master.update', $id);
+            $data['formAction'] = ci_route('surat_master.update', $id);
         }
 
         $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
@@ -464,11 +464,22 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    public function delete($id = null): void
+    public function delete($id): void
     {
         $this->redirect_hak_akses('h');
 
-        if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
+        if (FormatSurat::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function delete_all(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        if (FormatSurat::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -501,8 +512,8 @@ class Surat_master extends Admin_Controller
         $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
         $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
         $data['sekdes']        = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
-        $data['aksi']          = route('surat_master.update');
-        $data['formAksi']      = route('surat_master.edit_pengaturan');
+        $data['aksi']          = ci_route('surat_master.update');
+        $data['formAksi']      = ci_route('surat_master.edit_pengaturan');
         $margin                = setting('surat_margin');
         $data['margins']       = json_decode($margin, null) ?? FormatSurat::MARGINS;
         $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);

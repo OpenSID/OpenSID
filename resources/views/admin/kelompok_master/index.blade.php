@@ -2,17 +2,17 @@
 
 @extends('admin.layouts.index')
 
-@php $tipe = ucfirst(str_replace('_master', '', $ci->controller)); @endphp
+@php $tipe = str_replace('_master', '', $ci->controller); @endphp
 
 @section('title')
     <h1>
-        Kategori {{ $tipe }}
+        Kategori {{ ucfirst($tipe) }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="<?= site_url($tipe) ?>"> Daftar <?= $tipe ?></a></li>
-    <li class="active">Kategori {{ $tipe }}</li>
+    <li><a href="<?= site_url($tipe) ?>"> Daftar <?= ucfirst($tipe) ?></a></li>
+    <li class="active">Kategori {{ ucfirst($tipe) }}</li>
 @endsection
 
 @section('content')
@@ -29,7 +29,7 @@
                         class='fa fa-trash-o'
                     ></i> Hapus</a>
             @endif
-            <a href="<?= site_url($tipe) ?>" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar <?= $tipe ?></a>
+            <a href="<?= site_url($tipe) ?>" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar <?= ucfirst($tipe) ?></a>
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -40,9 +40,9 @@
                             <th class="padat"><input type="checkbox" id="checkall" /></th>
                             <th class="padat">No</th>
                             <th class="aksi">Aksi</th>
-                            <th class="padat">Kategori {{ $tipe }}</th>
-                            <th>Deskripsi {{ $tipe }}</th>
-                            <th class="padat">Jumlah {{ $tipe }}</th>
+                            <th class="padat">Kategori {{ ucfirst($tipe) }}</th>
+                            <th>Deskripsi {{ ucfirst($tipe) }}</th>
+                            <th class="padat">Jumlah {{ ucfirst($tipe) }}</th>
                         </tr>
                     </thead>
                 </table>

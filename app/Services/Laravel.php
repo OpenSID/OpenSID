@@ -1,19 +1,54 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Services;
 
+use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Encryption\EncryptionServiceProvider;
+use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemServiceProvider;
+use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ViewServiceProvider;
-use Illuminate\Cache\CacheServiceProvider;
-use Illuminate\Events\EventServiceProvider;
-use Illuminate\Database\DatabaseServiceProvider;
-use Illuminate\Encryption\EncryptionServiceProvider;
-use Illuminate\Filesystem\FilesystemServiceProvider;
-use Illuminate\Pagination\PaginationServiceProvider;
 
 class Laravel extends Container
 {
@@ -72,6 +107,34 @@ class Laravel extends Container
      * @var callable[]
      */
     protected $terminatingCallbacks = [];
+
+    /**
+     * The available container bindings and their respective load methods.
+     *
+     * @var array
+     */
+    public $availableBindings = [
+        'cache'                                       => 'registerCacheBindings',
+        'cache.store'                                 => 'registerCacheBindings',
+        \Illuminate\Contracts\Cache\Factory::class    => 'registerCacheBindings',
+        \Illuminate\Contracts\Cache\Repository::class => 'registerCacheBindings',
+        'config'                                      => 'registerConfigBindings',
+        'db'                                          => 'registerDatabaseBindings',
+        // \Illuminate\Database\Eloquent\Factory::class => 'registerDatabaseBindings',
+        'filesystem'                                       => 'registerFilesystemBindings',
+        'filesystem.cloud'                                 => 'registerFilesystemBindings',
+        'filesystem.disk'                                  => 'registerFilesystemBindings',
+        \Illuminate\Contracts\Filesystem\Cloud::class      => 'registerFilesystemBindings',
+        \Illuminate\Contracts\Filesystem\Filesystem::class => 'registerFilesystemBindings',
+        \Illuminate\Contracts\Filesystem\Factory::class    => 'registerFilesystemBindings',
+        'encrypter'                                        => 'registerEncrypterBindings',
+        \Illuminate\Contracts\Encryption\Encrypter::class  => 'registerEncrypterBindings',
+        'events'                                           => 'registerEventBindings',
+        'files'                                            => 'registerFilesBindings',
+        \Illuminate\Contracts\Events\Dispatcher::class     => 'registerEventBindings',
+        'view'                                             => 'registerViewBindings',
+        \Illuminate\Contracts\View\Factory::class          => 'registerViewBindings',
+    ];
 
     /**
      * Create a new Mini application instance.
@@ -187,9 +250,9 @@ class Laravel extends Container
     {
         $abstract = $this->getAlias($abstract);
 
-        if (! $this->bound($abstract) &&
-            array_key_exists($abstract, $this->availableBindings) &&
-            ! array_key_exists($this->availableBindings[$abstract], $this->ranServiceBinders)) {
+        if (! $this->bound($abstract)
+            && array_key_exists($abstract, $this->availableBindings)
+            && ! array_key_exists($this->availableBindings[$abstract], $this->ranServiceBinders)) {
             $this->{$method = $this->availableBindings[$abstract]}();
 
             $this->ranServiceBinders[$method] = true;
@@ -205,8 +268,8 @@ class Laravel extends Container
      */
     protected function registerCacheBindings()
     {
-        $this->singleton('cache', fn() => $this->loadComponent('cache', CacheServiceProvider::class));
-        $this->singleton('cache.store', fn() => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
+        $this->singleton('cache', fn () => $this->loadComponent('cache', CacheServiceProvider::class));
+        $this->singleton('cache.store', fn () => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
     }
 
     /**
@@ -216,7 +279,7 @@ class Laravel extends Container
      */
     protected function registerConfigBindings()
     {
-        $this->singleton('config', fn(): \Illuminate\Config\Repository => new Repository);
+        $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
     }
 
     /**
@@ -247,7 +310,7 @@ class Laravel extends Container
      */
     protected function registerEncrypterBindings()
     {
-        $this->singleton('encrypter', fn() => $this->loadComponent('app', EncryptionServiceProvider::class, 'encrypter'));
+        $this->singleton('encrypter', fn () => $this->loadComponent('app', EncryptionServiceProvider::class, 'encrypter'));
     }
 
     /**
@@ -271,7 +334,7 @@ class Laravel extends Container
      */
     protected function registerFilesBindings()
     {
-        $this->singleton('files', fn(): \Illuminate\Filesystem\Filesystem => new Filesystem);
+        $this->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new Filesystem());
     }
 
     /**
@@ -281,9 +344,9 @@ class Laravel extends Container
      */
     protected function registerFilesystemBindings()
     {
-        $this->singleton('filesystem', fn() => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
-        $this->singleton('filesystem.disk', fn() => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
-        $this->singleton('filesystem.cloud', fn() => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
+        $this->singleton('filesystem', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
+        $this->singleton('filesystem.disk', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
+        $this->singleton('filesystem.cloud', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
     }
 
     /**
@@ -293,7 +356,7 @@ class Laravel extends Container
      */
     protected function registerViewBindings()
     {
-        $this->singleton('view', fn() => $this->loadComponent('view', ViewServiceProvider::class));
+        $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class));
     }
 
     /**
@@ -348,21 +411,21 @@ class Laravel extends Container
     public function getConfigurationPath($name = null)
     {
         if (! $name) {
-            $appConfigDir = $this->basePath('donjo-app/config').'/';
+            $appConfigDir = $this->basePath('donjo-app/config') . '/';
             if (file_exists($appConfigDir)) {
                 return $appConfigDir;
             }
 
-            if (file_exists($path = __DIR__.'/../config/')) {
+            if (file_exists($path = __DIR__ . '/../config/')) {
                 return $path;
             }
         } else {
-            $appConfigPath = $this->basePath('donjo-app/config').'/'.$name.'.php';
+            $appConfigPath = $this->basePath('donjo-app/config') . '/' . $name . '.php';
             if (file_exists($appConfigPath)) {
                 return $appConfigPath;
             }
 
-            if (file_exists($path = __DIR__.'/../config/'.$name.'.php')) {
+            if (file_exists($path = __DIR__ . '/../config/' . $name . '.php')) {
                 return $path;
             }
         }
@@ -391,10 +454,10 @@ class Laravel extends Container
     public function withAliases($userAliases = []): void
     {
         $defaults = [
-            \Illuminate\Support\Facades\Cache::class => 'Cache',
-            \Illuminate\Support\Facades\DB::class => 'DB',
-            \Illuminate\Support\Facades\Event::class => 'Event',
-            \Illuminate\Support\Facades\Schema::class => 'Schema',
+            \Illuminate\Support\Facades\Cache::class   => 'Cache',
+            \Illuminate\Support\Facades\DB::class      => 'DB',
+            \Illuminate\Support\Facades\Event::class   => 'Event',
+            \Illuminate\Support\Facades\Schema::class  => 'Schema',
             \Illuminate\Support\Facades\Storage::class => 'Storage',
         ];
 
@@ -422,61 +485,56 @@ class Laravel extends Container
      */
     public function path(): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'app';
+        return $this->basePath . DIRECTORY_SEPARATOR . 'app';
     }
 
     /**
      * Get the base path for the application.
-     *
-     * @param string $path
      *
      * @return string
      */
     public function basePath(?string $path = '')
     {
         if ($this->basePath !== null) {
-            return $this->basePath.($path ? '/'.$path : $path);
+            return $this->basePath . ($path ? '/' . $path : $path);
         }
 
-        $this->basePath = $this->runningInConsole() ? getcwd() : realpath(getcwd().'/../');
+        $this->basePath = $this->runningInConsole() ? getcwd() : realpath(getcwd() . '/../');
 
         return $this->basePath($path);
     }
 
     /**
      * Get the path to the application configuration files.
-     *
-     * @param string $path
      */
     public function configPath(?string $path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'donjo-app'.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath . DIRECTORY_SEPARATOR . 'donjo-app' . DIRECTORY_SEPARATOR . 'config' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
      * Get the path to the database directory.
-     *
-     * @param string $path
      */
     public function databasePath(?string $path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'database'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath . DIRECTORY_SEPARATOR . 'database' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
      * Get the storage path for the application.
      *
-     * @param  string|null  $path
+     * @param string|null $path
      */
     public function storagePath($path = ''): string
     {
-        return ($this->storagePath ?: $this->basePath.DIRECTORY_SEPARATOR.'storage').($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return ($this->storagePath ?: $this->basePath . DIRECTORY_SEPARATOR . 'storage') . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
      * Set the storage directory.
      *
-     * @param  string  $path
+     * @param string $path
+     *
      * @return $this
      */
     public function useStoragePath($path): self
@@ -495,9 +553,8 @@ class Laravel extends Container
      */
     public function resourcePath($path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath . DIRECTORY_SEPARATOR . 'resources' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
-
 
     /**
      * Determine if the application is running in the console.
@@ -514,12 +571,12 @@ class Laravel extends Container
     {
         parent::flush();
 
-        $this->loadedProviders = [];
-        $this->reboundCallbacks = [];
-        $this->resolvingCallbacks = [];
-        $this->availableBindings = [];
-        $this->ranServiceBinders = [];
-        $this->loadedConfigurations = [];
+        $this->loadedProviders         = [];
+        $this->reboundCallbacks        = [];
+        $this->resolvingCallbacks      = [];
+        $this->availableBindings       = [];
+        $this->ranServiceBinders       = [];
+        $this->loadedConfigurations    = [];
         $this->afterResolvingCallbacks = [];
 
         static::$instance = null;
@@ -561,46 +618,18 @@ class Laravel extends Container
     protected function registerContainerAliases()
     {
         $this->aliases = [
-            \Illuminate\Contracts\Foundation\Application::class => 'app',
-            \Illuminate\Contracts\Cache\Factory::class => 'cache',
-            \Illuminate\Contracts\Cache\Repository::class => 'cache.store',
-            \Illuminate\Contracts\Config\Repository::class => 'config',
-            \Illuminate\Config\Repository::class => 'config',
-            \Illuminate\Container\Container::class => 'app',
-            \Illuminate\Contracts\Container\Container::class => 'app',
+            \Illuminate\Contracts\Foundation\Application::class     => 'app',
+            \Illuminate\Contracts\Cache\Factory::class              => 'cache',
+            \Illuminate\Contracts\Cache\Repository::class           => 'cache.store',
+            \Illuminate\Contracts\Config\Repository::class          => 'config',
+            Repository::class                                       => 'config',
+            Container::class                                        => 'app',
+            \Illuminate\Contracts\Container\Container::class        => 'app',
             \Illuminate\Database\ConnectionResolverInterface::class => 'db',
-            \Illuminate\Database\DatabaseManager::class => 'db',
-            \Illuminate\Contracts\Encryption\Encrypter::class => 'encrypter',
-            \Illuminate\Contracts\Events\Dispatcher::class => 'events',
-            \Illuminate\Contracts\View\Factory::class => 'view',
+            \Illuminate\Database\DatabaseManager::class             => 'db',
+            \Illuminate\Contracts\Encryption\Encrypter::class       => 'encrypter',
+            \Illuminate\Contracts\Events\Dispatcher::class          => 'events',
+            \Illuminate\Contracts\View\Factory::class               => 'view',
         ];
     }
-
-    /**
-     * The available container bindings and their respective load methods.
-     *
-     * @var array
-     */
-    public $availableBindings = [
-        'cache' => 'registerCacheBindings',
-        'cache.store' => 'registerCacheBindings',
-        \Illuminate\Contracts\Cache\Factory::class => 'registerCacheBindings',
-        \Illuminate\Contracts\Cache\Repository::class => 'registerCacheBindings',
-        'config' => 'registerConfigBindings',
-        'db' => 'registerDatabaseBindings',
-        // \Illuminate\Database\Eloquent\Factory::class => 'registerDatabaseBindings',
-        'filesystem' => 'registerFilesystemBindings',
-        'filesystem.cloud' => 'registerFilesystemBindings',
-        'filesystem.disk' => 'registerFilesystemBindings',
-        \Illuminate\Contracts\Filesystem\Cloud::class => 'registerFilesystemBindings',
-        \Illuminate\Contracts\Filesystem\Filesystem::class => 'registerFilesystemBindings',
-        \Illuminate\Contracts\Filesystem\Factory::class => 'registerFilesystemBindings',
-        'encrypter' => 'registerEncrypterBindings',
-        \Illuminate\Contracts\Encryption\Encrypter::class => 'registerEncrypterBindings',
-        'events' => 'registerEventBindings',
-        'files' => 'registerFilesBindings',
-        \Illuminate\Contracts\Events\Dispatcher::class => 'registerEventBindings',
-        'view' => 'registerViewBindings',
-        \Illuminate\Contracts\View\Factory::class => 'registerViewBindings',
-    ];
 }

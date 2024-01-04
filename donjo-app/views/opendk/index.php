@@ -165,7 +165,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				{ 'className' : 'aksi', 'targets': [2] },
 			],
 			'ajax': {
-				'url': "<?= site_url("{$this->controller}"); ?>",
+				'url': "<?= site_url("{$this->controller}/datatables"); ?>",
 				'method': 'POST',
 				'data': function(d) {
 					d.tahun= $('#tahun').val();

@@ -18,7 +18,8 @@
         <div class="box-header with-border">
             <div class="form-inline">
                 @if (can('h'))
-                    <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('buku_tamu.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                    <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('buku_tamu.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                            class='fa fa-trash-o'></i>
                         Hapus</a>
                 @endif
                 <div class="input-group input-group-sm date">
@@ -75,8 +76,8 @@
         $(document).ready(function() {
             $('#cetak, #expor').on('click', function() {
                 let url = $(this).attr('id') == 'cetak' ?
-                    "{{ route('buku_tamu.cetak') }}/" :
-                    "{{ route('buku_tamu.ekspor') }}/";
+                    "{{ ci_route('buku_tamu.cetak') }}/" :
+                    "{{ ci_route('buku_tamu.ekspor') }}/";
 
                 $.ajax({
                     url: url,
@@ -95,7 +96,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('buku_tamu') }}",
+                    url: "{{ ci_route('buku_tamu') }}",
                     data: function(req) {
                         req.tanggal = $('#date-range').val();
                     },
