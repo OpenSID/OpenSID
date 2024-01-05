@@ -123,10 +123,8 @@ $app->configure('app');
  * post_controller_constructor, post_controller, display_override, cache_override, post_system.
  */
 $hook['post_controller_constructor'] = static function () use ($app): void {
-    $app->register(\App\Providers\ViewServiceProvider::class);
-
     if (ENVIRONMENT == 'development') {
-        get_instance()->capsule  = $capsule;
+        get_instance()->capsule  = $app->make('db');
         get_instance()->queryOrm = [];
 
         /**

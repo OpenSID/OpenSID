@@ -221,6 +221,8 @@ if (! function_exists('view')) {
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
+        app()->register(\App\Providers\ViewServiceProvider::class);
+
         $factory = app('view');
 
         if (func_num_args() === 0) {
