@@ -374,7 +374,7 @@
 		<?php
 		for ($i = 0; $i < MAX_PINDAH; $i++) :
 			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'])) :
+			if ($i < count($input['id_pengikut_pindah'] ?? [])) :
 				$id = trim($input['id_pengikut_pindah'][$i], "'");
 				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
 				<tr>
@@ -425,7 +425,7 @@
 		<tr class="pendek">
 			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
 			<td>&nbsp;</td>
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl." . tgl_indo(date("Y m d"))) ?></td>
+			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
 		</tr>
 		<tr style="font-size: 8mm; line-height: normal;">
 			<td>&nbsp;</td>
@@ -457,7 +457,7 @@
 			<td>Nomor Kartu Keluarga</td>
 			<?php for ($i = 0; $i < 16; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($individu['no_kk'][$i]) and $input['jenis_kepindahan_id'] != '4') : ?>
+					<?php if (isset($individu['no_kk'][$i]) && $input['jenis_kepindahan_id'] != '4') : ?>
 						<?= $individu['no_kk'][$i]; ?>
 					<?php else : ?>
 						&nbsp;
@@ -478,7 +478,7 @@
 			<td>NIK Kepala Keluarga</td>
 			<?php for ($i = 0; $i < 16; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($individu['nik_kk'][$i]) and $input['jenis_kepindahan_id'] != '4') : ?>
+					<?php if (isset($individu['nik_kk'][$i]) && $input['jenis_kepindahan_id'] != '4') : ?>
 						<?= $individu['nik_kk'][$i]; ?>
 					<?php else : ?>
 						&nbsp;
@@ -610,7 +610,7 @@
 		<?php
 		for ($i = 0; $i < MAX_PINDAH; $i++) :
 			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'])) :
+			if ($i < count($input['id_pengikut_pindah'] ?? [])) :
 				$id = trim($input['id_pengikut_pindah'][$i], "'");
 				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
 

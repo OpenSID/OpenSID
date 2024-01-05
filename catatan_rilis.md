@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#7557](https://github.com/OpenSID/OpenSID/issues/7557) Perbaikan redirect setelah hapus surat.
 5. [#7555](https://github.com/OpenSID/OpenSID/issues/7555) Perbaikan daftar artikel yang tampil pada menu dan menu anjungan.
 6. [#7564](https://github.com/OpenSID/OpenSID/issues/7564) Perbaikan cetang semua pada pilihan data keluarga saat cetak surat TinyMCE.
+7. [#7565](https://github.com/OpenSID/OpenSID/issues/7565) Perbaikan cetak lampiran F-1.08.
 
 #### TEKNIS
 
