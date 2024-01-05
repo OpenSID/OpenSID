@@ -46,10 +46,6 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $ci = &get_instance();
-
-        $this->app->singleton('ci', static fn () => $ci);
-
         $this->callAfterResolving('blade.compiler', fn (BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
     }
 
