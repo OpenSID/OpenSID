@@ -165,7 +165,7 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ ci_route('keluar.clear.masuk') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ ci_route('keluar.masuk') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Permohonan
             </a>
             @if (is_file($surat->filesurat . '.pdf'))
@@ -212,7 +212,7 @@
                 }
 
                 var redirect = {
-                    'confirm': `{{ ci_route('keluar.clear.masuk') }}`,
+                    'confirm': `{{ ci_route('keluar.masuk') }}`,
                 }
                 var data = {
                     id: id

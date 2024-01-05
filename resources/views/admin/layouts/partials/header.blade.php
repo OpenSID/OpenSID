@@ -90,7 +90,7 @@
 
                 @if (can('b', 'arsip-layanan') && (setting('verifikasi_kades') || setting('verifikasi_sekdes')))
                     <li>
-                        <a href="{{ ci_route('keluar.clear.masuk') }}">
+                        <a href="{{ ci_route('keluar.masuk') }}">
                             <span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
                             @if ($notif['permohonansurat'])
                                 <span class="badge" id="permohonan">{{ $notif['permohonansurat'] }}</span>
