@@ -1858,7 +1858,7 @@ Route::group('grup', static function () {
 Route::group('database', static function () {
     Route::get('/', 'Database@index')->name('database.index');
     Route::get('/migrasi_cri', 'Database@migrasi_cri')->name('database.migrasi_cri');
-    Route::get('/migrasi_db_cri', 'Database@migrasi_db_cri')->name('database.migrasi_db_cri');
+    Route::post('/migrasi_db_cri', 'Database@migrasi_db_cri')->name('database.migrasi_db_cri');
     Route::get('/exec_backup', 'Database@exec_backup')->name('database.exec_backup');
     Route::get('/desa_backup', 'Database@desa_backup')->name('database.desa_backup');
     Route::get('/desa_inkremental', 'Database@desa_inkremental')->name('database.desa_inkremental');

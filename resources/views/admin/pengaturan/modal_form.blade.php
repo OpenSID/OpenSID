@@ -35,6 +35,21 @@
                     </div>
                 @elseif ($pengaturan->jenis == 'textarea')
                     <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="5">{{ $pengaturan->value }}</textarea>
+                @elseif ($pengaturan->jenis == 'referensi')
+                    <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
+                        @php
+                            $modelData = $pengaturan->option;
+                            $referensiData = (new ($modelData['model'])())
+                                ->select([$modelData['value'], $modelData['label']])
+                                ->get()
+                                ->toArray();
+                            $selectedValue = json_decode($pengaturan->value, 1);
+                        @endphp
+                        <option value="-" @selected(empty($selectedValue))>Tanpa Referensi (kosong)</option>
+                        @foreach ($referensiData as $val)
+                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue))>{{ $val[$modelData['label']] }}</option>
+                        @endforeach
+                    </select>
                 @else
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" {{ strpos($pengaturan->attribute, 'type=') ? '' : 'type="text"' }} value="{{ $pengaturan->value }}" />
                 @endif
