@@ -47,11 +47,17 @@ if (! function_exists('app')) {
      */
     function app($abstract = null, array $parameters = [])
     {
+        $ci = &get_instance();
+
+        $container = Container::getInstance();
+
+        $container->singleton('ci', static fn () => $ci);
+
         if (null === $abstract) {
-            return Container::getInstance();
+            return $container;
         }
 
-        return Container::getInstance()->make($abstract, $parameters);
+        return $container->make($abstract, $parameters);
     }
 }
 
@@ -221,6 +227,8 @@ if (! function_exists('view')) {
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
+        app()->register(\App\Providers\ViewServiceProvider::class);
+
         $factory = app('view');
 
         if (func_num_args() === 0) {

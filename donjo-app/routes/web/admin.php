@@ -51,6 +51,16 @@ Route::group('siteman', static function () {
 // MAIN
 Route::get('main', 'Main@index');
 
+Route::group('pengguna', static function () {
+    Route::post('/update', 'Pengguna@update')->name('pengguna.update');
+    Route::post('/update_password', 'Pengguna@update_password')->name('pengguna.update_password');
+    Route::match(['GET', 'POST'], '/kirim_verifikasi', 'Pengguna@kirim_verifikasi')->name('pengguna.kirim_verifikasi');
+    Route::match(['GET', 'POST'], '/kirim_otp_telegram', 'Pengguna@kirim_otp_telegram')->name('pengguna.kirim_otp_telegram');
+    Route::match(['GET', 'POST'], '/verifikasi_telegram', 'Pengguna@verifikasi_telegram')->name('pengguna.verifikasi_telegram');
+    Route::match(['GET', 'POST'], '/verifikasi', 'Pengguna@verifikasi')->name('pengguna.verifikasi');
+    Route::match(['GET', 'POST'], '/', 'Pengguna@index')->name('pengguna.index');
+});
+
 // MODULE
 // Beranda
 Route::get('beranda', 'Beranda@index');
@@ -237,6 +247,28 @@ Route::group('penduduk', static function () {
     Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Penduduk@index');
     Route::match(['GET', 'POST'], '/index/{p?}', 'Penduduk@index');
     Route::match(['GET', 'POST'], '/', 'Penduduk@index');
+});
+
+// Kependudukan > Penduduk > Log Penduduk
+Route::group('penduduk_log', static function () {
+    Route::get('/clear', 'Penduduk_log@clear')->name('penduduk_log.clear');
+    Route::get('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
+    Route::get('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
+    Route::get('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
+    Route::get('/tahun_bulan', 'Penduduk_log@tahun_bulan')->name('penduduk_log.tahun_bulan');
+    Route::get('/edit/{p?}/{o?}/{id?}', 'Penduduk_log@edit')->name('penduduk_log.edit');
+    Route::post('/update/{p?}/{o?}/{id?}', 'Penduduk_log@update')->name('penduduk_log.update');
+    Route::post('/filter/{filter}', 'penduduk_log@filter')->name('penduduk_log.filter');
+    Route::get('/kembalikan_status/{id?}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
+    Route::get('/kembalikan_status_pergi/{id?}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
+    Route::get('/ajax_kembalikan_status_pergi/{id?}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
+    Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
+    Route::get('/ajax_cetak/{o?}/{aksi?}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
+    Route::get('/cetak/{o?}/{aksi?}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
+    Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/index/{p?}', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/', 'Penduduk_log@index');
 });
 
 // Kependudukan > Keluarga
@@ -1826,7 +1858,7 @@ Route::group('grup', static function () {
 Route::group('database', static function () {
     Route::get('/', 'Database@index')->name('database.index');
     Route::get('/migrasi_cri', 'Database@migrasi_cri')->name('database.migrasi_cri');
-    Route::get('/migrasi_db_cri', 'Database@migrasi_db_cri')->name('database.migrasi_db_cri');
+    Route::post('/migrasi_db_cri', 'Database@migrasi_db_cri')->name('database.migrasi_db_cri');
     Route::get('/exec_backup', 'Database@exec_backup')->name('database.exec_backup');
     Route::get('/desa_backup', 'Database@desa_backup')->name('database.desa_backup');
     Route::get('/desa_inkremental', 'Database@desa_inkremental')->name('database.desa_inkremental');
@@ -1842,6 +1874,12 @@ Route::group('database', static function () {
     Route::post('/upload_restore', 'Database@upload_restore')->name('database.upload_restore');
     Route::get('/batal_restore', 'Database@batal_restore')->name('database.batal_restore');
 });
+
+Route::group('multiDB', static function () {
+    Route::get('/backup', 'MultiDB@backup')->name('multiDB.backup');
+    Route::post('/restore', 'MultiDB@restore')->name('multiDB.restore');
+});
+
 // Pengaturan > Info Sistem
 Route::group('info_sistem', static function () {
     Route::get('/', 'Info_sistem@index')->name('info_sistem.index');

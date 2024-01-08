@@ -1,5 +1,6 @@
 @include('admin.pengaturan_surat.asset_tinymce')
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
 @extends('admin.layouts.index')
 
@@ -63,6 +64,8 @@
                                                                 <th>Isi</th>
                                                             </tr>
                                                         </thead>
+                                                        <tbody id="dragable">
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -128,61 +131,8 @@
                 ],
                 aaSorting: [],
                 createdRow: function(row, data, dataIndex) {
-                    $(row).attr('data-urut', data.urut ?? 0)
                     $(row).attr('data-id', data.id)
-                },
-                drawCallback: function(settings) {
-                    if (ubah == 1) {
-
-                        var api = this.api();
-
-                        if (api.rows().count()) {
-                            var lastRowIndex = api.rows().count() - 1;
-
-                            api.row(lastRowIndex).node().querySelector('i.fa-arrow-down').parentNode.setAttribute("disabled", true)
-                            api.row(0).node().querySelector('i.fa-arrow-up').parentNode.setAttribute("disabled", true)
-
-                            $('a.pindahkan').click(function() {
-                                const _trAsal = $(this).closest('tr');
-                                const _arah = $(this).data('arah');
-                                let _urutAsal = _trAsal.attr('data-urut');
-                                let _trTujuan = (_arah == 'atas') ? _trAsal.prev() : _trAsal.next();
-                                let _urutTujuan = _trTujuan.attr('data-urut');
-
-                                if ((_arah == 'atas' && _urutAsal <= _urutTujuan) || (_arah == 'bawah' && _urutAsal >= _urutTujuan)) {
-                                    if (_urutTujuan == 0) {
-                                        _urutAsal = (_arah == 'atas') ? 1 : 2;
-                                        _urutTujuan = (_arah == 'atas') ? 2 : 1;
-                                    } else {
-                                        const _tmpUrut = _urutAsal;
-                                        _urutAsal = _urutTujuan;
-                                        _urutTujuan = _tmpUrut;
-                                    }
-                                } else {
-                                    const _tmpUrut = _urutAsal;
-                                    _urutAsal = _urutTujuan;
-                                    _urutTujuan = _tmpUrut;
-                                }
-
-                                const _dataKirim = {
-                                    data: [{
-                                        id: _trAsal.attr('data-id'),
-                                        urut: _urutAsal
-                                    }, {
-                                        id: _trTujuan.attr('data-id'),
-                                        urut: _urutTujuan
-                                    }]
-                                };
-
-                                $.post(SITE_URL + 'web_widget/tukar', _dataKirim, function(data) {
-                                    if (data.status) {
-                                        TableData.draw();
-                                    }
-                                }, 'json');
-                            });
-
-                        }
-                    }
+                    $(row).addClass('dragable-handle');
                 }
             });
 
@@ -197,6 +147,36 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+
+            $("#dragable").sortable({
+                cursor: 'row-resize',
+                placeholder: 'ui-state-highlight',
+                items: '.dragable-handle',
+                update: function() {
+                    var order = [];
+
+                    $('tr.dragable-handle').each(function(index, element) {
+                        order.push($(this).attr('data-id'))
+                    })
+
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        url: SITE_URL + 'web_widget/tukar',
+                        data: {
+                            data: order,
+                        },
+                        success: function(response) {
+                            if (response.status) {
+                                TableData.draw();
+                            } else {
+                                TableData.draw();
+                                console.log(response);
+                            }
+                        }
+                    });
+                }
+            }).disableSelection();
         });
     </script>
 @endpush

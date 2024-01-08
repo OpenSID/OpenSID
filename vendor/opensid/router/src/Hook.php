@@ -49,10 +49,9 @@ class Hook
             self::postControllerHook($config);
         };
 
-        // $hooks['display_override'][] = function()
-        // {
-        //     self::displayOverrideHook();
-        // };
+        $hooks['display_override'][] = function () {
+            self::displayOverrideHook();
+        };
 
         return $hooks;
     }
@@ -82,8 +81,8 @@ class Hook
             require_once __DIR__ . '/Facades/Auth.php' ;
         }
 
-        if(!file_exists(APPPATH . '/routes')) {
-            mkdir(APPPATH . '/routes');
+        if(!file_exists(APPPATH . '/Routes')) {
+            mkdir(APPPATH . '/Routes');
         }
 
         if(!file_exists(APPPATH . '/Middleware')) {
@@ -95,15 +94,11 @@ class Hook
         }
 
         if($isWeb) {
-            require_once(APPPATH . '/Routes/web.php');
-
-            // Include all routes web.php from modules
-            $moduleDirectories = glob(APPPATH . 'Modules/*', GLOB_ONLYDIR);
-            foreach ($moduleDirectories as $moduleDirectory) {
-                log_message('notice', $moduleDirectory . '/Routes/web.php');
-                require_once $moduleDirectory . '/Routes/web.php';
+            // Include all routes web.php
+            $fileWeb = array_merge(glob(APPPATH . 'Modules/*/Routes/web.php'), glob(APPPATH . 'Routes/web.php'));
+            foreach ($fileWeb as $file) {
+                require_once $file;
             }
-
         }
 
         if(!file_exists(APPPATH . '/Routes/api.php')) {
@@ -115,13 +110,11 @@ class Hook
                 '/',
                 ['middleware' => [ new RouteAjaxMiddleware() ]],
                 function () {
-                    // Include all routes api.php from modules
-                    $moduleDirectories = glob(APPPATH . 'Modules/*', GLOB_ONLYDIR);
-                    foreach ($moduleDirectories as $moduleDirectory) {
-                        require_once $moduleDirectory . '/Routes/api.php';
+                    // Include all routes api.php
+                    $fileApi = array_merge(glob(APPPATH . 'Modules/*/Routes/api.php'), glob(APPPATH . 'Routes/api.php'));
+                    foreach ($fileApi as $file) {
+                        require_once $file;
                     }
-
-                    require_once(APPPATH . '/Routes/api.php');
                 }
             );
         }
@@ -432,22 +425,12 @@ class Hook
      */
     private static function displayOverrideHook()
     {
-        // $output = ci()->output->get_output();
+        $output = ci()->output->get_output();
 
-        // if(isset(ci()->db))
-        // {
-        //     $queries = ci()->db->queries;
-        //     if(!empty($queries))
-        //     {
-        //         Debug::addCollector(new MessagesCollector('database'));
-        //         foreach($queries as $query)
-        //         {
-        //             Debug::log($query, 'info', 'database');
-        //         }
-        //     }
-        // }
+        if (isset(ci()->db)) {
+            $queries = ci()->db->queries;
+        }
 
-        // Debug::prepareOutput($output);
-        // ci()->output->_display($output);
+        ci()->output->_display($output);
     }
 }

@@ -9,7 +9,7 @@
                 <table class="table table-bordered table-striped table-hover tabel-daftar">
                     <thead class="bg-gray disabled color-palette">
                         <tr>
-                            <th><input type="checkbox" id="checkall" /></th>
+                            <th><input type="checkbox" id="checkall" onclick="checkAll()" /></th>
                             <th>NIK</th>
                             <th>Nama</th>
                             <th>Jenis Kelamin</th>

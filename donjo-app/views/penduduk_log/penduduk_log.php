@@ -162,9 +162,39 @@
                                                                 <?php endif ?>
                                                             <?php endif ?>
                                                         <?php endif ?>
-                                                        <?php if ($data['kode_peristiwa'] == 2) : ?>
-                                                            <a target="_blank" href="<?= site_url("surat/form/surat_ket_kematian/{$data['id']}") ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat Keterangan Kematian"><i class="fa fa-file-word-o"></i>Surat Keterangan Kematian</a>
-                                                        <?php endif ?>
+
+                                                            <?php
+                                                                switch($data['kode_peristiwa']) {
+                                                                    case 1:
+                                                                        $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 2:
+                                                                        $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 3:
+                                                                        $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 4:
+                                                                        $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 5:
+                                                                        $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 6:
+                                                                        $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
+                                                                        break;
+                                                                }
+                                                            ?>
+                                                            <?php if($suratTerkait): ?>
+                                                                <?php foreach($suratTerkait as $item): ?>
+                                                                    <a target="_blank" href="<?= site_url("surat/form/{$item}") ?>#<?= $data['id'] ?>#<?= $data['nik'] ?>#<?= $data['nama'] ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="<?=  str_replace('-', ' ', $item) ?>"><i class="fa fa-file-word-o"></i><?=  str_replace('-', ' ', $item) ?></a>
+                                                                <?php endforeach ?>
+                                                            <?php endif ?>
                                                     </td>
                                                     <td class="padat">
                                                         <img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>

@@ -32,7 +32,7 @@
                 <label class="col-sm-3 control-label" for="nama">Icon</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="file_path" name="icon">
+                        <input type="text" class="form-control required" id="file_path" name="icon">
                         <input type="file" class="hidden" id="file" name="icon" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>
@@ -95,8 +95,8 @@
                     </select>
                     <select id="artikel_keuangan" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 6, 'link') }}" style="{{ $menu['link_tipe'] != 6 && (print 'display:none;') }}">
                         <option value="">-- Pilih Artikel Keuangan --</option>
-                        @foreach ($artikel_keuangan as $id => $nama)
-                            <option value="{{ $id }}" {{ selected($menu['link'], $id) }}>{{ $nama }}</option>
+                        @foreach ($artikel_keuangan as $data)
+                            <option value="{{ $data['id'] }}" {{ selected($menu['link'], $data['id']) }}>{{ $data['judul'] }}</option>
                         @endforeach
                     </select>
                     <select id="kelompok" class="form-control input-sm jenis_link required" name="{{ jecho($menu['link_tipe'], 7, 'link') }}" style="{{ $menu['link_tipe'] != 7 && (print 'display:none;') }}">

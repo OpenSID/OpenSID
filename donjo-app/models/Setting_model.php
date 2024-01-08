@@ -195,7 +195,7 @@ class Setting_model extends MY_Model
                     continue;
                 }
 
-                $value = strip_tags($value);
+                $value = is_array($value) ? $value : strip_tags($value);
                 // update password jika terisi saja
                 if ($key == 'email_smtp_pass' && $value === '') {
                     continue;
@@ -214,6 +214,9 @@ class Setting_model extends MY_Model
                 }
 
                 if (is_array($post = $this->input->post($key))) {
+                    if (in_array('-', $post)) {
+                        unset($post[0]);
+                    }
                     $value = json_encode($post, JSON_THROW_ON_ERROR);
                 }
 

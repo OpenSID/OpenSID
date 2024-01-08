@@ -116,6 +116,15 @@
             }
         }
         $('document').ready(function() {
+            const hash = window.location.hash.substring(1)
+            if (hash.length) {
+                const dataPenduduk = hash.split('#')
+                $('select[name="individu[nik]"]').append(`<option selected value="${dataPenduduk[0]}">NIK/Tag ID Card : ${dataPenduduk[1]} - ${decodeURIComponent(dataPenduduk[2])}</option>`)
+                $('select[name="individu[nik]"]').trigger('change')
+            }
+
+
+
             $('[data-visible-required=1]:visible').addClass('required')
             $('#nik').select2({
                 ajax: {

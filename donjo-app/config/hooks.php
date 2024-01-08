@@ -50,15 +50,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 $hook = OpenSID\Hook::getHooks();
 
-if (ENVIRONMENT === 'development') {
-    $hook['display_override'][] = [
-        'class'    => 'Develbar',
-        'function' => 'debug',
-        'filename' => 'Develbar.php',
-        'filepath' => 'third_party/DevelBar/hooks',
-    ];
-}
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -117,29 +108,7 @@ $app->configure('app');
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
-/**
- * Get instance ci baru bisa di load pada hook
- * post_controller_constructor, post_controller, display_override, cache_override, post_system.
- */
-$hook['post_controller_constructor'] = static function () use ($app): void {
-    $app->register(\App\Providers\ViewServiceProvider::class);
-
-    if (ENVIRONMENT == 'development') {
-        get_instance()->capsule  = $capsule;
-        get_instance()->queryOrm = [];
-
-        /**
-         * Uncomment untuk listen semua query dari laravel database.
-         */
-        \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
-            // log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
-            //     return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
-            // }, $query->sql));
-            get_instance()->queryOrm[] = $query;
-        });
-    }
-};
+$app->register(\App\Providers\PaginationServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -152,5 +121,16 @@ $hook['post_controller_constructor'] = static function () use ($app): void {
 | and wonderful application we have prepared for them.
 |
 */
+
+if (ENVIRONMENT === 'development') {
+    /**
+     * Uncomment untuk listen semua query dari illuminate database.
+     */
+    \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
+        // log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
+        //     return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+        // }, $query->sql));
+    });
+}
 
 $app->boot();

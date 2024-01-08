@@ -105,7 +105,7 @@ class Anjungan_menu extends Anjungan_Controller
         array_pop($tipe_link);
 
         $data['link_tipe']                  = $tipe_link;
-        $data['artikel_statis']             = Artikel::where('id_kategori', 999)->get();
+        $data['artikel_statis']             = Artikel::statis()->get();
         $data['kategori_artikel']           = Kategori::configId()->where('enabled', 1)->get();
         $data['statistik_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
         $data['statistik_keluarga']         = $this->referensi_model->list_ref(STAT_KELUARGA);
@@ -115,7 +115,7 @@ class Anjungan_menu extends Anjungan_Controller
         $data['lembaga']                    = Kelompok::tipe('lembaga')->get();
         $data['suplemen']                   = Suplemen::get();
         $data['statis_lainnya']             = $this->referensi_model->list_ref(STAT_LAINNYA);
-        $data['artikel_keuangan']           = Artikel::where('id_kategori', 1001)->get();
+        $data['artikel_keuangan']           = Artikel::keuangan()->get();
 
         if ($id) {
             $data['action']      = 'Ubah';

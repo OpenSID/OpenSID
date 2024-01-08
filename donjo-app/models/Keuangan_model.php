@@ -301,7 +301,7 @@ class Keuangan_model extends MY_Model
     {
         $this->db->select('id, judul');
         $this->db->where([
-            'id_kategori' => 1001,
+            'tipe' => 'keuangan',
         ]);
         $results = $this->config_id()->get('artikel')->result_array();
         $link    = [];

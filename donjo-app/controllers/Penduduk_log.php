@@ -48,6 +48,7 @@ class Penduduk_log extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'penduduk_log_model']);
+        $this->header['kategori'] = 'log_penduduk';
     }
 
     public function clear(): void
