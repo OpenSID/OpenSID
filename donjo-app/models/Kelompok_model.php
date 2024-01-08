@@ -55,11 +55,6 @@ class Kelompok_model extends MY_Model
         return $this;
     }
 
-    public function autocomplete()
-    {
-        return $this->autocomplete_str('nama', $this->table);
-    }
-
     private function search_sql()
     {
         if ($search = $this->session->cari) {
@@ -504,14 +499,6 @@ class Kelompok_model extends MY_Model
             ->where('id_penduduk', $id_a)
             ->get()
             ->row_array();
-    }
-
-    public function list_master()
-    {
-        return $this->config_id()
-            ->where('tipe', $this->tipe)
-            ->get('kelompok_master')
-            ->result_array();
     }
 
     private function in_list_anggota($kelompok, $id_pend)

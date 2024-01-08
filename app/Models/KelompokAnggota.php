@@ -76,6 +76,43 @@ class KelompokAnggota extends BaseModel
      */
     public function scopeTipe($query, $tipe = 'kelompok')
     {
-        return $query->where('tipe', $tipe);
+        return $query->where("{$this->table}.tipe", $tipe);
+    }
+
+    /**
+     * Scope query untuk list penduduk.
+     *
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param mixed                              $kelompokId
+     *
+     * @return \Illuminate\Database\Query\Builder $query
+     */
+    public function scopeListAnggota($query, $kelompokId = 0)
+    {
+        $sebutanDusun = ucwords(setting('sebutan_dusun'));
+
+        return $this->withoutGlobalScopes()
+            ->withConfigId('ka')
+            ->selectRaw('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto, tpp.nama as pendidikan, tpa.nama as agama')
+            ->selectRaw("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
+            ->selectRaw('a.dusun,a.rw,a.rt')
+            ->selectRaw("CONCAT('{$sebutanDusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) AS alamat")
+            ->selectRaw("
+                (case
+                    when jabatan = 1 then 'KETUA'
+                    when jabatan = 2 then 'WAKIL KETUA'
+                    when jabatan = 3 then 'SEKRETARIS'
+                    when jabatan = 4 then 'BENDAHARA'
+                    else 'ANGGOTA'
+                end) as jabatan
+            ")
+            ->from('kelompok_anggota as ka')
+            ->join('tweb_penduduk as tp', 'ka.id_penduduk', '=', 'tp.id', 'left')
+            ->join('tweb_penduduk_sex as tpx', 'tp.sex', '=', 'tpx.id', 'left')
+            ->join('tweb_penduduk_pendidikan_kk as tpp', 'tp.pendidikan_kk_id', '=', 'tpp.id', 'left')
+            ->join('tweb_penduduk_agama as tpa', 'tp.agama_id', '=', 'tpa.id', 'left')
+            ->join('tweb_wil_clusterdesa as a', 'tp.id_cluster', '=', 'a.id', 'left')
+            ->where('ka.id_kelompok', $kelompokId)
+            ->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)');
     }
 }
