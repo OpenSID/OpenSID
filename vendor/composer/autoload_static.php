@@ -63,6 +63,7 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Console\\' => 26,
             'Spipu\\Html2Pdf\\' => 15,
+            'Spatie\\EloquentSortable\\' => 24,
         ),
         'R' => 
         array (
@@ -234,6 +235,10 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         'Spipu\\Html2Pdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/spipu/html2pdf/src',
+        ),
+        'Spatie\\EloquentSortable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/eloquent-sortable/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (

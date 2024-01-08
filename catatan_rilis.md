@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#7545](https://github.com/OpenSID/OpenSID/issues/7545) Penyesuaian penggunaan komponen illuminate.
 2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penyesuaian route menggunakan library opensid/router.
+3. [#7510](https://github.com/OpenSID/OpenSID/issues/7510) Penyesuaian fungsi pengurutan mengunakan dragable pada tabel.
 
 
 #### KEAMANAN

@@ -76,8 +76,6 @@ class Web_widget extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a data-arah="bawah"  href="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
-                        $aksi .= '<a data-arah="atas" hhref="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                         if ($row->jenis_widget != 1) {
                             $aksi .= '<a href="' . ci_route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         }
@@ -124,12 +122,8 @@ class Web_widget extends Admin_Controller
     public function tukar()
     {
         $widget = $this->input->post('data');
-        if ($widget) {
-            foreach ($widget as $w) {
-                Widget::findOrFail($w['id'])->update(['urut' => $w['urut']]);
-            }
-            Widget::updateUrutan();
-        }
+
+        Widget::setNewOrder($widget);
 
         return json(['status' => 1]);
     }

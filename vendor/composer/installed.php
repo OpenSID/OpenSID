@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'd15612017f30aaa96c86ecc62b3fdf781bf159e8',
+        'reference' => '94748117868c247c86553463fad6decd679dd877',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -328,7 +328,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'd15612017f30aaa96c86ecc62b3fdf781bf159e8',
+            'reference' => '94748117868c247c86553463fad6decd679dd877',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -528,6 +528,15 @@
             'replaced' => array(
                 0 => '4.2.3',
             ),
+        ),
+        'spatie/eloquent-sortable' => array(
+            'pretty_version' => '3.11.0',
+            'version' => '3.11.0.0',
+            'reference' => 'b06fa886559f8d40e31c8a69fd32bd45401dc5da',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/eloquent-sortable',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'spipu/html2pdf' => array(
             'pretty_version' => 'v5.2.8',

@@ -30,6 +30,7 @@
 		"opensid/router": "dev-master",
 		"openspout/openspout": "^3.7",
 		"ramsey/uuid": "^4.2",
+		"spatie/eloquent-sortable": "^3.11",
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
