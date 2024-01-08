@@ -170,6 +170,6 @@ Route::group('kehadiran', ['namespace' => 'kehadiran'], static function () {
 });
 
 // Include all routes in folder Web
-foreach (glob(APPPATH . 'Routes/web/*.php') as $file) {
+foreach (glob(APPPATH . 'Routes/Web/*.php') as $file) {
     require_once $file;
 }
