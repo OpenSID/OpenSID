@@ -13,6 +13,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#7565](https://github.com/OpenSID/OpenSID/issues/7565) Perbaikan cetak lampiran F-1.08.
 8. [#7558](https://github.com/OpenSID/OpenSID/issues/7558) Perbaikan surat yang dikaitkan pada modul log penduduk.
 9. [#7560](https://github.com/OpenSID/OpenSID/issues/7560) Perbaikan impor hari libur pada php 8.x.
+10. [#7563](https://github.com/OpenSID/OpenSID/issues/7563) Perbaikan menampilkan icon ajungan jika null pada php 8.x.
+
 
 #### TEKNIS
 

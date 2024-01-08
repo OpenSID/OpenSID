@@ -299,7 +299,11 @@
                                 <div class="carousel-col">
                                     <a data-value="{{ $item->link }}" class="popup">
                                         <div class="icon-stat">
-                                            <img src="{{ icon_menu_anjungan($item->icon) }}">
+                                            @if ($item->icon)
+                                                <img src="{{ icon_menu_anjungan($item->icon) }}">
+                                            @else
+                                                <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                            @endif
                                             <div class="icon-stat-title difle-c">
                                                 <p>{{ $item->nama }}</p>
                                             </div>
