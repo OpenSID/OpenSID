@@ -28,7 +28,7 @@ class Middleware
             return self::$loadedMiddleware[$middleware];
         }
 
-        $target = APPPATH . '/middleware/' . $middleware . '.php';
+        $target = APPPATH . '/Middleware/' . $middleware . '.php';
 
         if( file_exists($target))
         {

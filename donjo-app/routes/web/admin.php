@@ -51,7 +51,7 @@ Route::group('siteman', static function () {
 // MAIN
 Route::get('main', 'Main@index');
 
-Route::group('pengguna', function(): void {
+Route::group('pengguna', static function () {
     Route::post('/update', 'Pengguna@update')->name('pengguna.update');
     Route::post('/update_password', 'Pengguna@update_password')->name('pengguna.update_password');
     Route::match(['GET', 'POST'], '/kirim_verifikasi', 'Pengguna@kirim_verifikasi')->name('pengguna.kirim_verifikasi');
@@ -247,6 +247,28 @@ Route::group('penduduk', static function () {
     Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Penduduk@index');
     Route::match(['GET', 'POST'], '/index/{p?}', 'Penduduk@index');
     Route::match(['GET', 'POST'], '/', 'Penduduk@index');
+});
+
+// Kependudukan > Penduduk > Log Penduduk
+Route::group('penduduk_log', static function () {
+    Route::get('/clear', 'Penduduk_log@clear')->name('penduduk_log.clear');
+    Route::get('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
+    Route::get('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
+    Route::get('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
+    Route::get('/tahun_bulan', 'Penduduk_log@tahun_bulan')->name('penduduk_log.tahun_bulan');
+    Route::get('/edit/{p?}/{o?}/{id?}', 'Penduduk_log@edit')->name('penduduk_log.edit');
+    Route::post('/update/{p?}/{o?}/{id?}', 'Penduduk_log@update')->name('penduduk_log.update');
+    Route::post('/filter/{filter}', 'penduduk_log@filter')->name('penduduk_log.filter');
+    Route::get('/kembalikan_status/{id?}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
+    Route::get('/kembalikan_status_pergi/{id?}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
+    Route::get('/ajax_kembalikan_status_pergi/{id?}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
+    Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
+    Route::get('/ajax_cetak/{o?}/{aksi?}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
+    Route::get('/cetak/{o?}/{aksi?}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
+    Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/index/{p?}', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/', 'Penduduk_log@index');
 });
 
 // Kependudukan > Keluarga
@@ -1852,6 +1874,12 @@ Route::group('database', static function () {
     Route::post('/upload_restore', 'Database@upload_restore')->name('database.upload_restore');
     Route::get('/batal_restore', 'Database@batal_restore')->name('database.batal_restore');
 });
+
+Route::group('multiDB', static function () {
+    Route::get('/backup', 'MultiDB@backup')->name('multiDB.backup');
+    Route::post('/restore', 'MultiDB@restore')->name('multiDB.restore');
+});
+
 // Pengaturan > Info Sistem
 Route::group('info_sistem', static function () {
     Route::get('/', 'Info_sistem@index')->name('info_sistem.index');
