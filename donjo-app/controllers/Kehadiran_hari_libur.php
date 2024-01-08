@@ -196,7 +196,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
         $batch = collect($tanggal)->map(static fn ($item, $key): array => [
             'config_id'  => identitas('id'),
-            'tanggal'    => date_format(date_create($key), 'Y-m-d'),
+            'tanggal'    => $key,
             'keterangan' => $item['summary'],
         ])->filter(static fn ($value, $key): bool => $value['tanggal'] > date('Y') . '-01-01')->slice(0, -2);
 

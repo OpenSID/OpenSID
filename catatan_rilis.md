@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7564](https://github.com/OpenSID/OpenSID/issues/7564) Perbaikan cetang semua pada pilihan data keluarga saat cetak surat TinyMCE.
 7. [#7565](https://github.com/OpenSID/OpenSID/issues/7565) Perbaikan cetak lampiran F-1.08.
 8. [#7558](https://github.com/OpenSID/OpenSID/issues/7558) Perbaikan surat yang dikaitkan pada modul log penduduk.
+9. [#7560](https://github.com/OpenSID/OpenSID/issues/7560) Perbaikan impor hari libur pada php 8.x.
 
 #### TEKNIS
 
