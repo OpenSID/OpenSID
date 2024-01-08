@@ -45,7 +45,6 @@ use Illuminate\Encryption\EncryptionServiceProvider;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
-use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ViewServiceProvider;
@@ -297,7 +296,6 @@ class Laravel extends Container
             }
 
             $this->register(DatabaseServiceProvider::class);
-            $this->register(PaginationServiceProvider::class);
 
             return $this->make('db');
         });
