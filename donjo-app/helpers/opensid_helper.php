@@ -229,20 +229,26 @@ function gambar_desa(?string $nama_file = null, $type = false, $file = false): s
 
 function session_error($pesan = ''): void
 {
-    $_SESSION['error_msg'] = $pesan;
-    $_SESSION['success']   = -1;
+    // $_SESSION['error_msg'] = $pesan;
+    // $_SESSION['success']   = -1;
+
+    get_instance()->session->set_flashdata([
+        'error_msg' => $pesan,
+        'success'   => -1,
+    ]);
 }
 
 function session_error_clear(): void
 {
-    $_SESSION['error_msg'] = '';
-    unset($_SESSION['success']);
+    get_instance()->session->unset_userdata(['error_msg', 'success']);
 }
 
 function session_success(): void
 {
-    $_SESSION['error_msg'] = '';
-    $_SESSION['success']   = 1;
+    get_instance()->session->set_flashdata([
+        'error_msg' => '',
+        'success'   => 1,
+    ]);
 }
 
 // Untuk mengirim data ke OpenSID tracker

@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#7561](https://github.com/OpenSID/OpenSID/issues/7561) Perbaikan lokasi data lampiran surat.
 12. [#7530](https://github.com/OpenSID/OpenSID/issues/7530) Perbaikan validasi ubah data anggota kelompok/lembaga.
 13. [#7568](https://github.com/OpenSID/OpenSID/issues/7568) Perbaikan hapus data arsip surat beserta file-filenya.
+14. [#7572](https://github.com/OpenSID/OpenSID/issues/7572) Perbaikan penggunaan session notifikasi.
 
 
 #### TEKNIS
