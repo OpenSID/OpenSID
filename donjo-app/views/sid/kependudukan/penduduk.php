@@ -72,9 +72,6 @@
 								<li>
 									<a href="<?= site_url("{$this->controller}/nik_sementara"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK Sementara</a>
 								</li>
-								<li>
-									<a href="<?= site_url('penduduk_log/clear'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Log Data Penduduk"><i class="fa fa-book"></i> Log Penduduk</a>
-								</li>
 							</ul>
 						</div>
 						<div class="btn-group-vertical">

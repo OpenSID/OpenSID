@@ -47,7 +47,7 @@ class Kategori extends Admin_Controller
     {
         parent::__construct();
         $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'kategori';
+        $this->sub_modul_ini = 'menu';
     }
 
     public function index(): void

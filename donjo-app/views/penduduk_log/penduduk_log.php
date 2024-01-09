@@ -1,10 +1,9 @@
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Log Penduduk</h1>
+        <h1>Catatan Peristiwa</h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
-            <li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
-            <li class="active">Log Penduduk</li>
+            <li class="active">Catatan Peristiwa</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
@@ -18,7 +17,6 @@
                             <?php endif; ?>
                             <a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
                             <a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-                            <a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
                             <a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
                         </div>
                     </div>
