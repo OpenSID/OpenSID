@@ -11,9 +11,8 @@
 
 namespace Monolog\Handler;
 
-use Monolog\Level;
+use Monolog\Logger;
 use Monolog\Utils;
-use Monolog\LogRecord;
 
 /**
  * Logs to Cube.
@@ -24,13 +23,18 @@ use Monolog\LogRecord;
  */
 class CubeHandler extends AbstractProcessingHandler
 {
-    private ?\Socket $udpConnection = null;
-    private ?\CurlHandle $httpConnection = null;
-    private string $scheme;
-    private string $host;
-    private int $port;
+    /** @var resource|\Socket|null */
+    private $udpConnection = null;
+    /** @var resource|\CurlHandle|null */
+    private $httpConnection = null;
+    /** @var string */
+    private $scheme;
+    /** @var string */
+    private $host;
+    /** @var int */
+    private $port;
     /** @var string[] */
-    private array $acceptedSchemes = ['http', 'udp'];
+    private $acceptedSchemes = ['http', 'udp'];
 
     /**
      * Create a Cube handler
@@ -39,7 +43,7 @@ class CubeHandler extends AbstractProcessingHandler
      *                                   A valid url must consist of three parts : protocol://host:port
      *                                   Only valid protocols used by Cube are http and udp
      */
-    public function __construct(string $url, int|string|Level $level = Level::Debug, bool $bubble = true)
+    public function __construct(string $url, $level = Logger::DEBUG, bool $bubble = true)
     {
         $urlInfo = parse_url($url);
 
@@ -47,7 +51,7 @@ class CubeHandler extends AbstractProcessingHandler
             throw new \UnexpectedValueException('URL "'.$url.'" is not valid');
         }
 
-        if (!in_array($urlInfo['scheme'], $this->acceptedSchemes, true)) {
+        if (!in_array($urlInfo['scheme'], $this->acceptedSchemes)) {
             throw new \UnexpectedValueException(
                 'Invalid protocol (' . $urlInfo['scheme']  . ').'
                 . ' Valid options are ' . implode(', ', $this->acceptedSchemes)
@@ -56,7 +60,7 @@ class CubeHandler extends AbstractProcessingHandler
 
         $this->scheme = $urlInfo['scheme'];
         $this->host = $urlInfo['host'];
-        $this->port = $urlInfo['port'];
+        $this->port = (int) $urlInfo['port'];
 
         parent::__construct($level, $bubble);
     }
@@ -107,24 +111,24 @@ class CubeHandler extends AbstractProcessingHandler
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    protected function write(LogRecord $record): void
+    protected function write(array $record): void
     {
-        $date = $record->datetime;
+        $date = $record['datetime'];
 
         $data = ['time' => $date->format('Y-m-d\TH:i:s.uO')];
-        $context = $record->context;
+        unset($record['datetime']);
 
-        if (isset($context['type'])) {
-            $data['type'] = $context['type'];
-            unset($context['type']);
+        if (isset($record['context']['type'])) {
+            $data['type'] = $record['context']['type'];
+            unset($record['context']['type']);
         } else {
-            $data['type'] = $record->channel;
+            $data['type'] = $record['channel'];
         }
 
-        $data['data'] = $context;
-        $data['data']['level'] = $record->level;
+        $data['data'] = $record['context'];
+        $data['data']['level'] = $record['level'];
 
         if ($this->scheme === 'http') {
             $this->writeHttp(Utils::jsonEncode($data));
@@ -135,12 +139,8 @@ class CubeHandler extends AbstractProcessingHandler
 
     private function writeUdp(string $data): void
     {
-        if (null === $this->udpConnection) {
+        if (!$this->udpConnection) {
             $this->connectUdp();
-        }
-
-        if (null === $this->udpConnection) {
-            throw new \LogicException('No UDP socket could be opened');
         }
 
         socket_send($this->udpConnection, $data, strlen($data), 0);
@@ -148,7 +148,7 @@ class CubeHandler extends AbstractProcessingHandler
 
     private function writeHttp(string $data): void
     {
-        if (null === $this->httpConnection) {
+        if (!$this->httpConnection) {
             $this->connectHttp();
         }
 

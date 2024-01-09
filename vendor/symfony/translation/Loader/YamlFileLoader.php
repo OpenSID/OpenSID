@@ -24,11 +24,14 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlFileLoader extends FileLoader
 {
-    private YamlParser $yamlParser;
+    private $yamlParser;
 
-    protected function loadResource(string $resource): array
+    /**
+     * {@inheritdoc}
+     */
+    protected function loadResource(string $resource)
     {
-        if (!isset($this->yamlParser)) {
+        if (null === $this->yamlParser) {
             if (!class_exists(\Symfony\Component\Yaml\Parser::class)) {
                 throw new LogicException('Loading translations from the YAML format requires the Symfony Yaml component.');
             }
