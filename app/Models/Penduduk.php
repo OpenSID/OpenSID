@@ -537,7 +537,7 @@ class Penduduk extends BaseModel
 
     protected function scopeDpt($query, $tglPemilihan = null)
     {
-        $tglPemilihan = $tglPemilihan ?? date('d-m-Y');
+        $tglPemilihan ??= date('d-m-Y');
 
         return $query->where(['status_dasar' => 1, 'status' => 1, 'warganegara_id' => 1])
             ->where(static function ($q) use ($tglPemilihan) {

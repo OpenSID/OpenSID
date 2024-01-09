@@ -51,6 +51,9 @@ Route::group('siteman', static function () {
 // MAIN
 Route::get('main', 'Main@index');
 
+// Notif
+Route::post('notif/update_pengumuman', 'Notif@update_pengumuman');
+
 Route::group('pengguna', static function () {
     Route::post('/update', 'Pengguna@update')->name('pengguna.update');
     Route::post('/update_password', 'Pengguna@update_password')->name('pengguna.update_password');
@@ -252,23 +255,23 @@ Route::group('penduduk', static function () {
 // Kependudukan > Penduduk > Log Penduduk
 Route::group('penduduk_log', static function () {
     Route::get('/clear', 'Penduduk_log@clear')->name('penduduk_log.clear');
-    Route::get('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
-    Route::get('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
-    Route::get('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
-    Route::get('/tahun_bulan', 'Penduduk_log@tahun_bulan')->name('penduduk_log.tahun_bulan');
-    Route::get('/edit/{p?}/{o?}/{id?}', 'Penduduk_log@edit')->name('penduduk_log.edit');
-    Route::post('/update/{p?}/{o?}/{id?}', 'Penduduk_log@update')->name('penduduk_log.update');
-    Route::post('/filter/{filter}', 'penduduk_log@filter')->name('penduduk_log.filter');
-    Route::get('/kembalikan_status/{id?}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
-    Route::get('/kembalikan_status_pergi/{id?}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
-    Route::get('/ajax_kembalikan_status_pergi/{id?}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
-    Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
-    Route::get('/ajax_cetak/{o?}/{aksi?}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
-    Route::get('/cetak/{o?}/{aksi?}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
+    Route::get('/', 'Penduduk_log@index')->name('penduduk_log.index');
     Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/index/{p?}', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/index/{p}', 'Penduduk_log@index');
+    Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Penduduk_log@index');
+    Route::post('/filter', 'Penduduk_log@filter')->name('penduduk_log.filter');
+    Route::post('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
+    Route::post('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
+    Route::post('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
+    Route::post('/tahun_bulan', 'Penduduk_log@tahun_bulan')->name('penduduk_log.tahun_bulan');
+    Route::get('/edit/{p}/{o}/{id?}', 'Penduduk_log@edit')->name('penduduk_log.edit');
+    Route::post('/update/{p}/{o}/{id?}', 'Penduduk_log@update')->name('penduduk_log.update');
+    Route::get('/kembalikan_status/{id}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
+    Route::get('/ajax_kembalikan_status_pergi/{id?}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
+    Route::post('/kembalikan_status_pergi/{id?}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
+    Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
+    Route::get('/cetak/{o}/{aksi}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
+    Route::get('/ajax_cetak/{o}/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
 });
 
 // Kependudukan > Keluarga
@@ -1858,7 +1861,7 @@ Route::group('grup', static function () {
 Route::group('database', static function () {
     Route::get('/', 'Database@index')->name('database.index');
     Route::get('/migrasi_cri', 'Database@migrasi_cri')->name('database.migrasi_cri');
-    Route::post('/migrasi_db_cri', 'Database@migrasi_db_cri')->name('database.migrasi_db_cri');
+    Route::match(['GET', 'POST'], '/migrasi_db_cri', 'Database@migrasi_db_cri')->name('database.migrasi_db_cri');
     Route::get('/exec_backup', 'Database@exec_backup')->name('database.exec_backup');
     Route::get('/desa_backup', 'Database@desa_backup')->name('database.desa_backup');
     Route::get('/desa_inkremental', 'Database@desa_inkremental')->name('database.desa_inkremental');
@@ -1915,7 +1918,7 @@ Route::group('web', static function () {
     Route::post('/update/{id?}', 'Web@update')->name('web.update');
     Route::get('/delete/{id?}', 'Web@delete')->name('web.delete');
     Route::post('/delete_all', 'Web@delete_all')->name('web.delete_all');
-    Route::get('/hapus', 'Web@hapus')->name('web.hapus');
+    Route::match(['GET', 'POST'], '/hapus', 'Web@hapus')->name('web.hapus');
     Route::get('/ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
     Route::post('/update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
     Route::get('/artikel_lock/{id?}/{val?}', 'Web@artikel_lock')->name('web.artikel_lock');
@@ -1950,44 +1953,40 @@ Route::group('web_widget', static function () {
 });
 // Admin Web > Menu
 Route::group('menu', static function () {
-    Route::get('/clear', 'Menu@clear')->name('menu.clear-default');
-    Route::get('/clear/{parrent}', 'Menu@clear')->name('menu.clear');
-    Route::get('/ajax_menu/{id?}', 'Menu@ajax_menu')->name('menu.ajax_menu');
-    Route::post('/search', 'Menu@search')->name('menu.search');
-    Route::post('/filter', 'Menu@filter')->name('menu.filter');
-    Route::post('/insert', 'Menu@insert')->name('menu.insert');
-    Route::post('/update/{id?}', 'Menu@update')->name('menu.update');
-    Route::get('/delete/{id?}', 'Menu@delete')->name('menu.delete');
-    Route::post('/delete_all', 'Menu@delete_all')->name('menu.delete_all');
-    Route::get('/menu_lock/{id?}', 'Menu@menu_lock')->name('menu.menu_lock');
-    Route::get('/menu_unlock/{id?}', 'Menu@menu_unlock')->name('menu.menu_unlock');
-    Route::get('/urut/{id}/{arah}', 'Menu@urut')->name('menu.urut');
-    Route::match(['GET', 'POST'], '/', 'Menu@index')->name('menu.index-default');
-    Route::match(['GET', 'POST'], '/index', 'Menu@index')->name('menu.index-default-1');
-    Route::match(['GET', 'POST'], '/index/{p?}', 'Menu@index')->name('menu.index-default-page');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Menu@index')->name('menu.index');
+    Route::get('/', 'Menu@index')->name('menu.index');
+    Route::get('/index', 'Menu@index')->name('menu.index-default');
+    Route::get('/datatables', 'Menu@datatables')->name('menu.datatables');
+    Route::get('/ajax_menu/{parent}/{id?}', 'Menu@ajax_menu')->name('menu.ajax_menu');
+    Route::post('/insert/{parent}', 'Menu@insert')->name('menu.insert');
+    Route::post('/update/{parent}/{id}', 'Menu@update')->name('menu.update');
+    Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Menu@delete')->name('menu.delete');
+    Route::get('/lock/{parent}/{id}', 'Menu@lock')->name('menu.lock');
+    Route::post('/tukar', 'Menu@tukar')->name('menu.tukar');
+});
+// Admin Web > Menu Kategori
+Route::group('kategori', static function () {
+    Route::get('/', 'Kategori@index')->name('kategori.index');
+    Route::get('/index', 'Kategori@index')->name('kategori.index-default');
+    Route::get('/datatables', 'Kategori@datatables')->name('kategori.datatables');
+    Route::get('/ajax_form/{parent}/{id?}', 'Kategori@ajax_form')->name('kategori.ajax_form');
+    Route::post('/insert/{parent}', 'Kategori@insert')->name('kategori.insert');
+    Route::post('/update/{parent}/{id}', 'Kategori@update')->name('kategori.update');
+    Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Kategori@delete')->name('kategori.delete');
+    Route::get('/lock/{parent}/{id}', 'Kategori@lock')->name('kategori.lock');
+    Route::get('/unlock/{parent}/{id}', 'Kategori@unlock')->name('kategori.unlock');
+    Route::post('/tukar', 'Kategori@tukar')->name('kategori.tukar');
 });
 // Admin Web > Komentar
 Route::group('komentar', static function () {
     Route::get('/clear', 'Komentar@clear')->name('komentar.clear');
-    Route::get('/form', 'Komentar@form')->name('komentar.form');
-    Route::get('/form/{p?}', 'Komentar@form')->name('komentar.form-1');
-    Route::get('/form/{p}/{o?}', 'Komentar@form')->name('komentar.form-2');
-    Route::get('/form/{p}/{o}/{id?}', 'Komentar@form')->name('komentar.form-3');
-    Route::post('/search', 'Komentar@search')->name('komentar.search');
-    Route::post('/filter', 'Komentar@filter')->name('komentar.filter');
+    Route::get('/form/{id?}', 'Komentar@form')->name('komentar.form');
+    Route::get('/datatables', 'Komentar@datatables')->name('komentar.datatables');
     Route::post('/insert', 'Komentar@insert')->name('komentar.insert');
-    Route::post('/update', 'Komentar@update')->name('komentar.update');
-    Route::post('/update/{id?}', 'Komentar@update')->name('komentar.update-1');
-    Route::post('/update/{id?}/{p?}/{o?}', 'Komentar@update')->name('komentar.update-2');
-    Route::get('/delete/{p}/{o}/{id}', 'Komentar@delete')->name('komentar.delete');
-    Route::post('/delete_all/{p}/{o}', 'Komentar@delete_all')->name('komentar.delete_all');
-    Route::get('/komentar_lock/{id?}', 'Komentar@komentar_lock')->name('komentar.komentar_lock');
-    Route::get('/komentar_unlock/{id?}', 'Komentar@komentar_unlock')->name('komentar.komentar_unlock');
+    Route::post('/update/{id?}', 'Komentar@update')->name('komentar.update');
+    Route::get('/delete/{id}', 'Komentar@delete')->name('komentar.delete');
+    Route::post('/delete_all', 'Komentar@delete_all')->name('komentar.delete_all');
+    Route::get('/lock/{id?}', 'Komentar@lock')->name('komentar.lock');
     Route::match(['GET', 'POST'], '/', 'Komentar@index')->name('komentar.index-default');
-    Route::match(['GET', 'POST'], '/index', 'Komentar@index')->name('komentar.index-default-1');
-    Route::match(['GET', 'POST'], '/index/{p?}', 'Komentar@index')->name('komentar.index-default-page');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Komentar@index')->name('komentar.index');
 });
 // Admin Web > Galeri
 Route::group('gallery', static function () {

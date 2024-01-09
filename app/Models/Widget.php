@@ -83,10 +83,10 @@ class Widget extends BaseModel
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public $sortable = [
-        'order_column_name' => 'urut',
+        'order_column_name'  => 'urut',
         'sort_when_creating' => true,
     ];
 

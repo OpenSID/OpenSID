@@ -263,8 +263,8 @@ $jm          = count($stat); ?>
 						</td>
 						<td><?=$data['nama']?></td>
 						<td class="angka <?php if (($jm1 <= $jm - 2) && ($data['jumlah'] == 0)) {
-						    echo 'nol';
-						} ?>"><?=$data['jumlah']?></td>
+                            echo 'nol';
+                        } ?>"><?=$data['jumlah']?></td>
 						<td class="angka"><?=$data['persen']?></td>
 						<td class="angka"><?=$data['laki']?></td>
 						<td class="angka"><?=$data['persen1']?></td>

@@ -19,7 +19,7 @@
  */
 
 Route::get('/', function(){
-   my_info();
+    dd('Selamat datang di OpenSID-CI!');
 })->name('homepage');
 
 Route::set('404_override', function(){

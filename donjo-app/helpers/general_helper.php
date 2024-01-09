@@ -317,9 +317,16 @@ if (! function_exists('calculate_date_intervals')) {
 
 // Parsedown
 if (! function_exists('parsedown')) {
+    /**
+     * Parsedown.
+     *
+     * @param string|null $params
+     *
+     * @return Parsedown|string
+     */
     function parsedown($params = null)
     {
-        $parsedown = new \App\Libraries\Parsedown();
+        $parsedown = new Parsedown();
 
         if (null !== $params) {
             return $parsedown->text(file_get_contents(FCPATH . $params));

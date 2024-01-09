@@ -99,12 +99,8 @@ class Pengaduan_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('status', static function ($row): string {
-                    return '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>';
-                })
-                ->editColumn('created_at', static function ($row): string {
-                    return tgl_indo2($row->created_at);
-                })
+                ->editColumn('status', static fn ($row): string => '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>')
+                ->editColumn('created_at', static fn ($row): string => tgl_indo2($row->created_at))
                 ->rawColumns(['ceklist', 'aksi', 'status'])
                 ->make();
         }

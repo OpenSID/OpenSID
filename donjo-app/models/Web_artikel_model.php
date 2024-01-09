@@ -117,9 +117,9 @@ class Web_artikel_model extends MY_Model
             ->join('kategori k', 'a.id_kategori = k.id', 'left');
         if (in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL)) {
             $this->db->where('id_kategori')->where('a.tipe', $cat);
-        } elseif ($cat == -1) {
+        } elseif ($cat > 0) {
             // Semua artikel dinamis (tidak termasuk artikel statis)
-            $this->db->where('a.tipe', 'dinamis');
+            $this->db->where('a.tipe', 'dinamis')->where('k.id', $cat);
         } else {
             // Artikel dinamis tidak berkategori
             $this->db->where('a.tipe', 'dinamis')->where('k.id', null);

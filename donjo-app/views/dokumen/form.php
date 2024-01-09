@@ -83,7 +83,7 @@
                     } else {
                         $this->load->view('dokumen/_informasi_publik');
                     }
-		?>
+        ?>
 				</div>
 				<div class='box-footer'>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>

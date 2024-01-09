@@ -4,7 +4,6 @@ namespace OpenSID;
 
 use OpenSID\Exception\RouteNotFoundException;
 use OpenSID\RouteBuilder as Route;
-use OpenSID\Auth\Dispatcher as AuthDispatcher;
 
 /**
  * Defines and returns all the required OpenSID CI hooks at framework startup
@@ -20,14 +19,8 @@ class Hook
      *
      * @return array
      */
-    public static function getHooks($config = null)
+    public static function getHooks($config = [])
     {
-        if(empty($config)) {
-            $config = [
-                'modules' => [],
-            ];
-        }
-
         $hooks = [];
 
         $hooks['pre_system'][] = function () use ($config) {
@@ -77,10 +70,6 @@ class Hook
 
         require_once __DIR__ . '/Facades/Route.php' ;
 
-        if(in_array('auth', $config['modules'])) {
-            require_once __DIR__ . '/Facades/Auth.php' ;
-        }
-
         if(!file_exists(APPPATH . '/Routes')) {
             mkdir(APPPATH . '/Routes');
         }
@@ -119,30 +108,16 @@ class Hook
             );
         }
 
-        if(!file_exists(APPPATH . '/Routes/cli.php')) {
-            copy(__DIR__ . '/Resources/DefaultCliRoutes.php', APPPATH . '/Routes/cli.php');
+        if(!file_exists(APPPATH . '/Routes/console.php')) {
+            copy(__DIR__ . '/Resources/DefaultConsoleRoutes.php', APPPATH . '/Routes/console.php');
         }
 
         if($isCli) {
-            require_once(APPPATH . '/Routes/cli.php');
+            require_once(APPPATH . '/Routes/console.php');
             Route::set('default_controller', Route::DEFAULT_CONTROLLER);
         }
 
         require_once(__DIR__ . '/Functions.php');
-
-        // Auth module
-        if(in_array('auth', $config['modules'])) {
-            Route::middleware(new AuthDispatcher());
-        }
-
-        // Debug module
-        // if( ENVIRONMENT != 'production' && !$isCli && !$isAjax && in_array('debug', $config['modules']))
-        // {
-        //     Debug::init();
-        //     Debug::addCollector(new MessagesCollector('auth'));
-        //     Debug::addCollector(new MessagesCollector('routing'));
-        //     Debug::log('Welcome to OpenSID-CI ' . OpenSID_CI_VERSION . '!');
-        // }
 
         // Compiling all routes
         Route::compileAll();
@@ -319,45 +294,6 @@ class Hook
      */
     private static function postControllerConstructorHook($config, &$params)
     {
-        if(!is_cli()) {
-            // Auth module bootstrap
-            if(in_array('auth', $config['modules']) || in_array('debug', $config['modules'])) {
-                ci()->load->library('session');
-            }
-
-            if(in_array('auth', $config['modules'])) {
-                if(file_exists(APPPATH . '/config/auth.php')) {
-                    ci()->load->config('auth');
-                }
-                Auth::init();
-                Auth::user(true);
-            }
-
-            // Restoring flash debug messages
-            if(ENVIRONMENT != 'production' && in_array('debug', $config['modules'])) {
-                $debugBarFlashMessages = ci()->session->flashdata('_debug_bar_flash');
-
-                if(!empty($debugBarFlashMessages) && is_array($debugBarFlashMessages)) {
-                    foreach($debugBarFlashMessages as $message) {
-                        list($message, $type, $collector) = $message;
-                        log_message('notice', $message);
-                        // Debug::log($message, $type, $collector);
-                    }
-                }
-            }
-
-            if(in_array('auth', $config['modules'])) {
-                log_message('notice', '>>> CURRENT AUTH SESSION:');
-                // Debug::log('>>> CURRENT AUTH SESSION:','info','auth');
-                log_message('notice', Auth::session());
-                // Debug::log(Auth::session(), 'info', 'auth');
-                log_message('notice', '>>> CURRENT USER:');
-                // Debug::log('>>> CURRENT USER:','info','auth');
-                log_message('notice', Auth::user());
-                // Debug::log(Auth::user(), 'info', 'auth');
-            }
-        }
-
         // Current route configuration and dispatch
         ci()->route = Route::getCurrentRoute();
 
@@ -411,10 +347,6 @@ class Hook
 
         foreach(Route::getGlobalMiddleware()['post_controller'] as $middleware) {
             ci()->middleware->run($middleware);
-        }
-
-        if(!is_cli() && in_array('auth', $config['modules'])) {
-            Auth::session('validated', false);
         }
     }
 

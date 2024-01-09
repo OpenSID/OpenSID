@@ -59,7 +59,7 @@ class DataSuratPenduduk extends CI_Controller
     {
         $id       = $this->input->get('id_penduduk');
         $surat    = FormatSurat::findOrFail($this->input->get('id_surat'));
-        $kategori = $this->input->get('kategori');        
+        $kategori = $this->input->get('kategori');
         $this->dataPenduduk($id, $surat, $kategori);
     }
 
@@ -155,7 +155,7 @@ class DataSuratPenduduk extends CI_Controller
         $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
 
         $html = view('admin.surat.data_penduduk', $data, [], true);
-        
+
         // Set the content type to JSON
         return $this->output
             ->set_content_type('application/json')

@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#7563](https://github.com/OpenSID/OpenSID/issues/7563) Perbaikan menampilkan icon ajungan jika null pada php 8.x.
 11. [#7561](https://github.com/OpenSID/OpenSID/issues/7561) Perbaikan lokasi data lampiran surat.
 12. [#7530](https://github.com/OpenSID/OpenSID/issues/7530) Perbaikan validasi ubah data anggota kelompok/lembaga.
+13. [#7568](https://github.com/OpenSID/OpenSID/issues/7568) Perbaikan hapus data arsip surat beserta file-filenya.
 
 
 #### TEKNIS
@@ -27,5 +28,11 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penyesuaian route menggunakan library opensid/router.
 3. [#7510](https://github.com/OpenSID/OpenSID/issues/7510) Penyesuaian fungsi pengurutan mengunakan dragable pada tabel.
 4. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul kelompok/lembaga menggunakan ORM dan View Blade Laravel.
+5. [#3371](https://github.com/OpenSID/premium/issues/3371) Penyesuaian library hasing menggunakan illuminate/hashing.
+6. [#3372](https://github.com/OpenSID/premium/issues/3372) Penyesuaian library parsedown menggunakan erusev/parsedown.
+7. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul menu dan kategori menggunakan ORM dan View Blade Laravel.
+8. [#3915](https://github.com/OpenSID/OpenSID/issues/3915) Penyesuaian penduduk/log_penduduk pindahkan ke modul catatan peristiwa.
+9. [#7519](https://github.com/OpenSID/OpenSID/issues/7519) Penyesuaian modul komentar menggunakan ORM dan View Blade Laravel.
+
 
 #### KEAMANAN

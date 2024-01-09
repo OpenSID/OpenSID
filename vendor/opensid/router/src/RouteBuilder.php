@@ -270,30 +270,6 @@ class RouteBuilder
     }
 
     /**
-     * Sets the SimpleAuth default routing
-     *
-     * @param boolean $secureLogout Disable logout with GET requests
-     *
-     */
-    public static function auth($secureLogout = true)
-    {
-        self::match(['get', 'post'], 'login', 'SimpleAuthController@login')->name('login');
-
-        self::match($secureLogout === true ? ['post'] : ['get','post'], 'logout', 'SimpleAuthController@logout')->name('logout');
-
-        self::get('email_verification/{token}', 'SimpleAuthController@emailVerification')->name('email_verification');
-
-        self::match(['get', 'post'], 'signup', 'SimpleAuthController@signup')->name('signup');
-
-        self::match(['get', 'post'], 'confirm_password', 'SimpleAuthController@confirmPassword')->name('confirm_password');
-
-        self::group('password-reset', function () {
-            self::match(['get','post'], '/', 'SimpleAuthController@passwordReset')->name('password_reset');
-            self::match(['get','post'], '{token}', 'SimpleAuthController@passwordResetForm')->name('password_reset_form');
-        });
-    }
-
-    /**
      * Gets the matching route of the provided URL
      *
      * @param string $url
@@ -348,8 +324,8 @@ class RouteBuilder
                     self::$context['prefix'][] = $prefix;
 
                     $options = [
-                       0 => $url,
-                       1 => ucfirst($class) . '@' . $method
+                        0 => $url,
+                        1 => ucfirst($class) . '@' . $method
                     ];
 
                     foreach (self::$routes as $existingRoute) {

@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO:: Pisahkan isi data komentar artikel dan pesan masuk layanan mandiri pada tabel yang berbeda
 class Komentar extends BaseModel
 {
     use ConfigId;
@@ -50,6 +51,10 @@ class Komentar extends BaseModel
     public const NONACTIVE   = 2;
     public const TIPE_MASUK  = 2;
     public const TIPE_KELUAR = 1;
+    public const LOCK        = 1;
+    public const UNLOCK      = 2;
+    public const ROOT        = 0;
+    public const CHILD       = 2;
 
     /**
      * The name of the "created at" column.
@@ -91,6 +96,11 @@ class Komentar extends BaseModel
         return $query->where('status', static::ACTIVE);
     }
 
+    public function scopeKomentar($query)
+    {
+        return $query->whereNotNull('id_artikel')->whereNull('jenis');
+    }
+
     /**
      * Scope query untuk tipe pesan masuk.
      *
@@ -108,13 +118,15 @@ class Komentar extends BaseModel
         return $query->where('tipe', $tipePesan);
     }
 
-    /**
-     * Scope query untuk tipe pesan masuk.
-     *
-     * @param Builder $query
-     */
-    public function scopePesanPengguna($query): void
+    // buat relasi ke table artikel
+    public function artikel()
     {
-        // return $query->where('email', auth('jwt')->user()->penduduk->nik);
+        return $this->belongsTo(Artikel::class, 'id_artikel');
+    }
+
+    // buat relasi ke table kategori
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'tipe');
     }
 }

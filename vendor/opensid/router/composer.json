@@ -34,6 +34,9 @@
     "autoload": {
         "psr-4": {
             "OpenSID\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     }
 }

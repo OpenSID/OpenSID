@@ -40,14 +40,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Penduduk_log extends Admin_Controller
 {
     public $modul_ini           = 'kependudukan';
-    public $sub_modul_ini       = 'penduduk';
+    public $sub_modul_ini       = 'catatan-peristiwa';
     private array $set_page     = ['20', '50', '100'];
     private array $list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'penduduk_log_model']);
+        $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
         $this->header['kategori'] = 'log_penduduk';
     }
 
@@ -82,7 +82,7 @@ class Penduduk_log extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                $data['rt'] = $rt ?? '';
+                $data['rt'] = '';
             } else {
                 $data['rw'] = '';
             }

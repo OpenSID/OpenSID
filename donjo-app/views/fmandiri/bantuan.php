@@ -87,15 +87,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				</thead>
 				<tbody>
 					<?php if ($bantuan_penduduk):
-					    foreach ($bantuan_penduduk as $key => $item): ?>
+                        foreach ($bantuan_penduduk as $key => $item): ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
 									<?php if ($item['no_id_kartu']) : ?>
 										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/tampil/{$item['id']}")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
 										<a href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/unduh/{$item['id']}")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php if (empty($item['kartu_peserta'])) {
-										    echo 'disabled';
-										}?> ><i class="fa fa-download"></i></a>
+                                            echo 'disabled';
+                                        }?> ><i class="fa fa-download"></i></a>
 									<?php endif; ?>
 								</td>
 								<td><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>
@@ -103,7 +103,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td><p align="justify"><?= $item['ndesc']; ?></p></td>
 							</tr>
 						<?php endforeach;
-					else: ?>
+                    else: ?>
 						<tr>
 							<td class="text-center" colspan="5">Data tidak tersedia</td>
 						</tr>

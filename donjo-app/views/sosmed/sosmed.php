@@ -22,8 +22,8 @@
 								<?php foreach ($list_sosmed as $list) :?>
 									<?php $nama = str_replace(' ', '-', strtolower($list['nama']))?>
 									<li class="<?php if ($media === $nama) {
-									    echo 'active';
-									} ?>"><a href="<?= site_url("sosmed/tab/{$nama}")?>"><i class="fa fa-<?= $nama?>"></i> <?= $list['nama']?></a></li>
+                                        echo 'active';
+                                    } ?>"><a href="<?= site_url("sosmed/tab/{$nama}")?>"><i class="fa fa-<?= $nama?>"></i> <?= $list['nama']?></a></li>
 								<?php endforeach; ?>
 							</ul>
 						</div>
