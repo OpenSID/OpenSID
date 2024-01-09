@@ -1918,7 +1918,7 @@ Route::group('web', static function (): void {
     Route::post('/update/{id?}', 'Web@update')->name('web.update');
     Route::get('/delete/{id?}', 'Web@delete')->name('web.delete');
     Route::post('/delete_all', 'Web@delete_all')->name('web.delete_all');
-    Route::get('/hapus', 'Web@hapus')->name('web.hapus');
+    Route::match(['GET', 'POST'], '/hapus', 'Web@hapus')->name('web.hapus');
     Route::get('/ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
     Route::post('/update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
     Route::get('/artikel_lock/{id?}/{val?}', 'Web@artikel_lock')->name('web.artikel_lock');
