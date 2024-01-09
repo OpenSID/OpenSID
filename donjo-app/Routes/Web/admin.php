@@ -51,6 +51,9 @@ Route::group('siteman', static function () {
 // MAIN
 Route::get('main', 'Main@index');
 
+// Notif
+Route::post('notif/update_pengumuman', 'Notif@update_pengumuman');
+
 Route::group('pengguna', static function () {
     Route::post('/update', 'Pengguna@update')->name('pengguna.update');
     Route::post('/update_password', 'Pengguna@update_password')->name('pengguna.update_password');
