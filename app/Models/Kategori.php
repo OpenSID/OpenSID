@@ -47,6 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Kategori extends BaseModel
 {
     use SortableTrait;
+
     public const ENABLE = 1;
     public const LOCK   = 0;
     public const UNLOCK = 1;
@@ -72,16 +73,16 @@ class Kategori extends BaseModel
      */
     protected $fillable = [
         'config_id',
-        'kategori',        
+        'kategori',
         'parrent',
         'slug',
         'enabled',
         'urut',
-        'tipe'     
-    ];    
+        'tipe',
+    ];
 
     public $sortable = [
-        'order_column_name' => 'urut',
+        'order_column_name'  => 'urut',
         'sort_when_creating' => false,
     ];
 
@@ -90,11 +91,11 @@ class Kategori extends BaseModel
         parent::boot();
 
         static::creating(static function ($model): void {
-            $urutTerakhir = Kategori::select(['urut'])->where(['config_id' => $model->config_id])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();            
-            $model->urut = $urutTerakhir ? intval($urutTerakhir->urut) + 1 : 1;
+            $urutTerakhir = Kategori::select(['urut'])->where(['config_id' => $model->config_id])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();
+            $model->urut  = $urutTerakhir ? (int) ($urutTerakhir->urut) + 1 : 1;
         });
     }
-    
+
     /**
      * Scope a query to only enable category.
      *
@@ -122,7 +123,7 @@ class Kategori extends BaseModel
     protected function scopeChild($query, int $parent)
     {
         return $query->whereParrent($parent);
-    }    
+    }
 
     protected function scopeActive($query)
     {
@@ -133,7 +134,6 @@ class Kategori extends BaseModel
     {
         return $this->enabled == self::UNLOCK;
     }
-    
 
     /**
      * Get the parent that owns the Polygon
@@ -147,12 +147,14 @@ class Kategori extends BaseModel
     {
         return $this->hasMany(Kategori::class, 'parrent', 'id');
     }
-    
-    public static function isUniqueKategori($kategori, $config_id, $id = null){
+
+    public static function isUniqueKategori($kategori, $config_id, $id = null)
+    {
         $query = Kategori::where(['kategori' => $kategori, 'config_id' => $config_id]);
         if ($id) {
-            $query->where('id','!=', $id);
+            $query->where('id', '!=', $id);
         }
+
         return $query->count();
     }
 }

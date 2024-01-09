@@ -319,7 +319,7 @@ if (! function_exists('parsedown')) {
      *
      * @param string|null $params
      *
-     * @return string|Parsedown
+     * @return Parsedown|string
      */
     function parsedown($params = null)
     {

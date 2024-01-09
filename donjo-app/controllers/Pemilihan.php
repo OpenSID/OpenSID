@@ -93,9 +93,7 @@ class Pemilihan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggal', static function ($row) {
-                    return tgl_indo2($row->tanggal);
-                })
+                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }

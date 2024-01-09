@@ -67,8 +67,8 @@
 																<?php $jml_th = 7; ?>
 																<tr>
 																	<?php if ($this->CI->cek_hak_akses('h')):
-																	    $jml_th++;
-																	    ?>
+                                                                        $jml_th++;
+                                                                        ?>
 																		<th><input type="checkbox" id="checkall"/></th>
 																	<?php endif; ?>
 																	<th>No</th>

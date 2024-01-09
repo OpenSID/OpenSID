@@ -300,25 +300,25 @@
 						<div id="info_sistem" class="tab-pane fade in">
 							<?php
                             ob_start();
-					    if (ENVIRONMENT === 'production') :
-					        phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
-					    else :
-					        phpinfo();
-					    endif;
+                        if (ENVIRONMENT === 'production') :
+                            phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
+                        else :
+                            phpinfo();
+                        endif;
 
-			$phpinfo = ['phpinfo' => []];
+            $phpinfo = ['phpinfo' => []];
 
-			if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
-			    foreach ($matches as $match) :
-			        if ($match[1] !== '') :
-			            $phpinfo[$match[1]] = [];
-			        elseif (isset($match[3])) :
-			            $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
-			        else :
-			            $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-			        endif;
-			    endforeach;
-			?>
+            if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
+                foreach ($matches as $match) :
+                    if ($match[1] !== '') :
+                        $phpinfo[$match[1]] = [];
+                    elseif (isset($match[3])) :
+                        $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
+                    else :
+                        $phpinfo[end(array_keys($phpinfo))][] = $match[2];
+                    endif;
+                endforeach;
+            ?>
 								<?php $i = 0; ?>
 								<?php foreach ($phpinfo as $name => $section) : ?>
 									<?php $i++; ?>
@@ -399,9 +399,9 @@
 												<div class="box-body">
 													<div class="css-treeview">
 														<?php
-			                            $folders = directory_map(DESAPATH);
-			echo create_tree_folder($folders, DESAPATH);
-			?>
+                                        $folders = directory_map(DESAPATH);
+            echo create_tree_folder($folders, DESAPATH);
+            ?>
 													</div>
 
 												</div>

@@ -104,7 +104,7 @@
 											<?php $i++ ?>
 										<?php endforeach ?>
 									<?php else : tidak_ada_data(16);
-									endif; ?>
+                                    endif; ?>
 								</tbody>
 							</table>
 						</div>

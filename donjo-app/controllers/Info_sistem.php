@@ -116,7 +116,7 @@ class Info_sistem extends Admin_Controller
         $error  = [];
         $result = ['status' => 1, $message = 'Berhasil ubah permission folder desa'];
 
-        foreach ($dirs  as $dir) {
+        foreach ($dirs as $dir) {
             if (! chmod($dir, DESAPATHPERMISSION)) {
                 $error[] = 'Gagal mengubah hak akses folder ' . $dir;
             }

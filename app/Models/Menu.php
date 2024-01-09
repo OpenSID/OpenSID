@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -50,7 +50,7 @@ class Menu extends BaseModel
     use SortableTrait;
 
     public const LOCK   = 0;
-    public const UNLOCK = 1;    
+    public const UNLOCK = 1;
 
     /**
      * The table associated with the model.
@@ -74,11 +74,11 @@ class Menu extends BaseModel
         'link_tipe',
         'enabled',
         'urut',
-        
+
     ];
-    
+
     public $sortable = [
-        'order_column_name' => 'urut',
+        'order_column_name'  => 'urut',
         'sort_when_creating' => false,
     ];
     protected $appends = ['link_url'];
@@ -88,15 +88,15 @@ class Menu extends BaseModel
         parent::boot();
 
         static::creating(static function ($model): void {
-            $urutTerakhir = Menu::select(['urut'])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();            
-            $model->urut = $urutTerakhir ? intval($urutTerakhir->urut) + 1 : 1;
+            $urutTerakhir = Menu::select(['urut'])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();
+            $model->urut  = $urutTerakhir ? (int) ($urutTerakhir->urut) + 1 : 1;
         });
     }
 
     protected function scopeChild($query, int $parent)
     {
         return $query->whereParrent($parent);
-    }    
+    }
 
     protected function scopeActive($query)
     {
@@ -107,7 +107,6 @@ class Menu extends BaseModel
     {
         return $this->enabled == self::UNLOCK;
     }
-    
 
     /**
      * Get the parent that owns the Polygon
@@ -122,7 +121,8 @@ class Menu extends BaseModel
         return $this->hasMany(Menu::class, 'parrent', 'id');
     }
 
-    protected function getLinkUrlAttribute(){
+    protected function getLinkUrlAttribute()
+    {
         return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
     }
 }

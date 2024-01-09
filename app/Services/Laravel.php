@@ -37,18 +37,18 @@
 
 namespace App\Services;
 
+use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Encryption\EncryptionServiceProvider;
+use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemServiceProvider;
+use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ViewServiceProvider;
-use Illuminate\Cache\CacheServiceProvider;
-use Illuminate\Events\EventServiceProvider;
-use Illuminate\Hashing\HashServiceProvider;
-use Illuminate\Database\DatabaseServiceProvider;
-use Illuminate\Encryption\EncryptionServiceProvider;
-use Illuminate\Filesystem\FilesystemServiceProvider;
 
 class Laravel extends Container
 {

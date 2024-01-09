@@ -1952,7 +1952,7 @@ Route::group('web_widget', static function () {
     Route::get('/lock/{id}', 'Web_widget@lock')->name('web_widget.lock');
 });
 // Admin Web > Menu
-Route::group('menu', function() {
+Route::group('menu', static function () {
     Route::get('/', 'Menu@index')->name('menu.index');
     Route::get('/index', 'Menu@index')->name('menu.index-default');
     Route::get('/datatables', 'Menu@datatables')->name('menu.datatables');
@@ -1960,14 +1960,14 @@ Route::group('menu', function() {
     Route::post('/insert/{parent}', 'Menu@insert')->name('menu.insert');
     Route::post('/update/{parent}/{id}', 'Menu@update')->name('menu.update');
     Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Menu@delete')->name('menu.delete');
-    Route::get('/lock/{parent}/{id}', 'Menu@lock')->name('menu.lock');    
+    Route::get('/lock/{parent}/{id}', 'Menu@lock')->name('menu.lock');
     Route::post('/tukar', 'Menu@tukar')->name('menu.tukar');
 });
 // Admin Web > Menu Kategori
-Route::group('kategori', function() {
+Route::group('kategori', static function () {
     Route::get('/', 'Kategori@index')->name('kategori.index');
-    Route::get('/index', 'Kategori@index')->name('kategori.index-default');    
-    Route::get('/datatables', 'Kategori@datatables')->name('kategori.datatables');    
+    Route::get('/index', 'Kategori@index')->name('kategori.index-default');
+    Route::get('/datatables', 'Kategori@datatables')->name('kategori.datatables');
     Route::get('/ajax_form/{parent}/{id?}', 'Kategori@ajax_form')->name('kategori.ajax_form');
     Route::post('/insert/{parent}', 'Kategori@insert')->name('kategori.insert');
     Route::post('/update/{parent}/{id}', 'Kategori@update')->name('kategori.update');
@@ -1975,7 +1975,7 @@ Route::group('kategori', function() {
     Route::get('/lock/{parent}/{id}', 'Kategori@lock')->name('kategori.lock');
     Route::get('/unlock/{parent}/{id}', 'Kategori@unlock')->name('kategori.unlock');
     Route::post('/tukar', 'Kategori@tukar')->name('kategori.tukar');
-}); 
+});
 // Admin Web > Komentar
 Route::group('komentar', static function () {
     Route::get('/clear', 'Komentar@clear')->name('komentar.clear');

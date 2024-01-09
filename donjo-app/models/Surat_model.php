@@ -39,10 +39,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\SHDKEnum;
 use App\Models\FormatSurat;
+use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
-use App\Models\LogPenduduk;
 
 class Surat_model extends MY_Model
 {

@@ -11,8 +11,8 @@
 
 $counter = count($submenu);<?php for ($i = 1; $i < $counter; $i++): ?>
   				<li class="<?php if ($_SESSION['submenu'] == $submenu[$i]['id']) {
-  				    echo 'active';
-  				} ?>"><a href="<?= site_url('dokumen_sekretariat/peraturan_desa/' . $submenu[$i]['id'])?>"><?= $submenu[$i]['nama'] ?></a></li>
+                    echo 'active';
+                } ?>"><a href="<?= site_url('dokumen_sekretariat/peraturan_desa/' . $submenu[$i]['id'])?>"><?= $submenu[$i]['nama'] ?></a></li>
 				<?php endfor; ?>
 			</ul>
 		</div>

@@ -35,43 +35,41 @@
  *
  */
 
-use App\Models\Artikel;
-use App\Models\Bantuan;
-use App\Models\Kelompok;
 use App\Models\Kategori as KategoriModel;
-use App\Models\Suplemen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kategori extends Admin_Controller
-{    
+{
     private int $tip = 2;
+
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
         $this->modul_ini     = 'admin-web';
         $this->sub_modul_ini = 'kategori';
-    }    
+    }
 
     public function index(): void
-    {        
+    {
         $parent = $this->input->get('parent') ?? 0;
-        $data = [
-            'tip' => $this->tip,
-            'status' => [KategoriModel::UNLOCK => 'Aktif', KategoriModel::LOCK => 'Non Aktif'],
-            'subtitle' => $parent > 0 ? ' / ' .strtoupper(KategoriModel::find($parent)->nama ?? '') : '',
-            'parent' => $parent
+        $data   = [
+            'tip'      => $this->tip,
+            'status'   => [KategoriModel::UNLOCK => 'Aktif', KategoriModel::LOCK => 'Non Aktif'],
+            'subtitle' => $parent > 0 ? ' / ' . strtoupper(KategoriModel::find($parent)->nama ?? '') : '',
+            'parent'   => $parent,
         ];
-        
+
         view('admin.web.kategori.index', $data);
     }
 
     public function datatables()
     {
-        if ($this->input->is_ajax_request()) {            
-            $parent   = intval($this->input->get('parent') ?? 0);
+        if ($this->input->is_ajax_request()) {
+            $parent    = (int) ($this->input->get('parent') ?? 0);
             $canDelete = can('h');
-            $canUpdate = can('u');            
+            $canUpdate = can('u');
+
             return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent'])->orderBy('urut', 'asc'))
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
@@ -80,19 +78,19 @@ class Kategori extends Admin_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
-                    $aksi = '';
+                    $aksi  = '';
                     $judul = $parent > 0 ? 'Subkategori' : 'Kategori';
-                    if ($canUpdate) {                        
-                        if (!$parent){
-                            $aksi .= '<a href="' . ci_route('kategori.index'). '?parent='.$row->id.'" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';                            
+                    if ($canUpdate) {
+                        if (! $parent) {
+                            $aksi .= '<a href="' . ci_route('kategori.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
                         }
-                        $aksi .= '<a href="' . ci_route('kategori.ajax_form', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah '.$judul.'" title="Ubah '.$judul.'"><i class="fa fa-edit"></i></a> ';
-                                                
+                        $aksi .= '<a href="' . ci_route('kategori.ajax_form', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
+
                         if ($row->isActive()) {
-                            $aksi .= '<a href="' . ci_route('kategori.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';                                                        
+                            $aksi .= '<a href="' . ci_route('kategori.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';
                         } else {
                             $aksi .= '<a href="' . ci_route('kategori.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
-                        }                        
+                        }
                     }
 
                     if ($canDelete) {
@@ -105,80 +103,81 @@ class Kategori extends Admin_Controller
         }
 
         return show_404();
-    }    
+    }
 
     public function ajax_form($parent, $id = ''): void
     {
-        isCan('u');        
-        
+        isCan('u');
+
         if ($id) {
-            $data['kategori']        = KategoriModel::find($id);
+            $data['kategori']    = KategoriModel::find($id);
             $data['form_action'] = ci_route("kategori.update.{$parent}.{$id}");
         } else {
-            $data['kategori']        = null;
+            $data['kategori']    = null;
             $data['form_action'] = ci_route("kategori.insert.{$parent}");
         }
         view('admin.web.kategori.ajax_form', $data);
-    }   
+    }
 
     public function insert($parent): void
     {
-        isCan('u');        
-        $data = $this->validasi($this->input->post());
+        isCan('u');
+        $data            = $this->validasi($this->input->post());
         $data['enabled'] = 1;
-        $data['parrent'] = $parent;        
-        // periksa apakah sudah ada kategori yang sama 
+        $data['parrent'] = $parent;
+        // periksa apakah sudah ada kategori yang sama
         $sudahAda = KategoriModel::isUniqueKategori($data['kategori'], $data['config_id']);
-        
-        if ($sudahAda){
-            redirect_with('error', 'Kategori '.$data['kategori'].' sudah ada', ci_route('kategori.index').'?parent='.$parent);
+
+        if ($sudahAda) {
+            redirect_with('error', 'Kategori ' . $data['kategori'] . ' sudah ada', ci_route('kategori.index') . '?parent=' . $parent);
         }
+
         try {
             KategoriModel::create($data);
-            redirect_with('success', 'Kategori berhasil disimpan', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('success', 'Kategori berhasil disimpan', ci_route('kategori.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Kategori gagal disimpan', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('error', 'Kategori gagal disimpan', ci_route('kategori.index') . '?parent=' . $parent);
         }
     }
 
     public function update($parent, $id): void
     {
         isCan('u');
-        $data = $this->validasi($this->input->post());        
-        // periksa apakah sudah ada kategori yang sama 
+        $data = $this->validasi($this->input->post());
+        // periksa apakah sudah ada kategori yang sama
         $sudahAda = KategoriModel::isUniqueKategori($data['kategori'], $data['config_id'], $id);
-        
-        if ($sudahAda){
-            redirect_with('error', 'Kategori '.$data['kategori'].' sudah ada', ci_route('kategori.index').'?parent='.$parent);
+
+        if ($sudahAda) {
+            redirect_with('error', 'Kategori ' . $data['kategori'] . ' sudah ada', ci_route('kategori.index') . '?parent=' . $parent);
         }
 
         try {
             $obj = KategoriModel::findOrFail($id);
             $obj->update($data);
-            redirect_with('success', 'Kategori berhasil disimpan', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('success', 'Kategori berhasil disimpan', ci_route('kategori.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Kategori gagal disimpan', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('error', 'Kategori gagal disimpan', ci_route('kategori.index') . '?parent=' . $parent);
         }
     }
 
     public function delete($parent, $id = null): void
     {
         isCan('h');
-        
+
         if (KategoriModel::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
             redirect_with('error', 'Kategori tidak dapat dihapus karena masih memiliki subkategori');
         }
-        
+
         try {
             KategoriModel::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Kategori berhasil dihapus', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('success', 'Kategori berhasil dihapus', ci_route('kategori.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Kategori gagal dihapus', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('error', 'Kategori gagal dihapus', ci_route('kategori.index') . '?parent=' . $parent);
         }
-    }  
+    }
 
     public function lock($parent, $id): void
     {
@@ -186,26 +185,29 @@ class Kategori extends Admin_Controller
 
         try {
             KategoriModel::gantiStatus($id, 'enabled');
-            redirect_with('success', 'Berhasil ubah status', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('success', 'Berhasil ubah status', ci_route('kategori.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Gagal ubah status', ci_route('kategori.index').'?parent='.$parent);
+            redirect_with('error', 'Gagal ubah status', ci_route('kategori.index') . '?parent=' . $parent);
         }
-    }    
+    }
 
     public function tukar()
     {
         $kategori = $this->input->post('data');
         KategoriModel::setNewOrder($kategori);
+
         return json(['status' => 1]);
     }
+
     private function validasi($post)
-    {        
+    {
         $kategori = htmlentities($post['kategori']);
+
         return [
-            'config_id'     => identitas('id'),
-            'kategori'      => $kategori,            
-            'slug'          => url_title($kategori,'-', true)
+            'config_id' => identitas('id'),
+            'kategori'  => $kategori,
+            'slug'      => url_title($kategori, '-', true),
         ];
     }
 }
