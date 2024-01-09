@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,32 +37,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kategori extends BaseModel
+class Menu extends BaseModel
 {
+    use ConfigId;
     use SortableTrait;
-    public const ENABLE = 1;
+
     public const LOCK   = 0;
-    public const UNLOCK = 1;
+    public const UNLOCK = 1;    
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'kategori';
+    protected $table = 'menu';
 
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
     public $timestamps = false;
 
     /**
@@ -72,51 +68,29 @@ class Kategori extends BaseModel
      */
     protected $fillable = [
         'config_id',
-        'kategori',        
+        'nama',
+        'link',
         'parrent',
-        'slug',
+        'link_tipe',
         'enabled',
         'urut',
-        'tipe'     
-    ];    
-
+        
+    ];
+    
     public $sortable = [
         'order_column_name' => 'urut',
         'sort_when_creating' => false,
     ];
+    protected $appends = ['link_url'];
 
     public static function boot(): void
     {
         parent::boot();
 
         static::creating(static function ($model): void {
-            $urutTerakhir = Kategori::select(['urut'])->where(['config_id' => $model->config_id])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();            
+            $urutTerakhir = Menu::select(['urut'])->whereParrent($model->parrent)->orderBy('urut', 'desc')->first();            
             $model->urut = $urutTerakhir ? intval($urutTerakhir->urut) + 1 : 1;
         });
-    }
-    
-    /**
-     * Scope a query to only enable category.
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeEnable($query)
-    {
-        return $query->where('enabled', static::ENABLE);
-    }
-
-    /**
-     * Scope config_id, dipisah untuk kebutuhan OpenKab.
-     *
-     * @param mixed $query
-     *
-     * @return Builder
-     */
-    public function scopeConfigId($query)
-    {
-        return $query->where('config_id', identitas('id'))->orWhereNull('config_id');
     }
 
     protected function scopeChild($query, int $parent)
@@ -140,19 +114,15 @@ class Kategori extends BaseModel
      */
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Kategori::class, 'parrent', 'id');
+        return $this->belongsTo(Menu::class, 'parrent', 'id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(Kategori::class, 'parrent', 'id');
+        return $this->hasMany(Menu::class, 'parrent', 'id');
     }
-    
-    public static function isUniqueKategori($kategori, $config_id, $id = null){
-        $query = Kategori::where(['kategori' => $kategori, 'config_id' => $config_id]);
-        if ($id) {
-            $query->where('id','!=', $id);
-        }
-        return $query->count();
+
+    protected function getLinkUrlAttribute(){
+        return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
     }
 }

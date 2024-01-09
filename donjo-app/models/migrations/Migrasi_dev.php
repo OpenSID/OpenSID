@@ -72,7 +72,7 @@ class Migrasi_dev extends MY_model
 
         // Migrasi tanpa config_id
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2024010451($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -194,5 +194,13 @@ class Migrasi_dev extends MY_model
             'attribute'  => null,
             'kategori'   => 'log_penduduk',
         ], $id);
+    }
+
+    protected function migrasi_2024010451($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'menu', 'url' => 'menu/clear'],
+            ['url' => 'menu']
+        );
     }
 }
