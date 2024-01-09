@@ -41,6 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 // Library ini berasal dari https://github.com/esyede/captcha
 class Captcha

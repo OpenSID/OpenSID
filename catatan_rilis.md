@@ -24,5 +24,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penyesuaian route menggunakan library opensid/router.
 3. [#7510](https://github.com/OpenSID/OpenSID/issues/7510) Penyesuaian fungsi pengurutan mengunakan dragable pada tabel.
 4. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul kelompok/lembaga menggunakan ORM dan View Blade Laravel.
+5. [#3371](https://github.com/OpenSID/premium/issues/3371) Penyesuaian library hasing menggunakan illuminate/hashing.
 
 #### KEAMANAN

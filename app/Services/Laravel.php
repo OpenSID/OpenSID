@@ -37,17 +37,18 @@
 
 namespace App\Services;
 
-use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
-use Illuminate\Database\DatabaseServiceProvider;
-use Illuminate\Encryption\EncryptionServiceProvider;
-use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ViewServiceProvider;
+use Illuminate\Cache\CacheServiceProvider;
+use Illuminate\Events\EventServiceProvider;
+use Illuminate\Hashing\HashServiceProvider;
+use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Encryption\EncryptionServiceProvider;
+use Illuminate\Filesystem\FilesystemServiceProvider;
 
 class Laravel extends Container
 {
@@ -130,6 +131,8 @@ class Laravel extends Container
         \Illuminate\Contracts\Encryption\Encrypter::class  => 'registerEncrypterBindings',
         'events'                                           => 'registerEventBindings',
         'files'                                            => 'registerFilesBindings',
+        'hash'                                             => 'registerHashBindings',
+        \Illuminate\Contracts\Hashing\Hasher::class        => 'registerHashBindings',
         \Illuminate\Contracts\Events\Dispatcher::class     => 'registerEventBindings',
         'view'                                             => 'registerViewBindings',
         \Illuminate\Contracts\View\Factory::class          => 'registerViewBindings',
@@ -345,6 +348,16 @@ class Laravel extends Container
         $this->singleton('filesystem', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
         $this->singleton('filesystem.disk', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
         $this->singleton('filesystem.cloud', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerHashBindings()
+    {
+        $this->singleton('hash', fn () => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
     }
 
     /**
