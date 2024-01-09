@@ -21,7 +21,7 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('komentar.delete_all') }}')"
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('komentar.delete_all') }}')"
                             class="btn btn-social btn-danger btn-sm
                         visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
                         hapus-terpilih"
@@ -87,7 +87,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('komentar.datatables') }}",
+                        url: "{{ ci_route('komentar.datatables') }}",
                         data: function(req) {
                             req.status = $('#status').val();
                         }

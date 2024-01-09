@@ -70,16 +70,16 @@ class Komentar extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('komentar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('komentar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         if ($row->status == StatusEnum::YA) {
-                            $aksi .= '<a href="' . route('komentar.lock', $row->id) .'" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('komentar.lock', $row->id) .'" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('komentar.lock', $row->id) .'" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('komentar.lock', $row->id) .'" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('komentar.delete', $row->id) .'" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('komentar.delete', $row->id) .'" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -102,10 +102,10 @@ class Komentar extends Admin_Controller
 
         if ($id) {
             $data['komentar']    = ModelsKomentar::findOrFail($id);
-            $data['form_action'] = route("komentar.update", $id);
+            $data['form_action'] = ci_route("komentar.update", $id);
         } else {
             $data['komentar']    = null;
-            $data['form_action'] = route('komentar.insert');
+            $data['form_action'] = ci_route('komentar.insert');
         }
 
         $data['list_kategori'] = Kategori::whereTipe(1)->get();
