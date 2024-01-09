@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#3372](https://github.com/OpenSID/premium/issues/3372) Penyesuaian library parsedown menggunakan erusev/parsedown.
 7. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul menu dan kategori menggunakan ORM dan View Blade Laravel.
 8. [#3915](https://github.com/OpenSID/OpenSID/issues/3915) Penyesuaian penduduk/log_penduduk pindahkan ke modul catatan peristiwa.
+9. [#7519](https://github.com/OpenSID/OpenSID/issues/7519) Penyesuaian modul komentar menggunakan ORM dan View Blade Laravel.
 
 
 #### KEAMANAN

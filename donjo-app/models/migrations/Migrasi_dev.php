@@ -143,6 +143,11 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024010451($hasil)
     {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'komentar', 'url' => 'komentar/clear'],
+            ['url' => 'komentar']
+        );
+
         return $hasil && $this->ubah_modul(
             ['slug' => 'menu', 'url' => 'menu/clear'],
             ['url' => 'menu']

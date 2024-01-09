@@ -1979,24 +1979,14 @@ Route::group('kategori', static function (): void {
 // Admin Web > Komentar
 Route::group('komentar', static function (): void {
     Route::get('/clear', 'Komentar@clear')->name('komentar.clear');
-    Route::get('/form', 'Komentar@form')->name('komentar.form');
-    Route::get('/form/{p?}', 'Komentar@form')->name('komentar.form-1');
-    Route::get('/form/{p}/{o?}', 'Komentar@form')->name('komentar.form-2');
-    Route::get('/form/{p}/{o}/{id?}', 'Komentar@form')->name('komentar.form-3');
-    Route::post('/search', 'Komentar@search')->name('komentar.search');
-    Route::post('/filter', 'Komentar@filter')->name('komentar.filter');
+    Route::get('/form/{id?}', 'Komentar@form')->name('komentar.form');
+    Route::get('/datatables', 'Komentar@datatables')->name('komentar.datatables');
     Route::post('/insert', 'Komentar@insert')->name('komentar.insert');
-    Route::post('/update', 'Komentar@update')->name('komentar.update');
-    Route::post('/update/{id?}', 'Komentar@update')->name('komentar.update-1');
-    Route::post('/update/{id?}/{p?}/{o?}', 'Komentar@update')->name('komentar.update-2');
-    Route::get('/delete/{p}/{o}/{id}', 'Komentar@delete')->name('komentar.delete');
-    Route::post('/delete_all/{p}/{o}', 'Komentar@delete_all')->name('komentar.delete_all');
-    Route::get('/komentar_lock/{id?}', 'Komentar@komentar_lock')->name('komentar.komentar_lock');
-    Route::get('/komentar_unlock/{id?}', 'Komentar@komentar_unlock')->name('komentar.komentar_unlock');
+    Route::post('/update/{id?}', 'Komentar@update')->name('komentar.update');
+    Route::get('/delete/{id}', 'Komentar@delete')->name('komentar.delete');
+    Route::post('/delete_all', 'Komentar@delete_all')->name('komentar.delete_all');
+    Route::get('/lock/{id?}', 'Komentar@lock')->name('komentar.lock');
     Route::match(['GET', 'POST'], '/', 'Komentar@index')->name('komentar.index-default');
-    Route::match(['GET', 'POST'], '/index', 'Komentar@index')->name('komentar.index-default-1');
-    Route::match(['GET', 'POST'], '/index/{p?}', 'Komentar@index')->name('komentar.index-default-page');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Komentar@index')->name('komentar.index');
 });
 // Admin Web > Galeri
 Route::group('gallery', static function (): void {

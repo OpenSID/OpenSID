@@ -37,11 +37,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Traits\ConfigId;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -99,6 +100,15 @@ class Artikel extends BaseModel
         'author',
         'category',
         'comments',
+    ];
+
+    /**
+     * The attributes that should be appended to model.
+     * 
+     * @var array
+     */
+    protected $appends = [
+        'url_slug',
     ];
 
     /**
@@ -241,5 +251,13 @@ class Artikel extends BaseModel
         // return $this->gambar3
         //     ? config('filesystems.disks.ftp.url') . "/desa/upload/artikel/sedang_{$this->gambar3}"
         //     : '';
+    }
+
+    /**
+     * Getter untuk menambahkan url slug.
+     */
+    public function getUrlSlugAttribute(): string
+    {
+        return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
     }
 }
