@@ -25,5 +25,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#7510](https://github.com/OpenSID/OpenSID/issues/7510) Penyesuaian fungsi pengurutan mengunakan dragable pada tabel.
 4. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul kelompok/lembaga menggunakan ORM dan View Blade Laravel.
 5. [#3371](https://github.com/OpenSID/premium/issues/3371) Penyesuaian library hasing menggunakan illuminate/hashing.
+6. [#3372](https://github.com/OpenSID/premium/issues/3372) Penyesuaian library parsedown menggunakan erusev/parsedown.
+
 
 #### KEAMANAN

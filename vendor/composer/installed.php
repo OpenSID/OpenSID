@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'cc966f180f48ba4a86bf74baaddf415e65f77953',
+        'reference' => 'bc0f7b170f0902c2bd5134f1fee426d364cdf87f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -61,6 +61,15 @@
             'reference' => '660bbe4ae71e02090f16b11b4a993dfebab83f7f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../edwinhoksberg/php-fcm',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'erusev/parsedown' => array(
+            'pretty_version' => '1.7.4',
+            'version' => '1.7.4.0',
+            'reference' => 'cb17b6477dfff935958ba01325f2e8a2bfa6dab3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../erusev/parsedown',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -337,7 +346,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'cc966f180f48ba4a86bf74baaddf415e65f77953',
+            'reference' => 'bc0f7b170f0902c2bd5134f1fee426d364cdf87f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -486,8 +495,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
