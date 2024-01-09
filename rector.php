@@ -45,6 +45,7 @@ return static function (RectorConfig $rectorConfig): void {
         // return illuminate builder padahal seharusnya return hasOne atau belongsTo dll
         ReturnTypeFromStrictTypedCallRector::class => [
             __DIR__.'/app/Models/',
+            __DIR__.'/donjo-app/Routes/',
         ], 
         __DIR__.'/donjo-app/libraries/Log_Viewer.php',
         __DIR__.'/donjo-app/libraries/FeedParser.php',
