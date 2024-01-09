@@ -51,11 +51,10 @@ class Komentar extends BaseModel
     public const NONACTIVE   = 2;
     public const TIPE_MASUK  = 2;
     public const TIPE_KELUAR = 1;
-
-    public const LOCK   = 1;
-    public const UNLOCK = 2;
-    public const ROOT   = 0;
-    public const CHILD  = 2;
+    public const LOCK        = 1;
+    public const UNLOCK      = 2;
+    public const ROOT        = 0;
+    public const CHILD       = 2;
 
     /**
      * The name of the "created at" column.

@@ -37,12 +37,12 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Traits\ConfigId;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -104,7 +104,7 @@ class Artikel extends BaseModel
 
     /**
      * The attributes that should be appended to model.
-     * 
+     *
      * @var array
      */
     protected $appends = [
