@@ -358,4 +358,23 @@ class LogSurat extends BaseModel
 
         return $data;
     }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'nama_surat', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $surat = LOKASI_ARSIP . $model->getOriginal($file);
+            if (file_exists($surat)) {
+                unlink($surat);
+            }
+        }
+    }
 }

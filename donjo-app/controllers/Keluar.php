@@ -147,14 +147,16 @@ class Keluar extends Admin_Controller
             $operator        = false;
             $isAdmin         = $this->isAdmin;
             $redirectDelete  = '';
-            if (setting('tte')){
-                switch($state){
+            if (setting('tte')) {
+                switch($state) {
                     case 'masuk':
-                        $redirectDelete  = 'masuk';
+                        $redirectDelete = 'masuk';
                         break;
+
                     case 'tolak':
-                        $redirectDelete  = 'ditolak';
+                        $redirectDelete = 'ditolak';
                         break;
+
                     default:
                 }
             }
