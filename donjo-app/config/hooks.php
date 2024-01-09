@@ -48,8 +48,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 |
 */
 
-$hook = OpenSID\Hook::getHooks();
-
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -134,3 +132,5 @@ if (ENVIRONMENT === 'development') {
 }
 
 $app->boot();
+
+$hook = getHooks();

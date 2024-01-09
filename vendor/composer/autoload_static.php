@@ -28,6 +28,7 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         'b46ad4fe52f4d1899a2951c7e6ea56b0' => __DIR__ . '/..' . '/voku/portable-utf8/bootstrap.php',
         'a8d3953fd9959404dd22d3dfcd0a79f0' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         '6277681c1eab70b1b9eef89ccd4d8f18' => __DIR__ . '/..' . '/opensid/datatables/src/helper.php',
+        'ffaec35ff90c3d86543d09e59707f86b' => __DIR__ . '/..' . '/opensid/router/src/helpers.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
     );

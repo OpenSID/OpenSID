@@ -37,4 +37,4 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$route = OpenSID\Route::getRoutes();
+$route = getRoutes();

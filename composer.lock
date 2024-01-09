@@ -2383,12 +2383,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/router.git",
-                "reference": "e1242bd5d70a3fbb74621378e8f80ff6c84d56d9"
+                "reference": "2d107bc71b1e16069fe77fc1540ea0c59657e39a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/router/zipball/e1242bd5d70a3fbb74621378e8f80ff6c84d56d9",
-                "reference": "e1242bd5d70a3fbb74621378e8f80ff6c84d56d9",
+                "url": "https://api.github.com/repos/OpenSID/router/zipball/2d107bc71b1e16069fe77fc1540ea0c59657e39a",
+                "reference": "2d107bc71b1e16069fe77fc1540ea0c59657e39a",
                 "shasum": ""
             },
             "require": {
@@ -2400,6 +2400,9 @@
             "default-branch": true,
             "type": "library",
             "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
                 "psr-4": {
                     "OpenSID\\": "src/"
                 }
@@ -2434,7 +2437,7 @@
                 "email": "anderson@ingenia.me",
                 "source": "https://github.com/OpenSID/router/tree/master"
             },
-            "time": "2024-01-08T17:12:26+00:00"
+            "time": "2024-01-09T12:48:00+00:00"
         },
         {
             "name": "openspout/openspout",

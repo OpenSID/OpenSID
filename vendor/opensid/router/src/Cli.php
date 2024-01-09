@@ -51,10 +51,6 @@ class Cli
                 Route::cli('migration/{name}/{((sequential|timestamp)):type?}',function($name, $type = 'timestamp'){
                     self::makeMigration($name, $type);
                 });
-
-                Route::cli('auth', function(){
-                    self::makeAuth();
-                });
             });
         });
     }
@@ -559,16 +555,6 @@ MIGRATION;
         file_put_contents($path, $file);
 
         echo "\nCREATED:\n" . realpath($path) . "\n";
-    }
-
-    /**
-     * Creates all SimpleAuth required files
-     * 
-     * @return void
-     */
-    private static function makeAuth()
-    {
-        Utils::rcopy(__DIR__ . '/Resources/SimpleAuth/Framework', APPPATH);
     }
 
     /**
