@@ -3,7 +3,7 @@
 	<div class="modal-body">
 		<div class="form-group">
 			<label>Program Bantuan Untuk Ditampilkan</label>
-			<select name="dashboard_program_bantuan" class="form-control select2 input-sm required">
+			<select name="dashboard_program_bantuan" class="form-control select2 input-sm">
 				<option value="">Pilih Program Bantuan</option>
 				<?php foreach ($list_program_bantuan as $data): ?>
 					<option value="<?=$data['id']?>" <?= selected($this->setting->dashboard_program_bantuan, $data['id']) ?>><?=$data['nama'] . ' - [' . $sasaran[$data['sasaran']] . ']'?></option>

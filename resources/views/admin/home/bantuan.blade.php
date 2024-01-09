@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Program Bantuan Untuk Ditampilkan</label>
-                    <select name="dashboard_program_bantuan" class="form-control input-sm required select2">
+                    <select name="dashboard_program_bantuan" class="form-control input-sm select2">
                         <option value="">Semua Program Bantuan</option>
                         @foreach ($bantuan['program'] as $id => $nama)
                             <option value="{{ $id }}" {{ selected($id, $setting->dashboard_program_bantuan) }}>{{ $nama }}</option>
