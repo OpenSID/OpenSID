@@ -73,9 +73,9 @@
         <button id="showZero" class="btn btn-secondary">Tampilkan Nol</button>
     </div>
 
-    <?php if ($this->setting->daftar_penerima_bantuan && in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+    <?php if ($this->setting->daftar_penerima_bantuan && $bantuan) : ?>
         <script>
-        const bantuanUrl = '<?= site_url('first/ajax_peserta_program_bantuan')?>';
+            const bantuanUrl = '<?= site_url('first/ajax_peserta_program_bantuan')?>';
         </script>
 
         <input id="stat" type="hidden" value="<?=$st?>">

@@ -242,7 +242,7 @@
     </div>
 </div>
 
-<?php if ($this->setting->daftar_penerima_bantuan && in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+<?php if ($this->setting->daftar_penerima_bantuan && $bantuan): ?>
     <section class="content">
         <div class="row">
             <div class="col-md-12">
