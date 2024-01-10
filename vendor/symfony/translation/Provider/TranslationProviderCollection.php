@@ -21,7 +21,7 @@ final class TranslationProviderCollection
     /**
      * @var array<string, ProviderInterface>
      */
-    private array $providers;
+    private $providers;
 
     /**
      * @param array<string, ProviderInterface> $providers

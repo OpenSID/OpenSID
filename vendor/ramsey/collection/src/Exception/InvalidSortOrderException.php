@@ -14,8 +14,11 @@ declare(strict_types=1);
 
 namespace Ramsey\Collection\Exception;
 
-use Throwable;
+use RuntimeException;
 
-interface CollectionException extends Throwable
+/**
+ * Thrown when attempting to use a sort order that is not recognized.
+ */
+class InvalidSortOrderException extends RuntimeException
 {
 }

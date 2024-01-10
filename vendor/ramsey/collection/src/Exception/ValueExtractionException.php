@@ -12,20 +12,13 @@
 
 declare(strict_types=1);
 
-namespace Ramsey\Collection;
+namespace Ramsey\Collection\Exception;
+
+use RuntimeException;
 
 /**
- * Collection sorting
+ * Thrown when attempting to extract a value for a method or property that does not exist.
  */
-enum Sort: string
+class ValueExtractionException extends RuntimeException
 {
-    /**
-     * Sort items in a collection in ascending order.
-     */
-    case Ascending = 'asc';
-
-    /**
-     * Sort items in a collection in descending order.
-     */
-    case Descending = 'desc';
 }
