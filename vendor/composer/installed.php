@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'b5253d7200c9e80ec33e329292958a66f7affad8',
+        'reference' => '668cb661e549b948dc974f3b7626e1bfa4474b3a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -337,7 +337,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'b5253d7200c9e80ec33e329292958a66f7affad8',
+            'reference' => '668cb661e549b948dc974f3b7626e1bfa4474b3a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -355,7 +355,7 @@
         'opensid/router' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '2d107bc71b1e16069fe77fc1540ea0c59657e39a',
+            'reference' => '770d0ca3707143d17dd46c99e67320195027c701',
             'type' => 'library',
             'install_path' => __DIR__ . '/../opensid/router',
             'aliases' => array(

@@ -34,5 +34,9 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
-// Luthier\Cli::maker();
-// Luthier\Cli::migrations();
+
+Route::group('job', static function () {
+    Route::cli('/restore/{database?}', 'Job@restore');
+    Route::cli('/backup_inkremental/{lokasi}', 'Job@backup_inkremental');
+    Route::cli('/restore_desa/{id}', 'Job@restore_desa');
+});
