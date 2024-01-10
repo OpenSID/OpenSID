@@ -156,6 +156,117 @@ if (! function_exists('decrypt')) {
     }
 }
 
+if (! function_exists('dispatch')) {
+    /**
+     * Dispatch a job to its appropriate handler.
+     *
+     * @param mixed $job
+     */
+    function dispatch($job): object
+    {
+        return new class ($job) {
+            /**
+             * The job.
+             *
+             * @var mixed
+             */
+            protected $job;
+
+            /**
+             * Create a new pending job dispatch.
+             *
+             * @param mixed $job
+             *
+             * @return void
+             */
+            public function __construct($job)
+            {
+                $this->job = $job;
+            }
+
+            /**
+             * Set the desired connection for the job.
+             *
+             * @param string|null $connection
+             *
+             * @return $this
+             */
+            public function onConnection($connection): self
+            {
+                $this->job->onConnection($connection);
+
+                return $this;
+            }
+
+            /**
+             * Set the desired queue for the job.
+             *
+             * @param string|null $queue
+             *
+             * @return $this
+             */
+            public function onQueue($queue): self
+            {
+                $this->job->onQueue($queue);
+
+                return $this;
+            }
+
+            /**
+             * Determine if the job should be dispatched.
+             */
+            protected function shouldDispatch(): bool
+            {
+                if (! $this->job instanceof \Illuminate\Contracts\Queue\ShouldBeUnique) {
+                    return true;
+                }
+
+                $uniqueId = method_exists($this->job, 'uniqueId')
+                    ? $this->job->uniqueId()
+                    : ($this->job->uniqueId ?? '');
+
+                $cache = method_exists($this->job, 'uniqueVia')
+                    ? $this->job->uniqueVia()
+                    : Container::getInstance()->make('cache');
+
+                return (bool) $cache->lock(
+                    $key = 'laravel_unique_job:' . get_class($this->job) . $uniqueId,
+                    $this->job->uniqueFor ?? 0
+                )->get();
+            }
+
+            /**
+             * Handle the object's destruction.
+             *
+             * @return void
+             */
+            public function __destruct()
+            {
+                if (! $this->shouldDispatch()) {
+                    return;
+                }
+                    app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
+
+            }
+        };
+    }
+}
+
+if (! function_exists('dispatch_now')) {
+    /**
+     * Dispatch a command to its appropriate handler in the current process.
+     *
+     * @param mixed $job
+     * @param mixed $handler
+     *
+     * @return mixed
+     */
+    function dispatch_now($job, $handler = null)
+    {
+        return app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatchNow($job, $handler);
+    }
+}
+
 if (! function_exists('encrypt')) {
     /**
      * Encrypt the given value.

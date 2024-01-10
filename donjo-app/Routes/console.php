@@ -35,8 +35,10 @@
  *
  */
 
-Route::group('job', static function () {
+Route::group('job', static function (): void {
     Route::cli('/restore/{database?}', 'Job@restore');
     Route::cli('/backup_inkremental/{lokasi}', 'Job@backup_inkremental');
     Route::cli('/restore_desa/{id}', 'Job@restore_desa');
 });
+
+Route::cli('artisan/{any1?}/{any2?}/{any3?}/{any4?}/{any5?}/{any6?}/{any7?}/{any8?}/{any9?}/{any10?}', 'Artisan@index');

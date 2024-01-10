@@ -22,15 +22,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### TEKNIS
 
-1. [#7545](https://github.com/OpenSID/OpenSID/issues/7545) Penyesuaian penggunaan komponen illuminate.
-2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penyesuaian route menggunakan library opensid/router.
+1. [#7545](https://github.com/OpenSID/OpenSID/issues/7545) Penerapan komponen illuminate.
+2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penerapan route menggunakan library opensid/router.
 3. [#7510](https://github.com/OpenSID/OpenSID/issues/7510) Penyesuaian fungsi pengurutan mengunakan dragable pada tabel.
 4. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul kelompok/lembaga menggunakan ORM dan View Blade Laravel.
-5. [#3371](https://github.com/OpenSID/premium/issues/3371) Penyesuaian library hasing menggunakan illuminate/hashing.
-6. [#3372](https://github.com/OpenSID/premium/issues/3372) Penyesuaian library parsedown menggunakan erusev/parsedown.
+5. [#3371](https://github.com/OpenSID/premium/issues/3371) Penerapan library hasing menggunakan illuminate/hashing.
+6. [#3372](https://github.com/OpenSID/premium/issues/3372) Penerapan library parsedown menggunakan erusev/parsedown.
 7. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul menu dan kategori menggunakan ORM dan View Blade Laravel.
 8. [#3915](https://github.com/OpenSID/OpenSID/issues/3915) Penyesuaian penduduk/log_penduduk pindahkan ke modul catatan peristiwa.
 9. [#7519](https://github.com/OpenSID/OpenSID/issues/7519) Penyesuaian modul komentar menggunakan ORM dan View Blade Laravel.
+10. [#3380](https://github.com/OpenSID/premium/issues/3380) Penerapan artisan dan queue  laravel.
 
 
 #### KEAMANAN
