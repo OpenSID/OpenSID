@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#3915](https://github.com/OpenSID/OpenSID/issues/3915) Penyesuaian penduduk/log_penduduk pindahkan ke modul catatan peristiwa.
 9. [#7519](https://github.com/OpenSID/OpenSID/issues/7519) Penyesuaian modul komentar menggunakan ORM dan View Blade Laravel.
 10. [#3380](https://github.com/OpenSID/premium/issues/3380) Penerapan artisan dan queue  laravel.
+11. [#7573](https://github.com/OpenSID/OpenSID/issues/7573) Penyesuaian modul galeri menggunakan ORM dan View Blade Laravel.
 
 
 #### KEAMANAN

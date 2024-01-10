@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Galery;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -67,11 +68,21 @@ class Migrasi_dev extends MY_model
 
         // Migrasi tanpa config_id
 
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2024011051($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
     {
         return $hasil;
+    }
+
+    protected function migrasi_2024011051($hasil)
+    {
+        // ubah status enabled menjadi 0 untuk nonaktif, sebelumnya 2
+        Galery::where(['enabled' => 2])->update(['enabled' => 0]);
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'galeri', 'url' => 'gallery/clear'],
+            ['url' => 'gallery']
+        );
     }
 }
