@@ -11,9 +11,7 @@
 
 namespace Monolog\Formatter;
 
-use Closure;
 use Monolog\Utils;
-use Monolog\LogRecord;
 
 /**
  * Formats incoming records into a one-line string
@@ -27,20 +25,22 @@ class LineFormatter extends NormalizerFormatter
 {
     public const SIMPLE_FORMAT = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
 
-    protected string $format;
-    protected bool $allowInlineLineBreaks;
-    protected bool $ignoreEmptyContextAndExtra;
-    protected bool $includeStacktraces;
-    protected ?int $maxLevelNameLength = null;
-    protected string $indentStacktraces = '';
-    protected Closure|null $stacktracesParser = null;
+    /** @var string */
+    protected $format;
+    /** @var bool */
+    protected $allowInlineLineBreaks;
+    /** @var bool */
+    protected $ignoreEmptyContextAndExtra;
+    /** @var bool */
+    protected $includeStacktraces;
+    /** @var ?callable */
+    protected $stacktracesParser;
 
     /**
-     * @param string|null $format                The format of the message
-     * @param string|null $dateFormat            The format of the timestamp: one supported by DateTime::format
-     * @param bool        $allowInlineLineBreaks Whether to allow inline line breaks in log entries
-     *
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @param string|null $format                     The format of the message
+     * @param string|null $dateFormat                 The format of the timestamp: one supported by DateTime::format
+     * @param bool        $allowInlineLineBreaks      Whether to allow inline line breaks in log entries
+     * @param bool        $ignoreEmptyContextAndExtra
      */
     public function __construct(?string $format = null, ?string $dateFormat = null, bool $allowInlineLineBreaks = false, bool $ignoreEmptyContextAndExtra = false, bool $includeStacktraces = false)
     {
@@ -51,10 +51,7 @@ class LineFormatter extends NormalizerFormatter
         parent::__construct($dateFormat);
     }
 
-    /**
-     * @return $this
-     */
-    public function includeStacktraces(bool $include = true, ?Closure $parser = null): self
+    public function includeStacktraces(bool $include = true, ?callable $parser = null): self
     {
         $this->includeStacktraces = $include;
         if ($this->includeStacktraces) {
@@ -65,22 +62,6 @@ class LineFormatter extends NormalizerFormatter
         return $this;
     }
 
-    /**
-     * Indent stack traces to separate them a bit from the main log record messages
-     *
-     * @param string $indent The string used to indent, for example "    "
-     * @return $this
-     */
-    public function indentStacktraces(string $indent): self
-    {
-        $this->indentStacktraces = $indent;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
     public function allowInlineLineBreaks(bool $allow = true): self
     {
         $this->allowInlineLineBreaks = $allow;
@@ -88,9 +69,6 @@ class LineFormatter extends NormalizerFormatter
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function ignoreEmptyContextAndExtra(bool $ignore = true): self
     {
         $this->ignoreEmptyContextAndExtra = $ignore;
@@ -99,30 +77,14 @@ class LineFormatter extends NormalizerFormatter
     }
 
     /**
-     * Allows cutting the level name to get fixed-length levels like INF for INFO, ERR for ERROR if you set this to 3 for example
-     *
-     * @param int|null $maxLevelNameLength Maximum characters for the level name. Set null for infinite length (default)
-     * @return $this
+     * {@inheritDoc}
      */
-    public function setMaxLevelNameLength(?int $maxLevelNameLength = null): self
-    {
-        $this->maxLevelNameLength = $maxLevelNameLength;
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function format(LogRecord $record): string
+    public function format(array $record): string
     {
         $vars = parent::format($record);
 
-        if ($this->maxLevelNameLength !== null) {
-            $vars['level_name'] = substr($vars['level_name'], 0, $this->maxLevelNameLength);
-        }
-
         $output = $this->format;
+
         foreach ($vars['extra'] as $var => $val) {
             if (false !== strpos($output, '%extra.'.$var.'%')) {
                 $output = str_replace('%extra.'.$var.'%', $this->stringify($val), $output);
@@ -138,12 +100,12 @@ class LineFormatter extends NormalizerFormatter
         }
 
         if ($this->ignoreEmptyContextAndExtra) {
-            if (\count($vars['context']) === 0) {
+            if (empty($vars['context'])) {
                 unset($vars['context']);
                 $output = str_replace('%context%', '', $output);
             }
 
-            if (\count($vars['extra']) === 0) {
+            if (empty($vars['extra'])) {
                 unset($vars['extra']);
                 $output = str_replace('%extra%', '', $output);
             }
@@ -160,7 +122,6 @@ class LineFormatter extends NormalizerFormatter
             $output = preg_replace('/%(?:extra|context)\..+?%/', '', $output);
             if (null === $output) {
                 $pcreErrorCode = preg_last_error();
-
                 throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
             }
         }
@@ -190,7 +151,7 @@ class LineFormatter extends NormalizerFormatter
     {
         $str = $this->formatException($e);
 
-        if (($previous = $e->getPrevious()) instanceof \Throwable) {
+        if ($previous = $e->getPrevious()) {
             do {
                 $depth++;
                 if ($depth > $this->maxNormalizeDepth) {
@@ -224,7 +185,7 @@ class LineFormatter extends NormalizerFormatter
     protected function replaceNewlines(string $str): string
     {
         if ($this->allowInlineLineBreaks) {
-            if (0 === strpos($str, '{') || 0 === strpos($str, '[')) {
+            if (0 === strpos($str, '{')) {
                 $str = preg_replace('/(?<!\\\\)\\\\[rn]/', "\n", $str);
                 if (null === $str) {
                     $pcreErrorCode = preg_last_error();
@@ -271,15 +232,11 @@ class LineFormatter extends NormalizerFormatter
     {
         $trace = $e->getTraceAsString();
 
-        if ($this->stacktracesParser !== null) {
+        if ($this->stacktracesParser) {
             $trace = $this->stacktracesParserCustom($trace);
         }
 
-        if ($this->indentStacktraces !== '') {
-            $trace = str_replace("\n", "\n{$this->indentStacktraces}", $trace);
-        }
-
-        return "\n{$this->indentStacktraces}[stacktrace]\n{$this->indentStacktraces}" . $trace . "\n";
+        return "\n[stacktrace]\n" . $trace . "\n";
     }
 
     private function stacktracesParserCustom(string $trace): string

@@ -13,26 +13,26 @@ namespace Monolog\Handler;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\ResettableInterface;
-use Monolog\LogRecord;
 
 /**
  * Forwards records to multiple handlers
  *
  * @author Lenar Lõhmus <lenar@city.ee>
+ *
+ * @phpstan-import-type Record from \Monolog\Logger
  */
 class GroupHandler extends Handler implements ProcessableHandlerInterface, ResettableInterface
 {
     use ProcessableHandlerTrait;
 
     /** @var HandlerInterface[] */
-    protected array $handlers;
-    protected bool $bubble;
+    protected $handlers;
+    /** @var bool */
+    protected $bubble;
 
     /**
      * @param HandlerInterface[] $handlers Array of Handlers.
      * @param bool               $bubble   Whether the messages that are handled can bubble up the stack or not
-     *
-     * @throws \InvalidArgumentException if an unsupported handler is set
      */
     public function __construct(array $handlers, bool $bubble = true)
     {
@@ -47,9 +47,9 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function isHandling(LogRecord $record): bool
+    public function isHandling(array $record): bool
     {
         foreach ($this->handlers as $handler) {
             if ($handler->isHandling($record)) {
@@ -61,40 +61,42 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
-    public function handle(LogRecord $record): bool
+    public function handle(array $record): bool
     {
-        if (\count($this->processors) > 0) {
+        if ($this->processors) {
+            /** @var Record $record */
             $record = $this->processRecord($record);
         }
 
         foreach ($this->handlers as $handler) {
-            $handler->handle(clone $record);
+            $handler->handle($record);
         }
 
         return false === $this->bubble;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function handleBatch(array $records): void
     {
-        if (\count($this->processors) > 0) {
+        if ($this->processors) {
             $processed = [];
             foreach ($records as $record) {
                 $processed[] = $this->processRecord($record);
             }
+            /** @var Record[] $records */
             $records = $processed;
         }
 
         foreach ($this->handlers as $handler) {
-            $handler->handleBatch(array_map(fn ($record) => clone $record, $records));
+            $handler->handleBatch($records);
         }
     }
 
-    public function reset(): void
+    public function reset()
     {
         $this->resetProcessors();
 
@@ -115,7 +117,7 @@ class GroupHandler extends Handler implements ProcessableHandlerInterface, Reset
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
