@@ -1895,7 +1895,7 @@ Route::group('info_sistem', static function (): void {
 // Pengaturan > QR Code
 Route::group('qr_code', static function (): void {
     Route::get('/clear', 'Qr_code@clear')->name('qr_code.clear');
-    Route::get('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
+    Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
     Route::get('/', 'Qr_code@index')->name('qr_code.index');
 });
 
