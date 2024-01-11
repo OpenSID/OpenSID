@@ -40,7 +40,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
-use Illuminate\Contracts\View\View;
 
 class Identitas_desa extends Admin_Controller
 {
@@ -143,12 +142,12 @@ class Identitas_desa extends Admin_Controller
         $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['wilayah']      = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['breadcrumb']   = [
-            ['link' => route('identitas_desa.index'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
+            ['link' => ci_route('identitas_desa.index'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
         ];
 
-        $data['form_action'] = route('identitas_desa.update_maps', ['tipe' => $tipe]);
+        $data['form_action'] = ci_route('identitas_desa.update_maps', $tipe);
 
-        $this->render('sid/wilayah/maps_' . $tipe, $data);
+        view('admin.wilayah.maps_'  . $tipe, $data);
     }
 
     /**
