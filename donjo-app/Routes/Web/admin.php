@@ -708,7 +708,7 @@ Route::group('keluar', static function () {
     Route::get('/masuk', 'Keluar@masuk')->name('keluar.masuk');
     Route::get('/ditolak', 'Keluar@ditolak')->name('keluar.ditolak');
     Route::get('/datatables', 'Keluar@datatables')->name('keluar.datatables');
-    Route::get('/verifikasi', 'Keluar@verifikasi')->name('keluar.verifikasi');
+    Route::post('/verifikasi', 'Keluar@verifikasi')->name('keluar.verifikasi');
     Route::get('/tolak', 'Keluar@tolak')->name('keluar.tolak');
     Route::get('/tte', 'Keluar@tte')->name('keluar.tte');
     Route::get('/kembalikan', 'Keluar@kembalikan')->name('keluar.kembalikan');
