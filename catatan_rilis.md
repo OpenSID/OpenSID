@@ -34,6 +34,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#3380](https://github.com/OpenSID/premium/issues/3380) Penerapan artisan dan queue  laravel.
 11. [#7573](https://github.com/OpenSID/OpenSID/issues/7573) Penyesuaian modul galeri menggunakan ORM dan View Blade Laravel.
 12. [#7574](https://github.com/OpenSID/OpenSID/issues/7574) Penyesuaian modul identitas desa menggunakan ORM dan View Blade Laravel.
+13. [#3381](https://github.com/OpenSID/premium/issues/3381) Penerapan library request menggunakan illuminate/http  laravel.
+15. [#3377](https://github.com/OpenSID/premium/issues/3377) Penerapan library datatables menggunakan yajra/laravel-datatables-oracle.
 
 
 #### KEAMANAN

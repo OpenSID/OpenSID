@@ -97,6 +97,7 @@ $app->singleton(
 |
 */
 $app->configure('app');
+$app->configure('datatables');
 
 /*
 |--------------------------------------------------------------------------
@@ -111,7 +112,7 @@ $app->configure('app');
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-$app->register(\App\Providers\PaginationServiceProvider::class);
+$app->register(\App\Providers\DataTablesServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +127,8 @@ $app->register(\App\Providers\PaginationServiceProvider::class);
 */
 
 if (ENVIRONMENT === 'development') {
+    \Illuminate\Support\Facades\DB::enableQueryLog();
+
     /**
      * Uncomment untuk listen semua query dari illuminate database.
      */

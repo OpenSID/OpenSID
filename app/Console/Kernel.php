@@ -44,6 +44,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Console\Scheduling\ScheduleRunCommand;
 use Illuminate\Contracts\Console\Kernel as KernelContract;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use RuntimeException;
 use Throwable;
@@ -109,7 +110,17 @@ class Kernel implements KernelContract
             'PATH_TRANSLATED' => 'artisan',
             'argv'            => Arr::except($server['argv'], 0),
         ]);
+
         $_SERVER = $server;
+
+        $app->instance('request', Request::create(
+            base_url(),
+            'GET',
+            [],
+            [],
+            [],
+            $server
+        ));
     }
 
     /**

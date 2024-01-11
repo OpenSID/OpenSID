@@ -50,6 +50,8 @@ use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Hashing\HashServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Queue\QueueServiceProvider;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Facade;
@@ -234,6 +236,8 @@ class Laravel extends Container
             return;
         }
 
+        $this->instance(Request::class, Request::capture());
+
         foreach ($this->loadedProviders as $provider) {
             $this->bootProvider($provider);
         }
@@ -335,6 +339,7 @@ class Laravel extends Container
             }
 
             $this->register(DatabaseServiceProvider::class);
+            $this->register(PaginationServiceProvider::class);
 
             return $this->make('db');
         });
@@ -515,6 +520,7 @@ class Laravel extends Container
             \Illuminate\Support\Facades\Cache::class   => 'Cache',
             \Illuminate\Support\Facades\DB::class      => 'DB',
             \Illuminate\Support\Facades\Event::class   => 'Event',
+            \Illuminate\Support\Facades\Queue::class   => 'Queue',
             \Illuminate\Support\Facades\Schema::class  => 'Schema',
             \Illuminate\Support\Facades\Storage::class => 'Storage',
         ];
@@ -713,6 +719,7 @@ class Laravel extends Container
             \Illuminate\Contracts\Hashing\Hasher::class             => 'hash',
             \Illuminate\Contracts\Queue\Factory::class              => 'queue',
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
+            'request'                                               => \Illuminate\Http\Request::class,
             \Illuminate\Contracts\View\Factory::class               => 'view',
         ];
     }
