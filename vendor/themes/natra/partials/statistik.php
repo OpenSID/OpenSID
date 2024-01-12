@@ -34,16 +34,16 @@
         else $('#tampilkan').text('Sembunyikan Nol');
     }
 
-    function switchType(){
+    function switchType() {
         var chartType = chart_penduduk.series[0].type;
         chart_penduduk.series[0].update({
             type: (chartType === 'pie') ? 'column' : 'pie'
         });
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         tampilkan_nol(false);
-        if (<?=$this->setting->statistik_chart_3d?>) {
+        if (<?= $this->setting->statistik_chart_3d ?>) {
             chart_penduduk = new Highcharts.Chart({
                 chart: {
                     renderTo: 'container',
@@ -128,7 +128,7 @@
             });
         }
 
-        $('#showData').click(function () {
+        $('#showData').click(function() {
             $('tr.lebih').show();
             $('#showData').hide();
             tampilkan_nol(false);
@@ -141,32 +141,30 @@
     tr.lebih {
         display: none;
     }
-    
-    .input-sm
-    {
+
+    .input-sm {
         padding: 4px 4px;
     }
-    @media (max-width:780px)
-    {
-        .btn-group-vertical
-        {
+
+    @media (max-width:780px) {
+        .btn-group-vertical {
             display: block;
         }
     }
-    .table-responsive
-    {
-        min-height:275px;
+
+    .table-responsive {
+        min-height: 275px;
     }
     }
 </style>
 <div class="box-body">
     <div class="single_page_area">
-        <h2 class="post_titile" >Data Demografi Berdasar <?=$heading?></h2>
+        <h2 class="post_titile">Data Demografi Berdasar <?= $heading ?></h2>
     </div>
     <div class="box-stats d-flex justify-content-end">
         <div class="btn-group-xs">
-            <a class="btn <?= ($tipe==1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
-            <a class="btn <?= ($tipe==0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
+            <a class="btn <?= ($tipe == 1) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Bar Graph</a>
+            <a class="btn <?= ($tipe == 0) ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType();">Pie Cart</a>
         </div>
     </div>
 </div>
@@ -188,65 +186,80 @@
                     <th rowspan="2">Kode</th>
                     <th rowspan="2" style='text-align:left;'>Kelompok</th>
                     <th colspan="2">Jumlah</th>
-                    <?php if ($jenis_laporan == 'penduduk'):?>
+                    <?php if ($jenis_laporan == 'penduduk') : ?>
                         <th colspan="2">Laki-laki</th>
                         <th colspan="2">Perempuan</th>
-                    <?php endif;?>
+                    <?php endif; ?>
                 </tr>
                 <tr>
-                    <th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-                    <?php if ($jenis_laporan == 'penduduk'):?>
-                        <th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-                        <th style='text-align:right'>n</th><th style='text-align:right'>%</th>
-                    <?php endif;?>
+                    <th style='text-align:right'>n</th>
+                    <th style='text-align:right'>%</th>
+                    <?php if ($jenis_laporan == 'penduduk') : ?>
+                        <th style='text-align:right'>n</th>
+                        <th style='text-align:right'>%</th>
+                        <th style='text-align:right'>n</th>
+                        <th style='text-align:right'>%</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
-                <?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat); ?>
-                <?php foreach ($stat as $data):?>
-                    <?php $jm1++; if (1):?>
-                        <?php $h++; if ($h > 12 AND $jm > 10): $hide="lebih"; ?>
-                        <?php endif;?>
-                        <tr class="<?=$hide?>">
+                <?php $i = 0;
+                $l = 0;
+                $p = 0;
+                $hide = "";
+                $h = 0;
+                $jm1 = 1;
+                $jm = count($stat); ?>
+                <?php foreach ($stat as $data) : ?>
+                    <?php $jm1++;
+                    if (1) : ?>
+                        <?php $h++;
+                        if ($h > 12 and $jm > 10) : $hide = "lebih"; ?>
+                        <?php endif; ?>
+                        <tr class="<?= $hide ?>">
                             <td class="angka">
-                                <?php if ($jm1 > $jm - 2):?>
-                                    <?=$data['no']?>
-                                <?php else:?>
-                                    <?=$h?>
-                                <?php endif;?>
+                                <?php if ($jm1 > $jm - 2) : ?>
+                                    <?= $data['no'] ?>
+                                <?php else : ?>
+                                    <?= $h ?>
+                                <?php endif; ?>
                             </td>
-                            <td><?=$data['nama']?></td>
-                            <td class="angka <?php ($jm1 <= $jm - 2) and ($data['jumlah'] == 0) and print('nol')?>"><?=$data['jumlah']?></td>
-                            <td class="angka"><?=$data['persen']?></td>
-                            <?php if ($jenis_laporan == 'penduduk'):?>
-                                <td class="angka"><?=$data['laki']?></td>
-                                <td class="angka"><?=$data['persen1']?></td>
-                                <td class="angka"><?=$data['perempuan']?></td>
-                                <td class="angka"><?=$data['persen2']?></td>
-                            <?php endif;?>
+                            <td><?= $data['nama'] ?></td>
+                            <td class="angka <?php ($jm1 <= $jm - 2) and ($data['jumlah'] == 0) and print('nol') ?>"><?= $data['jumlah'] ?></td>
+                            <td class="angka"><?= $data['persen'] ?></td>
+                            <?php if ($jenis_laporan == 'penduduk') : ?>
+                                <td class="angka"><?= $data['laki'] ?></td>
+                                <td class="angka"><?= $data['persen1'] ?></td>
+                                <td class="angka"><?= $data['perempuan'] ?></td>
+                                <td class="angka"><?= $data['persen2'] ?></td>
+                            <?php endif; ?>
                         </tr>
-                        <?php $i += $data['jumlah'];?>
-                        <?php $l += $data['laki']; $p += $data['perempuan'];?>
-                    <?php endif;?>
-                <?php endforeach;?>
+                        <?php $i += $data['jumlah']; ?>
+                        <?php $l += $data['laki'];
+                        $p += $data['perempuan']; ?>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
-        <?php if($hide=="lebih"):?>
+        <p style="color: red">
+            Diperbarui pada : <?= tgl_indo($last_update); ?>
+        </p>
+        <?php if ($hide == "lebih") : ?>
             <div style='float: left;'>
                 <button class='uibutton special' id='showData'>Selengkapnya...</button>
             </div>
-        <?php endif;?>
+        <?php endif; ?>
         <div style="float: right;">
             <button id='tampilkan' onclick="toggle_tampilkan();" class="uibutton special">Tampilkan Nol</button>
         </div>
     </div>
 </div>
 
-<?php if ($this->setting->daftar_penerima_bantuan && in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+<?php if ($this->setting->daftar_penerima_bantuan && in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))) : ?>
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <input id="stat" type="hidden" value="<?=$st?>">
+                <input id="stat" type="hidden" value="<?= $st ?>">
                 <div class="box box-info">
                     <div class="box-header with-border" style="margin-bottom: 15px;">
                         <h2 class="post_titile">Daftar <?= $heading ?></h2>
@@ -271,34 +284,34 @@
     </section>
 
     <script type="text/javascript">
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        var url = "<?= site_url('first/ajax_peserta_program_bantuan') ?>";
-        table = $('#peserta_program').DataTable({
-            'processing': true,
-            'serverSide': true,
-            "pageLength": 10,
-            'order': [],
-            "ajax": {
-                "url": url,
-                "type": "POST",
-                "data": {stat: $('#stat').val()}
-            },
-            //Set column definition initialisation properties.
-            "columnDefs": [
-                {
-                    "targets": [ 0, 3 ], //first column / numbering column
-                    "orderable": false, //set not orderable
+            var url = "<?= site_url('first/ajax_peserta_program_bantuan') ?>";
+            table = $('#peserta_program').DataTable({
+                'processing': true,
+                'serverSide': true,
+                "pageLength": 10,
+                'order': [],
+                "ajax": {
+                    "url": url,
+                    "type": "POST",
+                    "data": {
+                        stat: $('#stat').val()
+                    }
                 },
-            ],
-            'language': {
-                'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-            },
-            'drawCallback': function (){
-                $('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
-            }
-        });
+                //Set column definition initialisation properties.
+                "columnDefs": [{
+                    "targets": [0, 3], //first column / numbering column
+                    "orderable": false, //set not orderable
+                }, ],
+                'language': {
+                    'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+                },
+                'drawCallback': function() {
+                    $('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
+                }
+            });
 
-    } );
+        });
     </script>
 <?php endif ?>

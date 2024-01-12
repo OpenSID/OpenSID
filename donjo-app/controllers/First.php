@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Penduduk;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class First extends Web_Controller
@@ -96,7 +98,7 @@ class First extends Web_Controller
         $data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
         $cari = trim($this->input->get('cari', true));
-        if (! empty($cari)) {
+        if (!empty($cari)) {
             // Judul artikel bisa digunakan untuk serangan XSS
             $data['judul_kategori'] = 'Hasil pencarian : ' . substr(e($cari), 0, 50);
         }
@@ -179,7 +181,7 @@ class First extends Web_Controller
 
     public function statistik($stat = 0, $tipe = 0)
     {
-        if (! $this->web_menu_model->menu_aktif('statistik/' . $stat)) {
+        if (!$this->web_menu_model->menu_aktif('statistik/' . $stat)) {
             show_404();
         }
 
@@ -190,6 +192,7 @@ class First extends Web_Controller
         $data['stat']    = $this->laporan_penduduk_model->list_data($stat);
         $data['tipe']    = $tipe;
         $data['st']      = $stat;
+        $data['last_update'] = Penduduk::latest()->first()->updated_at;
 
         $this->_get_common_data($data);
 
@@ -234,7 +237,7 @@ class First extends Web_Controller
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
     public function data_analisis()
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
+        if (!$this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
         }
 
@@ -253,7 +256,7 @@ class First extends Web_Controller
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
     public function jawaban_analisis($stat = '', $sb = 0, $per = 0)
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
+        if (!$this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
         }
 
@@ -267,7 +270,7 @@ class First extends Web_Controller
 
     public function dpt()
     {
-        if (! $this->web_menu_model->menu_aktif('dpt')) {
+        if (!$this->web_menu_model->menu_aktif('dpt')) {
             show_404();
         }
 
@@ -285,7 +288,7 @@ class First extends Web_Controller
 
     public function wilayah()
     {
-        if (! $this->web_menu_model->menu_aktif('data-wilayah')) {
+        if (!$this->web_menu_model->menu_aktif('data-wilayah')) {
             show_404();
         }
 
@@ -305,7 +308,7 @@ class First extends Web_Controller
 
     public function informasi_publik()
     {
-        if (! $this->web_menu_model->menu_aktif('informasi_publik')) {
+        if (!$this->web_menu_model->menu_aktif('informasi_publik')) {
             show_404();
         }
 
@@ -362,7 +365,7 @@ class First extends Web_Controller
         $this->load->model('Web_dokumen_model');
         $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 
-        if (! $id_dokumen || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas)) {
+        if (!$id_dokumen || !$berkas || !file_exists(LOKASI_DOKUMEN . $berkas)) {
             $data['link_berkas'] = null;
         } else {
             $data = [
@@ -427,7 +430,7 @@ class First extends Web_Controller
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
             $captcha = new App\Libraries\Captcha();
-            if (! $captcha->check($this->input->post('captcha_code'))) {
+            if (!$captcha->check($this->input->post('captcha_code'))) {
                 $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'Kode anda salah. Silakan ulangi lagi.',
