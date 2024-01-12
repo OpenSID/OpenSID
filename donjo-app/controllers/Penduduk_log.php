@@ -49,15 +49,20 @@ class Penduduk_log extends Admin_Controller
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'penduduk';
         $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
+        $this->list_session  = ['filter_tahun', 'filter_bulan', 'judul_statistik', 'akta_kematian', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umurx'];
     }
 
-    public function clear()
+    private function clear_session()
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->filter_bulan = date('n');
         $this->session->filter_tahun = date('Y');
         $this->session->per_page     = 20;
+    }
+
+    public function clear()
+    {
+        $this->clear_session();
 
         redirect($this->controller);
     }
@@ -258,5 +263,33 @@ class Penduduk_log extends Admin_Controller
         $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
+    }
+
+    public function statistik($tipe = '0', $nomor = 0, $sex = null)
+    {
+        $this->clear_session();
+        $this->session->sex = ($sex == 0) ? null : $sex;
+
+        switch ((string) $tipe) {
+            case 'akta-kematian':
+                $session  = 'akta_kematian';
+                $kategori = 'AKTA KEMATIAN : ';
+                $this->session->status_dasar = 2;
+                $this->session->kode_peristiwa = 2;
+                $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
+                break;
+        }
+
+        $this->session->{$session} = rawurldecode($nomor);
+
+        $judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
+        // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
+        if ($judul['nama']) {
+            $this->session->judul_statistik = $kategori . $judul['nama'];
+        } else {
+            $this->session->unset_userdata('judul_statistik');
+        }
+
+        redirect($this->controller);
     }
 }
