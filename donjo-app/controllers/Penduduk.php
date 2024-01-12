@@ -57,7 +57,7 @@ class Penduduk extends Admin_Controller
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'penduduk';
         $this->_set_page     = ['50', '100', '200', [0, 'Semua']];
-        $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
+        $this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kia', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
     }
 
     private function clear_session()
@@ -748,12 +748,17 @@ class Penduduk extends Admin_Controller
 
             case 'suku':
                 $session  = 'suku';
-                $kategori = 'Suku: ';
+                $kategori = 'Suku : ';
                 break;
 
             case 'hamil':
                 $session  = 'hamil';
                 $kategori = 'STATUS KEHAMILAN : ';
+                break;
+
+            case 'kia':
+                $session  = 'kia';
+                $kategori = 'KEPEMILIKAN KIA : ';
                 break;
 
             case $tipe > 50:

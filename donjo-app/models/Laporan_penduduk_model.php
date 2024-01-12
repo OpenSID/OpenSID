@@ -297,39 +297,51 @@ class Laporan_penduduk_model extends MY_Model
     {
         //Ordering SQL
         switch (true) {
-            case $o == 1 && $lap == 'suku': $this->db->order_by($lap);
+            case $o == 1 && $lap == 'suku':
+                $this->db->order_by($lap);
                 break;
 
-            case $o == 2 && $lap == 'suku': $this->db->order_by($lap . ' DESC');
+            case $o == 2 && $lap == 'suku':
+                $this->db->order_by($lap . ' DESC');
                 break;
 
-            case $lap == 'bdt': break;
-
-            case $o == 1: $this->db->order_by('u.id');
+            case $lap == 'bdt':
                 break;
 
-            case $o == 1: $this->db->order_by('u.id');
+            case $o == 1:
+                $this->db->order_by('u.id');
                 break;
 
-            case $o == 2: $this->db->order_by('u.id DESC');
+            case $o == 1:
+                $this->db->order_by('u.id');
                 break;
 
-            case $o == 3: $this->db->order_by('laki');
+            case $o == 2:
+                $this->db->order_by('u.id DESC');
                 break;
 
-            case $o == 4: $this->db->order_by('laki DESC');
+            case $o == 3:
+                $this->db->order_by('laki');
                 break;
 
-            case $o == 5: $this->db->order_by('jumlah');
+            case $o == 4:
+                $this->db->order_by('laki DESC');
                 break;
 
-            case $o == 6: $this->db->order_by('jumlah DESC');
+            case $o == 5:
+                $this->db->order_by('jumlah');
                 break;
 
-            case $o == 7: $this->db->order_by('perempuan');
+            case $o == 6:
+                $this->db->order_by('jumlah DESC');
                 break;
 
-            case $o == 8: $this->db->order_by('perempuan DESC');
+            case $o == 7:
+                $this->db->order_by('perempuan');
+                break;
+
+            case $o == 8:
+                $this->db->order_by('perempuan DESC');
                 break;
         }
     }
@@ -384,7 +396,7 @@ class Laporan_penduduk_model extends MY_Model
         ];
 
         switch ("{$lap}") {
-            // KELUARGA
+                // KELUARGA
             case 'kelas_sosial':
                 // Kelas Sosial
                 $this->db
@@ -411,7 +423,8 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
                 // BANTUAN
-            case 'bantuan_penduduk': $sql = 'SELECT u.*,
+            case 'bantuan_penduduk':
+                $sql = 'SELECT u.*,
                 (SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id AND config_id = u.config_id) AS jumlah,
                 (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id) AS laki,
                 (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id) AS perempuan
@@ -423,6 +436,15 @@ class Laporan_penduduk_model extends MY_Model
                 // Kehamilan
                 $this->db->where('p.sex', 2);
                 $this->select_jml_penduduk_per_kategori('hamil', 'ref_penduduk_hamil');
+                break;
+
+            case 'kia':
+                // Kepemilikan kia
+                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17) AND u.status_rekam = status_rekam";
+                $this->select_jml($where);
+                $this->db
+                    ->select('u.*')
+                    ->from('tweb_status_ktp u');
                 break;
 
             case 'covid':
@@ -506,6 +528,7 @@ class Laporan_penduduk_model extends MY_Model
 
             default:
                 $this->select_jml_penduduk_per_kategori($statistik_penduduk['0']['id_referensi'], $statistik_penduduk['0']['tabel_referensi']);
+                break;
         }
 
         return true;
@@ -517,6 +540,9 @@ class Laporan_penduduk_model extends MY_Model
         //Siapkan data baris rekap
         if ($lap == 18) {
             $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
+            $semua = $this->data_jml_semua_penduduk();
+        } elseif ($lap == 'kia') {
+            $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)");
             $semua = $this->data_jml_semua_penduduk();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();
@@ -631,7 +657,7 @@ class Laporan_penduduk_model extends MY_Model
 
     public function delete_rentang($id = '', $semua = false)
     {
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success = 1;
         }
 
