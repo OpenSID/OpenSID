@@ -1823,7 +1823,8 @@ Route::group('modul', static function () {
     Route::get('/unlock/{id}', 'Modul@unlock')->name('modul.unlock');
     Route::post('/ubah_server', 'Modul@ubah_server')->name('modul.ubah_server');
     Route::get('/default_server', 'Modul@default_server')->name('modul.default_server');
-    Route::get('/{parent?}', 'Modul@index')->name('modul.index');
+    Route::get('/index/{parent?}', 'Modul@index')->name('modul.index');
+    Route::get('/{parent?}', 'Modul@index')->name('modul.index-default');
 });
 // Pengaturan > Aplikasi
 Route::group('setting', static function () {

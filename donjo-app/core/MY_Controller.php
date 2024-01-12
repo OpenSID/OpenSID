@@ -239,7 +239,7 @@ class MY_Controller extends CI_Controller
     public function setConfigViews(): void
     {
         $config = cache()->rememberForever('views_blade', static function () {
-            $modules = array_map(static fn ($module) => $module . '/views/', glob(APPPATH . 'Modules/*', GLOB_ONLYDIR));
+            $modules = array_map(static fn ($module) => $module . '/Views/', glob(APPPATH . 'Modules/*', GLOB_ONLYDIR));
             $themes  = array_merge(
                 glob(DESAPATH . 'themes/*/', GLOB_ONLYDIR),
                 glob(VENDORPATH . 'themes/*/', GLOB_ONLYDIR)

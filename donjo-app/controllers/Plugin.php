@@ -94,7 +94,8 @@ class Plugin extends Admin_Controller
             forceRemoveDir($this->modulesDirectory . $name);
         }
         $this->pasangPaket($name, $url);
-
+        // reset cache views_blade karena di MY_Controller diset cache rememberForever
+        cache()->flush();
         redirect('plugin');
     }
 
@@ -102,10 +103,10 @@ class Plugin extends Admin_Controller
     {
         try {
             // Destination path for the downloaded ZIP file
-            $zipFilePath  = $this->modulesDirectory . $name . '.zip';
-            $extractedDir = $this->modulesDirectory . $name;
+            $zipFilePath     = $this->modulesDirectory . $name . '.zip';
+            $extractedDir    = $this->modulesDirectory . $name;
             $tmpExtractedDir = $this->modulesDirectory;
-            if (file_exists($extractedDir.'/modules.json')) {
+            if (file_exists($extractedDir . '/modules.json')) {
                 set_session('error', 'Paket ' . $name . ' sudah ada');
                 redirect('plugin');
             }
@@ -115,10 +116,10 @@ class Plugin extends Admin_Controller
             // Extract the ZIP file
             $zip = new ZipArchive();
             if ($zip->open($zipFilePath) == true) {
-                $subfolder = $zip->getNameIndex(0);                
+                $subfolder = $zip->getNameIndex(0);
                 $zip->extractTo($tmpExtractedDir);
                 $zip->close();
-                rename($tmpExtractedDir.substr($subfolder,0, -1), $extractedDir);
+                rename($tmpExtractedDir . substr($subfolder, 0, -1), $extractedDir);
                 // jalankan migrasi dari paket
                 $this->jalankanMigrasi($name, 'up');
                 set_session('success', 'Paket tambahan ' . $name . ' berhasil diinstall, silakan aktifkan paket tersebut');
@@ -144,6 +145,8 @@ class Plugin extends Admin_Controller
             $this->jalankanMigrasi($name, 'down');
             forceRemoveDir($this->modulesDirectory . $name);
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
+            // reset cache views_blade karena di MY_Controller diset cache rememberForever
+            cache()->flush();
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
@@ -154,7 +157,7 @@ class Plugin extends Admin_Controller
     private function jalankanMigrasi($name, $action = 'up')
     {
         $this->load->helper('directory');
-        $directoryTable = $this->modulesDirectory . $name . '/Models/Migrations';
+        $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
 
         foreach ($migrations as $migrate) {
