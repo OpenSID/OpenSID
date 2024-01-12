@@ -64,6 +64,24 @@
         'id_sex' => $individu ? $individu['id_sex'] : $pamong['id_sex'],
         'foto' => $individu ? $individu['foto'] : $pamong['foto'],
         ])
+
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Media Sosial</h3>
+            </div>
+
+            <div class="box-body">
+                <?php
+                    $sosmed = ['Facebook', 'Twitter', 'Youtube', 'Instagram', 'WhatsApp', 'Telegram'];
+                    $data_sosmed = json_decode($pamong['media_sosial'], true);
+                    foreach ($sosmed as $key => $value):
+                    $key = strtolower($value);
+                ?>
+                    <strong><i class="fa fa-<?= $key ?>"></i><?= $value ?></strong>
+                    <input class="form-control input-sm" type="text" name="media_sosial[<?= $key ?>]"  style="margin-bottom: 10px;" placeholder="<?= $value ?>" value="<?= $data_sosmed[$key] ?>">
+                <?php endforeach ?>
+            </div>
+        </div>
     </div>
     <div class="col-md-9">
         <div class="box box-primary">

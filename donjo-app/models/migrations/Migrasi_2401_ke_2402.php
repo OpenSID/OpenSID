@@ -47,7 +47,18 @@ class Migrasi_2401_ke_2402 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
 
+        $hasil = $hasil && $this->sosial_media_pengurus($hasil);
+
         status_sukses($hasil);
+
+        return $hasil;
+    }
+
+    protected function sosial_media_pengurus($hasil)
+    {
+        if (! $this->db->field_exists('media_sosial', 'tweb_desa_pamong')) {
+            $this->db->query("ALTER TABLE `tweb_desa_pamong` ADD `media_sosial` TEXT NULL");
+        }
 
         return $hasil;
     }

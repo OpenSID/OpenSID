@@ -29,6 +29,12 @@
                             <span class="btn btn-danger w-auto mx-auto inline-block">Belum Rekam Kehadiran</span>
                         <?php endif ?>
                     <?php } ?>
+                    <?php
+                        $data_sosmed = json_decode($data['media_sosial'], true);
+                        foreach ($data_sosmed as $key => $value):
+                    ?>
+                        <a href="<?= $value ?>" target="_blank" class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$key?>" style="color: #fff;"></i></a>
+                    <?php endforeach ?>
                 </div>
             </div>
         <?php endforeach ?>
