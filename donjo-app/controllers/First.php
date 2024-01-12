@@ -190,6 +190,7 @@ class First extends Web_Controller
         $data['stat']    = $this->laporan_penduduk_model->list_data($stat);
         $data['tipe']    = $tipe;
         $data['st']      = $stat;
+        $data['bantuan'] = ($stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
 
         $this->_get_common_data($data);
 

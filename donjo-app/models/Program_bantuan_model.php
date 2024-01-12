@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -1031,20 +1032,48 @@ class Program_bantuan_model extends MY_Model
             ->from('program p')
             ->join('program_peserta pp', 'p.id = pp.program_id', 'left');
 
+        $tipe = $this->input->post('stat');
+        $this->jenis_sasaran($tipe);
+    }
+
+    private function jenis_sasaran($sasaran) {
         // keluarga
-        if ($this->input->post('stat') == 'bantuan_keluarga') {
-            $this->db
-                ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
-                ->join('tweb_penduduk pd', 'k.nik_kepala = pd.id', 'left')
-                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
-                ->where('p.sasaran', '2');
+        if ($sasaran == 'bantuan_keluarga') {
+            $this->db->where('p.sasaran', 2);
         }
-        // penduduk
-        else {
-            $this->db
-                ->join('tweb_penduduk pd', 'pp.peserta = pd.nik', 'left')
-                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
-                ->where('p.sasaran', '1');
+        else if ($sasaran == 'bantuan_penduduk') {
+            $this->db->where('p.sasaran', 1);
+        } else {
+            $id = substr($sasaran, 2);
+            $this->db->where('p.id', $id);
+            $sasaran = Bantuan::find($id)->sasaran;
+            log_message('error', 'sasaran: ' . $sasaran);
+        }
+
+        switch ($sasaran) {
+            case '1':
+                $this->db
+                    ->join('tweb_penduduk pd', 'pp.peserta = pd.nik', 'left')
+                    ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left');
+                break;
+
+            case '2':
+                $this->db
+                    ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+                    ->join('tweb_penduduk pd', 'k.nik_kepala = pd.id', 'left')
+                    ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left');
+                break;
+
+            case '3':
+                $this->db->join('tweb_rtm s', 's.no_kk = pp.peserta', 'left');
+                break;
+
+            case '4':
+                $this->db->join('kelompok s', 's.kode = pp.peserta', 'left');
+                break;
+
+            default:
+                break;
         }
     }
 
