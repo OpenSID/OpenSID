@@ -182,6 +182,7 @@ Route::group('install', static function () {
     Route::match(['GET', 'POST'], '/syarat_sandi/{password?}', 'Install@syarat_sandi');
 });
 
-// include admin.php
-require_once APPPATH . 'Routes/Web/admin.php';
-require_once APPPATH . 'Routes/Web/mandiri.php';
+// Include all routes in folder Web
+foreach (glob(APPPATH . 'Routes/Web/*.php') as $file) {
+    require_once $file;
+}
