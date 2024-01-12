@@ -19,7 +19,6 @@ use Ramsey\Uuid\Fields\FieldsInterface;
 use Ramsey\Uuid\Type\Hexadecimal;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
 use Serializable;
-use Stringable;
 
 /**
  * A UUID is a universally unique identifier adhering to an agreed-upon
@@ -30,8 +29,7 @@ use Stringable;
 interface UuidInterface extends
     DeprecatedUuidInterface,
     JsonSerializable,
-    Serializable,
-    Stringable
+    Serializable
 {
     /**
      * Returns -1, 0, or 1 if the UUID is less than, equal to, or greater than
@@ -46,7 +44,7 @@ interface UuidInterface extends
      *
      * @param UuidInterface $other The UUID to compare
      *
-     * @return int<-1,1> -1, 0, or 1 if the UUID is less than, equal to, or greater than $other
+     * @return int -1, 0, or 1 if the UUID is less than, equal to, or greater than $other
      */
     public function compareTo(UuidInterface $other): int;
 
@@ -84,14 +82,6 @@ interface UuidInterface extends
      * Returns the integer representation of the UUID
      */
     public function getInteger(): IntegerObject;
-
-    /**
-     * Returns the string standard representation of the UUID as a URN
-     *
-     * @link http://en.wikipedia.org/wiki/Uniform_Resource_Name Uniform Resource Name
-     * @link https://tools.ietf.org/html/rfc4122#section-3 RFC 4122, § 3: Namespace Registration Template
-     */
-    public function getUrn(): string;
 
     /**
      * Returns the string standard representation of the UUID

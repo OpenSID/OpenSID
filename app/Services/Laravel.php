@@ -37,15 +37,23 @@
 
 namespace App\Services;
 
+use App\Providers\ConsoleServiceProvider;
+use Illuminate\Bus\BusServiceProvider;
 use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Database\DatabaseServiceProvider;
+use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Encryption\EncryptionServiceProvider;
 use Illuminate\Events\EventServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Hashing\HashServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\PaginationServiceProvider;
+use Illuminate\Queue\QueueServiceProvider;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\ViewServiceProvider;
@@ -114,11 +122,13 @@ class Laravel extends Container
      * @var array
      */
     public $availableBindings = [
+        \Illuminate\Contracts\Bus\Dispatcher::class   => 'registerBusBindings',
         'cache'                                       => 'registerCacheBindings',
         'cache.store'                                 => 'registerCacheBindings',
         \Illuminate\Contracts\Cache\Factory::class    => 'registerCacheBindings',
         \Illuminate\Contracts\Cache\Repository::class => 'registerCacheBindings',
         'config'                                      => 'registerConfigBindings',
+        'composer'                                    => 'registerComposerBindings',
         'db'                                          => 'registerDatabaseBindings',
         // \Illuminate\Database\Eloquent\Factory::class => 'registerDatabaseBindings',
         'filesystem'                                       => 'registerFilesystemBindings',
@@ -133,6 +143,10 @@ class Laravel extends Container
         'files'                                            => 'registerFilesBindings',
         'hash'                                             => 'registerHashBindings',
         \Illuminate\Contracts\Hashing\Hasher::class        => 'registerHashBindings',
+        'queue'                                            => 'registerQueueBindings',
+        'queue.connection'                                 => 'registerQueueBindings',
+        \Illuminate\Contracts\Queue\Factory::class         => 'registerQueueBindings',
+        \Illuminate\Contracts\Queue\Queue::class           => 'registerQueueBindings',
         \Illuminate\Contracts\Events\Dispatcher::class     => 'registerEventBindings',
         'view'                                             => 'registerViewBindings',
         \Illuminate\Contracts\View\Factory::class          => 'registerViewBindings',
@@ -222,6 +236,8 @@ class Laravel extends Container
             return;
         }
 
+        $this->instance(Request::class, Request::capture());
+
         foreach ($this->loadedProviders as $provider) {
             $this->bootProvider($provider);
         }
@@ -268,10 +284,34 @@ class Laravel extends Container
      *
      * @return void
      */
+    protected function registerBusBindings()
+    {
+        $this->singleton(Dispatcher::class, function () {
+            $this->register(BusServiceProvider::class);
+
+            return $this->make(Dispatcher::class);
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
     protected function registerCacheBindings()
     {
         $this->singleton('cache', fn () => $this->loadComponent('cache', CacheServiceProvider::class));
         $this->singleton('cache.store', fn () => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerComposerBindings()
+    {
+        $this->singleton('composer', fn ($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
     }
 
     /**
@@ -299,6 +339,7 @@ class Laravel extends Container
             }
 
             $this->register(DatabaseServiceProvider::class);
+            $this->register(PaginationServiceProvider::class);
 
             return $this->make('db');
         });
@@ -358,6 +399,17 @@ class Laravel extends Container
     protected function registerHashBindings()
     {
         $this->singleton('hash', fn () => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerQueueBindings()
+    {
+        $this->singleton('queue', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
+        $this->singleton('queue.connection', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue.connection'));
     }
 
     /**
@@ -468,6 +520,7 @@ class Laravel extends Container
             \Illuminate\Support\Facades\Cache::class   => 'Cache',
             \Illuminate\Support\Facades\DB::class      => 'DB',
             \Illuminate\Support\Facades\Event::class   => 'Event',
+            \Illuminate\Support\Facades\Queue::class   => 'Queue',
             \Illuminate\Support\Facades\Schema::class  => 'Schema',
             \Illuminate\Support\Facades\Storage::class => 'Storage',
         ];
@@ -576,6 +629,26 @@ class Laravel extends Container
     }
 
     /**
+     * Prepare the application to execute a console command.
+     *
+     * @param bool $aliases
+     */
+    public function prepareForConsoleCommand($aliases = true): void
+    {
+        $this->withFacades($aliases);
+
+        $this->make('cache');
+        $this->make('queue');
+
+        if (file_exists($this->basePath('desa'))) {
+            $this->make('config')->set('database', require $this->configPath('eloquent.php'));
+        }
+
+        $this->register(MigrationServiceProvider::class);
+        $this->register(ConsoleServiceProvider::class);
+    }
+
+    /**
      * Flush the container of all bindings and resolved instances.
      */
     public function flush(): void
@@ -640,6 +713,13 @@ class Laravel extends Container
             \Illuminate\Database\DatabaseManager::class             => 'db',
             \Illuminate\Contracts\Encryption\Encrypter::class       => 'encrypter',
             \Illuminate\Contracts\Events\Dispatcher::class          => 'events',
+            \Illuminate\Contracts\Filesystem\Factory::class         => 'filesystem',
+            \Illuminate\Contracts\Filesystem\Filesystem::class      => 'filesystem.disk',
+            \Illuminate\Contracts\Filesystem\Cloud::class           => 'filesystem.cloud',
+            \Illuminate\Contracts\Hashing\Hasher::class             => 'hash',
+            \Illuminate\Contracts\Queue\Factory::class              => 'queue',
+            \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
+            'request'                                               => \Illuminate\Http\Request::class,
             \Illuminate\Contracts\View\Factory::class               => 'view',
         ];
     }

@@ -364,6 +364,32 @@ Route::group('rtm', static function () {
     Route::match(['GET', 'POST'], '/', 'Rtm@index');
 });
 
+Route::group('kelompok_anggota', static function () {
+    Route::get('/detail/{id?}', 'Kelompok_anggota@detail')->name('kelompok_anggota.detail');
+    Route::get('/aksi/{aksi?}/{id?}', 'Kelompok_anggota@aksi')->name('kelompok_anggota.aksi');
+    Route::get('/datatables', 'Kelompok_anggota@datatables')->name('kelompok_anggota.datatables');
+    Route::get('/form/{id_kelompok?}/{id?}', 'Kelompok_anggota@form')->name('kelompok_anggota.form');
+    Route::post('/insert/{id?}', 'kelompok_anggota@insert')->name('kelompok_anggota.insert');
+    Route::post('/update/{id_kelompok?}/{id?}', 'kelompok_anggota@update')->name('kelompok_anggota.update');
+    Route::get('/delete/{id_kelompok?}/{id?}', 'kelompok_anggota@delete')->name('kelompok_anggota.delete');
+    Route::get('/dialog/{aksi?}/{id?}', 'kelompok_anggota@dialog')->name('kelompok_anggota.dialog');
+    Route::post('/daftar/{aksi?}/{id?}', 'kelompok_anggota@daftar')->name('kelompok_anggota.daftar');
+    Route::post('/delete_all/{id_kelompok?}', 'kelompok_anggota@delete_all')->name('kelompok_anggota.delete_all');
+});
+
+Route::group('lembaga_anggota', static function () {
+    Route::get('/detail/{id?}', 'Lembaga_anggota@detail')->name('lembaga_anggota.detail');
+    Route::get('/aksi/{aksi?}/{id?}', 'Lembaga_anggota@aksi')->name('lembaga_anggota.aksi');
+    Route::get('/datatables', 'Lembaga_anggota@datatables')->name('lembaga_anggota.datatables');
+    Route::get('/form/{id_kelompok?}/{id?}', 'Lembaga_anggota@form')->name('lembaga_anggota.form');
+    Route::post('/insert/{id?}', 'Lembaga_anggota@insert')->name('lembaga_anggota.insert');
+    Route::post('/update/{id_kelompok?}/{id?}', 'Lembaga_anggota@update')->name('lembaga_anggota.update');
+    Route::get('/delete/{id_kelompok?}/{id?}', 'Lembaga_anggota@delete')->name('lembaga_anggota.delete');
+    Route::get('/dialog/{aksi?}/{id?}', 'Lembaga_anggota@dialog')->name('lembaga_anggota.dialog');
+    Route::post('/daftar/{aksi?}/{id?}', 'Lembaga_anggota@daftar')->name('lembaga_anggota.daftar');
+    Route::post('/delete_all/{id_kelompok?}', 'Lembaga_anggota@delete_all')->name('lembaga_anggota.delete_all');
+});
+
 // Kependudukan > Kelompok
 Route::group('kelompok', static function () {
     Route::get('/apipendudukkelompok', 'Kelompok@apipendudukkelompok')->name('kelompok.apipendudukkelompok');
@@ -708,7 +734,7 @@ Route::group('keluar', static function () {
     Route::get('/masuk', 'Keluar@masuk')->name('keluar.masuk');
     Route::get('/ditolak', 'Keluar@ditolak')->name('keluar.ditolak');
     Route::get('/datatables', 'Keluar@datatables')->name('keluar.datatables');
-    Route::get('/verifikasi', 'Keluar@verifikasi')->name('keluar.verifikasi');
+    Route::post('/verifikasi', 'Keluar@verifikasi')->name('keluar.verifikasi');
     Route::get('/tolak', 'Keluar@tolak')->name('keluar.tolak');
     Route::get('/tte', 'Keluar@tte')->name('keluar.tte');
     Route::get('/kembalikan', 'Keluar@kembalikan')->name('keluar.kembalikan');
@@ -1896,7 +1922,7 @@ Route::group('info_sistem', static function () {
 // Pengaturan > QR Code
 Route::group('qr_code', static function () {
     Route::get('/clear', 'Qr_code@clear')->name('qr_code.clear');
-    Route::get('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
+    Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
     Route::get('/', 'Qr_code@index')->name('qr_code.index');
 });
 
@@ -1991,29 +2017,16 @@ Route::group('komentar', static function () {
 });
 // Admin Web > Galeri
 Route::group('gallery', static function () {
-    Route::get('/clear', 'Gallery@clear')->name('gallery.clear');
-    Route::get('/form/{p?}/{o?}/{id?}', 'Gallery@form')->name('gallery.form');
-    Route::post('/search/{gallery?}', 'Gallery@search')->name('gallery.search');
-    Route::post('/filter/{gallery?}', 'Gallery@filter')->name('gallery.filter');
-    Route::post('/insert', 'Gallery@insert')->name('gallery.insert');
-    Route::post('/update/{id?}/{p?}/{o?}', 'Gallery@update')->name('gallery.update');
-    Route::get('/delete/{p?}/{o?}/{id?}', 'Gallery@delete')->name('gallery.delete');
-    Route::post('/delete_all/{p?}/{o?}', 'Gallery@delete_all')->name('gallery.delete_all');
-    Route::get('/gallery_lock/{id?}/{gallery?}', 'Gallery@gallery_lock')->name('gallery.gallery_lock');
-    Route::get('/gallery_unlock/{id?}/{gallery?}', 'Gallery@gallery_unlock')->name('gallery.gallery_unlock');
-    Route::get('/slider_on/{id?}/{gallery?}', 'Gallery@slider_on')->name('gallery.slider_on');
-    Route::get('/slider_off/{id?}/{gallery?}', 'Gallery@slider_off')->name('gallery.slider_off');
-    Route::get('/sub_gallery/{gal}/{p?}/{o?}', 'Gallery@sub_gallery')->name('gallery.sub_gallery');
-    Route::get('/form_sub_gallery/{gallery?}/{id?}', 'Gallery@form_sub_gallery')->name('gallery.form_sub_gallery');
-    Route::post('/insert_sub_gallery/{gallery?}', 'Gallery@insert_sub_gallery')->name('gallery.insert_sub_gallery');
-    Route::post('/update_sub_gallery/{gallery?}/{id?}', 'Gallery@update_sub_gallery')->name('gallery.update_sub_gallery');
-    Route::get('/delete_sub_gallery/{gallery?}/{id?}', 'Gallery@delete_sub_gallery')->name('gallery.delete_sub_gallery');
-    Route::post('/delete_all_sub_gallery/{gallery?}', 'Gallery@delete_all_sub_gallery')->name('gallery.delete_all_sub_gallery');
-    Route::get('/gallery_lock_sub_gallery/{gallery?}/{id?}', 'Gallery@gallery_lock_sub_gallery')->name('gallery.gallery_lock_sub_gallery');
-    Route::get('/gallery_unlock_sub_gallery/{gallery?}/{id?}', 'Gallery@gallery_unlock_sub_gallery')->name('gallery.gallery_unlock_sub_gallery');
-    Route::get('/urut/{id}/{arah?}/{gallery?}', 'Gallery@urut')->name('gallery.urut');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Gallery@index')->name('gallery.index');
-    Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Gallery@index')->name('gallery.index-default');
+    Route::get('/', 'Gallery@index')->name('gallery.index');
+    Route::get('/index', 'Gallery@index')->name('gallery.index-default');
+    Route::get('/datatables', 'Gallery@datatables')->name('gallery.datatables');
+    Route::get('/form/{parent}/{id?}', 'Gallery@form')->name('gallery.form');
+    Route::post('/insert/{parent}', 'Gallery@insert')->name('gallery.insert');
+    Route::post('/update/{parent}/{id}', 'Gallery@update')->name('gallery.update');
+    Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Gallery@delete')->name('gallery.delete');
+    Route::get('/lock/{parent}/{id}', 'Gallery@lock')->name('gallery.lock');
+    Route::get('/slider/{parent}/{id}', 'Gallery@slider')->name('gallery.slider');
+    Route::post('/tukar', 'Gallery@tukar')->name('gallery.tukar');
 });
 // Admin Web > Media Sosial
 Route::group('sosmed', static function () {

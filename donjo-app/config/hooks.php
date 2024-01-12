@@ -76,10 +76,15 @@ $app->withEloquent();
 |
 */
 
-// $app->singleton(
-//     Illuminate\Contracts\Console\Kernel::class,
-//     App\Console\Kernel::class
-// );
+$app->singleton(
+    \Illuminate\Contracts\Debug\ExceptionHandler::class,
+    \App\Exceptions\Handler::class
+);
+
+$app->singleton(
+    \Illuminate\Contracts\Console\Kernel::class,
+    \App\Console\Kernel::class
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +97,7 @@ $app->withEloquent();
 |
 */
 $app->configure('app');
+$app->configure('datatables');
 
 /*
 |--------------------------------------------------------------------------
@@ -106,7 +112,7 @@ $app->configure('app');
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-$app->register(\App\Providers\PaginationServiceProvider::class);
+$app->register(\App\Providers\DataTablesServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -121,6 +127,8 @@ $app->register(\App\Providers\PaginationServiceProvider::class);
 */
 
 if (ENVIRONMENT === 'development') {
+    \Illuminate\Support\Facades\DB::enableQueryLog();
+
     /**
      * Uncomment untuk listen semua query dari illuminate database.
      */

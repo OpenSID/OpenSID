@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\JabatanKelompokEnum;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -64,7 +65,11 @@ class KelompokAnggota extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
+
+    protected $appends = [
+        'nama_jabatan',
+    ];
 
     /**
      * Scope query untuk tipe kelompok
@@ -114,5 +119,65 @@ class KelompokAnggota extends BaseModel
             ->join('tweb_wil_clusterdesa as a', 'tp.id_cluster', '=', 'a.id', 'left')
             ->where('ka.id_kelompok', $kelompokId)
             ->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)');
+    }
+
+    public function getNamaJabatanAttribute(): string
+    {
+        return strtoupper(JabatanKelompokEnum::valueOf($this->jabatan));
+    }
+
+    public function scopeUbahJabatan($query, $id_kelompok, $id_penduduk, $jabatan, $jabatan_lama)
+    {
+        $query->where('id_kelompok', $id_kelompok);
+        $kelompok = Kelompok::find($id_kelompok);
+
+        if ($jabatan == JabatanKelompokEnum::KETUA) {
+            $query->where('jabatan', '1')->update(['jabatan' => '90', 'no_sk_jabatan' => '']); // Anggota
+            $kelompok->update(['id_ketua' => $id_penduduk]);
+        } elseif ($jabatan_lama == JabatanKelompokEnum::KETUA) {
+            // jika yang diubah adalah jabatan KETUA maka kosongkan id_ketua kelompok di tabel kelompok
+            // kolom id_ketua di tabel kelompok tidak bisa NULL
+            $kelompok->update(['id_ketua' => -9999]);
+        }
+
+        return true;
+    }
+
+    public function scopeCekAnggotaTerdaftar($query, $validasi = null, $data = null, $id_kelompok = 0)
+    {
+        return $query->where($validasi, '=', $data)->where('id_kelompok', '=', $id_kelompok)->get();
+    }
+
+    public function anggota()
+    {
+        return $this->hasOne(Penduduk::class, 'id', 'id_penduduk');
+    }
+
+    public function kelompok()
+    {
+        return $this->belongsTo(Kelompok::class, 'id_kelompok', 'id');
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model->anggota, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $pathFile = LOKASI_USER_PICT . $model->getOriginal($file);
+            if (file_exists($pathFile)) {
+                unlink($pathFile);
+            }
+        }
     }
 }

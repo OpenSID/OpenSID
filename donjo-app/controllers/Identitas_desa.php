@@ -145,9 +145,9 @@ class Identitas_desa extends Admin_Controller
             ['link' => ci_route('identitas_desa.index'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
         ];
 
-        $data['form_action'] = ci_route('identitas_desa.update_maps', ['tipe' => $tipe]);
+        $data['form_action'] = ci_route('identitas_desa.update_maps', $tipe);
 
-        $this->render('sid/wilayah/maps_' . $tipe, $data);
+        view('admin.wilayah.maps_'  . $tipe, $data);
     }
 
     /**

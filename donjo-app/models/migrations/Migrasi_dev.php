@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Galery;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -62,13 +63,12 @@ class Migrasi_dev extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024010452($hasil, $id);
+            // $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
         }
 
         // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2024010451($hasil);
 
-        return $hasil && $this->migrasi_2024010851($hasil);
+        return $hasil && $this->migrasi_2024011051($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -76,89 +76,13 @@ class Migrasi_dev extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2024010452($hasil, $id)
+    protected function migrasi_2024011051($hasil)
     {
-        $hasil = $hasil && $this->tambah_setting([
-            'judul'      => 'Status Penduduk Lahir',
-            'key'        => 'surat_kelahiran_terkait_penduduk',
-            'value'      => '[]',
-            'keterangan' => 'Status Penduduk Lahir',
-            'jenis'      => 'referensi',
-            'option'     => json_encode(['model' => 'App\\Models\\FormatSurat', 'value' => 'url_surat', 'label' => 'nama']),
-            'attribute'  => null,
-            'kategori'   => 'log_penduduk',
-        ], $id);
-        $hasil = $hasil && $this->tambah_setting([
-            'judul'      => 'Status Penduduk Mati',
-            'key'        => 'surat_kematian_terkait_penduduk',
-            'value'      => '[]',
-            'keterangan' => 'Status Penduduk Mati',
-            'jenis'      => 'referensi',
-            'option'     => json_encode(['model' => 'App\\Models\\FormatSurat', 'value' => 'url_surat', 'label' => 'nama']),
-            'attribute'  => null,
-            'kategori'   => 'log_penduduk',
-        ], $id);
-        $hasil = $hasil && $this->tambah_setting([
-            'judul'      => 'Status Penduduk Pindah Keluar',
-            'key'        => 'surat_pindah_keluar_terkait_penduduk',
-            'value'      => '[]',
-            'keterangan' => 'Status Penduduk Pindah Keluar',
-            'jenis'      => 'referensi',
-            'option'     => json_encode(['model' => 'App\\Models\\FormatSurat', 'value' => 'url_surat', 'label' => 'nama']),
-            'attribute'  => null,
-            'kategori'   => 'log_penduduk',
-        ], $id);
-        $hasil = $hasil && $this->tambah_setting([
-            'judul'      => 'Status Penduduk Hilang',
-            'key'        => 'surat_hilang_terkait_penduduk',
-            'value'      => '[]',
-            'keterangan' => 'Status Penduduk Hilang',
-            'jenis'      => 'referensi',
-            'option'     => json_encode(['model' => 'App\\Models\\FormatSurat', 'value' => 'url_surat', 'label' => 'nama']),
-            'attribute'  => null,
-            'kategori'   => 'log_penduduk',
-        ], $id);
-        $hasil = $hasil && $this->tambah_setting([
-            'judul'      => 'Status Penduduk Pindah Masuk',
-            'key'        => 'surat_pindah_masuk_terkait_penduduk',
-            'value'      => '[]',
-            'keterangan' => 'Status Penduduk Pindah Masuk',
-            'jenis'      => 'referensi',
-            'option'     => json_encode(['model' => 'App\\Models\\FormatSurat', 'value' => 'url_surat', 'label' => 'nama']),
-            'attribute'  => null,
-            'kategori'   => 'log_penduduk',
-        ], $id);
-
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Status Penduduk Pergi',
-            'key'        => 'surat_pergi_terkait_penduduk',
-            'value'      => '[]',
-            'keterangan' => 'Status Penduduk Pergi',
-            'jenis'      => 'referensi',
-            'option'     => json_encode(['model' => 'App\\Models\\FormatSurat', 'value' => 'url_surat', 'label' => 'nama']),
-            'attribute'  => null,
-            'kategori'   => 'log_penduduk',
-        ], $id);
-    }
-
-    protected function migrasi_2024010451($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'komentar', 'url' => 'komentar/clear'],
-            ['url' => 'komentar']
-        );
-
+        // ubah status enabled menjadi 0 untuk nonaktif, sebelumnya 2
+        Galery::where(['enabled' => 2])->update(['enabled' => 0]);
         return $hasil && $this->ubah_modul(
-            ['slug' => 'menu', 'url' => 'menu/clear'],
-            ['url' => 'menu']
-        );
-    }
-
-    protected function migrasi_2024010851($hasil)
-    {
-        return $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'log-penduduk'],
-            ['url' => 'penduduk_log/clear', 'hidden' => 0, 'ikon' => 'fa-archive', 'modul' => 'Catatan Peristiwa', 'slug' => 'catatan-peristiwa', 'level' => 2]
+            ['slug' => 'galeri', 'url' => 'gallery/clear'],
+            ['url' => 'gallery']
         );
     }
 }

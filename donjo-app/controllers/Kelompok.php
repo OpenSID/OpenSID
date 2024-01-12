@@ -100,7 +100,7 @@ class Kelompok extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="' . site_url("{$controller}/anggota/{$row->id}") . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
+                    $aksi .= '<a href="' . route($row->tipe . '_anggota.detail', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
 
                     if (can('u')) {
                         $aksi .= '<a href="' . site_url("{$controller}/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah Kategori"><i class="fa fa-edit"></i></a> ';
@@ -169,26 +169,6 @@ class Kelompok extends Admin_Controller
         redirect("{$this->controller}/form_anggota/{$id}");
     }
 
-    public function form_anggota($id = 0, $id_a = 0): void
-    {
-        KelompokAnggota::tipe()->where('id_kelompok', '=', 2)->pluck('id_penduduk');
-        $this->redirect_hak_akses('u');
-        $data['kelompok']      = $id;
-        $data['list_penduduk'] = $this->kelompok_model->list_penduduk($id, $id_a);
-        $data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
-        $data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
-
-        if ($id_a == 0) {
-            $data['pend']        = null;
-            $data['form_action'] = site_url("{$this->controller}/insert_a/{$id}");
-        } else {
-            $data['pend']        = $this->kelompok_model->get_anggota($id, $id_a) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update_a/{$id}/{$id_a}");
-        }
-
-        $this->render('kelompok/anggota/form', $data);
-    }
-
     public function apipendudukkelompok()
     {
         if ($this->input->is_ajax_request()) {
@@ -196,7 +176,6 @@ class Kelompok extends Admin_Controller
             $tipe     = $this->input->get('tipe');
             $kelompok = $this->input->get('kelompok');
             $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
-
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")
@@ -369,41 +348,6 @@ class Kelompok extends Admin_Controller
         }
 
         redirect_with('success', 'Berhasil hapus data');
-    }
-
-    public function insert_a($id = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->kelompok_model->insert_a($id);
-        $redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "{$this->controller}/anggota/{$id}";
-
-        $this->session->unset_userdata('aksi');
-
-        redirect($redirect);
-    }
-
-    public function update_a($id = 0, $id_a = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->kelompok_model->update_a($id, $id_a);
-
-        redirect("{$this->controller}/anggota/{$id}");
-    }
-
-    public function delete_anggota($id = 0, $a = 0): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->kelompok_model->delete_anggota($a);
-
-        redirect("{$this->controller}/anggota/{$id}");
-    }
-
-    public function delete_anggota_all($id = 0): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->kelompok_model->delete_anggota_all();
-
-        redirect("{$this->controller}/anggota/{$id}");
     }
 
     public function to_master($id = 0): void

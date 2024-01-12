@@ -396,8 +396,8 @@ class Penduduk extends BaseModel
             ? $this->statusKawin->nama
             : (
                 empty($this->akta_perkawinan)
-                    ? 'KAWIN BELUM TERCATAT'
-                    : 'KAWIN TERCATAT'
+                ? 'KAWIN BELUM TERCATAT'
+                : 'KAWIN TERCATAT'
             );
     }
 
