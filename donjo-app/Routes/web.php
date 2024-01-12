@@ -105,6 +105,7 @@ Route::group('koneksi_database', static function () {
     Route::get('/', 'Koneksi_database@index');
     Route::get('config', 'Koneksi_database@config');
     Route::get('updateKey', 'Koneksi_database@updateKey');
+    Route::get('desaBaru', 'Koneksi_database@desaBaru');
 });
 
 Route::group('', ['namespace' => 'fweb'], static function () {
@@ -165,20 +166,20 @@ Route::group('kehadiran', ['namespace' => 'kehadiran'], static function () {
     Route::get('/masuk-ektp', 'Perangkat@masukEktp')->name('kehadiran.perangkat.masukEktp');
     Route::post('/cek-ektp', 'Perangkat@cekEktp')->name('kehadiran.perangkat.cekEktp');
     Route::get('/masuk', 'Perangkat@masuk')->name('kehadiran.perangkat.masuk');
-    Route::get('/check-in-out', 'Perangkat@checkInOut')->name('kehadiran.perangkat.checkInOut');
+    Route::match(['GET', 'POST'], '/check-in-out', 'Perangkat@checkInOut')->name('kehadiran.perangkat.checkInOut');
     Route::get('/logout', 'Perangkat@logout')->name('kehadiran.perangkat.logout');
 });
 
 Route::group('install', static function () {
-    Route::match(['GET', 'POST'],'/', 'Install@index');
-    Route::match(['GET', 'POST'],'/index', 'Install@index');
-    Route::match(['GET', 'POST'],'/server', 'Install@server');
-    Route::match(['GET', 'POST'],'/folders', 'Install@folders');
-    Route::match(['GET', 'POST'],'/database', 'Install@database');
-    Route::match(['GET', 'POST'],'/migrations', 'Install@migrations');
-    Route::match(['GET', 'POST'],'/user', 'Install@user');
-    Route::match(['GET', 'POST'],'/finish', 'Install@finish');
-    Route::match(['GET', 'POST'],'/syarat_sandi/{password?}', 'Install@syarat_sandi');    
+    Route::match(['GET', 'POST'], '/', 'Install@index');
+    Route::match(['GET', 'POST'], '/index', 'Install@index');
+    Route::match(['GET', 'POST'], '/server', 'Install@server');
+    Route::match(['GET', 'POST'], '/folders', 'Install@folders');
+    Route::match(['GET', 'POST'], '/database', 'Install@database');
+    Route::match(['GET', 'POST'], '/migrations', 'Install@migrations');
+    Route::match(['GET', 'POST'], '/user', 'Install@user');
+    Route::match(['GET', 'POST'], '/finish', 'Install@finish');
+    Route::match(['GET', 'POST'], '/syarat_sandi/{password?}', 'Install@syarat_sandi');
 });
 
 // include admin.php
