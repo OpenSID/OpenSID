@@ -63,7 +63,7 @@ class Ekspor_model extends MY_Model
         }
         // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
         $kecuali = ['nik', 'no_kk'];
-        if ($str == '0' && ! in_array($key, $kecuali)) {
+        if ($str == '0' && !in_array($key, $kecuali)) {
             $str = '';
         }
     }
@@ -72,10 +72,11 @@ class Ekspor_model extends MY_Model
     public function expor()
     {
         $filter = $this->config_id('p')
-            ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi'])
+            ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi', 'm.lat', 'm.lng'])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
             ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+            ->join('tweb_penduduk_map m', 'p.id = m.id', 'left')
             ->order_by('k.no_kk ASC', 'p.kk_level ASC');
 
         if ($this->session->filter) {
@@ -107,16 +108,16 @@ class Ekspor_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $baris = $data[$i];
             array_walk($baris, [$this, 'bersihkanData']);
-            if (! empty($baris->tanggallahir)) {
+            if (!empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
-            if (! empty($baris->tanggalperceraian)) {
+            if (!empty($baris->tanggalperceraian)) {
                 $baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian), 'Y-m-d');
             }
-            if (! empty($baris->tanggalperkawinan)) {
+            if (!empty($baris->tanggalperkawinan)) {
                 $baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan), 'Y-m-d');
             }
-            if (! empty($baris->tanggal_akhir_paspor)) {
+            if (!empty($baris->tanggal_akhir_paspor)) {
                 $baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor), 'Y-m-d');
             }
             if (empty($baris->dusun)) {
@@ -460,7 +461,7 @@ class Ekspor_model extends MY_Model
         ];
         $this->upload->initialize($this->uploadConfig);
         // Upload sukses
-        if (! $this->upload->do_upload('userfile')) {
+        if (!$this->upload->do_upload('userfile')) {
             $this->session->success   = -1;
             $this->session->error_msg = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
 
@@ -474,7 +475,7 @@ class Ekspor_model extends MY_Model
 
     public function proses_restore($filename = null)
     {
-        if (! $filename) {
+        if (!$filename) {
             return false;
         }
 
@@ -502,7 +503,7 @@ class Ekspor_model extends MY_Model
                 $query .= $sql_line;
                 if (substr(rtrim($query), -1) == ';') {
                     $result = $this->db->simple_query($query);
-                    if (! $result) {
+                    if (!$result) {
                         $_SESSION['success'] = -1;
                         $error               = $this->db->error();
                         log_message('error', '<br><br>[' . $key . ']>>>>>>>> Error: ' . $query . '<br>');
@@ -648,16 +649,16 @@ class Ekspor_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $baris = $data[$i];
             array_walk($baris, [$this, 'bersihkanData']);
-            if (! empty($baris->tanggallahir)) {
+            if (!empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
-            if (! empty($baris->tanggalperceraian)) {
+            if (!empty($baris->tanggalperceraian)) {
                 $baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian), 'Y-m-d');
             }
-            if (! empty($baris->tanggalperkawinan)) {
+            if (!empty($baris->tanggalperkawinan)) {
                 $baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan), 'Y-m-d');
             }
-            if (! empty($baris->tanggal_akhir_paspor)) {
+            if (!empty($baris->tanggal_akhir_paspor)) {
                 $baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor), 'Y-m-d');
             }
             if (empty($baris->dusun)) {
@@ -669,7 +670,7 @@ class Ekspor_model extends MY_Model
             if (empty($baris->rw)) {
                 $baris->rw = '-';
             }
-            if (! empty($baris->foto)) {
+            if (!empty($baris->foto)) {
                 $baris->foto = 'kecil_' . $baris->foto;
             }
             $data[$i] = $baris;

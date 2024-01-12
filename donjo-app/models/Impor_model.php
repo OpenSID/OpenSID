@@ -37,8 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Penduduk;
 use App\Models\PendudukAsuransi;
+use Illuminate\Support\Facades\DB;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Impor_model extends MY_Model
@@ -86,6 +86,8 @@ class Impor_model extends MY_Model
         'tag_id_card',
         'id_asuransi',
         'no_asuransi',
+        'lat',
+        'lng'
     ];
 
     public function __construct()
@@ -166,7 +168,7 @@ class Impor_model extends MY_Model
             return false;
         }
         $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12'];
-        if (! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel)) {
+        if (!in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel)) {
             set_session('error', ' -> Jenis file salah: ' . $_FILES['userfile']['type']);
 
             return false;
@@ -199,7 +201,7 @@ class Impor_model extends MY_Model
         $nilai = str_replace(' ', '', strtolower($nilai));
         $nilai = preg_replace('/\\s*\\/\\s*/', '/', $nilai);
 
-        if (! empty($nilai) && $nilai != '-' && ! array_key_exists($nilai, $daftar_kode)) {
+        if (!empty($nilai) && $nilai != '-' && !array_key_exists($nilai, $daftar_kode)) {
             return $nilai;
         } // kode salah
 
@@ -225,53 +227,53 @@ class Impor_model extends MY_Model
         }
 
         // Validasi data setiap kolom ber-kode
-        if ($isi_baris['sex'] != '' && ! ($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) {
+        if ($isi_baris['sex'] != '' && !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) {
             return 'kode jenis kelamin ' . $isi_baris['sex'] . '  tidak dikenal';
         }
-        if ($isi_baris['agama_id'] != '' && ! ($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) {
+        if ($isi_baris['agama_id'] != '' && !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) {
             return 'kode agama ' . $isi_baris['agama_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['pendidikan_kk_id'] != '' && ! ($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) {
+        if ($isi_baris['pendidikan_kk_id'] != '' && !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) {
             return 'kode pendidikan ' . $isi_baris['pendidikan_kk_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['pendidikan_sedang_id'] != '' && ! ($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) {
+        if ($isi_baris['pendidikan_sedang_id'] != '' && !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) {
             return 'kode pendidikan_sedang ' . $isi_baris['pendidikan_sedang_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['pekerjaan_id'] != '' && ! ($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) {
+        if ($isi_baris['pekerjaan_id'] != '' && !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) {
             return 'kode pekerjaan ' . $isi_baris['pekerjaan_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['status_kawin'] != '' && ! ($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) {
+        if ($isi_baris['status_kawin'] != '' && !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) {
             return 'kode status_kawin ' . $isi_baris['status_kawin'] . ' tidak dikenal';
         }
-        if ($isi_baris['kk_level'] != '' && ! ($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) {
+        if ($isi_baris['kk_level'] != '' && !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) {
             return 'kode status hubungan ' . $isi_baris['kk_level'] . '  tidak dikenal';
         }
-        if ($isi_baris['warganegara_id'] != '' && ! ($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) {
+        if ($isi_baris['warganegara_id'] != '' && !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) {
             return 'kode warganegara ' . $isi_baris['warganegara_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['golongan_darah_id'] != '' && ! ($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) {
+        if ($isi_baris['golongan_darah_id'] != '' && !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) {
             return 'kode golongan_darah ' . $isi_baris['golongan_darah_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['cacat_id'] != '' && ! ($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) {
+        if ($isi_baris['cacat_id'] != '' && !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) {
             return 'kode cacat ' . $isi_baris['cacat_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['cara_kb_id'] != '' && ! ($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) && $isi_baris['cara_kb_id'] != '99') {
+        if ($isi_baris['cara_kb_id'] != '' && !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) && $isi_baris['cara_kb_id'] != '99') {
             return 'kode cara_kb ' . $isi_baris['cara_kb_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['hamil'] != '' && ! ($isi_baris['hamil'] >= 1 && $isi_baris['hamil'] <= 2)) {
+        if ($isi_baris['hamil'] != '' && !($isi_baris['hamil'] >= 1 && $isi_baris['hamil'] <= 2)) {
             return 'kode hamil ' . $isi_baris['hamil'] . '  tidak dikenal';
         }
-        if ($isi_baris['ktp_el'] != '' && ! ($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) {
+        if ($isi_baris['ktp_el'] != '' && !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) {
             return 'kode ktp_el ' . $isi_baris['ktp_el'] . ' tidak dikenal';
         }
-        if ($isi_baris['status_rekam'] != '' && ! ($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) {
+        if ($isi_baris['status_rekam'] != '' && !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) {
             return 'kode status_rekam ' . $isi_baris['status_rekam'] . ' tidak dikenal';
         }
-        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) {
+        if ($isi_baris['status_dasar'] != '' && !in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) {
             return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 
-        if ($isi_baris['id_asuransi'] != '' && ! in_array($isi_baris['id_asuransi'], $this->kode_asuransi)) {
+        if ($isi_baris['id_asuransi'] != '' && !in_array($isi_baris['id_asuransi'], $this->kode_asuransi)) {
             return 'kode asuransi tidak dikenal';
         }
 
@@ -280,11 +282,11 @@ class Impor_model extends MY_Model
         }
 
         // Validasi data lain
-        if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
+        if (!ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'NIK salah';
         }
 
-        if (! ctype_digit($isi_baris['no_kk']) || strlen($isi_baris['no_kk']) != 16) {
+        if (!ctype_digit($isi_baris['no_kk']) || strlen($isi_baris['no_kk']) != 16) {
             return 'Nomor KK salah';
         }
 
@@ -292,7 +294,7 @@ class Impor_model extends MY_Model
             return 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
         }
 
-        if ($isi_baris['ayah_nik'] != '' && (! ctype_digit($isi_baris['ayah_nik']) || (strlen($isi_baris['ayah_nik']) != 16 && $isi_baris['ayah_nik'] != '0'))) {
+        if ($isi_baris['ayah_nik'] != '' && (!ctype_digit($isi_baris['ayah_nik']) || (strlen($isi_baris['ayah_nik']) != 16 && $isi_baris['ayah_nik'] != '0'))) {
             return 'NIK ayah salah';
         }
 
@@ -300,12 +302,20 @@ class Impor_model extends MY_Model
             return 'Nama ayah hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
         }
 
-        if ($isi_baris['ibu_nik'] != '' && (! ctype_digit($isi_baris['ibu_nik']) || (strlen($isi_baris['ibu_nik']) != 16 && $isi_baris['ibu_nik'] != '0'))) {
+        if ($isi_baris['ibu_nik'] != '' && (!ctype_digit($isi_baris['ibu_nik']) || (strlen($isi_baris['ibu_nik']) != 16 && $isi_baris['ibu_nik'] != '0'))) {
             return 'NIK ibu salah';
         }
 
         if ($isi_baris['nama_ibu'] != '' && cekNama($isi_baris['nama_ibu'])) {
             return 'Nama ibu hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
+        }
+
+        if ($isi_baris['lat'] != '' && (strlen($isi_baris['lat']) < 2 || strlen($isi_baris['lat']) > 24)) {
+            return 'Panjang karakter lat minimal 2 karakter dan maksimal 24 karakter';
+        }
+
+        if ($isi_baris['lng'] != '' && (strlen($isi_baris['lng']) < 2 || strlen($isi_baris['lng']) > 24)) {
+            return 'Panjang karakter lng minimal 2 karakter dan maksimal 24 karakter';
         }
 
         return '';
@@ -398,7 +408,8 @@ class Impor_model extends MY_Model
         $isi_baris['tag_id_card']          = $this->cek_kosong($rowData[$kolom['tag_id_card']]);
         $isi_baris['id_asuransi']          = $this->get_konversi_kode($this->kode_asuransi, $rowData[$kolom['id_asuransi']]);
         $isi_baris['no_asuransi']          = $this->cek_kosong($rowData[$kolom['no_asuransi']]);
-
+        $isi_baris['lat']                  = $this->cek_kosong($rowData[$kolom['lat']]);
+        $isi_baris['lng']                  = $this->cek_kosong($rowData[$kolom['lng']]);
         return $isi_baris;
     }
 
@@ -528,7 +539,7 @@ class Impor_model extends MY_Model
         $kolom_baris = $this->db->field_data('tweb_penduduk');
 
         foreach ($kolom_baris as $kolom) {
-            if (! empty($isi_baris[$kolom->name])) {
+            if (!empty($isi_baris[$kolom->name])) {
                 $data[$kolom->name] = $isi_baris[$kolom->name];
             }
         }
@@ -538,7 +549,7 @@ class Impor_model extends MY_Model
         // Jangan masukkan atau update isian yang kosong
         foreach ($data as $key => $value) {
             if (empty($value)) {
-                if (! ($key == 'nik' && $value == '0')) {
+                if (!($key == 'nik' && $value == '0')) {
                     unset($data[$key]);
                 } // Kecuali untuk kolom NIk boleh 0
             }
@@ -615,7 +626,7 @@ class Impor_model extends MY_Model
                 $data['updated_at'] = date('Y-m-d H:i:s');
                 $data['updated_by'] = auth()->id;
                 $this->config_id()->where('id', $res['id']);
-                if (! $this->db->update('tweb_penduduk', $data)) {
+                if (!$this->db->update('tweb_penduduk', $data)) {
                     $this->error_tulis_penduduk = $this->db->error();
                 }
             }
@@ -642,7 +653,7 @@ class Impor_model extends MY_Model
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['created_by'] = auth()->id;
             $data['config_id']  = $this->config_id;
-            if (! $this->db->insert('tweb_penduduk', $data)) {
+            if (!$this->db->insert('tweb_penduduk', $data)) {
                 $this->error_tulis_penduduk = $this->db->error();
             }
             $penduduk_baru = $this->db->insert_id();
@@ -662,6 +673,9 @@ class Impor_model extends MY_Model
             $this->penduduk_model->tulis_log_penduduk_data($log);
         }
 
+        // Tambah atau perbarui lokasi penduduk
+        $this->penduduk_map($penduduk_baru, $isi_baris['lat'], $isi_baris['lng']);
+
         // Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
         // dan sudah ada NIK
         if ($data['kk_level'] == 1) {
@@ -675,6 +689,24 @@ class Impor_model extends MY_Model
         }
 
         return $penduduk_baru;
+    }
+
+    private function penduduk_map($id = 0, $lat = null, $lng = null)
+    {
+        if ($lat === null || $lng === null) {
+            return false;
+        }
+
+        // Ubah data penduduk map
+        DB::table('tweb_penduduk_map')->updateOrInsert([
+            'id' => $id
+        ], [
+            'lat' => $lat,
+            'lng' => $lng,
+        ]);
+
+        // Hapus data lat dan lng yang null
+        DB::table('tweb_penduduk_map')->whereNull('lat')->orWhereNull('lng')->delete();
     }
 
     private function hapus_data_penduduk()
@@ -714,7 +746,7 @@ class Impor_model extends MY_Model
             return false;
         }
 
-        return ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap);
+        return !$this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap);
     }
 
     public function impor_excel($hapus = false)
@@ -765,12 +797,12 @@ class Impor_model extends MY_Model
                         }
 
                         // Baris pertama diabaikan, berisi nama kolom
-                        if (! $baris_pertama) {
+                        if (!$baris_pertama) {
                             $baris_pertama = true;
                             $daftar_kolom  = $rowData;
 
                             foreach ($daftar_kolom as $kolom) {
-                                if (! in_array($kolom, $this->daftar_kolom)) {
+                                if (!in_array($kolom, $this->daftar_kolom)) {
                                     return set_session('error', 'Data penduduk gagal diimpor, nama kolom ' . $kolom . ' tidak sesuai.');
                                 }
                             }
