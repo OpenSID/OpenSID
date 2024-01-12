@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-danger btn-block btn-mb-5" onclick="kamera();" id="ambil_kamera"><i class="fa fa-camera"></i> Kamera</button>
                 <?php if (! empty($penduduk['id'])) : ?>
                 <a href="#" data-href="<?= site_url("penduduk/foto_bawaan/{$penduduk['id']}") ?>"
-                    class="btn btn-warning btn-block btn-flat" title="Hapus" data-toggle="modal"
+                    class="btn btn-warning btn-block" title="Hapus" data-toggle="modal"
                     data-target="#confirm-delete"><i class="fa fa-undo"></i> Kembalikan</a>
                 <?php endif ?>
             </span>

@@ -66,11 +66,6 @@ class Kelompok extends BaseModel
      */
     protected $guarded = [];
 
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return HasMany
-     */
     public function ketua()
     {
         return $this->hasOne(Penduduk::class, 'id', 'id_ketua');
@@ -246,5 +241,10 @@ class Kelompok extends BaseModel
         }
 
         return $query->get();
+    }
+
+    public function scopeListJabatan($query, $id_kelompok = 0)
+    {
+        return $query->whereRaw('jabatan', 'REGEXP', '[a-zA-Z]+')->where('id_kelompok', $id_kelompok)->orderBy('jabatan')->get()->toArray();
     }
 }

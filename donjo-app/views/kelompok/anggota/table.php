@@ -150,7 +150,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 															<td class="aksi">
 																<?php if ($this->CI->cek_hak_akses('u')) : ?>
-																	<a href="<?= site_url("{$this->controller}/form_anggota/{$kelompok['id']}/{$data['id_penduduk']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
+																	<a href="<?= site_url("{$this->controller}/form/{$kelompok['id']}/{$data['id_penduduk']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
 																<?php endif; ?>
 																<?php if ($this->CI->cek_hak_akses('h')) : ?>
 																	<a href="#" data-href="<?= site_url("{$this->controller}/delete_anggota/{$kelompok['id']}/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

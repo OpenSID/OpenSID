@@ -147,7 +147,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 															<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 															<td class="aksi">
-																<a href="<?= site_url("{$this->controller}/anggota/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian <?= $this->controller ?>"><i class="fa fa-list-ol"></i></a>
+																<a href="<?= site_url("{$this->controller}_anggota/detail/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian <?= $this->controller ?>"><i class="fa fa-list-ol"></i></a>
 																<?php if ($this->CI->cek_hak_akses('u')): ?>
 																	<a href="<?= site_url("{$this->controller}/form/{$p}/{$o}/{$data['id']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data <?= $this->controller ?>"><i class='fa fa-edit'></i></a>
 																<?php endif; ?>

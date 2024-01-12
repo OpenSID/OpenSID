@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#7574](https://github.com/OpenSID/OpenSID/issues/7574) Penyesuaian modul identitas desa menggunakan ORM dan View Blade Laravel.
 13. [#3381](https://github.com/OpenSID/premium/issues/3381) Penerapan library request menggunakan illuminate/http  laravel.
 15. [#3377](https://github.com/OpenSID/premium/issues/3377) Penerapan library datatables menggunakan yajra/laravel-datatables-oracle.
+16. [#7447](https://github.com/OpenSID/OpenSID/issues/7447) Penyesuaian modul anggota kelompok/lembaga desa menggunakan ORM dan View Blade Laravel.
 
 
 #### KEAMANAN
