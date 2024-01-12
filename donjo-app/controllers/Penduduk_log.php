@@ -283,7 +283,6 @@ class Penduduk_log extends Admin_Controller
         $this->session->{$session} = rawurldecode($nomor);
 
         $judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
-        // Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
         if ($judul['nama']) {
             $this->session->judul_statistik = $kategori . $judul['nama'];
         } else {

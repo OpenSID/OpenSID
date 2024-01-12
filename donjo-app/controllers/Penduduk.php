@@ -745,12 +745,6 @@ class Penduduk extends Admin_Controller
                 $kategori = 'STATUS KEHAMILAN : ';
                 break;
 
-            case 'akta-kematian':
-                $session  = 'akta_kematian';
-                $kategori = 'AKTA KEMATIAN : ';
-                $this->session->status_dasar = 2;
-                break;
-
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
                 $this->session->program_bantuan = $program_id;
