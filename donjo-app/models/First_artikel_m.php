@@ -109,8 +109,11 @@ class First_artikel_m extends MY_Model
             ->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
             ->where('a.enabled', 1)
             ->where('a.headline <>', 1)
-            ->where('a.id_kategori NOT IN (1000)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
+
+        if ($statis = json_decode($this->setting->artikel_statis, true)) {
+            $this->db->where_in('a.id_kategori', $statis);
+        }
 
         $cari = trim($this->input->get('cari', true));
         if (! empty($cari)) {

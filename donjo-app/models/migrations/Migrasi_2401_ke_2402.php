@@ -47,8 +47,28 @@ class Migrasi_2401_ke_2402 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
 
+        // Migrasi pengaturan artikel
+        $hasil = $hasil && $this->pengaturan_artikel($hasil);
+
         status_sukses($hasil);
 
         return $hasil;
+    }
+
+    protected function pengaturan_artikel($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Artikel Statis / Halaman',
+            'key'        => 'artikel_statis',
+            'value'      => json_encode(['999', '1000', '1001']),
+            'keterangan' => 'Artikel Statis / Halaman yang akan ditampilkan pada halaman utama.',
+            'kategori'   => 'conf_web',
+            'jenis'      => 'option',
+            'option'     => json_encode([
+                '999' => 'Halaman Statis',
+                '1000' => 'Agenda',
+                '1001' => 'Keuangan',
+            ]),
+        ]);
     }
 }
