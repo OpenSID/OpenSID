@@ -58,7 +58,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->session->submenu  = 'Statistik Jawaban';
         $this->session->asubmenu = 'analisis_statistik_jawaban';
         // TODO : Simpan di pengaturan aplikasi agar bisa disesuaikan oleh pengguna
-        $this->_set_page     = ['20', '50', '100'];
+        $this->_set_page = ['20', '50', '100'];
     }
 
     public function clear(): void

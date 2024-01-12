@@ -48,12 +48,12 @@ class Plan extends Admin_Controller
 {
     public $modul_ini     = 'pemetaan';
     public $sub_modul_ini = 'pengaturan-peta';
+    public $akses_modul   = 'plan';
     private int $tip      = 3;
 
     public function __construct()
     {
         parent::__construct();
-        $this->akses_modul = 'plan';
         isCan('b');
     }
 

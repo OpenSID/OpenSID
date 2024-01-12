@@ -45,7 +45,7 @@ class Pengaturan_lampiran extends Admin_Controller
     public $modul_ini           = 'layanan-surat';
     public $sub_modul_ini       = 'lampiran';
     public $kategori_pengaturan = 'pengaturan-surat';
-    protected $aliasController  = 'lampiran';
+    public $aliasController     = 'lampiran';
 
     public function __construct()
     {

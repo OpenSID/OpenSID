@@ -45,16 +45,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok_anggota extends Admin_Controller
 {
-    protected $tipe            = 'kelompok';
-    protected $aliasController = 'kelompok';
+    public $modul_ini       = 'kependudukan';
+    public $sub_modul_ini   = 'kelompok';
+    public $akses_modul     = 'kelompok';
+    public $tipe            = 'kelompok';
+    public $aliasController = 'kelompok';
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['kelompok_model', 'pamong_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'kelompok';
-        $this->akses_modul   = 'kelompok';
     }
 
     public function index()

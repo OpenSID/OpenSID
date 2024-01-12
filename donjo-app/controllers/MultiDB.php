@@ -41,7 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
-    protected $aliasController = 'database';
+    public $aliasController = 'database';
 
     // Tabel dengan kondisi khusus, memiliki child dan parent
     public $tabelKhusus = [

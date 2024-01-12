@@ -147,7 +147,7 @@ class Identitas_desa extends Admin_Controller
 
         $data['form_action'] = ci_route('identitas_desa.update_maps', $tipe);
 
-        view('admin.wilayah.maps_'  . $tipe, $data);
+        view('admin.wilayah.maps_' . $tipe, $data);
     }
 
     /**

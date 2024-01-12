@@ -120,7 +120,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function manual_apbdes(): void
     {
-        $this->sub_modul_ini    = 'input-data';
+        $this->sub_modul_ini = 'input-data';
 
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
         $default_tahun          = empty($data['tahun_anggaran']) ? null : $data['tahun_anggaran'][0];

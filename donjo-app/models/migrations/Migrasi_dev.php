@@ -80,6 +80,7 @@ class Migrasi_dev extends MY_model
     {
         // ubah status enabled menjadi 0 untuk nonaktif, sebelumnya 2
         Galery::where(['enabled' => 2])->update(['enabled' => 0]);
+
         return $hasil && $this->ubah_modul(
             ['slug' => 'galeri', 'url' => 'gallery/clear'],
             ['url' => 'gallery']

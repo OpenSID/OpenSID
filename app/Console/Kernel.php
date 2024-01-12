@@ -59,7 +59,7 @@ class Kernel implements KernelContract
     /**
      * The Artisan application instance.
      *
-     * @var \Illuminate\Console\Application
+     * @var Artisan
      */
     protected $artisan;
 
@@ -242,7 +242,7 @@ class Kernel implements KernelContract
     /**
      * Get the Artisan application instance.
      *
-     * @return \Illuminate\Console\Application
+     * @return Artisan
      */
     protected function getArtisan()
     {
@@ -292,7 +292,7 @@ class Kernel implements KernelContract
     /**
      * Get the exception handler from the container.
      *
-     * @return \Illuminate\Contracts\Debug\ExceptionHandler
+     * @return ExceptionHandler
      */
     protected function resolveExceptionHandler()
     {
