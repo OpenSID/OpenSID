@@ -53,7 +53,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil;
+        return $hasil && $this->migrasi_2024011251($hasil);
     }
 
     // Migrasi perubahan data
@@ -80,9 +80,17 @@ class Migrasi_dev extends MY_model
     {
         // ubah status enabled menjadi 0 untuk nonaktif, sebelumnya 2
         Galery::where(['enabled' => 2])->update(['enabled' => 0]);
+
         return $hasil && $this->ubah_modul(
             ['slug' => 'galeri', 'url' => 'gallery/clear'],
             ['url' => 'gallery']
         );
+    }
+
+    protected function migrasi_2024011251($hasil)
+    {
+        $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');
+
+        return $hasil && $this->tambahForeignKey('pembangunan_lokasi_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
     }
 }
