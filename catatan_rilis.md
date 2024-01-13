@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#4051](https://github.com/OpenSID/OpenSID/issues/4051) Penambahan statistik kepemilikan KIA.
 3. [#5218](https://github.com/OpenSID/OpenSID/issues/5218) Penambahan detail penerima bantuan pada statistik program bantuan.
 4. [#5509](https://github.com/OpenSID/OpenSID/issues/5509) Penambahan informasi terakhir diperbarui pada statistik penduduk.
+5. [#1757](https://github.com/OpenSID/OpenSID/issues/1757) Penambahan pengaturan artikel statis yang ditampilkan ke halaman web.
 
 
 #### BUG

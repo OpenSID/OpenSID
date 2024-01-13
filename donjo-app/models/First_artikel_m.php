@@ -110,8 +110,12 @@ class First_artikel_m extends MY_Model
             ->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
             ->where('a.enabled', 1)
             ->where('(a.headline != 1)')
-            ->where('a.id_kategori NOT IN (1000)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
+
+        if ($statis = json_decode($this->setting->artikel_statis, true)) {
+            $tipe = array_merge(['dinamis'], $statis);
+            $this->db->where_in('a.tipe', $tipe);
+        }
 
         $cari = trim($this->input->get('cari', true));
         if ($cari !== '') {
@@ -381,10 +385,10 @@ class First_artikel_m extends MY_Model
 
         if (empty($data)) {
             $judul = [
-                999  => 'Halaman Statis',
-                1000 => 'Agenda',
-                1001 => 'Artikel Keuangan',
-                $id  => "Artikel Kategori {$id}",
+                'statis'   => 'Halaman Statis',
+                'agenda'   => 'Agenda',
+                'keuangan' => 'Artikel Keuangan',
+                $id        => "Artikel Kategori {$id}",
             ];
 
             $data['kategori'] = $judul[$id];

@@ -63,7 +63,7 @@ class Migrasi_dev extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
-            // $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024011371($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -92,5 +92,22 @@ class Migrasi_dev extends MY_model
         $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');
 
         return $hasil && $this->tambahForeignKey('pembangunan_lokasi_cluster_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
+    }
+
+    protected function migrasi_2024011371($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Artikel Statis / Halaman',
+            'key'        => 'artikel_statis',
+            'value'      => json_encode(['statis', 'agenda', 'keuangan']),
+            'keterangan' => 'Artikel Statis / Halaman yang akan ditampilkan pada halaman utama.',
+            'kategori'   => 'conf_web',
+            'jenis'      => 'multiple-option-key',
+            'option'     => json_encode([
+                'statis'   => 'Halaman Statis',
+                'agenda'   => 'Agenda',
+                'keuangan' => 'Keuangan',
+            ]),
+        ], $id);
     }
 }

@@ -167,7 +167,7 @@
 																		<?php endif; ?>
 																		<td class="padat"><?= $data['no'] ?></td>
 																		<td class="aksi">
-																			<?php if ($data['boleh_ubah'] && isCan('u')) : ?>
+																			<?php if ($data['boleh_ubah'] && can('u')) : ?>
 																				<a href="<?= site_url('web/form/' . encrypt($data['id'])) ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																				<?php if (can('h')) : ?>
 																					<a href="#" data-href="<?= site_url('web/delete/' . encrypt($data['id'])) ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
