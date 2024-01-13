@@ -91,6 +91,6 @@ class Migrasi_dev extends MY_model
     {
         $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');
 
-        return $hasil && $this->tambahForeignKey('pembangunan_lokasi_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
+        return $hasil && $this->tambahForeignKey('pembangunan_lokasi_cluster_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
     }
 }
