@@ -259,7 +259,7 @@ Route::group('penduduk_log', static function () {
     Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
     Route::match(['GET', 'POST'], '/index/{p}', 'Penduduk_log@index');
     Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Penduduk_log@index');
-    Route::post('/filter', 'Penduduk_log@filter')->name('penduduk_log.filter');
+    Route::post('/filter/{kode_peristiwa?}', 'Penduduk_log@filter')->name('penduduk_log.filter');
     Route::post('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
     Route::post('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
     Route::post('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
@@ -292,7 +292,7 @@ Route::group('keluarga', static function () {
     Route::get('/dusun', 'Keluarga@dusun')->name('keluarga.dusun');
     Route::get('/rw', 'Keluarga@rw')->name('keluarga.rw');
     Route::get('/rt', 'Keluarga@rt')->name('keluarga.rt');
-    Route::post('/insert', 'Keluarga@insert')->name('keluarga.insert');
+    Route::post('/insert/{id?}', 'Keluarga@insert')->name('keluarga.insert');
     Route::get('/insert_a', 'Keluarga@insert_a')->name('keluarga.insert_a');
     Route::match(['GET', 'POST'], '/insert_new', 'Keluarga@insert_new')->name('keluarga.insert_new');
     Route::post('/update_nokk/{id?}', 'Keluarga@update_nokk')->name('keluarga.update_nokk');
@@ -673,14 +673,14 @@ Route::group('surat_master', static function () {
     Route::post('/simpan_sementara', 'Surat_master@simpan_sementara')->name('surat_master.simpan_sementara');
     Route::post('/update/{id?}', 'Surat_master@update')->name('surat_master.update');
     Route::post('/kodeIsian/{id?}', 'Surat_master@kodeIsian')->name('surat_master.kodeIsian');
-    Route::post('/kunci/{id?}/{val?}', 'Surat_master@kunci')->name('surat_master.kunci');
+    Route::match(['GET', 'POST'], '/kunci/{id?}/{val?}', 'Surat_master@kunci')->name('surat_master.kunci');
     Route::post('/favorit/{id?}/{val?}', 'Surat_master@favorit')->name('surat_master.favorit');
     Route::get('/delete/{id}', 'Surat_master@delete')->name('surat_master.delete');
     Route::post('/delete_all', 'Surat_master@delete_all')->name('surat_master.delete_all');
     Route::get('/restore_surat_bawaan/{surat?}', 'Surat_master@restore_surat_bawaan')->name('surat_master.restore_surat_bawaan');
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
-    Route::post('/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
+    Route::match(['GET', 'POST'], '/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
     Route::post('/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
     Route::post('/preview', 'Surat_master@preview')->name('surat_master.preview');
     Route::post('/ekspor', 'Surat_master@ekspor')->name('surat_master.ekspor');
@@ -1680,6 +1680,7 @@ Route::group('gis', static function () {
     Route::post('/layer_area', 'Gis@layer_area')->name('gis.layer_area');
     Route::post('/layer_lokasi', 'Gis@layer_lokasi')->name('gis.layer_lokasi');
     Route::post('/layer_keluarga', 'Gis@layer_keluarga')->name('gis.layer_keluarga');
+    Route::post('/layer_rtm', 'Gis@layer_rtm')->name('gis.layer_rtm');
     Route::post('/sex', 'Gis@sex')->name('gis.sex');
     Route::post('/dusun', 'Gis@dusun')->name('gis.dusun');
     Route::post('/rw', 'Gis@rw')->name('gis.rw');

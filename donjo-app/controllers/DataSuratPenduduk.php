@@ -150,7 +150,7 @@ class DataSuratPenduduk extends CI_Controller
         $filters = collect($surat->form_isian->{$kategori})->toArray();
         unset($filters['data']);
         $kk_level    = $data['individu']['kk_level'];
-        $ada_anggota = in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level']) || $kk_level == SHDKEnum::KEPALA_KELUARGA;
+        $ada_anggota = in_array(SHDKEnum::KEPALA_KELUARGA, $filters['kk_level'] ?? []) || $kk_level == SHDKEnum::KEPALA_KELUARGA;
 
         $data['anggota'] = $ada_anggota ? Keluarga::find($data['individu']['id_kk'])->anggota : null;
 
