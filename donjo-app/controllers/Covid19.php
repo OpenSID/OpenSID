@@ -77,7 +77,7 @@ class Covid19 extends Admin_Controller
     public function form_pemudik(): void
     {
         $this->redirect_hak_akses('u');
-        public $sub_modul_ini = 'pendataan';
+        $this->sub_modul_ini = 'pendataan';
 
         $d                      = new DateTime('NOW');
         $data['tanggal_datang'] = $d->format('Y-m-d H:i:s');
@@ -223,7 +223,7 @@ class Covid19 extends Admin_Controller
 
     public function pantau($page = 1, $filter_tgl = null, $filter_nik = null): void
     {
-        public $sub_modul_ini = 'pemantauan';
+        $this->sub_modul_ini = 'pemantauan';
 
         if (isset($_POST['per_page'])) {
             $this->session->set_userdata('per_page', $_POST['per_page']);

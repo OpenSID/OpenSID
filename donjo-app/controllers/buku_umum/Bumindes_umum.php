@@ -116,7 +116,7 @@ class Bumindes_umum extends Admin_Controller
     // FORM
     public function form($page = 'peraturan', $page_number = 1, $offset = 0, $key = null): void
     {
-        public $sub_modul_ini = 'administrasi-umum';
+        $this->sub_modul_ini = 'administrasi-umum';
 
         $data = [];
         $data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
