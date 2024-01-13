@@ -231,6 +231,9 @@
                 <?php endforeach;?>
             </tbody>
         </table>
+        <p style="color: red">
+            Diperbarui pada : <?= tgl_indo($last_update); ?>
+        </p>
         <?php if($hide=="lebih"):?>
             <div style='float: left;'>
                 <button class='uibutton special' id='showData'>Selengkapnya...</button>

@@ -35,9 +35,10 @@
  *
  */
 
-use App\Enums\Statistik\StatistikEnum;
-use App\Models\Pemilihan;
 use Carbon\Carbon;
+use App\Models\Penduduk;
+use App\Models\Pemilihan;
+use App\Enums\Statistik\StatistikEnum;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -213,6 +214,7 @@ class First extends Web_Controller
         $data['st']         = $stat;
         $data['slug_aktif'] = $stat;
         $data['bantuan']    = ($stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
+        $data['last_update'] = Penduduk::latest()->first()->updated_at;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');

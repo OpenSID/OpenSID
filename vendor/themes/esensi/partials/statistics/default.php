@@ -65,6 +65,9 @@
                 <?php endforeach;?>
             </tbody>
         </table>
+        <p style="color: red">
+            Diperbarui pada : <?= tgl_indo($last_update); ?>
+        </p>
     </div>
     <div class="flex justify-between py-5">
         <?php if($hide == 'more') : ?>

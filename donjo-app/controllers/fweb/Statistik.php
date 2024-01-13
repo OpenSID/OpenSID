@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Penduduk;
 use App\Enums\Statistik\StatistikEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -61,6 +62,7 @@ class Statistik extends Web_Controller
         $data['stat']       = $this->laporan_penduduk_model->list_data($key);
         $data['tipe']       = 0;
         $data['slug_aktif'] = $slug;
+        $data['last_update'] = Penduduk::latest()->first()->updated_at;
 
         $this->_get_common_data($data);
 
