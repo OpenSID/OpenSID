@@ -58,7 +58,7 @@
                     <option value="statistik/{{ $id }}" @selected($menu['link'] == "statistik/{$id}")>{{ $nama }}</option>
                 @endforeach
                 @foreach ($statistik_program_bantuan as $nama)
-                    <option value="statistik/{{ $nama['lap'] }}" @selected($menu['link'] == "statistik/{$nama['lap']}")>{{ $nama['nama'] }}</option>
+                    <option value="statistik/50{{ $nama['id'] }}" @selected($menu['link'] == "statistik/50{$nama['id']}")>{{ $nama['nama'] }}</option>
                 @endforeach
             </select>
             <select id="statis_lainnya" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 5, 'link') }}" style="@if ($menu['link_tipe'] != 5) display:none; @endif">

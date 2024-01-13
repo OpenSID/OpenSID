@@ -212,8 +212,7 @@ class First extends Web_Controller
         $data['tipe']       = $tipe;
         $data['st']         = $stat;
         $data['slug_aktif'] = $stat;
-
-        // dd($data);
+        $data['bantuan']    = ($stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
