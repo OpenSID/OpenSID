@@ -603,8 +603,10 @@ function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = nu
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
     if (! file_exists($pathBerkas)) {
+        $pesan                 = 'Berkas tidak ditemukan';
         $_SESSION['success']   = -1;
-        $_SESSION['error_msg'] = 'Berkas tidak ditemukan';
+        $_SESSION['error_msg'] = $pesan;
+        set_session('error', $pesan);
         if ($redirect_url) {
             redirect($redirect_url);
         } else {

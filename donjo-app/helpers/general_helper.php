@@ -225,6 +225,9 @@ if (! function_exists('ci_route')) {
         $to = str_replace('.', '/', $to);
 
         if (null !== $params) {
+            if (is_array($params)) {
+                $params = implode('/', $params);
+            }
             $to .= '/' . $params;
         }
 
