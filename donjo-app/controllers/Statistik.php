@@ -102,7 +102,7 @@ class Statistik extends Admin_Controller
         }
 
         switch (true) {
-            case in_array((int) $lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && $sasaran == 2):
+            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && $sasaran == 2):
                 $tautan = site_url("keluarga/statistik/{$lap}/");
                 break;
 
@@ -110,7 +110,7 @@ class Statistik extends Admin_Controller
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
 
-            case (int) $lap < 50 || ((int) $lap > 50 && $sasaran == 1):
+            case (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && $sasaran == 1):
                 $tautan = site_url("penduduk/statistik/{$lap}/");
                 break;
 

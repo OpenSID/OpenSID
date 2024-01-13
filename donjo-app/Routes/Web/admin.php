@@ -311,7 +311,7 @@ Route::group('keluarga', static function () {
     Route::get('/delete_anggota/{p?}/{o?}/{kk?}/{id?}', 'Keluarga@delete_anggota')->name('keluarga.delete_anggota');
     Route::get('/keluarkan_anggota/{kk?}/{id?}', 'Keluarga@keluarkan_anggota')->name('keluarga.keluarkan_anggota');
     Route::post('/delete_all_anggota/{p?}/{o?}/{kk?}', 'Keluarga@delete_all_anggota')->name('keluarga.delete_all_anggota');
-    Route::get('/statistik', 'Keluarga@statistik')->name('keluarga.statistik');
+    Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', 'Keluarga@statistik')->name('keluarga.statistik');
     Route::get('/cetak_statistik/{tipe?}', 'Keluarga@cetak_statistik')->name('keluarga.cetak_statistik');
     Route::get('/search_kumpulan_kk', 'Keluarga@search_kumpulan_kk')->name('keluarga.search_kumpulan_kk');
     Route::get('/ajax_cetak/{p?}/{o?}/{aksi?}', 'Keluarga@ajax_cetak')->name('keluarga.ajax_cetak');

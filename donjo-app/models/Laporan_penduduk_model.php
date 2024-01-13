@@ -423,11 +423,12 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
                 // BANTUAN
-            case 'bantuan_penduduk': $sql = 'SELECT u.*,
-                (SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id AND config_id = u.config_id) AS jumlah,
-                (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id) AS laki,
-                (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id) AS perempuan
-                FROM program u WHERE (u.config_id = ' . $this->config_id . ' OR u.config_id IS NULL)';
+            case 'bantuan_penduduk':
+                $sql = 'SELECT u.*,
+                    (SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id AND config_id = u.config_id) AS jumlah,
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id) AS laki,
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id) AS perempuan
+                    FROM program u WHERE (u.config_id = ' . $this->config_id . ' OR u.config_id IS NULL)';
                 break;
 
                 // PENDUDUK
@@ -438,9 +439,19 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
             case 'buku-nikah':
+                // kepemilikan buku nikah
                 $this->db->where('p.akta_perkawinan !=', null)->where('p.akta_perkawinan !=', '');
                 $this->db->where('p.status_kawin !=', 1);
                 $this->select_jml_penduduk_per_kategori('status_kawin', 'tweb_penduduk_kawin');
+                break;
+
+            case 'kia':
+                // Kepemilikan kia
+                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17) AND u.status_rekam = status_rekam AND b.ktp_el = '3'";
+                $this->select_jml($where);
+                $this->db
+                    ->select('u.*')
+                    ->from('tweb_status_ktp u');
                 break;
 
             case 'covid':
@@ -515,7 +526,7 @@ class Laporan_penduduk_model extends MY_Model
 
             case '18':
                 // Kepemilikan ktp
-                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam ";
+                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND b.ktp_el != '3'";
                 $this->select_jml($where);
                 $this->db
                     ->select('u.*')
@@ -535,6 +546,9 @@ class Laporan_penduduk_model extends MY_Model
         //Siapkan data baris rekap
         if ($lap == 18) {
             $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
+            $semua = $this->data_jml_semua_penduduk();
+        } elseif ($lap == 'kia') {
+            $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)");
             $semua = $this->data_jml_semua_penduduk();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();

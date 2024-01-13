@@ -153,6 +153,11 @@ class StatistikPendudukEnum extends BaseEnum
         'slug'  => 'status-kehamilan',
         'label' => 'Status Kehamilan',
     ];
+    public const KEPEMILIKAN_KIA = [
+        'key'   => 'kia',
+        'slug'  => 'kepemilikan-kia',
+        'label' => 'Kepemilikan KIA',
+    ];
 
     public static $data = [
         self::RENTANG_UMUR,
@@ -177,6 +182,7 @@ class StatistikPendudukEnum extends BaseEnum
         self::SUKU_ETNIS,
         self::BPJS_KETENAGAKERJAAN,
         self::STATUS_KEHAMILAN,
+        self::KEPEMILIKAN_KIA,
     ];
 
     /**

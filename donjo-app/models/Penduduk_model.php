@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penduduk_model extends MY_Model
@@ -288,14 +290,41 @@ class Penduduk_model extends MY_Model
                 // TOTAL hanya yang wajib KTP
                 break;
 
-            case $kf != 0:
-                // Tidak bisa pakai query builder, supaya tidak menghapus query utama
-                $sql          = 'select * from tweb_status_ktp where id = ?';
-                $status_rekam = $this->db->query($sql, $kf)->row()->status_rekam;
-                $this->db->where('u.status_rekam', $status_rekam);
+            default:
+                $status_rekam = DB::table('tweb_status_ktp')->find($kf)->status_rekam;
+                $this->db->where('u.status_rekam', $status_rekam)->where('u.ktp_el !=', 3);
+                break;
+        }
+    }
+
+    protected function status_kia_sql()
+    {
+        if (!$this->session->kia) {
+            return;
+        }
+
+        // Filter berdasarkan data KIA
+        $this->db->where("((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=17) ");
+
+        $kf = $this->session->kia;
+
+        switch (true) {
+            case $kf == BELUM_MENGISI:
+                $this->db->where("(u.status_rekam IS NULL OR u.status_rekam = '')");
+                break;
+
+            case $kf == JUMLAH:
+                $this->db->where("u.status_rekam IS NOT NULL AND u.status_rekam <> ''");
+                break;
+
+            case $kf == TOTAL:
+                // TOTAL hanya yang KIA
                 break;
 
             default:
+                $status_rekam = DB::table('tweb_status_ktp')->find($kf)->status_rekam;
+                $this->db->where('u.status_rekam', $status_rekam)->where('u.ktp_el', 3);
+                break;
         }
     }
 
@@ -443,6 +472,7 @@ class Penduduk_model extends MY_Model
         }
 
         $this->status_ktp_sql(); // Kode 18
+        $this->status_kia_sql(); // Kode 'kia'
         $this->umur_min_sql(); // Hanya u/ Pencarian Spesifik
         $this->umur_max_sql(); // Hanya u/ Pencarian Spesifik
         $this->umur_sql(); // Kode 13, 15
@@ -776,6 +806,7 @@ class Penduduk_model extends MY_Model
         }
 
         $this->status_ktp_sql(); // Kode 18
+        $this->status_kia_sql(); // Kode 'kia'
         $this->umur_min_sql(); // Kode 13, 15
         $this->umur_max_sql(); // Kode 13, 15
         $this->umur_sql(); // Kode 13, 15
@@ -1653,6 +1684,7 @@ class Penduduk_model extends MY_Model
                     break;
 
                 case 18:
+                case 'kia':
                     $table = 'tweb_status_ktp';
                     break;
 
