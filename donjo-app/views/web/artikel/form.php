@@ -120,7 +120,7 @@
 							</div>
 						</div>
 					</div>
-					<?php if ($cat == 1000) : ?>
+					<?php if ($cat == 'agenda') : ?>
 						<input type="hidden" name="id_agenda" value="<?= $artikel['id_agenda'] ?>">
 						<div class="box box-info">
 							<div class="box-header with-border">
