@@ -292,7 +292,7 @@ Route::group('keluarga', static function () {
     Route::get('/dusun', 'Keluarga@dusun')->name('keluarga.dusun');
     Route::get('/rw', 'Keluarga@rw')->name('keluarga.rw');
     Route::get('/rt', 'Keluarga@rt')->name('keluarga.rt');
-    Route::post('/insert', 'Keluarga@insert')->name('keluarga.insert');
+    Route::post('/insert/{id?}', 'Keluarga@insert')->name('keluarga.insert');
     Route::get('/insert_a', 'Keluarga@insert_a')->name('keluarga.insert_a');
     Route::match(['GET', 'POST'], '/insert_new', 'Keluarga@insert_new')->name('keluarga.insert_new');
     Route::post('/update_nokk/{id?}', 'Keluarga@update_nokk')->name('keluarga.update_nokk');

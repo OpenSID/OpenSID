@@ -362,6 +362,7 @@ class Keluarga_model extends MY_Model
         }
 
         $pend = $this->config_id()->select('alamat_sekarang, id_cluster')->where('id', $data['nik_kepala'])->get('tweb_penduduk')->row_array();
+
         // Gunakan alamat penduduk sebagai alamat keluarga
         $data['alamat']     = $pend['alamat_sekarang'];
         $data['id_cluster'] = $pend['id_cluster'];
@@ -379,8 +380,8 @@ class Keluarga_model extends MY_Model
         $default['config_id']  = $this->config_id;
         $outp                  = $outp && $this->config_id()->where('id', $data['nik_kepala'])->update('tweb_penduduk', $default);
 
-        $log['id_pend']    = 1;
-        $log['id_cluster'] = 1;
+        $log['id_pend']    = $data['nik_kepala'];
+        $log['id_cluster'] = $pend['id_cluster'];
         $log['tanggal']    = date('Y-m-d H:i:s');
         $log['config_id']  = $this->config_id;
         $outp              = $outp && $this->db->insert('log_perubahan_penduduk', $log);
@@ -414,6 +415,7 @@ class Keluarga_model extends MY_Model
                 $valid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
             }
         }
+
         if ($valid !== []) {
             $_SESSION['validation_error'] = true;
 
@@ -716,7 +718,7 @@ class Keluarga_model extends MY_Model
         $outp                     = $this->config_id()->where('id', $id)->update('tweb_penduduk', $temp);
         if ($pend['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $temp2['updated_by'] = $this->session->user;
-            $temp2['nik_kepala'] = 0;
+            $temp2['nik_kepala'] = null;
             $outp                = $this->config_id()->where('id', $pend['id_kk'])->update('tweb_keluarga', $temp2);
         }
 
