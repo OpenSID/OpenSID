@@ -77,7 +77,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u') && $cat > 0) : ?>
+							<?php if ($this->CI->cek_hak_akses('u') && $cat != '-1') : ?>
 								<a href="<?= site_url('web/form') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 									<i class="fa fa-plus"></i>Tambah
 									<?php if ($kategori) : ?>
@@ -93,11 +93,11 @@
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')) : ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url('web/delete_all') ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-								<?php if ($cat > 0 && $cat < 999) : ?>
+								<?php if ($cat != '-1') : ?>
 									<a href="#confirm-delete" title="Hapus Kategori <?= $kategori['kategori'] ?>" onclick="deleteAllBox('mainform', '<?= site_url('web/hapus') ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?= $kategori['kategori'] ?></a>
 								<?php endif; ?>
 							<?php endif; ?>
-							<?php if ($cat == 999) : ?>
+							<?php if ($cat == 'statis') : ?>
 								<a href="<?= site_url('web/reset') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
 							<?php endif; ?>
 						</div>
