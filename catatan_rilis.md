@@ -19,7 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#7568](https://github.com/OpenSID/OpenSID/issues/7568) Perbaikan hapus data arsip surat beserta file-filenya.
 14. [#7572](https://github.com/OpenSID/OpenSID/issues/7572) Perbaikan penggunaan session notifikasi.
 15. [#7589](https://github.com/OpenSID/OpenSID/issues/7589) Perbaikan tambah keluarga.
-
+16. [#7566](https://github.com/OpenSID/OpenSID/issues/7566) Perbaikan cetak surat tinymce pada php 8.x.
 
 #### TEKNIS
 
