@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#7589](https://github.com/OpenSID/OpenSID/issues/7589) Perbaikan tambah keluarga.
 16. [#7566](https://github.com/OpenSID/OpenSID/issues/7566) Perbaikan cetak surat tinymce pada php 8.x.
 17. [#7581](https://github.com/OpenSID/OpenSID/issues/7581) Perbaikan relasi kolom id_lokasi pada tabel pembangunan.
+18. [#7585](https://github.com/OpenSID/OpenSID/issues/7585) Perbaikan menu suplemen jika tidak ditemukan.
 
 
 #### TEKNIS

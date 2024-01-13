@@ -38,6 +38,7 @@
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -1465,9 +1466,10 @@ function menu_slug($url)
             break;
 
         case 'data-suplemen':
-            $CI->load->model('suplemen_model');
-            $data = $CI->suplemen_model->get_suplemen($cut[1]);
-            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
+            $data        = $suplemen ? $suplemen->toArray() : [];
+            $data['jml'] = $data['terdata_count'];
+            $url         = ($data) ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : ($url);
             break;
 
         case 'data-kelompok':
