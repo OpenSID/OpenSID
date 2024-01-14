@@ -37,8 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Penduduk;
 use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 use App\Models\PendudukAsuransi;
 use Illuminate\Support\Facades\DB;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
@@ -89,7 +89,7 @@ class Impor_model extends MY_Model
         'id_asuransi',
         'no_asuransi',
         'lat',
-        'lng'
+        'lng',
     ];
 
     public function __construct()
@@ -705,7 +705,7 @@ class Impor_model extends MY_Model
 
         // Ubah data penduduk map
         DB::table('tweb_penduduk_map')->updateOrInsert([
-            'id' => $id
+            'id' => $id,
         ], [
             'lat' => $lat,
             'lng' => $lng,

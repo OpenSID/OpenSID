@@ -1018,13 +1018,14 @@ class Program_bantuan_model extends MY_Model
         $this->jenis_sasaran($tipe);
     }
 
-    private function jenis_sasaran($sasaran) {
+    private function jenis_sasaran($sasaran)
+    {
         // keluarga
         if ($sasaran == 'bantuan_keluarga') {
             $this->db->where('p.sasaran', 2);
         }
         // penduduk
-        else if ($sasaran == 'bantuan_penduduk') {
+        elseif ($sasaran == 'bantuan_penduduk') {
             $this->db->where('p.sasaran', 1);
         } else {
             $id = substr($sasaran, 2);

@@ -299,7 +299,7 @@ class Penduduk_model extends MY_Model
 
     protected function status_kia_sql()
     {
-        if (!$this->session->kia) {
+        if (! $this->session->kia) {
             return;
         }
 

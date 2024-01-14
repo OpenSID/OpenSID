@@ -40,8 +40,8 @@ use App\Models\BukuPertanyaan;
 
 class Buku_pertanyaan extends Anjungan_Controller
 {
-    public $modul_ini     = 'buku-tamu';
-    public $sub_modul_ini = 'data-pertanyaan';
+    public $modul_ini           = 'buku-tamu';
+    public $sub_modul_ini       = 'data-pertanyaan';
     public $kategori_pengaturan = 'buku-tamu';
 
     public function __construct()

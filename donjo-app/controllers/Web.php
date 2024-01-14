@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\Artikel;
 use App\Enums\TampilanArtikelEnum;
+use App\Models\Artikel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -132,8 +132,8 @@ class Web extends Admin_Controller
             $data['form_action'] = site_url('web/insert');
         }
 
-        $data['cat']      = $cat;
-        $data['kategori'] = $this->web_artikel_model->get_kategori($cat);
+        $data['cat']           = $cat;
+        $data['kategori']      = $this->web_artikel_model->get_kategori($cat);
         $data['list_tampilan'] = TampilanArtikelEnum::all();
 
         $this->render('web/artikel/form', $data);

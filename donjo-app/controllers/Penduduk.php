@@ -870,7 +870,7 @@ class Penduduk extends Admin_Controller
                 $session  = 'buku-nikah';
                 $kategori = 'STATUS PERKAWINAN : ';
                 break;
-            
+
             case 'kia':
                 $session  = 'kia';
                 $kategori = 'KEPEMILIKAN KIA : ';
