@@ -56,6 +56,6 @@ abstract class Job implements ShouldQueue
     */
 
     use InteractsWithQueue;
- use Queueable;
- use SerializesModels;
+    use Queueable;
+    use SerializesModels;
 }
