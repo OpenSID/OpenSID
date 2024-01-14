@@ -86,6 +86,7 @@ class Pengguna extends Admin_Controller
         $user = $this->validate_password($this->request);
 
         if ($user['status']) {
+            $this->session->force_change_password = false;
             redirect_with('success', $user['pesan']);
         }
 
@@ -97,6 +98,7 @@ class Pengguna extends Admin_Controller
         $pass_lama  = $request['pass_lama'];
         $pass_baru  = $request['pass_baru'];
         $pass_baru1 = $request['pass_baru1'];
+        $pwMasihMD5 = (strlen(auth()->password) == 32) && (stripos(auth()->password, '$') === false) ? true : false;
 
         switch (true) {
             case config_item('demo_mode'):
@@ -120,7 +122,14 @@ class Pengguna extends Admin_Controller
                 ];
                 break;
 
-            case password_verify($pass_lama, auth()->password) === false:
+            case $pwMasihMD5 && (md5($pass_lama) != auth()->password):
+                $respon = [
+                    'status' => false,
+                    'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
+                ];
+                break;
+
+            case ! $pwMasihMD5 && (password_verify($pass_lama, auth()->password) === false):
                 $respon = [
                     'status' => false,
                     'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',

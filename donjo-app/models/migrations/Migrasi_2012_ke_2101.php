@@ -55,8 +55,13 @@ class Migrasi_2012_ke_2101 extends MY_model
         $hasil = $hasil && $this->db->query($query);
 
         // Tambahkan key layanan_mandiri
-        $hasil = $hasil && $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
-			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'layanan_mandiri',
+            'value'      => '1',
+            'keterangan' => 'Apakah layanan mandiri ditampilkan atau tidak',
+            'jenis'      => 'boolean',
+            'kategori'   => 'setting_mandiri',
+        ]);
         // Ubah isi field pd tabel kelompok jd unik, kode = kode_id
         if (! $this->cek_indeks('kelompok', 'kode')) {
             $hasil = $hasil && $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");

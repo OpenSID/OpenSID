@@ -49,9 +49,10 @@ class Sms_model extends MY_Model
 
     private function list_data_sql()
     {
-        return ' FROM inbox i
+        return " FROM inbox i
             LEFT JOIN penduduk_hidup p on i.SenderNumber = p.telepon
-            LEFT JOIN kontak k on i.SenderNumber = k.telepon ';
+            LEFT JOIN kontak k on i.SenderNumber = k.telepon
+            WHERE i.config_id = {$this->config_id}";
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
@@ -118,9 +119,10 @@ class Sms_model extends MY_Model
 
     private function list_data_terkirim_sql()
     {
-        return ' FROM sentitems s
-            LEFT JOIN penduduk_hidup p on s.DestinationNumber = p.telepon
-            LEFT JOIN kontak k on s.DestinationNumber = k.telepon ';
+        return " FROM sentitems s
+            LEFT JOIN penduduk_hidup p on s.DestinationNumber = p.telepon AND s.config_id = p.config_id
+            LEFT JOIN kontak k on s.DestinationNumber = k.telepon
+            WHERE s.config_id = {$this->config_id}";
     }
 
     public function list_data_terkirim($o = 0, $offset = 0, $limit = 500)
@@ -187,9 +189,10 @@ class Sms_model extends MY_Model
 
     private function list_data_tertunda_sql()
     {
-        return ' FROM outbox u
-            LEFT JOIN penduduk_hidup p on u.DestinationNumber = p.telepon
-            LEFT JOIN kontak k on u.DestinationNumber = k.telepon ';
+        return " FROM outbox u
+            LEFT JOIN penduduk_hidup p on u.DestinationNumber = p.telepon AND u.config_id = p.config_id
+            LEFT JOIN kontak k on u.DestinationNumber = k.telepon
+            WHERE u.config_id = {$this->config_id}";
     }
 
     public function list_data_tertunda($o = 0, $offset = 0, $limit = 500)
@@ -251,6 +254,7 @@ class Sms_model extends MY_Model
         $post                      = $this->input->post();
         $data['DestinationNumber'] = bilangan($post['DestinationNumber']);
         $data['TextDecoded']       = htmlentities($post['TextDecoded']);
+        $data['config_id']         = $this->config_id;
         $outp                      = $this->db->insert('outbox', $data);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -260,7 +264,7 @@ class Sms_model extends MY_Model
     {
         $post                = $this->input->post();
         $data['TextDecoded'] = htmlentities($post['TextDecoded']);
-        $outp                = $this->db->where('ID', $id)->update('outbox', $data);
+        $outp                = $this->config_id()->where('ID', $id)->update('outbox', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -268,13 +272,14 @@ class Sms_model extends MY_Model
     public function delete($Class = 0, $ID = '')
     {
         if ($Class == 2) {
-            $sql = 'DELETE FROM sentitems WHERE ID = ?';
+            $tabel = 'sentitems';
         } elseif ($Class == 1) {
-            $sql = 'DELETE FROM inbox WHERE ID = ?';
+            $tabel = 'inbox';
         } else {
-            $sql = 'DELETE FROM outbox WHERE ID = ?';
+            $tabel = 'outbox';
         }
-        $outp = $this->db->query($sql, [$ID]);
+
+        $outp = $this->config_id()->where('ID', $ID)->delete($tabel);
 
         status_sukses($outp);
     }
@@ -285,14 +290,7 @@ class Sms_model extends MY_Model
 
         if (count($id_cb)) {
             foreach ($id_cb as $ID) {
-                $this->db->where('ID', $ID);
-                if ($Class == 2) {
-                    $outp = $this->db->delete('sentitems');
-                } elseif ($Class == 1) {
-                    $outp = $this->db->delete('inbox');
-                } else {
-                    $outp = $this->db->delete('outbox');
-                }
+                $this->delete($Class, $ID);
             }
         } else {
             $outp = false;
@@ -304,20 +302,20 @@ class Sms_model extends MY_Model
     public function get_sms($Class = 0, $ID = 0)
     {
         if ($Class == 2) {
-            $sql = 'SELECT * FROM sentitems WHERE ID = ?';
+            $query = $this->config_id()->where('ID', $ID)->get('sentitems');
         } elseif ($Class == 1) {
-            $sql = 'SELECT SenderNumber AS DestinationNumber,TextDecoded FROM inbox WHERE ID = ?';
+            $query = $this->config_id()->select('SenderNumber AS DestinationNumber,TextDecoded')->where('ID', $ID)->get('inbox');
         } else {
-            $sql = 'SELECT * FROM outbox WHERE ID = ?';
+            $query = $this->config_id()->where('ID', $ID)->get('outbox');
         }
-        $query = $this->db->query($sql, [$ID]);
 
         return $query->row_array();
     }
 
     public function sendBroadcast($data = [])
     {
-        $outp = $this->db->insert('outbox', $data);
+        $data['config_id'] = $this->config_id;
+        $outp              = $this->db->insert('outbox', $data);
 
         status_sukses($outp);
 

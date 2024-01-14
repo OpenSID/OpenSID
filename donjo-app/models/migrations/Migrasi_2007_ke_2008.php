@@ -139,7 +139,7 @@ class Migrasi_2007_ke_2008 extends CI_model
                 'updated_at'     => date('Y-m-d H:i:s'),
                 'updated_by'     => 0,
                 'frekuensi'      => 90,
-                'aksi'           => 'notif/update_pengumuman,siteman',
+                'aksi'           => 'notif/update_pengumuman,siteman/logout',
             ],
 
             // Tracking Off

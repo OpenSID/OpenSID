@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pamong_model extends CI_Model
+class Pamong_model extends MY_Model
 {
     private $urut_model;
 
@@ -126,7 +126,7 @@ class Pamong_model extends CI_Model
 
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id('u')
             ->from('tweb_desa_pamong u')
             ->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
             ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
@@ -142,19 +142,17 @@ class Pamong_model extends CI_Model
 
     public function autocomplete()
     {
-        $sql = 'SELECT * FROM
-				(SELECT p.nama
-					FROM tweb_desa_pamong u
-					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id) a
-				UNION SELECT pamong_nama FROM tweb_desa_pamong
-				UNION SELECT p.nik
-					FROM tweb_desa_pamong u
-					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
-				UNION SELECT pamong_nik FROM tweb_desa_pamong
-				UNION SELECT pamong_niap FROM tweb_desa_pamong
-				UNION SELECT pamong_nip FROM tweb_desa_pamong';
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $sql = "SELECT * FROM
+            (SELECT p.nama
+                FROM tweb_desa_pamong u
+                LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE u.config_id = {$this->config_id}) a
+            UNION SELECT pamong_nama FROM tweb_desa_pamong WHERE config_id = {$this->config_id}
+            UNION SELECT p.nik FROM tweb_desa_pamong u LEFT JOIN tweb_penduduk p ON u.id_pend = p.id WHERE u.config_id = {$this->config_id}
+            UNION SELECT pamong_nik FROM tweb_desa_pamong WHERE config_id = {$this->config_id}
+            UNION SELECT pamong_niap FROM tweb_desa_pamong WHERE config_id = {$this->config_id}
+            UNION SELECT pamong_nip FROM tweb_desa_pamong WHERE config_id = {$this->config_id}";
+
+        $data = $this->db->query($sql)->result_array();
 
         return autocomplete_data_ke_str($data);
     }
@@ -184,7 +182,7 @@ class Pamong_model extends CI_Model
 
     public function get_data($id = 0)
     {
-        $data = $this->db
+        $data = $this->config_id('u')
             ->select('u.*, rj.nama AS jabatan, rj.nama AS pamong_jabatan, rj.id AS ref_jabatan_id,
 				(case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
 				(case when p.foto is not null then p.foto else u.foto end) as foto,
@@ -196,18 +194,20 @@ class Pamong_model extends CI_Model
             ->get()
             ->row_array();
 
-        $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
-        if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
-            $data['sebutan_pamong_niap_nip'] = 'NIP: ';
-        } else {
-            if (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
-                $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
+        if ($data) {
+            $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
+            if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
+                $data['sebutan_pamong_niap_nip'] = 'NIP: ';
             } else {
-                $data['sebutan_pamong_niap_nip'] = '';
+                if (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
+                    $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
+                } else {
+                    $data['sebutan_pamong_niap_nip'] = '';
+                }
             }
-        }
 
-        $data['nama'] = gelar($data['gelar_depan'], $data['nama'], $data['gelar_belakang']);
+            $data['nama'] = gelar($data['gelar_depan'], $data['nama'], $data['gelar_belakang']);
+        }
 
         return $data;
     }
@@ -240,14 +240,16 @@ class Pamong_model extends CI_Model
 
     public function update($id = 0)
     {
-        $post = $this->input->post();
-        $data = $this->siapkan_data($post);
+        $post           = $this->input->post();
+        $data           = $this->siapkan_data($post);
+        $jabatan_kades  = RefJabatan::getKades()->id;
+        $jabatan_sekdes = RefJabatan::getSekdes()->id;
 
         if (! in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
             $data['pamong_ttd'] = $data['pamong_ub'] = 0;
         }
 
-        $outp       = $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', $data);
+        $outp       = $this->config_id()->where('pamong_id', $id)->update('tweb_desa_pamong', $data);
         $post['id'] = $id;
         $this->foto($post);
 
@@ -277,7 +279,7 @@ class Pamong_model extends CI_Model
         }
 
         if ($foto = upload_foto_penduduk($foto)) {
-            $this->db->where($field, $id)->update($tabel, ['foto' => $foto]);
+            $this->config_id()->where($field, $id)->update($tabel, ['foto' => $foto]);
         }
     }
 
@@ -292,13 +294,13 @@ class Pamong_model extends CI_Model
             $this->session->success = 1;
         }
 
-        $foto = $this->db->select('foto')->where('pamong_id', $id)->get('tweb_desa_pamong')->row()->foto;
-        if (! empty($foto)) {
-            unlink(LOKASI_USER_PICT . $foto);
-            unlink(LOKASI_USER_PICT . 'kecil_' . $foto);
+        $pamong = Pamong::find($id) ?? show_404();
+        if (! empty($pamong->foto)) {
+            unlink(LOKASI_USER_PICT . $pamong->foto);
+            unlink(LOKASI_USER_PICT . 'kecil_' . $pamong->foto);
         }
 
-        $outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
+        $outp = $pamong->delete();
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
@@ -314,7 +316,7 @@ class Pamong_model extends CI_Model
         }
     }
 
-    private function siapkan_data($post)
+    private function siapkan_data($post, $id = null)
     {
         $data                       = [];
         $data['id_pend']            = $post['id_pend'];
@@ -358,6 +360,10 @@ class Pamong_model extends CI_Model
             $data['pamong_agama']        = $post['pamong_agama'] ?: null;
         }
 
+        if (null === $id) {
+            $data['config_id'] = identitas('id');
+        }
+
         return $data;
     }
 
@@ -372,7 +378,8 @@ class Pamong_model extends CI_Model
      */
     public function ttd($jenis, $id, $val)
     {
-        $pamong = Pamong::findOrFail($id);
+        $pamong         = Pamong::find($id) ?? show_404();
+        $jabatan_sekdes = RefJabatan::getSekdes()->id;
 
         if ($jenis == 'a.n') {
             if ($pamong->jabatan_id == sekdes()->id) {
@@ -449,7 +456,8 @@ class Pamong_model extends CI_Model
     // Mengambil semua data penduduk kecuali yg sdh menjadi pamong dan tdk termasuk yang di ubah untuk pilihan drop-down form
     public function list_penduduk($id_pend)
     {
-        return $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+        return $this->config_id('u')
+            ->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
             ->from('penduduk_hidup u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
             ->where("u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL AND id_pend != {$id_pend})")
@@ -465,7 +473,7 @@ class Pamong_model extends CI_Model
             return null;
         }
 
-        $data_query = $this->db
+        $data_query = $this->config_id_exist('tweb_desa_pamong', 'dp')
             ->select(
                 'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap, dp.gelar_depan, dp.gelar_belakang,
                 CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
@@ -501,7 +509,7 @@ class Pamong_model extends CI_Model
      */
     public function lock($id, $val)
     {
-        $pamong        = Pamong::find($id);
+        $pamong        = Pamong::find($id) ?? show_404();
         $jabatan_aktif = Pamong::whereJabatanId($pamong->jabatan_id)->wherePamongStatus(1)->exists();
 
         // Cek untuk kades atau sekdes apakah sudah ada yang aktif saat mengaktifkan
@@ -519,9 +527,8 @@ class Pamong_model extends CI_Model
      */
     public function kehadiran($id, $val)
     {
-        $outp = $this->db
-            ->where('pamong_id', $id)
-            ->update('tweb_desa_pamong', ['kehadiran' => $val]);
+        $pamong = Pamong::find($id) ?? show_404();
+        $outp   = $pamong->update(['kehadiran' => $val]);
 
         status_sukses($outp);
     }
@@ -534,18 +541,19 @@ class Pamong_model extends CI_Model
         //  ['14' => '26'],
         //  ['20' => '24']
         // ;
-        $atasan = $this->db
+        $atasan = $this->config_id()
             ->select('atasan, pamong_id')
             ->where('atasan IS NOT NULL')
             ->where('pamong_status', 1)
-            ->get('tweb_desa_pamong')->result_array();
+            ->get('tweb_desa_pamong')
+            ->result_array();
         $data['struktur'] = [];
 
         foreach ($atasan as $pamong) {
             $data['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
 
-        $data_query = $this->db
+        $data_query = $this->config_id('p')
             ->select('p.pamong_id, rj.nama AS jabatan, p.gelar_depan, p.gelar_belakang, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.foto ELSE p.foto END) as foto')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
@@ -573,7 +581,7 @@ class Pamong_model extends CI_Model
             $this->db->where('pamong_id <>', $ex_id);
         }
 
-        return $this->db
+        return $this->config_id('p')
             ->select('pamong_id as id, rj.nama AS jabatan')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nik ELSE p.pamong_nik END) as nik')
             ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
@@ -582,7 +590,8 @@ class Pamong_model extends CI_Model
             ->join('ref_jabatan rj', 'rj.id = p.jabatan_id', 'left')
             ->where('pamong_status', 1)
             ->order_by('nama')
-            ->get()->result_array();
+            ->get()
+            ->result_array();
     }
 
     public function update_bagan($post)
@@ -598,7 +607,7 @@ class Pamong_model extends CI_Model
             $data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? null : warna($post['bagan_warna']);
         }
 
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where("pamong_id in ({$list_id})")
             ->update('tweb_desa_pamong', $data);
 

@@ -96,7 +96,7 @@ class Analisis_kategori extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['analisis_kategori'] = $this->analisis_kategori_model->get_analisis_kategori($id);
+            $data['analisis_kategori'] = $this->analisis_kategori_model->get_analisis_kategori($id) ?? show_404();
             $data['form_action']       = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
         } else {
             $data['analisis_kategori'] = null;

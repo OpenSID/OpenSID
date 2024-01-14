@@ -38,12 +38,10 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
-use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
 use App\Models\StatusDasar;
@@ -62,7 +60,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['surat_master_model', 'lapor_model']);
+        $this->load->model(['surat_master_model']);
         $this->tinymce       = new TinyMCE();
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'pengaturan-surat';
@@ -167,6 +165,37 @@ class Surat_master extends Admin_Controller
         return view('admin.pengaturan_surat.form', $data);
     }
 
+    public function apisurat()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari = $this->input->get('q');
+
+            $surat = KlasifikasiSurat::select(['kode', 'nama'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('kode', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->orderBy('kode')
+                ->enabled()
+                ->paginate(10);
+
+            return json([
+                'results' => collect($surat->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->kode,
+                            'text' => $item->kode . ' - ' . $item->nama,
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $surat->currentPage() < $surat->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
+    }
+
     private function form_isian()
     {
         return [
@@ -240,7 +269,10 @@ class Surat_master extends Admin_Controller
         unset($_POST['id_cb'], $_POST['tabeldata_length'], $_POST['surat']);
 
         $id = $this->surat_master_model->update($id);
-        $this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
+
+        if (! empty($id) && $mandiri == 1) {
+            FormatSurat::where('id', $id)->update(['syarat_surat' => json_encode($syarat)]);
+        }
 
         redirect_with('success', 'Berhasil Ubah Data');
     }
@@ -430,10 +462,8 @@ class Surat_master extends Admin_Controller
         $data['sekdes'] = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
             return $query->where('jabatan_id', '=', sekdes()->id);
         })->exists();
-
-        $data['ref_jabatan'] = RefJabatan::all();
-        $data['aksi']        = route('surat_master.update');
-        $data['formAksi']    = route('surat_master.edit_pengaturan');
+        $data['aksi']     = route('surat_master.update');
+        $data['formAksi'] = route('surat_master.edit_pengaturan');
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -591,7 +621,7 @@ class Surat_master extends Admin_Controller
         ';
 
         // Logo Surat
-        $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
+        $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));
 
         $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
         $logo_bsre = str_replace('[logo]', $logo, $isi_cetak);
@@ -704,5 +734,84 @@ class Surat_master extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
+    }
+
+    // Hanya untuk develpment
+    public function migrasi()
+    {
+        if (ENVIRONMENT !== 'development') {
+            redirect_with('error', 'Hanya untuk development');
+        }
+
+        $simpan = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+
+        // Pilih surat yang akan dibuat migrasinya
+        $surat = FormatSurat::jenis(FormatSurat::TINYMCE)->find($simpan->id);
+
+        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace('_', ' ', $surat->nama)));
+
+        $kode_isian     = json_encode($surat->kode_isian);
+        $form_isian     = json_encode($surat->form_isian);
+        $template_surat = str_replace(['\/', '\u00a0'], ['/', ' '], json_encode($surat->template_desa ?? $surat->template));
+        $qr_code        = getVariableName(StatusEnum::class, $surat->qr_code);
+        $mandiri        = getVariableName(StatusEnum::class, $surat->mandiri);
+        $syarat_surat   = $surat->syarat_surat ?: 'null';
+        $lampiran       = $surat->lampiran ?: 'null';
+
+        $import = <<<'EOS'
+            use App\Enums\StatusEnum;
+            EOS;
+
+        $get_fuction = <<<EOS
+            \$hasil = \$hasil && \$this->{$nama_fuction}(\$hasil, \$id);
+                        // Jalankan Migrasi TinyMCE'
+            EOS;
+
+        $set_fuction = <<<EOS
+            protected function {$nama_fuction}(\$hasil, \$id)
+                {
+                    \$data = [
+                        'nama'                => '{$surat->nama}',
+                        'kode_surat'          => '{$surat->kode_surat}',
+                        'masa_berlaku'        => {$surat->masa_berlaku},
+                        'satuan_masa_berlaku' => '{$surat->satuan_masa_berlaku}',
+                        'orientasi'           => '{$surat->orientasi}',
+                        'ukuran'              => '{$surat->ukuran}',
+                        'margin'              => '{$surat->margin}',
+                        'qr_code'             => StatusEnum::{$qr_code},
+                        'kode_isian'          => '{$kode_isian}',
+                        'form_isian'          => '{$form_isian}',
+                        'mandiri'             => StatusEnum::{$mandiri},
+                        'syarat_surat'        => {$syarat_surat},
+                        'lampiran'            => {$lampiran},
+                        'template'            => {$template_surat},
+                    ];
+
+                    return \$hasil && \$this->tambah_surat_tinymce(\$data, \$id);
+                }
+
+                // Function Migrasi TinyMCE
+            EOS;
+
+        $file_migrasi = nextVersion();
+
+        // tentukan migrasi
+        $migrasi = file_get_contents(APPPATH . 'models/migrations/Migrasi_fitur_premium_' . $file_migrasi . '.php');
+        $migrasi = str_replace([
+            '// Import TinyMCE',
+            '// Jalankan Migrasi TinyMCE',
+            '// Function Migrasi TinyMCE',
+        ], [
+            $import,
+            $get_fuction,
+            $set_fuction,
+        ], $migrasi);
+        file_put_contents(APPPATH . 'models/migrations/Migrasi_fitur_premium_' . $file_migrasi . '.php', $migrasi);
+
+        if ($simpan) {
+            redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $simpan->id);
+        }
+
+        redirect_with('error', 'Gagal Simpan Data');
     }
 }

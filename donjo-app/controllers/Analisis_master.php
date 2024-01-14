@@ -112,7 +112,7 @@ class Analisis_master extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($id);
+            $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($id) ?? show_404();
             $data['form_action']     = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
         } else {
             $data['analisis_master'] = null;
@@ -151,7 +151,7 @@ class Analisis_master extends Admin_Controller
     public function ekspor($id)
     {
         $writer = WriterEntityFactory::createXLSXWriter();
-        $master = $this->analisis_master_model->get_analisis_master($id);
+        $master = $this->analisis_master_model->get_analisis_master($id) ?? show_404();
         //Nama File
         $tgl      = date('Y_m_d');
         $fileName = 'analisis_' . urlencode($master['nama']) . '_' . $tgl . '.xlsx';
@@ -306,7 +306,7 @@ class Analisis_master extends Admin_Controller
     public function menu($id = 0)
     {
         $this->session->analisis_master = $id;
-        $data['analisis_master']        = $this->analisis_master_model->get_analisis_master($id);
+        $data['analisis_master']        = $this->analisis_master_model->get_analisis_master($id) ?? show_404();
         $master                         = $data['analisis_master'];
         $this->session->analisis_nama   = $master['nama'];
         $this->session->subjek_tipe     = $master['subjek_tipe'];

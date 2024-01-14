@@ -35,46 +35,10 @@
  *
  */
 
-/**
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2020 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2020 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html	GPL V3
- *
- * @see      https://github.com/OpenSID/OpenSID
- */
-class Statistik_pengunjung
-{
-    /**
-     * Intance class codeigniter.
-     *
-     * @var CI_Controller
-     */
-    protected $ci;
+defined('BASEPATH') || exit('No direct script access allowed');
 
+class Statistik_pengunjung_model extends MY_Model
+{
     /**
      * Table sys_traffic
      *
@@ -89,8 +53,8 @@ class Statistik_pengunjung
      */
     public function __construct()
     {
-        $this->ci = &get_instance();
-        $this->ci->load->library('user_agent');
+        parent::__construct();
+        $this->load->library('user_agent');
     }
 
     /**
@@ -100,7 +64,7 @@ class Statistik_pengunjung
      */
     public function counter_visitor()
     {
-        if (isset($this->ci->session->pengunjungOnline)) {
+        if (isset($this->session->pengunjungOnline) || null === identitas()) {
             return;
         }
 
@@ -110,7 +74,7 @@ class Statistik_pengunjung
             $this->increment_visitor((int) $visitor->Jumlah, $visitor->ipAddress);
         }
 
-        $this->ci->session->set_userdata('pengunjungOnline', date('Y-m-d'));
+        $this->session->set_userdata('pengunjungOnline', date('Y-m-d'));
     }
 
     /**
@@ -120,7 +84,7 @@ class Statistik_pengunjung
      */
     public function os()
     {
-        return $this->ci->agent->platform();
+        return $this->agent->platform();
     }
 
     /**
@@ -130,7 +94,7 @@ class Statistik_pengunjung
      */
     public function ip_address()
     {
-        return $this->ci->input->ip_address();
+        return $this->input->ip_address();
     }
 
     /**
@@ -140,12 +104,12 @@ class Statistik_pengunjung
      */
     public function browser()
     {
-        if ($this->ci->agent->is_browser()) {
-            $browser = $this->ci->agent->browser() . ' ' . $this->ci->agent->version();
-        } elseif ($this->ci->agent->is_robot()) {
-            $browser = $this->ci->agent->robot();
-        } elseif ($this->ci->agent->is_mobile()) {
-            $browser = $this->ci->agent->mobile();
+        if ($this->agent->is_browser()) {
+            $browser = $this->agent->browser() . ' ' . $this->agent->version();
+        } elseif ($this->agent->is_robot()) {
+            $browser = $this->agent->robot();
+        } elseif ($this->agent->is_mobile()) {
+            $browser = $this->agent->mobile();
         } else {
             $browser = 'Tidak ditemukan';
         }
@@ -167,14 +131,14 @@ class Statistik_pengunjung
         $bln = date('m');
         $thn = date('Y');
 
-        $this->ci->db->select_sum('Jumlah');
+        $this->config_id()->select_sum('Jumlah');
 
         switch ($type) {
             // Hari Ini
             case 1:
-                $this->ci->db->select('Tanggal');
+                $this->db->select('Tanggal');
                 $this->kondisi($type);
-                $this->ci->db->group_by('Tanggal');
+                $this->db->group_by('Tanggal');
 
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
@@ -182,9 +146,9 @@ class Statistik_pengunjung
 
                 // Kemarin
             case 2:
-                $this->ci->db->select('Tanggal');
+                $this->db->select('Tanggal');
                 $this->kondisi($type);
-                $this->ci->db->group_by('Tanggal');
+                $this->db->group_by('Tanggal');
 
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
@@ -192,9 +156,9 @@ class Statistik_pengunjung
 
                 // 7 Hari (Minggu Ini)
             case 3:
-                $this->ci->db->select('Tanggal');
+                $this->db->select('Tanggal');
                 $this->kondisi($type);
-                $this->ci->db->group_by('Tanggal');
+                $this->db->group_by('Tanggal');
 
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Dari Tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
@@ -202,9 +166,9 @@ class Statistik_pengunjung
 
                 // 1 bulan(tgl 1 sampai akhir bulan)
             case 4:
-                $this->ci->db->select('Tanggal');
+                $this->db->select('Tanggal');
                 $this->kondisi($type);
-                $this->ci->db->group_by('Tanggal');
+                $this->db->group_by('Tanggal');
 
                 $data['lblx']  = 'Tanggal';
                 $data['judul'] = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
@@ -212,9 +176,9 @@ class Statistik_pengunjung
 
                 // 1 tahun / 12 Bulan
             case 5:
-                $this->ci->db->select('MONTH(`Tanggal`) AS Tanggal');
+                $this->db->select('MONTH(`Tanggal`) AS Tanggal');
                 $this->kondisi($type);
-                $this->ci->db->group_by('MONTH(`Tanggal`)');
+                $this->db->group_by('MONTH(`Tanggal`)');
 
                 $data['lblx']  = 'Bulan';
                 $data['judul'] = 'Tahun ' . $thn;
@@ -222,16 +186,16 @@ class Statistik_pengunjung
 
                 // Semua Data
             default:
-                $this->ci->db->select('YEAR(`Tanggal`) AS Tanggal');
-                $this->ci->db->group_by('YEAR(`Tanggal`)');
+                $this->db->select('YEAR(`Tanggal`) AS Tanggal');
+                $this->db->group_by('YEAR(`Tanggal`)');
 
                 $data['lblx']  = 'Tahun';
                 $data['judul'] = 'Setiap Tahun';
                 break;
         }
 
-        $this->ci->db->order_by('Tanggal', 'asc');
-        $pengunjung         = $this->ci->db->get($this->table)->result_array();
+        $this->db->order_by('Tanggal', 'asc');
+        $pengunjung         = $this->db->get($this->table)->result_array();
         $data['pengunjung'] = $pengunjung;
 
         $jml = 0;
@@ -252,7 +216,7 @@ class Statistik_pengunjung
      */
     public function get_pengunjung_hari_ini()
     {
-        return $this->ci->db->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
+        return $this->config_id_exist($this->table)->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
     }
 
     /**
@@ -275,10 +239,10 @@ class Statistik_pengunjung
      */
     public function get_pengunjung_total($type = null)
     {
-        $this->ci->db->select_sum('Jumlah');
+        $this->db->select_sum('Jumlah');
         $this->kondisi($type);
 
-        return $this->ci->db->get($this->table)->row()->Jumlah;
+        return $this->config_id_exist($this->table)->get($this->table)->row()->Jumlah;
     }
 
     /**
@@ -288,11 +252,18 @@ class Statistik_pengunjung
      */
     public function insert_visitor()
     {
-        return $this->ci->db->insert($this->table, [
+        if (! $this->db->field_exists('config_id', $this->table)) {
+            return false;
+        }
+
+        $insert = [
             'Tanggal'   => date('Y-m-d'),
             'ipAddress' => json_encode(['ip_address' => [$this->ip_address()]]),
             'Jumlah'    => 1,
-        ]);
+            'config_id' => identitas('id'),
+        ];
+
+        return $this->db->insert($this->table, $insert);
     }
 
     /**
@@ -307,7 +278,8 @@ class Statistik_pengunjung
     {
         $ip_address = json_decode($lastIpAddress, true);
 
-        return $this->ci->db->where('Tanggal', date('Y-m-d'))
+        $this->config_id_exist($this->table)
+            ->where('Tanggal', date('Y-m-d'))
             ->update($this->table, [
                 'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])]),
                 'Jumlah'    => $jumlah + 1,
@@ -347,17 +319,17 @@ class Statistik_pengunjung
         switch ($type) {
             // Hari ini
             case 1:
-                $this->ci->db->where('Tanggal', $tgl);
+                $this->db->where('Tanggal', $tgl);
                 break;
 
                 // Kemarin
             case 2:
-                $this->ci->db->where('Tanggal', $this->op_tgl('-1 days', $tgl));
+                $this->db->where('Tanggal', $this->op_tgl('-1 days', $tgl));
                 break;
 
                 // Minggu ini
             case 3:
-                $this->ci->db->where([
+                $this->db->where([
                     'Tanggal >=' => $this->op_tgl('-6 days', $tgl),
                     'Tanggal <=' => $tgl,
                 ]);
@@ -365,7 +337,7 @@ class Statistik_pengunjung
 
                 // Bulan ini
             case 4:
-                $this->ci->db->where([
+                $this->db->where([
                     'MONTH(`Tanggal`) = ' => $bln,
                     'YEAR(`Tanggal`)  = ' => $thn,
                 ]);
@@ -373,7 +345,7 @@ class Statistik_pengunjung
 
                 // Tahun ini
             case 5:
-                $this->ci->db->where('YEAR(Tanggal) =', $thn);
+                $this->db->where('YEAR(Tanggal) =', $thn);
                 break;
 
                 // Semua jumlah pengunjung

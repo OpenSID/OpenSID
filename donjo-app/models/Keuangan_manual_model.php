@@ -35,18 +35,23 @@
  *
  */
 
+use App\Models\KeuanganManualRinci;
+use App\Models\KeuanganManualTemplate;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Keuangan_manual_model extends CI_model
+class Keuangan_manual_model extends MY_Model
 {
     private $tabel = 'keuangan_manual_rinci';
 
     public function list_tahun_anggaran_manual()
     {
-        $data = $this->db->select('Tahun')
+        $data = $this->config_id_exist($this->tabel)
+            ->select('Tahun')
             ->order_by('Tahun DESC')
             ->group_by('Tahun')
-            ->get('keuangan_manual_rinci')->result_array();
+            ->get($this->tabel)
+            ->result_array();
 
         return array_column($data, 'Tahun');
     }
@@ -57,7 +62,7 @@ class Keuangan_manual_model extends CI_model
             $this->db->where('Tahun', $tahun);
         }
 
-        return $this->db->get('keuangan_manual_rinci')->result();
+        return $this->config_id()->get($this->tabel)->result();
     }
 
     public function list_data_keuangan()
@@ -67,12 +72,13 @@ class Keuangan_manual_model extends CI_model
             'Tahun'   => $this->session->set_tahun ?? null,
         ];
 
-        return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
+        return $this->config_id()->where($filter)->get($this->tabel)->result();
     }
 
     public function simpan_anggaran($data = [])
     {
-        $output = $this->db->insert($this->tabel, $data);
+        $data['config_id'] = $this->config_id;
+        $output            = $this->db->insert($this->tabel, $data);
 
         status_sukses($output);
 
@@ -81,7 +87,10 @@ class Keuangan_manual_model extends CI_model
 
     public function get_anggaran($id)
     {
-        $hsl = $this->db->query("SELECT * FROM keuangan_manual_rinci WHERE id='{$id}'");
+        $hsl = $this->config_id()
+            ->where('id', $id)
+            ->get($this->tabel);
+
         if ($hsl->num_rows() > 0) {
             foreach ($hsl->result() as $data) {
                 $hasil = [
@@ -101,7 +110,7 @@ class Keuangan_manual_model extends CI_model
 
     public function update_anggaran($id = null, $data = [])
     {
-        $output = $this->db
+        $output = $this->config_id()
             ->where('id', $id)
             ->update($this->tabel, $data);
 
@@ -112,70 +121,73 @@ class Keuangan_manual_model extends CI_model
 
     public function list_rek_pendapatan()
     {
-        $this->db->select('*');
-        $this->db->where("Jenis LIKE '4.%'");
-        $this->db->order_by('Jenis', 'asc');
-
-        return $this->db->get('keuangan_manual_ref_rek3')->result_array();
+        return $this->db
+            ->select('*')
+            ->where("Jenis LIKE '4.%'")
+            ->order_by('Jenis', 'asc')
+            ->get('keuangan_manual_ref_rek3')
+            ->result_array();
     }
 
     public function list_rek_belanja()
     {
-        $this->db->select('*');
-        $this->db->order_by('Kd_Bid', 'asc');
-
-        return $this->db->get('keuangan_manual_ref_bidang')->result_array();
+        return $this->db
+            ->order_by('Kd_Bid', 'asc')
+            ->get('keuangan_manual_ref_bidang')
+            ->result_array();
     }
 
     public function list_rek_biaya()
     {
-        $this->db->select('*');
-        $this->db->where("Jenis LIKE '6.%'");
-        $this->db->order_by('Jenis', 'asc');
-
-        return $this->db->get('keuangan_manual_ref_rek3')->result_array();
+        return $this->db
+            ->where("Jenis LIKE '6.%'")
+            ->order_by('Jenis', 'asc')
+            ->get('keuangan_manual_ref_rek3')
+            ->result_array();
     }
 
     public function list_akun()
     {
-        $this->db->select('*');
-        $this->db->where("Akun NOT LIKE '1.%'");
-        $this->db->where("Akun NOT LIKE '2.%'");
-        $this->db->where("Akun NOT LIKE '3.%'");
-        $this->db->where("Akun NOT LIKE '7.%'");
-        $this->db->order_by('Akun', 'asc');
-
-        return $this->db->get('keuangan_manual_ref_rek1')->result_array();
+        return $this->db
+            ->where("Akun NOT LIKE '1.%'")
+            ->where("Akun NOT LIKE '2.%'")
+            ->where("Akun NOT LIKE '3.%'")
+            ->where("Akun NOT LIKE '7.%'")
+            ->order_by('Akun', 'asc')
+            ->get('keuangan_manual_ref_rek1')
+            ->result_array();
     }
 
     public function delete_input($id = '')
     {
-        $sql   = 'DELETE FROM keuangan_manual_rinci WHERE id = ?';
-        $hasil = $this->db->query($sql, [$id]);
+        $this->config_id()
+            ->where('id', $id)
+            ->delete($this->tabel);
 
-        if ($hasil) {
-            $_SESSION['error_msg'] = 'Sukses menghapus data';
-            $_SESSION['success']   = 1;
+        if ($this->db->affected_rows() > 0) {
+            session_success();
+        } else {
+            session_error('Gagal menghapus data');
         }
     }
 
     public function delete_all()
     {
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
         // Cek apakah ada data yang dicentang atau dipilih
         if (null !== $id_cb) {
             foreach ($id_cb as $id) {
                 $this->delete_input($id);
             }
         } else {
-            $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
-            $_SESSION['success']   = -1;
+            session_error('Tidak ada data yang dipilih');
         }
     }
 
     public function get_anggaran_tpl()
     {
-        $hsl = $this->db->query('SELECT * FROM keuangan_manual_rinci_tpl WHERE 1');
+        $hsl = $this->db->get('keuangan_manual_rinci_tpl');
+
         if ($hsl->num_rows() > 0) {
             foreach ($hsl->result() as $data) {
                 $hasil = [
@@ -195,14 +207,16 @@ class Keuangan_manual_model extends CI_model
 
     public function salin_anggaran_tpl($thn_apbdes)
     {
-        $this->db->set('Tahun', "{$thn_apbdes}")
-            ->update('keuangan_manual_rinci_tpl');
+        $config_id  = $this->config_id;
+        $result_set = KeuanganManualTemplate::get(['Kd_Akun', 'Kd_Keg', 'Kd_Rincian', 'Nilai_Anggaran', 'Nilai_Realisasi'])
+            ->map(static function ($item) use ($config_id, $thn_apbdes) {
+                $item->config_id = $config_id;
+                $item->Tahun     = $thn_apbdes;
 
-        $this->db->select('Tahun,Kd_Akun,Kd_Keg,Kd_Rincian,Nilai_Anggaran,Nilai_Realisasi');
-        $result_set = $this->db->get('keuangan_manual_rinci_tpl')->result();
-        if (count($result_set) > 0) {
-            $this->db->insert_batch('keuangan_manual_rinci', $result_set);
-        }
+                return $item;
+            })->toArray();
+
+        KeuanganManualRinci::insert($result_set);
 
         return $result_set;
     }

@@ -49,7 +49,7 @@ for ($i = 0; $i <= 31; $i++, $h_plus_array["H+{$i}"] = "{$i}") {
 }
 define('H_PLUS', serialize($h_plus_array));
 
-class Covid19_model extends CI_Model
+class Covid19_model extends MY_Model
 {
     public function __construct()
     {
@@ -71,6 +71,8 @@ class Covid19_model extends CI_Model
     public function get_penduduk_not_in_pemudik()
     {
         $retval = [];
+
+        $this->config_id('p');
 
         $this->db->select('p.id');
         $this->db->from('penduduk_hidup p');
@@ -108,6 +110,8 @@ class Covid19_model extends CI_Model
 
     public function get_penduduk_by_id($id)
     {
+        $this->config_id('u');
+
         $this->db->select('u.id, u.nama, x.nama AS sex, u.id_kk, u.tempatlahir, u.tanggallahir, w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik, c.rt, c.rw, c.dusun, k.no_kk, k.alamat');
         $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur");
@@ -137,6 +141,8 @@ class Covid19_model extends CI_Model
 
     private function get_pemudik($id = null, $is_wajib_pantau = null, $limit = null)
     {
+        $this->config_id('s');
+
         $this->db->select('s.*, o.nik as terdata_id, o.nama, o.tempatlahir, o.tanggallahir, o.sex, w.rt, w.rw, w.dusun');
         $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
@@ -229,6 +235,7 @@ class Covid19_model extends CI_Model
     {
         $data               = $this->sterilkan($post);
         $data['id_terdata'] = $post['id_terdata'];
+        $data['config_id']  = identitas('id');
 
         return $this->db->insert('covid19_pemudik', $data);
     }
@@ -261,12 +268,16 @@ class Covid19_model extends CI_Model
     {
         $data = $this->sterilkan($post);
 
+        $this->config_id();
+
         $this->db->where('id', $id);
         $this->db->update('covid19_pemudik', $data);
     }
 
     public function delete_pemudik_by_id($id)
     {
+        $this->config_id();
+
         //delete warga pemudik
         $this->db->where('id', $id);
         $this->db->delete('covid19_pemudik');
@@ -276,6 +287,8 @@ class Covid19_model extends CI_Model
     // TABEL PEMANTAUAN
     private function get_pantau_pemudik($filter_tgl = null, $filter_nik = null, $limit = null)
     {
+        $this->config_id('p');
+
         $this->db->select('p.*, o.nik, o.nama, o.sex, s.tanggal_datang');
         $this->db->select('DATEDIFF(p.tanggal_jam, s.tanggal_datang) AS date_diff');
         $this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
@@ -339,6 +352,8 @@ class Covid19_model extends CI_Model
 
     public function get_unique_date_pantau_pemudik()
     {
+        $this->config_id('p');
+
         $this->db->select('DATE(p.tanggal_jam) as tanggal');
         $this->db->from('covid19_pantau p');
         $this->db->group_by('tanggal');
@@ -349,6 +364,8 @@ class Covid19_model extends CI_Model
 
     public function get_unique_nik_pantau_pemudik()
     {
+        $this->config_id('p');
+
         $this->db->select('p.id_pemudik, o.nik, o.nama');
         $this->db->from('covid19_pantau p');
         $this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
@@ -363,6 +380,7 @@ class Covid19_model extends CI_Model
     public function add_pantau_pemudik($post)
     {
         $data = [
+            'config_id'    => identitas('id'),
             'id_pemudik'   => $post['terdata'],
             'tanggal_jam'  => $post['tgl_jam'],
             'suhu_tubuh'   => $post['suhu'],
@@ -378,8 +396,9 @@ class Covid19_model extends CI_Model
 
     public function delete_pantau_pemudik_by_id($id)
     {
+        $this->config_id();
+
         $this->db->where('id', $id);
         $this->db->delete('covid19_pantau');
     }
-    // TABEL PEMANTAUAN END
 }

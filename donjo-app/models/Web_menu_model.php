@@ -85,7 +85,7 @@ class Web_menu_model extends MY_Model
 
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id()
             ->from($this->table)
             ->where('parrent', $this->session->parrent);
 
@@ -140,8 +140,9 @@ class Web_menu_model extends MY_Model
 
     public function insert()
     {
-        $data         = $this->validasi($this->input->post());
-        $data['urut'] = $this->urut_model->urut_max(['parrent' => $this->session->parrent]) + 1;
+        $data              = $this->validasi($this->input->post());
+        $data['urut']      = $this->urut_model->urut_max(['parrent' => $this->session->parrent]) + 1;
+        $data['config_id'] = identitas('id');
 
         $outp = $this->db->insert($this->table, $data);
 
@@ -155,7 +156,7 @@ class Web_menu_model extends MY_Model
             unset($data['link']);
         }
 
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->update($this->table, $data);
 
@@ -168,7 +169,7 @@ class Web_menu_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->or_where('parrent', $id)->delete($this->table);
+        $outp = $this->config_id()->where('id', $id)->or_where('parrent', $id)->delete($this->table);
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -186,7 +187,7 @@ class Web_menu_model extends MY_Model
 
     public function menu_lock($id = '', $val = 1)
     {
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->or_where('parrent', $id)
             ->update($this->table, ['enabled' => $val]);
@@ -196,7 +197,7 @@ class Web_menu_model extends MY_Model
 
     public function get_menu($id = 0)
     {
-        $data = $this->db
+        $data = $this->config_id()
             ->get_where($this->table, ['id' => $id])
             ->row_array();
 
@@ -228,7 +229,7 @@ class Web_menu_model extends MY_Model
 
     public function menu_aktif($link)
     {
-        return $this->db
+        return $this->config_id()
             ->where('link', $link)
             ->where('enabled', 1)
             ->get($this->table)

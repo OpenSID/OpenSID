@@ -50,8 +50,9 @@ class Suplemen_model extends MY_Model
 
     public function create()
     {
-        $data  = $this->validasi($this->input->post());
-        $hasil = $this->db->insert($this->table, $data);
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $hasil             = $this->db->insert($this->table, $data);
 
         status_sukses($hasil); //Tampilkan Pesan
     }
@@ -87,7 +88,7 @@ class Suplemen_model extends MY_Model
             $this->db->where('s.sasaran', $sasaran);
         }
 
-        $this->db
+        $this->config_id_exist('suplemen', 's')
             ->from('suplemen s')
             ->join('suplemen_terdata st', 's.id = st.id_suplemen', 'left');
 
@@ -101,13 +102,13 @@ class Suplemen_model extends MY_Model
             $this->db->limit($limit, $offset);
         }
 
-        $this->db
+        return $this->db
             ->select('s.*')
             ->select('COUNT(st.id) AS jml')
             ->order_by('s.nama')
-            ->group_by('s.id');
-
-        return $this->db->get()->result_array();
+            ->group_by('s.id')
+            ->get()
+            ->result_array();
     }
 
     public function list_sasaran($id, $sasaran)
@@ -137,7 +138,7 @@ class Suplemen_model extends MY_Model
 
     private function get_id_terdata_penduduk($id_suplemen)
     {
-        $list_penduduk = $this->db
+        $list_penduduk = $this->config_id('p')
             ->select('p.id')
             ->from('tweb_penduduk p')
             ->join('suplemen_terdata t', 'p.id = t.id_terdata', 'left')
@@ -156,7 +157,8 @@ class Suplemen_model extends MY_Model
             $this->db->where("p.id NOT IN ({$terdata})");
         }
 
-        $data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
+        $data = $this->config_id('p')
+            ->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
             ->from('penduduk_hidup p')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
             ->get()
@@ -178,7 +180,7 @@ class Suplemen_model extends MY_Model
 
     private function get_id_terdata_kk($id_suplemen)
     {
-        $list_kk = $this->db
+        $list_kk = $this->config_id('k')
             ->select('k.id')
             ->from('tweb_keluarga k')
             ->join('suplemen_terdata t', 'k.id = t.id_terdata', 'left')
@@ -198,7 +200,8 @@ class Suplemen_model extends MY_Model
         }
 
         // Daftar keluarga, tidak termasuk keluarga yang sudah terdata
-        $data = $this->db->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
+        $data = $this->config_id('k')
+            ->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
             ->from('keluarga_aktif k')
             ->join('penduduk_hidup p', 'p.id = k.nik_kepala', 'left')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
@@ -222,7 +225,7 @@ class Suplemen_model extends MY_Model
 
     public function get_suplemen($id)
     {
-        return $this->db
+        return $this->config_id_exist('suplemen', 's')
             ->select('s.*')
             ->select('COUNT(st.id) AS jml')
             ->from('suplemen s')
@@ -235,7 +238,11 @@ class Suplemen_model extends MY_Model
 
     public function get_rincian($p, $suplemen_id)
     {
-        $suplemen = $this->db->where('id', $suplemen_id)->get($this->table)->row_array();
+        $suplemen = $this->config_id()->where('id', $suplemen_id)->get($this->table)->row_array();
+
+        if (null === $suplemen) {
+            return null;
+        }
 
         switch ($suplemen['sasaran']) {
             // Sasaran Penduduk
@@ -272,7 +279,8 @@ class Suplemen_model extends MY_Model
         $jml_data = $this->db
             ->select('COUNT(s.id) as jumlah')
             ->get()
-            ->row()->jumlah;
+            ->row()
+            ->jumlah;
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -286,7 +294,7 @@ class Suplemen_model extends MY_Model
     private function get_penduduk_terdata_sql($suplemen_id)
     {
         // Data Penduduk
-        $this->db
+        $this->config_id('s')
             ->from('suplemen_terdata s')
             ->join('tweb_penduduk o', ' s.id_terdata = o.id', 'left')
             ->join('tweb_keluarga k', 'k.id = o.id_kk', 'left')
@@ -344,7 +352,7 @@ class Suplemen_model extends MY_Model
     private function get_kk_terdata_sql($suplemen_id)
     {
         // Data KK
-        $this->db
+        $this->config_id('s')
             ->from('suplemen_terdata s')
             ->join('tweb_keluarga o', 's.id_terdata = o.id', 'left')
             ->join('tweb_penduduk q', 'o.nik_kepala = q.id', 'left')
@@ -407,21 +415,21 @@ class Suplemen_model extends MY_Model
             // Sasaran Penduduk
             case 1:
                 $sql = "SELECT u.id AS id, u.nama AS nama, x.nama AS sex, u.id_kk AS id_kk,
-				u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
-				(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
-				from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
-				w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
-				(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
-				from tweb_penduduk u
-				left join tweb_penduduk_sex x on u.sex = x.id
-				left join tweb_penduduk_kawin w on u.status_kawin = w.id
-				left join tweb_penduduk_agama a on u.agama_id = a.id
-				left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
-				left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
-				left join tweb_wil_clusterdesa c on u.id_cluster = c.id
-				left join tweb_keluarga k on u.id_kk = k.id
-				left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
-				WHERE u.id = ?";
+                u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir,
+                (select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
+                from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
+                w.nama AS status_kawin, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
+                (select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+                from tweb_penduduk u
+                left join tweb_penduduk_sex x on u.sex = x.id
+                left join tweb_penduduk_kawin w on u.status_kawin = w.id
+                left join tweb_penduduk_agama a on u.agama_id = a.id
+                left join tweb_penduduk_pendidikan_kk d on u.pendidikan_kk_id = d.id
+                left join tweb_penduduk_pekerjaan j on u.pekerjaan_id = j.id
+                left join tweb_wil_clusterdesa c on u.id_cluster = c.id
+                left join tweb_keluarga k on u.id_kk = k.id
+                left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
+                WHERE u.id = ? and u.config_id = {$this->config_id}";
                 $query                  = $this->db->query($sql, $id_terdata);
                 $data                   = $query->row_array();
                 $data['terdata_info']   = $data['nik'];
@@ -448,15 +456,17 @@ class Suplemen_model extends MY_Model
 
     public function hapus($id)
     {
-        $ada = $this->db->where('id_suplemen', $id)
-            ->get('suplemen_terdata')->num_rows();
+        $ada = $this->config_id()
+            ->where('id_suplemen', $id)
+            ->get('suplemen_terdata')
+            ->num_rows();
+
         if ($ada) {
-            $this->session->success   = '-1';
-            $this->session->error_msg = ' --> Tidak bisa dihapus, karena masih digunakan';
+            session_error('Tidak bisa dihapus, karena masih digunakan');
 
             return;
         }
-        $hasil = $this->db->where('id', $id)->delete($this->table);
+        $hasil = $this->config_id()->where('id', $id)->delete($this->table);
 
         status_sukses($hasil); //Tampilkan Pesan
     }
@@ -464,7 +474,7 @@ class Suplemen_model extends MY_Model
     public function update($id)
     {
         $data  = $this->validasi($this->input->post());
-        $hasil = $this->db->where('id', $id)->update($this->table, $data);
+        $hasil = $this->config_id()->where('id', $id)->update($this->table, $data);
 
         status_sukses($hasil); //Tampilkan Pesan
     }
@@ -472,13 +482,14 @@ class Suplemen_model extends MY_Model
     public function add_terdata($post, $id)
     {
         $id_terdata = $post['id_terdata'];
-        $sasaran    = $this->db->select('sasaran')->where('id', $id)->get($this->table)->row()->sasaran;
-        $hasil      = $this->db->where('id_suplemen', $id)->where('id_terdata', $id_terdata)->get('suplemen_terdata');
+        $sasaran    = $this->config_id()->select('sasaran')->where('id', $id)->get($this->table)->row()->sasaran;
+        $hasil      = $this->config_id()->where('id_suplemen', $id)->where('id_terdata', $id_terdata)->get('suplemen_terdata');
         if ($hasil->num_rows() > 0) {
             return false;
         }
 
         $data = [
+            'config_id'   => $this->config_id,
             'id_suplemen' => $id,
             'id_terdata'  => $id_terdata,
             'sasaran'     => $sasaran,
@@ -490,8 +501,7 @@ class Suplemen_model extends MY_Model
 
     public function hapus_terdata($id_terdata)
     {
-        $this->db->where('id', $id_terdata);
-        $this->db->delete('suplemen_terdata');
+        $this->config_id()->where('id', $id_terdata)->delete('suplemen_terdata');
     }
 
     public function hapus_terdata_all()
@@ -507,14 +517,13 @@ class Suplemen_model extends MY_Model
     public function edit_terdata($post, $id)
     {
         $data['keterangan'] = substr(htmlentities($post['keterangan']), 0, 100); // Batasi 100 karakter
-        $this->db->where('id', $id);
-        $this->db->update('suplemen_terdata', $data);
+        $this->config_id()->where('id', $id)->update('suplemen_terdata', $data);
     }
 
     // Mengambil data individu terdata menggunakan id tabel suplemen_terdata
     public function get_suplemen_terdata_by_id($id)
     {
-        $data = $this->db->where('id', $id)->get('suplemen_terdata')->row_array();
+        $data = $this->config_id()->where('id', $id)->get('suplemen_terdata')->row_array();
         // Data tambahan untuk ditampilkan
         $terdata = $this->get_terdata($data['id_terdata'], $data['sasaran']);
 
@@ -541,56 +550,52 @@ class Suplemen_model extends MY_Model
 
     public function get_terdata_suplemen($sasaran, $id_terdata)
     {
-        $list_suplemen = [];
-        // Menampilkan keterlibatan $id_terdata dalam data suplemen yang ada
-        $strSQL = "SELECT p.id as id, o.id_terdata as nik, p.nama as nama, p.keterangan
-			FROM suplemen_terdata o
-			LEFT JOIN suplemen p ON p.id = o.id_suplemen
-			WHERE ((o.id_terdata='" . $id_terdata . "') AND (o.sasaran='" . $sasaran . "'))";
-        $query = $this->db->query($strSQL);
-        if ($query->num_rows() > 0) {
-            $list_suplemen = $query->result_array();
-        }
+        $list_suplemen = $this->config_id('o')
+            ->select('p.id as id, o.id_terdata as nik, p.nama as nama, p.keterangan')
+            ->from('suplemen_terdata o')
+            ->join('suplemen p', 'p.id = o.id_suplemen', 'left')
+            ->where("((o.id_terdata = {$id_terdata}) and (o.sasaran = {$sasaran}))")
+            ->get()
+            ->result_array();
 
         switch ($sasaran) {
             case 1:
                 // Rincian Penduduk
-                $strSQL = "SELECT o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun,
-				(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
-					FROM tweb_penduduk o
-					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-					WHERE o.id = '" . $id_terdata . "'";
-                $query = $this->db->query($strSQL);
-                if ($query->num_rows() > 0) {
-                    $row         = $query->row_array();
-                    $data_profil = [
-                        'id'    => $id_terdata,
-                        'nama'  => $row['nama'] . ' - ' . $row['nik'],
-                        'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
-                        'foto'  => $row['foto'],
-                    ];
-                }
+                $row = $this->config_id('o')
+                    ->select('o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun, (case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat')
+                    ->from('tweb_penduduk o')
+                    ->join('tweb_keluarga k', 'k.id = o.id_kk', 'left')
+                    ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left')
+                    ->where('o.id', $id_terdata)
+                    ->get()
+                    ->row_array();
+
+                $data_profil = [
+                    'id'    => $id_terdata,
+                    'nama'  => $row['nama'] . ' - ' . $row['nik'],
+                    'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
+                    'foto'  => $row['foto'],
+                ];
 
                 break;
 
             case 2:
                 // KK
-                $strSQL = "SELECT o.nik_kepala, o.no_kk, o.alamat, p.nama, w.rt, w.rw, w.dusun
-					FROM tweb_keluarga o
-					LEFT JOIN tweb_penduduk p ON o.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa w ON w.id = p.id_cluster
-					WHERE o.id = '" . $id_terdata . "'";
-                $query = $this->db->query($strSQL);
-                if ($query->num_rows() > 0) {
-                    $row         = $query->row_array();
-                    $data_profil = [
-                        'id'    => $id_terdata,
-                        'nama'  => 'Kepala KK : ' . $row['nama'] . ', NO KK: ' . $row['no_kk'],
-                        'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
-                        'foto'  => '',
-                    ];
-                }
+                $row = $this->config_id('o')
+                    ->select('o.nik_kepala, o.no_kk, o.alamat, p.nama, w.rt, w.rw, w.dusun')
+                    ->from('tweb_keluarga o')
+                    ->join('tweb_penduduk p', '.nik_kepala = p.id', 'left')
+                    ->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+                    ->where('o.id', $id_terdata)
+                    ->get()
+                    ->row_array();
+
+                $data_profil = [
+                    'id'    => $id_terdata,
+                    'nama'  => 'Kepala KK : ' . $row['nama'] . ', NO KK: ' . $row['no_kk'],
+                    'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
+                    'foto'  => '',
+                ];
 
                 break;
 
@@ -640,7 +645,7 @@ class Suplemen_model extends MY_Model
         switch ($sasaran) {
             case '1':
                 //# sasaran penduduk
-                $data = $this->db
+                $data = $this->config_id('s')
                     ->select('p.nama')
                     ->from('suplemen_terdata s')
                     ->join('tweb_penduduk p', 'p.id = s.id_terdata', 'left')
@@ -652,7 +657,7 @@ class Suplemen_model extends MY_Model
 
             case '2':
                 //# sasaran keluarga / KK
-                $data = $this->db
+                $data = $this->config_id('s')
                     ->select('p.nama')
                     ->from('suplemen_terdata s')
                     ->join('tweb_keluarga k', 'k.id = s.id_terdata', 'left')
@@ -858,6 +863,7 @@ class Suplemen_model extends MY_Model
 
                     // Simpan data peserta yg diimpor dalam bentuk array
                     $simpan = [
+                        'config_id'   => $this->config_id,
                         'id_suplemen' => $suplemen_id,
                         'id_terdata'  => $id_terdata,
                         'sasaran'     => $sasaran, // Duplikasi
@@ -932,7 +938,7 @@ class Suplemen_model extends MY_Model
                 // Penduduk
                 $sasaran_peserta = 'NIK';
 
-                $data = $this->db
+                $data = $this->config_id()
                     ->select('id, nik as no')
                     ->where('nik', $peserta)
                     ->get('penduduk_hidup')
@@ -943,7 +949,7 @@ class Suplemen_model extends MY_Model
                 // Keluarga
                 $sasaran_peserta = 'No. KK';
 
-                $data = $this->db
+                $data = $this->config_id()
                     ->select('id, no_kk as no')
                     ->from('keluarga_aktif')
                     ->where('no_kk', $peserta)

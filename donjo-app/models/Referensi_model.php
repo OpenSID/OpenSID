@@ -215,7 +215,7 @@ define('PENOLONG_MATI', serialize([
     '4' => 'Lainnya',
 ]));
 
-class Referensi_model extends CI_Model
+class Referensi_model extends MY_Model
 {
     public function list_nama($tabel)
     {
@@ -257,7 +257,8 @@ class Referensi_model extends CI_Model
 
     public function list_by_id($tabel, $id = 'id')
     {
-        $data = $this->db->order_by($id)
+        $data = $this->config_id_exist($tabel)
+            ->order_by($id)
             ->get($tabel)
             ->result_array();
 

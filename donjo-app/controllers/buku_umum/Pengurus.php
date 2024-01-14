@@ -119,6 +119,7 @@ class Pengurus extends Admin_Controller
             $semua_jabatan = $semua_jabatan->except($jabatan_kades);
         }
 
+        $jabatan_sekdes = RefJabatan::getSekdes()->id;
         // Cek apakah sekdes
         $jabatan_sekdes = sekdes()->id;
         if (Pamong::where('jabatan_id', $jabatan_sekdes)->where('pamong_status', 1)->exists() && $data['pamong']['jabatan_id'] != $jabatan_sekdes) {
@@ -131,6 +132,7 @@ class Pengurus extends Admin_Controller
         $data['agama']         = Agama::pluck('nama', 'id');
 
         if (! empty($id_pend)) {
+            // TODO :: OpenKab - Tambahkan filter berdasarkan config_id
             $data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
         } else {
             $data['individu'] = null;
@@ -325,7 +327,7 @@ class Pengurus extends Admin_Controller
         if ($id) {
             $action      = 'Ubah';
             $form_action = route('pengurus.jabatanupdate', $id);
-            $jabatan     = RefJabatan::findOrFail($id);
+            $jabatan     = RefJabatan::find($id) ?? show_404();
         } else {
             $action      = 'Tambah';
             $form_action = route('pengurus.jabataninsert');
@@ -351,7 +353,7 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = RefJabatan::findOrFail($id);
+        $data = RefJabatan::find($id) ?? show_404();
 
         if ($data->update(static::jabatanValidate($this->request, $data->id))) {
             redirect_with('success', 'Berhasil Ubah Data', 'pengurus/jabatan');
@@ -363,7 +365,7 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        $data = RefJabatan::findOrFail($id);
+        $data = RefJabatan::find($id) ?? show_404();
         if (in_array($data->id, RefJabatan::getKadesSekdes())) {
             redirect_with('error', 'Gagal Hapus Data, ' . $data->nama . ' Tidak Boleh Dihapus.', 'pengurus/jabatan');
         }

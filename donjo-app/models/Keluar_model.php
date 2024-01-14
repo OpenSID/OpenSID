@@ -39,16 +39,16 @@ use App\Models\FormatSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Keluar_model extends CI_Model
+class Keluar_model extends MY_Model
 {
     public function autocomplete()
     {
         $sql   = [];
-        $sql[] = '(' . $this->db->select('no_surat')
+        $sql[] = '(' . $this->config_id()->select('no_surat')
             ->from('log_surat')
             ->get_compiled_select()
                             . ')';
-        $sql[] = '(' . $this->db->select(
+        $sql[] = '(' . $this->config_id('u')->select(
             '(
                 CASE WHEN n.nama IS NOT NULL
                     THEN n.nama
@@ -59,7 +59,7 @@ class Keluar_model extends CI_Model
             ->join('tweb_penduduk n', 'u.id_pend = n.id', 'left')
             ->get_compiled_select()
                             . ')';
-        $sql[] = '(' . $this->db->select('p.nama')
+        $sql[] = '(' . $this->config_id('u')->select('p.nama')
             ->from('log_surat u')
             ->join('tweb_desa_pamong s', 'u.id_pamong = s.pamong_id', 'left')
             ->join('tweb_penduduk p', 's.id_pend = p.id', 'left')
@@ -204,7 +204,7 @@ class Keluar_model extends CI_Model
     private function list_data_sql()
     {
         // TODO : Sederhanakan, ini berulang
-        $this->db
+        $this->config_id('u')
             ->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
             ->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
             ->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
@@ -307,8 +307,9 @@ class Keluar_model extends CI_Model
 
     public function update_keterangan($id, $data)
     {
-        $this->db->where('id', $id);
-        $outp = $this->db->update('log_surat', $data);
+        $outp = $this->config_id()
+            ->where('id', $id)
+            ->update('log_surat', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -335,7 +336,7 @@ class Keluar_model extends CI_Model
     private function list_data_perorangan_sql($nik)
     {
         // TODO : Sederhanakan, ini berulang
-        $this->db
+        $this->config_id('u')
             ->where('deleted_at')
             ->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
             ->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
@@ -416,8 +417,10 @@ class Keluar_model extends CI_Model
             $data[$key] = $val;
         }
 
-        $sql   = 'SELECT id FROM tweb_surat_format WHERE url_surat = ?';
-        $query = $this->db->query($sql, $url_surat);
+        $query = $this->config_id()
+            ->select('id')
+            ->where('url_surat', $url_surat)
+            ->get('tweb_surat_format');
         if ($query->num_rows() > 0) {
             $pam                     = $query->row_array();
             $data['id_format_surat'] = $pam['id'];
@@ -443,27 +446,34 @@ class Keluar_model extends CI_Model
             lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
             Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
         */
-            $log_id = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+            $log_id = $this->config_id()->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
         } else { // Cetak:
             // Sama dengan aturan Ekspor Dok, hanya URL-NIK-nomor surat-tanggal diambil dari data kolom
-            $log_id = $this->db->select('id')->from('log_surat')->
-                where('id_format_surat', $data['id_format_surat'])->
-                where('id_pend', $data['id_pend'])->
-                where('no_surat', $data['no_surat'])->
-                where('DATE_FORMAT(tanggal, "%Y-%m-%d") =', date('Y-m-d'))->
-                limit(1)->get()->row()->id;
+            $log_id = $this->config_id()
+                ->select('id')
+                ->from('log_surat')
+                ->where('id_format_surat', $data['id_format_surat'])
+                ->where('id_pend', $data['id_pend'])
+                ->where('no_surat', $data['no_surat'])
+                ->where('DATE_FORMAT(tanggal, "%Y-%m-%d") =', date('Y-m-d'))
+                ->limit(1)
+                ->get()
+                ->row()
+                ->id;
         }
         if ($log_id) {
-            $this->db->where('id', $log_id);
-            $this->db->update('log_surat', $data);
+            $this->config_id()
+                ->where('id', $log_id)
+                ->update('log_surat', $data);
         } else {
+            $data['config_id'] = identitas('id');
             $this->db->insert('log_surat', $data);
         }
     }
 
     public function grafik()
     {
-        return $this->db
+        return $this->config_id('l')
             ->select('f.nama, COUNT(l.id) as jumlah')
             ->from('log_surat l')
             ->join('tweb_surat_format f', 'l.id_format_surat=f.id', 'left')
@@ -474,16 +484,16 @@ class Keluar_model extends CI_Model
 
     public function delete($id = '')
     {
-        $arsip = $this->db
+        $arsip = $this->config_id()
             ->select('nama_surat, lampiran, urls_id, status')
             ->where('id', $id)
             ->get('log_surat')
             ->row_array();
 
         if ($arsip['status'] == 0) { // jika masih draft maka hapus data
-            $output = $this->db->where('id', $id)->delete('log_surat');
+            $output = $this->config_id()->where('id', $id)->delete('log_surat');
         } else {
-            $output = $this->db->where('id', $id)->update('log_surat', ['deleted_at' => date('Y-m-d')]);
+            $output = $this->config_id()->where('id', $id)->update('log_surat', ['deleted_at' => date('Y-m-d')]);
         }
 
         status_sukses($output);
@@ -505,7 +515,8 @@ class Keluar_model extends CI_Model
 
     public function list_tahun_surat()
     {
-        return $this->db->distinct()
+        return $this->config_id()
+            ->distinct()
             ->select('YEAR(tanggal) AS tahun')
             ->order_by('YEAR(tanggal)', 'DESC')
             ->get('log_surat')
@@ -514,7 +525,8 @@ class Keluar_model extends CI_Model
 
     public function list_bulan_surat()
     {
-        return $this->db->distinct()
+        return $this->config_id()
+            ->distinct()
             ->select('MONTH(tanggal) AS bulan')
             ->where('YEAR(tanggal)', $this->session->tahun)
             ->order_by('MONTH(tanggal)', 'ASC')
@@ -524,7 +536,7 @@ class Keluar_model extends CI_Model
 
     public function list_jenis_surat()
     {
-        return $this->db
+        return $this->config_id('u')
             ->distinct()
             ->select(['k.id', 'k.nama as nama_surat'])
             ->from('log_surat u')
@@ -540,7 +552,7 @@ class Keluar_model extends CI_Model
         $this->load->model('penomoran_surat_model');
 
         // TODO : Sederhanakan, ini berulang
-        $data = $this->db
+        $data = $this->config_id('l')
             ->select('l.*, k.nama AS perihal, k.kode_surat, n.nama AS nama_penduduk, l.nama_jabatan AS pamong_jabatan')
             ->select('nama_pamong as pamong_nama')
             ->from('log_surat l')
@@ -583,7 +595,7 @@ class Keluar_model extends CI_Model
 
     public function get_surat($id = 0)
     {
-        return $this->db
+        return $this->config_id()
             ->select('nama_surat, lampiran, keterangan')
             ->where('id', $id)
             ->get('log_surat')

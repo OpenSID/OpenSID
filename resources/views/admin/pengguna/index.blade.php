@@ -63,6 +63,11 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            let _hash = window.location.hash.substring(1)
+            if (_hash) {
+                $('ul.nav.nav-tabs a[href="#' + _hash + '"]').click()
+            }
+
             $('#verif_telegram').click(function() {
                 Swal.fire({
                     title: 'Mengirim OTP',

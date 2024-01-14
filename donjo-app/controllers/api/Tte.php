@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Tte extends MY_Controller
 {
     /**
-     * @var \GuzzleHttp\Client
+     * @var GuzzleHttp\Client
      */
     protected $client;
 

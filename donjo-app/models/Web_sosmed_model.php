@@ -35,7 +35,7 @@
  *
  */
 
-class Web_sosmed_model extends CI_Model
+class Web_sosmed_model extends MY_Model
 {
     public function __construct()
     {
@@ -46,12 +46,12 @@ class Web_sosmed_model extends CI_Model
     {
         $id = $this->get_id($sosmed);
 
-        return $this->db->where('id', $id)->get('media_sosial')->row_array();
+        return $this->config_id()->where('id', $id)->get('media_sosial')->row_array();
     }
 
     public function list_sosmed()
     {
-        return $this->db->get('media_sosial')->result_array();
+        return $this->config_id()->get('media_sosial')->result_array();
     }
 
     public function get_id($sosmed)
@@ -81,8 +81,9 @@ class Web_sosmed_model extends CI_Model
             $data['link'] = $link;
         }
 
-        $this->db->where('id', $id);
-        $outp = $this->db->update('media_sosial', $data);
+        $outp = $this->config_id()
+            ->where('id', $id)
+            ->update('media_sosial', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }

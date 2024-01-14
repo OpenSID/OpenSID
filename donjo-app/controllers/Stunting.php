@@ -71,7 +71,7 @@ class Stunting extends Admin_Controller
     public function datatablesPosyandu()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Posyandu::query())
+            return datatables()->of(Posyandu::withConfigId())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -244,6 +244,42 @@ class Stunting extends Admin_Controller
         }
 
         return view('admin.stunting.kia_form', $data);
+    }
+
+    public function getIbu()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari = $this->input->get('q');
+
+            $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->where(static function ($query) {
+                    $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                        ->orWhere('kk_level', StatusHubunganEnum::ISTRI)
+                        ->orWhere('kk_level', StatusHubunganEnum::ANAK)
+                        ->orWhere('kk_level', StatusHubunganEnum::MENANTU);
+                })
+                ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                ->paginate(10);
+
+            return json([
+                'results' => collect($penduduk->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->id,
+                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function getAnak()

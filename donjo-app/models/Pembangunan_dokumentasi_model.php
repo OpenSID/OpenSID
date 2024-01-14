@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pembangunan_dokumentasi_model extends CI_Model
+class Pembangunan_dokumentasi_model extends MY_Model
 {
     public const ORDER_ABLE = [
         3 => 'CAST(d.persentase as UNSIGNED INTEGER)',
@@ -49,16 +49,17 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
     public function get_data($id, string $search = '')
     {
+        $this->config_id('d');
+
         $this->db->select('d.*')
             ->from("{$this->table} d")
-            ->join('pembangunan p', 'd.id_pembangunan = p.id')
+            ->join('pembangunan p', sprintf('d.id_pembangunan = p.id and p.config_id = %s', identitas('id')))
             ->where('d.id_pembangunan', $id);
 
         if ($search) {
             $this->db
                 ->group_start()
                 ->like('d.keterangan', $search)
-                ->or_like('keterangan', $search)
                 ->group_end();
         }
 
@@ -73,6 +74,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
         $data['gambar']         = $this->upload_gambar_pembangunan('gambar');
         $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
         $data['keterangan']     = $post['keterangan'];
+        $data['config_id']      = identitas('id');
         $data['created_at']     = date('Y-m-d H:i:s');
         $data['updated_at']     = date('Y-m-d H:i:s');
 
@@ -82,7 +84,7 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
         unset($data['file_gambar'], $data['old_gambar']);
 
-        if ($outp = $this->db->insert('pembangunan_ref_dokumentasi', $data)) {
+        if ($outp = $this->db->insert($this->table, $data)) {
             $outp = $outp && $this->perubahan_anggaran($id_pembangunan, $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
         }
 
@@ -105,7 +107,9 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
         unset($data['file_gambar'], $data['old_gambar']);
 
-        if ($outp = $this->db->where('id', $id)->update('pembangunan_ref_dokumentasi', $data)) {
+        $this->config_id();
+
+        if ($outp = $this->db->where('id', $id)->update($this->table, $data)) {
             $outp = $outp && $this->perubahan_anggaran($id_pembangunan, $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
         }
 
@@ -161,6 +165,8 @@ class Pembangunan_dokumentasi_model extends CI_Model
     {
         $data = $this->find($id);
 
+        $this->config_id();
+
         if ($outp = $this->db->where('id', $id)->delete($this->table)) {
             // Hapus file
             unlink(LOKASI_GALERI . $data->gambar);
@@ -172,6 +178,8 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
     public function find($id)
     {
+        $this->config_id();
+
         return $this->db->where('id', $id)
             ->get($this->table)
             ->row();
@@ -179,6 +187,8 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
     public function find_dokumentasi($id_pembangunan)
     {
+        $this->config_id();
+
         return $this->db->where('id_pembangunan', $id_pembangunan)
             ->order_by('CAST(persentase as UNSIGNED INTEGER)')
             ->get($this->table)
@@ -188,6 +198,8 @@ class Pembangunan_dokumentasi_model extends CI_Model
     public function perubahan_anggaran($id_pembangunan = 0, $persentase = 0, $perubahan_anggaran = 0)
     {
         if (in_array($persentase, ['100', '100%'])) {
+            $this->config_id();
+
             return $this->db
                 ->where('id', $id_pembangunan)
                 ->update('pembangunan', [

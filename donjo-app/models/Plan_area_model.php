@@ -91,7 +91,7 @@ class Plan_area_model extends MY_Model
 
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id('l')
             ->join('polygon p', 'l.ref_polygon = p.id', 'left')
             ->join('polygon m', 'p.parrent = m.id', 'left');
 
@@ -160,10 +160,11 @@ class Plan_area_model extends MY_Model
 
     public function insert()
     {
-        $data      = $this->validasi($this->input->post());
-        $area_file = $_FILES['foto']['tmp_name'];
-        $nama_file = $_FILES['foto']['name'];
-        $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $area_file         = $_FILES['foto']['tmp_name'];
+        $nama_file         = $_FILES['foto']['name'];
+        $nama_file         = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA);
         } else {
@@ -188,7 +189,7 @@ class Plan_area_model extends MY_Model
             unset($data['foto']);
         }
 
-        $outp = $this->db->where('id', $id)->update('area', $data);
+        $outp = $this->config_id()->where('id', $id)->update('area', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -229,21 +230,24 @@ class Plan_area_model extends MY_Model
             $this->db->where('parrent', $subpolygon);
         }
 
-        return $this->db->where('tipe', 2)
+        return $this->config_id()
+            ->where('tipe', 2)
             ->get('polygon')
             ->result_array();
     }
 
     public function list_subpolygon()
     {
-        return $this->db->where('tipe', 0)
+        return $this->config_id()
+            ->where('tipe', 0)
             ->get('polygon')
             ->result_array();
     }
 
     public function area_lock($id = '', $val = 0)
     {
-        $outp = $this->db->where('id', $id)
+        $outp = $this->config_id()
+            ->where('id', $id)
             ->update('area', ['enabled' => $val]);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -251,7 +255,8 @@ class Plan_area_model extends MY_Model
 
     public function get_area($id = 0)
     {
-        return $this->db->where('id', $id)
+        return $this->config_id()
+            ->where('id', $id)
             ->get('area')
             ->row_array();
     }
@@ -261,7 +266,7 @@ class Plan_area_model extends MY_Model
         $data = $this->input->post();
         $this->db->where('id', $id);
         if ($data['path'] !== '[[]]') {
-            $outp = $this->db->update('area', $data);
+            $outp = $this->config_id()->update('area', $data);
         } else {
             $outp = '';
         }
@@ -278,7 +283,7 @@ class Plan_area_model extends MY_Model
                 ->where('m.enabled', $status);
         }
 
-        return $this->db
+        return $this->config_id('l')
             ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color')
             ->from('area l')
             ->join('polygon p', 'l.ref_polygon = p.id', 'left')
@@ -290,7 +295,7 @@ class Plan_area_model extends MY_Model
 
     public function kosongkan_path($id)
     {
-        $this->db
+        $this->config_id()
             ->set('path', null)
             ->where('id', $id)
             ->update('area');

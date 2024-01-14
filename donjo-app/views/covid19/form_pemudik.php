@@ -24,13 +24,11 @@
 					<div class="form-group" >
 						<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
 						<div class="col-sm-4">
-							<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" style="width: 100%;">
+							<select class="form-control select2 required" id="covid_pemudik" name="terdata"  onchange="formAction('main')" style="width: 100%;">
 								<option value="">-- Silakan Masukan NIK / Nama--</option>
-								<?php foreach ($list_penduduk as $item):
-								    if ($item['id'] !== ''): ?>
-										<option value="<?= $item['id']?>" <?php selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama'] . ' - ' . $item['info']?></option>
-									<?php endif;
-								endforeach; ?>
+								<?php if ($individu['nik']) : ?>
+									<option value="<?= $individu['id'] ?>" selected><?= 'NIK: ' . $individu['nik'] . ' - ' . $individu['nama'] . ' - ' . $individu['alamat_wilayah'] ?></option>
+								<?php endif; ?>
 							</select>
 						</div>
 						<div class="col-sm-4">

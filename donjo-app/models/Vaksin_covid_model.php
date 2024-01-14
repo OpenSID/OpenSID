@@ -58,7 +58,7 @@ class Vaksin_covid_model extends MY_Model
         $awal = $this->referensi_model->list_ref(JENIS_VAKSIN);
 
         // Dari database
-        $data = $this->db
+        $data = $this->config_id()
             ->get($this->table_vaksin)
             ->result_array();
 
@@ -151,7 +151,8 @@ class Vaksin_covid_model extends MY_Model
 
     public function count_reg()
     {
-        $this->db->select("count({$this->penduduk_key}) AS count")
+        $this->config_id('p')
+            ->select("count({$this->penduduk_key}) AS count")
             ->from("{$this->tabel_penduduk} as p")
             ->join("{$this->table_vaksin} as v", "p.{$this->penduduk_key} = v.{$this->vaksin_key}", 'left')
             ->join('tweb_keluarga AS kk', 'p.id = kk.id')
@@ -163,7 +164,8 @@ class Vaksin_covid_model extends MY_Model
     public function penduduk_sql()
     {
         $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
-        $this->db->select('p.*, v.*, kk.no_kk, ck.rt, ck.rw, ck.dusun, s.nama as jenis_kelamin ')
+        $this->db
+            ->select('p.*, v.*, kk.no_kk, ck.rt, ck.rw, ck.dusun, s.nama as jenis_kelamin ')
             ->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(p.tanggallahir)), '%Y')+0) AS umur")
             ->select("(
                 case when (p.id_kk IS NULL or p.id_kk = 0)
@@ -183,14 +185,18 @@ class Vaksin_covid_model extends MY_Model
             ->join('tweb_keluarga AS kk', 'p.id_kk = kk.id', 'left')
             ->join('tweb_wil_clusterdesa ck', 'kk.id_cluster = ck.id', 'left')
             ->join('tweb_penduduk_sex AS s', 'p.sex = s.id', 'left');
+
         $this->dusun_sql();
         $this->vaksin_sql();
         $this->tanggal_vaksin_sql();
         $this->jenis_vaksin_sql();
+
         if (isset($this->session->umur)) {
             $this->umur_sql($this->session->umur);
         }
+
         $this->cari();
+        $this->config_id('p');
     }
 
     public function list_penduduk($page = 1)
@@ -248,6 +254,7 @@ class Vaksin_covid_model extends MY_Model
         }
 
         $update = [
+            'config_id'        => identitas('id'),
             'id_penduduk'      => $data['id_penduduk'],
             'vaksin_1'         => $data['vaksin_1'],
             'tgl_vaksin_1'     => $data['tgl_vaksin_1'],
@@ -265,7 +272,7 @@ class Vaksin_covid_model extends MY_Model
             'keterangan'       => $data['keterangan'] ?? null,
             'surat_dokter'     => $data['surat_dokter'] ?? null,
         ];
-        $hasil = $this->db->replace($this->table_vaksin, $update);
+        $hasil = $this->config_id()->replace($this->table_vaksin, $update);
 
         status_sukses($hasil);
     }
@@ -382,7 +389,8 @@ class Vaksin_covid_model extends MY_Model
         ];
 
         foreach ($list_kolom as $kolom => $tabel) {
-            $this->db->select($kolom . ' as item')
+            $this->config_id()
+                ->select($kolom . ' as item')
                 ->distinct()->from($tabel)
                 ->order_by('item');
             if ($cari) {
@@ -499,6 +507,7 @@ class Vaksin_covid_model extends MY_Model
 
                         $dataVaksin = [
                             'id_penduduk'    => $id_penduduk,
+                            'config_id'      => identitas('id'),
                             'vaksin_1'       => $vaksin_1,
                             'tgl_vaksin_1'   => $tgl_vaksin_1,
                             'jenis_vaksin_1' => $jenis_vaksin_1,
@@ -514,6 +523,7 @@ class Vaksin_covid_model extends MY_Model
 
                         $sql = $this->db->insert_string('covid19_vaksin', $dataVaksin) . ' ON DUPLICATE KEY UPDATE
                             id_penduduk = VALUES(id_penduduk),
+                            config_id = VALUES(config_id),
                             vaksin_1 = VALUES(vaksin_1),
                             tgl_vaksin_1 = VALUES(tgl_vaksin_1),
                             jenis_vaksin_1 = VALUES(jenis_vaksin_1),
@@ -558,7 +568,7 @@ class Vaksin_covid_model extends MY_Model
 
     private function cekPenduduk($nik = '')
     {
-        return $this->db
+        return $this->config_id()
             ->select('id', 'nama')
             ->where('nik', $nik)
             ->get('tweb_penduduk')

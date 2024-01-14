@@ -38,11 +38,14 @@
 namespace App\Models;
 
 use App\Enums\Dtks\DtksEnum;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dtks extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -89,12 +92,12 @@ class Dtks extends BaseModel
      */
     public function rtm()
     {
-        return $this->hasOne(Rtm::class, 'id', 'id_rtm');
+        return $this->hasOne(Rtm::class, 'id', 'id_rtm')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     public function keluarga()
     {
-        return $this->hasOne(Keluarga::class, 'id', 'id_keluarga');
+        return $this->hasOne(Keluarga::class, 'id', 'id_keluarga')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     public function getKeluargaInRTMAttribute()
@@ -102,7 +105,7 @@ class Dtks extends BaseModel
         $this->loadMissing([
             'rtm.anggota' => static function ($builder) {
                 // override all items within the $with property in Penduduk
-                $builder->withOnly('keluarga');
+                $builder->withOnly('keluarga')->withoutGlobalScope('App\Scopes\ConfigIdScope');
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
                 $builder->where('status_dasar', 1);
             },
@@ -225,11 +228,11 @@ class Dtks extends BaseModel
 
     public function dtksAnggota()
     {
-        return $this->hasMany(DtksAnggota::class, 'id_dtks');
+        return $this->hasMany(DtksAnggota::class, 'id_dtks')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     public function lampiran()
     {
-        return $this->belongsToMany(DtksLampiran::class, 'dtks_ref_lampiran', 'id_dtks', 'id_lampiran');
+        return $this->belongsToMany(DtksLampiran::class, 'dtks_ref_lampiran', 'id_dtks', 'id_lampiran')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 }

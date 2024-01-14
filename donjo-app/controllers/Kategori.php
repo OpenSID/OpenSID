@@ -91,7 +91,7 @@ class Kategori extends Admin_Controller
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['tip'] = 2;
         if ($id) {
-            $data['kategori']    = $this->web_kategori_model->get_kategori($id);
+            $data['kategori']    = $this->web_kategori_model->get_kategori($id) ?? show_404();
             $data['form_action'] = site_url("kategori/update/{$id}");
         } else {
             $data['kategori']    = null;
@@ -103,8 +103,8 @@ class Kategori extends Admin_Controller
 
     public function sub_kategori($kategori = 1)
     {
-        $data['tip']         = 2;
-        $data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori);
+        $sub_kategori        = $data['tip'] = 2;
+        $data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori) ?? show_404();
         $data['kategori']    = $kategori;
 
         $this->render('kategori/sub_kategori_table', $data);
@@ -117,7 +117,7 @@ class Kategori extends Admin_Controller
         $data['link']     = $this->web_kategori_model->list_link();
 
         if ($id) {
-            $data['subkategori'] = $this->web_kategori_model->get_kategori($id);
+            $data['subkategori'] = $this->web_kategori_model->get_kategori($id) ?? show_404();
             $data['form_action'] = site_url("kategori/update_sub_kategori/{$kategori}/{$id}");
         } else {
             $data['subkategori'] = null;

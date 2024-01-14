@@ -69,8 +69,7 @@ class Keuangan_manual extends Admin_Controller
         if (! empty($data['tahun_anggaran'])) {
             redirect('keuangan_manual/grafik_manual/rincian_realisasi_bidang_manual');
         } else {
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Data Laporan Keuangan Belum Tersedia';
+            session_error('Data Laporan Keuangan Belum Tersedia');
             redirect('keuangan_manual/manual_apbdes');
         }
     }

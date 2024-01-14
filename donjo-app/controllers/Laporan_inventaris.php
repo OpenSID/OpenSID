@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Config;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -63,7 +62,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function cetak($tahun, $penandatangan)
     {
-        $data['header'] = Config::first();
+        $data['header'] = $this->header['desa'];
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
@@ -73,7 +72,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function download($tahun, $penandatangan)
     {
-        $data['header'] = Config::first();
+        $data['header'] = $this->header['desa'];
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
@@ -93,7 +92,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function cetak_mutasi($tahun, $penandatangan)
     {
-        $data['header'] = Config::first();
+        $data['header'] = $this->header['desa'];
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
@@ -103,7 +102,7 @@ class Laporan_inventaris extends Admin_Controller
 
     public function download_mutasi($tahun, $penandatangan)
     {
-        $data['header'] = Config::first();
+        $data['header'] = $this->header['desa'];
         $data['tahun']  = $tahun;
         $data['pamong'] = $this->pamong_model->get_data($penandatangan);
         $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
@@ -148,7 +147,7 @@ class Laporan_inventaris extends Admin_Controller
         $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
 
         $tahun           = (isset($this->session->tahun)) ? $this->session->tahun : date('Y');
-        $data['header']  = Config::first();
+        $data['header']  = $this->header['desa'];
         $data['data']    = $this->inventaris_laporan_model->permen_47($tahun, $asset);
         $data['tahun']   = $this->session->tahun;
         $data['tanggal'] = date('d / M / y');

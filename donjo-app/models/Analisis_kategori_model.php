@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_kategori_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function autocomplete()
     {
         return $this->autocomplete_str('kategori', 'analisis_kategori_indikator');
@@ -73,7 +68,7 @@ class Analisis_kategori_model extends MY_Model
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(id) AS id FROM analisis_kategori_indikator u WHERE 1';
+        $sql = 'SELECT COUNT(id) AS id FROM analisis_kategori_indikator u WHERE u.config_id = ' . identitas('id');
         $sql .= $this->search_sql();
         $sql .= $this->master_sql();
         $query    = $this->db->query($sql);
@@ -102,8 +97,7 @@ class Analisis_kategori_model extends MY_Model
         }
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-        $sql        = 'SELECT u.* FROM analisis_kategori_indikator u WHERE 1 ';
-
+        $sql        = 'SELECT u.* FROM analisis_kategori_indikator u WHERE u.config_id = ' . identitas('id');
         $sql .= $this->search_sql();
         $sql .= $this->master_sql();
         $sql .= $order_sql;
@@ -127,6 +121,7 @@ class Analisis_kategori_model extends MY_Model
         $data              = [];
         $data['id_master'] = $this->session->analisis_master;
         $data['kategori']  = htmlentities($this->input->post('kategori'));
+        $data['config_id'] = identitas('id');
         $outp              = $this->db->insert('analisis_kategori_indikator', $data);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -137,8 +132,7 @@ class Analisis_kategori_model extends MY_Model
         $data              = [];
         $data['id_master'] = $this->session->analisis_master;
         $data['kategori']  = htmlentities($this->input->post('kategori'));
-        $this->db->where('id', $id);
-        $outp = $this->db->update('analisis_kategori_indikator', $data);
+        $outp              = $this->config_id()->where('id', $id)->update('analisis_kategori_indikator', $data);
         status_sukses($outp); //Tampilkan Pesan
     }
 
@@ -148,7 +142,7 @@ class Analisis_kategori_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('analisis_kategori_indikator');
+        $outp = $this->config_id()->where('id', $id)->delete('analisis_kategori_indikator');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -166,9 +160,9 @@ class Analisis_kategori_model extends MY_Model
 
     public function get_analisis_kategori($id = 0)
     {
-        $sql   = 'SELECT * FROM analisis_kategori_indikator WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('analisis_kategori_indikator')
+            ->row_array();
     }
 }

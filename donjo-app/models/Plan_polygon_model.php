@@ -51,78 +51,67 @@ class Plan_polygon_model extends MY_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (nama LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db->group_start()->like('nama', $cari)->group_end();
         }
     }
 
     private function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND enabled = {$kf}";
-
-            return $filter_sql;
+        if ($filter = $this->session->filter) {
+            $this->db->where('enabled', $filter);
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(*) AS jml ' . $this->list_data_sql();
-        $sql .= $this->search_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
+        $this->db->select('count(*) as jml');
+
+        $row      = $this->list_data_sql()->row_array();
         $jml_data = $row['jml'];
 
-        $this->load->library('paging');
-        $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
-        $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
-
-        return $this->paging;
+        return $this->paginasi($p, $jml_data);
     }
 
     private function list_data_sql()
     {
-        $sql = ' FROM polygon WHERE tipe = 0 ';
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
+        $this->config_id()
+            ->from('polygon')
+            ->where('tipe', '0');
 
-        return $sql;
+        $this->search_sql();
+        $this->filter_sql();
+
+        return $this->db->get();
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 1000)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY nama';
+            case 1:
+                $this->db->order_by('nama');
                 break;
 
-            case 2: $order_sql = ' ORDER BY nama DESC';
+            case 2:
+                $this->db->order_by('nama', 'DESC');
                 break;
 
-            case 3: $order_sql = ' ORDER BY enabled';
+            case 3:
+                $this->db->order_by('enabled');
                 break;
 
-            case 4: $order_sql = ' ORDER BY enabled DESC';
+            case 4:
+                $this->db->order_by('enabled', 'DESC');
                 break;
 
-            default:$order_sql = ' ORDER BY id';
+            default:
+                $this->db->order_by('id');
         }
 
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+        $this->db->select('*')
+            ->limit($limit, $offset);
 
-        $sql = 'SELECT * ' . $this->list_data_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->list_data_sql()->result_array();
 
         $j = $offset;
 
@@ -151,11 +140,12 @@ class Plan_polygon_model extends MY_Model
 
     public function insert()
     {
-        $data        = $this->validasi($this->input->post());
-        $lokasi_file = $_FILES['simbol']['tmp_name'];
-        $tipe_file   = $_FILES['simbol']['type'];
-        $nama_file   = $_FILES['simbol']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $lokasi_file       = $_FILES['simbol']['tmp_name'];
+        $tipe_file         = $_FILES['simbol']['type'];
+        $nama_file         = $_FILES['simbol']['name'];
+        $nama_file         = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($lokasi_file)) {
             if ($tipe_file == 'image/png' || $tipe_file == 'image/gif') {
                 UploadSimbol($nama_file);
@@ -189,7 +179,7 @@ class Plan_polygon_model extends MY_Model
 
         unset($data['simbol']);
         $this->db->where('id', $id);
-        $outp = $this->db->update('polygon', $data);
+        $outp = $this->config_id()->update('polygon', $data);
 
         if ($outp) {
             $_SESSION['success'] = 1;
@@ -204,7 +194,7 @@ class Plan_polygon_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('polygon');
+        $outp = $this->config_id()->where('id', $id)->delete('polygon');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -222,10 +212,11 @@ class Plan_polygon_model extends MY_Model
 
     public function list_sub_polygon($polygon = 1)
     {
-        $sql = 'SELECT * FROM polygon WHERE parrent = ? AND tipe = 2 ';
-
-        $query = $this->db->query($sql, $polygon);
-        $data  = $query->result_array();
+        $data = $this->config_id()
+            ->where('parrent', $polygon)
+            ->where('tipe', 2)
+            ->get('polygon')
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $i + 1;
@@ -242,11 +233,12 @@ class Plan_polygon_model extends MY_Model
 
     public function insert_sub_polygon($parrent = 0)
     {
-        $data        = $this->validasi($this->input->post());
-        $lokasi_file = $_FILES['simbol']['tmp_name'];
-        $tipe_file   = $_FILES['simbol']['type'];
-        $nama_file   = $_FILES['simbol']['name'];
-        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $lokasi_file       = $_FILES['simbol']['tmp_name'];
+        $tipe_file         = $_FILES['simbol']['type'];
+        $nama_file         = $_FILES['simbol']['name'];
+        $nama_file         = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         if (! empty($lokasi_file)) {
             if ($tipe_file == 'image/png' || $tipe_file == 'image/gif') {
                 UploadSimbol($nama_file);
@@ -285,13 +277,13 @@ class Plan_polygon_model extends MY_Model
                 UploadSimbol($nama_file);
                 $data['simbol'] = $nama_file;
                 $this->db->where('id', $id);
-                $outp = $this->db->update('polygon', $data);
+                $outp = $this->config_id()->update('polygon', $data);
             }
             $_SESSION['success'] = 1;
         } else {
             unset($data['simbol']);
             $this->db->where('id', $id);
-            $outp = $this->db->update('polygon', $data);
+            $outp = $this->config_id()->update('polygon', $data);
         }
         if ($outp) {
             $_SESSION['success'] = 1;
@@ -306,7 +298,7 @@ class Plan_polygon_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('polygon');
+        $outp = $this->config_id()->where('id', $id)->delete('polygon');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -315,7 +307,7 @@ class Plan_polygon_model extends MY_Model
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete_sub_polygon($id, $semua = true);
@@ -324,17 +316,18 @@ class Plan_polygon_model extends MY_Model
 
     public function polygon_lock($id = '', $val = 0)
     {
-        $sql  = 'UPDATE polygon SET enabled = ? WHERE id = ?';
-        $outp = $this->db->query($sql, [$val, $id]);
+        $outp = $this->config_id()
+            ->where('id', $id)
+            ->update('polygon', ['enabled' => $val]);
 
         status_sukses($outp); //Tampilkan Pesan
     }
 
     public function get_polygon($id = 0)
     {
-        $sql   = 'SELECT * FROM polygon WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('polygon')
+            ->row_array();
     }
 }

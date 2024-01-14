@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Inventaris_tanah_model extends CI_Model
+class Inventaris_tanah_model extends MY_Model
 {
     protected $table        = 'inventaris_tanah';
     protected $table_mutasi = 'mutasi_inventaris_tanah';
@@ -45,148 +45,184 @@ class Inventaris_tanah_model extends CI_Model
 
     public function count_reg()
     {
-        $this->db->select('count(id) AS count');
-        $this->db->from($this->table);
+        $this->config_id();
 
-        return $this->db->get()->row();
+        return $this->db
+            ->select('count(id) AS count')
+            ->from($this->table)
+            ->get()
+            ->row();
     }
 
     public function list_inventaris_kd_register()
     {
-        $this->db->select($this->table . '.register');
-        $this->db->from($this->table);
+        $this->config_id();
 
-        // $this->db->where($this->table.'.visible',1);
-        return $this->db->get()->result();
+        return $this->db->select("{$this->table}.register")
+            ->from($this->table)
+            ->get()
+            ->result();
     }
 
     public function list_inventaris()
     {
-        $this->db
-            ->select('u.*, m.id as mutasi')
+        $this->config_id('u');
+
+        return $this->db->select('u.*, m.id as mutasi')
             ->from("{$this->table} u")
             ->join("{$this->table_mutasi} m", "m.{$this->mutasi_key} = u.id", 'left')
-            ->where('u.visible', 1);
-
-        return $this->db->get()->result();
+            ->where('u.visible', 1)
+            ->get()
+            ->result();
     }
 
     public function list_mutasi_inventaris()
     {
-        $this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*,  inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan, inventaris_tanah.register');
-        $this->db->from($this->table_mutasi);
-        $this->db->where($this->table_mutasi . '.visible', 1);
-        // $this->db->where('status_mutasi', 'Hapus')
-        $this->db->join($this->table, $this->table . '.id = ' . $this->table_mutasi . '.id_inventaris_tanah', 'left');
+        $this->config_id($this->table_mutasi);
+        $this->scope_select();
 
-        return $this->db->get()->result();
+        return $this->db
+            ->from($this->table_mutasi)
+            ->join($this->table, "{$this->table}.id = {$this->table_mutasi}.{$this->mutasi_key}", 'left')
+            ->where("{$this->table_mutasi}.visible", 1)
+            ->get()
+            ->result();
     }
 
     public function sum_inventaris()
     {
-        $this->db->select_sum('harga');
-        $this->db->where($this->table . '.visible', 1);
-        $this->db->where($this->table . '.status', 0);
-        $result = $this->db->get($this->table)->row();
+        $this->config_id();
 
-        return $result->harga;
+        return $this->db->select_sum('harga')
+            ->from($this->table)
+            ->where("{$this->table}.visible", 1)
+            ->where("{$this->table}.status", 0)
+            ->get()
+            ->row()->harga;
     }
 
     public function sum_print($tahun)
     {
-        $this->db->select_sum('harga');
-        $this->db->where($this->table . '.visible', 1);
-        $this->db->where($this->table . '.status', 0);
-        if ($tahun != 1) {
-            $this->db->where($this->table . '.tahun_pengadaan', $tahun);
-        }
-        $result = $this->db->get($this->table)->row();
+        $this->config_id();
+        $this->scope_filter($tahun);
 
-        return $result->harga;
+        $this->db->select_sum('harga');
+        $this->db->where("{$this->table}.visible", 1);
+        $this->db->where("{$this->table}.status", 0);
+
+        return $this->db->get($this->table)->row()->harga;
     }
 
     public function add($data)
     {
+        $data['config_id'] = identitas('id');
+
         $this->db->insert($this->table, array_filter($data));
         $id = $this->db->insert_id();
 
-        return $this->db->get_where($this->table, ['id' => $id])->row();
+        return $this->config_id()->get_where($this->table, ['id' => $id])->row();
     }
 
     public function add_mutasi($data)
     {
+        $data['config_id'] = identitas('id');
+
         $this->db->insert($this->table_mutasi, array_filter($data));
         $id            = $this->db->insert_id();
         $status_ivntrs = ($data['status_mutasi'] === 'Hapus') ? 1 : 0;  // status 1 artinya barang yang dihapus dari asset
-        $this->db->update($this->table, ['status' => $status_ivntrs], ['id' => $data['id_inventaris_tanah']]);
 
-        return $this->db->get_where($this->table_mutasi, ['id' => $id])->row();
+        $this->config_id()->update($this->table, ['status' => $status_ivntrs], ['id' => $data[$this->mutasi_key]]);
+
+        return $this->config_id()->get_where($this->table_mutasi, ['id' => $id])->row();
     }
 
     public function view($id)
     {
-        $this->db->select('*');
-        $this->db->from($this->table);
-        $this->db->where($this->table . '.id', $id);
+        $this->config_id();
 
-        return $this->db->get()->row();
+        return $this->db->select('*')
+            ->from($this->table)
+            ->where('id', $id)
+            ->get()
+            ->row();
     }
 
     public function view_mutasi($id)
     {
-        $this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*, inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan, inventaris_tanah.register');
-        $this->db->from($this->table_mutasi);
-        $this->db->where($this->table_mutasi . '.id', $id);
-        $this->db->join($this->table, $this->table . '.id = ' . $this->table_mutasi . '.id_inventaris_tanah', 'left');
+        $this->config_id($this->table_mutasi);
+        $this->scope_select();
 
-        return $this->db->get()->row();
+        return $this->db
+            ->from($this->table_mutasi)
+            ->join($this->table, "{$this->table}.id = {$this->table_mutasi}.{$this->mutasi_key}", 'left')
+            ->where("{$this->table_mutasi}.id", $id)
+            ->get()
+            ->row();
     }
 
     public function edit_mutasi($id)
     {
-        $this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*, inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan, inventaris_tanah.register');
-        $this->db->from($this->table_mutasi);
-        $this->db->where($this->table_mutasi . '.id', $id);
-        $this->db->join($this->table, $this->table . '.id = ' . $this->table_mutasi . '.id_inventaris_tanah', 'left');
-
-        return $this->db->get()->row();
+        return $this->view_mutasi($id);
     }
 
     public function delete($id)
     {
-        return $this->db->update($this->table, ['visible' => 0], ['id' => $id]);
+        return $this->config_id()->update($this->table, ['visible' => 0], ['id' => $id]);
     }
 
     public function delete_mutasi($id)
     {
-        return $this->db->update($this->table_mutasi, ['visible' => 0], ['id' => $id]);
+        return $this->config_id()->update($this->table_mutasi, ['visible' => 0], ['id' => $id]);
     }
 
     public function update($id, $data)
     {
         $id = $this->input->post('id');
 
-        return $this->db->update($this->table, $data, ['id' => $id]);
+        return $this->config_id()->update($this->table, $data, ['id' => $id]);
     }
 
     public function update_mutasi($id, $data)
     {
         $id = $this->input->post('id');
 
-        return $this->db->update($this->table_mutasi, $data, ['id' => $id]);
+        return $this->config_id()->update($this->table_mutasi, $data, ['id' => $id]);
     }
 
     public function cetak($tahun)
     {
+        $this->config_id();
+        $this->scope_filter($tahun);
+        $this->scope_order();
+
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where($this->table . '.status', 0);
-        $this->db->where($this->table . '.visible', 1);
-        if ($tahun != 1) {
-            $this->db->where($this->table . '.tahun_pengadaan', $tahun);
-        }
-        $this->db->order_by($this->table . '.tahun_pengadaan', 'asc');
+        $this->db->where("{$this->table}.visible", 1);
+        $this->db->where("{$this->table}.status", 0);
 
         return $this->db->get()->result();
+    }
+
+    protected function scope_select()
+    {
+        $this->db
+            ->select("{$this->table_mutasi}.id as id")
+            ->select("{$this->table_mutasi}.*")
+            ->select("{$this->table}.nama_barang")
+            ->select("{$this->table}.kode_barang")
+            ->select("{$this->table}.tahun_pengadaan")
+            ->select("{$this->table}.register");
+    }
+
+    protected function scope_filter($tahun)
+    {
+        if ($tahun != 1) {
+            $this->db->where('tahun_pengadaan', $tahun);
+        }
+    }
+
+    protected function scope_order()
+    {
+        $this->db->order_by('tahun_pengadaan', 'asc');
     }
 }

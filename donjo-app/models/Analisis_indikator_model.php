@@ -104,7 +104,7 @@ class Analisis_indikator_model extends MY_Model
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(id) AS id FROM analisis_indikator u WHERE 1';
+        $sql = 'SELECT COUNT(id) AS id FROM analisis_indikator u WHERE u.config_id = ' . identitas('id');
         $sql .= $this->search_sql();
         $sql .= $this->filter_sql();
         $sql .= $this->master_sql();
@@ -148,7 +148,7 @@ class Analisis_indikator_model extends MY_Model
         }
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-        $sql        = 'SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE 1 ';
+        $sql        = 'SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE u.config_id = ' . identitas('id');
 
         $sql .= $this->search_sql();
         $sql .= $this->filter_sql();
@@ -207,6 +207,7 @@ class Analisis_indikator_model extends MY_Model
         $data = $this->validasi_data($this->input->post());
 
         $data['id_master'] = $this->session->analisis_master;
+        $data['config_id'] = identitas('id');
         $outp              = $this->db->insert('analisis_indikator', $data);
         $id                = $this->db->insert_id();
 
@@ -230,7 +231,7 @@ class Analisis_indikator_model extends MY_Model
     {
         // Hanya kolom yang boleh diubah untuk analisis sistem
         $data['is_publik'] = $_POST['is_publik'];
-        $this->db->where('id', $id)->update('analisis_indikator', $data);
+        $this->config_id()->where('id', $id)->update('analisis_indikator', $data);
         $this->session->success = 1;
     }
 
@@ -245,7 +246,7 @@ class Analisis_indikator_model extends MY_Model
         $data = $this->validasi_data($this->input->post());
 
         $data['id_master'] = $this->session->analisis_master;
-        $outp              = $this->db->where('id', $id)->update('analisis_indikator', $data);
+        $outp              = $this->config_id()->where('id', $id)->update('analisis_indikator', $data);
         status_sukses($outp); //Tampilkan Pesan
     }
 
@@ -257,12 +258,12 @@ class Analisis_indikator_model extends MY_Model
         }
 
         // Hapus data analisis master
-        $outp = $this->db->where('id_indikator', $id)->delete('analisis_parameter');
+        $outp = $this->config_id()->where('id_indikator', $id)->delete('analisis_parameter');
 
         if (! $semua) {
             $this->session->success = 1;
         }
-        $outp = $this->db->where('id', $id)->delete('analisis_indikator');
+        $outp = $this->config_id()->where('id', $id)->delete('analisis_indikator');
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
@@ -296,6 +297,7 @@ class Analisis_indikator_model extends MY_Model
 
         $data                 = $data_referensi ?? $this->validasi_parameter($this->input->post());
         $data['id_indikator'] = $in;
+        $data['config_id']    = identitas('id');
         $outp                 = $this->db->insert('analisis_parameter', $data);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -308,8 +310,7 @@ class Analisis_indikator_model extends MY_Model
         if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master) || $this->input->post('referensi')) {
             unset($data['kode_jawaban'], $data['jawaban']);
         }
-        $this->db->where('id', $id);
-        $outp = $this->db->update('analisis_parameter', $data);
+        $outp = $this->config_id()->where('id', $id)->update('analisis_parameter', $data);
         status_sukses($outp); //Tampilkan Pesan
     }
 
@@ -321,7 +322,7 @@ class Analisis_indikator_model extends MY_Model
             return;
         }
 
-        $outp = $this->db->where('id', $id)->delete('analisis_parameter');
+        $outp = $this->config_id()->where('id', $id)->delete('analisis_parameter');
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
@@ -337,21 +338,21 @@ class Analisis_indikator_model extends MY_Model
 
     public function list_indikator($id = 0)
     {
-        return $this->db
+        return $this->config_id()
             ->get_where('analisis_parameter', ['id_indikator' => $id])
             ->result_array();
     }
 
     public function get_analisis_indikator($id = 0)
     {
-        return $this->db
+        return $this->config_id()
             ->get_where('analisis_indikator', ['id' => $id])
             ->row_array();
     }
 
     public function get_analisis_parameter($id = 0)
     {
-        return $this->db
+        return $this->config_id()
             ->get_where('analisis_parameter', ['id' => $id])
             ->row_array();
     }
@@ -366,7 +367,7 @@ class Analisis_indikator_model extends MY_Model
     // TODO: pindahkan ke analisis_kategori_model
     public function list_kategori()
     {
-        $sql = 'SELECT u.* FROM analisis_kategori_indikator u WHERE 1';
+        $sql = 'SELECT u.* FROM analisis_kategori_indikator u WHERE u.config_id = ' . identitas('id');
         $sql .= $this->master_sql();
         $query = $this->db->query($sql);
 
@@ -375,12 +376,13 @@ class Analisis_indikator_model extends MY_Model
 
     public function raw_analisis_indikator_by_id_master($id = 0)
     {
-        return $this->db
+        return $this->config_id('i')
             ->select('i.*, k.kategori')
             ->from('analisis_indikator i')
             ->join('analisis_kategori_indikator k', 'k.id = i.id_kategori', 'left')
             ->where('i.id_master', $id)
-            ->get('')->result_array();
+            ->get()
+            ->result_array();
     }
 
     public function get_analisis_indikator_by_id_master($id = 0)
@@ -389,11 +391,12 @@ class Analisis_indikator_model extends MY_Model
         $list_indikator = [];
         $list_parameter = [];
 
-        $raw_indikator = $this->db
+        $raw_indikator = $this->config_id('i')
             ->select('i.*')
             ->from('analisis_indikator i')
             ->where('i.id_master', $id)
-            ->get('')->result_array();
+            ->get()
+            ->result_array();
 
         // Setting key array sesuai id
         foreach ($raw_indikator as $val_indikator) {
@@ -401,7 +404,7 @@ class Analisis_indikator_model extends MY_Model
 
             $temp_parameter = [];
 
-            $raw_parameter = $this->db->where('id_indikator', $val_indikator['id'])->get('analisis_parameter')->result_array();
+            $raw_parameter = $this->config_id()->where('id_indikator', $val_indikator['id'])->get('analisis_parameter')->result_array();
 
             foreach ($raw_parameter as $val_parameter) {
                 $temp_parameter[$val_parameter['id']] = $val_parameter['jawaban'];

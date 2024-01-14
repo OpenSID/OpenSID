@@ -107,7 +107,7 @@ class Setting extends Admin_Controller
             return;
         } // Hanya bila dipanggil dari form pengumuman
         $this->setting_model->aktifkan_tracking();
-        $this->db->where('kode', 'tracking_off')->update('notifikasi', ['aktif' => 0]);
+        $this->db->where('config_id', identitas('id'))->where('kode', 'tracking_off')->update('notifikasi', ['aktif' => 0]);
     }
 
     // Pengaturan web

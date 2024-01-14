@@ -3,11 +3,8 @@
         <div class='modal-body'>
             <div class="form-group">
                 <label for="nik">Kepala Rumah Tangga</label>
-                <select class="form-control input-sm select2 required" name="nik" style="width:100%;">
+                <select class="form-control input-sm select2 required" id="nik" name="nik" style="width:100%;">
                     <option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
-                    <?php foreach ($penduduk as $data): ?>
-                        <option value="<?= $data['id']?>">NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['kk_level'] ?></option>
-                    <?php endforeach; ?>
                 </select>
             </div>
             <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
@@ -32,4 +29,30 @@
     </form>
     <?php $this->load->view('global/validasi_form'); ?>
 <?php endif; ?>
+
+<script>
+    $('document').ready(function() {
+        $('#nik').select2({
+            ajax: {
+                url: SITE_URL + 'rtm/apipendudukrtm',
+                dataType: 'json',
+                data: function(params) {
+                    return {
+                        q: params.term || '',
+                        page: params.page || 1,
+                    };
+                },
+                cache: true
+            },
+            placeholder: function() {
+                $(this).data('placeholder');
+            },
+            minimumInputLength: 0,
+            allowClear: true,
+            escapeMarkup: function(markup) {
+                return markup;
+            },
+        });
+    });
+</script>
 

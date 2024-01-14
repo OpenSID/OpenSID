@@ -98,7 +98,7 @@ class Log_Viewer
      * Bootstrap the library
      * sets the configuration variables
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private function init()
     {

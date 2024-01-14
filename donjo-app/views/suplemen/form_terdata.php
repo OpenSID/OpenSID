@@ -24,14 +24,13 @@
 						<div class="form-group" >
 							<label for="terdata" class="col-sm-3 control-label"><?= $list_sasaran['judul']; ?></label>
 							<div class="col-sm-8">
-								<select class="form-control select2 required" id="terdata" name="terdata" onchange="formAction('main')">
-									<option selected="selected">-- Silakan Masukan <?= $list_sasaran['judul']; ?>  --</option>
+								<select class="form-control required" id="terdata" name="terdata" onchange="formAction('main')">
 									<?php foreach ($list_sasaran['data'] as $item): ?>
 										<?php if ($item['id'] !== ''): ?>
 											<option value="<?= $item['id']?>" <?= selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama'] . ' - ' . $item['info']; ?></option>
 										<?php endif; ?>
 									<?php endforeach; ?>
-								</select>
+ 								</select>
 							</div>
 						</div>
 					</form>

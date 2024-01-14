@@ -40,7 +40,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
-use App\Models\Config;
+use App\Models\Kelompok;
+use App\Models\Penduduk;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
@@ -80,7 +81,6 @@ class Program_bantuan extends Admin_Controller
     public function index($p = 1)
     {
         $this->session->unset_userdata('cari');
-
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
             $this->session->per_page = $per_page;
@@ -97,6 +97,7 @@ class Program_bantuan extends Admin_Controller
 
     public function form($program_id = 0)
     {
+        // dd(Penduduk::whereHas('rtm')->get());
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata('cari');
         $data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
@@ -114,6 +115,149 @@ class Program_bantuan extends Admin_Controller
         $data['list_sasaran'] = SasaranEnum::all();
 
         $this->render('program_bantuan/form', $data);
+    }
+
+    public function apipendudukbantuan()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari    = $this->input->get('q');
+            $bantuan = $this->input->get('bantuan');
+            $sasaran = $this->input->get('sasaran');
+            $peserta = BantuanPeserta::where('program_id', '=', $bantuan)->pluck('peserta');
+
+            switch ($sasaran) {
+                case 1:
+                    $this->get_pilihan_penduduk($cari, $peserta);
+                    break;
+
+                case 2:
+                    $this->get_pilihan_kk($cari, $peserta);
+                    break;
+
+                case 3:
+                    $this->get_pilihan_rtm($cari, $peserta);
+                    break;
+
+                case 4:
+                    $this->get_pilihan_kelompok($cari, $peserta);
+                    break;
+
+                default:
+            }
+        }
+
+        return show_404();
+    }
+
+    private function get_pilihan_penduduk($cari, $peserta)
+    {
+        $penduduk = Penduduk::with('rtm')->whereHas('rtm')
+            ->select(['id', 'nik', 'nama', 'id_cluster'])
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('nik', 'like', "%{$cari}%")
+                    ->orWhere('nama', 'like', "%{$cari}%");
+            })
+            ->whereNotIn('nik', $peserta)
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_kk($cari, $peserta)
+    {
+        $penduduk = Penduduk::with('pendudukHubungan')
+            ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])
+            ->leftJoin('tweb_penduduk_hubungan', static function ($join) {
+                $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
+            })
+            ->leftJoin('keluarga_aktif', static function ($join) {
+                $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
+            })
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('tweb_penduduk.nik', 'like', "%{$cari}%")
+                    ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
+                    ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+            })
+            ->whereIn('tweb_penduduk.kk_level', ['1', '2', '3', '4'])
+            ->whereNotIn('keluarga_aktif.no_kk', $peserta)
+            ->orderBy('tweb_penduduk.id_kk')
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_rtm($cari, $peserta)
+    {
+        $penduduk = Penduduk::select(['id', 'id_rtm', 'nama', 'id_cluster'])
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('nama', 'like', "%{$cari}%");
+            })
+            ->whereHas('rtm', static function ($query) use ($peserta) {
+                $query->whereNotIn('no_kk', $peserta);
+            })
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->rtm->no_kk,
+                        'text' => 'No KK : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_kelompok($cari, $peserta)
+    {
+        $penduduk = Kelompok::select(['kelompok.id', 'tweb_penduduk.nik', 'tweb_penduduk.nama as nama_penduduk', 'kelompok.nama as nama_kelompok', 'tweb_penduduk.id_cluster'])
+            ->leftJoin('tweb_penduduk', static function ($join) {
+                $join->on('kelompok.id_ketua', '=', 'tweb_penduduk.id');
+            })
+            ->when($cari, static function ($query) use ($cari) {
+                $query->orWhere('kelompok.nama', 'like', "%{$cari}%")
+                    ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+            })
+            ->whereNotIn('kelompok.id', $peserta)
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => $item->nama_penduduk . ' [' . $item->nama_kelompok . ']' . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
     }
 
     public function panduan()
@@ -235,7 +379,8 @@ class Program_bantuan extends Admin_Controller
     public function edit_peserta_form($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data                = $this->program_bantuan_model->get_program_peserta_by_id($id);
+
+        $data                = $this->program_bantuan_model->get_program_peserta_by_id($id) ?? show_404();
         $data['form_action'] = site_url("program_bantuan/edit_peserta/{$id}");
         $this->load->view('program_bantuan/edit_peserta', $data);
     }
@@ -275,8 +420,9 @@ class Program_bantuan extends Admin_Controller
         $this->form_validation->set_rules('edate', 'Tanggal akhir', 'required');
         $this->form_validation->set_rules('asaldana', 'Asal Dana', 'required');
 
+        Bantuan::findOrFail($id);
         $data['asaldana']     = unserialize(ASALDANA);
-        $data['program']      = $this->program_bantuan_model->get_program(1, $id);
+        $data['program']      = $this->program_bantuan_model->get_program(1, $id) ?? show_404();
         $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
         $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
 
@@ -312,7 +458,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
             $data['sasaran']         = unserialize(SASARAN);
 
-            $data['config']          = Config::first();
+            $data['config']          = $this->header['desa'];
             $data['peserta']         = $this->program_bantuan_model->get_program(1, $program_id);
             $data['aksi']            = $aksi;
             $this->session->per_page = $temp;
@@ -514,6 +660,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Simpan data peserta yg diimpor dalam bentuk array
                         $simpan = [
+                            'config_id'           => identitas('id'),
                             'peserta'             => $peserta,
                             'program_id'          => $program_id,
                             'no_id_kartu'         => $no_id_kartu,
@@ -580,6 +727,7 @@ class Program_bantuan extends Admin_Controller
         $writer->getCurrentSheet()->setName('Program');
         $data_program = [
             ['id', $tbl_program['id']],
+            ['config_id', identitas('id')],
             ['Nama Program', $tbl_program['nama']],
             ['Sasaran Program', $tbl_program['sasaran']],
             ['Keterangan', $tbl_program['ndesc']],
@@ -647,7 +795,10 @@ class Program_bantuan extends Admin_Controller
         $kartu_peserta = $this->db
             ->select('kartu_peserta')
             ->where('id', $id_peserta)
-            ->get('program_peserta')->row()->kartu_peserta;
+            ->where('config_id', identitas('id'))
+            ->get('program_peserta')
+            ->row()
+            ->kartu_peserta;
         ambilBerkas($kartu_peserta, $this->controller . '/detail/' . $id_peserta, null, LOKASI_DOKUMEN);
     }
 
@@ -678,6 +829,7 @@ class Program_bantuan extends Admin_Controller
     public function bersihkan_data_peserta()
     {
         $this->db
+            ->where('config_id', identitas('id'))
             ->where_in('id', $this->input->post('id_cb'))
             ->delete('program_peserta');
 

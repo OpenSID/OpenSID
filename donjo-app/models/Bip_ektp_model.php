@@ -52,9 +52,9 @@ class Bip_ektp_model extends Impor_model
     /**
      * Cari baris pertama mulainya blok keluarga
      *
-     * @param		sheet			data excel berisi bip
-     * @param 	int		jumlah baris di sheet
-     * @param 	int		cari dari baris ini
+     * @param sheet			data excel berisi bip
+     * @param int		jumlah baris di sheet
+     * @param int		cari dari baris ini
      * @param mixed $data_sheet
      * @param mixed $baris
      * @param mixed $dari
@@ -112,8 +112,8 @@ class Bip_ektp_model extends Impor_model
     /**
      * Ambil data keluarga berikutnya
      *
-     * @param		sheet		data excel berisi bip
-     * @param 	int	cari dari baris ini
+     * @param sheet		data excel berisi bip
+     * @param int	cari dari baris ini
      * @param mixed $data_sheet
      * @param mixed $i
      *
@@ -156,9 +156,9 @@ class Bip_ektp_model extends Impor_model
     /**
      * Ambil data anggota keluarga berikutnya
      *
-     * @param		sheet		data excel berisi bip
-     * @param 	int	cari dari baris ini
-     * @param 	array		data keluarga untuk anggota yg dicari
+     * @param sheet		data excel berisi bip
+     * @param int	cari dari baris ini
+     * @param array		data keluarga untuk anggota yg dicari
      * @param mixed $data_sheet
      * @param mixed $i
      * @param mixed $data_keluarga
@@ -245,7 +245,7 @@ No Akta Lahir		Pekerjaan							Nama Ibu			Nama Ayah	Wjb KTP	KTP-eL	Status	Stat R
     /**
      * Proses impor data bip
      *
-     * @param		sheet		data excel berisi bip
+     * @param sheet		data excel berisi bip
      * @param mixed $data
      *
      * @return setting $_SESSION untuk info hasil impor

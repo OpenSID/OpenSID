@@ -61,3 +61,7 @@ vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
 /node_modules
+
+# Struktur Laravel
+storage/framework/
+assets/filemanager/index.html

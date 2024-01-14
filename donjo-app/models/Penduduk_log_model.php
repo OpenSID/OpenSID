@@ -61,12 +61,13 @@ class Penduduk_log_model extends MY_Model
      */
     public function get_log($id_log)
     {
-        $log = $this->db
+        $log = $this->config_id('l')
             ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
             ->where('l.id', $id_log)
             ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
             ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left')
-            ->get('log_penduduk l')->row_array();
+            ->get('log_penduduk l')
+            ->row_array();
         if (empty($log['tgl_peristiwa'])) {
             $log['tgl_peristiwa'] = date('d-m-Y');
         }
@@ -119,15 +120,15 @@ class Penduduk_log_model extends MY_Model
         }
 
         if ($penduduk) {
-            $get_pendudukId = $this->db->where('id', $id_log)->get('log_penduduk')->row()->id_pend;
-            $this->db->where('id', $get_pendudukId)->update('tweb_penduduk', $penduduk);
+            $get_pendudukId = $this->config_id()->where('id', $id_log)->get('log_penduduk')->row()->id_pend;
+            $this->config_id()->where('id', $get_pendudukId)->update('tweb_penduduk', $penduduk);
         }
         $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
         $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
         $data['updated_at']    = date('Y-m-d H:i:s');
         $data['updated_by']    = $this->session->user;
 
-        $outp = $this->db->where('id', $id_log)->update('log_penduduk', $data);
+        $outp = $this->config_id()->where('id', $id_log)->update('log_penduduk', $data);
         status_sukses($outp);
     }
 
@@ -204,6 +205,7 @@ class Penduduk_log_model extends MY_Model
                 'id_pend'                  => $log->id_pend,
                 'created_by'               => auth()->id,
                 'maksud_tujuan_kedatangan' => $this->input->post('maksud_tujuan'),
+                'config_id'                => $this->config_id,
             ];
 
             $sql = $this->db->insert_string('log_penduduk', $logPenduduk) . duplicate_key_update_str($logPenduduk);
@@ -217,6 +219,7 @@ class Penduduk_log_model extends MY_Model
                     'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
                     'tgl_peristiwa' => rev_tgl($this->input->post('tgl_lapor'), null),
                     'updated_by'    => auth()->id,
+                    'config_id'     => $this->config_id,
                 ];
 
                 $sql = $this->db->insert_string('log_keluarga', $logKeluarga) . duplicate_key_update_str($logKeluarga);
@@ -328,7 +331,7 @@ class Penduduk_log_model extends MY_Model
     {
         $list_tahun = [];
 
-        $list_tahun = $this->db
+        $list_tahun = $this->config_id()
             ->select('MIN(YEAR(tgl_lapor)) as tahun')
             ->from('log_penduduk')
             ->order_by('tahun DESC')
@@ -348,8 +351,7 @@ class Penduduk_log_model extends MY_Model
     {
         $this->db->select('COUNT(log.id) AS jml');
         $this->list_data_sql();
-        $jml_data = $this->db->get()
-            ->row()->jml;
+        $jml_data = $this->db->get()->row()->jml;
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -362,7 +364,7 @@ class Penduduk_log_model extends MY_Model
 
     public function list_data_hapus()
     {
-        $this->db
+        $this->config_id('log')
             ->select('log.tgl_peristiwa, log.tgl_lapor, h.nik, h.deleted_at')
             ->from('log_penduduk log')
             ->join('tweb_penduduk u', 'u.id = log.id_pend', 'left')
@@ -382,7 +384,7 @@ class Penduduk_log_model extends MY_Model
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id('log')
             ->from('log_penduduk log')
             ->join('tweb_penduduk u', 'u.id = log.id_pend', 'left')
             ->join('log_hapus_penduduk h', 'h.id_pend = log.id_pend', 'left')
@@ -511,7 +513,7 @@ class Penduduk_log_model extends MY_Model
 
     public function tahun_log_pertama()
     {
-        return $this->db
+        return $this->config_id()
             ->select('min(date_format(tgl_lapor, "%Y")) as thn')
             ->from('log_penduduk')
             ->where('DAYNAME(tgl_lapor) IS NOT NULL')
@@ -520,18 +522,18 @@ class Penduduk_log_model extends MY_Model
 
     public function get_log_penduduk($id_penduduk, $status_dasar = null)
     {
-        $this->db
-            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
-            ->where('p.id', $id_penduduk)
-            ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
-            ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left');
-        $this->db->order_by('l.id', 'desc');
-
         if ($status_dasar !== null) {
             $this->db->where('kode_peristiwa', $status_dasar);
         }
 
-        return $this->db->get('log_penduduk l')->row_array();
+        return $this->config_id('l')
+            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
+            ->where('p.id', $id_penduduk)
+            ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
+            ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left')
+            ->order_by('l.id', 'desc')
+            ->get('log_penduduk l')
+            ->row_array();
     }
 
     protected function akta_kematian_sql()

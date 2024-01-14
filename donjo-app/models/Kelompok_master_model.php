@@ -42,11 +42,6 @@ class Kelompok_master_model extends MY_Model
     protected $table = 'kelompok_master';
     protected $tipe  = 'kelompok';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function set_tipe(string $tipe)
     {
         $this->tipe = $tipe;
@@ -81,7 +76,7 @@ class Kelompok_master_model extends MY_Model
 
     private function list_data_sql()
     {
-        $this->db
+        $this->config_id('u')
             ->select('u.*')
             ->select('(SELECT COUNT(k.id) FROM kelompok k WHERE k.id_master = u.id) AS jumlah')
             ->from("{$this->table} u")
@@ -116,8 +111,9 @@ class Kelompok_master_model extends MY_Model
 
     public function insert()
     {
-        $data = $this->validasi($this->input->post());
-        $outp = $this->db->insert($this->table, $data);
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = $this->config_id;
+        $outp              = $this->db->insert($this->table, $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -125,8 +121,7 @@ class Kelompok_master_model extends MY_Model
     public function update($id = 0)
     {
         $data = $this->validasi($this->input->post());
-        $this->db->where('id', $id);
-        $outp = $this->db->update($this->table, $data);
+        $outp = $this->config_id()->where('id', $id)->update($this->table, $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -145,7 +140,9 @@ class Kelompok_master_model extends MY_Model
 
     public function delete($id = '', $semua = false)
     {
-        $outp = $this->db
+        $this->get_kelompok_master($id) ?? show_404();
+
+        $outp = $this->config_id()
             ->where('id', $id)
             ->where('tipe', $this->tipe)
             ->delete($this->table);
@@ -166,14 +163,12 @@ class Kelompok_master_model extends MY_Model
 
     public function get_kelompok_master($id = 0)
     {
-        return $this->db
+        return $this->config_id()
             ->where([
                 'id'   => $id,
                 'tipe' => $this->tipe,
             ])
             ->get($this->table)
             ->row();
-
-        return $this->db;
     }
 }

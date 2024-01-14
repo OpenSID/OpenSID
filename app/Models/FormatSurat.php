@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Libraries\TinyMCE;
 use App\Traits\Author;
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -46,6 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class FormatSurat extends BaseModel
 {
     use Author;
+    use ConfigId;
 
     public const MANDIRI               = 1;
     public const MANDIRI_DISABLE       = 0;

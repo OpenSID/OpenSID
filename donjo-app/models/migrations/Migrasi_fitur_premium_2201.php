@@ -55,7 +55,6 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->migrasi_2021122471($hasil);
         $hasil = $hasil && $this->migrasi_2021122971($hasil);
         $hasil = $hasil && $this->migrasi_2021122972($hasil);
-        $hasil = $hasil && $this->migrasi_2021122973($hasil);
 
         return $hasil && $this->migrasi_2021123051($hasil);
     }
@@ -420,27 +419,6 @@ class Migrasi_fitur_premium_2201 extends MY_model
             'ikon_kecil' => '',
             'parent'     => 206,
         ]);
-    }
-
-    protected function migrasi_2021122973($hasil)
-    {
-        // Tambah surat
-        $data = [
-            'nama'       => 'Keterangan Untuk Nikah Warga Non Muslim',
-            'url_surat'  => 'surat_ket_nikah_non_muslim',
-            'kode_surat' => 'S-50',
-            'lampiran'   => 'f-2.12.php',
-            'jenis'      => 1,
-        ];
-        $sql = $this->db->insert_string('tweb_surat_format', $data);
-        $sql .= ' ON DUPLICATE KEY UPDATE
-            nama = VALUES(nama),
-            url_surat = VALUES(url_surat),
-            kode_surat = VALUES(kode_surat),
-            lampiran = VALUES(lampiran),
-            jenis = VALUES(jenis)';
-
-        return $hasil && $this->db->query($sql);
     }
 
     public function migrasi_2021123051($hasil)

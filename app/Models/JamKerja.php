@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class JamKerja extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -85,15 +88,16 @@ class JamKerja extends BaseModel
 
     public function scopeJamKerja($query)
     {
-        $waktu = date('H:i');
+        $waktu   = date('H:i');
+        $rentang = setting('rentang_waktu_kehadiran') ?? SettingAplikasi::RENTANG_WAKTU_KEHADIRAN;
 
         return $query
             ->selectRaw('id, nama_hari, jam_masuk, status, keterangan')
-            ->selectRaw(sprintf('date_add(jam_keluar, interval %s minute) as jam_keluar', setting('rentang_waktu_kehadiran')))
+            ->selectRaw(sprintf('date_add(jam_keluar, interval %s minute) as jam_keluar', $rentang))
             ->where('nama_hari', $this->getNamaHari())
             ->where(static function ($q) use ($waktu) {
                 $q->whereTime('jam_masuk', '>', $waktu)
-                    ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [setting('rentang_waktu_kehadiran'), $waktu]);
+                    ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [$rentang, $waktu]);
             });
     }
 

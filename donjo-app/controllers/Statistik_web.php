@@ -136,49 +136,45 @@ class Statistik_web extends Web_Controller
         redirect("statistik_web/{$tipe_stat}/{$lap}");
     }
 
-    public function chart_gis_desa($lap = 0, $desa = '')
-    {
-        ($desa) ? $this->session->set_userdata('desa', underscore($desa, false)) : $this->session->unset_userdata('desa');
-        $this->session->unset_userdata('dusun');
-        $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
-
-        redirect("statistik_web/load_chart_gis/{$lap}");
-    }
-
     public function load_chart_gis($lap = 0)
     {
-        $data              = $this->get_cluster_session();
         $data['main']      = $this->laporan_penduduk_model->list_data($lap);
         $data['lap']       = $lap;
-        $data['untuk_web'] = true; // Untuk me-nonaktfikan tautan di tabel statistik kependudukan
+        $data['untuk_web'] = true;
         $this->get_data_stat($data, $lap);
         $this->load->view('gis/penduduk_gis', $data);
     }
 
-    public function chart_gis_dusun($lap = 0, $dusun = '')
+    public function chart_gis_desa($lap = 0, $desa = null)
     {
-        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
-        $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
+        $this->session->desa = $desa;
+        $this->session->unset_userdata(['dusun', 'rw', 'rt']);
 
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_rw($lap = 0, $dusun = '', $rw = '')
+    public function chart_gis_dusun($lap = 0, $dusun = null)
     {
-        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
-        ($rw) ? $this->session->set_userdata('rw', underscore($rw, false)) : $this->session->unset_userdata('rw');
-        $this->session->unset_userdata('rt');
+        $this->session->dusun = $dusun;
+        $this->session->unset_userdata(['rw', 'rt']);
 
         redirect("statistik_web/load_chart_gis/{$lap}");
     }
 
-    public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '')
+    public function chart_gis_rw($lap = 0, $dusun = null, $rw = null)
     {
-        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
-        ($rw) ? $this->session->set_userdata('rw', underscore($rw, false)) : $this->session->unset_userdata('rw');
-        ($rt) ? $this->session->set_userdata('rt', underscore($rt, false)) : $this->session->unset_userdata('rt');
+        $this->session->dusun = $dusun;
+        $this->session->rw    = $rw;
+        $this->session->unset_userdata(['rt']);
+
+        redirect("statistik_web/load_chart_gis/{$lap}");
+    }
+
+    public function chart_gis_rt($lap = 0, $dusun = null, $rw = null, $rt = null)
+    {
+        $this->session->dusun = $dusun;
+        $this->session->rw    = $rw;
+        $this->session->rt    = $rt;
 
         redirect("statistik_web/load_chart_gis/{$lap}");
     }

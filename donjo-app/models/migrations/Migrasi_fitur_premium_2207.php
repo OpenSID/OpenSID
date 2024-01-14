@@ -61,9 +61,8 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && $this->migrasi_2022060951($hasil);
         $hasil = $hasil && $this->migrasi_2022060371($hasil);
         $hasil = $hasil && $this->migrasi_2022062471($hasil);
-        $hasil = $hasil && $this->migrasi_2022062771($hasil);
 
-        return $hasil && $this->migrasi_2022062951($hasil);
+        return $hasil && $this->migrasi_2022062771($hasil);
     }
 
     protected function migrasi_2022060851($hasil)
@@ -844,10 +843,5 @@ class Migrasi_fitur_premium_2207 extends MY_model
         ];
 
         return $hasil && $this->tambah_surat_tinymce($data);
-    }
-
-    protected function migrasi_2022062951($hasil)
-    {
-        return $hasil && FormatSurat::updateOrCreate(['nama' => 'raw'], ['url_surat' => 'surat_raw']);
     }
 }
