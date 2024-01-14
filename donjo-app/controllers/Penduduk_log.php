@@ -188,7 +188,7 @@ class Penduduk_log extends Admin_Controller
     public function edit($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['log_status_dasar'] = $this->penduduk_log_model->get_log($id);
+        $data['log_status_dasar'] = $this->penduduk_log_model->get_log($id) ?? show_404();
         $data['list_ref_pindah']  = $this->referensi_model->list_data('ref_pindah');
         $data['sebab']            = $this->referensi_model->list_ref(SEBAB);
         $data['penolong_mati']    = $this->referensi_model->list_ref(PENOLONG_MATI);

@@ -51,33 +51,28 @@ class Klasifikasi_model extends MY_model
 
     public function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (u.nama LIKE '{$kw}' OR u.uraian LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db
+                ->group_start()
+                ->like('u.nama', $cari)
+                ->or_like('u.uraian', $cari)
+                ->group_end();
         }
     }
 
     public function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND enabled = {$kf}";
-
-            return $filter_sql;
+        if ($filter = $this->session->filter) {
+            $this->db->where('enabled', $filter);
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $list_data_sql = $this->list_data_sql($log);
-        $sql           = 'SELECT COUNT(u.id) AS jml ' . $list_data_sql;
-        $query         = $this->db->query($sql);
-        $row           = $query->row_array();
-        $jml_data      = $row['jml'];
+        $this->list_data_sql();
+        $jml_data = $this->db
+            ->select('COUNT(*) as jml')
+            ->get()->row()->jml;
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -91,48 +86,42 @@ class Klasifikasi_model extends MY_model
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
-        $sql = '
-			FROM klasifikasi_surat u
-			WHERE 1';
+        $this->db
+            ->from('klasifikasi_surat u')
+            ->where('config_id', identitas('id'));
 
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
-
-        return $sql;
+        $this->search_sql();
+        $this->filter_sql();
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
-        $select_sql = 'SELECT * ';
         //Main Query
-        $list_data_sql = $this->list_data_sql();
-        $sql           = $select_sql . ' ' . $list_data_sql;
+        $this->list_data_sql();
 
         //Ordering SQL
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY u.kode * 1';
+            case 1: $order = 'u.kode';
                 break;
 
-            case 2: $order_sql = ' ORDER BY u.kode * 1 DESC';
+            case 2: $order = 'u.kode DESC';
                 break;
 
-            case 3: $order_sql = ' ORDER BY u.nama';
+            case 3: $order = 'u.nama';
                 break;
 
-            case 4: $order_sql = ' ORDER BY u.nama DESC';
+            case 4: $order = 'u.nama DESC';
                 break;
 
-            default:$order_sql = ' ORDER BY u.kode * 1';
+            default:$order = 'u.kode';
         }
 
-        //Paging SQL
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->db
+            ->select('*')
+            ->order_by($order)
+            ->limit($limit, $offset)
+            ->get()
+            ->result_array();
         //Formating Output
         $j = $offset;
 
@@ -147,33 +136,39 @@ class Klasifikasi_model extends MY_model
     // Ambil kode yang aktif untuk ditampilkan di form surat_masuk
     public function list_kode()
     {
-        return $this->db->select('kode, nama')->
-                where('enabled', '1')->
-                order_by('kode')->
-                get('klasifikasi_surat')->result_array();
+        return $this->config_id()
+            ->select('kode, nama')
+            ->where('enabled', '1')
+            ->order_by('kode')
+            ->get('klasifikasi_surat')
+            ->result_array();
     }
 
     public function insert()
     {
-        $data = $_POST;
-        $this->sterilkan_data($data);
+        $data = $this->input->post();
+        $data = $this->sterilkan_data($data);
+
+        $data['config_id'] = identitas('id');
 
         return $this->db->insert('klasifikasi_surat', $data);
     }
 
-    private function sterilkan_data(&$data)
+    private function sterilkan_data($data)
     {
-        $data['kode']   = alfanumerik_titik($data['kode']);
-        $data['nama']   = alfa_spasi($data['nama']);
-        $data['uraian'] = strip_tags($data['uraian']);
+        return [
+            'kode'   => alfanumerik_titik($data['kode']),
+            'nama'   => alfa_spasi($data['nama']),
+            'uraian' => strip_tags($data['uraian']),
+        ];
     }
 
     public function update($id = 0)
     {
-        $data = $_POST;
-        $this->sterilkan_data($data);
+        $data = $this->input->post();
+        $data = $this->sterilkan_data($data);
 
-        return $this->db->where('id', $id)->update('klasifikasi_surat', $data);
+        return $this->config_id()->where('id', $id)->update('klasifikasi_surat', $data);
     }
 
     public function delete($id = '', $semua = false)
@@ -182,16 +177,16 @@ class Klasifikasi_model extends MY_model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('klasifikasi_surat');
+        $outp = $this->config_id()->where('id', $id)->delete('klasifikasi_surat');
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete($id, $semua = true);
@@ -200,7 +195,7 @@ class Klasifikasi_model extends MY_model
 
     public function lock($id = '', $val = 0)
     {
-        $outp = $this->db->where('id', $id)->update('klasifikasi_surat', ['enabled' => $val]);
+        $outp = $this->config_id()->where('id', $id)->update('klasifikasi_surat', ['enabled' => $val]);
         if ($outp) {
             $_SESSION['success'] = 1;
         } else {
@@ -210,7 +205,7 @@ class Klasifikasi_model extends MY_model
 
     public function get_klasifikasi($id = 0)
     {
-        return $this->db->where('id', $id)->get('klasifikasi_surat')->row_array();
+        return $this->config_id()->where('id', $id)->get('klasifikasi_surat')->row_array();
     }
 
     /**
@@ -230,7 +225,7 @@ class Klasifikasi_model extends MY_model
             return;
         }
         $this->db->trans_start();
-        $this->db->truncate('klasifikasi_surat');
+        $this->config_id()->delete('klasifikasi_surat');
         $header    = fgetcsv($handle);
         $jml_kolom = count($header);
 
@@ -239,6 +234,7 @@ class Klasifikasi_model extends MY_model
 
             for ($c = 0; $c < $jml_kolom; $c++) {
                 $data[$header[$c]] = $csv[$c];
+                $data['config_id'] = identitas('id');
             }
             $this->db->insert('klasifikasi_surat', $data);
         }

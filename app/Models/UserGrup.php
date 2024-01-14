@@ -35,47 +35,41 @@
  *
  */
 
-use App\Models\Config;
+namespace App\Models;
+
+use App\Traits\ConfigId;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class pengaduan extends Web_Controller
+class UserGrup extends BaseModel
 {
-    public function __construct()
+    use ConfigId;
+
+    // UserGrup bawaan
+    public const ADMINISTRATOR = 'administrator';
+    public const OPERATOR      = 'operator';
+    public const REDAKSI       = 'redaksi';
+    public const KONTRIBUTOR   = 'kontributor';
+
+    // Jenis UserGrup
+    public const SISTEM = 1;
+    public const DESA   = 2;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'user_grup';
+
+    public function getGrupSistem()
     {
-        parent::__construct();
-        $this->load->model(['pengaduan_model', 'theme_model']);
+        return self::where('jenis', self::SISTEM)->pluck('id')->toArray();
     }
 
-    public function index()
+    public function getGrupId($slug)
     {
-        $cari = $this->input->get('cari');
-        $data = [
-            'header'        => Config::first(),
-            'pengaduan'     => $this->pengaduan_model->list_data($cari),
-            'form_action'   => site_url('pengaduan/kirim'),
-            'search_action' => site_url('pengaduan'),
-            'cari'          => $cari,
-            'allstatus'     => $this->pengaduan_model->get_data()->count_all_results(),
-            'status1'       => $this->pengaduan_model->get_data('1')->count_all_results(),
-            'status2'       => $this->pengaduan_model->get_data('2')->count_all_results(),
-            'status3'       => $this->pengaduan_model->get_data('3')->count_all_results(),
-        ];
-
-        $this->load->view('pengaduan/index', $data);
-    }
-
-    public function kirim()
-    {
-        $result = $this->pengaduan_model->insert();
-
-        if ($result) {
-            $this->session->set_flashdata('notif', [
-                'status' => 'success',
-                'pesan'  => 'Pengaduan berhasil dikirim.',
-            ]);
-        }
-
-        redirect('pengaduan');
+        return self::where(Schema::hasColumn('user_grup', 'slug') ? 'slug' : 'nama', $slug)->value('id');
     }
 }

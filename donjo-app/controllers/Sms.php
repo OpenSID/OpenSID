@@ -290,11 +290,12 @@ class Sms extends Admin_Controller
     protected function hubungWargaValidate($request = [])
     {
         return [
+            'config_id'  => identitas('id'),
             'id_grup'    => bilangan($request['id_grup']),
             'subjek'     => htmlentities($request['subjek']),
             'isi'        => htmlentities($request['isi']),
-            'created_by' => $this->session->isAdmin->id,
-            'updated_by' => $this->session->isAdmin->id,
+            'created_by' => auth()->id,
+            'updated_by' => auth()->id,
         ];
     }
 

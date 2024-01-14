@@ -41,11 +41,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_persil_model extends MY_Model
 {
-    public function __construct()
-    {
-        $this->load->database();
-    }
-
     public function autocomplete($cari = '')
     {
         return $this->autocomplete_str('nomor', 'persil', $cari);
@@ -111,14 +106,12 @@ class Data_persil_model extends MY_Model
     //list pada data select
     public function list_kelas($tipe = '')
     {
-        $this->db
+        return $this->config_id('p')
             ->distinct()
             ->select('k.id, k.kode')
             ->from('persil p')
             ->join('ref_persil_kelas k', 'k.id = p.kelas', 'left')
-            ->where("tipe = '{$tipe}'");
-
-        return $this->db
+            ->where("tipe = '{$tipe}'")
             ->get()
             ->result_array();
     }
@@ -127,15 +120,14 @@ class Data_persil_model extends MY_Model
     // TODO : Apakah samadengan wilayah_model->list_dusun() ?
     public function list_dusun()
     {
-        $this->db
+        $this->filter_kelas();
+
+        return $this->config_id('p')
             ->distinct()
             ->select('w.dusun')
             ->from('persil p')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
-            ->where('w.dusun IS NOT NULL');
-        $this->filter_kelas();
-
-        return $this->db
+            ->where('w.dusun IS NOT NULL')
             ->get()
             ->result_array();
     }
@@ -144,7 +136,7 @@ class Data_persil_model extends MY_Model
     // TODO : Apakah samadengan wilayah_model->list_rw() ?
     public function list_rw($dusun = '')
     {
-        return $this->db
+        return $this->config_id('p')
             ->distinct()
             ->select('w.rw')
             ->from('persil p')
@@ -159,7 +151,7 @@ class Data_persil_model extends MY_Model
     // TODO : Apakah samadengan wilayah_model->list_rt() ?
     public function list_rt($dusun = '', $rw = '')
     {
-        return $this->db
+        return $this->config_id('p')
             ->distinct()
             ->select('w.rt')
             ->from('persil p')
@@ -175,7 +167,6 @@ class Data_persil_model extends MY_Model
     {
         $this->main_sql();
         $jml = $this->db->select('p.id')->get()->num_rows();
-
         $this->load->library('paging');
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
@@ -187,12 +178,14 @@ class Data_persil_model extends MY_Model
 
     private function main_sql()
     {
-        $this->db->from('persil p')
+        $this->config_id('p')
+            ->from('persil p')
             ->join('ref_persil_kelas k', 'k.id = p.kelas', 'left')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
             ->join('mutasi_cdesa m', 'p.id = m.id_persil', 'left')
             ->join('cdesa c', 'c.id = p.cdesa_awal', 'left')
             ->group_by('p.id, nomor_urut_bidang');
+
         $this->filter_kelas();
         $this->filter_lokasi();
         $this->filter_wilayah();
@@ -202,10 +195,10 @@ class Data_persil_model extends MY_Model
     private function lokasi_persil_query()
     {
         $this->db->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
-					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-					w.dusun
-				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat");
+            (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+            (CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+            w.dusun
+        ) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat");
     }
 
     public function list_data($offset = 0, $per_page = 0)
@@ -234,7 +227,7 @@ class Data_persil_model extends MY_Model
     public function list_persil()
     {
         $this->lokasi_persil_query();
-        $this->db
+        $this->config_id('p')
             ->select('p.id, nomor, nomor_urut_bidang')
             ->from('persil p')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
@@ -247,34 +240,39 @@ class Data_persil_model extends MY_Model
     {
         $this->lokasi_persil_query();
 
-        return $this->db->select('p.*, k.kode, k.tipe, k.ndesc, c.nomor as nomor_cdesa_awal')
+        return $this->config_id('p')
+            ->select('p.*, k.kode, k.tipe, k.ndesc, c.nomor as nomor_cdesa_awal')
             ->from('persil p')
             ->join('ref_persil_kelas k', 'k.id = p.kelas', 'left')
             ->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
             ->join('cdesa c', 'c.id = p.cdesa_awal', 'left')
             ->where('p.id', $id)
-            ->get()->row_array();
+            ->get()
+            ->row_array();
     }
 
     public function get_list_mutasi($id)
     {
-        $this->db
+        return $this->config_id('p')
             ->select('m.*, m.id_cdesa_masuk, c.nomor as cdesa_masuk, k.id as id_cdesa_keluar')
             ->from('persil p')
             ->join('mutasi_cdesa m', 'p.id = m.id_persil', 'left')
             ->join('cdesa c', 'c.id = m.id_cdesa_masuk', 'left')
             ->join('cdesa k', 'k.nomor = m.cdesa_keluar', 'left')
-            ->where('m.id_persil', $id);
-
-        return $this->db->get()->result_array();
+            ->where('m.id_persil', $id)
+            ->get()
+            ->result_array();
     }
 
     private function get_persil_by_nomor($nomor, $nomor_urut_bidang)
     {
-        return $this->db->select('id')
+        return $this->config_id()
+            ->select('id')
             ->where('nomor', $nomor)
             ->where('nomor_urut_bidang', $nomor_urut_bidang)
-            ->get('persil')->row()->id;
+            ->get('persil')
+            ->row()
+            ->id;
     }
 
     public function simpan_persil($post)
@@ -288,14 +286,15 @@ class Data_persil_model extends MY_Model
         $data['lokasi']            = $post['lokasi'] ?: null;
         $data['path']              = $post['path'];
         $data['id_peta']           = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? (empty($post['id_peta']) ? null : $post['id_peta']) : null;
-
-        $id_persil = $post['id_persil'] ?: $this->get_persil_by_nomor($post['no_persil'], $post['nomor_urut_bidang']);
+        $id_persil                 = $post['id_persil'] ?: $this->get_persil_by_nomor($post['no_persil'], $post['nomor_urut_bidang']);
         if ($id_persil) {
-            $this->db->where('id', $id_persil)
+            $this->config_id()
+                ->where('id', $id_persil)
                 ->update('persil', $data);
         } else {
             $data['cdesa_awal'] = bilangan($post['cdesa_awal']);
             $data['nomor']      = $post['no_persil'];
+            $data['config_id']  = $this->config_id;
             $this->db->insert('persil', $data);
             $id_persil = $this->db->insert_id();
             $this->mutasi_awal($data, $id_persil);
@@ -306,7 +305,8 @@ class Data_persil_model extends MY_Model
 
     public function hapus($id)
     {
-        $hasil = $this->db->where('id', $id)
+        $hasil = $this->config_id()
+            ->where('id', $id)
             ->delete('persil');
         status_sukses($hasil);
     }
@@ -314,7 +314,8 @@ class Data_persil_model extends MY_Model
     public function list_persil_kelas($table = '')
     {
         if ($table) {
-            $data = $this->db->order_by('kode')
+            $data = $this->db
+                ->order_by('kode')
                 ->get_where('ref_persil_kelas', ['tipe' => $table])
                 ->result_array();
             $data = array_combine(array_column($data, 'id'), $data);
@@ -335,22 +336,27 @@ class Data_persil_model extends MY_Model
     public function awal_persil($cdesa_awal, $id_persil, $hapus = false)
     {
         // Hapus mutasi awal kalau ada
-        $this->db->where('id_persil', $id_persil)
+        $this->config_id()
+            ->where('id_persil', $id_persil)
             ->where('jenis_mutasi', '9')
             ->delete('mutasi_cdesa');
         $cdesa_awal = $hapus ? null : $cdesa_awal; // Kosongkan pemilik awal persil ini
-        $this->db->where('id', $id_persil)
+        $this->config_id()
+            ->where('id', $id_persil)
             ->set('cdesa_awal', $cdesa_awal)
             ->update('persil');
         if (! $hapus) {
-            $persil = $this->db->where('id', $id_persil)
-                ->get('persil')->row_array();
+            $persil = $this->config_id()
+                ->where('id', $id_persil)
+                ->get('persil')
+                ->row_array();
             $this->mutasi_awal($persil, $id_persil);
         }
     }
 
     private function mutasi_awal($data, $id_persil)
     {
+        $mutasi['config_id']      = $this->config_id;
         $mutasi['id_cdesa_masuk'] = $data['cdesa_awal'];
         $mutasi['jenis_mutasi']   = '9';
         $mutasi['tanggal_mutasi'] = date('Y-m-d H:i:s');

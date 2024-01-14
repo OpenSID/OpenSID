@@ -78,14 +78,12 @@ class Lapak_admin extends Admin_Controller
         $data['navigasi'] = $this->navigasi();
 
         if ($data['navigasi']['jml_pelapak']['aktif'] <= 0) {
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu';
+            session_error('Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu');
             redirect("{$this->controller}/pelapak");
         }
 
         if ($data['navigasi']['jml_kategori']['aktif'] <= 0) {
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Kategori tidak tersedia, silakan tambah kategori terlebih dahulu';
+            session_error('Kategori tidak tersedia, silakan tambah kategori terlebih dahulu');
             redirect("{$this->controller}/kategori");
         }
 
@@ -172,7 +170,7 @@ class Lapak_admin extends Admin_Controller
 
     public function produk_detail($id = 0)
     {
-        $data['main'] = $this->lapak_model->produk_detail($id);
+        $data['main'] = $this->lapak_model->produk_detail($id) ?? show_404();
 
         $this->load->view("{$this->controller}/produk/detail", $data);
     }
@@ -302,8 +300,7 @@ class Lapak_admin extends Admin_Controller
         $this->redirect_hak_akses('h');
         // Cek apakah produk pelapak ada ???
         if ($this->lapak_model->get_produk()->where('id_pelapak', $id)->count_all_results() > 0) {
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Pelapak tersebut memiliki produk, silahkan hapus terlebih dahulu';
+            session_error('Pelapak tersebut memiliki produk, silahkan hapus terlebih dahulu');
         } else {
             $this->lapak_model->pelapak_delete($id);
         }
@@ -383,8 +380,7 @@ class Lapak_admin extends Admin_Controller
         $this->redirect_hak_akses('h');
         // Cek apakah produk kategori ada ???
         if ($this->lapak_model->get_produk()->where('id_produk_kategori', $id)->count_all_results() > 0) {
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Kategori tersebut memiliki produk, silakan hapus terlebih dahulu';
+            session_error('Kategori tersebut memiliki produk, silakan hapus terlebih dahulu');
         } else {
             $this->lapak_model->kategori_delete($id);
         }

@@ -1,15 +1,3 @@
-<?php
-/*
- * File ini:
- *
- * Bagian dari menu cetak pada tampilan peta di Admin maupun Web
- *
- * donjo-app/views/gis/cetak_peta.php
- *
- */
-
-?>
-
 <table class="title" leaflet-browser-print-content width="100%" style="border: solid 1px grey; text-align: center;">
   <tr>
     <td align="center"></td>

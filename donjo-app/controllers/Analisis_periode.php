@@ -102,7 +102,7 @@ class Analisis_periode extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['analisis_periode'] = $this->analisis_periode_model->get_analisis_periode($id);
+            $data['analisis_periode'] = $this->analisis_periode_model->get_analisis_periode($id) ?? show_404();
             $data['form_action']      = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
         } else {
             $data['analisis_periode'] = null;
@@ -170,6 +170,7 @@ class Analisis_periode extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
+    // TODO:: Digunakan dimana?
     public function list_state()
     {
         $sql   = 'SELECT * FROM analisis_ref_state';

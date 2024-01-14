@@ -37,12 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PermohonanSurat extends BaseModel
 {
+    use ConfigId;
+
     public const BELUM_LENGKAP         = 0;
     public const SEDANG_DIPERIKSA      = 1;
     public const MENUNGGU_TANDA_TANGAN = 2;

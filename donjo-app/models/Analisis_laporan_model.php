@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Analisis_laporan_model extends CI_Model
+class Analisis_laporan_model extends My_Model
 {
     public function __construct()
     {
@@ -48,12 +48,12 @@ class Analisis_laporan_model extends CI_Model
 
     public function autocomplete()
     {
-        $sql = 'SELECT no_kk FROM tweb_keluarga
-			UNION SELECT t.nama
-				FROM tweb_keluarga u
-				LEFT JOIN penduduk_hidup t ON u.nik_kepala = t.id
-				LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
-				WHERE 1 ';
+        $sql = 'SELECT no_kk FROM tweb_keluarga WHERE config_id = ' . identitas('id') .
+            ' UNION SELECT t.nama
+                FROM tweb_keluarga u
+                LEFT JOIN penduduk_hidup t ON u.nik_kepala = t.id
+                LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
+                WHERE u.config_id = ' . identitas('id');
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
@@ -194,7 +194,7 @@ class Analisis_laporan_model extends CI_Model
         $jmkf = $this->session->jmkf;
         $this->db
             ->where_in('x.id_parameter', $kf)
-            ->where("((SELECT COUNT(id_parameter) FROM analisis_respon WHERE id_subjek = u.id AND id_periode = {$per} AND id_parameter IN ({$kf})) = {$jmkf})");
+            ->where('((SELECT COUNT(id_parameter) FROM analisis_respon WHERE id_subjek = u.id  AND config_id = ' . identitas('id') . " AND id_periode = {$per} AND id_parameter IN ({$kf})) = {$jmkf})");
     }
 
     public function get_judul()
@@ -293,21 +293,21 @@ class Analisis_laporan_model extends CI_Model
 
         switch ($this->subjek) {
             case 1:
-                $this->db
+                $this->config_id('u')
                     ->from('penduduk_hidup u')
                     ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left')
                     ->join('tweb_keluarga kk', 'kk.id = u.id_kk', 'left');
                 break;
 
             case 2:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_keluarga u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
             case 3:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_rtm u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id')
                     ->join('tweb_keluarga kk', 'kk.nik_kepala = p.id', 'left')
@@ -315,7 +315,7 @@ class Analisis_laporan_model extends CI_Model
                 break;
 
             case 4:
-                $this->db
+                $this->config_id('u')
                     ->from('kelompok u')
                     ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
                     ->join('tweb_keluarga kk', 'kk.nik_kepala = p.id', 'left')
@@ -324,25 +324,26 @@ class Analisis_laporan_model extends CI_Model
 
             case 5:
                 $this->db
-                    ->from('config u');
+                    ->from('config u')
+                    ->where('u.app_key', get_app_key());
                 break;
 
             case 6:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
                     ->where('u.rw', '0');
                 break;
 
             case 7:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
                     ->where('u.rw <>', '0');
                 break;
 
             case 8:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt <> 0')
                     ->where('u.rt <> "-"');
@@ -483,13 +484,15 @@ class Analisis_laporan_model extends CI_Model
 
     private function list_jawab2($id = 0, $in = 0)
     {
-        $per = $this->analisis_master_model->periode->id;
-        $sql = 'SELECT s.id as id_parameter,s.jawaban as jawaban,s.nilai
-			FROM analisis_respon r
-			LEFT JOIN analisis_parameter s ON r.id_parameter = s.id
-			WHERE r.id_subjek = ? AND r.id_periode = ? AND r.id_indikator = ?';
-        $query = $this->db->query($sql, [$id, $per, $in]);
-        $data  = $query->row_array();
+        $per  = $this->analisis_master_model->periode->id;
+        $data = $this->config_id('r')
+            ->select('s.id as id_parameter,s.jawaban as jawaban,s.nilai')
+            ->join('analisis_parameter s', 'r.id_parameter = s.id')
+            ->where('r.id_subjek', $id)
+            ->where('r.id_periode', $per)
+            ->where('r.id_indikator', $in)
+            ->get()
+            ->row_array();
 
         if (empty($data['jawaban'])) {
             $data['jawaban'] = '-';
@@ -511,11 +514,11 @@ class Analisis_laporan_model extends CI_Model
         $cb = $cb . '7777777';
 
         $sql = "SELECT u.*,
-			(SELECT COUNT(id)
-				FROM analisis_indikator
-				WHERE id = u.id AND id IN({$cb})) AS cek
-			FROM analisis_indikator u
-			WHERE 1 ";
+            (SELECT COUNT(id)
+                FROM analisis_indikator
+                WHERE id = u.id AND id IN({$cb}) AND config_id = " . identitas('id') . ') AS cek
+            FROM analisis_indikator u
+            WHERE u.config_id = ' . identitas('id');
         $sql .= $this->master_sql();
         $sql .= ' ORDER BY u.nomor ASC';
         $query = $this->db->query($sql, $id);
@@ -534,12 +537,14 @@ class Analisis_laporan_model extends CI_Model
 
     public function get_total($id = 0)
     {
-        $per = $this->analisis_master_model->periode->id;
-        $sql = 'SELECT akumulasi
-			FROM analisis_respon_hasil u
-			WHERE id_subjek = ? AND id_periode = ? ';
-        $query = $this->db->query($sql, [$id, $per]);
-        $data  = $query->row_array();
+        $per  = $this->analisis_master_model->periode->id;
+        $data = $this->config_id('u')
+            ->select('akumulasi')
+            ->from('analisis_respon_hasil u')
+            ->where('id_subjek', $id)
+            ->where('id_periode', $per)
+            ->get()
+            ->row_array();
 
         return $data['akumulasi'];
     }
@@ -548,14 +553,14 @@ class Analisis_laporan_model extends CI_Model
     {
         switch ($this->subjek) {
             case 1:
-                $this->db
+                $this->config_id('u')
                     ->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt')
                     ->from('penduduk_hidup u')
                     ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
                 break;
 
             case 2:
-                $this->db
+                $this->config_id('u')
                     ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('tweb_keluarga u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
@@ -563,7 +568,7 @@ class Analisis_laporan_model extends CI_Model
                 break;
 
             case 3:
-                $this->db
+                $this->config_id('u')
                     ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('tweb_rtm u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
@@ -571,7 +576,7 @@ class Analisis_laporan_model extends CI_Model
                 break;
 
             case 4:
-                $this->db
+                $this->config_id('u')
                     ->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('kelompok u')
                     ->join('penduduk_hidup p', '.id_ketua = p.id', 'left')
@@ -581,11 +586,12 @@ class Analisis_laporan_model extends CI_Model
             case 5:
                 $this->db
                     ->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
-                    ->from('config u');
+                    ->from('config u')
+                    ->where('u.app_key', get_app_key());
                 break;
 
             case 6:
-                $this->db
+                $this->config_id('u')
                     ->select("u.id, u.dusun AS nid, UPPER('{$this->setting->sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
@@ -593,7 +599,7 @@ class Analisis_laporan_model extends CI_Model
                 break;
 
             case 7:
-                $this->db
+                $this->config_id('u')
                     ->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
@@ -601,7 +607,7 @@ class Analisis_laporan_model extends CI_Model
                 break;
 
             case 8:
-                $this->db
+                $this->config_id('u')
                     ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt <> 0')
@@ -651,10 +657,10 @@ class Analisis_laporan_model extends CI_Model
         $order_sql = ' ORDER BY u.nomor,i.kode_jawaban ASC';
 
         $sql = "SELECT u.pertanyaan,u.nomor,i.jawaban,i.id AS id_jawaban,i.kode_jawaban,
-				(SELECT count(id) FROM analisis_parameter WHERE id IN ({$kf}) AND id = i.id) AS cek
-			FROM analisis_indikator u
-			LEFT JOIN analisis_parameter i ON u.id = i.id_indikator
-			WHERE u.id_master = {$master['id']} ";
+            (SELECT count(id) FROM analisis_parameter WHERE id IN ({$kf}) AND id = i.id AND u.config_id = " . identitas('id') . ") AS cek
+            FROM analisis_indikator u
+            LEFT JOIN analisis_parameter i ON u.id = i.id_indikator
+            WHERE u.id_master = {$master['id']} AND u.config_id = " . identitas('id');
         $sql .= $asign_sql;
         $sql .= $order_sql;
         $query = $this->db->query($sql, $master);
@@ -672,8 +678,8 @@ class Analisis_laporan_model extends CI_Model
         if (isset($this->session->jawab)) {
             $idcb = $this->session->jawab;
             $sql  = "SELECT DISTINCT(id_indikator) AS id_jmkf
-				FROM analisis_parameter
-				WHERE id IN({$idcb})";
+                FROM analisis_parameter
+                WHERE id IN({$idcb}) AND config_id = " . identitas('id');
             $query = $this->db->query($sql);
 
             return $query->result_array();
@@ -685,8 +691,8 @@ class Analisis_laporan_model extends CI_Model
     public function list_klasifikasi()
     {
         $sql = 'SELECT *
-			FROM analisis_klasifikasi
-			WHERE id_master=?';
+            FROM analisis_klasifikasi
+            WHERE id_master=? AND config_id = ' . identitas('id');
         $query = $this->db->query($sql, $this->session->analisis_master);
 
         return $query->result_array();

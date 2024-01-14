@@ -127,7 +127,7 @@ class Rtm extends Admin_Controller
     public function edit_nokk($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['kk']          = $this->rtm_model->get_rtm($id);
+        $data['kk']          = $this->rtm_model->get_rtm($id) ?? show_404();
         $data['form_action'] = site_url("{$this->controller}/update_nokk/{$id}");
 
         $this->load->view('rtm/ajax_edit_no_rtm', $data);
@@ -136,10 +136,43 @@ class Rtm extends Admin_Controller
     public function form_old($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/insert/{$id}");
 
         $this->load->view('rtm/ajax_add_rtm', $data);
+    }
+
+    public function apipendudukrtm()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari = $this->input->get('q');
+
+            $penduduk = Penduduk::with('pendudukHubungan')
+                ->select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
+                ->when($cari, static function ($query) use ($cari) {
+                    $query->orWhere('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                })
+                ->where(static function ($query) {
+                    $query->where('id_rtm', '=', 0)
+                        ->orWhere('id_rtm', '=', null);
+                })
+                ->paginate(10);
+
+            return json([
+                'results' => collect($penduduk->items())
+                    ->map(static function ($item) {
+                        return [
+                            'id'   => $item->id,
+                            'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun . ' - ' . $item->pendudukHubungan->nama),
+                        ];
+                    }),
+                'pagination' => [
+                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
     }
 
     public function filter($filter = '', $order_by = '')
@@ -273,7 +306,6 @@ class Rtm extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
 
         $this->load->view('rtm/ajax_add_anggota_rtm_form', $data);
@@ -311,7 +343,7 @@ class Rtm extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['hubungan']    = $this->rtm_model->list_hubungan();
-        $data['main']        = $this->rtm_model->get_anggota($id);
+        $data['main']        = $this->rtm_model->get_anggota($id) ?? show_404();
         $data['form_action'] = site_url("{$this->controller}/update_anggota/{$id_rtm}/{$id}");
 
         $this->load->view('rtm/ajax_edit_anggota_rtm', $data);
@@ -413,10 +445,16 @@ class Rtm extends Admin_Controller
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
                 $this->session->program_bantuan = $program_id;
-                $nama                           = $this->db->select('nama')
+
+                // TODO: Sederhanakan query ini, pindahkan ke model
+                $nama = $this->db
+                    ->select('nama')
+                    ->where('config_id', identitas('id'))
                     ->where('id', $program_id)
-                    ->get('program')->row()
+                    ->get('program')
+                    ->row()
                     ->nama;
+
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;

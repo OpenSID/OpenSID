@@ -37,16 +37,12 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Lapor_model extends CI_Model
+class Lapor_model extends MY_Model
 {
     // Dipakai di penduduk, surat master dan surat fmandiri
     public function get_surat_ref_all()
     {
-        $this->db->select('*')
-            ->from('ref_syarat_surat');
-        $query = $this->db->get();
-
-        return $query->result_array();
+        return $this->config_id()->get('ref_syarat_surat')->result_array();
     }
 
     // Dipakai di surat master
@@ -58,7 +54,7 @@ class Lapor_model extends CI_Model
 
         if ($mandiri == 1) {
             // Update syarat baru yg dipilih
-            $this->db
+            $this->config_id()
                 ->where('id', $surat_format_id)
                 ->update('tweb_surat_format', ['syarat_surat' => json_encode($syarat_surat)]);
         }

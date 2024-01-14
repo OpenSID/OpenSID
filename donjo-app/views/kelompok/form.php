@@ -42,7 +42,7 @@
 						<div class="form-group">
 							<label  class="col-sm-3 control-label" for="id_ketua">Ketua <?= ucfirst($this->controller) ?></label>
 							<div class="col-sm-7">
-								<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
+								<select class="form-control input-sm required" id="kelompok_penduduk" name="id_ketua">
 									<option value="">-- Silakan Masukkan NIK / Nama--</option>
 									<?php foreach ($list_penduduk as $data): ?>
 										<option value="<?= $data['id']; ?>" <?= selected($data['id'], $kelompok['id_ketua']); ?>>NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat']; ?></option>

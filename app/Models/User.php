@@ -37,11 +37,15 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // class User extends Authenticatable implements JWTSubject
 class User extends BaseModel
 {
+    use ConfigId;
+
     // use HasApiTokens;
     // use HasFactory;
     // use Notifiable;
@@ -123,5 +127,19 @@ class User extends BaseModel
     public function scopeStatus($query, $status = 1)
     {
         return $query->where('active', $status);
+    }
+
+    /**
+     * Scope query untuk super admin
+     *
+     * Super admin tidak terikat dengan status (selalu aktif) dan hanya ada 1 untuk setiap desa
+     *
+     * @param mixed $query
+     *
+     * @return Builder
+     */
+    public function scopeSuperAdmin($query)
+    {
+        return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
     }
 }

@@ -173,6 +173,9 @@
 
 		L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_kantor);
 
+		// Menampilkan notif error path
+        view_error_path();
+
 	}; // EOF window.onload
 </script>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>

@@ -41,11 +41,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_lokasi_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'lokasi');
@@ -53,56 +48,41 @@ class Plan_lokasi_model extends MY_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND l.nama LIKE '{$kw}'";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db->like('l.nama', $cari);
         }
     }
 
     private function filter_sql()
     {
-        if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND l.enabled = {$kf}";
-
-            return $filter_sql;
+        if ($filter = $this->session->filter) {
+            $this->db->where('l.enabled', $filter);
         }
     }
 
     private function point_sql()
     {
-        if (isset($_SESSION['point'])) {
-            $kf        = $_SESSION['point'];
-            $point_sql = " AND p.id = {$kf}";
-
-            return $point_sql;
+        if ($point = $this->session->point) {
+            $this->db->where('p.id', $point);
         }
     }
 
     private function subpoint_sql()
     {
-        if (isset($_SESSION['subpoint'])) {
-            $kf           = $_SESSION['subpoint'];
-            $subpoint_sql = " AND m.id = {$kf}";
-
-            return $subpoint_sql;
+        if ($subpoint = $this->session->subpoint) {
+            $this->db->where('m.id', $subpoint);
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql      = 'SELECT COUNT(l.id) AS id ' . $this->list_data_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
+        $this->list_data_sql();
+        $row      = $this->db->select('count(l.id) as id')->get()->row_array();
         $jml_data = $row['id'];
 
         $this->load->library('paging');
         $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
         $this->paging->init($cfg);
 
@@ -111,45 +91,42 @@ class Plan_lokasi_model extends MY_Model
 
     private function list_data_sql()
     {
-        $sql = '
-			FROM lokasi l
-			LEFT JOIN point p ON l.ref_point = p.id
-			LEFT JOIN point m ON p.parrent = m.id
-			WHERE 1 ';
+        $this->config_id('l')
+            ->from('lokasi l')
+            ->join('point p', 'l.ref_point = p.id', 'left')
+            ->join('point m', 'p.parrent = m.id', 'left');
 
-        $sql .= $this->search_sql();
-        $sql .= $this->filter_sql();
-        $sql .= $this->point_sql();
-        $sql .= $this->subpoint_sql();
-
-        return $sql;
+        $this->search_sql();
+        $this->filter_sql();
+        $this->point_sql();
+        $this->subpoint_sql();
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 1000)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY nama';
+            case 1: $this->db->order_by('nama');
                 break;
 
-            case 2: $order_sql = ' ORDER BY nama DESC';
+            case 2: $this->db->order_by('nama', 'desc');
                 break;
 
-            case 3: $order_sql = ' ORDER BY enabled';
+            case 3: $this->db->order_by('enabled');
                 break;
 
-            case 4: $order_sql = ' ORDER BY enabled DESC';
+            case 4: $this->db->order_by('enabled', 'desc');
                 break;
 
-            default:$order_sql = ' ORDER BY id';
+            default:$this->db->order_by('id');
         }
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-        $sql = 'SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol ' . $this->list_data_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
+        $this->list_data_sql();
 
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->db
+            ->select('l.*, p.nama as kategori, m.nama as jenis, p.simbol as simbol')
+            ->limit($limit, $offset)
+            ->get()
+            ->result_array();
 
         $j = $offset;
 
@@ -178,10 +155,11 @@ class Plan_lokasi_model extends MY_Model
 
     public function insert()
     {
-        $data       = $this->validasi($this->input->post());
-        $garis_file = $_FILES['foto']['tmp_name'];
-        $nama_file  = $_FILES['foto']['name'];
-        $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);
+        $data              = $this->validasi($this->input->post());
+        $data['config_id'] = identitas('id');
+        $garis_file        = $_FILES['foto']['tmp_name'];
+        $nama_file         = $_FILES['foto']['name'];
+        $nama_file         = time() . '-' . str_replace(' ', '-', $nama_file);
         if (! empty($garis_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
         } else {
@@ -206,7 +184,7 @@ class Plan_lokasi_model extends MY_Model
             unset($data['foto']);
         }
 
-        $outp = $this->db->where('id', $id)->update('lokasi', $data);
+        $outp = $this->config_id()->where('id', $id)->update('lokasi', $data);
 
         status_sukses($outp);
     }
@@ -234,7 +212,7 @@ class Plan_lokasi_model extends MY_Model
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete($id, true);
@@ -243,61 +221,64 @@ class Plan_lokasi_model extends MY_Model
 
     public function list_point()
     {
-        $sql = 'SELECT * FROM point WHERE tipe = 2 AND enabled = 1';
-
-        if (isset($_SESSION['subpoint'])) {
-            $kf = $_SESSION['subpoint'];
-            $sql .= " AND parrent = {$kf}";
+        if ($subpoint = $this->session->subpoint) {
+            $this->db->where('parrent', $subpoint);
         }
 
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
-
-        return $data;
+        return $this->config_id()
+            ->from('point')
+            ->where('enabled', 1)
+            ->where('tipe', 2)
+            ->get()
+            ->result_array();
     }
 
     public function list_subpoint()
     {
-        $sql = 'SELECT * FROM point WHERE tipe = 0 AND enabled = 1';
-
-        if (isset($_SESSION['point'])) {
-            $sqlx  = 'SELECT * FROM point WHERE id = ?';
-            $query = $this->db->query($sqlx, $_SESSION['point']);
-            $temp  = $query->row_array();
-
-            $kf = $temp['parrent'];
+        if ($point = $this->session->point) {
+            $this->db->where('id', $point);
         }
 
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
-
-        return $data;
+        return $this->config_id()
+            ->from('point')
+            ->where('enabled', 1)
+            ->where('tipe', 0)
+            ->get()
+            ->result_array();
     }
 
     public function lokasi_lock($id = '', $val = 0)
     {
-        $sql  = 'UPDATE lokasi SET enabled = ? WHERE id = ?';
-        $outp = $this->db->query($sql, [$val, $id]);
+        $outp = $this->config_id()
+            ->where('id', $id)
+            ->update('lokasi', ['enabled' => $val]);
 
         status_sukses($outp);
     }
 
     public function get_lokasi($id = 0)
     {
-        return $this->db->where('id', $id)
-            ->get('lokasi')->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('lokasi')
+            ->row_array();
     }
 
     public function update_position($id = 0)
     {
         $data['lat'] = koordinat($this->input->post('lat'));
         $data['lng'] = koordinat($this->input->post('lng'));
-        $this->db->where('id', $id);
-        $outp = $this->db->update('lokasi', $data);
+
+        $outp = $this->config_id()
+            ->where('id', $id)
+            ->update('lokasi', $data);
 
         status_sukses($outp);
     }
 
+    /**
+     * @param mixed|null $status
+     */
     public function list_lokasi($status = null)
     {
         if (null !== $status) {
@@ -307,7 +288,7 @@ class Plan_lokasi_model extends MY_Model
                 ->where('m.enabled', $status);
         }
 
-        return $this->db
+        return $this->config_id('l')
             ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol')
             ->from('lokasi l')
             ->join('point p', 'l.ref_point = p.id', 'left')

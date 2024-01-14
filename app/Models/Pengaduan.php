@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaduan extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *

@@ -112,7 +112,7 @@ class Analisis_indikator extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
+            $data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id) ?? show_404();
             $data['form_action']        = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
 
             // Cek apakah ada pilihan untuk id_tipe 1 dan 2
@@ -133,12 +133,12 @@ class Analisis_indikator extends Admin_Controller
 
     public function parameter($id = 0)
     {
-        $ai = $this->analisis_indikator_model->get_analisis_indikator($id);
+        $ai = $this->analisis_indikator_model->get_analisis_indikator($id) ?? show_404();
         if ($ai['id_tipe'] == 3 || $ai['id_tipe'] == 4) {
             redirect($this->controller);
         }
 
-        $data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
+        $data['analisis_indikator'] = $ai;
         $data['analisis_master']    = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
         $data['main']               = $this->analisis_indikator_model->list_indikator($id);
 
@@ -149,7 +149,7 @@ class Analisis_indikator extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         if ($id) {
-            $data['analisis_parameter'] = $this->analisis_indikator_model->get_analisis_parameter($id);
+            $data['analisis_parameter'] = $this->analisis_indikator_model->get_analisis_parameter($id) ?? show_404();
             $data['form_action']        = site_url("{$this->controller}/p_update/{$in}/{$id}");
         } else {
             $data['analisis_parameter'] = null;

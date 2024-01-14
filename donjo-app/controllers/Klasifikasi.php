@@ -45,7 +45,7 @@ class Klasifikasi extends Admin_Controller
 
         $this->load->model('klasifikasi_model');
         $this->modul_ini     = 'sekretariat';
-        $this->sub_modul_ini = 'klasfikasi-surat';
+        $this->sub_modul_ini = 'klasifikasi-surat';
     }
 
     public function clear()

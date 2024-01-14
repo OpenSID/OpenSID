@@ -38,11 +38,14 @@
 namespace App\Models;
 
 use App\Enums\Dtks\DtksEnum;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class DtksPengaturanProgram extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -69,7 +72,7 @@ class DtksPengaturanProgram extends BaseModel
      */
     public function bantuan()
     {
-        return $this->belongsTo(Bantuan::class, 'id_bantuan', 'id');
+        return $this->belongsTo(Bantuan::class, 'id_bantuan', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     public function getVersiKuisionerNameAttribute()

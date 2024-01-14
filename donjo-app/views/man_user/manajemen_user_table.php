@@ -22,12 +22,12 @@
 			</div>
 			<div class="col-md-9">
 				<div class="box box-info">
-					<?php if ($this->CI->cek_hak_akses('u')) : ?>
+					<?php if (can('u')) : ?>
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u')) : ?>
+							<?php if (can('u')) : ?>
 								<a href="<?= site_url('man_user/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Pengguna Baru</a>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('h')) : ?>
+							<?php if (can('h')) : ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("man_user/delete_all/{$p}/{$o}") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 						</div>
@@ -67,11 +67,11 @@
 											<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
 												<thead class="bg-gray disabled color-palette">
 													<tr>
-														<?php if ($this->CI->cek_hak_akses('h')) : ?>
+														<?php if (can('h')) : ?>
 															<th><input type="checkbox" id="checkall" /></th>
 														<?php endif; ?>
 														<th>No</th>
-														<?php if ($this->CI->cek_hak_akses('u')) : ?>
+														<?php if (can('u')) : ?>
 															<th>Aksi</th>
 														<?php endif; ?>
 														<?php if ($o == 2) : ?>
@@ -106,28 +106,28 @@
 												<tbody>
 													<?php foreach ($main as $data) : ?>
 														<tr>
-															<?php if ($this->CI->cek_hak_akses('h')) : ?>
+															<?php if (can('h')) : ?>
 																<td class="padat">
-																	<?php if ($data['id'] != 1) : ?>
+																	<?php if ($data['id'] !== super_admin()) : ?>
 																		<input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" />
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>
 															<td class="padat"><?= $data['no'] ?></td>
-															<?php if ($this->CI->cek_hak_akses('u')) : ?>
+															<?php if (can('u')) : ?>
 																<td class="aksi">
-																	<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																	<?php if (can('u')) : ?>
 																		<a href="<?= site_url("man_user/form/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
-																	<?php if ($data['id'] != 1) : ?>
-																		<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																	<?php if ($data['id'] !== super_admin()) : ?>
+																		<?php if (can('u')) : ?>
 																			<?php if ($data['active'] == '0') : ?>
 																				<a href="<?= site_url('man_user/user_unlock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Pengguna"><i class="fa fa-lock">&nbsp;</i></a>
 																			<?php elseif ($data['active'] == '1') : ?>
 																				<a href="<?= site_url('man_user/user_lock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Pengguna"><i class="fa fa-unlock"></i></a>
 																			<?php endif; ?>
 																		<?php endif; ?>
-																		<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																		<?php if (can('h')) : ?>
 																			<a href="#" data-href="<?= site_url("man_user/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	<?php endif; ?>

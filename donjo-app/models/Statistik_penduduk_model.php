@@ -106,14 +106,11 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
 
     public function select_per_kategori()
     {
-        $tahun = $this->session->tahun;
-        if (isset($tahun)) {
-            $this->db->where('YEAR(u.sdate)', $tahun);
-            $this->db->or_where('YEAR(u.edate)', $tahun);
-        }
+        $this->filter();
 
         // Ambil data sasaran penduduk
-        $this->db->select('u.id, u.nama')
+        $this->db
+            ->select('u.id, u.nama')
             ->select('u.*, COUNT(pp.peserta) as jumlah')
             ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
@@ -122,17 +119,11 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '1')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->group_by('u.id');
-
-        if ($dusun = $this->session->userdata('dusun')) {
-            $this->db->where('a.dusun', $dusun);
-        }
-        if ($rw = $this->session->userdata('rw')) {
-            $this->db->where('a.rw', $rw);
-        }
-        if ($rt = $this->session->userdata('rt')) {
-            $this->db->where('a.rt', $rt);
-        }
 
         return true;
     }
@@ -146,6 +137,8 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
     // hitung jumlah unik penerima yg bukan penduduk hidup
     public function hitung_total(&$data)
     {
+        $this->filter();
+
         return $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 1 THEN p.id END)) AS laki')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 2 THEN p.id END)) AS perempuan')
@@ -155,7 +148,12 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
             ->from('program u')
             ->join('program_peserta pp', 'pp.program_id = u.id', 'left')
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
+            ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '1')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->get()
             ->row_array();
     }
@@ -173,16 +171,7 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
 
     public function select_per_kategori()
     {
-        $status = $this->session->status;
-        if ($status != '') {
-            $this->db->where('u.status', (string) $status);
-        }
-
-        $tahun = $this->session->tahun;
-        if (isset($tahun)) {
-            $this->db->where('YEAR(u.sdate)', $tahun);
-            $this->db->or_where('YEAR(u.edate)', $tahun);
-        }
+        $this->filter();
 
         // Ambil data sasaran keluarga
         $this->db->select('u.id, u.nama')
@@ -193,7 +182,12 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
             ->join('program_peserta pp', 'pp.program_id = u.id', 'left')
             ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+            ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '2')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->group_by('u.id');
 
         return true;
@@ -207,16 +201,7 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
     // hitung jumlah keluarga unik penerima bantuan (terkadang satu keluarga menerima lebih dari 1 bantuan)
     public function hitung_total(&$data)
     {
-        $status = $this->session->status;
-        if ($status != '') {
-            $this->db->where('u.status', (string) $status);
-        }
-
-        $tahun = $this->session->tahun;
-        if (isset($tahun)) {
-            $this->db->where('YEAR(u.sdate)', $tahun);
-            $this->db->or_where('YEAR(u.edate)', $tahun);
-        }
+        $this->filter();
 
         return $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 1 THEN p.id END)) AS laki')
@@ -228,7 +213,12 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
             ->join('program_peserta pp', 'pp.program_id = u.id')
             ->join('tweb_keluarga k', 'pp.peserta = k.no_kk')
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
+            ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('u.sasaran', '2')
+            ->group_start()
+            ->where('u.config_id', identitas('id'))
+            ->or_where('u.config_id', null)
+            ->group_end()
             ->get()
             ->row_array();
     }
@@ -254,16 +244,14 @@ class Bantuan_penduduk extends Statistik_penduduk_model
 
     public function get_data_jml()
     {
+        $this->filter();
+
         return $this->data_jml_semua_penduduk();
     }
 
     public function hitung_total(&$data)
     {
-        $tahun = $this->session->tahun;
-        if (isset($tahun)) {
-            $this->db->where('YEAR(u.sdate)', $tahun);
-            $this->db->or_where('YEAR(u.edate)', $tahun);
-        }
+        $this->filter();
 
         // Ambil data sasaran penduduk
         return $this->db
@@ -278,6 +266,7 @@ class Bantuan_penduduk extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -308,11 +297,7 @@ class Bantuan_keluarga extends Statistik_penduduk_model
 
     public function hitung_total(&$data)
     {
-        $tahun = $this->session->tahun;
-        if (isset($tahun)) {
-            $this->db->where('YEAR(u.sdate)', $tahun);
-            $this->db->or_where('YEAR(u.edate)', $tahun);
-        }
+        $this->filter();
 
         // Ambil data sasaran keluarga
         return $this->db
@@ -328,6 +313,7 @@ class Bantuan_keluarga extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -360,6 +346,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
             ->from('tweb_rtm r')
             ->join('penduduk_hidup p', 'r.nik_kepala = p.id')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
+            ->where('r.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -376,6 +363,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'r.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -409,6 +397,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model
             ->join('tweb_penduduk p', 'k.id_ketua = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('k.tipe', 'kelompok')
+            ->where('k.config_id', identitas('id'))
             ->get()
             ->row_array();
     }
@@ -426,6 +415,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('k.tipe', 'kelompok')
             ->where('pp.program_id', $this->program_id)
+            ->where('pp.config_id', identitas('id'))
             ->get()
             ->row_array();
     }

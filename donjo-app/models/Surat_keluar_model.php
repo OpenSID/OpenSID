@@ -85,7 +85,7 @@ class Surat_keluar_model extends MY_Model
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql()
     {
-        $this->db->from('surat_keluar u');
+        $this->config_id('u')->from('surat_keluar u');
         $this->search_sql();
         $this->filter_sql();
     }
@@ -96,7 +96,8 @@ class Surat_keluar_model extends MY_Model
         $jml_data = $this->db
             ->select('COUNT(id) AS jml')
             ->get()
-            ->row()->jml;
+            ->row()
+            ->jml;
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -150,10 +151,12 @@ class Surat_keluar_model extends MY_Model
 
     public function list_tahun_surat()
     {
-        return $this->db->distinct()->
-            select('YEAR(tanggal_surat) AS tahun')->
-            order_by('YEAR(tanggal_surat)', 'DESC')->
-            get('surat_keluar')->result_array();
+        return $this->config_id()
+            ->distinct()
+            ->select('YEAR(tanggal_surat) AS tahun')
+            ->order_by('YEAR(tanggal_surat)', 'DESC')
+            ->get('surat_keluar')
+            ->result_array();
     }
 
     /**
@@ -164,7 +167,9 @@ class Surat_keluar_model extends MY_Model
     public function insert()
     {
         // Ambil semua data dari var. global $_POST
-        $data = $this->input->post(null);
+        $data              = $this->input->post(null);
+        $data['config_id'] = identitas('id');
+
         unset($data['url_remote'], $data['nomor_urut_lama']);
 
         $this->validasi($data);
@@ -323,7 +328,7 @@ class Surat_keluar_model extends MY_Model
                 $data['updated_at']  = date('Y-m-d H:i:s');
                 // Update database dengan `berkas_scan` berisi nama unik
                 $this->db->where('id', $idSuratMasuk);
-                $databaseUpdated = $this->db->update('surat_keluar', $data);
+                $databaseUpdated = $this->config_id()->update('surat_keluar', $data);
 
                 $_SESSION['error_msg'] = ($databaseUpdated === true)
                     ? null : 'Gagal memperbarui data di database';
@@ -343,8 +348,7 @@ class Surat_keluar_model extends MY_Model
                 $_SESSION['error_msg'] = ($oldFileRemoved === true)
                     ? null : ' -> Gagal menghapus berkas lama';
             }
-            $this->db->where('id', $idSuratMasuk);
-            $databaseUpdated       = $this->db->update('surat_keluar', $data);
+            $databaseUpdated       = $this->config_id()->where('id', $idSuratMasuk)->update('surat_keluar', $data);
             $_SESSION['error_msg'] = ($databaseUpdated === true)
                 ? null : 'Gagal memperbarui data di database';
             $adaBerkasLamaDiDB = null !== $berkasLama;
@@ -357,7 +361,7 @@ class Surat_keluar_model extends MY_Model
 
     public function get_surat_keluar($id)
     {
-        return $this->db->where('id', $id)->get('surat_keluar')->row_array();
+        return $this->config_id()->where('id', $id)->get('surat_keluar')->row_array();
     }
 
     /**
@@ -399,12 +403,12 @@ class Surat_keluar_model extends MY_Model
             }
 
             if (null === $_SESSION['error_msg']) {
-                $hapusRecordDb         = $this->db->where('id', $idSuratMasuk)->delete('surat_keluar');
+                $hapusRecordDb         = $this->config_id()->where('id', $idSuratMasuk)->delete('surat_keluar');
                 $_SESSION['error_msg'] = $hapusRecordDb === true
                     ? null : ' -> Gagal menghapus record dari database';
             }
         } else {
-            $hapusRecordDb         = $this->db->where('id', $idSuratMasuk)->delete('surat_keluar');
+            $hapusRecordDb         = $this->config_id()->where('id', $idSuratMasuk)->delete('surat_keluar');
             $_SESSION['error_msg'] = $hapusRecordDb === true
                 ? null : ' -> Gagal menghapus record dari database';
         }
@@ -438,16 +442,17 @@ class Surat_keluar_model extends MY_Model
     public function getNamaBerkasScan($idSuratMasuk)
     {
         // Ambil nama berkas dari database
-        $sql        = 'SELECT berkas_scan FROM surat_keluar WHERE id = ? LIMIT 1;';
-        $query      = $this->db->query($sql, [$idSuratMasuk]);
-        $namaBerkas = $query->row();
-
-        return is_object($namaBerkas) ? $namaBerkas->berkas_scan : null;
+        return $this->config_id()
+            ->select('berkas_scan')
+            ->where('id', $idSuratMasuk)
+            ->get('surat_keluar')
+            ->row()
+            ->berkas_scan;
     }
 
     public function untuk_ekspedisi($id, $masuk = 0)
     {
-        $this->db
+        $this->config_id()
             ->where('id', $id)
             ->set('ekspedisi', $masuk)
             ->update('surat_keluar');

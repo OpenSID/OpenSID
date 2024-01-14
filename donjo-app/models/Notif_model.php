@@ -44,15 +44,18 @@ class Notif_model extends MY_Model
 
     public function permohonan_surat_baru()
     {
-        return $this->db->where('status', 1)
+        return $this->config_id()
+            ->where('status', 1)
             ->get('permohonan_surat')->num_rows();
     }
 
     public function komentar_baru()
     {
-        return $this->db->where('id_artikel !=', LAPORAN_MANDIRI)
+        return $this->config_id()
+            ->where('id_artikel !=', LAPORAN_MANDIRI)
             ->where('status', 2)
-            ->get('komentar')->num_rows();
+            ->get('komentar')
+            ->num_rows();
     }
 
     /**
@@ -69,7 +72,7 @@ class Notif_model extends MY_Model
             $this->db->where('email', $nik);
         }
 
-        return $this->db
+        return $this->config_id()
             ->where('id_artikel', LAPORAN_MANDIRI)
             ->where('status', 2)
             ->where('tipe', $tipe)
@@ -81,7 +84,7 @@ class Notif_model extends MY_Model
     // Notifikasi pada layanan mandiri, ditampilkan jika ada surat belum lengkap (0) atau surat siap diambil (3)
     public function surat_perlu_perhatian($id = '')
     {
-        return $this->db
+        return $this->config_id()
             ->where('id_pemohon', $id)
             ->where_in('status', [0, 3])
             ->get('permohonan_surat')
@@ -90,7 +93,7 @@ class Notif_model extends MY_Model
 
     public function get_notif_by_kode($kode)
     {
-        return $this->db->where('kode', $kode)->get('notifikasi')->row_array();
+        return $this->config_id()->where('kode', $kode)->get('notifikasi')->row_array();
     }
 
     public function notifikasi($notif)
@@ -122,7 +125,7 @@ class Notif_model extends MY_Model
     public function update_notifikasi($kode, $non_aktifkan = false)
     {
         // update tabel notifikasi
-        $notif = $this->notif_model->get_notif_by_kode($kode);
+        $notif = $this->get_notif_by_kode($kode);
 
         $tgl_sekarang     = date('Y-m-d H:i:s');
         $frekuensi        = $notif['frekuensi'];
@@ -139,7 +142,7 @@ class Notif_model extends MY_Model
             $data['aktif'] = 0;
         }
 
-        $this->db->where('kode', $kode)
+        $this->config_id()->where('kode', $kode)
             ->update('notifikasi', $data);
     }
 
@@ -150,12 +153,14 @@ class Notif_model extends MY_Model
         $hari_ini = new DateTime();
         $compare  = $hari_ini->format('Y-m-d H:i:s');
 
-        return $this->db->where('tgl_berikutnya <=', $compare)
+        return $this->config_id()
+            ->where('tgl_berikutnya <=', $compare)
             ->select('*')
             ->select("IF (jenis = 'persetujuan', CONCAT('A',id), CONCAT('Z',id)) AS urut")
             ->where('aktif', 1)
             ->order_by('urut', 'ASC')
-            ->get('notifikasi')->result_array();
+            ->get('notifikasi')
+            ->result_array();
     }
 
     public function insert_notif($data)

@@ -138,6 +138,7 @@ class Daftar_verifikasi extends Web_Controller
 
         if ($this->otp_library->driver('telegram')->cek_akun_terdaftar(['telegram' => $userID, 'id' => $id_pend])) {
             try {
+                // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
                 $this->db->where('id', $id_pend)->update('tweb_penduduk', [
                     'telegram'                => $userID,
                     'telegram_token'          => $token,
@@ -182,10 +183,11 @@ class Daftar_verifikasi extends Web_Controller
      */
     public function verifikasi_telegram()
     {
-        $post       = $this->input->post();
-        $otp        = $post['token_telegram'];
-        $user       = $this->session->is_verifikasi['id'];
-        $nama       = $this->session->is_verifikasi['nama'];
+        $post = $this->input->post();
+        $otp  = $post['token_telegram'];
+        $user = $this->session->is_verifikasi['id'];
+        $nama = $this->session->is_verifikasi['nama'];
+        // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
         $telegramID = $this->db->where('id', $user)->get('tweb_penduduk')->row()->telegram;
 
         if ($this->otp_library->driver('telegram')->verifikasi_otp($otp, $user)) {
@@ -254,6 +256,7 @@ class Daftar_verifikasi extends Web_Controller
 
         if ($this->otp_library->driver('email')->cek_akun_terdaftar(['email' => $email, 'id' => $id_pend])) {
             try {
+                // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
                 $this->db->where('id', $id_pend)->update('tweb_penduduk', [
                     'email'                => $email,
                     'email_token'          => $token,
@@ -298,10 +301,11 @@ class Daftar_verifikasi extends Web_Controller
      */
     public function verifikasi_email()
     {
-        $post  = $this->input->post();
-        $otp   = $post['token_email'];
-        $user  = $this->session->is_verifikasi['id'];
-        $nama  = $this->session->is_verifikasi['nama'];
+        $post = $this->input->post();
+        $otp  = $post['token_email'];
+        $user = $this->session->is_verifikasi['id'];
+        $nama = $this->session->is_verifikasi['nama'];
+        // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
         $email = $this->db->where('id', $user)->get('tweb_penduduk')->row()->email;
 
         if ($this->otp_library->driver('email')->verifikasi_otp($otp, $user)) {

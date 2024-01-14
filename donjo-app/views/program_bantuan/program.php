@@ -54,22 +54,25 @@
 													<tbody>
 														<?php $nomer = $paging->offset; ?>
 														<?php foreach ($program as $item): ?>
-															<?php $nomer++; ?>
+															<?php
+                                                            $nomer++;
+														    $openKab = null === $item['config_id'] ? 'disabled' : '';
+														    ?>
 															<tr>
 																<td class="padat"><?= $nomer?></td>
 																<td class="aksi">
 																	<a href="<?= site_url("program_bantuan/detail/{$item['id']}")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-list"></i></a>
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
-																		<a href="<?= site_url("program_bantuan/edit/{$item['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																		<a href="<?= site_url("program_bantuan/edit/{$item['id']}")?>" class="btn bg-orange btn-flat btn-sm <?= $openKab ?>" title="Ubah"><i class="fa fa-edit"></i></a>
 																	<?php endif ?>
 																	<?php if ($item['jml_peserta'] != 0): ?>
-																		<a href="<?= site_url("program_bantuan/expor/{$item['id']}"); ?>" class="btn bg-navy btn-flat btn-sm" title="Expor"><i class="fa fa-download"></i></a>
+																		<a href="<?= site_url("program_bantuan/expor/{$item['id']}"); ?>" class="btn bg-navy btn-flat btn-sm <?= $openKab ?>" title="Expor"><i class="fa fa-download"></i></a>
 																	<?php endif ?>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																		<?php if ($item['jml_peserta'] != 0): ?>
+																		<?php if ($item['jml_peserta'] != 0 || null === $item['config_id']): ?>
 																			<a class="btn bg-maroon btn-flat btn-sm disabled" title="Hapus"><i class="fa fa-trash-o"></i></a>
 																		<?php else: ?>
-																			<a href="#" data-href="<?= site_url("program_bantuan/hapus/{$item['id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("program_bantuan/hapus/{$item['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= $openKab ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif ?>
 																	<?php endif ?>
 																</td>

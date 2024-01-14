@@ -196,7 +196,7 @@
                     </div>
                 @endforeach
             @else
-                <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $nama_desa) }} tidak tersedia.</h5>
+                <h5>Pemerintah {{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) }} tidak tersedia.</h5>
             @endif
         </div>
     </div>

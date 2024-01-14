@@ -37,7 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
@@ -241,7 +240,7 @@ class Surat extends Mandiri_Controller
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
-            $data['config']    = $data['lokasi'] = Config::first();
+            $data['config']    = $data['lokasi'] = $this->header;
             $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
         }
 

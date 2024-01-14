@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Url_shortener_model extends CI_Model
+class Url_shortener_model extends MY_Model
 {
     public function url_pendek($log_surat = [])
     {
@@ -60,9 +60,10 @@ class Url_shortener_model extends CI_Model
     public function add_url($url)
     {
         $data = [
-            'url'     => (string) $url,
-            'alias'   => (string) $this->random_code(6),
-            'created' => date('Y-m-d H:i:s'),
+            'config_id' => $this->config_id,
+            'url'       => (string) $url,
+            'alias'     => (string) $this->random_code(6),
+            'created'   => date('Y-m-d H:i:s'),
         ];
         $this->db->insert('urls', $data);
 
@@ -71,15 +72,17 @@ class Url_shortener_model extends CI_Model
 
     public function getUrlById($id)
     {
-        return $this->db->get_where('urls', ['id' => (int) $id])->row();
+        return $this->config_id()->get_where('urls', ['id' => (int) $id])->row();
     }
 
     public function get_url($alias)
     {
-        $this->db->select('*');
-        $this->db->from('urls');
-        $this->db->where('alias', (string) $alias);
-        $result = $this->db->get()->row_object();
+        $result = $this->config_id()
+            ->select('*')
+            ->from('urls')
+            ->where('alias', (string) $alias)
+            ->get()
+            ->row_object();
 
         return (count($result) > 0) ? $result : false;
     }

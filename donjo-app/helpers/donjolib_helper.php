@@ -479,14 +479,7 @@ function siteman_timeout()
 
 function get_identitas()
 {
-    $ci  = &get_instance();
-    $sql = 'SELECT * FROM config';
-    $a   = $ci->db->query($sql);
-    $hsl = $a->row_array();
-    //print_r($hsl);
-    $string = ucwords($ci->setting->sebutan_desa) . ' : ' . $hsl['nama_desa'] . ' ' . ucwords($ci->setting->sebutan_kecamatan_singkat) . ' : ' . $hsl['nama_kecamatan'] . ' Kab : ' . $hsl['nama_kabupaten'];
-
-    return $string;
+    return ucwords(setting('sebutan_desa')) . ' : ' . identitas('nama_desa') . ' ' . ucwords(setting('sebutan_kecamatan_singkat')) . ' : ' . identitas('nama_kecamatan') . ' Kab : ' . identitas('nama_kabupaten');
 }
 
 //baca data tanpa HTML Tags
@@ -666,6 +659,13 @@ function persen($data, $simbol = '%', $digit = 2)
     $str = number_format((is_numeric($hasil) && ! is_infinite($hasil)) ? (float) ($data * 100) : 0, $digit, '.', '');
 
     return str_replace('.', ',', $str) . $simbol;
+}
+
+function persen2($pembilang, $pembagi, $simbol = '%', $digit = 2)
+{
+    $data = ($pembagi == 0) ? 0 : $pembilang / $pembagi;
+
+    return persen($data, $simbol, $digit);
 }
 
 function sensor_nik_kk($data)

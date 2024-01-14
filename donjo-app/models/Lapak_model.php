@@ -94,16 +94,12 @@ class Lapak_model extends MY_Model
 
     protected function produk()
     {
-        $kantor = $this->db
-            ->select('c.lat, c.lng')
-            ->from('config c')
-            ->get()
-            ->row();
+        $kantor = identitas('kantor');
 
         $default_nama    = 'Admin';
-        $default_telepon = $this->db->get_where('media_sosial', ['id' => 6, 'tipe' => 1, 'enabled' => 1])->row()->link;
+        $default_telepon = $this->config_id()->get_where('media_sosial', ['id' => 6, 'tipe' => 1, 'enabled' => 1])->row()->link;
 
-        $this->db
+        $this->config_id('pr')
             ->select('pr.*, pk.kategori, p.nik, lp.zoom')
             ->select("(case when p.nama is null then '{$default_nama}' else p.nama end) as pelapak")
             ->select("(case when p.nama is null then '{$default_telepon}' else lp.telepon end) as telepon")
@@ -144,8 +140,9 @@ class Lapak_model extends MY_Model
 
     public function produk_insert()
     {
-        $data = $this->produk_validasi();
-        $outp = $this->db->insert('produk', $data);
+        $data              = $this->produk_validasi();
+        $data['config_id'] = $this->config_id;
+        $outp              = $this->db->insert('produk', $data);
 
         status_sukses($outp);
     }
@@ -155,7 +152,7 @@ class Lapak_model extends MY_Model
         $data               = $this->produk_validasi();
         $data['updated_at'] = date('Y-m-d H:i:s');
 
-        $outp = $this->db->where('id', $id)->update('produk', $data);
+        $outp = $this->config_id()->where('id', $id)->update('produk', $data);
 
         status_sukses($outp);
     }
@@ -236,7 +233,7 @@ class Lapak_model extends MY_Model
     {
         $this->hapus_foto_produk('id', $id);
 
-        $outp = $this->db->where('id', $id)->delete('produk');
+        $outp = $this->config_id()->where('id', $id)->delete('produk');
 
         status_sukses($outp);
     }
@@ -253,7 +250,7 @@ class Lapak_model extends MY_Model
     protected function hapus_foto_produk($where = 'id', $value = 0)
     {
         // Hapus semua foto produk jika produk/kategori/pelapak dihapus agar tidak meninggalkan sampah
-        $list_data = $this->db->select('foto')->get_where('produk', [$where => $value])->result();
+        $list_data = $this->config_id()->select('foto')->get_where('produk', [$where => $value])->result();
 
         if (! $list_data) {
             return;
@@ -297,7 +294,7 @@ class Lapak_model extends MY_Model
 
     protected function pelapak()
     {
-        $this->db
+        $this->config_id('lp')
             ->select('lp.*, p.nama AS pelapak, p.nik')
             ->select('(SELECT COUNT(pr.id) FROM produk pr WHERE pr.id_pelapak = lp.id) AS jumlah')
             ->from('pelapak lp')
@@ -306,23 +303,24 @@ class Lapak_model extends MY_Model
 
     public function list_penduduk($id_pend = 0)
     {
-        return $this->db
-            ->select('id, nik, nama, telepon')
-            ->where('nik <>', '')
-            ->where('nik <>', 0)
-            ->where("id NOT IN (SELECT id_pend FROM pelapak WHERE id_pend != {$id_pend})")
-            ->get('penduduk_hidup')
+        return $this->config_id('p')
+            ->select('p.id, p.nik, p.nama, p.telepon')
+            ->where('p.nik <>', '')
+            ->where('p.nik <>', 0)
+            ->where("p.id NOT IN (SELECT id_pend FROM pelapak WHERE id_pend != {$id_pend} AND config_id = p.config_id)")
+            ->get('penduduk_hidup p')
             ->result();
     }
 
     public function pelapak_insert()
     {
-        $data = $this->pelapak_validasi();
+        $data              = $this->pelapak_validasi();
+        $data['config_id'] = $this->config_id;
 
         $outp = $this->db->insert('pelapak', $data);
 
         // Tambahkan no telpon ke tweb_penduduk jika kosong
-        $this->db
+        $this->config_id()
             ->where('id', $data['id_pend'])
             ->update('tweb_penduduk', ['telepon' => $data['telepon']]);
 
@@ -332,7 +330,7 @@ class Lapak_model extends MY_Model
     public function pelapak_update($id = 0)
     {
         $data = $this->pelapak_validasi();
-        $outp = $this->db->where('id', $id)->update('pelapak', $data);
+        $outp = $this->config_id()->where('id', $id)->update('pelapak', $data);
 
         status_sukses($outp);
     }
@@ -346,7 +344,7 @@ class Lapak_model extends MY_Model
             'lng'  => $post['lng'],
             'zoom' => $post['zoom'],
         ];
-        $outp = $this->db->where('id', $id)->update('pelapak', $data);
+        $outp = $this->config_id()->where('id', $id)->update('pelapak', $data);
 
         status_sukses($outp);
     }
@@ -365,7 +363,7 @@ class Lapak_model extends MY_Model
     {
         $this->hapus_foto_produk('id_pelapak', $id);
 
-        $outp = $this->db->where('id', $id)->delete('pelapak');
+        $outp = $this->config_id()->where('id', $id)->delete('pelapak');
 
         status_sukses($outp);
     }
@@ -389,7 +387,7 @@ class Lapak_model extends MY_Model
     // KATEGORI / SATUAN
     public function get_satuan()
     {
-        $data_array = $this->db
+        $data_array = $this->config_id()
             ->distinct()
             ->select('satuan')
             ->get('produk')
@@ -429,7 +427,7 @@ class Lapak_model extends MY_Model
 
     protected function kategori()
     {
-        $this->db
+        $this->config_id('pk')
             ->select('pk.*')
             ->select('(SELECT COUNT(pr.id) FROM produk pr WHERE pr.id_produk_kategori = pk.id) AS jumlah')
             ->from('produk_kategori pk');
@@ -437,8 +435,9 @@ class Lapak_model extends MY_Model
 
     public function kategori_insert()
     {
-        $data = $this->kategori_validasi();
-        $outp = $this->db->insert('produk_kategori', $data);
+        $data              = $this->kategori_validasi();
+        $data['config_id'] = $this->config_id;
+        $outp              = $this->db->insert('produk_kategori', $data);
 
         status_sukses($outp);
     }
@@ -446,7 +445,7 @@ class Lapak_model extends MY_Model
     public function kategori_update($id = 0)
     {
         $data = $this->kategori_validasi();
-        $outp = $this->db->where('id', $id)->update('produk_kategori', $data);
+        $outp = $this->config_id()->where('id', $id)->update('produk_kategori', $data);
 
         status_sukses($outp);
     }
@@ -455,7 +454,7 @@ class Lapak_model extends MY_Model
     {
         $this->hapus_foto_produk('id_produk_kategori', $id);
 
-        $outp = $this->db->where('id', $id)->delete('produk_kategori');
+        $outp = $this->config_id()->where('id', $id)->delete('produk_kategori');
 
         status_sukses($outp);
     }
@@ -481,7 +480,7 @@ class Lapak_model extends MY_Model
 
     public function status($table, $id, $status = 1)
     {
-        $outp = $this->db
+        $outp = $this->config_id()
             ->where('id', $id)
             ->update($table, ['status' => $status]);
 

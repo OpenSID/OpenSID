@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Config;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -98,7 +97,7 @@ class Laporan extends Admin_Controller
         }
         $this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
         $data['tahun_lengkap']      = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
-        $data['config']             = Config::first();
+        $data['config']             = $this->header['desa'];
         $data['kelahiran']          = $this->laporan_bulanan_model->kelahiran();
         $data['kematian']           = $this->laporan_bulanan_model->kematian();
         $data['pendatang']          = $this->laporan_bulanan_model->pendatang();
@@ -146,7 +145,7 @@ class Laporan extends Admin_Controller
     private function data_cetak()
     {
         $data                   = [];
-        $data['config']         = Config::first();
+        $data['config']         = $this->header['desa'];
         $data['bulan']          = $this->session->bulanku;
         $data['tahun']          = $this->session->tahunku;
         $data['bln']            = getBulan($data['bulan']);
@@ -238,5 +237,11 @@ class Laporan extends Admin_Controller
         }
 
         $this->render('laporan/tabel_bulanan_detil', $data);
+    }
+
+    public function perbaiki()
+    {
+        $this->laporan_bulanan_model->perbaikiLogKeluarga();
+        redirect('laporan');
     }
 }

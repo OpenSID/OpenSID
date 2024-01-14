@@ -36,10 +36,11 @@
  */
 
 use App\Models\Config;
-use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
+use App\Models\UserGrup;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 if (! function_exists('asset')) {
@@ -62,7 +63,7 @@ if (! function_exists('view')) {
      * @param array|\Illuminate\Contracts\Support\Arrayable $data
      * @param array                                         $mergeData
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     function view($view = null, $data = [], $mergeData = [])
     {
@@ -102,7 +103,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => Config::first(),
+                'desa'         => identitas(),
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
@@ -152,7 +153,7 @@ if (! function_exists('can')) {
             $controller = $CI->controller;
         }
 
-        if ($admin_only && $CI->grup != GrupAkses::ADMINISTRATOR) {
+        if ($admin_only && $CI->grup != $CI->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
             return false;
         }
 
@@ -221,6 +222,38 @@ if (! function_exists('setting')) {
         }
 
         return $getSetting;
+    }
+}
+
+// identitas('nama_desa');
+if (! function_exists('identitas')) {
+    /**
+     * Get identitas desa.
+     *
+     * @return object|string
+     */
+    function identitas(?string $params = null)
+    {
+        $cache    = 'identitas_desa';
+        $instance = get_instance();
+
+        if (null === $instance->cache) {
+            return null;
+        }
+
+        $identitas = $instance->cache->pakai_cache(static function () {
+            if (Schema::hasColumn('config', 'app_key') && DB::table('config')->where('app_key', get_app_key())->exists()) {
+                return Config::appKey()->first();
+            }
+
+            return null;
+        }, $cache, 24 * 60 * 60);
+
+        if ($params) {
+            return $identitas->{$params};
+        }
+
+        return $identitas;
     }
 }
 
@@ -396,6 +429,7 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
+        write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
         return true;
     }
@@ -532,5 +566,72 @@ if (! function_exists('kirim_versi_opensid')) {
                 log_message('error', $e);
             }
         }
+    }
+}
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+if (! function_exists('kotak')) {
+    function kotak($data_kolom, $max_kolom = 26)
+    {
+        $view = '';
+
+        for ($i = 0; $i < $max_kolom; $i++) {
+            $view .= '<td class="kotak padat tengah">';
+            if (isset($data_kolom[$i])) {
+                $view .= strtoupper($data_kolom[$i]);
+            } else {
+                $view .= '&nbsp;';
+            }
+            $view .= '</td>';
+        }
+
+        return $view;
+    }
+}
+
+if (! function_exists('checklist')) {
+    function checklist($kondisi_1, $kondisi_2)
+    {
+        $view = '<td class="kotak padat tengah">';
+        if ($kondisi_1 == $kondisi_2) {
+            $view .= '<img src="' . base_url('assets/images/check.png') . '" height="10" width="10"/>';
+        }
+        $view .= '</td>';
+
+        return $view;
     }
 }

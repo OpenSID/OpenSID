@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\UserGrup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup extends Admin_Controller
@@ -91,7 +93,7 @@ class Grup extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = '', $view = false)
     {
-        if (! $view && in_array($id, $this->grup_model::KECUALI)) {
+        if (! $view && in_array($id, UserGrup::getGrupSistem())) {
             session_error('Grup Pengguna Tidak Dapat Diubah');
             redirect($this->controller);
         }

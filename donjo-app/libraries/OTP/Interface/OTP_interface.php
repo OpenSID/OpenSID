@@ -43,7 +43,7 @@ interface OTP_interface
      * @param mixed $user
      * @param mixed $otp
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return void
      */
@@ -65,7 +65,7 @@ interface OTP_interface
      * @param mixed $user
      * @param mixed $nama
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return void
      */
@@ -87,7 +87,7 @@ interface OTP_interface
      * @param mixed $pin
      * @param mixed $nama
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return void
      */
@@ -114,7 +114,7 @@ interface OTP_interface
      * ];
      * ```
      *
-     * @throws \Exception
+     * @throws Exception
      *
      * @return bool
      */

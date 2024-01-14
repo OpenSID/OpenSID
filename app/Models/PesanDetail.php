@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PesanDetail extends BaseModel
 {
+    use ConfigId;
+
     protected $table    = 'pesan_detail';
     protected $fillable = ['text', 'pesan_id', 'pesan_detail', 'nama_pengirim', 'id', 'pengirim'];
 

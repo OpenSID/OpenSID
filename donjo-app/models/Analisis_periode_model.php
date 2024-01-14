@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_periode_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function autocomplete()
     {
         return $this->autocomplete_str('nama', 'analisis_periode');
@@ -83,7 +78,7 @@ class Analisis_periode_model extends MY_Model
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(id) AS id FROM analisis_periode u WHERE 1';
+        $sql = 'SELECT COUNT(id) AS id FROM analisis_periode u WHERE u.config_id = ' . identitas('id');
         $sql .= $this->search_sql();
         $sql .= $this->master_sql();
         $sql .= $this->state_sql();
@@ -126,8 +121,7 @@ class Analisis_periode_model extends MY_Model
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-        $sql = 'SELECT u.*,s.nama AS status FROM analisis_periode u LEFT JOIN analisis_ref_state s ON u.id_state = s.id WHERE 1 ';
-
+        $sql = 'SELECT u.*,s.nama AS status FROM analisis_periode u LEFT JOIN analisis_ref_state s ON u.id_state = s.id WHERE u.config_id = ' . identitas('id');
         $sql .= $this->search_sql();
         $sql .= $this->master_sql();
         $sql .= $this->state_sql();
@@ -167,12 +161,13 @@ class Analisis_periode_model extends MY_Model
     public function insert()
     {
         $data              = $this->validasi_data($this->input->post());
+        $data['config_id'] = $this->config_id;
         $data['duplikasi'] = $this->input->post('duplikasi');
         $dp                = $data['duplikasi'];
         unset($data['duplikasi']);
 
         if ($dp == 1) {
-            $dpd  = $this->db->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
+            $dpd  = $this->config_id()->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
             $sblm = $dpd['id'];
         }
 
@@ -180,20 +175,20 @@ class Analisis_periode_model extends MY_Model
         $data['id_master'] = $this->session->analisis_master;
         if ($data['aktif'] == 1) {
             $akt['aktif'] = 2;
-            $this->db->where('id_master', $this->session->analisis_master);
-            $this->db->update('analisis_periode', $akt);
+            $this->config_id()->where('id_master', $this->session->analisis_master)->update('analisis_periode', $akt);
         }
         $outp = $this->db->insert('analisis_periode', $data);
 
         if ($dp == 1) {
-            $dpd  = $this->db->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
+            $dpd  = $this->config_id()->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
             $skrg = $dpd['id'];
 
-            $data = $this->db->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
+            $data = $this->config_id()->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
 
             if ($data) {
                 for ($i = 0; $i < count($data); $i++) {
                     $data[$i]['id_periode'] = $skrg;
+                    $data[$i]['config_id']  = $this->config_id;
                 }
                 $outp = $this->db->insert_batch('analisis_respon', $data);
                 $this->load->model('analisis_respon_model');
@@ -212,12 +207,10 @@ class Analisis_periode_model extends MY_Model
         $data['id_master'] = $this->session->analisis_master;
         if ($data['aktif'] == 1) {
             $akt['aktif'] = 2;
-            $this->db->where('id_master', $this->session->analisis_master);
-            $this->db->update('analisis_periode', $akt);
+            $this->config_id()->where('id_master', $this->session->analisis_master)->update('analisis_periode', $akt);
         }
         $data['id_master'] = $this->session->analisis_master;
-        $this->db->where('id', $id);
-        $outp = $this->db->update('analisis_periode', $data);
+        $outp              = $this->config_id()->where('id', $id)->update('analisis_periode', $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -228,7 +221,7 @@ class Analisis_periode_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('analisis_periode');
+        $outp = $this->config_id()->where('id', $id)->delete('analisis_periode');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -246,26 +239,26 @@ class Analisis_periode_model extends MY_Model
 
     public function get_analisis_periode($id = 0)
     {
-        $sql   = 'SELECT * FROM analisis_periode WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->config_id()
+            ->where('id', $id)
+            ->get('analisis_periode')
+            ->row_array();
     }
 
     public function list_state()
     {
-        $sql   = 'SELECT * FROM analisis_ref_state';
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
+        return $this->db
+            ->get('analisis_ref_state')
+            ->result_array();
     }
 
     public function get_id_periode_aktif($id = 0)
     {
-        $data = $this->db->where([
-            'aktif'     => 1,
-            'id_master' => $id,
-        ])
+        $data = $this->config_id()
+            ->where([
+                'aktif'     => 1,
+                'id_master' => $id,
+            ])
             ->get('analisis_periode')
             ->row_array();
 

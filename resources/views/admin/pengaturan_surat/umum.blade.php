@@ -16,16 +16,16 @@
         <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
             <div class="col-sm-7">
-                <select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
+                <select class="form-control input-sm required" id="kode_surat" name="kode_surat">
                     @empty($suratMaster->kode_surat)
                         <option value="">-- Pilih Kode/Klasifikasi Surat --</option>
                     @else
-                        <option value="{{ $suratMaster->kode_surat }}">{{ $suratMaster->kode_surat }}</option>
-                        @endif
-                        @foreach ($klasifikasiSurat as $item)
-                            <option value="{{ $item->kode }}" @selected($item->kode === $suratMaster->kode_surat)>
-                                {{ $item->kode . ' - ' . $item->nama }}</option>
-                        @endforeach
+                    <option value="{{ $suratMaster->kode_surat }}">{{ $suratMaster->kode_surat }}</option>
+                    @endif
+                    @foreach ($klasifikasiSurat as $item)
+                        <option value="{{ $item->kode }}" @selected($item->kode === $suratMaster->kode_surat)>
+                            {{ $item->kode . ' - ' . $item->nama }}</option>
+                    @endforeach
                     </select>
                 </div>
             </div>
@@ -273,6 +273,28 @@
 
     @push('scripts')
         <script>
+            $('#kode_surat').select2({
+                ajax: {
+                    url: SITE_URL + 'surat_master/apisurat',
+                    dataType: 'json',
+                    data: function(params) {
+                        return {
+                            q: params.term || '',
+                            page: params.page || 1,
+                        };
+                    },
+                    cache: true
+                },
+                placeholder: function() {
+                    $(this).data('placeholder');
+                },
+                minimumInputLength: 0,
+                allowClear: true,
+                escapeMarkup: function(markup) {
+                    return markup;
+                },
+            });
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,

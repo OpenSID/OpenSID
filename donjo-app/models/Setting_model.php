@@ -36,6 +36,7 @@
  */
 
 use App\Libraries\TinyMCE;
+use App\Models\Config;
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\Schema;
 
@@ -76,7 +77,7 @@ class Setting_model extends MY_Model
         }
 
         $CI->list_setting = SettingAplikasi::orderBy('key')->get();
-        $CI->setting      = (object) SettingAplikasi::pluck('value', 'key')->toArray();
+        $CI->setting      = (object) $CI->list_setting->pluck('value', 'key')->toArray();
 
         $this->apply_setting();
     }
@@ -132,6 +133,9 @@ class Setting_model extends MY_Model
         // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
         $this->setting->sebutan_sekretaris_desa = Schema::hasTable('ref_jabatan') ? sekdes()->nama : null;
 
+        // Setting Multi Database untuk OpenKab
+        $this->setting->multi_desa = (Config::count() > 1) ? true : false;
+
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
     }
@@ -168,7 +172,7 @@ class Setting_model extends MY_Model
         foreach ($data as $key => $value) {
             // Update setting yang diubah
             if ($this->setting->{$key} != $value) {
-                if ($key == 'current_version') {
+                if (in_array($key, ['current_version', 'warna_tema'])) {
                     continue;
                 }
 
@@ -222,7 +226,7 @@ class Setting_model extends MY_Model
                 unlink($lokasi . $key . '.jpg'); // hapus file yang sebelumya
             }
 
-            $this->db->where('key', $key)->update('setting_aplikasi', $data); // simpan ke database
+            $this->config_id()->where('key', $key)->update('setting_aplikasi', $data); // simpan ke database
 
             return $lokasi . $config['file_name']; // simpan ke path
         }
@@ -248,7 +252,7 @@ class Setting_model extends MY_Model
                 'aktif'      => 0,
             ];
         }
-        $this->db->where('kode', 'tracking_off')->update('notifikasi', $notif);
+        $this->config_id()->where('kode', 'tracking_off')->update('notifikasi', $notif);
 
         return true;
     }
@@ -260,10 +264,10 @@ class Setting_model extends MY_Model
         }
 
         if ($key == 'tte' && $value == 1) {
-            $this->db->where('key', 'verifikasi_kades')->update('setting_aplikasi', ['value' => 1]); // jika tte aktif, aktifkan juga verifikasi kades
+            $this->config_id()->where('key', 'verifikasi_kades')->update('setting_aplikasi', ['value' => 1]); // jika tte aktif, aktifkan juga verifikasi kades
         }
 
-        $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
+        $outp = $this->config_id()->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
 
         // Hapus Cache
         // $this->cache->hapus_cache_untuk_semua('status_langganan');
@@ -277,7 +281,7 @@ class Setting_model extends MY_Model
 
     public function aktifkan_tracking()
     {
-        $outp = $this->db->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
+        $outp = $this->config_id()->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         status_sukses($outp);
@@ -287,7 +291,7 @@ class Setting_model extends MY_Model
     {
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
-        $outp                                = $this->db->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
+        $outp                                = $this->config_id()->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         if (!$outp) {
@@ -305,10 +309,10 @@ class Setting_model extends MY_Model
         $_SESSION['success']              = 1;
         $mode                             = $this->input->post('offline_mode_saja');
         $this->setting->offline_mode      = ($mode === '0' || $mode) ? $mode : $this->input->post('offline_mode');
-        $out1                             = $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['value' => $this->setting->offline_mode]);
+        $out1                             = $this->config_id()->where('key', 'offline_mode')->update('setting_aplikasi', ['value' => $this->setting->offline_mode]);
         $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
         $this->setting->penggunaan_server = $penggunaan_server;
-        $out2                             = $this->db->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
+        $out2                             = $this->config_id()->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         if (!$out1 || !$out2) {

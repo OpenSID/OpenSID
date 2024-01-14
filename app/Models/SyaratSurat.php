@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class SyaratSurat extends BaseModel
 {
+    use ConfigId;
+
     /**
      * The primary key for the model.
      *
@@ -67,7 +71,19 @@ class SyaratSurat extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['ref_syarat_nama'];
+    protected $fillable = [
+        'config_id',
+        'ref_syarat_nama',
+    ];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
+    ];
 
     /**
      * Define a one-to-many relationship.

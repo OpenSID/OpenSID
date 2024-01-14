@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Analisis_respon_model extends CI_Model
+class Analisis_respon_model extends MY_Model
 {
     protected $per;
     protected $master;
@@ -56,14 +56,14 @@ class Analisis_respon_model extends CI_Model
     {
         switch ($this->subjek) {
             case 1:
-                $this->db
+                $this->config_id('u')
                     ->select('nik, u.nama')
                     ->from('penduduk_hidup u')
                     ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
                 break;
 
             case 2:
-                $this->db
+                $this->config_id('u')
                     ->select('no_kk, p.nama')
                     ->from('keluarga_aktif u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
@@ -71,7 +71,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 3:
-                $this->db
+                $this->config_id('u')
                     ->select('no_kk, p.nama')
                     ->from('tweb_rtm u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
@@ -79,7 +79,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 4:
-                $this->db
+                $this->config_id('u')
                     ->select('u.nama AS no_kk, p.nama')
                     ->from('kelompok u')
                     ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
@@ -89,11 +89,12 @@ class Analisis_respon_model extends CI_Model
             case 5:
                 $this->db
                     ->select('u.kode_desa AS no_kk, u.nama_desa as nama')
-                    ->from('config u');
+                    ->from('config u')
+                    ->where('u.app_key', get_app_key());
                 break;
 
             case 6:
-                $this->db
+                $this->config_id('u')
                     ->select('u.dusun')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
@@ -101,7 +102,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 7:
-                $this->db
+                $this->config_id('u')
                     ->select('u.dusun, u.rw')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
@@ -109,7 +110,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 8:
-                $this->db
+                $this->config_id('u')
                     ->select('u.dusun, u.rw, u.rt')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt <> 0')
@@ -156,8 +157,8 @@ class Analisis_respon_model extends CI_Model
                     ->like('u.no_kk', $cari)
                     ->or_like('p.nama', $cari)
                     ->group_end()
-                    ->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nik LIKE '{$kw}' AND id_rtm = u.id) > 1")
-                    ->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nama LIKE '{$kw}' AND id_rtm = u.id) > 1")
+                    ->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nik LIKE '{$kw}' AND id_rtm = u.id AND config_id = '{$this->config_id}') > 1")
+                    ->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nama LIKE '{$kw}' AND id_rtm = u.id AND config_id = '{$this->config_id}') > 1")
                     ->group_end();
                 break;
 
@@ -232,7 +233,7 @@ class Analisis_respon_model extends CI_Model
 
         $isi = $isi == 1 ? 1 : 0;
         $this->db
-            ->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = {$this->per}) = {$isi}");
+            ->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = {$this->per} AND config_id = '{$this->config_id}') = {$isi}");
     }
 
     private function kelompok_sql($kf = 0)
@@ -245,7 +246,9 @@ class Analisis_respon_model extends CI_Model
         $this->list_data_sql();
         $jml_data = $this->db
             ->select('COUNT(*) AS jml_data')
-            ->get()->row()->jml_data;
+            ->get()
+            ->row()
+            ->jml_data;
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -262,27 +265,27 @@ class Analisis_respon_model extends CI_Model
 
         switch ($this->subjek) {
             case 1:
-                $this->db
+                $this->config_id('u')
                     ->from('penduduk_hidup u')
                     ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
                 break;
 
             case 2:
-                $this->db
+                $this->config_id('u')
                     ->from('keluarga_aktif u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
             case 3:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_rtm u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
             case 4:
-                $this->db
+                $this->config_id('u')
                     ->from('kelompok u')
                     ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
@@ -290,18 +293,19 @@ class Analisis_respon_model extends CI_Model
 
             case 5:
                 $this->db
-                    ->from('config u');
+                    ->from('config u')
+                    ->where('u.app_key', get_app_key());
                 break;
 
             case 6:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
                     ->where('u.rw', '0');
                 break;
 
             case 7:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
                     ->where('u.rw <>', '0')
@@ -309,7 +313,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 8:
-                $this->db
+                $this->config_id('u')
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt <> 0')
                     ->where('u.rt <> "-"');
@@ -331,8 +335,8 @@ class Analisis_respon_model extends CI_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $this->db
-            ->select("(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = {$this->per} LIMIT 1) as cek")
-            ->select("(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id) as bukti_pengesahan");
+            ->select("(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = u.id AND a.config_id ={$this->config_id} AND a.id_periode = {$this->per} LIMIT 1) as cek")
+            ->select("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id AND b.config_id ={$this->config_id}) as bukti_pengesahan");
 
         switch ($this->subjek) {
             case 1:
@@ -476,14 +480,15 @@ class Analisis_respon_model extends CI_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $i + 1;
             if ($p == 1) {
-                $par = $this->db
+                $par = $this->config_id('r')
                     ->select('kode_jawaban, asign, jawaban, r.id_indikator, r.id_parameter AS korek')
                     ->from('analisis_respon r')
                     ->join('analisis_parameter p', 'p.id = r.id_parameter', 'left')
                     ->where('r.id_periode', $per)
                     ->where('r.id_subjek', $data[$i]['id'])
                     ->order_by('r.id_indikator')
-                    ->get()->result_array();
+                    ->get()
+                    ->result_array();
                 $data[$i]['par'] = $par;
             } else {
                 $data[$i]['par'] = null;
@@ -503,7 +508,7 @@ class Analisis_respon_model extends CI_Model
             $per       = $this->analisis_master_model->get_aktif_periode();
             $id_master = $_SESSION['analisis_master'];
         } else {
-            $id_master = $this->db->get_where('analisis_periode', ['id' => $per])->row_array();
+            $id_master = $this->config_id()->get_where('analisis_periode', ['id' => $per])->row_array();
             $id_master = $id_master['id_master'];
         }
         $ia = 0;
@@ -550,8 +555,7 @@ class Analisis_respon_model extends CI_Model
 
         //CEK ada input
         if ($ir != 0 || $ic != 0 || $ia != 0 || $it != 0) {
-            $sql = 'DELETE FROM analisis_respon WHERE id_subjek = ? AND id_periode=?';
-            $this->db->query($sql, [$id, $per]);
+            $this->config_id()->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon');
             if (! empty($_POST['rb'])) {
                 $id_rb = $_POST['rb'];
 
@@ -565,6 +569,7 @@ class Analisis_respon_model extends CI_Model
                     $data['id_periode']   = $per;
                     $data['id_indikator'] = $p[0];
                     $data['id_parameter'] = $p[1];
+                    $data['config_id']    = $this->config_id;
                     $outp &= $this->db->insert('analisis_respon', $data);
                 }
             }
@@ -578,6 +583,7 @@ class Analisis_respon_model extends CI_Model
                         $data['id_periode']   = $per;
                         $data['id_indikator'] = $p[0];
                         $data['id_parameter'] = $p[1];
+                        $data['config_id']    = $this->config_id;
                         $outp &= $this->db->insert('analisis_respon', $data);
                     }
                 }
@@ -590,24 +596,22 @@ class Analisis_respon_model extends CI_Model
                     if ($id_p != '') {
                         unset($data);
                         $indikator = key($id_ia);
-
-                        $sql   = 'SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?';
-                        $query = $this->db->query($sql, [$id_p, $indikator]);
-                        $dx    = $query->row_array();
+                        $dx        = $this->config_id()
+                            ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                            ->row_array();
                         if (! $dx) {
                             $data['id_indikator'] = $indikator;
                             $data['jawaban']      = $id_p;
                             $outp &= $this->db->insert('analisis_parameter', $data);
                             unset($data);
-
-                            $sql   = 'SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?';
-                            $query = $this->db->query($sql, [$id_p, $indikator]);
-                            $dx    = $query->row_array();
-
+                            $dx = $this->config_id()
+                                ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                                ->row_array();
                             $data['id_parameter'] = $dx['id'];
                             $data['id_indikator'] = $indikator;
                             $data['id_subjek']    = $id;
                             $data['id_periode']   = $per;
+                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data);
                         } else {
                             unset($data);
@@ -615,6 +619,7 @@ class Analisis_respon_model extends CI_Model
                             $data['id_parameter'] = $dx['id'];
                             $data['id_subjek']    = $id;
                             $data['id_periode']   = $per;
+                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data);
                         }
                     }
@@ -628,32 +633,31 @@ class Analisis_respon_model extends CI_Model
                     if ($id_p != '') {
                         unset($data);
                         $indikator = key($id_it);
-
-                        $sql   = 'SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?';
-                        $query = $this->db->query($sql, [$id_p, $indikator]);
-                        $dx    = $query->row_array();
+                        $dx        = $this->config_id()
+                            ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                            ->row_array();
                         if (! $dx) {
                             $data['id_indikator'] = $indikator;
                             $data['jawaban']      = $id_p;
+                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_parameter', $data);
                             unset($data);
-
-                            $sql   = 'SELECT * FROM analisis_parameter u WHERE jawaban = ? AND id_indikator = ?';
-                            $query = $this->db->query($sql, [$id_p, $indikator]);
-                            $dx    = $query->row_array();
-
+                            $dx = $this->config_id()
+                                ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
+                                ->row_array();
                             $data2['id_parameter'] = $dx['id'];
                             $data2['id_indikator'] = $indikator;
                             $data2['id_subjek']    = $id;
                             $data2['id_periode']   = $per;
+                            $data2['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data2);
                         } else {
                             unset($data);
                             $data['id_indikator'] = $indikator;
                             $data['id_parameter'] = $dx['id'];
-
-                            $data['id_subjek']  = $id;
-                            $data['id_periode'] = $per;
+                            $data['id_subjek']    = $id;
+                            $data['id_periode']   = $per;
+                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data);
                         }
                     }
@@ -661,7 +665,7 @@ class Analisis_respon_model extends CI_Model
                 }
             }
 
-            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?';
+            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?  AND r.config_id=' . identitas('id');
             $query = $this->db->query($sql, [$id, $per]);
             $dx    = $query->row_array();
 
@@ -669,9 +673,8 @@ class Analisis_respon_model extends CI_Model
             $upx['akumulasi']  = 0 + $dx['jml'];
             $upx['id_subjek']  = $id;
             $upx['id_periode'] = $per;
-
-            $sql = 'DELETE FROM analisis_respon_hasil WHERE id_subjek = ? AND id_periode=?';
-            $this->db->query($sql, [$id, $per]);
+            $upx['config_id']  = $this->config_id;
+            $this->config_id()->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon_hasil');
             $outp &= $this->db->insert('analisis_respon_hasil', $upx);
         }
         if (isset($_FILES['pengesahan'])) {
@@ -687,10 +690,11 @@ class Analisis_respon_model extends CI_Model
                     $bukti['id_master']  = $id_master;
                     $bukti['id_subjek']  = $id;
                     $bukti['id_periode'] = $per;
+                    $bukti['config_id']  = identitas('id');
 
-                    $ada_bukti = $this->db->where(['id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per])->get('analisis_respon_bukti')->num_rows();
+                    $ada_bukti = $this->config_id()->where(['id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per])->get('analisis_respon_bukti')->num_rows();
                     if ($ada_bukti > 0) {
-                        $outp = $this->db->where(['id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per])->update('analisis_respon_bukti', $bukti);
+                        $outp = $this->config_id()->where(['id_master' => $id_master, 'id_subjek' => $id, 'id_periode' => $per])->update('analisis_respon_bukti', $bukti);
                     } else {
                         $outp &= $this->db->insert('analisis_respon_bukti', $bukti);
                     }
@@ -703,11 +707,18 @@ class Analisis_respon_model extends CI_Model
     private function list_jawab2($id = 0, $in = 0, $per = 0)
     {
         if (isset($this->session->delik)) {
-            $sql   = 'SELECT s.id as id_parameter,s.jawaban,s.kode_jawaban FROM analisis_parameter s WHERE id_indikator = ? ORDER BY s.kode_jawaban ASC ';
-            $query = $this->db->query($sql, $in);
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->where('id_indikator', $in)
+                ->order_by('s.kode_jawaban', 'ASC')
+                ->get('analisis_parameter s');
         } else {
-            $sql   = 'SELECT s.id as id_parameter,s.jawaban,s.kode_jawaban,(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek = ? AND id_periode=?) as cek FROM analisis_parameter s WHERE id_indikator = ? ORDER BY s.kode_jawaban ASC ';
-            $query = $this->db->query($sql, [$id, $per, $in]);
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ' AND config_id=' . identitas('id') . ') as cek')
+                ->where('id_indikator', $in)
+                ->order_by('s.kode_jawaban', 'ASC')
+                ->get('analisis_parameter s');
         }
 
         $data = $query->result_array();
@@ -724,10 +735,15 @@ class Analisis_respon_model extends CI_Model
 
     private function list_jawab3($id = 0, $in = 0, $per = 0)
     {
-        $sql   = 'SELECT s.id as id_parameter,s.jawaban FROM analisis_respon r LEFT JOIN analisis_parameter s ON r.id_parameter = s.id WHERE r.id_indikator = ? AND r.id_subjek = ? AND r.id_periode=?';
-        $query = $this->db->query($sql, [$in, $id, $per]);
-
-        return $query->row_array();
+        return $this->config_id('r')
+            ->select('s.id as id_parameter,s.jawaban')
+            ->from('analisis_respon r')
+            ->join('analisis_parameter s', 'r.id_parameter = s.id', 'left')
+            ->where('r.id_indikator', $in)
+            ->where('r.id_subjek', $id)
+            ->where('r.id_periode', $per)
+            ->get()
+            ->row_array();
     }
 
     public function list_indikator($id = 0)
@@ -761,11 +777,16 @@ class Analisis_respon_model extends CI_Model
     private function list_jawab4($id = 0, $in = 0, $per = 0)
     {
         if (isset($this->session->delik)) {
-            $sql   = 'SELECT s.id as id_parameter,s.jawaban,s.kode_jawaban FROM analisis_parameter s WHERE id_indikator = ? ';
-            $query = $this->db->query($sql, $in);
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->where('id_indikator', $in)
+                ->get('analisis_parameter s');
         } else {
-            $sql   = 'SELECT s.id as id_parameter,s.jawaban,s.kode_jawaban,(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek = ? AND id_periode=?) as cek FROM analisis_parameter s WHERE id_indikator = ? ';
-            $query = $this->db->query($sql, [$id, $per, $in]);
+            $query = $this->config_id('s')
+                ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
+                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ' AND config_id=' . identitas('id') . ') as cek')
+                ->where('id_indikator', $in)
+                ->get('analisis_parameter s');
         }
         $data = $query->result_array();
 
@@ -781,28 +802,39 @@ class Analisis_respon_model extends CI_Model
 
     private function list_jawab5($id = 0, $in = 0, $per = 0)
     {
-        $sql   = 'SELECT s.id as id_parameter,s.jawaban FROM analisis_respon r LEFT JOIN analisis_parameter s ON r.id_parameter = s.id WHERE r.id_indikator = ? AND r.id_subjek = ? AND r.id_periode = ?';
-        $query = $this->db->query($sql, [$in, $id, $per]);
-
-        return $query->row_array();
+        return $this->config_id('r')
+            ->select('s.id as id_parameter,s.jawaban')
+            ->from('analisis_respon r')
+            ->join('analisis_parameter s', 'r.id_parameter = s.id', 'left')
+            ->where('r.id_indikator', $in)
+            ->where('r.id_subjek', $id)
+            ->where('r.id_periode', $per)
+            ->get()
+            ->row_array();
     }
 
     public function list_indikator_child($id = 0)
     {
-        $sql      = 'SELECT id_child FROM analisis_master WHERE id = ? ';
-        $query    = $this->db->query($sql, $_SESSION['analisis_master']);
-        $id_child = $query->row_array();
+        $id_child = $this->config_id()
+            ->select('id_child')
+            ->where('id', $_SESSION['analisis_master'])
+            ->get('analisis_master')
+            ->row_array();
         $id_child = $id_child['id_child'];
 
-        $sql   = 'SELECT id FROM analisis_periode WHERE id_master = ? AND aktif = 1';
-        $query = $this->db->query($sql, $id_child);
-        $per   = $query->row_array();
-        $per   = $per['id'];
+        $per = $this->config_id()
+            ->select('id')
+            ->where('id_master', $id_child)
+            ->where('aktif', 1)
+            ->get('analisis_periode')
+            ->row_array();
+        $per = $per['id'];
 
-        $sql = 'SELECT * FROM analisis_indikator u WHERE id_master = ? ';
-        $sql .= ' ORDER BY nomor';
-        $query = $this->db->query($sql, $id_child);
-        $data  = $query->result_array();
+        $data = $this->config_id('u')
+            ->where('u.id_master', $id_child)
+            ->order_by('u.nomor')
+            ->get('analisis_indikator u')
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $i + 1;
@@ -819,15 +851,20 @@ class Analisis_respon_model extends CI_Model
 
     public function get_periode_child()
     {
-        $sql      = 'SELECT id_child FROM analisis_master WHERE id = ? ';
-        $query    = $this->db->query($sql, $_SESSION['analisis_master']);
-        $id_child = $query->row_array();
+        $id_child = $this->config_id()
+            ->select('id_child')
+            ->where('id', $_SESSION['analisis_master'])
+            ->get('analisis_master')
+            ->row_array();
         $id_child = $id_child['id_child'];
 
-        $sql   = 'SELECT id FROM analisis_periode WHERE id_master = ? AND aktif = 1';
-        $query = $this->db->query($sql, $id_child);
-        $per   = $query->row_array();
-        $per   = $per['id'];
+        $per = $this->config_id()
+            ->select('id')
+            ->where('id_master', $id_child)
+            ->where('aktif', 1)
+            ->get('analisis_periode')
+            ->row_array();
+        $per = $per['id'];
 
         return $per;
     }
@@ -836,12 +873,15 @@ class Analisis_respon_model extends CI_Model
     public function list_bukti($id = 0)
     {
         $per = $this->analisis_master_model->get_aktif_periode();
-        $sql = 'SELECT pengesahan FROM analisis_respon_bukti WHERE id_subjek = ? AND id_master = ? AND id_periode = ? ';
-        $sql .= ' ORDER BY tgl_update DESC';
-        $query = $this->db->query($sql, [$id, $_SESSION['analisis_master'], $per]);
-        $data  = $query->result_array();
 
-        return $data;
+        return $this->config_id()
+            ->select('pengesahan')
+            ->where('id_subjek', $id)
+            ->where('id_master', $_SESSION['analisis_master'])
+            ->where('id_periode', $per)
+            ->order_by('tgl_update', 'DESC')
+            ->get('analisis_respon_bukti')
+            ->result_array();
     }
 
     public function get_subjek($id = 0)
@@ -850,7 +890,7 @@ class Analisis_respon_model extends CI_Model
 
         switch ($this->subjek) {
             case 1:
-                $this->db
+                $this->config_id('u')
                     ->select('u.*, u.nik AS nid, c.dusun, c.rw, c.rt')
                     ->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
                     ->from('penduduk_hidup u')
@@ -858,7 +898,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 2:
-                $this->db
+                $this->config_id('u')
                     ->select('u.*, u.no_kk AS nid, p.nik AS nik_kepala, p.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
                     ->from('keluarga_aktif u')
@@ -868,16 +908,17 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 3:
-                $this->db
+                $this->config_id('u')
                     ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('tweb_rtm u')
                     ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
-            case 4: $
-                {$this}->db
-                    ->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt')
+            case 4:
+                $this->config_id('u')
+                    ->select('u.nama AS no_kk, p.nama')
+                    ->from('kelompok u')
                     ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
@@ -886,26 +927,27 @@ class Analisis_respon_model extends CI_Model
                 $this->db
                     ->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
                     ->select("
-						u.nama_desa, u.kode_desa, u.kode_pos, u.alamat_kantor, u.telepon as no_telepon_kantor_desa, u.email_desa, CONCAT('Lintang : ', u.lat, ', ', 'Bujur : ', u.lng) as titik_koordinat_desa")
+                        u.nama_desa, u.kode_desa, u.kode_pos, u.alamat_kantor, u.telepon as no_telepon_kantor_desa, u.email_desa, CONCAT('Lintang : ', u.lat, ', ', 'Bujur : ', u.lng) as titik_koordinat_desa")
                     ->select('
-						c.pamong_nip AS nip_kepala_desa,
-						(case when p.sex is not null then p.sex else c.pamong_sex end) as jk_kepala_desa,
-						(case when p.pendidikan_kk_id is not null then b.nama else c.pamong_pendidikan end) as pendidikan_kepala_desa,
-						(case when p.nama is not null then p.nama else c.pamong_nama end) AS nama_kepala_desa,
-						p.telepon as no_telepon_kepala_desa
-					')
+                        c.pamong_nip AS nip_kepala_desa,
+                        (case when p.sex is not null then p.sex else c.pamong_sex end) as jk_kepala_desa,
+                        (case when p.pendidikan_kk_id is not null then b.nama else c.pamong_pendidikan end) as pendidikan_kepala_desa,
+                        (case when p.nama is not null then p.nama else c.pamong_nama end) AS nama_kepala_desa,
+                        p.telepon as no_telepon_kepala_desa
+                    ')
                     ->from('config u')
                     ->join('tweb_desa_pamong c', 'u.pamong_id = c.pamong_id', 'left')
                     ->join('tweb_penduduk p', 'c.id_pend = p.id', 'left')
                     ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
                     ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
                     ->join('tweb_penduduk_pendidikan_kk b2', 'c.pamong_pendidikan = b2.id', 'LEFT')
-                    ->join('tweb_penduduk_sex x2', 'c.pamong_sex = x2.id', 'LEFT');
+                    ->join('tweb_penduduk_sex x2', 'c.pamong_sex = x2.id', 'LEFT')
+                    ->where('u.app_key', get_app_key());
 
                 break;
 
             case 6:
-                $this->db
+                $this->config_id('u')
                     ->select("u.id, u.dusun AS nid, UPPER('{$sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
@@ -913,7 +955,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 7:
-                $this->db
+                $this->config_id('u')
                     ->select("u.id, u.rw AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt', '0')
@@ -921,7 +963,7 @@ class Analisis_respon_model extends CI_Model
                 break;
 
             case 8:
-                $this->db
+                $this->config_id('u')
                     ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
                     ->from('tweb_wil_clusterdesa u')
                     ->where('u.rt <> 0')
@@ -939,15 +981,15 @@ class Analisis_respon_model extends CI_Model
         // Data tambahan subjek desa
         if ($this->subjek == 5) {
             $tambahan = [
-                'jumlah_total_penduduk'            => $this->db->count_all_results('penduduk_hidup'),
-                'jumlah_penduduk_laki_laki'        => $this->db->where('sex', 1)->count_all_results('penduduk_hidup'),
-                'jumlah_penduduk_perempuan'        => $this->db->where('sex', 2)->count_all_results('penduduk_hidup'),
-                'jumlah_penduduk_pedatang'         => $this->db->where('status', 2)->count_all_results('penduduk_hidup'),
-                'jumlah_penduduk_yang_pergi'       => $this->db->where('kode_peristiwa', 3)->count_all_results('log_penduduk'),
-                'jumlah_total_kepala_keluarga'     => $this->db->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->count_all_results('keluarga_aktif u'),
-                'jumlah_kepala_keluarga_laki_laki' => $this->db->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 1)->count_all_results('keluarga_aktif u'),
-                'jumlah_kepala_keluarga_perempuan' => $this->db->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 2)->count_all_results('keluarga_aktif u'),
-                'jumlah_peserta_bpjs'              => $this->db->where('bpjs_ketenagakerjaan != ', null)->count_all_results('penduduk_hidup'),
+                'jumlah_total_penduduk'            => $this->config_id()->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_laki_laki'        => $this->config_id()->where('sex', 1)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_perempuan'        => $this->config_id()->where('sex', 2)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_pedatang'         => $this->config_id()->where('status', 2)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_yang_pergi'       => $this->config_id()->where('kode_peristiwa', 3)->count_all_results('log_penduduk'),
+                'jumlah_total_kepala_keluarga'     => $this->config_id('u')->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->count_all_results('keluarga_aktif u'),
+                'jumlah_kepala_keluarga_laki_laki' => $this->config_id('u')->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 1)->count_all_results('keluarga_aktif u'),
+                'jumlah_kepala_keluarga_perempuan' => $this->config_id('u')->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 2)->count_all_results('keluarga_aktif u'),
+                'jumlah_peserta_bpjs'              => $this->config_id()->where('bpjs_ketenagakerjaan != ', null)->count_all_results('penduduk_hidup'),
             ];
 
             $data = array_merge($data, $tambahan);
@@ -961,17 +1003,22 @@ class Analisis_respon_model extends CI_Model
         $subjek = $this->subjek;
         if ($subjek == 2 || $subjek == 3) {
             switch ($subjek) {
-                case 2: $sql = 'SELECT u.* FROM penduduk_hidup u WHERE u.id_kk = ? ORDER BY kk_level';
-                    break;
+                case 2:
+                    return $this->config_id('u')
+                        ->where('u.id_kk', $id)
+                        ->order_by('kk_level')
+                        ->get('penduduk_hidup u')
+                        ->result_array();
 
-                case 3: $sql = 'SELECT u.* FROM penduduk_hidup u WHERE u.id_rtm = ? ORDER BY rtm_level';
-                    break;
+                case 3:
+                    return $this->config_id('u')
+                        ->where('u.id_rtm', $id)
+                        ->order_by('rtm_level')
+                        ->get('penduduk_hidup u')
+                        ->result_array();
 
                 default: return null;
             }
-            $query = $this->db->query($sql, $id);
-
-            return $query->result_array();
         }
 
         return null;
@@ -979,13 +1026,15 @@ class Analisis_respon_model extends CI_Model
 
     public function aturan_unduh()
     {
-        $subjek    = $this->subjek;
-        $order_sql = ' ORDER BY u.nomor ASC';
-        $sql       = 'SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE u.id_master = ? ';
-        $sql .= $order_sql;
-
-        $query = $this->db->query($sql, $_SESSION['analisis_master']);
-        $data  = $query->result_array();
+        $data = $this->config_id('u')
+            ->select('u.*, t.tipe AS tipe_indikator, k.kategori AS kategori')
+            ->from('analisis_indikator u')
+            ->join('analisis_tipe_indikator t', 'u.id_tipe = t.id', 'left')
+            ->join('analisis_kategori_indikator k', 'u.id_kategori = k.id', 'left')
+            ->where('u.id_master', $_SESSION['analisis_master'])
+            ->order_by('u.nomor')
+            ->get()
+            ->result_array();
 
         $per = $this->analisis_master_model->get_aktif_periode();
 
@@ -993,10 +1042,13 @@ class Analisis_respon_model extends CI_Model
             $data[$i]['no'] = $i + 1;
 
             if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
-                $sql2            = 'SELECT i.id,i.kode_jawaban,i.jawaban FROM analisis_parameter i WHERE i.id_indikator = ? ORDER BY i.kode_jawaban ASC ';
-                $query2          = $this->db->query($sql2, $data[$i]['id']);
-                $respon2         = $query2->result_array();
-                $data[$i]['par'] = $respon2;
+                $data[$i]['par'] = $this->config_id('i')
+                    ->select('i.id, i.kode_jawaban, i.jawaban')
+                    ->from('analisis_parameter i')
+                    ->where('i.id_indikator', $data[$i]['id'])
+                    ->order_by('i.kode_jawaban')
+                    ->get()
+                    ->result_array();
             } else {
                 $data[$i]['par'] = null;
             }
@@ -1012,21 +1064,21 @@ class Analisis_respon_model extends CI_Model
 
     public function indikator_data_unduh()
     {
-        $order_sql = ' ORDER BY u.nomor';
-
-        $sql = 'SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ';
-        $sql .= $order_sql;
-        $query = $this->db->query($sql, $_SESSION['analisis_master']);
-        $data  = $query->result_array();
+        $data = $this->config_id('u')
+            ->where('u.id_master', $_SESSION['analisis_master'])
+            ->order_by('u.nomor')
+            ->get('analisis_indikator u')
+            ->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']  = $i + 1;
             $data[$i]['par'] = null;
-
-            $sql2            = 'SELECT id_parameter FROM analisis_respon WHERE id_indikator = ? AND asign = 1 ';
-            $query2          = $this->db->query($sql2, $data[$i]['id']);
-            $par             = $query2->result_array();
-            $data[$i]['par'] = $par;
+            $data[$i]['par'] = $this->config_id()
+                ->select('id_parameter')
+                ->where('id_indikator', $data[$i]['id'])
+                ->where('asign', 1)
+                ->get('analisis_parameter')
+                ->result_array();
         }
 
         return $data;
@@ -1034,8 +1086,7 @@ class Analisis_respon_model extends CI_Model
 
     public function indikator_unduh($p = 0)
     {
-        $data = $this->db
-            ->select('u.*')
+        $data = $this->config_id('u')
             ->where('u.id_master', $this->session->analisis_master)
             ->order_by('LPAD(u.nomor, 10, " ")')
             ->get('analisis_indikator u')
@@ -1046,8 +1097,7 @@ class Analisis_respon_model extends CI_Model
             $data[$i]['par'] = null;
 
             if ($p == 2) {
-                $par = $this->db
-                    ->select('*')
+                $par = $this->config_id()
                     ->where('id_indikator', $data[$i]['id'])
                     ->where('asign', 1)
                     ->get('analisis_parameter')
@@ -1067,21 +1117,21 @@ class Analisis_respon_model extends CI_Model
             $per = $pr;
         }
 
-        $sql   = 'SELECT DISTINCT(id_subjek) AS id FROM analisis_respon WHERE id_periode = ? ';
+        $sql   = 'SELECT DISTINCT(id_subjek) AS id FROM analisis_respon WHERE id_periode = ?  AND config_id=' . identitas('id');
         $query = $this->db->query($sql, $per);
         $data  = $query->result_array();
 
-        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_subjek = 0';
+        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_subjek = 0  AND config_id=' . identitas('id');
         $this->db->query($sql);
 
-        $sql = 'DELETE FROM analisis_respon WHERE id_subjek = 0';
+        $sql = 'DELETE FROM analisis_respon WHERE id_subjek = 0 AND config_id=' . identitas('id');
         $this->db->query($sql);
 
-        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_periode = ?';
+        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_periode = ? AND config_id=' . identitas('id');
         $this->db->query($sql, $per);
 
         for ($i = 0; $i < count($data); $i++) {
-            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?';
+            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? AND config_id=' . identitas('id');
             $query = $this->db->query($sql, [$data[$i]['id'], $per]);
             $dx    = $query->row_array();
 
@@ -1089,6 +1139,7 @@ class Analisis_respon_model extends CI_Model
             $upx[$i]['akumulasi']  = 0 + $dx['jml'];
             $upx[$i]['id_subjek']  = $data[$i]['id'];
             $upx[$i]['id_periode'] = $per;
+            $upx[$i]['config_id']  = $this->config_id;
         }
         if (@$upx) {
             $this->db->insert_batch('analisis_respon_hasil', $upx);
@@ -1099,7 +1150,7 @@ class Analisis_respon_model extends CI_Model
     {
         $per = $this->analisis_master_model->get_aktif_periode();
 
-        $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ?';
+        $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ?  AND r.config_id=' . identitas('id');
         $query = $this->db->query($sql, [$id, $per]);
         $dx    = $query->row_array();
 
@@ -1107,9 +1158,12 @@ class Analisis_respon_model extends CI_Model
         $upx['akumulasi']  = 0 + $dx['jml'];
         $upx['id_subjek']  = $id;
         $upx['id_periode'] = $per;
+        $upx['config_id']  = $this->config_id;
 
-        $sql = 'DELETE FROM analisis_respon_hasil WHERE id_subjek = ? AND id_periode=?';
-        $this->db->query($sql, [$id, $per]);
+        $this->config_id()
+            ->where('id_subjek', $id)
+            ->where('id_periode', $per)
+            ->delete('analisis_respon_hasil');
         $this->db->insert('analisis_respon_hasil', $upx);
     }
 
@@ -1123,10 +1177,13 @@ class Analisis_respon_model extends CI_Model
         $key    = 'AN' . $key;
         $respon = [];
 
-        $sql       = 'SELECT * FROM analisis_indikator WHERE id_master=? ORDER BY id ASC';
-        $query     = $this->db->query($sql, $_SESSION['analisis_master']);
-        $indikator = $query->result_array();
-        $jml       = count($indikator);
+        $indikator = $this->config_id()
+            ->where('id_master', $_SESSION['analisis_master'])
+            ->order_by('id')
+            ->get('analisis_indikator')
+            ->result_array();
+
+        $jml = count($indikator);
 
         $data  = new Spreadsheet_Excel_Reader($_FILES['respon']['tmp_name']);
         $s     = 0;
@@ -1174,22 +1231,24 @@ class Analisis_respon_model extends CI_Model
 
             $dels .= '9999999';
             //cek ada row
-            $this->db->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
+            $this->config_id()->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
             $dels = '';
 
             for ($i = $br; $i <= $baris; $i++) {
                 $id_subjek = $data->val($i, $kl - 1, $s);
                 if (strlen($id_subjek) > 14 && $subjek == 1) {
-                    $sqls      = 'SELECT id FROM penduduk_hidup WHERE nik = ?;';
-                    $querys    = $this->db->query($sqls, [$id_subjek]);
-                    $isbj      = $querys->row_array();
+                    $isbj = $this->config_id()
+                        ->where('nik', $id_subjek)
+                        ->get('penduduk_hidup')
+                        ->row_array();
                     $id_subjek = $isbj['id'];
                 } elseif ($subject == 3) {
                     // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
                     $id_subjek = $this->db->select('id')
                         ->where('id_rtm', $id_subjek)
                         ->get('tweb_rtm')
-                        ->row()->id;
+                        ->row()
+                        ->id;
                 }
 
                 $j   = $kl + $op;
@@ -1199,9 +1258,11 @@ class Analisis_respon_model extends CI_Model
                     $isi = $data->val($i, $j, $s);
                     if ($isi != '') {
                         if ($indi['id_tipe'] == 1) {
-                            $sql   = 'SELECT id FROM analisis_parameter WHERE id_indikator = ? AND kode_jawaban = ?;';
-                            $query = $this->db->query($sql, [$indi['id'], $isi]);
-                            $param = $query->row_array();
+                            $param = $this->config_id()
+                                ->where('id_indikator', $indi['id'])
+                                ->where('kode_jawaban', $isi)
+                                ->get('analisis_parameter')
+                                ->row_array();
 
                             if ($param) {
                                 $in_param = $param['id'];
@@ -1217,13 +1278,17 @@ class Analisis_respon_model extends CI_Model
                                 'id_parameter' => $in_param,
                                 'id_indikator' => $indi['id'],
                                 'id_subjek'    => $id_subjek,
-                                'id_periode'   => $per, ];
+                                'id_periode'   => $per,
+                                'config_id'    => $this->config_id,
+                            ];
                         } elseif ($indi['id_tipe'] == 2) {
                             $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
                         } else {
-                            $sql   = 'SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;';
-                            $query = $this->db->query($sql, [$indi['id'], $isi]);
-                            $param = $query->row_array();
+                            $param = $this->config_id()
+                                ->where('id_indikator', $indi['id'])
+                                ->where('jawaban', $isi)
+                                ->get('analisis_parameter')
+                                ->row_array();
 
                             // apakah sdh ada jawaban yg sama
                             if ($param) {
@@ -1232,12 +1297,15 @@ class Analisis_respon_model extends CI_Model
                                 $parameter['jawaban']      = $isi;
                                 $parameter['id_indikator'] = $indi['id'];
                                 $parameter['asign']        = 0;
+                                $parameter['config_id']    = $this->config_id;
 
                                 $this->db->insert('analisis_parameter', $parameter);
 
-                                $sql      = 'SELECT id FROM analisis_parameter WHERE id_indikator = ? AND jawaban = ?;';
-                                $query    = $this->db->query($sql, [$indi['id'], $isi]);
-                                $param    = $query->row_array();
+                                $param = $this->config_id()
+                                    ->where('id_indikator', $indi['id'])
+                                    ->where('jawaban', $isi)
+                                    ->get('analisis_parameter')
+                                    ->row_array();
                                 $in_param = $param['id'];
                             }
 
@@ -1245,7 +1313,9 @@ class Analisis_respon_model extends CI_Model
                                 'id_parameter' => $in_param,
                                 'id_indikator' => $indi['id'],
                                 'id_subjek'    => $id_subjek,
-                                'id_periode'   => $per, ];
+                                'id_periode'   => $per,
+                                'config_id'    => $this->config_id,
+                            ];
                         }
                     }
 
@@ -1274,11 +1344,17 @@ class Analisis_respon_model extends CI_Model
             if ($indi['is_teks'] == 1) {
                 // Isian sebagai teks pilihan bukan kode
                 $teks  = strtolower($isi_ini);
-                $param = $this->db->where('id_indikator', $indi['id'])->where("LOWER(jawaban) = '{$teks}'")
-                    ->get('analisis_parameter')->row_array();
+                $param = $this->config_id()
+                    ->where('id_indikator', $indi['id'])
+                    ->where("LOWER(jawaban) = '{$teks}'")
+                    ->get('analisis_parameter')
+                    ->row_array();
             } else {
-                $param = $this->db->where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)
-                    ->get('analisis_parameter')->row_array();
+                $param = $this->config_id()
+                    ->where('id_indikator', $indi['id'])
+                    ->where('kode_jawaban', $isi_ini)
+                    ->get('analisis_parameter')
+                    ->row_array();
             }
             if ($param['id'] != '') {
                 $in_param = $param['id'];
@@ -1287,6 +1363,7 @@ class Analisis_respon_model extends CI_Model
                     'id_indikator' => $indi['id'],
                     'id_subjek'    => $id_subjek,
                     'id_periode'   => $per,
+                    'config_id'    => $this->config_id,
                 ];
             }
         }
@@ -1296,7 +1373,8 @@ class Analisis_respon_model extends CI_Model
     {
         $result = [];
         if ($subjek == 1) { // Untuk Subjek Penduduk
-            $list_penduduk = $this->db->select('r.*, p.nik')
+            $list_penduduk = $this->config_id('r')
+                ->select('r.*, p.nik')
                 ->from('analisis_respon r')
                 ->join('tweb_penduduk p', 'r.id_subjek = p.id')
                 ->where('r.id_periode', $id_periode)
@@ -1307,7 +1385,8 @@ class Analisis_respon_model extends CI_Model
                 $result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
             }
         } else { // Untuk Subjek Keluarga
-            $list_keluarga = $this->db->select('r.*, k.no_kk')
+            $list_keluarga = $this->config_id('r')
+                ->select('r.*, k.no_kk')
                 ->from('analisis_respon r')
                 ->join('tweb_keluarga k', 'r.id_subjek = k.id')
                 ->where('r.id_periode', $id_periode)
@@ -1325,7 +1404,7 @@ class Analisis_respon_model extends CI_Model
     public function perbaharui($id_subjek = 0)
     {
         // Daftar indikator yg menggunakan referensi
-        $id_indikator = $this->db
+        $id_indikator = $this->config_id()
             ->select('id')
             ->get_where('analisis_indikator', ['id_master' => $this->session->analisis_master])
             ->result_array();
@@ -1333,7 +1412,7 @@ class Analisis_respon_model extends CI_Model
         if ($id_indikator) {
             $id_indikator = array_column($id_indikator, 'id');
 
-            $outp = $this->db
+            $outp = $this->config_id()
                 ->where('id_subjek', $id_subjek)
                 ->where_in('id_indikator', $id_indikator)
                 ->delete('analisis_respon');

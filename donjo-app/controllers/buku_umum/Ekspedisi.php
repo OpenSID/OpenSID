@@ -88,7 +88,7 @@ class Ekspedisi extends Admin_Controller
         $data['o']           = $o;
 
         if ($id) {
-            $data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id);
+            $data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id) ?? show_404();
             $data['form_action']  = site_url("ekspedisi/update/{$p}/{$o}/{$id}");
         }
 
