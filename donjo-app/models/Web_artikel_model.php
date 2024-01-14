@@ -94,12 +94,12 @@ class Web_artikel_model extends MY_Model
         }
     }
 
-    public function paging($cat = 0, $p = 1, $o = 0)
+    public function paging($cat = -1, $p = 1, $o = 0)
     {
-        $this->db->select('COUNT(a.id)');
+        $this->db->select('COUNT(a.id) as jml');
         $this->list_data_sql($cat);
         $row      = $this->db->get()->row_array();
-        $jml_data = $row['id'];
+        $jml_data = $row['jml'];
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -115,7 +115,9 @@ class Web_artikel_model extends MY_Model
         $this->config_id('a')
             ->from('artikel a')
             ->join('kategori k', 'a.id_kategori = k.id', 'left');
-        if (in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL)) {
+        if ($cat == '-1') {
+            $this->db->where('a.tipe', 'dinamis');
+        } elseif (in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL)) {
             $this->db->where('id_kategori')->where('a.tipe', $cat);
         } elseif ($cat > 0) {
             // Semua artikel dinamis (tidak termasuk artikel statis)
@@ -129,7 +131,7 @@ class Web_artikel_model extends MY_Model
         $this->grup_sql();
     }
 
-    public function list_data($cat = 0, $o = 0, $offset = 0, $limit = 500)
+    public function list_data($cat = -1, $o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
             case 1: $this->db->order_by('judul');
@@ -207,7 +209,7 @@ class Web_artikel_model extends MY_Model
     }
 
     // TODO: pindahkan dan gunakan web_kategori_model
-    public function get_kategori($cat = 0)
+    public function get_kategori($cat = -1)
     {
         return $this->config_id()
             ->select('kategori')
