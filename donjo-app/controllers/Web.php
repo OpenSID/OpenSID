@@ -35,9 +35,10 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Models\Artikel;
+use App\Enums\TampilanArtikelEnum;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web extends Admin_Controller
 {
@@ -133,6 +134,7 @@ class Web extends Admin_Controller
 
         $data['cat']      = $cat;
         $data['kategori'] = $this->web_artikel_model->get_kategori($cat);
+        $data['list_tampilan'] = TampilanArtikelEnum::all();
 
         $this->render('web/artikel/form', $data);
     }

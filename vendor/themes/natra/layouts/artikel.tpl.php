@@ -12,24 +12,45 @@
 		<?php $this->load->view("$folder_themes/partials/header"); ?>
 	</header>
 	<div id="navarea">
-		<?php $this->load->view("$folder_themes/partials/menu_head"); ?>
-	</div>
-	<div class="row">
-		<section>
-			<div class="content_middle"></div>
-			<div class="content_bottom">
-				<div class="col-lg-9 col-md-9">
-					<div class="content_left">
-						<?php $this->load->view("$folder_themes/partials/artikel"); ?>
-					</div>
+			<?php $this->load->view("$folder_themes/partials/menu_head"); ?>
+		</div>
+		<div class="row">
+			<section>
+				<div class="content_middle"></div>
+				<div class="content">
+					<?php if ($single_artikel['tampilan'] == 1) : ?>
+						<div class="col-lg-9 col-md-9">
+							<div class="content_left">
+								<?php $this->load->view("$folder_themes/partials/artikel"); ?>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-3">
+							<div class="content_right">
+								<?php $this->load->view("$folder_themes/partials/bottom_content_right"); ?>
+							</div>
+						</div>
+					<?php elseif ($single_artikel['tampilan'] == 2) : ?>
+						<div class="col-lg-3 col-md-3">
+							<div class="content_right">
+								<?php $this->load->view("$folder_themes/partials/bottom_content_right"); ?>
+							</div>
+						</div>
+						<div class="col-lg-9 col-md-9">
+							<div class="content_left">
+								<?php $this->load->view("$folder_themes/partials/artikel"); ?>
+							</div>
+						</div>
+					<?php else : ?>
+						<div class="col-lg-12 col-md-12">
+							<div class="content_left">
+								<?php $this->load->view("$folder_themes/partials/artikel"); ?>
+							</div>
+						</div>
+					<?php endif; ?>
 				</div>
-				<div class="col-lg-3 col-md-3">
-					<?php $this->load->view("$folder_themes/partials/bottom_content_right"); ?>
-				</div>
-			</div>
-		</section>
+			</section>
+		</div>
 	</div>
-</div>
 <footer id="footer">
 	<?php $this->load->view("$folder_themes/partials/footer_top"); ?>
 	<?php $this->load->view("$folder_themes/partials/footer_bottom"); ?>

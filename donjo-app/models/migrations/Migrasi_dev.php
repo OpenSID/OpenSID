@@ -53,7 +53,9 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2024011251($hasil);
+        $hasil = $hasil && $this->migrasi_2024011251($hasil);
+
+        return $hasil && $this->migrasi_2024011471($hasil);
     }
 
     // Migrasi perubahan data
@@ -109,5 +111,14 @@ class Migrasi_dev extends MY_model
                 'keuangan' => 'Keuangan',
             ]),
         ], $id);
+    }
+
+    protected function migrasi_2024011471($hasil)
+    {
+        if (! $this->db->field_exists('tampilan', 'artikel')) {
+            $hasil = $hasil && $this->db->query("ALTER TABLE `artikel` ADD COLUMN `tampilan` TINYINT(4) NULL DEFAULT '1' AFTER `hit`");
+        }
+
+        return $hasil;
     }
 }
