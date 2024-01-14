@@ -174,36 +174,36 @@ class LogSurat extends BaseModel
 
     public function statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes): int
     {
-        $statusPeriksa = 0;        
+        $statusPeriksa = 0;
         if ($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1) {
-            if ($this->verifikasi_kades == 1) {                
-                $statusPeriksa = is_null($this->tte) ? $this->verifikasi_kades : 2;
-            }            
+            if ($this->verifikasi_kades == 1) {
+                $statusPeriksa = null === $this->tte ? $this->verifikasi_kades : 2;
+            }
         } elseif ($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1) {
             if ($this->verifikasi_sekdes == 1) {
-                if (is_null($this->tte)) {
+                if (null === $this->tte) {
                     $statusPeriksa = $this->verifikasi_kades == null ? 1 : $this->verifikasi_kades;
                 } else {
                     $statusPeriksa = $this->tte;
                 }
             }
-        } elseif ($this->verifikasi_operator == 1) {            
-            // $statusPeriksa = $this->tte == null ? $this->verifikasi_kades ?? $this->verifikasi_sekdes ?? 1 : $this->tte            
-            if (is_null($this->tte)){
-                   if ($this->verifikasi_kades == null){
-                        if ($this->verifikasi_sekdes == null){
+        } elseif ($this->verifikasi_operator == 1) {
+            // $statusPeriksa = $this->tte == null ? $this->verifikasi_kades ?? $this->verifikasi_sekdes ?? 1 : $this->tte
+            if (null === $this->tte) {
+                   if ($this->verifikasi_kades == null) {
+                        if ($this->verifikasi_sekdes == null) {
                             $statusPeriksa = 1;
-                        }else {
+                        } else {
                             $statusPeriksa = $this->verifikasi_sekdes;
                         }
-                   }else{
+                   } else {
                         $statusPeriksa = $this->verifikasi_kades;
                    }
-            }else {
+            } else {
                 $statusPeriksa = $this->tte;
-            }            
+            }
         }
-        
+
         return $statusPeriksa;
     }
 

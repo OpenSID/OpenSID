@@ -122,7 +122,7 @@ class Laravel extends Container
      * @var array
      */
     public $availableBindings = [
-        \Illuminate\Contracts\Bus\Dispatcher::class   => 'registerBusBindings',
+        Dispatcher::class                             => 'registerBusBindings',
         'cache'                                       => 'registerCacheBindings',
         'cache.store'                                 => 'registerCacheBindings',
         \Illuminate\Contracts\Cache\Factory::class    => 'registerCacheBindings',
@@ -719,7 +719,7 @@ class Laravel extends Container
             \Illuminate\Contracts\Hashing\Hasher::class             => 'hash',
             \Illuminate\Contracts\Queue\Factory::class              => 'queue',
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
-            'request'                                               => \Illuminate\Http\Request::class,
+            'request'                                               => Request::class,
             \Illuminate\Contracts\View\Factory::class               => 'view',
         ];
     }

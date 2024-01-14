@@ -49,7 +49,8 @@ class Galery extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
-    public const PARRENT = 0;    
+
+    public const PARRENT = 0;
 
     /**
      * {@inheritDoc}
@@ -62,6 +63,7 @@ class Galery extends BaseModel
      * @var array
      */
     protected $guarded = ['id'];
+
     /**
      * {@inheritDoc}
      */
@@ -74,13 +76,13 @@ class Galery extends BaseModel
 
     /**
      * {@inheritDoc}
-     */    
+     */
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public $sortable = [
-        'order_column_name' => 'urut',
+        'order_column_name'  => 'urut',
         'sort_when_creating' => false,
     ];
 
@@ -108,11 +110,11 @@ class Galery extends BaseModel
             $prefix = ['kecil_', 'sedang_'];
 
             foreach ($prefix as $pref) {
-                $gambar = LOKASI_GALERI .$pref .$model->getOriginal($file);
+                $gambar = LOKASI_GALERI . $pref . $model->getOriginal($file);
                 if (file_exists($gambar)) {
                     unlink($gambar);
                 }
-            }            
+            }
         }
     }
 
@@ -130,6 +132,7 @@ class Galery extends BaseModel
     {
         return $this->enabled == StatusEnum::YA;
     }
+
     public function isSlider(): bool
     {
         return $this->slider == StatusEnum::YA;

@@ -53,11 +53,11 @@ class Gallery extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'status'   => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Non Aktif'],            
-            'parent'   => strlen($parent) > 20 ? decrypt($parent) : $parent,
-        ];        
+            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Non Aktif'],
+            'parent' => strlen($parent) > 20 ? decrypt($parent) : $parent,
+        ];
         $data['parentEncrypt'] = encrypt($data['parent']);
-        $data['subtitle'] = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
+        $data['subtitle']      = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
         view('admin.web.gallery.index', $data);
     }
 
@@ -89,14 +89,14 @@ class Gallery extends Admin_Controller
                         } else {
                             $aksi .= '<a href="' . ci_route('gallery.lock', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-navy btn-sm" title="Aktifkan Album"><i class="fa fa-lock"></i></a> ';
                         }
-                        if($parent == 0){
+                        if ($parent == 0) {
                             if ($row->isSlider()) {
                                 $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Keluarkan Dari Slider"><i class="fa fa-play">&nbsp;</i></a> ';
                             } else {
                                 $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Tampilkan Di Slider"><i class="fa fa-eject"></i></a> ';
                             }
                         }
-                        
+
                     }
 
                     if ($canDelete) {
@@ -121,7 +121,7 @@ class Gallery extends Admin_Controller
 
     public function form($parent, $id = ''): void
     {
-        isCan('u');        
+        isCan('u');
         $data['file_path_required'] = true;
         if ($id) {
             $action              = ci_route("gallery.update.{$parent}.{$id}");
@@ -129,7 +129,7 @@ class Gallery extends Admin_Controller
             $gallery             = Galery::findOrFail($id)->toArray();
             $data['gallery']     = $gallery;
             $data['form_action'] = $action;
-            if ($gallery['jenis'] == 1 && $gallery['gambar']){
+            if ($gallery['jenis'] == 1 && $gallery['gambar']) {
                 $data['file_path_required'] = false;
             }
         } else {
@@ -146,7 +146,7 @@ class Gallery extends Admin_Controller
         if (! $data) {
             redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
         }
-        $rawParent = decrypt($parent);
+        $rawParent       = decrypt($parent);
         $data['parrent'] = $rawParent;
         $data['enabled'] = 1;
         if ($this->session->grup == 4) {
@@ -175,8 +175,8 @@ class Gallery extends Admin_Controller
             $id  = decrypt($id);
             $obj = Galery::findOrFail($id);
             // tipe file
-            if ($data['jenis'] == 1){
-                if (empty($data['gambar'])){
+            if ($data['jenis'] == 1) {
+                if (empty($data['gambar'])) {
                     $data['gambar'] = $obj->gambar;
                 }
             }
@@ -212,10 +212,10 @@ class Gallery extends Admin_Controller
         isCan('h');
 
         try {
-            $id = decrypt($id);
+            $id      = decrypt($id);
             $gallery = Galery::find($id);
-            if ($gallery->isSlider() && $gallery->isActive()){
-                redirect_with('error', 'Album tidak bisa dinonaktifkan karena diset sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);    
+            if ($gallery->isSlider() && $gallery->isActive()) {
+                redirect_with('error', 'Album tidak bisa dinonaktifkan karena diset sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
             }
             Galery::gantiStatus($id, 'enabled');
             redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
@@ -238,7 +238,7 @@ class Gallery extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
         }
-    }    
+    }
 
     public function tukar()
     {
@@ -273,9 +273,9 @@ class Gallery extends Admin_Controller
         }
 
         return [
-            'nama'      => nomor_surat_keputusan($post['nama']),            
-            'jenis'     => $post['jenis'],
-            'gambar'    => $gambar,
+            'nama'   => nomor_surat_keputusan($post['nama']),
+            'jenis'  => $post['jenis'],
+            'gambar' => $gambar,
         ];
     }
 }
