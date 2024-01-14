@@ -47,6 +47,14 @@ class Migrasi_2401_ke_2402 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
 
+
+        $this->tambah_setting([
+            'key'        => 'sesi_login',
+            'value'      => '7200',
+            'keterangan' => 'Waktu untuk Akhiri Sesi Login Halaman Admin (detik)',
+            'kategori'   => 'sistem',
+        ]);
+
         status_sukses($hasil);
 
         return $hasil;
