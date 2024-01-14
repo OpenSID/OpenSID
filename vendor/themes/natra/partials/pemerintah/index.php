@@ -56,11 +56,13 @@
                                     <br>
                                 <?php endif ?>
                                 <?php
-                                    $data_sosmed = json_decode($data['media_sosial'], true);
+                                    $data_sosmed     = ref('media_sosial');
+                                    $sosmed_pengurus = json_decode($data['media_sosial'], true);
                                     foreach ($data_sosmed as $key => $value):
+                                        $slug = strtolower($value->nama);
                                 ?>
-                                    <a href="<?= $value ?>" target="_blank">
-                                        <span style="color:#fff;"><i class="fa fa-<?=$key?> fa-2x"></i></span>
+                                    <a href="<?= $sosmed_pengurus[$slug] ?>" target="_blank" style="padding: 5px;">
+                                        <span style="color:#fff;"><i class="fa fa-<?=$slug?> fa-2x"></i></span>
                                     </a>
                                 <?php endforeach ?>
                         </div>

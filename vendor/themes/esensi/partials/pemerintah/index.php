@@ -30,10 +30,12 @@
                         <?php endif ?>
                     <?php } ?>
                     <?php
-                        $data_sosmed = json_decode($data['media_sosial'], true);
+                        $data_sosmed     = ref('media_sosial');
+                        $sosmed_pengurus = json_decode($data['media_sosial'], true);
                         foreach ($data_sosmed as $key => $value):
+                            $slug = strtolower($value->nama);
                     ?>
-                        <a href="<?= $value ?>" target="_blank" class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$key?>" style="color: #fff;"></i></a>
+                        <a href="<?= $sosmed_pengurus[$slug] ?>" target="_blank" class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$slug?>" style="color: #fff;"></i></a>
                     <?php endforeach ?>
                 </div>
             </div>
