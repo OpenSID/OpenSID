@@ -291,9 +291,9 @@ Route::group('keluarga', static function (): void {
     Route::get('/pindah_kolektif', 'Keluarga@pindah_kolektif')->name('keluarga.pindah_kolektif');
     Route::get('/proses_pindah', 'Keluarga@proses_pindah')->name('keluarga.proses_pindah');
     Route::post('/filter/{filter}', 'Keluarga@filter')->name('keluarga.filter');
-    Route::get('/dusun', 'Keluarga@dusun')->name('keluarga.dusun');
-    Route::get('/rw', 'Keluarga@rw')->name('keluarga.rw');
-    Route::get('/rt', 'Keluarga@rt')->name('keluarga.rt');
+    Route::match(['GET', 'POST'], '/dusun', 'Keluarga@dusun')->name('keluarga.dusun');
+    Route::match(['GET', 'POST'], '/rw', 'Keluarga@rw')->name('keluarga.rw');
+    Route::match(['GET', 'POST'], '/rt', 'Keluarga@rt')->name('keluarga.rt');
     Route::post('/insert/{id?}', 'Keluarga@insert')->name('keluarga.insert');
     Route::get('/insert_a', 'Keluarga@insert_a')->name('keluarga.insert_a');
     Route::match(['GET', 'POST'], '/insert_new', 'Keluarga@insert_new')->name('keluarga.insert_new');
@@ -701,7 +701,7 @@ Route::group('surat', static function (): void {
     Route::post('/pratinjau/{url?}/{id?}', 'Surat@pratinjau')->name('surat.pratinjau');
     Route::post('/pdf/{preview?}', 'Surat@pdf')->name('surat.pdf');
     Route::post('/konsep', 'Surat@konsep')->name('surat.konsep');
-    Route::post('/cetak/{id}', 'Surat@cetak')->name('surat.cetak');
+    Route::match(['GET', 'POST'], '/cetak/{id}', 'Surat@cetak')->name('surat.cetak');
     Route::post('/nomor_surat_duplikat', 'Surat@nomor_surat_duplikat')->name('surat.nomor_surat_duplikat');
     Route::post('/search', 'Surat@search')->name('surat.search');
     Route::post('/favorit/{id?}/{val?}', 'Surat@favorit')->name('surat.favorit');
@@ -1496,8 +1496,8 @@ Route::group('program_bantuan', static function (): void {
     Route::get('/index/{p?}', 'Program_bantuan@index')->name('program_bantuan.index-page');
     Route::get('/apipendudukbantuan', 'Program_bantuan@apipendudukbantuan')->name('program_bantuan.apipendudukbantuan');
     Route::get('/panduan', 'Program_bantuan@panduan')->name('program_bantuan.panduan');
-    Route::get('/create', 'Program_bantuan@create')->name('program_bantuan.create');
-    Route::get('/edit/{id?}', 'Program_bantuan@edit')->name('program_bantuan.edit');
+    Route::match(['GET', 'POST'], '/create', 'Program_bantuan@create')->name('program_bantuan.create');
+    Route::match(['GET', 'POST'], '/edit/{id?}', 'Program_bantuan@edit')->name('program_bantuan.edit');
     Route::post('/update/{id}', 'Program_bantuan@update')->name('program_bantuan.update');
     Route::get('/hapus/{id}', 'Program_bantuan@hapus')->name('program_bantuan.hapus');
     Route::post('/search/{program_id?}', 'Program_bantuan@search')->name('program_bantuan.search');
@@ -1610,8 +1610,8 @@ Route::group('lapak_admin', static function (): void {
     Route::get('/pelapak_form/{id?}', 'Lapak_admin@pelapak_form')->name('lapak_admin.pelapak.form');
     Route::get('/pelapak_maps/{id?}', 'Lapak_admin@pelapak_maps')->name('lapak_admin.pelapak.maps');
     Route::post('/pelapak_insert', 'Lapak_admin@pelapak_insert')->name('lapak_admin.pelapak.insert');
-    Route::get('/pelapak_update_maps/{id?}', 'Lapak_admin@pelapak_update_maps')->name('lapak_admin.pelapak.update.maps');
-    Route::get('/pelapak_update/{id?}', 'Lapak_admin@pelapak_update')->name('lapak_admin.pelapak.update');
+    Route::match(['GET', 'POST'], '/pelapak_update_maps/{id?}', 'Lapak_admin@pelapak_update_maps')->name('lapak_admin.pelapak.update.maps');
+    Route::match(['GET', 'POST'], '/pelapak_update/{id?}', 'Lapak_admin@pelapak_update')->name('lapak_admin.pelapak.update');
     Route::get('/pelapak_delete/{id?}', 'Lapak_admin@pelapak_delete')->name('lapak_admin.pelapak.delete');
     Route::post('/pelapak_delete_all', 'Lapak_admin@pelapak_delete_all')->name('lapak_admin.pelapak.delete.all');
     Route::get('/pelapak_status/{id?}/{status?}', 'Lapak_admin@pelapak_status')->name('lapak_admin.pelapak.status');
@@ -1619,7 +1619,7 @@ Route::group('lapak_admin', static function (): void {
     Route::post('/kategori', 'Lapak_admin@kategori')->name('lapak_admin.kategori.datatables');
     Route::get('/kategori_form/{id?}', 'Lapak_admin@kategori_form')->name('lapak_admin.kategori.form');
     Route::post('/kategori_insert', 'Lapak_admin@kategori_insert')->name('lapak_admin.kategori.insert');
-    Route::get('/kategori_update/{id?}', 'Lapak_admin@kategori_update')->name('lapak_admin.kategori.update');
+    Route::match(['GET', 'POST'], '/kategori_update/{id?}', 'Lapak_admin@kategori_update')->name('lapak_admin.kategori.update');
     Route::get('/kategori_delete/{id?}', 'Lapak_admin@kategori_delete')->name('lapak_admin.kategori.delete');
     Route::post('/kategori_delete_all', 'Lapak_admin@kategori_delete_all')->name('lapak_admin.kategori.delete.all');
     Route::get('/kategori_status/{id?}/{status?}', 'Lapak_admin@kategori_status')->name('lapak_admin.kategori.status');

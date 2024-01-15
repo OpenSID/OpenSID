@@ -39,7 +39,7 @@
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @php
                             $modelData = $pengaturan->option;
-                            $referensiData = (new ($modelData['model'])())
+                            $referensiData = (new $modelData['model']())
                                 ->select([$modelData['value'], $modelData['label']])
                                 ->get()
                                 ->toArray();

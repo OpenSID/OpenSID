@@ -181,6 +181,7 @@ class Laravel extends Container
         $this->instance('path', $this->path());
 
         $this->registerContainerAliases();
+        $this->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
     }
 
     /**

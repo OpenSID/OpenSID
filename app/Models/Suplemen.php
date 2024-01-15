@@ -38,12 +38,14 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Suplemen extends BaseModel
 {
     use ConfigId;
+    use Sluggable;
 
     /**
      * The table associated with the model.
@@ -88,5 +90,17 @@ class Suplemen extends BaseModel
         }
 
         return $query;
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'nama',
+            ],
+        ];
     }
 }

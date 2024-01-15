@@ -294,13 +294,17 @@ class Pembangunan_model extends MY_Model
 
     public function list_filter_tahun()
     {
-        $this->config_id();
+        $this->config_id('p');
+        $this->get_tipe();
 
         return $this->db
             ->select('tahun_anggaran')
             ->distinct()
+            ->from("{$this->table} as p")
+            ->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
+            ->group_by('p.id')
             ->order_by('tahun_anggaran', 'DESC')
-            ->get($this->table)
+            ->get()
             ->result();
     }
 

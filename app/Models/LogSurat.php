@@ -93,12 +93,12 @@ class LogSurat extends BaseModel
 
     public function formatSurat()
     {
-        return $this->belongsTo(FormatSurat::class, 'id_format_surat');
+        return $this->belongsTo(FormatSurat::class, 'id_format_surat')->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
     }
 
     public function formatSuratArsip()
     {
-        return $this->formatSurat()->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
+        return $this->formatSurat();
     }
 
     public function penduduk()
@@ -189,16 +189,12 @@ class LogSurat extends BaseModel
             }
         } elseif ($this->verifikasi_operator == 1) {
             // $statusPeriksa = $this->tte == null ? $this->verifikasi_kades ?? $this->verifikasi_sekdes ?? 1 : $this->tte
-            if (null === $this->tte) {
-                   if ($this->verifikasi_kades == null) {
-                        if ($this->verifikasi_sekdes == null) {
-                            $statusPeriksa = 1;
-                        } else {
-                            $statusPeriksa = $this->verifikasi_sekdes;
-                        }
-                   } else {
-                        $statusPeriksa = $this->verifikasi_kades;
-                   }
+            if (is_null($this->tte)){
+                if ($this->verifikasi_kades == null) {
+                    $statusPeriksa = $this->verifikasi_sekdes == null ? 1 : $this->verifikasi_sekdes;
+                } else{
+                    $statusPeriksa = $this->verifikasi_kades;
+                }
             } else {
                 $statusPeriksa = $this->tte;
             }

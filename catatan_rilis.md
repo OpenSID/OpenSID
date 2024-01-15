@@ -32,6 +32,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#7566](https://github.com/OpenSID/OpenSID/issues/7566) Perbaikan cetak surat tinymce pada php 8.x.
 17. [#7581](https://github.com/OpenSID/OpenSID/issues/7581) Perbaikan relasi kolom id_lokasi pada tabel pembangunan.
 18. [#7585](https://github.com/OpenSID/OpenSID/issues/7585) Perbaikan menu suplemen jika tidak ditemukan.
+19. [#7602](https://github.com/OpenSID/OpenSID/issues/7602) Perbaikan data slug suplemen.
+20. [#7583](https://github.com/OpenSID/OpenSID/issues/7583) Perbaikan hak akses RFM pada modul QRCode.
+21. [#7606](https://github.com/OpenSID/OpenSID/issues/7606) Perbaikan saring data tahun pada modul Buku Administrasi Pembangunan.
+22. [#3391](https://github.com/OpenSID/premium/issues/3391) Perbaikan backup dan restore database.
 
 
 #### TEKNIS

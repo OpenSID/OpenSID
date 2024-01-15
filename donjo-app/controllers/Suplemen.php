@@ -104,7 +104,7 @@ class Suplemen extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
@@ -123,31 +123,33 @@ class Suplemen extends Admin_Controller
 
     public function create(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        if (ModelsSuplemen::create(static::validated($this->request))) {
+        try {
+            ModelsSuplemen::create(static::validated($this->request));
             redirect_with('success', 'Berhasil Tambah Data');
+        } catch (\Exception $e) {
+            redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
         }
-
-        redirect_with('error', 'Gagal Tambah Data');
     }
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = ModelsSuplemen::findOrFail($id);
 
-        if ($update->update(static::validated($this->request))) {
+        try {
+            $update->update(static::validated($this->request));
             redirect_with('success', 'Berhasil Ubah Data');
+        } catch (\Exception $e) {
+            redirect_with('error', 'Gagal Ubah Data ' . $e->getMessage());
         }
-
-        redirect_with('error', 'Gagal Ubah Data');
     }
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $suplemen = ModelsSuplemen::findOrFail($id);
         if ($suplemen->terdata()->count() > 0) {
@@ -166,7 +168,6 @@ class Suplemen extends Admin_Controller
         return [
             'sasaran'    => $request['sasaran'],
             'nama'       => nomor_surat_keputusan($request['nama']),
-            'slug'       => unique_slug($request['slug']),
             'keterangan' => strip_tags($request['keterangan']),
         ];
     }
@@ -224,7 +225,7 @@ class Suplemen extends Admin_Controller
 
     public function form_terdata($id_suplemen, $aksi = 1, $id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $suplemen      = ModelsSuplemen::findOrFail($id_suplemen);
         $sasaran       = unserialize(SASARAN);
@@ -246,7 +247,7 @@ class Suplemen extends Admin_Controller
 
     public function create_terdata($aksi): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (SuplemenTerdata::create(static::validated_terdata($this->request))) {
             if ($aksi == 2) {
                 redirect_with('success', 'Berhasil Tambah Data', 'suplemen/form_terdata/' . $this->request['id_suplemen'] . '/2');
@@ -259,7 +260,7 @@ class Suplemen extends Admin_Controller
 
     public function update_terdata($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = SuplemenTerdata::where('id_suplemen', $this->request['id_suplemen'])->where('id_terdata', $id)->first();
 
@@ -272,7 +273,7 @@ class Suplemen extends Admin_Controller
 
     public function delete_terdata($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
 
@@ -285,7 +286,7 @@ class Suplemen extends Admin_Controller
 
     public function delete_all_terdata(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
 
@@ -428,7 +429,7 @@ class Suplemen extends Admin_Controller
 
     public function impor()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $suplemen_id = $this->input->post('id_suplemen');
 
         $config = [

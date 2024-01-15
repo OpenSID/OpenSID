@@ -171,21 +171,31 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
-        $token = $this->setting->layanan_opendesa_token;
+        if (setting('multi_desa')) {
+            redirect_with('error', 'Restore database tidak diizinkan');
+        }
+
+        $token   = $this->setting->layanan_opendesa_token;
+        $pesan   = 'Proses restore database berhasil';
+        $success = false;
 
         try {
-            session_success();
             $this->session->sedang_restore = 1;
-            $this->ekspor_model->restore();
+            $filename                      = $this->file_restore();
+            $success                       = $this->ekspor_model->proses_restore($filename);
         } catch (Exception $e) {
-            $this->session->success   = -1;
-            $this->session->error_msg = $e->getMessage();
+            $this->session->sedang_restore = 0;
+            $pesan                         = $e->getMessage();
         } finally {
             if ($this->input->post('hapus_token') == 'N') {
                 SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
             }
             $this->session->sedang_restore = 0;
-            redirect('database');
+            if ($success) {
+                redirect_with('success', $pesan);
+            } else {
+                redirect_with('error', $pesan);
+            }
         }
     }
 
@@ -396,5 +406,27 @@ class Database extends Admin_Controller
             ->where('token_exp', '>', date('Y-m-d H:i:s'))
             ->where('token', '=', hash('sha256', bilangan($otp)))
             ->exists();
+    }
+
+    public function file_restore()
+    {
+        $this->load->library('MY_Upload', null, 'upload');
+        $uploadConfig = [
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+            'file_ext'      => 'sql',
+            'max_size'      => max_upload() * 1024,
+            'cek_script'    => false,
+        ];
+        $this->upload->initialize($uploadConfig);
+        // Upload sukses
+        if (! $this->upload->do_upload('userfile')) {
+            $pesan = $this->upload->display_errors(null, null);
+
+            throw new Exception($pesan);
+        }
+        $uploadData = $this->upload->data();
+
+        return $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
     }
 }
