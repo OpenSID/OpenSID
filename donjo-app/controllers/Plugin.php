@@ -50,13 +50,13 @@ class Plugin extends Admin_Controller
     }
 
     public function index(): void
-    {
+    {        
         $data = [
             'content'         => 'admin.plugin.paket_tersedia',
             'act_tab'         => 1,
             'paket_terpasang' => json_encode($this->paketTerpasang()),
         ];
-
+        
         view('admin.plugin.index', $data);
     }
 

@@ -3,17 +3,7 @@
         <form id="form-paket" action="{{ ci_route('plugin.hapus') }}" method="post">
             <input type="hidden" name="name" value="">
             @forelse ($paket_terpasang as $item)
-                <div class="col-md-4 col-sm-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="panel-title">{{ $item['name'] }}</div>
-                        </div>
-                        <div class="panel-body" style="min-height:200px">{{ $item['description'] }}</div>
-                        <div class="panel-footer">
-                            <button type="button" value="{{ $item['name'] }}" class="btn btn-danger">Hapus</button>
-                        </div>
-                    </div>
-                </div>
+                @include('admin.plugin.item', ['item' => $item, 'button' => '<button type="button" value="' . $item['name'] . '" class="btn btn-danger">Hapus</button>'])
             @empty
                 <div class="col-md-12">
                     <div class="alert alert-warning">Belum ada paket yang terpasang</div>
@@ -36,7 +26,15 @@
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        console.log($(e.currentTarget).val())
+                        Swal.fire({
+                            title: 'Sedang Memproses',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
                         $(e.currentTarget).closest('form').find('input[name=name]').val($(e.currentTarget).val())
                         $(e.currentTarget).closest('form').submit()
                     }

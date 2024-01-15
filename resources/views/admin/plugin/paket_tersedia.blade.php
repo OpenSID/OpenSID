@@ -30,12 +30,12 @@
 
             let paketTerpasang = {!! $paket_terpasang ?? '{}' !!}
             let cardView = [],
-                disabledPaket, buttonInstall, versionCheck
+                disabledPaket, buttonInstall, versionCheck, templateTmp
             let urlModule = '{{ config_item('url_marketplace') }}'
+            const templateCard = `@include('admin.plugin.item')`
             $.get(urlModule, {}, function(data) {
-                console.log(paketTerpasang)
                 for (let i in data) {
-                    console.log(paketTerpasang[data[i].name])
+                    templateTmp = templateCard
                     disabledPaket = ''
                     buttonInstall = `<button type="submit" ${disabledPaket} name="pasang" value="${data[i].name}___${data[i].url}" class="btn btn-primary">Pasang</button>`
                     if (paketTerpasang[data[i].name] !== undefined) {
@@ -47,21 +47,28 @@
                             buttonInstall = `<button type="button" ${disabledPaket} name="pasang" value="${data[i].name}___${data[i].url}" class="btn btn-primary">Pasang</button>`
                         }
                     }
-                    cardView.push(
-                        `<div class="col-md-4 col-sm-6">
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <div class="panel-title">${data[i].name}</div>
-                                </div>
-                                <div class="panel-body" style="min-height:200px">${data[i].description}</div>
-                                <div class="panel-footer">
-                                    ${buttonInstall}
-                                </div>
-                            </div>
-                        </div>`
-                    )
+
+                    templateTmp = templateTmp.replace('__name__', data[i].name)
+                    templateTmp = templateTmp.replace('__description__', data[i].description)
+                    templateTmp = templateTmp.replace('__button__', buttonInstall)
+                    templateTmp = templateTmp.replace('__thumbnail__', data[i].thumbnail)
+                    templateTmp = templateTmp.replace('__price__', data[i].price)
+                    templateTmp = templateTmp.replace('__totalInstall__', data[i].totalInstall)
+                    cardView.push(templateTmp)
                 }
                 $('div#list-paket').find('form').append(cardView.join(''))
+                $('div#list-paket').find('form').find('button:submit').click(function() {
+                    Swal.fire({
+                        title: 'Sedang Memproses',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading()
+                        }
+                    });
+                })
+
             }, 'json')
         })
     </script>
