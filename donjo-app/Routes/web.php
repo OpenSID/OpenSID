@@ -106,6 +106,7 @@ Route::group('koneksi_database', static function (): void {
     Route::get('config', 'Koneksi_database@config');
     Route::get('updateKey', 'Koneksi_database@updateKey');
     Route::get('desaBaru', 'Koneksi_database@desaBaru');
+    Route::get('encryptPassword', 'Koneksi_database@encryptPassword');
 });
 
 Route::group('', ['namespace' => 'fweb'], static function (): void {

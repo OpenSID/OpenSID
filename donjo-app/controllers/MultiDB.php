@@ -87,6 +87,7 @@ class MultiDB extends Admin_Controller
             'dtks_ref_lampiran', // tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT (dihapus tidak digunakan)
             'tweb_penduduk_macndiri', // cek ini, perlu hapus auto increment kolom id_pend
             'log_login', // karena menggunakan uuid
+            'pemilihan', // karena menggunakan uuid
             'tweb_penduduk_map', // tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT
             'tweb_penduduk_mandiri', // tidak perlu, karena tidak ada kolom `id` AUTO_INCREMENT
 
@@ -173,7 +174,7 @@ class MultiDB extends Admin_Controller
         // Upload sukses
         if (! $this->upload->do_upload('userfile')) {
             $this->session->success   = -1;
-            $this->session->error_msg = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
+            $this->session->error_msg = $this->upload->display_errors(null, null);
 
             redirect_with('error', 'Proses upload gagal ' . $this->session->error_msg, route('database'));
         }
