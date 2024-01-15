@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#7585](https://github.com/OpenSID/OpenSID/issues/7585) Perbaikan menu suplemen jika tidak ditemukan.
 19. [#7602](https://github.com/OpenSID/OpenSID/issues/7602) Perbaikan data slug suplemen.
 20. [#7583](https://github.com/OpenSID/OpenSID/issues/7583) Perbaikan hak akses RFM pada modul QRCode.
+21. [#7606](https://github.com/OpenSID/OpenSID/issues/7606) Perbaikan saring data tahun pada modul Buku Administrasi Pembangunan.
 
 #### TEKNIS
 
