@@ -166,7 +166,7 @@ class PermohonanSurat extends BaseModel
 
     public function surat()
     {
-        return $this->belongsTo(FormatSurat::class, 'id_surat');
+        return $this->belongsTo(FormatSurat::class, 'id_surat')->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
     }
 
     public function scopeBelumDiambil($query)
@@ -179,7 +179,7 @@ class PermohonanSurat extends BaseModel
      */
     public function logSurat(): HasMany
     {
-        return $this->hasMany(LogSurat::class, 'id_format_surat', 'id_surat');
+        return $this->hasMany(LogSurat::class, 'id_format_surat', 'id_surat')->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
     }
 
     public function mapSyaratSurat()

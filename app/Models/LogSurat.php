@@ -93,12 +93,12 @@ class LogSurat extends BaseModel
 
     public function formatSurat()
     {
-        return $this->belongsTo(FormatSurat::class, 'id_format_surat');
+        return $this->belongsTo(FormatSurat::class, 'id_format_surat')->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
     }
 
     public function formatSuratArsip()
     {
-        return $this->formatSurat()->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
+        return $this->formatSurat();
     }
 
     public function penduduk()
