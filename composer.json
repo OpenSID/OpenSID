@@ -10,6 +10,7 @@
 	"require": {
 		"php": "^7.4 || ^8.0 || ^8.1",
 		"codeigniter/framework": "^3.1",
+		"cviebrock/eloquent-sluggable": "^8.0",
 		"edwinhoksberg/php-fcm": "^1.2",
 		"erusev/parsedown": "^1.7",
 		"google/apiclient": "^2.11",
@@ -64,6 +65,14 @@
 		]
 	},
 	"scripts": {
-		"pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+		"pre-autoload-dump": "Google\\Task\\Composer::cleanup",
+		"post-update-cmd": [
+            "php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
+			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\""
+        ],
+		"post-install-cmd": [
+            "php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
+			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\""
+        ]
 	}
 }

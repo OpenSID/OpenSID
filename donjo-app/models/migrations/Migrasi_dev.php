@@ -36,6 +36,7 @@
  */
 
 use App\Models\Galery;
+use App\Models\Suplemen;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -67,6 +68,7 @@ class Migrasi_dev extends MY_model
         }
 
         // Migrasi tanpa config_id
+        $hasil = $this->migrasi_2024011451($hasil);
 
         return $hasil && $this->migrasi_2024011051($hasil);
     }
@@ -92,5 +94,17 @@ class Migrasi_dev extends MY_model
         $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');
 
         return $hasil && $this->tambahForeignKey('pembangunan_lokasi_cluster_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
+    }
+
+    protected function migrasi_2024011451($hasil)
+    {
+        $tanpaSlug = Suplemen::whereNull('slug')->get();
+        if ($tanpaSlug) {
+            foreach ($tanpaSlug as $slug) {
+                $slug->update();
+            }
+        }
+
+        return $hasil;
     }
 }

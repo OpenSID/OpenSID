@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '7bf749bfd4d733ff96b0ee37135ea3a549f486ac',
+        'pretty_version' => 'dev-2311.1.0-clear',
+        'version' => 'dev-2311.1.0-clear',
+        'reference' => '0002cf9e6726626b87bd86cba19f821c4ec6c9ee',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'brick/math' => array(
@@ -28,12 +28,30 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'cocur/slugify' => array(
+            'pretty_version' => 'v4.5.0',
+            'version' => '4.5.0.0',
+            'reference' => 'af8e6ee771458bf885f7457807b5ff9bad8743cb',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../cocur/slugify',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'codeigniter/framework' => array(
             'pretty_version' => '3.1.13',
             'version' => '3.1.13.0',
             'reference' => 'bcb17eb8ba53a85de154439d0ab8ff1bed047bc9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../codeigniter/framework',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'cviebrock/eloquent-sluggable' => array(
+            'pretty_version' => '8.0.8',
+            'version' => '8.0.8.0',
+            'reference' => '16e21db24d80180f870c3c7c4faf3d3af23f4117',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../cviebrock/eloquent-sluggable',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -361,6 +379,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'mikey179/vfsstream' => array(
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => 'fc0fe8f4d0b527254a2dc45f0c265567c881d07e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../mikey179/vfsstream',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
         'monolog/monolog' => array(
             'pretty_version' => '2.9.2',
             'version' => '2.9.2.0',
@@ -380,9 +407,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '7bf749bfd4d733ff96b0ee37135ea3a549f486ac',
+            'pretty_version' => 'dev-2311.1.0-clear',
+            'version' => 'dev-2311.1.0-clear',
+            'reference' => '0002cf9e6726626b87bd86cba19f821c4ec6c9ee',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -555,8 +582,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -890,6 +917,15 @@
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'tinymce/tinymce' => array(
+            'pretty_version' => '6.8.2',
+            'version' => '6.8.2.0',
+            'reference' => 'b0073db409746748af4fc06fbee337bb99f462d9',
+            'type' => 'component',
+            'install_path' => __DIR__ . '/../tinymce/tinymce',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'voku/anti-xss' => array(
             'pretty_version' => '4.1.35',

@@ -35,72 +35,22 @@
  *
  */
 
-namespace App\Models;
+namespace Cocur\Slugify;
 
-use App\Traits\ConfigId;
-use Cviebrock\EloquentSluggable\Sluggable;
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class Suplemen extends BaseModel
+/**
+ * SlugifyInterface
+ *
+ * @copyright 2012-2014 Florian Eckerstorfer
+ * @license   http://www.opensource.org/licenses/MIT The MIT License
+ */
+interface SlugifyInterface
 {
-    use ConfigId;
-    use Sluggable;
-
     /**
-     * The table associated with the model.
+     * Return a URL safe version of a string.
      *
-     * @var string
-     */
-    protected $table = 'suplemen';
-
-    /**
-     * The timestamps for the model.
+     * @param array|string|null $options
      *
-     * @var bool
+     * @api
      */
-    public $timestamps = false;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'nama',
-        'slug',
-        'sasaran',
-        'keterangan',
-    ];
-
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function terdata()
-    {
-        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
-    }
-
-    public function scopeFilter($query, $sasaran)
-    {
-        if (! empty($sasaran)) {
-            $query->where('sasaran', $sasaran);
-        }
-
-        return $query;
-    }
-
-    /**
-     * Return the sluggable configuration array for this model.
-     */
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'nama',
-            ],
-        ];
-    }
+    public function slugify(string $string, $options = null): string;
 }

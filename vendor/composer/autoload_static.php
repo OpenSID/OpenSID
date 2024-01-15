@@ -158,6 +158,8 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         ),
         'C' => 
         array (
+            'Cviebrock\\EloquentSluggable\\' => 28,
+            'Cocur\\Slugify\\' => 14,
             'Carbon\\Doctrine\\' => 16,
             'Carbon\\' => 7,
         ),
@@ -485,6 +487,14 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
+        'Cviebrock\\EloquentSluggable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cviebrock/eloquent-sluggable/src',
+        ),
+        'Cocur\\Slugify\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/cocur/slugify/src',
+        ),
         'Carbon\\Doctrine\\' => 
         array (
             0 => __DIR__ . '/..' . '/carbonphp/carbon-doctrine-types/src/Carbon/Doctrine',
@@ -504,6 +514,13 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
     );
 
     public static $prefixesPsr0 = array (
+        'o' => 
+        array (
+            'org\\bovigo\\vfs' => 
+            array (
+                0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
+            ),
+        ),
         'P' => 
         array (
             'Parsedown' => 
