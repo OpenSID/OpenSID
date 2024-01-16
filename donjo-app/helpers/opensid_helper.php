@@ -1646,7 +1646,7 @@ if (! function_exists('ref')) {
      */
     function ref($alias)
     {
-        return $this->db->get($alias)->result();
+        return ci()->db->get($alias)->result();
     }
 }
 

@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#1757](https://github.com/OpenSID/OpenSID/issues/1757) Penambahan pengaturan artikel statis yang ditampilkan ke halaman web.
 6. [#3830](https://github.com/OpenSID/OpenSID/issues/3830) Penambahan data lag dan lng pada impor data penduduk.
 7. [#2623](https://github.com/OpenSID/OpenSID/issues/2623) Penambahan pengaturan posisi konten artikel.
+8. [#2603](https://github.com/OpenSID/OpenSID/issues/2603) Penambahan media sosial pengurus / pemerintah desa.
 
 
 #### BUG

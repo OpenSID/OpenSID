@@ -29,6 +29,15 @@
                             <span class="btn btn-danger w-auto mx-auto inline-block">Belum Rekam Kehadiran</span>
                         <?php endif ?>
                     <?php } ?>
+                    <br>
+                    <?php
+                        $data_sosmed     = ref('media_sosial');
+                        $sosmed_pengurus = json_decode($data['media_sosial'], true);
+                        foreach ($data_sosmed as $key => $value):
+                            $slug = strtolower($value->nama);
+                    ?>
+                        <a href="<?= $sosmed_pengurus[$slug] ?>" target="_blank" class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$slug?>" style="color: #fff;"></i></a>
+                    <?php endforeach ?>
                 </div>
             </div>
         <?php endforeach ?>

@@ -85,6 +85,24 @@
                 'foto' => $individu ? $individu['foto'] : $pamong['foto'],
                 'show_dimensi' => true,
             ])
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Media Sosial</h3>
+                </div>
+
+                <div class="box-body">
+                    @php
+                        $data_sosmed = ref('media_sosial');
+                        $sosmed_pengurus = json_decode($pamong['media_sosial'], true);
+                    @endphp
+                    @foreach ($data_sosmed as $key => $value)
+                        @php $slug = strtolower($value->nama) @endphp
+                        <strong><i class="fa fa-{{ $slug }}"></i> {{ $value->nama }}</strong>
+                        <input class="form-control input-sm" type="text" name="media_sosial[{{ $sosmed_pengurus[$slug] }}]"  style="margin-bottom: 10px;" value="{{ $data_sosmed[$key] }}" placeholder="Masukkan {{ $value->nama }}">
+                    @endforeach
+                </div>
+            </div>
         </div>
         <div class="col-md-9">
             <div class="box box-primary">
