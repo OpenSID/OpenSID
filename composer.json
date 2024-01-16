@@ -68,12 +68,17 @@
 	"scripts": {
 		"pre-autoload-dump": "Google\\Task\\Composer::cleanup",
 		"post-update-cmd": [
-            "php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
+			"php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
 			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\""
-        ],
+		],
 		"post-install-cmd": [
-            "php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
+			"php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
 			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\""
-        ]
+		],
+		"style-fix": [
+			"php-cs-fixer fix --allow-risky=yes",
+			"rector process --dry-run",
+			"npm run prettier-blade"
+		]
 	}
 }
