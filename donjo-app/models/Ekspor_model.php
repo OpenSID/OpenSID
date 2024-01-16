@@ -365,6 +365,21 @@ class Ekspor_model extends MY_Model
         return true;
     }
 
+    private function drop_tables(): void
+    {
+        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
+        $db    = $this->db->database;
+        $sql   = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$db}'";
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
+
+        foreach ($data as $dat) {
+            $tbl = $dat['TABLE_NAME'];
+            $this->db->simple_query('DROP TABLE ' . $tbl);
+        }
+        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
+    }
+
     public function perbaiki_collation(): void
     {
         $list = $this->db
