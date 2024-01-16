@@ -162,7 +162,7 @@ class Migrasi_dev extends MY_model
     protected function migrasi_2024011571($hasil)
     {
         if (! $this->db->field_exists('media_sosial', 'tweb_desa_pamong')) {
-            $this->db->query("ALTER TABLE `tweb_desa_pamong` ADD `media_sosial` TEXT NULL");
+            $this->db->query('ALTER TABLE `tweb_desa_pamong` ADD `media_sosial` TEXT NULL');
         }
 
         return $hasil;

@@ -35,26 +35,26 @@
  *
  */
 
-use App\Models\Agama;
-use App\Models\Pamong;
 use App\Enums\AgamaEnum;
-use App\Models\LogSurat;
-use App\Models\Penduduk;
-use App\Models\Kehadiran;
-use App\Models\RefJabatan;
-use App\Models\MediaSosial;
-use App\Models\PendidikanKK;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Models\Agama;
+use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
+use App\Models\LogSurat;
+use App\Models\MediaSosial;
+use App\Models\Pamong;
+use App\Models\PendidikanKK;
+use App\Models\Penduduk;
+use App\Models\RefJabatan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengurus extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-umum';
-    public $kategori_pengaturan  = 'Pemerintah Desa';
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
+    public $kategori_pengaturan = 'Pemerintah Desa';
 
     public function __construct()
     {
@@ -176,6 +176,7 @@ class Pengurus extends Admin_Controller
         $data['agama']         = Agama::pluck('nama', 'id');
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
         $data['media_sosial']  = MediaSosial::pluck('nama', 'id');
+
         return view('admin.pengurus.form', $data);
     }
 
