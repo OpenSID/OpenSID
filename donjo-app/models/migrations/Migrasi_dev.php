@@ -71,7 +71,9 @@ class Migrasi_dev extends MY_model
         $hasil = $this->migrasi_2024011451($hasil);
         $hasil = $this->migrasi_2024011551($hasil);
 
-        return $hasil && $this->migrasi_2024011051($hasil);
+        $hasil = $hasil && $this->migrasi_2024011051($hasil);
+
+        return $hasil && $this->migrasi_2024011052($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -90,6 +92,14 @@ class Migrasi_dev extends MY_model
         );
     }
 
+    protected function migrasi_2024011052($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pemerintah-desa', 'url' => 'pengurus/clear'],
+            ['url' => 'pengurus']
+        );
+    }
+    
     protected function migrasi_2024011251($hasil)
     {
         $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');

@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#7447](https://github.com/OpenSID/OpenSID/issues/7447) Penyesuaian modul anggota kelompok/lembaga desa menggunakan ORM dan View Blade Laravel.
 17. [#7521](https://github.com/OpenSID/OpenSID/issues/7521) Penyesuaian modul buku keputusan kepala desa menggunakan ORM dan View Blade Laravel.
 18. [#7520](https://github.com/OpenSID/OpenSID/issues/7520) Penyesuaian modul buku peraturan di desa menggunakan ORM dan View Blade Laravel.
+19. [#6723](https://github.com/OpenSID/OpenSID/issues/6723) Penyesuaian modul buku pemerintah desa menggunakan ORM dan View Blade Laravel.
 
 
 #### KEAMANAN

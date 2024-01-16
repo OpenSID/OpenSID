@@ -74,6 +74,8 @@ $config = [
 
     'lainnya' => [
         'storage/framework/'         => [0775, 'htaccess3'],
+        'storage/framework/views/'   => [0775, 'htaccess3'],
+        'storage/framework/cache/'   => [0775, 'htaccess3'],
         'storage/logs/'              => [0775, 'htaccess3'],
         'backup_inkremental/'        => [0775, 'htaccess3'],
         'assets/'                    => [0755, 'htaccess3'],

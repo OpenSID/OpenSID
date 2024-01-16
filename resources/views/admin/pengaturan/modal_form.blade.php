@@ -36,6 +36,7 @@
                 @elseif ($pengaturan->jenis == 'textarea')
                     <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="5">{{ $pengaturan->value }}</textarea>
                 @elseif ($pengaturan->jenis == 'referensi')
+                    {{-- prettier-ignore-start --}}
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @php
                             $modelData = $pengaturan->option;
@@ -50,6 +51,7 @@
                             <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue))>{{ $val[$modelData['label']] }}</option>
                         @endforeach
                     </select>
+                    {{-- prettier-ignore-end --}}
                 @else
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" {{ strpos($pengaturan->attribute, 'type=') ? '' : 'type="text"' }} value="{{ $pengaturan->value }}" />
                 @endif
@@ -60,7 +62,7 @@
 
 </div>
 <div class="modal-footer">
-    <button type="reset" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
+    {!! batal() !!}
     <button type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 </div>
 </form>

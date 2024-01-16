@@ -1036,16 +1036,14 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
     // Perangkat/Pengurus Desa
     Route::group('pengurus', static function (): void {
-        Route::get('/clear', 'Pengurus@clear')->name('buku-umum.pengurus.clear');
-        Route::get('/form/{id?}', 'Pengurus@form')->name('buku-umum.pengurus.form');
-        Route::post('/filter/{filter}', 'Pengurus@filter')->name('buku-umum.pengurus.filter');
+        Route::get('/', 'Pengurus@index')->name('buku-umum.pengurus.index');
+        Route::get('/datatables', 'Pengurus@datatables')->name('buku-umum.pengurus.datatables');
+        Route::match(['GET', 'POST'], '/form/{id?}', 'Pengurus@form')->name('buku-umum.pengurus.form');
         Route::post('/insert', 'Pengurus@insert')->name('buku-umum.pengurus.insert');
         Route::post('/update/{id?}', 'Pengurus@update')->name('buku-umum.pengurus.update');
-        Route::get('/delete/{id?}', 'Pengurus@delete')->name('buku-umum.pengurus.delete');
-        Route::post('/delete_all', 'Pengurus@delete_all')->name('buku-umum.pengurus.delete_all');
-        Route::get('/ttd/{id?}/{val?}', 'Pengurus@ttd')->name('buku-umum.pengurus.ttd');
-        Route::get('/ub/{id?}/{val?}', 'Pengurus@ub')->name('buku-umum.pengurus.ub');
-        Route::get('/urut/{p?}/{id?}/{arah?}', 'Pengurus@urut')->name('buku-umum.pengurus.urut');
+        Route::match(['GET', 'POST'], '/delete/{id?}', 'Pengurus@delete')->name('buku-umum.pengurus.delete');
+        Route::get('/ttd/{jenis?}/{id?}/{val?}', 'Pengurus@ttd')->name('buku-umum.pengurus.ttd');
+        Route::post('/tukar', 'Pengurus@tukar')->name('buku-umum.pengurus.tukar');
         Route::get('/lock/{id?}/{val?}', 'Pengurus@lock')->name('buku-umum.pengurus.lock');
         Route::get('/kehadiran/{id?}/{val?}', 'Pengurus@kehadiran')->name('buku-umum.pengurus.kehadiran');
         Route::get('/daftar/{aksi?}', 'Pengurus@daftar')->name('buku-umum.pengurus.daftar');
@@ -1059,8 +1057,6 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/jabatanUpdate/{id?}', 'Pengurus@jabatanUpdate')->name('buku-umum.pengurus.jabatanUpdate');
         Route::match(['GET', 'POST'], '/jabatandelete/{id?}', 'Pengurus@jabatandelete')->name('buku-umum.pengurus.jabatandelete');
         Route::get('/apidaftarpenduduk', 'Pengurus@apidaftarpenduduk')->name('buku-umum.pengurus.apidaftarpenduduk');
-        Route::match(['GET', 'POST'], '/index/{p?}', 'Pengurus@index')->name('buku-umum.pengurus.index-page');
-        Route::match(['GET', 'POST'], '/{p?}', 'Pengurus@index')->name('buku-umum.pengurus.index');
     });
 
     // Surat Keluar
