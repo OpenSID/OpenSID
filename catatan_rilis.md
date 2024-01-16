@@ -64,3 +64,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 
 #### KEAMANAN
+1. [#3410](https://github.com/OpenSID/premium/issues/3410) Peningkatan keamanan unggah foto pengguna.
