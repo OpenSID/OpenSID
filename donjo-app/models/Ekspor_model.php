@@ -242,19 +242,36 @@ class Ekspor_model extends MY_Model
         $_SESSION['success'] = $backup ? 1 : -1;
     }
 
-    private function drop_tables(): void
+    public function restore()
     {
-        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
-        $db    = $this->db->database;
-        $sql   = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$db}'";
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        if (setting('multi_desa')) {
+            session_error('Restore database tidak diizinkan');
 
-        foreach ($data as $dat) {
-            $tbl = $dat['TABLE_NAME'];
-            $this->db->simple_query('DROP TABLE ' . $tbl);
+            redirect('database');
         }
-        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
+
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->uploadConfig = [
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+            'file_ext'      => 'sql',
+            'max_size'      => max_upload() * 1024,
+            'cek_script'    => false,
+        ];
+        $this->upload->initialize($this->uploadConfig);
+        // Upload sukses
+        if (! $this->upload->do_upload('userfile')) {
+            $pesan = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
+
+            session_error($pesan);
+            set_session('error', $pesan);
+
+            return false;
+        }
+        $uploadData = $this->upload->data();
+        $filename   = $this->uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
+
+        return $this->proses_restore($filename);
     }
 
     public function proses_restore($filename = null)
