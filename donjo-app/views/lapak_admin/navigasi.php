@@ -8,7 +8,7 @@
 					<span class="info-box-number"><?= $jml_produk['aktif']; ?></span>
 
 					<div class="progress">
-						<div class="progress-bar" style="width: <?= ($jml_produk['aktif'] / $jml_produk['total']) * 100; ?>%"></div>
+						<div class="progress-bar" style="width: <?= persen3($jml_produk['aktif'], $jml_produk['total']) ?>"></div>
 					</div>
 					<span class="progress-description">Total : <b><?= $jml_produk['total']; ?></b></span>
 				</div>
@@ -24,7 +24,7 @@
 					<span class="info-box-number"><?= $jml_pelapak['aktif']; ?></span>
 
 					<div class="progress">
-						<div class="progress-bar" style="width: <?= ($jml_pelapak['aktif'] / $jml_pelapak['total']) * 100; ?>%"></div>
+						<div class="progress-bar" style="width: <?= persen3($jml_pelapak['aktif'], $jml_pelapak['total']) ?>"></div>
 					</div>
 					<span class="progress-description">Total : <b><?= $jml_pelapak['total']; ?></b></span>
 				</div>
@@ -40,7 +40,7 @@
 					<span class="info-box-number"><?= $jml_kategori['aktif']; ?></span>
 
 					<div class="progress">
-						<div class="progress-bar" style="width: <?= ($jml_kategori['aktif'] / $jml_kategori['total']) * 100; ?>%"></div>
+						<div class="progress-bar" style="width: <?= persen3($jml_kategori['aktif'], $jml_kategori['total']) ?>"></div>
 					</div>
 					<span class="progress-description">Total : <b><?= $jml_kategori['total']; ?></b></span>
 				</div>
