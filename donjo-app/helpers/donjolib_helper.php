@@ -693,6 +693,16 @@ function persen2($pembilang, $pembagi, $simbol = '%', $digit = 2): string
     return persen($data, $simbol, $digit);
 }
 
+function persen3($number, $total, $precision = 2)
+{
+    // Can't divide by zero so let's catch that early.
+    if ($total == 0) {
+        return 0;
+    }
+
+    return round(($number / $total) * 100, $precision) . '%';
+}
+
 function sensor_nik_kk($data)
 {
     $count = strlen($data);
