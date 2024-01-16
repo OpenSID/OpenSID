@@ -274,6 +274,7 @@ Route::group('penduduk_log', static function (): void {
     Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
     Route::get('/cetak/{o}/{aksi}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
     Route::get('/ajax_cetak/{o}/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
+    Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk_log@statistik')->name('penduduk_log.statistik');
 });
 
 // Kependudukan > Keluarga

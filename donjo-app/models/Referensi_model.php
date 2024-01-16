@@ -102,6 +102,7 @@ define('STAT_PENDUDUK', serialize([
     'hamil'            => 'Status Kehamilan',
     'buku-nikah'       => 'Buku Nikah',
     'kia'              => 'Kepemilikan KIA',
+    'akta-kematian'    => 'Kepemilikan Akta Kematian',
 ]));
 
 // Statistik Keluarga

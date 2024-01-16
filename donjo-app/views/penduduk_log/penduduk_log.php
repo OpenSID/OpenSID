@@ -46,26 +46,26 @@
                                     <?php endforeach; ?>
                                 </select>
                                 <select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
-                                    <option value="">Jenis Kelamin</option>
+                                    <option value="">Pilih Jenis Kelamin</option>
                                     <?php foreach ($list_sex as $data): ?>
                                         <option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/agama')?>')">
-                                    <option value="">Agama</option>
+                                    <option value="">Pilih Agama</option>
                                     <?php foreach ($list_agama as $data): ?>
                                         <option value="<?= $data['id']?>" <?php selected($agama, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
-                                    <option value=""><?= ucwords($this->setting->sebutan_dusun)?></option>
+                                    <option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
                                     <?php foreach ($list_dusun as $data): ?>
                                         <option value="<?= $data['dusun']?>" <?php selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <?php if ($dusun): ?>
                                     <select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/rw')?>')" >
-                                        <option value="">RW</option>
+                                        <option value="">Pilih RW</option>
                                         <?php foreach ($list_rw as $data): ?>
                                             <option value="<?= $data['rw']?>" <?php selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
                                         <?php endforeach; ?>
@@ -73,7 +73,7 @@
                                 <?php endif; ?>
                                 <?php if ($rw): ?>
                                     <select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
-                                        <option value="">RT</option>
+                                        <option value="">Pilih RT</option>
                                         <?php foreach ($list_rt as $data): ?>
                                             <option value="<?= $data['rt']?>" <?php selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
                                         <?php endforeach; ?>
@@ -92,6 +92,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="table-responsive">
+                                    <?php if ($judul_statistik) : ?>
+                                        <h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
+                                    <?php endif; ?>
                                     <table class="table table-bordered dataTable table-hover">
                                         <thead class="bg-gray disabled color-palette">
                                             <tr>

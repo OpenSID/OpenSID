@@ -127,10 +127,8 @@ class Penduduk_model extends MY_Model
             $this->db->where("{$kolom} IS NOT NULL");
         } elseif ($kf == BELUM_MENGISI) {
             $this->db->where("{$kolom} IS NULL");
-        } elseif ($kf == $this->session->status_dasar) {
-            $this->db->where_in($kolom, $kf);
         } else {
-            $this->db->where($kolom, $kf);
+            $this->db->where($kolom, 1);
         }
     }
 
@@ -1678,7 +1676,8 @@ class Penduduk_model extends MY_Model
 
                 case 13: // = 17
                 case 15: // = 17
-                case 17:
+                case 17: // = 17
+                case 'akta-kematian': // = 17
                     $table = 'tweb_penduduk_umur';
                     $this->config_id();
                     break;

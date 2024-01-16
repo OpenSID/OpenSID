@@ -109,6 +109,10 @@ class Statistik extends Admin_Controller
             case $lap == 'bdt' || ((int) $lap > 50 && $sasaran == 3):
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
+            
+            case $lap == 'akta-kematian':
+                $tautan = site_url("penduduk_log/statistik/{$lap}/");
+                break;
 
             case (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && $sasaran == 1):
                 $tautan = site_url("penduduk/statistik/{$lap}/");
