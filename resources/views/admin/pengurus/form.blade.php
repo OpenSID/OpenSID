@@ -92,14 +92,10 @@
                 </div>
 
                 <div class="box-body">
-                    @php
-                        $data_sosmed = ref('media_sosial');
-                        $sosmed_pengurus = json_decode($pamong['media_sosial'], true);
-                    @endphp
-                    @foreach ($data_sosmed as $key => $value)
-                        @php $slug = strtolower($value->nama) @endphp
-                        <strong><i class="fa fa-{{ $slug }}"></i> {{ $value->nama }}</strong>
-                        <input class="form-control input-sm" type="text" name="media_sosial[{{ $sosmed_pengurus[$slug] }}]"  style="margin-bottom: 10px;" value="{{ $data_sosmed[$key] }}" placeholder="Masukkan {{ $value->nama }}">
+                    @foreach ($media_sosial as $key => $value)
+                        @php $slug = strtolower($value) @endphp
+                        <strong><i class="fa fa-{{ $slug }}"></i> {{ $value }}</strong>
+                        <input class="form-control input-sm" type="text" name="media_sosial[{{ $slug }}]"  style="margin-bottom: 10px;" value="{{ $pamong['media_sosial'][$slug] }}" placeholder="Masukkan {{ $value }}">
                     @endforeach
                 </div>
             </div>

@@ -35,17 +35,18 @@
  *
  */
 
+use App\Models\Agama;
+use App\Models\Pamong;
 use App\Enums\AgamaEnum;
+use App\Models\LogSurat;
+use App\Models\Penduduk;
+use App\Models\Kehadiran;
+use App\Models\RefJabatan;
+use App\Models\MediaSosial;
+use App\Models\PendidikanKK;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
-use App\Models\Agama;
-use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
-use App\Models\LogSurat;
-use App\Models\Pamong;
-use App\Models\PendidikanKK;
-use App\Models\Penduduk;
-use App\Models\RefJabatan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -174,7 +175,7 @@ class Pengurus extends Admin_Controller
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
         $data['agama']         = Agama::pluck('nama', 'id');
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
-
+        $data['media_sosial']  = MediaSosial::pluck('nama', 'id');
         return view('admin.pengurus.form', $data);
     }
 
@@ -302,6 +303,7 @@ class Pengurus extends Admin_Controller
         $data['bagan_warna']        = warna($post['bagan_warna']);
         $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
         $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
+        $data['media_sosial']       = $post['media_sosial'];
 
         if ($data['jabatan_id'] == kades()->id) {
             $data['urut'] = 1;

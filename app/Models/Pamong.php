@@ -94,6 +94,15 @@ class Pamong extends BaseModel
         'sort_when_creating' => true,
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'media_sosial' => 'json',
+    ];
+
     // TODO: OpenKab - Sementara di disable dulu observer pada relasi ini
     public function penduduk()
     {
