@@ -99,7 +99,7 @@ class Migrasi_dev extends MY_model
             ['url' => 'pengurus']
         );
     }
-    
+
     protected function migrasi_2024011251($hasil)
     {
         $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');

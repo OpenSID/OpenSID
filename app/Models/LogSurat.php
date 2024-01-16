@@ -189,10 +189,10 @@ class LogSurat extends BaseModel
             }
         } elseif ($this->verifikasi_operator == 1) {
             // $statusPeriksa = $this->tte == null ? $this->verifikasi_kades ?? $this->verifikasi_sekdes ?? 1 : $this->tte
-            if (is_null($this->tte)){
+            if (null === $this->tte) {
                 if ($this->verifikasi_kades == null) {
                     $statusPeriksa = $this->verifikasi_sekdes == null ? 1 : $this->verifikasi_sekdes;
-                } else{
+                } else {
                     $statusPeriksa = $this->verifikasi_kades;
                 }
             } else {

@@ -124,9 +124,9 @@ class Pengurus extends Admin_Controller
                 ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
                 ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
                 ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
-                ->filterColumn('identitas', function($query, $keyword): void {
-                    $query->whereRaw("pamong_nama like ?", ["%{$keyword}%"])
-                        ->orwhereHas('penduduk', fn($q) => $q->whereRaw("nama like ?", ["%{$keyword}%"]));
+                ->filterColumn('identitas', static function ($query, $keyword): void {
+                    $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
+                        ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
                 })
                 ->rawColumns(['ceklist', 'aksi', 'foto', 'identitas'])
                 ->make();
@@ -350,7 +350,7 @@ class Pengurus extends Admin_Controller
         if ($jenis == 'a.n') {
             if ($pamong->jabatan_id == sekdes()->id) {
                 $output = Pamong::where('jabatan_id', sekdes()->id)->find($id)->update(['pamong_ttd' => $val]);
-                
+
                 // Hanya 1 yang bisa jadi a.n dan harus sekretaris
                 if ($output) {
                     Pamong::where('pamong_ttd', 1)->where('pamong_id', '!=', $id)->update(['pamong_ttd' => 0]);
