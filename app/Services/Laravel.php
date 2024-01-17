@@ -38,10 +38,6 @@
 namespace App\Services;
 
 use App\Providers\ConsoleServiceProvider;
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
-use Carbon\CarbonInterval;
-use Carbon\CarbonPeriod;
 use Illuminate\Bus\BusServiceProvider;
 use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
@@ -165,11 +161,6 @@ class Laravel extends Container
      */
     public function __construct($basePath = null)
     {
-        Carbon::setLocale('id');
-        CarbonImmutable::setLocale('id');
-        CarbonPeriod::setLocale('id');
-        CarbonInterval::setLocale('id');
-
         $this->basePath = $basePath;
 
         $this->bootstrapContainer();
