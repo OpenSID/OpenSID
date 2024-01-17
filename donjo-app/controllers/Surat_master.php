@@ -508,6 +508,7 @@ class Surat_master extends Admin_Controller
 
     public function pengaturan()
     {
+        $this->set_hak_akses_rfm();
         $data['font_option']   = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
         $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();

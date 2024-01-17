@@ -288,7 +288,7 @@ class Migrasi_2024010171 extends MY_model
             $hasil = $hasil && $this->tambahForeignKey('pelapak_pend_fk', 'pelapak', 'id_pend', 'tweb_penduduk', 'id', true);
 
             // pembangunan
-            $hasil = $hasil && $this->tambahForeignKey('pembangunan_lokasi_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
+            // $hasil = $hasil && $this->tambahForeignKey('pembangunan_lokasi_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
 
             // pembangunan_ref_dokumentasi
             $hasil = $hasil && $this->tambahForeignKey('pembangunan_ref_dokumentasi_pembangunan_fk', 'pembangunan_ref_dokumentasi', 'id_pembangunan', 'pembangunan', 'id', true);
