@@ -92,7 +92,7 @@
                     <div class="icon">
                         <i class="ion-ios-paper"></i>
                     </div>
-                    <a href="{{ ci_route('keluar.clear') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
+                    <a href="{{ ci_route('keluar') }}" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         @endif

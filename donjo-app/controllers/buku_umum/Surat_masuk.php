@@ -241,19 +241,19 @@ class Surat_masuk extends Admin_Controller
     public function disposisi($id): void
     {
         $disposisi = [];
-        collect($this->ref_disposisi())->each(function($item, $key) use (&$disposisi){
-            array_push($disposisi, ['id' => $key, 'nama' => $item]);
+        collect($this->ref_disposisi())->each(static function ($item, $key) use (&$disposisi) {
+            $disposisi[] = ['id' => $key, 'nama' => $item];
         })->toArray();
-        $data['input']                 = $_POST;
-        $data['desa']                  = $this->header['desa'];
-        $data['pamong_ttd']            = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui']        = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        
+        $data['input']          = $_POST;
+        $data['desa']           = $this->header['desa'];
+        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+
         $data['ref_disposisi']         = $disposisi;
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = $this->surat_masuk_model->get_surat_masuk($id);
         $this->load->view('surat_masuk/disposisi', $data);
-    }    
+    }
 
     /**
      * Unduh berkas scan berdasarkan kolom surat_masuk.id
