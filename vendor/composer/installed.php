@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-2311.1.0-clear',
-        'version' => 'dev-2311.1.0-clear',
-        'reference' => '0002cf9e6726626b87bd86cba19f821c4ec6c9ee',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => '1be73fe08afb8be3e9de3ac37d7692a8733e1c67',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'brick/math' => array(
@@ -56,9 +56,9 @@
             'dev_requirement' => false,
         ),
         'doctrine/inflector' => array(
-            'pretty_version' => '2.0.8',
-            'version' => '2.0.8.0',
-            'reference' => 'f9301a5b2fb1216b2b08f02ba04dc45423db6bff',
+            'pretty_version' => '2.0.9',
+            'version' => '2.0.9.0',
+            'reference' => '2930cd5ef353871c821d5c43ed030d39ac8cfe65',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doctrine/inflector',
             'aliases' => array(),
@@ -101,9 +101,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.331.0',
-            'version' => '0.331.0.0',
-            'reference' => '94d0bcc1827f6ea24274fe17ece0930ae2a8f51d',
+            'pretty_version' => 'v0.332.0',
+            'version' => '0.332.0.0',
+            'reference' => '027cc7fe60877c2b6ba0f380d419acf65a3755d2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -379,15 +379,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'mikey179/vfsstream' => array(
-            'pretty_version' => 'v1.1.0',
-            'version' => '1.1.0.0',
-            'reference' => 'fc0fe8f4d0b527254a2dc45f0c265567c881d07e',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../mikey179/vfsstream',
-            'aliases' => array(),
-            'dev_requirement' => true,
-        ),
         'monolog/monolog' => array(
             'pretty_version' => '2.9.2',
             'version' => '2.9.2.0',
@@ -407,9 +398,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-2311.1.0-clear',
-            'version' => 'dev-2311.1.0-clear',
-            'reference' => '0002cf9e6726626b87bd86cba19f821c4ec6c9ee',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '1be73fe08afb8be3e9de3ac37d7692a8733e1c67',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -917,15 +908,6 @@
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
             'dev_requirement' => false,
-        ),
-        'tinymce/tinymce' => array(
-            'pretty_version' => '6.8.2',
-            'version' => '6.8.2.0',
-            'reference' => 'b0073db409746748af4fc06fbee337bb99f462d9',
-            'type' => 'component',
-            'install_path' => __DIR__ . '/../tinymce/tinymce',
-            'aliases' => array(),
-            'dev_requirement' => true,
         ),
         'voku/anti-xss' => array(
             'pretty_version' => '4.1.35',

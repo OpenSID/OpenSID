@@ -514,13 +514,6 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
     );
 
     public static $prefixesPsr0 = array (
-        'o' => 
-        array (
-            'org\\bovigo\\vfs' => 
-            array (
-                0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
-            ),
-        ),
         'P' => 
         array (
             'Parsedown' => 
