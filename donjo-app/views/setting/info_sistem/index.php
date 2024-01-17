@@ -151,7 +151,7 @@
 									<div class="box-header with-border">
 										<?php if ($currentFile) : ?>
 											<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
-											<?php if (isCan_url('u')) : ?>
+											<?php if (can('u')) : ?>
 												<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
 												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url($this->controller . '/remove_log?f=' . base64_encode($currentFile)) ?>')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 											<?php endif; ?>
