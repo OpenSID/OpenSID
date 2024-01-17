@@ -97,7 +97,7 @@ class User_model extends MY_Model
 
         if (config_item('demo_mode') && ($username == config_item('demo_user')['username'] && $password == config_item('demo_user')['password'])) {
             // Ambil data user pertama yang merupakan admin
-            $user = User::first();
+            $user = User::superAdmin()->first();
 
             return $this->setLogin($user);
         }
@@ -514,8 +514,6 @@ class User_model extends MY_Model
      *
      * @param string $identity   User's identity
      * @param mixed  $ip_address
-     *
-     * @return bool
      */
     public function increase_login_attempts($identity, $ip_address): void
     {

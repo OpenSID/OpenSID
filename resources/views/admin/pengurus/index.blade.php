@@ -100,7 +100,7 @@
                 <select id="status" class="form-control input-sm select2">
                     <option value="">Pilih Status</option>
                     @foreach ($status as $key => $item)
-                        <option value="{{ $key }}">{{ $item }}</option>
+                        <option @selected($key == 1) value="{{ $key }}">{{ $item }}</option>
                     @endforeach
                 </select>
             </div>

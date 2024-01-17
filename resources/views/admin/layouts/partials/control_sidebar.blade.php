@@ -198,7 +198,7 @@
                             <a href="https://github.com/OpenSID/OpenSID/issues" target="_blank" sclass="text-green">https://github.com/OpenSID/OpenSID/issues</a>
                             <li align="justify">Forum diskusi teknis pengembangan <?= config_item('nama_aplikasi') ?>:
                             </li>
-                            <a href="https://opensid.slack.com" target="_blank">https://opensid.slack.com</a>
+                            <a href="https://t.me/+mi5ydVtVfmw0YWY1" target="_blank">Kontributor Teknis OpenDesa</a>
                         </ol>
                     </div>
                 </div>

@@ -37,7 +37,6 @@
 
 use App\Models\Galery;
 use App\Models\Suplemen;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
