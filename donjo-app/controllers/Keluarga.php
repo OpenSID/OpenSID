@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,15 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SHDKEnum;
+use App\Models\Keluarga as ModelsKeluarga;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -428,9 +432,16 @@ class Keluarga extends Admin_Controller
         $data['o']  = $o;
         $data['kk'] = $id;
 
-        $data['main']      = $this->keluarga_model->list_anggota($id);
-        $data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
-        $data['program']   = $this->program_bantuan_model->get_peserta_program(2, $data['kepala_kk']['no_kk']);
+        $kk            = ModelsKeluarga::with(['anggota'])->find($id) ?? show_404();
+        $data['no_kk'] = $kk->no_kk;
+        $data['main']  = $kk->anggota->map(static function ($item) {
+            $item->hubungan = SHDKEnum::valueOf($item->kk_level);
+            $item->sex      = JenisKelaminEnum::valueOf($item->sex);
+
+            return $item;
+        })->toArray();
+        $data['kepala_kk'] = $kk->anggota->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->first();
+        $data['program']   = $this->program_bantuan_model->get_peserta_program(2, $kk->no_kk);
 
         $this->render('sid/kependudukan/keluarga_anggota', $data);
     }

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -299,7 +299,7 @@ class Keluar extends Admin_Controller
                             ]],
                         ]),
                     ]);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     log_message('error', $e->getMessage());
                 }
             }
@@ -663,10 +663,13 @@ class Keluar extends Admin_Controller
 
     private function data_kecamatan()
     {
+        if (empty($this->setting->api_opendk_key)) {
+            return null;
+        }
         $desa = kode_wilayah($this->header['desa']['kode_desa']);
 
         try {
-            $client = new \GuzzleHttp\Client([
+            $client = new GuzzleHttp\Client([
                 'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat?desa_id={$desa}",
             ]);
 
@@ -680,7 +683,7 @@ class Keluar extends Admin_Controller
             log_message('error', $e);
 
             return null;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             log_message('error', $exception);
 
             return null;

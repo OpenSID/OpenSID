@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -162,7 +162,7 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar)
     move_uploaded_file($lokasi_file, $file_upload);
 }
 
-function UploadFoto($fupload_name, $old_foto)
+function UploadFoto($fupload_name, $old_foto, $dimensi = '200x200')
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_USER_PICT;
@@ -180,7 +180,8 @@ function UploadFoto($fupload_name, $old_foto)
         // Hapus old_foto
         unlink(LOKASI_USER_PICT . $old_foto);
     }
-    ResizeGambar($uploadedImage['full_path'], LOKASI_USER_PICT . $fupload_name, ['width' => 200, 'height' => 200]);
+    $dimensi = generateDimensi($dimensi);
+    ResizeGambar($uploadedImage['full_path'], LOKASI_USER_PICT . $fupload_name, ['width' => $dimensi['width'], 'height' => $dimensi['height']]);
 
     unlink($uploadedImage['full_path']);
 
@@ -768,7 +769,7 @@ function qrcode_generate(array $qrcode = [], $base64 = false)
     return $filename;
 }
 
-function upload_foto_penduduk($nama_file = null)
+function upload_foto_penduduk($nama_file = null, $dimensi = null)
 {
     $foto     = $_POST['foto'];
     $old_foto = $_POST['old_foto'];
@@ -779,7 +780,7 @@ function upload_foto_penduduk($nama_file = null)
 
     if ($_FILES['foto']['tmp_name']) {
         $nama_file = $nama_file . get_extension($_FILES['foto']['name']);
-        UploadFoto($nama_file, $old_foto);
+        UploadFoto($nama_file, $old_foto, $dimensi);
     } elseif ($foto) {
         $nama_file = $nama_file . '.png';
         $foto      = str_replace('data:image/png;base64,', '', $foto);
@@ -832,4 +833,13 @@ function unggah_file($config = [], $old_file = null)
     }
 
     return $data['file_name'];
+}
+
+function generateDimensi($dimensi)
+{
+    [$width, $height] = explode('x', $dimensi);
+    $width            = bilangan($width) ? (int) (bilangan($width)) : 200;
+    $height           = bilangan($height) ? (int) (bilangan($height)) : 200;
+
+    return ['width' => $width, 'height' => $height];
 }

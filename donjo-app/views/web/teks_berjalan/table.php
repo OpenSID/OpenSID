@@ -36,7 +36,8 @@
 																		<th><input type="checkbox" id="checkall"/></th>
 																	<?php endif; ?>
 																	<th>No.</th>
-																	<?php if (can('u')): ?>
+																	<?php if (can('u')):
+																	    ?>
 																		<th>Aksi</th>
 																	<?php endif; ?>
 																	<th>Isi Teks Berjalan</th>
@@ -45,6 +46,9 @@
 																</tr>
 															</thead>
 															<tbody>
+																<?php
+                                                                // $main = false;
+                                                                if($main) : ?>
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<?php if (can('h')): ?>
@@ -75,6 +79,7 @@
 																		<td class="padat"><?= $data['tampilkan'] ?></td>
 																	</tr>
 																<?php endforeach; ?>
+																<?php else: tidak_ada_data(6); endif; ?>
 															</tbody>
 														</table>
 													</div>

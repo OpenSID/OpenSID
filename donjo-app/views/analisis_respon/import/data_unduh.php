@@ -31,7 +31,7 @@
 				<th>L/P</th>
 			<?php endif; ?>
 			<?php if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8])): ?>
-				<th>Dusun</th>
+				<th><?= ucwords(setting('sebutan_dusun')) ?></th>
 				<?php if ($subjek_tipe != 6): ?>
 					<th>RW</th>
 					<?php if ($subjek_tipe != 7): ?>

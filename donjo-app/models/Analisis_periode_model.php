@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -46,90 +46,67 @@ class Analisis_periode_model extends MY_Model
 
     private function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (u.nama LIKE '{$kw}' OR u.nama LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db->like('u.nama', $cari);
         }
     }
 
     private function master_sql()
     {
-        if (isset($_SESSION['analisis_master'])) {
-            $kf         = $_SESSION['analisis_master'];
-            $filter_sql = " AND u.id_master = {$kf}";
-
-            return $filter_sql;
+        if ($analisis_master = $this->session->analisis_master) {
+            $this->db->where('u.id_master', $analisis_master);
         }
     }
 
     private function state_sql()
     {
-        if (isset($_SESSION['state'])) {
-            $kf         = $_SESSION['state'];
-            $filter_sql = " AND u.id_state = {$kf}";
+        if ($state = $this->session->state) {
+            $this->db->where('u.id_state', $state);
+        }
+    }
 
-            return $filter_sql;
+    private function order_sql($order = '')
+    {
+        switch ($order) {
+            case 1: $this->db->order_by('u.id');
+                break;
+
+            case 2: $this->db->order_by('u.id', 'desc');
+                break;
+
+            case 3: $this->db->order_by('u.id');
+                break;
+
+            case 4: $this->db->order_by('u.id', 'desc');
+                break;
+
+            case 5: $this->db->order_by('g.id');
+                break;
+
+            case 6: $this->db->order_by('g.id', 'desc');
+                break;
+
+            default: $this->db->order_by('u.id');
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(id) AS id FROM analisis_periode u WHERE u.config_id = ' . identitas('id');
-        $sql .= $this->search_sql();
-        $sql .= $this->master_sql();
-        $sql .= $this->state_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
-        $jml_data = $row['id'];
+        $this->list_data_query();
+        $jml_data = $this->db
+            ->get()
+            ->num_rows();
 
-        $this->load->library('paging');
-        $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
-        $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
-
-        return $this->paging;
+        return $this->paginasi($p, $jml_data);
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
-        switch ($o) {
-            case 1: $order_sql = ' ORDER BY u.id';
-                break;
+        $this->db->select('u.*, s.nama as status');
+        $this->list_data_query();
+        $this->order_sql($o);
 
-            case 2: $order_sql = ' ORDER BY u.id DESC';
-                break;
-
-            case 3: $order_sql = ' ORDER BY u.id';
-                break;
-
-            case 4: $order_sql = ' ORDER BY u.id DESC';
-                break;
-
-            case 5: $order_sql = ' ORDER BY g.id';
-                break;
-
-            case 6: $order_sql = ' ORDER BY g.id DESC';
-                break;
-
-            default:$order_sql = ' ORDER BY u.id';
-        }
-
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
-
-        $sql = 'SELECT u.*,s.nama AS status FROM analisis_periode u LEFT JOIN analisis_ref_state s ON u.id_state = s.id WHERE u.config_id = ' . identitas('id');
-        $sql .= $this->search_sql();
-        $sql .= $this->master_sql();
-        $sql .= $this->state_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->db->get()->result_array();
 
         $j = $offset;
 
@@ -144,6 +121,16 @@ class Analisis_periode_model extends MY_Model
         }
 
         return $data;
+    }
+
+    private function list_data_query()
+    {
+        $this->config_id('u')
+            ->from('analisis_periode u')
+            ->join('analisis_ref_state s', 'u.id_state = s.id', 'left');
+        $this->search_sql();
+        $this->master_sql();
+        $this->state_sql();
     }
 
     private function validasi_data($post)

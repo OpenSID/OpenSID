@@ -19,7 +19,9 @@ final class Each
      * index, and the aggregate promise. The callback can invoke any necessary
      * side effects and choose to resolve or reject the aggregate if needed.
      *
-     * @param mixed $iterable Iterator or array to iterate over.
+     * @param mixed    $iterable    Iterator or array to iterate over.
+     * @param callable $onFulfilled
+     * @param callable $onRejected
      */
     public static function of(
         $iterable,
@@ -42,6 +44,8 @@ final class Each
      *
      * @param mixed        $iterable
      * @param int|callable $concurrency
+     * @param callable     $onFulfilled
+     * @param callable     $onRejected
      */
     public static function ofLimit(
         $iterable,
@@ -63,6 +67,7 @@ final class Each
      *
      * @param mixed        $iterable
      * @param int|callable $concurrency
+     * @param callable     $onFulfilled
      */
     public static function ofLimitAll(
         $iterable,

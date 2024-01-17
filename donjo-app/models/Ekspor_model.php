@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -208,7 +208,6 @@ class Ekspor_model extends MY_Model
             'agenda',
             'covid19_pemudik',
             'covid19_pantau',
-            'kelompok_anggota',
             'log_keluarga',
             'grup_akses',
             'produk',
@@ -316,7 +315,6 @@ class Ekspor_model extends MY_Model
             'log_perubahan_penduduk',
             'anjungan_menu',
             'gambar_gallery',
-            'kelompok_master',
             'tanah_kas_desa',
             'tanah_desa',
             'sasaran_paud',
@@ -343,7 +341,9 @@ class Ekspor_model extends MY_Model
             'log_backup',
             'kehadiran_perangkat_desa',
             'line',
+            'kelompok_master',
             'kelompok',
+            'kelompok_anggota',
             'pembangunan_ref_dokumentasi',
             'teks_berjalan',
             'kader_pemberdayaan_masyarakat',
@@ -543,7 +543,7 @@ class Ekspor_model extends MY_Model
         return true;
     }
 
-    protected function perbaiki_collation()
+    public function perbaiki_collation()
     {
         $list = $this->db
             ->select(

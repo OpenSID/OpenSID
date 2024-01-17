@@ -21,7 +21,7 @@
 <div class="box box-primary box-solid">
 
 	<div class="box-header">
-		<h3 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h3>
+		<h3 class="box-title"><i class="fa fa-user"></i> <?= ucwords(setting('sebutan_pemerintah_desa'))?></h3>
 	</div>
 
 	<div class="box-body">

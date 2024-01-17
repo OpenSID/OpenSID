@@ -26,7 +26,8 @@
 		"voku/anti-xss": "^4.1"
 	},
 	"require-dev": {
-		"mikey179/vfsstream": "1.1.*"
+		"mikey179/vfsstream": "1.1.*",
+		"tinymce/tinymce": "^6.5"
 	},
 	"repositories": [
 		{

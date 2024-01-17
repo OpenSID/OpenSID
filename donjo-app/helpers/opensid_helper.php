@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -48,7 +48,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2401.0.0');
+define('VERSION', '2401.1.0');
 
 /**
  * PREMIUM
@@ -64,7 +64,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024010101');
+define('VERSI_DATABASE', '2024011701');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -313,13 +313,18 @@ function get_data_desa($kode_desa)
  */
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
-    $connected = @fsockopen($sCheckHost, 443);
+    if (! setting('notifikasi_koneksi')) {
+        return true;
+    }
+
+    $connected = @fsockopen($sCheckHost, 80, $errno, $errstr, 5);
 
     if ($connected) {
         fclose($connected);
 
         return true;
     }
+    log_message('error', 'Gagal menghubungi ' . $sCheckHost . ' dengan status error ' . $errno . ' - ' . $errstr);
 
     return false;
 }
@@ -1210,7 +1215,7 @@ function kode_format($lampiran = '')
  */
 function exists($array, $key)
 {
-    if ($array instanceof \ArrayAccess) {
+    if ($array instanceof ArrayAccess) {
         return $array->offsetExists($key);
     }
 
@@ -1335,7 +1340,7 @@ function idm($kode_desa, $tahun)
 
     // ambil dari api idm
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new Client();
         $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -1503,7 +1508,7 @@ function default_file($new_file = null, $default = null)
 // https://stackoverflow.com/questions/6824002/capitalize-last-letter-of-a-string
 function uclast($str)
 {
-    return strrev(ucfirst(strrev($str)));
+    return strrev(ucfirst(strrev(strtolower($str))));
 }
 
 function kasus_lain($kategori = null, $str = null)
@@ -1759,7 +1764,7 @@ if (! function_exists('getVariableName')) {
             return null;
         }
 
-        $reflection   = new \ReflectionClass($class);
+        $reflection   = new ReflectionClass($class);
         $constants    = $reflection->getConstants();
         $variableName = array_search($value, $constants);
 
@@ -1779,5 +1784,46 @@ if (! function_exists('bersihkan_xss')) {
         $antiXSS->removeEvilHtmlTags(['iframe']);
 
         return $antiXSS->xss_clean($str);
+    }
+}
+
+if (! function_exists('checkWebsiteAccessibility')) {
+    function checkWebsiteAccessibility($url)
+    {
+        $options = [
+            'http' => [
+                'method'  => 'GET',
+                'timeout' => 3,
+            ],
+        ];
+        $context = stream_context_create($options);
+        $headers = @get_headers($url, 0, $context);
+
+        if ($headers) {
+            $status = substr($headers[0], 9, 3);
+            if ($status == '200') {
+                return true;
+            }
+
+            $status = "(Status: {$status})";
+        }
+
+        log_message('notice', "Website tidak dapat diakses {$status}");
+
+        return false;
+    }
+}
+
+/**
+ * Hapus Kata 'Kab' atau 'Kota' dari nama kabupaten/kota
+ *
+ * Mengembalikan nama kabupaten/kota tanpa kata 'Kab' atau 'Kota'
+ *
+ * @return string
+ */
+if (! function_exists('hapus_kab_kota')) {
+    function hapus_kab_kota($str)
+    {
+        return preg_replace('/kab |kota /i', '', $str);
     }
 }

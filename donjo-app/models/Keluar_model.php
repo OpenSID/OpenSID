@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -446,7 +446,7 @@ class Keluar_model extends MY_Model
             lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
             Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
         */
-            $log_id = $this->config_id()->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
+            $log_id = $this->config_id()->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->where('deleted_at is null')->limit(1)->get()->row()->id;
         } else { // Cetak:
             // Sama dengan aturan Ekspor Dok, hanya URL-NIK-nomor surat-tanggal diambil dari data kolom
             $log_id = $this->config_id()
@@ -456,6 +456,7 @@ class Keluar_model extends MY_Model
                 ->where('id_pend', $data['id_pend'])
                 ->where('no_surat', $data['no_surat'])
                 ->where('DATE_FORMAT(tanggal, "%Y-%m-%d") =', date('Y-m-d'))
+                ->where('deleted_at is null')
                 ->limit(1)
                 ->get()
                 ->row()

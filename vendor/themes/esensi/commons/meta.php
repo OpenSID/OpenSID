@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<?php $is_premium = true ?>
+<?php $is_premium = TRUE ?>
 <?php $nama_desa = ucwords($this->setting->sebutan_desa) .' '.ucwords($desa['nama_desa']) ?>
 
 <?php defined('THEME_VERSION') or define('THEME_VERSION', 'v22.11') ?>

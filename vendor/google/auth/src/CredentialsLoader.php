@@ -212,6 +212,18 @@ abstract class CredentialsLoader implements
     }
 
     /**
+     * Fetch a quota project from the environment variable
+     * GOOGLE_CLOUD_QUOTA_PROJECT. Return null if
+     * GOOGLE_CLOUD_QUOTA_PROJECT is not specified.
+     *
+     * @return string|null
+     */
+    public static function quotaProjectFromEnv()
+    {
+        return getenv(self::QUOTA_PROJECT_ENV_VAR) ?: null;
+    }
+
+    /**
      * Gets a callable which returns the default device certification.
      *
      * @throws UnexpectedValueException

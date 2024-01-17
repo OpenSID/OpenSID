@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -172,7 +172,7 @@ class DTKSRegsosEk2022k
      */
     protected function splitDTKSForEachKeluarga($dtks)
     {
-        $semua_dtks = DTKS::where('id_rtm', $dtks->id_rtm)->whereNotNull('id_keluarga')->get();
+        $semua_dtks = Dtks::where('id_rtm', $dtks->id_rtm)->whereNotNull('id_keluarga')->get();
 
         if ($semua_dtks->count() != $dtks->jumlah_keluarga) {
             // lepas semua anggota
@@ -190,7 +190,7 @@ class DTKSRegsosEk2022k
                 }
                 // clone dtks dan set id_keluarga
                 elseif (! $dtks_keluarga) {
-                    $new_dtks = DTKS::where('id_rtm', $dtks->id_rtm)->whereNull('id_keluarga')->first();
+                    $new_dtks = Dtks::where('id_rtm', $dtks->id_rtm)->whereNull('id_keluarga')->first();
                     if ($new_dtks) {
                         $new_dtks->update(['id_keluarga' => $keluarga->id]);
                     } else {
@@ -220,7 +220,7 @@ class DTKSRegsosEk2022k
             }
 
             // lepaskan keluarga yang tidak termasuk dalam rtm
-            DTKS::where('id_rtm', $dtks->id_rtm)
+            Dtks::where('id_rtm', $dtks->id_rtm)
                 ->whereNotIn('id_keluarga', $dtks->keluarga_in_rtm->pluck('id'))
                 ->update(['id_keluarga' => null]);
         }
@@ -347,7 +347,7 @@ class DTKSRegsosEk2022k
         });
 
         if ($dtks->jumlah_keluarga > 1) {
-            $dtks->all_dtks_id = DTKS::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
+            $dtks->all_dtks_id = Dtks::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
                 ->withOnly([
                     'rtm' => static function ($builder) {
                         $builder->select('id', 'nik_kepala');
@@ -1882,6 +1882,7 @@ class DTKSRegsosEk2022k
                 $pengaturan_program->update(['nilai_default' => $request[$form_input_name]]);
             } elseif ($request[$form_input_name] != '' && ! $pengaturan_program && (substr($form_input_name, -(strlen('default'))) !== 'default')) {
                 $to_be_inserted[] = [
+                    'config_id'       => identitas('id'),
                     'versi_kuisioner' => '2',
                     'kode'            => $form_input_name,
                     'target_table'    => $item[0],
@@ -1892,6 +1893,7 @@ class DTKSRegsosEk2022k
                 ];
             } elseif ($request[$form_input_name] != '' && ! $pengaturan_program && (substr($key, -(strlen('default'))) === 'default')) {
                 $to_be_inserted[] = [
+                    'config_id'       => identitas('id'),
                     'versi_kuisioner' => '2',
                     'kode'            => $form_input_name,
                     'target_table'    => $item[0],

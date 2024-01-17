@@ -60,12 +60,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</tr>
 		<tr>
 			<td class="text-center">
-				<h4>B.2 BUKU MUTASI PENDUDUK DESA</h4>
+				<h4>B.2 BUKU MUTASI PENDUDUK <?= strtoupper(setting('sebutan_desa')) ?></h4>
 			</td>
 		</tr>
 		<tr>
 			<td class="text-center">
-				<h4>BUKU MUTASI PENDUDUK DESA BULAN <?= strtoupper(getBulan($bulan)) ?> TAHUN <?= $tahun ?></h4>
+				<h4>BUKU MUTASI PENDUDUK <?= strtoupper(setting('sebutan_desa')) ?> BULAN <?= strtoupper(getBulan($bulan)) ?> TAHUN <?= $tahun ?></h4>
 			</td>
 		</tr>
 		<tr>

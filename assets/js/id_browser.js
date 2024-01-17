@@ -47,7 +47,7 @@ function buatPengunjungCookie(name) {
     const browserId = $('#konfirmasi-cookie').data('fingerprint');
     // Tampilkan ke browser
     document.getElementById("pengunjung").innerHTML = browserId;
-    createCookie("pengunjung", browserId, "1");
+    createCookie("pengunjung", browserId, 360);
     $('#konfirmasi-cookie').modal('hide');
 }
 

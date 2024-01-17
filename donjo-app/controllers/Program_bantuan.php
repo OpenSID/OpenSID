@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -95,26 +95,156 @@ class Program_bantuan extends Admin_Controller
         $this->render('program_bantuan/program', $data);
     }
 
-    public function form($program_id = 0)
+    public function apipendudukbantuan()
     {
-        // dd(Penduduk::whereHas('rtm')->get());
-        $this->redirect_hak_akses('u');
-        $this->session->unset_userdata('cari');
-        $data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
-        $sasaran         = $data['program'][0]['sasaran'];
-        $nik             = $this->input->post('nik');
+        if ($this->input->is_ajax_request()) {
+            $cari    = $this->input->get('q');
+            $bantuan = $this->input->get('bantuan');
+            $sasaran = $this->input->get('sasaran');
+            $peserta = BantuanPeserta::where('program_id', '=', $bantuan)->pluck('peserta');
 
-        if (isset($nik)) {
-            $data['individu']            = $this->program_bantuan_model->get_peserta($nik, $sasaran);
-            $data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($sasaran, $data['individu']['id_peserta']);
-        } else {
-            $data['individu'] = null;
+            switch ($sasaran) {
+                case 1:
+                    $this->get_pilihan_penduduk($cari, $peserta);
+                    break;
+
+                case 2:
+                    $this->get_pilihan_kk($cari, $peserta);
+                    break;
+
+                case 3:
+                    $this->get_pilihan_rtm($cari, $peserta);
+                    break;
+
+                case 4:
+                    $this->get_pilihan_kelompok($cari, $peserta);
+                    break;
+
+                default:
+            }
         }
 
-        $data['form_action']  = site_url('program_bantuan/add_peserta/' . $program_id);
-        $data['list_sasaran'] = SasaranEnum::all();
+        return show_404();
+    }
 
-        $this->render('program_bantuan/form', $data);
+    private function get_pilihan_penduduk($cari, $peserta)
+    {
+        $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
+            ->when($cari, static function ($query) use ($cari) {
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                });
+            })
+            ->whereNotIn('nik', $peserta)
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_kk($cari, $peserta)
+    {
+        $penduduk = Penduduk::with('pendudukHubungan')
+            ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])
+            ->leftJoin('tweb_penduduk_hubungan', static function ($join) {
+                $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
+            })
+            ->leftJoin('keluarga_aktif', static function ($join) {
+                $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
+            })
+            ->when($cari, static function ($query) use ($cari) {
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('tweb_penduduk.nik', 'like', "%{$cari}%")
+                        ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
+                        ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                });
+            })
+            ->whereIn('tweb_penduduk.kk_level', ['1', '2', '3', '4'])
+            ->whereNotIn('keluarga_aktif.no_kk', $peserta)
+            ->orderBy('tweb_penduduk.id_kk')
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_rtm($cari, $peserta)
+    {
+        $penduduk = Penduduk::select(['id', 'id_rtm', 'nama', 'id_cluster'])
+            ->when($cari, static function ($query) use ($cari) {
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%")
+                        ->orWhere('id_rtm', 'like', "%{$cari}%");
+                });
+            })
+            ->whereHas('rtm', static function ($query) use ($peserta) {
+                $query->whereNotIn('no_kk', $peserta);
+            })
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->rtm->no_kk,
+                        'text' => 'No. RT : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
+    }
+
+    private function get_pilihan_kelompok($cari, $peserta)
+    {
+        $penduduk = Kelompok::select(['kelompok.id', 'tweb_penduduk.nik', 'tweb_penduduk.nama as nama_penduduk', 'kelompok.nama as nama_kelompok', 'tweb_penduduk.id_cluster'])
+            ->leftJoin('tweb_penduduk', static function ($join) {
+                $join->on('kelompok.id_ketua', '=', 'tweb_penduduk.id');
+            })
+            ->when($cari, static function ($query) use ($cari) {
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('kelompok.nama', 'like', "%{$cari}%")
+                        ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                });
+            })
+            ->whereNotIn('kelompok.id', $peserta)
+            ->paginate(10);
+
+        return json([
+            'results' => collect($penduduk->items())
+                ->map(static function ($item) {
+                    return [
+                        'id'   => $item->id,
+                        'text' => $item->nama_penduduk . ' [' . $item->nama_kelompok . ']' . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    ];
+                }),
+            'pagination' => [
+                'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+            ],
+        ]);
     }
 
     public function apipendudukbantuan()
@@ -265,126 +395,6 @@ class Program_bantuan extends Admin_Controller
         $this->render('program_bantuan/panduan');
     }
 
-    public function detail_clear($program_id)
-    {
-        $this->session->per_page = $this->_set_page[0];
-        $this->session->unset_userdata('cari');
-
-        redirect("program_bantuan/detail/{$program_id}");
-    }
-
-    public function detail($program_id = 0, $p = 1)
-    {
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['cari']         = $this->session->cari ?: '';
-        $data['program']      = $this->program_bantuan_model->get_program($p, $program_id);
-        $data['keyword']      = $this->program_bantuan_model->autocomplete($program_id, $this->input->post('cari'));
-        $data['paging']       = $data['program'][0]['paging'];
-        $data['list_sasaran'] = SasaranEnum::all();
-        $data['p']            = $p;
-        $data['func']         = "detail/{$program_id}";
-        $data['per_page']     = $this->session->per_page;
-        $data['set_page']     = $this->_set_page;
-        $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
-
-        $this->render('program_bantuan/detail', $data);
-    }
-
-    // $id = program_peserta.id
-    public function peserta($cat = 0, $id = 0)
-    {
-        $data = $this->program_bantuan_model->get_peserta_program($cat, $id);
-
-        $this->render('program_bantuan/peserta', $data);
-    }
-
-    // $id = program_peserta.id
-    public function data_peserta($id = 0)
-    {
-        $data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
-
-        switch ($data['peserta']['sasaran']) {
-            case '1':
-            case '2':
-                $peserta_id = $data['peserta']['kartu_id_pend'];
-                break;
-
-            case '3':
-            case '4':
-                $peserta_id = $data['peserta']['peserta'];
-                break;
-        }
-        $data['individu']            = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
-        $data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($data['peserta']['sasaran'], $data['peserta']['peserta']);
-        $data['detail']              = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
-
-        $this->render('program_bantuan/data_peserta', $data);
-    }
-
-    public function add_peserta($program_id = 0)
-    {
-        $this->redirect_hak_akses('u');
-
-        $cek = BantuanPeserta::where('program_id', $program_id)->where('kartu_id_pend', $this->input->post('kartu_id_pend'))->first();
-
-        if ($cek) {
-            $this->session->success = -2;
-        } else {
-            $this->program_bantuan_model->add_peserta($program_id);
-        }
-
-        $redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/{$program_id}";
-
-        $this->session->unset_userdata('aksi');
-
-        redirect($redirect);
-    }
-
-    public function aksi($aksi = '', $program_id = 0)
-    {
-        $this->redirect_hak_akses('u');
-        $this->session->set_userdata('aksi', $aksi);
-
-        redirect("program_bantuan/form/{$program_id}");
-    }
-
-    public function hapus_peserta($program_id = 0, $peserta_id = '')
-    {
-        $this->redirect_hak_akses('h');
-        $this->program_bantuan_model->hapus_peserta($peserta_id);
-        redirect("program_bantuan/detail/{$program_id}");
-    }
-
-    public function delete_all($program_id = 0)
-    {
-        $this->redirect_hak_akses('h');
-        $this->program_bantuan_model->delete_all();
-        redirect("program_bantuan/detail/{$program_id}");
-    }
-
-    // $id = program_peserta.id
-    public function edit_peserta($id = 0)
-    {
-        $this->redirect_hak_akses('u');
-        $this->program_bantuan_model->edit_peserta($id);
-        $program_id = $this->input->post('program_id');
-        redirect("program_bantuan/detail/{$program_id}");
-    }
-
-    // $id = program_peserta.id
-    public function edit_peserta_form($id = 0)
-    {
-        $this->redirect_hak_akses('u');
-
-        $data                = $this->program_bantuan_model->get_program_peserta_by_id($id) ?? show_404();
-        $data['form_action'] = site_url("program_bantuan/edit_peserta/{$id}");
-        $this->load->view('program_bantuan/edit_peserta', $data);
-    }
-
     public function create()
     {
         $this->redirect_hak_akses('u');
@@ -448,23 +458,6 @@ class Program_bantuan extends Admin_Controller
         $this->redirect_hak_akses('h');
         $this->program_bantuan_model->hapus_program($id);
         redirect('program_bantuan');
-    }
-
-    // $aksi = cetak/unduh
-    public function daftar($program_id = 0, $aksi = '')
-    {
-        if ($program_id > 0) {
-            $temp                    = $this->session->per_page;
-            $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
-            $data['sasaran']         = unserialize(SASARAN);
-
-            $data['config']          = $this->header['desa'];
-            $data['peserta']         = $this->program_bantuan_model->get_program(1, $program_id);
-            $data['aksi']            = $aksi;
-            $this->session->per_page = $temp;
-
-            $this->load->view("program_bantuan/{$aksi}", $data);
-        }
     }
 
     public function search($program_id = 0)

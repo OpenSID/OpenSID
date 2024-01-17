@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -65,7 +65,7 @@ $capsule->addConnection([
     'prefix'    => $db['default']['dbprefix'],
     'stricton'  => $db['default']['stricton'],
     'options'   => [
-        \PDO::ATTR_EMULATE_PREPARES => true,
+        PDO::ATTR_EMULATE_PREPARES => true,
     ],
 ]);
 
@@ -115,21 +115,27 @@ CursorPaginator::currentCursorResolver(static function ($cursorName = 'cursor') 
     return Cursor::fromEncoded(get_instance()->input->get($cursorName));
 });
 
-\Illuminate\Database\Query\Builder::macro('toRawSql', function () {
+Illuminate\Database\Query\Builder::macro('toRawSql', function () {
     return array_reduce($this->getBindings(), static function ($sql, $binding) {
         return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
     }, $this->toSql());
 });
 
-\Illuminate\Database\Eloquent\Builder::macro('toRawSql', function () {
+Illuminate\Database\Eloquent\Builder::macro('toRawSql', function () {
     return $this->getQuery()->toRawSql();
 });
 
-/**
- * Uncomment untuk listen semua query dari laravel database.
- */
-// \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, function ($query) {
-//     log_message('notice', $query->time . ' | ' . array_reduce($query->bindings, static function ($sql, $binding) {
-//         return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
-//     }, $query->sql));
-// });
+if (ENVIRONMENT == 'development') {
+    get_instance()->capsule  = $capsule;
+    get_instance()->queryOrm = [];
+
+    /**
+     * Uncomment untuk listen semua query dari laravel database.
+     */
+    Illuminate\Support\Facades\Event::listen(Illuminate\Database\Events\QueryExecuted::class, static function ($query) {
+        // log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
+        //     return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+        // }, $query->sql));
+        get_instance()->queryOrm[] = $query;
+    });
+}

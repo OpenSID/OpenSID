@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -106,7 +106,9 @@ class Migrasi_fitur_premium_2210 extends MY_model
         if (! Pamong::find(1)) {
             // Jika tidak ada, ganti id_pamong = 1 pada log_surat dengan kepala desa yang aktif
             $pamongId = Pamong::kepalaDesa()->first()->pamong_id;
-            LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+            if ($pamongId) {
+                LogSurat::where('id_pamong', 1)->update(['id_pamong' => $pamongId]);
+            }
         }
 
         return $hasil;
@@ -262,7 +264,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
             $hasil = $hasil && $this->db
                 ->where('key', 'footer_surat_tte')
                 ->update('setting_aplikasi', [
-                    'value' => \App\Libraries\TinyMCE::FOOTER_TTE,
+                    'value' => App\Libraries\TinyMCE::FOOTER_TTE,
                 ]);
         }
 

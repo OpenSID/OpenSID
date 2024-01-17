@@ -2,10 +2,25 @@
     <div class="box-body box-profile">
         <img class="penduduk" id="foto" src="<?= AmbilFoto($foto, '', $id_sex) ?>" alt="Foto Penduduk">
         <br />
+        @if (isset($show_dimensi) && $show_dimensi)        
+            <div class="row" style="margin-bottom: 8px">
+                <label for="" class="col-sm-6">Lebar (px)</label>
+                <div class="col-sm-6">
+                    <input name="lebar" class="form-control input-sm bilangan" type="number" value="200" placeholder="200">
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 8px">
+                <label for="" class="col-sm-6">Tinggi (px)</label>
+                <div class="col-sm-6">
+                    <input name="tinggi" class="form-control input-sm bilangan" type="number" value="200" placeholder="200">
+                </div>
+            </div>                    
+        @endif
+        
         <div class="input-group input-group-sm text-center">
             <input type="file" class="hidden" id="file" name="foto" accept=".jpg,.jpeg,.png">
             <input type="text" class="hidden" id="file_path" name="foto">
-            <input type="hidden" name="old_foto" id="old_foto" value="<?= $foto ?>">
+            <input type="hidden" name="old_foto" id="old_foto" value="<?= $foto ?>">                       
             <span class="input-group-btn">
                 <button type="button" class="btn btn-info btn-block btn-mb-5" id="file_browser"><i
                         class="fa fa-upload"></i> Unggah</button>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,12 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Enums\StatusSuratKecamatanEnum;
@@ -44,6 +45,7 @@ use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -133,7 +135,7 @@ class Surat extends Admin_Controller
         $nik = $this->input->post('nik') ?? $id;
 
         $this->session->unset_userdata('log_surat');
-
+        unset($_SESSION['id_ibu'], $_SESSION['id_bayi'], $_SESSION['id_pelapor'], $_SESSION['id_saksi1'], $_SESSION['id_saksi2']);
         $data['surat'] = FormatSurat::cetak($url)->first();
 
         if ($data['surat']) {
@@ -153,6 +155,29 @@ class Surat extends Admin_Controller
             } else {
                 $data['individu'] = null;
                 $data['anggota']  = null;
+            }
+
+            // cek apakah surat itu memiliki form kategori ( saksi etc )
+            $kategori = get_key_form_kategori($data['surat']['form_isian']);
+            if (! empty($kategori)) {
+                $form_kategori   = [];
+                $kategori_isian  = [];
+                $filter_kategori = collect($data['surat']->kode_isian)->filter(static function ($item) use (&$kategori_isian) {
+                    $kategori_isian[$item->kategori][] = $item;
+
+                    return isset($item->kategori);
+                })->values();
+
+                foreach ($kategori as $ktg) {
+                    $form_kategori[$ktg]['form']       = $this->get_data_untuk_form($url, $data, $ktg);
+                    $form_kategori[$ktg]['kode_isian'] = $kategori_isian[$ktg];
+                }
+                $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static function ($item) {
+                    return isset($item->kategori);
+                })->values();
+
+                $data['surat']['kode_isian'] = $filtered_kode_isian;
+                $data['form_kategori']       = $form_kategori;
             }
 
             $this->get_data_untuk_form($url, $data);
@@ -213,7 +238,25 @@ class Surat extends Admin_Controller
             $setting_footer         = $surat->footer == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
+            if (isset($log_surat['input']['id_pengikut'])) {
+                $pengikut     = Penduduk::whereIn('id', $log_surat['input']['id_pengikut'])->get();
+                $keterangan[] = [];
+
+                foreach ($pengikut as $anak) {
+                    $keterangan[$anak->id] = $log_surat['input']['ket_' . $anak->id] ?? '';
+                }
+
+                $log_surat['pengikut_surat'] = generatePengikut($pengikut, $keterangan);
+            }
+
             // Lewati ganti kode_isian
+            // return json($log_surat);
+            $daftar_kategori = get_key_form_kategori($surat->form_isian);
+
+            foreach ($daftar_kategori as $kategori) {
+                $log_surat['kategori'][$kategori] = $this->request['id_pend_' . $kategori];
+            }
+
             $isi_surat = $this->tinymce->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
@@ -319,11 +362,15 @@ class Surat extends Admin_Controller
             }
 
             // Lampiran
-            $logo_qrcode = $this->buatLampiran($id, $cetak, $logo_qrcode);
+            $logo_qrcode     = $this->buatLampiran($surat->id_pend, $cetak, $logo_qrcode);
+            $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+            if ($cetak['surat']['margin_global'] == '1') {
+                $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            }
 
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
+                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm);
                 $html2pdf->setTestTdInOnePage(true);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($logo_qrcode);
@@ -339,14 +386,24 @@ class Surat extends Admin_Controller
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
-                log_message('error', $formatter->getHtmlMessage());
+                log_message('error', trim(preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
 
                 // Untuk surat yang sudah tersimpan sebagai draf, simpan isian suratnya yang belum jadi (hanya isian surat dari konversi template surat)
                 $surat->isi_surat = $isi[1];
                 $surat->status    = LogSurat::KONSEP;
+
+                return $this->output
+                    ->set_status_header(404, str_replace("\n", ' ', $formatter->getMessage()))
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'statusText' => $formatter->getMessage(),
+                    ]));
             }
 
             if ($preview) {
+                // TODO: gunakan relasi
+                Urls::destroy($surat->urls_id);
+                log_message('error', 'Preview surat berhasil. ' . $surat->urls_id);
                 LogSurat::destroy($id);
             } else {
                 // Jika verifikasi sekdes atau verifikasi kades di non-aktifkan
@@ -457,9 +514,14 @@ class Surat extends Admin_Controller
             // Lampiran
             $isi_cetak = $this->buatLampiran($surat->id_pend, $cetak, $isi_cetak);
 
+            $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+            if ($cetak['surat']['margin_global'] == '1') {
+                $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+            }
+
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
+                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $margin_cm_to_mm);
                 $html2pdf->setTestTdInOnePage(false);
                 $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
                 $html2pdf->writeHTML($isi_cetak);
@@ -666,7 +728,7 @@ class Surat extends Admin_Controller
     }
 
     // Data yang digunakan surat jenis rtf dan tinymce
-    private function get_data_untuk_form($url, &$data)
+    private function get_data_untuk_form($url, &$data, $kategori = 'individu')
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
@@ -680,7 +742,8 @@ class Surat extends Admin_Controller
                 $data['penduduk'] = null;
                 $data['anggota']  = null;
             } else {
-                $filters          = collect($data['surat']['form_isian']->individu)->toArray();
+                $filters = collect($data['surat']['form_isian']->{$kategori})->toArray();
+                unset($filters['data']);
                 $data['penduduk'] = Penduduk::filters($filters)->get();
                 $kk_level         = $data['individu']['kk_level'];
                 $ada_anggota      = ($filters['kk_level'] == SHDKEnum::KEPALA_KELUARGA || $kk_level == SHDKEnum::KEPALA_KELUARGA) ? true : false;
@@ -689,6 +752,16 @@ class Surat extends Admin_Controller
                     $data['anggota'] = Keluarga::find($data['individu']['id_kk'])->anggota;
                 } else {
                     $data['anggota'] = null;
+                }
+                if ($kategori != 'individu') {
+                    return $data;
+                }
+            }
+            $template = $data['surat']->template_desa ?: $data['surat']->template;
+            if (preg_match('/\[pengikut_surat\]/i', $template)) {
+                $pengikut = $this->pengikutDibawah18Tahun($data);
+                if ($pengikut) {
+                    $data['pengikut'] = $pengikut;
                 }
             }
         }
@@ -757,30 +830,36 @@ class Surat extends Admin_Controller
             return $view_surat;
         }
 
-        $surat    = $data['surat'];
-        $config   = $this->header['desa'];
-        $individu = $this->surat_model->get_data_surat($id);
-        $lampiran = strtolower($surat['lampiran']);
+        $surat         = $data['surat'];
+        $input         = $data['input'];
+        $config        = $this->header['desa'];
+        $individu      = $this->surat_model->get_data_surat($id);
+        $penandatangan = $this->surat_model->atas_nama($data);
+        $lampiran      = explode(',', strtolower($surat['lampiran']));
 
-        // Cek lampiran desa
-        $view_lampiran = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran . '/view.php';
+        for ($i = 0; $i < count($lampiran); $i++) {
+            // Cek lampiran desa
+            $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
-        if (! file_exists($view_lampiran)) {
-            $view_lampiran = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran . '/view.php';
+            if (! file_exists($view_lampiran[$i])) {
+                $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
+            }
+
+            $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
+            if (! file_exists($data_lampiran[$i])) {
+                $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
+            }
+
+            // Data lampiran
+            include $data_lampiran[$i];
         }
-
-        $data_lampiran = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran . '/data.php';
-        if (! file_exists($data_lampiran)) {
-            $data_lampiran = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran . '/data.php';
-        }
-
-        // Data lampiran
-        include $data_lampiran;
 
         ob_start();
 
-        // View Lampiran
-        include $view_lampiran;
+        for ($j = 0; $j < count($lampiran); $j++) {
+            // View Lampiran
+            include $view_lampiran[$j];
+        }
 
         $content = ob_get_clean();
 
@@ -817,5 +896,33 @@ class Surat extends Admin_Controller
         }
 
         return show_404();
+    }
+
+    private function pengikutDibawah18Tahun($data)
+    {
+        $pengikut = null;
+        $minUmur  = 18;
+        $kk_level = $data['individu']['kk_level'];
+        if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
+            if (! empty($data['anggota'])) {
+                $pengikut = $data['anggota']->filter(static function ($item) use ($minUmur) {
+                    return $item->umur < $minUmur;
+                });
+            }
+        } else {
+            // cek apakah ada penduduk yang nik_ayah atau nik_ibu = nik pemohon
+            $filterColumn = 'ibu_nik';
+            if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
+                $filterColumn = 'ayah_nik';
+            }
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope('App\Scopes\ConfigIdScope')->get();
+            if ($anak) {
+                $pengikut = $anak->filter(static function ($item) use ($minUmur) {
+                    return $item->umur < $minUmur;
+                });
+            }
+        }
+
+        return $pengikut;
     }
 }
