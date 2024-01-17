@@ -1093,11 +1093,11 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/upload/{p?}/{o?}/{url?}', 'Surat_masuk@upload')->name('buku-umum.surat_masuk.upload');
         Route::get('/delete/{p?}/{o?}/{id?}', 'Surat_masuk@delete')->name('buku-umum.surat_masuk.delete');
         Route::post('/delete_all/{p?}/{o?}', 'Surat_masuk@delete_all')->name('buku-umum.surat_masuk.delete_all');
-        Route::get('/dialog_disposisi/{o}/{id}', 'Surat_masuk@dialog_disposisi')->name('buku-umum.surat_masuk.dialog_disposisi');
+        Route::get('/dialog_disposisi/{o?}/{id?}', 'Surat_masuk@dialog_disposisi')->name('buku-umum.surat_masuk.dialog_disposisi');
         Route::get('/dialog_cetak/{o?}', 'Surat_masuk@dialog_cetak')->name('buku-umum.surat_masuk.dialog_cetak');
         Route::get('/dialog_unduh/{o?}', 'Surat_masuk@dialog_unduh')->name('buku-umum.surat_masuk.dialog_unduh');
         Route::get('/dialog/{aksi?}/{o?}', 'Surat_masuk@dialog')->name('buku-umum.surat_masuk.dialog');
-        Route::post('/disposisi/{id}', 'Surat_masuk@disposisi')->name('buku-umum.surat_masuk.disposisi');
+        Route::post('/disposisi/{id?}', 'Surat_masuk@disposisi')->name('buku-umum.surat_masuk.disposisi');
         Route::get('/berkas/{idSuratMasuk?}/{tipe?}', 'Surat_masuk@berkas')->name('buku-umum.surat_masuk.berkas');
         Route::post('/nomor_surat_duplikat', 'Surat_masuk@nomor_surat_duplikat')->name('buku-umum.surat_masuk.nomor_surat_duplikat');
         Route::get('/index/{p?}/{o?}', 'Surat_masuk@index')->name('buku-umum.surat_masuk.index');

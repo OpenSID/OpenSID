@@ -68,8 +68,8 @@ class Surat_masuk extends Admin_Controller
 
     public function index($p = 1, $o = 2): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['p'] = $p ?? 1;
+        $data['o'] = $o ?? 0;
 
         $data['cari'] = $_SESSION['cari'] ?? '';
 
@@ -240,11 +240,16 @@ class Surat_masuk extends Admin_Controller
 
     public function disposisi($id): void
     {
-        $data['input']                 = $_POST;
-        $data['desa']                  = $this->header['desa'];
-        $data['pamong_ttd']            = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui']        = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['ref_disposisi']         = $this->ref_disposisi();
+        $disposisi = [];
+        collect($this->ref_disposisi())->each(static function ($item, $key) use (&$disposisi) {
+            $disposisi[] = ['id' => $key, 'nama' => $item];
+        })->toArray();
+        $data['input']          = $_POST;
+        $data['desa']           = $this->header['desa'];
+        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+
+        $data['ref_disposisi']         = $disposisi;
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = $this->surat_masuk_model->get_surat_masuk($id);
         $this->load->view('surat_masuk/disposisi', $data);
