@@ -37,26 +37,30 @@
 
 namespace App\Services;
 
-use App\Providers\ConsoleServiceProvider;
-use Illuminate\Bus\BusServiceProvider;
-use Illuminate\Cache\CacheServiceProvider;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Carbon\CarbonInterval;
+use Carbon\CarbonImmutable;
+use Illuminate\Http\Request;
+use Illuminate\Support\Composer;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Bus\BusServiceProvider;
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\View\ViewServiceProvider;
+use App\Providers\ConsoleServiceProvider;
+use Illuminate\Cache\CacheServiceProvider;
+use Illuminate\Queue\QueueServiceProvider;
+use Illuminate\Events\EventServiceProvider;
+use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Encryption\EncryptionServiceProvider;
-use Illuminate\Events\EventServiceProvider;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
-use Illuminate\Hashing\HashServiceProvider;
-use Illuminate\Http\Request;
 use Illuminate\Pagination\PaginationServiceProvider;
-use Illuminate\Queue\QueueServiceProvider;
-use Illuminate\Support\Composer;
-use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\View\ViewServiceProvider;
 
 class Laravel extends Container
 {
@@ -161,6 +165,11 @@ class Laravel extends Container
      */
     public function __construct($basePath = null)
     {
+        Carbon::setLocale('id');
+        CarbonImmutable::setLocale('id');
+        CarbonPeriod::setLocale('id');
+        CarbonInterval::setLocale('id');
+        
         $this->basePath = $basePath;
 
         $this->bootstrapContainer();
