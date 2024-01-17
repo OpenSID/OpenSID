@@ -683,7 +683,7 @@ Route::group('surat_master', static function (): void {
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
     Route::match(['GET', 'POST'], '/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
-    Route::post('/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
+    Route::match(['GET', 'POST'],'/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
     Route::post('/preview', 'Surat_master@preview')->name('surat_master.preview');
     Route::post('/ekspor', 'Surat_master@ekspor')->name('surat_master.ekspor');
     Route::get('/impor_filter/{data}', 'Surat_master@impor_filter')->name('surat_master.impor_filter');
