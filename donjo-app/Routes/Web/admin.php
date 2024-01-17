@@ -683,7 +683,7 @@ Route::group('surat_master', static function (): void {
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
     Route::match(['GET', 'POST'], '/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
-    Route::match(['GET', 'POST'],'/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
+    Route::match(['GET', 'POST'], '/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
     Route::post('/preview', 'Surat_master@preview')->name('surat_master.preview');
     Route::post('/ekspor', 'Surat_master@ekspor')->name('surat_master.ekspor');
     Route::get('/impor_filter/{data}', 'Surat_master@impor_filter')->name('surat_master.impor_filter');
@@ -1577,7 +1577,7 @@ Route::group('admin_pembangunan', static function (): void {
     Route::post('/insert', 'Admin_pembangunan@insert')->name('admin_pembangunan.insert');
     Route::post('/update/{id?}', 'Admin_pembangunan@update')->name('admin_pembangunan.update');
     Route::get('/delete/{id?}', 'Admin_pembangunan@delete')->name('admin_pembangunan.delete');
-    Route::get('/lokasi_maps/{id}', 'Admin_pembangunan@lokasi_maps')->name('admin_pembangunan.lokasi_maps');
+    Route::match(['GET', 'POST'], '/lokasi_maps/{id}', 'Admin_pembangunan@lokasi_maps')->name('admin_pembangunan.lokasi_maps');
     Route::get('/dialog_daftar/{id}/{aksi?}', 'Admin_pembangunan@dialog_daftar')->name('admin_pembangunan.dialog_daftar');
     Route::post('/daftar/{id}/{aksi?}', 'Admin_pembangunan@daftar')->name('admin_pembangunan.daftar');
     Route::get('/unlock/{id?}', 'Admin_pembangunan@unlock')->name('admin_pembangunan.unlock');
