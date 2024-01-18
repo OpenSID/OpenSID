@@ -43,10 +43,9 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
 });
 
 // Eksternal API
-Route::group('eksternal_api', ['namespace' => 'eksternal_api'], static function () {
+Route::group('external_api', ['namespace' => 'external_api'], static function () {
     // Sign
     Route::get('sign/pdf', 'Sign@pdf');
-
     // Surat Kecamatan
     Route::group('surat_kecamatan', static function () {
         Route::post('/kirim', 'Surat_kecamatan@kirim');
