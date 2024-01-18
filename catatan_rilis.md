@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#7610](https://github.com/OpenSID/OpenSID/issues/7610) Perbaikan Division by zero pada Modul Lapak.
 24. [#7619](https://github.com/OpenSID/OpenSID/issues/7619) Perbaikan hasil unggah file di RFM tanpa adanya spasi.
 25. [#7611](https://github.com/OpenSID/OpenSID/issues/7611) Perbaikan data penduduk luar saat cetak surat.
+26. [#7633](https://github.com/OpenSID/OpenSID/issues/7633) Perbaikan tambah penduduk.
 
 
 #### TEKNIS
