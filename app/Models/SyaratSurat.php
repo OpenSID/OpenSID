@@ -112,7 +112,7 @@ class SyaratSurat extends BaseModel
 
         $query->select(['ref_syarat_id', 'ref_syarat_nama', DB::raw('count(syarat_surat) as jumlah_format_surat')])
             ->leftJoin('tweb_surat_format', DB::raw($sql), '=', DB::raw('1'))
-            ->groupBy('ref_syarat_id');
+            ->groupBy(['ref_syarat_id', 'ref_syarat_nama']);
     }
 
     /**

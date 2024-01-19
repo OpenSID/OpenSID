@@ -73,7 +73,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<tr <?= jecho($data['status'], '2', 'class="select_row"'); ?>>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
-									<a href="<?= site_url("layanan-mandiri/pesan/baca/{$kat}/{$data['id']}"); ?>" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa fa-eye<?= jecho($data['status'], '2', '-slash'); ?>">&nbsp;</i></a>
+									<a href="<?= site_url("layanan-mandiri/pesan/baca/{$kat}/{$data['uuid']}"); ?>" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa fa-eye<?= jecho($data['status'], '2', '-slash'); ?>">&nbsp;</i></a>
 								</td>
 								<td><?= $data['subjek']; ?></td>
 								<td class="padat"><?= $data['status'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>

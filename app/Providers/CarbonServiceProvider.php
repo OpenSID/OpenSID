@@ -35,29 +35,43 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Providers;
 
-class Notif_web extends Mandiri_Controller
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use Carbon\CarbonInterval;
+use Carbon\CarbonPeriod;
+use Illuminate\Support\Carbon as IlluminateCarbon;
+use Illuminate\Support\Facades\Date;
+use Illuminate\Support\ServiceProvider;
+use Throwable;
+
+class CarbonServiceProvider extends ServiceProvider
 {
-    public function __construct()
+    public function boot()
     {
-        parent::__construct();
-        $this->load->model('notif_model');
-    }
+        $locale = 'id';
 
-    public function inbox(): void
-    {
-        $j = $this->notif_model->inbox_baru($tipe = 2, $this->is_login->id_pend);
-        if ($j > 0) {
-            echo $j;
+        Carbon::setLocale($locale);
+        CarbonImmutable::setLocale($locale);
+        CarbonPeriod::setLocale($locale);
+        CarbonInterval::setLocale($locale);
+
+        if (class_exists(IlluminateCarbon::class)) {
+            IlluminateCarbon::setLocale($locale);
+        }
+
+        if (class_exists(Date::class)) {
+            try {
+                $root = Date::getFacadeRoot();
+                $root->setLocale($locale);
+            } catch (Throwable $e) {
+                // Non Carbon class in use in Date facade
+            }
         }
     }
 
-    public function surat_perlu_perhatian(): void
+    public function register()
     {
-        $j = $this->notif_model->surat_perlu_perhatian($this->is_login->id_pend);
-        if ($j > 0) {
-            echo $j;
-        }
     }
 }

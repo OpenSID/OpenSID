@@ -24,7 +24,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="nama">Sasaran Data</label>
                 <div class="col-sm-9">
-                    <select class="form-control input-sm required" {{ $suplemen && $suplemen->terdata->count() > 0 ? 'disabled' : '' }} required name="sasaran">
+                    <select class="form-control input-sm required" {{ $suplemen->sasaran && $suplemen->terdata->count() > 0 ? 'disabled' : '' }} required name="sasaran">
                         <option value="">Pilih Sasaran</option>
                         @foreach ($list_sasaran as $key => $sasaran)
                             @if (in_array($key, ['1', '2']))

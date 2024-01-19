@@ -36,25 +36,24 @@
  */
 
 // Internal API
-Route::group('internal_api', ['namespace' => 'internal_api'], static function () {
+Route::group('internal_api', ['namespace' => 'internal_api'], static function (): void {
     // Wilayah
     Route::get('wilayah/get_rw', 'Wilayah@get_rw');
     Route::get('wilayah/get_rt', 'Wilayah@get_rt');
 });
 
 // Eksternal API
-Route::group('eksternal_api', ['namespace' => 'eksternal_api'], static function () {
+Route::group('external_api', ['namespace' => 'external_api'], static function (): void {
     // Sign
     Route::get('sign/pdf', 'Sign@pdf');
-
     // Surat Kecamatan
-    Route::group('surat_kecamatan', static function () {
+    Route::group('surat_kecamatan', static function (): void {
         Route::post('/kirim', 'Surat_kecamatan@kirim');
         Route::get('/download/{jenis}/{nomor}/{desa}/{bulan}/{tahun}', 'Surat_kecamatan@download');
     });
 
     // TTE
-    Route::group('tte', static function () {
+    Route::group('tte', static function (): void {
         Route::get('/periksa_status/{nik?}', 'Tte@periksa_status');
         Route::post('/sign_invisible', 'Tte@sign_invisible');
         Route::post('/sign_visible', 'Tte@sign_visible');

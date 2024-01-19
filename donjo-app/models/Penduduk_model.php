@@ -1071,8 +1071,8 @@ class Penduduk_model extends MY_Model
         $this->tulis_log_penduduk_data($log);
 
         $log1['id_pend']    = $idku;
-        $log1['id_cluster'] = 1;
-        $log1['tanggal']    = date('d-m-y');
+        $log1['id_cluster'] = $data['id_cluster'];
+        $log1['tanggal']    = date('Y-m-d');
         $log1['config_id']  = $this->config_id;
 
         $outp = $this->db->insert('log_perubahan_penduduk', $log1);
@@ -1635,6 +1635,7 @@ class Penduduk_model extends MY_Model
                     break;
 
                 case 2:
+                case 'buku-nikah':
                     $table = 'tweb_penduduk_kawin';
                     break;
 
@@ -1711,10 +1712,6 @@ class Penduduk_model extends MY_Model
 
                 case 'hamil':
                     $table = 'ref_penduduk_hamil';
-                    break;
-
-                case 'buku-nikah':
-                    $table = 'tweb_penduduk_kawin';
                     break;
             }
 

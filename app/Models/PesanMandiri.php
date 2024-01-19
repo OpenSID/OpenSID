@@ -35,29 +35,54 @@
  *
  */
 
+namespace App\Models;
+
+use App\Enums\StatusEnum;
+use App\Traits\ConfigId;
+use App\Traits\Uuid;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Notif_web extends Mandiri_Controller
+class PesanMandiri extends BaseModel
 {
-    public function __construct()
+    use ConfigId;
+    use Uuid;
+    const READ = 1;
+    const UNREAD = 2;    
+    const MASUK = 1;
+    const KELUAR = 2;
+
+    protected $table    = 'pesan_mandiri';
+    protected $primaryKey = 'uuid';    
+    protected $fillable = ['uuid', 'config_id', 'owner', 'penduduk_id','subjek','komentar','status','tipe', 'is_archived'];
+    
+    public function scopeBelumDibaca($query, $pendudukId)
     {
-        parent::__construct();
-        $this->load->model('notif_model');
+        return $query->wherePendudukId($pendudukId)->whereStatus(self::UNREAD)->whereTipe(self::KELUAR);
+    }
+    public function isRead(){
+        return $this->attributes['status'] == self::READ;
+    }
+    public function isArchive(){
+        return $this->attributes['is_archived'] == StatusEnum::YA;
+    }
+    public static function hasDelay($penduduk_id = '', $tipe = 1)
+    {
+        return self::where('penduduk_id', $penduduk_id)
+            ->where('tipe', $tipe)
+            ->where('tgl_upload', '>', Carbon::now()->subSeconds(config_item('rentang_kirim_pesan')))
+            ->exists();
     }
 
-    public function inbox(): void
+    /**
+     * Get the penduduk that owns the PesanMandiri
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function penduduk(): BelongsTo
     {
-        $j = $this->notif_model->inbox_baru($tipe = 2, $this->is_login->id_pend);
-        if ($j > 0) {
-            echo $j;
-        }
-    }
-
-    public function surat_perlu_perhatian(): void
-    {
-        $j = $this->notif_model->surat_perlu_perhatian($this->is_login->id_pend);
-        if ($j > 0) {
-            echo $j;
-        }
+        return $this->belongsTo(Penduduk::class, 'penduduk_id');
     }
 }

@@ -140,7 +140,9 @@ class Suplemen extends Admin_Controller
         $update = ModelsSuplemen::findOrFail($id);
 
         try {
-            $update->update(static::validated($this->request));
+            $data = static::validated($this->request);
+            $data['sasaran'] ??= $update->sasaran;
+            $update->update($data);
             redirect_with('success', 'Berhasil Ubah Data');
         } catch (\Exception $e) {
             redirect_with('error', 'Gagal Ubah Data ' . $e->getMessage());
