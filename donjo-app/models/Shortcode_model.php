@@ -304,7 +304,7 @@ class Shortcode_model extends MY_Model
         $ada_bpd = true;
 
         ob_start();
-        include 'donjo-app/views/home/bagan_sisip.php';
+        include APPPATH . 'views/bagan/bagan_sisip.php';
 
         return ob_get_clean();
     }
@@ -316,7 +316,7 @@ class Shortcode_model extends MY_Model
         $ada_bpd = false;
 
         ob_start();
-        include 'donjo-app/views/home/bagan_sisip.php';
+        include APPPATH . 'views/bagan/bagan_sisip.php';
 
         return ob_get_clean();
     }
