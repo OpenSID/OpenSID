@@ -50,6 +50,7 @@ class Man_user extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->form_validation->set_error_delimiters('', '');
     }
 

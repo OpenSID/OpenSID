@@ -332,8 +332,6 @@ class Cdesa extends Admin_Controller
     // TODO: perbaiki
     public function panduan(): void
     {
-        $this->load->library('form_validation');
-
         $this->tab_ini = 15;
         $nav['act']    = 7;
         $this->render('data_persil/panduan');

@@ -250,7 +250,6 @@ class Pengurus extends Admin_Controller
 
     private function set_validasi(): void
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
     }
 
