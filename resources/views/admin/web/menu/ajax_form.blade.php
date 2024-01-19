@@ -4,7 +4,13 @@
         @if ($menu_utama)
             <div class="form-group">
                 <label class="control-label" for="menu_utama">Menu Utama</label>
-                <input class="form-control input-sm" type="text" value="{{ $menu_utama['nama'] }}" disabled />
+                <select name="parrent" class="form-control input-sm required">
+                    <option value="0">Menu Utama</option>
+                    @forelse ($menu_utama as $key => $item)
+                        <option value="{{ $key }}" @selected($key == $menu['parrent'])>{{ $item }}</option>
+                    @empty
+                    @endforelse
+                </select>
             </div>
         @endif
         <div class="form-group">

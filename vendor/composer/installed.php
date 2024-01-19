@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'a26161348a1eeb51d1a748cb8e12920fa8da0a2c',
+        'pretty_version' => 'dev-2401.0.2-patch',
+        'version' => 'dev-2401.0.2-patch',
+        'reference' => 'e1e1c2b01e6acd1497eaaf3cf1e5dab21a8a8d3b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -398,9 +398,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'a26161348a1eeb51d1a748cb8e12920fa8da0a2c',
+            'pretty_version' => 'dev-2401.0.2-patch',
+            'version' => 'dev-2401.0.2-patch',
+            'reference' => 'e1e1c2b01e6acd1497eaaf3cf1e5dab21a8a8d3b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

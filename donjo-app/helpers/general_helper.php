@@ -39,6 +39,7 @@ use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
+use App\Models\Menu;
 use App\Models\Modul;
 use App\Models\UserGrup;
 use Carbon\Carbon;
@@ -989,5 +990,38 @@ if (! function_exists('admin_menu')) {
 
             return $CI->modul_model->list_aktif();
         });
+    }
+}
+
+if (! function_exists('menu_tema')) {
+    /**
+     * admin_menu untuk menampilkan menu admin yang aktif.
+     *
+     * @return mixed
+     */
+    function menu_tema()
+    {
+        return cache()->rememberForever('menu_tema', static function () {
+            $menu = new Menu();
+
+            return $menu->tree()->toArray();
+        });
+    }
+}
+
+if (! function_exists('createDropdownMenu')) {
+    function createDropdownMenu($menuData, $level = 0)
+    {
+        if ($level) echo '<ul class="dropdown-menu">';
+
+        foreach ($menuData as $item) {
+            $level++;
+            echo '<li class="dropdown"><a class="dropdown-toggle" href="' . $item['link_url'] . '">' . $item['nama'] . '</a>';
+            if (! empty($item['childrens'])) {
+                createDropdownMenu($item['childrens'], $level);
+            }
+            echo '</li>';
+        }
+        if ($level) echo '</ul>';
     }
 }

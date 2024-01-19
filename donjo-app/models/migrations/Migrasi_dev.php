@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Kategori;
 use App\Models\Komentar;
 use App\Models\Penduduk;
 use App\Models\PesanMandiri;
@@ -59,7 +60,6 @@ class Migrasi_dev extends MY_model
     {
         $hasil = $hasil && $this->migrasi_2024011751($hasil);
 
-        $hasil = $hasil && $this->migrasi_2024011251($hasil);
         $hasil = $hasil && $this->migrasi_2024011471($hasil);
 
         return $hasil && $this->migrasi_2024011571($hasil);
@@ -69,7 +69,7 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024011371($hasil, $id);
@@ -78,61 +78,7 @@ class Migrasi_dev extends MY_model
         // Migrasi tanpa config_id
         $hasil = $this->migrasi_2024011951($hasil);
 
-        return $hasil;
-    }
-
-    protected function migrasi_xxxxxxxxxx($hasil)
-    {
-        return $hasil;
-    }
-
-    protected function migrasi_2024011051($hasil)
-    {
-        // ubah status enabled menjadi 0 untuk nonaktif, sebelumnya 2
-        Galery::where(['enabled' => 2])->update(['enabled' => 0]);
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'galeri', 'url' => 'gallery/clear'],
-            ['url' => 'gallery']
-        );
-    }
-
-    protected function migrasi_2024011052($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'pemerintah-desa', 'url' => 'pengurus/clear'],
-            ['url' => 'pengurus']
-        );
-    }
-
-    protected function migrasi_2024011251($hasil)
-    {
-        $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'pembangunan_lokasi_fk', 'pembangunan');
-
-        return $hasil && $this->tambahForeignKey('pembangunan_lokasi_cluster_fk', 'pembangunan', 'id_lokasi', 'tweb_wil_clusterdesa', 'id', true);
-    }
-
-    protected function migrasi_2024011451($hasil)
-    {
-        $tanpaSlug = Suplemen::whereNull('slug')->get();
-        if ($tanpaSlug) {
-            foreach ($tanpaSlug as $slug) {
-                $slug->update();
-            }
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024011551($hasil)
-    {
-        $hasil = $hasil && $this->hapus_foreign_key('inventaris_tanah', 'FK_mutasi_inventaris_tanah', 'mutasi_inventaris_tanah');
-        $hasil && $this->tambahForeignKey('mutasi_inventaris_tanah_inventaris_tanah_fk', 'mutasi_inventaris_tanah', 'id_inventaris_tanah', 'inventaris_tanah', 'id', true);
-        $hasil = $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_ibfk_1', 'suplemen_terdata');
-        $hasil = $hasil && $this->tambahForeignKey('suplemen_terdata_suplemen_fk', 'suplemen_terdata', 'id_suplemen', 'suplemen', 'id', true);
-
-        // hapus salah satu foreignkey karena dobel
-        return $hasil && $this->hapus_foreign_key('tweb_penduduk', 'id_pend_fk', 'tweb_penduduk_mandiri');
+        return $hasil && $this->migrasi_2024011952($hasil);
     }
 
     protected function migrasi_2024011371($hasil, $id)
@@ -209,14 +155,25 @@ class Migrasi_dev extends MY_model
                 $table->dropColumn('jenis');
             });
         }
+
         return $hasil;
     }
 
     protected function migrasi_2024011951($hasil)
-    {        
+    {
         return $hasil && $this->ubah_modul(
             ['slug' => 'kotak-pesan', 'url' => 'mailbox/clear'],
             ['url' => 'mailbox']
+        );
+    }
+
+    protected function migrasi_2024011952($hasil)
+    {
+        Kategori::where(['enabled' => 2])->update(['enabled' => 0]);
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'kategori'],
+            ['hidden' => 0, 'level' => 4, 'ikon' => 'fa-list-alt', 'urut' => 2]
         );
     }
 }

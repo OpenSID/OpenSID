@@ -4,81 +4,74 @@
 @include('admin.layouts.components.jquery_ui')
 @section('title')
     <h1>
-        Pengaturan Menu Dinamis / Kategori
+        Kategori
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Kategori</li>
+    <li class="active">Kategori</li>
 @endsection
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
-    <div class="row">
-        <div class="col-md-3">
-            @include('admin.web.menu.nav')
+    <div class="box box-info">
+        <div class="box-header with-border">
+            @if (can('u'))
+                <a
+                    href="{{ ci_route('kategori.ajax_form', $parent) }}"
+                    title="Tambah {{ $parent > 0 ? 'Sub' : '' }} Kategori"
+                    data-remote="false"
+                    data-toggle="modal"
+                    data-target="#modalBox"
+                    data-title="Tambah {{ $parent > 0 ? 'Sub' : '' }} Kategori"
+                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                ><i class='fa fa-plus'></i> Tambah</a>
+            @endif
+            @if (can('h'))
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('kategori.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'
+                    ></i>
+                    Hapus</a>
+            @endif
+            @if ($parent)
+                <a href="{{ ci_route('kategori') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori
+                </a>
+            @endif
         </div>
-        <div class="col-md-9">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    @if (can('u'))
-                        <a
-                            href="{{ ci_route('kategori.ajax_form', $parent) }}"
-                            title="Tambah {{ $parent > 0 ? 'Sub' : '' }} Kategori"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Tambah {{ $parent > 0 ? 'Sub' : '' }} Kategori"
-                            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        ><i class='fa fa-plus'></i> Tambah</a>
-                    @endif
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('kategori.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'
-                            ></i>
-                            Hapus</a>
-                    @endif
-                    @if ($parent)
-                        <a href="{{ ci_route('kategori') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                            <i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Kategori
-                        </a>
-                    @endif
-                </div>
-                <div class="box-header with-border">
-                    <strong>MENU UTAMA {{ $subtitle }}</strong>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <select id="status" class="form-control input-sm select2" name="status">
-                                <option value="">Pilih Status</option>
-                                @foreach ($status as $key => $item)
-                                    <option value="{{ $key }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <hr>
-                    {!! form_open(null, 'id="mainform" name="mainform"') !!}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover" id="tabeldata">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="checkall" /></th>
-                                    <th class="padat">NO</th>
-                                    <th class="padat">Aksi</th>
-                                    <th nowrap>Nama {{ $parent ? 'Sub Kategori' : 'Kategori' }}</th>
-                                    <th>Aktif</th>
-                                    <th nowrap>Link</th>
-                                </tr>
-                            </thead>
-                            <tbody id="dragable">
-                            </tbody>
-                        </table>
-                    </div>
-                    </form>
+        <div class="box-header with-border">
+            <strong>{!! $subtitle !!}</strong>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    <select id="status" class="form-control input-sm select2" name="status">
+                        <option value="">Pilih Status</option>
+                        @foreach ($status as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+            <hr>
+            {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tabeldata">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkall" /></th>
+                            <th class="padat">NO</th>
+                            <th class="padat">Aksi</th>
+                            <th nowrap>Nama {{ $parent ? 'Sub Kategori' : 'Kategori' }}</th>
+                            <th>Aktif</th>
+                            <th nowrap>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dragable">
+                    </tbody>
+                </table>
+            </div>
+            </form>
         </div>
     </div>
 
@@ -145,7 +138,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(5).search($(this).val()).draw()
+                TableData.column(4).search($(this).val()).draw()
             })
 
 

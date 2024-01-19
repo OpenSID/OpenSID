@@ -42,8 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Kategori extends Admin_Controller
 {
     public $modul_ini     = 'admin-web';
-    public $sub_modul_ini = 'menu';
-    private int $tip      = 2;
+    public $sub_modul_ini = 'kategori';
 
     public function __construct()
     {
@@ -54,9 +53,8 @@ class Kategori extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'tip'      => $this->tip,
             'status'   => [KategoriModel::UNLOCK => 'Aktif', KategoriModel::LOCK => 'Non Aktif'],
-            'subtitle' => $parent > 0 ? ' / ' . strtoupper(KategoriModel::find($parent)->nama ?? '') : '',
+            'subtitle' => $parent > 0 ? '<a href="' . ci_route('kategori.index') . '?parent=0">MENU UTAMA </a> / ' . strtoupper(KategoriModel::find($parent)->kategori ?? '') : '',
             'parent'   => $parent,
         ];
 

@@ -19,22 +19,22 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav custom_nav">
-                <li class=""><a href="<?= site_url(); ?>">Beranda</a></li>
-				<?php foreach ($menu_atas as $data): ?>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" href="<?= $data['link']?>"><?= $data['nama']; jecho(count($data['submenu']) > 0, TRUE, '<span class="caret"></span>'); ?></a>
-                    <?php if (count($data['submenu']) > 0): ?>
-                    <ul class="dropdown-menu">
-                        <?php foreach ($data['submenu'] as $submenu): ?>
-                        <li>
-                            <a href="<?= $submenu['link']?>"><?= $submenu['nama']?></a>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <?php endif; ?>
-                </li>
-                <?php endforeach; ?>
+                <li class="dropdown"><a href="<?= site_url(); ?>">Beranda</a></li>
+				<?php createDropdownMenu(menu_tema()) ?>               
             </ul>
 		</div>
     </div>
 </nav>
+
+<style>
+    .dropdown>.dropdown-menu>.dropdown>.dropdown-menu{
+        position: absolute;
+        left: 100%;
+        top: 10%;
+        
+    }
+    .dropdown>.dropdown-menu>.dropdown:hover>.dropdown-menu{
+        background-color: #E64946;
+        color: #FFF
+    }
+</style>

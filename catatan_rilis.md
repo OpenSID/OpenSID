@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#2623](https://github.com/OpenSID/OpenSID/issues/2623) Penambahan pengaturan posisi konten artikel.
 8. [#2603](https://github.com/OpenSID/OpenSID/issues/2603) Penambahan media sosial pengurus / pemerintah desa.
 9. [#2612](https://github.com/OpenSID/OpenSID/issues/2612) Penambahan statistik kepemilikan akta kematian.
+10. [#7432](https://github.com/OpenSID/OpenSID/issues/7432) Penambahan tingkatan pada menu statis dan dinamis.
 
 
 #### BUG

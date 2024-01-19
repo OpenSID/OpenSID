@@ -95,7 +95,7 @@
                     @foreach ($media_sosial as $key => $value)
                         @php $slug = strtolower($value) @endphp
                         <strong><i class="fa fa-{{ $slug }}"></i> {{ $value }}</strong>
-                        <input class="form-control input-sm" type="text" name="media_sosial[{{ $slug }}]"  style="margin-bottom: 10px;" value="{{ $pamong['media_sosial'][$slug] }}" placeholder="Masukkan {{ $value }}">
+                        <input class="form-control input-sm" type="text" name="media_sosial[{{ $slug }}]" style="margin-bottom: 10px;" value="{{ $pamong['media_sosial'][$slug] }}" placeholder="Masukkan {{ $value }}">
                     @endforeach
                 </div>
             </div>

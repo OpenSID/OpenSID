@@ -2,13 +2,13 @@
 @include('admin.layouts.components.asset_validasi')
 @section('title')
     <h1>
-        Pengaturan Menu Dinamis / Kategori
+        Kategori
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('kategori') }}"> Daftar Kategori</a></li>
-    <li class="active">Pengaturan Menu</li>
+    <li><a href="{{ ci_route('kategori') }}"> Kategori</a></li>
+    <li class="active">Kategori</li>
 @endsection
 
 @section('content')

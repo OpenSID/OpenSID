@@ -137,8 +137,8 @@
                 <li>
                     @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
                         <a href="#" class="atur-token">
-                    @else
-                        <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
+                        @else
+                            <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
                     @endif
                     <span><i class="fa fa-gear"></i>&nbsp;</span>
                     </a>
