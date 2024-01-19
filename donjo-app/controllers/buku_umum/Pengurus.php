@@ -222,8 +222,12 @@ class Pengurus extends Admin_Controller
             RefJabatan::getKades()->id;
             RefJabatan::getSekdes()->id;
 
-            if (! in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
-                $data['pamong_ttd'] = $data['pamong_ub'] = 0;
+            if (in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
+                $data['pamong_ub'] = 0;
+            }
+
+            if ($data['jabatan_id'] != RefJabatan::getSekdes()->id) {
+                $data['pamong_ttd'] = 0;
             }
 
             Pamong::findOrFail($id)->update($data);
