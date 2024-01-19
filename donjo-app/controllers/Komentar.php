@@ -59,7 +59,7 @@ class Komentar extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(ModelsKomentar::with('artikel')->komentar())
+            return datatables()->of(ModelsKomentar::with('artikel'))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';

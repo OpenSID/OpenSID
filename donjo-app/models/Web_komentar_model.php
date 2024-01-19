@@ -41,10 +41,7 @@ class Web_komentar_model extends MY_Model
 {
     public function __construct()
     {
-        parent::__construct();
-        if (! $this->db->field_exists('jenis', 'komentar')) {
-            return null;
-        }
+        parent::__construct();        
     }
 
     public function autocomplete()
@@ -102,13 +99,10 @@ class Web_komentar_model extends MY_Model
             ->join('artikel a', 'k.id_artikel = a.id', 'left');
 
         if ($kat != 0) {
-            $this->db
-                ->where('jenis', LAPORAN_MANDIRI)
+            $this->db                
                 ->where('k.tipe', $kat);
             $this->filter_nik_sql();
             $this->filter_archived_sql();
-        } else {
-            $this->db->where('jenis !=', LAPORAN_MANDIRI);
         }
 
         $this->search_sql();

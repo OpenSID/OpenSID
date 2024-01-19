@@ -2054,22 +2054,15 @@ Route::group('setting', static function (): void {
 });
 
 // Layanan Mandiri > Kotak Pesan
-Route::group('mailbox', static function (): void {
-    Route::get('/clear', 'Mailbox@clear')->name('mailbox.clear');
-    Route::get('/clear/{kat}', 'Mailbox@clear')->name('mailbox.clear-page');
-    Route::match(['GET', 'POST'], '/index/{kat?}/{p?}/{o?}', 'Mailbox@index')->name('mailbox.index');
-    Route::match(['GET', 'POST'], '/form', 'Mailbox@form')->name('mailbox.form');
+Route::group('mailbox', static function (): void {    
+    Route::get('/datatables', 'Mailbox@datatables')->name('mailbox.datatables');
     Route::post('/kirim_pesan', 'Mailbox@kirim_pesan')->name('mailbox.kirim_pesan');
-    Route::get('/baca_pesan/{kat}/{id}', 'Mailbox@baca_pesan')->name('mailbox.baca_pesan');
-    Route::post('/search/{kat}', 'Mailbox@search')->name('mailbox.search');
-    Route::post('/filter_status/{kat}', 'Mailbox@filter_status')->name('mailbox.filter_status');
-    Route::post('/filter_nik/{kat}', 'Mailbox@filter_nik')->name('mailbox.filter_nik');
-    Route::get('/list_pendaftar_mandiri_ajax', 'Mailbox@list_pendaftar_mandiri_ajax')->name('mailbox.list_pendaftar_mandiri_ajax');
-    Route::get('/archive/{kat?}/{p?}/{o?}/{id?}', 'Mailbox@archive')->name('mailbox.archive');
-    Route::post('/archive_all/{kat?}/{p?}/{o?}', 'Mailbox@archive_all')->name('mailbox.archive_all');
-    Route::get('/pesan_read/{id?}', 'Mailbox@pesan_read')->name('mailbox.pesan_read');
-    Route::get('/pesan_unread/{id?}', 'Mailbox@pesan_unread')->name('mailbox.pesan_unread');
-    Route::match(['GET', 'POST'], '/{kat?}/{p?}/{o?}', 'Mailbox@index')->name('mailbox.index-default');
+    Route::get('/read/{kat}/{id}', 'Mailbox@read')->name('mailbox.read');
+    Route::match(['GET', 'POST'], '/form/{kat}', 'Mailbox@form')->name('mailbox.form');    
+    Route::get('/detail/{kat}/{id}', 'Mailbox@detail')->name('mailbox.detail');    
+    Route::get('/list_pendaftar_mandiri_ajax', 'Mailbox@list_pendaftar_mandiri_ajax')->name('mailbox.list_pendaftar_mandiri_ajax');    
+    Route::match(['GET', 'POST'],'/delete/{kat}/{id?}', 'Mailbox@delete')->name('mailbox.delete');    
+    Route::get('/{id?}', 'Mailbox@index')->name('mailbox.index')->param('id', 1);
 });
 // Layanan Mandiri > Pendaftaran Layanan Mandiri
 Route::group('mandiri', static function (): void {

@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * File ini bagian dari:
@@ -34,7 +33,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
-
+use App\Models\PesanMandiri;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pesan extends Mandiri_Controller
@@ -42,7 +41,7 @@ class Pesan extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['mailbox_model', 'permohonan_surat_model']);
+        $this->load->model(['permohonan_surat_model']);
     }
 
     public function index($kat = 1): void
@@ -50,7 +49,7 @@ class Pesan extends Mandiri_Controller
         $data = [
             'kat'   => $kat,
             'judul' => ($kat == 1) ? 'Keluar' : 'Masuk',
-            'pesan' => $this->mailbox_model->get_all_pesan($this->is_login->nik, $kat),
+            'pesan' => PesanMandiri::whereTipe($kat)->wherePendudukId($this->is_login->id_pend)->get()->toArray(),
         ];
 
         $this->render('pesan', $data);
@@ -62,7 +61,7 @@ class Pesan extends Mandiri_Controller
     {
         $data = $this->input->post();
 
-        if ($this->mailbox_model->delay($this->is_login->nik)) {
+        if (PesanMandiri::hasDelay($this->is_login->id_pend)) {
             $respon = [
                 'status' => 'error',
                 'pesan'  => 'Anda mencapai batasan pengiriman pesan. Silahkan kirim kembali pesan anda setelah 60 detik.',
@@ -73,13 +72,13 @@ class Pesan extends Mandiri_Controller
 
         $this->load->library('Telegram/telegram');
 
-        $post['email']    = $this->is_login->nik; // kolom email diisi nik untuk pesan
+        $post['penduduk_id']    = $this->is_login->id_pend; // kolom email diisi nik untuk pesan
         $post['owner']    = $this->is_login->nama;
         $post['subjek']   = $data['subjek'];
         $post['komentar'] = $data['pesan'];
-        $post['tipe']     = 1;
-        $post['status']   = 2;
-        $this->mailbox_model->insert($post);
+        $post['tipe']     = PesanMandiri::MASUK;
+        $post['status']   = PesanMandiri::UNREAD;
+        PesanMandiri::create($post);
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             try {
@@ -103,16 +102,17 @@ class Pesan extends Mandiri_Controller
     public function baca($kat = 2, $id = ''): void
     {
         $nik = $this->is_login->nik;
-        if ($kat == 2) {
-            $this->mailbox_model->ubah_status_pesan($nik, $id, 1);
+        $pesan = PesanMandiri::findOrFail($id);
+        if ($kat == 2) {            
+            $pesan->status = PesanMandiri::READ;
+            $pesan->save();
         }
-
-        $pesan = $this->mailbox_model->get_pesan($nik, $id) ?? show_404();
+        
         $data  = [
             'kat'        => $kat,
             'owner'      => ($kat == 2) ? 'Penerima' : 'Pengirim',
             'tujuan'     => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
-            'pesan'      => $pesan,
+            'pesan'      => $pesan->toArray(),
             'permohonan' => $this->permohonan_surat_model->get_permohonan(['id' => $pesan['permohonan']]),
         ];
 

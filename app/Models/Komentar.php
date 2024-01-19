@@ -94,12 +94,7 @@ class Komentar extends BaseModel
     public function scopeEnable($query)
     {
         return $query->where('status', static::ACTIVE);
-    }
-
-    public function scopeKomentar($query)
-    {
-        return $query->whereNotNull('id_artikel')->whereNull('jenis');
-    }
+    }    
 
     /**
      * Scope query untuk tipe pesan masuk.

@@ -35,6 +35,13 @@
  *
  */
 
+use App\Models\Komentar;
+use App\Models\Penduduk;
+use App\Models\PesanMandiri;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -50,6 +57,8 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2024011751($hasil);
+
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
@@ -64,7 +73,7 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        // $hasil = $this->migrasi_xxxxxxxxxx($hasil);
+        $hasil = $this->migrasi_2024011951($hasil);
 
         return $hasil;
     }
@@ -72,5 +81,55 @@ class Migrasi_dev extends MY_model
     protected function migrasi_xxxxxxxxxx($hasil)
     {
         return $hasil;
+    }
+
+    protected function migrasi_2024011751($hasil)
+    {
+        if (! Schema::hasTable('pesan_mandiri')) {
+            Schema::create('pesan_mandiri', static function (Blueprint $table) {
+                $table->uuid('uuid')->primary();
+                $table->integer('config_id');
+                $table->string('owner', 50);
+                $table->integer('penduduk_id');
+                $table->tinyText('subjek')->nullable();
+                $table->text('komentar');
+                $table->timestamp('tgl_upload')->useCurrent();
+                $table->tinyInteger('status')->nullable();
+                $table->tinyInteger('tipe')->nullable();
+                $table->text('permohonan')->nullable();
+                $table->timestamp('created_at')->useCurrent();
+                $table->timestamp('updated_at')->useCurrent();
+                $table->tinyInteger('is_archived')->nullable()->default(0);
+                $table->unique(['uuid', 'config_id']);
+                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+                $table->foreign('penduduk_id')->references('id')->on('tweb_penduduk')->onUpdate('cascade')->onDelete('cascade');
+            });
+
+            $komentarMandiri = Komentar::whereJenis(LAPORAN_MANDIRI)->get();
+            if ($komentarMandiri) {
+                foreach ($komentarMandiri as $key => $item) {
+                    $penduduk = Penduduk::whereNik(trim($item->email))->first();
+                    // masukkan data penduduk yang valid saja, ada kemungkinan nik tidak ditemukan ( case ganti nik )
+                    if ($penduduk) {
+                        $item->penduduk_id = $penduduk->id;
+                        PesanMandiri::create($item->toArray());
+                    }
+                }
+                Komentar::whereJenis(LAPORAN_MANDIRI)->delete();
+            }
+
+            Schema::table('komentar', static function (Blueprint $table) {
+                $table->dropColumn('jenis');
+            });
+        }
+        return $hasil;
+    }
+
+    protected function migrasi_2024011951($hasil)
+    {        
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'kotak-pesan', 'url' => 'mailbox/clear'],
+            ['url' => 'mailbox']
+        );
     }
 }

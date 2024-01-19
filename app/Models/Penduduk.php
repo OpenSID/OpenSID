@@ -41,6 +41,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -556,5 +557,15 @@ class Penduduk extends BaseModel
         $umurMax = empty($umurObj['max']) ? 1000 : $umurObj['max'];
 
         return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
+    }
+
+    /**
+     * Get all of the pesan for the Penduduk
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pesan(): HasMany
+    {
+        return $this->hasMany(PesanMandiri::class, 'identitas', 'nik');
     }
 }

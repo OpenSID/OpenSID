@@ -183,6 +183,11 @@ Route::group('install', static function (): void {
     Route::match(['GET', 'POST'], '/syarat_sandi/{password?}', 'Install@syarat_sandi');
 });
 
+Route::group('notif_web', static function (): void {
+    Route::get('inbox', 'Notif_web@inbox')->name('fweb.notif_web.inbox');
+    Route::get('surat_perlu_perhatian', 'Notif_web@surat_perlu_perhatian')->name('fweb.notif_web.surat_perlu_perhatian');
+});
+
 // Include all routes in folder Web
 foreach (glob(APPPATH . 'Routes/Web/*.php') as $file) {
     require_once $file;
