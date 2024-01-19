@@ -79,7 +79,7 @@ class ViewServiceProvider extends ServiceProvider
                     'pengumuman'      => $this->app['ci']->header['notif_pengumuman'],
                     'permohonansurat' => $this->app['ci']->header['notif_permohonan'],
                 ],
-                'kategori'             => $this->app['ci']->header['kategori'],
+                'kategori_pengaturan'  => $this->app['ci']->kategori_pengaturan,
                 'sub_modul_ini'        => $this->app['ci']->sub_modul_ini,
                 'akses_modul'          => $this->app['ci']->akses_modul,
                 'session'              => $this->app['ci']->session,
