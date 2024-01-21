@@ -191,7 +191,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function hapus(): void
     {
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('h');
         $cat = $this->session->kategori ?: 0;
 
         $this->redirect_hak_akses('h');
