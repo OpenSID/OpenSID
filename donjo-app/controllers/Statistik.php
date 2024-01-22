@@ -54,7 +54,7 @@ class Statistik extends Admin_Controller
     public function index(): void
     {
         $data        = $this->get_cluster_session();
-        $data['lap'] = $this->session->lap;
+        $data['lap'] = $this->session->lap ?? '0';
 
         $data['order_by']              = $this->session->order_by;
         $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
@@ -167,6 +167,7 @@ class Statistik extends Admin_Controller
                 $kategori = 'rtm';
                 break;
 
+            case $lap == null:
             default:
                 // Penduduk
                 $kategori = 'penduduk';
