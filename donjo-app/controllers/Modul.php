@@ -69,13 +69,17 @@ class Modul extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $parent     = $this->input->get('parent') ?? 0;
+            $order      = $this->input->get('order') ?? false;
             $canUpdate  = can('u');
             $lockParent = false;
             if ($parent) {
                 $lockParent = ModulModel::find($parent)->isLock();
             }
 
-            return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF))
+            return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF)
+                ->when(! $order, static function ($q) {
+                    return $q->orderBy('urut', 'asc');
+                }))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $lockParent): string {
                     $aksi = '';
