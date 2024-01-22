@@ -77,9 +77,10 @@ class Migrasi_dev extends MY_model
         }
 
         // Migrasi tanpa config_id
-        $hasil = $this->migrasi_2024011951($hasil);
+        $hasil = $hasil && $this->migrasi_2024011951($hasil);
+        $hasil = $hasil && $this->migrasi_2024011952($hasil);
 
-        return $hasil && $this->migrasi_2024011952($hasil);
+        return $hasil && $this->migrasi_2024012351($hasil);
     }
 
     protected function migrasi_2024011371($hasil, $id)
@@ -185,5 +186,26 @@ class Migrasi_dev extends MY_model
         }
 
         return $hasil;
+    }
+
+    // migrasi 2312.0.0 - 2312.0.3 yang tidak sama dengan struktur instalasi awal
+    protected function migrasi_2024012351($hasil)
+    {
+        $this->tambahIndeks('klasifikasi_surat', 'config_id, kode', 'UNIQUE', true);
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'qr-code', 'url' => 'qr_code/clear'],
+            ['url' => 'qr_code']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pendaftar-layanan-mandiri', 'url' => 'mandiri/clear'],
+            ['url' => 'mandiri']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pengguna', 'url' => 'man_user/clear'],
+            ['url' => 'man_user']
+        );
     }
 }

@@ -49,8 +49,8 @@ class Klasifikasi extends Admin_Controller
     public function index()
     {
         $data = [
-            'modul_ini'     => 'sekretariat',
-            'sub_modul_ini' => 'klasifikasi-surat',
+            'modul_ini'     => $this->modul_ini,
+            'sub_modul_ini' => $this->sub_modul_ini,
         ];
 
         return view('admin.klasifikasi.index', $data);

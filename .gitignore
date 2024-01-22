@@ -65,5 +65,5 @@ storage/logs
 
 php.ini
 
-donjo-app/Modules/*
-!donjo-app/Modules/.gitkeep
+Modules/*
+!Modules/.gitkeep
