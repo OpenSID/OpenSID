@@ -213,8 +213,6 @@ class First extends Web_Controller
         $data['st']         = $stat;
         $data['slug_aktif'] = $stat;
 
-        // dd($data);
-
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
