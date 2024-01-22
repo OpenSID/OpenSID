@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'a26161348a1eeb51d1a748cb8e12920fa8da0a2c',
+        'pretty_version' => 'dev-2401.0.2-patch',
+        'version' => 'dev-2401.0.2-patch',
+        'reference' => '52dc94920e95cbd74a8f40447621d1a683d35017',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -101,9 +101,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.332.0',
-            'version' => '0.332.0.0',
-            'reference' => '027cc7fe60877c2b6ba0f380d419acf65a3755d2',
+            'pretty_version' => 'v0.333.0',
+            'version' => '0.333.0.0',
+            'reference' => '106bbc8620b60a677376d430235844f9f8a8551c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -398,9 +398,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'a26161348a1eeb51d1a748cb8e12920fa8da0a2c',
+            'pretty_version' => 'dev-2401.0.2-patch',
+            'version' => 'dev-2401.0.2-patch',
+            'reference' => '52dc94920e95cbd74a8f40447621d1a683d35017',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
