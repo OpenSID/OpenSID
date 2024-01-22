@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Kategori</li>
+    <li class="active">Daftar Kategori</li>
 @endsection
 
 @section('content')

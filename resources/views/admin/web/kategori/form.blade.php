@@ -8,7 +8,7 @@
 
 @section('breadcrumb')
     <li><a href="{{ ci_route('kategori') }}"> Kategori</a></li>
-    <li class="active">Kategori</li>
+    <li class="active">Daftar Kategori</li>
 @endsection
 
 @section('content')

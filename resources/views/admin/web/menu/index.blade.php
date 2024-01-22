@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Menu</li>
+    <li class="active">Daftar Menu</li>
 @endsection
 
 @section('content')
