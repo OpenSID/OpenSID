@@ -58,6 +58,7 @@ class Migrasi_dev extends MY_model
     protected function migrasi_tabel($hasil)
     {
         $hasil = $hasil && $this->migrasi_2024011751($hasil);
+        $hasil = $hasil && $this->migrasi_2024012251($hasil);
 
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
@@ -73,9 +74,7 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        $hasil = $this->migrasi_2024011951($hasil);
-
-        return $hasil;
+        return $this->migrasi_2024011951($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)
@@ -122,14 +121,24 @@ class Migrasi_dev extends MY_model
                 $table->dropColumn('jenis');
             });
         }
+
         return $hasil;
     }
 
     protected function migrasi_2024011951($hasil)
-    {        
+    {
         return $hasil && $this->ubah_modul(
             ['slug' => 'kotak-pesan', 'url' => 'mailbox/clear'],
             ['url' => 'mailbox']
         );
+    }
+
+    protected function migrasi_2024012251($hasil)
+    {
+        if ($this->db->field_exists('userid', 'program')) {
+            $hasil = $hasil && $this->dbforge->drop_column('program', 'userid');
+        }
+
+        return $hasil;
     }
 }
