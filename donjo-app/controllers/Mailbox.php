@@ -44,7 +44,7 @@ class Mailbox extends Admin_Controller
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
         $this->modul_ini     = 'layanan-mandiri';
         $this->sub_modul_ini = 'kotak-pesan';
     }
@@ -59,9 +59,9 @@ class Mailbox extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $tipe   = $this->input->get('tipe');
-            $status = $this->input->get('status');
-            $pendudukId    = $this->input->get('nik');
+            $tipe       = $this->input->get('tipe');
+            $status     = $this->input->get('status');
+            $pendudukId = $this->input->get('nik');
 
             $canDelete = can('h');
             $canUpdate = can('u');
@@ -88,16 +88,16 @@ class Mailbox extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete) {
                     $aksi = '';
                     if ($canDelete && ! $row->isArchive()) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('mailbox.delete.'.$row->tipe, $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('mailbox.delete.' . $row->tipe, $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a> ';
                     }
 
-                    if ($canUpdate) {                        
-                        $aksi .= '<a href="' . ci_route('mailbox.detail.'.$row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm"  title="Lihat detail pesan"><i class="fa fa-list"></i></a> ';
-                        if ($row->tipe == 1){                        
+                    if ($canUpdate) {
+                        $aksi .= '<a href="' . ci_route('mailbox.detail.' . $row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm"  title="Lihat detail pesan"><i class="fa fa-list"></i></a> ';
+                        if ($row->tipe == 1) {
                             if ($row->isRead()) {
-                                $aksi .= '<a href="' . ci_route('mailbox.read.'.$row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-envelope-open-o"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('mailbox.read.' . $row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-envelope-open-o"></i></a> ';
                             } else {
-                                $aksi .= '<a href="' . ci_route('mailbox.read.'.$row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-envelope-o"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('mailbox.read.' . $row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-envelope-o"></i></a> ';
                             }
                         }
                     }
@@ -112,33 +112,36 @@ class Mailbox extends Admin_Controller
 
         return show_404();
     }
-    public function detail($tipe, $id){
+
+    public function detail($tipe, $id)
+    {
         $pesan = PesanMandiri::with(['penduduk'])->findOrFail($id);
-        $data = [
-            'pesan' => $pesan->toArray(),
-            'readonly' => 1,
+        $data  = [
+            'pesan'         => $pesan->toArray(),
+            'readonly'      => 1,
             'labelPengirim' => $tipe == 1 ? 'Pengirim' : 'Penerima',
-            'form_action' => ci_route('mailbox.form', $tipe)
-            ];
+            'form_action'   => ci_route('mailbox.form', $tipe),
+        ];
         view('admin.mailbox.detail', $data);
     }
+
     public function form($tipe): void
     {
-        isCan('u');        
-        
+        isCan('u');
+
         $data['pesan'] = [
-            'subjek' => $this->request['subjek'] ?? ''
+            'subjek' => $this->request['subjek'] ?? '',
         ];
-           
-        $pendudukId = $this->request['penduduk_id'] ?? '';        
+
+        $pendudukId       = $this->request['penduduk_id'] ?? '';
         $data['individu'] = [];
-        if ($pendudukId){
+        if ($pendudukId) {
             $pendudukTerpilih = Penduduk::withOnly(['Wilayah', 'keluarga'])->find($pendudukId);
-            if ($pendudukTerpilih){
+            if ($pendudukTerpilih) {
                 $data['individu'] = $pendudukTerpilih->toArray();
             }
         }
-        
+
         $data['form_action'] = ci_route('mailbox.kirim_pesan');
 
         view('admin.mailbox.form', $data);
@@ -147,18 +150,18 @@ class Mailbox extends Admin_Controller
     public function kirim_pesan(): void
     {
         isCan('u');
-        
+
         $pendudukId = trim($this->request['penduduk_id']);
-        $owner = Penduduk::find($pendudukId);        
+        $owner      = Penduduk::find($pendudukId);
         PesanMandiri::create([
-            'owner' => strtoupper($owner->nama),
+            'owner'       => strtoupper($owner->nama),
             'penduduk_id' => $owner->id,
-            'subjek' => strip_tags($this->request['subjek']),
-            'komentar' => strip_tags($this->request['komentar']),
-            'status' => PesanMandiri::UNREAD,
-            'tipe'  => PesanMandiri::KELUAR
+            'subjek'      => strip_tags($this->request['subjek']),
+            'komentar'    => strip_tags($this->request['komentar']),
+            'status'      => PesanMandiri::UNREAD,
+            'tipe'        => PesanMandiri::KELUAR,
         ]);
-        redirect_with('success','Pesan berhasil dikirim' , ci_route('mailbox', PesanMandiri::KELUAR));
+        redirect_with('success', 'Pesan berhasil dikirim', ci_route('mailbox', PesanMandiri::KELUAR));
     }
 
     public function list_pendaftar_mandiri_ajax(): void
@@ -177,7 +180,7 @@ class Mailbox extends Admin_Controller
         echo json_encode(['results' => $result, 'pagination' => ''], JSON_THROW_ON_ERROR);
     }
 
-    public function delete($tipe, $id = NULL): void
+    public function delete($tipe, $id = null): void
     {
         isCan('h');
         $listId = $id ? [$id] : $this->request['id_cb'];
@@ -190,15 +193,16 @@ class Mailbox extends Admin_Controller
 
     public function read($tipe, $id): void
     {
-        isCan('u');        
+        isCan('u');
+
         try {
-            $pesan = PesanMandiri::findOrFail($id);      
-            $nextStatus = $pesan->isRead() ? PesanMandiri::UNREAD : PesanMandiri::READ;
+            $pesan         = PesanMandiri::findOrFail($id);
+            $nextStatus    = $pesan->isRead() ? PesanMandiri::UNREAD : PesanMandiri::READ;
             $pesan->status = $nextStatus;
             $pesan->save();
             redirect_with('success', 'Berhasil ubah status', ci_route('mailbox', $tipe));
         } catch (\Exception $e) {
-            redirect_with('error', 'Gagal ubah status '.$e->getMessage(), ci_route('mailbox', $tipe));
-        }        
+            redirect_with('error', 'Gagal ubah status ' . $e->getMessage(), ci_route('mailbox', $tipe));
+        }
     }
 }

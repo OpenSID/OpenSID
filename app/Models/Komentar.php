@@ -94,7 +94,7 @@ class Komentar extends BaseModel
     public function scopeEnable($query)
     {
         return $query->where('status', static::ACTIVE);
-    }    
+    }
 
     /**
      * Scope query untuk tipe pesan masuk.

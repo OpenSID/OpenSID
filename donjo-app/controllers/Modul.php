@@ -77,9 +77,7 @@ class Modul extends Admin_Controller
             }
 
             return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF)
-                ->when(! $order, static function ($q) {
-                    return $q->orderBy('urut', 'asc');
-                }))
+                ->when(! $order, static fn ($q) => $q->orderBy('urut', 'asc')))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $lockParent): string {
                     $aksi = '';

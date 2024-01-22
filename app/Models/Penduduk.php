@@ -561,8 +561,6 @@ class Penduduk extends BaseModel
 
     /**
      * Get all of the pesan for the Penduduk
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function pesan(): HasMany
     {
