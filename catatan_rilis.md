@@ -37,6 +37,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#7629](https://github.com/OpenSID/OpenSID/issues/7629) Perbaikan sebutan desa pada judul dan keterangan pengaturan aplikasi.
 32. [#7647](https://github.com/OpenSID/OpenSID/issues/7647) Perbaikan tombol grafik dan bar pada statistik program bantuan web.
 33. [#7646](https://github.com/OpenSID/OpenSID/issues/7646) Perbaikan tambah / ubah program bantuan.
+34. [#7651](https://github.com/OpenSID/OpenSID/issues/7651) Perbaikan hapus data buku agenda - surat keluar.
+
 
 #### TEKNIS
 
