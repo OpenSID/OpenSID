@@ -59,6 +59,7 @@ class Migrasi_dev extends MY_model
     protected function migrasi_tabel($hasil)
     {
         $hasil = $hasil && $this->migrasi_2024011751($hasil);
+        $hasil = $hasil && $this->migrasi_2024012251($hasil);
 
         $hasil = $hasil && $this->migrasi_2024011471($hasil);
 
@@ -175,5 +176,14 @@ class Migrasi_dev extends MY_model
             ['slug' => 'kategori'],
             ['hidden' => 0, 'level' => 4, 'ikon' => 'fa-list-alt', 'urut' => 2]
         );
+    }
+
+    protected function migrasi_2024012251($hasil)
+    {
+        if ($this->db->field_exists('userid', 'program')) {
+            $hasil = $hasil && $this->dbforge->drop_column('program', 'userid');
+        }
+
+        return $hasil;
     }
 }

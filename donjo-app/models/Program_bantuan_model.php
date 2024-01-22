@@ -792,9 +792,9 @@ class Program_bantuan_model extends MY_Model
     {
         $data              = $this->validasi_bantuan($this->input->post());
         $data['config_id'] = $this->config_id;
-        $data['userid']    = auth()->id;
 
-        return $this->db->insert('program', $data);
+        $outp = $this->db->insert('program', $data);
+        status_sukses($outp);
     }
 
     private function validasi_bantuan($post)
@@ -1201,7 +1201,6 @@ class Program_bantuan_model extends MY_Model
         $this->session->success = 1;
         $sekarang               = $data_program['sdate'] ?? date('Y m d');
         $data_tambahan          = [
-            'userid'    => $this->session->user,
             'status'    => ($data_program['edate'] < $sekarang) ? 0 : 1,
             'config_id' => $this->config_id,
         ];

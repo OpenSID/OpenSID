@@ -49,25 +49,31 @@ class PesanMandiri extends BaseModel
 {
     use ConfigId;
     use Uuid;
-    const READ = 1;
-    const UNREAD = 2;    
-    const MASUK = 1;
-    const KELUAR = 2;
 
-    protected $table    = 'pesan_mandiri';
-    protected $primaryKey = 'uuid';    
-    protected $fillable = ['uuid', 'config_id', 'owner', 'penduduk_id','subjek','komentar','status','tipe', 'is_archived'];
-    
+    public const READ   = 1;
+    public const UNREAD = 2;
+    public const MASUK  = 1;
+    public const KELUAR = 2;
+
+    protected $table      = 'pesan_mandiri';
+    protected $primaryKey = 'uuid';
+    protected $fillable   = ['uuid', 'config_id', 'owner', 'penduduk_id', 'subjek', 'komentar', 'status', 'tipe', 'is_archived'];
+
     public function scopeBelumDibaca($query, $pendudukId)
     {
         return $query->wherePendudukId($pendudukId)->whereStatus(self::UNREAD)->whereTipe(self::KELUAR);
     }
-    public function isRead(){
+
+    public function isRead()
+    {
         return $this->attributes['status'] == self::READ;
     }
-    public function isArchive(){
+
+    public function isArchive()
+    {
         return $this->attributes['is_archived'] == StatusEnum::YA;
     }
+
     public static function hasDelay($penduduk_id = '', $tipe = 1)
     {
         return self::where('penduduk_id', $penduduk_id)
@@ -78,8 +84,6 @@ class PesanMandiri extends BaseModel
 
     /**
      * Get the penduduk that owns the PesanMandiri
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function penduduk(): BelongsTo
     {
