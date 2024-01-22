@@ -50,7 +50,9 @@ Route::error('404_override', static function (): void {
 
 // Rute untuk sitemap.xml dan feed.xml
 Route::get('sitemap.xml', 'Sitemap@index');
+Route::get('sitemap', 'Sitemap@index');
 Route::get('feed.xml', 'Feed@index');
+Route::get('feed', 'Feed@index');
 
 // Rute untuk PPID
 Route::get('ppid', 'Api_informasi_publik@ppid');
