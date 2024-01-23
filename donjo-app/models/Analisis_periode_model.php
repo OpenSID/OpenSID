@@ -158,14 +158,13 @@ class Analisis_periode_model extends MY_Model
             $dpd  = $this->config_id()->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
             $skrg = $dpd['id'];
 
-            $data = $this->config_id()->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
+            $data = $this->db->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
 
             if ($data) {
                 $counter = count($data);
 
                 for ($i = 0; $i < $counter; $i++) {
                     $data[$i]['id_periode'] = $skrg;
-                    $data[$i]['config_id']  = $this->config_id;
                 }
                 $outp = $this->db->insert_batch('analisis_respon', $data);
                 $this->load->model('analisis_respon_model');

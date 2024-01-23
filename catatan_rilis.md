@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 32. [#7647](https://github.com/OpenSID/OpenSID/issues/7647) Perbaikan tombol grafik dan bar pada statistik program bantuan web.
 33. [#7646](https://github.com/OpenSID/OpenSID/issues/7646) Perbaikan tambah / ubah program bantuan.
 34. [#7651](https://github.com/OpenSID/OpenSID/issues/7651) Perbaikan hapus data buku agenda - surat keluar.
+35. [#7650](https://github.com/OpenSID/OpenSID/issues/7650) Perbaikan simpan data sensus / survei pada modul analisis.
 
 
 #### TEKNIS
