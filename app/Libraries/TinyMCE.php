@@ -553,7 +553,7 @@ class TinyMCE
         $penandatangan = $this->surat_model->atas_nama($data);
 
         $lampiran     = explode(',', strtolower($surat['lampiran']));
-        $format_surat = substitusiNomorSurat($input['nomor'], setting('format_nomor_surat'));
+        $format_surat = substitusiNomorSurat($input['nomor'], $surat['format_nomor_global'] ? setting('format_nomor_surat') : $surat['format_nomor']);
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
         $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);

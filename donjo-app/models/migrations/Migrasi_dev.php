@@ -79,8 +79,9 @@ class Migrasi_dev extends MY_model
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2024011951($hasil);
         $hasil = $hasil && $this->migrasi_2024011952($hasil);
+        $hasil = $hasil && $this->migrasi_2024012351($hasil);
 
-        return $hasil && $this->migrasi_2024012351($hasil);
+        return $hasil && $this->migrasi_2024012371($hasil);
     }
 
     protected function migrasi_2024011371($hasil, $id)
@@ -207,5 +208,22 @@ class Migrasi_dev extends MY_model
             ['slug' => 'pengguna', 'url' => 'man_user/clear'],
             ['url' => 'man_user']
         );
+    }
+
+    protected function migrasi_2024012371($hasil)
+    {
+        if (! $this->db->field_exists('format_nomor_global', 'tweb_surat_format')) {
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+                'format_nomor_global' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'default'    => 0,
+                    'after'      => 'format_nomor',
+                ],
+            ]);
+        }
+
+        return $hasil;
     }
 }

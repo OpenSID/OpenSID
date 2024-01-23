@@ -61,7 +61,7 @@ class KodeIsianSurat
             [
                 'judul' => 'Format Nomor Surat',
                 'isian' => 'format_nomor_surat',
-                'data'  => strtoupper(substitusiNomorSurat($this->dataSurat['no_surat'], ($this->dataSurat['surat']['format_nomor'] == '') ? setting('format_nomor_surat') : $this->dataSurat['surat']['format_nomor'])),
+                'data'  => strtoupper(substitusiNomorSurat($this->dataSurat['no_surat'], $this->dataSurat['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $this->dataSurat['surat']['format_nomor'])),
             ],
             [
                 'judul' => 'Kode',

@@ -154,12 +154,12 @@ class Surat_master extends Admin_Controller
         $data['footer']               = $data['suratMaster']->footer ?? 1;
         $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
         $data['format_nomor']         = $data['suratMaster']->format_nomor;
+        $data['format_nomor_global']  = $data['suratMaster']->format_nomor_global;
         $data['form_isian']           = $this->form_isian();
         $data['simpan_sementara']     = site_url('surat_master/simpan_sementara');
         $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
         $data['attributes']           = FormatSurat::ATTRIBUTES;
-        // $data['pengaturanSurat']      = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
-        $data['pendudukLuar'] = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+        $data['pendudukLuar']         = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
         return view('admin.pengaturan_surat.form', $data);
     }
@@ -418,6 +418,7 @@ class Surat_master extends Admin_Controller
             'header'                   => (int) $request['header'],
             'footer'                   => (int) $request['footer'],
             'format_nomor'             => $request['format_nomor'],
+            'format_nomor_global'      => (int) $request['format_nomor_global'],
             'sumber_penduduk_berulang' => $request['sumber_penduduk_berulang'],
         ];
 
@@ -817,7 +818,10 @@ class Surat_master extends Admin_Controller
                 'kode_isian'          => collect($item['kode_isian'])->filter(static fn ($item): bool => ! in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']))->values()->toJson(),
                 'orientasi'           => $item['orientasi'],
                 'ukuran'              => $item['ukuran'],
+                'margin_global'       => $item['margin_global'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'margin'              => $item['margin'],
+                'format_nomor_global' => $item['format_nomor_global'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                'format_nomor'        => $item['format_nomor'],
                 'footer'              => $item['footer'],
                 'header'              => $item['header'],
                 'created_at'          => date('Y-m-d H:i:s'),

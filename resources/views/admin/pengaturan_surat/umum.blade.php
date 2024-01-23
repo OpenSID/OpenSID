@@ -142,6 +142,41 @@
         </div>
 
         <div class="form-group">
+            <label class="col-sm-3 control-label">Gunakan Penomoran Surat Global</label>
+            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
+                <label id="lmg11" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($format_nomor_global)">
+                    <input
+                        id="img11"
+                        type="radio"
+                        name="format_nomor_global"
+                        @checked($format_nomor_global)
+                        class="form-check-input"
+                        type="radio"
+                        value="1"
+                        autocomplete="off"
+                    >Ya
+                </label>
+                <label id="lmg21" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$format_nomor_global)">
+                    <input
+                        id="img21"
+                        type="radio"
+                        name="format_nomor_global"
+                        class="form-check-input"
+                        @checked(!$format_nomor_global)
+                        type="radio"
+                        value="0"
+                        autocomplete="off"
+                    >Tidak
+                </label>
+            </div>
+            <div id="manual_nomor_surat" style="display: none;">
+                <div class="col-sm-7 col-sm-offset-3">
+                    <input type="text" class="form-control input-sm" name="format_nomor" placeholder="[nomor_surat, 3]/PK-TBT/[bulan_romawi]/[tahun]" value="{{ $format_nomor }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-sm-3 control-label">Lampiran</label>
             <div class="col-sm-7">
                 <select class="form-control input-sm select2" name="lampiran[]" multiple="multiple" data-placeholder="Pilih Lampiran">
@@ -151,15 +186,6 @@
                 </select>
             </div>
         </div>
-
-        @if (isset($format_nomor))
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Format Nomor Surat</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="format_nomor" placeholder="Format Nomor Surat" value="{{ $format_nomor }}">
-                </div>
-            </div>
-        @endif
 
         <div class="form-group">
             <label class="col-sm-3 control-label">Tampilkan QR Code</label>
@@ -398,18 +424,32 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var x = $("[name='margin_global']:checked").val()
-            console.log(x)
-            if (x == 0) {
+            var margin_global = $("[name='margin_global']:checked").val()
+            if (margin_global == 0) {
                 $('#manual_margin').show()
             }
+
+            var format_nomor_global = $("[name='format_nomor_global']:checked").val()
+            if (format_nomor_global == 0) {
+                $('#manual_nomor_surat').show()
+            }
         })
+
         $("[name='margin_global']").change(function() {
             var val = $(this).val()
             if (val == 0) {
                 $('#manual_margin').show()
             } else {
                 $('#manual_margin').hide()
+            }
+        })
+
+        $("[name='format_nomor_global']").change(function() {
+            var val = $(this).val()
+            if (val == 0) {
+                $('#manual_nomor_surat').show()
+            } else {
+                $('#manual_nomor_surat').hide()
             }
         })
 
