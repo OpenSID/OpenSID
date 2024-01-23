@@ -83,6 +83,11 @@ class KodeIsianPendudukLuar
     {
         $input = $this->inputForm[$kategori];
 
+        // filter hanya untuk nik dan nama yg tidak kosong
+        if (empty($input['nik']) && empty($input['nama'])) {
+            return [];
+        }
+
         $prefix = '_' . $kategori;
 
         if ($kategori == 'individu') {
