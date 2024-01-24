@@ -95,11 +95,16 @@ Route::group('/first', static function (): void {
 // Captcha
 Route::get('captcha', 'Securimage@show');
 
+// Dokumen web
 Route::group('/dokumen_web', static function (): void {
     Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
     Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
     Route::get('/unduh_berkas/{id_dokumen}', 'Dokumen_web@unduh_berkas');
 });
+
+// Tampil assets
+Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
+Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
 
 // Koneksi database
 Route::get('koneksi-database', 'Koneksi_database@index');

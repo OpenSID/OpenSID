@@ -185,7 +185,7 @@ class Vaksin_covid extends Admin_Controller
         }
     }
 
-    public function laporan_penduduk(int $p = 1): void
+    public function laporan_penduduk(?int $p = 1): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
