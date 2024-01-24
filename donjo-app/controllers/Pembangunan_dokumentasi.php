@@ -43,13 +43,12 @@ use App\Models\PembangunanDokumentasi;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-    protected $aliasController = 'admin_pembangunan';
+    public $modul_ini = 'pembangunan';
+    public $aliasController = 'admin_pembangunan';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini   = 'pembangunan';
-        $this->akses_modul = 'pembangunan';
         isCan('b');
     }
 
