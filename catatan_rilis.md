@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 34. [#7651](https://github.com/OpenSID/OpenSID/issues/7651) Perbaikan hapus data buku agenda - surat keluar.
 35. [#7650](https://github.com/OpenSID/OpenSID/issues/7650) Perbaikan simpan data sensus / survei pada modul analisis.
 36. [#7658](https://github.com/OpenSID/OpenSID/issues/7658) Perbaikan pencarian suplemen terdata.
+37. [#7661](https://github.com/OpenSID/OpenSID/issues/7661) Perbaikan unduh format impor data program bantuan.
 
 
 #### TEKNIS
