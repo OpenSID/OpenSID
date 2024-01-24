@@ -316,7 +316,7 @@ class Admin_Controller extends MY_Controller
 
         $force    = $this->session->force_change_password;
 
-        if ($force && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
+        if ($force && ! $kode_desa && ! in_array($this->controller, ['pengguna'])) {
             redirect('pengguna#sandi');
         }
 
