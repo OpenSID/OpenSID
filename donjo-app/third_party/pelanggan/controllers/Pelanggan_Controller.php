@@ -68,7 +68,9 @@ class Pelanggan_Controller extends Admin_Controller
     public function index(): void
     {
         unset($this->header['perbaharui_langganan']);
-        $response = $this->pelanggan_model->api_pelanggan_pemesanan();
+
+        $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
+        $notif_langganan = $this->pelanggan_model->status_langganan();
 
         kirim_versi_opensid();
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
@@ -79,18 +81,30 @@ class Pelanggan_Controller extends Admin_Controller
             redirect($this->controller);
         }
 
-        $this->render('pelanggan/index', ['response' => $response]);
+        $this->render('pelanggan/index', [
+            'title'           => 'Info Layanan Pelanggan',
+            'response'        => $response,
+            'notif_langganan' => $notif_langganan,
+        ]);
     }
 
     public function peringatan(): void
     {
         // hapus auto perbarui
         unset($this->header['perbaharui_langganan']);
+
+        $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
+        $notif_langganan = $this->pelanggan_model->status_langganan();
+
         if (empty($this->session->error_premium)) {
             redirect('beranda');
         }
 
-        $this->render('pelanggan/peringatan');
+        $this->render('pelanggan/index', [
+            'title'           => 'Info Peringatan',
+            'response'        => $response,
+            'notif_langganan' => $notif_langganan,
+        ]);
     }
 
     public function perbarui(): void

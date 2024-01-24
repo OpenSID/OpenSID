@@ -53,6 +53,10 @@ class Validasi
     public function __construct()
     {
         $this->ci = &get_instance();
+
+        if (! isset($this->ci->header)) {
+            $this->ci->header = identitas();
+        }
     }
 
     public function validasi(): bool
