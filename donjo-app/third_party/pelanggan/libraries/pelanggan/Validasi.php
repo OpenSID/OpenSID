@@ -54,8 +54,8 @@ class Validasi
     {
         $this->ci = &get_instance();
 
-        if (! isset($this->ci->header)) {
-            $this->ci->header = identitas();
+        if (! isset($this->ci->header['desa'])) {
+            $this->ci->header['desa'] = identitas()->toArray();
         }
     }
 
