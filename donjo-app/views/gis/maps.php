@@ -302,7 +302,7 @@
 				});
 				for (var x = 0; x < jml; x++) {
 					if (penduduk[x].lat || penduduk[x].lng) {
-						foto = '<td style="text-align: center;"><img class="foto_pend" src="' + AmbilFoto(penduduk[x].foto, "kecil_", penduduk[x].id_sex) + '" alt="Foto Penduduk"/></td>';
+						foto = `<td style="text-align: center;"><img class="foto_pend" src="<?= site_url('penduduk/ambil_foto'); ?>?foto=${penduduk[x].foto}&sex=${penduduk[x].id_sex}" alt="Foto Penduduk"/></td>`;
 
 						//Konten yang akan ditampilkan saat marker diklik
 						content =
@@ -380,19 +380,6 @@
 
 	function handle_kel(cb) {
 		formAction('mainform_map', '<?= site_url('gis/layer_keluarga') ?>');
-	}
-
-	function AmbilFoto(foto, ukuran = "kecil_", sex) {
-		//Jika penduduk ada foto, maka pakai foto tersebut
-		//Jika tidak, pakai foto default
-		if (foto) {
-			ukuran_foto = ukuran || null
-			file_foto = '<?= LOKASI_USER_PICT ?>' + ukuran_foto + foto;
-		} else {
-			file_foto = sex == '2' ? '<?= FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
-		}
-
-		return file_foto;
 	}
 
 	function AmbilFotoLokasi(foto, ukuran = "kecil_") {

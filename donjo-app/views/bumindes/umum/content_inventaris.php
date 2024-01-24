@@ -74,6 +74,7 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php if($main) : ?>
 									<?php $i = 1 ?>
 									<?php foreach ($data as $uraian => $asset) : ?>
 										<tr>
@@ -102,6 +103,7 @@
 										</tr>
 										<?php $i++ ?>
 									<?php endforeach ?>
+									<?php else: tidak_ada_data(16); endif; ?>
 								</tbody>
 							</table>
 						</div>

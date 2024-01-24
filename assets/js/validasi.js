@@ -205,7 +205,7 @@ $(document).ready(function() {
 	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 	
 	jQuery.validator.addMethod("nama_desa", function(value, element) {
-		valid = /^[a-zA-Z0-9 '\.,`\-]+$/.test(value);
+		valid = /^[a-zA-Z0-9 '\.,`\-\/\(\)]+$/.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik, garis miring dan strip");
 
@@ -248,6 +248,11 @@ $(document).ready(function() {
 		valid = /^[0-9\.]+$/.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter numerik dan titik");
+
+	jQuery.validator.addMethod("strip_tags", function(value, element) {
+		var strippedText = value.replace(/<\/?[^>]+(>|$)/g, "");
+		return strippedText === value;
+	}, "Tidak boleh mengandung tag HTML");
 
 	$('.bilangan_titik').each(function() {
 		$(this).rules("add",

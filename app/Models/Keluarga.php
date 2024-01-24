@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -90,7 +90,10 @@ class Keluarga extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_kk')->orderBy('kk_level')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->hasMany(Penduduk::class, 'id_kk')
+            ->orderBy('kk_level')
+            ->orderBy('tanggallahir')
+            ->withoutGlobalScope('App\Scopes\ConfigIdScope');
     }
 
     /**
@@ -118,5 +121,17 @@ class Keluarga extends BaseModel
         return static::whereHas('kepalaKeluarga', static function ($query) {
             $query->status()->where('kk_level', '1');
         });
+    }
+
+    protected static function nomerKKSementara()
+    {
+        // buat jadi orm laravel
+        $digit = self::selectRaw('RIGHT(no_kk, 5) as digit')
+            ->where('no_kk', 'like', '0' . identitas('kode_desa') . '%')
+            ->where('no_kk', '!=', '0')
+            ->orderByRaw('RIGHT(no_kk, 5) DESC')
+            ->first()->digit ?? 0;
+
+        return (int) $digit + 1;
     }
 }

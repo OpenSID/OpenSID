@@ -80,7 +80,7 @@
 							<tr>
 								<td width="20%">Nomor Kartu Keluarga (KK)</td>
 								<td width="1%">:</td>
-								<td><?= $kepala_kk['no_kk']?></td>
+								<td><?= $no_kk ?></td>
 							</tr>
 							<tr>
 								<td>Kepala Keluarga</td>

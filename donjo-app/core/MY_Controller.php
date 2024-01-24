@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -225,15 +225,10 @@ class Web_Controller extends MY_Controller
 
     private function view_maintenance()
     {
-        $main         = $this->header;
-        $pamong_kades = Pamong::ttd('a.n')->first()->toArray();
+        $main                    = $this->header;
+        $pamong_kades['jabatan'] = kades()->nama;
 
-        // TODO : Gunakan view blade
-        if (file_exists(DESAPATH . 'offline_mode.php')) {
-            include DESAPATH . 'offline_mode.php';
-        } else {
-            include VIEWPATH . 'offline_mode.php';
-        }
+        include DESAPATH . 'offline_mode.php';
 
         exit();
     }
@@ -321,7 +316,7 @@ class Admin_Controller extends MY_Controller
 
         $force    = $this->session->force_change_password;
 
-        if ($force && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
+        if ($force && ! $kode_desa && ! in_array($this->controller, ['pengguna'])) {
             redirect('pengguna#sandi');
         }
 
@@ -344,7 +339,8 @@ class Admin_Controller extends MY_Controller
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
             } else {
-                session_error('Anda tidak mempunyai akses pada fitur itu');
+                // TODO:: cek masalah ini kenapa selalu muncul error di untuk can('u', 'pelanggan)
+                // session_error('Anda tidak mempunyai akses pada fitur itu');
                 unset($_SESSION['request_uri']);
                 redirect('main');
             }

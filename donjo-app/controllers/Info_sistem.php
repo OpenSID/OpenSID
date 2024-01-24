@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -58,6 +58,8 @@ class Info_sistem extends Admin_Controller
         $data['php']               = $this->setting_model->cekPhp();
         $data['mysql']             = $this->setting_model->cekDatabase();
         $data['disable_functions'] = $this->setting_model->disableFunctions();
+        $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
+
         // $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
         $data['disk'] = false;
@@ -67,6 +69,8 @@ class Info_sistem extends Admin_Controller
 
     public function remove_log()
     {
+        $this->redirect_hak_akses('h');
+
         $path = config_item('log_path');
         $file = base64_decode($this->input->get('f'), true);
 
@@ -93,6 +97,8 @@ class Info_sistem extends Admin_Controller
 
     public function cache_desa()
     {
+        $this->redirect_hak_akses('u');
+
         $dir = config_item('cache_path');
 
         foreach (directory_map($dir) as $file) {
@@ -108,6 +114,8 @@ class Info_sistem extends Admin_Controller
 
     public function cache_blade()
     {
+        $this->redirect_hak_akses('u');
+
         $dir = config_item('cache_blade');
 
         foreach (directory_map($dir) as $file) {
@@ -119,5 +127,30 @@ class Info_sistem extends Admin_Controller
         status_sukses(true);
 
         redirect($this->controller);
+    }
+
+    public function set_permission_desa()
+    {
+        $this->redirect_hak_akses('u');
+
+        $dirs   = $_POST['folders'];
+        $error  = [];
+        $result = ['status' => 1, $message = 'Berhasil ubah permission folder desa'];
+
+        foreach ($dirs  as $dir) {
+            if (! chmod($dir, DESAPATHPERMISSION)) {
+                $error[] = 'Gagal mengubah hak akses folder ' . $dir;
+            }
+        }
+
+        if (! empty($error)) {
+            $result['status']  = 0;
+            $result['message'] = implode('<br />', $error);
+        }
+
+        status_sukses(true);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($result));
     }
 }

@@ -28,12 +28,12 @@
                                             <table class="table table-bordered">
                                                 <tbody>
                                                     <?php if (! setting('multi_desa')): ?>
-                                                    <tr>
-                                                        <td class="col-sm-10"><b>Backup Seluruh Database SID (.sql)</b></td>
-                                                        <td class="col-sm-2">
-                                                            <a href="<?= site_url('database/exec_backup')?>" class="btn btn-social btn-flat btn-block btn-info btn-sm" title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah <?= $size_sql ?>"><i class="fa fa-download"></i> Unduh Database <b><code><?= $size_sql ?></code></b></a>
-                                                        </td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td class="col-sm-10"><b>Backup Seluruh Database SID (.sql)</b></td>
+                                                            <td class="col-sm-2">
+                                                                <a href="<?= site_url('database/exec_backup')?>" class="btn btn-social btn-flat btn-block btn-info btn-sm <?= $memory_limit ? '' : 'disabled' ?>" title="Perkiraan ukuran file backup sql berdasarkan jumlah tabel dan baris data adalah <?= $size_sql ?>"><i class="fa fa-download"></i> Unduh Database <b><code><?= $size_sql ?></code></b></a>
+                                                            </td>
+                                                        </tr>
                                                     <?php endif ?>
                                                     <tr>
                                                         <td class="col-sm-10"><b>Backup Seluruh Folder Desa SID (.zip)</b> </td>
@@ -179,4 +179,17 @@
 <link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
 <script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
 <script src="<?= asset('js/backup.min.js') ?>"></script>
+
+<?php if (! $memory_limit) : ?>
+    <script>
+        $("#maincontent").prepend(
+            `
+            <div class="callout callout-warning">
+                <h4><i class="fa fa-warning"></i>&nbsp;&nbsp;Informasi</h4>
+                <p>Backup tidak dapat dilakukan karena keterbatasan memori belum sesuai, silahkan periksa <a href="<?= base_url('info_sistem#ekstensi') ?>">disini.</a></p>
+            </div>
+            `
+        );
+    </script>
+<?php endif ?>
 

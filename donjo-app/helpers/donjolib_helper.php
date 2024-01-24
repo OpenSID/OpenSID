@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -185,6 +185,16 @@ function jecho($a, $b, $str)
 {
     if ($a == $b) {
         echo $str;
+    }
+}
+
+function valid_nik_nokk($nik)
+{
+    $length = strlen($nik);
+    if ($length < 16) {
+        echo 'class="warning"';
+    } elseif (get_nik($nik) == 0) {
+        echo 'class="danger"';
     }
 }
 
@@ -359,7 +369,7 @@ function tgl_indo_dari_str($tgl_str, $kosong = '-')
     return $time ? tgl_indo(date('Y m d', strtotime($tgl_str))) : $kosong;
 }
 
-function tgl_indo($tgl, $replace_with = '-')
+function tgl_indo($tgl, $replace_with = '-', $with_day = '')
 {
     if (date_is_empty($tgl)) {
         return $replace_with;
@@ -367,6 +377,9 @@ function tgl_indo($tgl, $replace_with = '-')
     $tanggal = substr($tgl, 8, 2);
     $bulan   = getBulan(substr($tgl, 5, 2));
     $tahun   = substr($tgl, 0, 4);
+    if ($with_day != '') {
+        $tanggal = $with_day . ', ' . date('j', strtotime($tgl));
+    }
 
     return $tanggal . ' ' . $bulan . ' ' . $tahun;
 }
@@ -717,12 +730,12 @@ function get_pesan_opendk()
     if ((! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) || empty($ci->setting->api_opendk_key)) {
         return;
     }
-    $model_pesan        = new \App\Models\Pesan();
-    $model_detail_pesan = new \App\Models\PesanDetail();
+    $model_pesan        = new App\Models\Pesan();
+    $model_detail_pesan = new App\Models\PesanDetail();
     $id_terakhir        = $model_detail_pesan::latest('id')->first()->id;
 
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new GuzzleHttp\Client();
         $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -769,7 +782,7 @@ if (! function_exists('opendk_api')) {
         $ci = &get_instance();
 
         try {
-            $client   = new \GuzzleHttp\Client();
+            $client   = new GuzzleHttp\Client();
             $response = $client->{$method}("{$ci->setting->api_opendk_server}{$path_url}", array_merge(
                 [
                     'headers' => [
@@ -789,16 +802,36 @@ if (! function_exists('opendk_api')) {
             $message = $e->getHandlerContext()['error'];
             $notif   = [
                 'status' => 'danger',
-                'pesan'  => "<br/>{$message}<br/>",
+                'pesan'  => messageResponseHTML($message),
             ];
         } catch (GuzzleHttp\Exception\ClientException $e) {
             $message = $e->getResponse()->getBody()->getContents();
             $notif   = [
                 'status' => 'danger',
-                'pesan'  => "<br/>{$message}<br/>",
+                'pesan'  => messageResponseHTML($message),
             ];
         }
 
         return $notif;
+    }
+}
+
+if (! function_exists('messageResponseHTML')) {
+    function messageResponseHTML($json_msg)
+    {
+        $msg  = json_decode($json_msg, 1);
+        $html = '<h5>' . $msg['message'] . '</h5>';
+        if ($msg['errors']) {
+            $html .= '<ul>';
+
+            foreach ($msg['errors'] as $errs) {
+                foreach ($errs as $value) {
+                    $html .= '<li>' . $value . '</li>';
+                }
+            }
+            $html .= '</ul>';
+        }
+
+        return $html;
     }
 }

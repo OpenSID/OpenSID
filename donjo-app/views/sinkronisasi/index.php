@@ -92,8 +92,10 @@
                                         <div class="form-group">
                                             <label for="token" class="col-sm-3 control-label"></label>
                                             <div class="col-sm-4">
+                                                <?php if(can('u')): ?>
                                                 <a class="btn btn-social btn-success btn-sm" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
                                                 <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan Pengaturan</button>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </td>
@@ -235,13 +237,31 @@
                 if (status == 'danger') {
                     $('#sinkronisasi').modal('hide');
                     $('#status').modal().show();
+
+                    var title_msg = status.pesan.message;
+                    var invalid_data = status.pesan.errors;
+                    var error_msg = `<h4>${title_msg}</h4>`;
+
+                    if(invalid_data.length > 0) {
+                        error_msg += `<ul>`;
+                        for (var key in invalid_data) {
+                            if (test.errors.hasOwnProperty(key)) {
+                                var errorMessages = status.pesan.errors[key];
+                                for (var i = 0; i < errorMessages.length; i++) {
+                                    error_msg += '<li>'+errorMessages[i]+'</li>';
+                                }
+                            }
+                        }
+                        error_msg += `</ul>`;
+                    }
+
                     $('#status .modal-content').html(`
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="modal-title">Response</h4>
                         </div>
                         <div class="modal-body btn-${status.status}">
-                                                    ${status.pesan}
+                                                    ${error_msg}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
@@ -322,18 +342,37 @@
                 if (status == 'danger') {
                     $('#sinkronisasi').modal('hide');
                     $('#status').modal().show();
+
+                    var title_msg = status.pesan.message;
+                    var invalid_data = status.pesan.errors;
+                    var error_msg = `<h4>${title_msg}</h4>`;
+
+                    if(invalid_data.length > 0) {
+                        error_msg += `<ul>`;
+                        for (var key in invalid_data) {
+                            if (test.errors.hasOwnProperty(key)) {
+                                var errorMessages = status.pesan.errors[key];
+                                for (var i = 0; i < errorMessages.length; i++) {
+                                    error_msg += '<li>'+errorMessages[i]+'</li>';
+                                }
+                            }
+                        }
+                        error_msg += `</ul>`;
+                    }
+
                     $('#status .modal-content').html(`
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="modal-title">Response</h4>
                         </div>
                         <div class="modal-body btn-${status.status}">
-                                                    ${status.pesan}
+                                                    ${error_msg}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
                         </div>
                     `);
+
                     return; // paksa loop berhenti
                 }
 

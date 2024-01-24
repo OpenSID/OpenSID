@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -462,6 +462,12 @@ class Penduduk_model extends MY_Model
     // Perlu di urut sebelum paging dan sesudah paging
     private function order_by_list($order_by)
     {
+        $this->db->order_by("CASE
+                WHEN CHAR_LENGTH(u.nik) < 16 THEN 1
+                WHEN u.nik LIKE '0%' AND CHAR_LENGTH(u.nik) = 16 THEN 2
+                ELSE 3
+            END");
+
         //Urut data
         switch ($order_by) {
             case 1:
@@ -481,11 +487,11 @@ class Penduduk_model extends MY_Model
                 break;
 
             case 5:
-                $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)');
+                $this->db->order_by('CONCAT(COALESCE(d.no_kk, 0), u.id_kk, u.kk_level)');
                 break;
 
             case 6:
-                $this->db->order_by('d.no_kk DESC, u.id_kk, u.kk_level');
+                $this->db->order_by('COALESCE(d.no_kk, 0) DESC, u.id_kk, u.kk_level');
                 break;
 
             case 7:
@@ -519,7 +525,7 @@ class Penduduk_model extends MY_Model
     }
 
     // $page = 0 mengambil semua
-    public function list_data($order_by = 1, $page = 1)
+    public function list_data($order_by = 0, $page = 1)
     {
         //Main Query
         $this->list_data_sql();
@@ -564,6 +570,7 @@ class Penduduk_model extends MY_Model
         $this->filter_id();
 
         $sql = str_replace(['(#', '#)'], '', $this->db->get_compiled_select());
+        $sql = str_replace('`` LIMIT`', '` LIMIT', $sql);
 
         $data = $this->db->query($sql)->result_array();
 

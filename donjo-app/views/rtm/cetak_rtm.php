@@ -109,7 +109,7 @@
 					<tr>
 						<td width="25%" align="center">KEPALA RUMAH TANGGA</td>
 						<td width="50%"></td>
-						<td align="center" width="150">KEPALA DESA <?= strtoupper($desa['nama_desa']) ?></td>
+						<td align="center" width="150"><?= strtoupper(setting('sebutan_kepala_desa') . ' ' . $desa['nama_desa']) ?></td>
 					</tr>
 					<tr><td>&nbsp;</td></tr>
 					<tr><td>&nbsp;</td></tr>

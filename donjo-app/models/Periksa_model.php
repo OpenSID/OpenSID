@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,8 +37,10 @@
 
 use App\Models\CovidVaksin;
 use App\Models\InventarisAsset;
+use App\Models\Keluarga;
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
+use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
@@ -84,11 +86,6 @@ class Periksa_model extends MY_Model
                 $this->periksa['masalah'][]   = 'no_kk_ganda';
                 $this->periksa['no_kk_ganda'] = $kk_ganda;
                 $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-            }
-
-            // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
-            if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
-                $this->periksa['masalah'][] = 'ref_inventaris_kosong';
             }
 
             // pamong_id belum ada
@@ -204,24 +201,36 @@ class Periksa_model extends MY_Model
                 $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
 
-            $zero_date_default_value = $this->deteksi_zero_date_default_value();
-            if (! empty($zero_date_default_value)) {
-                $this->periksa['masalah'][]               = 'zero_date_default_value';
-                $this->periksa['zero_date_default_value'] = $zero_date_default_value;
-            }
-
             // Error table doesn't exist
             if ($db_error_code === 1146) {
                 $calon_ini                  = $this->deteksi_table_doesnt_exist($db_error_message);
                 $this->periksa['masalah'][] = 'table_not_exist';
                 $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
+        }
 
-            // Deteksi jabatan kades atau sekdes tidak ada
-            if (! empty($jabatan = $this->deteksi_jabatan())) {
-                $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
-                $this->periksa['data_jabatan'] = $jabatan;
-            }
+        // error config_id
+        if ($db_error_code == 1054) {
+            $calon_ini                  = '23.04';
+            $this->periksa['masalah'][] = 'config_id';
+            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // Deteksi jabatan kades atau sekdes tidak ada
+        if (! empty($jabatan = $this->deteksi_jabatan())) {
+            $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
+            $this->periksa['data_jabatan'] = $jabatan;
+        }
+
+        $zero_date_default_value = $this->deteksi_zero_date_default_value();
+        if (! empty($zero_date_default_value)) {
+            $this->periksa['masalah'][]               = 'zero_date_default_value';
+            $this->periksa['zero_date_default_value'] = $zero_date_default_value;
+        }
+
+        // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
+        if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
+            $this->periksa['masalah'][] = 'ref_inventaris_kosong';
         }
 
         // Error invalid date
@@ -230,16 +239,18 @@ class Periksa_model extends MY_Model
             $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
         }
 
-        // Autoincrement hilang, mungkin karena proses backup/restore yang tidak sempurna
-        // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
-        if ($db_error_code == 1364) {
-            $pos = strpos($db_error_message, "Field 'id' doesn't have a default value");
-            if ($pos !== false) {
-                $calon_ini                  = '23.04';
-                $this->periksa['masalah'][] = 'autoincrement';
-                $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+            // id_cluster Keluarga beserta anggota keluarganya ada yg null
+            if ($db_error_code == 1138) {
+                $pos       = strpos($this->session->message_query, 'id_cluster');
+                $calon_ini = $current_version;
+                if ($pos !== false) {
+                    $calon_ini                        = '21.07';
+                    $this->periksa['masalah'][]       = 'id_cluster_null';
+                    $this->periksa['id_cluster_null'] = $this->deteksi_id_cluster_null();
+                    $this->periksa['wilayah_pertama'] = $this->wilayah_pertama();
+                }
+                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
             }
-        }
 
         // Error collation table
         $collation_table = $this->deteksi_collation_table_tidak_sesuai();
@@ -256,6 +267,14 @@ class Periksa_model extends MY_Model
             $calon_ini                  = '23.04';
             $this->periksa['masalah'][] = 'config_id';
             $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // Error penduduk tanpa ada keluarga di tweb_keluarga
+        $penduduk_tanpa_keluarga = $this->deteksi_penduduk_tanpa_keluarga();
+
+        if (! $penduduk_tanpa_keluarga->isEmpty()) {
+            $this->periksa['masalah'][]               = 'penduduk_tanpa_keluarga';
+            $this->periksa['penduduk_tanpa_keluarga'] = $penduduk_tanpa_keluarga->toArray();
         }
 
         return $calon;
@@ -468,26 +487,33 @@ class Periksa_model extends MY_Model
     private function deteksi_jabatan()
     {
         $jabatan = [];
-        $user    = auth()->id ?? User::first()->id;
+        // perlu cek ketika insert ? apakah ada data jenis 1/2
+        // penggantian find ke where 'jenis'. cari data jabatan berdasarkan jenis. ?
 
-        // Cek jabatan kades
-        if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::KADES)) {
-            $jabatan[] = [
-                'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
-                'jenis'      => RefJabatan::KADES,
-                'created_by' => $user,
-                'updated_by' => $user,
-            ];
-        }
+        if (Schema::hasTable('ref_jabatan')) {
+            $user = auth()->id ?? User::first()->id;
 
-        // Cek jabatan sekdes
-        if (Schema::hasTable('ref_jabatan') && ! RefJabatan::find(RefJabatan::SEKDES)) {
-            $jabatan[] = [
-                'nama'       => 'Sekretaris',
-                'jenis'      => RefJabatan::SEKDES,
-                'created_by' => $user,
-                'updated_by' => $user,
-            ];
+            // Cek jabatan kades
+            if (! kades()) {
+                $jabatan[] = [
+                    'config_id'  => identitas('id'),
+                    'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
+                    'jenis'      => RefJabatan::KADES,
+                    'created_by' => $user,
+                    'updated_by' => $user,
+                ];
+            }
+
+            // Cek jabatan sekdes
+            if (! sekdes()) {
+                $jabatan[] = [
+                    'config_id'  => identitas('id'),
+                    'nama'       => 'Sekretaris',
+                    'jenis'      => RefJabatan::SEKDES,
+                    'created_by' => $user,
+                    'updated_by' => $user,
+                ];
+            }
         }
 
         return $jabatan;
@@ -518,6 +544,20 @@ class Periksa_model extends MY_Model
         return $this->db
             ->query("SELECT table_schema, table_name, column_name, column_default, data_type FROM INFORMATION_SCHEMA.columns WHERE column_default IS NOT NULL  AND table_schema NOT IN ( 'information_schema', 'sys', 'performance_schema', 'mysql' ) and table_schema = '{$this->db->database}' and column_default = \"'0000-00-00 00:00:00'\"")
             ->result_array();
+    }
+
+    public function deteksi_penduduk_tanpa_keluarga()
+    {
+        $config_id = identitas('id');
+
+        return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
+            ->kepalaKeluarga()
+            ->whereNotNull('id_kk')
+            ->where('id_kk', '!=', 0)
+            ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
+                return $q->where('config_id', $config_id);
+            })
+            ->get();
     }
 
     public function perbaiki()
@@ -594,6 +634,10 @@ class Periksa_model extends MY_Model
                     $this->perbaiki_zero_date_default_value();
                     break;
 
+                case 'penduduk_tanpa_keluarga':
+                    $this->perbaiki_penduduk_tanpa_keluarga();
+                    break;
+
                 default:
                     break;
             }
@@ -636,6 +680,87 @@ class Periksa_model extends MY_Model
         $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
         $this->load->model('database_model');
         $this->database_model->migrasi_db_cri();
+    }
+
+    public function perbaiki_sebagian($masalah_ini)
+    {
+        // TODO: login
+        $this->session->user_id = $this->session->user_id ?: 1;
+
+        switch ($masalah_ini) {
+            case 'kode_kelompok':
+                $this->perbaiki_kode_kelompok();
+                break;
+
+            case 'ref_inventaris_kosong':
+                $this->perbaiki_referensi_kosong();
+                break;
+
+            case 'id_cluster_null':
+                $this->perbaiki_id_cluster_null();
+                break;
+
+            case 'nik_ganda':
+                $this->perbaiki_nik_ganda();
+                break;
+
+            case 'email_ganda':
+                $this->perbaiki_email();
+                break;
+
+            case 'kk_panjang':
+                $this->perbaiki_kk_panjang();
+                break;
+
+            case 'no_kk_ganda':
+                $this->perbaiki_no_kk_ganda();
+                break;
+
+            case 'email_user_ganda':
+                $this->perbaiki_email_user();
+                break;
+
+            case 'username_user_ganda':
+                $this->perbaiki_username_user();
+                break;
+
+            case 'tag_id_ganda':
+                $this->perbaiki_tag_id();
+                break;
+
+            case 'kartu_alamat':
+                $this->perbaiki_kartu_alamat();
+                break;
+
+            case 'autoincrement':
+                $this->perbaiki_autoincrement();
+                break;
+
+            case 'collation':
+                $this->perbaiki_collation_table();
+                break;
+
+            case 'tabel_invalid_date':
+                $this->perbaiki_invalid_date();
+                break;
+
+            case 'data_jabatan_tidak_ada':
+                $this->perbaiki_jabatan();
+                break;
+
+            case 'zero_date_default_value':
+                $this->perbaiki_zero_date_default_value();
+                break;
+
+            case 'penduduk_tanpa_keluarga':
+                $this->perbaiki_penduduk_tanpa_keluarga();
+                break;
+
+            default:
+                break;
+        }
+
+        $this->session->db_error = null;
     }
 
     private function perbaiki_kode_kelompok()
@@ -1173,6 +1298,50 @@ class Periksa_model extends MY_Model
                 ],
             ];
             $this->dbforge->add_column('teks_berjalan', $fields);
+        }
+    }
+
+    private function perbaiki_penduduk_tanpa_keluarga()
+    {
+        $config_id     = identitas('id');
+        $kode_desa     = identitas('kode_desa');
+        $data_penduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
+            ->kepalaKeluarga()
+            ->whereNotNull('id_kk')
+            ->where('id_kk', '!=', 0)
+            ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
+                return $q->where('config_id', $config_id);
+            })
+            ->get();
+        // nomer urut kk sementara
+        $digit = Keluarga::nomerKKSementara();
+
+        $id_sementara = [];
+
+        foreach ($data_penduduk as $key => $value) {
+            if (isset($id_sementara[$value->id_kk])) {
+                continue;
+            }
+            $nokk_sementara = '0' . $kode_desa . sprintf('%05d', $digit);
+            $hasil          = Keluarga::create([
+                'id'         => $value->id_kk,
+                'config_id'  => $config_id,
+                'no_kk'      => $nokk_sementara,
+                'nik_kepala' => $value->id,
+                'tgl_daftar' => $value->created_at,
+                'id_cluster' => $value->id_cluster,
+                'alamat'     => $value->alamat_sekarang,
+                'updated_at' => $value->created_at,
+                'updated_by' => 1,
+            ]);
+
+            $digit++;
+            $id_sementara[$value->id_kk] = 1;
+            if ($hasil) {
+                log_message('notice', 'Berhasil. Penduduk ' . $value->id . ' sudah terdaftar di keluarga');
+            } else {
+                log_message('error', 'Gagal. Penduduk ' . $value->id . ' belum terdaftar di keluarga');
+            }
         }
     }
 }

@@ -106,7 +106,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperpendek kode kelompok supaya dapat dibuat
                                                 unik dengan menambahkan ID di akhir masing-masing kode. Untuk melihat
-                                                kode yang diubah harap periksa berkas logs.</p>
+                                                kode yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'kode_kelompok') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -116,6 +120,11 @@
                                         <div class="panel-body">
                                             <strong>Terdeteksi referensi pertanahan dan inventaris kosong</strong>
                                             <p>Klik tombol Perbaiki untuk mengembalikan isi tabel referensi tersebut.
+                                                <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'ref_inventaris_kosong') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                             </p>
                                         </div>
                                     </div>
@@ -139,7 +148,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk mengubah lokasi keluarga kosong menjadi
                                                 <strong>{{ $wilayah_pertama['wil'] }}</strong>. Untuk melihat keluarga
-                                                yang diubah harap periksa berkas logs.
+                                                yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'id_cluster_null') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                             </p>
                                         </div>
                                     </div>
@@ -164,7 +177,11 @@
                                             <p>Klik tombol Perbaiki untuk memperbaiki NIK ganda dengan (1) mengubah
                                                 semua NIK yang bukan numerik menjadi NIK sementara, dan (2) mengubah NIK
                                                 ganda selain yang pertama menjadi NIK sementara. Untuk melihat NIK yang
-                                                diubah harap periksa berkas logs.</p>
+                                                diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'nik_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -187,7 +204,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki dengan mengubah semua nomor KK
                                                 panjang menjadi KK sementara. Untuk melihat nomor KK yang diubah harap
-                                                periksa berkas logs.</p>
+                                                periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'kk_panjang') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -210,7 +231,12 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki no_kk ganda dengan (1) menambah id
                                                 ke masing-masing no_kk. Untuk melihat no_kk yang diubah harap periksa
-                                                berkas logs.</p>
+                                                berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'no_kk_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
+                                            </p>
                                         </div>
                                     </div>
                                 @endif
@@ -234,6 +260,11 @@
                                             <p>Klik tombol Perbaiki untuk memperbaiki username ganda dengan (1) mengubah
                                                 username kosong menjadi null, dan (2) menambah id ke masing-masing
                                                 username. Untuk melihat username yang diubah harap periksa berkas logs.
+                                                <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'username_user_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a>
                                             </p>
                                         </div>
                                     </div>
@@ -257,7 +288,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki email ganda dengan (1) mengubah
                                                 email kosong menjadi null, dan (2) menambah id ke masing-masing email.
-                                                Untuk melihat email yang diubah harap periksa berkas logs.</p>
+                                                Untuk melihat email yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'email_user_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -280,7 +315,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki email ganda dengan (1) mengubah
                                                 email kosong menjadi null, dan (2) menambah id ke masing-masing email.
-                                                Untuk melihat email yang diubah harap periksa berkas logs.</p>
+                                                Untuk melihat email yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'email_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -303,7 +342,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk mengosongkan Tag ID ganda, supaya hanya Tag ID
                                                 yang unik saja yang tertinggal. Untuk melihat Tag ID yang diubah harap
-                                                periksa berkas logs.</p>
+                                                periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'tag_id_ganda') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -313,7 +356,11 @@
                                         <div class="panel-body">
                                             <strong>Terdeteksi ada kartu_tempat_lahir atau kartu_alamat berisi null,
                                                 seharusnya ''</strong>
-                                            <p>Klik tombol Perbaiki untuk mengubah nilai null menjadi ''</p>
+                                            <p>Klik tombol Perbaiki untuk mengubah nilai null menjadi '' <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'kartu_alamat') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -323,7 +370,11 @@
                                         <div class="panel-body">
                                             <strong>Terdeteksi ada tabel yang kehilangan autoincrement</strong>
                                             <p>Klik tombol Perbaiki untuk mengembalikan autoincrement pada semua tabel
-                                                yang memerlukan</p>
+                                                yang memerlukan <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'autoincrement') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -346,7 +397,11 @@
                                                 @endforeach
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki semua collation table yang tidak
-                                                sesuai menjadi collation <code>utf8_general_ci</code></p>
+                                                sesuai menjadi collation <code>utf8_general_ci</code>.<br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -371,7 +426,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki semua data default table yang
                                                 tidak sesuai <code>(0000-00-00 00:00:00)</code>.</code>Untuk melihat
-                                                data tanggal yang diubah harap periksa berkas logs.</p>
+                                                data tanggal yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'zero_date_default_value') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -393,7 +452,11 @@
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperbaiki semua data tanggal table yang
                                                 tidak sesuai <code>(0000-00-00 00:00:00)</code>.</code>Untuk melihat
-                                                data tanggal yang diubah harap periksa berkas logs.</p>
+                                                data tanggal yang diubah harap periksa berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'tabel_invalid_date') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
@@ -403,18 +466,49 @@
                                         <div class="panel-body">
                                             <strong>Terdeteksi ada data jabatan yang tidak tersedia.</strong>
                                             <p>Klik tombol Perbaiki untuk mengembalikan data jabatan yang diperlukan
-                                                tersebut.</p>
+                                                tersebut. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'data_jabatan_tidak_ada') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
                                         </div>
                                     </div>
                                 @endif
 
+                                @if (in_array('penduduk_tanpa_keluarga', $masalah))
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi penduduk belum tercatat di data keluarga</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>NIK</th>
+                                                    <th>Nama</th>                                                    
+                                                </tr>
+                                                @foreach ($penduduk_tanpa_keluarga as $penduduk)
+                                                    <tr>
+                                                        <td>{{ $penduduk['nik'] }}</td>
+                                                        <td>{{ $penduduk['nama'] }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                            <p>Klik tombol Perbaiki Data untuk memperbaiki penduduk yang belum tercatat keluarganya. Untuk melihat no_kk_sementara yang diubah harap periksa
+                                                berkas logs. <br><a href="#" data-href="{{ route('periksa.perbaiki_sebagian', 'penduduk_tanpa_keluarga') }}"
+                                                class="btn btn-sm btn-social btn-danger" role="button"
+                                                title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                                data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                                    class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                        </div>
+                                    </div>
+                                @endif
+
+
                                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi
                                     {{ $migrasi_utk_diulang }}.</p>
-                                <a href="#" data-href="{{ route('periksa.perbaiki') }}"
+                                <br><a href="#" data-href="{{ route('periksa.perbaiki') }}"
                                     class="btn btn-sm btn-social btn-danger" role="button"
-                                    title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-status"
-                                    data-body="Apakah yakin akan memperbaiki masalah data?"><i
-                                        class="fa fa fa-wrench"></i>Perbaiki</a>
+                                    title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-backup"
+                                    data-body="Apakah sudah melakukan backup database/foder desa?"><i
+                                        class="fa fa fa-wrench"></i>Perbaiki Semua</a>
                             @endif
 
                         </div>
@@ -451,7 +545,7 @@
         <script src="{{ asset('js/disabled.min.js') }}"></script>
     @endif
     <script type="text/javascript">
-        $('#confirm-status').on('show.bs.modal', function(e) {
+        $('#confirm-backup').on('show.bs.modal', function(e) {
             $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
             $(this).find('.modal-body').html($(e.relatedTarget).data('body'));
         });

@@ -116,7 +116,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<th rowspan="2">Status Hub. Keluarga</th>
 								<th rowspan="2">Kewarganegaraan</th>
 								<th colspan="2">Orang Tua</th>
-								<th rowspan="2">Tgl Mulai Tinggal di Desa</th>
+								<th rowspan="2">Tgl Mulai Tinggal di <?= ucwords(setting('sebutan_desa')) ?></th>
 								<th rowspan="2">Ket</th>
 							</tr>
 							<tr>
