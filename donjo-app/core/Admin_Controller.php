@@ -68,7 +68,7 @@ class Admin_Controller extends MY_Controller
         if (! $this->session->change_password) {
             return;
         }
-        if ($this->router->class === 'pengguna') {
+        if ($this->controller === 'pengguna') {
             return;
         }
 
@@ -97,7 +97,7 @@ class Admin_Controller extends MY_Controller
         $validasi = $this->premium->validasi();
         $force    = $this->session->force_change_password;
 
-        if ($force && $validasi && ! $kode_desa && $this->router->class != 'pengguna') {
+        if ($force && $validasi && ! $kode_desa && $this->controller != 'pengguna') {
             redirect('pengguna#sandi');
         }
 
