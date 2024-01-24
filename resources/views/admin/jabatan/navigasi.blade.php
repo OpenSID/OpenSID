@@ -27,9 +27,9 @@
 <div class="list-group">
     <div class="box-footer no-padding col-sm-11">
         <ul class="nav nav-stacked">
-            <li class="@active($selected_nav == 'peraturan')"><a href="{{ site_url('dokumen_sekretariat/clear/3') }}">{{ SebutanDesa('Buku Peraturan [Desa]') }}</a>
+            <li class="@active($selected_nav == 'peraturan')"><a href="{{ site_url('dokumen_sekretariat/perdes/3') }}">{{ SebutanDesa('Buku Peraturan [Desa]') }}</a>
             </li>
-            <li class="@active($selected_nav == 'keputusan')"><a href="{{ site_url('dokumen_sekretariat/clear/2') }}">Buku Keputusan
+            <li class="@active($selected_nav == 'keputusan')"><a href="{{ site_url('dokumen_sekretariat/perdes/2') }}">Buku Keputusan
                     {{ ucwords(setting('sebutan_kepala_desa')) }}</a></li>
             <li class="@active($selected_nav == 'inventaris')"><a href="{{ site_url('bumindes_inventaris_kekayaan') }}">{{ SebutanDesa('Buku Inventaris dan Kekayaan [Desa]') }}</a>
             </li>

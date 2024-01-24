@@ -25,8 +25,8 @@
 <div class="list-group">
     <div class="box-footer no-padding col-sm-11">
         <ul class="nav nav-stacked">
-            <li class="{{ compared_return($selected_nav, 'peraturan', 'active') }}"><a href="{{ site_url('dokumen_sekretariat/clear/3') }}">Buku Peraturan Di {{ setting('sebutan_desa') }}</a></li>
-            <li class="{{ compared_return($selected_nav, 'keputusan', 'active') }}"><a href="{{ site_url('dokumen_sekretariat/clear/2') }}">Buku Keputusan {{ setting('sebutan_kepala_desa') }}</a></li>
+            <li class="{{ compared_return($selected_nav, 'peraturan', 'active') }}"><a href="{{ site_url('dokumen_sekretariat/perdes/3') }}">Buku Peraturan Di {{ setting('sebutan_desa') }}</a></li>
+            <li class="{{ compared_return($selected_nav, 'keputusan', 'active') }}"><a href="{{ site_url('dokumen_sekretariat/perdes/2') }}">Buku Keputusan {{ setting('sebutan_kepala_desa') }}</a></li>
             <li class="{{ compared_return($selected_nav, 'inventaris', 'active') }}"><a href="{{ site_url('bumindes_inventaris_kekayaan') }}">Buku Inventaris dan Kekayaan {{ setting('sebutan_desa') }}</a></li>
             <li class="{{ compared_return($selected_nav, 'aparat', 'active') }}"><a href="{{ site_url('pengurus') }}">Buku {{ ucwords(setting('sebutan_pemerintah_desa')) }}</a></li>
             <li class="{{ compared_return($selected_nav, 'tanah_kas', 'active') }}"><a href="{{ site_url('bumindes_tanah_kas_desa/clear') }}">Buku Tanah Kas {{ setting('sebutan_desa') }}</a></li>
