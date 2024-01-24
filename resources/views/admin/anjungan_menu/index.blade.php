@@ -1,4 +1,5 @@
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
 @extends('admin.layouts.index')
 
@@ -34,9 +35,10 @@
                             <th class="padat">NO</th>
                             <th class="padat">AKSI</th>
                             <th>NAMA</th>
-                            <th>URUTAN</th>
                         </tr>
                     </thead>
+                    <tbody id="dragable">
+                    </tbody>
                 </table>
             </div>
             </form>
@@ -77,16 +79,12 @@
                         searchable: true,
                         orderable: true
                     },
-                    {
-                        data: 'urut',
-                        name: 'urut',
-                        searchable: false,
-                        orderable: true
-                    },
                 ],
-                order: [
-                    [4, 'asc']
-                ]
+                order: [],
+                createdRow: function(row, data, dataIndex) {
+                    $(row).attr('data-id', data.id)
+                    $(row).addClass('dragable-handle');
+                },
             });
 
             if (hapus == 0) {
@@ -96,6 +94,9 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+
+            // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
+            @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('anjungan_menu.tukar')])
         });
     </script>
 @endpush

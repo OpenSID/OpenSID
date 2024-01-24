@@ -65,6 +65,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#6723](https://github.com/OpenSID/OpenSID/issues/6723) Penyesuaian modul buku pemerintah desa menggunakan ORM dan View Blade Laravel.
 20. [#3383](https://github.com/OpenSID/premium/issues/3383) Penyesuaian modul pesan mandiri menggunakan ORM dan View Blade Laravel.
 21. [#7587](https://github.com/OpenSID/OpenSID/issues/7587) Penyesuaian modul pembangunan menggunakan ORM dan View Blade Laravel.
+22. [#7655](https://github.com/OpenSID/OpenSID/issues/7655) Penyesuaian modul anjungan > menu menggunakan dragable.
 
 
 #### KEAMANAN

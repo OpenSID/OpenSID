@@ -62,7 +62,9 @@ class Anjungan_menu extends Anjungan_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Menu::query())
+            $order = $this->input->get('order') ?? false;
+
+            return datatables()->of(Menu::when(! $order, static fn ($q) => $q->orderBy('urut')))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -73,14 +75,12 @@ class Anjungan_menu extends Anjungan_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . site_url('anjungan_menu/urut/' . $row->id . '/1') . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
-                        $aksi .= '<a href="' . site_url('anjungan_menu/urut/' . $row->id . '/-1') . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                         $aksi .= '<a href="' . ci_route('anjungan_menu.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
 
-                        if ($row->status) {
-                            $aksi .= '<a href="' . site_url("anjungan_menu/kunci/{$row->id}/1") . '" class="btn bg-navy btn-sm" title="Aktifkan Anjungan"><i class="fa fa-unlock"></i></a> ';
+                        if ($row->status == StatusEnum::YA) {
+                            $aksi .= '<a href="' . ci_route('anjungan_menu.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . site_url("anjungan_menu/kunci/{$row->id}/0") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Anjungan"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('anjungan_menu.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
 
@@ -133,10 +133,6 @@ class Anjungan_menu extends Anjungan_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! empty($this->request['surat'])) {
-            $this->surat_master_model->upload($this->request['url_surat']);
-        }
-
         if (Menu::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -159,67 +155,43 @@ class Anjungan_menu extends Anjungan_Controller
     {
         $this->redirect_hak_akses('h');
 
-        $file = LOKASI_ICON_MENU_ANJUNGAN . Menu::find($id)->icon;
-        if (is_file($file)) {
-            unlink($file);
-        }
-
         if (Menu::destroy($id ?? $this->request['id_cb']) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function kunci($id = null, $val = 0): void
+    public function lock($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        $favorit = Menu::findOrFail($id);
-        $favorit->update(['status' => ($val == 1) ? StatusEnum::TIDAK : StatusEnum::YA]);
+        if (Menu::gantiStatus($id, 'status')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
 
-        redirect_with('success', 'Berhasil Ubah Data');
+        redirect_with('error', 'Gagal Ubah Status');
     }
 
-    public function urut($id, $urut)
+    public function tukar()
     {
-        $menu = Menu::findOrFail($id);
-        if ($urut == -1 && Menu::min('urut') == $menu->urut) {
-            return redirect_with('error', 'Menu sudah berada di urutan pertama');
-        }
-        if ($urut == 1 && Menu::max('urut') == $menu->urut) {
-            return redirect_with('error', 'Menu sudah berada di urutan terakhir');
-        }
-        $perubahan = $menu->urut + $urut;
-        Menu::where('urut', $perubahan)->update(['urut' => $menu->urut]);
-        $menu->update(['urut' => $perubahan]);
+        $menu = $this->input->post('data');
+        Menu::setNewOrder($menu);
 
-        return redirect_with('success', 'Berhasil Ubah Data');
+        return json(['status' => 1]);
     }
 
     protected static function validated($request = [], $id = null): array
     {
         $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 
-        $validated = [
+        return [
             'nama'      => htmlentities($request['nama']),
             'link'      => $request['link'],
-            'icon'      => static::unggah('icon') ?? $request['old_icon'],
+            'icon'      => static::unggah('icon'),
             'link_tipe' => $request['link_tipe'],
             'urut'      => $urut,
             'status'    => 1,
         ];
-
-        if ($id) {
-            $validated['created_by'] = $validated['updated_by'] = auth()->id;
-            $file                    = LOKASI_ICON_MENU_ANJUNGAN . Menu::find($id)->icon;
-            if (is_file($file) && $request['icon']) {
-                unlink($file);
-            }
-        } else {
-            $validated['created_by'] = auth()->id;
-        }
-
-        return $validated;
     }
 
     protected static function unggah($jenis = '')

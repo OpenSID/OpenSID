@@ -2147,8 +2147,8 @@ Route::group('anjungan_menu', static function (): void {
     Route::post('/update/{id?}', 'Anjungan_menu@update')->name('anjungan_menu.update');
     Route::get('/delete/{id?}', 'Anjungan_menu@delete')->name('anjungan_menu.delete');
     Route::post('/delete', 'Anjungan_menu@delete')->name('anjungan_menu.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Anjungan_menu@kunci')->name('anjungan_menu.kunci');
-    Route::get('/urut/{id}/{urut}', 'Anjungan_menu@urut')->name('anjungan_menu.urut');
+    Route::get('/lock/{id?}', 'Anjungan_menu@lock')->name('anjungan_menu.lock');
+    Route::post('/tukar', 'Anjungan_menu@tukar')->name('anjungan_menu.tukar');
 });
 
 // Anjungan > Pengaturan
