@@ -72,8 +72,6 @@ class Admin_Controller extends MY_Controller
             return;
         }
 
-        $this->init();
-
         redirect('pengguna');
     }
 
