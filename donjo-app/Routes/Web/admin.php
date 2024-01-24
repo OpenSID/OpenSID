@@ -261,7 +261,7 @@ Route::group('penduduk', static function (): void {
 // Kependudukan > Penduduk > Log Penduduk
 Route::group('penduduk_log', static function (): void {
     Route::get('/clear', 'Penduduk_log@clear')->name('penduduk_log.clear');
-    Route::get('/', 'Penduduk_log@index')->name('penduduk_log.index');
+    Route::match(['GET', 'POST'], '/', 'Penduduk_log@index')->name('penduduk_log.index');
     Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
     Route::match(['GET', 'POST'], '/index/{p}', 'Penduduk_log@index');
     Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Penduduk_log@index');
@@ -613,7 +613,7 @@ Route::group('vaksin_covid', static function (): void {
     Route::get('/tampil_sertifikat/{id_penduduk}', 'Vaksin_covid@tampil_sertifikat')->name('vaksin_covid.tampil_sertifikat');
     Route::get('/berkas_vaksin/{id_penduduk}/{vaksin}', 'Vaksin_covid@berkas_vaksin')->name('vaksin_covid.berkas_vaksin');
     Route::post('/update', 'Vaksin_covid@update')->name('vaksin_covid.update');
-    Route::get('/laporan_penduduk/{p?}', 'Vaksin_covid@laporan_penduduk')->name('vaksin_covid.laporan_penduduk');
+    Route::match(['GET', 'POST'], '/laporan_penduduk/{p?}', 'Vaksin_covid@laporan_penduduk')->name('vaksin_covid.laporan_penduduk');
     Route::post('/laporan_penduduk_cetak/{aksi}', 'Vaksin_covid@laporan_penduduk_cetak')->name('vaksin_covid.laporan_penduduk_cetak');
     Route::get('/laporan_rekap', 'Vaksin_covid@laporan_rekap')->name('vaksin_covid.laporan_rekap');
     Route::post('/laporan_rekap_cetak/{aksi}', 'Vaksin_covid@laporan_rekap_cetak')->name('vaksin_covid.laporan_rekap_cetak');
@@ -718,7 +718,7 @@ Route::group('surat', static function (): void {
     Route::match(['GET', 'POST'], '/cetak/{id}', 'Surat@cetak')->name('surat.cetak');
     Route::post('/nomor_surat_duplikat', 'Surat@nomor_surat_duplikat')->name('surat.nomor_surat_duplikat');
     Route::post('/search', 'Surat@search')->name('surat.search');
-    Route::post('/favorit/{id?}/{val?}', 'Surat@favorit')->name('surat.favorit');
+    Route::match(['GET', 'POST'], '/favorit/{id?}/{val?}', 'Surat@favorit')->name('surat.favorit');
     Route::post('/format_nomor_surat', 'Surat@format_nomor_surat')->name('surat.format_nomor_surat');
     Route::get('/list_penduduk_ajax', 'Surat@list_penduduk_ajax')->name('surat.list_penduduk_ajax');
     Route::get('/list_penduduk_bersurat_ajax', 'Surat@list_penduduk_bersurat_ajax')->name('surat.list_penduduk_bersurat_ajax');
@@ -1506,7 +1506,7 @@ Route::group('setting', static function (): void {
 Route::group('program_bantuan', static function (): void {
     Route::get('/clear', 'Program_bantuan@clear')->name('program_bantuan.clear');
     Route::post('/filter/{filter}', 'Program_bantuan@filter')->name('program_bantuan.filter');
-    Route::get('/', 'Program_bantuan@index')->name('program_bantuan.index');
+    Route::match(['GET', 'POST'], '/', 'Program_bantuan@index')->name('program_bantuan.index');
     Route::get('/index/{p?}', 'Program_bantuan@index')->name('program_bantuan.index-page');
     Route::get('/apipendudukbantuan', 'Program_bantuan@apipendudukbantuan')->name('program_bantuan.apipendudukbantuan');
     Route::get('/panduan', 'Program_bantuan@panduan')->name('program_bantuan.panduan');
@@ -1524,7 +1524,7 @@ Route::group('program_bantuan', static function (): void {
 
 // Peserta Bantuan > Peserta
 Route::group('peserta_bantuan', static function (): void {
-    Route::get('/detail/{program_id?}/{p?}', 'Peserta_bantuan@detail')->name('peserta_bantuan.detail');
+    Route::match(['GET', 'POST'], '/detail/{program_id?}/{p?}', 'Peserta_bantuan@detail')->name('peserta_bantuan.detail');
     Route::match(['GET', 'POST'], '/form/{program_id?}', 'Peserta_bantuan@form')->name('peserta_bantuan.form');
     Route::get('/peserta/{cat?}/{id?}', 'Peserta_bantuan@peserta')->name('peserta_bantuan.peserta');
     Route::get('/data_peserta/{id?}', 'Peserta_bantuan@data_peserta')->name('peserta_bantuan.data_peserta');
@@ -1540,10 +1540,10 @@ Route::group('peserta_bantuan', static function (): void {
 
 // Pertanahan > Daftar Persil
 Route::group('data_persil', static function (): void {
-    Route::get('/', 'Data_persil@index')->name('data_persil.index');
-    Route::get('/index', 'Data_persil@index')->name('data_persil.index-1');
-    Route::get('/index/{p}', 'Data_persil@index')->name('data_persil.index-2');
-    Route::get('/index/{p}/{o}', 'Data_persil@index')->name('data_persil.index-3');
+    Route::match(['GET', 'POST'], '/', 'Data_persil@index')->name('data_persil.index');
+    Route::match(['GET', 'POST'], '/index', 'Data_persil@index')->name('data_persil.index-1');
+    Route::match(['GET', 'POST'], '/index/{p}', 'Data_persil@index')->name('data_persil.index-2');
+    Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Data_persil@index')->name('data_persil.index-3');
     Route::get('/clear', 'Data_persil@clear')->name('data_persil.clear');
     Route::post('/autocomplete', 'Data_persil@autocomplete')->name('data_persil.autocomplete');
     Route::post('/search', 'Data_persil@search')->name('data_persil.search');
@@ -1561,10 +1561,10 @@ Route::group('data_persil', static function (): void {
 });
 // Pertanahan > C-Desa
 Route::group('cdesa', static function (): void {
-    Route::get('/', 'Cdesa@index')->name('cdesa.index');
-    Route::get('/index', 'Cdesa@index')->name('cdesa.index-1');
-    Route::get('/index/{p}', 'Cdesa@index')->name('cdesa.index-2');
-    Route::get('/index/{p}/{o}', 'Cdesa@index')->name('cdesa.index-3');
+    Route::match(['GET', 'POST'], '/', 'Cdesa@index')->name('cdesa.index');
+    Route::match(['GET', 'POST'], '/index', 'Cdesa@index')->name('cdesa.index-1');
+    Route::match(['GET', 'POST'], '/index/{p}', 'Cdesa@index')->name('cdesa.index-2');
+    Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Cdesa@index')->name('cdesa.index-3');
     Route::get('/clear', 'Cdesa@clear')->name('cdesa.clear');
     Route::get('/autocomplete', 'Cdesa@autocomplete')->name('cdesa.autocomplete');
     Route::post('/search', 'Cdesa@search')->name('cdesa.search');
@@ -1973,8 +1973,8 @@ Route::group('web', static function (): void {
     Route::get('/teks_berjalan', 'Web@teks_berjalan')->name('web.teks_berjalan');
     Route::post('/update_teks_berjalan', 'Web@update_teks_berjalan')->name('web.update_teks_berjalan');
     Route::get('/reset', 'Web@reset')->name('web.reset');
-    Route::get('/{p?}/{o?}', 'Web@index')->name('web.index-default');
-    Route::get('/index/{p?}/{o?}', 'Web@index')->name('web.index');
+    Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Web@index')->name('web.index-default');
+    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Web@index')->name('web.index');
 });
 
 // Admin Web > Widget
