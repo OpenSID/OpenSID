@@ -141,5 +141,5 @@ if (ENVIRONMENT === 'development') {
 }
 
 $app->boot();
-
-$hook = getHooks();
+$moduleLocations = $CFG->item('modules_locations');
+$hook            = getHooks(['modules_location' => $moduleLocations]);

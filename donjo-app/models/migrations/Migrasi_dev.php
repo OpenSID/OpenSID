@@ -36,12 +36,7 @@
  */
 
 use App\Models\Kategori;
-use App\Models\Komentar;
-use App\Models\Penduduk;
-use App\Models\PesanMandiri;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

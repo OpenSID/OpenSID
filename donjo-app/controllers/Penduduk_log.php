@@ -283,9 +283,9 @@ class Penduduk_log extends Admin_Controller
 
         switch ((string) $tipe) {
             case 'akta-kematian':
-                $session  = 'akta_kematian';
-                $kategori = 'AKTA KEMATIAN : ';
-                $this->session->status_dasar = 2;
+                $session                       = 'akta_kematian';
+                $kategori                      = 'AKTA KEMATIAN : ';
+                $this->session->status_dasar   = 2;
                 $this->session->kode_peristiwa = 2;
                 $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
                 break;

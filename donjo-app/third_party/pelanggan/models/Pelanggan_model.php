@@ -105,6 +105,17 @@ class Pelanggan_model extends MY_Model
         }
 
         if ($cache = $this->cache->file->get('status_langganan')) {
+            $modul = collect($cache->body->pemesanan)->filter(fn ($data) => $data->status_pemesanan === "aktif")
+                ->map(fn ($data) => collect($data->layanan)->filter(fn ($data) => $data->nama_kategori === "Modul")
+                // ->map(fn ($data) => collect($data->layanan)->filter(fn ($data) => $data->nama_kategori === "Tema") // untuk testing
+                ->map(fn ($data) => $data->nama)->toArray())
+                ->flatten()
+                ->toArray();
+
+            if (count($modul) > 0) {
+                cache()->remember('modul_aktif', 60 * 60 * 24 * 365, fn () => $modul);
+            }
+
             $this->session->set_userdata('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
 
             return $cache;

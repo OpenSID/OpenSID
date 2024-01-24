@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-2401.0.2-patch',
-        'version' => 'dev-2401.0.2-patch',
-        'reference' => 'e1e1c2b01e6acd1497eaaf3cf1e5dab21a8a8d3b',
+        'pretty_version' => '2401.0.3.x-dev',
+        'version' => '2401.0.3.9999999-dev',
+        'reference' => 'd6e9af8e53035ebe58a5aa0172c823c9541b02cc',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -389,18 +389,18 @@
             'dev_requirement' => false,
         ),
         'nesbot/carbon' => array(
-            'pretty_version' => '2.72.1',
-            'version' => '2.72.1.0',
-            'reference' => '2b3b3db0a2d0556a177392ff1a3bf5608fa09f78',
+            'pretty_version' => '2.72.2',
+            'version' => '2.72.2.0',
+            'reference' => '3e7edc41b58d65509baeb0d4a14c8fa41d627130',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nesbot/carbon',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-2401.0.2-patch',
-            'version' => 'dev-2401.0.2-patch',
-            'reference' => 'e1e1c2b01e6acd1497eaaf3cf1e5dab21a8a8d3b',
+            'pretty_version' => '2401.0.3.x-dev',
+            'version' => '2401.0.3.9999999-dev',
+            'reference' => 'd6e9af8e53035ebe58a5aa0172c823c9541b02cc',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -409,7 +409,7 @@
         'opensid/router' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '770d0ca3707143d17dd46c99e67320195027c701',
+            'reference' => '6e869d51af7875be82c311aa17ce147f78801774',
             'type' => 'library',
             'install_path' => __DIR__ . '/../opensid/router',
             'aliases' => array(

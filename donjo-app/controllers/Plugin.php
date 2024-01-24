@@ -39,14 +39,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plugin extends Admin_Controller
 {
-    public $modul_ini         = 'pengaturan';
-    public $sub_modul_ini     = 'modul';
-    public $aliasController   = 'modul';
-    private $modulesDirectory = APPPATH . 'Modules/';
+    public $modul_ini       = 'pengaturan';
+    public $sub_modul_ini   = 'modul';
+    public $aliasController = 'modul';
+    private $modulesDirectory;
 
     public function __construct()
     {
         parent::__construct();
+        $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
     }
 
     public function index(): void
@@ -89,7 +90,7 @@ class Plugin extends Admin_Controller
     public function pasang(): void
     {
         [$name, $url, $version] = explode('___', $this->request['pasang']);
-        if (! empty($version)) {
+        if ($version !== '' && $version !== '0') {
             $this->jalankanMigrasi($name, 'down');
             forceRemoveDir($this->modulesDirectory . $name);
         }
@@ -99,7 +100,7 @@ class Plugin extends Admin_Controller
         redirect('plugin');
     }
 
-    private function pasangPaket($name, $url)
+    private function pasangPaket(string $name, string $url): void
     {
         try {
             // Destination path for the downloaded ZIP file
@@ -125,6 +126,8 @@ class Plugin extends Admin_Controller
                 set_session('success', 'Paket tambahan ' . $name . ' berhasil diinstall, silakan aktifkan paket tersebut');
                 // Optional: Remove the downloaded ZIP file
                 unlink($zipFilePath);
+                // reset cache views_blade karena di MY_Controller diset cache rememberForever
+                cache()->flush();
             } else {
                 set_session('error', 'Gagal download paket ' . $url . ' atau gagal ekstract ke folder ' . $extractedDir);
             }
@@ -134,7 +137,7 @@ class Plugin extends Admin_Controller
         }
     }
 
-    public function hapus()
+    public function hapus(): void
     {
         try {
             $name = $this->request['name'];
@@ -154,7 +157,7 @@ class Plugin extends Admin_Controller
         redirect('plugin/installed');
     }
 
-    private function jalankanMigrasi($name, $action = 'up')
+    private function jalankanMigrasi($name, string $action = 'up'): void
     {
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';

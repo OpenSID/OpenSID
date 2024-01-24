@@ -62,12 +62,15 @@ use App\Models\User;
  */
 class MY_Controller extends CI_Controller
 {
-    public $settings;
     public $includes;
     public $theme;
     public $template;
     public $request;
     public $cek_anjungan;
+
+    /**
+     * @var string
+     */
     public $controller;
 
     public function __construct()
@@ -238,9 +241,14 @@ class MY_Controller extends CI_Controller
 
     public function setConfigViews(): void
     {
-        $config = cache()->rememberForever('views_blade', static function () {
-            $modules = array_map(static fn ($module) => $module . '/Views/', glob(APPPATH . 'Modules/*', GLOB_ONLYDIR));
-            $themes  = array_merge(
+        $config = cache()->rememberForever('views_blade', static function (): array {
+            $moduleLocation = config_item('modules_locations');
+            $modules        = [];
+
+            foreach ($moduleLocation as $key => $value) {
+                $modules = array_merge($modules, array_map(static fn ($module): string => $module . '/Views/', glob($key . '*', GLOB_ONLYDIR)));
+            }
+            $themes = array_merge(
                 glob(DESAPATH . 'themes/*/', GLOB_ONLYDIR),
                 glob(VENDORPATH . 'themes/*/', GLOB_ONLYDIR)
             );

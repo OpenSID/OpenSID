@@ -51,7 +51,7 @@ return array(
     'OpenSpout\\' => array($vendorDir . '/openspout/openspout/src'),
     'OpenSID\\' => array($vendorDir . '/opensid/router/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
-    'Modules\\' => array($baseDir . '/donjo-app/Modules'),
+    'Modules\\' => array($baseDir . '/Modules'),
     'Mike42\\' => array($vendorDir . '/mike42/escpos-php/src/Mike42', $vendorDir . '/mike42/gfx-php/src/Mike42'),
     'League\\MimeTypeDetection\\' => array($vendorDir . '/league/mime-type-detection/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),

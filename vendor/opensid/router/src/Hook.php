@@ -81,10 +81,15 @@ class Hook
         if(!file_exists(APPPATH . '/Routes/web.php')) {
             copy(__DIR__ . '/Resources/DefaultWebRoutes.php', APPPATH . '/Routes/web.php');
         }
-
+        $modulesLocation = $config['modules_location'] ?? [];
         if($isWeb) {
             // Include all routes web.php
-            $fileWeb = array_merge(glob(APPPATH . 'Modules/*/Routes/web.php'), glob(APPPATH . 'Routes/web.php'));
+            $mapModules = [];
+            foreach ($modulesLocation as $key => $value) {
+                $mapModules = array_merge($mapModules, glob($key . '*/Routes/web.php'));
+            }
+
+            $fileWeb = array_merge($mapModules, glob(APPPATH . 'Routes/web.php'));
             foreach ($fileWeb as $file) {
                 require_once $file;
             }
@@ -98,9 +103,14 @@ class Hook
             Route::group(
                 '/',
                 ['middleware' => [ new RouteAjaxMiddleware() ]],
-                function () {
+                function () use ($modulesLocation) {
+                    // Include all routes web.php
+                    $mapModules = [];
+                    foreach ($modulesLocation as $key => $value) {
+                        $mapModules = array_merge($mapModules, glob($key . '*/Routes/api.php'));
+                    }
                     // Include all routes api.php
-                    $fileApi = array_merge(glob(APPPATH . 'Modules/*/Routes/api.php'), glob(APPPATH . 'Routes/api.php'));
+                    $fileApi = array_merge($mapModules, glob(APPPATH . 'Routes/api.php'));
                     foreach ($fileApi as $file) {
                         require_once $file;
                     }

@@ -708,7 +708,7 @@ $config['maximum_login_attempts'] = 3;
 $config['lockout_time']           = 300;                 // The number of seconds to lockout an account due to exceeded attempts
 
 $config['modules_locations'] = [
-    APPPATH . 'Modules/' => '../Modules/',
+    FCPATH . 'Modules/' => '../../Modules/',
 ];
 
 /*
@@ -717,4 +717,4 @@ $config['modules_locations'] = [
 |--------------------------------------------------------------------------
 |
 */
-$config['url_marketplace'] = 'https://gist.githubusercontent.com/pandigresik/06395e0569a1107925e52ff23a7fb656/raw/94997b1c373d2834c34b9c9031f9fb77fa674686/modules-plugin.json';
+$config['url_marketplace'] = 'https://gist.githubusercontent.com/pandigresik/06395e0569a1107925e52ff23a7fb656/raw/89857222601acebd87d35c1c63b502be558027ec/modules-plugin.json';

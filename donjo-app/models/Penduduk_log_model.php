@@ -587,7 +587,7 @@ class Penduduk_log_model extends MY_Model
         $kf = $this->session->akta_kematian;
 
         if (isset($kf)) {
-            if (!in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+            if (! in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
                 $this->session->umurx = $kf;
                 $this->db->where("log.akta_mati <> '' ");
                 $this->umur_sql();

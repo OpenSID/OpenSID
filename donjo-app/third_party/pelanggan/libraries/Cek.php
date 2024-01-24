@@ -54,8 +54,8 @@ class Cek
     {
         $this->ci = &get_instance();
 
-        if (! isset($this->ci->header)) {
-            $this->ci->header = identitas();
+        if (! isset($this->ci->header['desa'])) {
+            $this->ci->header['desa'] = identitas()->toArray();
         }
     }
 
@@ -80,10 +80,10 @@ class Cek
 
         if (empty($this->ci->header['desa']['kode_desa'])) {
             $this->ci->session->set_userdata('error_premium', 'Kode desa diperlukan.');
-
+            
             return false;
         }
-
+        
         if (empty($token = $this->ci->setting->layanan_opendesa_token)) {
             $this->ci->session->set_userdata('error_premium', 'Token pelanggan kosong / tidak valid.');
 
@@ -100,6 +100,7 @@ class Cek
         }
 
         $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
+        // dd($berakhir);
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
         if ($this->isPremiumVersionExpired($berakhir)) {

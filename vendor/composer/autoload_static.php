@@ -359,7 +359,7 @@ class ComposerStaticInite473ae9052a5c1a5d8622024753b107a
         ),
         'Modules\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/donjo-app/Modules',
+            0 => __DIR__ . '/../..' . '/Modules',
         ),
         'Mike42\\' => 
         array (

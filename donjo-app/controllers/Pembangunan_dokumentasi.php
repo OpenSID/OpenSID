@@ -43,7 +43,7 @@ use App\Models\PembangunanDokumentasi;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-    public $modul_ini = 'pembangunan';
+    public $modul_ini       = 'pembangunan';
     public $aliasController = 'admin_pembangunan';
 
     public function __construct()
@@ -80,13 +80,14 @@ class Pembangunan_dokumentasi extends Admin_Controller
                 ->editColumn('gambar', static function ($row): string {
                     if ($row->gambar) {
                         $row->url_gambar = to_base64(LOKASI_GALERI . $row->gambar);
+
                         return '<img class="penduduk_kecil" src="' . $row->url_gambar . '" class="penduduk_kecil" alt="Gambar Dokumentasi">';
                     }
 
                     return '';
                 })
                 ->editColumn('persentase', static fn ($row) => $row->persentase . '%')
-                ->orderColumn('persentase', function ($query, $order) {
+                ->orderColumn('persentase', static function ($query, $order) {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
                 ->editColumn('created_at', static fn ($row) => $row->created_at)
@@ -100,7 +101,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
     public function formDokumentasi($id_suplemen, $id = '')
     {
         isCan('u');
-        
+
         $data['pembangunan'] = Pembangunan::findOrFail($id_suplemen);
         $data['persentase']  = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
 
@@ -121,7 +122,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         isCan('u');
 
-        $post = $this->input->post();
+        $post                   = $this->input->post();
         $data['id_pembangunan'] = $post['id_pembangunan'];
         $data['gambar']         = $this->upload_gambar_pembangunan('gambar', $post['id_pembangunan']);
         $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
@@ -147,14 +148,13 @@ class Pembangunan_dokumentasi extends Admin_Controller
     {
         isCan('u');
 
-        $post = $this->input->post();
-        $update = PembangunanDokumentasi::findOrFail($id);
+        $post                   = $this->input->post();
+        $update                 = PembangunanDokumentasi::findOrFail($id);
         $data['id_pembangunan'] = $post['id_pembangunan'];
         $data['gambar']         = $this->upload_gambar_pembangunan('gambar', $post['id_pembangunan'], $update->gambar);
         $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
         $data['keterangan']     = $post['keterangan'];
         $data['updated_at']     = date('Y-m-d H:i:s');
-
 
         if ($update->update($data)) {
             $this->perubahan_anggaran($data['id_pembangunan'], $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
@@ -213,7 +213,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
             'max_size'      => 1024, // 1 MB
         ];
         $this->upload->initialize($this->uploadConfig);
-        
+
         $uploadData = null;
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
@@ -227,7 +227,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
             return $old_foto;
         }
-        
+
         // Upload sukses
         if ($this->upload->do_upload($jenis)) {
             $uploadData = $this->upload->data();

@@ -555,7 +555,7 @@ class Laporan_penduduk_model extends MY_Model
 
     protected function get_data_jml()
     {
-        $lap = $this->lap;
+        $lap          = $this->lap;
         $status_dasar = '1';
         //Siapkan data baris rekap
         if ($lap == 18) {
@@ -573,7 +573,7 @@ class Laporan_penduduk_model extends MY_Model
                 $this->db->where('b.sex', 2);
             } elseif ($lap == 'buku-nikah') {
                 $this->db->where('b.status_kawin !=', 1);
-            } else if ($lap == 'akta-kematian') {
+            } elseif ($lap == 'akta-kematian') {
                 $status_dasar = '2';
             }
             $semua = $this->data_jml_semua_penduduk($status_dasar);
