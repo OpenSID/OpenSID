@@ -571,7 +571,7 @@ class Keluarga_model extends MY_Model
         if ($suplemen > 0) {
             return false;
         }
-        $analisis = $this->config_id('r')
+        $analisis = $this->db
             ->from('analisis_respon r')
             ->join('analisis_indikator i', 'i.id = r.id_indikator')
             ->join('analisis_master m', 'm.id = i.id_master')
