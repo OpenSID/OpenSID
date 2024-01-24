@@ -549,7 +549,7 @@ class Analisis_laporan_model extends My_Model
 
         $sql = "SELECT u.*,
             (SELECT COUNT(id)
-                FROM analisis_indikator 
+                FROM analisis_indikator
                 WHERE id = u.id AND id IN({$cb}) AND config_id = " . identitas('id') . ') AS cek
             FROM analisis_indikator u
             WHERE u.config_id = ' . identitas('id');

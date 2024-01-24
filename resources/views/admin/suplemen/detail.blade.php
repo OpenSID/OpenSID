@@ -47,28 +47,28 @@
             @endif
         </div>
         @include('admin.suplemen.rincian')
+        <hr style="margin-bottom: 5px;">
         <div class="box-body">
-            <div class="box-header with-border form-inline">
-                <div class="row">
-                    <select class="form-control input-sm" id="sex" name="sex">
-                        <option value="">Pilih Jenis Kelamin</option>
-                        <option value="1">Laki-laki</option>
-                        <option value="2">Perempuan</option>
-                    </select>
-                    <select class="form-control input-sm" id="dusun" name="dusun">
-                        <option value="">Pilih Dusun</option>
-                        @foreach ($dusun as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
-                        @endforeach
-                    </select>
-                    <select class="form-control input-sm hide" id="rw" name="rw">
-                        <option value="">Pilih RW</option>
-                    </select>
-                    <select class="form-control input-sm  hide" id="rt" name="rt">
-                        <option value="">Pilih RT</option>
-                    </select>
-                </div>
+            <div class="form-inline">
+                <select class="form-control input-sm" id="sex" name="sex">
+                    <option value="">Pilih Jenis Kelamin</option>
+                    <option value="1">Laki-laki</option>
+                    <option value="2">Perempuan</option>
+                </select>
+                <select class="form-control input-sm" id="dusun" name="dusun">
+                    <option value="">Pilih Dusun</option>
+                    @foreach ($dusun as $item)
+                        <option value="{{ $item }}">{{ $item }}</option>
+                    @endforeach
+                </select>
+                <select class="form-control input-sm hide" id="rw" name="rw">
+                    <option value="">Pilih RW</option>
+                </select>
+                <select class="form-control input-sm  hide" id="rt" name="rt">
+                    <option value="">Pilih RT</option>
+                </select>
             </div>
+            <hr>
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
@@ -136,26 +136,22 @@
                     },
                     {
                         data: 'terdata_info',
-                        name: 'terdata_info',
-                        searchable: false,
+                        name: `{{ $suplemen->sasaran == '1' ? 'tweb_keluarga.no_kk' : 'tweb_penduduk.nik' }}`,
                         orderable: true
                     },
                     {
                         data: 'terdata_plus',
-                        name: 'terdata_plus',
-                        searchable: false,
+                        name: `{{ $suplemen->sasaran == '1' ? 'tweb_penduduk.nik' : 'tweb_keluarga.no_kk' }}`,
                         orderable: true
                     },
                     {
                         data: 'terdata_nama',
-                        name: 'terdata_nama',
-                        searchable: false,
+                        name: 'tweb_penduduk.nama',
                         orderable: true
                     },
                     {
                         data: 'tempatlahir',
-                        name: 'tempatlahir',
-                        searchable: false,
+                        name: 'tweb_penduduk.tempatlahir',
                         orderable: true
                     },
                     {
@@ -181,7 +177,6 @@
                     {
                         data: 'keterangan',
                         name: 'keterangan',
-                        searchable: false,
                         orderable: false,
                         class: 'padat'
                     },
