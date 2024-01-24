@@ -117,7 +117,7 @@
                         data: '{{ $level }}',
                         name: '{{ $level }}',
                         searchable: true,
-                        orderable: true
+                        orderable: false
                     },
                     {
                         data: 'kepala',

@@ -40,15 +40,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class Artisan extends CI_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-
-        if (! is_cli()) {
-            show_404();
-        }
-    }
-
     public function index(): void
     {
         $kernel = app(\Illuminate\Contracts\Console\Kernel::class);

@@ -1270,6 +1270,8 @@ class Penduduk_model extends MY_Model
             $id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
             $this->keluarga_model->log_keluarga($penduduk['id_kk'], $id_peristiwa, null, $id_log_penduduk);
         }
+
+        status_sukses($id_log_penduduk);
     }
 
     /**

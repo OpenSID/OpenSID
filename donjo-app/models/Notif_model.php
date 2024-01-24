@@ -60,6 +60,7 @@ class Notif_model extends MY_Model
      *
      * @param mixed $tipe
      * @param mixed $nik
+     * @param mixed $penduduk_id
      */
     // TODO : Gunakan id penduduk
     public function inbox_baru($tipe = 1, $penduduk_id = '')

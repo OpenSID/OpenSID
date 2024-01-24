@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Penduduk_log extends Admin_Controller
 {
     public $modul_ini           = 'kependudukan';
-    public $sub_modul_ini       = 'catatan-peristiwa';
+    public $sub_modul_ini       = 'peristiwa';
     public $kategori_pengaturan = 'data_lengkap';
     private array $set_page     = ['20', '50', '100'];
     private array $list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'judul_statistik', 'akta_kematian', 'umurx'];

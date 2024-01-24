@@ -54,7 +54,7 @@ class Statistik extends Admin_Controller
     public function index(): void
     {
         $data        = $this->get_cluster_session();
-        $data['lap'] = $this->session->lap;
+        $data['lap'] = $this->session->lap ?? '0';
 
         $data['order_by']              = $this->session->order_by;
         $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
@@ -83,7 +83,7 @@ class Statistik extends Admin_Controller
         $this->render('statistik/penduduk', $data);
     }
 
-    private function tautan_data($lap)
+    private function tautan_data(?string $lap = '0')
     {
         if ((int) $lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
@@ -114,11 +114,11 @@ class Statistik extends Admin_Controller
                 $tautan = site_url("penduduk_log/statistik/{$lap}/");
                 break;
 
-            case (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && $sasaran == 1):
+            case (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && (int) $sasaran == 1):
                 $tautan = site_url("penduduk/statistik/{$lap}/");
                 break;
 
-            case (int) $lap > 50 && $sasaran == 4:
+            case (int) $lap > 50 && (int) $sasaran == 4:
                 $tautan = site_url("kelompok/statistik/{$lap}/");
                 break;
 
@@ -171,6 +171,7 @@ class Statistik extends Admin_Controller
                 $kategori = 'rtm';
                 break;
 
+            case $lap == null:
             default:
                 // Penduduk
                 $kategori = 'penduduk';

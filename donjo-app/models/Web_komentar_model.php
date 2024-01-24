@@ -41,7 +41,7 @@ class Web_komentar_model extends MY_Model
 {
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function autocomplete()
@@ -99,7 +99,7 @@ class Web_komentar_model extends MY_Model
             ->join('artikel a', 'k.id_artikel = a.id', 'left');
 
         if ($kat != 0) {
-            $this->db                
+            $this->db
                 ->where('k.tipe', $kat);
             $this->filter_nik_sql();
             $this->filter_archived_sql();

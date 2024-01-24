@@ -40,7 +40,7 @@ use App\Models\Suplemen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024016051 extends MY_model
+class Migrasi_2024011651 extends MY_model
 {
     public function up()
     {

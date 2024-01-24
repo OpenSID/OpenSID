@@ -55,14 +55,7 @@ class Job extends CI_Controller
 
     public function restore($database = null): void
     {
-        /**
-         * Job hanya bisa digunakan jika :
-         * 1. Diakses lewat CLI dan Config demo true
-         * 2. Diakses lewat CLI dan ENV development
-         *
-         * Selain itu akan menampilkan halaman tidak ditemukan.
-         */
-        if (! is_cli() || (! config_item('demo_mode') && ENVIRONMENT === 'production')) {
+        if (! config_item('demo_mode') && ENVIRONMENT === 'production') {
             show_404();
         }
 
@@ -110,9 +103,6 @@ class Job extends CI_Controller
 
     public function backup_inkremental($lokasi): void
     {
-        if (! is_cli()) {
-            return;
-        }
         /*
         variable status
         0 = sedang dalam prosess
@@ -140,10 +130,6 @@ class Job extends CI_Controller
 
     public function restore_desa($id): void
     {
-        if (! is_cli()) {
-            return;
-        }
-
         /*
         variable status
         0 = sedang dalam prosess

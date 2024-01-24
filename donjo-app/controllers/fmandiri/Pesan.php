@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * File ini bagian dari:
@@ -33,7 +34,9 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 use App\Models\PesanMandiri;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pesan extends Mandiri_Controller
@@ -72,12 +75,12 @@ class Pesan extends Mandiri_Controller
 
         $this->load->library('Telegram/telegram');
 
-        $post['penduduk_id']    = $this->is_login->id_pend; // kolom email diisi nik untuk pesan
-        $post['owner']    = $this->is_login->nama;
-        $post['subjek']   = $data['subjek'];
-        $post['komentar'] = $data['pesan'];
-        $post['tipe']     = PesanMandiri::MASUK;
-        $post['status']   = PesanMandiri::UNREAD;
+        $post['penduduk_id'] = $this->is_login->id_pend; // kolom email diisi nik untuk pesan
+        $post['owner']       = $this->is_login->nama;
+        $post['subjek']      = $data['subjek'];
+        $post['komentar']    = $data['pesan'];
+        $post['tipe']        = PesanMandiri::MASUK;
+        $post['status']      = PesanMandiri::UNREAD;
         PesanMandiri::create($post);
 
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
@@ -101,14 +104,14 @@ class Pesan extends Mandiri_Controller
 
     public function baca($kat = 2, $id = ''): void
     {
-        $nik = $this->is_login->nik;
+        $nik   = $this->is_login->nik;
         $pesan = PesanMandiri::findOrFail($id);
-        if ($kat == 2) {            
+        if ($kat == 2) {
             $pesan->status = PesanMandiri::READ;
             $pesan->save();
         }
-        
-        $data  = [
+
+        $data = [
             'kat'        => $kat,
             'owner'      => ($kat == 2) ? 'Penerima' : 'Pengirim',
             'tujuan'     => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',

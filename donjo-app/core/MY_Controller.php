@@ -253,7 +253,7 @@ class MY_Controller extends CI_Controller
 }
 
 // Backend controller
-require_once APPPATH . 'core/Web_Controller.php';
+require_once APPPATH . 'core/Admin_Controller.php';
 
 // Frontend controller
 require_once APPPATH . 'core/Web_Controller.php';

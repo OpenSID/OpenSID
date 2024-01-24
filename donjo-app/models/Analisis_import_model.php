@@ -430,7 +430,6 @@ class Analisis_import_model extends MY_Model
                             'id_parameter' => array_search($val_jawaban[$key_pertanyaan], $db_idx_parameter[$key_pertanyaan], true),
                             'id_subjek'    => $id_subject,
                             'id_periode'   => $id_periode,
-                            'config_id'    => identitas('id'),
                         ];
 
                         $outp = $this->db->insert('analisis_respon', $data_respon);
@@ -684,7 +683,6 @@ class Analisis_import_model extends MY_Model
                                     'id_parameter' => $id_parameter,
                                     'id_subjek'    => $obj_respon['id_subjek'],
                                     'id_periode'   => $obj_respon['id_periode'],
-                                    'config_id'    => identitas('id'),
                                 ];
 
                                 $outp = $this->db->insert('analisis_respon', $data_respon);
@@ -696,7 +694,6 @@ class Analisis_import_model extends MY_Model
                                 'id_parameter' => $id_parameter,
                                 'id_subjek'    => $id_subject,
                                 'id_periode'   => $id_periode_aktif,
-                                'config_id'    => identitas('id'),
                             ];
 
                             $outp = $this->db->insert('analisis_respon', $data_respon);

@@ -232,7 +232,7 @@ class Analisis_laporan_model extends My_Model
         $jmkf = $this->session->jmkf;
         $this->db
             ->where_in('x.id_parameter', $kf)
-            ->where('((SELECT COUNT(id_parameter) FROM analisis_respon WHERE id_subjek = u.id  AND config_id = ' . identitas('id') . " AND id_periode = {$per} AND id_parameter IN ({$kf})) = {$jmkf})");
+            ->where("((SELECT COUNT(id_parameter) FROM analisis_respon ar WHERE id_subjek = u.id AND id_periode = {$per} AND id_parameter IN ({$kf})) = {$jmkf})");
     }
 
     public function get_judul()
@@ -549,7 +549,7 @@ class Analisis_laporan_model extends My_Model
 
         $sql = "SELECT u.*,
             (SELECT COUNT(id)
-                FROM analisis_indikator
+                FROM analisis_indikator 
                 WHERE id = u.id AND id IN({$cb}) AND config_id = " . identitas('id') . ') AS cek
             FROM analisis_indikator u
             WHERE u.config_id = ' . identitas('id');
@@ -666,13 +666,11 @@ class Analisis_laporan_model extends My_Model
 
         switch ($o) {
             case 1:
-
             case 3:
                 $order_sql = ' ORDER BY u.id';
                 break;
 
             case 2:
-
             case 4:
                 $order_sql = ' ORDER BY u.id DESC';
                 break;
@@ -704,13 +702,12 @@ class Analisis_laporan_model extends My_Model
     public function group_parameter()
     {
         if (isset($this->session->jawab)) {
-            $idcb = $this->session->jawab;
-            $sql  = "SELECT DISTINCT(id_indikator) AS id_jmkf
-                FROM analisis_parameter
-                WHERE id IN({$idcb}) AND config_id = " . identitas('id');
-            $query = $this->db->query($sql);
-
-            return $query->result_array();
+            return $this->config_id('ap')
+                ->select('DISTINCT(id_indikator) AS id_jmkf')
+                ->from('analisis_parameter ap')
+                ->where_in('ap.id', $this->session->jawab)
+                ->get()
+                ->result_array();
         }
 
         return null;
@@ -718,11 +715,11 @@ class Analisis_laporan_model extends My_Model
 
     public function list_klasifikasi()
     {
-        $sql = 'SELECT *
-            FROM analisis_klasifikasi
-            WHERE id_master=? AND config_id = ' . identitas('id');
-        $query = $this->db->query($sql, $this->session->analisis_master);
-
-        return $query->result_array();
+        return $this->config_id('u')
+            ->select('u.id, u.nama')
+            ->from('analisis_klasifikasi u')
+            ->where('u.id_master', $this->session->analisis_master)
+            ->get()
+            ->result_array();
     }
 }
