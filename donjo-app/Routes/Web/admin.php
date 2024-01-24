@@ -1589,22 +1589,27 @@ Route::group('cdesa', static function (): void {
 });
 // Pembagunan
 Route::group('admin_pembangunan', static function (): void {
-    Route::match(['GET', 'POST'], '/', 'Admin_pembangunan@index')->name('admin_pembangunan.index-default');
-    Route::match(['GET', 'POST'], '/index', 'Admin_pembangunan@index')->name('admin_pembangunan.index');
+    Route::get('/', 'Admin_pembangunan@index')->name('admin_pembangunan.index');
+    Route::get('/datatables', 'Admin_pembangunan@datatables')->name('admin_pembangunan.datatables');
     Route::get('/form/{id?}', 'Admin_pembangunan@form')->name('admin_pembangunan.form');
-    Route::post('/insert', 'Admin_pembangunan@insert')->name('admin_pembangunan.insert');
+    Route::post('/create', 'Admin_pembangunan@create')->name('admin_pembangunan.create');
     Route::post('/update/{id?}', 'Admin_pembangunan@update')->name('admin_pembangunan.update');
     Route::get('/delete/{id?}', 'Admin_pembangunan@delete')->name('admin_pembangunan.delete');
-    Route::match(['GET', 'POST'], '/lokasi_maps/{id}', 'Admin_pembangunan@lokasi_maps')->name('admin_pembangunan.lokasi_maps');
-    Route::get('/dialog_daftar/{id}/{aksi?}', 'Admin_pembangunan@dialog_daftar')->name('admin_pembangunan.dialog_daftar');
-    Route::post('/daftar/{id}/{aksi?}', 'Admin_pembangunan@daftar')->name('admin_pembangunan.daftar');
-    Route::get('/unlock/{id?}', 'Admin_pembangunan@unlock')->name('admin_pembangunan.unlock');
+    Route::match(['GET', 'POST'], '/maps/{id}', 'Admin_pembangunan@maps')->name('admin_pembangunan.maps');
+    Route::post('/update-maps/{id}', 'Admin_pembangunan@updateMaps')->name('admin_pembangunan.update-maps');
     Route::get('/lock/{id?}', 'Admin_pembangunan@lock')->name('admin_pembangunan.lock');
-    Route::match(['GET', 'POST'], '/dokumentasi/{id?}', 'Admin_pembangunan@dokumentasi')->name('admin_pembangunan.dokumentasi');
-    Route::get('/dokumentasi_form/{id?}', 'Admin_pembangunan@dokumentasi_form')->name('admin_pembangunan.dokumentasi_form');
-    Route::post('/dokumentasi_insert/{id_pembangunan?}', 'Admin_pembangunan@dokumentasi_insert')->name('admin_pembangunan.dokumentasi_insert');
-    Route::post('/dokumentasi_update/{id}/{id_pembangunan}', 'Admin_pembangunan@dokumentasi_update')->name('admin_pembangunan.dokumentasi_update');
-    Route::get('/dokumentasi_delete/{id_pembangunan}/{id?}', 'Admin_pembangunan@dokumentasi_delete')->name('admin_pembangunan.dokumentasi_delete');
+});
+// Pembagunan
+Route::group('pembangunan_dokumentasi', static function (): void {
+    Route::get('/dokumentasi/{id?}', 'Pembangunan_dokumentasi@dokumentasi')->name('pembangunan_dokumentasi.dokumentasi');
+    Route::get('/datatables-dokumentasi/{id?}', 'Pembangunan_dokumentasi@datatablesDokumentasi')->name('pembangunan_dokumentasi.datatables-dokumentasi');
+    Route::get('/form-dokumentasi/{id_pembangunan}/{id?}', 'Pembangunan_dokumentasi@formDokumentasi')->name('pembangunan_dokumentasi.form-dokumentasi');
+    Route::post('/create-dokumentasi', 'Pembangunan_dokumentasi@createDokumentasi')->name('pembangunan_dokumentasi.create-dokumentasi');
+    Route::post('/update-dokumentasi/{id}', 'Pembangunan_dokumentasi@updateDokumentasi')->name('pembangunan_dokumentasi.update-dokumentasi');
+    Route::get('/delete-dokumentasi/{id_pembangunan}/{id?}', 'Pembangunan_dokumentasi@deleteDokumentasi')->name('pembangunan_dokumentasi.delete-dokumentasi');
+    Route::get('/dialog/{id}/{aksi?}', 'Pembangunan_dokumentasi@dialog')->name('pembangunan_dokumentasi.dialog');
+    Route::post('/daftar/{id}/{aksi?}', 'Pembangunan_dokumentasi@daftar')->name('pembangunan_dokumentasi.daftar');
+    
 });
 // Lapak
 Route::group('lapak_admin', static function (): void {
