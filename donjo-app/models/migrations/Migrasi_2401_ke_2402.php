@@ -43,6 +43,8 @@ class Migrasi_2401_ke_2402 extends MY_Model
     {
         $hasil = true;
 
+        $this->kolom_akta_kematian();
+
         // Migrasi fitur premium
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2306', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
@@ -50,5 +52,12 @@ class Migrasi_2401_ke_2402 extends MY_Model
         status_sukses($hasil);
 
         return $hasil;
+    }
+
+    protected function kolom_akta_kematian()
+    {
+        if (! $this->db->field_exists('file_akta_kematian', 'log_penduduk')) {
+            $this->db->query("ALTER TABLE `log_penduduk` ADD `file_akta_kematian` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_kematian`;");
+        }
     }
 }

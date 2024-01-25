@@ -161,6 +161,7 @@
                                                             <?php endif ?>
                                                         <?php endif ?>
                                                         <?php if ($data['kode_peristiwa'] == 2) : ?>
+                                                            <a target="_blank" href="<?= site_url("penduduk_log/dokumen/{$data['id_log']}") ?>" class="btn btn-info btn-flat btn-sm" title="Lihat File Akta Kematian"><i class="fa fa-eye"></i></a>
                                                             <a target="_blank" href="<?= site_url("surat/form/surat_ket_kematian/{$data['id']}") ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat Keterangan Kematian"><i class="fa fa-file-word-o"></i>Surat Keterangan Kematian</a>
                                                         <?php endif ?>
                                                     </td>

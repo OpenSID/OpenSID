@@ -117,6 +117,21 @@ class Penduduk_log extends Admin_Controller
         $this->render('penduduk_log/penduduk_log', $data);
     }
 
+    public function dokumen($id)
+    {
+        $data['main'] = $this->penduduk_log_model->get_log($id);
+
+        // download file
+        $this->load->helper('download');
+        $file = $data['main']['file_akta_mati'];
+        if ($file != '') {
+            $path = LOKASI_DOKUMEN . $file;
+            force_download($path, null);
+        } else {
+            show_404();
+        }
+    }
+
     public function filter($filter)
     {
         $value = $this->input->post($filter);

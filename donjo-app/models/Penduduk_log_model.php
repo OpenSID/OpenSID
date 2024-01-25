@@ -62,7 +62,7 @@ class Penduduk_log_model extends MY_Model
     public function get_log($id_log)
     {
         $log = $this->config_id('l')
-            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
+            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati, l.file_akta_mati")
             ->where('l.id', $id_log)
             ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
             ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left')
@@ -110,6 +110,10 @@ class Penduduk_log_model extends MY_Model
             $data['akta_mati'] = $this->input->post('akta_mati');
         }
 
+        if (! empty($_FILES['nama_file']['name'])) {
+            $data['file_akta_mati'] = $this->upload_akta_mati($id_log);
+        }
+
         $penduduk = [];
         if ($this->input->post('anak_ke')) {
             $penduduk['kelahiran_anak_ke'] = (int) $this->input->post('anak_ke');
@@ -123,6 +127,7 @@ class Penduduk_log_model extends MY_Model
             $get_pendudukId = $this->config_id()->where('id', $id_log)->get('log_penduduk')->row()->id_pend;
             $this->config_id()->where('id', $get_pendudukId)->update('tweb_penduduk', $penduduk);
         }
+
         $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
         $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
         $data['updated_at']    = date('Y-m-d H:i:s');
@@ -131,6 +136,36 @@ class Penduduk_log_model extends MY_Model
         $outp = $this->config_id()->where('id', $id_log)->update('log_penduduk', $data);
         status_sukses($outp);
     }
+
+    private function upload_akta_mati($id_log)
+    {
+        $this->load->library('My_upload', null, 'upload');
+
+        $log = $this->config_id()->where('id', $id_log)->get('log_penduduk')->row();
+
+        $config = [
+            'upload_path'   => LOKASI_DOKUMEN,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 1024 * 10,
+            'file_name'     => 'akta_mati_' . $log->id . '_' . time()
+        ];
+
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('nama_file')) {
+            session_error($this->upload->display_errors());
+            redirect($this->controller);
+        }
+
+        $uploadData = $this->upload->data();
+
+        if ($log->file_akta_mati && file_exists(LOKASI_DOKUMEN . $log->file_akta_mati)) {
+            unlink(LOKASI_DOKUMEN . $log->file_akta_mati);
+        }
+
+        return $uploadData['file_name'];
+    }
+
 
     /**
      * Kembalikan status dasar penduduk ke hidup

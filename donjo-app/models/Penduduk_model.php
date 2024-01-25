@@ -1216,6 +1216,10 @@ class Penduduk_model extends MY_Model
             'config_id'      => $this->config_id,
         ];
 
+        if ($log['kode_peristiwa'] == 2 && ! empty($_FILES['nama_file']['name'])) {
+            $log['file_akta_mati'] = $this->upload_akta_mati($id);
+        }
+
         if ($log['kode_peristiwa'] == 3) {
             $pindah               = $this->input->post('ref_pindah');
             $log['ref_pindah']    = ! empty($pindah) ? $pindah : 1;
@@ -1228,6 +1232,29 @@ class Penduduk_model extends MY_Model
             $id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
             $this->keluarga_model->log_keluarga($penduduk['id_kk'], $id_peristiwa, null, $id_log_penduduk);
         }
+    }
+
+    private function upload_akta_mati($id)
+    {
+        $this->load->library('My_upload', null, 'upload');
+
+        $config = [
+            'upload_path'   => LOKASI_DOKUMEN,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 1024 * 10,
+            'file_name'     => 'akta_mati_' . $id . '_' . time()
+        ];
+
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('nama_file')) {
+            session_error($this->upload->display_errors());
+            redirect($this->controller);
+        }
+
+        $uploadData = $this->upload->data();
+
+        return $uploadData['file_name'];
     }
 
     /**
