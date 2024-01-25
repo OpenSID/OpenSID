@@ -16,34 +16,35 @@
         </ol>
     </section>
     <section class="content" id="maincontent">
-        <div class="box box-danger">
-            <div class="box-header with-border">
-                <i class="icon fa fa-ban"></i>
-                <?php if ($this->session->error_status_langganan && !$this->session->error_premium) : ?>
-                    <h3 class="box-title"><?= $this->session->error_status_langganan ?></h3>
-                <?php elseif ($this->session->error_premium) : ?>
-                    <h3 class="box-title"><?= $this->session->error_premium ?></h3>
-                <?php else : ?>
-                    <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
-                <?php endif ?>
+        <?php if ($this->session->error_premium) : ?>
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="icon fa fa-ban"></i>
+                    <?php if ($this->session->error_premium) : ?>
+                        <h3 class="box-title"><?= $this->session->error_premium ?></h3>
+                    <?php elseif (!cek_koneksi_internet()) : ?>
+                        <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
+                    <?php endif ?>
+                </div>
+                <div class="box-body">
+                    <?php if ($pesan = $this->session->error_premium_pesan) : ?>
+                        <div class="callout callout-warning">
+                            <h5><?= $pesan ?></h5>
+                        </div>
+                    <?php elseif (empty($response)) : ?>
+                        <div class="callout callout-danger">
+                            <h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
+                            <h5>Fitur ini khusus untuk pelanggan Layanan <?= config_item('nama_lembaga') ?> (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
+                            <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
+                            <li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
+                            <li>Token pelanggan tidak terontentikasi. Periksa [Layanan <?= config_item('nama_lembaga') ?> Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
+                            <li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
+                        </div>
+                    <?php endif ?>
+                </div>
             </div>
-            <div class="box-body">
-                <?php if ($pesan = $this->session->error_premium_pesan) : ?>
-                    <div class="callout callout-warning">
-                        <h5><?= $pesan ?></h5>
-                    </div>
-                <?php elseif (empty($response)) : ?>
-                    <div class="callout callout-danger">
-                        <h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
-                        <h5>Fitur ini khusus untuk pelanggan Layanan <?= config_item('nama_lembaga') ?> (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
-                        <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
-                        <li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
-                        <li>Token pelanggan tidak terontentikasi. Periksa [Layanan <?= config_item('nama_lembaga') ?> Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
-                        <li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
-                    </div>
-                <?php endif ?>
-            </div>
-        </div>
+        <?php endif ?>
+
         <?php if ($response) : ?>
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xs-12">
