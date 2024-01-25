@@ -43,10 +43,18 @@ class KodeIsianWilayah
 {
     private $wilayah;
     private $sebutanDusun;
+    
+    // Jumlah dusun normal saat cetak surat
+    private const MAX_DUSUN = 27;
 
     public function __construct()
     {
-        $this->wilayah      = Wilayah::with('kepala')->dusun()->get();
+        $wilayah      = Wilayah::with('kepala')->dusun();
+        if ($wilayah->count() > self::MAX_DUSUN) {
+            log_message('notice', 'Jumlah dusun melebihi batas normal, hanya akan ditampilkan ' . self::MAX_DUSUN . ' dusun');
+        }
+        
+        $this->wilayah      = $wilayah->take(self::MAX_DUSUN)->get();
         $this->sebutanDusun = setting('sebutan_dusun');
     }
 

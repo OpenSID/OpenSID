@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 36. [#7658](https://github.com/OpenSID/OpenSID/issues/7658) Perbaikan pencarian suplemen terdata.
 37. [#7661](https://github.com/OpenSID/OpenSID/issues/7661) Perbaikan unduh format impor data program bantuan.
 38. [#3451](https://github.com/OpenSID/premium/issues/3451) Perbaikan strict helper ikut_case().
+39. [#7665](https://github.com/OpenSID/OpenSID/issues/7665) Perbaikan cetak surat dengan kode isian wilayah > 27 dusun.
 
 
 #### TEKNIS
