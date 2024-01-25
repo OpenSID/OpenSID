@@ -41,7 +41,7 @@
 																		<th>Aksi</th>
 																	<?php endif; ?>
 																	<th>Isi Teks Berjalan</th>
-																	<th>Tautan ke Artikel</th>
+																	<th>Tautan</th>
 																	<th>Tampil Di</th>
 																</tr>
 															</thead>
@@ -74,7 +74,7 @@
 																		<?php endif; ?>
 																		<td><?=$data['teks']?> <a href="<?=$data['tautan']?>" target="_blank"><?=$data['judul_tautan']?></a></td>
 																		<td width="10%" nowrap>
-																			<a href="<?=$data['tautan']?>" target="_blank"><?=tgl_indo($data['tgl_upload']) . ' <br> ' . $data['judul']?></a>
+																			<a href="<?=$data['tautan']?>" target="_blank"><?= $data['tampil_tautan'] ?></a>
 																		</td>
 																		<td class="padat"><?= $data['tampilkan'] ?></td>
 																	</tr>

@@ -25,13 +25,28 @@
 							</div>
 							<div class="col-sm-12">
 								<div class="form-group">
+									<label class="control-label">Jenis Tautan</label>
+									<select class="form-control select2 " id="jenis" name="jenis">
+										<option value="1">Internal</option>
+										<option value="2">Eksternal</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-12" id="internal">
+								<div class="form-group">
 									<label class="control-label">Tautan ke artikel</label>
-									<select class="form-control select2 " id="tautan" name="tautan">
+									<select class="form-control select2 " id="tautan_internal" name="tautan_internal">
 										<option value="">-- Cari Judul Artikel --</option>
 										<?php foreach ($list_artikel as $artikel): ?>
 											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']) . ' | ' . $artikel['judul']?></option>
 										<?php endforeach; ?>
 									</select>
+								</div>
+							</div>
+							<div class="col-md-12" id="eksternal">
+								<div class="form-group">
+									<label class="control-label">Tautan</label>
+									<input class="form-control input-sm required" placeholder="Contoh: https://opendesa.id" id="tautan_eksternal" name="tautan_eksternal" value="<?= $teks['judul_tautan'] ?>" maxlength="150"></input>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -63,3 +78,26 @@
 		</form>
 	</section>
 </div>
+<script>
+    $(document).ready(function() {
+		jenis(<?= $teks['jenis'] ?: 1 ?>);
+		
+        $('#jenis').on('change', function() {
+            jenis(this.value);
+        });
+
+		function jenis(param) {
+			if (param == 1) {
+				$('#internal').show();
+				$('#eksternal').hide();
+				$("#tautan_internal").addClass("required");
+				$("#tautan_eksternal").removeClass("required");
+			} else {
+				$('#internal').hide();
+				$('#eksternal').show();
+				$("#tautan_internal").removeClass("required");
+				$("#tautan_eksternal").addClass("required");
+			}
+		}
+    });
+</script>

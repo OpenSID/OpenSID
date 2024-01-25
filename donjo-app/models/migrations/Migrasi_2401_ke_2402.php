@@ -47,7 +47,24 @@ class Migrasi_2401_ke_2402 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2307', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2308', false);
 
+        $hasil = $hasil && $this->kolom_jenis($hasil);
+
         status_sukses($hasil);
+
+        return $hasil;
+    }
+
+    protected function kolom_jenis($hasil)
+    {
+        if (!$this->db->field_exists('jenis', 'teks_berjalan')) {
+            $hasil = $hasil && $this->dbforge->add_column('teks_berjalan', [
+                'jenis' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                    'default'    => 1
+                ],
+            ]);
+        }
 
         return $hasil;
     }

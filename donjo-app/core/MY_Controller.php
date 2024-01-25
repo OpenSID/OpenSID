@@ -198,7 +198,7 @@ class Web_Controller extends MY_Controller
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
-        $data['teks_berjalan'] = ($this->db->field_exists('tipe', 'teks_berjalan')) ? $this->teks_berjalan_model->list_data(true, 1) : null;
+        $data['teks_berjalan'] = ($this->db->field_exists('jenis', 'teks_berjalan')) ? $this->teks_berjalan_model->list_data(true, 1) : null;
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
         $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
         $data['w_cos']         = $this->web_widget_model->get_widget_aktif();
