@@ -22,7 +22,7 @@
                     <i class="icon fa fa-ban"></i>
                     <?php if ($this->session->error_premium) : ?>
                         <h3 class="box-title"><?= $this->session->error_premium ?></h3>
-                    <?php elseif (!cek_koneksi_internet()) : ?>
+                    <?php elseif (! cek_koneksi_internet()) : ?>
                         <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
                     <?php endif ?>
                 </div>
@@ -56,7 +56,7 @@
                                     <?php if ($pemesanan->status_pemesanan == 'aktif') : ?>
                                         <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                             <?php
-                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && !file_exists('mitra')) {
+                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
                                                 fopen('mitra', 'wb');
                                             }
                                             ?>
@@ -185,7 +185,7 @@
                                         <?php endforeach ?>
                                     </td>
                                 </tr>
-                                <?php if (!config_item('demo_mode') && $response->body->token) : ?>
+                                <?php if (! config_item('demo_mode') && $response->body->token) : ?>
                                     <tr>
                                         <td>Token</td>
                                         <td> : </td>

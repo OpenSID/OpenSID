@@ -80,10 +80,10 @@ class Cek
 
         if (empty($this->ci->header['desa']['kode_desa'])) {
             $this->ci->session->set_userdata('error_premium', 'Kode desa diperlukan.');
-            
+
             return false;
         }
-        
+
         if (empty($token = $this->ci->setting->layanan_opendesa_token)) {
             $this->ci->session->set_userdata('error_premium', 'Token pelanggan kosong / tidak valid.');
 
@@ -99,7 +99,7 @@ class Cek
             return false;
         }
 
-        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
+        $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
         // dd($berakhir);
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 

@@ -408,7 +408,7 @@ class Lapak_admin extends Admin_Controller
     public function pengaturan(): void
     {
         $this->redirect_hak_akses('u');
-        $data = ['kategori' => ['lapak']];
+        $data = ['kategori_pengaturan' => ['lapak']];
 
         $this->load->view('global/modal_setting', $data);
     }

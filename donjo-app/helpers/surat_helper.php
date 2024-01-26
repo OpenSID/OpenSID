@@ -39,7 +39,7 @@ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 
-function ikut_case(string $format = null, string $str = null): string
+function ikut_case(?string $format = null, ?string $str = null): string
 {
     $str = strtolower($str);
     if (ctype_upper($format[0]) && ctype_upper($format[1])) {
