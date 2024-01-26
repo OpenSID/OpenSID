@@ -68,11 +68,17 @@
 		"pre-autoload-dump": "Google\\Task\\Composer::cleanup",
 		"post-update-cmd": [
 			"php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
-			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\""
+			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.ctg.z');\"",
+			"php -r \"copy('override/fonts/andale_mono.php', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.z');\""
 		],
 		"post-install-cmd": [
 			"php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
-			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\""
+			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.ctg.z');\"",
+			"php -r \"copy('override/fonts/andale_mono.php', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.z');\""
 		],
 		"style-fix": [
 			"php-cs-fixer fix --allow-risky=yes",

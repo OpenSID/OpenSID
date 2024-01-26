@@ -2776,17 +2776,17 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.1",
-            "version_normalized": "2.72.1.0",
+            "version": "2.72.2",
+            "version_normalized": "2.72.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78"
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e7edc41b58d65509baeb0d4a14c8fa41d627130",
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130",
                 "shasum": ""
             },
             "require": {
@@ -2814,7 +2814,7 @@
                 "phpunit/phpunit": "^7.5.20 || ^8.5.26 || ^9.5.20",
                 "squizlabs/php_codesniffer": "^3.4"
             },
-            "time": "2023-12-08T23:47:49+00:00",
+            "time": "2024-01-19T00:21:53+00:00",
             "bin": [
                 "bin/carbon"
             ],
@@ -2891,12 +2891,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/router.git",
-                "reference": "770d0ca3707143d17dd46c99e67320195027c701"
+                "reference": "6e869d51af7875be82c311aa17ce147f78801774"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/router/zipball/770d0ca3707143d17dd46c99e67320195027c701",
-                "reference": "770d0ca3707143d17dd46c99e67320195027c701",
+                "url": "https://api.github.com/repos/OpenSID/router/zipball/6e869d51af7875be82c311aa17ce147f78801774",
+                "reference": "6e869d51af7875be82c311aa17ce147f78801774",
                 "shasum": ""
             },
             "require": {
@@ -2905,7 +2905,7 @@
             "require-dev": {
                 "phpunit/phpunit": "7"
             },
-            "time": "2024-01-10T06:26:40+00:00",
+            "time": "2024-01-24T19:29:30+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",
