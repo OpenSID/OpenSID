@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,6 +47,7 @@ class AnjunganMenu extends BaseModel
 {
     use Author;
     use ConfigId;
+    use SortableTrait;
 
     /**
      * The table associated with the model.
@@ -78,6 +80,14 @@ class AnjunganMenu extends BaseModel
     protected $with = [
         // 'createdBy',
         // 'updatedBy',
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
     ];
 
     /**

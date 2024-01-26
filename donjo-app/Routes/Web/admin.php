@@ -72,7 +72,7 @@ Route::get('peringatan', 'Pelanggan@peringatan');
 Route::group('periksa', static function (): void {
     Route::get('/', 'Periksa@index')->name('periksa.index');
     Route::post('/perbaiki', 'Periksa@perbaiki')->name('periksa.perbaiki');
-    Route::post('/perbaiki_sebagian/{masalah?}', 'Periksa@perbaiki_sebagian')->name('periksa.perbaiki_sebagian');
+    Route::match(['GET', 'POST'], '/perbaiki_sebagian/{masalah?}', 'Periksa@perbaiki_sebagian')->name('periksa.perbaiki_sebagian');
     Route::get('/login', 'Periksa@login')->name('periksa.login');
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
 });
@@ -323,7 +323,7 @@ Route::group('keluarga', static function (): void {
     Route::get('/search_kumpulan_kk', 'Keluarga@search_kumpulan_kk')->name('keluarga.search_kumpulan_kk');
     Route::get('/ajax_cetak/{p?}/{o?}/{aksi?}', 'Keluarga@ajax_cetak')->name('keluarga.ajax_cetak');
     Route::get('/program_bantuan', 'Keluarga@program_bantuan')->name('keluarga.program_bantuan');
-    Route::get('/program_bantuan_proses', 'Keluarga@program_bantuan_proses')->name('keluarga.program_bantuan_proses');
+    Route::post('/program_bantuan_proses', 'Keluarga@program_bantuan_proses')->name('keluarga.program_bantuan_proses');
     Route::get('/nokk_sementara', 'Keluarga@nokk_sementara')->name('keluarga.nokk_sementara');
     Route::get('/form_pecah_semua/{id?}', 'Keluarga@form_pecah_semua')->name('keluarga.form_pecah_semua');
     Route::match(['GET', 'POST'], '/pecah_semua/{id?}', 'Keluarga@pecah_semua')->name('keluarga.pecah_semua');
@@ -2149,8 +2149,8 @@ Route::group('anjungan_menu', static function (): void {
     Route::post('/update/{id?}', 'Anjungan_menu@update')->name('anjungan_menu.update');
     Route::get('/delete/{id?}', 'Anjungan_menu@delete')->name('anjungan_menu.delete');
     Route::post('/delete', 'Anjungan_menu@delete')->name('anjungan_menu.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Anjungan_menu@kunci')->name('anjungan_menu.kunci');
-    Route::get('/urut/{id}/{urut}', 'Anjungan_menu@urut')->name('anjungan_menu.urut');
+    Route::get('/lock/{id?}', 'Anjungan_menu@lock')->name('anjungan_menu.lock');
+    Route::post('/tukar', 'Anjungan_menu@tukar')->name('anjungan_menu.tukar');
 });
 
 // Anjungan > Pengaturan

@@ -55,6 +55,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 35. [#7650](https://github.com/OpenSID/OpenSID/issues/7650) Perbaikan simpan data sensus / survei pada modul analisis.
 36. [#7658](https://github.com/OpenSID/OpenSID/issues/7658) Perbaikan pencarian suplemen terdata.
 37. [#7661](https://github.com/OpenSID/OpenSID/issues/7661) Perbaikan unduh format impor data program bantuan.
+38. [#3451](https://github.com/OpenSID/premium/issues/3451) Perbaikan strict helper ikut_case().
+39. [#7665](https://github.com/OpenSID/OpenSID/issues/7665) Perbaikan cetak surat dengan kode isian wilayah > 27 dusun.
+40. [#7666](https://github.com/OpenSID/OpenSID/issues/7666) Perbaikan cetak surat dengan font andale mono.
+41. [#7636](https://github.com/OpenSID/OpenSID/issues/7636) Perbaikan plugin tabel tinymce untuk border 0.
 
 
 #### TEKNIS
@@ -79,6 +83,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#6723](https://github.com/OpenSID/OpenSID/issues/6723) Penyesuaian modul buku pemerintah desa menggunakan ORM dan View Blade Laravel.
 20. [#3383](https://github.com/OpenSID/premium/issues/3383) Penyesuaian modul pesan mandiri menggunakan ORM dan View Blade Laravel.
 21. [#7587](https://github.com/OpenSID/OpenSID/issues/7587) Penyesuaian modul pembangunan menggunakan ORM dan View Blade Laravel.
+22. [#7655](https://github.com/OpenSID/OpenSID/issues/7655) Penyesuaian modul anjungan > menu menggunakan dragable.
 
 
 #### KEAMANAN
