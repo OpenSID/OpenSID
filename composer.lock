@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e454a7febe3522a562eb62cd9e580da",
+    "content-hash": "d607d814662725cec4d72b4c4827bb75",
     "packages": [
         {
             "name": "agungsugiarto/codeigniter-datables",
@@ -405,16 +405,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.332.0",
+            "version": "v0.333.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "027cc7fe60877c2b6ba0f380d419acf65a3755d2"
+                "reference": "106bbc8620b60a677376d430235844f9f8a8551c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/027cc7fe60877c2b6ba0f380d419acf65a3755d2",
-                "reference": "027cc7fe60877c2b6ba0f380d419acf65a3755d2",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/106bbc8620b60a677376d430235844f9f8a8551c",
+                "reference": "106bbc8620b60a677376d430235844f9f8a8551c",
                 "shasum": ""
             },
             "require": {
@@ -443,9 +443,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.332.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.333.0"
             },
-            "time": "2024-01-15T00:56:15+00:00"
+            "time": "2024-01-21T01:04:15+00:00"
         },
         {
             "name": "google/auth",
@@ -1759,16 +1759,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.1",
+            "version": "2.72.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78"
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e7edc41b58d65509baeb0d4a14c8fa41d627130",
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130",
                 "shasum": ""
             },
             "require": {
@@ -1862,7 +1862,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-12-08T23:47:49+00:00"
+            "time": "2024-01-19T00:21:53+00:00"
         },
         {
             "name": "openspout/openspout",
@@ -4211,14 +4211,19 @@
         },
         {
             "name": "themes/esensi",
-            "version": "dev-main",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi",
-                "reference": "7e44d5c63e095a61bae86309c05b3122416f0409"
+                "reference": "795ea202dfc816eaa9f68fc589837e1e347a9719"
             },
             "default-branch": true,
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2402.x-dev"
+                }
+            },
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -4234,17 +4239,23 @@
                 "OpenSID",
                 "Themes"
             ],
-            "time": "2024-01-11T04:06:50+00:00"
+            "time": "2024-01-22T19:42:30+00:00"
         },
         {
             "name": "themes/natra",
-            "version": "dev-premium",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "a608d44fce4568ef9756bc33333865627af91c2f"
+                "reference": "6d6c0138e09bea64ae6546e911b071d3e673f1d2"
             },
+            "default-branch": true,
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2402.x-dev"
+                }
+            },
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -4260,7 +4271,7 @@
                 "OpenSID",
                 "Themes"
             ],
-            "time": "2024-01-11T04:04:52+00:00"
+            "time": "2024-01-22T19:44:28+00:00"
         },
         {
             "name": "voku/anti-xss",
@@ -4618,9 +4629,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "agungsugiarto/codeigniter-datables": 20,
-        "simplehtmldom/simplehtmldom": 5,
-        "themes/esensi": 20,
-        "themes/natra": 20
+        "simplehtmldom/simplehtmldom": 5
     },
     "prefer-stable": true,
     "prefer-lowest": false,

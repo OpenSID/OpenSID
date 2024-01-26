@@ -25,7 +25,7 @@
 </form>
 
 <?php if (($notif = session('notif')) && (! session('notif')['data'])) : ?>
-  <div id="notifikasi" class="alert alert-<?= $notif['status']; ?>" role="alert">
+  <div class="alert alert-<?= $notif['status']; ?>" role="alert">
     <?= $notif['pesan']; ?>
   </div>
 <?php endif; ?>

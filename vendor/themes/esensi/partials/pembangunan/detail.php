@@ -12,10 +12,10 @@
   <div class="flex flex-col lg:flex-row justify-between gap-3 lg:gap-5 py-5">
     <div class="w-full px-2">
       <?php if($pembangunan->foto && is_file(LOKASI_GALERI . $pembangunan->foto)) : ?>
-        <img class="h-auto w-full" src="<?= base_url() . LOKASI_GALERI . $pembangunan->foto ?>" alt="Foto Pembangunan"/>
+        <img class="h-auto w-full" src="<?= base_url(LOKASI_GALERI . $pembangunan->foto) ?>" alt="Foto Pembangunan"/>
         
         <?php else: ?>
-        <img class="h-auto w-full" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Tidak ditemukan"/>
+        <img class="h-auto w-full" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Tidak ditemukan"/>
       <?php endif ?>
 
       <div class="table-responsive py-5 content">
@@ -23,12 +23,12 @@
           <tr>
             <th width="150px">Nama Kegiatan</th>
             <td width="20px">:</td>
-            <td><?= $pembangunan->judul ?></td>
+            <td><?= e($pembangunan->judul) ?></td>
           </tr>
           <tr>
             <th>Alamat</th>
             <td width="20px">:</td>
-            <td><?= $pembangunan->alamat ?></td>
+            <td><?= e($pembangunan->alamat) ?></td>
           </tr>
           <tr>
             <th>Sumber Dana</th>
@@ -72,7 +72,7 @@
             <?php if (is_file(LOKASI_GALERI . $value->gambar)): ?>
               <img width="auto" class="h-auto w-full" src="<?= base_url(LOKASI_GALERI . $value->gambar); ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
             <?php else: ?>
-              <img width="auto" class="h-auto w-full" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
+              <img width="auto" class="h-auto w-full" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
             <?php endif; ?>
             <b>Foto Pembangunan <?= $value->persentase; ?></b>
           </div>
@@ -95,7 +95,7 @@
       let posisi = [lat, lng];
       let zoom = 15;
       let logo = L.icon({
-        iconUrl: "<?= base_url('assets/images/gis/point/construction.png'); ?>",
+        iconUrl: "<?= asset('images/gis/point/construction.png'); ?>",
       });
 
       var options = {
