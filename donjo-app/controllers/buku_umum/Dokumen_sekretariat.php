@@ -97,7 +97,7 @@ class Dokumen_sekretariat extends Admin_Controller
             }
         }
         $data['main_content'] = 'admin.dokumen.buku_kades.table_buku_umum';
-        $data['subtitle']     = ($kat == '3') ? 'Buku Peraturan Di ' . ucwords($this->setting->sebutan_desa) : 'Buku Keputusan ' . ucwords($this->setting->sebutan_kepala_desa);
+        $data['subtitle']     = ($kat == '3') ? 'Buku Peraturan di ' . ucwords($this->setting->sebutan_desa) : 'Buku Keputusan ' . ucwords($this->setting->sebutan_kepala_desa);
         $data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';
 
         view('admin.bumindes.umum.main', $data);

@@ -17,7 +17,7 @@
 
     <div class="row">
         <div id="umum-sidebar" class="col-sm-3">
-            @include('admin.bumindes.sidebar')
+            @include('admin.layouts.components.side_bukudesa')
         </div>
         <div id="umum-content" class="col-sm-9">
             @include($main_content)
