@@ -17,7 +17,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="row">
         <div id="umum-sidebar" class="col-sm-3">
-            @include('admin.jabatan.navigasi')
+            @include('admin.layouts.components.side_bukudesa')
         </div>
         <div id="umum-content" class="col-sm-9">
             <div class="box box-info">

@@ -179,7 +179,8 @@
                         data: 'identitas',
                         name: 'identitas',
                         searchable: true,
-                        orderable: false
+                        orderable: false,
+                        class: 'nowrap-left'
                     },
                     {
                         data: 'ttl',

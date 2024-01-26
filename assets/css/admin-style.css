@@ -542,6 +542,12 @@ td.aksi {
     text-align: left;
 }
 
+td.nowrap-left {
+    width: 1%;
+    white-space: nowrap;
+    text-align: left;
+}
+
 .tabel-rincian,
 th,
 td {
