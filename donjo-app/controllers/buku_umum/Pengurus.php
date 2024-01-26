@@ -487,7 +487,7 @@ class Pengurus extends Admin_Controller
     public function atur_bagan_layout(): void
     {
         isCan('u');
-        $data['kategori'] = 'conf_bagan';
+        $data['kategori_pengaturan'] = 'conf_bagan';
         view('admin.layouts.components.modal_pengaturan', $data);
     }
 
