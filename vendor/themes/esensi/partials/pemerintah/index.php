@@ -30,14 +30,16 @@
                         <?php endif ?>
                     <?php } ?>
                     <br>
-                    <?php
-                        $data_sosmed     = ref('media_sosial');
-                        $sosmed_pengurus = json_decode($data['media_sosial'], true);
-                        foreach ($data_sosmed as $key => $value):
-                            $slug = strtolower($value->nama);
-                    ?>
-                        <a href="<?= $sosmed_pengurus[$slug] ?>" target="_blank" class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$slug?>" style="color: #fff;"></i></a>
-                    <?php endforeach ?>
+                    <?php if (count($media_sosial) > 0) : ?>
+                        <?php  $sosmed_pengurus = json_decode($data['media_sosial'], true); ?>
+                        <?php foreach ($media_sosial as $value): ?>
+                            <?php if ($sosmed_pengurus[$value['id']]): ?>
+                                <a href="<?= $sosmed_pengurus[$value['id']] ?>" target="_blank" class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$value['id']?>" style="color: #fff;"></i></a>
+                            <?php else : ?>
+                                <span class="inline-flex items-center justify-center bg-blue-600 h-8 w-8 rounded-full"><i class="fab fa-lg fa-<?=$value['id']?>" style="color: #fff;"></i></span>
+                            <?php endif ?>
+                        <?php endforeach ?>
+                    <?php endif ?>
                 </div>
             </div>
         <?php endforeach ?>

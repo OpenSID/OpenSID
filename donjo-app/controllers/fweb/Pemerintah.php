@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\SettingAplikasi;
+
 /*
  *
  * File ini bagian dari:
@@ -48,8 +50,12 @@ class Pemerintah extends Web_Controller
         $data = $this->includes;
         $this->_get_common_data($data);
 
-        $data['pemerintah']     = $data['aparatur_desa']['daftar_perangkat'];
         $data['halaman_statis'] = 'pemerintah/index';
+        $data['pemerintah']     = $data['aparatur_desa']['daftar_perangkat'];
+        $settings               = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
+        $data['media_sosial']   = collect($settings->option)
+            ->filter(fn ($item) => in_array($item['id'], json_decode($settings->value)))
+            ->toArray();
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         $this->load->view($this->template, $data);

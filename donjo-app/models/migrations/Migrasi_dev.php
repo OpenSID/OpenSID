@@ -36,6 +36,7 @@
  */
 
 use App\Models\Kategori;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -66,6 +67,7 @@ class Migrasi_dev extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024011371($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024012971($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -134,5 +136,36 @@ class Migrasi_dev extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024012971($hasil, $id)
+    {
+        $pleaceholder = [
+            'facebook'  => 'https://www.facebook.com/groups/komunitasopendesa',
+            'instagram' => 'https://www.instagram.com/OpenDesa',
+            'telegram'  => 'https://t.me/OpenDesa',
+            'twitter'   => 'https://twitter.com/opendesa',
+            'whatsapp'  => 'https://api.whatsapp.com/send?phone=62851234567890',
+            'youtube'   => 'https://www.youtube.com/@KomunitasOpenSID-OpenDesa',
+        ];
+
+        $mediaSosial = DB::table('media_sosial')->get()
+            -> map(function ($item) use ($pleaceholder) {
+                return [
+                    'id'   => Str::slug($item->nama),
+                    'nama' => $item->nama,
+                    'url'  => $pleaceholder[Str::slug($item->nama)] ?? '',
+                ];
+            })->toArray();
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Media Sosial [Pemerintah Desa]',
+            'key'        => 'media_sosial_pemerintah_desa',
+            'value'      => json_encode(array_column($mediaSosial, 'id')),
+            'keterangan' => 'Media Sosial yang akan ditampilkan pada halaman [Pemerintah Desa]. <br>Kosongkan bila tidak ingin menampilkan media sosial.',
+            'kategori'   => 'Pemerintah Desa',
+            'jenis'      => 'multiple-option-key',
+            'option'     => json_encode($mediaSosial),
+        ], $id);
     }
 }

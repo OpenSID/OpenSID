@@ -18,11 +18,11 @@
                         @endforeach
                     </select>
                 </div>
-            @elseif ($pengaturan->jenis == 'multiple-option-key')
+            @elseif ($pengaturan->jenis == 'multiple-option-array')
                 <div class="col-sm-12 col-md-4">
-                    <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
+                    <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $key => $val)
-                            <option value="{{ $key }}" {{ in_array($key, json_decode($pengaturan->value)) ? 'selected' : '' }}>{{ $val }}</option>
+                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value)) ? 'selected' : '' }}>{{ $val['nama'] }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -56,17 +56,20 @@
                                     <br>
                                 <?php endif ?>
                                 <br>
-                                <?php
-                                    $data_sosmed     = ref('media_sosial');
-                                    $sosmed_pengurus = json_decode($data['media_sosial'], true);
-
-                                    foreach ($data_sosmed as $key => $value):
-                                        $slug = strtolower($value->nama);
-                                ?>
-                                    <a href="<?= $sosmed_pengurus[$slug] ?>" target="_blank" style="padding: 5px;">
-                                        <span style="color:#fff;"><i class="fa fa-<?=$slug?> fa-2x"></i></span>
-                                    </a>
-                                <?php endforeach ?>
+                                <?php if (count($media_sosial) > 0) : ?>
+                                    <?php  $sosmed_pengurus = json_decode($data['media_sosial'], true); ?>
+                                    <?php foreach ($media_sosial as $value): ?>
+                                        <?php if ($sosmed_pengurus[$value['id']]): ?>
+                                            <a href="<?= $sosmed_pengurus[$value['id']] ?>" target="_blank" style="padding: 5px;">
+                                                <span style="color:#fff;"><i class="fa fa-<?=$value['id']?> fa-2x"></i></span>
+                                            </a>
+                                        <?php else : ?>
+                                            <a style="padding: 5px;">
+                                                <span style="color:#fff;"><i class="fa fa-<?=$value['id']?> fa-2x"></i></span>
+                                            </a>
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                <?php endif ?>
                         </div>
                     </div>
                 <?php endforeach ?>
