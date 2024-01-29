@@ -717,4 +717,3 @@ $config['modules_locations'] = [
 |--------------------------------------------------------------------------
 |
 */
-$config['url_marketplace'] = 'https://gist.githubusercontent.com/pandigresik/06395e0569a1107925e52ff23a7fb656/raw/89857222601acebd87d35c1c63b502be558027ec/modules-plugin.json';

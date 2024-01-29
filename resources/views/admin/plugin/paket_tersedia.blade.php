@@ -52,8 +52,9 @@
                 // Populate the pagination container with links
                 var paginationContainer = $('#pagination-container');
                 paginationContainer.empty();
-                const currentPage = response.current_page
-                const totalPages = response.to
+                const currentPage = response.meta.current_page
+                const perPage = response.meta.per_page
+                const totalPages = Math.ceil(response.meta.total / perPage)
                 for (var i = 1; i <= totalPages; i++) {
                     // Create a link for each page
                     var pageLink = $('<li>', {
@@ -67,7 +68,7 @@
                     });
 
                     // Add an active class to the current page
-                    if (i == response.current_page) {
+                    if (i == currentPage) {
                         pageLink.addClass('active');
                     }
 
@@ -109,7 +110,7 @@
                 let paketTerpasang = {!! $paket_terpasang ?? '{}' !!}
                 let cardView = [],
                     disabledPaket, buttonInstall, versionCheck, templateTmp
-                let urlModule = '{{ config_item('url_marketplace') }}'
+                let urlModule = '{{ $url_marketplace }}'
                 const templateCard = `@include('admin.plugin.item')`
                 $('div#list-paket').find('form').empty()
                 if (tipe === undefined) {

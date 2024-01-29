@@ -55,6 +55,7 @@ class Plugin extends Admin_Controller
         $data = [
             'content'         => 'admin.plugin.paket_tersedia',
             'act_tab'         => 1,
+            'url_marketplace' => config_item('server_layanan').'/api/modules',
             'paket_terpasang' => json_encode($this->paketTerpasang()),
         ];
 
@@ -175,5 +176,5 @@ class Plugin extends Admin_Controller
                     $migrateFile->up();
             }
         }
-    }
+    }    
 }

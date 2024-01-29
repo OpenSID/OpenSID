@@ -67,7 +67,7 @@ class Hook
 
         $isCli  =  is_cli();
         $isWeb  = !is_cli();
-
+        
         require_once __DIR__ . '/Facades/Route.php' ;
 
         if(!file_exists(APPPATH . '/Routes')) {

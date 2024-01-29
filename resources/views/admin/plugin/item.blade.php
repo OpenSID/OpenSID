@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="row">
-                        <img src="{{ $item['thumbnail'] ?? '__thumbnail__' }}" alt="Static Pages">
+                        <img width="70px" class="img-thumbnail" src="{{ $item['thumbnail'] ?? '__thumbnail__' }}" alt="Static Pages">
                         <div class="price-tag">{{ $item['price'] ?? '__price__' }}</div>
                     </div>
                 </div>
