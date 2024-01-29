@@ -129,7 +129,7 @@ class Laporan_penduduk_model extends MY_Model
     public function judul_statistik($lap)
     {
         // Program bantuan berbentuk '50<program_id>'
-        if ($lap > 50) {
+        if ((int) $lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
 
             $program = $this->config_id(null, true)
@@ -533,7 +533,7 @@ class Laporan_penduduk_model extends MY_Model
     {
         $lap = $this->lap;
         //Siapkan data baris rekap
-        if ($lap == 18) {
+        if ((int) $lap == 18) {
             $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
             $semua = $this->data_jml_semua_penduduk();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
