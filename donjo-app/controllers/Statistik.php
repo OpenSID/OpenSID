@@ -102,11 +102,11 @@ class Statistik extends Admin_Controller
         }
 
         switch (true) {
-            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && $sasaran == 2):
+            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && (int) $sasaran == 2):
                 $tautan = site_url("keluarga/statistik/{$lap}/");
                 break;
 
-            case $lap == 'bdt' || ((int) $lap > 50 && $sasaran == 3):
+            case $lap == 'bdt' || ((int) $lap > 50 && (int) $sasaran == 3):
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
 

@@ -181,4 +181,19 @@ class Wilayah extends BaseModel
             }
         }
     }
+
+    public function isDusun()
+    {
+        return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
+    }
+    
+    public function isRw()
+    {
+        return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';        
+    }
+    
+    public function isRt()
+    {
+        return $this->attributes['rt'] != '0';        
+    }
 }
