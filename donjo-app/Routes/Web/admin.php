@@ -92,6 +92,7 @@ Route::group('periksaLogPenduduk', static function (): void {
 // Info Desa > Identitas Desa
 Route::group('identitas_desa', static function (): void {
     Route::get('/', 'Identitas_desa@index')->name('identitas_desa.index');
+    Route::get('/kosongkan', 'Identitas_desa@kosongkan')->name('identitas_desa.kosongkan');
     Route::get('/form', 'Identitas_desa@form')->name('identitas_desa.form');
     Route::post('/insert', 'Identitas_desa@insert')->name('identitas_desa.insert');
     Route::post('/update', 'Identitas_desa@update')->name('identitas_desa.update');

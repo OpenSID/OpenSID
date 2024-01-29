@@ -51,7 +51,7 @@
                     <a href="{{ $tautan['link'] }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
                     <a
                         href="#"
-                        data-href="{{ "{$tautan['link']}/kosongkan/{$wil_ini['id']}" }}"
+                        data-href="{{ $route_kosongkan }}"
                         class="btn btn-social bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         title="Kosongkan Wilayah"
                         data-toggle="modal"

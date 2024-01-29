@@ -579,7 +579,7 @@ class Wilayah extends Admin_Controller
         ];
         $data['form_action'] = ci_route("{$this->controller}.update_wilayah_map", "dusun/{$id}");
         $data['logo']        = $this->header['desa'];
-
+        $data['route_kosongkan'] = ci_route('wilayah.kosongkan', $id);
         view('admin.wilayah.maps_wilayah', $data);
     }
 
@@ -629,7 +629,7 @@ class Wilayah extends Admin_Controller
         $data['wilayah']     = 'RW';
         $data['form_action'] = ci_route("{$this->controller}.update_wilayah_map", "rw/{$id}/{$id_dusun}");
         $data['logo']        = $this->header['desa'];
-
+        $data['route_kosongkan'] = ci_route('wilayah.kosongkan', $id);
         view('admin.wilayah.maps_wilayah', $data);
     }
 
@@ -690,7 +690,7 @@ class Wilayah extends Admin_Controller
         $data['wilayah']     = 'RT';
         $data['form_action'] = ci_route("{$this->controller}.update_wilayah_map", "rt/{$id}/{$id_rw}");
         $data['logo']        = $this->header['desa'];
-
+        $data['route_kosongkan'] = ci_route('wilayah.kosongkan', $id);
         view('admin.wilayah.maps_wilayah', $data);
     }
 
@@ -711,8 +711,23 @@ class Wilayah extends Admin_Controller
     public function kosongkan($id = ''): void
     {
         $this->redirect_hak_akses('u');
-        WilayahModel::whereId($id)->update(['path' => null]);
-        redirect($this->controller);
+        $wilayah = WilayahModel::findOrFail($id);
+        $wilayah->path = null;
+        $wilayah->save();
+        
+        if ($wilayah->isDusun()) {
+            redirect($this->controller);
+        }
+        
+        if ($wilayah->isRw()) {
+            $parent = WilayahModel::dusun()->whereDusun($wilayah->dusun)->first();
+            redirect($this->controller.'/index?parent='.$parent->id.'&level=rw');
+        }
+
+        if ($wilayah->isRt()) {
+            $parent = WilayahModel::rw()->where(['dusun' => $wilayah->dusun, 'rw' => $wilayah->rw])->first();
+            redirect($this->controller.'/index?parent='.$parent->id.'&level=rt');
+        }        
     }
 
     public function list_rw($dusun = ''): void
