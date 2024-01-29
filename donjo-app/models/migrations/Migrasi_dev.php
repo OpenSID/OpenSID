@@ -127,7 +127,7 @@ class Migrasi_dev extends MY_model
                     'type'       => 'TINYINT',
                     'constraint' => 1,
                     'null'       => true,
-                    'default'    => 0,
+                    'default'    => 1,
                     'after'      => 'format_nomor',
                 ],
             ]);

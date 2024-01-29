@@ -86,14 +86,14 @@ class Surat_master extends Admin_Controller
                         $aksi .= '<a href="' . site_url("surat_master/form/{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
 
                         if ($row->kunci) {
-                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}/1") . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}/0") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
 
                             if ($row->favorit) {
-                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}/1") . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
+                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}") . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
                             } else {
-                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}/0") . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
+                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}") . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
                             }
                         }
                     }
@@ -449,20 +449,22 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = FormatSurat::findOrFail($id);
-        $favorit->update(['kunci' => ($val == 1) ? 0 : 1]);
+        if (FormatSurat::gantiStatus($id, 'kunci')) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
 
-        redirect_with('success', 'Berhasil Ubah Data');
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
     public function favorit($id = null, $val = 0): void
     {
         $this->redirect_hak_akses('u');
 
-        $favorit = FormatSurat::findOrFail($id);
-        $favorit->update(['favorit' => ($val == 1) ? 0 : 1]);
+        if (FormatSurat::gantiStatus($id, 'favorit')) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
 
-        redirect_with('success', 'Berhasil Ubah Data');
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
     public function delete($id): void
