@@ -127,6 +127,10 @@ $app->register(\App\Providers\DataTablesServiceProvider::class);
 |
 */
 
+$app->boot();
+$moduleLocations = $CFG->item('modules_locations');
+$hook            = getHooks(['modules_location' => $moduleLocations]);
+
 if (ENVIRONMENT === 'development') {
     \Illuminate\Support\Facades\DB::enableQueryLog();
 
@@ -134,12 +138,8 @@ if (ENVIRONMENT === 'development') {
      * Uncomment untuk listen semua query dari illuminate database.
      */
     \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
-        // log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
-        //     return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
-        // }, $query->sql));
+        log_message('error', array_reduce($query->bindings, static function ($sql, $binding) {
+            return preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1);
+        }, $query->sql));
     });
 }
-
-$app->boot();
-$moduleLocations = $CFG->item('modules_locations');
-$hook            = getHooks(['modules_location' => $moduleLocations]);
