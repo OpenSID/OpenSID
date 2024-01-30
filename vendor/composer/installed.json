@@ -675,17 +675,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.333.0",
-            "version_normalized": "0.333.0.0",
+            "version": "v0.333.1",
+            "version_normalized": "0.333.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "106bbc8620b60a677376d430235844f9f8a8551c"
+                "reference": "f82f631755771082cc9070592b82596b359ce6da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/106bbc8620b60a677376d430235844f9f8a8551c",
-                "reference": "106bbc8620b60a677376d430235844f9f8a8551c",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/f82f631755771082cc9070592b82596b359ce6da",
+                "reference": "f82f631755771082cc9070592b82596b359ce6da",
                 "shasum": ""
             },
             "require": {
@@ -694,7 +694,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2024-01-21T01:04:15+00:00",
+            "time": "2024-01-29T01:16:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -716,7 +716,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.333.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.333.1"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -2500,17 +2500,17 @@
         },
         {
             "name": "league/mime-type-detection",
-            "version": "1.14.0",
-            "version_normalized": "1.14.0.0",
+            "version": "1.15.0",
+            "version_normalized": "1.15.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/mime-type-detection.git",
-                "reference": "b6a5854368533df0295c5761a0253656a2e52d9e"
+                "reference": "ce0f4d1e8a6f4eb0ddff33f57c69c50fd09f4301"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/b6a5854368533df0295c5761a0253656a2e52d9e",
-                "reference": "b6a5854368533df0295c5761a0253656a2e52d9e",
+                "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/ce0f4d1e8a6f4eb0ddff33f57c69c50fd09f4301",
+                "reference": "ce0f4d1e8a6f4eb0ddff33f57c69c50fd09f4301",
                 "shasum": ""
             },
             "require": {
@@ -2522,7 +2522,7 @@
                 "phpstan/phpstan": "^0.12.68",
                 "phpunit/phpunit": "^8.5.8 || ^9.3 || ^10.0"
             },
-            "time": "2023-10-17T14:13:20+00:00",
+            "time": "2024-01-28T23:22:08+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2543,7 +2543,7 @@
             "description": "Mime-type detection for Flysystem",
             "support": {
                 "issues": "https://github.com/thephpleague/mime-type-detection/issues",
-                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.14.0"
+                "source": "https://github.com/thephpleague/mime-type-detection/tree/1.15.0"
             },
             "funding": [
                 {
@@ -6405,15 +6405,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi.git",
-                "reference": "795ea202dfc816eaa9f68fc589837e1e347a9719"
+                "reference": "3a65e52cb2c8590e010a15e04aa01f0bdf2156c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/795ea202dfc816eaa9f68fc589837e1e347a9719",
-                "reference": "795ea202dfc816eaa9f68fc589837e1e347a9719",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/3a65e52cb2c8590e010a15e04aa01f0bdf2156c9",
+                "reference": "3a65e52cb2c8590e010a15e04aa01f0bdf2156c9",
                 "shasum": ""
             },
-            "time": "2024-01-22T19:42:30+00:00",
+            "time": "2024-01-30T01:39:09+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {
@@ -6451,15 +6451,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra.git",
-                "reference": "6d6c0138e09bea64ae6546e911b071d3e673f1d2"
+                "reference": "439973eb86cff44f5d8e13c71652f92882ee90bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/6d6c0138e09bea64ae6546e911b071d3e673f1d2",
-                "reference": "6d6c0138e09bea64ae6546e911b071d3e673f1d2",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/439973eb86cff44f5d8e13c71652f92882ee90bd",
+                "reference": "439973eb86cff44f5d8e13c71652f92882ee90bd",
                 "shasum": ""
             },
-            "time": "2024-01-22T19:44:28+00:00",
+            "time": "2024-01-30T01:39:42+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {

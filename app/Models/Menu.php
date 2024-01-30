@@ -49,7 +49,7 @@ class Menu extends BaseModel
     use ConfigId;
     use SortableTrait;
 
-    public const LOCK   = 0;
+    public const LOCK   = 2;
     public const UNLOCK = 1;
 
     /**

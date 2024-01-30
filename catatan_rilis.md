@@ -57,7 +57,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 37. [#7661](https://github.com/OpenSID/OpenSID/issues/7661) Perbaikan unduh format impor data program bantuan.
 38. [#3451](https://github.com/OpenSID/premium/issues/3451) Perbaikan strict helper ikut_case().
 39. [#7665](https://github.com/OpenSID/OpenSID/issues/7665) Perbaikan cetak surat dengan kode isian wilayah > 27 dusun.
-40. [#7666](https://github.com/OpenSID/OpenSID/issues/7666) Perbaikan cetak surat dengan font andale mono.
+40. [#7666](https://github.com/OpenSID/OpenSID/issues/7666) Perbaikan cetak surat dengan font bawaan.
 41. [#7636](https://github.com/OpenSID/OpenSID/issues/7636) Perbaikan plugin tabel tinymce untuk border 0.
 
 

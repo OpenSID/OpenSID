@@ -161,7 +161,7 @@ class Teks_berjalan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         TeksBerjalan::nomorUrut($id, $arah);
-        redirect('teks_berjalan/index');
+        redirect('teks_berjalan');
     }
 
     public function lock($id = 0, $val = 1): void

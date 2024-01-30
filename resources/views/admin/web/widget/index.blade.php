@@ -90,7 +90,9 @@
                 serverSide: true,
                 ajax: {
                     url: "{{ ci_route('web_widget.datatables') }}",
-                    data: function(req) {}
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
                 },
                 columns: [{
                         data: 'ceklist',
@@ -137,7 +139,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(5).search($(this).val()).draw()
+                TableData.draw();
             })
 
             if (hapus == 0) {

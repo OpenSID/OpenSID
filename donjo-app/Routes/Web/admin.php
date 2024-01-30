@@ -1568,7 +1568,7 @@ Route::group('cdesa', static function (): void {
     Route::match(['GET', 'POST'], '/index/{p}', 'Cdesa@index')->name('cdesa.index-2');
     Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Cdesa@index')->name('cdesa.index-3');
     Route::get('/clear', 'Cdesa@clear')->name('cdesa.clear');
-    Route::get('/autocomplete', 'Cdesa@autocomplete')->name('cdesa.autocomplete');
+    Route::post('/autocomplete', 'Cdesa@autocomplete')->name('cdesa.autocomplete');
     Route::post('/search', 'Cdesa@search')->name('cdesa.search');
     Route::get('/rincian/{id}', 'Cdesa@rincian')->name('cdesa.rincian');
     Route::get('/mutasi/{id_cdesa}/{id_persil}', 'Cdesa@mutasi')->name('cdesa.mutasi');
@@ -1584,7 +1584,7 @@ Route::group('cdesa', static function (): void {
     Route::get('/hapus/{id?}', 'Cdesa@hapus')->name('cdesa.hapus');
     Route::get('/import', 'Cdesa@import')->name('cdesa.import');
     Route::post('/import_proses', 'Cdesa@import_proses')->name('cdesa.import_proses');
-    Route::post('/cetak/{o?}', 'Cdesa@cetak')->name('cdesa.cetak');
+    Route::get('/cetak/{o?}', 'Cdesa@cetak')->name('cdesa.cetak');
     Route::get('/unduh/{o?}', 'Cdesa@unduh')->name('cdesa.unduh');
     Route::get('/form_c_desa/{id?}', 'Cdesa@form_c_desa')->name('cdesa.form_c_desa');
     Route::get('/awal_persil/{id_cdesa}/{id_persil}/{hapus?}', 'Cdesa@awal_persil')->name('cdesa.awal_persil');
@@ -1998,7 +1998,6 @@ Route::group('web_widget', static function (): void {
     Route::post('/update/{id?}', 'Web_widget@update')->name('web_widget.update');
     Route::get('/delete/{id?}', 'Web_widget@delete')->name('web_widget.delete');
     Route::post('/delete_all', 'Web_widget@delete_all')->name('web_widget.delete_all');
-    Route::get('/urut/{id}/{arah}', 'Web_widget@urut')->name('web_widget.urut');
     Route::get('/lock/{id}', 'Web_widget@lock')->name('web_widget.lock');
 });
 // Admin Web > Menu

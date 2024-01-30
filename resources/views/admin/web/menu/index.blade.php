@@ -79,7 +79,12 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('menu.datatables') }}?parent={{ $parent }}",
+                ajax: {
+                    url: "{{ ci_route('menu.datatables') }}?parent={{ $parent }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -126,7 +131,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(5).search($(this).val()).draw()
+                TableData.draw();
             })
 
 
