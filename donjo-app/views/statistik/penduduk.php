@@ -206,7 +206,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<?php endif; ?>
 							</div>
 
-							<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'])):?>
+							<?php if ($bantuan):?>
 								<?php $this->load->view('statistik/peserta_bantuan'); ?>
 							<?php endif; ?>
 
