@@ -66,10 +66,10 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () 
         Route::get('/tulis/{id?}', 'Pesan@tulis')->name('layanan-mandiri.pesan.tulis')->param('id', 1);
         Route::post('/balas/{id?}', 'Pesan@tulis')->name('layanan-mandiri.pesan.balas')->param('id', 2);
     });
-
+    
+    Route::post('proses-daftar', 'Daftar@proses_daftar')->name('layanan-mandiri.daftar.proses_daftar');
     Route::group('daftar', static function () {
-        Route::get('/', 'Daftar@index')->name('layanan-mandiri.daftar.index');
-        Route::post('/proses-daftar', 'Daftar@proses_daftar')->name('layanan-mandiri.daftar.proses_daftar');
+        Route::get('/', 'Daftar@index')->name('layanan-mandiri.daftar.index');        
 
         Route::group('verifikasi', static function () {
             Route::get('/', 'Daftar_verifikasi@index')->name('layanan-mandiri.daftar_verifikasi.index');
