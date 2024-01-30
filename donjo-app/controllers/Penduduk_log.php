@@ -48,7 +48,7 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);        
+        $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
     }
 
     private function clear_session()

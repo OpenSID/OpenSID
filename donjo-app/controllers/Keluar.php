@@ -291,8 +291,8 @@ class Keluar extends Admin_Controller
                             } else {
                                 $status = '<span class="label label-warning">Menunggu ' . $row->log_verifikasi . ' </span>';
                             }
-                        } else {                            
-                            $status = '<span class="label label-warning">Menunggu ' . $row->log_verifikasi . ' </span>';                            
+                        } else {
+                            $status = '<span class="label label-warning">Menunggu ' . $row->log_verifikasi . ' </span>';
                         }
                     } else {
                         $status = '<span class="label label-danger">Konsep</span>';

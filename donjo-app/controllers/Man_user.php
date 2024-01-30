@@ -65,8 +65,9 @@ class Man_user extends Admin_Controller
         $data['user_group'] = UserGrup::pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
-            $input = $this->input;
+            $input  = $this->input;
             $status = $input->get('status');
+
             return datatables()->of(
                 User::with('pamong', 'userGrup')
                     ->when($status != '', static function ($query) use ($status): void {

@@ -186,14 +186,14 @@ class Wilayah extends BaseModel
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
     }
-    
+
     public function isRw()
     {
-        return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';        
+        return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';
     }
-    
+
     public function isRt()
     {
-        return $this->attributes['rt'] != '0';        
+        return $this->attributes['rt'] != '0';
     }
 }

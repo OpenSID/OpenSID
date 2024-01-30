@@ -36,8 +36,8 @@
  */
 
 use App\Models\Kategori;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -150,7 +150,7 @@ class Migrasi_dev extends MY_model
         ];
 
         $mediaSosial = DB::table('media_sosial')->get()
-            -> map(function ($item) use ($pleaceholder) {
+            ->map(static function ($item) use ($pleaceholder) {
                 return [
                     'id'   => Str::slug($item->nama),
                     'nama' => $item->nama,

@@ -35,20 +35,18 @@
  *
  */
 
-use App\Models\Agama;
-use App\Models\Pamong;
 use App\Enums\AgamaEnum;
-use App\Models\LogSurat;
-use App\Models\Penduduk;
-use App\Models\Kehadiran;
-use App\Models\RefJabatan;
-use App\Models\MediaSosial;
-use Illuminate\Support\Str;
-use App\Models\PendidikanKK;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
-use App\Models\SettingAplikasi;
+use App\Models\Agama;
+use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
+use App\Models\LogSurat;
+use App\Models\Pamong;
+use App\Models\PendidikanKK;
+use App\Models\Penduduk;
+use App\Models\RefJabatan;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -179,7 +177,7 @@ class Pengurus extends Admin_Controller
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
         $settings              = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
         $data['media_sosial']  = collect($settings->option)
-            ->filter(fn ($item) => in_array($item['id'], json_decode($settings->value)))
+            ->filter(static fn ($item) => in_array($item['id'], json_decode($settings->value)))
             ->toArray();
 
         return view('admin.pengurus.form', $data);

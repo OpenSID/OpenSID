@@ -122,7 +122,7 @@ class Penduduk_model extends MY_Model
         if (empty($kf = $this->session->{$session})) {
             return;
         }
-        
+
         if ($kf == JUMLAH) {
             $this->db->where("{$kolom} IS NOT NULL");
         } elseif ($kf == BELUM_MENGISI) {

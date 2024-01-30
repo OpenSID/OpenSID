@@ -67,7 +67,7 @@ class Web_widget extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
-            
+
             return datatables()->of(Widget::orderBy('urut')->when($status, static fn ($q) => $q->where('enabled', $status)))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {

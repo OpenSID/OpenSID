@@ -69,9 +69,9 @@ class Kelompok extends Admin_Controller
         $data['list_master'] = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if ($this->input->is_ajax_request()) {
-            $controller = $this->controller;            
+            $controller = $this->controller;
             $status     = $this->input->get('status_dasar');
-            $query = KelompokModel::with(['kelompokMaster', 'ketua'])
+            $query      = KelompokModel::with(['kelompokMaster', 'ketua'])
                 ->withCount('kelompokAnggota as jml_anggota')
                 ->tipe($this->tipe)
                 ->jenisKelaminKetua($this->session->sex)
@@ -89,7 +89,7 @@ class Kelompok extends Admin_Controller
                 });
 
             return datatables()->of($query)
-                ->addIndexColumn()                
+                ->addIndexColumn()
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';

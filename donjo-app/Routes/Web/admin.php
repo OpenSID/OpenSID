@@ -1735,8 +1735,8 @@ Route::group('point', static function (): void {
     Route::get('/form/{id}/{subpoint?}', 'Point@form')->name('point.form');
     Route::get('/sub_point/{point}', 'Point@sub_point')->name('point.sub_point');
     Route::get('/ajax_add_sub_point/{point?}/{id?}', 'Point@ajax_add_sub_point')->name('point.ajax_add_sub_point');
-    Route::match(['GET', 'POST'],'/insert', 'Point@insert')->name('point.insert-default');
-    Route::match(['GET', 'POST'],'/insert/{subpoint}', 'Point@insert')->name('point.insert');
+    Route::match(['GET', 'POST'], '/insert', 'Point@insert')->name('point.insert-default');
+    Route::match(['GET', 'POST'], '/insert/{subpoint}', 'Point@insert')->name('point.insert');
     Route::post('/update/{id?}/{subpoint?}', 'Point@update')->name('point.update');
     Route::match(['GET', 'POST'], '/delete/{id?}/{subpoint?}', 'Point@delete')->name('point.delete');
     Route::get('/lock/{id}/{val}/{subpoint?}', 'Point@lock')->name('point.lock');
@@ -2223,5 +2223,5 @@ Route::group('plugin', static function () {
     Route::get('/', 'Plugin@index')->name('plugin.index');
     Route::get('/installed', 'Plugin@installed')->name('plugin.installed');
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
-    Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');    
+    Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
 });

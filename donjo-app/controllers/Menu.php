@@ -70,7 +70,7 @@ class Menu extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $parent    = (int) ($this->input->get('parent') ?? 0);
-            $status = $this->input->get('status') ?? null;
+            $status    = $this->input->get('status') ?? null;
             $canDelete = can('h');
             $canUpdate = can('u');
 

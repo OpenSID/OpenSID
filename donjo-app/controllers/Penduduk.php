@@ -107,7 +107,7 @@ class Penduduk extends Admin_Controller
 
         $data['func']                 = 'index';
         $data['set_page']             = $this->_set_page;
-        $list_data                    = $this->penduduk_model->list_data($o, $p);        
+        $list_data                    = $this->penduduk_model->list_data($o, $p);
         $data['paging']               = $list_data['paging'];
         $data['main']                 = $list_data['main'];
         $data['list_dusun']           = $this->wilayah_model->list_dusun();

@@ -120,11 +120,11 @@ class Simbol extends Admin_Controller
     public function upload_simbol(): void
     {
         $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
-        $config['allowed_types'] = 'gif|jpg|png|jpeg';        
+        $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $this->load->library('MY_Upload', null, 'upload');
         $namaFile = $_FILES['simbol']['full_path'];
-        if (strlen($namaFile) > 27){
-            $config['file_name'] = 'simbol_'.time();   // maksimal 40 karakter di db
+        if (strlen($namaFile) > 27) {
+            $config['file_name'] = 'simbol_' . time();   // maksimal 40 karakter di db
         }
         $this->upload->initialize($config);
 
@@ -134,8 +134,8 @@ class Simbol extends Admin_Controller
             return;
         }
 
-        $uploadedImage = $this->upload->data();        
-        ResizeGambar($uploadedImage['full_path'], $uploadedImage['full_path'], ['width' => 32, 'height' => 32]); // ubah ukuran gambar        
+        $uploadedImage = $this->upload->data();
+        ResizeGambar($uploadedImage['full_path'], $uploadedImage['full_path'], ['width' => 32, 'height' => 32]); // ubah ukuran gambar
         $data['simbol'] = $uploadedImage['file_name'];
 
         try {

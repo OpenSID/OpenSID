@@ -576,8 +576,8 @@ class Wilayah extends Admin_Controller
         $data['breadcrumb']   = [
             ['link' => ci_route('wilayah'), 'judul' => 'Daftar ' . $data['wilayah']],
         ];
-        $data['form_action'] = ci_route("{$this->controller}.update_wilayah_map", "dusun/{$id}");
-        $data['logo']        = $this->header['desa'];
+        $data['form_action']     = ci_route("{$this->controller}.update_wilayah_map", "dusun/{$id}");
+        $data['logo']            = $this->header['desa'];
         $data['route_kosongkan'] = ci_route('wilayah.kosongkan', $id);
         view('admin.wilayah.maps_wilayah', $data);
     }
@@ -625,9 +625,9 @@ class Wilayah extends Admin_Controller
             ['link' => ci_route('wilayah'), 'judul' => 'Daftar ' . $sebutan_dusun],
             ['link' => ci_route("{$this->controller}.index?level=rw&parent={$id_dusun}"), 'judul' => 'Daftar RW'],
         ];
-        $data['wilayah']     = 'RW';
-        $data['form_action'] = ci_route("{$this->controller}.update_wilayah_map", "rw/{$id}/{$id_dusun}");
-        $data['logo']        = $this->header['desa'];
+        $data['wilayah']         = 'RW';
+        $data['form_action']     = ci_route("{$this->controller}.update_wilayah_map", "rw/{$id}/{$id_dusun}");
+        $data['logo']            = $this->header['desa'];
         $data['route_kosongkan'] = ci_route('wilayah.kosongkan', $id);
         view('admin.wilayah.maps_wilayah', $data);
     }
@@ -686,9 +686,9 @@ class Wilayah extends Admin_Controller
             ['link' => ci_route("{$this->controller}.index?level=rw&parent={$id_dusun}"), 'judul' => 'Daftar RW'],
             ['link' => ci_route("{$this->controller}.index?level=rt&parent={$id_rw}"), 'judul' => 'Daftar RT'],
         ];
-        $data['wilayah']     = 'RT';
-        $data['form_action'] = ci_route("{$this->controller}.update_wilayah_map", "rt/{$id}/{$id_rw}");
-        $data['logo']        = $this->header['desa'];
+        $data['wilayah']         = 'RT';
+        $data['form_action']     = ci_route("{$this->controller}.update_wilayah_map", "rt/{$id}/{$id_rw}");
+        $data['logo']            = $this->header['desa'];
         $data['route_kosongkan'] = ci_route('wilayah.kosongkan', $id);
         view('admin.wilayah.maps_wilayah', $data);
     }
@@ -710,23 +710,23 @@ class Wilayah extends Admin_Controller
     public function kosongkan($id = ''): void
     {
         $this->redirect_hak_akses('u');
-        $wilayah = WilayahModel::findOrFail($id);
+        $wilayah       = WilayahModel::findOrFail($id);
         $wilayah->path = null;
         $wilayah->save();
-        
+
         if ($wilayah->isDusun()) {
             redirect($this->controller);
         }
-        
+
         if ($wilayah->isRw()) {
             $parent = WilayahModel::dusun()->whereDusun($wilayah->dusun)->first();
-            redirect($this->controller.'/index?parent='.$parent->id.'&level=rw');
+            redirect($this->controller . '/index?parent=' . $parent->id . '&level=rw');
         }
 
         if ($wilayah->isRt()) {
             $parent = WilayahModel::rw()->where(['dusun' => $wilayah->dusun, 'rw' => $wilayah->rw])->first();
-            redirect($this->controller.'/index?parent='.$parent->id.'&level=rt');
-        }        
+            redirect($this->controller . '/index?parent=' . $parent->id . '&level=rt');
+        }
     }
 
     public function list_rw($dusun = ''): void
