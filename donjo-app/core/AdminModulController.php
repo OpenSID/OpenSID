@@ -95,7 +95,10 @@ abstract class AdminModulController extends Admin_Controller
 
     protected function activate()
     {
-        $this->moduleName = 'Tema Batuah'; // untuk testing
+        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+            return true;
+        }
+
         if (! in_array($this->moduleName, cache('modul_aktif'))) {
             set_session('error', 'Paket ' . $this->moduleName . ' belum bisa digunakan karena belum diaktivasi.');
 
