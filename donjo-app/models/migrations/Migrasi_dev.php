@@ -78,18 +78,28 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024011371($hasil, $id)
     {
+        $statis = [
+            [
+                'id'    => 'statis',
+                'nama'  => 'Halaman Statis',
+            ],
+            [
+                'id'    => 'agenda',
+                'nama'  => 'Agenda',
+            ],
+            [
+                'id'    => 'keuangan',
+                'nama'  => 'Keuangan',
+            ],
+        ];
         return $hasil && $this->tambah_setting([
             'judul'      => 'Artikel Statis / Halaman',
             'key'        => 'artikel_statis',
-            'value'      => json_encode(['statis', 'agenda', 'keuangan']),
+            'value'      => json_encode(array_column($statis, 'id')),
             'keterangan' => 'Artikel Statis / Halaman yang akan ditampilkan pada halaman utama.',
             'kategori'   => 'conf_web',
-            'jenis'      => 'multiple-option-key',
-            'option'     => json_encode([
-                'statis'   => 'Halaman Statis',
-                'agenda'   => 'Agenda',
-                'keuangan' => 'Keuangan',
-            ]),
+            'jenis'      => 'multiple-option-array',
+            'option'     => json_encode($statis),
         ], $id);
     }
 
@@ -164,7 +174,7 @@ class Migrasi_dev extends MY_model
             'value'      => json_encode(array_column($mediaSosial, 'id')),
             'keterangan' => 'Media Sosial yang akan ditampilkan pada halaman [Pemerintah Desa]. <br>Kosongkan bila tidak ingin menampilkan media sosial.',
             'kategori'   => 'Pemerintah Desa',
-            'jenis'      => 'multiple-option-key',
+            'jenis'      => 'multiple-option-array',
             'option'     => json_encode($mediaSosial),
         ], $id);
     }
