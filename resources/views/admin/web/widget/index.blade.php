@@ -23,12 +23,12 @@
                 <div class="box box-info">
                     <div class="box-header with-border">
                         @if (can('u'))
-                            <a href="{{ route('web_widget.form') }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Widget">
+                            <a href="{{ ci_route('web_widget.form') }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Widget">
                                 <i class="fa fa-plus"></i> Tambah
                             </a>
                         @endif
                         @if (can('u'))
-                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('web_widget.delete_all') }}')"
+                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('web_widget.delete_all') }}')"
                                 class="btn btn-social btn-danger btn-sm
                         visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
                         hapus-terpilih"
@@ -89,8 +89,10 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('web_widget.datatables') }}",
-                    data: function(req) {}
+                    url: "{{ ci_route('web_widget.datatables') }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
                 },
                 columns: [{
                         data: 'ceklist',
@@ -137,7 +139,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(5).search($(this).val()).draw()
+                TableData.draw();
             })
 
             if (hapus == 0) {

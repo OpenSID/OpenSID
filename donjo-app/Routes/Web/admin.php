@@ -1996,7 +1996,6 @@ Route::group('web_widget', static function (): void {
     Route::post('/update/{id?}', 'Web_widget@update')->name('web_widget.update');
     Route::get('/delete/{id?}', 'Web_widget@delete')->name('web_widget.delete');
     Route::post('/delete_all', 'Web_widget@delete_all')->name('web_widget.delete_all');
-    Route::get('/urut/{id}/{arah}', 'Web_widget@urut')->name('web_widget.urut');
     Route::get('/lock/{id}', 'Web_widget@lock')->name('web_widget.lock');
 });
 // Admin Web > Menu
