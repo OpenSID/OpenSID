@@ -233,7 +233,7 @@ function session_error($pesan = ''): void
     // $_SESSION['error_msg'] = $pesan;
     // $_SESSION['success']   = -1;
 
-    get_instance()->session->set_flashdata([
+    get_instance()->session->set_userdata([
         'error_msg' => $pesan,
         'success'   => -1,
     ]);
@@ -246,7 +246,7 @@ function session_error_clear(): void
 
 function session_success(): void
 {
-    get_instance()->session->set_flashdata([
+    get_instance()->session->set_userdata([
         'error_msg' => '',
         'success'   => 1,
     ]);
