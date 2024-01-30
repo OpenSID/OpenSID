@@ -311,7 +311,7 @@
                                         title: 'Dokumen berhasil tertanda tangani secara elektronik',
                                         showConfirmButton: true,
                                     }).then((result) => {
-                                        window.location.replace("{{ ci_route('masuk') }}");
+                                        window.location.replace("{{ ci_route('keluar.masuk') }}");
                                     })
                                 }
                             }
