@@ -1,5 +1,4 @@
 <?php
-use Illuminate\Support\Facades\Http;
 
 /*
  *
@@ -35,6 +34,8 @@ use Illuminate\Support\Facades\Http;
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use Illuminate\Support\Facades\Http;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
