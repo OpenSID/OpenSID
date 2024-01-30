@@ -35,11 +35,12 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Identitas_desa extends Admin_Controller
 {
