@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Http;
 
 /*
  *
@@ -64,10 +65,12 @@ class Plugin extends Admin_Controller
 
     public function installed(): void
     {
+        $terpasang = $this->paketTerpasang();
         $data = [
             'content'         => 'admin.plugin.paket_terinstall',
             'act_tab'         => 2,
-            'paket_terpasang' => $this->paketTerpasang(),
+            'url_marketplace' => config_item('server_layanan').'/api/modules',
+            'paket_terpasang' => $terpasang ? json_encode(array_keys($terpasang)) : null,
         ];
 
         view('admin.plugin.index', $data);
@@ -91,11 +94,23 @@ class Plugin extends Admin_Controller
     public function pasang(): void
     {
         [$name, $url, $version] = explode('___', $this->request['pasang']);
-        if ($version !== '' && $version !== '0') {
+        $pasangBaru = true;
+        if (!empty($version)) {
             $this->jalankanMigrasi($name, 'down');
             forceRemoveDir($this->modulesDirectory . $name);
+            $pasangBaru = false;
         }
         $this->pasangPaket($name, $url);
+        
+        if ($pasangBaru){
+            try {
+                // hit ke url install module untuk update total yang terinstall
+                $urlHitModule = config_item('server_layanan').'/api/modules/install';                
+                Http::post($urlHitModule, ['module_name' => $name]);                
+            } catch (\Exception $e) {
+                log_message('error', $e->getMessage());
+            }            
+        }
         // reset cache views_blade karena di MY_Controller diset cache rememberForever
         cache()->flush();
         redirect('plugin');
