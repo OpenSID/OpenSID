@@ -128,8 +128,11 @@ class Penduduk_model extends MY_Model
         } elseif ($kf == BELUM_MENGISI) {
             $this->db->where("{$kolom} IS NULL");
         } else {
-            // $this->db->where($kolom, 1);
-            $this->db->where($kolom, $kf);
+            if (is_array($kf)) {
+                $this->db->where_in($kolom, $kf);
+            } else {
+                $this->db->where($kolom, $kf);
+            }
         }
     }
 
