@@ -172,7 +172,7 @@ class Migrasi_dev extends MY_model
             'judul'      => 'Media Sosial [Pemerintah Desa]',
             'key'        => 'media_sosial_pemerintah_desa',
             'value'      => json_encode(array_column($mediaSosial, 'id')),
-            'keterangan' => 'Media Sosial yang akan ditampilkan pada halaman [Pemerintah Desa]. <br>Kosongkan bila tidak ingin menampilkan media sosial.',
+            'keterangan' => 'Media Sosial yang akan ditampilkan pada halaman [Pemerintah Desa].',
             'kategori'   => 'Pemerintah Desa',
             'jenis'      => 'multiple-option-array',
             'option'     => json_encode($mediaSosial),
