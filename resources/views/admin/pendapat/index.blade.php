@@ -39,7 +39,7 @@
                         @php $key = "pilihan_{$key}" @endphp
                         <div class="col-sm-3 col-xs-6">
                             <div class="description-block border-left border-right">
-                                <img src="{{ to_base64(default_file(PENDAPAT . underscore($value, true, true) . '.png')) }}">
+                                <img src="{{ default_file(PENDAPAT . underscore($value, true, true) . '.png') }}">
                                 <h5 class="description-header">
                                     {{ persen2($$key, $main['total']) }}
                                 </h5>
