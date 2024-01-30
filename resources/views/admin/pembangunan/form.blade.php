@@ -215,10 +215,10 @@
                         <div class="col-sm-9">
                             <div class="row">
                                 <div class="btn-group col-sm-6" data-toggle="buttons">
-                                    <label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 {{ $main->lokasi ? null : 'active' }}">
+                                    <label class="btn btn-info btn-sm form-check-label col-sm-6 {{ $main->lokasi ? null : 'active' }}">
                                         <input type="radio" name="jenis_lokasi" class="form-check-input" value="1" autocomplete="off" onchange="pilih_lokasi(this.value);"> Pilih Lokasi
                                     </label>
-                                    <label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 {{ $main->lokasi ? 'active' : null }}">
+                                    <label class="btn btn-info btn-sm form-check-label col-sm-6 {{ $main->lokasi ? 'active' : null }}">
                                         <input type="radio" name="jenis_lokasi" class="form-check-input" value="2" autocomplete="off" onchange="pilih_lokasi(this.value);"> Tulis Manual
                                     </label>
                                 </div>

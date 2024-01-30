@@ -30,10 +30,10 @@
                             <div class="form-group">
                                 <label for="jenis_persentase" class="col-sm-3 control-label">Persentase Pembangunan</label>
                                 <div class="btn-group col-sm-8 kiri" data-toggle="buttons">
-                                    <label id="label_pilih" class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label active focus">
+                                    <label id="label_pilih" class="btn btn-info btn-sm col-sm-3 form-check-label active focus">
                                         <input type="radio" name="jenis_persentase" class="form-check-input" value="1" autocomplete="off" onchange="pilih_persentase(this.value);"> Pilih Persentase
                                     </label>
-                                    <label id="label_manual" class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
+                                    <label id="label_manual" class="btn btn-info btn-sm col-sm-3 form-check-label">
                                         <input type="radio" name="jenis_persentase" class="form-check-input" value="2" autocomplete="off" onchange="pilih_persentase(this.value);"> Tulis Manual
                                     </label>
                                 </div>
