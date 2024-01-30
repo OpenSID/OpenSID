@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => '2401.0.3.x-dev',
         'version' => '2401.0.3.9999999-dev',
-        'reference' => '510c8766c488e33d499aa410733e5205ccae2148',
+        'reference' => '4e70d630046c79321d7db5cfa587a84407e79fd0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -101,9 +101,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.333.0',
-            'version' => '0.333.0.0',
-            'reference' => '106bbc8620b60a677376d430235844f9f8a8551c',
+            'pretty_version' => 'v0.333.1',
+            'version' => '0.333.1.0',
+            'reference' => 'f82f631755771082cc9070592b82596b359ce6da',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -353,9 +353,9 @@
             'dev_requirement' => false,
         ),
         'league/mime-type-detection' => array(
-            'pretty_version' => '1.14.0',
-            'version' => '1.14.0.0',
-            'reference' => 'b6a5854368533df0295c5761a0253656a2e52d9e',
+            'pretty_version' => '1.15.0',
+            'version' => '1.15.0.0',
+            'reference' => 'ce0f4d1e8a6f4eb0ddff33f57c69c50fd09f4301',
             'type' => 'library',
             'install_path' => __DIR__ . '/../league/mime-type-detection',
             'aliases' => array(),
@@ -400,7 +400,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => '2401.0.3.x-dev',
             'version' => '2401.0.3.9999999-dev',
-            'reference' => '510c8766c488e33d499aa410733e5205ccae2148',
+            'reference' => '4e70d630046c79321d7db5cfa587a84407e79fd0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -892,7 +892,7 @@
         'themes/esensi' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '795ea202dfc816eaa9f68fc589837e1e347a9719',
+            'reference' => '3a65e52cb2c8590e010a15e04aa01f0bdf2156c9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
             'aliases' => array(
@@ -903,7 +903,7 @@
         'themes/natra' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6d6c0138e09bea64ae6546e911b071d3e673f1d2',
+            'reference' => '439973eb86cff44f5d8e13c71652f92882ee90bd',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(
