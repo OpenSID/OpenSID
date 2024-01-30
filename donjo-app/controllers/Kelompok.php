@@ -69,9 +69,8 @@ class Kelompok extends Admin_Controller
         $data['list_master'] = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if ($this->input->is_ajax_request()) {
-            $controller = $this->controller;
-            $input      = $this->input;
-
+            $controller = $this->controller;            
+            $status     = $this->input->get('status_dasar');
             $query = KelompokModel::with(['kelompokMaster', 'ketua'])
                 ->withCount('kelompokAnggota as jml_anggota')
                 ->tipe($this->tipe)
@@ -81,21 +80,16 @@ class Kelompok extends Admin_Controller
                     if ($filter = $this->input->get('filter')) {
                         $query->where('id_master', $filter);
                     }
+                })->whereHas('ketua', static function ($query) use ($status): void {
+                        if ($status == 1) {
+                            $query->where('status_dasar', 1);
+                        } elseif ($status == 2) {
+                            $query->where('status_dasar', null);
+                        }
                 });
 
-            return datatables($query)
-                ->addIndexColumn()
-                ->filter(static function ($query) use ($input): void {
-                    $query->whereHas('ketua', static function ($query) use ($input): void {
-                        if ($status = $input->get('status_dasar')) {
-                            if ($status == 1) {
-                                $query->where('status_dasar', 1);
-                            } elseif ($status == 2) {
-                                $query->where('status_dasar', null);
-                            }
-                        }
-                    });
-                })
+            return datatables()->of($query)
+                ->addIndexColumn()                
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
