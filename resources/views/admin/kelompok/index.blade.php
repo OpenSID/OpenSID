@@ -45,7 +45,7 @@
         </div>
         <div class="col-md-9">
             <div class="box box-info">
-                <div class="box-header with-header">
+                <div class="box-header with-border">
                     @if (can('u'))
                         <a href="{{ site_url("{$ci->controller}/form") }}" title="Tambah" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
@@ -68,7 +68,7 @@
                         <div class="col-sm-2">
                             <select id="status_dasar" class="form-control input-sm select2" name="status_dasar">
                                 <option value="">Pilih Status</option>
-                                <option value="1">Aktif</option>
+                                <option value="1" selected>Aktif</option>
                                 <option value="2">Tidak Aktif</option>
                             </select>
                         </div>

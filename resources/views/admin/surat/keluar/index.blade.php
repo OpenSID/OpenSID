@@ -277,6 +277,10 @@
                                 formData.append('passphrase', passphrase);
 
                                 return fetch("{{ ci_route('external_api.tte.sign_visible') }}", {
+                                    headers: {
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                        // other headers as needed
+                                    },
                                     method: 'post',
                                     body: formData,
                                 }).then(response => {
