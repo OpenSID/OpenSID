@@ -145,7 +145,7 @@
             });
 
             $('#status').change(function() {
-                TableData.column(5).search($(this).val()).draw()
+                TableData.column(4).search($(this).val()).draw()
             })
 
 

@@ -64,7 +64,7 @@ class Web_artikel_model extends MY_Model
         $cari = $this->session->cari;
 
         if (isset($cari)) {
-            $this->db->like('judul', $cari, 'BOTH')->or_like('isi', $cari, 'BOTH');
+            $this->db->like('a.judul', $cari);
         }
     }
 
