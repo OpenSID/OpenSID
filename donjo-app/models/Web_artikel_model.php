@@ -52,17 +52,9 @@ class Web_artikel_model extends MY_Model
     {
         $this->group_akses();
 
-        if ($cari) {
-            $this->db->like($kolom, $cari);
-        }
+        $this->list_data_sql($cat);
 
-        $data = $this->config_id('a')
-            ->distinct()
-            ->select('a.judul')
-            ->order_by('a.judul')
-            ->where('a.id_kategori', $cat)
-            ->get('artikel a')
-            ->result_array();
+        $data = $this->db->select('a.judul')->get()->result_array();
 
         return autocomplete_data_ke_str($data);
     }
