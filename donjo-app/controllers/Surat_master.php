@@ -755,7 +755,7 @@ class Surat_master extends Admin_Controller
         $config['allowed_types'] = 'json';
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = 'template_surat_tinymce.json';
+        $config['file_name']     = time() . '_template_surat_tinymce.json';
 
         $this->upload->initialize($config);
 
