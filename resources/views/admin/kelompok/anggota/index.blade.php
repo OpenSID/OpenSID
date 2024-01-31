@@ -117,7 +117,11 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <hr style="margin-bottom: 5px;">
+                <div class="box-body">
                     <h5><b>Anggota {{ $tipe }}</b></h5>
+                    <hr>
                     <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                         <form id="mainform" name="mainform" method="post">
                             <div class="table-responsive dataTables_wrapper">

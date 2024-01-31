@@ -18,7 +18,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group btn-group-vertical">
-                    <a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Data Warga</a>
+                    <a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah</a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="{{ site_url("suplemen/form_terdata/{$suplemen->id}/1") }}" class="btn btn-social btn-block btn-sm" title="Tambah Satu Data Warga"><i class="fa fa-plus"></i> Tambah Satu Data Warga</a>
@@ -49,6 +49,7 @@
         @include('admin.suplemen.rincian')
         <hr style="margin-bottom: 5px;">
         <div class="box-body">
+            <h5><b>Daftar Terdata</b></h5>
             <div class="form-inline">
                 <select class="form-control input-sm" id="sex" name="sex">
                     <option value="">Pilih Jenis Kelamin</option>
