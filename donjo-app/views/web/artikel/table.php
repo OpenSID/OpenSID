@@ -108,7 +108,7 @@
 										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/{$cat}") ?>')">
+													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status") ?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
 														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
