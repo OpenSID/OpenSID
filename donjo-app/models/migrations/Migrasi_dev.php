@@ -80,18 +80,19 @@ class Migrasi_dev extends MY_model
     {
         $statis = [
             [
-                'id'    => 'statis',
-                'nama'  => 'Halaman Statis',
+                'id'   => 'statis',
+                'nama' => 'Halaman Statis',
             ],
             [
-                'id'    => 'agenda',
-                'nama'  => 'Agenda',
+                'id'   => 'agenda',
+                'nama' => 'Agenda',
             ],
             [
-                'id'    => 'keuangan',
-                'nama'  => 'Keuangan',
+                'id'   => 'keuangan',
+                'nama' => 'Keuangan',
             ],
         ];
+
         return $hasil && $this->tambah_setting([
             'judul'      => 'Artikel Statis / Halaman',
             'key'        => 'artikel_statis',

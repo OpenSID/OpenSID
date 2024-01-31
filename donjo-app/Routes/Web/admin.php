@@ -1020,7 +1020,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/filter', 'Ekspedisi@filter')->name('buku-umum.ekspedisi.filter');
         Route::post('/update/{p}/{o}/{id}', 'Ekspedisi@update')->name('buku-umum.ekspedisi.update');
         Route::get('/dialog/{aksi?}/{o?}', 'Ekspedisi@dialog')->name('buku-umum.ekspedisi.dialog');
-        Route::match(['GET', 'POST'],'/daftar/{aksi?}/{o?}', 'Ekspedisi@daftar')->name('buku-umum.ekspedisi.daftar');
+        Route::match(['GET', 'POST'], '/daftar/{aksi?}/{o?}', 'Ekspedisi@daftar')->name('buku-umum.ekspedisi.daftar');
         Route::get('/unduh_tanda_terima/{id}', 'Ekspedisi@unduh_tanda_terima')->name('buku-umum.ekspedisi.unduh_tanda_terima');
         Route::get('/bukan_ekspedisi/{p}/{o}/{id}', 'Ekspedisi@bukan_ekspedisi')->name('buku-umum.ekspedisi.bukan_ekspedisi');
         Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Ekspedisi@index')->name('buku-umum.ekspedisi.index');
@@ -1036,7 +1036,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/update/{id}/{p?}/{o?}', 'Lembaran_desa@update')->name('buku-umum.lembaran_desa.update');
         Route::get('/lock/{id}/{val?}', 'Lembaran_desa@lock')->name('buku-umum.lembaran_desa.lock');
         Route::get('/dialog_daftar/{aksi?}/{o?}', 'Lembaran_desa@dialog_daftar')->name('buku-umum.lembaran_desa.dialog_daftar');
-        Route::match(['GET', 'POST'],'/daftar/{aksi?}/{o?}', 'Lembaran_desa@daftar')->name('buku-umum.lembaran_desa.daftar');
+        Route::match(['GET', 'POST'], '/daftar/{aksi?}/{o?}', 'Lembaran_desa@daftar')->name('buku-umum.lembaran_desa.daftar');
         Route::get('/unduh_berkas/{id_dokumen?}', 'Lembaran_desa@unduh_berkas')->name('buku-umum.lembaran_desa.unduh_berkas');
         Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Lembaran_desa@index')->name('buku-umum.lembaran_desa.index');
         Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Lembaran_desa@index')->name('buku-umum.lembaran_desa.index-page');
@@ -1081,7 +1081,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/delete_all//{p?}/{o?}', 'Surat_keluar@delete_all')->name('buku-umum.surat_keluar.delete_all');
         Route::get('/dialog_cetak/{o?}', 'Surat_keluar@dialog_cetak')->name('buku-umum.surat_keluar.dialog_cetak');
         Route::get('/dialog_unduh/{o?}', 'Surat_keluar@dialog_unduh')->name('buku-umum.surat_keluar.dialog_unduh');
-        Route::match(['GET' ,'POST'],'/dialog/{aksi?}/{o?}', 'Surat_keluar@dialog')->name('buku-umum.surat_keluar.dialog');
+        Route::match(['GET', 'POST'], '/dialog/{aksi?}/{o?}', 'Surat_keluar@dialog')->name('buku-umum.surat_keluar.dialog');
         Route::get('/berkas/{idSuratKeluar?}/{tipe?}', 'Surat_keluar@berkas')->name('buku-umum.surat_keluar.berkas');
         Route::post('/nomor_surat_duplikat', 'Surat_keluar@nomor_surat_duplikat')->name('buku-umum.surat_keluar.nomor_surat_duplikat');
         Route::get('/untuk_ekspedisi/{p?}/{o?}/{id?}', 'Surat_keluar@untuk_ekspedisi')->name('buku-umum.surat_keluar.untuk_ekspedisi');
@@ -1104,7 +1104,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::get('/dialog_disposisi/{o?}/{id?}', 'Surat_masuk@dialog_disposisi')->name('buku-umum.surat_masuk.dialog_disposisi');
         Route::get('/dialog_cetak/{o?}', 'Surat_masuk@dialog_cetak')->name('buku-umum.surat_masuk.dialog_cetak');
         Route::get('/dialog_unduh/{o?}', 'Surat_masuk@dialog_unduh')->name('buku-umum.surat_masuk.dialog_unduh');
-        Route::match(['GET' ,'POST'],'/dialog/{aksi?}/{o?}', 'Surat_masuk@dialog')->name('buku-umum.surat_masuk.dialog');
+        Route::match(['GET', 'POST'], '/dialog/{aksi?}/{o?}', 'Surat_masuk@dialog')->name('buku-umum.surat_masuk.dialog');
         Route::post('/disposisi/{id?}', 'Surat_masuk@disposisi')->name('buku-umum.surat_masuk.disposisi');
         Route::get('/berkas/{idSuratMasuk?}/{tipe?}', 'Surat_masuk@berkas')->name('buku-umum.surat_masuk.berkas');
         Route::post('/nomor_surat_duplikat', 'Surat_masuk@nomor_surat_duplikat')->name('buku-umum.surat_masuk.nomor_surat_duplikat');

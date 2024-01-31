@@ -35,7 +35,6 @@
  *
  */
 
-
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;

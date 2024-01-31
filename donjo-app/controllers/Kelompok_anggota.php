@@ -303,7 +303,7 @@ class Kelompok_anggota extends Admin_Controller
     {
         $post = $this->input->post();
 
-        $kelompok = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
+        $kelompok     = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
         $list_anggota = collect($kelompok)
             ->map(
                 static fn ($item) => collect($item)->merge(

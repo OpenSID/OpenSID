@@ -35,7 +35,6 @@
  *
  */
 
-
 use App\Enums\SatuanWaktuEnum;
 use App\Enums\StatusEnum;
 use App\Models\Area;

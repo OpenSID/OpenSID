@@ -193,7 +193,7 @@ class Kelompok extends Admin_Controller
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
         $data['main']           = $this->kelompok_model->list_data();
-        $data['file']           = "Data " . $data['tipe']; // nama file
+        $data['file']           = 'Data ' . $data['tipe']; // nama file
         $data['isi']            = 'admin.kelompok.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
 

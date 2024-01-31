@@ -108,7 +108,7 @@
 										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status") ?>')">
+													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url('web/filter/status') ?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
 														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
@@ -119,7 +119,7 @@
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= e($cari) ?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('web/filter/cari/$cat') ?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("web/filter/cari") ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url('web/filter/cari') ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>

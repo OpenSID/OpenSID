@@ -416,7 +416,7 @@ class Web_artikel_model extends MY_Model
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);
         } else {
-            $outp = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
+            $outp                    = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
             $this->session->kategori = $cat;
         }
 

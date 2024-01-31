@@ -99,7 +99,7 @@ class Cek
             return false;
         }
 
-        $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
+        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
         if ($this->isPremiumVersionExpired($berakhir)) {
