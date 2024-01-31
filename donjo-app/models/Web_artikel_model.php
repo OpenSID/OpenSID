@@ -52,17 +52,9 @@ class Web_artikel_model extends MY_Model
     {
         $this->group_akses();
 
-        if ($cari) {
-            $this->db->like($kolom, $cari);
-        }
+        $this->list_data_sql($cat);
 
-        $data = $this->config_id('a')
-            ->distinct()
-            ->select('a.judul')
-            ->order_by('a.judul')
-            ->where('a.id_kategori', $cat)
-            ->get('artikel a')
-            ->result_array();
+        $data = $this->db->select('a.judul')->get()->result_array();
 
         return autocomplete_data_ke_str($data);
     }
@@ -425,6 +417,7 @@ class Web_artikel_model extends MY_Model
             $outp = $this->update_agenda($id, $data);
         } else {
             $outp = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
+            $this->session->kategori = $cat;
         }
 
         if ($hapus_lampiran == 'true') {
@@ -448,6 +441,8 @@ class Web_artikel_model extends MY_Model
                 $this->agenda_model->update($id, $agenda);
             }
         }
+
+        $this->session->kategori = AGENDA;
 
         return $outp;
     }

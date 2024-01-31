@@ -1273,8 +1273,8 @@ Route::group('keuangan', static function (): void {
     Route::get('/grafik/{jenis}', 'Keuangan@grafik')->name('keuangan.grafik');
     Route::get('/impor_data', 'Keuangan@impor_data')->name('keuangan.impor_data');
     Route::post('/proses_impor', 'Keuangan@proses_impor')->name('keuangan.proses_impor');
-    Route::post('/cek_versi_database', 'Keuangan@cek_versi_database')->name('keuangan.cek_versi_database');
-    Route::get('/cek_tahun', 'Keuangan@cek_tahun')->name('keuangan.cek_tahun');
+    Route::match(['GET', 'POST'], '/cek_versi_database', 'Keuangan@cek_versi_database')->name('keuangan.cek_versi_database');
+    Route::match(['GET', 'POST'], '/cek_tahun', 'Keuangan@cek_tahun')->name('keuangan.cek_tahun');
     Route::get('/delete/{id?}', 'Keuangan@delete')->name('keuangan.delete');
     Route::get('/pilih_desa/{id_master}', 'Keuangan@pilih_desa')->name('keuangan.pilih_desa');
     Route::match(['GET', 'POST'], '/bersihkan_desa/{id_master}', 'Keuangan@bersihkan_desa')->name('keuangan.bersihkan_desa');
@@ -1282,11 +1282,11 @@ Route::group('keuangan', static function (): void {
 // Keuangan > Input Data
 // Keuangan > Laporan Manual
 Route::group('keuangan_manual', static function (): void {
-    Route::get('/', 'Keuangan_manual@index')->name('keuangan_manual.index');
+    Route::match(['GET', 'POST'], '/', 'Keuangan_manual@index')->name('keuangan_manual.index');
     Route::get('/setdata_laporan/{tahun}/{semester}', 'Keuangan_manual@setdata_laporan')->name('keuangan_manual.setdata_laporan');
     Route::get('/laporan_manual', 'Keuangan_manual@laporan_manual')->name('keuangan_manual.laporan_manual');
     Route::get('/grafik_manual/{jenis}', 'Keuangan_manual@grafik_manual')->name('keuangan_manual.grafik_manual');
-    Route::get('/manual_apbdes', 'Keuangan_manual@manual_apbdes')->name('keuangan_manual.manual_apbdes');
+    Route::match(['GET', 'POST'], '/manual_apbdes', 'Keuangan_manual@manual_apbdes')->name('keuangan_manual.manual_apbdes');
     Route::get('/data_anggaran', 'Keuangan_manual@data_anggaran')->name('keuangan_manual.data_anggaran');
     Route::get('/load_data', 'Keuangan_manual@load_data')->name('keuangan_manual.load_data');
     Route::get('/get_anggaran', 'Keuangan_manual@get_anggaran')->name('keuangan_manual.get_anggaran');
@@ -1294,7 +1294,7 @@ Route::group('keuangan_manual', static function (): void {
     Route::post('/update_anggaran', 'Keuangan_manual@update_anggaran')->name('keuangan_manual.update_anggaran');
     Route::get('/delete_input/{id?}', 'Keuangan_manual@delete_input')->name('keuangan_manual.delete_input');
     Route::post('/delete_all', 'Keuangan_manual@delete_all')->name('keuangan_manual.delete_all');
-    Route::get('/salin_anggaran_tpl', 'Keuangan_manual@salin_anggaran_tpl')->name('keuangan_manual.salin_anggaran_tpl');
+    Route::post('/salin_anggaran_tpl', 'Keuangan_manual@salin_anggaran_tpl')->name('keuangan_manual.salin_anggaran_tpl');
     Route::get('/cek_tahun_manual', 'Keuangan_manual@cek_tahun_manual')->name('keuangan_manual.cek_tahun_manual');
     Route::post('/set_terpilih', 'Keuangan_manual@set_terpilih')->name('keuangan_manual.set_terpilih');
 });

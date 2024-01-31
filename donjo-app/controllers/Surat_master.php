@@ -77,8 +77,14 @@ class Surat_master extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             return datatables((new FormatSurat())->jenis($this->input->get('jenis')))
-                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addIndexColumn()
+                ->addColumn('ceklist', static function ($row): string {
+                    if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
+                    }
+
+                    return '';
+                })
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
@@ -470,8 +476,13 @@ class Surat_master extends Admin_Controller
     public function delete($id): void
     {
         $this->redirect_hak_akses('h');
+        $surat = FormatSurat::findOrFail($id);
 
-        if (FormatSurat::destroy($id)) {
+        if ($surat->jenis !== FormatSurat::TINYMCE_DESA) {
+            redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
+        }
+
+        if ($surat->delete($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -482,11 +493,9 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (FormatSurat::destroy($this->request['id_cb'])) {
-            redirect_with('success', 'Berhasil Hapus Data');
+        foreach ($this->request['id_cb'] as $id) {
+            $this->delete($id);
         }
-
-        redirect_with('error', 'Gagal Hapus Data');
     }
 
     public function restore_surat_bawaan($url_surat = ''): void
@@ -756,7 +765,7 @@ class Surat_master extends Admin_Controller
         $config['allowed_types'] = 'json';
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
-        $config['file_name']     = 'template_surat_tinymce.json';
+        $config['file_name']     = time() . '_template_surat_tinymce.json';
 
         $this->upload->initialize($config);
 

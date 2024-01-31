@@ -162,7 +162,8 @@ class Web extends Admin_Controller
     public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
-        $cat = $this->session->kategori ?: 0;
+        $cat = Artikel::findOrFail($id);
+        $cat = $cat->id_kategori ?? $cat->tipe;
 
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
