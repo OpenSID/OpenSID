@@ -423,6 +423,7 @@ class Web_artikel_model extends MY_Model
             $outp = $this->update_agenda($id, $data);
         } else {
             $outp = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
+            $this->session->kategori = $cat;
         }
 
         if ($hapus_lampiran == 'true') {
@@ -446,6 +447,8 @@ class Web_artikel_model extends MY_Model
                 $this->agenda_model->update($id, $agenda);
             }
         }
+
+        $this->session->kategori = AGENDA;
 
         return $outp;
     }
