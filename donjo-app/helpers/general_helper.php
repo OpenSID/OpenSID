@@ -155,8 +155,6 @@ if (! function_exists('can')) {
             return (bool) super_admin();
         }
 
-        // dd($data);
-
         return $data[$slugModul][$alias[$akses]];
     }
 }

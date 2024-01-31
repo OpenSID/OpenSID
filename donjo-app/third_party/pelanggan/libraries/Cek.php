@@ -100,7 +100,6 @@ class Cek
         }
 
         $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
-        // dd($berakhir);
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
         if ($this->isPremiumVersionExpired($berakhir)) {
