@@ -343,7 +343,7 @@ class First_artikel_m extends MY_Model
             ->select('a.*, g.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
             ->join('artikel a', 'a.id = g.id_artikel', 'LEFT')
             ->where('a.enabled', 1)
-            ->where('a.id_kategori', '1000')
+            ->where('a.tipe', AGENDA)
             ->get('agenda g')
             ->result_array();
     }
