@@ -556,12 +556,8 @@ class Suplemen extends Admin_Controller
 
     public function get_suplemen($id)
     {
-        return ModelsSuplemen::select('suplemen.*')
-            ->selectRaw('COUNT(suplemen_terdata.id) AS jml')
-            ->leftJoin('suplemen_terdata', 'suplemen_terdata.id_suplemen', '=', 'suplemen.id')
-            ->where('suplemen.id', $id)
-            ->groupBy('suplemen.id')
-            ->first()
+        return ModelsSuplemen::withCount('terdata as jml')
+            ->find($id)
             ->toArray();
     }
 
