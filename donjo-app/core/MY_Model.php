@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -188,15 +188,19 @@ class MY_Model extends CI_Model
 
     public function tambah_modul($modul)
     {
-        // Modul
-        $sql = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
+        if (isset($modul['slug']) && $this->config_id()->get_where('setting_modul', ['slug' => $modul['slug']])->result()) {
+            return true;
+        }
 
+        // Modul
+        $sql   = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
         $hasil = $this->db->query($sql);
+        $id    = $this->db->insert_id();
 
         // Hak Akses Default Operator
         // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
         if ($this->db->table_exists('grup_akses')) {
-            $hasil = $hasil && $this->grupAkses(2, $modul['id'], 3);
+            $hasil = $hasil && $this->grupAkses(2, $modul['id'] ?? $id, 3, $modul['config_id'] ?? null);
         }
 
         // Hapus cache menu navigasi
@@ -205,9 +209,19 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
-    public function grupAkses($id_grup, $id_modul, $akses)
+    public function grupAkses($id_grup, $id_modul, $akses, $config_id = null)
     {
-        return $this->db->insert('grup_akses', ['id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
+        $insert = [
+            'id_grup'  => $id_grup,
+            'id_modul' => $id_modul,
+            'akses'    => $akses,
+        ];
+
+        if ($this->db->field_exists('config_id', 'grup_akses')) {
+            $insert['config_id'] = $config_id ?? $this->config_id;
+        }
+
+        return $this->db->insert('grup_akses', $insert);
     }
 
     /**
@@ -257,9 +271,10 @@ class MY_Model extends CI_Model
         return true;
     }
 
-    public function tambah_surat_tinymce($data)
+    public function tambah_surat_tinymce($data, $config_id = null)
     {
-        $data['url_surat']    = 'surat-' . strtolower(str_replace([' ', '_'], '-', $data['nama']));
+        $config_id            = $config_id ?? $this->config_id;
+        $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
         $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
         $data['syarat_surat'] = json_encode($data['syarat_surat']);
         $data['created_by']   = auth()->id;
@@ -269,8 +284,8 @@ class MY_Model extends CI_Model
         $cek_surat = DB::table('tweb_surat_format')->where('url_surat', $data['url_surat']);
 
         if (Schema::hasColumn('tweb_surat_format', 'config_id')) {
-            $cek_surat->where('config_id', $this->config_id);
-            $data['config_id'] = $this->config_id;
+            $cek_surat->where('config_id', $config_id);
+            $data['config_id'] = $config_id;
         }
 
         if ($cek_surat->exists()) {
@@ -450,7 +465,7 @@ class MY_Model extends CI_Model
             }
 
             // Hapus data dengan config_id = null
-            DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
+            // DB::table($tabel)->where('config_id', 0)->orWhere('config_id', null)->delete();
         }
 
         return $hasil && $this->tambahForeignKey("{$tabel}_config_fk", $tabel, 'config_id', 'config', 'id');

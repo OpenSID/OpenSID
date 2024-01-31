@@ -33,7 +33,7 @@
               <?php if (is_file(LOKASI_FOTO_ARTIKEL."kecil_$arsip[gambar]")): ?>
               <img class="w-full h-auto" src="<?= base_url(LOKASI_FOTO_ARTIKEL."sedang_$arsip[gambar]")?>" />
               <?php else: ?>
-              <img class="w-full h-auto" src="<?= base_url("assets/images/404-image-not-found.jpg")?>" />
+              <img class="w-full h-auto" src="<?= asset("images/404-image-not-found.jpg")?>" />
               <?php endif;?>
             </a>
             <div class="flex flex-col justify-between gap-2">

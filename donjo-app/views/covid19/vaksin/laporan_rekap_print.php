@@ -58,7 +58,7 @@
 	<thead style="background-color:#f9f9f9;">
 		<tr>
 			<th rowspan="3">No</th>
-			<th rowspan="3">Dusun</th>
+			<th rowspan="3"><?= ucwords(setting('sebutan_dusun')) ?></th>
 			<th rowspan="3">Jumlah Penduduk</th>
 			<th rowspan="3">Jumlah Sasaran</th>
 			<th rowspan="1" colspan="5">Sasaran Vaksin</th>

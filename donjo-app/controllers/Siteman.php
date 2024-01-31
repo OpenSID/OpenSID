@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -98,7 +98,7 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        if (! $this->user_model->syarat_sandi() && ! ($this->session->user == super_admin() && (config_item('demo_mode') || ENVIRONMENT === 'development'))) {
+        if (! $this->user_model->syarat_sandi() && ! (config_item('demo_mode') || ENVIRONMENT === 'development')) {
             // Password tidak memenuhi syarat kecuali di website demo
 
             $this->session->force_change_password = true;
@@ -147,7 +147,7 @@ class Siteman extends MY_Controller
             $status = $this->password->driver('email')->sendResetLink([
                 'email' => $this->input->post('email'),
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             set_session('notif', 'Tidak berhasil mengirim email, harap mencoba kembali.');
@@ -192,7 +192,7 @@ class Siteman extends MY_Controller
                     $this->db->where('id', $user->id)->update('user', ['password' => $this->generatePasswordHash($password)]);
                 }
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             set_session('notif', 'Tidak berhasil memverifikasi kata sandi, silahkan coba kembali.');

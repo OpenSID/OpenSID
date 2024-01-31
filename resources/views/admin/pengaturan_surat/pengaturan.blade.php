@@ -1,4 +1,4 @@
-@include('admin.pengaturan_surat.asset_tinymce', ['height' => 250, 'salin_template' => 'header-footer'])
+@include('admin.pengaturan_surat.asset_tinymce', ['height' => 250])
 
 @extends('admin.layouts.index')
 
@@ -42,7 +42,9 @@
                     </div>
                     <div class="form-group">
                         <label>Template Header Surat</label>
-                        <textarea name="header_surat" class="form-control input-sm editor required" data-jenis="header">{{ setting('header_surat') }}</textarea>
+                        <textarea name="header_surat" class="form-control input-sm editor required" data-filemanager='<?= json_encode([ 'external_filemanager_path' => base_url().'assets/filemanager/',
+                            'filemanager_title' => "Responsive Filemanager",
+                            'filemanager_access_key' => $session->fm_key]) ?>' data-salintemplate="header-footer" data-jenis="header">{{ setting('header_surat') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -62,7 +64,9 @@
                     <div class="form-group">
                         <label>Template Footer Surat</label>
                         <textarea name="{{ setting('tte') == '1' ? 'footer_surat_tte' : 'footer_surat' }}"
-                            class="form-control input-sm editor required" data-jenis="footer">{{ setting('tte') == '1' ? setting('footer_surat_tte') : setting('footer_surat') }}</textarea>
+                            class="form-control input-sm editor required" data-filemanager='<?= json_encode([ 'external_filemanager_path' => base_url().'assets/filemanager/',
+                            'filemanager_title' => "Responsive Filemanager",
+                            'filemanager_access_key' => $session->fm_key]) ?>'  data-salintemplate="header-footer" data-jenis="footer">{{ setting('tte') == '1' ? setting('footer_surat_tte') : setting('footer_surat') }}</textarea>
                     </div>
                 </div>
 
@@ -275,6 +279,25 @@
                             value="{{ setting('format_nomor_surat') }}">
                     </div>
                 </div>
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Margin</label>
+                        <div class="row">
+                            @foreach ($margins as $key => $value)
+                                <div class="col-sm-6">
+                                    <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                        <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
+                                        <input type="number" class="form-control input-sm required" min="0"
+                                            name="surat_margin[{{ $key }}]" min="0" max="10"
+                                            step="0.01" style="text-align:right;" value="{{ $value }}">
+                                        <span class="input-group-addon input-sm">cm</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
@@ -285,7 +308,6 @@
         </div>
     </div>
     </form>
-    @include('admin.pengaturan_surat.info')
 @endsection
 
 @push('scripts')

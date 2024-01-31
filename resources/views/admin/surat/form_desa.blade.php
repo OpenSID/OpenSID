@@ -108,6 +108,8 @@
                             </div>
                         </div>
                     @endif
+                    
+                    @includeWhen(isset($pengikut), 'admin.surat.pengikut') 
                 @endif
 
                 <div class="row jar_form">
@@ -121,6 +123,12 @@
             @include('admin.surat.nomor_surat')
 
             @include('admin.surat.kode_isian')
+
+            {{-- kategori form --}}
+            @if (isset($form_kategori))
+                @include('admin.surat.kategori_isian')
+                <hr>
+            @endif
 
             @include('admin.surat.form_tgl_berlaku')
 

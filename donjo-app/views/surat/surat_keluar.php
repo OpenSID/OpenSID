@@ -57,9 +57,11 @@
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
+                                                <?php if(can('u')): ?>
                                                 <div class="form-group">
                                                     <button id="perbaiki" type="button" title="Semua surat yang berstatus proses atau tidak ada statusnya akan di ubah menjadi siap cetak" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-cogs "></i>Perbaiki</button>
                                                 </div>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="col-sm-3">
                                                 <div class="box-tools">
@@ -178,11 +180,10 @@
                                                                                     <a class="btn btn-social btn-flat bg-olive btn-sm" title="Kirim ke Kecamatan" disabled><i class="fa fa-send"></i> Kirim ke Kecamatan</a>
                                                                                   <?php endif; ?>
                                                                             <?php endif; ?>
-                                                                            <?php if (can('h') && $user_admin) : ?>
                                                                                 <!-- hapus surat -->
-                                                                                <a href="#" data-href="<?= site_url("keluar/delete/{$data['id']}?redirect={$redirect}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                                                            <?php endif; ?>
-
+                                                                                <?php if (can('h')) : ?>
+                                                                                    <a href="#" data-href="<?= site_url("keluar/delete/{$data['id']}?redirect={$redirect}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                                                                <?php endif; ?>
                                                                         <?php endif; ?>
 
                                                                     </td>

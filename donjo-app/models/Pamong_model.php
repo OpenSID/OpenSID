@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -241,7 +241,7 @@ class Pamong_model extends MY_Model
     public function update($id = 0)
     {
         $post           = $this->input->post();
-        $data           = $this->siapkan_data($post);
+        $data           = $this->siapkan_data($post, $id);
         $jabatan_kades  = RefJabatan::getKades()->id;
         $jabatan_sekdes = RefJabatan::getSekdes()->id;
 
@@ -277,8 +277,8 @@ class Pamong_model extends MY_Model
             $tabel = 'tweb_desa_pamong';
             $foto  = 'pamong_' . time() . '-' . $id . '-' . mt_rand(10000, 999999);
         }
-
-        if ($foto = upload_foto_penduduk($foto)) {
+        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
+        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
             $this->config_id()->where($field, $id)->update($tabel, ['foto' => $foto]);
         }
     }
@@ -346,7 +346,9 @@ class Pamong_model extends MY_Model
         } elseif ($data['jabatan_id'] == sekdes()->id) {
             $data['urut'] = 2;
         } else {
-            $data['urut'] = $this->urut_model->urut_max() + 1;
+            if ($id == 0 || $id == null) {
+                $data['urut'] = $this->urut_model->urut_max() + 1;
+            }
         }
 
         if (empty($data['id_pend'])) {
@@ -475,7 +477,7 @@ class Pamong_model extends MY_Model
 
         $data_query = $this->config_id_exist('tweb_desa_pamong', 'dp')
             ->select(
-                'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap, dp.gelar_depan, dp.gelar_belakang,
+                'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap, dp.gelar_depan, dp.gelar_belakang, dp.kehadiran,
                 CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
                 CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
                 CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama ELSE p.nama END AS nama',

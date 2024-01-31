@@ -92,7 +92,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<th rowspan="2">STATUS HUB. KELUARGA</th>
 							<th rowspan="2">KEWARGANEGARAAN</th>
 							<th colspan="2">ORANG TUA</th>
-							<th rowspan="2">TGL MULAI DI DESA</th>
+							<th rowspan="2">TGL MULAI DI <?= strtoupper(setting('sebutan_desa')) ?></th>
 							<th rowspan="2">KET</th>
 						</tr>
 						<tr class="border thick">

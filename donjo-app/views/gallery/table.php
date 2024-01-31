@@ -89,6 +89,7 @@
 																</tr>
 															</thead>
 															<tbody>
+																<?php if($main) : ?>
 																<?php foreach ($main as $data) : ?>
 																	<tr>
 																		<?php if ($this->CI->cek_hak_akses('h')) : ?>
@@ -125,6 +126,7 @@
 																		<td nowrap><?= tgl_indo2($data['tgl_upload']) ?></td>
 																	</tr>
 																<?php endforeach; ?>
+																<?php else: tidak_ada_data(6); endif; ?>
 															</tbody>
 														</table>
 													</div>

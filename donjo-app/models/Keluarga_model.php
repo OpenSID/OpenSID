@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -261,6 +261,12 @@ class Keluarga_model extends MY_Model
             ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt');
         $this->list_data_sql();
 
+        $this->db->order_by("CASE
+            WHEN CHAR_LENGTH(u.no_kk) < 16 THEN 1
+            WHEN u.no_kk LIKE '0%' AND CHAR_LENGTH(u.no_kk) = 16 THEN 2
+            ELSE 3
+        END");
+
         switch ($o) {
             case 1:
                 $this->db->order_by('u.no_kk');
@@ -374,7 +380,10 @@ class Keluarga_model extends MY_Model
         $default['config_id']  = $this->config_id;
         $outp                  = $outp && $this->config_id()->where('id', $data['nik_kepala'])->update('tweb_penduduk', $default);
 
-        $this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
+        // TODO :: Tinjau ulang log penduduk ini, yang disimpan adalah kk_id, bukan id_pend
+        // karena pada log_penduduk sekarang menggunakan relasi akan menimbulkan gagal simpan.
+        // karena tidak ada kode_peristiwa 9 baik di log_penduduk maupun di log_keluarga
+        // $this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
 
         $log['id_pend']    = 1;
         $log['id_cluster'] = 1;
@@ -1050,7 +1059,7 @@ class Keluarga_model extends MY_Model
 
             $this->penduduk_model->tulis_log_penduduk_data($x);
             $this->db->trans_commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
             $this->db->trans_rollback();
         }
@@ -1288,24 +1297,26 @@ class Keluarga_model extends MY_Model
         $buffer = str_replace('[tanggalperkawinan]', "\\caps {$tanggalperkawinan}", $buffer);
         $buffer = str_replace('[tanggalperceraian]', "\\caps {$tanggalperceraian}", $buffer);
 
-        $h        = $data['desa'];
-        $k        = $data['kepala_kk'];
-        $tertanda = tgl_indo(date('Y m d'));
-        $tertanda = $h['nama_desa'] . ', ' . $tertanda;
-        $buffer   = str_replace('desa', "\\caps {$h['nama_desa']}", $buffer);
-        $buffer   = str_replace('alamat_plus_dusun', "\\caps {$k['alamat_plus_dusun']}", $buffer);
-        $buffer   = str_replace('prop', "\\caps {$h['nama_propinsi']}", $buffer);
-        $buffer   = str_replace('kab', "\\caps {$h['nama_kabupaten']}", $buffer);
-        $buffer   = str_replace('kec', "\\caps {$h['nama_kecamatan']}", $buffer);
-        $buffer   = str_replace('*camat', "\\caps {$h['nama_kepala_camat']}", $buffer);
-        $buffer   = str_replace('*kades', "\\caps {$h['nama_kepala_desa']}", $buffer);
-        $buffer   = str_replace('*rt', "{$k['rt']}", $buffer);
-        $buffer   = str_replace('*rw', "{$k['rw']}", $buffer);
-        $buffer   = str_replace('*kk', "\\caps {$k['nama']}", $buffer);
-        $buffer   = str_replace('no_kk', "{$k['no_kk']}", $buffer);
-        $buffer   = str_replace('pos', "{$h['kode_pos']}", $buffer);
-        $buffer   = str_replace('*tertanda', "\\caps {$tertanda}", $buffer);
-        $buffer   = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
+        $h              = $data['desa'];
+        $k              = $data['kepala_kk'];
+        $sebutan_kepala = setting('sebutan_kepala_desa');
+        $tertanda       = tgl_indo(date('Y m d'));
+        $tertanda       = $h['nama_desa'] . ', ' . $tertanda;
+        $buffer         = str_replace('[sebutan_kepala_desa]', "\\caps {$sebutan_kepala}", $buffer);
+        $buffer         = str_replace('desa', "\\caps {$h['nama_desa']}", $buffer);
+        $buffer         = str_replace('alamat_plus_dusun', "\\caps {$k['alamat_plus_dusun']}", $buffer);
+        $buffer         = str_replace('prop', "\\caps {$h['nama_propinsi']}", $buffer);
+        $buffer         = str_replace('kab', "\\caps {$h['nama_kabupaten']}", $buffer);
+        $buffer         = str_replace('kec', "\\caps {$h['nama_kecamatan']}", $buffer);
+        $buffer         = str_replace('*camat', "\\caps {$h['nama_kepala_camat']}", $buffer);
+        $buffer         = str_replace('*kades', "\\caps {$h['nama_kepala_desa']}", $buffer);
+        $buffer         = str_replace('*rt', "{$k['rt']}", $buffer);
+        $buffer         = str_replace('*rw', "{$k['rw']}", $buffer);
+        $buffer         = str_replace('*kk', "\\caps {$k['nama']}", $buffer);
+        $buffer         = str_replace('no_kk', "{$k['no_kk']}", $buffer);
+        $buffer         = str_replace('pos', "{$h['kode_pos']}", $buffer);
+        $buffer         = str_replace('*tertanda', "\\caps {$tertanda}", $buffer);
+        $buffer         = str_replace('*nip_camat', "{$h['nip_kepala_camat']}", $buffer);
 
         $berkas_arsip = $path_arsip . "kk_{$k['no_kk']}.rtf";
         $handle       = fopen($berkas_arsip, 'w+b');

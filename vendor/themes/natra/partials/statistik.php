@@ -4,7 +4,7 @@
     let chart;
     const rawData = Object.values(<?= json_encode($stat) ?>);
     const type = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
-    const legend = Boolean(!<?= ($tipe) ?>);
+    const legend = Boolean(<?= (bool)$tipe ?>);
     let categories = [];
     let data = [];
     let i = 1;

@@ -22,10 +22,10 @@
 							<tr>
 								<td valign="top" align="justify">
 									<a href="<?= site_url('artikel/'.buat_slug($arsip))?>">
-										<?php if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar])): ?>
-											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="yall_lazy img-fluid img-thumbnail" src="<?= base_url('assets/images/img-loader.gif') ?>" data-src="<?= base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip[gambar])?>"/>
+										<?php if (is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip['gambar'])): ?>
+											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="yall_lazy img-fluid img-thumbnail" src="<?= asset('images/img-loader.gif') ?>" data-src="<?= base_url(LOKASI_FOTO_ARTIKEL.'sedang_'.$arsip['gambar'])?>"/>
 										<?php else: ?>
-											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="yall_lazy img-fluid img-thumbnail" src="<?= base_url('assets/images/img-loader.gif') ?>" data-src="<?= base_url('assets/images/404-image-not-found.jpg')?>"/>
+											<img width="25%" style="float:left; margin:0 8px 4px 0;" class="yall_lazy img-fluid img-thumbnail" src="<?= asset('images/img-loader.gif') ?>" data-src="<?= asset('images/404-image-not-found.jpg')?>"/>
 										<?php endif;?>
 										<small><font color="green"><?= $arsip['judul']?></font></small>
 									</a>

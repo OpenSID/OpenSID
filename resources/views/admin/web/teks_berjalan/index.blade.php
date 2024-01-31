@@ -41,12 +41,19 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
                                                     <thead class="bg-gray disabled color-palette">
+                                                        <?php $jml_th = 4; ?>
                                                         <tr>
                                                             @if (can('h'))
+                                                                @php
+                                                                    $jml_th++;
+                                                                @endphp
                                                                 <th><input type="checkbox" id="checkall"/></th>
                                                             @endif
                                                             <th>No.</th>
                                                             @if (can('u'))
+                                                                @php
+                                                                    $jml_th++;
+                                                                @endphp
                                                                 <th>Aksi</th>
                                                             @endif
                                                             <th>Isi Teks Berjalan</th>
@@ -55,6 +62,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @if ($main)
                                                         @foreach ($main as $data)
                                                             <tr>
                                                                 @if (can('h'))
@@ -86,6 +94,11 @@
                                                                 <td class="padat">{{ $data->tampilkan }}</td>
                                                             </tr>
                                                         @endforeach
+                                                        @else
+                                                       @php
+                                                        tidak_ada_data(6)
+                                                       @endphp
+                                                        @endif
                                                     </tbody>
                                                 </table>
                                             </div>

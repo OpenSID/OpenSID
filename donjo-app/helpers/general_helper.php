@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -69,7 +69,7 @@ if (! function_exists('view')) {
     {
         $CI = &get_instance();
 
-        $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'));
+        $factory = new Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'));
 
         if (func_num_args() === 0) {
             return $factory;
@@ -304,7 +304,7 @@ if (! function_exists('calculate_date_intervals')) {
 if (! function_exists('parsedown')) {
     function parsedown($params = null)
     {
-        $parsedown = new \App\Libraries\Parsedown();
+        $parsedown = new App\Libraries\Parsedown();
 
         if (null !== $params) {
             return $parsedown->text(file_get_contents(FCPATH . $params));
@@ -318,7 +318,11 @@ if (! function_exists('parsedown')) {
 if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
-        return str_replace(['[Desa]', '[desa]'], ucwords(setting('sebutan_desa')), $params);
+        return str_replace(
+            ['[Desa]', '[desa]', '[Pemerintah Desa]'],
+            [ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_pemerintah_desa'))],
+            $params
+        );
     }
 }
 
@@ -552,7 +556,7 @@ if (! function_exists('kirim_versi_opensid')) {
 
         if ($versi != $ci->cache->file->get('versi_app_cache')) {
             try {
-                $client = new \GuzzleHttp\Client();
+                $client = new GuzzleHttp\Client();
                 $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                     'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                     'form_params' => [
@@ -628,10 +632,105 @@ if (! function_exists('checklist')) {
     {
         $view = '<td class="kotak padat tengah">';
         if ($kondisi_1 == $kondisi_2) {
-            $view .= '<img src="' . base_url('assets/images/check.png') . '" height="10" width="10"/>';
+            $view .= '<img src="' . FCPATH . 'assets/images/check.png' . '" height="10" width="10"/>';
         }
         $view .= '</td>';
 
         return $view;
+    }
+}
+
+if (! function_exists('create_tree_folder')) {
+    function create_tree_folder($arr, $baseDir)
+    {
+        if (! empty($arr)) {
+            $tmp = '<ul class="tree-folder">';
+
+            foreach ($arr as $i => $val) {
+                if (is_array($val)) {
+                    $permission     = decoct(fileperms($baseDir . DIRECTORY_SEPARATOR . $i) & 0777);
+                    $iconPermission = $permission == decoct(DESAPATHPERMISSION) ? '<i class="fa fa-check-circle-o fa-lg pull-right" style="color:green"></i>' : '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
+                    $liClass        = $permission == decoct(DESAPATHPERMISSION) ? 'text-green' : 'text-red';
+                    $tmp .= '<li class="' . $liClass . '"  data-path="' . preg_replace('/\/+/', '/', $baseDir . DIRECTORY_SEPARATOR . $i) . '">' . $i . '(' . $permission . ') ' . $iconPermission;
+                    $tmp .= create_tree_folder($val, $baseDir . $i);
+                    $tmp .= '</li>';
+                }
+            }
+            $tmp .= '</ul>';
+
+            return $tmp;
+        }
+    }
+}
+
+if (! function_exists('generatePengikut')) {
+    function generatePengikut($pengikut, $keterangan)
+    {
+        $html = '
+                <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NO</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">NIK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Nama Lengkap</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Jenis Kelamin</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Tempat Lahir</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Tanggal Lahir</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">SHDK</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">Keterangan</th>
+                        </tr>
+                        <tr>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">1</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">2</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">3</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">4</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">5</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">6</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">7</th>
+                            <th style="border-color: #000000; border-style: solid; border-collapse: collapse">8</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+        $no = 1;
+
+        foreach ($pengikut as $key => $data) {
+            $html .= '
+                            <tr>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:18%">' . $data->nik . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:15%" nowrap>' . $data->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:7%" nowrap>' . $data->jenisKelamin->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:10%" nowrap>' . $data->tempatlahir . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:5%" nowrap>' . tgl_indo_out($data->tanggallahir) . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:8%" nowrap>' . $data->pendudukHubungan->nama . '</td>
+                                <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:20%">' . ($keterangan[$data->id] ?? '') . '</td>
+                            </tr>
+                            ';
+        }
+        $html .= '
+                    </tbody>
+                </table>
+            ';
+
+        return $html;
+    }
+}
+
+function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
+{
+    $html = '
+        <tr>
+            <td class="text-center" colspan="' . $col . '">' . $message . '</td>
+        </tr>';
+    echo $html;
+}
+
+if (! function_exists('data_lengkap')) {
+    function data_lengkap()
+    {
+        $CI               = &get_instance();
+        $tgl_data_lengkap = time() >= strtotime($CI->setting->tgl_data_lengkap);
+
+        return ($CI->setting->tgl_data_lengkap_aktif && $tgl_data_lengkap !== false) ? true : false;
     }
 }

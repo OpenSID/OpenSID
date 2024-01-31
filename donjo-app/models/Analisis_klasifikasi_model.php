@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -46,79 +46,67 @@ class Analisis_klasifikasi_model extends MY_Model
 
     public function search_sql()
     {
-        if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (u.nama LIKE '{$kw}')";
-
-            return $search_sql;
+        if ($cari = $this->session->cari) {
+            $this->db->like('u.nama', $cari);
         }
     }
 
     public function master_sql()
     {
-        if (isset($_SESSION['analisis_master'])) {
-            $kf         = $_SESSION['analisis_master'];
-            $filter_sql = " AND u.id_master = {$kf}";
-
-            return $filter_sql;
+        if ($analisis_master = $this->session->analisis_master) {
+            $this->db->like('u.id_master', $analisis_master);
         }
     }
 
     public function paging($p = 1, $o = 0)
     {
-        $sql = 'SELECT COUNT(id) AS id FROM analisis_klasifikasi u WHERE u.config_id = ' . identitas('id');
-        $sql .= $this->search_sql();
-        $sql .= $this->master_sql();
-        $query    = $this->db->query($sql);
-        $row      = $query->row_array();
+        $this->db->select("count('u.id') as id");
+        $row      = $this->list_data_sql()->row_array();
         $jml_data = $row['id'];
 
-        $this->load->library('paging');
-        $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
-        $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        return $this->paginasi($p, $jml_data);
+    }
 
-        return $this->paging;
+    private function list_data_sql()
+    {
+        $this->config_id('u')
+            ->from('analisis_klasifikasi u');
+
+        $this->search_sql();
+        $this->master_sql();
+
+        return $this->db->get();
     }
 
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY u.minval';
+            case 1: $this->db->order_by('u.minval');
                 break;
 
-            case 2: $order_sql = ' ORDER BY u.minval DESC';
+            case 2: $this->db->order_by('u.minval DESC');
                 break;
 
-            case 3: $order_sql = ' ORDER BY u.minval';
+            case 3: $this->db->order_by('u.minval');
                 break;
 
-            case 4: $order_sql = ' ORDER BY u.minval DESC';
+            case 4: $this->db->order_by('u.minval DESC');
                 break;
 
-            case 5: $order_sql = ' ORDER BY g.minval';
+            case 5: $this->db->order_by('g.minval');
                 break;
 
-            case 6: $order_sql = ' ORDER BY g.minval DESC';
+            case 6: $this->db->order_by('u.minval DESC');
                 break;
 
-            default:$order_sql = ' ORDER BY u.minval';
+            default:$this->db->order_by('u.minval');
         }
 
-        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+        if ($limit > 0) {
+            $this->db->limit($limit, $offset);
+        }
 
-        $sql = 'SELECT u.* FROM analisis_klasifikasi u WHERE u.config_id = ' . identitas('id');
-
-        $sql .= $this->search_sql();
-        $sql .= $this->master_sql();
-        $sql .= $order_sql;
-        $sql .= $paging_sql;
-
-        $query = $this->db->query($sql);
-        $data  = $query->result_array();
+        $data = $this->list_data_sql()->result_array();
 
         $j = $offset;
 
@@ -172,7 +160,7 @@ class Analisis_klasifikasi_model extends MY_Model
     {
         $this->session->success = 1;
 
-        $id_cb = $_POST['id_cb'];
+        $id_cb = $this->input->post('id_cb');
 
         foreach ($id_cb as $id) {
             $this->delete($id, $semua = true);
@@ -194,6 +182,7 @@ class Analisis_klasifikasi_model extends MY_Model
             ->from('analisis_klasifikasi')
             ->where('id_master', $id_master)
             ->order_by('id')
-            ->get()->result_array();
+            ->get()
+            ->result_array();
     }
 }

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -52,17 +52,27 @@ class Pengguna extends Admin_Controller
 
     public function index()
     {
+        $userData = User::findOrFail(auth()->id);
+
         return view('admin.pengguna.index', [
             'form_action'     => 'pengguna/update',
             'password_action' => 'pengguna/update_password',
+            'userData'        => $userData,
         ]);
     }
 
     public function update()
     {
-        $data = User::findOrFail(auth()->id);
+        $data    = User::findOrFail(auth()->id);
+        $newData = $this->validate($this->request);
+        if ($data->email != $newData['email']) {
+            $newData['email_verified_at'] = null;
+        }
+        if ($data->id_telegram != $newData['id_telegram']) {
+            $newData['telegram_verified_at'] = null;
+        }
 
-        if ($data->update($this->validate($this->request))) {
+        if ($data->update($newData)) {
             $this->session->isAdmin = $data;
             redirect_with('success', 'Berhasil Ubah Data');
         }
@@ -74,10 +84,10 @@ class Pengguna extends Admin_Controller
     {
         return [
             'nama'           => nama($request['nama']),
+            'email'          => email($request['email']),
             'notif_telegram' => (int) $request['notif_telegram'],
             'id_telegram'    => alfanumerik(empty($request['id_telegram']) ? 0 : $request['id_telegram']),
             'foto'           => $this->user_model->urusFoto(Auth()->id),
-
         ];
     }
 
@@ -101,13 +111,6 @@ class Pengguna extends Admin_Controller
         $pwMasihMD5 = (strlen(auth()->password) == 32) && (stripos(auth()->password, '$') === false) ? true : false;
 
         switch (true) {
-            case config_item('demo_mode'):
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Demo</b> tidak bisa mengubah <b>Sandi</b>.',
-                ];
-                break;
-
             case empty($pass_lama) || empty($pass_baru) || empty($pass_baru1):
                 $respon = [
                     'status' => false,
@@ -185,7 +188,7 @@ class Pengguna extends Admin_Controller
             $status = $this->password->driver('email')->sendVerifyLink([
                 'email' => $user->email,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             $this->session->success   = -1;

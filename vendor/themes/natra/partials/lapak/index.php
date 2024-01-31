@@ -15,9 +15,9 @@
 							<option value="<?= $kategori_item->id ?>" <?= selected($id_kategori, $kategori_item->id) ?>><?= $kategori_item->kategori ?></option>
 						<?php endforeach; ?>
 					</select>
-					<input type="text" name="keyword" maxlength="50" class="form-control" value="<?= $keyword; ?>" placeholder="Cari Produk">
+					<input type="text" name="keyword" maxlength="50" class="form-control" value="<?= e($keyword); ?>" placeholder="Cari Produk">
 					<button type="submit" class="btn btn-primary">Cari</button>
-					<?php if ($keyword): ?>
+					<?php if (e($keyword)): ?>
 						<a href="<?=site_url('lapak')?>" class="btn btn-info">Tampilkan Semua</a>
 					<?php endif ?>
 				</div>
@@ -41,14 +41,14 @@
 														<!-- <?= jecho($pro->kategori, true, '<div class="textgambar hidden-xs">' . $pro->kategori . '</div>'); ?> -->
 													</div>
 												<?php else: ?>
-													<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
+													<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
 												<?php endif; ?>
 											</div>
 										<?php endif; ?>
 									<?php endfor; ?>
 									</div>
 								<?php else: ?>
-									<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
+									<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
 								<?php endif; ?>
 								<div class="card-body">
 									<!--
@@ -65,7 +65,7 @@
 									<p class="card-text">
 										<b>Deskripsi :</b>
 										<br/>
-										<?= nl2br($pro->deskripsi); ?>
+										<?= nl2br(e($pro->deskripsi)); ?>
 									</p>
 									<div class="d-flex justify-content-between align-items-center">
 										<div class="btn-group">
@@ -123,7 +123,7 @@
 			let posisi = [link.data('lat'), link.data('lng')];
 			let zoom = link.data('zoom');
 			let logo = L.icon({
-				iconUrl: "<?= base_url('assets/images/gis/point/fastfood.png'); ?>",
+				iconUrl: "<?= asset('images/gis/point/fastfood.png'); ?>",
 			});
 			
 			$("#lat").val(link.data('lat'));

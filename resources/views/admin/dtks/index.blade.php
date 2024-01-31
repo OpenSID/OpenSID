@@ -20,7 +20,9 @@
     <div class="box box-info">
         <div class="box-header with-border">
             <a href="{{ route('rtm') }}" class="btn btn-social btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-reply'></i>Kelola Rumah Tangga</a>
+            @if (can('u'))
             <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modal-survey"><i class="fa fa-plus"></i> Data Baru</a>
+            @endif
             <a href="#" id="cetak_terpilih" disabled class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" ><i class="fa fa-print "></i> Cetak Prelist Terpilih</a>
             <a href="{{ route('dtks/ekspor?versi=' . \App\Enums\Dtks\DtksEnum::VERSION_CODE) }}" class="btn btn-social btn-sm bg-navy visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file"></i> Ekspor ke excel</a>
         </div>
