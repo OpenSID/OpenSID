@@ -121,6 +121,10 @@ class Email extends Message
      */
     public function from(...$addresses)
     {
+        if (!$addresses) {
+            throw new LogicException('"from()" must be called with at least one address.');
+        }
+
         return $this->setListAddressHeaderBody('From', $addresses);
     }
 
@@ -342,7 +346,7 @@ class Email extends Message
      *
      * @return $this
      */
-    public function attach($body, string $name = null, string $contentType = null)
+    public function attach($body, ?string $name = null, ?string $contentType = null)
     {
         if (!\is_string($body) && !\is_resource($body)) {
             throw new \TypeError(sprintf('The body must be a string or a resource (got "%s").', get_debug_type($body)));
@@ -357,7 +361,7 @@ class Email extends Message
     /**
      * @return $this
      */
-    public function attachFromPath(string $path, string $name = null, string $contentType = null)
+    public function attachFromPath(string $path, ?string $name = null, ?string $contentType = null)
     {
         $this->cachedBody = null;
         $this->attachments[] = ['path' => $path, 'name' => $name, 'content-type' => $contentType, 'inline' => false];
@@ -370,7 +374,7 @@ class Email extends Message
      *
      * @return $this
      */
-    public function embed($body, string $name = null, string $contentType = null)
+    public function embed($body, ?string $name = null, ?string $contentType = null)
     {
         if (!\is_string($body) && !\is_resource($body)) {
             throw new \TypeError(sprintf('The body must be a string or a resource (got "%s").', get_debug_type($body)));
@@ -385,7 +389,7 @@ class Email extends Message
     /**
      * @return $this
      */
-    public function embedFromPath(string $path, string $name = null, string $contentType = null)
+    public function embedFromPath(string $path, ?string $name = null, ?string $contentType = null)
     {
         $this->cachedBody = null;
         $this->attachments[] = ['path' => $path, 'name' => $name, 'content-type' => $contentType, 'inline' => true];

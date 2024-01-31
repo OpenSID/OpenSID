@@ -47,7 +47,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
      * @param string|FileLinkFormatter|null $fileLinkFormat
      * @param bool|callable                 $outputBuffer   The output buffer as a string or a callable that should return it
      */
-    public function __construct($debug = false, string $charset = null, $fileLinkFormat = null, string $projectDir = null, $outputBuffer = '', LoggerInterface $logger = null)
+    public function __construct($debug = false, ?string $charset = null, $fileLinkFormat = null, ?string $projectDir = null, $outputBuffer = '', ?LoggerInterface $logger = null)
     {
         if (!\is_bool($debug) && !\is_callable($debug)) {
             throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, \gettype($debug)));
@@ -173,6 +173,8 @@ class HtmlErrorRenderer implements ErrorRendererInterface
                 $formattedValue = '<em>'.strtolower(var_export($item[1], true)).'</em>';
             } elseif ('resource' === $item[0]) {
                 $formattedValue = '<em>resource</em>';
+            } elseif (preg_match('/[^\x07-\x0D\x1B\x20-\xFF]/', $item[1])) {
+                $formattedValue = '<em>binary string</em>';
             } else {
                 $formattedValue = str_replace("\n", '', $this->escape(var_export($item[1], true)));
             }
@@ -233,7 +235,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
      * @param int    $line The line number
      * @param string $text Use this text for the link rather than the file path
      */
-    private function formatFile(string $file, int $line, string $text = null): string
+    private function formatFile(string $file, int $line, ?string $text = null): string
     {
         $file = trim($file);
 
