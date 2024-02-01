@@ -1,6 +1,6 @@
-Di rilis ini, versi 2401.1.0 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2402.0.0 berisi penambahan pengaturan format penomoran surat pada masing-masing surat dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
 ### FITUR
 1. [#3319](https://github.com/OpenSID/premium/issues/3319) Penambahan manajemen modul plugin.

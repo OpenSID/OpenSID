@@ -54,129 +54,19 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        $hasil = $hasil && $this->migrasi_2024011471($hasil);
-
-        return $hasil && $this->migrasi_2024011571($hasil);
+        return true;
     }
 
     // Migrasi perubahan data
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024011371($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024012971($hasil, $id);
-        }
+        // foreach ($config_id as $id) {
+        // }
 
         // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2024011971($hasil);
-
-        return $hasil && $this->migrasi_2024012371($hasil);
-    }
-
-    protected function migrasi_2024011371($hasil, $id)
-    {
-        $statis = [
-            [
-                'id'   => 'statis',
-                'nama' => 'Halaman Statis',
-            ],
-            [
-                'id'   => 'agenda',
-                'nama' => 'Agenda',
-            ],
-            [
-                'id'   => 'keuangan',
-                'nama' => 'Keuangan',
-            ],
-        ];
-
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Artikel Statis / Halaman',
-            'key'        => 'artikel_statis',
-            'value'      => json_encode(array_column($statis, 'id')),
-            'keterangan' => 'Artikel Statis / Halaman yang akan ditampilkan pada halaman utama.',
-            'kategori'   => 'conf_web',
-            'jenis'      => 'multiple-option-array',
-            'option'     => json_encode($statis),
-        ], $id);
-    }
-
-    protected function migrasi_2024011471($hasil)
-    {
-        if (! $this->db->field_exists('tampilan', 'artikel')) {
-            $hasil = $hasil && $this->db->query("ALTER TABLE `artikel` ADD COLUMN `tampilan` TINYINT(4) NULL DEFAULT '1' AFTER `hit`");
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024011571($hasil)
-    {
-        if (! $this->db->field_exists('media_sosial', 'tweb_desa_pamong')) {
-            $this->db->query('ALTER TABLE `tweb_desa_pamong` ADD `media_sosial` TEXT NULL');
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024011971($hasil)
-    {
-        Kategori::where(['enabled' => 2])->update(['enabled' => 0]);
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'kategori'],
-            ['hidden' => 0, 'level' => 4, 'ikon' => 'fa-list-alt', 'urut' => 2]
-        );
-    }
-
-    protected function migrasi_2024012371($hasil)
-    {
-        if (! $this->db->field_exists('format_nomor_global', 'tweb_surat_format')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
-                'format_nomor_global' => [
-                    'type'       => 'TINYINT',
-                    'constraint' => 1,
-                    'null'       => true,
-                    'default'    => 1,
-                    'after'      => 'format_nomor',
-                ],
-            ]);
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024012971($hasil, $id)
-    {
-        $pleaceholder = [
-            'facebook'  => 'https://www.facebook.com/groups/komunitasopendesa',
-            'instagram' => 'https://www.instagram.com/OpenDesa',
-            'telegram'  => 'https://t.me/OpenDesa',
-            'twitter'   => 'https://twitter.com/opendesa',
-            'whatsapp'  => 'https://api.whatsapp.com/send?phone=62851234567890',
-            'youtube'   => 'https://www.youtube.com/@KomunitasOpenSID-OpenDesa',
-        ];
-
-        $mediaSosial = DB::table('media_sosial')->get()
-            ->map(static function ($item) use ($pleaceholder) {
-                return [
-                    'id'   => Str::slug($item->nama),
-                    'nama' => $item->nama,
-                    'url'  => $pleaceholder[Str::slug($item->nama)] ?? '',
-                ];
-            })->toArray();
-
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Media Sosial [Pemerintah Desa]',
-            'key'        => 'media_sosial_pemerintah_desa',
-            'value'      => json_encode(array_column($mediaSosial, 'id')),
-            'keterangan' => 'Media Sosial yang akan ditampilkan pada halaman [Pemerintah Desa].',
-            'kategori'   => 'Pemerintah Desa',
-            'jenis'      => 'multiple-option-array',
-            'option'     => json_encode($mediaSosial),
-        ], $id);
+        return true;
     }
 }
