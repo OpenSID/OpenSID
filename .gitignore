@@ -71,3 +71,4 @@ php.ini
 
 Modules/*
 !Modules/.gitkeep
+.phpunit.result.cache

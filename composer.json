@@ -46,6 +46,7 @@
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",
+		"phpunit/phpunit": "^9.6",
 		"tinymce/tinymce": "^6.5"
 	},
 	"minimum-stability": "dev",
@@ -133,6 +134,9 @@
 			"php-cs-fixer fix --allow-risky=yes",
 			"rector process --dry-run",
 			"npm run prettier-blade"
+		],
+		"phpunit": [
+			"vendor/bin/phpunit tests"
 		]
 	}
 }
