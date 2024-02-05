@@ -538,7 +538,7 @@ class Pengurus extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = ci_route('pengurus.jabatanupdate', $id);
+            $form_action = route('buku-umum.pengurus.jabatanUpdate', $id);
             $jabatan     = RefJabatan::find($id) ?? show_404();
         } else {
             $action      = 'Tambah';

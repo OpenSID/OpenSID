@@ -67,6 +67,22 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
+        $hasil = $hasil && $this->migrasi_2024020551($hasil);
+
         return true;
+    }
+
+    protected function migrasi_2024020551($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-lembaran-dan-berita-desa', 'url' => 'lembaran_desa/clear'],
+            ['url' => 'lembaran_desa']
+        );
+
+        DB::table('setting_modul')
+            ->whereIn('slug', ['log-penduduk', 'catatan-peristiwa'])
+            ->update(['slug' => 'peristiwa']);
+
+        return $hasil;
     }
 }
