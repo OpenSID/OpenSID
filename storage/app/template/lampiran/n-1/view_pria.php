@@ -295,27 +295,33 @@
 
     <!-- Penandatangan -->
     <br><br><br>
-    <table class="disdukcapil" style="margin-top: -5px; border: 0px;">
-        <col span="48" style="width: 2.0833%;">
-        <tr>
-            <td colspan="32">&nbsp;</td>
-            <td colspan="20" class="tengah">[NAma_desa], [TgL_surat]</td>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah">[Atas_namA]</td>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="10">[qr_code]</td>
-            <td colspan="37" class="tengah"><br><br><br><br></td>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr>
-            <td colspan="37">&nbsp;</td>
-            <td colspan="10" class="tengah"><strong>[NAma_pamonG]</strong></td>
-            <td colspan="2">&nbsp;</td>
-        </tr>
+    <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0">
+    <tbody>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_desa], [TgL_surat]</td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">[Atas_namA]</td>
+    </tr>
+    <tr style="height: 72px;">
+    <td style="width: 26.6281%; text-align: center; height: 72px;">[qr_code]</td>
+    <td style="width: 2.75528%; height: 72px;"><br><br><br><br></td>
+    <td style="width: 70.6166%; height: 72px;"> </td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_pamonG]</td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
+    </tr>
+    </tbody>
     </table>
 </page>
