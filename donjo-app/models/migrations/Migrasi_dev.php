@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -59,64 +57,13 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024020651($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024020652($hasil, $id);
-        }
+        // foreach ($config_id as $id) {
+
+        // }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2024020551($hasil);
-    }
-
-    protected function migrasi_2024020551($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-lembaran-dan-berita-desa', 'url' => 'lembaran_desa/clear'],
-            ['url' => 'lembaran_desa']
-        );
-
-        DB::table('setting_modul')
-            ->whereIn('slug', ['log-penduduk', 'catatan-peristiwa'])
-            ->update(['slug' => 'peristiwa']);
-
-        return $hasil;
-    }
-
-    public function migrasi_2024020651($hasil, $id)
-    {
-        if (! DB::table('widget')->where('config_id', $id)->where('isi', 'jam_kerja.php')->exists()) {
-            DB::table('widget')->insert([
-                'config_id'    => $id,
-                'isi'          => 'jam_kerja.php',
-                'enabled'      => 2,
-                'judul'        => 'Jam Kerja',
-                'jenis_widget' => 1,
-                'urut'         => DB::table('widget')->where('config_id', $id)->latest('urut')->value('urut') + 1,
-                'form_admin'   => null,
-                'setting'      => null,
-                'foto'         => null,
-            ]);
-        }
-
-        return $hasil;
-    }
-
-    public function migrasi_2024020652($hasil, $id)
-    {
-        if (DB::table('kategori')->where('config_id', $id)->count() === 0) {
-            DB::table('kategori')->insert([
-                'config_id' => $id,
-                'kategori'  => 'Berita Desa',
-                'tipe'      => 1,
-                'urut'      => DB::table('kategori')->where('config_id', $id)->latest('urut')->value('urut') + 1,
-                'enabled'   => 1,
-                'parrent'   => 0,
-                'slug'      => 'berita-desa',
-            ]);
-        }
-
         return $hasil;
     }
 }
