@@ -197,9 +197,13 @@ class Web extends Admin_Controller
         $this->redirect_hak_akses('h');
         $cat = $this->session->kategori ?: 0;
 
-        $this->redirect_hak_akses('h');
-        $this->web_artikel_model->hapus($cat);
-        $this->session->kategori = 0;
+        if (! in_array($cat, array('0', '-1', 'statis', 'agenda', 'keuangan'))) {
+            $this->redirect_hak_akses('h');
+            $this->web_artikel_model->hapus($cat);
+            $this->session->kategori = '0';
+        } else {
+            session_error('Kategori tidak boleh dihapus');
+        }
         redirect('web');
     }
 

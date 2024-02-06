@@ -12,6 +12,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 5. [#7695](https://github.com/OpenSID/OpenSID/issues/7695) Perbaikan data keluarga yang ditampilkan pada surat keterangan pindah.
 6. [#7692](https://github.com/OpenSID/OpenSID/issues/7692) Perbaikan data lampiran f-1.08.
 7. [#7686](https://github.com/OpenSID/OpenSID/issues/7686) Perbaikan data awal modul widget.
+8. [#7688](https://github.com/OpenSID/OpenSID/issues/7688) Perbaikan akses hapus kategori pada artikel statis.
 
 
 #### TEKNIS
