@@ -7,6 +7,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 
 1. [#7679](https://github.com/OpenSID/OpenSID/issues/7679) Perbaikan validasi luas tanah pada tambah data persil modul pertanahan.
 2. [#7694](https://github.com/OpenSID/OpenSID/issues/7694) Perbaikan router tidak ditemukan.
+3. [#7690](https://github.com/OpenSID/OpenSID/issues/7690) Perbaikan menampilkan daftar menu bertingkat.
 
 
 #### TEKNIS
