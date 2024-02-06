@@ -44,17 +44,6 @@ class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan
     public $modul_ini      = 'buku-administrasi-desa';
     public $sub_modul_ini  = 'administrasi-pembangunan';
     protected $tipe        = 'kegiatan';
-    protected array $order = [
-        1  => 'judul',
-        2  => 'volume',
-        3  => 'sumber_biaya_pemerintah',
-        4  => 'sumber_biaya_provinsi',
-        5  => 'sumber_biaya_kab_kota',
-        6  => 'sumber_biaya_swadaya',
-        7  => 'sumber_biaya_jumlah',
-        11 => 'pelaksana_kegiatan',
-        12 => 'keterangan',
-    ];
 
     public function __construct()
     {

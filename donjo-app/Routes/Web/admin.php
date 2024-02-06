@@ -1207,7 +1207,7 @@ Route::group('bumindes_penduduk_ktpkk', static function (): void {
 // -- Buku Rencana Kerja Pembangunan
 Route::group('bumindes_rencana_pembangunan', static function (): void {
     Route::get('/', 'Bumindes_rencana_pembangunan@index')->name('bumindes_rencana_pembangunan.index');
-    Route::post('/', 'Bumindes_rencana_pembangunan@index')->name('bumindes_rencana_pembangunan.datatables');
+    Route::get('/datatables', 'Bumindes_rencana_pembangunan@datatables')->name('bumindes_rencana_pembangunan.datatables');
     Route::get('/dialog/{aksi?}', 'Bumindes_rencana_pembangunan@dialog')->name('bumindes_rencana_pembangunan.dialog');
     Route::post('/cetak/{aksi?}', 'Bumindes_rencana_pembangunan@cetak')->name('bumindes_rencana_pembangunan.cetak');
     Route::get('/lainnya/{submenu}', 'Bumindes_rencana_pembangunan@lainnya')->name('bumindes_rencana_pembangunan.lainnya');
@@ -1216,7 +1216,7 @@ Route::group('bumindes_rencana_pembangunan', static function (): void {
 // -- Buku Kegiatan Pembangunan
 Route::group('bumindes_kegiatan_pembangunan', static function (): void {
     Route::get('/', 'Bumindes_kegiatan_pembangunan@index')->name('bumindes_kegiatan_pembangunan.index');
-    Route::post('/', 'Bumindes_kegiatan_pembangunan@index')->name('bumindes_kegiatan_pembangunan.datatables');
+    Route::get('/datatables', 'Bumindes_kegiatan_pembangunan@datatables')->name('bumindes_kegiatan_pembangunan.datatables');
     Route::get('/dialog/{aksi?}', 'Bumindes_kegiatan_pembangunan@dialog')->name('bumindes_kegiatan_pembangunan.dialog');
     Route::post('/cetak/{aksi?}', 'Bumindes_kegiatan_pembangunan@cetak')->name('bumindes_kegiatan_pembangunan.cetak');
     Route::get('/lainnya/{submenu}', 'Bumindes_kegiatan_pembangunan@lainnya')->name('bumindes_kegiatan_pembangunan.lainnya');
@@ -1225,7 +1225,7 @@ Route::group('bumindes_kegiatan_pembangunan', static function (): void {
 // -- Buku Inventaris Hasil-hasil Pembangunan
 Route::group('bumindes_hasil_pembangunan', static function (): void {
     Route::get('/', 'Bumindes_hasil_pembangunan@index')->name('bumindes_hasil_pembangunan.index');
-    Route::post('/', 'Bumindes_hasil_pembangunan@index')->name('bumindes_hasil_pembangunan.datatables');
+    Route::get('/datatables', 'Bumindes_hasil_pembangunan@datatables')->name('bumindes_hasil_pembangunan.datatables');
     Route::get('/dialog/{aksi?}', 'Bumindes_hasil_pembangunan@dialog')->name('bumindes_hasil_pembangunan.dialog');
     Route::post('/cetak/{aksi?}', 'Bumindes_hasil_pembangunan@cetak')->name('bumindes_hasil_pembangunan.cetak');
     Route::get('/lainnya/{submenu}', 'Bumindes_hasil_pembangunan@lainnya')->name('bumindes_hasil_pembangunan.lainnya');
