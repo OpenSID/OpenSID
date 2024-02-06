@@ -196,6 +196,6 @@ class DataSuratPenduduk extends CI_Controller
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+        return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->get();
     }
 }

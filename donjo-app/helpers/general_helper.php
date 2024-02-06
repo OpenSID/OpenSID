@@ -534,7 +534,13 @@ if (! function_exists('case_replace')) {
 
         $result = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
 
-        if (preg_match('/pendidikan/i', strtolower($dari))) {
+        if (preg_match('/nama_kepala_camat/i', strtolower($dari))) {
+            $pecah_nama_gelar = pecah_nama_gelar($ke);
+            $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
+            $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
+
+            $result = str_ireplace([$gelar_depan, $gelar_belakang], [$gelar_depan, $gelar_belakang], $result);
+        } elseif (preg_match('/pendidikan/i', strtolower($dari))) {
             $result = kasus_lain('pendidikan', $result);
         } elseif (preg_match('/pekerjaan/i', strtolower($dari))) {
             $result = kasus_lain('pekerjaan', $result);
@@ -1021,5 +1027,60 @@ if (! function_exists('createDropdownMenu')) {
             echo '</li>';
         }
         if ($level) echo '</ul>';
+    }
+}
+
+/**
+ * Fungsi untuk memecah nama dan gelar
+ *
+ * @param string $nama
+ *
+ * @return array
+ */
+// TODO:: Masih bermasalah untuk nama dengan singkatan, misalnya M., Muh. Moh., A. karena akan terbaca sebagai gelar depan
+if (! function_exists('pecah_nama_gelar')) {
+    function pecah_nama_gelar($nama)
+    {
+        $result = [];
+
+        // Split the input string by comma
+        $parts = explode(',', $nama);
+
+        // Remove leading and trailing whitespace from each part
+        foreach ($parts as &$part) {
+            $part = trim($part);
+        }
+
+        // Determine the components based on the number of parts
+        if (count($parts) === 1) {
+            // Case: Single part
+            $result['nama'] = $parts[0];
+        } else {
+            // Case: More than one part
+            $gelar_depan    = '';
+            $nama           = '';
+            $gelar_belakang = '';
+
+            // Check for prefix (gelar_depan)
+            $firstPart   = trim($parts[0]);
+            $dotPosition = strrpos($firstPart, '.');
+            if ($dotPosition !== false) {
+                $gelar_depan = substr($firstPart, 0, $dotPosition + 1);
+                $nama        = trim(substr($firstPart, $dotPosition + 1));
+            } else {
+                $nama = $firstPart;
+            }
+
+            // Combine the rest as gelar_belakang
+            for ($i = 1; $i < count($parts); $i++) {
+                $gelar_belakang .= ($i > 1 ? ', ' : '') . $parts[$i];
+            }
+
+            $result['gelar_depan']    = $gelar_depan;
+            $result['nama']           = $nama;
+            $result['gelar_belakang'] = $gelar_belakang;
+        }
+
+        return $result;
     }
 }

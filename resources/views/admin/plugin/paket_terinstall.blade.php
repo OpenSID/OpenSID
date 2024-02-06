@@ -2,7 +2,7 @@
     <div class="row" id="list-paket">
         <form id="form-paket" action="{{ ci_route('plugin.hapus') }}" method="post">
             <input type="hidden" name="name" value="">
-            @if(! $paket_terpasang)
+            @if (!$paket_terpasang)
                 <div class="col-md-12">
                     <div class="alert alert-warning">Belum ada paket yang terpasang</div>
                 </div>
@@ -14,12 +14,13 @@
     <script>
         $(function() {
             let paketTerpasang = {!! $paket_terpasang !!}
-            function loadModule() {                
+
+            function loadModule() {
                 let cardView = [],
                     disabledPaket, buttonInstall, versionCheck, templateTmp
                 let urlModule = '{{ $url_marketplace }}'
                 const templateCard = `@include('admin.plugin.item')`
-                              
+
                 $.get(urlModule, {
                     per_page: 10000,
                     list_module: paketTerpasang
@@ -29,7 +30,7 @@
                         templateTmp = templateCard
                         disabledPaket = ''
                         buttonInstall = `<button type="button" name="pasang" value="${data[i].name}" class="btn btn-danger">Hapus</button>`
-                        
+
                         templateTmp = templateTmp.replace('__name__', data[i].name)
                         templateTmp = templateTmp.replace('__description__', data[i].description)
                         templateTmp = templateTmp.replace('__button__', buttonInstall)
@@ -38,7 +39,7 @@
                         templateTmp = templateTmp.replace('__totalInstall__', data[i].totalInstall)
                         cardView.push(templateTmp)
                     }
-                    
+
                     $('#form-paket').append(cardView.join(''))
                     $('#form-paket button:button').click(function(e) {
                         e.preventDefault();
@@ -64,11 +65,11 @@
                                 $(e.currentTarget).closest('form').submit()
                             }
                         })
-                })
+                    })
 
                 }, 'json')
             }
-            
+
             if (paketTerpasang) {
                 loadModule()
             }

@@ -35,10 +35,6 @@
  *
  */
 
-use App\Models\Kategori;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -54,7 +50,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return true;
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -64,25 +60,10 @@ class Migrasi_dev extends MY_model
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
+
         // }
 
         // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2024020551($hasil);
-
-        return true;
-    }
-
-    protected function migrasi_2024020551($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-lembaran-dan-berita-desa', 'url' => 'lembaran_desa/clear'],
-            ['url' => 'lembaran_desa']
-        );
-
-        DB::table('setting_modul')
-            ->whereIn('slug', ['log-penduduk', 'catatan-peristiwa'])
-            ->update(['slug' => 'peristiwa']);
-
         return $hasil;
     }
 }
