@@ -10,6 +10,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 3. [#7690](https://github.com/OpenSID/OpenSID/issues/7690) Perbaikan menampilkan daftar menu bertingkat.
 4. [#7634](https://github.com/OpenSID/OpenSID/issues/7634) Perbaikan penanda tangan pada lampiran surat keterangan nikah.
 5. [#7695](https://github.com/OpenSID/OpenSID/issues/7695) Perbaikan data keluarga yang ditampilkan pada surat keterangan pindah.
+6. [#7692](https://github.com/OpenSID/OpenSID/issues/7692) Perbaikan data lampiran f-1.08.
 
 
 #### TEKNIS
