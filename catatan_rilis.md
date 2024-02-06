@@ -2,6 +2,10 @@ Di rilis ini, versi 2402.0.1 berisi [isi disini] dan perbaikan lain yang diminta
 
 Terima kasih pada [isi disini] telah ikut berkontribusi.
 
+#### FITUR
+
+1. [#7689](https://github.com/OpenSID/OpenSID/issues/7689) Penambahan kode isian data penduduk pada tinymce.
+
 
 #### BUG
 
