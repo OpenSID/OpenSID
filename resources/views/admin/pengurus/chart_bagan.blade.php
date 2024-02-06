@@ -1,6 +1,6 @@
 @push('scripts')
-    <script type="text/javascript">
-        Highcharts.chart('container', {
+<script type="text/javascript">
+    Highcharts.chart('container', {
                 chart: {
                     height: 600,
                     width: {{ setting('ukuran_lebar_bagan') }},
@@ -96,19 +96,17 @@
                                     column: {{ $pamong['bagan_tingkat'] ?: '' }},
                                 @endif
                                 @if (!empty($pamong['bagan_offset']))
-                                    :
-                                }
-                            }
-                            offset: '{{ $pamong['bagan_offset'] ?: '' }}%',
-                        @endif
-                        @if (!empty($pamong['bagan_layout']))
-                            layout: '{{ $pamong['bagan_layout'] ?: '' }}',
-                        @endif
-                        @if (!empty($pamong['bagan_warna']))
-                            color: '{{ $pamong['bagan_warna'] ?: '' }}',
-                        @endif
-                    },
-                @endforeach ],
+                                    offset: '{{ $pamong['bagan_offset'] ?: '' }}%',
+                                @endif
+                                @if (!empty($pamong['bagan_layout']))
+                                    layout: '{{ $pamong['bagan_layout'] ?: '' }}',
+                                @endif
+                                @if (!empty($pamong['bagan_warna']))
+                                    color: '{{ $pamong['bagan_warna'] ?: '' }}',
+                                @endif
+                            },
+                        @endforeach 
+                    ],
                 colorByPoint: false,
                 color: '#007ad0',
                 dataLabels: {
@@ -133,5 +131,5 @@
             }
 
         });
-    </script>
+</script>
 @endpush
