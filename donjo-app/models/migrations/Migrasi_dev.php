@@ -35,9 +35,7 @@
  *
  */
 
-use App\Models\Widget;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,7 +57,7 @@ class Migrasi_dev extends MY_model
 
     // Migrasi perubahan data
     protected function migrasi_data($hasil)
-    {   
+    {
         // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
 
@@ -69,8 +67,7 @@ class Migrasi_dev extends MY_model
         }
 
         // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2024020551($hasil);
-        return  $hasil;
+        return $hasil && $this->migrasi_2024020551($hasil);
     }
 
     protected function migrasi_2024020551($hasil)
@@ -89,17 +86,17 @@ class Migrasi_dev extends MY_model
 
     public function migrasi_2024020651($hasil, $id)
     {
-        if(! DB::table('widget')->where('config_id', $id)->where('isi', 'jam_kerja.php')->exists()) {
+        if (! DB::table('widget')->where('config_id', $id)->where('isi', 'jam_kerja.php')->exists()) {
             DB::table('widget')->insert([
-                "config_id" => $id,
-                "isi" => "jam_kerja.php",
-                "enabled" => 2,
-                "judul" => 'Jam Kerja',
-                "jenis_widget" => 1,
-                "urut" => DB::table('widget')->where('config_id', $id)->latest('urut')->value('urut') + 1,
-                "form_admin" => NULL,
-                "setting" => NULL,
-                "foto" => NULL
+                'config_id'    => $id,
+                'isi'          => 'jam_kerja.php',
+                'enabled'      => 2,
+                'judul'        => 'Jam Kerja',
+                'jenis_widget' => 1,
+                'urut'         => DB::table('widget')->where('config_id', $id)->latest('urut')->value('urut') + 1,
+                'form_admin'   => null,
+                'setting'      => null,
+                'foto'         => null,
             ]);
         }
 
@@ -108,15 +105,15 @@ class Migrasi_dev extends MY_model
 
     public function migrasi_2024020652($hasil, $id)
     {
-        if(DB::table('kategori')->where('config_id', $id)->count() === 0) {
+        if (DB::table('kategori')->where('config_id', $id)->count() === 0) {
             DB::table('kategori')->insert([
-                "config_id" => $id,
-                "kategori" => "Berita Desa",
-                "tipe" => 1,
-                "urut" => DB::table('kategori')->where('config_id', $id)->latest('urut')->value('urut') + 1,
-                "enabled" => 1,
-                "parrent" => 0,
-                "slug" => "berita-desa"
+                'config_id' => $id,
+                'kategori'  => 'Berita Desa',
+                'tipe'      => 1,
+                'urut'      => DB::table('kategori')->where('config_id', $id)->latest('urut')->value('urut') + 1,
+                'enabled'   => 1,
+                'parrent'   => 0,
+                'slug'      => 'berita-desa',
             ]);
         }
 

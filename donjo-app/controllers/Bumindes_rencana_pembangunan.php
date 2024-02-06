@@ -35,16 +35,16 @@
  *
  */
 
-use App\Models\Pembangunan;
 use App\Enums\SatuanWaktuEnum;
+use App\Models\Pembangunan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_rencana_pembangunan extends Admin_Controller
 {
-    public $modul_ini      = 'buku-administrasi-desa';
-    public $sub_modul_ini  = 'administrasi-pembangunan';
-    protected $tipe        = 'rencana';
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-pembangunan';
+    protected $tipe       = 'rencana';
 
     public function __construct()
     {
@@ -58,13 +58,13 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         $data['subtitle']    = 'Buku ' . ucwords($this->tipe) . ' Pembangunan';
         $data['tahun']       = Pembangunan::tipe($this->tipe)->distinct()->get('tahun_anggaran');
         $data['mainContent'] = 'admin.bumindes.pembangunan.' . $this->tipe . '.index';
-        
+
         return view('admin.bumindes.pembangunan.index', $data);
     }
 
     public function datatables()
     {
-        $tahun = $this->input->get('tahun') ?? null;
+        $tahun        = $this->input->get('tahun') ?? null;
         $satuan_waktu = SatuanWaktuEnum::all();
 
         if ($this->input->is_ajax_request()) {
@@ -117,7 +117,7 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
     {
         $data['selectedNav'] = $submenu;
         $data['mainContent'] = 'admin.bumindes.pembangunan.rencana.index';
-        
+
         return view('admin.bumindes.pembangunan.main', $data);
     }
 }
