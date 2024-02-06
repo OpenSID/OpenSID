@@ -14,7 +14,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 7. [#7686](https://github.com/OpenSID/OpenSID/issues/7686) Perbaikan data awal modul widget.
 8. [#7688](https://github.com/OpenSID/OpenSID/issues/7688) Perbaikan akses hapus kategori pada artikel statis.
 9. [#7698](https://github.com/OpenSID/OpenSID/issues/7698) Perbaikan menampilkan bagan pengurus / pemerintah desa.
-
+10. [#7685](https://github.com/OpenSID/OpenSID/issues/7685) Perbaikan besar kecil huruf pada gelar nama camat data kode isian surat.
 
 #### TEKNIS
 
