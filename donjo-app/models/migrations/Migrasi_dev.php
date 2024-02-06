@@ -54,7 +54,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return true;
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -89,15 +89,14 @@ class Migrasi_dev extends MY_model
 
     public function migrasi_2024020651($hasil, $id)
     {
-        if(empty(Widget::where('config_id', $id)->where('isi', 'jam_kerja.php')->first())) {
-            Widget::create([
+        if(! DB::table('widget')->where('config_id', $id)->where('isi', 'jam_kerja.php')->exists()) {
+            DB::table('widget')->insert([
                 "config_id" => $id,
                 "isi" => "jam_kerja.php",
                 "enabled" => 2,
                 "judul" => 'Jam Kerja',
                 "jenis_widget" => 1,
-                "parrent" => 0,
-                "urut" => 1,
+                "urut" => DB::table('widget')->where('config_id', 1)->latest('urut')->value('urut') + 1,
                 "form_admin" => NULL,
                 "setting" => NULL,
                 "foto" => NULL
