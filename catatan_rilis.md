@@ -11,6 +11,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 4. [#7634](https://github.com/OpenSID/OpenSID/issues/7634) Perbaikan penanda tangan pada lampiran surat keterangan nikah.
 5. [#7695](https://github.com/OpenSID/OpenSID/issues/7695) Perbaikan data keluarga yang ditampilkan pada surat keterangan pindah.
 6. [#7692](https://github.com/OpenSID/OpenSID/issues/7692) Perbaikan data lampiran f-1.08.
+7. [#7686](https://github.com/OpenSID/OpenSID/issues/7686) Perbaikan data awal modul widget.
 
 
 #### TEKNIS

@@ -35,7 +35,7 @@
  *
  */
 
-use App\Models\Kategori;
+use App\Models\Widget;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -61,10 +61,11 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024020651($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2024020551($hasil);
@@ -82,6 +83,26 @@ class Migrasi_dev extends MY_model
         DB::table('setting_modul')
             ->whereIn('slug', ['log-penduduk', 'catatan-peristiwa'])
             ->update(['slug' => 'peristiwa']);
+
+        return $hasil;
+    }
+
+    public function migrasi_2024020651($hasil, $id)
+    {
+        if(empty(Widget::where('config_id', $id)->where('isi', 'jam_kerja.php')->first())) {
+            Widget::create([
+                "config_id" => $id,
+                "isi" => "jam_kerja.php",
+                "enabled" => 2,
+                "judul" => 'Jam Kerja',
+                "jenis_widget" => 1,
+                "parrent" => 0,
+                "urut" => 1,
+                "form_admin" => NULL,
+                "setting" => NULL,
+                "foto" => NULL
+            ]);
+        }
 
         return $hasil;
     }
