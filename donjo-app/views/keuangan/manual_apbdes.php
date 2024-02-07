@@ -310,8 +310,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		var ubah = <?= isCan('u'); ?>;
-		var hapus =  <?= isCan('h'); ?>;
+		var ubah = <?= can('u'); ?>;
+		var hapus =  <?= can('h'); ?>;
 
 		//READ/SHOW
 		generateTable($('#show_data'), $('#mydata'), ubah, hapus);
