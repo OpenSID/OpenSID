@@ -79,11 +79,7 @@ class Surat_master extends Admin_Controller
             return datatables((new FormatSurat())->jenis($this->input->get('jenis')))
                 ->addIndexColumn()
                 ->addColumn('ceklist', static function ($row): string {
-                    if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
-                    }
-
-                    return '';
+                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
                 })
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
