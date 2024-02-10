@@ -5,6 +5,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 #### FITUR
 
 1. [#7689](https://github.com/OpenSID/OpenSID/issues/7689) Penambahan kode isian data penduduk pada tinymce.
+2. [#7635](https://github.com/OpenSID/OpenSID/issues/7635) Penambahan kaitkan kategori isian dengan kondisi pilihan referensi kode isian.
 
 
 #### BUG
