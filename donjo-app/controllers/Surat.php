@@ -191,6 +191,7 @@ class Surat extends Admin_Controller
 
             $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static fn ($item) => $item->label);
             $data['pendudukLuar']   = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+            $data['lampiran']       = explode(',', strtolower($data['surat']->lampiran));
 
             return view('admin.surat.form_desa', $data);
         }

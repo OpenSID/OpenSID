@@ -86,6 +86,8 @@
 
             @include('admin.surat.form_tgl_berlaku')
 
+            @includeWhen(count($lampiran) > 0 && !empty($lampiran[0]), 'admin.surat.lainnya')
+
             @include('admin.surat.form_pamong')
 
         </div>
