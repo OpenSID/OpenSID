@@ -35,17 +35,16 @@
  *
  */
 
-use Illuminate\Support\Str;
 use PHPUnit\Framework\TestCase;
 
-final class PengurusTest extends TestCase
+final class NamaPengurusTest extends TestCase
 {
     private function getDummyData()
     {
         // include helper opensid_helper.php
         return (object) [
-            'pamong_nama'    => 'Wijaya Kusuma',
-            'gelar_depan'    => 'Drs.',
+            'pamong_nama'    => 'Wijaya kusuma',
+            'gelar_depan'    => 'Dr. Drs. Ir.',
             'gelar_belakang' => 'Bc.I.P., S.H., M.Si.',
         ];
     }
@@ -57,7 +56,7 @@ final class PengurusTest extends TestCase
         $formattedName = $this->gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
-        $this->assertEquals('Drs. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
     }
 
     public function testInvalidNameUpperWithTitle()
@@ -66,7 +65,7 @@ final class PengurusTest extends TestCase
         $formattedName = $this->gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
-        $this->assertNotEquals('Drs. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertNotEquals('Dr. Drs. Ir. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
     }
 
     public function testValidNameUcwordsWithTitle()
@@ -75,7 +74,7 @@ final class PengurusTest extends TestCase
         $formattedName = $this->gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
-        $this->assertEquals('Drs. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertEquals('Dr. Drs. Ir. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
     }
 
     public function testInvalidNameUcwordsWithTitle()
@@ -84,7 +83,7 @@ final class PengurusTest extends TestCase
         $formattedName = $this->gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
-        $this->assertNotEquals('Drs. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertNotEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
     }
 
     // TODO:: Gunakan opensid_helper.php -> gelar()
