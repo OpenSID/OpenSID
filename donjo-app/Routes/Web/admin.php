@@ -1876,9 +1876,9 @@ Route::group('multiDB', static function (): void {
 });
 
 // Pengaturan > Info Sistem
-Route::group('info_sistem', static function (): void {
+Route::group('/info_sistem', static function (): void {
     Route::get('/', 'Info_sistem@index')->name('info_sistem.index');
-    Route::match(['GET', 'POST'], '/remove_log', 'Info_sistem@remove_log')->name('info_sistem.remove_log');
+    Route::post('/remove_log', 'Info_sistem@remove_log')->name('info_sistem.remove_log');
     Route::get('/cache_desa', 'Info_sistem@cache_desa')->name('info_sistem.cache_desa');
     Route::get('/cache_blade', 'Info_sistem@cache_blade')->name('info_sistem.cache_blade');
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
