@@ -664,16 +664,49 @@ function ribuan($angka): string
     return number_format($angka, 0, '.', '.');
 }
 
-// Kalau angka romawi jangan ubah
+// TODO:: Jangan gunakan ini lagi, gunakan fungsi set_words sebagai penggantinya yang lebih dinamis
 function set_ucwords($data): string
 {
-    $exp = explode(' ', $data);
+    return set_words($data, 'ucwords');
+}
 
+/**
+ * Fungsi ini digunakan untuk mengubah kata/kalimat menjadi huruf besar, kecil, dll
+ *
+ * @param string      $data
+ * @param string|null $type
+ */
+function set_words($data = '', $type = null): string
+{
+    $exp     = explode(' ', $data);
     $data    = '';
     $counter = count($exp);
 
     for ($i = 0; $i < $counter; $i++) {
-        $data .= ' ' . (is_angka_romawi($exp[$i]) ? $exp[$i] : ucwords(strtolower($exp[$i])));
+        $txt = $exp[$i];
+
+        switch ($type) {
+            case 'ucwords':
+                $txt = ucwords(strtolower($exp[$i]));
+                break;
+
+            case 'lower':
+                $txt = strtolower($exp[$i]);
+                break;
+
+            case 'upper':
+                $txt = strtoupper($exp[$i]);
+                break;
+
+            case 'ucfirst':
+                $txt = ucfirst(strtolower($exp[$i]));
+                break;
+
+            default:
+                $txt = $exp[$i];
+                break;
+        }
+        $data .= ' ' . (is_angka_romawi($exp[$i]) ? $exp[$i] : $txt);
     }
 
     return trim($data);

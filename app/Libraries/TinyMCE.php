@@ -435,7 +435,6 @@ class TinyMCE
 
             $result = case_replace($key, $value, $result);
         }
-
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
         $result = terjemahkanTerbilang($result);

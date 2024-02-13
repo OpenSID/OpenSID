@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 10. [#7685](https://github.com/OpenSID/OpenSID/issues/7685) Perbaikan besar kecil huruf pada gelar nama camat data kode isian surat.
 11. [#7701](https://github.com/OpenSID/OpenSID/issues/7701) Perbaikan hak akses beberapa modul pada view.
 12. [#7714](https://github.com/OpenSID/OpenSID/issues/7714) Perbaikan url/navigasi submodul kategori lembaga/kelompok.
+13. [#7709](https://github.com/OpenSID/OpenSID/issues/7709) Perbaikan data kode isian nama desa yang menggunakan romawi.
 
 
 #### TEKNIS

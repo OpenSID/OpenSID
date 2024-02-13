@@ -2033,27 +2033,27 @@ if (! function_exists('caseWord')) {
     {
         // Normal
         if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
-            return $teks;
+            return set_words($teks);
         }
 
         // Huruf kecil semua
         if (ctype_lower($condition[0])) {
-            return strtolower($teks);
+            return set_words($teks, 'lower');
         }
 
         // Huruf besar semua
         if (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
-            return strtoupper($teks);
+            return set_words($teks, 'upper');
         }
 
         // Huruf besar di awal kata
         if (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
-            return ucwords(strtolower($teks));
+            return set_words($teks, 'ucwords');
         }
 
         // Huruf besar di awal kalimat
         if (ctype_upper($condition[0])) {
-            return ucfirst(strtolower($teks));
+            return set_words($teks, 'ucfirst');
         }
 
         // Return teks asli jika tidak sesuai kondisi
