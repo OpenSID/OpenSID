@@ -78,9 +78,7 @@ class Surat_master extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables((new FormatSurat())->jenis($this->input->get('jenis')))
                 ->addIndexColumn()
-                ->addColumn('ceklist', static function ($row): string {
-                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />';
-                })
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />')
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 

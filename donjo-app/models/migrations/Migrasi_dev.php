@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -57,13 +59,23 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024021351($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
+        return $hasil;
+    }
+
+    protected function migrasi_2024021351($hasil, $id)
+    {
+        DB::table('setting_aplikasi')
+            ->where('config_id', $id)
+            ->where('key', 'ukuran_lebar_bagan')
+            ->update(['kategori' => 'Pemerintah Desa']);
+
         return $hasil;
     }
 }
