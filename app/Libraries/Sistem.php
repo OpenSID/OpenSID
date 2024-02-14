@@ -37,7 +37,6 @@
 
 namespace App\Libraries;
 
-use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');

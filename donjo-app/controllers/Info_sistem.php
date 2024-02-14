@@ -62,7 +62,7 @@ class Info_sistem extends Admin_Controller
         $data['mysql']             = Sistem::cekDatabase();
         $data['disable_functions'] = Sistem::disableFunctions();
         $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
-        $data['controller'] = $this->controller;
+        $data['controller']        = $this->controller;
         // $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
         $data['disk'] = false;
@@ -83,7 +83,7 @@ class Info_sistem extends Admin_Controller
                 $file = $path . basename($file);
                 unlink($file);
             }
-            
+
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -117,7 +117,7 @@ class Info_sistem extends Admin_Controller
         $result = ['status' => 1, 'message' => 'Berhasil ubah permission folder desa'];
 
         foreach ($dirs as $dir) {
-            if (!chmod($dir, DESAPATHPERMISSION)) {
+            if (! chmod($dir, DESAPATHPERMISSION)) {
                 $error[] = 'Gagal mengubah hak akses folder ' . $dir;
             }
         }

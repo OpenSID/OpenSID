@@ -1236,7 +1236,7 @@ class Keluarga_model extends MY_Model
     private function buat_berkas_kk($data = '')
     {
         $path_arsip = LOKASI_ARSIP;
-        $file = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
+        $file       = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
         if (! is_file($file)) {
             return;
         }
