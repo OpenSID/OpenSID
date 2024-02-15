@@ -91,7 +91,7 @@
                             id: {{ $pamong['pamong_id'] }},
                             title: '{{ $pamong['jabatan']['nama'] }}',
                             name: `{{ $pamong['pamong_nama'] }}`,
-                            image: '{{ AmbilFoto($pamong['foto'], '', $pamong['jenis_kelamin']) }}',
+                            image: '{{ AmbilFoto($pamong['foto_staff'], '', $pamong['jenis_kelamin']) }}',
                             @if (!empty($pamong['bagan_tingkat']))
                                 column: {{ $pamong['bagan_tingkat'] ?: '' }},
                             @endif
