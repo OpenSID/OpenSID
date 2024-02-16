@@ -26,5 +26,6 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 1. [#7588](https://github.com/OpenSID/OpenSID/issues/7588) Penyesuaian modul Administrasi Pembangunan (Buku Rencana kerja Pembangunan, Buku Kegiatan Pembangunan dan Buku Inventaris hasil-Hasil Pembangunan) menggunakan ORM dan Blade Laravel.
 2. [#7713](https://github.com/OpenSID/OpenSID/issues/7713) Penyesuaian pengaturan ukuran bagan serangam dengan yang lain, berada di pojok kanan atas.
 3. [#7683](https://github.com/OpenSID/OpenSID/issues/7683) Penyesuaian modul Info Sistem menggunakan ORM dan Blade Laravel.
+4. [#7684](https://github.com/OpenSID/OpenSID/issues/7684) Penyesuaian modul Buku Ekspedisi menggunakan ORM dan Blade Laravel.
 
 #### KEAMANAN

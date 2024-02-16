@@ -35,45 +35,73 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Models;
+
+use App\Traits\Author;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class Ekspedisi extends BaseModel
 {
-    public function up()
+    use ConfigId;
+    use Author;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'surat_keluar';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [];
+
+    public function scopeGetTahun($query)
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
+        return $query
+            ->distinct()
+            ->selectRaw('YEAR(tanggal_surat) AS tahun')
+            ->orderByDesc('tahun')
+            ->get()
+            ->toArray();
     }
 
-    protected function migrasi_tabel($hasil)
+    public function scopeUntukEkspedisi($query, $id, $masuk = 0)
     {
-        return $hasil;
+        return $query->where('id', $id)->update(['ekspedisi' => $masuk]);
     }
 
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
+    public function scopeGetTandaTerima($query, $id)
     {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-            // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
-        // }
-
-        // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2024130201($hasil);
+        return $query
+            ->select('tanda_terima')
+            ->where('id', $id)
+            ->first();
     }
 
-    protected function migrasi_2024130201($hasil)
+    protected static function booted()
     {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-eskpedisi', 'url' => 'ekspedisi/clear'],
-            ['url' => 'ekspedisi']
-        );
+        static::addGlobalScope('custom_where', static function ($builder) {
+            $builder->where('ekspedisi', 1);
+        });
     }
 }

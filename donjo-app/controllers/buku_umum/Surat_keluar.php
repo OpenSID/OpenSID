@@ -233,9 +233,9 @@ class Surat_keluar extends Admin_Controller
         echo $hasil ? 'false' : 'true';
     }
 
-    public function untuk_ekspedisi($p, $o, $id): void
+    public function untuk_ekspedisi($id): void
     {
         $this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 1);
-        redirect("ekspedisi/index/{$p}/{$o}");
+        redirect('ekspedisi');
     }
 }
