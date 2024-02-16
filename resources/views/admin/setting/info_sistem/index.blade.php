@@ -316,62 +316,63 @@
 
                 @if (auth()->id == super_admin())
                     <div id="info_sistem" class="tab-pane fade in">
+                    @php
+                        ob_start();
+                        if (ENVIRONMENT === 'production') :
+                            phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
+                        else :
+                            phpinfo();
+                        endif;
 
-                        <?php
-                            ob_start();
-                            if (ENVIRONMENT === 'production') {
-                                phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
-                            } else {
-                                phpinfo();
-                            }
-                            
-                            $phpinfo = ['phpinfo' => []];
-                            
-                        if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")@endphp<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) {
-                                foreach ($matches as $match) {
-                                if ($match[1] !== '') {
-                                $phpinfo[$match[1]] = [];
-                                } elseif (isset($match[3])) {
-                                $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
-                                } else {
-                                $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-                                }
-                                }
-                                }
-                                ?>
-                                @foreach ($phpinfo as $name => $section)
-                                    @php $i++; @endphp
-                                    @if ($i == 1)
-                                        <div class='table-responsive'>
-                                            <table class='table table-bordered dataTable table-hover'>
-                                            @else
-                                                <h3>{{ $name }}</h3>
-                                                <div class='table-responsive'>
-                                                    <table class='table table-bordered dataTable table-hover'>
-                                    @endif
-                                    @foreach ($section as $key => $val)
-                                        @if (is_array($val))
-                                            <tr>
-                                                <td class="col-md-4 info">{{ $key }}</td>
-                                                <td>{{ $val[0] }}</td>
-                                                <td>{{ $val[1] }}</td>
-                                            </tr>
-                                        @elseif (is_string($key))
-                                            <tr>
-                                                <td class="col-md-4 info">{{ $key }}</td>
-                                                <td colspan='2'>{{ $val }}</td>
-                                            </tr>
-                                        @else
-                                            <tr>
-                                                <td class="btn-primary" colspan='3'>{{ $val }}</td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                    </table>
-                    </div>
-                @endforeach
+                        $phpinfo = ['phpinfo' => []];
+
+                        if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
+                            foreach ($matches as $match) :
+                                if ($match[1] !== '') :
+                                    $phpinfo[$match[1]] = [];
+                                elseif (isset($match[3])) :
+                                    $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
+                                else :
+                                    $phpinfo[end(array_keys($phpinfo))][] = $match[2];
+                                endif;
+                            endforeach;
+                        
+                        $i = 0;
+                    @endphp
+                    @foreach ($phpinfo as $name => $section)
+                        @php $i++; @endphp
+                        @if ($i == 1)
+                            <div class='table-responsive'>
+                                <table class='table table-bordered dataTable table-hover'>
+                        @else
+                            <h3>{{ $name }}</h3>
+                            <div class='table-responsive'>
+                                <table class='table table-bordered dataTable table-hover'>
+                        @endif
+                        @foreach ($section as $key => $val)
+                            @if (is_array($val))
+                                <tr>
+                                    <td class="col-md-4 info">{{ $key }}</td>
+                                    <td>{{ $val[0] }}</td>
+                                    <td>{{ $val[1] }}</td>
+                                </tr>
+                            @elseif (is_string($key))
+                                <tr>
+                                    <td class="col-md-4 info">{{ $key }}</td>
+                                    <td colspan='2'>{{ $val }}</td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td class="btn-primary" colspan='3'><?= $val ?></td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        </table>
+                        </div>
+                    @endforeach
                 @endif
-            </div>
+                </div>
+            @endif
 
             <div id="optimasi" class="tab-pane fade in">
                 <div class="row">
