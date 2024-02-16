@@ -51,7 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2402.0.1');
+define('VERSION', '2402.0.2');
 
 /**
  * PREMIUM
@@ -67,7 +67,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024020751');
+define('VERSI_DATABASE', '2024021451');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -2033,27 +2033,27 @@ if (! function_exists('caseWord')) {
     {
         // Normal
         if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
-            return $teks;
+            return set_words($teks);
         }
 
         // Huruf kecil semua
         if (ctype_lower($condition[0])) {
-            return strtolower($teks);
+            return set_words($teks, 'lower');
         }
 
         // Huruf besar semua
         if (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
-            return strtoupper($teks);
+            return set_words($teks, 'upper');
         }
 
         // Huruf besar di awal kata
         if (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
-            return ucwords(strtolower($teks));
+            return set_words($teks, 'ucwords');
         }
 
         // Huruf besar di awal kalimat
         if (ctype_upper($condition[0])) {
-            return ucfirst(strtolower($teks));
+            return set_words($teks, 'ucfirst');
         }
 
         // Return teks asli jika tidak sesuai kondisi

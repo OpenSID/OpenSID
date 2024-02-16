@@ -118,7 +118,8 @@ class Pengurus extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('foto', static fn ($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto(($row->foto == null ? $row->penduduk->foto : $row->foto), '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
+                // foto ambil dari staff_photo
+                ->editColumn('foto', static fn ($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto($row->foto_staff, '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
                 ->editColumn('identitas', static fn ($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
                 ->editColumn('ttl', static fn ($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
                 ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
@@ -187,7 +188,7 @@ class Pengurus extends Admin_Controller
     {
         isCan('u');
         $this->set_validasi();
-        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]]');
+        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]');
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
@@ -337,19 +338,11 @@ class Pengurus extends Admin_Controller
     protected function foto($post)
     {
         $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
-        if ($post['id_pend']) {
-            // Penduduk Dalam Desa
-            $foto = time() . '-' . $post['id_pend'] . '-' . random_int(10000, 999999);
-            if ($foto = upload_foto_penduduk($foto, $dimensi)) {
-                Penduduk::where('id', $post['id_pend'])->update(['foto' => $foto]);
-            }
-        } else {
             // Penduduk Luar Desa
             $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
             if ($foto = upload_foto_penduduk($foto, $dimensi)) {
                 Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
             }
-        }
     }
 
     public function ttd($jenis, $id, $val)
@@ -452,7 +445,6 @@ class Pengurus extends Admin_Controller
         foreach ($atasan as $pamong) {
             $data['bagan']['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
-
         $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
 
         view('admin.pengurus.bagan', $data);
@@ -485,13 +477,6 @@ class Pengurus extends Admin_Controller
         Pamong::whereRaw("pamong_id in ({$list_id})")->update($data);
 
         redirect_with('success', 'Data Berhasil Simpan');
-    }
-
-    public function atur_bagan_layout(): void
-    {
-        isCan('u');
-        $data['kategori_pengaturan'] = 'conf_bagan';
-        view('admin.layouts.components.modal_pengaturan', $data);
     }
 
     // Jabatan

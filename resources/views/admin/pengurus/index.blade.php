@@ -46,20 +46,6 @@
                 <li>
                     <a href="{{ ci_route('pengurus/bagan/bpd') }}" title="Bagan Dengan BPD" class="btn btn-social btn-block btn-sm"><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
                 </li>
-                <li>
-                    @php
-                        $kategori = 'conf_bagan';
-                    @endphp
-                    <a
-                        href="{{ ci_route('pengurus/atur_bagan_layout') }}"
-                        title="Atur Ukuran Bagan"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Atur Ukuran Bagan"
-                        class="btn btn-social btn-block btn-sm"
-                    ><i class="fa fa-cogs"></i> Atur Ukuran Bagan</a>
-                </li>
             </ul>
         </div>
         <a href="{{ ci_route('pengurus.jabatan') }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Jabatan">

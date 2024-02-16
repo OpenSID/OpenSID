@@ -1235,16 +1235,11 @@ class Keluarga_model extends MY_Model
 
     private function buat_berkas_kk($data = '')
     {
-        $mypath = 'template-surat\\kk\\';
-
-        $path       = '' . str_replace('\\', '/', $mypath);
         $path_arsip = LOKASI_ARSIP;
-
-        $file = $path . 'kk.rtf';
+        $file       = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
         if (! is_file($file)) {
             return;
         }
-
         $nama = '';
 
         $handle = fopen($file, 'rb');

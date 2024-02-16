@@ -1,15 +1,15 @@
 <form id="validasi" action="{{ $form_action }}" method="post" target="_blank">
     <div class="modal-body">
         <div class="form-group">
-            <label class="control-label">Tahun Laporan</label>
+            <label class="control-label">Tahun</label>
             <select class="form-control input-sm jenis_link select2" name="tahun">>
-                <option value="">Pilih Tahun Laporan</option>
+                <option value="">Semua</option>
                 @foreach ($tahun_laporan as $tahun)
                     <option value="{{ $tahun['tahun'] }}">{{ $tahun['tahun'] }}</option>
                 @endforeach
             </select>
         </div>
-        @if ($kat == 3)
+        @if (isset($kat) && $kat == 3)
             <div class="form-group">
                 <label class="control-label">Jenis Peraturan</label>
                 <select class="form-control input-sm select2" name="jenis_peraturan" style="width: 100%;">
