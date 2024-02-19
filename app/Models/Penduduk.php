@@ -109,7 +109,8 @@ class Penduduk extends BaseModel
     protected $appends = [
         'usia',
         'alamat_wilayah',
-        'nama_asuransi'
+        'nama_asuransi',
+        'jml_anak',
     ];
 
     /**
@@ -143,6 +144,11 @@ class Penduduk extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    public function getJmlAnakAttribute(): string
+    {
+        return $this->where('id_kk', $this->id_kk)->where('kk_level', SHDKEnum::ANAK)->count();
+    }
 
     /**
      * Define a one-to-one relationship.

@@ -79,7 +79,6 @@ class KodeIsianPenduduk
             $penduduk = Penduduk::with(['keluarga', 'rtm', 'sakitMenahun', 'kb', 'bahasa'])->find($this->idPenduduk);
         }
 
-
         $individu = [
             [
                 'case_sentence' => true,
@@ -153,7 +152,7 @@ class KodeIsianPenduduk
                 'isian' => 'Gol_daraH' . $prefix,
                 'data'  => $penduduk->golonganDarah->nama,
             ],
-            
+
             // melengkapi kode isian penduduk
             [
                 'judul' => 'Suku' . $ortu,
@@ -256,6 +255,18 @@ class KodeIsianPenduduk
                 'judul' => 'Provinsi' . $ortu,
                 'isian' => 'pend_provinsi' . $prefix,
                 'data'  => $config->pend_provinsi,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Anak Ke' . $ortu,
+                'isian'         => 'anakke' . $prefix,
+                'data'          => $penduduk->kelahiran_anak_ke,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Jumlah Saudara' . $ortu,
+                'isian'         => 'jumlah_saudara' . $prefix,
+                'data'          => $penduduk->jml_anak,
             ],
         ];
 
