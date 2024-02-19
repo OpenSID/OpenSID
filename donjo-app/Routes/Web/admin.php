@@ -2165,4 +2165,5 @@ Route::group('plugin', static function () {
     Route::get('/installed', 'Plugin@installed')->name('plugin.installed');
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
+    Route::get('/dev/{name}/{action?}', 'Plugin@dev')->name('plugin.dev');
 });
