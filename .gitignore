@@ -23,7 +23,6 @@ version.json
 
 # obfuscator
 Obfuscator.php
-make_obfuscate.php
 
 # Uncomment untuk rilis
 /vendor
