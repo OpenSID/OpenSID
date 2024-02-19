@@ -196,4 +196,21 @@ class Plugin extends Admin_Controller
             }
         }
     }
+
+    public function dev($name, $action): void
+    {
+        if (ENVIRONMENT !== 'development') {
+            show_error('Hanya bisa dijalankan di development');
+        }
+
+        if (! is_dir($this->modulesDirectory . $name)) {
+            show_error('Modul ' . $name . ' tidak ditemukan');
+        }
+
+        $this->jalankanMigrasi($name, $action ?? 'up');
+
+        cache()->flush();
+
+        redirect_with('success', 'Migrasi Modul ' . $name . ' berhasil dijalankan');
+    }
 }

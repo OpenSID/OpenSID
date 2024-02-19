@@ -33,3 +33,4 @@
 /make_obfuscate.php export-ignore
 /package-lock.json  export-ignore
 /package.json       export-ignore
+/tests              export-ignore
