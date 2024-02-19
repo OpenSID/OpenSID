@@ -735,7 +735,7 @@ Route::group('dokumen', static function (): void {
     Route::post('/search', 'Dokumen@search')->name('dokumen.search');
     Route::post('/filter', 'Dokumen@filter')->name('dokumen.filter');
     Route::post('/insert', 'Dokumen@insert')->name('dokumen.insert');
-    Route::post('/update/{kat?}/{id?}/{p?}/{o?} ', 'Dokumen@update')->name('dokumen.update');
+    Route::post('/update/{kat?}/{id?}/{p?}/{o?}', 'Dokumen@update')->name('dokumen.update');
     Route::get('/delete/{kat?}/{p?}/{o?}/{id?}', 'Dokumen@delete')->name('dokumen.delete');
     Route::post('/delete_all/{kat?}/{p?}/{o?}', 'Dokumen@delete_all')->name('dokumen.delete_all');
     Route::get('/dokumen_lock/{kat?}/{id?}', 'Dokumen@dokumen_lock')->name('dokumen.dokumen_lock');
@@ -955,7 +955,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::get('/form/{kat?}/{id?}', 'Dokumen_sekretariat@form')->name('buku-umum.dokumen_sekretariat.form');
 
         Route::post('/insert', 'Dokumen_sekretariat@insert')->name('buku-umum.dokumen_sekretariat.insert');
-        Route::post('/update/{kat?}/{id?}/{p?}/{o?} ', 'Dokumen_sekretariat@update')->name('buku-umum.dokumen_sekretariat.update');
+        Route::post('/update/{kat?}/{id?}/{p?}/{o?}', 'Dokumen_sekretariat@update')->name('buku-umum.dokumen_sekretariat.update');
         Route::get('/delete/{kat?}/{id?}', 'Dokumen_sekretariat@delete')->name('buku-umum.dokumen_sekretariat.delete');
         Route::post('/delete_all/{kat?}', 'Dokumen_sekretariat@delete_all')->name('buku-umum.dokumen_sekretariat.delete_all');
         Route::get('/dialog_cetak/{kat?}/{aksi?}', 'Dokumen_sekretariat@dialog_cetak')->name('buku-umum.dokumen_sekretariat.dialog_cetak');
