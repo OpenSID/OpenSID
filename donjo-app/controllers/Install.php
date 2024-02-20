@@ -62,6 +62,7 @@ class Install extends CI_Controller
         parent::__construct();
 
         $this->load->config('installer');
+        $this->folder_lainnya();
     }
 
     /**
@@ -388,5 +389,12 @@ class Install extends CI_Controller
         }
 
         return true;
+    }
+
+    public function folder_lainnya()
+    {
+        foreach (config_item('lainnya') as $folder => $lainnya) {
+            folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
+        }
     }
 }
