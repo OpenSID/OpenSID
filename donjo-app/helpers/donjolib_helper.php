@@ -552,9 +552,9 @@ function potong_teks($teks, $panjang): string
     return $abstrak;
 }
 
-function hash_pin($pin = ''): string
+function hash_pin($pin = 0): string
 {
-    $pin = strrev($pin);
+    $pin  = (int) strrev($pin);
     $pin *= 77;
     $pin .= '!#@$#%';
 
