@@ -94,7 +94,7 @@ class Web_widget extends Admin_Controller
                         }
                     }
                     if (can('h') && $row->jenis_widget != 1) {
-                        $aksi .= '<a href="#" data-href="' . site_url('web_widget/delete/' . $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('web_widget.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -252,7 +252,6 @@ class Web_widget extends Admin_Controller
     public function delete($id = ''): void
     {
         isCan('h');
-
         $web = Widget::where('jenis_widget', '!=', Widget::WIDGET_SISTEM)->find($id) ?? show_404();
         if ($web->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -263,7 +262,6 @@ class Web_widget extends Admin_Controller
     public function delete_all(): void
     {
         isCan('h');
-
         if (Widget::whereIn('id', $this->request['id_cb'])->where('jenis_widget', '!=', Widget::WIDGET_SISTEM)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
