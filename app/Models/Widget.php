@@ -228,4 +228,27 @@ class Widget extends BaseModel
             $w->update(['urut' => $urut++]);
         }
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $foto = LOKASI_GAMBAR_WIDGET . $model->getOriginal($file);
+            if (file_exists($foto)) {
+                unlink($foto);
+            }
+        }
+    }
 }

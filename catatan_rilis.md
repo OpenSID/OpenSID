@@ -30,3 +30,5 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 4. [#7684](https://github.com/OpenSID/OpenSID/issues/7684) Penyesuaian modul Buku Ekspedisi menggunakan ORM dan Blade Laravel.
 
 #### KEAMANAN
+
+1. [#3506](https://github.com/OpenSID/premium/issues/3506) Peningkatan keamanan unggah foto widget.
