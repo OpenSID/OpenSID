@@ -336,7 +336,7 @@ class Surat extends Admin_Controller
                 'tanggal'         => Carbon::now(),
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
-                'no_surat'        => $cetak['input']['nomor'],
+                'no_surat'        => $preview ? '' : $cetak['input']['nomor'],
                 'keterangan'      => $cetak['keterangan'],
                 'kecamatan'       => $cetak['kecamatan'] ?? StatusSuratKecamatanEnum::TidakAktif,
             ];
@@ -381,6 +381,9 @@ class Surat extends Admin_Controller
             $log_surat['nama_surat'] = $nama_surat;
 
             unset($log_surat['surat'], $log_surat['input']);
+            if ($preview) {
+                $cetak['id'] = null;
+            }
             $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
             $surat = LogSurat::findOrFail($id);
             header('id_arsip: ' . $id); // sisipkan id
@@ -482,7 +485,7 @@ class Surat extends Admin_Controller
                 'nama_pamong'     => $pamong->pamong_nama,
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
-                'kecamatan'       => $cetak['kecamatan'],
+                'kecamatan'       => $cetak['surat']->kecamatan,
             ];
             $log_surat['verifikasi_operator'] = 0;
 

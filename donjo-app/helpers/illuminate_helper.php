@@ -71,6 +71,20 @@ if (! function_exists('base_path')) {
     }
 }
 
+if (! function_exists('bcrypt')) {
+    /**
+     * Hash the given value against the bcrypt algorithm.
+     *
+     * @param  string  $value
+     * @param  array  $options
+     * @return string
+     */
+    function bcrypt($value, $options = [])
+    {
+        return app('hash')->driver('bcrypt')->make($value, $options);
+    }
+}
+
 if (! function_exists('cache')) {
     /**
      * Get / set the specified cache value.
