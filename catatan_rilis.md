@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 12. [#7714](https://github.com/OpenSID/OpenSID/issues/7714) Perbaikan url/navigasi submodul kategori lembaga/kelompok.
 13. [#7709](https://github.com/OpenSID/OpenSID/issues/7709) Perbaikan data kode isian nama desa yang menggunakan romawi.
 14. [#7702](https://github.com/OpenSID/OpenSID/issues/7702) Perbaikan menampilkan foto pada modul pengurus.
+15. [#7716](https://github.com/OpenSID/OpenSID/issues/7716) Perbaikan pratinjau surat dengan status konsep.
 
 
 #### TEKNIS
