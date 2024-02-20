@@ -99,7 +99,7 @@ abstract class AdminModulController extends Admin_Controller
             return true;
         }
 
-        if (! in_array($this->moduleName, cache('modul_aktif'))) {
+        if (! in_array($this->moduleName, cache('modul_aktif') ?? [])) {
             set_session('error', 'Paket ' . $this->moduleName . ' belum bisa digunakan karena belum diaktivasi.');
 
             redirect('plugin');
