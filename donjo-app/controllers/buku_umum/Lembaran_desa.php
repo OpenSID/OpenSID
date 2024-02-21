@@ -54,8 +54,8 @@ class Lembaran_desa extends Admin_Controller
     // Buku Lembaran Desa dan Berita Desa
     public function index($p = 1, $o = 0): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['p'] = $p ?: 1;
+        $data['o'] = $o ?: 0;
         $kat       = 3;
 
         $data['cari'] = $this->session->cari ?: '';
