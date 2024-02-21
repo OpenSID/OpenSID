@@ -41,7 +41,7 @@
             </li>
             <li class="@active($selected_nav == 'agenda_masuk')"><a href="{{ site_url('surat_masuk') }}">Buku Agenda - Surat Masuk</a></li>
             <li class="@active($selected_nav == 'ekspedisi')"><a href="{{ site_url('ekspedisi/clear') }}">Buku Ekspedisi</a></li>
-            <li class="@active($selected_nav == 'lembaran')"><a href="{{ site_url('buku_umum/lembaran_desa/clear') }}">{{ SebutanDesa('Buku Lembaran [Desa] dan Berita [Desa]') }}</a>
+            <li class="@active($selected_nav == 'lembaran')"><a href="{{ site_url('lembaran_desa/clear') }}">{{ SebutanDesa('Buku Lembaran [Desa] dan Berita [Desa]') }}</a>
             </li>
         </ul>
     </div>
