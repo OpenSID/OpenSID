@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class Migrasi_2024022151 extends MY_model
 {
     public function up()
     {
@@ -64,6 +64,14 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        return $hasil;
+        return $hasil && $this->migrasi_2024130201($hasil);
+    }
+
+    protected function migrasi_2024130201($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-eskpedisi', 'url' => 'ekspedisi/clear'],
+            ['url' => 'ekspedisi']
+        );
     }
 }
