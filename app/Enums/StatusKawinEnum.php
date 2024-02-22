@@ -1,16 +1,7 @@
 <?php
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 /*
- * File ini:
  *
- * View untuk modul Buku Administrasi Desa > Buku Penduduk Sementara
- *
- * donjo-app/views/bumindes/penduduk/induk/content_sementara_unduh.php,
- */
-
-/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -20,7 +11,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -35,19 +26,36 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  *
- * @see 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<?php
-  header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=Sementara_' . date('Y-m-d') . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Enums;
 
-include 'donjo-app/views/bumindes/penduduk/sementara/content_sementara_cetak.php';
-?>
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class StatusKawinEnum extends BaseEnum
+{
+    public const BELUMKAWIN = 1;
+    public const KAWIN      = 2;
+    public const CERAIHIDUP = 3;
+    public const CERAIMATI  = 4;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::BELUMKAWIN => 'BELUM KAWIN',
+            self::KAWIN      => 'KAWIN',
+            self::CERAIHIDUP => 'CERAI HIDUP',
+            self::CERAIMATI  => 'CERAI MATI',
+        ];
+    }
+}

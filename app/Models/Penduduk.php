@@ -344,6 +344,16 @@ class Penduduk extends BaseModel
     }
 
     /**
+     * Define a one-to-many relationship.
+     *
+     * @return HasMany
+     */
+    public function log_latest()
+    {
+        return $this->hasOne(LogPenduduk::class, 'id_pend')->latest();
+    }
+
+    /**
      * Getter wajib ktp attribute.
      */
     public function getWajibKTPAttribute(): string
@@ -449,6 +459,32 @@ class Penduduk extends BaseModel
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('status_dasar', $value);
+    }
+
+    /**
+     * Scope query untuk status dasar penduduk
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeStatusDasar($query, array $value)
+    {
+        return $query->whereIn('status_dasar', $value);
+    }
+
+    /**
+     * Scope query untuk status penduduk
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeStatusPenduduk($query, $value = 1)
+    {
+        return $query->where('status', $value);
     }
 
     public function scopeHubungWarga($query)
@@ -557,6 +593,37 @@ class Penduduk extends BaseModel
         $umurMax = empty($umurObj['max']) ? 1000 : $umurObj['max'];
 
         return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
+    }
+
+    public function scopeFilterLog($query, array $filters)
+    {
+        $tahun = $filters['tahun'];
+        $bulan = $filters['bulan'];
+
+        switch (true) {
+            case $tahun && $bulan:
+                $tahun_bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
+                return $query->whereHas('log_latest', function ($query) use ($tahun, $tahun_bulan) {
+                    $query->whereRaw("date_format(tgl_lapor, '%Y-%m') <= '{$tahun}-{$tahun_bulan}'");
+                });
+                break;
+
+            case $tahun:
+                return $query->whereHas('log_latest', function ($query) use ($tahun) {
+                        $query->whereYear('tgl_lapor', '<=', $tahun);
+                    });
+                break;
+
+            case $bulan:
+                return $query->whereHas('log_latest', function ($query) use ($bulan) {
+                    $query->whereMonth('tgl_lapor', '<=', $bulan);
+                });
+                break;
+
+            default:
+               return $query;
+        }
+
     }
 
     /**

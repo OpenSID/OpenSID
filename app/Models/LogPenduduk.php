@@ -149,4 +149,9 @@ class LogPenduduk extends BaseModel
 
         return $result[$index] ?? '-';
     }
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tgl_lapor) as tahun')->distinct()->orderBy('tahun', 'desc')->take(5);
+    }
 }

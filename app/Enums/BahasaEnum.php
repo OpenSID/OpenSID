@@ -35,54 +35,33 @@
  *
  */
 
+namespace App\Enums;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class BahasaEnum extends BaseEnum
 {
-    public function up()
+    public const LATIN           = 1;
+    public const DAERAH          = 2;
+    public const ARAB            = 3;
+    public const HINDU           = 4;
+    public const ARABLATIN       = 5;
+    public const ARABDAERAH      = 6;
+    public const ARABLATINDAERAH = 7;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-            // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
-        // }
-
-        // Migrasi tanpa config_id
-        
-        return $hasil && $this->migrasi_2024210201($hasil);
-    }
-
-    protected function migrasi_2024210201($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'administrasi-penduduk', 'url' => 'bumindes_penduduk_induk/clear'],
-            ['url' => 'bumindes_penduduk_induk']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-mutasi-penduduk', 'url' => 'bumindes_penduduk_mutasi/clear'],
-            ['url' => 'bumindes_penduduk_mutasi']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-penduduk-sementara', 'url' => 'bumindes_penduduk_sementara/clear'],
-            ['url' => 'bumindes_penduduk_sementara']
-        );
+        return [
+            self::LATIN           => 'LATIN',
+            self::DAERAH          => 'DAERAH',
+            self::ARAB            => 'ARAB',
+            self::HINDU           => 'HINDU',
+            self::ARABLATIN       => 'ARAB DAN LATIN',
+            self::ARABDAERAH      => 'ARAB DAN DAERAH',
+            self::ARABLATINDAERAH => 'ARAB, LATIN DAN DAERAH',
+        ];
     }
 }

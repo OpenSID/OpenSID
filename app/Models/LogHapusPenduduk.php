@@ -35,54 +35,55 @@
  *
  */
 
+namespace App\Models;
+
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class LogHapusPenduduk extends BaseModel
 {
-    public function up()
+    use ConfigId;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'log_hapus_penduduk';
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    protected $casts = [
+        'deleted_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['penduduk'];
+
+    public function penduduk()
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
+        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
     }
 
-    protected function migrasi_tabel($hasil)
+    public function scopeData($query)
     {
-        return $hasil;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-            // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
-        // }
-
-        // Migrasi tanpa config_id
-        
-        return $hasil && $this->migrasi_2024210201($hasil);
-    }
-
-    protected function migrasi_2024210201($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'administrasi-penduduk', 'url' => 'bumindes_penduduk_induk/clear'],
-            ['url' => 'bumindes_penduduk_induk']
-        );
-
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-mutasi-penduduk', 'url' => 'bumindes_penduduk_mutasi/clear'],
-            ['url' => 'bumindes_penduduk_mutasi']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-penduduk-sementara', 'url' => 'bumindes_penduduk_sementara/clear'],
-            ['url' => 'bumindes_penduduk_sementara']
-        );
+        return $query->where('id_pend', '!=', null);
     }
 }
