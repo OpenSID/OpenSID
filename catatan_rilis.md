@@ -31,6 +31,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 3. [#7683](https://github.com/OpenSID/OpenSID/issues/7683) Penyesuaian modul Info Sistem menggunakan ORM dan Blade Laravel.
 4. [#7684](https://github.com/OpenSID/OpenSID/issues/7684) Penyesuaian modul Buku Ekspedisi menggunakan ORM dan Blade Laravel.
 5. [#7706](https://github.com/OpenSID/OpenSID/issues/7706) Penyesuaian modul Buku Induk Penduduk, Buku Mutasi Penduduk Desa dan Buku Penduduk Sementara menggunakan ORM dan Blade Laravel.
+6. [#76827682](https://github.com/OpenSID/OpenSID/issues/76827682) Penyesuaian modul QRCode menggunakan ORM dan Blade Laravel.
 
 
 #### KEAMANAN

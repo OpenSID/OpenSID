@@ -1876,10 +1876,10 @@ Route::group('/info_sistem', static function (): void {
 
 // Pengaturan > QR Code
 Route::group('qr_code', static function (): void {
-    Route::get('/clear', 'Qr_code@clear')->name('qr_code.clear');
     Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
-    Route::get('/', 'Qr_code@index')->name('qr_code.index');
+    Route::match(['GET', 'POST'], '/', 'Qr_code@index')->name('qr_code.index');
 });
+
 
 // Pengaturan > Optimasi Gambar
 Route::group('optimasi_gambar', static function (): void {

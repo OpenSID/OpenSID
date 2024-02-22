@@ -47,29 +47,21 @@ class Qr_code extends Admin_Controller
         parent::__construct();
     }
 
-    public function index(): void
+    public function index()
     {
         $this->set_hak_akses_rfm();
         $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
         $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
         $data['list_sizeqr']   = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
-
-        $this->render('qrcode/setting_qr', $data);
+        
+        return view('admin.qrcode.setting_qr', $data);
     }
 
-    public function clear(): void
+    public function qrcode_generate()
     {
-        $this->session->unset_userdata(['cari', 'filter', 'tipe', 'kategori']);
-
-        redirect($this->controller);
-    }
-
-    public function qrcode_generate(): void
-    {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $post     = $this->input->post();
         $changeqr = $post['changeqr'];
-
         // $logoqr = yg akan ditampilkan, url
         // $logoqr1 = yg akan disimpan, directory
         if ($changeqr == '1') {
@@ -90,7 +82,7 @@ class Qr_code extends Admin_Controller
             'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
             'foreqr'   => $post['foreqr'],
         ];
-
+        
         json(qrcode_generate($qrCode, true));
     }
 }
