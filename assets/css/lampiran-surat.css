@@ -9,6 +9,10 @@ table.disdukcapil td {
     margin: 0px;
 }
 
+table.disdukcapil td.spasi {
+    padding: 15px;
+}
+
 table.disdukcapil td.padat {
     padding: 0px;
     margin: 0px;
@@ -109,4 +113,18 @@ table#kode {
     margin-top: 0px;
     margin-bottom: 0px;
     font-size: 11pt;
+}
+
+.title{
+    font-size: 9pt;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    margin: 0px;
+    padding: 0px;
+}
+
+.number{
+    padding-bottom: -10px; 
+    font-weight: bold;
 }

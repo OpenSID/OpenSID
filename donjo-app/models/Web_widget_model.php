@@ -66,8 +66,8 @@ class Web_widget_model extends MY_Model
     public function get_widget($id = '')
     {
         $data          = $this->config_id()->where('id', $id)->get($this->tabel)->row_array();
-        $data['judul'] = htmlentities($data['judul']);
-        $data['isi']   = $this->security->xss_clean($data['isi']);
+        $data['judul'] = e($data['judul']);
+        $data['isi']   = htmlentities($data['isi']);
 
         return $data;
     }
@@ -105,6 +105,9 @@ class Web_widget_model extends MY_Model
             ->result_array();
 
         return collect($widget)->map(static function ($item) {
+            if ($item['jenis_widget'] == 3) {
+                $item['isi'] = bersihkan_xss($item['isi']);
+            }
             $item['judul'] = SebutanDesa($item['judul']);
 
             return $item;
@@ -169,7 +172,7 @@ class Web_widget_model extends MY_Model
                 $data[$i]['aktif']   = 'Tidak';
                 $data[$i]['enabled'] = 2;
             }
-            $teks = htmlentities($data[$i]['isi']);
+            $teks = $data[$i]['isi'];
             if (strlen($teks) > 150) {
                 $abstrak = substr($teks, 0, 150) . '...';
             } else {
@@ -227,14 +230,14 @@ class Web_widget_model extends MY_Model
 
     private function validasi($post)
     {
-        $data['judul']        = $post['judul'];
-        $data['jenis_widget'] = $post['jenis_widget'];
+        $data['judul']        = judul($post['judul']);
+        $data['jenis_widget'] = (int) $post['jenis_widget'];
         $data['foto']         = $this->upload_gambar('foto');
         if ($data['jenis_widget'] == 2) {
-            $data['isi'] = $post['isi-statis'];
+            $data['isi'] = bersihkan_xss($post['isi-statis']);
         } elseif ($data['jenis_widget'] == 3) {
             $data['isi'] = $post['isi-dinamis'];
-            $data['isi'] = $this->bersihkan_html($data['isi']);
+            $data['isi'] = $this->bersihkan_html(bersihkan_xss($data['isi']));
         }
 
         return $data;

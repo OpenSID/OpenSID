@@ -73,9 +73,9 @@ $config = [
     ],
 
     'lainnya' => [
-        'storage/framework/'  => [0775],
-        'storage/logs/'       => [0775],
-        'backup_inkremental/' => [0775],
+        'storage/framework/'  => [0775, 'htaccess3'],
+        'storage/logs/'       => [0775, 'htaccess3'],
+        'backup_inkremental/' => [0775, 'htaccess3'],
         'assets/'             => [0755, 'htaccess3'],
         'assets/filemanager/' => [0755, 'htaccess4'],
     ],
@@ -100,6 +100,9 @@ $config = [
         // Ijinkan agar bisa melakukan impor data penduduk dari OpenKAB
         $config['impor_massal'] = false;
 
+        // Untuk menghindari masalah keamanan, Anda mungkin ingin mengonfigurasi daftar "host tepercaya".
+        // Contoh: ['localhost', 'my-development.com', 'my-production.com', 'subdomain.domain.com']
+        $config['trusted_hosts'] = [];
 
         // config email
         $config['protocol']       = 'smtp';  // mail	mail, sendmail, or smtp	The mail sending protocol.

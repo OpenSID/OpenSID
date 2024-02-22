@@ -563,6 +563,10 @@ textarea {
     .btn-group-vertical {
         display: block;
     }
+
+    tbody .btn-group-vertical {
+        display: inline-block;
+    }
 }
 
 select.select2 {
@@ -797,4 +801,11 @@ div.form-surat .content-header {
 
 .widget-surat{
     min-height:107px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
 }

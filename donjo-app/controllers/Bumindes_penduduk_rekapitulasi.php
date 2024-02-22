@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\LogPenduduk;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_rekapitulasi extends Admin_Controller
@@ -51,6 +53,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         $this->header['kategori'] = 'data_lengkap';
         $this->_set_page          = ['10', '20', '50', '100'];
         $this->_list_session      = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+        $this->logpenduduk        = new LogPenduduk();
     }
 
     public function index($page_number = 1)
@@ -60,22 +63,22 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data = [
-            'main_content'      => 'bumindes/penduduk/rekapitulasi/content_rekapitulasi',
-            'subtitle'          => 'Buku Rekapitulasi Jumlah Penduduk',
-            'selected_nav'      => 'rekapitulasi',
-            'p'                 => $page_number,
-            'cari'              => $this->session->cari ? $this->session->cari : '',
-            'filter'            => $this->session->filter ? $this->session->filter : '',
-            'per_page'          => $this->session->per_page,
-            'bulan'             => $this->session->filter_bulan ? $this->session->filter_bulan : null,
-            'tahun'             => $this->session->filter_tahun ? $this->session->filter_tahun : null,
-            'func'              => 'index',
-            'set_page'          => $this->_set_page,
-            'tgl_lengkap'       => $this->setting->tgl_data_lengkap ? rev_tgl($this->setting->tgl_data_lengkap) : null,
-            'tgl_lengkap_aktif' => $this->setting->tgl_data_lengkap_aktif,
-            'paging'            => $this->laporan_bulanan_model->rekapitulasi_paging($page_number),
-            'tahun_lengkap'     => (new DateTime($this->setting->tgl_data_lengkap))->format('Y'),
+        $tanggal_lengkap = $this->logpenduduk::min('tgl_lapor');
+        $data            = [
+            'main_content'  => 'bumindes/penduduk/rekapitulasi/content_rekapitulasi',
+            'subtitle'      => 'Buku Rekapitulasi Jumlah Penduduk',
+            'selected_nav'  => 'rekapitulasi',
+            'p'             => $page_number,
+            'cari'          => $this->session->cari ? $this->session->cari : '',
+            'filter'        => $this->session->filter ? $this->session->filter : '',
+            'per_page'      => $this->session->per_page,
+            'bulan'         => $this->session->filter_bulan ? $this->session->filter_bulan : null,
+            'tahun'         => $this->session->filter_tahun ? $this->session->filter_tahun : null,
+            'func'          => 'index',
+            'set_page'      => $this->_set_page,
+            'tgl_lengkap'   => $tanggal_lengkap,
+            'paging'        => $this->laporan_bulanan_model->rekapitulasi_paging($page_number),
+            'tahun_lengkap' => (new DateTime($tanggal_lengkap))->format('Y'),
         ];
 
         $data['main'] = $this->laporan_bulanan_model->rekapitulasi_list($data['paging']->offset, $data['paging']->per_page);

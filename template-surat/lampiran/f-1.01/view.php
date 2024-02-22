@@ -435,7 +435,7 @@
                 <?php if ($i < count($anggota)): ?>
                     <td class="tengah <?= $class ?>">-</td>
                     <td class="tengah <?= $class ?>">-</td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['sex'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['sex_id'] ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['tempatlahir'] ?></td>
                     <td class="tengah <?= $class ?>"><?= tgl_indo_out($anggota[$i]['tanggallahir']) ?: '' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['warganegara'] ?></td>
@@ -487,10 +487,32 @@
                 <td class="tengah <?= $class ?>"><?= $i+1; ?></td>
                 <?php if ($i < count($anggota)): ?>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_lahir'] ?: '-' ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['golongan_darah'] ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['agama'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['golongan_darah_id'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['agama_id'] ?></td>
                     <td class="tengah <?= $class ?>">-</td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['status_kawin'] ?></td>
+                    <td class="tengah <?= $class ?>"><?php switch (ucwords(strtolower($anggota[$i]['status_kawin']))) {
+                        case 'Belum Kawin':
+                            $status = 1;
+                            break;
+                        case 'Kawin Tercatat':
+                            $status = 2;
+                            break;
+                        case 'Kawin Belum Tercatat':
+                            $status = 3;
+                            break;
+                        case 'AB-Cerai Hidup Tercatat' || 'Cerai Hidup':
+                            $status = 4;
+                            break;
+                        case 'Cerai Hidup Belum Tercatat':
+                            $status = 5;
+                            break;
+                        case 'Cerai Mati':
+                            $status = 6;
+                            break;
+                        default:
+                            $status = '-';
+                            break;
+                    } ?><?= $status ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perkawinan'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perkawinan'] ?: '-' ?></td>
                     <td class="tengah <?= $class ?>"><?= tgl_indo_out($anggota[$i]['tanggalperkawinan']) ?: '' ?></td>
@@ -546,11 +568,11 @@
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perceraian'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['akta_perceraian'] ?></td>
                     <td class="tengah <?= $class ?>"><?= tgl_indo_out($anggota[$i]['tanggalperceraian']) ?: '' ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['hubungan'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['hubungan_id'] ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['cacat'] ? '2' : '1' ?></td>
                     <td class="tengah <?= $class ?>"><?= $anggota[$i]['cacat'] ?: '-' ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['pendidikan'] ?></td>
-                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['pekerjaan'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['pendidikan_id'] ?></td>
+                    <td class="tengah <?= $class ?>"><?= $anggota[$i]['pekerjaan_id'] ?></td>
                     <td class="tengah <?= $class ?>">-</td>
                     <td class="tengah <?= $class ?>">-</td>
                 <?php else: ?>

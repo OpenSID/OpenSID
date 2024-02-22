@@ -105,10 +105,10 @@ class Permohonan_surat_admin extends Admin_Controller
     public function periksa($id = '')
     {
         // Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
-        $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->findOrFail($id);
+        $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->find($id);
 
         if (! $id || ! $periksa) {
-            redirect('permohonan_surat_admin');
+            show_404();
         }
         $url = $periksa->surat->url_surat;
 

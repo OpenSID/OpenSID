@@ -1,0 +1,40 @@
+name: Fix styling
+
+on:
+  pull_request:
+    branches:
+      - bug-fix
+      - rilis-dev
+
+jobs:
+  php-cs-fixer:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    # Check if contains [ci skip] or Update catatan_rilis.md will be skip github action
+    if: "!contains(github.event.head_commit.message, '[ci skip]') || !contains(github.event.head_commit.message, 'Update catatan_rilis.md')"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/cache@v3
+        with:
+          path: .php-cs-fixer.cache
+          key: ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.OS }}-${{ github.repository }}-phpcsfixer-
+
+      - name: Run PHP CS Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga:3.16.0
+        with:
+          args: --config=.php-cs-fixer.php --allow-risky=yes
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Fix styling"

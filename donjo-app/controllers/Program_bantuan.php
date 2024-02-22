@@ -129,11 +129,12 @@ class Program_bantuan extends Admin_Controller
 
     private function get_pilihan_penduduk($cari, $peserta)
     {
-        $penduduk = Penduduk::with('rtm')->whereHas('rtm')
-            ->select(['id', 'nik', 'nama', 'id_cluster'])
+        $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
             ->when($cari, static function ($query) use ($cari) {
-                $query->orWhere('nik', 'like', "%{$cari}%")
-                    ->orWhere('nama', 'like', "%{$cari}%");
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                });
             })
             ->whereNotIn('nik', $peserta)
             ->paginate(10);
@@ -163,9 +164,11 @@ class Program_bantuan extends Admin_Controller
                 $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
             })
             ->when($cari, static function ($query) use ($cari) {
-                $query->orWhere('tweb_penduduk.nik', 'like', "%{$cari}%")
-                    ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
-                    ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('tweb_penduduk.nik', 'like', "%{$cari}%")
+                        ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
+                        ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                });
             })
             ->whereIn('tweb_penduduk.kk_level', ['1', '2', '3', '4'])
             ->whereNotIn('keluarga_aktif.no_kk', $peserta)
@@ -190,7 +193,11 @@ class Program_bantuan extends Admin_Controller
     {
         $penduduk = Penduduk::select(['id', 'id_rtm', 'nama', 'id_cluster'])
             ->when($cari, static function ($query) use ($cari) {
-                $query->orWhere('nama', 'like', "%{$cari}%");
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%")
+                        ->orWhere('id_rtm', 'like', "%{$cari}%");
+                });
             })
             ->whereHas('rtm', static function ($query) use ($peserta) {
                 $query->whereNotIn('no_kk', $peserta);
@@ -202,7 +209,7 @@ class Program_bantuan extends Admin_Controller
                 ->map(static function ($item) {
                     return [
                         'id'   => $item->rtm->no_kk,
-                        'text' => 'No KK : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                        'text' => 'No. RT : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                     ];
                 }),
             'pagination' => [
@@ -218,8 +225,10 @@ class Program_bantuan extends Admin_Controller
                 $join->on('kelompok.id_ketua', '=', 'tweb_penduduk.id');
             })
             ->when($cari, static function ($query) use ($cari) {
-                $query->orWhere('kelompok.nama', 'like', "%{$cari}%")
-                    ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                $query->where(static function ($q) use ($cari) {
+                    $q->where('kelompok.nama', 'like', "%{$cari}%")
+                        ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
+                });
             })
             ->whereNotIn('kelompok.id', $peserta)
             ->paginate(10);
@@ -647,6 +656,8 @@ class Program_bantuan extends Admin_Controller
     // TODO: ubah peserta menggunakan id untuk semua sasaran dan gunakan relasi database delete cascade
     public function bersihkan_data()
     {
+        $this->redirect_hak_akses('h');
+
         $invalid      = [];
         $list_sasaran = array_keys($this->referensi_model->list_ref(SASARAN));
 
@@ -669,6 +680,8 @@ class Program_bantuan extends Admin_Controller
 
     public function bersihkan_data_peserta()
     {
+        $this->redirect_hak_akses('h');
+
         $this->db
             ->where('config_id', identitas('id'))
             ->where_in('id', $this->input->post('id_cb'))

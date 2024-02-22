@@ -181,10 +181,10 @@
 																				<?php if ($data['enabled'] == '1') : ?>
 																					<a href="<?= site_url('web/artikel_lock/' . encrypt($data['id']) . '/2'); ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a>
 																					<a href="<?= site_url('web/headline/' . encrypt($data['id'])) ?>" class="btn bg-teal btn-flat btn-sm" title="Jadikan Headline">
-																						<i class="<?= ($data['headline'] == 1) ? 'fa fa-star-o' : 'fa fa-star' ?>"></i>
+																						<i class="<?= ($data['headline'] == 1 || $data['headline'] == 2) ? 'fa fa-star' : 'fa fa-star-o' ?>"></i>
 																					</a>
 																					<a href="<?= site_url('web/slide/' . encrypt($data['id'])); ?>" class="btn bg-gray btn-flat btn-sm" title="<?= ($data['headline'] == 3) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide' ?>">
-																						<i class="<?= ($data['headline'] == 3) ? 'fa fa-pause' : 'fa fa-play' ?>"></i>
+																						<i class="<?= ($data['headline'] == 3 || $data['headline'] == 2) ? 'fa fa-pause' : 'fa fa-play' ?>"></i>
 																					</a>
 																				<?php else : ?>
 																					<a href="<?= site_url('web/artikel_lock/' . encrypt($data['id']) . '/1'); ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock"></i></a>

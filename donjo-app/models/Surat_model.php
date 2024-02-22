@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\StatusHubunganEnum;
 use App\Libraries\DateConv;
+use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
@@ -102,11 +103,21 @@ class Surat_model extends MY_Model
     {
         $this->config_id('u')
             ->from('tweb_penduduk u')
-            ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-            ->where('status_dasar', 1);
+            ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left');
+        // ->where('status_dasar', 1);
+
         if ($filter['sex']) {
             $this->db->where('sex', $filter['sex']);
         }
+
+        if ($filter['status_dasar']) {
+            $this->db->where('status_dasar', $filter['status_dasar']);
+        }
+
+        if ($filter['kk_level']) {
+            $this->db->where('kk_level', $filter['kk_level']);
+        }
+
         if ($filter['bersurat']) {
             $this->db->join('log_surat h', 'u.id = h.id_pend');
         }
@@ -1287,5 +1298,10 @@ class Surat_model extends MY_Model
         $qrCode['viewqr'] = qrcode_generate($qrCode, true);
 
         return $qrCode;
+    }
+
+    public function get_data_mati($id = 0)
+    {
+        return LogPenduduk::where('id_pend', $id)->where('kode_peristiwa', '2')->first();
     }
 }
