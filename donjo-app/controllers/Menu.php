@@ -75,6 +75,7 @@ class Menu extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of(MenuModel::child($parent)->with(['parent'])->orderBy('urut', 'asc')->when($status, static fn ($q) => $q->where('enabled', $status)))
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -102,7 +103,7 @@ class Menu extends Admin_Controller
 
                     return $aksi;
                 })->editColumn('link', static fn ($row) => '<a href="' . $row->linkUrl . '" target="_blank">' . $row->linkUrl . '</a>' )
-                ->rawColumns(['aksi', 'ceklist', 'link'])
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
                 ->make();
         }
 

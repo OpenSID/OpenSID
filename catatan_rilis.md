@@ -21,6 +21,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 14. [#7702](https://github.com/OpenSID/OpenSID/issues/7702) Perbaikan menampilkan foto pada modul pengurus.
 15. [#7716](https://github.com/OpenSID/OpenSID/issues/7716) Perbaikan pratinjau surat dengan status konsep.
 16. [#7719](https://github.com/OpenSID/OpenSID/issues/7719) Perbaikan pengecekan perangkat kehadiran yang terdaftar.
+17. [#7664](https://github.com/OpenSID/OpenSID/issues/7664) Perbaikan fungsi dragable pada versi mobile.
 
 
 #### TEKNIS

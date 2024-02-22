@@ -76,6 +76,7 @@ class Gallery extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgallery' : 'gallery';
@@ -113,7 +114,7 @@ class Gallery extends Admin_Controller
                 } )
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
                 ->editColumn('enabled', static fn ($row) => $row->enabled ? 'Ya' : 'Tidak')
-                ->rawColumns(['aksi', 'ceklist', 'nama'])
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'nama'])
                 ->make();
         }
 

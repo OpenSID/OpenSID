@@ -80,6 +80,7 @@ class Pengurus extends Admin_Controller
             $status = $this->input->get('status') ?? null;
 
             return datatables()->of(Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status)))
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
@@ -131,7 +132,7 @@ class Pengurus extends Admin_Controller
                     $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
                         ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
                 })
-                ->rawColumns(['ceklist', 'aksi', 'foto', 'identitas'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'foto', 'identitas'])
                 ->make();
         }
 
