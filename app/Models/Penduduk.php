@@ -603,19 +603,20 @@ class Penduduk extends BaseModel
         switch (true) {
             case $tahun && $bulan:
                 $tahun_bulan = str_pad($bulan, 2, '0', STR_PAD_LEFT);
-                return $query->whereHas('log_latest', function ($query) use ($tahun, $tahun_bulan) {
+
+                return $query->whereHas('log_latest', static function ($query) use ($tahun, $tahun_bulan) {
                     $query->whereRaw("date_format(tgl_lapor, '%Y-%m') <= '{$tahun}-{$tahun_bulan}'");
                 });
                 break;
 
             case $tahun:
-                return $query->whereHas('log_latest', function ($query) use ($tahun) {
+                return $query->whereHas('log_latest', static function ($query) use ($tahun) {
                         $query->whereYear('tgl_lapor', '<=', $tahun);
                     });
                 break;
 
             case $bulan:
-                return $query->whereHas('log_latest', function ($query) use ($bulan) {
+                return $query->whereHas('log_latest', static function ($query) use ($bulan) {
                     $query->whereMonth('tgl_lapor', '<=', $bulan);
                 });
                 break;

@@ -75,8 +75,9 @@ if (! function_exists('bcrypt')) {
     /**
      * Hash the given value against the bcrypt algorithm.
      *
-     * @param  string  $value
-     * @param  array  $options
+     * @param string $value
+     * @param array  $options
+     *
      * @return string
      */
     function bcrypt($value, $options = [])

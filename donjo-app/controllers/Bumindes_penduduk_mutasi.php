@@ -35,19 +35,19 @@
  *
  */
 
-use App\Models\LogPenduduk;
-use App\Enums\WargaNegaraEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
 use App\Models\LogHapusPenduduk;
+use App\Models\LogPenduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_mutasi extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-penduduk';
-    public $kategori_pengaturan  = 'data_lengkap';
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-penduduk';
+    public $kategori_pengaturan = 'data_lengkap';
 
     public function __construct()
     {
@@ -64,6 +64,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
         return view('admin.bumindes.penduduk.index', $data);
     }
+
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -78,7 +79,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
                 ->editColumn('tanggal_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? tgl_indo_out($row->tgl_peristiwa) : '-')
                 ->editColumn('meninggal_di', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? $row->meninggal_di : '-')
                 ->editColumn('tanggal_meninggal', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? tgl_indo_out($row->tgl_peristiwa) : '-')
-                ->editColumn('ket', static fn ($row) => !$row->penduduk->created_at ? 'Penduduk sudah dihapus.' : ($row->catatan ? strtoupper($row->catatan) : '-'))
+                ->editColumn('ket', static fn ($row) => ! $row->penduduk->created_at ? 'Penduduk sudah dihapus.' : ($row->catatan ? strtoupper($row->catatan) : '-'))
                 ->make();
         }
 
@@ -106,7 +107,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
         return LogPenduduk::with(['penduduk'])
             ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::BARU_PINDAH_MASUK])
-            ->whereHas('penduduk', function ($query) {
+            ->whereHas('penduduk', static function ($query) {
                 $query->where('status', StatusPendudukEnum::TETAP);
             })
             ->orderByDesc('tgl_lapor')
@@ -131,14 +132,14 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data                 = $this->modal_penandatangan();
-        $data['aksi']         = $aksi;
-        $data['main']         = $query->take($paramDatatable['length'])->get();
-        $data['config']       = $this->header['desa'];
-        $data['tgl_cetak']    = $this->input->post('tgl_cetak');
-        $data['file']         = 'Buku Mutasi Penduduk';
-        $data['isi']          = 'admin.bumindes.penduduk.mutasi.cetak';
-        $data['letak_ttd']    = ['1', '2', '8'];
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $query->take($paramDatatable['length'])->get();
+        $data['config']    = $this->header['desa'];
+        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
+        $data['file']      = 'Buku Mutasi Penduduk';
+        $data['isi']       = 'admin.bumindes.penduduk.mutasi.cetak';
+        $data['letak_ttd'] = ['1', '2', '8'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

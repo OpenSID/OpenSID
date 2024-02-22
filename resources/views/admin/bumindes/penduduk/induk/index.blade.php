@@ -27,7 +27,7 @@
                 <select id="tahun" class="form-control input-sm select2">
                     <option value="">Pilih Tahun</option>
                     @foreach ($tahun as $value)
-                        <option @selected($value == date('Y')) value="{{ $value }}" >{{ $value }}</option>
+                        <option @selected($value == date('Y')) value="{{ $value }}">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>

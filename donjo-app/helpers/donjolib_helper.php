@@ -554,7 +554,7 @@ function potong_teks($teks, $panjang): string
 
 function hash_pin($pin = 0): string
 {
-    $pin  = (int) strrev($pin);
+    $pin = (int) strrev($pin);
     $pin *= 77;
     $pin .= '!#@$#%';
 

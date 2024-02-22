@@ -64,7 +64,7 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        
+
         return $hasil && $this->migrasi_2024210201($hasil);
     }
 

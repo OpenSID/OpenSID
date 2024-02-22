@@ -35,9 +35,9 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Pamong;
 use App\Models\Kehadiran;
+use App\Models\Pamong;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -205,27 +205,27 @@ class Pamong_model extends MY_Model
     {
         $data_query = Pamong::aktif()->urut()->get()->toArray();
 
-        $result = collect($data_query)->map(function (array $item) {
+        $result = collect($data_query)->map(static function (array $item) {
             $kehadiran = Kehadiran::where('pamong_id', $item['pamong_id'])
                 ->where('tanggal', Carbon::now()->format('Y-m-d'))
                 ->orderBy('id', 'DESC')->first();
 
             $nama = $item['id_pend'] ? $item['penduduk']['nama'] : $item['pamong_nama'];
-            $sex = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
+            $sex  = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
 
             return [
-                "pamong_id" => $item['pamong_id'],
-                "jabatan" => $item['jabatan']['nama'],
-                "pamong_niap" => $item['pamong_niap'],
-                "gelar_depan" => $item['gelar_depan'],
-                "gelar_belakang" => $item['gelar_belakang'],
-                "kehadiran" => $item['kehadiran'],
-                "media_sosial" => json_encode($item['media_sosial']),
-                "foto" => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
-                "id_sex" => $sex,
-                "nama" => gelar($item['gelar_depan'], $nama, $item['gelar_belakang']),
-                "status_kehadiran" => $kehadiran ? $kehadiran->status_kehadiran : null,
-                "tanggal" => $kehadiran ? $kehadiran->tanggal : null,
+                'pamong_id'        => $item['pamong_id'],
+                'jabatan'          => $item['jabatan']['nama'],
+                'pamong_niap'      => $item['pamong_niap'],
+                'gelar_depan'      => $item['gelar_depan'],
+                'gelar_belakang'   => $item['gelar_belakang'],
+                'kehadiran'        => $item['kehadiran'],
+                'media_sosial'     => json_encode($item['media_sosial']),
+                'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
+                'id_sex'           => $sex,
+                'nama'             => gelar($item['gelar_depan'], $nama, $item['gelar_belakang']),
+                'status_kehadiran' => $kehadiran ? $kehadiran->status_kehadiran : null,
+                'tanggal'          => $kehadiran ? $kehadiran->tanggal : null,
             ];
         })->toArray();
 

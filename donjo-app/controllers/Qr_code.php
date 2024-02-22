@@ -53,7 +53,7 @@ class Qr_code extends Admin_Controller
         $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
         $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
         $data['list_sizeqr']   = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
-        
+
         return view('admin.qrcode.setting_qr', $data);
     }
 
@@ -82,7 +82,7 @@ class Qr_code extends Admin_Controller
             'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
             'foreqr'   => $post['foreqr'],
         ];
-        
+
         json(qrcode_generate($qrCode, true));
     }
 }

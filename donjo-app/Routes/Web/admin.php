@@ -964,7 +964,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
     });
 
     Route::group('ekspedisi', static function (): void {
-        Route::get('/clear', function () {
+        Route::get('/clear', static function () {
             redirect('/ekspedisi');
         });
         Route::get('/datatables', 'Ekspedisi@datatables')->name('buku-umum.ekspedisi.datatables');
@@ -1096,7 +1096,7 @@ Route::group('bumindes_inventaris_kekayaan', static function (): void {
 
 // Administrasi Penduduk
 Route::group('bumindes_penduduk_induk', static function (): void {
-    Route::get('/clear', function () {
+    Route::get('/clear', static function () {
         redirect('/bumindes_penduduk_induk');
     });
     Route::get('/', 'Bumindes_penduduk_induk@index')->name('bumindes_penduduk_induk.index');
@@ -1879,7 +1879,6 @@ Route::group('qr_code', static function (): void {
     Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
     Route::match(['GET', 'POST'], '/', 'Qr_code@index')->name('qr_code.index');
 });
-
 
 // Pengaturan > Optimasi Gambar
 Route::group('optimasi_gambar', static function (): void {

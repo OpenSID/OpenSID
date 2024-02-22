@@ -34,9 +34,9 @@
                         <label class="col-sm-3 control-label" for="judul">Gambar Widget</label>
                         <div class="col-sm-6">
                             @if (is_file(LOKASI_GAMBAR_WIDGET . $widget['foto']))
-                            <img class="img-responsive" src="{{ to_base64(LOKASI_GAMBAR_WIDGET . $widget['foto']) }}" alt="Gambar Utama Widget">
+                                <img class="img-responsive" src="{{ to_base64(LOKASI_GAMBAR_WIDGET . $widget['foto']) }}" alt="Gambar Utama Widget">
                             @else
-                            <img class="img-responsive" src="{{ to_base64('assets/images/404-image-not-found.jpg') }}" alt="Gambar Utama Widget" />
+                                <img class="img-responsive" src="{{ to_base64('assets/images/404-image-not-found.jpg') }}" alt="Gambar Utama Widget" />
                             @endif
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" id="file_path">
@@ -55,8 +55,8 @@
                         <div class="col-sm-6">
                             <select id="jenis_widget" name="jenis_widget" class="form-control input-sm">
                                 <option value="">-- Pilih Jenis Widget --</option>
-                                <option value="2" {{ selected($widget['jenis_widget'], 2); }}>Statis</option>
-                                <option value="3" {{ selected($widget['jenis_widget'], 3); }}>Dinamis</option>
+                                <option value="2" {{ selected($widget['jenis_widget'], 2) }}>Statis</option>
+                                <option value="3" {{ selected($widget['jenis_widget'], 3) }}>Dinamis</option>
                             </select>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         }
                     @endphp
 
-                    <div id="dinamis" class="form-group" @if(!$dinamis) style="display:none;" @endif>
+                    <div id="dinamis" class="form-group" @if (!$dinamis) style="display:none;" @endif>
                         <label class="col-sm-3 control-label" for="alamat_kantor">Kode Widget</label>
                         <div class="col-sm-6">
                             <textarea style="resize:none;height:150px;" id="isi-dinamis" name="isi-dinamis" class="form-control input-sm" placeholder="Kode Widget">{{ $widget['isi'] }}</textarea>
@@ -80,17 +80,17 @@
                     <div id="statis" class="form-group" @if (!$statis) style="display:none;" @endif>
                         <label class="col-sm-3 control-label" for="isi-statis">Nama File Widget (.php)</label>
                         <div class="col-sm-6">
-                            @if($list_widget)
-                            <select id="isi-statis" name="isi-statis" class="form-control input-sm select2">
-                                <option value="">-- Pilih Widget --</option>
-                                @foreach ($list_widget as $list)
-                                <option value="{{ $list }}" {{ selected($list, $widget['isi']) }}>
-                                    {{ $list }}
-                                </option>
-                                @endforeach
-                            </select>
+                            @if ($list_widget)
+                                <select id="isi-statis" name="isi-statis" class="form-control input-sm select2">
+                                    <option value="">-- Pilih Widget --</option>
+                                    @foreach ($list_widget as $list)
+                                        <option value="{{ $list }}" {{ selected($list, $widget['isi']) }}>
+                                            {{ $list }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             @else
-                            <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/widgets)</code></span>
+                                <span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/widgets)</code></span>
                             @endif
                         </div>
                     </div>

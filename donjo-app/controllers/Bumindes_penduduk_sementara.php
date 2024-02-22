@@ -37,16 +37,16 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Penduduk;
-use App\Models\LogPenduduk;
 use App\Enums\StatusDasarEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 
 class Bumindes_penduduk_sementara extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-penduduk';
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-penduduk';
 
     public function __construct()
     {
@@ -62,6 +62,7 @@ class Bumindes_penduduk_sementara extends Admin_Controller
 
         return view('admin.bumindes.penduduk.index', $data);
     }
+
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -108,15 +109,15 @@ class Bumindes_penduduk_sementara extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data                 = $this->modal_penandatangan();
-        $data['aksi']         = $aksi;
-        $data['main']         = $query->take($paramDatatable['length'])->get();
-        $data['config']       = $this->header['desa'];
-        $data['tgl_cetak']    = $this->input->post('tgl_cetak');
-        $data['privasi_nik']  = $this->input->post('privasi_nik') ?? null;
-        $data['file']         = 'Buku Penduduk Sementara';
-        $data['isi']          = 'admin.bumindes.penduduk.sementara.cetak';
-        $data['letak_ttd']    = ['2', '2', '9'];
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = $aksi;
+        $data['main']        = $query->take($paramDatatable['length'])->get();
+        $data['config']      = $this->header['desa'];
+        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
+        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
+        $data['file']        = 'Buku Penduduk Sementara';
+        $data['isi']         = 'admin.bumindes.penduduk.sementara.cetak';
+        $data['letak_ttd']   = ['2', '2', '9'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }

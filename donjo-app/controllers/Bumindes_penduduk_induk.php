@@ -35,17 +35,17 @@
  *
  */
 
-use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
-use App\Models\Penduduk;
 use App\Enums\BahasaEnum;
-use App\Models\LogPenduduk;
-use App\Enums\StatusDasarEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -68,6 +68,7 @@ class Bumindes_penduduk_induk extends Admin_Controller
 
         return view('admin.bumindes.penduduk.index', $data);
     }
+
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
@@ -121,15 +122,15 @@ class Bumindes_penduduk_induk extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $data                 = $this->modal_penandatangan();
-        $data['aksi']         = $aksi;
-        $data['main']         = $query->take($paramDatatable['length'])->get();
-        $data['config']       = $this->header['desa'];
-        $data['tgl_cetak']    = $this->input->post('tgl_cetak');
-        $data['privasi_nik']  = $this->input->post('privasi_nik') ?? null;
-        $data['file']         = 'Buku Induk Kependudukan';
-        $data['isi']          = 'admin.bumindes.penduduk.induk.cetak';
-        $data['letak_ttd']    = ['2', '2', '9'];
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = $aksi;
+        $data['main']        = $query->take($paramDatatable['length'])->get();
+        $data['config']      = $this->header['desa'];
+        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
+        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
+        $data['file']        = 'Buku Induk Kependudukan';
+        $data['isi']         = 'admin.bumindes.penduduk.induk.cetak';
+        $data['letak_ttd']   = ['2', '2', '9'];
 
         return view('admin.layouts.components.format_cetak', $data);
     }
