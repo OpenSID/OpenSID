@@ -66,7 +66,7 @@ $onlyFile = [
 
 $exceptFile = [
     'general_helper.php',
-    'install.php',
+    'Install.php',
     'ViewServiceProvider.php',
 ];
 

@@ -132,6 +132,7 @@ class Wilayah extends Admin_Controller
 
             return datatables()->of($model)
                 ->addIndexColumn()
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('aksi', static function ($row) use ($parent, $mapKantor, $mapWilayah, $level, $subOrdinat, $cek_lokasi_peta): string {
                     $aksi = '';
                     if ($level != 'rt') {
@@ -194,7 +195,7 @@ class Wilayah extends Admin_Controller
                 ->editColumn('penduduk_wanita_count', static fn ($row): string => $level == 'dusun' ? '<a href="' . ci_route('wilayah.warga_p', $row->id) . '">' . ($row->penduduk_wanita_count ?? '') . '</a>' : '<span>' . ($row->penduduk_wanita_count ?? '') . '</span>')
                 ->editColumn('kepala', static fn ($row): string => '<strong>' . $row->kepala->nama . '</strong>' ?? '')
                 ->addColumn('nik_kepala', static fn ($row): string => $row->kepala->nik ?? '')
-                ->rawColumns(['aksi', 'ceklist', 'kepala', 'penduduk_count', 'rts_count', 'rws_count', 'keluarga_aktif_count', 'penduduk_wanita_count', 'penduduk_pria_count'])
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'kepala', 'penduduk_count', 'rts_count', 'rws_count', 'keluarga_aktif_count', 'penduduk_wanita_count', 'penduduk_pria_count'])
                 ->make();
         }
 

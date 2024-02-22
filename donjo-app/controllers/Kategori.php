@@ -69,6 +69,7 @@ class Kategori extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent'])->orderBy('urut', 'asc'))
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -96,7 +97,7 @@ class Kategori extends Admin_Controller
                     }
 
                     return $aksi;
-                })->rawColumns(['aksi', 'ceklist', 'link'])
+                })->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
                 ->make();
         }
 

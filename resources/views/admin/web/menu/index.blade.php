@@ -55,6 +55,7 @@
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
                         <tr>
+                            <th class="padat">#</th>
                             <th><input type="checkbox" id="checkall" /></th>
                             <th class="padat">NO</th>
                             <th class="padat">AKSI</th>
@@ -88,6 +89,12 @@
                     }
                 },
                 columns: [{
+                        data: 'drag-handle',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,
@@ -138,11 +145,11 @@
 
 
             if (hapus == 0) {
-                TableData.column(0).visible(false);
+                TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(3).visible(false);
             }
 
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal

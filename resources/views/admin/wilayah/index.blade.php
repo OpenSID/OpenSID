@@ -57,6 +57,7 @@
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
                         <tr>
+                            <th class="padat">#</th>
                             <th class="padat">No</th>
                             <th class="padat">Aksi</th>
                             <th>{{ $wilayah }}</th>
@@ -102,6 +103,12 @@
                     data: function(req) {}
                 },
                 columns: [{
+                        data: 'drag-handle',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'DT_RowIndex',
                         class: 'padat',
                         searchable: false,
@@ -205,11 +212,11 @@
             });
 
             if (hapus == 0) {
-                TableData.column(0).visible(false);
+                TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(3).visible(false);
             }
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('wilayah.tukar')])

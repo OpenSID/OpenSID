@@ -964,6 +964,9 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
     });
 
     Route::group('ekspedisi', static function (): void {
+        Route::get('/clear', function () {
+            redirect('/ekspedisi');
+        });
         Route::get('/datatables', 'Ekspedisi@datatables')->name('buku-umum.ekspedisi.datatables');
         Route::get('/form/{id}', 'Ekspedisi@form')->name('buku-umum.ekspedisi.form');
         Route::post('/update/{id}', 'Ekspedisi@update')->name('buku-umum.ekspedisi.update');
@@ -972,7 +975,6 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::get('/bukan_ekspedisi/{id}', 'Ekspedisi@bukan_ekspedisi')->name('buku-umum.ekspedisi.bukan_ekspedisi');
         Route::match(['GET', 'POST'], '/index', 'Ekspedisi@index')->name('buku-umum.ekspedisi.index');
         Route::match(['GET', 'POST'], '', 'Ekspedisi@index')->name('buku-umum.ekspedisi.index-page');
-
         Route::get('/dialog_cetak/{aksi?}', 'Ekspedisi@dialog_cetak')->name('buku-umum.ekspedisi.dialog_cetak');
         Route::post('/daftar/{aksi?}', 'Ekspedisi@daftar')->name('buku-umum.ekspedisi.daftar');
     });
