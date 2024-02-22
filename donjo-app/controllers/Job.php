@@ -85,6 +85,9 @@ class Job extends CI_Controller
             log_message('error', 'Proses Restore Database Gagal');
         }
 
+        cache()->flush();
+        kosongkanFolder('storage/framework/views/');
+
         log_message('notice', '>_ Selesai');
     }
 

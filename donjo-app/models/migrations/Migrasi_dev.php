@@ -64,7 +64,28 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
+
+        $hasil = $hasil && $this->migrasi_2024210201($hasil);
+
         return $hasil && $this->migrasi_2024022271($hasil);
+    }
+
+    protected function migrasi_2024210201($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'administrasi-penduduk', 'url' => 'bumindes_penduduk_induk/clear'],
+            ['url' => 'bumindes_penduduk_induk']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-mutasi-penduduk', 'url' => 'bumindes_penduduk_mutasi/clear'],
+            ['url' => 'bumindes_penduduk_mutasi']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-penduduk-sementara', 'url' => 'bumindes_penduduk_sementara/clear'],
+            ['url' => 'bumindes_penduduk_sementara']
+        );
     }
 
     protected function migrasi_2024022271($hasil)
