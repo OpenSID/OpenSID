@@ -60,10 +60,20 @@ class Migrasi_dev extends MY_model
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
-            // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
+        // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
         // }
 
         // Migrasi tanpa config_id
-        return $hasil;
+        return $hasil && $this->migrasi_2024022271($hasil);
+    }
+
+    protected function migrasi_2024022271($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('klasifikasi_surat', [
+            'nama' => [
+                'type' => 'TEXT',
+                'null' => false,
+            ],
+        ]);
     }
 }

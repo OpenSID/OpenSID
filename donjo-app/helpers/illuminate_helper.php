@@ -325,6 +325,25 @@ if (! function_exists('resource_path')) {
     }
 }
 
+if ( ! function_exists('response'))
+{
+	/**
+	* Response construction helper
+	*
+	* @param string $content
+	* @param int    $statusCode
+	* @param array  $headers
+	*
+	* @return \Response|\Illuminate\Http\Response
+	*/
+	function response($content = '', $statusCode = 200, $headers = array())
+	{
+		$responseClass = class_exists('Illuminate\Http\Response') ? '\Illuminate\Http\Response' : 'Response';
+
+		return new $responseClass($content, $statusCode, $headers);
+	}
+}
+
 if (! function_exists('storage_path')) {
     /**
      * Get the path to the storage folder.
