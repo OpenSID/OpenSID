@@ -121,7 +121,13 @@ class Database_model extends MY_Model
         '23.05'   => ['migrate' => 'migrasi_2305_ke_2306', 'nextVersion' => '23.06'],
         '23.06'   => ['migrate' => 'migrasi_2306_ke_2307', 'nextVersion' => '23.07'],
         '23.07'   => ['migrate' => 'migrasi_2307_ke_2308', 'nextVersion' => '23.08'],
-        '23.08'   => ['migrate' => 'migrasi_2308_ke_2309', 'nextVersion' => null],
+        '23.08'   => ['migrate' => 'migrasi_2308_ke_2309', 'nextVersion' => '23.09'],
+        '23.09'   => ['migrate' => 'migrasi_2309_ke_2310', 'nextVersion' => '23.10'],
+        '23.10'   => ['migrate' => 'migrasi_2310_ke_2311', 'nextVersion' => '23.11'],
+        '23.11'   => ['migrate' => 'migrasi_2311_ke_2312', 'nextVersion' => '23.12'],
+        '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => '24.01'],
+        '24.01'   => ['migrate' => 'migrasi_2401_ke_2402', 'nextVersion' => '24.02'],
+        '24.02'   => ['migrate' => 'migrasi_2402_ke_2403', 'nextVersion' => null],
     ];
 
     // versi lain
