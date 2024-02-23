@@ -265,11 +265,9 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = false)
+    public function cek_migrasi($install = true)
     {
-        $this->load->library('pelanggan/validasi', null, 'premium');
-
-        if ($this->premium->validasi_versi($install) || $install) {
+        if ($install) {
             // Paksa menjalankan migrasi kalau belum
             // Migrasi direkam di tabel migrasi
             if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {

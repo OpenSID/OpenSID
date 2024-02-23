@@ -296,7 +296,6 @@ class Admin_Controller extends MY_Controller
         $this->load->model('header_model');
         $this->header = $this->header_model->get_data();
 
-        $this->load->library('pelanggan/validasi', null, 'premium');
         $this->cek_identitas_desa();
     }
 
@@ -304,8 +303,7 @@ class Admin_Controller extends MY_Controller
      * Urutan pengecakan :
      *
      * 1. Config desa sudah diisi
-     * 2. Validasi pelanggan premium
-     * 3. Password standard (sid304)
+     * 2. Password standard (sid304)
      */
     private function cek_identitas_desa()
     {
@@ -317,10 +315,9 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
-        $validasi = $this->premium->validasi();
-        $force    = $this->session->force_change_password;
+        $force = $this->session->force_change_password;
 
-        if ($force && $validasi && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
+        if ($force && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
             redirect('pengguna#sandi');
         }
 
