@@ -703,7 +703,7 @@ Route::group('keluar', static function (): void {
     Route::get('/edit_keterangan/{id}', 'Keluar@edit_keterangan')->name('keluar.edit_keterangan');
     Route::post('/update_keterangan/{id}', 'Keluar@update_keterangan')->name('keluar.update_keterangan');
     Route::get('/delete/{id}', 'Keluar@delete')->name('keluar.delete');
-    Route::get('/perorangan', 'Keluar@perorangan')->name('keluar.perorangan');
+    Route::get('/perorangan/{id?}', 'Keluar@perorangan')->name('keluar.perorangan');
     Route::get('/perorangan_datatables', 'Keluar@perorangan_datatables')->name('keluar.perorangan_datatables');
     Route::get('/graph', 'Keluar@graph')->name('keluar.graph');
     Route::get('/unduh/{tipe?}/{id?}/{preview?}', 'Keluar@unduh')->name('keluar.unduh');

@@ -23,6 +23,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 16. [#7719](https://github.com/OpenSID/OpenSID/issues/7719) Perbaikan pengecekan perangkat kehadiran yang terdaftar.
 17. [#7664](https://github.com/OpenSID/OpenSID/issues/7664) Perbaikan fungsi dragable pada versi mobile.
 18. [#7728](https://github.com/OpenSID/OpenSID/issues/7728) Perbaikan ejaan provinsi pada lampiran surat.
+19. [#7727](https://github.com/OpenSID/OpenSID/issues/7727) Perbaikan menampilkan detail data surat perorangan dari modul arsip desa.
 
 
 #### TEKNIS
