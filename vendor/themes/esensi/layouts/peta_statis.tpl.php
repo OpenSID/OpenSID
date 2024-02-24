@@ -20,7 +20,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/8.1.1/highcharts-3d.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <?php endif ?>
-  <link rel="stylesheet" href="<?= base_url('assets/css/peta.css'); ?>">
+  <link rel="stylesheet" href="<?= asset('css/peta.css'); ?>">
 
   <?php $this->load->view('global/validasi_form', ['web_ui' => true]); ?>
   <style>

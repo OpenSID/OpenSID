@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -228,7 +228,7 @@ class Pamong extends BaseModel
      */
     public function scopeDaftar($query, $value = 1)
     {
-        return $query->where('pamong_status', StatusEnum::YA)
+        return $query->aktif()
             ->where('kehadiran', $value);
     }
 
@@ -254,5 +254,36 @@ class Pamong extends BaseModel
         }
 
         return $pamong_nama;
+    }
+
+    /**
+     * Scope query untuk pamong yang aktif
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeAktif($query)
+    {
+        return $query->where('pamong_status', StatusEnum::YA);
+    }
+
+    /**
+     * Scope query untuk pamong kecuali yang sudah digunakan di user
+     *
+     * @param Builder $query
+     * @param mixed   $id
+     *
+     * @return Builder
+     */
+    public function scopeBukanPengguna($query, $id = '')
+    {
+        return $query->whereNotIn('pamong_id', static function ($q) use ($id) {
+            if ($id) {
+                return $q->select(['pamong_id'])->where('id', '!=', $id)->whereNotNull('pamong_id')->from('user');
+            }
+
+            return $q->select(['pamong_id'])->whereNotNull('pamong_id')->from('user');
+        });
     }
 }

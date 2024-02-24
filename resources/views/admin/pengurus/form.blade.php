@@ -59,10 +59,11 @@
 <div class="row">
     <?= form_open_multipart($form_action, 'id="validasi-proses" class="form-horizontal"') ?>
     <input type="hidden" name="id_pend" value="<?= $individu['id'] ?>">
-    <div class="col-md-3">
+    <div class="col-md-3">        
         @include('admin.layouts.components.ambil_foto', [
         'id_sex' => $individu ? $individu['id_sex'] : $pamong['id_sex'],
         'foto' => $individu ? $individu['foto'] : $pamong['foto'],
+        'show_dimensi' => true
         ])
     </div>
     <div class="col-md-9">

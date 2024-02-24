@@ -47,7 +47,7 @@
           <?php foreach($baris_program as $key => $program) : ?>
           <span style="display: inline-block; width: <?= $width.'%'?>">
             <a href="<?= $program['tautan'] ?>" target="_blank"><img
-                src="<?= base_url().LOKASI_GAMBAR_WIDGET.$program['gambar'] ?>" alt="<?= $program['judul'] ?>" /></a>
+                src="<?= base_url(LOKASI_GAMBAR_WIDGET.$program['gambar']) ?>" alt="<?= $program['judul'] ?>" /></a>
           </span>
           <?php endforeach; ?>
         </td>

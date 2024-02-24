@@ -138,9 +138,9 @@ class Data_awal extends MY_Model
                 'kode_desa'         => bilangan($kode_desa),
                 'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
                 'kode_kecamatan'    => bilangan($desa->kode_kec),
-                'nama_kabupaten'    => nama_terbatas($desa->nama_kab),
+                'nama_kabupaten'    => ucwords(hapus_kab_kota(nama_terbatas($desa->nama_kab))),
                 'kode_kabupaten'    => bilangan($desa->kode_kab),
-                'nama_propinsi'     => nama_terbatas($desa->nama_prov),
+                'nama_propinsi'     => ucwords(nama_terbatas($desa->nama_prov)),
                 'kode_propinsi'     => bilangan($desa->kode_prov),
                 'nama_kepala_camat' => '',
                 'nip_kepala_camat'  => '',
@@ -1342,7 +1342,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Current Version',
                 'key'        => 'current_version',
-                'value'      => SettingAplikasi::where('key', 'current_version')->first()->value ?? '22.03',
+                'value'      => currentVersion(),
                 'keterangan' => 'Versi sekarang untuk migrasi',
                 'jenis'      => 'text',
                 'option'     => null,
@@ -1977,7 +1977,7 @@ class Data_awal extends MY_Model
             [
                 'judul'      => 'Notifikasi Koneksi',
                 'key'        => 'notifikasi_koneksi',
-                'value'      => '1',
+                'value'      => '0',
                 'keterangan' => 'Ingatkan jika aplikasi tidak terhubung dengan internet.',
                 'jenis'      => 'boolean',
                 'option'     => null,
@@ -20299,7 +20299,7 @@ class Data_awal extends MY_Model
                 'hidden'     => '0',
                 'ikon_kecil' => 'fa-send',
                 'parent'     => '354',
-            ],
+            ],            
             [
                 'modul'      => 'Optimasi Gambar',
                 'slug'       => 'optimasi-gambar',

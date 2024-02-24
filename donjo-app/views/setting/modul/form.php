@@ -37,18 +37,18 @@
 								<div class="col-sm-6">
 									<input type="hidden" name="modul" value="1">
 									<input type="hidden" name="parent" value="<?=($modul['parent'])?>">
-									<input id="modul" name="modul" class="form-control input-sm required" type="text" placeholder="Nama Modul/Sub Modul" value="<?=($modul['modul'])?>" maxlength="30"></input>
+									<input id="modul" name="modul" class="form-control input-sm strip_tags required" type="text" placeholder="Nama Modul/Sub Modul" value="<?=($modul['modul'])?>" minlength="3" maxlength="50"></input>
+									<label class="error" id="tag_error" style="display: none;">Tidak boleh ada tag.</label>
 									<label class="error">Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan aplikasi.</label>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="ikon">Ikon</label>
 								<div class="col-sm-6">
-									<select class="form-control select2-ikon" id="ikon" name="ikon">
-										<option selected="selected">Pilih Icon</option>
+									<select class="form-control select2-ikon required" id="ikon" name="ikon" data-placeholder="Pilih Icon">
 										<?php foreach ($list_icon as $icon): ?>
 											<option value="<?=$icon?>" <?php selected($icon, $modul['ikon']); ?>><?=$icon?></option>
-										 <?php endforeach; ?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>

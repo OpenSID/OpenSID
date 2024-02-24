@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -58,9 +58,12 @@ class Surat extends MY_Controller
     {
         parent::__construct();
 
-        $this->client = new \GuzzleHttp\Client([
-            'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat/",
-        ]);
+        if (! empty($this->setting->api_opendk_key)) {
+            $this->client = new GuzzleHttp\Client([
+                'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat/",
+            ]);
+        }
+
         $this->kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
     }
 
@@ -76,22 +79,24 @@ class Surat extends MY_Controller
             $this->load->model('keluar_model');
             $data = $this->keluar_model->verifikasi_data_surat($surat->id, $this->kode_desa);
 
-            $this->client->post('kirim', [
-                'headers' => [
-                    'Accept'        => 'application/json',
-                    'Authorization' => "Bearer {$this->setting->api_opendk_key}",
-                ],
-                'multipart' => [
-                    ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $surat->nama_surat, 'r')],
-                    ['name' => 'desa_id', 'contents' => $this->kode_desa],
-                    ['name' => 'nik', 'contents' => $surat->penduduk->nik],
-                    ['name' => 'tanggal', 'contents' => $surat->tanggal],
-                    ['name' => 'nomor', 'contents' => $data->nomor_surat],
-                    ['name' => 'nama', 'contents' => $surat->formatSurat->nama],
-                ],
-            ]);
+            if ($this->client) {
+                $this->client->post('kirim', [
+                    'headers' => [
+                        'Accept'        => 'application/json',
+                        'Authorization' => "Bearer {$this->setting->api_opendk_key}",
+                    ],
+                    'multipart' => [
+                        ['name' => 'file', 'contents' => Psr7\Utils::tryFopen(FCPATH . LOKASI_ARSIP . $surat->nama_surat, 'r')],
+                        ['name' => 'desa_id', 'contents' => $this->kode_desa],
+                        ['name' => 'nik', 'contents' => $surat->penduduk->nik],
+                        ['name' => 'tanggal', 'contents' => $surat->tanggal],
+                        ['name' => 'nomor', 'contents' => $data->nomor_surat],
+                        ['name' => 'nama', 'contents' => $surat->formatSurat->nama],
+                    ],
+                ]);
 
-            $surat->update(['kecamatan' => StatusSuratKecamatanEnum::SudahDikirim]); // update log surat
+                $surat->update(['kecamatan' => StatusSuratKecamatanEnum::SudahDikirim]); // update log surat
+            }
 
             DB::commit();
 
@@ -115,30 +120,37 @@ class Surat extends MY_Controller
 
     public function download($jenis, $nomor, $desa, $bulan, $tahun)
     {
-        try {
-            $response = $this->client->get("download?desa_id={$this->kode_desa}&nomor={$jenis}/{$nomor}/{$desa}/{$bulan}/{$tahun}", [
-                'headers' => [
-                    'Accept'        => 'application/pdf',
-                    'Authorization' => "Bearer {$this->setting->api_opendk_key}",
-                ],
-            ]);
+        if ($this->client) {
+            try {
+                $response = $this->client->get("download?desa_id={$this->kode_desa}&nomor={$jenis}/{$nomor}/{$desa}/{$bulan}/{$tahun}", [
+                    'headers' => [
+                        'Accept'        => 'application/pdf',
+                        'Authorization' => "Bearer {$this->setting->api_opendk_key}",
+                    ],
+                ]);
 
-            $filename = "kecamatan_{$jenis}_{$nomor}_{$bulan}_{$tahun}.pdf";
+                $filename = "kecamatan_{$jenis}_{$nomor}_{$bulan}_{$tahun}.pdf";
 
-            if ($response->getStatusCode() == 200) {
-                $file = fopen(FCPATH . LOKASI_ARSIP . $filename, 'wb');
-                fwrite($file, $response->getBody()->getContents());
-                fclose($file);
+                if ($response->getStatusCode() == 200) {
+                    $file = fopen(FCPATH . LOKASI_ARSIP . $filename, 'wb');
+                    fwrite($file, $response->getBody()->getContents());
+                    fclose($file);
+                }
+
+                ambilBerkas($filename, 'keluar/kecamatan', null, LOKASI_ARSIP, true);
+            } catch (GuzzleHttp\Exception\ClientException $e) {
+                log_message('error', $e);
+
+                $_SESSION['success']   = -99;
+                $_SESSION['error_msg'] = $e->getResponse()->getBody()->getContents();
+
+                return redirect('keluar/kecamatan');
             }
-
-            ambilBerkas($filename, 'keluar/kecamatan', null, LOKASI_ARSIP, true);
-        } catch (GuzzleHttp\Exception\ClientException $e) {
-            log_message('error', $e);
-
-            $_SESSION['success']   = -99;
-            $_SESSION['error_msg'] = $e->getResponse()->getBody()->getContents();
-
-            return redirect('keluar/kecamatan');
         }
+
+        $_SESSION['success']   = -99;
+        $_SESSION['error_msg'] = 'Tidak bisa mengambil surat dari kecamatan, apikey opendk belum disetting';
+
+        return redirect('keluar/kecamatan');
     }
 }

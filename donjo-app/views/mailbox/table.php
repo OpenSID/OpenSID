@@ -14,7 +14,9 @@
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
-								<a href="<?= site_url('mailbox/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
+								<?php if ($kat == 2): ?>
+									<a href="<?= site_url('mailbox/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
+								<?php endif; ?>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Arsipkan Data" <?php if (! $filter_archived) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all/{$kat}/{$p}/{$o}")?>')"<?php endif; ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_archived && print 'disabled' ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>
@@ -62,8 +64,11 @@
 													<div class="table-responsive">
 														<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 															<thead class="bg-gray disabled color-palette">
+																<?php $jml_th = 7; ?>
 																<tr>
-																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																	<?php if ($this->CI->cek_hak_akses('h')):
+																	    $jml_th++;
+																	    ?>
 																		<th><input type="checkbox" id="checkall"/></th>
 																	<?php endif; ?>
 																	<th>No</th>
@@ -104,6 +109,7 @@
 																</tr>
 															</thead>
 															<tbody>
+																<?php if($main) : ?>
 																<?php foreach ($main as $data): ?>
 																	<tr <?php if ($data['status'] != 1): ?>style='background-color:#ffeeaa;'<?php endif; ?>>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
@@ -117,9 +123,9 @@
 																			<a href="<?=site_url("mailbox/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Lihat detail pesan"><i class="fa fa-list">&nbsp;</i></a>
 																			<?php if ($this->CI->cek_hak_akses('u') && $kat != 2 && $data['is_archived'] != 1) : ?>
 																				<?php if ($data['status'] == 1): ?>
-																					<a href="<?=site_url('mailbox/pesan_unread/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
+																					<a href="<?=site_url('mailbox/pesan_unread/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-open-o"></i></a>
 																					<?php else : ?>
-																						<a href="<?=site_url('mailbox/pesan_read/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-open-o"></i></a>
+																						<a href="<?=site_url('mailbox/pesan_read/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai sudah dibaca"><i class="fa fa-envelope-o"></i></a>
 																				<?php endif; ?>
 																			<?php endif; ?>
 																		</td>
@@ -130,6 +136,7 @@
 																		<td nowrap><?=tgl_indo2($data['tgl_upload'])?></td>
 																	</tr>
 																<?php endforeach; ?>
+																<?php else: tidak_ada_data(22); endif; ?>
 															</tbody>
 														</table>
 													</div>

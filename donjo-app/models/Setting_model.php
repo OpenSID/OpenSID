@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -136,6 +136,15 @@ class Setting_model extends MY_Model
         // Setting Multi Database untuk OpenKab
         $this->setting->multi_desa = (Config::count() > 1) ? true : false;
 
+        // Konversi nilai margin global dari cm ke mm
+        $margins                              = json_decode($this->setting->surat_margin, true);
+        $this->setting->surat_margin_cm_to_mm = [
+            $margins['kiri'] * 10,
+            $margins['atas'] * 10,
+            $margins['kanan'] * 10,
+            $margins['bawah'] * 10,
+        ];
+
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
     }
@@ -188,6 +197,10 @@ class Setting_model extends MY_Model
 
                 if ($key == 'api_opendk_key' && (empty(setting('api_opendk_server')) || empty(setting('api_opendk_user')) || empty(setting('api_opendk_password')))) {
                     $value = null;
+                }
+
+                if (is_array($post = $this->input->post($key))) {
+                    $value = json_encode($post);
                 }
 
                 $hasil                 = $hasil && $this->update($key, $value);
@@ -328,7 +341,7 @@ class Setting_model extends MY_Model
             ['max_execution_time', '>=', '300'],
             ['post_max_size', '>=', '10M'],
             ['upload_max_filesize', '>=', '20M'],
-            ['memory_limit', '>=', '256M'],
+            ['memory_limit', '>=', '512M'],
         ];
 
         foreach ($sistem as $value) {

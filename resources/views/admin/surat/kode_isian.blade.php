@@ -1,12 +1,12 @@
 <?php foreach ($surat['kode_isian'] as $item): ?>
 <?php $nama = underscore($item->nama, true, true); ?>
+<?php $required = $item->required == 1 ? 'required' : '' ?>
 <div class="form-group">
     <label for="<?= $item->nama ?>" class="col-sm-3 control-label"><?= $item->nama ?></label>
     <?php if ($item->tipe == 'select-manual'): ?>
     <div class="col-sm-4">
         <select name="<?= $nama ?>"
-            <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?>
-            placeholder="<?= $item->deskripsi ?>">
+            <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?>>
             <option value="">-- <?= $item->deskripsi ?> --</option>
             <?php foreach ($item->pilihan as $key => $pilih): ?>
             <option value="<?= $pilih ?>"><?= $pilih ?></option>
@@ -29,7 +29,7 @@
     <div class="col-sm-8">
         <textarea name="<?= $nama ?>" <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?> placeholder="<?= $item->deskripsi ?>"></textarea>
     </div>
-    <?php elseif ($item->tipe == 'date'): ?>
+    <?php elseif ($item->tipe == 'date' || $item->tipe == 'hari' || $item->tipe == 'hari-tanggal'): ?>
     <div class="col-sm-3 col-lg-2">
         <div class="input-group input-group-sm date">
             <div class="input-group-addon">

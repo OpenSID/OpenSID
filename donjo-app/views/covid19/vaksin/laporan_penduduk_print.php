@@ -54,7 +54,7 @@
 			<th rowspan="2">No KK</th>
 			<th rowspan="2">Nama</th>
 			<th rowspan="2">Nik</th>
-			<th rowspan="2">Alamat Dusun</th>
+			<th rowspan="2">Alamat <?= ucwords(setting('sebutan_dusun')) ?></th>
 			<th rowspan="2">Jenis Kelamin</th>
 			<th rowspan="2">Tempat Lahir</th>
 			<th rowspan="2">Tanggal Lahir</th>

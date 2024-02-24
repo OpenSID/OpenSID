@@ -8,6 +8,12 @@
                         <option value="<?= $key ?>" <?= selected($pengaturan->value, $key) ?>><?= $value ?></option>
                     <?php endforeach ?>
                 </select>
+            <?php elseif ($pengaturan->jenis == 'multiple-option'): ?>
+                <select class="form-control input-sm select2 required" name="<?= $pengaturan->key?>[]" multiple="multiple">
+                    <?php foreach ($pengaturan->option as $val): ?>
+                        <option value="<?= $val ?>" <?= selected(in_array($val, $pengaturan->value), true) ?>><?= $val ?></option>
+                    <?php endforeach ?>
+                </select>
             <?php elseif ($pengaturan->jenis == 'datetime'): ?>
                 <div class="input-group input-group-sm date">
                     <div class="input-group-addon">

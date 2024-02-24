@@ -74,7 +74,7 @@
                     <label class="col-sm-3 control-label" for="nama">Nama
                         {{ ucwords($setting->sebutan_desa) }}</label>
                     <div class="col-sm-8">
-                        @if (cek_koneksi_internet())
+                        @if (cek_koneksi_internet() && $status_pantau)
                         <select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="{{ $main['nama_desa'] }} - {{ $main['nama_kecamatan'] }} - {{ $main['nama_kabupaten'] }} - {{ $main['nama_propinsi'] }}" data-token="{{ config_item('token_pantau') }}" data-tracker='{{ config_item('server_pantau') }}' style="display: none;"></select>
                         @endif
                         <input type="hidden" id="nama_desa" class="form-control input-sm nama_desa required" minlength="3" maxlength="50" name="nama_desa" value="{{ $main['nama_desa'] }}">
@@ -216,10 +216,10 @@
 <script>
     $(document).ready(function() {
         var koneksi = "{{ cek_koneksi_internet() }}";
-
+        let koneksi_pantau = {{ $status_pantau }}
         tampil_kode_desa();
 
-        if (koneksi) {
+        if (koneksi && koneksi_pantau) {
             $("#nama_desa").attr('type', 'hidden');
 
             var server_pantau = "{{ config_item('server_pantau') }}";

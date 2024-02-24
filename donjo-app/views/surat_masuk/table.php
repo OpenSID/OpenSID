@@ -91,6 +91,7 @@
 												</tr>
 											</thead>
 											<tbody>
+												<?php if($main) : ?>
 												<?php foreach ($main as $data): ?>
 													<tr>
 														<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
@@ -115,6 +116,7 @@
 														<td><?= $data['isi_singkat']?></td>
 													</tr>
 												<?php endforeach; ?>
+												<?php else: tidak_ada_data(8); endif; ?>
 											</tbody>
 										</table>
 									</div>

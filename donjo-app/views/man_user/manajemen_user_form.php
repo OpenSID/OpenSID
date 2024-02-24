@@ -103,7 +103,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="email">Email</label>
                                 <div class="col-sm-8">
-                                    <input id="email" name="email" class="form-control input-sm email" type="text" placeholder="Alamat E-mail" value="<?= $user['email'] ?>"></input>
+                                    <input id="email" name="email" class="form-control input-sm email" type="email" placeholder="Alamat E-mail" value="<?= $user['email'] ?>"></input>
                                 </div>
                             </div>
 

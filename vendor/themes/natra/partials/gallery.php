@@ -9,7 +9,7 @@
 		<div class="row">
 			<?php foreach ($gallery as $data): ?>
 				<?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
-					<a href="<?= site_url() . "galeri/" . $data['id'] ?>">
+					<a href="<?= site_url("galeri/{$data['id']}") ?>">
 						<div class="col-sm-6">
 							<div class="card">
 								<img width="auto" class="img-fluid img-thumbnail" src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="<?= $data['nama']; ?>"/>

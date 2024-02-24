@@ -1,7 +1,6 @@
 <div class="tab-pane" id="template-surat">
 
     @include('admin.pengaturan_surat.kembali')
-
     <div class="box-body">
         <div>
             @if (can('u'))
@@ -20,6 +19,7 @@
                         @if ($suratMaster->url_surat_desa)
                             <a href="{{ base_url($suratMaster->url_surat_desa) }}" class="btn btn-warning" title="{{ SebutanDesa('Unduh Template [Desa]') }} "
                                 target="_blank"><i class="fa fa-download"></i>&nbsp;{{ SebutanDesa('Template [Desa]') }} </a>
+                            <a href="#" data-href="{{route('surat_master.delete_template_desa', $suratMaster->url_surat)}}" class="btn bg-maroon btn-flat btn-sm"  title="{{ SebutanDesa('Hapus Template [Desa]') }}" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                         @endif
                     </span>
                 </div>
@@ -66,6 +66,26 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle text-red"></i> Konfirmasi</h4>
+            </div>
+            <div class="modal-body btn-info">
+                Apakah Anda yakin ingin menghapus data ini?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                <a class="btn-ok">
+                    <a href="{{route('surat_master.delete_template_desa', $suratMaster->url_surat)}}" class="btn btn-social btn-danger btn-sm" id="ok-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+                </a>
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,12 +37,15 @@
 
 namespace App\Libraries;
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusHubunganEnum;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\Wilayah;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -159,18 +162,37 @@ class TinyMCE
             // Data Identitas Desa
             'Identitas Desa' => $this->getIsianIdentitas($data['id_pend'] ?? $data['nik_non_warga']),
 
+            // Data Dusun
+            'Wilayah' => $this->getIsianWilayah(),
+
             // Data Penduduk Umum
             'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
 
             // Data Anggota keluarga
             'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
-
-            // Data Dari Form Isian
-            'Input' => $this->getIsianPost($data),
-
-            // Penandatangan
-            'Penandatangan' => $this->getPenandatangan($data['input']),
         ];
+
+        // Penduduk Kategori
+        foreach ($data['kategori'] as $key => $value) {
+            $daftar_kode_isian[$key] = $this->getIsianPenduduk($value, $key);
+        }
+
+        // Data Dari Form Isian dsd
+        $isian_post = $this->getIsianPost($data);
+        if (isset($isian_post['kategori'])) {
+            foreach ($isian_post['kategori'] as $key => $value) {
+                $nama_ktg = $value['nama_kategori'];
+                unset($value['nama_kategori']);
+                $daftar_kode_isian['Input ' . $nama_ktg][] = $value;
+                // unset($daftar_kode_isian['Input ' . $value['nama_kategori']]['nama_kategori']);
+            }
+            // $daftar_kode_isian['Input Kategori'] = $isian_post['kategori'];
+            unset($isian_post['kategori']);
+        }
+        $daftar_kode_isian['Input'] = $isian_post;
+
+        // Penandatangan
+        $daftar_kode_isian['Penandatangan'] = $this->getPenandatangan($data['input']);
 
         // Jika penduduk luar, hilangkan isian penduduk
         if ($data['surat']['form_isian']->data == 2) {
@@ -456,62 +478,62 @@ class TinyMCE
             [
                 'judul' => 'NIK' . $ortu,
                 'isian' => getFormatIsian('nik' . $prefix . ''),
-                'data'  => $penduduk->nik,
+                'data'  => $penduduk->nik ?? '-',
             ],
             [
                 'judul' => 'Nama' . $ortu,
                 'isian' => getFormatIsian('Nama' . $prefix . ''),
-                'data'  => $penduduk->nama,
+                'data'  => $penduduk->nama ?? '-',
             ],
             [
                 'judul' => 'Tanggal Lahir' . $ortu,
                 'isian' => getFormatIsian('Tanggallahir' . $prefix . ''),
-                'data'  => tgl_indo($penduduk->tanggallahir),
+                'data'  => tgl_indo($penduduk->tanggallahir) ?? '-',
             ],
             [
                 'judul' => 'Tempat Lahir' . $ortu,
                 'isian' => getFormatIsian('Tempatlahir' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir,
+                'data'  => $penduduk->tempatlahir ?? '-',
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir' . $ortu,
                 'isian' => getFormatIsian('Tempat_tgl_lahir' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
+                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)) ?? '-',
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir (TTL)' . $ortu,
                 'isian' => getFormatIsian('Ttl' . $prefix . ''),
-                'data'  => $penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir),
+                'data'  => ($penduduk->tempatlahir . '/' . tgl_indo($penduduk->tanggallahir)) ?? '-',
             ],
             [
                 'judul' => 'Usia' . $ortu,
                 'isian' => getFormatIsian('Usia' . $prefix . ''),
-                'data'  => $penduduk->usia,
+                'data'  => $penduduk->usia ?? '-',
             ],
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
                 'isian' => getFormatIsian('Jenis_kelamin' . $prefix . ''),
-                'data'  => $penduduk->jenisKelamin->nama,
+                'data'  => $penduduk->jenisKelamin->nama ?? '-',
             ],
             [
                 'judul' => 'Agama' . $ortu,
                 'isian' => getFormatIsian('Agama' . $prefix . ''),
-                'data'  => $penduduk->agama->nama,
+                'data'  => $penduduk->agama->nama ?? '-',
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,
                 'isian' => getFormatIsian('Pekerjaan' . $prefix . ''),
-                'data'  => $penduduk->pekerjaan->nama,
+                'data'  => $penduduk->pekerjaan->nama ?? '-',
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,
                 'isian' => getFormatIsian('Warga_negara' . $prefix . ''),
-                'data'  => $penduduk->wargaNegara->nama,
+                'data'  => $penduduk->wargaNegara->nama ?? '-',
             ],
             [
                 'judul' => 'Alamat' . $ortu,
                 'isian' => getFormatIsian('Alamat' . $prefix . ''),
-                'data'  => $penduduk->alamat_wilayah,
+                'data'  => $penduduk->alamat_wilayah ?? '-',
             ],
         ];
 
@@ -636,34 +658,85 @@ class TinyMCE
             // Data Umum
             $data = array_merge($individu, $lainnya);
 
-            // Data orang tua
-            $data_ortu = [
-                [
-                    'judul' => 'NIK Ayah',
-                    'isian' => getFormatIsian('Nik_ayaH'),
-                    'data'  => $penduduk->ayah_nik,
-                ],
-                [
-                    'judul' => 'Nama Ayah',
-                    'isian' => getFormatIsian('Nama_ayaH'),
-                    'data'  => $penduduk->nama_ayah,
-                ],
-                [
-                    'judul' => 'NIK Ibu',
-                    'isian' => getFormatIsian('Nik_ibU'),
-                    'data'  => $penduduk->ibu_nik,
-                ],
-                [
-                    'judul' => 'Nama Ibu',
-                    'isian' => getFormatIsian('Nama_ibU'),
-                    'data'  => $penduduk->nama_ibu,
-                ],
-            ];
+            // Data Orang Tua
 
-            return array_merge($data, $data_ortu);
+            $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
+            $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
+
+            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+                $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
+                    ->where(static function ($query) {
+                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                    })
+                    ->where('sex', JenisKelaminEnum::LAKI_LAKI)
+                    ->first()->id;
+            }
+
+            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+                $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
+                    ->where(static function ($query) {
+                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                    })
+                    ->where('sex', JenisKelaminEnum::PEREMPUAN)
+                    ->first()->id;
+            }
+
+            // Data Ayah
+            $data = array_merge($data, $this->getIsianPenduduk($id_ayah, 'ayah'));
+
+            // Data Ibu
+            $data = array_merge($data, $this->getIsianPenduduk($id_ibu, 'ibu'));
+
+            if ($penduduk->ayah_nik == null) {
+                $data_ortu = [
+                    [
+                        'judul' => 'Nama Ayah',
+                        'isian' => getFormatIsian('Nama_ayaH'),
+                        'data'  => $penduduk->nama_ayah,
+                    ],
+                ];
+                $data = array_merge($data, $data_ortu);
+            }
+
+            if ($penduduk->ibu_nik == null) {
+                $data_ortu = [
+                    [
+                        'judul' => 'Nama Ibu',
+                        'isian' => getFormatIsian('Nama_ibU'),
+                        'data'  => $penduduk->nama_ibu,
+                    ],
+                ];
+                $data = array_merge($data, $data_ortu);
+            }
+
+            return $data;
         }
 
         return $individu;
+    }
+
+    private function getIsianWilayah()
+    {
+        $wilayah = Wilayah::with('kepala')->dusun()->get();
+
+        $data = [];
+
+        foreach ($wilayah as $wil) {
+            $data[] = [
+                'judul' => ucwords(strtolower(setting('sebutan_dusun') . ' ' . $wil->dusun)),
+                'isian' => getFormatIsian(ucwords(strtolower(setting('sebutan_dusun') . '_' . $wil->dusun))),
+                'data'  => $wil->dusun,
+            ];
+            $data[] = [
+                'judul' => ucwords(strtolower('Kepala ' . setting('sebutan_dusun') . ' ' . $wil->dusun)),
+                'isian' => getFormatIsian(ucwords(strtolower('Kepala_' . setting('sebutan_dusun') . '_' . $wil->dusun))),
+                'data'  => $wil->kepala->nama,
+            ];
+        }
+
+        return $data;
     }
 
     private function getIsianAnggotaKeluarga($id_penduduk = null)
@@ -817,6 +890,10 @@ class TinyMCE
                     'nama' => 'Berlaku Sampai',
                     'kode' => '[berlaku_sampai]',
                 ],
+                [
+                    'nama' => 'Pengikut Surat',
+                    'kode' => '[pengikut_surat]',
+                ],
             ];
 
             $postStatis = collect($postStatis)
@@ -829,21 +906,64 @@ class TinyMCE
                 })
                 ->toArray();
         }
-
         // Dinamis
-        $postDinamis = collect($data['surat']['kode_isian'])
+        $dinadata = collect($data['surat']['kode_isian'])->reject(static function ($item) {
+            return isset($item->kategori);
+        })->values();
+
+        $postDinamis = collect($dinadata)
             ->map(static function ($item, $key) use ($input) {
-                $data = $input[underscore($item->nama, true, true)];
+                $input_data = $input[underscore($item->nama, true, true)];
+                if ($item->tipe == 'date') {
+                    $data = Carbon::parse($input_data)->format('Y-m-d');
+                } elseif ($item->tipe == 'hari-tanggal') {
+                    if ($input_data != '') {
+                        $day  = self::get_hari($input_data);
+                        $data = tgl_indo(Carbon::parse($input_data)->format('Y-m-d'), '', $day);
+                    }
+                } elseif ($item->tipe == 'hari') {
+                    if ($input_data != '') {
+                        $data = self::get_hari($input_data);
+                    }
+                } else {
+                    $data = $input_data;
+                }
 
                 return [
                     'judul' => $item->nama,
                     'isian' => getFormatIsian(str_replace(['[', ']'], '', $item->kode)),
-                    'data'  => ($item->tipe == 'date') ? tgl_indo(Carbon::parse($data)->format('Y-m-d')) : $data,
+                    'data'  => $data,
+                ];
+            })
+            ->toArray();
+        $kategori_isianP = [];
+        $kategori_isian  = collect($data['surat']['kode_isian'])->filter(static function ($item) use (&$kategori_nama, &$kategori_isianP, &$input) {
+            $kategori_isianP[$item->kategori][] = $item;
+
+            return isset($item->kategori);
+        })->values();
+        $post2['kategori'] = $postDinamis2 = collect($kategori_isian)
+            ->map(static function ($item, $key) use ($input) {
+                $nama = $item->nama;
+                $data = $input[underscore($nama, true, true) . '_' . $item->kategori];
+
+                return [
+                    'nama_kategori' => $item->kategori,
+                    'judul'         => $item->nama,
+                    'isian'         => getFormatIsian(str_replace(['[', ']'], '', $item->kode)),
+                    'data'          => ($item->tipe == 'date') ? tgl_indo(Carbon::parse($data)->format('Y-m-d')) : $data,
                 ];
             })
             ->toArray();
 
-        return array_merge($postStatis, $postDinamis);
+        return array_merge($postStatis, $postDinamis, $post2);
+    }
+
+    public function get_hari($tanggal)
+    {
+        $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
+
+        return $hari->dayName;
     }
 
     public function getPenandatangan($input = [])
@@ -928,8 +1048,7 @@ class TinyMCE
 
     public function replceKodeIsian($data = [], $kecuali = [])
     {
-        $result = $data['isi_surat'];
-
+        $result       = $data['isi_surat'];
         $newKodeIsian = [];
         $kodeIsian    = $this->getFormatedKodeIsian($data, true);
 
@@ -961,10 +1080,18 @@ class TinyMCE
             }
             if (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
                 $result = str_replace($key, $value, $result);
+            }
+            if (preg_match('/pengikut_surat/i', $key)) {
+                $result = str_replace($key, $data['pengikut_surat'] ?? '', $result);
             } else {
                 $result = case_replace($key, $value, $result);
             }
         }
+
+        // if (isset($data['pengikut_surat'])) {
+        //     log_message('error',"pengikut_surat ". $data['pengikut_surat']);
+        //     $result = str_ireplace('[Pengikut_suraT]', $data['pengikut_surat'], $result);
+        // }
 
         return $result;
     }

@@ -21,12 +21,13 @@
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
-		"themes/esensi": "dev-main",
-		"themes/natra": "dev-premium",
+		"themes/esensi": "^2402",
+		"themes/natra": "^2402",
 		"voku/anti-xss": "^4.1"
 	},
 	"require-dev": {
-		"mikey179/vfsstream": "1.1.*"
+		"mikey179/vfsstream": "1.1.*",
+		"tinymce/tinymce": "^6.5"
 	},
 	"repositories": [
 		{

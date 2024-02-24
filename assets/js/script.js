@@ -34,6 +34,16 @@ $(document).ready(function () {
     $("html, body").animate({ scrollTop: 0 }, 500);
     return false;
   });
+
+  $(function() {
+		$(document).on("keydown", ":input:not(textarea):not(:submit)", function(event) {
+			if (event.key === "Enter" && !$("#validasi").valid()) {
+				event.preventDefault();
+				return false;
+			}
+		});
+	});
+
   // Fungsi untuk filter menu
   $("#cari-menu").on("keyup keypress", function () {
     let hideParentMenu = $(".sidebar-menu li.treeview");

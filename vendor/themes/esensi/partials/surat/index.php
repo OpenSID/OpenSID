@@ -10,9 +10,9 @@
     <?= $this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . (($config['nama_desa']) ? ' ' . $config['nama_desa']: '') . get_dynamic_title_page_from_path(); ?>
   </title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap.min.css'); ?>">
-  <link rel="stylesheet" href="<?= base_url('assets/css/AdminLTE.min.css')?>">
-  <link rel="stylesheet" href="<?= base_url('assets/css/admin-style.css')?>">
+  <link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.min.css'); ?>">
+  <link rel="stylesheet" href="<?= asset('css/AdminLTE.min.css')?>">
+  <link rel="stylesheet" href="<?= asset('css/admin-style.css')?>">
 </head>
 
 <body class="hold-transition verifikasi-page">

@@ -389,11 +389,11 @@
 
 		<!-- Notifikasi -->
 		<?php if (($notif = session('notif')) && (! session('notif')['data'])) : ?>
-			<div id="notifikasi" class="alert alert-<?= $notif['status'] == 'error' ? 'danger' : 'success'; ?>" role="alert">
+			<div class="alert alert-<?= $notif['status'] == 'error' ? 'danger' : 'success'; ?>" role="alert">
 				<?= $notif['pesan']; ?>
 			</div>
 		<?php endif; ?>
-
+		
 		<?php if ($pengaduan) : ?>
 			<ul class="list-group fa-padding">
 				<?php foreach ($pengaduan as $key => $value) : ?>

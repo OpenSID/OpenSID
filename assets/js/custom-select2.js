@@ -79,6 +79,9 @@ $(document).ready(function()
 	}
 	$('.select2-ikon').select2(
 	{
+	placeholder: function() {
+		$(this).data('placeholder');
+	},
     templateResult: format_ikon,
     templateSelection: format_ikon,
     escapeMarkup: function(m) { return m; }

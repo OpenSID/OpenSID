@@ -42,7 +42,7 @@ if (! isset($CI)) {
 			</div>
 			<?php if (ENVIRONMENT == 'development') : ?>
 				<pre><?= $message ?></pre>
-				<pre><?= strip_tags((new \Exception())->getTraceAsString()) ?></pre>
+				<pre><?= strip_tags((new Exception())->getTraceAsString()) ?></pre>
 			<?php endif ?>
 		</div>
 	</div>

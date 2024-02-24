@@ -5,13 +5,18 @@
     "homepage": "https://github.com/OpenSID/tema-esensi",
     "license": "GPL-3.0-or-later",
     "keywords": [
-      "Themes",
-      "OpenSID"
+        "Themes",
+        "OpenSID"
     ],
     "authors": [
-      {
-        "name": "Diki Siswanto",
-        "email": "dickyachmady@gmail.com"
-      }
-  ]
+        {
+            "name": "Diki Siswanto",
+            "email": "dickyachmady@gmail.com"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2402.x-dev"
+        }
+    }
 }
