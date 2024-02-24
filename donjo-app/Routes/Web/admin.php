@@ -43,6 +43,7 @@ Route::group('siteman', static function (): void {
     Route::post('/auth', 'Siteman@auth');
     Route::get('/logout', 'Siteman@logout');
     Route::get('/lupa_sandi', 'Siteman@lupa_sandi');
+    Route::post('/matikan_captcha', 'Siteman@matikan_captcha')->name('siteman.matikan_captcha');
     Route::post('/kirim_lupa_sandi', 'Siteman@kirim_lupa_sandi');
     Route::get('/reset_kata_sandi', 'Siteman@reset_kata_sandi');
     Route::post('/verifikasi_sandi', 'Siteman@verifikasi_sandi');
