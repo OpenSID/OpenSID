@@ -417,17 +417,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.332.0",
-            "version_normalized": "0.332.0.0",
+            "version": "v0.333.0",
+            "version_normalized": "0.333.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "027cc7fe60877c2b6ba0f380d419acf65a3755d2"
+                "reference": "106bbc8620b60a677376d430235844f9f8a8551c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/027cc7fe60877c2b6ba0f380d419acf65a3755d2",
-                "reference": "027cc7fe60877c2b6ba0f380d419acf65a3755d2",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/106bbc8620b60a677376d430235844f9f8a8551c",
+                "reference": "106bbc8620b60a677376d430235844f9f8a8551c",
                 "shasum": ""
             },
             "require": {
@@ -436,7 +436,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2024-01-15T00:56:15+00:00",
+            "time": "2024-01-21T01:04:15+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -458,7 +458,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.332.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.333.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -1834,17 +1834,17 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.72.1",
-            "version_normalized": "2.72.1.0",
+            "version": "2.72.2",
+            "version_normalized": "2.72.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78"
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
-                "reference": "2b3b3db0a2d0556a177392ff1a3bf5608fa09f78",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/3e7edc41b58d65509baeb0d4a14c8fa41d627130",
+                "reference": "3e7edc41b58d65509baeb0d4a14c8fa41d627130",
                 "shasum": ""
             },
             "require": {
@@ -1872,7 +1872,7 @@
                 "phpunit/phpunit": "^7.5.20 || ^8.5.26 || ^9.5.20",
                 "squizlabs/php_codesniffer": "^3.4"
             },
-            "time": "2023-12-08T23:47:49+00:00",
+            "time": "2024-01-19T00:21:53+00:00",
             "bin": [
                 "bin/carbon"
             ],
@@ -4388,16 +4388,21 @@
         },
         {
             "name": "themes/esensi",
-            "version": "dev-main",
-            "version_normalized": "dev-main",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi",
-                "reference": "7e44d5c63e095a61bae86309c05b3122416f0409"
+                "reference": "795ea202dfc816eaa9f68fc589837e1e347a9719"
             },
-            "time": "2024-01-11T04:06:50+00:00",
+            "time": "2024-01-22T19:42:30+00:00",
             "default-branch": true,
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2402.x-dev"
+                }
+            },
             "installation-source": "source",
             "license": [
                 "GPL-3.0-or-later"
@@ -4418,15 +4423,21 @@
         },
         {
             "name": "themes/natra",
-            "version": "dev-premium",
-            "version_normalized": "dev-premium",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "a608d44fce4568ef9756bc33333865627af91c2f"
+                "reference": "6d6c0138e09bea64ae6546e911b071d3e673f1d2"
             },
-            "time": "2024-01-11T04:04:52+00:00",
+            "time": "2024-01-22T19:44:28+00:00",
+            "default-branch": true,
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2402.x-dev"
+                }
+            },
             "installation-source": "source",
             "license": [
                 "GPL-3.0-or-later"

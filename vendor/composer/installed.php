@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f460947a73239163a0ff54b6d7c29d21ed33e514',
+        'reference' => '59d0dad3fb96bfb03fb9dc2f55df37f7bc5cf8d6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -65,9 +65,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.332.0',
-            'version' => '0.332.0.0',
-            'reference' => '027cc7fe60877c2b6ba0f380d419acf65a3755d2',
+            'pretty_version' => 'v0.333.0',
+            'version' => '0.333.0.0',
+            'reference' => '106bbc8620b60a677376d430235844f9f8a8551c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -254,9 +254,9 @@
             'dev_requirement' => false,
         ),
         'nesbot/carbon' => array(
-            'pretty_version' => '2.72.1',
-            'version' => '2.72.1.0',
-            'reference' => '2b3b3db0a2d0556a177392ff1a3bf5608fa09f78',
+            'pretty_version' => '2.72.2',
+            'version' => '2.72.2.0',
+            'reference' => '3e7edc41b58d65509baeb0d4a14c8fa41d627130',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nesbot/carbon',
             'aliases' => array(),
@@ -265,7 +265,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f460947a73239163a0ff54b6d7c29d21ed33e514',
+            'reference' => '59d0dad3fb96bfb03fb9dc2f55df37f7bc5cf8d6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -403,8 +403,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -612,23 +612,25 @@
             'dev_requirement' => false,
         ),
         'themes/esensi' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '7e44d5c63e095a61bae86309c05b3122416f0409',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '795ea202dfc816eaa9f68fc589837e1e347a9719',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
             'aliases' => array(
-                0 => '9999999-dev',
+                0 => '2402.x-dev',
             ),
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
-            'pretty_version' => 'dev-premium',
-            'version' => 'dev-premium',
-            'reference' => 'a608d44fce4568ef9756bc33333865627af91c2f',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '6d6c0138e09bea64ae6546e911b071d3e673f1d2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
-            'aliases' => array(),
+            'aliases' => array(
+                0 => '2402.x-dev',
+            ),
             'dev_requirement' => false,
         ),
         'voku/anti-xss' => array(

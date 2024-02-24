@@ -1,13 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<?php $abstrak_headline = potong_teks($headline['isi'], 250); ?>
-<?php $url = site_url('artikel/'.buat_slug($headline)); ?>
-<?php $image = ($headline['gambar'] && is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$headline['gambar'])) ?
-  AmbilFotoArtikel($headline['gambar'],'sedang') :
-  gambar_desa($desa['logo']);
-?>
-
 <?php if($headline) : ?>
+  <?php $abstrak_headline = potong_teks($headline['isi'], 250); ?>
+  <?php $url              = site_url('artikel/' . buat_slug($headline)); ?>
+  <?php $image            = ($headline['gambar'] && is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $headline['gambar'])) ?
+    AmbilFotoArtikel($headline['gambar'], 'sedang') :
+    gambar_desa($desa['logo']);
+  ?>
   <div class="lg:h-[350px] h-44 overflow-hidden rounded-lg relative">
     <figure class="lg:h-[350px] h-44">
       <img src="<?= $image ?>" alt="<?= $headline['judul'] ?>" class=" lg:h-[350px] h-44 w-full object-cover object-center">

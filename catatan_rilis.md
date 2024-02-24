@@ -1,4 +1,4 @@
-Di rilis ini, versi 2401.1.0 berisi penambahan surat tinymce dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2402.0.0 berisi penambahan surat tinymce dan perbaikan lain yang diminta Komunitas SID.
 
 #### Penambahan Fitur
 

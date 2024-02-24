@@ -5,13 +5,18 @@
     "homepage": "https://github.com/OpenSID/tema-natra",
     "license": "GPL-3.0-or-later",
     "keywords": [
-      "Themes",
-      "OpenSID"
+        "Themes",
+        "OpenSID"
     ],
     "authors": [
-      {
-        "name": "Ariandi Ryan Kahfi",
-        "email": "ariandi@mail.com"
-      }
-  ]
+        {
+            "name": "Ariandi Ryan Kahfi",
+            "email": "ariandi@mail.com"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2402.x-dev"
+        }
+    }
 }
