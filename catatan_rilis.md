@@ -25,6 +25,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 18. [#7728](https://github.com/OpenSID/OpenSID/issues/7728) Perbaikan ejaan provinsi pada lampiran surat.
 19. [#7727](https://github.com/OpenSID/OpenSID/issues/7727) Perbaikan menampilkan detail data surat perorangan dari modul arsip desa.
 20. [#7720](https://github.com/OpenSID/OpenSID/issues/7720) Perbaikan verifikasi google captha jika tidak valid.
+21. [#7730](https://github.com/OpenSID/OpenSID/issues/7730) Perbaikan menampilkan data galeri pada halaman web.
 
 
 #### TEKNIS
