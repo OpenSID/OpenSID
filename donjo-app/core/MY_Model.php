@@ -40,6 +40,7 @@ use App\Models\FormatSurat;
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
+use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -75,10 +76,14 @@ class MY_Model extends CI_Model
         $this->config_id = Config::appKey()->first()->id;
     }
 
-    public function autocomplete_str($kolom, $tabel, $cari = '')
+    public function autocomplete_str($kolom, $tabel, $cari = '', $where = '')
     {
         if ($cari) {
             $this->db->like($kolom, $cari);
+        }
+
+        if ($where) {
+            $this->db->where($where);
         }
 
         $data = $this->config_id_exist($tabel)
@@ -195,12 +200,25 @@ class MY_Model extends CI_Model
         // Modul
         $sql   = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
         $hasil = $this->db->query($sql);
-        $id    = $this->db->insert_id();
 
         // Hak Akses Default Operator
         // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
         if ($this->db->table_exists('grup_akses')) {
-            $hasil = $hasil && $this->grupAkses(2, $modul['id'] ?? $id, 3, $modul['config_id'] ?? null);
+            if ($modul['id']) {
+                $id = $modul['id'];
+            } else {
+                // cari id dari modul yang dibuat berdasarkan slug
+                $query = $this->db->select('id');
+
+                if (Schema::hasColumn('setting_modul', 'config_id')) {
+                    $query = $query->where('config_id', $modul['config_id'] ?? $this->config_id);
+                }
+
+                $id = $query->where('slug', $modul['slug'])->get('setting_modul')->row()->id;
+            }
+
+            $grupOperator = UserGrup::getGrupId(UserGrup::OPERATOR);
+            $hasil        = $hasil && $this->grupAkses($grupOperator, $id, 3, $modul['config_id'] ?? null);
         }
 
         // Hapus cache menu navigasi
@@ -544,6 +562,11 @@ class MY_Model extends CI_Model
             return true;
         }
 
+        // ubah config id jika masih kosong, akibat seeder awal
+        if (DB::table($tabel)->where('config_id', null)->exists()) {
+            DB::table($tabel)->update(['config_id' => $config_id]);
+        }
+
         if ($this->db->table_exists($tabel) && count($data) > 0) {
             collect($data)
                 ->chunk(100)
@@ -556,7 +579,8 @@ class MY_Model extends CI_Model
                     });
                 })
                 ->each(static function ($chunk) use ($tabel) {
-                    DB::table($tabel)->insertOrIgnore($chunk->all());
+                    // upsert agar tidak duplikat
+                    DB::table($tabel)->upsert($chunk->all(), 'config_id');
                 });
 
             return true;

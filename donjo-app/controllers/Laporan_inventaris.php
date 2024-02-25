@@ -83,9 +83,10 @@ class Laporan_inventaris extends Admin_Controller
     public function mutasi()
     {
         $this->load->model('surat_model');
-        $data['pamong'] = Pamong::penandaTangan()->get();
-        $data['tip']    = 2;
-        $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
+        $data['pamong']   = Pamong::penandaTangan()->get();
+        $data['kades_id'] = kades()->id;
+        $data['tip']      = 2;
+        $data             = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 
         $this->render('inventaris/laporan/table_mutasi', $data);
     }

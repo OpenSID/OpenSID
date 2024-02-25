@@ -38,7 +38,6 @@
 use App\Models\Artikel;
 use App\Models\BantuanPeserta;
 use App\Models\Dokumen;
-use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
@@ -77,10 +76,6 @@ class Track_model extends CI_Model
          * cegah error karena tabel belum ada
          */
         if (config_item('demo_mode') || ! $this->db->field_exists('deleted_at', 'log_surat')) {
-            return;
-        }
-
-        if (! $this->db->field_exists('deleted_at', 'log_surat')) { // cegah error karena tabel belum ada
             return;
         }
 
@@ -132,7 +127,6 @@ class Track_model extends CI_Model
             'jml_unsur_peta'      => $this->jml_unsur_peta(),
             'jml_persil'          => Persil::count(),
             'jml_dokumen'         => Dokumen::hidup()->count(),
-            'jml_keluarga'        => Keluarga::status()->count(),
             'jml_surat_tte'       => $suratTTE, // jumlah surat terverifikasi secara tte
             'modul_tte'           => ($suratTTE > 0 && $settingTTE == 1) ? 1 : 0, // cek modul tte
         ];

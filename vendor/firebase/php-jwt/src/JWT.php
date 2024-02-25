@@ -153,29 +153,23 @@ class JWT
         // Check the nbf if it is defined. This is the time that the
         // token can actually be used. If it's not yet that time, abort.
         if (isset($payload->nbf) && floor($payload->nbf) > ($timestamp + static::$leeway)) {
-            $ex = new BeforeValidException(
+            throw new BeforeValidException(
                 'Cannot handle token with nbf prior to ' . \date(DateTime::ISO8601, (int) $payload->nbf)
             );
-            $ex->setPayload($payload);
-            throw $ex;
         }
 
         // Check that this token has been created before 'now'. This prevents
         // using tokens that have been created for later use (and haven't
         // correctly used the nbf claim).
         if (!isset($payload->nbf) && isset($payload->iat) && floor($payload->iat) > ($timestamp + static::$leeway)) {
-            $ex = new BeforeValidException(
+            throw new BeforeValidException(
                 'Cannot handle token with iat prior to ' . \date(DateTime::ISO8601, (int) $payload->iat)
             );
-            $ex->setPayload($payload);
-            throw $ex;
         }
 
         // Check if this token has expired.
         if (isset($payload->exp) && ($timestamp - static::$leeway) >= $payload->exp) {
-            $ex = new ExpiredException('Expired token');
-            $ex->setPayload($payload);
-            throw $ex;
+            throw new ExpiredException('Expired token');
         }
 
         return $payload;
@@ -203,13 +197,12 @@ class JWT
         string $keyId = null,
         array $head = null
     ): string {
-        $header = ['typ' => 'JWT'];
-        if (isset($head) && \is_array($head)) {
-            $header = \array_merge($header, $head);
-        }
-        $header['alg'] = $alg;
+        $header = ['typ' => 'JWT', 'alg' => $alg];
         if ($keyId !== null) {
             $header['kid'] = $keyId;
+        }
+        if (isset($head) && \is_array($head)) {
+            $header = \array_merge($head, $header);
         }
         $segments = [];
         $segments[] = static::urlsafeB64Encode((string) static::jsonEncode($header));

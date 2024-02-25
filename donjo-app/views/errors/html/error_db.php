@@ -24,7 +24,7 @@ if (! isset($CI)) {
 			<div class="error-content">
 				<h3><i class="fa fa-warning text-danger"></i> <?= strip_tags($heading); ?></h3>
 				<p>
-					Versi <?= config_item('nama_aplikasi') . ' ' . AmbilVersi() ?>. PHP versi <?= preg_split('/-/', PHP_VERSION)[0]?>..<br>
+					Versi <?= config_item('nama_aplikasi') . ' ' . AmbilVersi() ?>.<br>
 
 					<br>
 						Harap laporkan masalah ini, agar kami dapat mencari solusinya dengan melampirkan file log terakhir atau saat masalah ini terjadi.

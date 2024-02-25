@@ -89,7 +89,9 @@
                                                                 @endif
                                                                 <td>{{ $data->teks }}  <a href="{{ $data->tautan }}" target="_blank">{{ $data->judul_tautan }}</a></td>
                                                                 <td width="10%" nowrap>
-                                                                    <a href="{{ $data->judul_tautan }}" target="_blank">{!! tgl_indo($data->tgl_upload). ' <br> ' . $data->judul !!} </a>
+                                                                    @if ($data->id_tautan > 0)
+                                                                    <a href="{{ $data->tautan }}" target="_blank">{!! tgl_indo($data->tgl_upload). ' <br> ' . $data->judul !!} </a>
+                                                                    @endif
                                                                 </td>
                                                                 <td class="padat">{{ $data->tampilkan }}</td>
                                                             </tr>

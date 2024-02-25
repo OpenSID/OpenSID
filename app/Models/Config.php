@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Casts\Path;
 use App\Traits\Author;
 use Illuminate\Support\Facades\Schema;
 
@@ -113,6 +114,15 @@ class Config extends BaseModel
      */
     protected $hidden = [
         'app_key',
+    ];
+
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'path' => Path::class,
     ];
 
     /**

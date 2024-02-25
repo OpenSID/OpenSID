@@ -226,6 +226,7 @@ class Data_awal extends MY_Model
                 'password'          => '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.',
                 'id_grup'           => UserGrup::where('nama', 'Administrator')->first()->id,
                 'email'             => null,
+                'id_telegram'       => '0',
                 'last_login'        => '2022-02-28 19:55:01',
                 'email_verified_at' => null,
                 'active'            => 1,
@@ -1149,8 +1150,18 @@ class Data_awal extends MY_Model
             $hasil = $hasil && DB::table('grup_akses')->insert([
                 'config_id' => $this->config_id,
                 'id_grup'   => UserGrup::where('nama', $row['grup'])->first()->id,
-                'id_modul'  => Modul::where('slug', $row['slug'])->first()->id,
-                'akses'     => $row['akses'],
+                'id_modul'  => Modul::when($row['slug'] == 'klasfikasi-surat', static function ($query) {
+                    // perubahan modul 'klasfikasi-surat' menjadi 'klasifikasi-surat'
+                    // membuat migrasi selanjutnya tidak berjalan, gunakan query
+                    // untuk mencari 'klasfikasi-surat' atau 'klasifikasi-surat'
+                    $query->where('slug', 'klasfikasi-surat')->orWhere('slug', 'klasifikasi-surat');
+                }, static function ($query) use ($row) {
+                    // default query
+                    $query->where('slug', $row['slug']);
+                })
+                    ->first()
+                    ->id,
+                'akses' => $row['akses'],
             ]);
         }
 
@@ -2242,7 +2253,7 @@ class Data_awal extends MY_Model
                 'jenis'      => 'color',
                 'option'     => null,
                 'attribute'  => null,
-                'kategori'   => 'hidden',
+                'kategori'   => 'openkab',
             ],
         ];
 

@@ -66,10 +66,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</tr>
 		<tr>
 			<td style="padding: 5px 20px;">
-				<strong>Nama <?= ucwords($this->controller); ?> : </strong><?= $kelompok['nama']; ?><br>
-				<strong>Ketua <?= ucwords($this->controller); ?> : </strong><?= $kelompok['nama_ketua']; ?><br>
-				<strong>Kategori <?= ucwords($this->controller); ?> : </strong><?= $kelompok['kategori']; ?><br>
-				<strong>Keterangan : </strong><?= $kelompok['keterangan']; ?>
+				<table>
+					<tr>
+						<td width="13%"><strong>Nama <?= ucwords($this->controller); ?></strong></td>
+						<td> : <?= $kelompok['nama']; ?></td>
+					</tr>
+					<tr>
+						<td width="13%"><strong>Ketua <?= ucwords($this->controller); ?></strong></td>
+						<td> : <?= $kelompok['nama_ketua']; ?></td>
+					</tr>
+					<tr>
+						<td width="13%"><strong>Kategori <?= ucwords($this->controller); ?></strong></td>
+						<td> : <?= $kelompok['kategori']; ?></td>
+					</tr>
+					<tr>
+						<td width="13%"><strong>Keterangan</strong></td>
+						<td> : <?= $kelompok['keterangan']; ?></td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 		<tr>

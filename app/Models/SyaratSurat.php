@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -96,5 +97,39 @@ class SyaratSurat extends BaseModel
         // return $this->hasMany(Dokumen::class, 'id_syarat')->where('id_pend', auth('jwt')->id());
 
         return $this->hasMany(Dokumen::class, 'id_syarat');
+    }
+
+    /**
+     * Scope Format surat exist.
+     *
+     * @param \Illuminate\Database\Query\Builder $query
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeFormatSuratExist($query)
+    {
+        $sql = <<<'EOD'
+                json_contains(tweb_surat_format.syarat_surat, concat('"', ref_syarat_surat.ref_syarat_id, '"'), '$' )
+            EOD;
+
+        $query->select(['ref_syarat_id', 'ref_syarat_nama', DB::raw('count(syarat_surat) as jumlah_format_surat')])
+            ->leftJoin('tweb_surat_format', DB::raw($sql), '=', DB::raw('1'))
+            ->groupBy('ref_syarat_id');
+    }
+
+    /**
+     * Scope Format surat exist.
+     *
+     * @param \Illuminate\Database\Query\Builder $query
+     * @param mixed                              $id
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function scopeDeleteFormatSuratExist($query, $id)
+    {
+        return $this->formatSuratExist()
+            ->where('ref_syarat_surat.ref_syarat_id', $id)
+            ->whereNull('tweb_surat_format.id')
+            ->delete();
     }
 }

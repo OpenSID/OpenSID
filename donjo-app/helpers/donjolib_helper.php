@@ -216,7 +216,7 @@ function selected($a, $b, $opt = 0)
 
 function date_is_empty($tgl)
 {
-    return null === $tgl || substr($tgl, 0, 10) == '0000-00-00';
+    return empty($tgl) || substr($tgl, 0, 10) == '0000-00-00';
 }
 
 function rev_tgl($tgl, $replace_with = '-')

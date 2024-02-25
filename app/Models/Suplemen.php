@@ -70,4 +70,14 @@ class Suplemen extends BaseModel
         'sasaran',
         'keterangan',
     ];
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function terdata()
+    {
+        return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
+    }
 }

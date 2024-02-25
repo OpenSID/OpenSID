@@ -210,8 +210,7 @@
 			<?php endif; ?>
 
 			//Menampilkan overlayLayers Peta Semua Wilayah
-			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>", true);
-
+			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>", true, TAMPIL_LUAS);
 			//Menampilkan BaseLayers Peta
 			var baseLayers = getBaseLayers(peta, MAPBOX_KEY, JENIS_PETA);
 
@@ -323,7 +322,6 @@
 					}
 				}
 			<?php endif; ?>
-
 			if (semua_marker.length != 0) {
 				var geojson = L.geoJSON(turf.featureCollection(semua_marker), {
 					pmIgnore: true,

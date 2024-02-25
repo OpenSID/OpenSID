@@ -39,6 +39,27 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
+| Trusted Hosts
+|--------------------------------------------------------------------------
+|
+| In case you want to leave the base_url configuration empty for portability,
+| it involves a risk:
+|
+| http://www.skeletonscribe.net/2013/05/practical-http-host-header-attacks.html
+|
+| To avoid security issues, you may want to configure a list of "trusted hosts".
+| (for dev and test environments or multi-domain sites)
+|
+| Elements of this list imply you accept any subdomain it has.
+| For example domain.com also accepts <whatever.>domain.com
+|
+| Array: ['localhost', 'my-development.com', 'my-production.com', 'subdomain.domain.com']
+|
+*/
+$config['trusted_hosts'] = [];
+
+/*
+|--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
 |
@@ -576,10 +597,24 @@ $config['proxy_ips'] = '';
 |
 | - Nama Aplikasi
 | - Nama Lembaga
+| - Facebook OpenDesa
+| - Telegram OpenDesa
+| - Telegram Kontributor
+| - Github OpenSID
+| - Website OpenDesa
+| - Forum OpenDesa
+| - Youtube OpenDesa
 |
 */
-$config['nama_aplikasi'] = 'OpenSID';
-$config['nama_lembaga']  = 'OpenDesa';
+$config['nama_aplikasi']  = 'OpenSID';
+$config['nama_lembaga']   = 'OpenDesa';
+$config['fb_opendesa']    = 'https://www.facebook.com/groups/komunitasopendesa';
+$config['tg_opendesa']    = 'https://t.me/komunitasopensidstop';
+$config['tg_kontributor'] = 'https://t.me/+mi5ydVtVfmw0YWY1';
+$config['github']         = 'https://github.com/OpenSID/OpenSID';
+$config['website']        = 'https://opendesa.id';
+$config['forum']          = 'https://forum.opendesa.id';
+$config['youtube']        = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
 
 /*
 |--------------------------------------------------------------------------

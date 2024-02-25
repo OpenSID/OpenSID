@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2305', false);
         $hasil = $hasil && $this->migrasi_tabel($hasil);
         $hasil = $hasil && $this->migrasi_data($hasil);
+        $hasil = $hasil && $this->migrasi_2023052551($hasil);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
         $this->cache->hapus_cache_untuk_semua('identitas');
@@ -97,7 +98,7 @@ class Migrasi_fitur_premium_2306 extends MY_model
             'jenis'      => 'color',
             'option'     => null,
             'attribute'  => null,
-            'kategori'   => 'hidden',
+            'kategori'   => 'openkab',
         ];
 
         return $hasil && $this->tambah_setting($setting, $id);
