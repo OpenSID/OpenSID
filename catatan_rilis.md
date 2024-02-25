@@ -1,4 +1,4 @@
-Di rilis ini, versi 2402.0.3 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2402.1.0 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] telah ikut berkontribusi.
 
