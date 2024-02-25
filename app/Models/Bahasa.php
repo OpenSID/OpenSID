@@ -67,7 +67,5 @@ class Bahasa extends BaseModel
      *
      * @var array
      */
-    protected $casts = [
-        
-    ];
+    protected $casts = [];
 }

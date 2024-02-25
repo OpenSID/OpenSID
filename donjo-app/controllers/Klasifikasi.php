@@ -37,9 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\KlasifikasiSurat;
 use App\Exports\KlasifikasiSuratExport;
 use App\Imports\KlasifikasiSuratImports;
+use App\Models\KlasifikasiSurat;
 
 class Klasifikasi extends Admin_Controller
 {
@@ -171,9 +171,8 @@ class Klasifikasi extends Admin_Controller
 
     public function ekspor()
     {
-        return (new KlasifikasiSuratExport)->download();
+        return (new KlasifikasiSuratExport())->download();
     }
-
 
     public function impor()
     {
@@ -197,7 +196,7 @@ class Klasifikasi extends Admin_Controller
         if ($this->upload->do_upload('klasifikasi')) {
             $upload = $this->upload->data();
 
-            $result = (new KlasifikasiSuratImports)->setPath($upload['full_path'])->import();
+            $result = (new KlasifikasiSuratImports())->setPath($upload['full_path'])->import();
             if (! $result) {
                 redirect_with('error', 'Klasifikasi surat gagal diimport');
             }
