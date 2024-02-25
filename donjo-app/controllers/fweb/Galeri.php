@@ -50,6 +50,7 @@ class Galeri extends Web_Controller
 
     public function index($p = 1): void
     {
+        $p ??= 1;
         $data                 = $this->includes;
         $data['p']            = $p;
         $data['paging']       = $this->first_gallery_m->paging($p);
@@ -67,6 +68,8 @@ class Galeri extends Web_Controller
 
     public function detail($parent = 0, $p = 1): void
     {
+        $parent ??= 0;
+        $p ??= 1;
         $data                 = $this->includes;
         $data['p']            = $p;
         $data['paging']       = $this->first_gallery_m->paging2($parent, $p);

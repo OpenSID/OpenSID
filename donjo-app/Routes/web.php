@@ -141,7 +141,8 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::group('galeri', static function (): void {
         Route::get('/{parent?}/index/{p?}', 'Galeri@detail')->name('fweb.galeri.detail');
         // Route::get('/{parent?}/index', 'Galeri@detail')->name('fweb.galeri.detail');
-        Route::get('/index/{p?}', 'Galeri@index')->name('fweb.galeri.index');
+        Route::get('/index/{p?}', 'Galeri@index')->name('fweb.galeri.index-page');
+        Route::get('/', 'Galeri@index')->name('fweb.galeri.index');
     });
 
     Route::get('/status-idm/{tahun?}', 'Idm@index')->name('fweb.idm.index');

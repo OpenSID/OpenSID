@@ -677,9 +677,11 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function perorangan(): void
+    public function perorangan($id): void
     {
-        view('admin.surat.keluar.perorangan');
+        $data['penduduk'] = $id ? Penduduk::find($id) : null;
+
+        view('admin.surat.keluar.perorangan', $data);
     }
 
     public function perorangan_datatables()

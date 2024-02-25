@@ -53,19 +53,19 @@
 						</div>
 						<div class="form-bottom">
 							<form id="validasi" class="login-form" action="<?= $form_action ?>" method="post">
-								<?php if ($this->session->flashdata('time_block')): ?>
+								<?php if ($this->session->flashdata('time_block')) : ?>
 									<div class="error login-footer-top">
 										<p id="countdown" style="color:red; text-transform:uppercase"></p>
 									</div>
-								<?php else: ?>
+								<?php else : ?>
 									<div class="form-group">
 										<input name="username" type="text" autocomplete="off" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required" maxlength="100">
 									</div>
 									<div class="form-group">
 										<input id="password" name="password" type="password" autocomplete="off" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> class="form-username form-control required" maxlength="100">
 									</div>
-									<?php if (setting('google_recaptcha')): ?>
-										<div class="g-recaptcha" data-sitekey="<?= setting('google_recaptcha_site_key') ?>"></div>
+									<?php if (setting('google_recaptcha')) : ?>
+										<div id="recaptcha"></div>
 									<?php endif ?>
 									<div class="form-group">
 										<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
@@ -75,7 +75,7 @@
 									<div class="form-group">
 										<button type="submit" class="btn">Masuk</button>
 									</div>
-									<?php if ($attempts_error = $this->session->flashdata('attempts_error')): ?>
+									<?php if ($attempts_error = $this->session->flashdata('attempts_error')) : ?>
 										<div class="error">
 											<p style="color:red; text-transform:uppercase"><?= $attempts_error ?> </p>
 										</div>
@@ -128,7 +128,43 @@
 
 		});
 	</script>
-	<script src='https://www.google.com/recaptcha/api.js?hl=id'></script>
+	<script src="https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit&hl=id" async defer></script>
+	<script type="text/javascript">
+		function onErrorCallback(errorCode) {
+			if (errorCode === undefined) {
+				var formData = {
+					'key': 'value'
+				};
+
+				$.ajax({
+					url: '<?= site_url('siteman/matikan_captcha') ?>',
+					type: 'POST',
+					data: formData,
+					success: function(response) {
+						console.log('Berhasil mematikan captcha');
+						window.location.href = '<?= site_url('siteman') ?>';
+					},
+					error: function(xhr, status, error) {
+						console.error('Error Captcha');
+					}
+				});
+			}
+		}
+
+		var recaptchaCallback = function() {
+			try {
+				grecaptcha.render("recaptcha", {
+					sitekey: '<?= setting('google_recaptcha_site_key') ?>',
+					callback: function() {
+						console.log('reCAPTCHA callback');
+					},
+					'error-callback': onErrorCallback
+				});
+			} catch (error) {
+				console.log('Error rendering reCAPTCHA:', error);
+			}
+		}
+	</script>
 </body>
 
 </html>

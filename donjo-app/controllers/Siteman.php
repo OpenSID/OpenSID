@@ -51,8 +51,20 @@ class Siteman extends MY_Controller
         $this->header      = collect(identitas())->toArray();
     }
 
+    public function matikan_captcha()
+    {
+        $_SESSION['recaptcha'] = 0;
+
+        return true;
+    }
+
     public function index(): void
     {
+        if (isset($_SESSION['recaptcha']) && $_SESSION['recaptcha'] == 0) {
+            $this->setting->google_recaptcha = 0;
+            unset($_SESSION['recaptcha']);
+        }
+
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {
             $this->user_model->logout();
@@ -88,7 +100,6 @@ class Siteman extends MY_Controller
     {
         if (setting('google_recaptcha')) {
             $status = google_recaptcha();
-
             if (! $status->success) {
                 set_session('notif', 'Mohon konfirmasi bahwa anda bukan robot!');
                 redirect('siteman');
