@@ -156,12 +156,28 @@ class DataSuratPenduduk extends CI_Controller
 
         $html = view('admin.surat.data_penduduk', $data, [], true);
 
+        $data['individu']     = $data['ayah'];
+        $data['list_dokumen'] = $data['list_dokumen_ayah'];
+        $htmlAyah             = view('admin.surat.data_penduduk', $data, [], true);
+
+        $data['individu']     = $data['ibu'];
+        $data['list_dokumen'] = $data['list_dokumen_ibu'];
+        $htmlIbu              = view('admin.surat.data_penduduk', $data, [], true);
+
+        $optionAyah = '<option value="' . $data['ayah']->id . '">' . $data['ayah']->nama . '</option>';
+        $optionIbu  = '<option value="' . $data['ibu']->id . '">' . $data['ibu']->nama . '</option>';
+
         // Set the content type to JSON
         return $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode([
-                'status' => 1,
-                'html'   => (string) $html,
+                'status'     => 1,
+                'html'       => (string) $html,
+                'optionAyah' => $optionAyah,
+                'optionIbu'  => $optionIbu,
+                'htmlAyah'   => (string) $htmlAyah,
+                'htmlIbu'    => (string) $htmlIbu,
+                'kategori'   => $kategori,
             ], JSON_THROW_ON_ERROR));
     }
 

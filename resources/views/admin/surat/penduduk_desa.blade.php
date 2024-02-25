@@ -5,7 +5,7 @@
             <select
                 autofocus
                 name="{{ $kategori }}[nik]"
-                class="form-control input-sm isi-penduduk-desa {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+                class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
                 data-surat="{{ $surat->id }}"
                 data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}"
                 data-kategori="{{ $kategori }}"
@@ -34,6 +34,12 @@
                     kategori: _kategori
                 }, function(data) {
                     _pendudukDesaElm.find('.data_penduduk_desa').html(data.html)
+                    if (data.kategori == 'individu') {
+                        $('#kategori-dapp').find('.select2-nik-ajax').empty().append(data.optionAyah)
+                        $('#kategori-dapp').find('.data_penduduk_desa').html(data.htmlAyah)
+                        $('#kategori-dipp').find('.select2-nik-ajax').empty().append(data.optionIbu)
+                        $('#kategori-dipp').find('.data_penduduk_desa').html(data.htmlIbu)
+                    }
                 }, 'json')
             }
         }
