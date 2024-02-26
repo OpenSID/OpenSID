@@ -213,7 +213,7 @@
 		<tr>
 			<td colspan="10" class="kotak">6. Jumlah Anggota Keluarga</td>
 			<td>&nbsp;</td>
-			<?php $str_jml = str_pad((string) count($anggota_ikut), 2, '0', STR_PAD_LEFT); ?>
+			<?php $str_jml = str_pad((string) count($anggota_ikut ?? []), 2, '0', STR_PAD_LEFT); ?>
 			<?php for ($j = 0; $j < 2; $j++): ?>
 				<td class="kotak padat tengah"><?= $str_jml[$j]; ?></td>
 			<?php endfor; ?>
@@ -246,7 +246,7 @@
 					<td class="kotak padat tengah"><?= $str_i[$j]; ?></td>
 				<?php endfor; ?>
 				<td>&nbsp;</td>
-				<?php if ($i < count($anggota_ikut)): ?>
+				<?php if ($i < count($anggota_ikut ?? [])): ?>
 					<?php for ($j = 0; $j < 16; $j++): ?>
 						<td class="kotak padat tengah">
 							<?php if (isset($anggota_ikut[$i]['nik'][$j])): ?>
