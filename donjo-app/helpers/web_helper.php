@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\StatusEnum;
+use App\Models\MediaSosial;
 use App\Models\TeksBerjalan;
 
 if (! function_exists('teks_berjalan')) {
@@ -99,4 +101,25 @@ function icon_menu_anjungan($nama_file)
     }
 
     return base_url() . LOKASI_ICON_MENU_ANJUNGAN_DEFAULT . 'menu.png';
+}
+
+if (! function_exists('theme_social_media')) {
+    /**
+     * Get social media
+     *
+     * @return array
+     */
+    function theme_social_media()
+    {
+        return MediaSosial::status(StatusEnum::YA)
+            ->get()
+            ->map(function ($media) {
+                return [
+                    'nama' => $media->nama,
+                    'link' => $media->new_link,
+                    'icon' => $media->url_icon,
+                ];
+            })
+            ->toArray();
+    }
 }

@@ -64,6 +64,7 @@ $config = [
         LOKASI_PENGESAHAN          => [0775, 'htaccess1'],
         LOKASI_PRODUK              => [0775, 'htaccess1'],
         LOKASI_SINKRONISASI_ZIP    => [0775, 'htaccess1'],
+        LOKASI_ICON_SOSMED         => [0775, 'htaccess1'],
         'desa/upload/thumbs/'      => [0775, 'htaccess1'],
         LOKASI_USER_PICT           => [0775, 'htaccess1'],
         LOKASI_VAKSIN              => [0775, 'htaccess1'],

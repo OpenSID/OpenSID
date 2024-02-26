@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,11 +66,91 @@ class MediaSosial extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'config_id',
         'gambar',
         'link',
         'nama',
         'tipe',
         'enabled',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'url_icon',
+        'new_link',
+    ];
+
+    public function scopeStatus($query, $status = null)
+    {
+        if ($status === null) {
+            return $query;
+        }
+
+        return $query->where('enabled', $status);
+    }
+
+    public function getEnabledAttribute()
+    {
+        if (empty($this->url)) {
+            return $this->enabled = StatusEnum::TIDAK;
+        }
+
+        return $this->enabled;
+    }
+
+    public function getUrlIconAttribute()
+    {
+        if (in_array($this->gambar, ['fb.png', 'twt.png', 'yb.png', 'ins.png', 'wa.png', 'tg.png'])) {
+            return asset("front/{$this->gambar}");
+        }
+
+        return base_url(LOKASI_ICON_SOSMED . $this->gambar);
+    }
+
+    public function getNewLinkAttribute()
+    {
+        return $this->linkLama($this->nama, $this->tipe, $this->link);
+    }
+
+    protected function linkLama($nama, $tipe, $link)
+    {
+        $valid_link = filter_var($link, FILTER_VALIDATE_URL);
+
+        switch (true) {
+            case $nama === 'Facebook' && $tipe === 1:
+                return $valid_link ? $link : 'https://web.facebook.com/' . $link;
+
+            case $nama === 'Facebook' && $tipe === 2:
+                return $valid_link ? $link : 'https://web.facebook.com/groups/' . $link;
+
+            case $nama === 'Twitter':
+                return $valid_link ? $link : 'https://twitter.com/' . $link;
+
+            case $nama === 'YouTube':
+                return $valid_link ? $link : 'https://www.youtube.com/channel/' . $link;
+
+            case $nama === 'Instagram':
+                return $valid_link ? $link : 'https://www.instagram.com/' . $link . '/';
+
+            case $nama === 'WhatsApp' && $tipe === 1:
+                $link = ($valid_link ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
+
+                return str_replace('phone=0', 'phone=62', $link);
+
+            case $nama === 'WhatsApp' && $tipe === 2:
+                return $valid_link ? $link : 'https://chat.whatsapp.com/' . $link;
+
+            case $nama === 'Telegram' && $tipe === 1:
+                return $valid_link ? $link : 'https://t.me/' . $link;
+
+            case $nama === 'Telegram' && $tipe === 2:
+                return $valid_link ? $link : 'https://t.me/joinchat/' . $link;
+
+            default:
+                return $link;
+        }
+    }
 }
