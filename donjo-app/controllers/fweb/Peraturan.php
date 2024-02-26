@@ -42,7 +42,7 @@ class Peraturan extends Web_Controller
 {
     public function index()
     {
-        if (! $this->web_menu_model->menu_aktif('peraturan-desa')) {
+        if (!$this->web_menu_model->menu_aktif('peraturan-desa')) {
             show_404();
         }
 
@@ -67,7 +67,7 @@ class Peraturan extends Web_Controller
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function datatables()

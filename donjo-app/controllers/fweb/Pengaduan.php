@@ -50,7 +50,7 @@ class Pengaduan extends Web_Controller
 
     public function index($p = 1)
     {
-        if (! $this->web_menu_model->menu_aktif('pengaduan')) {
+        if (!$this->web_menu_model->menu_aktif('pengaduan')) {
             show_404();
         }
 
@@ -75,7 +75,7 @@ class Pengaduan extends Web_Controller
         $data['halaman_statis']  = 'pengaduan/index';
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function kirim()
@@ -84,7 +84,7 @@ class Pengaduan extends Web_Controller
         $post = $this->input->post();
         // Periksa isian captcha
         $captcha = new App\Libraries\Captcha();
-        if (! $captcha->check($this->input->post('captcha_code'))) {
+        if (!$captcha->check($this->input->post('captcha_code'))) {
             $notif = [
                 'status' => 'error',
                 'pesan'  => 'Kode captcha anda salah. Silakan ulangi lagi.',
@@ -108,7 +108,7 @@ class Pengaduan extends Web_Controller
                 ];
             } else {
                 if ($this->pengaduan_model->insert()) {
-                    if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+                    if (!empty($this->setting->telegram_token) && cek_koneksi_internet()) {
                         try {
                             $this->telegram->sendMessage([
                                 'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',

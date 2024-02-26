@@ -103,14 +103,14 @@ class First extends Web_Controller
         $data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
         $cari = trim($this->input->get('cari', true));
-        if (! empty($cari)) {
+        if (!empty($cari)) {
             // Judul artikel bisa digunakan untuk serangan XSS
             $data['judul_kategori'] = 'Hasil pencarian : ' . substr(e($cari), 0, 50);
         }
 
         $this->_get_common_data($data);
         $this->track_model->track_desa('first');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     /*
@@ -139,7 +139,7 @@ class First extends Web_Controller
         $data['komentar']              = $this->first_artikel_m->list_komentar($id);
         $this->_get_common_data($data);
         $this->set_template('layouts/artikel.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function unduh_dokumen_artikel($id)
@@ -159,7 +159,7 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/arsip.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function gallery($p = 1)
@@ -186,7 +186,7 @@ class First extends Web_Controller
 
     public function statistik($stat = 0, $tipe = 0)
     {
-        if (! $this->web_menu_model->menu_aktif('statistik/' . $stat)) {
+        if (!$this->web_menu_model->menu_aktif('statistik/' . $stat)) {
             show_404();
         }
 
@@ -201,7 +201,7 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/stat.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function kelompok($slug = '')
@@ -241,7 +241,7 @@ class First extends Web_Controller
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
     public function data_analisis()
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
+        if (!$this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
         }
 
@@ -254,13 +254,13 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/analisis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
     public function jawaban_analisis($stat = '', $sb = 0, $per = 0)
     {
-        if (! $this->web_menu_model->menu_aktif('data_analisis')) {
+        if (!$this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
         }
 
@@ -269,12 +269,12 @@ class First extends Web_Controller
         $data['indikator']  = $this->first_penduduk_m->get_indikator($stat);
         $this->_get_common_data($data);
         $this->set_template('layouts/analisis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function dpt()
     {
-        if (! $this->web_menu_model->menu_aktif('dpt')) {
+        if (!$this->web_menu_model->menu_aktif('dpt')) {
             show_404();
         }
 
@@ -287,12 +287,12 @@ class First extends Web_Controller
         $this->_get_common_data($data);
         $data['tipe'] = 4;
         $this->set_template('layouts/stat.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function wilayah()
     {
-        if (! $this->web_menu_model->menu_aktif('data-wilayah')) {
+        if (!$this->web_menu_model->menu_aktif('data-wilayah')) {
             show_404();
         }
 
@@ -307,12 +307,12 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/stat.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function informasi_publik()
     {
-        if (! $this->web_menu_model->menu_aktif('informasi_publik')) {
+        if (!$this->web_menu_model->menu_aktif('informasi_publik')) {
             show_404();
         }
 
@@ -326,7 +326,7 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/halaman_statis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function ajax_informasi_publik()
@@ -369,7 +369,7 @@ class First extends Web_Controller
         $this->load->model('Web_dokumen_model');
         $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 
-        if (! $id_dokumen || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas)) {
+        if (!$id_dokumen || !$berkas || !file_exists(LOKASI_DOKUMEN . $berkas)) {
             $data['link_berkas'] = null;
         } else {
             $data = [
@@ -418,7 +418,7 @@ class First extends Web_Controller
         $data['artikel']        = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
         $this->_get_common_data($data);
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function add_comment($id = 0)
@@ -434,7 +434,7 @@ class First extends Web_Controller
         if ($this->form_validation->run() == true) {
             // Periksa isian captcha
             $captcha = new App\Libraries\Captcha();
-            if (! $captcha->check($this->input->post('captcha_code'))) {
+            if (!$captcha->check($this->input->post('captcha_code'))) {
                 $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'Kode anda salah. Silakan ulangi lagi.',

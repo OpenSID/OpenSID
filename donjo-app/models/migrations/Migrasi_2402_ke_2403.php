@@ -47,7 +47,63 @@ class Migrasi_2402_ke_2403 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2308', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2309', false);
 
+        $this->modultheme($hasil);
+
         status_sukses($hasil);
+
+        return $hasil;
+    }
+
+    public function modultheme($hasil)
+    {
+        $this->tambah_modul([
+            'modul'      => 'Tema',
+            'slug'       => 'themes',
+            'url'        => 'theme',
+            'aktif'      => 1,
+            'ikon'       => 'fa-object-group',
+            'urut'       => 5,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-object-group',
+            'parent'     => $this->db->get_where('setting_modul', ['slug' => 'admin-web'])->row()->id,
+        ]);
+
+        if (!$this->db->table_exists('theme')) {
+            $this->db->query("
+                CREATE TABLE `theme` (
+                    `id` INT NOT NULL AUTO_INCREMENT,
+                    `nama` VARCHAR(50) NOT NULL DEFAULT '0',
+                    `slug` VARCHAR(60) NULL,
+                    `versi` VARCHAR(10) NULL DEFAULT NULL,
+                    `sistem` TINYINT NOT NULL DEFAULT '0',
+                    `path` VARCHAR(100) NOT NULL DEFAULT '',
+                    `status` TINYINT NOT NULL DEFAULT '0',
+                    `keterangan` TEXT NULL,
+                    `opsi` TEXT NULL,
+                    
+                    PRIMARY KEY (`id`)
+                    UNIQUE INDEX `slug` (`slug`)
+                )
+                COLLATE='utf8_general_ci'
+            ");
+
+            $this->sesuaikanTemaAktif($hasil);
+        }
+
+        return $hasil;
+    }
+
+    protected function sesuaikanTemaAktif($hasil) {
+        if (DB::table('setting_aplikasi')->where('key', 'web_theme')->exists()) {
+            $temaSetting = DB::table('setting_aplikasi')->where('key', 'web_theme')->first()->value;
+            $temaSetting = Str::slug($temaSetting);
+
+            DB::table('theme')->where('slug', $temaSetting)->update(['status' => 1]);
+            DB::table('theme')->where('slug', '!=', $temaSetting)->update(['status' => 0]);
+
+            $this->db->query("DELETE FROM `setting_aplikasi` WHERE `key` = 'web_theme'");
+        }
 
         return $hasil;
     }

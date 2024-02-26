@@ -41,7 +41,7 @@ class Peta extends Web_Controller
 {
     public function index()
     {
-        if (! $this->web_menu_model->menu_aktif('peta')) {
+        if (!$this->web_menu_model->menu_aktif('peta')) {
             show_404();
         }
 
@@ -68,6 +68,6 @@ class Peta extends Web_Controller
 
         $this->_get_common_data($data);
         $this->set_template('layouts/peta_statis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 }

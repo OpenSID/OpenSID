@@ -154,13 +154,14 @@ class Web_Controller extends MY_Controller
             }
         }
 
-        $this->load->model('theme_model');
-        $this->theme        = $this->theme_model->tema;
-        $this->theme_folder = $this->theme_model->folder;
+        $this->load->helper('theme');
+        $theme              = theme_active();
+        $this->theme        = str_replace('desa-', '', $theme->path);
+        $this->theme_folder = str_replace($this->theme, '', $theme->path);
 
         // Variabel untuk tema
         $this->set_template();
-        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
+        $this->includes['folder_themes'] = theme_view_path();
 
         $this->load->model('web_menu_model');
     }
@@ -174,7 +175,7 @@ class Web_Controller extends MY_Controller
      */
     public function set_template($template_file = 'template')
     {
-        $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
+        $this->template = $template_file;
     }
 
     public function _get_common_data(&$data)
@@ -317,7 +318,7 @@ class Admin_Controller extends MY_Controller
 
         $force = $this->session->force_change_password;
 
-        if ($force && ! $kode_desa && ! in_array($this->controller, ['pengguna'])) {
+        if ($force && ! $kode_desa && ! in_array($this->router->class, ['pengguna'])) {
             redirect('pengguna#sandi');
         }
 
