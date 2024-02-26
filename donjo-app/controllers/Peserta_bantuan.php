@@ -212,6 +212,6 @@ class Peserta_bantuan extends Admin_Controller
         $this->session->per_page = $this->_set_page[0];
         $this->session->unset_userdata('cari');
 
-        redirect("pesera_bantuan/detail/{$program_id}");
+        redirect("peserta_bantuan/detail/{$program_id}");
     }
 }

@@ -297,7 +297,7 @@ class Web_gallery_model extends MY_Model
     public function gallery_lock($id = '', $val = 0)
     {
         // Jangan kunci jika digunakan untuk slider
-        if ($val == 2) {
+        if ($val == 1) {
             $this->db
                 ->group_start()
                 ->where('slider <>', 1)

@@ -44,7 +44,7 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Tte extends MY_Controller
+class Tte extends Admin_Controller
 {
     /**
      * @var GuzzleHttp\Client

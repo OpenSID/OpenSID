@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukAsuransi;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
@@ -148,6 +149,7 @@ class Impor_model extends MY_Model
         $this->kode_warganegara       = $this->referensi_model->impor_list_data('tweb_penduduk_warganegara');
         $this->kode_hamil             = $this->referensi_model->impor_list_data('ref_penduduk_hamil');
         $this->kode_asuransi          = PendudukAsuransi::pluck('id')->all();
+        $this->logpenduduk            = new LogPenduduk();
     }
 
     /**
@@ -714,7 +716,7 @@ class Impor_model extends MY_Model
             return false;
         }
 
-        return ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap);
+        return ! $this->setting->tgl_data_lengkap_aktif;
     }
 
     public function impor_excel($hapus = false)

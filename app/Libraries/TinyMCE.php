@@ -40,9 +40,11 @@ namespace App\Libraries;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusHubunganEnum;
+use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Keluarga;
+use App\Models\LogPenduduk;
 use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\Wilayah;
@@ -155,22 +157,32 @@ class TinyMCE
 
     public function getFormatedKodeIsian($data = [], $withData = false)
     {
+        $idPenduduk = $data['id_pend'];
+
         $daftar_kode_isian = [
             // Data Surat
             'Surat' => $this->getIsianSurat($data),
 
             // Data Identitas Desa
-            'Identitas Desa' => $this->getIsianIdentitas($data['id_pend'] ?? $data['nik_non_warga']),
+            'Identitas Desa' => $this->getIsianIdentitas($idPenduduk ?? $data['nik_non_warga']),
 
             // Data Dusun
             'Wilayah' => $this->getIsianWilayah(),
 
             // Data Penduduk Umum
-            'Penduduk' => $this->getIsianPenduduk($data['id_pend']),
+            'Penduduk' => $this->getIsianPenduduk($idPenduduk),
 
             // Data Anggota keluarga
-            'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($data['id_pend']),
+            'Anggota Keluarga' => $this->getIsianAnggotaKeluarga($idPenduduk),
+
+            // Data Pasangan
+            'Pasangan' => $this->getIsianPasangan($idPenduduk),
         ];
+
+        $peristiwa = $data['surat']->form_isian->individu->status_dasar;
+        if (in_array($peristiwa, LogPenduduk::PERISTIWA)) {
+            $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $peristiwa);
+        }
 
         // Penduduk Kategori
         foreach ($data['kategori'] as $key => $value) {
@@ -535,6 +547,16 @@ class TinyMCE
                 'isian' => getFormatIsian('Alamat' . $prefix . ''),
                 'data'  => $penduduk->alamat_wilayah ?? '-',
             ],
+            [
+                'judul' => 'No KK' . $ortu,
+                'isian' => getFormatIsian('No_kK' . $prefix . ''),
+                'data'  => $penduduk->keluarga->no_kk,
+            ],
+            [
+                'judul' => 'Golongan Darah' . $ortu,
+                'isian' => getFormatIsian('Gol_daraH' . $prefix . ''),
+                'data'  => $penduduk->golonganDarah->nama,
+            ],
         ];
 
         if (empty($prefix)) {
@@ -600,11 +622,6 @@ class TinyMCE
                     'data'  => $penduduk->cacat->nama,
                 ],
                 [
-                    'judul' => 'Golongan Darah',
-                    'isian' => getFormatIsian('Gol_daraH'),
-                    'data'  => $penduduk->golonganDarah->nama,
-                ],
-                [
                     'judul' => 'Pendidikan Sedang',
                     'isian' => getFormatIsian('Pendidikan_sedanG'),
                     'data'  => $penduduk->pendidikan->nama,
@@ -659,7 +676,6 @@ class TinyMCE
             $data = array_merge($individu, $lainnya);
 
             // Data Orang Tua
-
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
@@ -839,6 +855,11 @@ class TinyMCE
                 'data'  => $anggota ? $anggota->pluck('alamat_wilayah')->toArray() : '',
             ],
             [
+                'judul' => 'Golongan Darah',
+                'isian' => getFormatIsian('Klgx_golongan_darah'),
+                'data'  => $anggota ? $anggota->pluck('golonganDarah.nama')->toArray() : '',
+            ],
+            [
                 'judul' => 'Dokumen Pasport',
                 'isian' => getFormatIsian('Klgx_dokumen_pasporT'),
                 'data'  => $anggota ? $anggota->pluck('dokumen_pasport')->toArray() : '',
@@ -873,6 +894,24 @@ class TinyMCE
         ];
     }
 
+    private function getIsianPasangan($id_penduduk = null)
+    {
+        $penduduk = Penduduk::find($id_penduduk);
+
+        return [
+            [
+                'judul' => 'Jenis Kelamin Pasangan',
+                'isian' => getFormatIsian('Jenis_kelamin_pasangaN'),
+                'data'  => $penduduk->sex == JenisKelaminEnum::LAKI_LAKI ? 'Wanita' : 'Pria',
+            ],
+            [
+                'judul' => 'Bin Pasangan',
+                'isian' => getFormatIsian('Bin_pasangaN'),
+                'data'  => $penduduk->sex == JenisKelaminEnum::LAKI_LAKI ? 'Binti' : 'Bin',
+            ],
+        ];
+    }
+
     private function getIsianPost($data = [])
     {
         $input = $data['input'];
@@ -893,6 +932,18 @@ class TinyMCE
                 [
                     'nama' => 'Pengikut Surat',
                     'kode' => '[pengikut_surat]',
+                ],
+                [
+                    'nama' => 'Pengikut KIS',
+                    'kode' => '[pengikut_kis]',
+                ],
+                [
+                    'nama' => 'Pengikut Kartu KIS',
+                    'kode' => '[pengikut_kartu_kis]',
+                ],
+                [
+                    'nama' => 'Pengikut Pindah',
+                    'kode' => '[pengikut_pindah]',
                 ],
             ];
 
@@ -1083,6 +1134,15 @@ class TinyMCE
             }
             if (preg_match('/pengikut_surat/i', $key)) {
                 $result = str_replace($key, $data['pengikut_surat'] ?? '', $result);
+            }
+            if (preg_match('/pengikut_kartu_kis/i', $key)) {
+                $result = str_replace($key, $data['pengikut_kartu_kis'] ?? '', $result);
+            }
+            if (preg_match('/pengikut_kis/i', $key)) {
+                $result = str_replace($key, $data['pengikut_kis'] ?? '', $result);
+            }
+            if (preg_match('/pengikut_pindah/i', $key)) {
+                $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             } else {
                 $result = case_replace($key, $value, $result);
             }

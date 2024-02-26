@@ -39,7 +39,6 @@ use App\Models\RefJabatan;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
-use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,14 +47,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2402.0.0');
+define('VERSION', '2402.1.0');
 
 /**
  * PREMIUM
  *
  * Versi OpenSID Premium
  */
-define('PREMIUM', true);
+define('PREMIUM', false);
 
 /**
  * VERSI_DATABASE
@@ -64,7 +63,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024020101');
+define('VERSI_DATABASE', '2024022371');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -155,7 +154,7 @@ define('NILAI_PENDAPAT', serialize([
  */
 function AmbilVersi()
 {
-    return VERSION;
+    return VERSION . (PREMIUM ? '-premium' : '');
 }
 
 /**
@@ -270,38 +269,6 @@ function httpPost($url, $params)
     }
 
     return $response->getBody()->getContents();
-}
-
-/**
- * Ambil data desa dari pantau.opensid.my.id berdasarkan config_item('kode_desa')
- *
- * @param string $kode_desa
- *
- * @return object|null
- */
-function get_data_desa($kode_desa)
-{
-    try {
-        $response = (new Client())->get(config_item('server_pantau') . '/index.php/api/wilayah/kodedesa?kode=' . $kode_desa, [
-            'headers' => [
-                'X-Requested-With' => 'XMLHttpRequest',
-                'Authorization'    => 'Bearer ' . config_item('token_pantau'),
-            ],
-            'timeout'         => 5,
-            'connect_timeout' => 4,
-            // 'verify'          => false,
-        ]);
-    } catch (ClientException $cx) {
-        log_message('error', $cx);
-
-        return null;
-    } catch (Exception $e) {
-        log_message('error', $e);
-
-        return null;
-    }
-
-    return json_decode($response->getBody()->getContents());
 }
 
 /**
@@ -1028,7 +995,7 @@ function convertToBytes(string $from)
  * Disalin dari FeedParser.php
  * Load the whole contents of a web page
  *
- * @param string
+ * @param    string
  * @param mixed $url
  *
  * @return string
@@ -1388,7 +1355,7 @@ function sdgs()
     }
 
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new Client();
         $response = $client->get(config_item('api_sdgs') . $kode_desa, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -1694,9 +1661,9 @@ if (! function_exists('getFormatIsian')) {
 /**
  * Buat hash password (bcrypt) dari string sebuah password
  *
- * @param [type]  $string  [description]
+ * @param  [type]  $string  [description]
  *
- * @return [type]  [description]
+ * @return  [type]  [description]
  */
 function generatePasswordHash($string)
 {
@@ -1772,21 +1739,6 @@ if (! function_exists('getVariableName')) {
     }
 }
 
-/**
- * @param string
- *
- * @return string
- */
-if (! function_exists('bersihkan_xss')) {
-    function bersihkan_xss($str)
-    {
-        $antiXSS = new AntiXSS();
-        $antiXSS->removeEvilHtmlTags(['iframe']);
-
-        return $antiXSS->xss_clean($str);
-    }
-}
-
 if (! function_exists('checkWebsiteAccessibility')) {
     function checkWebsiteAccessibility($url)
     {
@@ -1825,5 +1777,29 @@ if (! function_exists('hapus_kab_kota')) {
     function hapus_kab_kota($str)
     {
         return preg_replace('/kab |kota /i', '', $str);
+    }
+}
+
+function artikel_get_id($id)
+{
+    $CI = &get_instance();
+    $CI->load->model('first_artikel_m');
+    $data = $CI->first_artikel_m->get_artikel_by_id($id);
+
+    return $data;
+}
+
+/**
+ * @param string
+ *
+ * @return string
+ */
+if (! function_exists('bersihkan_xss')) {
+    function bersihkan_xss($str)
+    {
+        $antiXSS = new AntiXSS();
+        $antiXSS->removeEvilHtmlTags(['iframe']);
+
+        return $antiXSS->xss_clean($str);
     }
 }

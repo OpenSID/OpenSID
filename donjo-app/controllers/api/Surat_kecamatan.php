@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Surat extends MY_Controller
+class Surat_kecamatan extends Admin_Controller
 {
     /**
      * @var GuzzleHttp\Client

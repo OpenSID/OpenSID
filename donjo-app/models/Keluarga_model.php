@@ -380,11 +380,6 @@ class Keluarga_model extends MY_Model
         $default['config_id']  = $this->config_id;
         $outp                  = $outp && $this->config_id()->where('id', $data['nik_kepala'])->update('tweb_penduduk', $default);
 
-        // TODO :: Tinjau ulang log penduduk ini, yang disimpan adalah kk_id, bukan id_pend
-        // karena pada log_penduduk sekarang menggunakan relasi akan menimbulkan gagal simpan.
-        // karena tidak ada kode_peristiwa 9 baik di log_penduduk maupun di log_keluarga
-        // $this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
-
         $log['id_pend']    = 1;
         $log['id_cluster'] = 1;
         $log['tanggal']    = date('Y-m-d H:i:s');
@@ -806,16 +801,35 @@ class Keluarga_model extends MY_Model
             ->row_array();
     }
 
-    public function list_penduduk_lepas()
+    /**
+     * List penduduk lepas.
+     *
+     * @param bool $shdk Pilih berdasarkan kepala keluarga atau bukan.
+     *
+     * @return array
+     */
+    public function list_penduduk_lepas($shdk = false)
     {
-        return $this->config_id('u')
+        $this->config_id('u')
             ->select('u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun')
             ->from('penduduk_hidup u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
             ->where('id_kk', 0)
-            ->where('status', 1)
-            ->get()
-            ->result_array();
+            ->where('status', 1);
+
+        if ($shdk) {
+            $this->db->group_start()
+                ->where('u.kk_level !=', SHDKEnum::KEPALA_KELUARGA)
+                ->or_where('u.kk_level is null')
+                ->group_end();
+        } else {
+            $this->db->group_start()
+                ->where('u.kk_level', SHDKEnum::KEPALA_KELUARGA)
+                ->or_where('u.kk_level is null')
+                ->group_end();
+        }
+
+        return $this->db->get()->result_array();
     }
 
     // $options['dengan_kk'] = false jika hanya perlu tanggungan keluarga tanpa kepala keluarga
@@ -838,7 +852,7 @@ class Keluarga_model extends MY_Model
                         END
                 END) as status_kawin
             ")
-            ->select(['b.dusun', 'b.rw', 'b.rt', 'x.nama as sex', 'u.kk_level', 'a.nama as agama', 'd.nama as pendidikan', 'j.nama as pekerjaan', 'f.nama as warganegara', 'g.nama as golongan_darah', 'h.nama AS hubungan', 'k.alamat', 'tc.nama AS cacat'])
+            ->select(['b.dusun', 'b.rw', 'b.rt', 'x.nama as sex', 'u.kk_level', 'a.nama as agama', 'd.nama as pendidikan', 'd.id as pendidikan_id', 'j.nama as pekerjaan', 'f.nama as warganegara', 'g.nama as golongan_darah', 'h.nama AS hubungan', 'h.id AS hubungan_id', 'k.alamat', 'tc.nama AS cacat'])
             ->from('tweb_penduduk u')
             ->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left')
             ->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left')
@@ -1177,7 +1191,7 @@ class Keluarga_model extends MY_Model
         } else {
             switch ($tipe) {
                 case 'kelas_sosial':
-                    $tabel = 'tweb_keluarga_kelas';
+                    $tabel = 'tweb_keluarga_sejahtera';
                     break;
 
                 case 'bantuan_keluarga':

@@ -295,6 +295,7 @@ class Admin_Controller extends MY_Controller
         $this->CI = CI_Controller::get_instance();
         $this->load->model('header_model');
         $this->header = $this->header_model->get_data();
+
         $this->cek_identitas_desa();
     }
 
@@ -314,7 +315,7 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
-        $force    = $this->session->force_change_password;
+        $force = $this->session->force_change_password;
 
         if ($force && ! $kode_desa && ! in_array($this->controller, ['pengguna'])) {
             redirect('pengguna#sandi');
@@ -329,7 +330,7 @@ class Admin_Controller extends MY_Controller
 
         $this->grup = $this->user_model->sesi_grup($this->session->sesi);
         $this->load->model('modul_model');
-        if (! $this->modul_model->modul_aktif($this->controller) && $this->controller != 'pengguna') {
+        if (! $this->modul_model->modul_aktif($this->controller)) {
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -371,13 +372,11 @@ class Admin_Controller extends MY_Controller
                 ->count();
         }
 
-        if (! config_item('demo_mode')) {
-            // cek langganan premium
-            $info_langganan = $this->cache->file->get_metadata('status_langganan');
+        // cek langganan premium
+        $info_langganan = $this->cache->file->get_metadata('status_langganan');
 
-            if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
-                $this->header['perbaharui_langganan'] = true;
-            }
+        if ((strtotime('+30 day', $info_langganan['mtime']) < strtotime('now')) || ($this->cache->file->get_metadata('status_langganan') == false && $this->setting->layanan_opendesa_token != null)) {
+            $this->header['perbaharui_langganan'] = true;
         }
     }
 

@@ -38,7 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
-class Acak_model extends CI_Model
+class Acak_model extends MY_Model
 {
     protected $nama_wanita = ['Yuni', 'Fatima', 'Sarah', 'Dewi', 'Hasnah'];
     protected $nama_pria   = ['Bambang', 'Abdul', 'Setiyadi', 'Dadang', 'Herman'];
@@ -55,14 +55,15 @@ class Acak_model extends CI_Model
      */
     public function acak_penduduk()
     {
-        $data = $this->db->select('id, nik, nama')->
+        $data = $this->config_id()->select('id, nik, nama')->
             where('sex', 1)->
             get('tweb_penduduk')->result_array();
         $this->acak_untuk_gender($data);
-        $data = $this->db->select('id, nik, nama')->
+        $data = $this->config_id()->select('id, nik, nama')->
             where('sex <> 1')->
             get('tweb_penduduk')->result_array();
-        $this->acak_untuk_gender($data);
+
+        return $this->acak_untuk_gender($data);
     }
 
     private function acak_untuk_gender($data)
@@ -71,7 +72,8 @@ class Acak_model extends CI_Model
             return;
         }
 
-        $i = 1;
+        $i     = 1;
+        $datas = [];
 
         foreach ($data as $penduduk) {
             if ($penduduk['nik'] == 0) {
@@ -81,14 +83,16 @@ class Acak_model extends CI_Model
             $urut      = $this->acak_angka(substr($nik, 12));
             $nik_acak  = substr_replace($nik, $urut, 12);
             $nama_acak = $this->acak_nama($i - 1, $data);
-            echo $i . '. nik: ' . $nik . ' nik_acak: ' . $nik_acak .
-                ' === ' . 'nama: ' . $penduduk['nama'] . ' nama_acak: ' . $nama_acak . '<br>';
-            $this->db->where('id', $penduduk['id'])->
+            $datas[]   = ['id' => $penduduk['id'], 'nik' => $nik, 'nik_acak' => $nik_acak, 'nama' => $penduduk['nama'], 'nama_acak' => $nama_acak];
+
+            $this->config_id()->where('id', $penduduk['id'])->
                 update('tweb_penduduk', ['nik' => $nik_acak, 'nama' => $nama_acak]);
-            $this->db->where('peserta', $nik)
+            $this->config_id()->where('peserta', $nik)
                 ->update('program_peserta', ['peserta' => $nik_acak]);
             $i++;
         }
+
+        return $datas;
     }
 
     private function acak_nama($urut_penduduk, $data)
@@ -147,11 +151,12 @@ class Acak_model extends CI_Model
 
     public function acak_keluarga()
     {
-        $data = $this->db->select('k.id, k.no_kk, p.nama as nama_kk')->
+        $data = $this->config_id('k')->select('k.id, k.no_kk, p.nama as nama_kk')->
             from('tweb_keluarga k')->
             join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')->
             get()->result_array();
-        $i = 1;
+        $i     = 1;
+        $datas = [];
 
         foreach ($data as $keluarga) {
             if ($keluarga['no_kk'] == 0) {
@@ -161,7 +166,19 @@ class Acak_model extends CI_Model
             $no_kk      = $keluarga['no_kk'];
             $urut       = $this->acak_angka(substr($no_kk, 12));
             $no_kk_acak = substr_replace($no_kk, $urut, 12);
-            echo $i . '. no_kk: ' . $no_kk . ' no_kk_acak: ' . $no_kk_acak . '<br>';
+
+            $cek = $this->config_id()
+                ->select('no_kk')
+                ->from('tweb_keluarga')
+                ->where('no_kk', $no_kk_acak)
+                ->get()
+                ->row_array();
+
+            if ($cek['no_kk']) {
+                continue;
+            }
+
+            $datas[] = ['id' => $keluarga['id'], 'no_kk' => $no_kk, 'no_kk_acak' => $no_kk_acak];
             $this->db->where('id', $keluarga['id'])->
                 update('tweb_keluarga', ['no_kk' => $no_kk_acak]);
             // Juga ganti no_kk dan nama_kk di log_penduduk
@@ -174,6 +191,8 @@ class Acak_model extends CI_Model
                 ->update('program_peserta', ['peserta' => $no_kk_acak]);
             $i++;
         }
+
+        return $datas;
     }
 
     private function acak_angka($str)

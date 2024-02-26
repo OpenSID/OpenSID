@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Idm extends Web_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function index($tahun = null)
     {
         if (! $this->web_menu_model->menu_aktif('status-idm/' . $tahun) || null === $tahun) {

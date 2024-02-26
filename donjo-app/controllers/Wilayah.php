@@ -642,6 +642,7 @@ class Wilayah extends Admin_Controller
         }
 
         $this->wilayah_model->urut($tipe, $id, $arah, $id_dusun, $id_rw);
+        $this->cache->hapus_cache_untuk_semua('_wilayah');
         redirect("{$this->controller}/{$url}");
     }
 

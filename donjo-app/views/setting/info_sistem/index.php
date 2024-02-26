@@ -57,7 +57,6 @@
 		position: absolute;
 		right: 40px;
 	}
-
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -108,7 +107,9 @@
 				<ul class="nav nav-tabs">
 					<li class="active"><a data-toggle="tab" href="#log_viewer">Logs</a></li>
 					<li><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
-					<li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
+					<?php if (auth()->id == super_admin()) : ?>
+						<li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
+					<?php endif ?>
 					<li><a data-toggle="tab" href="#optimasi">Optimasi</a></li>
 					<li><a data-toggle="tab" href="#folder_desa">Folder Desa</a></li>
 				</ul>
@@ -132,12 +133,12 @@
 											<?php else : ?>
 												<?php foreach ($files as $file) : ?>
 													<li <?= jecho($currentFile, $file, 'class="active"'); ?>><a href="?f=<?= base64_encode($file); ?>">
-														<?= $file; ?>
-														<?php if (can('h')) : ?>
-															<span class="pull-right-container">
-																<span class="label pull-right"><input type="checkbox" class="checkbox" name="id_cb[]" value="<?= $file ?>" /></a></span>
-															</span>
-														<?php endif ?>
+															<?= $file; ?>
+															<?php if (can('h')) : ?>
+																<span class="pull-right-container">
+																	<span class="label pull-right"><input type="checkbox" class="checkbox" name="id_cb[]" value="<?= $file ?>" /></a></span>
+														</span>
+													<?php endif ?>
 													</li>
 												<?php endforeach ?>
 											<?php endif ?>
@@ -296,11 +297,18 @@
 						</div>
 					</div>
 
-					<div id="info_sistem" class="tab-pane fade in">
-						<?php
-                        ob_start();
-			phpinfo();
+					<?php if (auth()->id == super_admin()) : ?>
+						<div id="info_sistem" class="tab-pane fade in">
+							<?php
+                            ob_start();
+					    if (ENVIRONMENT === 'production') :
+					        phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
+					    else :
+					        phpinfo();
+					    endif;
+
 			$phpinfo = ['phpinfo' => []];
+
 			if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
 			    foreach ($matches as $match) :
 			        if (strlen($match[1])) :
@@ -312,40 +320,41 @@
 			        endif;
 			    endforeach;
 			?>
-							<?php $i = 0; ?>
-							<?php foreach ($phpinfo as $name => $section) : ?>
-								<?php $i++; ?>
-								<?php if ($i == 1) : ?>
-									<div class='table-responsive'>
-										<table class='table table-bordered dataTable table-hover'>
-										<?php else : ?>
-											<h3><?= $name ?></h3>
-											<div class='table-responsive'>
-												<table class='table table-bordered dataTable table-hover'>
-												<?php endif ?>
-												<?php foreach ($section as $key => $val) : ?>
-													<?php if (is_array($val)) : ?>
-														<tr>
-															<td class="col-md-4 info"><?= $key ?></td>
-															<td><?= $val[0] ?></td>
-															<td><?= $val[1] ?></td>
-														</tr>
-													<?php elseif (is_string($key)) : ?>
-														<tr>
-															<td class="col-md-4 info"><?= $key ?></td>
-															<td colspan='2'><?= $val ?></td>
-														</tr>
-													<?php else : ?>
-														<tr>
-															<td class="btn-primary" colspan='3'><?= $val ?></td>
-														</tr>
-													<?php endif; ?>
-												<?php endforeach; ?>
-												</table>
-											</div>
-										<?php endforeach; ?>
+								<?php $i = 0; ?>
+								<?php foreach ($phpinfo as $name => $section) : ?>
+									<?php $i++; ?>
+									<?php if ($i == 1) : ?>
+										<div class='table-responsive'>
+											<table class='table table-bordered dataTable table-hover'>
+											<?php else : ?>
+												<h3><?= $name ?></h3>
+												<div class='table-responsive'>
+													<table class='table table-bordered dataTable table-hover'>
+													<?php endif ?>
+													<?php foreach ($section as $key => $val) : ?>
+														<?php if (is_array($val)) : ?>
+															<tr>
+																<td class="col-md-4 info"><?= $key ?></td>
+																<td><?= $val[0] ?></td>
+																<td><?= $val[1] ?></td>
+															</tr>
+														<?php elseif (is_string($key)) : ?>
+															<tr>
+																<td class="col-md-4 info"><?= $key ?></td>
+																<td colspan='2'><?= $val ?></td>
+															</tr>
+														<?php else : ?>
+															<tr>
+																<td class="btn-primary" colspan='3'><?= $val ?></td>
+															</tr>
+														<?php endif; ?>
+													<?php endforeach; ?>
+													</table>
+												</div>
+											<?php endforeach; ?>
+										<?php endif; ?>
+										</div>
 									<?php endif; ?>
-									</div>
 
 									<div id="optimasi" class="tab-pane fade in">
 										<div class="row">
@@ -377,11 +386,11 @@
 											<div class="col-sm-12">
 												<div class="box-header">
 													<div>
-														<?php if ($check_permission): ?>
+														<?php if ($check_permission) : ?>
 															<?php if (can('u')) : ?>
 																<a href="#" onclick="updatePermission(this)" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Set hak akses folder"><i class="fa fa-check"></i> Perbaiki hak akses folder</a>
 															<?php endif; ?>
-														<?php else: ?>
+														<?php else : ?>
 															<div class="alert alert-info alert-dismissible">
 																<p>OS menggunakan Windows tidak membutuhkan cek permission</p>
 															</div>
@@ -390,8 +399,8 @@
 												</div>
 												<div class="box-body">
 													<div class="css-treeview">
-													<?php
-			                                        $folders = directory_map(DESAPATH);
+														<?php
+			                            $folders = directory_map(DESAPATH);
 			echo create_tree_folder($folders, DESAPATH);
 			?>
 													</div>
@@ -400,7 +409,7 @@
 											</div>
 										</div>
 									</div>
-					</div>
+						</div>
 				</div>
 		</form>
 	</section>
@@ -462,51 +471,53 @@
 	function updatePermission(elm) {
 		let _folderDesa = $(elm).closest('#folder_desa');
 		let _data = []
-		_folderDesa.find('.box-body li.text-red').each(function(i, v){
+		_folderDesa.find('.box-body li.text-red').each(function(i, v) {
 			_data.push($(v).data('path'))
 		})
 
 		if (_data.length) {
 			Swal.fire({
-                title: 'Sedang Menyimpan',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                didOpen: () => {
-                    Swal.showLoading()
-                }
-            });
+				title: 'Sedang Menyimpan',
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				showConfirmButton: false,
+				didOpen: () => {
+					Swal.showLoading()
+				}
+			});
 			$.ajax({
 				url: 'info_sistem/set_permission_desa',
-				dataType : "JSON",
-				data: { folders : _data },
-				type : "POST",
-				success : function(data){
+				dataType: "JSON",
+				data: {
+					folders: _data
+				},
+				type: "POST",
+				success: function(data) {
 					if (data.status) {
 						Swal.fire({
-						'icon'	: 'success',
-						'title' : 'Success',
-						'timer' : 2000,
-						'text'	: data.message
-					}).then((result) => {
-						window.location.reload();
-					})
+							'icon': 'success',
+							'title': 'Success',
+							'timer': 2000,
+							'text': data.message
+						}).then((result) => {
+							window.location.reload();
+						})
 					} else {
 						Swal.fire({
-							'icon'  : 'error',
-							'title' : 'Error',
-							'timer' : 2000,
-							'text'	: data.message
+							'icon': 'error',
+							'title': 'Error',
+							'timer': 2000,
+							'text': data.message
 						})
 					}
 				}
 			})
 		} else {
 			Swal.fire({
-				'icon'  : 'info',
-				'title' : 'Info',
-				'timer' : 2000,
-				'text'	: 'Tidak ada yang harus diubah permissionnya'
+				'icon': 'info',
+				'title': 'Info',
+				'timer': 2000,
+				'text': 'Tidak ada yang harus diubah permissionnya'
 			})
 		}
 	}

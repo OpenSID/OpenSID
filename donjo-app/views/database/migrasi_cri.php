@@ -37,21 +37,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class='modal fade' id='loading' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-                                                        <div class='modal-dialog'>
-                                                            <div class='modal-content'>
-                                                                <div class='modal-header btn-warning'>
-                                                                    <h4 class='modal-title' id='myModalLabel'>Proses Migrasi ......</h4>
-                                                                </div>
-                                                                <div class='modal-body'>
-                                                                    Harap tunggu sampai proses migrasi selesai. Proses ini biasa memakan waktu beberapa menit.
-                                                                    <div class='text-center'>
-                                                                        <img src="<?= asset('images/background/loading.gif') ?>">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,18 +50,94 @@
         </div>
     </section>
 </div>
+<link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">
+<script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
+<script src="<?= asset('js/backup.min.js') ?>"></script>
+<script>
+    $(function(){
+        $('.migrasi').click(function(e){
+            e.preventDefault();
+            Swal.fire({
+                title: 'Apakah anda sudah melakukan backup database ?',
+                showDenyButton: true,
+                confirmButtonText: 'Sudah',
+                denyButtonText: `Belum`,
+                }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    let f = new FormData
+                    let _redirect = false
+                    f.append("sidcsrf", getCsrfToken())
 
-<script type="text/javascript">
-    $(function() {
-        $('.migrasi').click(function(event) {
-            event.preventDefault();
-            $('#loading').modal({
-                keyboard: false,
-                backdrop	: false
+                    Swal.fire({
+                        title: "Proses migrasi database, mohon ditunggu ",
+                        html: "Progress : <b></b>",
+                        timerProgressBar: !0,
+                        didOpen() {
+                            Swal.showLoading();
+                            let lastResponseLength = false
+                            let a = Swal.getHtmlContainer().querySelector("b");
+                            $.ajax({
+                                url: '<?= $form_action?>',
+                                type: "POST",
+                                data: f,
+                                dataType: 'json',
+                                processData: !1,
+                                contentType: !1,
+                                xhrFields: {
+                                // Getting on progress streaming response
+                                    onprogress: function(e)
+                                    {
+                                        var result, tmpJson;
+                                        var response = e.currentTarget.response;
+                                        var parsedResponse;
+                                        let lastPosition = 0;
+                                        if(lastResponseLength === false)
+                                        {
+                                            result = response;
+                                            lastResponseLength = response.length;
+                                        }
+                                        else
+                                        {
+                                            result = response.substring(lastResponseLength);
+                                            lastResponseLength = response.length;
+                                        }
+
+                                        try {
+                                            lastPosition = result.lastIndexOf('{');
+                                            tmpJson = $.trim(result.substring(lastPosition));
+
+                                            parsedResponse = JSON.parse(tmpJson);
+
+                                            a.textContent = parsedResponse['message']
+                                            if ( parsedResponse['status'] !== undefined ){
+                                                Swal.hideLoading()
+                                                Swal.disableButtons();
+                                                if(parsedResponse['status'] == 1){
+                                                    _redirect = true
+                                                    Swal.enableButtons()
+                                                }
+                                            }
+                                        } catch (error) {
+                                            console.err(error)
+                                        }
+                                    }
+                                },
+                                success: function (e) {
+                                    Swal.hideLoading()
+                                },
+                                error: function (x, status, error) {
+                                    // console.log(error)
+                                }
+                            })
+                        }
+                    }).then((result) => {
+                    if (result &&  _redirect) {
+                        window.location.reload()
+                    }
+                    });
+                }
             })
-            $('#loading').modal('show');
-            addCsrfField($('form#excell')[0]);
-            document.getElementById('excell').submit();
-        });
-    });
+        })
+    })
 </script>

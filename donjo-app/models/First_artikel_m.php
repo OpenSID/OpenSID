@@ -55,7 +55,8 @@ class First_artikel_m extends MY_Model
             ->select('a.*, u.nama AS owner, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'LEFT')
-            ->where('headline = 1')
+            ->where('a.enabled', 1)
+            ->where('(headline = 2 or headline = 1)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
             ->order_by('tgl_upload DESC')
             ->get()
@@ -108,7 +109,7 @@ class First_artikel_m extends MY_Model
             ->join('user u', 'a.id_user = u.id', 'LEFT')
             ->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
             ->where('a.enabled', 1)
-            ->where('a.headline <>', 1)
+            ->where('(a.headline != 1 and a.headline != 2)')
             ->where('a.id_kategori NOT IN (1000)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
@@ -142,7 +143,7 @@ class First_artikel_m extends MY_Model
 
     private function sterilkan_artikel(&$data)
     {
-        $data['judul'] = $this->security->xss_clean($data['judul']);
+        $data['judul'] = htmlspecialchars_decode($this->security->xss_clean($data['judul']));
         $data['slug']  = $this->security->xss_clean($data['slug']);
     }
 
@@ -179,7 +180,7 @@ class First_artikel_m extends MY_Model
         $data = $this->db->get('artikel a')->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+            $data[$i]['judul'] = htmlspecialchars_decode($this->security->xss_clean($data[$i]['judul']));
         }
 
         return $data;
@@ -243,7 +244,7 @@ class First_artikel_m extends MY_Model
             ->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
             ->from('artikel')
             ->where('enabled', 1)
-            ->where('headline', 3)
+            ->where('(headline = 2 or headline = 3)')
             ->where($gambar . ' !=', '')
             ->where('tgl_upload <', date('Y-m-d H:i:s'));
 
@@ -284,6 +285,7 @@ class First_artikel_m extends MY_Model
                     ->where('enabled', 1)
                     ->where('gambar !=', '')
                     ->where('tgl_upload <', date('Y-m-d H:i:s'))
+                    ->where('(headline = 2 or headline = 3)')
                     ->order_by('tgl_upload DESC')
                     ->limit(10)
                     ->get('artikel')
@@ -476,9 +478,9 @@ class First_artikel_m extends MY_Model
         $data = $this->db->get()->result_array();
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['judul'] = $this->security->xss_clean($data[$i]['judul']);
+            $data[$i]['judul'] = htmlspecialchars_decode($this->security->xss_clean($data[$i]['judul']));
             if (empty($this->setting->user_admin) || $data[$i]['id_user'] != $this->setting->user_admin) {
-                $data[$i]['isi'] = $this->security->xss_clean($data[$i]['isi']);
+                $data[$i]['isi'] = htmlspecialchars_decode($this->security->xss_clean($data[$i]['isi']));
             }
             // ganti shortcode menjadi icon
             $data[$i]['isi'] = $this->shortcode_model->convert_sc_list($data[$i]['isi']);
@@ -553,7 +555,7 @@ class First_artikel_m extends MY_Model
     public function get_artikel_by_id($id)
     {
         return $this->config_id_exist('artikel')
-            ->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
+            ->select('slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, judul, tgl_upload')
             ->where(['id' => $id])
             ->get('artikel')
             ->row_array();

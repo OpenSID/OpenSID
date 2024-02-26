@@ -1,4 +1,4 @@
-<?php if ($tgl_lengkap && $tgl_lengkap_aktif == 1): ?>
+<?php if (data_lengkap()): ?>
     <div class="box box-info">
         <div class="box-header with-border">
             <a href="<?= site_url($this->controller . "/ajax_cetak/{$o}/cetak") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Mutasi Penduduk <?= ucwords(setting('sebutan_desa')) ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Mutasi Penduduk <?= ucwords(setting('sebutan_desa')) ?>"><i class="fa fa-print "></i> Cetak</a>

@@ -179,9 +179,7 @@ class Pengguna extends Admin_Controller
         $user = $this->db->where('id', $this->session->user)->get('user')->row();
 
         if ($user->email_verified_at !== null) {
-            $this->session->success = 1;
-
-            redirect('pengguna');
+            redirect_with('success', 'Email berhasil terkirim');
         }
 
         try {
@@ -190,21 +188,14 @@ class Pengguna extends Admin_Controller
             ]);
         } catch (Exception $e) {
             log_message('error', $e);
-
-            $this->session->success   = -1;
-            $this->session->error_msg = 'Tidak berhasil mengirim verifikasi email';
-
-            redirect('pengguna');
+            redirect_with('error', 'Tidak berhasil mengirim verifikasi email');
         }
 
         if ($status === 'verify') {
-            $this->session->success = 6;
-        } else {
-            $this->session->success   = -1;
-            $this->session->error_msg = lang($status);
+            redirect_with('success', 'Silahkan Cek Pesan di Email Anda');
         }
 
-        redirect('pengguna');
+        redirect_with('error', lang($status));
     }
 
     public function kirim_otp_telegram()
@@ -282,41 +273,28 @@ class Pengguna extends Admin_Controller
         $user = $this->db->where('id', $this->session->user)->get('user')->row();
 
         if ($user->email_verified_at !== null) {
-            $this->session->success = 1;
-
-            redirect('pengguna');
+            redirect_with('success', 'Verifikasi berhasil');
         }
 
         // Check if hash equal with current user email.
         if (! hash_equals($hash, sha1($user->email))) {
-            $this->session->success   = -1;
-            $this->session->error_msg = lang('token');
-
-            redirect('pengguna');
+            redirect_with('error', lang('token'));
         }
 
         $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
 
         // Check signature key
         if (! hash_equals($signature, $this->input->get('signature'))) {
-            $this->session->success   = -1;
-            $this->session->error_msg = lang('token');
-
-            redirect('pengguna');
+            redirect_with('error', lang('token'));
         }
 
         // Check for token if expired
         if ($this->input->get('expires') < strtotime(date('Y-m-d H:i:s'))) {
-            $this->session->success   = -1;
-            $this->session->error_msg = lang('expired');
-
-            redirect('pengguna');
+            redirect_with('error', lang('expired'));
         }
 
         $this->db->where('id', $this->session->user)->update('user', ['email_verified_at' => date('Y-m-d H:i:s')]);
 
-        $this->session->success = 1;
-
-        redirect('pengguna');
+        redirect_with('success', 'Verifikasi berhasil');
     }
 }
