@@ -35,19 +35,15 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/**
- * @param mixed $needle
- * @param mixed $array
- */
-
-/*
-    Mencari nilai di nested array (array dalam array).
-    Ambil key dari array utama
-*/
 function nested_array_search($needle, $array)
 {
+    /**
+     * Mencari nilai di nested array (array dalam array).
+     * Ambil key dari array utama
+     * 
+     * @param mixed $needle
+     * @param mixed $array
+     */
     foreach ($array as $key => $value) {
         $array_key = array_search($needle, $value, true);
         if ($array_key !== false) {
@@ -698,9 +694,10 @@ function set_words($data = '', $type = null): string
                 $txt = strtoupper($exp[$i]);
                 break;
 
-            case 'ucfirst':
-                $txt = ucfirst(strtolower($exp[$i]));
-                break;
+            // TODO:: belum berfungsi dengan baik
+            // case 'ucfirst':
+            //     $txt = ucfirst(strtolower($exp[$i]));
+            //     break;
 
             default:
                 $txt = $exp[$i];
