@@ -44,8 +44,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 /**
  * VERSION
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
