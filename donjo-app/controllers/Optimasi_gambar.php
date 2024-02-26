@@ -41,7 +41,6 @@ class Optimasi_gambar extends Admin_Controller
 {
     public $modul_ini           = 'pengaturan';
     public $sub_modul_ini       = 'optimasi-gambar';
-    public $kategori_pengaturan = 'Optimasi';
 
     public function __construct()
     {
