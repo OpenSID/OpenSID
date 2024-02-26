@@ -62,6 +62,7 @@ class Siteman extends MY_Controller
     {
         if (isset($_SESSION['recaptcha']) && $_SESSION['recaptcha'] == 0) {
             $this->setting->google_recaptcha = 0;
+            $_SESSION['temp_recaptcha']      = 1;
             unset($_SESSION['recaptcha']);
         }
 
@@ -98,7 +99,7 @@ class Siteman extends MY_Controller
 
     public function auth(): void
     {
-        if (setting('google_recaptcha')) {
+        if (setting('google_recaptcha') && $_SESSION['temp_recaptcha'] != 1) {
             $status = google_recaptcha();
             if (! $status->success) {
                 set_session('notif', 'Mohon konfirmasi bahwa anda bukan robot!');
