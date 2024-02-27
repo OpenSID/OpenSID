@@ -83,8 +83,8 @@ class First_gallery_m extends MY_Model
                     ->where('parrent', $galeri)
                     ->or_where('id', $galeri)
                     ->group_end()
-                    ->where('gambar <>', '', false)
-                    ->get('gambar_gallery', 1)
+                    ->where('gambar <>', '')
+                    ->get('gambar_gallery')
                     ->row_array();
                 $data[$i]['gambar'] = $row['gambar'];
             }
