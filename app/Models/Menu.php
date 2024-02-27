@@ -153,7 +153,7 @@ class Menu extends BaseModel
         return $this->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])
             ->where('parrent', 0)->where('enabled', 1)
             ->with(['childrens' => static function ($q): void {
-                $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->where('enabled', 1);
+                $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->where('enabled', 1)->orderBy('urut');
             }])
             ->orderBy('urut')
             ->get();
