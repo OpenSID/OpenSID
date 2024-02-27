@@ -809,3 +809,17 @@ div.form-surat .content-header {
     align-items: center;
     height: auto;
 }
+
+.faa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 14px;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.tp02 {
+    opacity: 0.2;
+}

@@ -35,16 +35,18 @@
  *
  */
 
-use App\Libraries\Release;
+use App\Models\Rtm;
+use App\Models\Modul;
 use App\Models\Bantuan;
+use App\Models\Wilayah;
 use App\Models\Kelompok;
 use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
+use App\Models\Shortcut;
+use App\Libraries\Release;
 use App\Models\RefJabatan;
-use App\Models\Rtm;
-use App\Models\Wilayah;
+use App\Models\PendudukMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -68,15 +70,8 @@ class Hom_sid extends Admin_Controller
         $this->load->library('saas');
 
         $data = [
+            'shortcut'        => Shortcut::status(Shortcut::ACTIVE)->orderBy('urutan')->get()->toArray(),
             'rilis'           => $this->getUpdate(),
-            'bantuan'         => $this->bantuan(),
-            'penduduk'        => Penduduk::status()->count(),
-            'keluarga'        => Keluarga::status()->count(),
-            'rtm'             => Rtm::status()->count(),
-            'kelompok'        => Kelompok::status()->tipe()->count(),
-            'dusun'           => Wilayah::dusun()->count(),
-            'pendaftaran'     => PendudukMandiri::status()->count(),
-            'surat'           => $this->logSurat(),
             'saas'            => $this->saas->peringatan(),
             'notif_langganan' => $this->pelanggan_model->status_langganan(),
         ];
@@ -120,27 +115,5 @@ class Hom_sid extends Admin_Controller
         $bantuan['program']     = Bantuan::status()->pluck('nama', 'id');
 
         return $bantuan;
-    }
-
-    protected function logSurat()
-    {
-        return LogSurat::whereNull('deleted_at')
-            ->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
-                return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where('tte', '=', 1);
-                })
-                    ->when(setting('tte') == 0, static function ($tte) {
-                        return $tte->where('verifikasi_kades', '=', '1');
-                    })
-                    ->orWhere(static function ($verifikasi) {
-                        $verifikasi->whereNull('verifikasi_operator');
-                    });
-            })
-            ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
-                return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
-            })
-            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
-                return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
-            })->count();
     }
 }
