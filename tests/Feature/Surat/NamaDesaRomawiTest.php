@@ -73,21 +73,21 @@ final class NamaDesaRomawiTest extends TestCase
         $this->assertNotEquals('banuaji angkasa iv', $formattedName);
     }
 
-    // public function testValidDesaUcfirstWithRomawi()
-    // {
-    //     $formattedName = set_words($this->namaDesa, 'ucfirst');
+    public function testValidDesaUcfirstWithRomawi()
+    {
+        $formattedName = set_words($this->namaDesa, 'ucfirst');
 
-    //     // Assert that the formatted name is as expected
-    //     $this->assertEquals('Banuaji angkasa IV', $formattedName);
-    // }
+        // Assert that the formatted name is as expected
+        $this->assertEquals('Banuaji angkasa IV', $formattedName);
+    }
 
-    // public function testInvalidDesaUcfirstWithRomawi()
-    // {
-    //     $formattedName = set_words($this->namaDesa, 'ucfirst');
+    public function testInvalidDesaUcfirstWithRomawi()
+    {
+        $formattedName = set_words($this->namaDesa, 'ucfirst');
 
-    //     // Assert that the formatted name is as expected
-    //     $this->assertNotEquals('Banuaji angkasa iv', $formattedName);
-    // }
+        // Assert that the formatted name is as expected
+        $this->assertNotEquals('Banuaji angkasa iv', $formattedName);
+    }
 
     public function testValidDesaUcwordsWithRomawi()
     {

@@ -694,10 +694,9 @@ function set_words($data = '', $type = null): string
                 $txt = strtoupper($exp[$i]);
                 break;
 
-            // TODO:: belum berfungsi dengan baik
-            // case 'ucfirst':
-            //     $txt = ucfirst(strtolower($exp[$i]));
-            //     break;
+            case 'ucfirst':
+                $txt = ($i === 0) ? ucfirst(strtolower($exp[$i])) : $exp[$i];
+                break;
 
             default:
                 $txt = $exp[$i];
