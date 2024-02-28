@@ -451,6 +451,37 @@ class Keluarga extends Admin_Controller
         redirect($this->controller);
     }
 
+    /*
+        Ajax url query data:
+        q -- kata pencarian
+        page -- nomor paginasi
+    */
+
+    public function list_kk_ajax()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari     = $this->input->get('q');
+            $keluarga = ModelsKeluarga::select(['id', 'no_kk'])
+                ->when($cari, static function ($query) use ($cari): void {
+                    $query->where('no_kk', 'like', "%{$cari}%");
+                })
+                ->paginate(10);
+
+            return json([
+                'results' => collect($keluarga->items())
+                    ->map(static fn ($item): array => [
+                        'id'   => $item->no_kk,
+                        'text' => $item->no_kk,
+                    ]),
+                'pagination' => [
+                    'more' => $keluarga->currentPage() < $keluarga->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
+    }
+
     public function anggota($p = 1, $o = 0, $id = 0): void
     {
         $data['p']  = $p;
@@ -673,7 +704,8 @@ class Keluarga extends Admin_Controller
 
     public function search_kumpulan_kk(): void
     {
-        $data['kumpulan_kk'] = $this->session->kumpulan_kk ?: '';
+        $data['kumpulan_kk'] = $this->session->kumpulan_kk ?? null;
+        // dd($data['kumpulan_kk']);
         $data['form_action'] = site_url("{$this->controller}/filter/kumpulan_kk");
 
         $this->load->view('sid/kependudukan/ajax_search_kumpulan_kk', $data);
