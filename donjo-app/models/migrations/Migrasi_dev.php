@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use Illuminate\Support\Facades\DB;
+
 class Migrasi_dev extends MY_model
 {
     public function up()
@@ -57,14 +59,27 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024270201($hasil, $id);
+        }
 
         // Migrasi tanpa config_id
 
         return $hasil;
+    }
+
+    protected function migrasi_2024270201($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Sinkronisasi OpenDK Server',
+            'key'        => 'sinkronisasi_opendk',
+            'value'      => setting('api_opendk_key') ? 1 : 0,
+            'keterangan' => 'Aktifkan Sinkronisasi Server OpenDK',
+            'kategori'   => 'opendk',
+            'jenis'      => 'boolean',
+            'option'     => null,
+        ], $id);
     }
 }
