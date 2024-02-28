@@ -247,6 +247,7 @@ Route::group('penduduk_log', static function (): void {
 
 // Kependudukan > Keluarga
 Route::group('keluarga', static function (): void {
+    Route::get('/list_kk_ajax', 'Keluarga@list_kk_ajax')->name('keluarga.list_kk_ajax');
     Route::get('/clear_session', 'Keluarga@clear_session')->name('keluarga.clear_session');
     Route::get('/clear', 'Keluarga@clear')->name('keluarga.clear');
     Route::post('/autocomplete', 'Keluarga@autocomplete')->name('keluarga.autocomplete');
