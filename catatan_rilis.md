@@ -10,7 +10,6 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 #### BUG
 
 
-
 #### TEKNIS
 
 

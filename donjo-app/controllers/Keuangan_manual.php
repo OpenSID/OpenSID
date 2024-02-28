@@ -238,8 +238,8 @@ class Keuangan_manual extends Admin_Controller
             'Kd_Akun'         => $this->security->xss_clean($post['Kd_Akun']),
             'Kd_Keg'          => $this->security->xss_clean($post['Kd_Keg']),
             'Kd_Rincian'      => $this->security->xss_clean($post['Kd_Rincian']),
-            'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0'),
-            'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0'),
+            'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0') ?: '0.00',
+            'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0') ?: '0.00',
         ];
     }
 }

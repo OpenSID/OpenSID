@@ -34,11 +34,13 @@
                     kategori: _kategori
                 }, function(data) {
                     _pendudukDesaElm.find('.data_penduduk_desa').html(data.html)
-                    if (data.kategori == 'individu') {
-                        $('#kategori-dapp').find('.select2-nik-ajax').empty().append(data.optionAyah)
-                        $('#kategori-dapp').find('.data_penduduk_desa').html(data.htmlAyah)
-                        $('#kategori-dipp').find('.select2-nik-ajax').empty().append(data.optionIbu)
-                        $('#kategori-dipp').find('.data_penduduk_desa').html(data.htmlIbu)
+
+                    for (let i = 0; i < data.hubungan.length; i++) {
+                        let hubungan = data.hubungan[i]
+                        let option = data[`option${hubungan}`]
+                        let html = data[`html${hubungan}`]
+                        $(`#kategori-${hubungan}`).find('.select2-nik-ajax').empty().append(option)
+                        $(`#kategori-${hubungan}`).find('.data_penduduk_desa').empty().html(html)
                     }
                 }, 'json')
             }

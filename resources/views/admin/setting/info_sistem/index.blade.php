@@ -352,14 +352,14 @@
                         @foreach ($section as $key => $val)
                             @if (is_array($val))
                                 <tr>
-                                    <td class="col-md-4 info">{{ $key }}</td>
-                                    <td>{{ $val[0] }}</td>
-                                    <td>{{ $val[1] }}</td>
+                                    <td class="col-md-4 info">{!! $key !!}</td>
+                                    <td>{!! $val[0] !!}</td>
+                                    <td>{!! $val[1] !!}</td>
                                 </tr>
                             @elseif (is_string($key))
                                 <tr>
-                                    <td class="col-md-4 info">{{ $key }}</td>
-                                    <td colspan='2'>{{ $val }}</td>
+                                    <td class="col-md-4 info">{!! $key !!}</td>
+                                    <td colspan='2'>{!! $val !!}</td>
                                 </tr>
                             @else
                                 <tr>
@@ -379,7 +379,7 @@
                     <div class="col-sm-6">
                         <h5><b>CACHE</b></h5>
                         <div class="input-group">
-                            <input type="text" class="form-control" value="{{ str_replace('\\', '/', config('cache.stores.file.path')) }}" readonly>
+                            <input type="text" class="form-control" value="{{ str_replace(['\\', '//'], ['/', '/'], config('cache.stores.file.path')) }}" readonly>
                             @if (can('u'))
                                 <span class="input-group-btn">
                                     <a href="{{ route($controller . '.cache_desa') }}" class="btn btn-info btn-flat">Bersihkan</a>
@@ -388,7 +388,7 @@
                         </div>
                         <hr>
                         <div class="input-group">
-                            <input type="text" class="form-control" value="{{ str_replace('\\', '/', config('view.compiled')) }}" readonly>
+                            <input type="text" class="form-control" value="{{ str_replace(['\\', '//'], ['/', '/'], config('view.compiled')) }}" readonly>
                             @if (can('u'))
                                 <span class="input-group-btn">
                                     <a href="{{ route($controller . '.cache_blade') }}" class="btn btn-info btn-flat">Bersihkan</a>
