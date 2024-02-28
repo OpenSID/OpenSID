@@ -242,6 +242,13 @@ class Analisis_indikator extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
+    public function urut($id = 0, $arah = 0)
+    {
+        $this->redirect_hak_akses('u');
+        $this->analisis_indikator_model->urut($id, $arah);
+        redirect("{$this->controller}");
+    }
+
     public function p_insert($in = '')
     {
         $this->redirect_hak_akses('u');
@@ -271,6 +278,13 @@ class Analisis_indikator extends Admin_Controller
         $this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
         $this->analisis_indikator_model->p_delete_all();
 
+        redirect("{$this->controller}/parameter/{$in}");
+    }
+
+    public function p_urut($in = '', $id = 0, $arah = 0)
+    {
+        $this->redirect_hak_akses('u', "{$this->controller}/parameter/{$in}");
+        $this->analisis_indikator_model->p_urut($id, $arah, "id_indikator = '{$in}'");
         redirect("{$this->controller}/parameter/{$in}");
     }
 }

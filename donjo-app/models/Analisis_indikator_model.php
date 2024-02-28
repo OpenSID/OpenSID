@@ -39,9 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_indikator_model extends MY_Model
 {
+    private $urut_model;
+
     public function __construct()
     {
         parent::__construct();
+        require_once APPPATH . '/models/Urut_model.php';
+        $this->urut_model = new Urut_Model('analisis_indikator', 'id');
         $this->load->model('analisis_master_model');
     }
 
@@ -144,7 +148,8 @@ class Analisis_indikator_model extends MY_Model
             case 6: $order_sql = ' ORDER BY u.id_kategori DESC';
                 break;
 
-            default:$order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")';
+            default:$order_sql = ' ORDER BY u.urut';
+                break;
         }
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
@@ -208,6 +213,7 @@ class Analisis_indikator_model extends MY_Model
 
         $data['id_master'] = $this->session->analisis_master;
         $data['config_id'] = identitas('id');
+        $data['urut']      = $this->urut_model->urut_max() + 1;
         $outp              = $this->db->insert('analisis_indikator', $data);
         $id                = $this->db->insert_id();
 
@@ -807,5 +813,21 @@ class Analisis_indikator_model extends MY_Model
         }
 
         return $data;
+    }
+
+    public function urut($id, $arah)
+    {
+        $outp = $this->urut_model->urut($id, $arah);
+
+        status_sukses($outp);
+    }
+
+    public function p_urut($in, $id, $arah)
+    {
+        $this->urut_model = new Urut_Model('analisis_parameter', 'id');
+        
+        $outp = $this->urut_model->urut($id, $arah, $in);
+
+        status_sukses($outp);
     }
 }

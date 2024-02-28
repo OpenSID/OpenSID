@@ -53,9 +53,14 @@
 															<?php if ($analisis_master['lock'] == 1 && $this->CI->cek_hak_akses('u') && ! $analisis_indikator['referensi']): ?>
 																<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 															<?php endif; ?>
+															<?php $data['no'] = ($key + 1); ?>
 															<td class="padat"><?= ($key + 1); ?></td>
 															<?php if ($analisis_master['lock'] == 1 && $this->CI->cek_hak_akses('u')): ?>
 																<td class="aksi">
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<a href="<?= site_url("analisis_indikator/p_urut/{$analisis_indikator['id']}/{$data['id']}/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																		<a href="<?= site_url("analisis_indikator/p_urut/{$analisis_indikator['id']}/{$data['id']}/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $mulai && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																	<?php endif; ?>
 																	<a href="<?= site_url("analisis_indikator/form_parameter/{$analisis_indikator['id']}/{$data['id']}") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Parameter"><i class='fa fa-edit'></i></a>
 																	<?php if ($analisis_master['jenis'] != 1 && ! $analisis_indikator['referensi']): ?>
 																		<a href="#" data-href="<?= site_url("analisis_indikator/p_delete/{$analisis_indikator['id']}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

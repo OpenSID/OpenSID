@@ -47,8 +47,18 @@ class Migrasi_2402_ke_2403 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2308', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2309', false);
 
+        $this->kolom_urut($hasil);
+
         status_sukses($hasil);
 
+        return $hasil;
+    }
+
+    public function kolom_urut($hasil)
+    {
+        $this->db->query("ALTER TABLE `analisis_indikator` ADD COLUMN `urut` INT(11) NULL DEFAULT '1'");
+        $this->db->query("ALTER TABLE `analisis_parameter` ADD COLUMN `urut` INT(11) NULL DEFAULT '1'");
+        
         return $hasil;
     }
 }
