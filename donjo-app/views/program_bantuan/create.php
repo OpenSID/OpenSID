@@ -29,6 +29,16 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group" style="display: none;" id="penerima">
+						<label class="col-sm-3 control-label" for="penerima">Penerima</label>
+						<div class="col-sm-9">
+							<select class="form-control input-sm select2 required" name="kk_level[]" multiple="multiple">
+								<?php foreach ($kk_level as $key => $value): ?>
+									<option value="<?= $key ?>"><?= $value ?></option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-3" for="nama">Nama Program</label>
 						<div class="col-sm-8">
@@ -80,4 +90,14 @@
 		</div>
 	</section>
 </div>
+<script>
+	$('#cid').change(function(){
+		var cid = $(this).val();
+		if (cid == 2) {
+			$('#penerima').show();
+		} else {
+			$('#penerima').hide();
+		}
+	});
+</script>
 

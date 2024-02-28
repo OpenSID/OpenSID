@@ -216,7 +216,7 @@ class Program_bantuan_model extends MY_Model
         switch ($sasaran) {
             case 1:
                 // Data penduduk
-                if (! $jumlah) {
+                if (!$jumlah) {
                     $select_sql = 'p.*, o.nama, s.nama as status_dasar, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
@@ -230,7 +230,7 @@ class Program_bantuan_model extends MY_Model
 
             case 2:
                 // Data KK
-                if (! $jumlah) {
+                if (!$jumlah) {
                     $select_sql = 'p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . '
@@ -246,7 +246,7 @@ class Program_bantuan_model extends MY_Model
 
             case 3:
                 // Data RTM
-                if (! $jumlah) {
+                if (!$jumlah) {
                     $select_sql = 'p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
@@ -260,7 +260,7 @@ class Program_bantuan_model extends MY_Model
 
             case 4:
                 // Data Kelompok
-                if (! $jumlah) {
+                if (!$jumlah) {
                     $select_sql = 'p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
@@ -492,7 +492,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan penduduk yang sudah terdaftar pada program
-                if (! in_array($data[$i]['nik'], $filter)) {
+                if (!in_array($data[$i]['nik'], $filter)) {
                     if ($data[$i]['nik'] != '') {
                         $data1[$j]['id']   = $data[$i]['nik'];
                         $data1[$j]['nik']  = $data[$i]['nik'];
@@ -531,7 +531,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan keluarga yang sudah terdaftar pada program
-                if (! in_array($data[$i]['no_kk'], $filter)) {
+                if (!in_array($data[$i]['no_kk'], $filter)) {
                     $hasil2[$j]['id']   = $data[$i]['nik'];
                     $hasil2[$j]['nik']  = $data[$i]['nik'];
                     $hasil2[$j]['nama'] = strtoupper('KK[' . $data[$i]['no_kk'] . '] - [' . $data[$i]['kk_level'] . '] ' . $data[$i]['nama'] . ' [' . $data[$i]['nik'] . ']');
@@ -564,7 +564,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan RTM yang sudah terdaftar pada program
-                if (! in_array($data[$i]['id'], $filter)) {
+                if (!in_array($data[$i]['id'], $filter)) {
                     $hasil2[$j]['id']   = $data[$i]['id'];
                     $hasil2[$j]['nik']  = $data[$i]['id'];
                     $hasil2[$j]['nama'] = strtoupper($data[$i]['nama']) . ' [' . $data[$i]['id'] . ']';
@@ -597,7 +597,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan kelompok yang sudah terdaftar pada program
-                if (! in_array($data[$i]['id'], $filter)) {
+                if (!in_array($data[$i]['id'], $filter)) {
                     $hasil2[$j]['id']   = $data[$i]['id'];
                     $hasil2[$j]['nik']  = $data[$i]['nama_kelompok'];
                     $hasil2[$j]['nama'] = strtoupper($data[$i]['nama']) . ' [' . $data[$i]['nama_kelompok'] . ']';
@@ -792,7 +792,7 @@ class Program_bantuan_model extends MY_Model
 
             default:
         }
-        if (! $data_program == false) {
+        if (!$data_program == false) {
             return ['programkerja' => $data_program, 'profil' => $data_profil];
         }
 
@@ -818,6 +818,7 @@ class Program_bantuan_model extends MY_Model
         $data['asaldana'] = $post['asaldana'];
         $data['sdate']    = date('Y-m-d', strtotime($post['sdate']));
         $data['edate']    = date('Y-m-d', strtotime($post['edate']));
+        $data['kk_level'] = json_encode($post['cid'] == 2 ? ($post['kk_level'] ?? ["1"]) : null);
 
         return $data;
     }
@@ -1051,7 +1052,7 @@ class Program_bantuan_model extends MY_Model
     private function cari_query()
     {
         $cari = $this->input->post('search')['value'];
-        if (! $cari || empty($this->column_search)) {
+        if (!$cari || empty($this->column_search)) {
             return;
         }
 

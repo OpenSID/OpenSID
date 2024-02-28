@@ -47,6 +47,7 @@ class Migrasi_2402_ke_2403 extends MY_Model
         // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2308', false);
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2309', false);
 
+        $this->db->query("ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`");
         status_sukses($hasil);
 
         return $hasil;
