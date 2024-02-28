@@ -145,7 +145,7 @@ class Surat_master extends Admin_Controller
         }
 
         $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
-        $data['margin_global']        = $data['suratMaster']->margin_global;
+        $data['margin_global']        = $data['suratMaster']->margin_global ?? 1;
         $data['orientations']         = FormatSurat::ORIENTATAIONS;
         $data['sizes']                = FormatSurat::SIZES;
         $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
@@ -154,7 +154,7 @@ class Surat_master extends Admin_Controller
         $data['footer']               = $data['suratMaster']->footer ?? 1;
         $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
         $data['format_nomor']         = $data['suratMaster']->format_nomor;
-        $data['format_nomor_global']  = $data['suratMaster']->format_nomor_global;
+        $data['format_nomor_global']  = $data['suratMaster']->format_nomor_global ?? 1;
         $data['form_isian']           = $this->form_isian();
         $data['simpan_sementara']     = site_url('surat_master/simpan_sementara');
         $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
