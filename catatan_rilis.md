@@ -10,6 +10,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 4. [#7284](https://github.com/OpenSID/OpenSID/issues/7284) Penambahan kelengkapan data lampiran F-2.01 saat cetak.
 5. [#7043](https://github.com/OpenSID/OpenSID/issues/7043) Penambahan lampiran F-2.30.
 6. [#6116](https://github.com/OpenSID/OpenSID/issues/6116) Penerapan Kode/ klasifikasi Surat/arsip Sesuai Peraturan Menteri Dalam Negeri Nomor 83 Tahun 2022.
+6. [#7712](https://github.com/OpenSID/OpenSID/issues/7712) Penambahan otomatis isi data dari pengaturan hubungkan data antar form kategori surat.
 
 
 #### BUG
