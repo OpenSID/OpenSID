@@ -41,11 +41,11 @@ require_once 'database.php';
 
 $connections = [];
 
+$connections['default'] = $active_group;
+
 foreach ($db as $key => $options) {
     $dbdriver = Arr::get($options, 'dbdriver');
     $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
-
-    $connections['default'] = $key;
 
     $connections['connections'][$key] = [
         'driver'    => $dbdriver,
