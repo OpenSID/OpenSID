@@ -47,7 +47,7 @@
                                                                 <th class="padat">No</th>
                                                                 <th class="padat">Aksi</th>
                                                                 <th>Isi Teks Berjalan</th>
-                                                                <th width="30%">Tautan ke Artikel</th>
+                                                                <th width="30%">Tautan</th>
                                                             </tr>
                                                         </thead>
                                                     </table>
