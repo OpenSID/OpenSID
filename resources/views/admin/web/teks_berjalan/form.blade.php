@@ -1,4 +1,5 @@
 @extends('admin.layouts.index')
+@include('admin.layouts.components.asset_validasi')
 
 @section('title')
     <h1>
