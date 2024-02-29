@@ -15,4 +15,4 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 
 #### KEAMANAN
 
-1. 
+1. [#3507](https://github.com/OpenSID/premium/issues/3507) Peningkatan unggah file pada modul informasi publik.
