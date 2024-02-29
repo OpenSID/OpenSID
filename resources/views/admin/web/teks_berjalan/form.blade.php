@@ -57,7 +57,7 @@
                     />
                 </div>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <label class="control-label">Status</label>
                     <select class="form-control select2" id="status" name="status">
@@ -79,7 +79,7 @@
     </form>
 @endsection
 
-@push('script')
+@push('scripts')
     <script>
         $(document).ready(function() {
             $('#tautan').on('change', function() {
