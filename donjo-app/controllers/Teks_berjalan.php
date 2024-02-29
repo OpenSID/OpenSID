@@ -112,7 +112,7 @@ class Teks_berjalan extends Admin_Controller
     public function form($id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['list_artikel'] = Artikel::where('id_kategori', 999)->limit(500)->orderBy('id', 'DESC')->get();
+        $data['list_artikel'] = Artikel::where('tipe', 'statis')->limit(500)->orderBy('id', 'DESC')->get();
         if ($id) {
             $data['teks']        = TeksBerjalan::findOrFail($id);
             $data['form_action'] = ci_route('teks_berjalan.update', $id);
