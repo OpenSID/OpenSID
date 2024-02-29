@@ -116,10 +116,11 @@ class Keluarga_model extends MY_Model
             return;
         }
 
-        $kumpulan_kk                = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
-        $kumpulan_kk                = array_filter(array_slice(explode(',', $kumpulan_kk), 0, 20)); // ambil 20 saja
-        $kumpulan_kk                = implode(',', $kumpulan_kk);
-        $this->session->kumpulan_kk = $kumpulan_kk;
+        $kumpulan_kk = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
+        if (! is_array($kumpulan_kk)) {
+            $kumpulan_kk                = explode(',', $kumpulan_kk);
+            $this->session->kumpulan_kk = $kumpulan_kk;
+        }
         $this->db->where_in('u.no_kk ', $kumpulan_kk);
     }
 

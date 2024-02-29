@@ -95,7 +95,7 @@
 															<?php if ($data['ekspedisi']): ?>
 																<a href='<?= site_url('ekspedisi')?>' class="btn bg-info btn-flat btn-sm" title="Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a>
 															<?php else: ?>
-																<a href='<?= site_url("{$this->controller}/untuk_ekspedisi/{$p}/{$o}/{$data['id']}")?>' class="btn bg-blue btn-flat btn-sm" title="Tambahkan ke Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a>
+																<a href='<?= site_url("{$this->controller}/untuk_ekspedisi/{$data['id']}")?>' class="btn bg-blue btn-flat btn-sm" title="Tambahkan ke Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a>
 															<?php endif; ?>
 														<?php endif; ?>
 														<?php if (can('h')): ?>

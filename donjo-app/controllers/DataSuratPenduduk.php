@@ -156,29 +156,47 @@ class DataSuratPenduduk extends CI_Controller
 
         $html = view('admin.surat.data_penduduk', $data, [], true);
 
-        $data['individu']     = $data['ayah'];
-        $data['list_dokumen'] = $data['list_dokumen_ayah'];
-        $htmlAyah             = view('admin.surat.data_penduduk', $data, [], true);
+        $getFormHubung = collect($surat->form_isian)
+            ->where('hubungan', $kategori)
+            ->toArray();
 
-        $data['individu']     = $data['ibu'];
-        $data['list_dokumen'] = $data['list_dokumen_ibu'];
-        $htmlIbu              = view('admin.surat.data_penduduk', $data, [], true);
+        $sumber = [
+            'status'   => 1,
+            'hubungan' => array_keys($getFormHubung),
+            'html'     => (string) $html,
+            'kategori' => $kategori,
+        ];
 
-        $optionAyah = '<option value="' . $data['ayah']->id . '">' . $data['ayah']->nama . '</option>';
-        $optionIbu  = '<option value="' . $data['ibu']->id . '">' . $data['ibu']->nama . '</option>';
+        $kaitkan = [];
+
+        foreach ($getFormHubung as $key => $value) {
+            if ($data['individu']['kk_level'] !== SHDKEnum::ANAK) {
+                continue;
+            }
+
+            $dataPenduduk = Penduduk::where('id_kk', $data['individu']['id_kk'])
+                ->where('sex', $value->sex)
+                ->whereIn('kk_level', $value->kk_level)
+                ->whereIn('status_dasar', $value->status_dasar)
+                ->get()
+                ->toArray();
+
+            if (count($dataPenduduk) == 1) {
+                $pendudukKait = $this->kategoriYangDikaitkan($dataPenduduk[0]['id'], $key);
+                $sumber       = array_merge($sumber, $pendudukKait);
+            } else {
+                $sumber = array_merge($sumber, [
+                    "option{$key}"   => '',
+                    "html{$key}"     => '',
+                    "kategori{$key}" => $key,
+                ]);
+            }
+        }
 
         // Set the content type to JSON
         return $this->output
             ->set_content_type('application/json')
-            ->set_output(json_encode([
-                'status'     => 1,
-                'html'       => (string) $html,
-                'optionAyah' => $optionAyah,
-                'optionIbu'  => $optionIbu,
-                'htmlAyah'   => (string) $htmlAyah,
-                'htmlIbu'    => (string) $htmlIbu,
-                'kategori'   => $kategori,
-            ], JSON_THROW_ON_ERROR));
+            ->set_output(json_encode(array_merge($sumber, $kaitkan), JSON_THROW_ON_ERROR));
     }
 
     private function pengikutDibawah18Tahun(array $data)
@@ -213,5 +231,20 @@ class DataSuratPenduduk extends CI_Controller
     private function pengikutPindah(array $data)
     {
         return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->get();
+    }
+
+    private function kategoriYangDikaitkan($id, $hubunganForm)
+    {
+        $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $hubunganForm];
+
+        $html = view('admin.surat.data_penduduk', $data, [], true);
+
+        $option = '<option value="' . $data['individu']['id'] . '">' . $data['individu']['nama'] . '</option>';
+
+        return [
+            "option{$hubunganForm}"   => $option,
+            "html{$hubunganForm}"     => (string) $html,
+            "kategori{$hubunganForm}" => $hubunganForm,
+        ];
     }
 }
