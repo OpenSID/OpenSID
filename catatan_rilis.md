@@ -28,6 +28,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 21. [#7730](https://github.com/OpenSID/OpenSID/issues/7730) Perbaikan menampilkan data galeri pada halaman web.
 22. [#7722](https://github.com/OpenSID/OpenSID/issues/7722) Perbaikan strict count array php 8.x pada lampiran dengan data pengikut tidak ada.
 22. [#7735](https://github.com/OpenSID/OpenSID/issues/7735) Perbaikan pencarian kumpulan KK pada modul keluarga.
+23. [#7740](https://github.com/OpenSID/OpenSID/issues/7740) Perbaikan impor data program bantuan.
 
 
 #### TEKNIS

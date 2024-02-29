@@ -416,7 +416,7 @@ class Program_bantuan extends Admin_Controller
 
                     if ($kosongkan_peserta == 1) {
                         $pesan_peserta .= '- Data peserta ' . ($ambil_peserta[0]['nama']) . ' sukses dikosongkan<br>';
-                        $terdaftar_peserta = null;
+                        $terdaftar_peserta = [];
                     }
 
                     foreach ($sheet->getRowIterator() as $row) {
@@ -531,7 +531,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->set_flashdata('notif', $notif);
             $this->session->per_page = $temp;
 
-            redirect("{$this->controller}/detail/{$program_id}");
+            redirect("peserta_bantuan/detail_clear/{$program_id}");
         }
 
         session_error($this->upload->display_errors());
