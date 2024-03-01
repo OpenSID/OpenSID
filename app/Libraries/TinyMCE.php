@@ -169,6 +169,9 @@ class TinyMCE
             // Data Dusun
             'Wilayah' => $this->getIsianWilayah(),
 
+            // Data Dusun
+            'Wilayah' => $this->getIsianWilayah(),
+
             // Data Penduduk Umum
             'Penduduk' => $this->getIsianPenduduk($idPenduduk),
 
