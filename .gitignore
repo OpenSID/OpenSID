@@ -25,39 +25,39 @@ version.json
 Obfuscator.php
 
 # Uncomment untuk rilis
-/vendor
-composer.lock
+# /vendor
+# composer.lock
 
 # Abaikan tema premium
-# vendor/themes/denatra/
-# vendor/themes/silir/
-# vendor/themes/batuah/
-# vendor/themes/denava/
+vendor/themes/denatra/
+vendor/themes/silir/
+vendor/themes/batuah/
+vendor/themes/denava/
 
-# # Abaikan isian folder vendor
-# vendor/codeigniter/framework/*
-# !vendor/codeigniter/framework/system/
+# Abaikan isian folder vendor
+vendor/codeigniter/framework/*
+!vendor/codeigniter/framework/system/
 
-# # Abaikan dokumentasi
-# vendor/*/*/.github
-# vendor/*/*/*.md
-# vendor/*/*/*.TXT
-# vendor/*/*/*.cache
-# vendor/*/*/*.yml
-# vendor/*/*/*.dist
-# vendor/*/*/*.xml
-# vendor/*/*/.gitignore
-# vendor/*/*/LICENSE
-# test/
-# tests/
-# doc/
-# docs/
-# example/
-# examples/
-# /tools/
+# Abaikan dokumentasi
+vendor/*/*/.github
+vendor/*/*/*.md
+vendor/*/*/*.TXT
+vendor/*/*/*.cache
+vendor/*/*/*.yml
+vendor/*/*/*.dist
+vendor/*/*/*.xml
+vendor/*/*/.gitignore
+vendor/*/*/LICENSE
+test/
+tests/
+doc/
+docs/
+example/
+examples/
+/tools/
 
-# vendor/libreoffice/*
-# vendor/mikey179/*
+vendor/libreoffice/*
+vendor/mikey179/*
 .vscode/*
 /node_modules
 .cache-rector/*
