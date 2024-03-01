@@ -1,4 +1,4 @@
-Di rilis ini, versi 2402.1.0 berisi penambahan konversi surat rtf ke surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2403.0.0 berisi penambahan konversi surat rtf ke surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ruririzal dan @syahransaputra yang terus berkontribusi.
 
