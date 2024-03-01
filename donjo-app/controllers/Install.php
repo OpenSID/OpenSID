@@ -354,10 +354,10 @@ class Install extends CI_Controller
             return view('installer.steps.user');
         }
 
-        // $this->db->where('config_id', identitas('id'))->where('username', 'admin')->update('user', [
-        //     'username' => $this->input->post('username'),
-        //     'password' => generatePasswordHash($this->input->post('password')),
-        // ]);
+        $this->db->where('config_id', identitas('id'))->where('username', 'admin')->update('user', [
+            'username' => $this->input->post('username'),
+            'password' => generatePasswordHash($this->input->post('password')),
+        ]);
 
         return redirect('install/finish');
     }
