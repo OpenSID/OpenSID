@@ -1,6 +1,4 @@
-Di rilis ini, versi 2402.1.0 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
-
-Terima kasih pada [isi disini] telah ikut berkontribusi.
+Di rilis ini, versi 2403.0.0 berisi kode isian dan beberepa lampiran serta perbaikan lain yang diminta Komunitas SID.
 
 #### FITUR
 
