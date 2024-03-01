@@ -43,8 +43,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Database_model extends MY_Model
 {
-    private $user   = 1;
-    private $engine = 'InnoDB';
+    private $user         = 1;
+    private $engine       = 'InnoDB';
+    private $showProgress = 0;
 
     // define versi opensid dan script migrasi yang harus dijalankan
     private $versionMigrate = [
@@ -126,7 +127,8 @@ class Database_model extends MY_Model
         '23.11'   => ['migrate' => 'migrasi_2311_ke_2312', 'nextVersion' => '23.12'],
         '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => '24.01'],
         '24.01'   => ['migrate' => 'migrasi_2401_ke_2402', 'nextVersion' => '24.02'],
-        '24.02'   => ['migrate' => 'migrasi_2402_ke_2403', 'nextVersion' => null],
+        '24.02'   => ['migrate' => 'migrasi_2402_ke_2403', 'nextVersion' => '24.03'],
+        '24.03'   => ['migrate' => 'migrasi_2403_ke_2404', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -205,14 +207,26 @@ class Database_model extends MY_Model
         $versionMigrate = $this->versionMigrate;
 
         if (isset($versionMigrate[$versi])) {
-            while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
-                $migrate     = $versionMigrate[$nextVersion]['migrate'];
-                $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
-                if (method_exists($this, $migrate)) {
-                    log_message('notice', 'Jalankan ' . $migrate);
-                    call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
-                } else {
-                    $this->jalankan_migrasi($migrate, false);
+            try {
+                while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
+                    $migrate     = $versionMigrate[$nextVersion]['migrate'];
+                    $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
+                    if (method_exists($this, $migrate)) {
+                        log_message('notice', 'Jalankan ' . $migrate);
+                        call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
+                    } else {
+                        $this->jalankan_migrasi($migrate, false);
+                    }
+
+                    if ($this->getShowProgress()) {
+                        // sleep(1.5);
+                        echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0]);
+                    }
+                }
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+                if ($this->getShowProgress()) {
+                    echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
                 }
             }
         } else {
@@ -244,23 +258,25 @@ class Database_model extends MY_Model
             Migrasi::where('versi_database', '=', VERSI_DATABASE)->update(['premium' => $this->session->daftar_migrasi]);
         }
 
-        if (cek_koneksi_internet() || ! config_item('demo_mode') || empty(config_item('kode_desa'))) {
-            $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/OpenSID/umum/index.php');
-            if (file_get_contents(FCPATH . 'index.php') !== $index) {
-                file_put_contents(FCPATH . 'index.php', $index);
-            }
-        }
-
         log_message('notice', 'Versi database sudah terbaru');
+        if ($this->getShowProgress()) {
+            // sleep(1.5);
+            echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
+        }
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi()
+    public function cek_migrasi($install = true)
     {
-        // Paksa menjalankan migrasi kalau belum
-        // Migrasi direkam di tabel migrasi
-        if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
-            $this->migrasi_db_cri();
+        if ($install) {
+            // Paksa menjalankan migrasi kalau belum
+            // Migrasi direkam di tabel migrasi
+            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+                $this->migrasi_db_cri();
+
+                // Kirim versi aplikasi ke layanan setelah migrasi selesai
+                kirim_versi_opensid();
+            }
         }
     }
 
@@ -3539,5 +3555,27 @@ class Database_model extends MY_Model
         $data  = $query->result_array();
 
         return array_column($data, 'TABLE_NAME');
+    }
+
+    /**
+     * Get the value of showProgress
+     */
+    public function getShowProgress()
+    {
+        return $this->showProgress;
+    }
+
+    /**
+     * Set the value of showProgress
+     *
+     * @param mixed $showProgress
+     *
+     * @return self
+     */
+    public function setShowProgress($showProgress)
+    {
+        $this->showProgress = $showProgress;
+
+        return $this;
     }
 }

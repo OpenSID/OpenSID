@@ -1,6 +1,29 @@
+@push('css')
+    <style>
+        .form-horizontal .form-group {
+            margin-right: -10px;
+            margin-left: -10px;
+        }
+
+        .subtitle_head {
+            margin-left: -10px;
+            margin-right: -10px;
+            /* background-color: #d81b60 !important; */
+        }
+
+        .subtitle_head label {
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin-bottom: 0px;
+            /* color: #ffffff !important; */
+        }
+    </style>
+@endpush
 @foreach ($form_kategori as $key => $kategori)
     <div class="form-group subtitle_head" id="a_saksi2">
-        <label class="col-sm-3 control-label" for="status">{{ strtoupper($key) }}</label>
+        <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($key)) }}</label>
         <input name="anchor" type="hidden" value="<?= $anchor ?>" />
         <div class="btn-group col-sm-8" data-toggle="buttons">
             {{-- <label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label active">
@@ -14,19 +37,35 @@
         </label> --}}
         </div>
     </div>
-    <div class="form-group saksi2_desa">
+    {{-- <div class="form-group saksi2_desa">
         <label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon"
             style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA
                 {{ strtoupper($key) }}</strong></label>
-    </div>
+    </div> --}}
     <div class="form-group saksi2_desa">
         <label for="saksi2_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
         <div class="col-sm-5">
             <select class="form-control select2 input-sm select2-nik-ajax" name="id_pend_{{ $key }}"
-                style="width:100%;" data-url="<?= site_url('surat/list_penduduk_ajax') ?>">
+                style="width:100%;" data-surat="{{ $surat->id }}" data-kategori="{{ $key }}" data-url="<?= site_url('surat/list_penduduk_ajax') ?>"
+                onchange="submit_form_ambil_data(this.id);">
+                <?php if ($kategori["saksi_{$key}"]) : ?>
+                <option value="<?= $kategori["saksi_{$key}"]['id'] ?>"
+                    selected><?= $kategori["saksi_{$key}"]['nik'] . ' - ' . $kategori["saksi_{$key}"]['nama'] ?>
+                </option>
+                <?php endif; ?>
             </select>
         </div>
     </div>
+
+    @if ($kategori["saksi_{$key}"])
+        @php
+            $individu = $kategori["saksi_{$key}"];
+            $list_dokumen = $kategori["list_dokumen_{$key}"];
+        @endphp
+
+        @include('admin.surat.konfirmasi_pemohon')
+    @endif
+
     <?php $keyname = $key; ?>
     {{-- kode isia kategori --}}
     <?php foreach ($kategori['kode_isian'] as $item): ?>
@@ -121,7 +160,9 @@
                     return {
                         q: params.term || '', // search term
                         page: params.page || 1,
-                        filter_sex: $(this).data('filter-sex')
+                        filter_sex: $(this).data('filter-sex'),
+                        surat: $(this).data('surat'),
+                        kategori: $(this).data('kategori'),
                     };
                 },
                 processResults: function(data, params) {
@@ -151,5 +192,13 @@
             placeholder: '--  Cari NIK / Tag ID Card / Nama Penduduk --',
             minimumInputLength: 0,
         });
+
+        function submit_form_ambil_data() {
+            $('input').removeClass('required');
+            $('select').removeClass('required');
+            $('#' + 'validasi').attr('action', '');
+            $('#' + 'validasi').attr('target', '');
+            $('#' + 'validasi').submit();
+        }
     </script>
 @endpush

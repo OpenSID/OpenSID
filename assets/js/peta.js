@@ -516,16 +516,17 @@ function getBaseLayers(peta, access_token, jenis_peta) {
   return baseLayers;
 }
 
-function wilayah_property(set_marker, set_content = false) {
-  var wilayah_property = L.geoJSON(turf.featureCollection(set_marker), {
+function wilayah_property(set_marker, set_content = false, tampil_luas = 0) {
+  const showMeasurements = tampil_luas === "1" ? true : false;
+
+  const wilayah_property = L.geoJSON(turf.featureCollection(set_marker), {
     pmIgnore: true,
-    showMeasurements: false,
+    showMeasurements: showMeasurements,
     measurementOptions: {
       showSegmentLength: false,
     },
     onEachFeature: function (feature, layer) {
-      if (feature.properties.name == "kantor_desa") {
-        // Beri classname berbeda, supaya bisa gunakan css berbeda
+      if (feature.properties.name === "kantor_desa") {
         layer.bindPopup(feature.properties.content, {
           className: "kantor_desa",
         });
@@ -555,6 +556,7 @@ function wilayah_property(set_marker, set_content = false) {
   return wilayah_property;
 }
 
+
 function overlayWil(
   marker_desa,
   marker_dusun,
@@ -562,12 +564,13 @@ function overlayWil(
   marker_rt,
   sebutan_desa,
   sebutan_dusun,
-  set_content = false
+  set_content = false,
+  tampil_luas
 ) {
-  var poligon_wil_desa = wilayah_property(marker_desa, set_content);
-  var poligon_wil_dusun = wilayah_property(marker_dusun, set_content);
-  var poligon_wil_rw = wilayah_property(marker_rw, set_content);
-  var poligon_wil_rt = wilayah_property(marker_rt, set_content);
+  var poligon_wil_desa = wilayah_property(marker_desa, set_content, tampil_luas);
+  var poligon_wil_dusun = wilayah_property(marker_dusun, set_content, tampil_luas);
+  var poligon_wil_rw = wilayah_property(marker_rw, set_content, tampil_luas);
+  var poligon_wil_rt = wilayah_property(marker_rt, set_content, tampil_luas);
 
   var peta_desa = "Peta Wilayah " + sebutan_desa;
   var peta_dusun = "Peta Wilayah " + sebutan_dusun;

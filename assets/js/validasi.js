@@ -224,6 +224,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi dan strip");
 
+	jQuery.validator.addMethod("nama_surat", function(value, element) {
+		valid = /^[a-zA-Z0-9 ()\-]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi, strip, (, )");
+
 	jQuery.validator.addMethod("nama_produk", function(value, element) {
 		valid = /^[a-zA-Z0-9()&_:=°% \-]+$/i.test(value);
 		return this.optional(element) || valid;
@@ -254,11 +259,15 @@ $(document).ready(function() {
 		return strippedText === value;
 	}, "Tidak boleh mengandung tag HTML");
 
+	jQuery.validator.addMethod("judul", function(value, element) {
+		const valid = /^[a-zA-Z0-9()[\]&_:;=°%'".,/\- ]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi, strip, titik, koma (,), [, ], &, :, ;, =, °, %, ', \", -, dan /");
+
 	$('.bilangan_titik').each(function() {
-		$(this).rules("add",
-			{
-				bilangan_titik: true,
-			});
+		$(this).rules("add", {
+			bilangan_titik: true,
+		});
 	});
 
 	jQuery.validator.addMethod("bilangan_spasi", function(value, element) {
@@ -376,13 +385,13 @@ function validate(elementClassId) {
 		errorPlacement: function (error, element) {
 			if (element.parent('.input-group').length) {
 				error.insertAfter(element.parent());
-				element.parent().focus();
+				// element.parent().focus();
 			} else if (element.hasClass('select2')) {
 				error.insertAfter(element.next('span'));
-				element.next('span').focus();
+				// element.next('span').focus();
 			} else {
 				error.insertAfter(element);
-				element.focus();
+				// element.focus();
 			}
 		},
 		invalidHandler: function(e, validator){

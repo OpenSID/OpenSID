@@ -24,9 +24,9 @@
 						<div class="form-group" >
 							<label for="terdata" class="col-sm-3 control-label"><?= $list_sasaran['judul']; ?></label>
 							<div class="col-sm-8">
-								<select class="form-control required" id="terdata" name="terdata" data-placeholder="-- Silahkan Masukkan <?= $list_sasaran['judul']; ?> --" onchange="formAction('main')">
+								<select class="form-control required" id="terdata" name="terdata" data-placeholder="-- Silahkan Masukkan <?= $list_sasaran['judul']; ?> --" onchange="formAction('main')" data-suplemen="<?= $suplemen['id'] ?>" data-sasaran="<?= $suplemen['sasaran'] ?>" >
 								<?php if ($individu): ?>
-									<option value="<?= $individu['id']?>" selected>Nama : <?= $individu['nama'] . ' - ' . strtoupper($individu['alamat'] . ' ' . 'RT/RW ' . $individu['rt'] . '/' . $individu['rw'] . ' - ' . setting('sebutan_dusun') . ' ' . $individu['dusun']); ?></option>
+									<option value="<?= $individu['id'] ?>" selected><?= ($suplemen['sasaran'] == 1 ? 'NIK: ' . $individu['nik'] : 'No.KK: ' . $individu['no_kk']) . ' / ' . $individu['nama'] . ' - ' . $individu['alamat_wilayah'] ?></option>
 								<?php endif; ?>
 								</select>
 							</div>

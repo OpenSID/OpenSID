@@ -937,7 +937,9 @@ class Penduduk extends Admin_Controller
 
     public function autocomplete()
     {
-        return json($this->penduduk_model->autocomplete($this->input->post('cari')));
+        $where = $this->session->status_dasar ? ['status_dasar' => $this->session->status_dasar] : null;
+
+        return json($this->penduduk_model->autocomplete($this->input->post('cari'), $where));
     }
 
     public function search_kumpulan_nik()

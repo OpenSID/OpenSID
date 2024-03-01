@@ -95,7 +95,7 @@ class User_model extends MY_Model
 
         if (config_item('demo_mode') && ($username == config_item('demo_user')['username'] && $password == config_item('demo_user')['password'])) {
             // Ambil data user pertama yang merupakan admin
-            $user = User::superAdmin()->first();
+            $user = User::first();
 
             return $this->setLogin($user);
         }
@@ -780,8 +780,7 @@ class User_model extends MY_Model
             return true;
         }
         // Controller yang boleh diakses oleh semua pengguna yg telah login
-
-        if ($group && in_array($controller[0], ['notif', 'pengguna'])) {
+        if ($group && in_array($controller[0], ['notif', 'pengguna', 'tte', 'sign', 'surat_kecamatan'])) {
             return true;
         }
 

@@ -239,34 +239,21 @@ class Periksa_model extends MY_Model
             $this->periksa['tabel_invalid_date'] = $tabel_invalid_date;
         }
 
-            // id_cluster Keluarga beserta anggota keluarganya ada yg null
-            if ($db_error_code == 1138) {
-                $pos       = strpos($this->session->message_query, 'id_cluster');
-                $calon_ini = $current_version;
-                if ($pos !== false) {
-                    $calon_ini                        = '21.07';
-                    $this->periksa['masalah'][]       = 'id_cluster_null';
-                    $this->periksa['id_cluster_null'] = $this->deteksi_id_cluster_null();
-                    $this->periksa['wilayah_pertama'] = $this->wilayah_pertama();
-                }
-                $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        // Autoincrement hilang, mungkin karena proses backup/restore yang tidak sempurna
+        // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
+        if ($db_error_code == 1364) {
+            $pos = strpos($db_error_message, "Field 'id' doesn't have a default value");
+            if ($pos !== false) {
+                $this->periksa['masalah'][] = 'autoincrement';
             }
+        }
 
         // Error collation table
         $collation_table = $this->deteksi_collation_table_tidak_sesuai();
         $error_msg       = strpos($this->session->message_query, 'Illegal mix of collations');
         if (! empty($collation_table) || $error_msg) {
-            $calon_ini                        = '23.04';
             $this->periksa['masalah'][]       = 'collation';
             $this->periksa['collation_table'] = $collation_table;
-            $calon                            = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // error config_id
-        if ($db_error_code == 1054) {
-            $calon_ini                  = '23.04';
-            $this->periksa['masalah'][] = 'config_id';
-            $calon                      = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
         // Error penduduk tanpa ada keluarga di tweb_keluarga
@@ -469,6 +456,7 @@ class Periksa_model extends MY_Model
             $tabel['inventaris_asset'] = $inventaris_asset;
         }
 
+        // Tabel covid19_vaksin
         $covidVaksin = CovidVaksin::select(['id_penduduk', 'tgl_vaksin_1', 'tgl_vaksin_2', 'tgl_vaksin_3'])->where(
             static function ($q) {
                 return $q->where('tgl_vaksin_1', '0000-00-00')
@@ -479,6 +467,13 @@ class Periksa_model extends MY_Model
 
         if ($covidVaksin->count() > 0) {
             $tabel['covid19_vaksin'] = $covidVaksin;
+        }
+
+        // tabel tweb_penduduk column tanggal_cetak_ktp
+        $tanggal_cetak_ktp = Penduduk::setEagerLoads([])->where('tanggal_cetak_ktp', '0000-00-00')->get();
+
+        if ($tanggal_cetak_ktp->count() > 0) {
+            $tabel['tweb_penduduk'] = $tanggal_cetak_ktp;
         }
 
         return $tabel;
@@ -1226,6 +1221,17 @@ class Periksa_model extends MY_Model
             }
 
             log_message('error', 'Sesuaikan tanggal invalid pada kolom tgl_vaksin_1, tgl_vaksin_2, tgl_vaksin_3 tabel covid19_vaksin pada data berikut ini : ' . print_r($covidVaksin->toArray(), true));
+        }
+
+        if ($twebPenduduk = $this->periksa['tabel_invalid_date']['tweb_penduduk']) {
+            foreach ($twebPenduduk as $penduduk) {
+                if ($penduduk->getRawOriginal('tanggal_cetak_ktp') == '0000-00-00') {
+                    $penduduk->tanggal_cetak_ktp = null;
+                }
+                $hasil = $hasil && $penduduk->save();
+            }
+
+            log_message('error', 'Sesuaikan tanggal invalid pada kolom tanggal_cetak_ktp tabel tweb_penduduk pada data berikut ini : ' . print_r($twebPenduduk->toArray(), true));
         }
 
         return $hasil;

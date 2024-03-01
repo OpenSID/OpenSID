@@ -61456,7 +61456,7 @@ class Data_awal_seeder extends CI_Model
                 'value'      => 'skin-purple',
                 'keterangan' => 'Warna dasar tema komponen Admin',
                 'jenis'      => 'option-value',
-                'kategori'   => null,
+                'kategori'   => openkab,
             ],
             [
                 'id'         => 28,

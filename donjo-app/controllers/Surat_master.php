@@ -60,7 +60,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['surat_master_model']);
+        $this->load->model(['surat_master_model', 'surat_model']);
         $this->tinymce       = new TinyMCE();
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'pengaturan-surat';
@@ -126,7 +126,29 @@ class Surat_master extends Admin_Controller
         $this->set_hak_akses_rfm();
 
         if ($id) {
-            $suratMaster = FormatSurat::findOrFail($id);
+            $suratMaster           = FormatSurat::findOrFail($id);
+            $kategori_isian        = [];
+            $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
+            $filter_kategori       = collect($suratMaster->kode_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+            $data['kategori_isian'] = $kategori_isian;
+
+            $kategori_form = [];
+            $filter_form   = collect($suratMaster->form_isian)->filter(static function ($item) use (&$kategori_nama, &$kategori_isian) {
+                $kategori_nama[]                   = $item->kategori;
+                $kategori_isian[$item->kategori][] = $item;
+
+                return isset($item->kategori);
+            })->values();
+
+            $data['kategori_isian'] = $kategori_isian;
+
+            $data['kode_isian'] = collect($suratMaster->kode_isian)->reject(static function ($item) {
+                return isset($item->kategori);
+            })->values();
 
             $kategori_isian        = [];
             $data['kategori_nama'] = get_key_form_kategori($suratMaster->form_isian);
@@ -267,7 +289,7 @@ class Surat_master extends Admin_Controller
     public function simpan_sementara()
     {
         $this->redirect_hak_akses('u');
-        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+        $surat = FormatSurat::updateOrCreate(['id' => $this->request['id_surat'], 'config_id' => identitas('id')], static::validate($this->request));
         if ($surat) {
             redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $surat->id);
         }
@@ -354,8 +376,10 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'     => $request['data_utama'] ?? 1,
-            'individu' => null,
+            'data'           => $request['data_utama'] ?? 1,
+            'individu'       => null,
+            'data_orang_tua' => $request['data_orang_tua'] ?? 0,
+            'data_pasangan'  => $request['data_pasangan'] ?? 0,
         ];
 
         if ($request['data_utama'] != 2) {
@@ -369,7 +393,7 @@ class Surat_master extends Admin_Controller
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'data'         => 1,
+                    'data'         => $request['kategori_data_utama'][$kategori] ?? 1,
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
@@ -415,7 +439,8 @@ class Surat_master extends Admin_Controller
             }
         }
         $data = [
-            'nama'                => nama_terbatas($request['nama']),
+            'config_id'           => identitas('id'),
+            'nama'                => nama_surat($request['nama']),
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
@@ -632,7 +657,9 @@ class Surat_master extends Admin_Controller
             $validasi['footer_surat_tte'] = $request['footer_surat_tte'];
             $validasi['tte_api']          = alamat_web($request['tte_api']);
             $validasi['tte_username']     = $request['tte_username'];
-            $validasi['tte_password']     = $request['tte_password'];
+            if ($request['tte_password'] != '') {
+                $validasi['tte_password'] = $request['tte_password'];
+            }
         } else {
             $validasi['footer_surat'] = $request['footer_surat'];
         }
@@ -649,6 +676,12 @@ class Surat_master extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $log_surat['surat'] = FormatSurat::find($id);
             $daftar_kategori    = get_key_form_kategori($log_surat['surat']->form_isian);
+
+            foreach ($daftar_kategori as $kategori) {
+                $log_surat['kategori'][$kategori] = null;
+            }
+
+            $kode_isian = $this->tinymce->getFormatedKodeIsian($log_surat);
 
             foreach ($daftar_kategori as $kategori) {
                 $log_surat['kategori'][$kategori] = null;
@@ -679,6 +712,7 @@ class Surat_master extends Admin_Controller
 
     public function preview()
     {
+        // TODO:: Sederhanakan cara ini, simpan di library TInymCE
         $setting_header    = $this->request['header'] == StatusEnum::YA ? setting('header_surat') : '';
         $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
@@ -718,12 +752,60 @@ class Surat_master extends Admin_Controller
             $data = case_replace(form_kode_isian($kode), $kode_isian, $data);
         }
 
+        switch ($this->request['satuan_masa_berlaku']) {
+            case 'd':
+                $tanggal_akhir = Carbon\Carbon::now()->addDays($this->request['masa_berlaku']);
+                break;
+
+            case 'w':
+                $tanggal_akhir = Carbon\Carbon::now()->addWeeks($this->request['masa_berlaku']);
+                break;
+
+            case 'M':
+                $tanggal_akhir = Carbon\Carbon::now()->addMonths($this->request['masa_berlaku']);
+                break;
+
+            case 'y':
+                $tanggal_akhir = Carbon\Carbon::now()->addYears($this->request['masa_berlaku']);
+                break;
+
+            default:
+                $tanggal_akhir = Carbon\Carbon::now();
+                break;
+        }
+
+        $data      = str_replace('[Mulai_berlakU]', date('d-m-Y', strtotime(Carbon\Carbon::now())), $data);
+        $data      = str_replace('[Berlaku_sampaI]', date('d-m-Y', strtotime($tanggal_akhir)), $data);
         $data      = str_replace('[JUdul_surat]', strtoupper($this->request['nama']), $data);
         $isi_surat = $this->tinymce->replceKodeIsian($data);
 
         // Manual replace kode isian non warga
         $isi_surat = str_replace('[Form_nik_non_wargA]', $data['nik_non_warga'], $isi_surat);
         $isi_surat = str_replace('[Form_nama_non_wargA]', $data['nama_non_warga'], $isi_surat);
+
+        // Manual replace data izin orang tua suami istri
+        $data_penerima_izin['id_pend'] = Penduduk::filters([
+            'sex'          => $this->request['individu_sex'],
+            'status_dasar' => $this->request['individu_status_dasar'],
+            'kk_level'     => $this->request['individu_kk_level'],
+        ])->where('id', '!=', $data['id_pend'])->first('id')->id;
+
+        if (! $data_penerima_izin['id_pend']) {
+            redirect_with('error', 'Tidak ditemukan penduduk untuk dijadikan contoh');
+        }
+        $pend      = $this->surat_model->get_penduduk($data_penerima_izin['id_pend']);
+        $isi_surat = str_replace('[Form_hubungan_dengan_penerima_iziN]', 'Anak', $isi_surat);
+        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
+        $isi_surat = str_replace('[Ttl_penerima_iziN]', $pend['tempatlahir'] . ', ' . $pend['tanggallahir'], $isi_surat);
+        $isi_surat = str_replace('[Agama_penerima_iziN]', $pend['agama'], $isi_surat);
+        $isi_surat = str_replace('[Warga_negara_penerima_iziN]', $pend['warganegara'], $isi_surat);
+        $isi_surat = str_replace('[Pekerjaan_penerima_iziN]', $pend['pekerjaan'], $isi_surat);
+        $isi_surat = str_replace('[Alamat_penerima_iziN]', $pend['alamat'], $isi_surat);
+        $isi_surat = str_replace('[Form_negara_tujuaN]', 'Malaysia', $isi_surat);
+        $isi_surat = str_replace('[Form_nama_pptkiS]', 'ABDI BELA PERSADA', $isi_surat);
+        $isi_surat = str_replace('[Form_status_pekerjaan_tki_tkW]', 'Tenaga Kerja Indonesia (TKI)', $isi_surat);
+        $isi_surat = str_replace('[Form_masa_kontrak_tahuN]', '5', $isi_surat);
+        $isi_surat = str_replace('[Nama_penerima_iziN]', $pend['nama'], $isi_surat);
 
         // Pisahkan isian surat
         $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
@@ -829,41 +911,44 @@ class Surat_master extends Admin_Controller
 
         if ($this->upload->do_upload('userfile')) {
             $list_data = file_get_contents($this->upload->data()['full_path']);
-
-            $list_data = collect(json_decode($list_data, true))->map(static function ($item) {
-                return [
-                    'nama'                => $item['nama'],
-                    'url_surat'           => $item['url_surat'],
-                    'kode_surat'          => $item['kode_surat'],
-                    'lampiran'            => $item['lampiran'],
-                    'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'jenis'               => $item['jenis'],
-                    'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'masa_berlaku'        => $item['masa_berlaku'],
-                    'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
-                    'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                    'syarat_surat'        => json_decode($item['syarat_surat'], true),
-                    'template'            => $item['template'],
-                    'template_desa'       => $item['template_desa'],
-                    'form_isian'          => json_encode($item['form_isian']),
-                    'kode_isian'          => json_encode($item['kode_isian']),
-                    'orientasi'           => $item['orientasi'],
-                    'ukuran'              => $item['ukuran'],
-                    'margin'              => $item['margin'],
-                    'footer'              => $item['footer'],
-                    'header'              => $item['header'],
-                    'created_at'          => date('Y-m-d H:i:s'),
-                    'creted_by'           => auth()->id,
-                    'updated_at'          => date('Y-m-d H:i:s'),
-                    'updated_by'          => auth()->id,
-                ];
-            })->toArray();
+            $list_data = collect(json_decode($list_data, true))
+                ->map(static function ($item) {
+                    return [
+                        'nama'                => $item['nama'],
+                        'url_surat'           => $item['url_surat'],
+                        'kode_surat'          => $item['kode_surat'],
+                        'lampiran'            => $item['lampiran'],
+                        'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'jenis'               => $item['jenis'],
+                        'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'masa_berlaku'        => $item['masa_berlaku'],
+                        'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
+                        'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                        'syarat_surat'        => json_decode($item['syarat_surat'], true),
+                        'template'            => $item['template'],
+                        'template_desa'       => $item['template_desa'],
+                        'form_isian'          => json_encode($item['form_isian']),
+                        'kode_isian'          => collect($item['kode_isian'])->filter(static function ($item) {
+                            return ! in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']);
+                        })->values()->toJson(),
+                        'orientasi'  => $item['orientasi'],
+                        'ukuran'     => $item['ukuran'],
+                        'margin'     => $item['margin'],
+                        'footer'     => $item['footer'],
+                        'header'     => $item['header'],
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'creted_by'  => auth()->id,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                        'updated_by' => auth()->id,
+                    ];
+                })
+                ->toArray();
 
             if ($list_data) {
                 foreach ($list_data as $value) {
-                    FormatSurat::updateOrCreate(['url_surat' => $value['url_surat']], $value);
+                    FormatSurat::updateOrCreate(['config_id' => identitas('id'), 'url_surat' => $value['url_surat']], $value);
                 }
             }
 
@@ -880,12 +965,12 @@ class Surat_master extends Admin_Controller
             redirect_with('error', 'Hanya untuk development');
         }
 
-        $simpan = FormatSurat::updateOrCreate(['id' => $this->request['id_surat']], static::validate($this->request));
+        $simpan = FormatSurat::updateOrCreate(['id' => $this->request['id_surat'], 'config_id' => identitas('id')], static::validate($this->request));
 
         // Pilih surat yang akan dibuat migrasinya
         $surat = FormatSurat::jenis(FormatSurat::TINYMCE)->find($simpan->id);
 
-        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace('_', ' ', $surat->nama)));
+        $nama_fuction = 'surat' . str_replace(' ', '', ucwords(str_replace(['_', '(', ')'], ' ', $surat->nama)));
 
         $kode_isian     = json_encode($surat->kode_isian);
         $form_isian     = json_encode($surat->form_isian);
@@ -901,7 +986,7 @@ class Surat_master extends Admin_Controller
 
         $get_fuction = <<<EOS
             \$hasil = \$hasil && \$this->{$nama_fuction}(\$hasil, \$id);
-                        // Jalankan Migrasi TinyMCE'
+                        // Jalankan Migrasi TinyMCE
             EOS;
 
         $set_fuction = <<<EOS

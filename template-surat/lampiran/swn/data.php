@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,15 +29,42 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-header('Content-type: application/xls');
-header("Content-Disposition: attachment; filename={$filename}.xls");
-header('Pragma: no-cache');
-header('Expires: 0');
+use App\Enums\JenisKelaminEnum;
 
-include 'donjo-app/views/pengunjung/print.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+if ($individu['sex_id'] == JenisKelaminEnum::LAKI_LAKI) {
+    $dataCalonSWN = [
+        // calon pria
+        'nama_pria' => $individu['nama'],
+
+        // calon wanita
+        'nama_wanita' => $input['nama_calon_pasangan'],
+    ];
+} else {
+    $dataCalonSWN = [
+        // calon pria
+        'nama_pria' => $input['nama_calon_pasangan'],
+
+        // calon wanita
+        'nama_wanita' => $individu['nama'],
+    ];
+}
+
+$dataWaliNikah = [
+    'nama_wali' => $input['nama_wali_nikah'],
+    'bin_wali' => $input['bin_wali_nikah'],
+    'nik_wali' => $input['no_ktp_wali_nikah'],
+    'tempatlahir_wali' => $input['tempatlahir_wali_nikah'],
+    'tanggallahir_wali' => $input['tanggallahir_wali_nikah'],
+    'agama_wali' => $input['agama_wali_nikah'],
+    'pekerjaan_wali' => $input['pekerjaan_wali_nikah'],
+    'alamat_wali' => $input['tempat_tinggal_wali_nikah'],
+    'hubungan_wali' => $input['hubungan_dengan_wali'],
+];

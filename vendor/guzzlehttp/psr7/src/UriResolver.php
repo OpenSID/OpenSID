@@ -11,14 +11,14 @@ use Psr\Http\Message\UriInterface;
  *
  * @author Tobias Schultze
  *
- * @see https://datatracker.ietf.org/doc/html/rfc3986#section-5
+ * @see https://tools.ietf.org/html/rfc3986#section-5
  */
 final class UriResolver
 {
     /**
      * Removes dot segments from a path and returns the new path.
      *
-     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-5.2.4
+     * @see http://tools.ietf.org/html/rfc3986#section-5.2.4
      */
     public static function removeDotSegments(string $path): string
     {
@@ -53,7 +53,7 @@ final class UriResolver
     /**
      * Converts the relative URI into a new URI that is resolved against the base URI.
      *
-     * @see https://datatracker.ietf.org/doc/html/rfc3986#section-5.2
+     * @see http://tools.ietf.org/html/rfc3986#section-5.2
      */
     public static function resolve(UriInterface $base, UriInterface $rel): UriInterface
     {
@@ -127,8 +127,8 @@ final class UriResolver
      */
     public static function relativize(UriInterface $base, UriInterface $target): UriInterface
     {
-        if ($target->getScheme() !== ''
-            && ($base->getScheme() !== $target->getScheme() || $target->getAuthority() === '' && $base->getAuthority() !== '')
+        if ($target->getScheme() !== '' &&
+            ($base->getScheme() !== $target->getScheme() || $target->getAuthority() === '' && $base->getAuthority() !== '')
         ) {
             return $target;
         }

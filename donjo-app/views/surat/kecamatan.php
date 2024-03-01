@@ -37,7 +37,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <?php if($item->log_verifikasi == 5): ?>
-                                                                        <a href="<?= site_url("api/surat/download/{$item->nomor}") ?>" target="_blank" class="btn btn-social btn-flat bg-black btn-sm" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
+                                                                        <a href="<?= site_url("api/surat_kecamatan/download/{$item->nomor}") ?>" target="_blank" class="btn btn-social btn-flat bg-black btn-sm" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
                                                                     <?php endif ?>
                                                                 </td>
                                                                 <td><?= $item->nama ?></td>
