@@ -125,6 +125,7 @@ class Surat_master extends Admin_Controller
             $kategori_isian = [];
             // hanya ambil key saja
             $data['kategori_nama'] = collect(get_key_form_kategori($data['suratMaster']->form_isian))->keys()->toArray();
+            $data['kategori']      = collect(get_key_form_kategori($data['suratMaster']->form_isian))->toArray();
 
             collect($data['suratMaster']->kode_isian)->filter(static function ($item) use (&$kategori_isian): bool {
                 if (isset($item->kategori)) {

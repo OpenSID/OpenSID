@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,6 +37,7 @@
 
 use App\Models\Config;
 use Illuminate\Support\Facades\DB;
+use App\Imports\KlasifikasiSuratImports;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,17 +58,15 @@ class Data_awal_seeder extends CI_Model
         $this->db->query(
             "ALTER DATABASE `{$db}` CHARACTER SET utf8 COLLATE {$this->db->dbcollat};"
         );
-        
-        $this->load->helper("directory");
+
+        $this->load->helper('directory');
         $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
-        $migrations = directory_map($directoryTable, 1);
+        $migrations     = directory_map($directoryTable, 1);
         // sort by name
-        usort($migrations, function($a, $b) {
-            return strcmp($a, $b);
-        });
-        
-        foreach($migrations as $migrate){
-            $migrateFile = require $directoryTable.DIRECTORY_SEPARATOR.$migrate;
+        usort($migrations, static fn ($a, $b) => strcmp($a, $b));
+
+        foreach ($migrations as $migrate) {
+            $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
             $migrateFile->up();
         }
 
@@ -1506,8 +1505,7 @@ class Data_awal_seeder extends CI_Model
                     'Nama_Jenis' => 'Perhitungan PFK - Uang Muka dan Jaminan',
                 ],
             ]
-        );        
-
+        );
 
         DB::table('ref_sinkronisasi')->insert([
             [
@@ -1534,14 +1532,19 @@ class Data_awal_seeder extends CI_Model
             ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
         ]);
 
-        $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');        
+        $this->load->model('seeders/dataAwal/Twebaset', 'twebaset');
         $this->load->model('seeders/dataAwal/KeuanganManualRefKegiatan', 'keuanganRefKegiatan');
         $this->load->model('seeders/dataAwal/PendudukSuku', 'pendudukSuku');
         DB::table('tweb_aset')->insert($this->twebaset->getData());
         DB::table('keuangan_manual_ref_kegiatan')->insert($this->keuanganRefKegiatan->getData());
-        // DB::table('klasifikasi_surat')->insert($this->klasifikasiSurat->getData()); ikut data awal
+        $this->impor_klasifikasi();
         DB::table('ref_penduduk_suku')->insert($this->pendudukSuku->getData());
         // DB::table('tweb_format_surat')->insert(); ikut data awal
+    }
+
+    public function impor_klasifikasi()
+    {
+        (new KlasifikasiSuratImports())->import();
     }
 
     private function defaultConfig()

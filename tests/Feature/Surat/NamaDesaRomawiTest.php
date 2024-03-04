@@ -37,52 +37,71 @@
 
 use PHPUnit\Framework\TestCase;
 
-final class NamaPengurusTest extends TestCase
+final class NamaDesaRomawiTest extends TestCase
 {
-    private function getDummyData()
-    {
-        // include helper opensid_helper.php
-        return (object) [
-            'pamong_nama'    => 'Wijaya kusuma',
-            'gelar_depan'    => 'Dr. Drs. Ir.',
-            'gelar_belakang' => 'Bc.I.P., S.H., M.Si.',
-        ];
-    }
+    public $namaDesa = 'banuaji angkasa IV';
 
-    public function testValidNameUpperWithTitle()
+    public function testValidDesaUpperWithRomawi()
     {
-        $pengurus = $this->getDummyData();
-
-        $formattedName = gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = set_words($this->namaDesa, 'upper');
 
         // Assert that the formatted name is as expected
-        $this->assertEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertEquals('BANUAJI ANGKASA IV', $formattedName);
     }
 
-    public function testInvalidNameUpperWithTitle()
+    public function testInvalidDesaUpperWithRomawi()
     {
-        $pengurus = $this->getDummyData();
-        $formattedName = gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = set_words($this->namaDesa, 'upper');
 
         // Assert that the formatted name is as expected
-        $this->assertNotEquals('Dr. Drs. Ir. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertNotEquals('BANUAJI ANGKASA iv', $formattedName);
     }
 
-    public function testValidNameUcwordsWithTitle()
+    public function testValidDesaLowerWithRomawi()
     {
-        $pengurus = $this->getDummyData();
-        $formattedName = gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = set_words($this->namaDesa, 'lower');
 
         // Assert that the formatted name is as expected
-        $this->assertEquals('Dr. Drs. Ir. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertEquals('banuaji angkasa IV', $formattedName);
     }
 
-    public function testInvalidNameUcwordsWithTitle()
+    public function testInvalidDesaLowerWithRomawi()
     {
-        $pengurus = $this->getDummyData();
-        $formattedName = gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = set_words($this->namaDesa, 'lower');
 
         // Assert that the formatted name is as expected
-        $this->assertNotEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
+        $this->assertNotEquals('banuaji angkasa iv', $formattedName);
+    }
+
+    public function testValidDesaUcfirstWithRomawi()
+    {
+        $formattedName = set_words($this->namaDesa, 'ucfirst');
+
+        // Assert that the formatted name is as expected
+        $this->assertEquals('Banuaji angkasa IV', $formattedName);
+    }
+
+    public function testInvalidDesaUcfirstWithRomawi()
+    {
+        $formattedName = set_words($this->namaDesa, 'ucfirst');
+
+        // Assert that the formatted name is as expected
+        $this->assertNotEquals('Banuaji angkasa iv', $formattedName);
+    }
+
+    public function testValidDesaUcwordsWithRomawi()
+    {
+        $formattedName = set_words($this->namaDesa, 'ucwords');
+
+        // Assert that the formatted name is as expected
+        $this->assertEquals('Banuaji Angkasa IV', $formattedName);
+    }
+
+    public function testInvalidDesaUcwordsWithRomawi()
+    {
+        $formattedName = set_words($this->namaDesa, 'ucwords');
+
+        // Assert that the formatted name is as expected
+        $this->assertNotEquals('Banuaji Angkasa iv', $formattedName);
     }
 }

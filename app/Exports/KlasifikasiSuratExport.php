@@ -35,31 +35,37 @@
  *
  */
 
-use Illuminate\Support\Arr;
+namespace App\Exports;
 
-require_once 'database.php';
+use App\Models\KlasifikasiSurat;
+use Rap2hpoutre\FastExcel\FastExcel;
 
-$connections = [];
-
-$connections['default'] = $active_group;
-
-foreach ($db as $key => $options) {
-    $dbdriver = Arr::get($options, 'dbdriver');
-    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
-
-    $connections['connections'][$key] = [
-        'driver'    => $dbdriver,
-        'host'      => Arr::get($options, 'hostname'),
-        'port'      => Arr::get($options, 'port', 3306),
-        'database'  => Arr::get($options, 'database'),
-        'username'  => Arr::get($options, 'username'),
-        'password'  => Arr::get($options, 'password'),
-        'charset'   => Arr::get($options, 'char_set'),
-        'collation' => Arr::get($options, 'dbcollat'),
-        'prefix'    => Arr::get($options, 'swap_pre'),
-        'strict'    => Arr::get($options, 'stricton'),
-        'engine'    => null,
+class KlasifikasiSuratExport
+{
+    protected $fields = [
+        'kode',
+        'nama',
+        'uraian',
     ];
-}
 
-return $connections;
+    public function filename($name = null)
+    {
+        return $name ?? namafile('klasifikasi_surat_' . date('d-m-Y')) . '.xlsx';
+    }
+
+    public function data()
+    {
+        $dataExport = KlasifikasiSurat::get($this->fields)->toArray();
+
+        if (empty($dataExport)) {
+            $dataExport = [['kode' => '', 'nama' => '', 'uraian' => '']];
+        }
+
+        return $dataExport;
+    }
+
+    public function download()
+    {
+        return (new FastExcel())->data($this->data())->download($this->filename());
+    }
+}

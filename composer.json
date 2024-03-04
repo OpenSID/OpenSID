@@ -35,6 +35,7 @@
         "opensid/router": "^2403",
         "openspout/openspout": "^3.7",
         "ramsey/uuid": "^4.2",
+        "rap2hpoutre/fast-excel": "^4.1",
         "slowprog/composer-copy-file": "^0.3.3",
         "spatie/eloquent-sortable": "^3.11",
         "spipu/html2pdf": "^5.2",
@@ -60,6 +61,13 @@
             "App\\": "app/",
             "Modules\\": "Modules/"
         }
+    },
+    "autoload-dev": {
+        "files": [
+            "donjo-app/helpers/donjolib_helper.php",
+            "donjo-app/helpers/general_helper.php",
+            "donjo-app/helpers/opensid_helper.php"
+        ]
     },
     "config": {
         "allow-plugins": {

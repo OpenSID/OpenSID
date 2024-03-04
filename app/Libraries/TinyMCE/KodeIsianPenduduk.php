@@ -76,7 +76,7 @@ class KodeIsianPenduduk
         }
 
         if ($this->idPenduduk) {
-            $penduduk = Penduduk::with(['keluarga', 'rtm'])->find($this->idPenduduk);
+            $penduduk = Penduduk::with(['keluarga', 'rtm', 'sakitMenahun', 'kb', 'bahasa'])->find($this->idPenduduk);
         }
 
         $individu = [
@@ -152,6 +152,53 @@ class KodeIsianPenduduk
                 'isian' => 'Gol_daraH' . $prefix,
                 'data'  => $penduduk->golonganDarah->nama,
             ],
+
+            // melengkapi kode isian penduduk
+            [
+                'judul' => 'Suku' . $ortu,
+                'isian' => 'suku' . $prefix,
+                'data'  => $penduduk->suku,
+            ],
+            [
+                'judul' => 'No Telepon' . $ortu,
+                'isian' => 'telepon' . $prefix,
+                'data'  => $penduduk->telepon,
+            ],
+            [
+                'judul' => 'Nomor KITAS/KITAP' . $ortu,
+                'isian' => 'dokumen_kitas' . $prefix,
+                'data'  => $penduduk->dokumen_kitas,
+            ],
+            [
+                'judul' => 'Email' . $ortu,
+                'isian' => 'email' . $prefix,
+                'data'  => $penduduk->email,
+            ],
+            [
+                'judul' => 'Sakit Menahun' . $ortu,
+                'isian' => 'sakit_menahun' . $prefix,
+                'data'  => $penduduk->sakitMenahun->nama,
+            ],
+            [
+                'judul' => 'Akseptor KB' . $ortu,
+                'isian' => 'cara_kb' . $prefix,
+                'data'  => $penduduk->kb->nama,
+            ],
+            [
+                'judul' => 'Nama/Nomor Asuransi Kesehatan' . $ortu,
+                'isian' => 'nama_asuransi' . $prefix,
+                'data'  => $penduduk->nama_asuransi,
+            ],
+            [
+                'judul' => 'Nomor BPJS Ketenagakerjaan' . $ortu,
+                'isian' => 'bpjs_ketenagakerjaan' . $prefix,
+                'data'  => $penduduk->bpjs_ketenagakerjaan,
+            ],
+            [
+                'judul' => 'Bahasa' . $ortu,
+                'isian' => 'Bahasa' . $prefix,
+                'data'  => $penduduk->bahasa->nama,
+            ],
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,
                 'isian' => 'pendidikan_sedang' . $prefix,
@@ -208,6 +255,18 @@ class KodeIsianPenduduk
                 'judul' => 'Provinsi' . $ortu,
                 'isian' => 'pend_provinsi' . $prefix,
                 'data'  => $config->pend_provinsi,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Anak Ke' . $ortu,
+                'isian'         => 'anakke' . $prefix,
+                'data'          => $penduduk->kelahiran_anak_ke,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Jumlah Saudara' . $ortu,
+                'isian'         => 'jumlah_saudara' . $prefix,
+                'data'          => $penduduk->jml_anak,
             ],
         ];
 

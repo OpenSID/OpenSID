@@ -35,31 +35,43 @@
  *
  */
 
-use Illuminate\Support\Arr;
+namespace App\Models;
 
-require_once 'database.php';
+use App\Traits\Author;
+use App\Traits\ConfigId;
 
-$connections = [];
+defined('BASEPATH') || exit('No direct script access allowed');
 
-$connections['default'] = $active_group;
+class TanahDesa extends BaseModel
+{
+    use Author, ConfigId;
 
-foreach ($db as $key => $options) {
-    $dbdriver = Arr::get($options, 'dbdriver');
-    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tanah_desa';
 
-    $connections['connections'][$key] = [
-        'driver'    => $dbdriver,
-        'host'      => Arr::get($options, 'hostname'),
-        'port'      => Arr::get($options, 'port', 3306),
-        'database'  => Arr::get($options, 'database'),
-        'username'  => Arr::get($options, 'username'),
-        'password'  => Arr::get($options, 'password'),
-        'charset'   => Arr::get($options, 'char_set'),
-        'collation' => Arr::get($options, 'dbcollat'),
-        'prefix'    => Arr::get($options, 'swap_pre'),
-        'strict'    => Arr::get($options, 'stricton'),
-        'engine'    => null,
-    ];
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+
+    /**
+     * Define an inverse one-to-one or many relationship.
+     *
+     * @return BelongsTo
+     */
+    public function penduduk()
+    {
+        return $this->belongsTo(Penduduk::class, 'id_penduduk');
+    }
+
+    public function scopeVisible($query, $value = 1)
+    {
+        return $query->where('visible', $value);
+    }
 }
-
-return $connections;

@@ -247,7 +247,7 @@ class Keluar extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
                         }
                         if ($row->tte && $row->kecamatan == 2) {
-                            if (setting('api_opendk_key')) {
+                            if (setting('sinkronisasi_opendk')) {
                                 $aksi .= '<a data-id="' . $row->id . '" class="btn btn-social bg-olive btn-sm kirim-kecamatan" title="Kirim ke Kecamatan"><i class="fa fa-send"></i> Kirim ke Kecamatan</a> ';
                             } else {
                                 $aksi .= '<a class="btn btn-social bg-olive btn-sm" title="Kirim ke Kecamatan" disabled><i class="fa fa-send"></i> Kirim ke Kecamatan</a> ';
@@ -852,7 +852,7 @@ class Keluar extends Admin_Controller
 
     private function data_kecamatan()
     {
-        if (empty($this->setting->api_opendk_key)) {
+        if (empty($this->setting->sinkronisasi_opendk)) {
             return null;
         }
         $desa = kode_wilayah($this->header['desa']['kode_desa']);

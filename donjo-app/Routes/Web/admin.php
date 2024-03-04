@@ -967,7 +967,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
     Route::group('ekspedisi', static function (): void {
         Route::get('/clear', static function () {
-            redirect('/ekspedisi');
+            redirect('ekspedisi');
         });
         Route::get('/datatables', 'Ekspedisi@datatables')->name('buku-umum.ekspedisi.datatables');
         Route::get('/form/{id}', 'Ekspedisi@form')->name('buku-umum.ekspedisi.form');
@@ -1068,8 +1068,10 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
 // Buku Tanah Kas Desa
 Route::group('bumindes_tanah_kas_desa', static function (): void {
+    Route::get('/clear', static function () {
+        redirect('bumindes_tanah_kas_desa');
+    });
     Route::match(['GET', 'POST'], '/', 'Bumindes_tanah_kas_desa@index')->name('bumindes_tanah_kas_desa.index');
-    Route::get('/clear', 'Bumindes_tanah_kas_desa@clear')->name('bumindes_tanah_kas_desa.clear');
     Route::get('/view_tanah_kas_desa/{id}', 'Bumindes_tanah_kas_desa@view_tanah_kas_desa')->name('bumindes_tanah_kas_desa.view_tanah_kas_desa');
     Route::get('/form/{id?}', 'Bumindes_tanah_kas_desa@form')->name('bumindes_tanah_kas_desa.form');
     Route::post('/add_tanah_kas_desa', 'Bumindes_tanah_kas_desa@add_tanah_kas_desa')->name('bumindes_tanah_kas_desa.add_tanah_kas_desa');
@@ -1080,14 +1082,18 @@ Route::group('bumindes_tanah_kas_desa', static function (): void {
 
 // Buku Tanah Desa
 Route::group('bumindes_tanah_desa', static function (): void {
-    Route::match(['GET', 'POST'], '/', 'Bumindes_tanah_desa@index')->name('bumindes_tanah_desa.index');
-    Route::get('/clear', 'Bumindes_tanah_desa@clear')->name('bumindes_tanah_desa.clear');
-    Route::get('/view_tanah_desa/{id}', 'Bumindes_tanah_desa@view_tanah_desa')->name('bumindes_tanah_desa.view_tanah_desa');
-    Route::get('/form/{id?}', 'Bumindes_tanah_desa@form')->name('bumindes_tanah_desa.form');
-    Route::post('/add_tanah_desa', 'Bumindes_tanah_desa@add_tanah_desa')->name('bumindes_tanah_desa.add_tanah_desa');
-    Route::post('/update_tanah_desa/{id?}', 'Bumindes_tanah_desa@update_tanah_desa')->name('bumindes_tanah_desa.update_tanah_desa');
-    Route::get('/delete_tanah_desa/{id?}', 'Bumindes_tanah_desa@delete_tanah_desa')->name('bumindes_tanah_desa.delete_tanah_desa');
-    Route::post('/cetak_tanah_desa/{aksi?}', 'Bumindes_tanah_desa@cetak_tanah_desa')->name('bumindes_tanah_desa.cetak_tanah_desa');
+    Route::get('/clear', static function () {
+        redirect('bumindes_tanah_desa');
+    });
+    Route::get('/', 'Bumindes_tanah_desa@index')->name('bumindes_tanah_desa.index');
+    Route::get('/datatables', 'Bumindes_tanah_desa@datatables')->name('bumindes_tanah_desa.datatables');
+    Route::get('/form/{id?}/{view?}', 'Bumindes_tanah_desa@form')->name('bumindes_tanah_desa.form');
+    Route::get('/view/{id?}', 'Bumindes_tanah_desa@view')->name('bumindes_tanah_desa.view');
+    Route::post('/create', 'Bumindes_tanah_desa@create')->name('bumindes_tanah_desa.create');
+    Route::post('/update/{id}', 'Bumindes_tanah_desa@update')->name('bumindes_tanah_desa.update');
+    Route::get('/delete/{id}', 'Bumindes_tanah_desa@delete')->name('bumindes_tanah_desa.delete');
+    Route::get('/dialog/{aksi?}', 'Bumindes_tanah_desa@dialog')->name('bumindes_tanah_desa.dialog');
+    Route::post('/cetak/{aksi?}', 'Bumindes_tanah_desa@cetak')->name('bumindes_tanah_desa.cetak');
 });
 
 // Buku inventaris dan kekayaan desa

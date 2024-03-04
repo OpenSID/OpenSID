@@ -67,7 +67,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("{$this->controller}/delete_all"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 				<?php endif; ?>
 				<?php if (can('u')): ?>
-					<?php if ($this->setting->api_opendk_key): ?>
+					<?php if ($this->setting->sinkronisasi_opendk): ?>
 						<a href="#" title="Kirim Ke OpenDK" id="kirim" onclick="formAction('mainform','<?=site_url("{$this->controller}/kirim"); ?>')" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block aksi-terpilih" title="Kirim Ke OpenDK"><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
 					<?php else: ?>
 						<a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Ke OpenDK</a>

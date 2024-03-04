@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\DokumenHidup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen extends Admin_Controller
@@ -141,9 +143,13 @@ class Dokumen extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $_SESSION['success'] = 1;
-        $outp                = $this->web_dokumen_model->update($id);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $data                = $this->web_dokumen_model->validasi($this->request);
+        $dokumen             = DokumenHidup::find($id) ?? show_404();
+        if ($this->request['satuan']) {
+            $data['satuan'] = $this->upload_dokumen();
+        }
+        if ($dokumen->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
@@ -151,14 +157,19 @@ class Dokumen extends Admin_Controller
     public function delete($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
-        $this->web_dokumen_model->delete($id);
+        $dokumen = DokumenHidup::find($id) ?? show_404();
+        if ($dokumen->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
     public function delete_all($kat = 1, $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
-        $this->web_dokumen_model->delete_all();
+        if (DokumenHidup::whereIn('id', $_POST['id_cb'])->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
@@ -254,5 +265,23 @@ class Dokumen extends Admin_Controller
     public function tampilkan_berkas($id_dokumen, $id_pend = null): void
     {
         $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
+    }
+
+    private function upload_dokumen()
+    {
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['file_name']     = namafile($this->input->post('nama', true));
+
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('satuan')) {
+            session_error($this->upload->display_errors(null, null));
+
+            return false;
+        }
+
+        return $this->upload->data()['file_name'];
     }
 }

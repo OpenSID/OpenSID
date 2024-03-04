@@ -109,6 +109,8 @@ class Penduduk extends BaseModel
     protected $appends = [
         'usia',
         'alamat_wilayah',
+        'nama_asuransi',
+        'jml_anak',
     ];
 
     /**
@@ -142,6 +144,11 @@ class Penduduk extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    public function getJmlAnakAttribute(): string
+    {
+        return $this->where('id_kk', $this->id_kk)->where('kk_level', SHDKEnum::ANAK)->count();
+    }
 
     /**
      * Define a one-to-one relationship.
@@ -425,11 +432,7 @@ class Penduduk extends BaseModel
      */
     public function getNamaAsuransiAttribute(): string
     {
-        return ! empty($this->id_asuransi) && $this->id_asuransi != 1
-            ? (($this->id_asuransi == 99)
-                ? "Nama/No Asuransi : {$this->no_asuransi}"
-                : "No Asuransi : {$this->no_asuransi}")
-            : '';
+        return ! empty($this->id_asuransi) && $this->id_asuransi != 1 ? (($this->id_asuransi == 99) ? "Nama/No Asuransi : {$this->no_asuransi}" : "No Asuransi : {$this->no_asuransi}") : '';
     }
 
     /**
@@ -633,5 +636,10 @@ class Penduduk extends BaseModel
     public function pesan(): HasMany
     {
         return $this->hasMany(PesanMandiri::class, 'identitas', 'nik');
+    }
+
+    public function bahasa()
+    {
+        return $this->belongsTo(Bahasa::class, 'bahasa_id');
     }
 }

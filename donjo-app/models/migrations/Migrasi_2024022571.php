@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-
 /*
  *
  * File ini bagian dari:
@@ -40,9 +37,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Illuminate\Support\Facades\DB;
-
-class Migrasi_dev extends MY_model
+class Migrasi_2024022571 extends MY_model
 {
     public function up()
     {
@@ -62,35 +57,44 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024270201($hasil, $id);
-        }
+        // foreach ($config_id as $id) {
+        // $hasil = $hasil && $this->migrasi_xxxxx($hasil, $id);
+        // }
 
         // Migrasi tanpa config_id
 
-        return $hasil && $this->migrasi_2024280201($hasil);
+        $hasil = $hasil && $this->migrasi_2024210201($hasil);
+
+        return $hasil && $this->migrasi_2024022271($hasil);
     }
 
-    protected function migrasi_2024270201($hasil, $id)
+    protected function migrasi_2024210201($hasil)
     {
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Sinkronisasi OpenDK Server',
-            'key'        => 'sinkronisasi_opendk',
-            'value'      => setting('api_opendk_key') ? 1 : 0,
-            'keterangan' => 'Aktifkan Sinkronisasi Server OpenDK',
-            'kategori'   => 'opendk',
-            'jenis'      => 'boolean',
-            'option'     => null,
-        ], $id);
-    }
-
-    protected function migrasi_2024280201($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-tanah-di-desa', 'url' => 'bumindes_tanah_desa/clear'],
-            ['url' => 'bumindes_tanah_desa']
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'administrasi-penduduk', 'url' => 'bumindes_penduduk_induk/clear'],
+            ['url' => 'bumindes_penduduk_induk']
         );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-mutasi-penduduk', 'url' => 'bumindes_penduduk_mutasi/clear'],
+            ['url' => 'bumindes_penduduk_mutasi']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-penduduk-sementara', 'url' => 'bumindes_penduduk_sementara/clear'],
+            ['url' => 'bumindes_penduduk_sementara']
+        );
+    }
+
+    protected function migrasi_2024022271($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('klasifikasi_surat', [
+            'nama' => [
+                'type' => 'TEXT',
+                'null' => false,
+            ],
+        ]);
     }
 }

@@ -54,7 +54,7 @@ class Opendk_pesan extends Admin_Controller
     public function cek()
     {
         // cek setting server ke opendk
-        if (empty($this->setting->api_opendk_key)) {
+        if (empty($this->setting->sinkronisasi_opendk)) {
             $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . ci_route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
 
             return view('admin.opendkpesan.error', ['message' => $message]);

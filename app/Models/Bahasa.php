@@ -35,31 +35,37 @@
  *
  */
 
-use Illuminate\Support\Arr;
+namespace App\Models;
 
-require_once 'database.php';
+defined('BASEPATH') || exit('No direct script access allowed');
 
-$connections = [];
+class Bahasa extends BaseModel
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_penduduk_bahasa';
 
-$connections['default'] = $active_group;
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
-foreach ($db as $key => $options) {
-    $dbdriver = Arr::get($options, 'dbdriver');
-    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-    $connections['connections'][$key] = [
-        'driver'    => $dbdriver,
-        'host'      => Arr::get($options, 'hostname'),
-        'port'      => Arr::get($options, 'port', 3306),
-        'database'  => Arr::get($options, 'database'),
-        'username'  => Arr::get($options, 'username'),
-        'password'  => Arr::get($options, 'password'),
-        'charset'   => Arr::get($options, 'char_set'),
-        'collation' => Arr::get($options, 'dbcollat'),
-        'prefix'    => Arr::get($options, 'swap_pre'),
-        'strict'    => Arr::get($options, 'stricton'),
-        'engine'    => null,
-    ];
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [];
 }
-
-return $connections;

@@ -35,31 +35,52 @@
  *
  */
 
-use Illuminate\Support\Arr;
+namespace App\Imports;
 
-require_once 'database.php';
+use App\Models\KlasifikasiSurat;
+use Exception;
+use Rap2hpoutre\FastExcel\FastExcel;
 
-$connections = [];
-
-$connections['default'] = $active_group;
-
-foreach ($db as $key => $options) {
-    $dbdriver = Arr::get($options, 'dbdriver');
-    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
-
-    $connections['connections'][$key] = [
-        'driver'    => $dbdriver,
-        'host'      => Arr::get($options, 'hostname'),
-        'port'      => Arr::get($options, 'port', 3306),
-        'database'  => Arr::get($options, 'database'),
-        'username'  => Arr::get($options, 'username'),
-        'password'  => Arr::get($options, 'password'),
-        'charset'   => Arr::get($options, 'char_set'),
-        'collation' => Arr::get($options, 'dbcollat'),
-        'prefix'    => Arr::get($options, 'swap_pre'),
-        'strict'    => Arr::get($options, 'stricton'),
-        'engine'    => null,
+class KlasifikasiSuratImports
+{
+    protected $path;
+    protected $fields = [
+        'kode',
+        'nama',
+        'uraian',
     ];
-}
 
-return $connections;
+    // constructor with a parameter
+    public function __construct($path = null)
+    {
+        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'klasifikasi_surat.xlsx';
+    }
+
+    public function import()
+    {
+        $configId = identitas('id');
+
+        try {
+            $dataImport = [];
+
+            (new FastExcel())->import($this->path, static function ($line) use ($configId, &$dataImport) {
+                $dataUpdate = [
+                    'kode'      => alfanumerik_titik($line['kode']),
+                    'nama'      => alfa_spasi($line['nama']),
+                    'uraian'    => strip_tags($line['uraian']),
+                    'config_id' => $configId,
+                ];
+
+                $dataImport[] = $dataUpdate;
+            });
+
+            KlasifikasiSurat::upsert($dataImport, ['kode', 'config_id']);
+        } catch (Exception $e) {
+            log_message('error', $e);
+
+            return false;
+        }
+
+        return true;
+    }
+}

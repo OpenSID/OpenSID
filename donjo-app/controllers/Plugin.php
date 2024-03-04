@@ -57,8 +57,9 @@ class Plugin extends Admin_Controller
         $data = [
             'content'         => 'admin.plugin.paket_tersedia',
             'act_tab'         => 1,
-            'url_marketplace' => config_item('server_layanan') . '/api/modules',
+            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
             'paket_terpasang' => json_encode($this->paketTerpasang()),
+            'token_layanan'   => setting('layanan_opendesa_token'),
         ];
 
         view('admin.plugin.index', $data);
@@ -70,8 +71,9 @@ class Plugin extends Admin_Controller
         $data      = [
             'content'         => 'admin.plugin.paket_terinstall',
             'act_tab'         => 2,
-            'url_marketplace' => config_item('server_layanan') . '/api/modules',
+            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
             'paket_terpasang' => $terpasang ? json_encode(array_keys($terpasang)) : null,
+            'token_layanan'   => setting('layanan_opendesa_token'),
         ];
 
         view('admin.plugin.index', $data);
@@ -97,7 +99,6 @@ class Plugin extends Admin_Controller
         [$name, $url, $version] = explode('___', $this->request['pasang']);
         $pasangBaru             = true;
         if (! empty($version)) {
-            $this->jalankanMigrasi($name, 'down');
             forceRemoveDir($this->modulesDirectory . $name);
             $pasangBaru = false;
         }
@@ -106,8 +107,10 @@ class Plugin extends Admin_Controller
         if ($pasangBaru) {
             try {
                 // hit ke url install module untuk update total yang terinstall
-                $urlHitModule = config_item('server_layanan') . '/api/modules/install';
-                Http::post($urlHitModule, ['module_name' => $name]);
+                $urlHitModule = config_item('server_layanan') . '/api/v1/modules/install';
+                $token        = setting('layanan_opendesa_token');
+                $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name]);
+                log_message('error', $response->body());
             } catch (\Exception $e) {
                 log_message('error', $e->getMessage());
             }
