@@ -48,7 +48,7 @@ final class NamaCamatTest extends TestCase
     public function testValidNameUpperWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . strtoupper($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -60,7 +60,7 @@ final class NamaCamatTest extends TestCase
     public function testInvalidNameUpperWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . strtoupper($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -72,7 +72,7 @@ final class NamaCamatTest extends TestCase
     public function testValidNameLowerWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . strtolower($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -84,7 +84,7 @@ final class NamaCamatTest extends TestCase
     public function testInvalidNameLowerWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . strtolower($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -96,7 +96,7 @@ final class NamaCamatTest extends TestCase
     public function testValidNameUcFirstWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . ucfirst($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -108,7 +108,7 @@ final class NamaCamatTest extends TestCase
     public function testInvalidNameUcFirstWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . ucfirst($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -120,7 +120,7 @@ final class NamaCamatTest extends TestCase
     public function testValidNameUcWordsWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . ucwords($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
@@ -132,58 +132,12 @@ final class NamaCamatTest extends TestCase
     public function testInvalidNameUcWordsWithTitle()
     {
         $identitas        = $this->getDummyData();
-        $pecah_nama_gelar = $this->pecah_nama_gelar($identitas->nama_kepala_camat);
+        $pecah_nama_gelar = pecah_nama_gelar($identitas->nama_kepala_camat);
         $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
         $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
         $formattedName    = $gelar_depan . ' ' . ucwords($pecah_nama_gelar['nama']) . ', ' . $gelar_belakang;
 
         // Assert that the formatted name is as expected
         $this->assertNotEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
-    }
-
-    // TODO:: Gunakan opensid_helper.php -> pecah_nama_gelar()
-    function pecah_nama_gelar($nama)
-    {
-        $result = [];
-
-        // Split the input string by comma
-        $parts = explode(',', $nama);
-
-        // Remove leading and trailing whitespace from each part
-        foreach ($parts as &$part) {
-            $part = trim($part);
-        }
-
-        // Determine the components based on the number of parts
-        if (count($parts) === 1) {
-            // Case: Single part
-            $result['nama'] = $parts[0];
-        } else {
-            // Case: More than one part
-            $gelar_depan    = '';
-            $nama           = '';
-            $gelar_belakang = '';
-
-            // Check for prefix (gelar_depan)
-            $firstPart   = trim($parts[0]);
-            $dotPosition = strrpos($firstPart, '.');
-            if ($dotPosition !== false) {
-                $gelar_depan = substr($firstPart, 0, $dotPosition + 1);
-                $nama        = trim(substr($firstPart, $dotPosition + 1));
-            } else {
-                $nama = $firstPart;
-            }
-
-            // Combine the rest as gelar_belakang
-            for ($i = 1; $i < count($parts); $i++) {
-                $gelar_belakang .= ($i > 1 ? ', ' : '') . $parts[$i];
-            }
-
-            $result['gelar_depan']    = $gelar_depan;
-            $result['nama']           = $nama;
-            $result['gelar_belakang'] = $gelar_belakang;
-        }
-
-        return $result;
     }
 }

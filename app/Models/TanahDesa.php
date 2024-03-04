@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-
 /*
  *
  * File ini bagian dari:
@@ -38,59 +35,43 @@ use Illuminate\Database\Schema\Blueprint;
  *
  */
 
+namespace App\Models;
+
+use App\Traits\Author;
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Illuminate\Support\Facades\DB;
-
-class Migrasi_dev extends MY_model
+class TanahDesa extends BaseModel
 {
-    public function up()
+    use Author, ConfigId;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tanah_desa';
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+
+    /**
+     * Define an inverse one-to-one or many relationship.
+     *
+     * @return BelongsTo
+     */
+    public function penduduk()
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
+        return $this->belongsTo(Penduduk::class, 'id_penduduk');
     }
 
-    protected function migrasi_tabel($hasil)
+    public function scopeVisible($query, $value = 1)
     {
-        return $hasil;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
-
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024270201($hasil, $id);
-        }
-
-        // Migrasi tanpa config_id
-
-        return $hasil && $this->migrasi_2024280201($hasil);
-    }
-
-    protected function migrasi_2024270201($hasil, $id)
-    {
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Sinkronisasi OpenDK Server',
-            'key'        => 'sinkronisasi_opendk',
-            'value'      => setting('api_opendk_key') ? 1 : 0,
-            'keterangan' => 'Aktifkan Sinkronisasi Server OpenDK',
-            'kategori'   => 'opendk',
-            'jenis'      => 'boolean',
-            'option'     => null,
-        ], $id);
-    }
-
-    protected function migrasi_2024280201($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-tanah-di-desa', 'url' => 'bumindes_tanah_desa/clear'],
-            ['url' => 'bumindes_tanah_desa']
-        );
+        return $query->where('visible', $value);
     }
 }
