@@ -5,6 +5,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 #### BUG
 
 1. [#7725](https://github.com/OpenSID/OpenSID/issues/7725) Perbaikan pengaturan api sinkronisasi ke OpenDK agar datanya tidak hilang jika pengaturan dimatikan.
+2. [#7751](https://github.com/OpenSID/OpenSID/issues/7751) Perbaikan total data perempuan pada modul wilayah administratif.
 
 
 
