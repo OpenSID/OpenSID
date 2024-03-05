@@ -53,7 +53,7 @@ class Bumindes_tanah_desa extends Admin_Controller
     public function index()
     {
         $data['selected_nav'] = 'tanah';
-        $data['subtitle']    = 'Buku Tanah di ' . ucwords(setting('sebutan_desa'));
+        $data['subtitle']     = 'Buku Tanah di ' . ucwords(setting('sebutan_desa'));
         $data['main_content'] = 'admin.bumindes.pembangunan.tanah_di_desa.index';
 
         return view('admin.bumindes.umum.main', $data);
@@ -154,7 +154,7 @@ class Bumindes_tanah_desa extends Admin_Controller
     }
 
     private function validate($data, $id = 0)
-    {        
+    {
         if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['pemilik_asal'])) {
             redirect_with('error', 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
         }
@@ -233,7 +233,7 @@ class Bumindes_tanah_desa extends Admin_Controller
         }
         if ($nilai == '0') {
             return false;
-        }        
+        }
     }
 
     public function dialog($aksi = 'cetak')

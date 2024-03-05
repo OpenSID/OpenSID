@@ -8,7 +8,7 @@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" checked="checked" name="lampiran[]" value="{{ $item }}">
                 <label class="form-check-label">
-                {{ strtoupper($item) }}
+                    {{ strtoupper($item) }}
                 </label>
             </div>
         </div>

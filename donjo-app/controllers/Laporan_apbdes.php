@@ -86,7 +86,7 @@ class Laporan_apbdes extends Admin_Controller
 
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     public function index()
@@ -121,7 +121,7 @@ class Laporan_apbdes extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('updated_at', static fn($q) => $q->updated_at->format('Y-m-d H:i:s'))
+                ->editColumn('updated_at', static fn ($q) => $q->updated_at->format('Y-m-d H:i:s'))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -148,7 +148,7 @@ class Laporan_apbdes extends Admin_Controller
     public function insert(): void
     {
         isCan('u');
-        $data = $this->request;
+        $data         = $this->request;
         $data['tipe'] = $this->tipe;
         if (isset($_FILES['nama_file']) && $_FILES['nama_file']['error'] == UPLOAD_ERR_OK) {
             $data['nama_file'] = $this->uploadFile($data['judul']);
@@ -163,13 +163,13 @@ class Laporan_apbdes extends Admin_Controller
     public function update($id = null): void
     {
         isCan('u');
-        
-        $obj       = LaporanSinkronisasi::findOrFail($id);
-        $updateData = $this->request;        
-        if (isset($_FILES['nama_file']) && $_FILES['nama_file']['error'] == UPLOAD_ERR_OK) {        
+
+        $obj        = LaporanSinkronisasi::findOrFail($id);
+        $updateData = $this->request;
+        if (isset($_FILES['nama_file']) && $_FILES['nama_file']['error'] == UPLOAD_ERR_OK) {
             $updateData['nama_file'] = $this->uploadFile($updateData['judul']);
         }
-        
+
         if ($obj->update($updateData)) {
             redirect_with('success', 'Berhasil Ubah Data', $this->routePath);
         }
@@ -231,7 +231,7 @@ class Laporan_apbdes extends Admin_Controller
 
         if (! curl_errno($curl) && $http_code !== 422) {
             // Ubah tgl kirim
-            LaporanSinkronisasi::where(['id' => $id])->update(['kirim' => date('Y-m-d H:i:s')]);            
+            LaporanSinkronisasi::where(['id' => $id])->update(['kirim' => date('Y-m-d H:i:s')]);
         }
 
         curl_close($curl);
@@ -257,8 +257,8 @@ class Laporan_apbdes extends Admin_Controller
         return $this->upload('nama_file', $config);
     }
 
-    private function opendk($id)        
-    {                
+    private function opendk($id)
+    {
         $kirim = [];
 
         foreach (LaporanSinkronisasi::whereIn('id', $id)->get()->toArray() as $key => $data) {
@@ -277,7 +277,7 @@ class Laporan_apbdes extends Admin_Controller
         }
 
         return $kirim;
-    }    
+    }
 
     private function file($nama_file)
     {

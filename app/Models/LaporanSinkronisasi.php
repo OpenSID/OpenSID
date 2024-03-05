@@ -36,6 +36,7 @@
  */
 
 namespace App\Models;
+
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -43,6 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class LaporanSinkronisasi extends BaseModel
 {
     use ConfigId;
+
     /**
      * The table associated with the model.
      *
@@ -61,7 +63,7 @@ class LaporanSinkronisasi extends BaseModel
         'tahun',
         'semester',
         'nama_file',
-        'kirim'
+        'kirim',
     ];
 
     /**
@@ -72,7 +74,7 @@ class LaporanSinkronisasi extends BaseModel
     protected $casts = [
         // 'status' => 'boolean',
     ];
-    
+
     /**
      * The "booted" method of the model.
      */

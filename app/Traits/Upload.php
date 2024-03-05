@@ -37,25 +37,27 @@
 
 namespace App\Traits;
 
+use Exception;
+
 trait Upload
 {
     protected function upload($file, $config = [])
     {
-        $this->load->library('MY_Upload', null, 'upload');        
+        $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
         try {
             $upload = $this->upload->do_upload($file);
 
-            if (! $upload) {                
-                redirect_with('error',$this->upload->display_errors() ,$this->controller);
+            if (! $upload) {
+                redirect_with('error', $this->upload->display_errors(), $this->controller);
             }
 
             $uploadData = $this->upload->data();
 
             return $uploadData['file_name'];
-        } catch (\Exception $e) {            
-            redirect_with('error',$this->upload->display_errors() ,$this->controller);
+        } catch (Exception $e) {
+            redirect_with('error', $this->upload->display_errors(), $this->controller);
         }
     }
 }

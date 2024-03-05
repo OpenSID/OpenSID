@@ -2,12 +2,30 @@
     <div class="modal-body">
         <div class="form-group">
             <label for="judul">Judul</label>
-            <input type="text" class="form-control input-sm required" id="judul" name="judul" value="{{ $main->judul }}" placeholder="Judul" @disabled($main->kirim)/>
+            <input
+                type="text"
+                class="form-control input-sm required"
+                id="judul"
+                name="judul"
+                value="{{ $main->judul }}"
+                placeholder="Judul"
+                @disabled($main->kirim)
+            />
         </div>
 
         <div class="form-group">
             <label for="tahun">Tahun</label>
-            <input type="number" class="form-control input-sm required" id="tahun" name="tahun" value="{{ $main->tahun }}" placeholder="Tahun"  @disabled($main->kirim) min="1945" max="2030"/>
+            <input
+                type="number"
+                class="form-control input-sm required"
+                id="tahun"
+                name="tahun"
+                value="{{ $main->tahun }}"
+                placeholder="Tahun"
+                @disabled($main->kirim)
+                min="1945"
+                max="2030"
+            />
         </div>
 
         <div class="form-group">
@@ -19,10 +37,10 @@
         </div>
 
         <div class="form-group">
-            <label for="file" >File : <code>(.pdf)</code></label>
+            <label for="file">File : <code>(.pdf)</code></label>
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" id="file_path" name="satuan">
-                <input type="file" class="hidden @if(!$main) {{ 'required' }} @endif" id="file" name="nama_file" accept=".pdf"/>
+                <input type="file" class="hidden @if (!$main) {{ 'required' }} @endif" id="file" name="nama_file" accept=".pdf" />
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                 </span>

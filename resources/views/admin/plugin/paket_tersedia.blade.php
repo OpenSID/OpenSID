@@ -116,16 +116,16 @@
                 if (tipe === undefined) {
                     tipe = $('#tipe').val()
                 }
-                $.ajax({ 
-                    url: urlModule, 
+                $.ajax({
+                    url: urlModule,
                     data: {
-                            page: page,
-                            tipe: tipe
-                        }, 
+                        page: page,
+                        tipe: tipe
+                    },
                     type: 'GET',
                     contentType: 'application/json',
                     headers: {
-                        'Authorization': 'Bearer {{$token_layanan}}'
+                        'Authorization': 'Bearer {{ $token_layanan }}'
                     },
                     success: function(response) {
                         const data = response.data

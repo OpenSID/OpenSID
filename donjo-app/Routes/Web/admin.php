@@ -478,7 +478,7 @@ Route::group('laporan_penduduk', static function (): void {
     Route::get('/form/{id?}', 'Laporan_penduduk@form')->name('laporan_penduduk.form');
     Route::post('/insert', 'Laporan_penduduk@insert')->name('laporan_penduduk.insert');
     Route::post('/update/{id}', 'Laporan_penduduk@update')->name('laporan_penduduk.update');
-    Route::match(['GET', 'POST'],'/delete', 'Laporan_penduduk@delete')->name('laporan_penduduk.delete');
+    Route::match(['GET', 'POST'], '/delete', 'Laporan_penduduk@delete')->name('laporan_penduduk.delete');
     Route::get('/unduh/{id?}', 'Laporan_penduduk@unduh')->name('laporan_penduduk.unduh');
     Route::post('/kirim', 'Laporan_penduduk@kirim')->name('laporan_penduduk.kirim');
 });
@@ -1253,7 +1253,7 @@ Route::group('laporan_apbdes', static function (): void {
     Route::get('/form/{id?}', 'Laporan_apbdes@form')->name('laporan_apbdes.form');
     Route::post('/insert', 'Laporan_apbdes@insert')->name('laporan_apbdes.insert');
     Route::post('/update/{id}', 'Laporan_apbdes@update')->name('laporan_apbdes.update');
-    Route::match(['GET', 'POST'],'/delete', 'Laporan_apbdes@delete_all')->name('laporan_apbdes.delete');
+    Route::match(['GET', 'POST'], '/delete', 'Laporan_apbdes@delete_all')->name('laporan_apbdes.delete');
     Route::get('/unduh/{id?}', 'Laporan_apbdes@unduh')->name('laporan_apbdes.unduh');
     Route::post('/kirim', 'Laporan_apbdes@kirim')->name('laporan_apbdes.kirim');
 });

@@ -1,12 +1,12 @@
 <div class="tab-pane active">
-    <div class="row" id="list-paket">        
-        {!! form_open(ci_route('plugin.hapus'), 'id="mainform" name="mainform"') !!}        
-            <input type="hidden" name="name" value="">
-            @if (!$paket_terpasang)
-                <div class="col-md-12">
-                    <div class="alert alert-warning">Belum ada paket yang terpasang</div>
-                </div>
-            @endif
+    <div class="row" id="list-paket">
+        {!! form_open(ci_route('plugin.hapus'), 'id="mainform" name="mainform"') !!}
+        <input type="hidden" name="name" value="">
+        @if (!$paket_terpasang)
+            <div class="col-md-12">
+                <div class="alert alert-warning">Belum ada paket yang terpasang</div>
+            </div>
+        @endif
         </form>
     </div>
 </div>
@@ -14,6 +14,7 @@
     <script>
         $(function() {
             let paketTerpasang = {!! $paket_terpasang !!}
+
             function loadModule() {
                 let cardView = [],
                     disabledPaket, buttonInstall, versionCheck, templateTmp
@@ -21,15 +22,15 @@
                 const templateCard = `@include('admin.plugin.item')`
 
                 $.ajax({
-                    url : urlModule, 
+                    url: urlModule,
                     data: {
                         per_page: 10000,
                         list_module: paketTerpasang
-                    }, 
+                    },
                     type: 'GET',
                     contentType: 'application/json',
                     headers: {
-                        'Authorization': 'Bearer {{$token_layanan}}'
+                        'Authorization': 'Bearer {{ $token_layanan }}'
                     },
                     success: function(response) {
                         const data = response.data
@@ -80,7 +81,7 @@
             }
 
             if (paketTerpasang) {
-                loadModule()                
+                loadModule()
             }
         })
     </script>

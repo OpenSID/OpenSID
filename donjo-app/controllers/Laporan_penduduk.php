@@ -44,7 +44,8 @@ class Laporan_penduduk extends Laporan_apbdes
     public $modul_ini     = 'statistik';
     public $sub_modul_ini = 'laporan-penduduk';
     protected $tipe       = 'laporan_penduduk';
-    protected $routePath = 'laporan_penduduk';
+    protected $routePath  = 'laporan_penduduk';
+
     public function __construct()
     {
         parent::__construct();

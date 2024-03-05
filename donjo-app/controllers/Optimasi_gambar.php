@@ -39,8 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Optimasi_gambar extends Admin_Controller
 {
-    public $modul_ini           = 'pengaturan';
-    public $sub_modul_ini       = 'optimasi-gambar';
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'optimasi-gambar';
 
     public function __construct()
     {
