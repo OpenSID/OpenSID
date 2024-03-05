@@ -35,11 +35,12 @@
  *
  */
 
+
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024020751 extends MY_model
+class Migrasi_2024030171 extends MY_model
 {
     public function up()
     {
@@ -64,10 +65,15 @@ class Migrasi_2024020751 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024020651($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024020652($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024021351($hasil, $id);
         }
 
         // Migrasi tanpa config_id
-        return $hasil && $this->migrasi_2024020551($hasil);
+        $hasil = $hasil && $this->migrasi_2024020551($hasil);
+        $hasil = $hasil && $this->migrasi_2024130201($hasil);
+        $hasil = $hasil && $this->migrasi_2024210201($hasil);
+
+        return $hasil && $this->migrasi_2024022271($hasil);
     }
 
     protected function migrasi_2024020551($hasil)
@@ -118,5 +124,51 @@ class Migrasi_2024020751 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024021351($hasil, $id)
+    {
+        DB::table('setting_aplikasi')
+            ->where('config_id', $id)
+            ->where('key', 'ukuran_lebar_bagan')
+            ->update(['kategori' => 'Pemerintah Desa']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024130201($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-eskpedisi', 'url' => 'ekspedisi/clear'],
+            ['url' => 'ekspedisi']
+        );
+    }
+
+    protected function migrasi_2024210201($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'administrasi-penduduk', 'url' => 'bumindes_penduduk_induk/clear'],
+            ['url' => 'bumindes_penduduk_induk']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-mutasi-penduduk', 'url' => 'bumindes_penduduk_mutasi/clear'],
+            ['url' => 'bumindes_penduduk_mutasi']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-penduduk-sementara', 'url' => 'bumindes_penduduk_sementara/clear'],
+            ['url' => 'bumindes_penduduk_sementara']
+        );
+    }
+
+    protected function migrasi_2024022271($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('klasifikasi_surat', [
+            'nama' => [
+                'type' => 'TEXT',
+                'null' => false,
+            ],
+        ]);
     }
 }
