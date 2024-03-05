@@ -44,7 +44,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class TanahDesa extends BaseModel
 {
-    use Author, ConfigId;
+    use Author;
+ use ConfigId;
 
     /**
      * The table associated with the model.

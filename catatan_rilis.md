@@ -11,14 +11,16 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 #### BUG
 
 1. [#7725](https://github.com/OpenSID/OpenSID/issues/7725) Perbaikan pengaturan api sinkronisasi ke OpenDK agar datanya tidak hilang jika pengaturan dimatikan.
+2. [#7751](https://github.com/OpenSID/OpenSID/issues/7751) Perbaikan total data perempuan pada modul wilayah administratif.
 
 
 
 #### TEKNIS
 
 1. [#7737](https://github.com/OpenSID/OpenSID/issues/7737) Penyesuaian modul Buku Tanah di Desa menggunakan ORM dan Blade Laravel.
+2. [#7705](https://github.com/OpenSID/OpenSID/issues/7705) Penyesuaian modul Laporan Penduduk dan APBDes di Desa menggunakan ORM dan Blade Laravel.
 
 
 #### KEAMANAN
 
-1. 
+1. [#3507](https://github.com/OpenSID/premium/issues/3507) Peningkatan unggah file pada modul informasi publik.

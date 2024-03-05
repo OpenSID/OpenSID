@@ -46,7 +46,6 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">Dokumen</label>
 								<div class="col-sm-4">
-									<input type="hidden" name="old_file" value="">
 									 <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $dokumen['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$dokumen['id']}/1/1")?>"></i>
 
 								</div>

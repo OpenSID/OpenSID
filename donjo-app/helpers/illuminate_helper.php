@@ -334,7 +334,7 @@ if ( ! function_exists('response')) {
      * @param int    $statusCode
      * @param array  $headers
      *
-     * @return \Illuminate\Http\Response|Response
+     * @return Illuminate\Http\Response|Response
      */
     function response($content = '', $statusCode = 200, $headers = [])
     {

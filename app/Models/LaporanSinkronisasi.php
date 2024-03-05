@@ -35,31 +35,69 @@
  *
  */
 
-use Illuminate\Support\Arr;
+namespace App\Models;
 
-require_once 'database.php';
+use App\Traits\ConfigId;
 
-$connections = [];
+defined('BASEPATH') || exit('No direct script access allowed');
 
-$connections['default'] = $active_group;
+class LaporanSinkronisasi extends BaseModel
+{
+    use ConfigId;
 
-foreach ($db as $key => $options) {
-    $dbdriver = Arr::get($options, 'dbdriver');
-    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'laporan_sinkronisasi';
 
-    $connections['connections'][$key] = [
-        'driver'    => $dbdriver,
-        'host'      => Arr::get($options, 'hostname'),
-        'port'      => Arr::get($options, 'port', 3306),
-        'database'  => Arr::get($options, 'database'),
-        'username'  => Arr::get($options, 'username'),
-        'password'  => Arr::get($options, 'password'),
-        'charset'   => Arr::get($options, 'char_set'),
-        'collation' => Arr::get($options, 'dbcollat'),
-        'prefix'    => Arr::get($options, 'swap_pre'),
-        'strict'    => Arr::get($options, 'stricton'),
-        'engine'    => null,
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'tipe',
+        'judul',
+        'tahun',
+        'semester',
+        'nama_file',
+        'kirim',
     ];
-}
 
-return $connections;
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [
+        // 'status' => 'boolean',
+    ];
+
+    /**
+     * The "booted" method of the model.
+     */
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'nama_file');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'nama_file', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $rawFile = LOKASI_DOKUMEN . $model->getOriginal($file);
+            if (file_exists($rawFile)) {
+                unlink($rawFile);
+            }
+        }
+    }
+}

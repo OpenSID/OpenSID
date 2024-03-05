@@ -641,10 +641,6 @@ class Laravel extends Container
         $this->make('cache');
         $this->make('queue');
 
-        if (file_exists($this->basePath('desa'))) {
-            $this->make('config')->set('database', require $this->configPath('eloquent.php'));
-        }
-
         $this->register(MigrationServiceProvider::class);
         $this->register(ConsoleServiceProvider::class);
     }

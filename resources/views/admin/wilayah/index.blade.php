@@ -81,6 +81,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tfoot>
                 </table>
             </div>
