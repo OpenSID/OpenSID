@@ -475,7 +475,7 @@ class Dtks extends Admin_Controller
      */
     public function delete($id)
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         ModelDtks::find($id)->delete();
 

@@ -52,7 +52,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
     public function add(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = $this->inventaris_peralatan_model->add([
             'nama_barang'     => $this->input->post('nama_barang_save'),
             'kode_barang'     => $this->input->post('kode_barang'),
@@ -79,7 +79,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
     public function add_mutasi(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $id_asset = $this->input->post('id_inventaris_peralatan');
         $data     = $this->inventaris_peralatan_model->add_mutasi([
             'id_inventaris_peralatan' => $id_asset,
@@ -99,7 +99,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
     public function update($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = $this->inventaris_peralatan_model->update($id, [
             'nama_barang'     => $this->input->post('nama_barang_save'),
             'kode_barang'     => $this->input->post('kode_barang'),
@@ -124,7 +124,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
     public function update_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->input->post('id_asset');
         $data = $this->inventaris_peralatan_model->update_mutasi($id, [
             'jenis_mutasi'  => ($this->input->post('status_mutasi') == 'Hapus') ? $this->input->post('mutasi') : null,
@@ -141,7 +141,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h', 'inventaris_peralatan');
+        isCan('h');
         $data                = $this->inventaris_peralatan_model->delete($id);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_peralatan');
@@ -149,7 +149,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
     public function delete_mutasi($id): void
     {
-        $this->redirect_hak_akses('h', 'inventaris_peralatan/mutasi');
+        isCan('h');
         $data                = $this->inventaris_peralatan_model->delete_mutasi($id);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_peralatan/mutasi');

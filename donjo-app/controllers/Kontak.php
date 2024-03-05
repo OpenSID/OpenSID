@@ -87,7 +87,7 @@ class Kontak extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
@@ -104,7 +104,7 @@ class Kontak extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (DaftarKontak::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -114,7 +114,7 @@ class Kontak extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = DaftarKontak::findOrFail($id);
 
@@ -126,7 +126,7 @@ class Kontak extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (DaftarKontak::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -136,7 +136,7 @@ class Kontak extends Admin_Controller
 
     public function deleteAll(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (DaftarKontak::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');

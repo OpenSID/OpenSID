@@ -120,7 +120,7 @@ class Sms extends Admin_Controller
 
     public function form($tipe = '', $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data['tipe']            = $tipe;
         $data['kontakPenduduk']  = Penduduk::select(['id', 'nama', 'telepon'])->whereNotNull('telepon')->status()->get();
@@ -149,7 +149,7 @@ class Sms extends Admin_Controller
 
     public function broadcast_proses(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $post      = $this->input->post();
         $isi_pesan = htmlentities($post['TextDecoded']);
@@ -170,7 +170,7 @@ class Sms extends Admin_Controller
     // Sms
     public function insert($tipe = '', $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($tipe == 3) {
             $this->sms_model->update($id);
@@ -189,7 +189,7 @@ class Sms extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->sms_model->update($id);
         redirect('sms');
@@ -197,7 +197,7 @@ class Sms extends Admin_Controller
 
     public function delete($tipe = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $this->sms_model->delete($tipe, $id);
         if ($tipe == 1) {
@@ -213,7 +213,7 @@ class Sms extends Admin_Controller
 
     public function deleteAll($tipe = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $this->sms_model->deleteAll($tipe);
         if ($tipe == 1) {
@@ -259,7 +259,7 @@ class Sms extends Admin_Controller
 
     public function kirim()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         return view('admin.sms.hubung_warga.form', [
             'grupKontak' => GrupKontak::withCount('anggota')->get(),
@@ -270,7 +270,7 @@ class Sms extends Admin_Controller
 
     public function prosesKirim(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $validasi = $this->hubungWargaValidate($this->request);
 
@@ -370,7 +370,7 @@ class Sms extends Admin_Controller
 
     public function hubungDelete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (HubungWarga::destroy($this->request['id_cb'] ?? $id)) {
             set_session('success', 'Berhasil Hapus Data');

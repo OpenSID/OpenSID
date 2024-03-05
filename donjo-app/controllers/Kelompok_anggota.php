@@ -47,7 +47,6 @@ class Kelompok_anggota extends Admin_Controller
 {
     public $modul_ini       = 'kependudukan';
     public $sub_modul_ini   = 'kelompok';
-    public $akses_modul     = 'kelompok';
     public $tipe            = 'kelompok';
     public $aliasController = 'kelompok';
 

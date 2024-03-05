@@ -64,7 +64,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
 
     public function update(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = static::validated($this->request);
 

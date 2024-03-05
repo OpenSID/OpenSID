@@ -75,7 +75,8 @@ class Area extends Admin_Controller
             return datatables()->of(AreaModel::when($status, static fn ($q) => $q->whereEnabled($status))
                 ->when($polygon, static fn ($q) => $q->whereIn('ref_polygon', static fn ($q) => $q->select('id')->from('polygon')->whereParrent($polygon)))
                 ->when($subpolygon, static fn ($q) => $q->whereRefPolygon($subpolygon))
-                ->with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ->with([
+                    'polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -114,7 +115,7 @@ class Area extends Admin_Controller
 
     public function form($parent = 0, $id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['area']        = null;
         $data['form_action'] = ci_route('area.insert', $parent);
         $data['foto_area']   = null;
@@ -133,7 +134,7 @@ class Area extends Admin_Controller
 
     public function ajax_area_maps($parent, int $id)
     {
-        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
+        isCan('u');
 
         $data['area']                   = AreaModel::find($id)->toArray();
         $data['parent']                 = $parent;
@@ -153,7 +154,7 @@ class Area extends Admin_Controller
 
     public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
+        isCan('u');
 
         try {
             $data = $this->input->post();
@@ -171,7 +172,7 @@ class Area extends Admin_Controller
 
     public function kosongkan($parent, $id): void
     {
-        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
+        isCan('u');
 
         try {
             AreaModel::whereId($id)->update(['path' => null]);
@@ -184,7 +185,7 @@ class Area extends Admin_Controller
 
     public function insert($parent): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if ($this->validation()) {
             $data = $this->validasi($this->input->post());
         }
@@ -200,7 +201,7 @@ class Area extends Admin_Controller
 
     public function update($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($this->validation()) {
             $data = $this->validasi($this->input->post());
@@ -218,7 +219,7 @@ class Area extends Admin_Controller
 
     public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
+        isCan('h');
 
         try {
             AreaModel::destroy($this->request['id_cb'] ?? $id);
@@ -231,7 +232,7 @@ class Area extends Admin_Controller
 
     public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
+        isCan('h');
 
         try {
             AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::LOCK]);
@@ -244,7 +245,7 @@ class Area extends Admin_Controller
 
     public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
+        isCan('h');
 
         try {
             AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::UNLOCK]);

@@ -75,7 +75,7 @@ class Kehadiran_pengaduan extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $action      = 'Ubah';
         $form_action = ci_route('kehadiran_pengaduan.update', $id);
@@ -87,7 +87,7 @@ class Kehadiran_pengaduan extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = KehadiranPengaduan::findOrFail($id);
 

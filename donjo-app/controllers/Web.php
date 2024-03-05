@@ -108,7 +108,7 @@ class Web extends Admin_Controller
 
     public function form($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->set_hak_akses_rfm();
         $cat = $this->session->kategori ?: 0;
 
@@ -152,7 +152,7 @@ class Web extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $cat = $this->session->kategori ?: 0;
 
         $this->web_artikel_model->insert($cat);
@@ -161,7 +161,7 @@ class Web extends Admin_Controller
 
     public function update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $cat = Artikel::findOrFail($id);
         $cat = $cat->id_kategori ?? $cat->tipe;
 
@@ -179,14 +179,14 @@ class Web extends Admin_Controller
 
     public function delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->web_artikel_model->delete(decrypt($id));
         redirect('web');
     }
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->web_artikel_model->delete_all();
         redirect('web');
     }
@@ -194,11 +194,11 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function hapus(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $cat = $this->session->kategori ?: 0;
 
         if (! in_array($cat, ['0', '-1', 'statis', 'agenda', 'keuangan'])) {
-            $this->redirect_hak_akses('h');
+            isCan('h');
             $this->web_artikel_model->hapus($cat);
             $this->session->kategori = '0';
         } else {
@@ -211,7 +211,7 @@ class Web extends Admin_Controller
     public function ubah_kategori_form($id = 0): void
     {
         $id = decrypt($id);
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
@@ -224,7 +224,7 @@ class Web extends Admin_Controller
 
     public function update_kategori($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
@@ -238,7 +238,7 @@ class Web extends Admin_Controller
     public function artikel_lock($id = 0, $val = 1): void
     {
         // Kontributor tidak boleh mengubah status aktif artikel
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->web_artikel_model->artikel_lock(decrypt($id), $val);
         redirect('web');
@@ -247,7 +247,7 @@ class Web extends Admin_Controller
     public function komentar_lock($id = 0, $val = 1): void
     {
         // Kontributor tidak boleh mengubah status komentar artikel
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->web_artikel_model->komentar_lock(decrypt($id), $val);
         redirect('web');
@@ -256,7 +256,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function ajax_add_kategori($cat = 1, $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = site_url("web/insert_kategori/{$cat}/{$p}/{$o}");
         $this->load->view('web/artikel/ajax_add_kategori_form', $data);
     }
@@ -264,7 +264,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function insert_kategori($cat = 1, $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('u', "web/index/{$cat}/{$p}/{$o}", 'kategori');
+        isCan('h');
         $this->web_artikel_model->insert_kategori();
         redirect("web/index/{$cat}/{$p}/{$o}");
     }
@@ -272,7 +272,7 @@ class Web extends Admin_Controller
     public function headline($id = 0): void
     {
         // Kontributor tidak boleh melakukan ini
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $artikel = Artikel::findOrFail(decrypt($id));
 
@@ -289,7 +289,7 @@ class Web extends Admin_Controller
     public function slide($id = 0): void
     {
         // Kontributor tidak boleh melakukan ini
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->web_artikel_model->slide(decrypt($id));
         redirect('web');
@@ -305,7 +305,7 @@ class Web extends Admin_Controller
     public function update_slider(): void
     {
         // Kontributor tidak boleh melakukan ini
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->setting_model->update_slider();
         redirect('web/slider');
@@ -321,7 +321,7 @@ class Web extends Admin_Controller
     public function update_teks_berjalan(): void
     {
         // Kontributor tidak boleh melakukan ini
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->setting_model->update_teks_berjalan();
         redirect('web/teks_berjalan');
@@ -329,7 +329,7 @@ class Web extends Admin_Controller
 
     public function reset(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $cat = $this->session->kategori ?: 0;
 
         if ($cat == 999) {

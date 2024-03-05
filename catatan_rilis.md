@@ -13,6 +13,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 
 1. [#7737](https://github.com/OpenSID/OpenSID/issues/7737) Penyesuaian modul Buku Tanah di Desa menggunakan ORM dan Blade Laravel.
 2. [#7705](https://github.com/OpenSID/OpenSID/issues/7705) Penyesuaian modul Laporan Penduduk dan APBDes di Desa menggunakan ORM dan Blade Laravel.
+3. [#3508](https://github.com/OpenSID/premium/issues/3508) Penyesuaian pengecekan hak akses modul agar tidak duplikasi fungsi.
 
 
 #### KEAMANAN

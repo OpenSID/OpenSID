@@ -120,7 +120,7 @@ class Rtm extends Admin_Controller
 
     public function edit_nokk($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['kk']          = $this->rtm_model->get_rtm($id) ?? show_404();
         $data['form_action'] = site_url("{$this->controller}/update_nokk/{$id}");
 
@@ -129,7 +129,7 @@ class Rtm extends Admin_Controller
 
     public function form_old($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = site_url("{$this->controller}/insert/{$id}");
 
         $this->load->view('rtm/ajax_add_rtm', $data);
@@ -219,7 +219,7 @@ class Rtm extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->insert();
         $this->session->order_by = 6;
 
@@ -228,7 +228,7 @@ class Rtm extends Admin_Controller
 
     public function insert_by_kk(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->insert_by_kk();
         $this->session->order_by = 6;
 
@@ -237,7 +237,7 @@ class Rtm extends Admin_Controller
 
     public function insert_a(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->insert_a();
         $this->session->order_by = 6;
 
@@ -246,7 +246,7 @@ class Rtm extends Admin_Controller
 
     public function insert_new(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->insert_new();
         $this->session->order_by = 6;
 
@@ -255,7 +255,7 @@ class Rtm extends Admin_Controller
 
     public function update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->update($id);
 
         redirect($this->controller);
@@ -263,21 +263,21 @@ class Rtm extends Admin_Controller
 
     public function update_nokk($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->update_nokk($id);
         redirect($this->controller);
     }
 
     public function delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->rtm_model->delete($id);
         redirect($this->controller);
     }
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->rtm_model->delete_all();
         redirect($this->controller);
     }
@@ -296,7 +296,7 @@ class Rtm extends Admin_Controller
 
     public function ajax_add_anggota($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
 
@@ -331,7 +331,7 @@ class Rtm extends Admin_Controller
 
     public function edit_anggota($id_rtm = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['hubungan']    = $this->rtm_model->list_hubungan();
         $data['main']        = $this->rtm_model->get_anggota($id) ?? show_404();
         $data['form_action'] = site_url("{$this->controller}/update_anggota/{$id_rtm}/{$id}");
@@ -367,7 +367,7 @@ class Rtm extends Admin_Controller
 
     public function add_anggota($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->add_anggota($id);
 
         redirect("{$this->controller}/anggota/{$id}");
@@ -375,7 +375,7 @@ class Rtm extends Admin_Controller
 
     public function update_anggota($id_rtm = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->update_anggota($id, $id_rtm);
 
         redirect("{$this->controller}/anggota/{$id_rtm}");
@@ -383,7 +383,7 @@ class Rtm extends Admin_Controller
 
     public function delete_anggota($kk = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->rtm_model->rem_anggota($kk, $id);
 
         redirect("{$this->controller}/anggota/{$kk}");
@@ -391,7 +391,7 @@ class Rtm extends Admin_Controller
 
     public function delete_all_anggota($kk = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->rtm_model->rem_all_anggota($kk);
 
         redirect("{$this->controller}/anggota/{$kk}");
@@ -464,7 +464,7 @@ class Rtm extends Admin_Controller
     // Impor Pengelompokan Data Rumah Tangga
     public function impor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->rtm_model->impor();
         redirect($this->controller);
     }

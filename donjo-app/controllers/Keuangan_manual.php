@@ -158,7 +158,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function simpan_anggaran(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $insert = $this->validation($this->input->post());
         $data   = $this->keuangan_manual_model->simpan_anggaran($insert);
 
@@ -168,7 +168,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function update_anggaran(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $id     = $this->input->post('id');
         $update = $this->validation($this->input->post());
         $data   = $this->keuangan_manual_model->update_anggaran($id, $update);
@@ -179,7 +179,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function delete_input($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->keuangan_manual_model->delete_input($id);
         redirect('keuangan_manual/manual_apbdes');
     }

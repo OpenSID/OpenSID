@@ -50,7 +50,6 @@ class Admin_Controller extends MY_Controller
     public $grup;
     public $modul_ini;
     public $sub_modul_ini;
-    public $akses_modul;
     public $header;
     public $controller;
     public $aliasController;
@@ -114,7 +113,7 @@ class Admin_Controller extends MY_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        if (! $this->user_model->hak_akses($this->grup, $aliasController, 'b')) {
+        if (isCan('b')) {
             if (empty($this->grup)) {
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
@@ -169,71 +168,6 @@ class Admin_Controller extends MY_Controller
         }
 
         return $pengumuman;
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
-    protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-        if (! $this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
-            session_error('Anda tidak mempunyai akses pada fitur ini');
-            if (empty($this->grup)) {
-                redirect('siteman');
-            }
-            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
-        }
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        if (($admin_only && $this->grup != $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
-            session_error('Anda tidak mempunyai akses pada fitur ini');
-
-            if (empty($this->grup)) {
-                redirect('siteman');
-            }
-            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
-        }
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
-    public function cek_hak_akses_url($akses, $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    public function cek_hak_akses($akses, $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses($this->grup, $controller, $akses);
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    public function redirect_tidak_valid($valid): void
-    {
-        if ($valid) {
-            return;
-        }
-
-        session_error('Aksi ini tidak diperbolehkan');
-        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function render($view, ?array $data = null): void

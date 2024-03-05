@@ -82,7 +82,7 @@ class Setting extends Admin_Controller
     // Untuk view lama
     public function update(): void
     {
-        $this->redirect_hak_akses_url('u');
+        isCan('u');
         $hasil = $this->setting_model->update_setting($this->input->post());
         status_sukses($hasil, false, 'Berhasil Ubah Data');
 
@@ -92,7 +92,7 @@ class Setting extends Admin_Controller
     // Untuk view menggunakan blade
     public function new_update(): void
     {
-        $this->redirect_hak_akses_url('u');
+        isCan('u');
         if ($this->setting_model->update_setting($this->input->post())) {
             set_session('success', 'Berhasil Ubah Data');
         } else {

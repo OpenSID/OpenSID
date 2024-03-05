@@ -84,7 +84,7 @@ class Dokumen extends Admin_Controller
 
     public function form($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['p']   = $p;
         $data['o']   = $o;
         $data['kat'] = $kat;
@@ -129,7 +129,7 @@ class Dokumen extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $_SESSION['success'] = 1;
         $kat                 = $this->input->post('kategori');
         $outp                = $this->web_dokumen_model->insert();
@@ -141,7 +141,7 @@ class Dokumen extends Admin_Controller
 
     public function update($kat, $id = '', $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $_SESSION['success'] = 1;
         $data                = $this->web_dokumen_model->validasi($this->request);
         $dokumen             = DokumenHidup::find($id) ?? show_404();
@@ -156,7 +156,7 @@ class Dokumen extends Admin_Controller
 
     public function delete($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
+        isCan('h');
         $dokumen = DokumenHidup::find($id) ?? show_404();
         if ($dokumen->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -166,7 +166,7 @@ class Dokumen extends Admin_Controller
 
     public function delete_all($kat = 1, $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
+        isCan('h');
         if (DokumenHidup::whereIn('id', $_POST['id_cb'])->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
@@ -175,14 +175,14 @@ class Dokumen extends Admin_Controller
 
     public function dokumen_lock($kat = 1, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->web_dokumen_model->dokumen_lock($id, 1);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
     public function dokumen_unlock($kat = 1, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->web_dokumen_model->dokumen_lock($id, 2);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }

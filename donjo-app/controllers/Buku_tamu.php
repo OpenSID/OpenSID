@@ -88,7 +88,7 @@ class Buku_tamu extends Anjungan_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (BukuTamu::destroy($this->request['id_cb'] ?? $id) !== 0) {
             // Hapus juga data indeks kepuasan

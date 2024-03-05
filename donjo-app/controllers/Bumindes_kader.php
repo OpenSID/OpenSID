@@ -104,7 +104,7 @@ class Bumindes_kader extends Admin_Controller
 
     public function tambah(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->kader_model->tambah();
 
         redirect($this->controller);
@@ -112,7 +112,7 @@ class Bumindes_kader extends Admin_Controller
 
     public function ubah($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->kader_model->ubah($id);
 
         redirect($this->controller);
@@ -120,7 +120,7 @@ class Bumindes_kader extends Admin_Controller
 
     public function hapus($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->kader_model->hapus($id);
 
         redirect($this->controller);
@@ -128,7 +128,7 @@ class Bumindes_kader extends Admin_Controller
 
     public function hapus_semua($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->kader_model->hapus_semua();
 
         redirect($this->controller);
