@@ -18,6 +18,9 @@ $(window).on("load", function () {
 });
 
 $(document).ready(function () {
+
+  sesi_login();
+
   // Fungsi untuk tombol kembali ke atas
   $(window).on("scroll", function () {
     if ($(this).scrollTop() > 100) {
@@ -331,6 +334,28 @@ $(document).ready(function () {
     });
   });
 });
+
+function sesi_login() {
+	var sessionTimeout;
+
+	function resetSessionTimeout() {
+		clearTimeout(sessionTimeout);
+		startSessionTimeout();
+	}
+
+	function startSessionTimeout() {
+		var idleTimeout = SESSION_EXPIRED * 1000;
+
+		sessionTimeout = setTimeout(function() {
+			location.href = SITE_URL + 'sesi';
+		}, idleTimeout);
+	}
+
+	window.onload = startSessionTimeout;
+
+	document.addEventListener('mousemove', resetSessionTimeout);
+	document.addEventListener('keydown', resetSessionTimeout);
+}
 
 /* Fungsi formatRupiah untuk form surat */
 function formatRupiah(angka, prefix, nol_sen = true) {

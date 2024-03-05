@@ -152,3 +152,6 @@ foreach (glob(APPPATH . '/config/routes/*.php') as $routes_file) {
 
 // securimage
 $route['captcha'] = 'Securimage/show';
+
+// sesi login
+$route['sesi'] = 'Siteman/sesi';

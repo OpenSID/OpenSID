@@ -101,7 +101,6 @@
     <script src="<?= asset('js/dom-to-image.min.js') ?>"></script>
     <script src="<?= asset('js/toastr.min.js') ?>"></script>
 
-
     <!-- Diperlukan untuk global automatic base_url oleh external js file -->
     <script type="text/javascript">
         var BASE_URL = "<?= base_url() ?>";
@@ -109,6 +108,7 @@
         var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
         var JENIS_PETA = '<?= setting('jenis_peta') ?>';
         var TAMPIL_LUAS = "<?= setting('tampil_luas_peta') ?>";
+        var SESSION_EXPIRED = "<?= config_item('sess_expiration') ?>";
     </script>
 
     <!-- Highcharts JS -->

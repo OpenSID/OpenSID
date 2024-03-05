@@ -97,7 +97,7 @@
 				<!-- NOTIFICATION-->
 				<script type="text/javascript">
 					$('document').ready(function() {
-						var koneksi = '<?= ! cek_koneksi_internet() && setting('notifikasi_koneksi') ?>';
+						var koneksi = '<?= !cek_koneksi_internet() && setting('notifikasi_koneksi') ?>';
 
 						if (koneksi) {
 							cek_koneksi();
