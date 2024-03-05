@@ -35,18 +35,27 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Traits;
 
-require_once APPPATH . 'controllers/Laporan_apbdes.php';
-
-class Laporan_penduduk extends Laporan_apbdes
+trait Upload
 {
-    public $modul_ini     = 'statistik';
-    public $sub_modul_ini = 'laporan-penduduk';
-    protected $tipe       = 'laporan_penduduk';
-    protected $routePath = 'laporan_penduduk';
-    public function __construct()
+    protected function upload($file, $config = [])
     {
-        parent::__construct();
+        $this->load->library('MY_Upload', null, 'upload');        
+        $this->upload->initialize($config);
+
+        try {
+            $upload = $this->upload->do_upload($file);
+
+            if (! $upload) {                
+                redirect_with('error',$this->upload->display_errors() ,$this->controller);
+            }
+
+            $uploadData = $this->upload->data();
+
+            return $uploadData['file_name'];
+        } catch (\Exception $e) {            
+            redirect_with('error',$this->upload->display_errors() ,$this->controller);
+        }
     }
 }

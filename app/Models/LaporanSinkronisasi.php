@@ -35,18 +35,67 @@
  *
  */
 
+namespace App\Models;
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-require_once APPPATH . 'controllers/Laporan_apbdes.php';
-
-class Laporan_penduduk extends Laporan_apbdes
+class LaporanSinkronisasi extends BaseModel
 {
-    public $modul_ini     = 'statistik';
-    public $sub_modul_ini = 'laporan-penduduk';
-    protected $tipe       = 'laporan_penduduk';
-    protected $routePath = 'laporan_penduduk';
-    public function __construct()
+    use ConfigId;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'laporan_sinkronisasi';
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'tipe',
+        'judul',
+        'tahun',
+        'semester',
+        'nama_file',
+        'kirim'
+    ];
+
+    /**
+     * The casts with the model.
+     *
+     * @var array
+     */
+    protected $casts = [
+        // 'status' => 'boolean',
+    ];
+    
+    /**
+     * The "booted" method of the model.
+     */
+    public static function boot(): void
     {
-        parent::__construct();
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'nama_file');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'nama_file', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $rawFile = LOKASI_DOKUMEN . $model->getOriginal($file);
+            if (file_exists($rawFile)) {
+                unlink($rawFile);
+            }
+        }
     }
 }
