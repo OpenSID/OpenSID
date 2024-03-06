@@ -51,7 +51,7 @@ return new class () extends Migration {
             $table->integer('id', true);
             $table->integer('config_id')->nullable()->index('klasifikasi_surat_config_fk');
             $table->string('kode', 50);
-            $table->string('nama', 250);
+            $table->text('nama');
             $table->mediumText('uraian');
             $table->integer('enabled')->default(1);
         });

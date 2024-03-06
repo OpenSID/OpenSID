@@ -35,6 +35,7 @@
  *
  */
 
+<<<<<<<< HEAD:app/Models/TanahDesa.php
 namespace App\Models;
 
 use App\Traits\Author;
@@ -75,4 +76,24 @@ class TanahDesa extends BaseModel
     {
         return $query->where('visible', $value);
     }
+========
+namespace Cocur\Slugify;
+
+/**
+ * SlugifyInterface
+ *
+ * @copyright 2012-2014 Florian Eckerstorfer
+ * @license   http://www.opensource.org/licenses/MIT The MIT License
+ */
+interface SlugifyInterface
+{
+    /**
+     * Return a URL safe version of a string.
+     *
+     * @param array|string|null $options
+     *
+     * @api
+     */
+    public function slugify(string $string, $options = null): string;
+>>>>>>>> v2403.0.0-rilis:vendor/cocur/slugify/src/SlugifyInterface.php
 }

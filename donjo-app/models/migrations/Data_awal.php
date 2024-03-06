@@ -81,7 +81,7 @@ class Data_awal extends MY_Model
         $hasil = $hasil && $this->tambah_jabatan($hasil);
 
         // Klasifikasi Surat
-        $hasil = $hasil && $this->tambah_klasifikasi_surat($hasil);
+        // $hasil = $hasil && $this->tambah_klasifikasi_surat($hasil);
 
         // Menu Anjungan
         $hasil = $hasil && $this->tambah_menu_anjungan($hasil);
