@@ -182,6 +182,8 @@ class Plugin extends Admin_Controller
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
+        // sort by name, jika up maka urutkan dari yang paling lama namun jika down maka urutkan dari yang paling baru
+        $action == 'up' ? usort($migrations, static fn ($a, $b): int => strcmp($a, $b)) : usort($migrations, static fn ($a, $b): int => strcmp($b, $a));
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
