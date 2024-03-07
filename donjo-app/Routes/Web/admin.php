@@ -1182,14 +1182,14 @@ Route::group('bumindes_hasil_pembangunan', static function (): void {
 // -- Buku Kader Pemberdayaan Masyarakat
 Route::group('bumindes_kader', static function (): void {
     Route::get('/', 'Bumindes_kader@index')->name('bumindes_kader.index');
-    Route::post('/', 'Bumindes_kader@index')->name('bumindes_kader.datatables');
+    Route::get('/datatables', 'Bumindes_kader@datatables')->name('bumindes_kader.datatables');
     Route::get('/get_bidang', 'Bumindes_kader@get_bidang')->name('bumindes_kader.get_bidang');
     Route::get('/get_kursus', 'Bumindes_kader@get_kursus')->name('bumindes_kader.get_kursus');
     Route::get('/form/{id?}', 'Bumindes_kader@form')->name('bumindes_kader.form');
-    Route::post('/tambah', 'Bumindes_kader@tambah')->name('bumindes_kader.tambah');
-    Route::post('/ubah/{id}', 'Bumindes_kader@ubah')->name('bumindes_kader.ubah');
-    Route::get('/hapus/{id?}', 'Bumindes_kader@hapus')->name('bumindes_kader.hapus');
-    Route::post('/hapus_semua', 'Bumindes_kader@hapus_semua')->name('bumindes_kader.hapus_semua');
+    Route::post('/create', 'Bumindes_kader@create')->name('bumindes_kader.create');
+    Route::post('/update/{id}', 'Bumindes_kader@update')->name('bumindes_kader.update');
+    Route::get('/delete/{id}', 'Bumindes_kader@delete')->name('bumindes_kader.delete');
+    Route::post('/delete_all', 'Bumindes_kader@delete_all')->name('bumindes_kader.delete_all');
     Route::get('/dialog/{aksi?}', 'Bumindes_kader@dialog')->name('bumindes_kader.dialog');
     Route::post('/cetak/{aksi?}', 'Bumindes_kader@cetak')->name('bumindes_kader.cetak');
 });

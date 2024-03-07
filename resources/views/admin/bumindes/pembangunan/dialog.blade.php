@@ -3,7 +3,7 @@
 
 <form id="validasi" action="{{ $formAction }}" method="post" target="_blank">
     <div class="modal-body">
-        @if ($tahun->count() > 0)
+        @if ($tahun && $tahun->count() > 0)
             <div class="form-group">
                 <label class="control-label">Tahun Anggaran</label>
                 <select class="form-control input-sm jenis_link select2" name="tahun">>
