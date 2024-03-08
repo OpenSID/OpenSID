@@ -89,19 +89,6 @@ class Setting extends Admin_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    // Untuk view menggunakan blade
-    public function new_update(): void
-    {
-        isCan('u');
-        if ($this->setting_model->update_setting($this->input->post())) {
-            set_session('success', 'Berhasil Ubah Data');
-        } else {
-            set_session('error', 'Gagal Ubah Data. ' . session('flash_error_msg'));
-        }
-
-        redirect($_SERVER['HTTP_REFERER']);
-    }
-
     public function aktifkan_tracking(): void
     {
         if ($this->input->post('notifikasi') != 1) {

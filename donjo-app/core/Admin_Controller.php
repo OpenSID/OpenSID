@@ -37,6 +37,7 @@
 
 use App\Models\Config;
 use App\Models\LogSurat;
+use App\Models\Modul;
 use App\Models\Pamong;
 use App\Models\Pesan;
 use App\Models\UserGrup;
@@ -113,17 +114,20 @@ class Admin_Controller extends MY_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        if (isCan('b')) {
+        if (! can('b') && ! in_array($aliasController, Modul::SELALU_AKTIF)) {
             if (empty($this->grup)) {
+
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
             } else {
+
                 // TODO:: cek masalah ini kenapa selalu muncul error di untuk can('u', 'pelanggan)
                 // session_error('Anda tidak mempunyai akses pada fitur itu');
                 unset($_SESSION['request_uri']);
                 redirect('main');
             }
         }
+
         $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
         $this->header['desa']                   = collect(identitas())->toArray();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();

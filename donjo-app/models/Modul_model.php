@@ -83,7 +83,6 @@ class Modul_model extends MY_Model
             ->result_array();
         $counter = count($data);
 
-        // cek  jumlah data apakah sama jika menggunakan iscan
         for ($i = 0; $i < $counter; $i++) {
             if ($this->ada_sub_modul($data[$i]['id'])) {
                 $data[$i]['modul']    = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
@@ -92,7 +91,7 @@ class Modul_model extends MY_Model
                 if (! empty($data[$i]['submodul']) || ! can('b')) {
                     $aktif[] = $data[$i];
                 }
-            } elseif (can('b')) {
+            } elseif (can('b', $data[$i]['slug'])) {
                 // Modul yang tidak boleh diakses tidak dimasukkan
                 $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
                 $aktif[]           = $data[$i];
@@ -122,7 +121,7 @@ class Modul_model extends MY_Model
 
         foreach ($data as $sub_modul) {
             // Modul yang tidak boleh diakses tidak dimasukkan
-            if (can('b')) {
+            if (can('b', $sub_modul['slug'])) {
                 $aktif[] = $sub_modul;
             }
         }

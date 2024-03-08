@@ -53,7 +53,7 @@ class Lapak_admin extends Admin_Controller
 
     public function index(): void
     {
-        $this->produk();
+        redirect("{$this->controller}/produk");
     }
 
     public function navigasi()

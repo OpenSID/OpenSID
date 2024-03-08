@@ -53,7 +53,11 @@ Route::group('siteman', static function (): void {
 Route::get('main', 'Main@index');
 
 // Notif
-Route::post('notif/update_pengumuman', 'Notif@update_pengumuman');
+Route::group('notif', static function (): void {
+    Route::get('/', 'Notif@index');
+    Route::post('/update_pengumuman', 'Notif@update_pengumuman')->name('notif.update_pengumuman');
+    Route::post('/update_setting', 'Notif@update_setting')->name('notif.update_setting');
+});
 
 Route::group('pengguna', static function (): void {
     Route::post('/update', 'Pengguna@update')->name('pengguna.update');
@@ -138,8 +142,6 @@ Route::group('wilayah', static function (): void {
     Route::get('/warga_l/{id?}', 'Wilayah@warga_l')->name('wilayah.warga_l');
     Route::get('/warga_p/{id?}', 'Wilayah@warga_p')->name('wilayah.warga_p');
 });
-
-Route::post('/notif/update_pengumuman', 'Notif@update_pengumuman')->name('notif.update_pengumuman');
 
 // Info Desa > Status Desa
 Route::group('status_desa', static function (): void {
@@ -1826,7 +1828,6 @@ Route::group('modul', static function (): void {
 Route::group('setting', static function (): void {
     Route::get('/', 'Setting@index')->name('setting.index');
     Route::post('/update', 'Setting@update')->name('setting.update');
-    Route::post('/new_update', 'Setting@new_update')->name('setting.new_update');
 });
 
 // Pengaturan > Pengguna > Pengguna
