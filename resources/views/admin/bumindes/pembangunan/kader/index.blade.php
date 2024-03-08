@@ -35,7 +35,7 @@
             <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
                 <thead class="bg-gray color-palette">
                     <tr>
-                        <th><input type="checkbox" id="checkall"/></th>
+                        <th><input type="checkbox" id="checkall" /></th>
                         <th>No</th>
                         <th>Aksi</th>
                         <th>Nama</th>

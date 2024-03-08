@@ -35,9 +35,9 @@
  *
  */
 
-use App\Models\Penduduk;
 use App\Enums\PendidikanKKEnum;
 use App\Models\KaderMasyarakat;
+use App\Models\Penduduk;
 use App\Models\RefPendudukBidang;
 use App\Models\RefPendudukKursus;
 
@@ -88,7 +88,7 @@ class Bumindes_kader extends Admin_Controller
                 ->editColumn('umur', static fn ($row) => usia($row->penduduk->tanggallahir, null, '%y'))
                 ->editColumn('pendidikan', static fn ($row) => PendidikanKKEnum::valueOf($row->penduduk->pendidikan_kk_id) . '</br>' . preg_replace('/[^a-zA-Z, ]/', '', $row->kursus))
                 ->editColumn('bidang', static fn ($row) => preg_replace('/[^a-zA-Z, ]/', '', $row->bidang))
-                ->orderColumn('umur', function ($query, $order) {
+                ->orderColumn('umur', static function ($query, $order) {
                      $query->whereHas('penduduk', static fn ($q) => $q->orderBy('tanggallahir', $order));
                 })
                 ->rawColumns(['ceklist', 'aksi', 'pendidikan'])
@@ -122,7 +122,7 @@ class Bumindes_kader extends Admin_Controller
             $data['formAction'] = ci_route('bumindes_kader.create', $id);
             $penduduk_id        = KaderMasyarakat::get()->pluck('penduduk_id');
         }
-        
+
         $data['daftar_penduduk'] = Penduduk::select(['id', 'nama', 'nik'])->whereNotIn('id', $penduduk_id)->get();
 
         return view('admin.bumindes.pembangunan.kader.form', $data);
@@ -135,7 +135,7 @@ class Bumindes_kader extends Admin_Controller
         $new    = [];
         if ($list_data = KaderMasyarakat::select('kursus')->get()->toArray()) {
             $list = [];
-            
+
             foreach ($list_data as $value) {
                 if ($value) {
                     $list[] = $value['kursus'];
@@ -143,6 +143,7 @@ class Bumindes_kader extends Admin_Controller
             }
 
             $list = preg_replace('/[^a-zA-Z, ]/', '', $list);
+
             foreach ($list as $value) {
                 $exploded = explode(',', $value);
                 $exploded = array_map('trim', $exploded);
@@ -152,9 +153,7 @@ class Bumindes_kader extends Admin_Controller
 
         $data = collect(array_filter(array_unique([...$kursus, ...$new])));
 
-        $data = $data->filter(function ($item) use ($nama) {
-            return stripos($item, $nama) !== false;
-        });
+        $data = $data->filter(static fn ($item) => stripos($item, $nama) !== false);
 
         echo json_encode($data, JSON_THROW_ON_ERROR);
     }
@@ -166,7 +165,7 @@ class Bumindes_kader extends Admin_Controller
         $new    = [];
         if ($list_data = KaderMasyarakat::select('bidang')->get()->toArray()) {
             $list = [];
-            
+
             foreach ($list_data as $value) {
                 if ($value) {
                     $list[] = $value['bidang'];
@@ -174,6 +173,7 @@ class Bumindes_kader extends Admin_Controller
             }
 
             $list = preg_replace('/[^a-zA-Z, ]/', '', $list);
+
             foreach ($list as $value) {
                 $exploded = explode(',', $value);
                 $exploded = array_map('trim', $exploded);
@@ -183,9 +183,7 @@ class Bumindes_kader extends Admin_Controller
 
         $data = collect(array_filter(array_unique([...$bidang, ...$new])));
 
-        $data = $data->filter(function ($item) use ($nama) {
-            return stripos($item, $nama) !== false;
-        });
+        $data = $data->filter(static fn ($item) => stripos($item, $nama) !== false);
 
         echo json_encode($data, JSON_THROW_ON_ERROR);
     }
@@ -240,9 +238,9 @@ class Bumindes_kader extends Admin_Controller
 
     private function validate($request = []): array
     {
-        $kursus = array_unique(explode(",", $request['kursus']));
-        $bidang = array_unique(explode(",", $request['bidang']));
-        
+        $kursus = array_unique(explode(',', $request['kursus']));
+        $bidang = array_unique(explode(',', $request['bidang']));
+
         return [
             'penduduk_id' => bilangan($request['penduduk_id']),
             'kursus'      => json_encode($kursus),

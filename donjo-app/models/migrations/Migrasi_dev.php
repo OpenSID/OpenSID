@@ -71,7 +71,7 @@ class Migrasi_dev extends MY_model
         // Migrasi tanpa config_id
 
         $hasil = $hasil && $this->migrasi_2024280201($hasil);
-        
+
         return $hasil && $this->migrasi_2024070301($hasil);
     }
 
@@ -101,14 +101,17 @@ class Migrasi_dev extends MY_model
         $kader  = KaderMasyarakat::get();
         $bidang = RefPendudukBidang::get();
         $kursus = RefPendudukKursus::get();
+
         foreach ($kader as $item) {
             $resultBidang = [];
             $resultKursus = [];
+
             foreach ($bidang as $valueBidang) {
                 if (strpos($item->bidang, $valueBidang['nama']) !== false) {
                     $resultBidang[] = $valueBidang['nama'];
                 }
             }
+
             foreach ($kursus as $valueKursus) {
                 if (strpos($item->kursus, $valueKursus['nama']) !== false) {
                     $resultKursus[] = $valueKursus['nama'];
@@ -116,7 +119,7 @@ class Migrasi_dev extends MY_model
             }
             KaderMasyarakat::find($item->id)->update([
                 'bidang' => json_encode($resultBidang),
-                'kursus' => json_encode($resultKursus)
+                'kursus' => json_encode($resultKursus),
             ]);
         }
 

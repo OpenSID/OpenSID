@@ -37,35 +37,11 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class PendudukHidup extends BaseModel
+class PendudukMap extends BaseModel
 {
-    use ConfigId;
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $table = 'penduduk_hidup';
-
-    /**
-     * {@inheritDoc}
-     */
-    public $incrementing = false;
-
-    /**
-     * Get the mandiri associated with the PendudukHidup
-     */
-    public function mandiri(): HasOne
-    {
-        return $this->hasOne(PendudukMandiri::class, 'id_pend', 'id');
-    }
-
-    public function map()
-    {
-        return $this->belongsTo(PendudukMap::class, 'id', 'id');
-    }
+    protected $table   = 'tweb_penduduk_map';
+    public $timestamps = false;
+    protected $guarded = [];
 }

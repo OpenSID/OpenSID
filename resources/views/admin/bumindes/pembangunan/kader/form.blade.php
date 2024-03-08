@@ -24,11 +24,11 @@
         </div>
         {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">
-            <div class="form-group" >
+            <div class="form-group">
                 <label class="col-sm-3 control-label" for="penduduk_id">NIK / Nama Kader</label>
                 <div class="col-sm-6">
                     <select class="form-control select2 required" id="penduduk_id" name="penduduk_id">
-                        <option value="" selected="selected">-- Silakan Masukkan NIK / Nama Kader  --</option>
+                        <option value="" selected="selected">-- Silakan Masukkan NIK / Nama Kader --</option>
                         @foreach ($daftar_penduduk as $penduduk)
                             <option value="{{ $penduduk->id }}" @selected($main->penduduk_id == $penduduk->id)>NIK : {{ $penduduk->nik . ' | Nama : ' . $penduduk->nama }}</option>
                         @endforeach
@@ -36,15 +36,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label  class="col-sm-3 control-label" for="kursus">Kursus</label>
+                <label class="col-sm-3 control-label" for="kursus">Kursus</label>
                 <div class="col-sm-6">
-                    <input type="text" name="kursus" id="kursus" class="form-control ui-autocomplete required" placeholder="Pilih Kursus" value="{{ $main->kursus }}"/>
+                    <input type="text" name="kursus" id="kursus" class="form-control ui-autocomplete required" placeholder="Pilih Kursus" value="{{ $main->kursus }}" />
                 </div>
             </div>
             <div class="form-group">
-                <label  class="col-sm-3 control-label" for="bidang">Bidang Keahlian</label>
+                <label class="col-sm-3 control-label" for="bidang">Bidang Keahlian</label>
                 <div class="col-sm-6">
-                    <input type="text" name="bidang" id="bidang" class="form-control ui-autocomplete required" placeholder="Pilih Bidang Keahlian" value="{{ $main->bidang }}"/>
+                    <input type="text" name="bidang" id="bidang" class="form-control ui-autocomplete required" placeholder="Pilih Bidang Keahlian" value="{{ $main->bidang }}" />
                 </div>
             </div>
             <div class="form-group">
@@ -63,46 +63,46 @@
 @endsection
 
 @push('scripts')
-<script>
-	$(document).ready(function(){
+    <script>
+        $(document).ready(function() {
 
-		var url = SITE_URL + '/bumindes_kader/';
+            var url = SITE_URL + '/bumindes_kader/';
 
-		$('#kursus').tokenfield({
-			autocomplete: {
-				source: function (request, response) {
-					jQuery.get(url + 'get_kursus', {
-						nama: request.term
-					}, function (data) {
-						data = $.parseJSON(data);
-						response(data);
-					});
-				},
-				delay: 100
-			},
-			showAutocompleteOnFocus: true
-		});
+            $('#kursus').tokenfield({
+                autocomplete: {
+                    source: function(request, response) {
+                        jQuery.get(url + 'get_kursus', {
+                            nama: request.term
+                        }, function(data) {
+                            data = $.parseJSON(data);
+                            response(data);
+                        });
+                    },
+                    delay: 100
+                },
+                showAutocompleteOnFocus: true
+            });
 
-        const kursus = $('#kursus').val();
-        $('#kursus').tokenfield('setTokens', kursus ? JSON.parse(kursus) : null);
+            const kursus = $('#kursus').val();
+            $('#kursus').tokenfield('setTokens', kursus ? JSON.parse(kursus) : null);
 
-		$('#bidang').tokenfield({
-			autocomplete: {
-				source: function (request, response) {
-					jQuery.get(url + 'get_bidang', {
-						nama: request.term
-					}, function (data) {
-						data = $.parseJSON(data);
-						response(data);
-					});
-				},
-				delay: 100
-			},
-			showAutocompleteOnFocus: true
-		});
+            $('#bidang').tokenfield({
+                autocomplete: {
+                    source: function(request, response) {
+                        jQuery.get(url + 'get_bidang', {
+                            nama: request.term
+                        }, function(data) {
+                            data = $.parseJSON(data);
+                            response(data);
+                        });
+                    },
+                    delay: 100
+                },
+                showAutocompleteOnFocus: true
+            });
 
-        const bidang = $('#bidang').val();
-        $('#bidang').tokenfield('setTokens', bidang ? JSON.parse(bidang) : null);
-	});
-</script>
+            const bidang = $('#bidang').val();
+            $('#bidang').tokenfield('setTokens', bidang ? JSON.parse(bidang) : null);
+        });
+    </script>
 @endpush

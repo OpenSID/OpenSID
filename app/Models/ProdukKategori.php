@@ -38,34 +38,59 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class PendudukHidup extends BaseModel
+class ProdukKategori extends BaseModel
 {
     use ConfigId;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected $table = 'penduduk_hidup';
+    protected $table   = 'produk_kategori';
+    protected $guarded = [];
+    public $timestamps = false;
 
-    /**
-     * {@inheritDoc}
-     */
-    public $incrementing = false;
-
-    /**
-     * Get the mandiri associated with the PendudukHidup
-     */
-    public function mandiri(): HasOne
+    public function scopelistKategori($query)
     {
-        return $this->hasOne(PendudukMandiri::class, 'id_pend', 'id');
+        return $this->withoutGlobalScopes()
+            ->withConfigId('produk_kategori')
+            ->select(
+                'produk_kategori.*',
+                DB::raw('(SELECT COUNT(pr.id) FROM produk pr WHERE pr.id_produk_kategori = produk_kategori.id) as jumlah')
+            );
     }
 
-    public function map()
+    public function kategoriInsert($post = []): void
     {
-        return $this->belongsTo(PendudukMap::class, 'id', 'id');
+        $data = $this->kategoriValidasi($post);
+
+        $this->create($data);
+    }
+
+    public function kategoriUpdate($id = 0, $post = []): void
+    {
+        $data = $this->kategoriValidasi($post);
+
+        $this->where('id', $id)->update($data);
+    }
+
+    public function kategoriDelete($id = 0): void
+    {
+        $this->where('id', $id)->delete();
+    }
+
+    public function kategoriDeleteAll(): void
+    {
+        $id_cb = $_POST['id_cb'];
+
+        foreach ($id_cb as $id) {
+            $this->kategoriDelete($id);
+        }
+    }
+
+    private function kategoriValidasi($post = [])
+    {
+        return [
+            'kategori' => alfanumerik_spasi($post['kategori']),
+            'slug'     => url_title($post['kategori'], 'dash', true),
+        ];
     }
 }
