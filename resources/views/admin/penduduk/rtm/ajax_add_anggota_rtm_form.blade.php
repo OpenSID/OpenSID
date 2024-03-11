@@ -1,5 +1,5 @@
-<?php if (can('u')) : ?>
-    <form action="<?= $form_action ?>" method="post" id="validasi">
+@if (can('u'))
+    <form action="{{ $form_action }}" method="post" id="validasi">
         <div class='modal-body'>
             <div class="form-group">
                 <label for="nik">NIK / Nama Penduduk</label>
@@ -22,16 +22,16 @@
             </div>
         </div>
         <div class="modal-footer">
-            <?= batal() ?>
-            <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+            {!! batal() !!}
+            <button type="submit" class="btn btn-social btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
         </div>
     </form>
-    <?php $this->load->view('global/validasi_form'); ?>
+    @include('admin.layouts.components.form_modal_validasi')
     <script>
         $('document').ready(function() {
             $('#nik').select2({
                 ajax: {
-                    url: SITE_URL + 'rtm/apipendudukrtm',
+                    url: '{{ ci_route('rtm.apipendudukrtm') }}',
                     dataType: 'json',
                     data: function(params) {
                         return {
@@ -52,21 +52,25 @@
             });
         });
 
-        $('#nik').on('select2:select', function (e) {
+        $('#nik').on('select2:select', function (e) {  
+            if ($.fn.dataTable.isDataTable('#keluarga')){
+                $('#keluarga').DataTable().destroy()
+            }          
             var table = $('#keluarga').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: false,
                 ajax: {
-                    url: `<?= site_url('rtm/datables_anggota/') ?>${e.params.data.id}`,
-                    dataSrc: function(data){
+                    url: `{{ ci_route('rtm.datables_anggota') }}/${e.params.data.id}`,
+                    dataSrc: function(data){                        
                         if(data.data == null){
-                            $('#keluarga').hide();
+                            $('#keluarga').hide();                            
+                            table.destroy()
                         } else {
-                            $('#keluarga').show();
+                            $('#keluarga').show();                            
                             return data.data;
-                        }
-                    }
+                        }                        
+                    },                    
                 },
                 'columns': [
                     {
@@ -97,4 +101,4 @@
             table.destroy();
         });
     </script>
-<?php endif; ?>
+@endif

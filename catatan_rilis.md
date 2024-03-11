@@ -17,6 +17,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 3. [#3508](https://github.com/OpenSID/premium/issues/3508) Penyesuaian pengecekan hak akses modul agar tidak duplikasi fungsi.
 4. [#7704](https://github.com/OpenSID/OpenSID/issues/7704) Penyesuaian modul Buku Kader Pemberdayaan Masyarakat di Desa menggunakan ORM dan Blade Laravel.
 5. [#7553](https://github.com/OpenSID/OpenSID/issues/7553) Penyesuaian modul Lapak menggunakan ORM dan Blade Laravel.
+6. [#7752](https://github.com/OpenSID/OpenSID/issues/7752) Penyesuaian modul Rumah Tangga menggunakan ORM dan Blade Laravel.
 
 
 #### KEAMANAN

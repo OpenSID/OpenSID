@@ -71,7 +71,8 @@ class Migrasi_dev extends MY_model
         // Migrasi tanpa config_id
 
         $hasil = $hasil && $this->migrasi_2024280201($hasil);
-
+        $hasil = $hasil && $this->migrasi_2024030551($hasil);
+        
         return $hasil && $this->migrasi_2024070301($hasil);
     }
 
@@ -124,5 +125,13 @@ class Migrasi_dev extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024030551($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'rumah-tangga', 'url' => 'rtm/clear'],
+            ['url' => 'rtm']
+        );
     }
 }

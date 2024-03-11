@@ -1,5 +1,5 @@
-<?php if (can('u')): ?>
-    <form action="<?= $form_action?>" method="post" id="validasi">
+@if(can('u'))
+    <form action="{{ $form_action }}" method="post" id="validasi">
         <div class='modal-body'>
             <div class="form-group">
                 <label for="nik">Kepala Rumah Tangga</label>
@@ -14,7 +14,7 @@
 
             <div class="form-group">
                 <label for="bdt">BDT</label>
-                <input class="form-control input-sm angka" type="text" placeholder="BDT" name="bdt" value="<?= $kk['bdt']; ?>" minlength="16" maxlength="16"/>
+                <input class="form-control input-sm angka" type="text" placeholder="BDT" name="bdt" value="{{ $kk['bdt'];  }}" minlength="16" maxlength="16"/>
             </div>
             <div class="form-group">
                 <label for="terdaftar_dtks">
@@ -23,18 +23,18 @@
             </div>
         </div>
         <div class="modal-footer">
-            <?= batal() ?>
-            <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+            {!! batal() !!}
+            <button type="submit" class="btn btn-social btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
         </div>
     </form>
-    <?php $this->load->view('global/validasi_form'); ?>
-<?php endif; ?>
+    @include('admin.layouts.components.form_modal_validasi')
+@endif
 
 <script>
     $('document').ready(function() {
         $('#nik').select2({
             ajax: {
-                url: SITE_URL + 'rtm/apipendudukrtm',
+                url: '{{ ci_route('rtm.apipendudukrtm') }}',
                 dataType: 'json',
                 data: function(params) {
                     return {

@@ -4,7 +4,7 @@
 		<title>Data Rumah Tangga</title>
 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link href="<?= asset('css/report.css') ?>" rel="stylesheet" type="text/css">
+		<link href="{{ asset('css/report.css')  }}" rel="stylesheet" type="text/css">
 		<!-- TODO: Pindahkan ke external css -->
 		<style>
 			td, th {
@@ -17,7 +17,7 @@
 			<!-- Print Body -->
 			<div id="body">
 				<div class="header" align="center">
-					<label align="left"><?= get_identitas()?></label>
+					<label align="left">{{ get_identitas() }}</label>
 					<h3> Data Rumah Tangga </h3>
 				</div>
 				<br>
@@ -30,33 +30,33 @@
 							<th width="100">NIK</th>
 							<th width="100">Jumlah Anggota</th>
 							<th width="100">Alamat</th>
-							<th width="100"><?= ucwords($this->setting->sebutan_dusun)?></th>
+							<th width="100">{{ ucwords(setting('sebutan_dusun')) }}</th>
 							<th width="30">RW</th>
 							<th width="30">RT</th>
 							<th width="100">Tanggal Terdaftar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $key => $data): ?>
+						@foreach ($main as $key => $data)
 							<tr>
-								<td class="text-center" width="2"><?= ($key + 1); ?></td>
-								<td><?= $data['no_kk']?></td>
-								<td><?= strtoupper($data['kepala_kk'])?></td>
-								<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
-								<td><?= $data['jumlah_anggota']?></td>
-								<td><?= strtoupper($data['alamat'])?></td>
-								<td><?= strtoupper($data['dusun'])?></td>
-								<td><?= strtoupper($data['rw'])?></td>
-								<td><?= strtoupper($data['rt'])?></td>
-								<td><?= tgl_indo($data['tgl_daftar'])?></td>
+								<td class="text-center" width="2">{{ ($key + 1)  }}</td>
+								<td>{{ $data->no_kk }}</td>
+								<td>{{ strtoupper($data->kepalaKeluarga->nama) }}</td>
+								<td>{{ $privasi_nik ? sensor_nik_kk($data->kepalaKeluarga->nik) : $data->kepalaKeluarga->nik }}</td>
+								<td>{{ $data->anggota_count }}</td>
+								<td>{{ strtoupper($data->kepalaKeluarga->alamat_wilayah) }}</td>
+								<td>{{ strtoupper($data->kepalaKeluarga->keluarga->wilayah->dusun) }}</td>
+								<td>{{ strtoupper($data->kepalaKeluarga->keluarga->wilayah->rw) }}</td>
+								<td>{{ strtoupper($data->kepalaKeluarga->keluarga->wilayah->rt) }}</td>
+								<td>{{ tgl_indo($data->tgl_daftar) }}</td>
 							</tr>
-						<?php endforeach; ?>
+						@endforeach
 					</tbody>
 				</table>
 			</div>
 			<br>
 			<label>Tanggal cetak : &nbsp; </label>
-			<?= tgl_indo(date('Y m d'))?>
+			{{ tgl_indo(date('Y m d')) }}
 		</div>
 	</body>
 </html>

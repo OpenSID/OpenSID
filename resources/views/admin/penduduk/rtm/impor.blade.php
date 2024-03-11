@@ -1,11 +1,11 @@
-<?php if (can('u')): ?>
+@if (can('u'))
 	<div class="modal fade" id="impor">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Impor Pengelompokan Data Rumah Tangga</h4>
 				</div>
-				<form id="mainform" action="<?= site_url('rtm/impor'); ?>" method="POST" enctype="multipart/form-data">
+				<form id="mainform" action="{{ ci_route('rtm.impor') }}" method="POST" enctype="multipart/form-data">
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-sm-12">
@@ -34,15 +34,15 @@
 							<label>Data dengan NIK sama akan ditimpa</label>
 							<br/>
 							<br/>
-							<a href="<?= asset('import/FormatImporRTM.xlsx'); ?>" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Rumah Tangga</a>
+							<a href="{{ asset('import/FormatImporRTM.xlsx') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Rumah Tangga</a>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<?= batal() ?>
+						{!! batal() !!}
 						<button type="submit" class="btn btn-social btn-info btn-sm" id="ok"><i class="fa fa-check"></i> Impor</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-<?php endif; ?>
+@endif

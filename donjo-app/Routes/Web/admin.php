@@ -302,40 +302,33 @@ Route::group('keluarga', static function (): void {
 
 // Kependudukan > Rumah Tangga
 Route::group('rtm', static function (): void {
-    Route::get('/clear', 'Rtm@clear')->name('rtm.clear');
-    Route::get('/daftar/{aksi?}/{privasi_nik?}', 'Rtm@daftar')->name('rtm.daftar');
-    Route::get('/edit_nokk/{id?}', 'Rtm@edit_nokk')->name('rtm.edit_nokk');
-    Route::get('/form_old/{id?}', 'Rtm@form_old')->name('rtm.form_old');
-    Route::get('/apipendudukrtm', 'Rtm@apipendudukrtm')->name('rtm.apipendudukrtm');
-    Route::post('/filter/{filter?}/{o?}', 'Rtm@filter')->name('rtm.filter');
-    Route::post('/dusun', 'Rtm@dusun')->name('rtm.dusun');
-    Route::post('/rw', 'Rtm@rw')->name('rtm.rw');
-    Route::post('/rt', 'Rtm@rt')->name('rtm.rt');
-    Route::post('/insert', 'Rtm@insert')->name('rtm.insert');
-    Route::post('/insert_by_kk', 'Rtm@insert_by_kk')->name('rtm.insert_by_kk');
-    Route::post('/insert_a', 'Rtm@insert_a')->name('rtm.insert_a');
-    Route::match(['GET', 'POST'], '/insert_new', 'Rtm@insert_new')->name('rtm.insert_new');
-    Route::post('/update/{id?}', 'Rtm@update')->name('rtm.update');
-    Route::post('/update_nokk/{id?}', 'Rtm@update_nokk')->name('rtm.update_nokk');
-    Route::get('/delete/{id?}', 'Rtm@delete')->name('rtm.delete');
-    Route::post('/delete_all', 'Rtm@delete_all')->name('rtm.delete_all');
-    Route::get('/anggota/{id?}', 'Rtm@anggota')->name('rtm.anggota');
-    Route::get('/ajax_add_anggota/{id?}', 'Rtm@ajax_add_anggota')->name('rtm.ajax_add_anggota');
-    Route::get('/datables_anggota/{id?}', 'Rtm@datables_anggota')->name('rtm.datables_anggota');
-    Route::get('/edit_anggota/{id_rtm?}/{id?}', 'Rtm@edit_anggota')->name('rtm.edit_anggota');
-    Route::get('/kartu_rtm/{id?}', 'Rtm@kartu_rtm')->name('rtm.kartu_rtm');
-    Route::get('/cetak_kk/{id?}', 'Rtm@cetak_kk')->name('rtm.cetak_kk');
-    Route::post('/add_anggota/{id?}', 'Rtm@add_anggota')->name('rtm.add_anggota');
-    Route::post('/update_anggota/{id_rtm?}/{id?}', 'Rtm@update_anggota')->name('rtm.update_anggota');
-    Route::get('/delete_anggota/{kk?}/{id?}', 'Rtm@delete_anggota')->name('rtm.delete_anggota');
-    Route::post('/delete_all_anggota/{kk?}', 'Rtm@delete_all_anggota')->name('rtm.delete_all_anggota');
-    Route::get('/ajax_cetak/{aksi?}', 'Rtm@ajax_cetak')->name('rtm.ajax_cetak');
-    Route::get('/statistik/{tipe?}/{no?}/{sex?}', 'Rtm@statistik')->name('rtm.statistik');
-    Route::post('/impor', 'Rtm@impor')->name('rtm.impor');
-    Route::match(['GET', 'POST'], '/index', 'Rtm@index');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Rtm@index');
-    Route::match(['GET', 'POST'], '/index/{p?}', 'Rtm@index');
-    Route::match(['GET', 'POST'], '/', 'Rtm@index');
+    Route::get('/clear', static function () {
+        redirect('rtm');
+    });
+    Route::get('', 'Rtm@index')->name('rtm.index');
+    Route::get('index', 'Rtm@index')->name('rtm.index-default');
+    Route::get('datatables', 'Rtm@datatables')->name('rtm.datatables');    
+    Route::post('insert', 'Rtm@insert')->name('rtm.insert');
+    Route::post('update/{id}', 'Rtm@update')->name('rtm.update');
+    Route::match(['GET', 'POST'], '/delete/{id?}', 'Rtm@delete')->name('rtm.delete');
+    Route::get('apipendudukrtm', 'Rtm@apipendudukrtm')->name('rtm.apipendudukrtm');    
+    Route::get('form/{id?}', 'Rtm@form')->name('rtm.form');    
+    Route::get('ajax_cetak/{aksi?}', 'Rtm@ajax_cetak')->name('rtm.ajax_cetak');
+    Route::post('cetak/{aksi?}/{privasi_nik?}', 'Rtm@cetak')->name('rtm.cetak');    
+    Route::get('edit_nokk/{id?}', 'Rtm@edit_nokk')->name('rtm.edit_nokk');            
+    Route::post('update_nokk/{id?}', 'Rtm@update_nokk')->name('rtm.update_nokk');    
+    Route::get('anggota/{id?}', 'Rtm@anggota')->name('rtm.anggota');
+    Route::get('ajax_add_anggota/{id?}', 'Rtm@ajax_add_anggota')->name('rtm.ajax_add_anggota');
+    Route::get('datables_anggota/{id?}', 'Rtm@datables_anggota')->name('rtm.datables_anggota');
+    Route::get('edit_anggota/{id_rtm?}/{id?}', 'Rtm@edit_anggota')->name('rtm.edit_anggota');
+    Route::get('kartu_rtm/{id?}', 'Rtm@kartu_rtm')->name('rtm.kartu_rtm');
+    Route::get('cetak_kk/{id?}', 'Rtm@cetak_kk')->name('rtm.cetak_kk');
+    Route::post('add_anggota/{id?}', 'Rtm@add_anggota')->name('rtm.add_anggota');
+    Route::post('update_anggota/{id_rtm?}/{id?}', 'Rtm@update_anggota')->name('rtm.update_anggota');
+    Route::get('delete_anggota/{kk?}/{id?}', 'Rtm@delete_anggota')->name('rtm.delete_anggota');
+    Route::post('delete_all_anggota/{kk?}', 'Rtm@delete_all_anggota')->name('rtm.delete_all_anggota');    
+    Route::get('statistik/{tipe?}/{no?}/{sex?}', 'Rtm@statistik')->name('rtm.statistik');
+    Route::post('impor', 'Rtm@impor')->name('rtm.impor');    
 });
 
 // Identitas Desa > Lembaga atau Kependudukan > Kelompok

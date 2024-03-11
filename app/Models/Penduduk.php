@@ -37,11 +37,13 @@
 
 namespace App\Models;
 
+use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -101,6 +103,9 @@ class Penduduk extends BaseModel
         'telepon',
         'telegram',
         'hubung_warga',
+        'id_rtm',
+        'rtm_level',
+        'updated_at',
     ];
 
     /**
@@ -641,5 +646,80 @@ class Penduduk extends BaseModel
     public function bahasa()
     {
         return $this->belongsTo(Bahasa::class, 'bahasa_id');
+    }
+
+    /**
+     * Get the map associated with the Penduduk
+     */
+    public function map(): HasOne
+    {
+        return $this->hasOne(PendudukMap::class, 'id', 'id');
+    }
+
+    public static function activeMap($filter = [])
+    {
+        $groupType = 'keluarga';
+        if ($filter['layer_rtm']) {
+            $groupType = 'rtm';
+        }
+        $sex            = $filter['sex'];
+        $dusun          = $filter['dusun'];
+        $rw             = $filter['rw'];
+        $rt             = $filter['rt'];
+        $agama          = $filter['agama'];
+        $cari           = $filter['cari'];
+        $statusPenduduk = $filter['status_penduduk'];
+        $pekerjaan      = $filter['pekerjaan_id'];
+        $pendidikan     = $filter['pendidikan_kk_id'];
+        $umurMin        = $filter['umur_min'];
+        $umurMax        = $filter['umur_max'];
+        $satuanUmur     = $filter['umur'] ?? 'tahun'; // tahun or bulan
+        $idCluster      = [];
+
+        if (empty($idCluster) && ! empty($rt)) {
+            $rts       = Wilayah::whereDusun($dusun)->whereRw($rw)->whereRt($rt)->first();
+            $idCluster = [$rts->id];
+        }
+
+        if (empty($idCluster) && ! empty($rw)) {
+            $rws       = Wilayah::with(['rts' => static fn ($q) => $q->select(['id'])])->whereDusun($dusun)->whereRw($rw)->first();
+            $idCluster = array_merge([$rws->id], $rws->rts->pluck('id')->toArray());
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        return self::whereHas('map')->withOnly([
+            'wilayah',
+            'keluarga',
+        ])->with(['map'])->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
+                if ($groupType == 'rtm') {
+                    return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
+                }
+
+                    return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+
+            })->when(! empty($idCluster), static fn ($q) => $q->whereIn('id_cluster', $idCluster))
+            ->when($sex, static fn ($q) => $q->whereSex($sex))
+            ->when($agama, static fn ($q) => $q->whereAgamaId($agama))
+            ->when($umurMin && $umurMax, static fn ($q) => $q->batasiUmur(['max' => $umurMax, 'min' => $umurMin, 'satuan' => $umurSatuan], date('d-m-Y')))
+            ->when($pendidikan, static fn ($q) => $q->wherePendidikanKkId($pendidikan))
+            ->when($pekerjaan, static fn ($q) => $q->wherePekerjaanId($pekerjaan))
+            ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))
+            ->when($cari, static fn ($q) => $q->where(static function ($r) use ($cari) {
+                $r->where('nama', 'like', "%{$cari}%")->orWhere('nik', 'like', "%{$cari}%")->orWhere('tag_id_card', 'like', "%{$cari}%");
+            }))
+            ->get()->map(static function ($item) {
+                $item->sex    = JenisKelaminEnum::valueOf($item->sex) ?: '';
+                $item->agama  = AgamaEnum::valueOf($item->agama_id) ?: '';
+                $item->alamat = $item->alamat_wilayah;
+                $item->lat    = $item->map->lat;
+                $item->lng    = $item->map->lng;
+                $item->umur   = $item->umur;
+                unset($item->map);
+
+            return $item;
+        })->toArray();
     }
 }
