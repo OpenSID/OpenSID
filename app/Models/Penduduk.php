@@ -658,10 +658,14 @@ class Penduduk extends BaseModel
 
     public static function activeMap($filter = [])
     {
-        $groupType = 'keluarga';
-        if ($filter['layer_rtm']) {
+        if ($filter['layer_keluarga']) {
+            $groupType = 'keluarga';
+        } elseif ($filter['layer_rtm']) {
             $groupType = 'rtm';
+        } else {
+            $groupType = 'penduduk';
         }
+
         $sex            = $filter['sex'];
         $dusun          = $filter['dusun'];
         $rw             = $filter['rw'];
@@ -673,7 +677,7 @@ class Penduduk extends BaseModel
         $pendidikan     = $filter['pendidikan_kk_id'];
         $umurMin        = $filter['umur_min'];
         $umurMax        = $filter['umur_max'];
-        $satuanUmur     = $filter['umur'] ?? 'tahun'; // tahun or bulan
+        $umurSatuan     = $filter['umur'] ?? 'tahun'; // tahun or bulan
         $idCluster      = [];
 
         if (empty($idCluster) && ! empty($rt)) {
@@ -693,13 +697,15 @@ class Penduduk extends BaseModel
         return self::whereHas('map')->withOnly([
             'wilayah',
             'keluarga',
+            'rtm',
         ])->with(['map'])->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
                 if ($groupType == 'rtm') {
-                    return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
-                }
-
+                    return $r->whereNotNull('id_rtm')->where('id_rtm','!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
+                } elseif ($groupType == 'keluarga') {
+                    return $r->whereNotNull('id_kk')->where(['kk_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+                } else {
                     return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
-
+                }
             })->when(! empty($idCluster), static fn ($q) => $q->whereIn('id_cluster', $idCluster))
             ->when($sex, static fn ($q) => $q->whereSex($sex))
             ->when($agama, static fn ($q) => $q->whereAgamaId($agama))
@@ -711,7 +717,9 @@ class Penduduk extends BaseModel
                 $r->where('nama', 'like', "%{$cari}%")->orWhere('nik', 'like', "%{$cari}%")->orWhere('tag_id_card', 'like', "%{$cari}%");
             }))
             ->get()->map(static function ($item) {
+                $item->id_sex = $item->sex;
                 $item->sex    = JenisKelaminEnum::valueOf($item->sex) ?: '';
+                $item->foto   = $item->foto;
                 $item->agama  = AgamaEnum::valueOf($item->agama_id) ?: '';
                 $item->alamat = $item->alamat_wilayah;
                 $item->lat    = $item->map->lat;

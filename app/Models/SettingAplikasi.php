@@ -139,10 +139,6 @@ class SettingAplikasi extends BaseModel
 
     public function getValueAttribute()
     {
-        if ($this->attributes['key'] == 'tampilkan_tombol_peta') {
-            return json_decode($this->attributes['value'], true);
-        }
-
         return $this->attributes['value'];
     }
 }

@@ -37,11 +37,28 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PendudukMap extends BaseModel
 {
-    protected $table   = 'tweb_penduduk_map';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tweb_penduduk_map';
+
     public $timestamps = false;
+
     protected $guarded = [];
+
+    /**
+     * Get the penduduk associated with the PendudukMae
+     */
+    public function penduduk(): HasOne
+    {
+        return $this->hasOne(Penduduk::class, 'id', 'id');
+    }
 }

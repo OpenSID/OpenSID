@@ -1,4 +1,4 @@
-<?php $pengaturan = setting('tampilkan_tombol_peta') ?>
+<?php $pengaturan = json_decode(setting('tampilkan_tombol_peta'), true) ?>
 <div id="isi_popup" style="visibility: hidden;">
 	<div id="content">
 		<h5 id="firstHeading" class="firstHeading">Wilayah <?= set_ucwords($wilayah); ?></h5>

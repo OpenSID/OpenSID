@@ -17,13 +17,13 @@
 <div class="box box-info">
 	<div class="box-header with-border">
 		@if(can('u') && (string) $kepala_kk['status_dasar'] === '1')
-			<a href="{{ ci_route("rtm.ajax_add_anggota",$kk) }} " data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
+			<a href="{{ ci_route("rtm.ajax_add_anggota",$kk) }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
 		@endif
 		@if(can('h'))
-			<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('rtm.delete_all_anggota',$kk)}}')" class="btn btn-social	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus</a>
+			<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('rtm.delete_all_anggota', $kk)}}')" class="btn btn-social	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus</a>
 		@endif
-		<a href="{{ ci_route("rtm.kartu_rtm",$kk)}} " class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Rumah Tangga</a>
-		<a href="{{ ci_route('rtm')}} " class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Rumah Tangga">
+		<a href="{{ ci_route("rtm.kartu_rtm",$kk) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Rumah Tangga</a>
+		<a href="{{ ci_route('rtm') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Rumah Tangga">
 			<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Rumah Tangga
 		</a>
 	</div>
@@ -35,17 +35,17 @@
 					<tr>
 						<td width="20%">Nomor Rumah Tangga (RT)</td>
 						<td width="1%">:</td>
-						<td>{{ $kepala_kk['no_kk']}} </td>
+						<td>{{ $kepala_kk['no_kk'] }}</td>
 					</tr>
 					<tr>
 						<td>Kepala Rumah Tangga</td>
 						<td>:</td>
-						<td>{{ $kepala_kk['nama']}} </td>
+						<td>{{ $kepala_kk['nama'] }}</td>
 					</tr>
 					<tr>
 						<td>Alamat</td>
 						<td>:</td>
-						<td>{{ $kepala_kk['alamat_wilayah']}} </td>
+						<td>{{ $kepala_kk['alamat_wilayah'] }}</td>
 					</tr>
 					<tr>
 						<td>BDT</td>
@@ -55,7 +55,7 @@
 					<tr>
 						<td>
 							@if($program['programkerja'])
-							 {!! anchor("peserta_bantuan/peserta/3/{$kepala_kk['no_kk']}", 'Program Bantuan', 'target="_blank"') !!}
+								{!! anchor("peserta_bantuan/peserta/3/{$kepala_kk['no_kk']}", 'Program Bantuan', 'target="_blank"') !!}
 							@else 
 							Program Bantuan
 							@endif
@@ -97,23 +97,23 @@
 						@if($main)
 							@foreach($main as $key => $data)
 								<tr>
-									<td class="padat"><input type="checkbox" name="id_cb[]" value="{{ $data['id']}} " /></td>
-									<td class="padat">{{ ($key + 1) }} </td>
+									<td class="padat"><input type="checkbox" name="id_cb[]" value="{{ $data['id'] }}" /></td>
+									<td class="padat">{{ ($key + 1) }}</td>
 									<td class="aksi">
 										@if(can('u'))
-											<a href="{{ ci_route("penduduk.form.{$p}.{$kk}" ,$data['id'])}} " class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
-											<a href="{{ ci_route("rtm.edit_anggota.{$kk}", $data['id'])}} " data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-sm"><i class="fa fa-link"></i></a>
+											<a href="{{ ci_route("penduduk.form.1.{$kk}", $data['id'])}}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+											<a href="{{ ci_route("rtm.edit_anggota.{$kk}", $data['id'])}}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-sm"><i class="fa fa-link"></i></a>
 										@endif
 										@if(can('h'))
-											<a href="#" data-href="{{ ci_route("rtm.delete_anggota.{$kk}",$data['id'])}} " class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+											<a href="#" data-href="{{ ci_route("rtm.delete_anggota.{$kk}", $data['id'])}}" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 										@endif 
 									</td>
-									<td>{{ $data['nik']}} </td>
-									<td>{{ $data['keluarga']['no_kk']}} </td>
-									<td nowrap>{{ strtoupper($data['nama']) }} </td>
-									<td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($data['sex']))}} </td>
+									<td>{{ $data['nik'] }}</td>
+									<td>{{ $data['keluarga']['no_kk'] }}</td>
+									<td nowrap>{{ strtoupper($data['nama']) }}</td>
+									<td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($data['sex'])) }}</td>
 									<td>{{ $data['alamat_wilayah'] }} </td>
-									<td nowrap>{{ strtoupper(App\Enums\HubunganRTMEnum::valueOf($data['rtm_level'])) }} </td>
+									<td nowrap>{{ strtoupper(App\Enums\HubunganRTMEnum::valueOf($data['rtm_level'])) }}</td>
 								</tr>
 							@endforeach
 						@else

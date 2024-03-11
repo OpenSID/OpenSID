@@ -305,18 +305,18 @@ Route::group('rtm', static function (): void {
     Route::get('/clear', static function () {
         redirect('rtm');
     });
-    Route::get('', 'Rtm@index')->name('rtm.index');
+    Route::get('/', 'Rtm@index')->name('rtm.index');
     Route::get('index', 'Rtm@index')->name('rtm.index-default');
-    Route::get('datatables', 'Rtm@datatables')->name('rtm.datatables');    
+    Route::get('datatables', 'Rtm@datatables')->name('rtm.datatables');
     Route::post('insert', 'Rtm@insert')->name('rtm.insert');
     Route::post('update/{id}', 'Rtm@update')->name('rtm.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Rtm@delete')->name('rtm.delete');
-    Route::get('apipendudukrtm', 'Rtm@apipendudukrtm')->name('rtm.apipendudukrtm');    
-    Route::get('form/{id?}', 'Rtm@form')->name('rtm.form');    
+    Route::get('apipendudukrtm', 'Rtm@apipendudukrtm')->name('rtm.apipendudukrtm');
+    Route::get('form/{id?}', 'Rtm@form')->name('rtm.form');
     Route::get('ajax_cetak/{aksi?}', 'Rtm@ajax_cetak')->name('rtm.ajax_cetak');
-    Route::post('cetak/{aksi?}/{privasi_nik?}', 'Rtm@cetak')->name('rtm.cetak');    
-    Route::get('edit_nokk/{id?}', 'Rtm@edit_nokk')->name('rtm.edit_nokk');            
-    Route::post('update_nokk/{id?}', 'Rtm@update_nokk')->name('rtm.update_nokk');    
+    Route::post('cetak/{aksi?}/{privasi_nik?}', 'Rtm@cetak')->name('rtm.cetak');
+    Route::get('edit_nokk/{id?}', 'Rtm@edit_nokk')->name('rtm.edit_nokk');
+    Route::post('update_nokk/{id?}', 'Rtm@update_nokk')->name('rtm.update_nokk');
     Route::get('anggota/{id?}', 'Rtm@anggota')->name('rtm.anggota');
     Route::get('ajax_add_anggota/{id?}', 'Rtm@ajax_add_anggota')->name('rtm.ajax_add_anggota');
     Route::get('datables_anggota/{id?}', 'Rtm@datables_anggota')->name('rtm.datables_anggota');
@@ -326,9 +326,9 @@ Route::group('rtm', static function (): void {
     Route::post('add_anggota/{id?}', 'Rtm@add_anggota')->name('rtm.add_anggota');
     Route::post('update_anggota/{id_rtm?}/{id?}', 'Rtm@update_anggota')->name('rtm.update_anggota');
     Route::get('delete_anggota/{kk?}/{id?}', 'Rtm@delete_anggota')->name('rtm.delete_anggota');
-    Route::post('delete_all_anggota/{kk?}', 'Rtm@delete_all_anggota')->name('rtm.delete_all_anggota');    
+    Route::post('delete_all_anggota/{kk?}', 'Rtm@delete_all_anggota')->name('rtm.delete_all_anggota');
     Route::get('statistik/{tipe?}/{no?}/{sex?}', 'Rtm@statistik')->name('rtm.statistik');
-    Route::post('impor', 'Rtm@impor')->name('rtm.impor');    
+    Route::post('impor', 'Rtm@impor')->name('rtm.impor');
 });
 
 // Identitas Desa > Lembaga atau Kependudukan > Kelompok
@@ -1634,24 +1634,11 @@ Route::group('sinkronisasi', static function (): void {
 
 // Pemetaan > Peta
 Route::group('gis', static function (): void {
-    Route::get('/clear', 'Gis@clear')->name('gis.clear');
-    Route::get('/', 'Gis@index')->name('gis.index');
-    Route::post('/search', 'Gis@search')->name('gis.search');
-    Route::post('/filter', 'Gis@filter')->name('gis.filter');
-    Route::post('/layer_penduduk', 'Gis@layer_penduduk')->name('gis.layer_penduduk');
-    Route::post('/layer_wilayah', 'Gis@layer_wilayah')->name('gis.layer_wilayah');
-    Route::post('/layer_area', 'Gis@layer_area')->name('gis.layer_area');
-    Route::post('/layer_lokasi', 'Gis@layer_lokasi')->name('gis.layer_lokasi');
-    Route::post('/layer_keluarga', 'Gis@layer_keluarga')->name('gis.layer_keluarga');
-    Route::post('/layer_rtm', 'Gis@layer_rtm')->name('gis.layer_rtm');
-    Route::post('/sex', 'Gis@sex')->name('gis.sex');
-    Route::post('/dusun', 'Gis@dusun')->name('gis.dusun');
-    Route::post('/rw', 'Gis@rw')->name('gis.rw');
-    Route::post('/rt', 'Gis@rt')->name('gis.rt');
-    Route::post('/agama', 'Gis@agama')->name('gis.agama');
-    Route::get('/ajax_adv_search', 'Gis@ajax_adv_search')->name('gis.ajax_adv_search');
-    Route::post('/adv_search_proses', 'Gis@adv_search_proses')->name('gis.adv_search_proses');
-    Route::post('/layer_garis', 'Gis@layer_garis')->name('gis.layer_garis');
+    Route::get('clear', 'Gis@clear')->name('gis.clear');
+    Route::get('', 'Gis@index')->name('gis.index');
+    Route::post('filter', 'Gis@filter')->name('gis.filter');
+    Route::get('ajax_adv_search', 'Gis@ajax_adv_search')->name('gis.ajax_adv_search');
+    Route::post('adv_search_proses', 'Gis@adv_search_proses')->name('gis.adv_search_proses');
 });
 // Pemetaan > Pengaturan > Lokasi
 Route::group('plan', static function (): void {
