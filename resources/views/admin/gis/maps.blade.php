@@ -9,14 +9,8 @@
                     @include ('admin.gis.cetak_peta')
                     <div class="leaflet-top leaflet-right">
                         <div class="leaflet-control-layers leaflet-bar leaflet-control" style="margin-top: 50px;">
-                            <a class="leaflet-bar-part leaflet-bar-part-single" href="#" title="Control Panel" role="button"
-                                aria-label="Control Panel"
-                                onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i
-                                    class="fa fa-gears"></i></a>
-                            <a class="leaflet-bar-part leaflet-bar-part-single" href="#" title="Legenda" role="button"
-                                aria-label="Legenda"
-                                onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i
-                                    class="fa fa-list"></i></a>
+                            <a class="leaflet-bar-part leaflet-bar-part-single" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i class="fa fa-gears"></i></a>
+                            <a class="leaflet-bar-part leaflet-bar-part-single" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i class="fa fa-list"></i></a>
                         </div>
                         @include('admin.gis.content_desa', [
                             'desa' => $desa,
@@ -38,17 +32,14 @@
                             'list_ref' => $list_ref,
                             'wilayah' => ucwords(setting('sebutan_dusun') . ' '),
                         ])
-                        <div id="target1"
-                            class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden"
-                            aria-haspopup="true" style="max-width: 250px;">
+                        <div id="target1" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden" aria-haspopup="true" style="max-width: 250px;">
                             <div class="leaflet-control-layers-overlays">
                                 <div class="leaflet-control-layers-group" id="leaflet-control-layers-group-2">
                                     <span class="leaflet-control-layers-group-name">CARI PENDUDUK</span>
                                     <div class="leaflet-control-layers-separator"></div>
                                     <div class="form-group">
                                         <label>Status Penduduk</label>
-                                        <select class="form-control input-sm " name="filter"
-                                            onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
+                                        <select class="form-control input-sm " name="filter" onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
                                             <option value="">Pilih Status Penduduk </option>
                                             @foreach ($list_status_penduduk as $data)
                                                 <option value="{{ $data['id'] }}" @selected($filter == $data['id'])>
@@ -58,8 +49,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Jenis Kelamin</label>
-                                        <select class="form-control input-sm " name="sex"
-                                            onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
+                                        <select class="form-control input-sm " name="sex" onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
                                             <option value="">Pilih Jenis Kelamin </option>
                                             @foreach ($list_jenis_kelamin as $key => $item)
                                                 <option value="{{ $key }}" @selected($key == $sex)>
@@ -69,20 +59,17 @@
                                     </div>
                                     <div class="form-group">
                                         <label>{{ ucwords(setting('sebutan_dusun')) }}</label>
-                                        <select class="form-control input-sm " name="dusun"
-                                            onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
+                                        <select class="form-control input-sm " name="dusun" onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
                                             <option value="">Pilih Dusun</option>
                                             @foreach ($list_dusun as $data)
-                                                <option value="{{ $data['dusun'] }}"
-                                                    @selected($dusun == $data['dusun'])>{{ $data['dusun'] }}</option>
+                                                <option value="{{ $data['dusun'] }}" @selected($dusun == $data['dusun'])>{{ $data['dusun'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     @if ($dusun)
                                         <div class="form-group">
                                             <label>RW</label>
-                                            <select class="form-control input-sm " name="rw"
-                                                onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
+                                            <select class="form-control input-sm " name="rw" onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
                                                 <option value="">Pilih RW</option>
                                                 @foreach ($list_rw as $data)
                                                     <option value="{{ $data['rw'] }}" @selected($rw == $data['rw'])>
@@ -93,12 +80,10 @@
                                         @if ($rw)
                                             <div class="form-group">
                                                 <label>RT</label>
-                                                <select class="form-control input-sm " name="rt"
-                                                    onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
+                                                <select class="form-control input-sm " name="rt" onchange="formAction('mainform_map','{{ ci_route('gis.filter') }}')">
                                                     <option value="">Pilih RT</option>
                                                     @foreach ($list_rt as $data)
-                                                        <option value="{{ $data['rt'] }}"
-                                                            @selected($rt == $data['rt'])>{{ $data['rt'] }}</option>
+                                                        <option value="{{ $data['rt'] }}" @selected($rt == $data['rt'])>{{ $data['rt'] }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -109,57 +94,56 @@
                                             <label>Cari</label>
                                             <div class="box-tools">
                                                 <div class="input-group input-group-sm pull-right">
-                                                    <input name="cari" id="cari" class="form-control"
-                                                        placeholder="cari..." type="text"
+                                                    <input
+                                                        name="cari"
+                                                        id="cari"
+                                                        class="form-control"
+                                                        placeholder="cari..."
+                                                        type="text"
                                                         value="{{ html_escape($cari) }}"
-                                                        onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '{{ ci_route('gis.filter') }}');$('#'+'mainform_map').submit();endif">
+                                                        onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '{{ ci_route('gis.filter') }}');$('#'+'mainform_map').submit();endif"
+                                                    >
                                                     <div class="input-group-btn">
-                                                        <button type="submit" class="btn btn-default"
-                                                            onclick="$('#'+'mainform_map').attr('action', '{{ ci_route('gis.filter') }}');$('#'+'mainform_map').submit();"><i
-                                                                class="fa fa-search"></i></button>
+                                                        <button type="submit" class="btn btn-default" onclick="$('#'+'mainform_map').attr('action', '{{ ci_route('gis.filter') }}');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <a href="{{ ci_route('gis.ajax_adv_search') }}"
-                                            class="btn btn-block btn-social bg-olive btn-sm" data-remote="false"
-                                            data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"
-                                            title="Pencarian Spesifik">
+                                        <a
+                                            href="{{ ci_route('gis.ajax_adv_search') }}"
+                                            class="btn btn-block btn-social bg-olive btn-sm"
+                                            data-remote="false"
+                                            data-toggle="modal"
+                                            data-target="#modalBox"
+                                            data-title="Pencarian Spesifik"
+                                            title="Pencarian Spesifik"
+                                        >
                                             <i class="fa fa-search"></i> Pencarian Spesifik
                                         </a>
-                                        <a href="{{ ci_route('gis.clear') }}"
-                                            class="btn btn-block btn-social bg-orange btn-sm">
+                                        <a href="{{ ci_route('gis.clear') }}" class="btn btn-block btn-social bg-orange btn-sm">
                                             <i class="fa fa-refresh"></i> Bersihkan
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="target2"
-                            class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden"
-                            aria-haspopup="true" style="max-height: 315px;">
+                        <div id="target2" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden" aria-haspopup="true" style="max-height: 315px;">
                             <div class="leaflet-control-layers-overlays">
                                 <div class="leaflet-control-layers-group" id="leaflet-control-layers-group-3">
                                     <span class="leaflet-control-layers-group-name">LEGENDA</span>
                                     <div class="leaflet-control-layers-separator"></div>
                                     <label>
-                                        <input class="leaflet-control-layers-selector layer-checkbox" type="checkbox"
-                                            name="layer_penduduk" value="1" onchange="handle_layer(this);"
-                                            @checked($layer_penduduk == 1)>
+                                        <input class="leaflet-control-layers-selector layer-checkbox" type="checkbox" name="layer_penduduk" value="1" onchange="handle_layer(this);" @checked($layer_penduduk == 1)>
                                         <span> Penduduk </span>
                                     </label>
                                     <label>
-                                        <input class="leaflet-control-layers-selector layer-checkbox" type="checkbox"
-                                            name="layer_keluarga" value="1" onchange="handle_layer(this);"
-                                            @checked($layer_keluarga == 1) >
+                                        <input class="leaflet-control-layers-selector layer-checkbox" type="checkbox" name="layer_keluarga" value="1" onchange="handle_layer(this);" @checked($layer_keluarga == 1)>
                                         <span> Keluarga</span>
                                     </label>
                                     <label>
-                                        <input class="leaflet-control-layers-selector layer-checkbox" type="checkbox" name="layer_rtm"
-                                            value="1" onchange="handle_layer(this);"
-                                            @checked($layer_rtm == 1)>
+                                        <input class="leaflet-control-layers-selector layer-checkbox" type="checkbox" name="layer_rtm" value="1" onchange="handle_layer(this);" @checked($layer_rtm == 1)>
                                         <span> Rumah Tangga</span>
                                     </label>
                                 </div>
@@ -182,16 +166,18 @@
 
 @endsection
 @push('css')
-@include('admin.layouts.components.asset_peta')
-@include('admin.gis.local_gis_css')
+    @include('admin.layouts.components.asset_peta')
+    @include('admin.gis.local_gis_css')
 @endpush
 @push('scripts')
     <script>
-        (function() {            
-            $('.content-wrapper').css({height: '93%'})
+        (function() {
+            $('.content-wrapper').css({
+                height: '93%'
+            })
             $('.content-wrapper>section.content-header').remove()
             $('.content-wrapper>section.content').css({
-                padding: 0                
+                padding: 0
             })
             var infoWindow;
             window.onload = function() {
@@ -443,7 +429,7 @@
         function handle_layer(cb) {
             $(':checkbox.layer-checkbox').not(cb).prop('checked', false)
             formAction('mainform_map', '{{ ci_route('gis.filter') }}');
-        }     
+        }
 
         function AmbilFotoLokasi(foto, ukuran = "kecil_") {
             ukuran_foto = ukuran || null
@@ -452,5 +438,5 @@
         }
     </script>
     <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>
-    <script src="{{ asset('js/togeojson.js') }}"></script>    
+    <script src="{{ asset('js/togeojson.js') }}"></script>
 @endpush

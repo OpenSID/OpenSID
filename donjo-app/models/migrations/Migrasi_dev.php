@@ -72,7 +72,7 @@ class Migrasi_dev extends MY_model
 
         $hasil = $hasil && $this->migrasi_2024280201($hasil);
         $hasil = $hasil && $this->migrasi_2024030551($hasil);
-        
+
         return $hasil && $this->migrasi_2024070301($hasil);
     }
 

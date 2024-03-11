@@ -1,4 +1,4 @@
-@if(can('u'))
+@if (can('u'))
     <form action="{{ $form_action }}" method="post" id="validasi">
         <div class='modal-body'>
             <div class="form-group">
@@ -14,7 +14,15 @@
 
             <div class="form-group">
                 <label for="bdt">BDT</label>
-                <input class="form-control input-sm angka" type="text" placeholder="BDT" name="bdt" value="{{ $kk['bdt'];  }}" minlength="16" maxlength="16"/>
+                <input
+                    class="form-control input-sm angka"
+                    type="text"
+                    placeholder="BDT"
+                    name="bdt"
+                    value="{{ $kk['bdt'] }}"
+                    minlength="16"
+                    maxlength="16"
+                />
             </div>
             <div class="form-group">
                 <label for="terdaftar_dtks">
@@ -55,4 +63,3 @@
         });
     });
 </script>
-

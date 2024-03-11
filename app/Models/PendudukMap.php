@@ -51,7 +51,6 @@ class PendudukMap extends BaseModel
     protected $table = 'tweb_penduduk_map';
 
     public $timestamps = false;
-
     protected $guarded = [];
 
     /**
