@@ -95,7 +95,7 @@ class Klasifikasi extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $data['data']        = KlasifikasiSurat::where('id', (int) $id)->first();
@@ -110,7 +110,7 @@ class Klasifikasi extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = static::validated($this->request);
 
         try {
@@ -126,7 +126,7 @@ class Klasifikasi extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = static::validated($this->request);
 
         try {
@@ -142,14 +142,14 @@ class Klasifikasi extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h', 'klasifikasi');
+        isCan('h');
         KlasifikasiSurat::where('id', (int) $id)->delete();
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h', 'klasifikasi');
+        isCan('h');
         KlasifikasiSurat::whereIn('id', $this->request['id_cb'])->delete();
 
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
@@ -157,14 +157,14 @@ class Klasifikasi extends Admin_Controller
 
     public function lock($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 0]);
         redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
     }
 
     public function unlock($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 1]);
         redirect_with('success', 'Klasifikasi surat berhasil diaktifkan');
     }
@@ -176,7 +176,7 @@ class Klasifikasi extends Admin_Controller
 
     public function impor()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = ci_route('klasifikasi.proses_impor');
 
         return view('admin.klasifikasi.import', $data);
@@ -184,7 +184,7 @@ class Klasifikasi extends Admin_Controller
 
     public function proses_impor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize([

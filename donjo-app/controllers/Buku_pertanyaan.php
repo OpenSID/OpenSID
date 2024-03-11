@@ -82,7 +82,7 @@ class Buku_pertanyaan extends Anjungan_Controller
 
     public function form($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $data['action']          = 'Ubah';
@@ -99,7 +99,7 @@ class Buku_pertanyaan extends Anjungan_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (BukuPertanyaan::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -110,7 +110,7 @@ class Buku_pertanyaan extends Anjungan_Controller
 
     public function update($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = BukuPertanyaan::findOrFail($id);
 
@@ -123,7 +123,7 @@ class Buku_pertanyaan extends Anjungan_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (BukuPertanyaan::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');

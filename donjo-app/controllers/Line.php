@@ -119,7 +119,7 @@ class Line extends Admin_Controller
 
     public function form($parent = 1, $id = ''): View
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->parent = $parent;
 
         $data['aksi']        = 'Tambah';
@@ -147,7 +147,7 @@ class Line extends Admin_Controller
 
     public function insert(int $parent): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $dataInsert            = $this->validasi($this->input->post());
         $dataInsert['parrent'] = $parent;
         $tipe                  = $this->input->post('tipe') ?? $this->tipe($parent);
@@ -164,7 +164,7 @@ class Line extends Admin_Controller
 
     public function update($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $dataUpdate            = $this->validasi($this->input->post());
         $dataUpdate['parrent'] = $parent;
         $tipe                  = $this->tipe($parent);
@@ -182,7 +182,7 @@ class Line extends Admin_Controller
     public function delete($parent, $id = null): void
     {
         $tipe = $this->tipe($parent);
-        $this->redirect_hak_akses('h', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        isCan('h');
 
         try {
             LineModel::destroy($this->request['id_cb'] ?? $id);
@@ -195,7 +195,7 @@ class Line extends Admin_Controller
 
     public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $tipe = $this->tipe($parent);
 
         try {
@@ -209,7 +209,7 @@ class Line extends Admin_Controller
 
     public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $tipe = $this->tipe($parent);
 
         try {

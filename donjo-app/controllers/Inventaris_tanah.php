@@ -78,7 +78,7 @@ class Inventaris_tanah extends Admin_Controller
 
     public function edit($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main']      = $this->inventaris_tanah_model->view($id);
         $data['aset']      = $this->aset_model->list_aset(2);
         $data['count_reg'] = $this->inventaris_tanah_model->count_reg();
@@ -91,7 +91,7 @@ class Inventaris_tanah extends Admin_Controller
 
     public function edit_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_tanah_model->edit_mutasi($id);
         $data['tip']  = 2;
 
@@ -100,7 +100,7 @@ class Inventaris_tanah extends Admin_Controller
 
     public function form(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['tip']       = 1;
         $data['get_kode']  = $this->header['desa'];
         $data['aset']      = $this->aset_model->list_aset(2);
@@ -111,7 +111,7 @@ class Inventaris_tanah extends Admin_Controller
 
     public function form_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_tanah_model->view($id);
         $data['tip']  = 2;
 

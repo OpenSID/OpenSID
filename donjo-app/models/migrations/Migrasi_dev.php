@@ -37,6 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\KaderMasyarakat;
+use App\Models\RefPendudukBidang;
+use App\Models\RefPendudukKursus;
 use Illuminate\Support\Facades\DB;
 
 class Migrasi_dev extends MY_model
@@ -67,7 +70,10 @@ class Migrasi_dev extends MY_model
 
         // Migrasi tanpa config_id
 
-        return $hasil && $this->migrasi_2024280201($hasil);
+        $hasil = $hasil && $this->migrasi_2024280201($hasil);
+        $hasil = $hasil && $this->migrasi_2024030551($hasil);
+        
+        return $hasil && $this->migrasi_2024070301($hasil);
     }
 
     protected function migrasi_2024270201($hasil, $id)
@@ -88,6 +94,44 @@ class Migrasi_dev extends MY_model
         return $hasil && $this->ubah_modul(
             ['slug' => 'buku-tanah-di-desa', 'url' => 'bumindes_tanah_desa/clear'],
             ['url' => 'bumindes_tanah_desa']
+        );
+    }
+
+    protected function migrasi_2024070301($hasil)
+    {
+        $kader  = KaderMasyarakat::get();
+        $bidang = RefPendudukBidang::get();
+        $kursus = RefPendudukKursus::get();
+
+        foreach ($kader as $item) {
+            $resultBidang = [];
+            $resultKursus = [];
+
+            foreach ($bidang as $valueBidang) {
+                if (strpos($item->bidang, $valueBidang['nama']) !== false) {
+                    $resultBidang[] = $valueBidang['nama'];
+                }
+            }
+
+            foreach ($kursus as $valueKursus) {
+                if (strpos($item->kursus, $valueKursus['nama']) !== false) {
+                    $resultKursus[] = $valueKursus['nama'];
+                }
+            }
+            KaderMasyarakat::find($item->id)->update([
+                'bidang' => json_encode($resultBidang),
+                'kursus' => json_encode($resultKursus),
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024030551($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'rumah-tangga', 'url' => 'rtm/clear'],
+            ['url' => 'rtm']
         );
     }
 }

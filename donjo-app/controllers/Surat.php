@@ -693,7 +693,7 @@ class Surat extends Admin_Controller
 
     public function favorit($id = null, $val = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $favorit = FormatSurat::findOrFail($id);
         $favorit->update(['favorit' => ($val == 1) ? 0 : 1]);

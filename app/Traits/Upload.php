@@ -35,37 +35,6 @@
  *
  */
 
-<<<<<<<< HEAD:storage/app/template/lampiran/f.1-21/data.php
-    defined('BASEPATH') || exit('No direct script access allowed');
-
-    define('MAX_ANGGOTA_F116', 10);
-    define('MAX_ANGGOTA_F101', 10);
-
-    $this->load->model('keluarga_model');
-    $anggota      = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => true], true);
-    $anggota_ikut = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => false], true);
-
-    switch (strtolower($input['alasan_permohonan'])) {
-        case 'karena penambahan anggota keluarga (kelahiran, kedatangan)':
-            $input['alasan_permohonan'] = 1;
-            break;
-
-        case 'karena pengurangan anggota keluarga (kematian, kepindahan)':
-            $input['alasan_permohonan'] = 2;
-            break;
-
-        case 'lainnya':
-            $input['alasan_permohonan'] = 3;
-            break;
-
-        default:
-            $input['alasan_permohonan'] = null;
-            break;
-    }
-
-    // include data F101
-    include STORAGEPATH . 'app/template/lampiran/f-1.01/data.php';
-========
 namespace App\Traits;
 
 use Exception;
@@ -92,4 +61,3 @@ trait Upload
         }
     }
 }
->>>>>>>> bug-fix:app/Traits/Upload.php

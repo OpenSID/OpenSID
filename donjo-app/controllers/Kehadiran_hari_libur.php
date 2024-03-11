@@ -89,7 +89,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action                        = 'Ubah';
@@ -107,7 +107,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     public function create(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (HariLibur::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -118,7 +118,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = HariLibur::findOrFail($id);
 
@@ -133,7 +133,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (HariLibur::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -144,7 +144,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (HariLibur::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -190,7 +190,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
     public function import(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $kalender = file_get_contents(config_item('api_hari_libur'));
         $tanggal  = json_decode($kalender, true);

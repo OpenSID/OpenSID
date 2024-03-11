@@ -110,7 +110,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action          = 'Tanggapi Pengaduan';
@@ -123,7 +123,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function kirim($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         try {
             $pengaduan = Pengaduan::findOrFail($id);
@@ -150,7 +150,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function detail($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action    = 'Detail Pengaduan';
@@ -162,7 +162,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         try {
             Pengaduan::destroy($id ?? $this->request['id_cb']);

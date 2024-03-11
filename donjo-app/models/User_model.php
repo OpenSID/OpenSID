@@ -37,7 +37,6 @@
 
 use App\Models\LoginAttempts;
 use App\Models\LogLogin;
-use App\Models\Modul;
 use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
@@ -429,40 +428,6 @@ class User_model extends MY_Model
         }
 
         return (empty($uploadData)) ? null : $uploadData['file_name'];
-    }
-
-    // Hak akses setiap controller.
-
-    public function hak_akses_url($group, $url_modul, $akses)
-    {
-        return $this->hak_akses($group, $url_modul, $akses, $url_modul);
-    }
-
-    public function hak_akses($group, $url_modul, $akses, $pakai_url = false)
-    {
-        $controller = explode('/', $url_modul);
-        // Demo tidak boleh mengakses menu tertentu
-        if (config_item('demo_mode') && is_array($this->larangan_demo[$controller[0]]) && in_array($akses, $this->larangan_demo[$controller[0]] ?? [])) {
-            log_message('error', '==Akses Demo Terlarang: ' . print_r($_SERVER, true));
-
-            return false;
-        }
-
-        // Group admin punya akses global
-        // b = baca; u = ubah; h= hapus
-        if ($group == $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
-            return true;
-        }
-        // Controller yang boleh diakses oleh semua pengguna yg telah login
-        if ($group && in_array($controller[0], Modul::SELALU_AKTIF)) {
-            return true;
-        }
-
-        if ($pakai_url) {
-            return $this->grup_model->ada_akses_url($group, $url_modul, $akses);
-        }
-
-        return $this->grup_model->ada_akses($group, $controller[0], $akses);
     }
 
     /**

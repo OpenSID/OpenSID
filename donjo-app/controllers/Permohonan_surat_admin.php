@@ -205,7 +205,7 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h', '', '', true);
+        isCan('h');
 
         $delete = PermohonanSurat::where('status', PermohonanSurat::DIBATALKAN)->find($id) ?? show_404();
 

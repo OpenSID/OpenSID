@@ -102,7 +102,7 @@ class Stunting extends Admin_Controller
 
     public function formPosyandu($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'posyandu';
@@ -122,7 +122,7 @@ class Stunting extends Admin_Controller
 
     public function insertPosyandu(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (Posyandu::create(static::validatePosyandu($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting');
@@ -133,7 +133,7 @@ class Stunting extends Admin_Controller
 
     public function updatePosyandu($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = Posyandu::findOrFail($id);
 
@@ -146,7 +146,7 @@ class Stunting extends Admin_Controller
 
     public function deletePosyandu($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (IbuHamil::where('posyandu_id', $id)->exists() || Anak::where('posyandu_id', $id)->exists() || Paud::where('posyandu_id', $id)->exists()) {
             redirect_with('error', 'Posyandu terkait masih digunakan pada ibu hamil/anak', 'stunting');
@@ -161,7 +161,7 @@ class Stunting extends Admin_Controller
 
     public function deleteAllPosyandu(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $data = $this->request['id_cb'];
 
@@ -227,7 +227,7 @@ class Stunting extends Admin_Controller
 
     public function formKia($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
@@ -323,7 +323,7 @@ class Stunting extends Admin_Controller
 
     public function insertKia(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (KIA::create(static::validateKia($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'stunting/kia');
@@ -334,7 +334,7 @@ class Stunting extends Admin_Controller
 
     public function updateKia($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = KIA::findOrFail($id);
 
@@ -347,7 +347,7 @@ class Stunting extends Admin_Controller
 
     public function deleteKia($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (IbuHamil::where('kia_id', $id)->exists() || Anak::where('kia_id', $id)->exists() || Paud::where('kia_id', $id)->exists()) {
             redirect_with('error', 'KIA terkait masih digunakan pada ibu hamil/anak', 'stunting/kia');
@@ -362,7 +362,7 @@ class Stunting extends Admin_Controller
 
     public function deleteAllKia(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $data = $this->request['id_cb'];
 
@@ -451,7 +451,7 @@ class Stunting extends Admin_Controller
 
     public function formIbuHamil($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-ibu-hamil';
@@ -481,7 +481,7 @@ class Stunting extends Admin_Controller
 
     public function insertIbuHamil(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $bulan = date('m', strtotime($this->request['tanggal_periksa']));
         $tahun = date('Y', strtotime($this->request['tanggal_periksa']));
@@ -501,7 +501,7 @@ class Stunting extends Admin_Controller
 
     public function updateIbuHamil($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = IbuHamil::findOrFail($id);
 
@@ -514,7 +514,7 @@ class Stunting extends Admin_Controller
 
     public function deleteIbuHamil($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (IbuHamil::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_ibu_hamil');
@@ -525,7 +525,7 @@ class Stunting extends Admin_Controller
 
     public function deleteAllIbuHamil(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (IbuHamil::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_ibu_hamil');
@@ -661,7 +661,7 @@ class Stunting extends Admin_Controller
 
     public function formAnak($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-anak';
@@ -703,7 +703,7 @@ class Stunting extends Admin_Controller
 
     public function insertAnak(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $bulan = date('m', strtotime($this->request['tanggal_periksa']));
         $tahun = date('Y', strtotime($this->request['tanggal_periksa']));
@@ -723,7 +723,7 @@ class Stunting extends Admin_Controller
 
     public function updateAnak($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = Anak::findOrFail($id);
 
@@ -736,7 +736,7 @@ class Stunting extends Admin_Controller
 
     public function deleteAnak($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (Anak::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_anak');
@@ -747,7 +747,7 @@ class Stunting extends Admin_Controller
 
     public function deleteAllAnak(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (Anak::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_anak');
@@ -905,7 +905,7 @@ class Stunting extends Admin_Controller
 
     public function formPaud($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
@@ -931,7 +931,7 @@ class Stunting extends Admin_Controller
 
     public function insertPaud(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $bulan = date('m', strtotime($this->request['tanggal_periksa']));
         $tahun = date('Y', strtotime($this->request['tanggal_periksa']));
@@ -951,7 +951,7 @@ class Stunting extends Admin_Controller
 
     public function updatePaud($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = Paud::findOrFail($id);
 
@@ -964,7 +964,7 @@ class Stunting extends Admin_Controller
 
     public function deletePaud($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (Paud::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_paud');
@@ -975,7 +975,7 @@ class Stunting extends Admin_Controller
 
     public function deleteAllPaud(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (Paud::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/pemantauan_paud');

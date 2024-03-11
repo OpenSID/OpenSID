@@ -260,8 +260,8 @@ if (! function_exists('dispatch')) {
                 if (! $this->shouldDispatch()) {
                     return;
                 }
-                    app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
 
+                app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
             }
         };
     }

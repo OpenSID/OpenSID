@@ -87,7 +87,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
 
     public function register()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->load->library('upload');
         $config['upload_path']   = LOKASI_DOKUMEN;

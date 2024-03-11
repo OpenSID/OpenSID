@@ -56,6 +56,7 @@ use Illuminate\Queue\QueueServiceProvider;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Illuminate\View\ViewServiceProvider;
 
 class Laravel extends Container
@@ -180,8 +181,35 @@ class Laravel extends Container
 
         $this->instance('path', $this->path());
 
+        $this->instance('env', $this->environment());
+
         $this->registerContainerAliases();
-        $this->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
+    }
+
+    /**
+     * Get or check the current application environment.
+     *
+     * @param  mixed
+     *
+     * @return string
+     */
+    public function environment()
+    {
+        $env = ENVIRONMENT;
+
+        if (func_num_args() > 0) {
+            $patterns = is_array(func_get_arg(0)) ? func_get_arg(0) : func_get_args();
+
+            foreach ($patterns as $pattern) {
+                if (Str::is($pattern, $env)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        return $env;
     }
 
     /**

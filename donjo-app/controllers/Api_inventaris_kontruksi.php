@@ -52,7 +52,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
 
     public function add(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = $this->inventaris_kontruksi_model->add([
             'nama_barang'          => $this->input->post('nama_barang'),
             'kondisi_bangunan'     => $this->input->post('fisik_bangunan'),
@@ -78,7 +78,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
 
     public function update($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = $this->inventaris_kontruksi_model->update($id, [
             'nama_barang'          => $this->input->post('nama_barang'),
             'kondisi_bangunan'     => $this->input->post('fisik_bangunan'),
@@ -102,7 +102,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h', 'inventaris_kontruksi');
+        isCan('h');
         $data                = $this->inventaris_kontruksi_model->delete($id);
         $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_kontruksi');

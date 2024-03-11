@@ -97,7 +97,7 @@ class Gawai_layanan extends Admin_Controller
 
     public function form($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $data['action']        = 'Ubah';
@@ -114,7 +114,7 @@ class Gawai_layanan extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (AnjunganModel::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -124,7 +124,7 @@ class Gawai_layanan extends Admin_Controller
 
     public function update($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = AnjunganModel::findOrFail($id);
 
@@ -136,7 +136,7 @@ class Gawai_layanan extends Admin_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (AnjunganModel::destroy($id ?? $this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -146,7 +146,7 @@ class Gawai_layanan extends Admin_Controller
 
     public function kunci($id = null, $val = StatusEnum::TIDAK): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $kunci = AnjunganModel::findOrFail($id);
         $kunci->update(['status' => ($val == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);

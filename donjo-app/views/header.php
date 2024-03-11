@@ -142,7 +142,7 @@
         </div>
 
         <!-- Untuk menampilkan pengaturan -->
-        <?php if ($this->kategori_pengaturan && $this->kategori_pengaturan !== 'pelanggan' && can('u', $this->akses_modul ?? ($this->modul_ini ?? $this->sub_modul_ini))) : ?>
+        <?php if ($this->kategori_pengaturan && $this->kategori_pengaturan !== 'pelanggan' && can('u', $this->sub_modul_ini ?? $this->modul_ini)) : ?>
             <div class="modal fade" id="pengaturan" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">

@@ -37,6 +37,7 @@
 
 use App\Models\Config;
 use App\Models\LogSurat;
+use App\Models\Modul;
 use App\Models\Pamong;
 use App\Models\Pesan;
 use App\Models\UserGrup;
@@ -50,7 +51,6 @@ class Admin_Controller extends MY_Controller
     public $grup;
     public $modul_ini;
     public $sub_modul_ini;
-    public $akses_modul;
     public $header;
     public $controller;
     public $aliasController;
@@ -114,17 +114,20 @@ class Admin_Controller extends MY_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        if (! $this->user_model->hak_akses($this->grup, $aliasController, 'b')) {
+        if (! can('b') && ! in_array($aliasController, Modul::SELALU_AKTIF)) {
             if (empty($this->grup)) {
+
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
             } else {
+
                 // TODO:: cek masalah ini kenapa selalu muncul error di untuk can('u', 'pelanggan)
                 // session_error('Anda tidak mempunyai akses pada fitur itu');
                 unset($_SESSION['request_uri']);
                 redirect('main');
             }
         }
+
         $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
         $this->header['desa']                   = collect(identitas())->toArray();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
@@ -169,71 +172,6 @@ class Admin_Controller extends MY_Controller
         }
 
         return $pengumuman;
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
-    protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-        if (! $this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
-            session_error('Anda tidak mempunyai akses pada fitur ini');
-            if (empty($this->grup)) {
-                redirect('siteman');
-            }
-            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
-        }
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        if (($admin_only && $this->grup != $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
-            session_error('Anda tidak mempunyai akses pada fitur ini');
-
-            if (empty($this->grup)) {
-                redirect('siteman');
-            }
-            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
-        }
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
-    public function cek_hak_akses_url($akses, $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    public function cek_hak_akses($akses, $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses($this->grup, $controller, $akses);
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    public function redirect_tidak_valid($valid): void
-    {
-        if ($valid) {
-            return;
-        }
-
-        session_error('Aksi ini tidak diperbolehkan');
-        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function render($view, ?array $data = null): void

@@ -78,7 +78,7 @@ class Inventaris_asset extends Admin_Controller
 
     public function edit($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main']      = $this->inventaris_asset_model->view($id);
         $data['get_kode']  = $this->header['desa'];
         $data['aset']      = $this->aset_model->list_aset(6);
@@ -91,7 +91,7 @@ class Inventaris_asset extends Admin_Controller
 
     public function edit_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_asset_model->edit_mutasi($id);
         $data['tip']  = 2;
 
@@ -100,7 +100,7 @@ class Inventaris_asset extends Admin_Controller
 
     public function form(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['tip']       = 1;
         $data['get_kode']  = $this->header['desa'];
         $data['aset']      = $this->aset_model->list_aset(6);
@@ -111,7 +111,7 @@ class Inventaris_asset extends Admin_Controller
 
     public function form_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_asset_model->view($id);
         $data['tip']  = 1;
 

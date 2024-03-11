@@ -1,4 +1,4 @@
-<?php $pengaturan = setting('tampilkan_tombol_peta') ?>
+<?php $pengaturan = json_decode(setting('tampilkan_tombol_peta'), true) ?>
 <div id="isi_popup_dusun">
 	<?php foreach ($dusun_gis as $key_dusun => $dusun): ?>
 		<div id="isi_popup_dusun_<?= $key_dusun ?>" style="visibility: hidden;">
