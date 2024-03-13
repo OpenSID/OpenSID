@@ -35,7 +35,9 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\JamKerja;
+use App\Models\MediaSosial;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -250,8 +252,8 @@ class Web_widget_model extends MY_Model
 
         $uploadData = null;
         // Adakah berkas yang disertakan?
-        $adaBerkas = ! empty($_FILES[$jenis]['name']);
-        if (! $adaBerkas) {
+        $adaBerkas = !empty($_FILES[$jenis]['name']);
+        if (!$adaBerkas) {
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
                 unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
@@ -344,7 +346,7 @@ class Web_widget_model extends MY_Model
             $old_gambar              = $value['old_gambar'];
             $setting[$key]['gambar'] = $old_gambar;
 
-            if (! empty($_FILES['file']['tmp_name'])) {
+            if (!empty($_FILES['file']['tmp_name'])) {
                 $this->load->library('MY_Upload', null, 'upload');
                 $this->upload->initialize([
                     'upload_path'   => LOKASI_GAMBAR_WIDGET,
@@ -394,7 +396,7 @@ class Web_widget_model extends MY_Model
 
     public function delete($id = '', $semua = false): void
     {
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success = 1;
         }
 
@@ -422,7 +424,7 @@ class Web_widget_model extends MY_Model
         $data['yad']             = $this->first_artikel_m->agenda_show('yad');
         $data['lama']            = $this->first_artikel_m->agenda_show('lama');
         $data['komen']           = $this->first_artikel_m->komentar_show();
-        $data['sosmed']          = $this->first_artikel_m->list_sosmed();
+        $data['sosmed']          = media_sosial();
         $data['arsip_terkini']   = $this->first_artikel_m->arsip_show('terkini');
         $data['arsip_populer']   = $this->first_artikel_m->arsip_show('populer');
         $data['arsip_acak']      = $this->first_artikel_m->arsip_show('acak');
@@ -495,7 +497,7 @@ class Web_widget_model extends MY_Model
                     $widget['isi'] = "{$this->theme_model->folder}/{$this->theme_model->tema}/widgets/{$widget['isi']}";
                 }
 
-                if (! file_exists($widget['isi'])) {
+                if (!file_exists($widget['isi'])) {
                     $this->lock($widget['id'], 2);
                     $this->session->success   = 'error';
                     $this->session->error_msg = "File widget {$widget['judul']} tidak ditemukan sehingga otomatis terkunci";

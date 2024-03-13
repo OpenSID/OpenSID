@@ -35,7 +35,10 @@
  *
  */
 
-if (! function_exists('theme')) {
+use App\Enums\StatusEnum;
+use App\Models\MediaSosial;
+
+if (!function_exists('theme')) {
     function theme()
     {
         $CI = &get_instance();
@@ -45,14 +48,14 @@ if (! function_exists('theme')) {
     }
 }
 
-if (! function_exists('theme_list')) {
+if (!function_exists('theme_list')) {
     function theme_list()
     {
         return theme()->list_all();
     }
 }
 
-if (! function_exists('theme_list_with_path')) {
+if (!function_exists('theme_list_with_path')) {
     function theme_list_with_path()
     {
         return theme()->list_all(true);
@@ -60,7 +63,7 @@ if (! function_exists('theme_list_with_path')) {
 }
 
 // theme active
-if (! function_exists('theme_active')) {
+if (!function_exists('theme_active')) {
     function theme_active()
     {
         return theme()->tema;
@@ -68,7 +71,7 @@ if (! function_exists('theme_active')) {
 }
 
 // assets
-if (! function_exists('theme_asset')) {
+if (!function_exists('theme_asset')) {
     function theme_asset($path)
     {
         $theme = theme();
@@ -78,5 +81,28 @@ if (! function_exists('theme_asset')) {
         $path = FCPATH . $uri;
 
         return base_url($uri . '?v' . md5_file($path));
+    }
+}
+
+if (!function_exists('media_sosial')) {
+    /**
+     * Get social media
+     *
+     * @return array
+     */
+    function media_sosial()
+    {
+        return cache()->remember('media_sosial', 60 * 60 * 24, function () {
+            return MediaSosial::status(StatusEnum::YA)
+                ->get()
+                ->map(function ($media) {
+                    return [
+                        'nama' => $media->nama,
+                        'link' => empty($media->link) ? '' : $media->new_link,
+                        'icon' => $media->url_icon,
+                    ];
+                })
+                ->toArray();
+        });
     }
 }

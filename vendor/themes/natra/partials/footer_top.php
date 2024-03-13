@@ -39,13 +39,10 @@
                     <?php if (setting('tte')): ?>
                         <img src="<?= asset('assets/images/bsre.png?v', false); ?>" alt="Bsre" class="img-responsive" style="width: 185px;" />
                     <?php endif ?>
-                    <?php foreach ($sosmed As $data): ?>
-                        <?php if (!empty($data["link"])): ?>
+                    <?php foreach ($sosmed as $data): ?>
+                        <?php if (! empty($data["link"])): ?>
                             <a href="<?= $data['link']?>" rel="noopener noreferrer" target="_blank">
-                                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?>-square fa-3x"></i></span>
-                                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram' OR strtolower($data["nama"]) == 'telegram'): ?>
-                                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?> fa-3x"></i></span>
-                                <?php endif; ?>
+                                <img src="<?= $data['icon'] ?>" alt="<?= $data['nama'] ?>" style="width:50px;height:50px;"/>
                             </a>
                         <?php endif; ?>
                     <?php endforeach; ?>

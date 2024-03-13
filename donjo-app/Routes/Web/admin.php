@@ -2003,12 +2003,19 @@ Route::group('gallery', static function (): void {
     Route::get('/slider/{parent}/{id}', 'Gallery@slider')->name('gallery.slider');
     Route::post('/tukar', 'Gallery@tukar')->name('gallery.tukar');
 });
+
 // Admin Web > Media Sosial
 Route::group('sosmed', static function (): void {
     Route::get('/', 'Sosmed@index')->name('sosmed.index');
-    Route::get('/tab/{sosmed}', 'Sosmed@tab')->name('sosmed.tab');
-    Route::post('/update/{sosmed}', 'Sosmed@update')->name('sosmed.update');
+    Route::get('/datatables', 'Sosmed@datatables')->name('sosmed.datatables');
+    Route::get('/form/{id?}', 'Sosmed@form')->name('sosmed.form');
+    Route::post('/insert', 'Sosmed@insert')->name('sosmed.insert');
+    Route::post('/update/{id?}', 'Sosmed@update')->name('sosmed.update');
+    Route::get('/delete/{id?}', 'Sosmed@delete')->name('sosmed.delete');
+    Route::post('/delete', 'Sosmed@delete')->name('sosmed.delete-all');
+    Route::get('/lock/{id?}', 'Sosmed@lock')->name('sosmed.lock');
 });
+
 // Admin Web > Teks Berjalan
 Route::group('teks_berjalan', static function (): void {
     Route::get('/', 'Teks_berjalan@index')->name('teks_berjalan.index');
@@ -2020,6 +2027,7 @@ Route::group('teks_berjalan', static function (): void {
     Route::get('/urut/{id?}/{arah?}', 'Teks_berjalan@urut')->name('teks_berjalan.urut');
     Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
+
 // Admin Web > Pengunjung
 Route::group('pengunjung', static function (): void {
     Route::get('/', 'Pengunjung@index')->name('pengunjung.index');
