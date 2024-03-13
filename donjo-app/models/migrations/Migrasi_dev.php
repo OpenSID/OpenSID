@@ -35,12 +35,8 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\KaderMasyarakat;
-use App\Models\RefPendudukBidang;
-use App\Models\RefPendudukKursus;
-use Illuminate\Support\Facades\DB;
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
 {
@@ -48,90 +44,16 @@ class Migrasi_dev extends MY_model
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024270201($hasil, $id);
-        }
+        // foreach ($config_id as $id) {
+        //     $hasil = $hasil && $this->migrasi_xxxxxxxx($hasil, $id);
+        // }
 
         // Migrasi tanpa config_id
+        // $hasil = $hasil && $this->migrasi_xxxxxxxx($hasil);
 
-        $hasil = $hasil && $this->migrasi_2024280201($hasil);
-        $hasil = $hasil && $this->migrasi_2024030551($hasil);
-
-        return $hasil && $this->migrasi_2024070301($hasil);
-    }
-
-    protected function migrasi_2024270201($hasil, $id)
-    {
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Sinkronisasi OpenDK Server',
-            'key'        => 'sinkronisasi_opendk',
-            'value'      => setting('api_opendk_key') ? 1 : 0,
-            'keterangan' => 'Aktifkan Sinkronisasi Server OpenDK',
-            'kategori'   => 'opendk',
-            'jenis'      => 'boolean',
-            'option'     => null,
-        ], $id);
-    }
-
-    protected function migrasi_2024280201($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-tanah-di-desa', 'url' => 'bumindes_tanah_desa/clear'],
-            ['url' => 'bumindes_tanah_desa']
-        );
-    }
-
-    protected function migrasi_2024070301($hasil)
-    {
-        $kader  = KaderMasyarakat::get();
-        $bidang = RefPendudukBidang::get();
-        $kursus = RefPendudukKursus::get();
-
-        foreach ($kader as $item) {
-            $resultBidang = [];
-            $resultKursus = [];
-
-            foreach ($bidang as $valueBidang) {
-                if (strpos($item->bidang, $valueBidang['nama']) !== false) {
-                    $resultBidang[] = $valueBidang['nama'];
-                }
-            }
-
-            foreach ($kursus as $valueKursus) {
-                if (strpos($item->kursus, $valueKursus['nama']) !== false) {
-                    $resultKursus[] = $valueKursus['nama'];
-                }
-            }
-            KaderMasyarakat::find($item->id)->update([
-                'bidang' => json_encode($resultBidang),
-                'kursus' => json_encode($resultKursus),
-            ]);
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024030551($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'rumah-tangga', 'url' => 'rtm/clear'],
-            ['url' => 'rtm']
-        );
+        return $hasil && true;
     }
 }
