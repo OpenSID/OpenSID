@@ -35,10 +35,11 @@
  *
  */
 
-use App\Enums\Statistik\StatistikEnum;
-use App\Models\Pemilihan;
-use App\Models\Penduduk;
 use Carbon\Carbon;
+use App\Models\Komentar;
+use App\Models\Penduduk;
+use App\Models\Pemilihan;
+use App\Enums\Statistik\StatistikEnum;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -146,7 +147,13 @@ class First extends Web_Controller
         $data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
         $data['title']                 = ucwords($data['single_artikel']['judul']);
         $data['detail_agenda']         = $this->first_artikel_m->get_agenda($id); //Agenda
-        $data['komentar']              = $this->first_artikel_m->list_komentar($id);
+        $data['komentar']              = Komentar::with('children')
+            ->where('id_artikel', $id)
+            ->where('status', Komentar::ACTIVE)
+            ->whereNull('parent_id')
+            ->get()
+            ->toArray();
+
         $this->_get_common_data($data);
         $this->set_template('layouts/artikel.tpl.php');
         $this->load->view($this->template, $data);

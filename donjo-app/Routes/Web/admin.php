@@ -1978,6 +1978,7 @@ Route::group('kategori', static function (): void {
     Route::get('/unlock/{parent}/{id}', 'Kategori@unlock')->name('kategori.unlock');
     Route::post('/tukar', 'Kategori@tukar')->name('kategori.tukar');
 });
+
 // Admin Web > Komentar
 Route::group('komentar', static function (): void {
     Route::get('/clear', 'Komentar@clear')->name('komentar.clear');
@@ -1988,8 +1989,11 @@ Route::group('komentar', static function (): void {
     Route::get('/delete/{id}', 'Komentar@delete')->name('komentar.delete');
     Route::post('/delete_all', 'Komentar@delete_all')->name('komentar.delete_all');
     Route::get('/lock/{id?}', 'Komentar@lock')->name('komentar.lock');
+    Route::get('/detail/{id?}', 'Komentar@detail')->name('komentar.detail');
+    Route::post('/balas/{id?}', 'Komentar@balas')->name('komentar.balas');
     Route::match(['GET', 'POST'], '/', 'Komentar@index')->name('komentar.index-default');
 });
+
 // Admin Web > Galeri
 Route::group('gallery', static function (): void {
     Route::get('/', 'Gallery@index')->name('gallery.index');

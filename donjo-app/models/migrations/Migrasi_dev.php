@@ -35,7 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\KaderMasyarakat;
 use App\Models\RefPendudukBidang;
@@ -43,6 +42,8 @@ use App\Models\RefPendudukKursus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
 {
@@ -57,7 +58,10 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_2024080302($hasil);
+        $hasil = $hasil && $this->migrasi_2024080302($hasil);
+        $hasil = $hasil && $this->migrasi_2024031375($hasil);
+
+        return $hasil && true;
     }
 
     // Migrasi perubahan data
@@ -471,5 +475,14 @@ class Migrasi_dev extends MY_model
             'ikon_kecil' => 'fa-chain',
             'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'pengaturan'])->row()->id,
         ]);
+    }
+
+    protected function migrasi_2024031375($hasil)
+    {
+        if (!$this->db->field_exists('parent_id', 'komentar')) {
+            $hasil = $hasil && $this->db->query("ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL");
+        }
+
+        return $hasil;
     }
 }

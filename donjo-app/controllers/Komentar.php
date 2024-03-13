@@ -59,7 +59,7 @@ class Komentar extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(ModelsKomentar::with('artikel'))
+            return datatables()->of(ModelsKomentar::with('artikel')->whereNull('parent_id'))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -71,6 +71,8 @@ class Komentar extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('komentar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('komentar.detail', $row->id) . '" class="btn btn-info btn-sm"  title="Balas Komentar"><i class="fa fa-mail-forward"></i></a> ';
+
                         if ($row->status == StatusEnum::YA) {
                             $aksi .= '<a href="' . ci_route('komentar.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
@@ -154,6 +156,40 @@ class Komentar extends Admin_Controller
         }
 
         redirect('komentar');
+    }
+
+    public function detail($id = ''): void
+    {
+        isCan('u');
+
+        $data['komentar'] = ModelsKomentar::with('children')->find($id)->toArray();
+        $data['form_action']     = site_url("komentar/balas/{$id}");
+
+        view('admin.komentar.detail', $data);
+    }
+
+    public function balas($id = ''): void
+    {
+        isCan('u');
+
+        $komentar = ModelsKomentar::findOrFail($id);
+
+        $data = [
+            'id_artikel' => $komentar->id_artikel,
+            'komentar'   => htmlentities($this->input->post('komentar')),
+            'owner'      => auth()->id,
+            'status'     => '1',
+            'parent_id'  => $komentar->id,
+        ];
+
+        try {
+            ModelsKomentar::create($data);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Komentar gagal disimpan');
+        }
+
+        redirect_with('success', 'Komentar berhasil disimpan', "{$this->controller}/detail/{$id}");
     }
 
     public function delete($id = ''): void

@@ -9,6 +9,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 3. [#7762](https://github.com/OpenSID/OpenSID/issues/7762) Penambahan pengaturan surat dinas.
 4. [#4307](https://github.com/OpenSID/OpenSID/issues/4307) Penambahan modul shortcut.
 5. [#7452](https://github.com/OpenSID/OpenSID/issues/7452) Penambahan modul media sosial yang dinamis.
+6. [#7079](https://github.com/OpenSID/OpenSID/issues/7079) Penambahan balas komentar artikel oleh admin.
 
 
 #### BUG

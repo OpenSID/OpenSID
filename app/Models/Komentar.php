@@ -37,8 +37,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -82,7 +84,9 @@ class Komentar extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel'];
+    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel', 'parent_id'];
+
+    protected $appends = ['foto', 'pengguna', 'url_artikel'];
 
     /**
      * Scope a query to only enable category.
@@ -123,5 +127,48 @@ class Komentar extends BaseModel
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'tipe');
+    }
+
+    public function getFotoAttribute()
+    {
+        return cache()->rememberForever('foto_komentar_' . $this->id, static function () {
+            return Foto_Default(null, rand(1, 2));
+        });
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Komentar::class, 'parent_id', 'id');
+    }
+
+    public function getPenggunaAttribute()
+    {
+        $parent = $this->parent_id;
+        $owner  = $this->owner;
+
+        return cache()->rememberForever('pengguna_komentar_' . $this->id, static function () use ($parent, $owner) {
+            if ($parent) {
+                $user = User::with('userGrup')->find($owner);
+
+                return $user->nama . ' (' . $user->userGrup->nama . ')';
+            }
+
+            return $owner;
+        });
+    }
+
+    public function getUrlArtikelAttribute()
+    {
+        $artikel = Artikel::findOrFail($this->id_artikel);
+        $tgl_upload = Carbon::createFromFormat('Y-m-d H:i:s', $artikel->tgl_upload)->format('Y/m/d');
+
+        return site_url("artikel/{$tgl_upload}/{$artikel->slug}");
+    }
+
+    protected static function booted()
+    {
+        static::deleting(static function ($komentar) {
+            $komentar->children()->delete();
+        });
     }
 }
