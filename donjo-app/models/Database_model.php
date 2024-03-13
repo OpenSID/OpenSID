@@ -94,7 +94,7 @@ class Database_model extends MY_Model
             return;
         }
 
-        $migratedDatabase = Migrasi::pluck('versi_database')->toArray();
+        $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
 
         session_success();
         $versi        = (int) str_replace('.', '', $this->cekCurrentVersion());
@@ -226,13 +226,15 @@ class Database_model extends MY_Model
     public function jalankan_migrasi($migrasi)
     {
         $this->load->model('migrations/' . $migrasi);
-        if ($this->{$migrasi}->up()) {
+
+        try {
+            $this->{$migrasi}->up();
             log_message('notice', 'Berhasil Jalankan ' . $migrasi);
 
             return true;
+        } catch (Exception $e) {
+            log_message('error', 'Gagal Jalankan ' . $migrasi . ' dengan error ' . $e->getMessage());
         }
-
-        log_message('error', 'Gagal Jalankan ' . $migrasi);
 
         return false;
     }

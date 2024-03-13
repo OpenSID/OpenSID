@@ -52,28 +52,27 @@
             });
         });
 
-        $('#nik').on('select2:select', function (e) {  
-            if ($.fn.dataTable.isDataTable('#keluarga')){
+        $('#nik').on('select2:select', function(e) {
+            if ($.fn.dataTable.isDataTable('#keluarga')) {
                 $('#keluarga').DataTable().destroy()
-            }          
+            }
             var table = $('#keluarga').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: false,
                 ajax: {
                     url: `{{ ci_route('rtm.datables_anggota') }}/${e.params.data.id}`,
-                    dataSrc: function(data){                        
-                        if(data.data == null){
-                            $('#keluarga').hide();                            
+                    dataSrc: function(data) {
+                        if (data.data == null) {
+                            $('#keluarga').hide();
                             table.destroy()
                         } else {
-                            $('#keluarga').show();                            
+                            $('#keluarga').show();
                             return data.data;
-                        }                        
-                    },                    
+                        }
+                    },
                 },
-                'columns': [
-                    {
+                'columns': [{
                         'data': function(data) {
                             let checked = data.no == 1 ? 'checked' : '';
                             return `<td><input type="checkbox" name="id_cb[]" value="${data.id}" ${checked} /></td>`

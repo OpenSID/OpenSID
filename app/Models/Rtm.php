@@ -114,7 +114,7 @@ class Rtm extends BaseModel
                     break;
 
                 default:
-                    $judul = Rtm::where(['id' => $nomor])->first()->toArray();                    
+                    $judul = Rtm::where(['id' => $nomor])->first()->toArray();
                     break;
             }
         }
@@ -126,12 +126,12 @@ class Rtm extends BaseModel
         }
 
         return $judul;
-    }    
+    }
 
     public static function boot(): void
     {
-        parent::boot();        
-        static::deleting(static function ($model): void {                        
+        parent::boot();
+        static::deleting(static function ($model): void {
             static::deletePenduduk($model);
         });
     }
@@ -143,8 +143,6 @@ class Rtm extends BaseModel
         $reset['updated_at'] = date('Y-m-d H:i:s');
         Penduduk::where(['id_rtm' => $model->no_kk])->update($reset);
 
-        BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', function($q){
-            return $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]);
-        })->delete();        
+        BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', static fn ($q) => $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]))->delete();
     }
 }

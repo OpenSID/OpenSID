@@ -725,6 +725,33 @@ Route::group('surat_mohon', static function (): void {
     Route::post('/deleteAll', 'Surat_mohon@delete_all')->name('surat_mohon.delete_all');
 });
 
+// Surat Dinas > Pengaturan Surat
+Route::group('surat_dinas', static function (): void {
+    Route::get('', 'Surat_dinas@index')->name('surat_dinas.index');
+    Route::get('datatables', 'Surat_dinas@datatables')->name('surat_dinas.datatables');
+    Route::get('form/{id?}', 'Surat_dinas@form')->name('surat_dinas.form');
+    Route::get('apisurat', 'Surat_dinas@apisurat')->name('surat_dinas.apisurat');
+    Route::get('syaratSuratDatatables/{id?}', 'Surat_dinas@syaratSuratDatatables')->name('surat_dinas.syaratSuratDatatables');
+    Route::post('insert', 'Surat_dinas@insert')->name('surat_dinas.insert');
+    Route::post('simpan_sementara', 'Surat_dinas@simpan_sementara')->name('surat_dinas.simpan_sementara');
+    Route::post('update/{id?}', 'Surat_dinas@update')->name('surat_dinas.update');
+    Route::post('kodeIsian/{id?}', 'Surat_dinas@kodeIsian')->name('surat_dinas.kodeIsian');
+    Route::match(['GET', 'POST'], 'kunci/{id?}/{val?}', 'Surat_dinas@kunci')->name('surat_dinas.kunci');
+    Route::match(['GET', 'POST'], 'favorit/{id?}/{val?}', 'Surat_dinas@favorit')->name('surat_dinas.favorit');
+    Route::match(['GET', 'POST'], 'delete/{id?}', 'Surat_dinas@delete')->name('surat_dinas.delete');
+    Route::get('restore_surat_bawaan/{surat?}', 'Surat_dinas@restore_surat_bawaan')->name('surat_dinas.restore_surat_bawaan');
+    Route::get('pengaturan', 'Surat_dinas@pengaturan')->name('surat_dinas.pengaturan');
+    Route::post('edit_pengaturan', 'Surat_dinas@edit_pengaturan')->name('surat_dinas.edit_pengaturan');
+    Route::match(['GET', 'POST'], 'kode_isian/{jenis?}/{id?}', 'Surat_dinas@kode_isian')->name('surat_dinas.kode_isian');
+    Route::match(['GET', 'POST'], 'salin_template/{jenis?}', 'Surat_dinas@salin_template')->name('surat_dinas.salin_template');
+    Route::post('preview', 'Surat_dinas@preview')->name('surat_dinas.preview');
+    Route::post('ekspor', 'Surat_dinas@ekspor')->name('surat_dinas.ekspor');
+    Route::get('impor_filter/{data}', 'Surat_dinas@impor_filter')->name('surat_dinas.impor_filter');
+    Route::post('impor_store', 'Surat_dinas@impor_store')->name('surat_dinas.impor_store');
+    Route::post('impor', 'Surat_dinas@impor')->name('surat_dinas.impor');
+    Route::get('templateTinyMCE', 'Surat_dinas@templateTinyMCE')->name('surat_dinas.templateTinyMCE');
+});
+
 // Sekretariat > Informasi Publik
 Route::group('dokumen', static function (): void {
     Route::get('/clear', 'Dokumen@clear')->name('dokumen.clear');

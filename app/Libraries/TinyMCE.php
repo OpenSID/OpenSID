@@ -56,6 +56,7 @@ use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
+use App\Models\SuratDinas;
 use CI_Controller;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -181,6 +182,18 @@ class TinyMCE
     public function getTemplateSurat()
     {
         return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
+            ->map(static fn ($item, $key): array => [
+                'nama'     => 'Surat ' . $item->nama,
+                'template' => [
+                    'sistem' => $item->template,
+                    'desa'   => $item->template_desa,
+                ],
+            ]);
+    }
+
+    public function getTemplateSuratDinas()
+    {
+        return collect(SuratDinas::whereNotNull('template')->get(['nama', 'template', 'template_desa']))
             ->map(static fn ($item, $key): array => [
                 'nama'     => 'Surat ' . $item->nama,
                 'template' => [
@@ -498,6 +511,22 @@ class TinyMCE
         $lampiran               = [];
         $daftar_lampiran_sistem = glob(DEFAULT_LOKASI_LAMPIRAN_SURAT . '*', GLOB_ONLYDIR);
         $daftar_lampiran_desa   = glob(LOKASI_LAMPIRAN_SURAT_DESA . '*', GLOB_ONLYDIR);
+        $daftar_lampiran        = array_merge($daftar_lampiran_desa, $daftar_lampiran_sistem);
+
+        foreach ($daftar_lampiran as $value) {
+            if (file_exists(FCPATH . $value . '/view.php')) {
+                $lampiran[] = kode_format(basename($value));
+            }
+        }
+
+        return collect($lampiran)->unique()->sort()->values();
+    }
+
+    public function getDaftarLampiranSuratDinas()
+    {
+        $lampiran               = [];
+        $daftar_lampiran_sistem = glob(DEFAULT_LOKASI_LAMPIRAN_SURAT_DINAS . '*', GLOB_ONLYDIR);
+        $daftar_lampiran_desa   = glob(LOKASI_LAMPIRAN_SURAT_DINAS_DESA . '*', GLOB_ONLYDIR);
         $daftar_lampiran        = array_merge($daftar_lampiran_desa, $daftar_lampiran_sistem);
 
         foreach ($daftar_lampiran as $value) {

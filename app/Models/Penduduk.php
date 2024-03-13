@@ -700,12 +700,14 @@ class Penduduk extends BaseModel
             'rtm',
         ])->with(['map'])->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
                 if ($groupType == 'rtm') {
-                    return $r->whereNotNull('id_rtm')->where('id_rtm','!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
-                } elseif ($groupType == 'keluarga') {
-                    return $r->whereNotNull('id_kk')->where(['kk_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
-                } else {
-                    return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+                    return $r->whereNotNull('id_rtm')->where('id_rtm', '!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
                 }
+                if ($groupType == 'keluarga') {
+                    return $r->whereNotNull('id_kk')->where(['kk_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+                }
+
+                    return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+
             })->when(! empty($idCluster), static fn ($q) => $q->whereIn('id_cluster', $idCluster))
             ->when($sex, static fn ($q) => $q->whereSex($sex))
             ->when($agama, static fn ($q) => $q->whereAgamaId($agama))

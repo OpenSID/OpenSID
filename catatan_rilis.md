@@ -6,6 +6,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 
 1. [#7505](https://github.com/OpenSID/OpenSID/issues/7505) Penambahan lampiran surat F.1-21.
 2. [#6938](https://github.com/OpenSID/OpenSID/issues/6938) Penambahan tipe tautan pada teks berjalan.
+3. [#7762](https://github.com/OpenSID/OpenSID/issues/7762) Penambahan pengaturan surat dinas.
 
 
 #### BUG
