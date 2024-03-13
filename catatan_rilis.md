@@ -11,6 +11,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 5. [#7452](https://github.com/OpenSID/OpenSID/issues/7452) Penambahan modul media sosial yang dinamis.
 6. [#7079](https://github.com/OpenSID/OpenSID/issues/7079) Penambahan balas komentar artikel oleh admin.
 7. [#7225](https://github.com/OpenSID/OpenSID/issues/7225) Penambahan otomatis isi data orang tua tambah penduduk status anak dalam keluarga.
+8. [#3633](https://github.com/OpenSID/OpenSID/issues/3633) Penambahan unggah file akta kematian pada penduduk status mati.
 
 
 #### BUG

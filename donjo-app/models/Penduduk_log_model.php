@@ -63,7 +63,7 @@ class Penduduk_log_model extends MY_Model
     public function get_log($id_log)
     {
         $log = $this->config_id('l')
-            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
+            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati, l.file_akta_mati")
             ->where('l.id', $id_log)
             ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
             ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left')
@@ -143,7 +143,7 @@ class Penduduk_log_model extends MY_Model
         $log = LogPenduduk::with('penduduk')->findOrFail($id_log);
         DB::beginTransaction();
         // Kembalikan status selain lahir dan masuk
-        if (! in_array($log->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
+        if (!in_array($log->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
             $outp = Penduduk::where('id', $log->id_pend)
                 ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
@@ -242,7 +242,7 @@ class Penduduk_log_model extends MY_Model
                     'status_dasar' => StatusDasarEnum::HIDUP,
                 ]);
 
-            if (! $outp) {
+            if (!$outp) {
                 $this->session->success = -1;
             }
 
@@ -505,7 +505,7 @@ class Penduduk_log_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             // Ubah alamat penduduk lepas
-            if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == null) {
+            if (!$data[$i]['id_kk'] || $data[$i]['id_kk'] == null) {
                 // Ambil alamat penduduk
                 $query = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
                     ->from('tweb_penduduk p')
@@ -568,7 +568,7 @@ class Penduduk_log_model extends MY_Model
         $kf = $this->session->akta_kematian;
 
         if (isset($kf)) {
-            if (! in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+            if (!in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
                 $this->session->umurx = $kf;
                 $this->db->where("log.akta_mati <> '' ");
                 $this->umur_sql();

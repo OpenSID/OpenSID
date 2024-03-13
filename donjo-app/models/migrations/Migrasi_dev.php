@@ -56,6 +56,7 @@ class Migrasi_dev extends MY_model
     {
         $hasil = $hasil && $this->migrasi_2024080302($hasil);
         $hasil = $hasil && $this->migrasi_2024031375($hasil);
+        $hasil = $hasil && $this->migrasi_2024031371($hasil);
 
         return $hasil && true;
     }
@@ -415,6 +416,15 @@ class Migrasi_dev extends MY_model
     {
         if (!$this->db->field_exists('parent_id', 'komentar')) {
             $hasil = $hasil && $this->db->query("ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL");
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024031371($hasil)
+    {
+        if (!$this->db->field_exists('file_akta_mati', 'log_penduduk')) {
+            $hasil = $hasil && $this->db->query("ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;");
         }
 
         return $hasil;
