@@ -89,6 +89,8 @@ class Artikel extends BaseModel
         'slug',
         'hit',
         'slider',
+        'tipe',
+        'id_kategori',
     ];
 
     /**
@@ -150,6 +152,11 @@ class Artikel extends BaseModel
     public function scopeStatis($query)
     {
         return $query->where('tipe', 'statis');
+    }
+
+    public function scopeDinamis($query)
+    {
+        return $query->where('tipe', 'dinamis');
     }
 
     public function scopeKeuangan($query)
@@ -259,5 +266,15 @@ class Artikel extends BaseModel
     public function getUrlSlugAttribute(): string
     {
         return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
+    }
+
+    public function bolehUbah()
+    {        
+        return auth()->id == $this->id_user || auth()->id_grup != 4;
+    }
+
+    public function getKategoriAttribute()
+    {
+        return $this->tipe == 'dinamis' ? $this->id_kategori : $this->tipe;
     }
 }
