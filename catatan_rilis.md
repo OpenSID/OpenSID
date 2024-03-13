@@ -24,6 +24,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 6. [#7752](https://github.com/OpenSID/OpenSID/issues/7752) Penyesuaian modul Rumah Tangga menggunakan ORM dan Blade Laravel.
 7. [#7753](https://github.com/OpenSID/OpenSID/issues/7753) Penyesuaian modul Peta menggunakan ORM dan Blade Laravel.
 8. [#7758](https://github.com/OpenSID/OpenSID/issues/7758) Penyesuaian modul Artikel menggunakan ORM dan Blade Laravel.
+9. [#2117](https://github.com/OpenSID/OpenSID/issues/2117) Penyesuaian pengguna barang pada menu inventaris.
 
 
 #### KEAMANAN
