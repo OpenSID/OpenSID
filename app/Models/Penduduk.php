@@ -554,6 +554,15 @@ class Penduduk extends BaseModel
         return $query->where(['kk_level' => SHDKEnum::KEPALA_KELUARGA]);
     }
 
+    public static function orangTua($idKk)
+    {
+        return [
+            'ayah' => self::ayah($idKk)->first(['nama', 'nik']),
+            'ibu'  => self::ibu($idKk)->first(['nama', 'nik']),
+        ];
+    }
+
+
     public function scopeAyah($query, $idKk)
     {
         return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::SUAMI])->where('sex', JenisKelaminEnum::LAKI_LAKI);

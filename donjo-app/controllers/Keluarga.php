@@ -260,8 +260,9 @@ class Keluarga extends Admin_Controller
         $data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
         // data orang tua
-        $data['data_ayah'] = collect(Penduduk::ayah($id)->first(['nama', 'nik']))->toArray();
-        $data['data_ibu']  = collect(Penduduk::ibu($id)->first(['nama', 'nik']))->toArray();
+        $orangTua = Penduduk::orangTua($id);
+        $data['data_ayah'] = $orangTua['ayah'];
+        $data['data_ibu']  = $orangTua['ibu'];
 
         // Validasi dilakukan di keluarga_model sewaktu insert dan update
         if ($_SESSION['validation_error']) {
@@ -588,6 +589,19 @@ class Keluarga extends Admin_Controller
         $kepala = $this->keluarga_model->get_kepala_a($id);
         if (empty($kepala['id']) || $kepala['status_dasar'] == 1) show_404();
         $this->keluarga_model->add_anggota($id);
+
+        if ((int) $this->input->post('kk_level') === SHDKEnum::ANAK) {
+            $orangTua = Penduduk::orangTua($id);
+
+            $idAnak = (int) $this->input->post('nik');
+
+            Penduduk::whereId($idAnak)->update([
+                'ayah_nik'  => $orangTua['ayah']['nik'],
+                'nama_ayah' => $orangTua['ayah']['nama'],
+                'ibu_nik'   => $orangTua['ibu']['nik'],
+                'nama_ibu'  => $orangTua['ibu']['nama'],
+            ]);
+        }
 
         redirect("{$this->controller}/anggota/{$p}/{$o}/{$id}");
     }
