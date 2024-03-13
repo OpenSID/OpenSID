@@ -1573,7 +1573,6 @@ Route::group('pembangunan_dokumentasi', static function (): void {
     Route::get('/delete-dokumentasi/{id_pembangunan}/{id?}', 'Pembangunan_dokumentasi@deleteDokumentasi')->name('pembangunan_dokumentasi.delete-dokumentasi');
     Route::get('/dialog/{id}/{aksi?}', 'Pembangunan_dokumentasi@dialog')->name('pembangunan_dokumentasi.dialog');
     Route::post('/daftar/{id}/{aksi?}', 'Pembangunan_dokumentasi@daftar')->name('pembangunan_dokumentasi.daftar');
-
 });
 // Lapak
 Route::group('lapak_admin', static function (): void {
@@ -2179,4 +2178,17 @@ Route::group('plugin', static function () {
     Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
     Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
     Route::get('/dev/{name}/{action?}', 'Plugin@dev')->name('plugin.dev');
+});
+
+Route::group('shortcut', static function (): void {
+    Route::get('/', 'Shortcut@index')->name('shortcut.index');
+    Route::get('/datatables', 'Shortcut@datatables')->name('shortcut.datatables');
+    Route::post('/tukar', 'Shortcut@tukar')->name('shortcut.tukar');
+    Route::get('/form/{id?}', 'Shortcut@form')->name('shortcut.form');
+    Route::get('/admin/{widget}', 'Shortcut@admin')->name('shortcut.admin');
+    Route::post('/insert', 'Shortcut@insert')->name('shortcut.insert');
+    Route::post('/update/{id?}', 'Shortcut@update')->name('shortcut.update');
+    Route::get('/delete/{id?}', 'Shortcut@delete')->name('shortcut.delete');
+    Route::post('/delete_all', 'Shortcut@delete_all')->name('shortcut.delete_all');
+    Route::get('/lock/{id}', 'Shortcut@lock')->name('shortcut.lock');
 });

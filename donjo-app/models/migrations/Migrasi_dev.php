@@ -79,6 +79,8 @@ use App\Models\KaderMasyarakat;
 use App\Models\RefPendudukBidang;
 use App\Models\RefPendudukKursus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 class Migrasi_dev extends MY_model
 {
@@ -106,6 +108,7 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024270201($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024080301($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031171($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024021371($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -378,5 +381,133 @@ class Migrasi_dev extends MY_model
             'attribute'  => null,
             'kategori'   => 'format_surat_dinas',
         ], $id);
+    }
+
+    public function migrasi_2024021371($hasil, $config_id)
+    {
+        if (!Schema::hasTable('shortcut')) {
+            Schema::create('shortcut', function (Blueprint $table) {
+                $table->id();
+                $table->integer('config_id');
+                $table->string('judul', 50);
+                $table->string('link', 50)->nullable();
+                $table->string('akses', 100)->nullable();
+                $table->tinyInteger('jenis_query')->default(0);
+                $table->string('raw_query', 150)->nullable();
+                $table->string('icon', 50)->nullable();
+                $table->string('warna', 25)->nullable();
+                $table->integer('urut')->default(0);
+                $table->tinyInteger('status')->default(0);
+                $table->timestamps();
+                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
+
+        if (DB::table('shortcut')->where('config_id', $config_id)->count() == 0) {
+            DB::table('shortcut')->insert([
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Wilayah [desa]',
+                    'link' => 'wilayah',
+                    'akses' => 'wilayah-administratif',
+                    'raw_query' => 'Dusun',
+                    'icon' => 'fa-map-marker',
+                    'urut' => 1,
+                    'warna' => '#605ca8',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Penduduk',
+                    'link' => 'penduduk',
+                    'akses' => 'penduduk',
+                    'raw_query' => 'Penduduk',
+                    'icon' => 'fa-user',
+                    'urut' => 2,
+                    'warna' => '#00c0ef',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Keluarga',
+                    'link' => 'keluarga',
+                    'akses' => 'keluarga',
+                    'raw_query' => 'Keluarga',
+                    'icon' => 'fa-users',
+                    'urut' => 3,
+                    'warna' => '#00a65a',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Surat Tercetak',
+                    'link' => 'keluar',
+                    'akses' => 'arsip-layanan',
+                    'raw_query' => 'Surat Tercetak',
+                    'icon' => 'fa-file-text-o',
+                    'urut' => 4,
+                    'warna' => '#0073b7',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Kelompok',
+                    'link' => 'kelompok',
+                    'akses' => 'kelompok',
+                    'raw_query' => 'Kelompok',
+                    'icon' => 'fa-user-plus',
+                    'urut' => 5,
+                    'warna' => '#dd4b39',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Rumah Tangga',
+                    'link' => 'rtm',
+                    'akses' => 'rumah-tangga',
+                    'raw_query' => 'RTM',
+                    'icon' => 'fa-home',
+                    'urut' => 6,
+                    'warna' => '#d2d6de',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Bantuan',
+                    'link' => 'program_bantuan',
+                    'akses' => 'bantuan',
+                    'raw_query' => 'Bantuan',
+                    'icon' => 'fa-handshake-o',
+                    'urut' => 7,
+                    'warna' => '#f39c12',
+                    'status' => 1,
+                ],
+                [
+                    'config_id' => $config_id,
+                    'judul' => 'Verifikasi Layanan Mandiri',
+                    'link' => 'mandiri',
+                    'akses' => 'pendaftar-layanan-mandiri',
+                    'raw_query' => 'Verifikasi Layanan Mandiri',
+                    'icon' => 'fa-drivers-license',
+                    'urut' => 8,
+                    'warna' => '#39cccc',
+                    'status' => 1,
+                ],
+            ]);
+        }
+
+        return $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Shortcut',
+            'slug'       => 'shortcut',
+            'url'        => 'shortcut',
+            'aktif'      => 1,
+            'ikon'       => 'fa-chain',
+            'urut'       => 20,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-chain',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'pengaturan'])->row()->id,
+        ]);
     }
 }
