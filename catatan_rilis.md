@@ -18,6 +18,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 1. [#7725](https://github.com/OpenSID/OpenSID/issues/7725) Perbaikan pengaturan api sinkronisasi ke OpenDK agar datanya tidak hilang jika pengaturan dimatikan.
 2. [#7751](https://github.com/OpenSID/OpenSID/issues/7751) Perbaikan total data perempuan pada modul wilayah administratif.
 3. [#7761](https://github.com/OpenSID/OpenSID/issues/7761) Perbaikan simpan data peta wilayah beserta warna area dan bordernya.
+4. [#7767](https://github.com/OpenSID/OpenSID/issues/7767) Perbaikan route dtks.
 
 
 
