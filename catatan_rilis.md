@@ -9,6 +9,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 3. [#7761](https://github.com/OpenSID/OpenSID/issues/7761) Perbaikan simpan data peta wilayah beserta warna area dan bordernya.
 4. [#7767](https://github.com/OpenSID/OpenSID/issues/7767) Perbaikan route dtks.
 5. [#7077](https://github.com/OpenSID/OpenSID/issues/7077) Perbaikan form penduduk untuk penduduk lahir.
+6. [#7775](https://github.com/OpenSID/OpenSID/issues/7775) Perbaikan route pembangunan dokumentasi.
 
 
 

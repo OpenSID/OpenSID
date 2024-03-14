@@ -244,7 +244,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
         }
         // Upload gagal
         else {
-            redirect_with('error', $this->upload->display_errors(null, null), ci_route('admin_pembangunan.form-dokumentasi', $id));
+            redirect_with('error', $this->upload->display_errors(null, null), ci_route('pembangunan_dokumentasi.dokumentasi', $id));
         }
 
         return (empty($uploadData)) ? null : $uploadData['file_name'];
