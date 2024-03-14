@@ -219,7 +219,10 @@ class Keluarga extends Admin_Controller
     {
         isCan('u');
         $kepala = $this->keluarga_model->get_kepala_a($id);
-        if (empty($kepala['id']) || $kepala['status_dasar'] == 1) show_404();
+
+        if (! empty($kepala['id']) && $kepala['status_dasar'] != 1) {
+            show_404();
+        }
 
         if ($_POST === [] && ! $_SESSION['dari_internal']) {
             unset($_SESSION['validation_error']);
@@ -415,7 +418,10 @@ class Keluarga extends Admin_Controller
     {
         isCan('u');
         $kepala = $this->keluarga_model->get_kepala_a($id);
-        if (empty($kepala['id']) || $kepala['status_dasar'] == 1) show_404();
+        if (! empty($kepala['id']) && $kepala['status_dasar'] != 1) {
+            show_404();
+        }
+
         $this->keluarga_model->update_nokk($id);
 
         redirect($this->controller);
@@ -432,7 +438,9 @@ class Keluarga extends Admin_Controller
         }
 
         $cek_hapus = $this->keluarga_model->cek_boleh_hapus($id);
-        if ($cek_hapus) show_404();
+        if (! $cek_hapus) {
+            show_404();
+        }
         $this->keluarga_model->delete($id);
 
         redirect($this->controller);
@@ -549,7 +557,7 @@ class Keluarga extends Admin_Controller
         $kk               = $this->keluarga_model->get_kepala_kk($id);
         $data['desa']     = $this->header['desa'];
 
-        $data['kepala_kk'] = $kk ?: $this->keluarga_model->get_keluarga($id) ?? show_404();
+        $data['kepala_kk'] = $kk ?: ($this->keluarga_model->get_keluarga($id) ?? show_404());
 
         $data['penduduk']    = $this->keluarga_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/print");
@@ -586,7 +594,10 @@ class Keluarga extends Admin_Controller
     {
         isCan('u');
         $kepala = $this->keluarga_model->get_kepala_a($id);
-        if (empty($kepala['id']) || $kepala['status_dasar'] == 1) show_404();
+        if (! empty($kepala['id']) && $kepala['status_dasar'] != 1) {
+            show_404();
+        }
+
         $this->keluarga_model->add_anggota($id);
 
         redirect("{$this->controller}/anggota/{$p}/{$o}/{$id}");
@@ -596,7 +607,10 @@ class Keluarga extends Admin_Controller
     {
         isCan('u');
         $kepala = $this->keluarga_model->get_kepala_a($id_kk);
-        if (empty($kepala['id']) || $kepala['status_dasar'] == 1) show_404();
+        if (! empty($kepala['id']) && $kepala['status_dasar'] != 1) {
+            show_404();
+        }
+
         $this->keluarga_model->update_anggota($id);
 
         redirect("{$this->controller}/anggota/{$p}/{$o}/{$id_kk}");
