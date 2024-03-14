@@ -151,8 +151,8 @@ if (! function_exists('can')) {
             return false;
         }
 
-        if ($adminOnly) {
-            return (bool) super_admin();
+        if ($adminOnly && auth()->id != super_admin()) {
+            return false;
         }
 
         return $data[$slugModul][$alias[$akses]];

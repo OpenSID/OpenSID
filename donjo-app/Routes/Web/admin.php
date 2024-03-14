@@ -2197,3 +2197,17 @@ Route::group('shortcut', static function (): void {
     Route::post('/delete_all', 'Shortcut@delete_all')->name('shortcut.delete_all');
     Route::get('/lock/{id}', 'Shortcut@lock')->name('shortcut.lock');
 });
+
+Route::group('theme', static function () {
+    Route::get('/', 'Theme@index')->name('theme.index');
+    Route::get('/aktifkan/{id}', 'Theme@aktifkan')->name('theme.aktifkan');
+    Route::get('/unggah', 'Theme@unggah')->name('theme.unggah');
+    Route::post('/proses-unggah', 'Theme@proses_unggah')->name('theme.proses-unggah');
+    Route::get('/pengaturan/{id?}', 'Theme@pengaturan')->name('theme.pengaturan');
+    Route::post('/ubah-pengaturan/{id?}', 'Theme@ubah_pengaturan')->name('theme.ubah-pengaturan');
+    Route::get('/salin_config/{id?}', 'Theme@salin_config')->name('theme.salin-config');
+    Route::match(['GET', 'POST'], '/status/{id?}/{val?}', 'Theme@status')->name('theme.status');
+    Route::match(['GET', 'POST'], '/delete/{id?}', 'Theme@delete')->name('theme.delete');
+    Route::match(['GET', 'POST'], '/deleteAll', 'Theme@deleteAll')->name('smtemas.deleteAll');
+    Route::get('/pindai', 'Theme@pindai')->name('theme.pindai');
+});
