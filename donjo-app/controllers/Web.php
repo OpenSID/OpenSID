@@ -161,13 +161,14 @@ class Web extends Admin_Controller
             $data['artikel']     = $artikel->toArray();
             $data['form_action'] = ci_route('web.update.' . $cat, $id);
             $data['id']          = $id;
+            $data['kategori']    = is_numeric($cat) && $cat > 0 ? $artikel->category->toArray() : ['kategori' => ''];
         } else {
             $data['artikel']     = null;
             $data['form_action'] = ci_route('web.insert', $cat);
+            $data['kategori']    = ['kategori' => ''];
         }
 
         $data['cat']           = $cat;
-        $data['kategori']      = is_numeric($cat) && $cat > 0 ? $artikel->category->toArray() : ['kategori' => ''];
         $data['list_tampilan'] = TampilanArtikelEnum::all();
 
         view('admin.web.artikel.form', $data);
