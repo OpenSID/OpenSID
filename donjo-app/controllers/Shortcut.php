@@ -42,11 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Shortcut extends Admin_Controller
 {
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'shortcut';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'shortcut';
     }
 
     public function index()
