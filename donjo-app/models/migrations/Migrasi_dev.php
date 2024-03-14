@@ -35,7 +35,6 @@
  *
  */
 
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model

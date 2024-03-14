@@ -49,7 +49,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Web extends Admin_Controller
 {
     public $modul_ini     = 'admin-web';
-    public $sub_modul_ini = 'artikel';    
+    public $sub_modul_ini = 'artikel';
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class Web extends Admin_Controller
             redirect('beranda');
 
             exit;
-        }        
+        }
     }
 
     public function index($cat = null): void
@@ -79,11 +79,12 @@ class Web extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status') ?? null;
-            $cat    = $this->input->get('cat') ?? '-1';
+            $status    = $this->input->get('status') ?? null;
+            $cat       = $this->input->get('cat') ?? '-1';
             $canUpdate = can('u');
             $canDelete = can('h');
-            return datatables()->of(Artikel::without(['comments', 'author', 'category' ])->when($status != null, static fn ($q) => $q->whereEnabled($status))
+
+            return datatables()->of(Artikel::without(['comments', 'author', 'category'])->when($status != null, static fn ($q) => $q->whereEnabled($status))
                 ->when($cat !== null, static function ($q) use ($cat) {
                     switch(($cat)) {
                         case '-1':
@@ -110,24 +111,24 @@ class Web extends Admin_Controller
                     if ($canUpdate && $row->bolehUbah()) {
                         $aksi .= '<a href="' . ci_route('web.form.' . $row->kategori, encrypt($row->id)) . '" class="btn bg-orange btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                             if ($canDelete) {
-                                $aksi .= '<a href="#" data-href="' . ci_route('web.delete.'.$row->kategori, encrypt($row->id)) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                                $aksi .= '<a href="#" data-href="' . ci_route('web.delete.' . $row->kategori, encrypt($row->id)) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                             }
                             $aksi .= '<a href="' . ci_route('web.ubah_kategori_form', encrypt($row->id)) . '" class="btn bg-purple btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a> ';
                             if ($row->boleh_komentar == 1) {
-                                $aksi .= '<a href="' . ci_route('web.lock.'.$row->kategori.'.boleh_komentar', encrypt($row->id)) . '" class="btn bg-info btn-sm" title="Tutup Komentar Artikel"><i class="fa fa-comment-o"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.boleh_komentar', encrypt($row->id)) . '" class="btn bg-info btn-sm" title="Tutup Komentar Artikel"><i class="fa fa-comment-o"></i></a> ';
                             } else {
-                                $aksi .= '<a href="' . ci_route('web.lock.'.$row->kategori.'.boleh_komentar', encrypt($row->id)) . '" class="btn bg-info btn-sm" title="Buka Komentar Artikel"><i class="fa fa-comment"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.boleh_komentar', encrypt($row->id)) . '" class="btn bg-info btn-sm" title="Buka Komentar Artikel"><i class="fa fa-comment"></i></a> ';
                             }
                             if ($row->enabled == '1') {
-                                $aksi .= '<a href="' . ci_route('web.lock.'.$row->kategori.'.enabled', encrypt($row->id)) . '" class="btn bg-navy btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a> ';
-                                $aksi .= '<a href="' . ci_route('web.lock.'.$row->kategori.'.headline', encrypt($row->id)) . '" class="btn bg-teal btn-sm" title="Jadikan Berita Utama">
+                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.enabled', encrypt($row->id)) . '" class="btn bg-navy btn-sm" title="Non Aktifkan Artikel"><i class="fa fa-unlock"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.headline', encrypt($row->id)) . '" class="btn bg-teal btn-sm" title="Jadikan Berita Utama">
                                     <i class="' . ($row->headline == 1 ? 'fa fa-star' : 'fa fa-star-o') . '"></i>
                                 </a> ';
-                                $aksi .= '<a href="' . ci_route('web.lock.'.$row->kategori.'.slider', encrypt($row->id)) . '" class="btn bg-gray btn-sm" title="' . (($row->slider == 1) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide') . '">
+                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.slider', encrypt($row->id)) . '" class="btn bg-gray btn-sm" title="' . (($row->slider == 1) ? 'Keluarkan dari slide' : 'Masukkan ke dalam slide') . '">
                                     <i class="' . ($row->slider == 1 ? 'fa fa-pause' : 'fa fa-play') . '"></i>
                                 </a> ';
                             } else {
-                                $aksi .= '<a href="' . ci_route('web.lock.'.$row->kategori.'.enabled', encrypt($row->id)) . '" class="btn bg-navy btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('web.lock.' . $row->kategori . '.enabled', encrypt($row->id)) . '" class="btn bg-navy btn-sm" title="Aktifkan Artikel"><i class="fa fa-lock"></i></a> ';
                             }
                     }
 

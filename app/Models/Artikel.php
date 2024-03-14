@@ -269,7 +269,7 @@ class Artikel extends BaseModel
     }
 
     public function bolehUbah()
-    {        
+    {
         return auth()->id == $this->id_user || auth()->id_grup != 4;
     }
 

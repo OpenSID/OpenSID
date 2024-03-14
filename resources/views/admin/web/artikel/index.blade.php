@@ -21,27 +21,22 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u') && $cat != 0)
-                        <a href="{{ ci_route('web.form', $cat) }}" id="btn-add"
-                            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                                class="fa fa-plus"></i> Tambah {{ $kategori ? $kategori : ( in_array($cat, ['statis', 'agenda', 'keuangan']) ? ucfirst($cat) : '')  }}</a>
+                        <a href="{{ ci_route('web.form', $cat) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah
+                            {{ $kategori ? $kategori : (in_array($cat, ['statis', 'agenda', 'keuangan']) ? ucfirst($cat) : '') }}</a>
                     @endif
                     @if (can('h'))
-                    <a href="#confirm-delete" title="Hapus Data"
-                        onclick="deleteAllBox('mainform', '{{ ci_route('web.delete') }}')"
-                        class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                            class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-                    @if (! in_array($cat, ['0', '-1', 'statis', 'agenda', 'keuangan']))
-                    <a href="#confirm-delete" title="Hapus Kategori {{ $kategori }}"
-                        onclick="deleteAllBox('mainform', '{{ ci_route('web.hapus', $cat) }}')"
-                        class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                            class='fa fa-trash-o'></i> Hapus Artikel Kategori {{ $kategori }}</a>
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('web.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                class='fa fa-trash-o'
+                            ></i> Hapus Data Terpilih</a>
+                        @if (!in_array($cat, ['0', '-1', 'statis', 'agenda', 'keuangan']))
+                            <a href="#confirm-delete" title="Hapus Kategori {{ $kategori }}" onclick="deleteAllBox('mainform', '{{ ci_route('web.hapus', $cat) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                                    class='fa fa-trash-o'
+                                ></i> Hapus Artikel Kategori {{ $kategori }}</a>
+                        @endif
                     @endif
-                    @endif
-                    @if ($cat == 'statis')                    
-                    <a href="{{ ci_route('web.reset', $cat) }}"
-                        class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i
-                            class="fa fa-spinner"></i> Reset Hit</a>
+                    @if ($cat == 'statis')
+                        <a href="{{ ci_route('web.reset', $cat) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i
+                                class="fa fa-spinner"></i> Reset Hit</a>
                     @endif
                 </div>
                 <div class="box-body">

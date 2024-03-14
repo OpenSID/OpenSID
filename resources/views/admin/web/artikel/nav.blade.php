@@ -21,20 +21,20 @@
             <ul class="nav nav-pills nav-stacked">
                 @foreach ($list_kategori as $data)
                     <li class="@active($cat == $data['id'])">
-                        <a href='{{ ci_route("web",$data['id']) }}'>
+                        <a href='{{ ci_route('web', $data['id']) }}'>
                             {{ $data['kategori'] }}
                         </a>
                     </li>
                     @foreach ($data['children'] as $submenu)
                         <li class="@active($cat == $submenu['id'])">
-                            <a href='{{ ci_route("web",$submenu['id']) }}'>
+                            <a href='{{ ci_route('web', $submenu['id']) }}'>
                                 &emsp;{{ $submenu['kategori'] }}
                             </a>
                         </li>
                     @endforeach
                 @endforeach
                 <li class="@active($cat == '0')">
-                    <a href='{{ ci_route("web", 0) }}'>
+                    <a href='{{ ci_route('web', 0) }}'>
                         [Tidak Berkategori]
                     </a>
                 </li>
