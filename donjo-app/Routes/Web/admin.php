@@ -174,6 +174,7 @@ Route::group('pendaftaran_kerjasama', static function (): void {
 
 // Kependudukan > Penduduk
 Route::group('penduduk', static function (): void {
+    Route::get('/list_nik_ajax', 'Penduduk@list_nik_ajax')->name('penduduk.list_nik_ajax');
     Route::get('/clear', 'Penduduk@clear')->name('penduduk.clear');
     Route::get('/ambil_foto', 'Penduduk@ambil_foto')->name('penduduk.ambil_foto');
     Route::get('/form_peristiwa/{periswita?}', 'Penduduk@form_peristiwa')->name('penduduk.form_peristiwa');

@@ -79,11 +79,12 @@ class Penduduk_model extends MY_Model
             return;
         }
 
-        $kumpulan_nik                = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_nik);
-        $kumpulan_nik                = array_filter(array_slice(explode(',', $kumpulan_nik), 0, 20)); // ambil 20 saja
-        $kumpulan_nik                = implode(',', $kumpulan_nik);
-        $this->session->kumpulan_nik = $kumpulan_nik;
-        $this->db->where("u.nik in ({$kumpulan_nik})");
+        $kumpulan_nik = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_nik);
+        if (! is_array($kumpulan_nik)) {
+            $kumpulan_nik                = explode(',', $kumpulan_nik);
+            $this->session->kumpulan_nik = $kumpulan_nik;
+        }
+        $this->db->where_in('u.nik ', $kumpulan_nik);
     }
 
     protected function keluarga_sql()

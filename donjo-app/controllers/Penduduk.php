@@ -120,6 +120,37 @@ class Penduduk extends Admin_Controller
         $this->render('sid/kependudukan/penduduk', $data);
     }
 
+    /*
+        Ajax url query data:
+        q -- kata pencarian
+        page -- nomor paginasi
+    */
+
+    public function list_nik_ajax()
+    {
+        if ($this->input->is_ajax_request()) {
+            $cari     = $this->input->get('q');
+            $penduduk = PendudukModel::select(['id', 'nik'])
+                ->when($cari, static function ($query) use ($cari): void {
+                    $query->where('nik', 'like', "%{$cari}%");
+                })
+                ->paginate(10);
+
+            return json([
+                'results' => collect($penduduk->items())
+                    ->map(static fn ($item): array => [
+                        'id'   => $item->nik,
+                        'text' => $item->nik,
+                    ]),
+                'pagination' => [
+                    'more' => $penduduk->currentPage() < $penduduk->lastPage(),
+                ],
+            ]);
+        }
+
+        return show_404();
+    }
+
     public function ambil_foto(): void
     {
         $foto = $this->input->get('foto');
