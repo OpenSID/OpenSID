@@ -2294,31 +2294,38 @@ if (! function_exists('forceRemoveDir')) {
     }
 }
 
-function waktu($waktu_terakhir) {
+function waktu($waktu_terakhir)
+{
     $waktu_sekarang = time();
-    $selisih_detik = $waktu_sekarang - strtotime($waktu_terakhir);
+    $selisih_detik  = $waktu_sekarang - strtotime($waktu_terakhir);
 
-    $detik = $selisih_detik;
-    $menit = floor($selisih_detik / 60);
-    $jam = floor($selisih_detik / 3600);
-    $hari = floor($selisih_detik / 86400);
+    $detik  = $selisih_detik;
+    $menit  = floor($selisih_detik / 60);
+    $jam    = floor($selisih_detik / 3600);
+    $hari   = floor($selisih_detik / 86400);
     $minggu = floor($selisih_detik / 604800);
-    $bulan = floor($selisih_detik / 2628000);
-    $tahun = floor($selisih_detik / 31536000);
+    $bulan  = floor($selisih_detik / 2628000);
+    $tahun  = floor($selisih_detik / 31536000);
 
     if ($detik <= 60) {
-        return "Baru saja";
-    } elseif ($menit <= 60) {
-        return "$menit menit yang lalu";
-    } elseif ($jam <= 24) {
-        return "$jam jam yang lalu";
-    } elseif ($hari <= 7) {
-        return "$hari hari yang lalu";
-    } elseif ($minggu <= 4) {
-        return "$minggu minggu yang lalu";
-    } elseif ($bulan <= 12) {
-        return "$bulan bulan yang lalu";
-    } else {
-        return "$tahun tahun yang lalu";
+        return 'Baru saja';
     }
+    if ($menit <= 60) {
+        return "{$menit} menit yang lalu";
+    }
+    if ($jam <= 24) {
+        return "{$jam} jam yang lalu";
+    }
+    if ($hari <= 7) {
+        return "{$hari} hari yang lalu";
+    }
+    if ($minggu <= 4) {
+        return "{$minggu} minggu yang lalu";
+    }
+    if ($bulan <= 12) {
+        return "{$bulan} bulan yang lalu";
+    }
+
+        return "{$tahun} tahun yang lalu";
+
 }

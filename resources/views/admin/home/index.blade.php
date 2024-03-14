@@ -48,8 +48,7 @@
                         <div class="icon">
                             <i class="faa {!! $sc['icon'] !!}"></i>
                         </div>
-                        <a href="{{ ci_route($sc['link'] ?? '#') }}" class="small-box-footer text-white"
-                            style="border-radius:  0 0 5px 5px">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ ci_route($sc['link'] ?? '#') }}" class="small-box-footer text-white" style="border-radius:  0 0 5px 5px">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             @endif

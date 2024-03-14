@@ -260,7 +260,7 @@ class Keluarga extends Admin_Controller
         $data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
         // data orang tua
-        $orangTua = Penduduk::orangTua($id);
+        $orangTua          = Penduduk::orangTua($id);
         $data['data_ayah'] = $orangTua['ayah'];
         $data['data_ibu']  = $orangTua['ibu'];
 

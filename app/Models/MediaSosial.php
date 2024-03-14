@@ -80,9 +80,8 @@ class MediaSosial extends BaseModel
      */
     protected $appends = [
         'url_icon',
-        'new_link'
+        'new_link',
     ];
-
 
     public function scopeStatus($query, $status = null)
     {
@@ -125,32 +124,33 @@ class MediaSosial extends BaseModel
 
         switch (true) {
             case $nama === 'Facebook' && $tipe === 1:
-                return ($valid_link ? $link : 'https://web.facebook.com/' . $link);
+                return $valid_link ? $link : 'https://web.facebook.com/' . $link;
 
             case $nama === 'Facebook' && $tipe === 2:
-                return ($valid_link ? $link : 'https://web.facebook.com/groups/' . $link);
+                return $valid_link ? $link : 'https://web.facebook.com/groups/' . $link;
 
             case $nama === 'Twitter':
-                return ($valid_link ? $link : 'https://twitter.com/' . $link);
+                return $valid_link ? $link : 'https://twitter.com/' . $link;
 
             case $nama === 'YouTube':
-                return ($valid_link ? $link : 'https://www.youtube.com/channel/' . $link);
+                return $valid_link ? $link : 'https://www.youtube.com/channel/' . $link;
 
             case $nama === 'Instagram':
-                return ($valid_link ? $link : 'https://www.instagram.com/' . $link . '/');
+                return $valid_link ? $link : 'https://www.instagram.com/' . $link . '/';
 
             case $nama === 'WhatsApp' && $tipe === 1:
                 $link = ($valid_link ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
+
                 return str_replace('phone=0', 'phone=62', $link);
 
             case $nama === 'WhatsApp' && $tipe === 2:
-                return ($valid_link ? $link : 'https://chat.whatsapp.com/' . $link);
+                return $valid_link ? $link : 'https://chat.whatsapp.com/' . $link;
 
             case $nama === 'Telegram' && $tipe === 1:
-                return ($valid_link ? $link : 'https://t.me/' . $link);
+                return $valid_link ? $link : 'https://t.me/' . $link;
 
             case $nama === 'Telegram' && $tipe === 2:
-                return ($valid_link ? $link : 'https://t.me/joinchat/' . $link);
+                return $valid_link ? $link : 'https://t.me/joinchat/' . $link;
 
             default:
                 return $link;

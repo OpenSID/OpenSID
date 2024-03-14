@@ -520,13 +520,14 @@ class First_artikel_m extends MY_Model
             ->where('id_artikel', $id_artikel)
             ->where('status', 1)
             ->where('parent_id', $parent)
-            ->order_by("tgl_upload $order")
+            ->order_by("tgl_upload {$order}")
             ->get()
             ->result_array();
 
         $komentar = collect($komentar)->map(function ($item) use ($id_artikel) {
             $item['owner']    = 's';
             $item['children'] = $this->list_komentar($id_artikel, $item['id'], 'ASC');
+
             return $item;
         })->toArray();
 

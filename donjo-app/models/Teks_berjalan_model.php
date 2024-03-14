@@ -78,10 +78,10 @@ class Teks_berjalan_model extends MY_Model
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
-            $data[$i]['no']        = $i + 1;
-            $data[$i]['tautan']    = $data[$i]['tipe'] == 1 ? menu_slug('artikel/' . $data[$i]['tautan']) : $data[$i]['tautan'];
+            $data[$i]['no']            = $i + 1;
+            $data[$i]['tautan']        = $data[$i]['tipe'] == 1 ? menu_slug('artikel/' . $data[$i]['tautan']) : $data[$i]['tautan'];
             $data[$i]['tampil_tautan'] = $data[$i]['tipe'] == 1 ? tgl_indo($data[$i]['tgl_upload']) . ' <br> ' . $data[$i]['judul'] : $data[$i]['tautan'];
-            $data[$i]['tampilkan'] = SistemEnum::valueOf($data[$i]['tipe']);
+            $data[$i]['tampilkan']     = SistemEnum::valueOf($data[$i]['tipe']);
         }
 
         return $data;
@@ -138,12 +138,12 @@ class Teks_berjalan_model extends MY_Model
         $data['teks']         = htmlentities($data['teks']);
         $data['judul_tautan'] = $data['tautan'] ? htmlentities($data['judul_tautan']) : '';
         $data['tipe']         = bilangan($data['tipe']);
-        $data['tipe']        = bilangan($data['tipe']);
+        $data['tipe']         = bilangan($data['tipe']);
         if ($data['tipe'] == 1) {
-            $data['tautan'] = $data['tautan_internal'];
+            $data['tautan']       = $data['tautan_internal'];
             $data['judul_tautan'] = $data['tautan_internal'] ? htmlentities($data['judul_tautan']) : '';
         } else {
-            $data['tautan'] = $data['tautan_eksternal'];
+            $data['tautan']       = $data['tautan_eksternal'];
             $data['judul_tautan'] = $data['tautan_eksternal'] ? htmlentities($data['judul_tautan']) : '';
         }
 

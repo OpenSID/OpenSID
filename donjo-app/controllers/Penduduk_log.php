@@ -224,7 +224,7 @@ class Penduduk_log extends Admin_Controller
     {
         isCan('u');
 
-        if (!data_lengkap()) {
+        if (! data_lengkap()) {
             show_404();
         }
 
@@ -247,7 +247,7 @@ class Penduduk_log extends Admin_Controller
     {
         isCan('u');
 
-        if (!data_lengkap()) {
+        if (! data_lengkap()) {
             show_404();
         }
 
@@ -261,7 +261,7 @@ class Penduduk_log extends Admin_Controller
     {
         isCan('u');
 
-        if (!data_lengkap()) {
+        if (! data_lengkap()) {
             show_404();
         }
 

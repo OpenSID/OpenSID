@@ -35,17 +35,8 @@
  *
  */
 
-use App\Models\Rtm;
-use App\Models\Bantuan;
-use App\Models\Wilayah;
-use App\Models\Kelompok;
-use App\Models\Keluarga;
-use App\Models\LogSurat;
-use App\Models\Penduduk;
-use App\Models\Shortcut;
 use App\Libraries\Release;
-use App\Models\RefJabatan;
-use App\Models\PendudukMandiri;
+use App\Models\Shortcut;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -67,11 +58,9 @@ class Beranda extends Admin_Controller
 
         $this->load->library('saas');
 
-        $data     = [
+        $data = [
             'rilis'           => $this->getUpdate(),
-            'shortcut'        => cache()->rememberForever('shortcut', static function () {
-                return Schema::hasTable('shortcut') ? Shortcut::status(Shortcut::ACTIVE)->orderBy('urut')->get()->toArray() : null;
-            }),
+            'shortcut'        => cache()->rememberForever('shortcut', static fn () => Schema::hasTable('shortcut') ? Shortcut::status(Shortcut::ACTIVE)->orderBy('urut')->get()->toArray() : null),
             'saas'            => $this->saas->peringatan(),
             'notif_langganan' => $this->pelanggan_model->status_langganan(),
         ];
@@ -83,7 +72,7 @@ class Beranda extends Admin_Controller
     {
         $info = [];
 
-        if (cek_koneksi_internet() && !config_item('demo_mode')) {
+        if (cek_koneksi_internet() && ! config_item('demo_mode')) {
             $url_rilis = ($this->premium->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
 
             $release = new Release();

@@ -162,8 +162,8 @@ class Komentar extends Admin_Controller
     {
         isCan('u');
 
-        $data['komentar'] = ModelsKomentar::with('children')->find($id)->toArray();
-        $data['form_action']     = site_url("komentar/balas/{$id}");
+        $data['komentar']    = ModelsKomentar::with('children')->find($id)->toArray();
+        $data['form_action'] = site_url("komentar/balas/{$id}");
 
         view('admin.komentar.detail', $data);
     }

@@ -35,11 +35,11 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Komentar;
-use App\Models\Penduduk;
-use App\Models\Pemilihan;
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Komentar;
+use App\Models\Pemilihan;
+use App\Models\Penduduk;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');

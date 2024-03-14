@@ -29,8 +29,7 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="{{ ci_route('shortcut') }}"
-                        class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ ci_route('shortcut') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left "></i>Kembali ke Shortcut
                     </a>
                 </div>
@@ -38,8 +37,7 @@
                 <div class="box-body">
                     <div class="form-group">
                         <label>Judul</label>
-                        <input name="judul" class="form-control input-sm required judul" maxlength="50" type="text"
-                            value="{{ $shortcut->judul }}">
+                        <input name="judul" class="form-control input-sm required judul" maxlength="50" type="text" value="{{ $shortcut->judul }}">
                         <label class="error">Isi dengan [Desa] untuk menyesuaikan sebutan desa berdasarkan pengaturan
                             aplikasi.</label>
                     </div>
@@ -47,8 +45,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Akses Modul</label>
-                                <select class="form-control select2" id="akses" name="akses"
-                                    data-placeholder="Pilih Akses Modul">
+                                <select class="form-control select2" id="akses" name="akses" data-placeholder="Pilih Akses Modul">
                                     <option value=""></option>
                                     @foreach ($moduls as $kslug => $mdl)
                                         <option value="{{ $kslug }}" @selected($kslug === $shortcut->akses)>
@@ -60,8 +57,7 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label>Link</label>
-                                <input name="link" class="form-control input-sm required" maxlength="200" type="text"
-                                    value="{{ $shortcut->link }}">
+                                <input name="link" class="form-control input-sm required" maxlength="200" type="text" value="{{ $shortcut->link }}">
                                 <code id="url_hasil">{{ site_url($shortcut->link) }}</code>
                             </div>
                         </div>
@@ -70,8 +66,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Icon</label>
-                                <select class="form-control select2-ikon required" id="icon" name="icon"
-                                    data-placeholder="Pilih Icon">
+                                <select class="form-control select2-ikon required" id="icon" name="icon" data-placeholder="Pilih Icon">
                                     @foreach ($icons as $icon)
                                         <option value="{{ $icon }}" @selected($icon === $shortcut->icon)>
                                             {{ $icon }}</option>
@@ -83,8 +78,7 @@
                             <div class="form-group">
                                 <label>Warna</label>
                                 <div class="input-group my-colorpicker2">
-                                    <input type="text" class="form-control input-sm" name="warna"
-                                        placeholder="Pilih Warna" value="{{ $shortcut->warna }}">
+                                    <input type="text" class="form-control input-sm" name="warna" placeholder="Pilih Warna" value="{{ $shortcut->warna }}">
                                     <div class="input-group-addon input-sm"></div>
                                 </div>
                             </div>
@@ -105,8 +99,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Jenis Query</label>
-                                <select id="jenis_query" class="form-control select2 required" name="jenis_query"
-                                    data-placeholder="Pilih Jenis Query">
+                                <select id="jenis_query" class="form-control select2 required" name="jenis_query" data-placeholder="Pilih Jenis Query">
                                     <option value="0" @selected(0 == $shortcut->jenis_query)>Otomatis</option>
                                     <option value="1" @selected(1 == $shortcut->jenis_query)>Manual</option>
                                 </select>
@@ -127,8 +120,7 @@
                     </div>
                     <div class="form-group" id="query_manual" {!! in_array($shortcut->jenis_query, [null, 0]) ? 'style="display: none;"' : '' !!}>
                         <label>Query Manual</label>
-                        <textarea name="query_manual" class="form-control input-sm" rows="5"
-                            placeholder="Contoh :
+                        <textarea name="query_manual" class="form-control input-sm" rows="5" placeholder="Contoh :
 - SELECT COUNT(*) as Jumlah FROM surat WHERE status='1'
 - DB::table('produk')->count()
 - Penduduk::count()">{{ $shortcut->raw_query }}</textarea>
@@ -150,8 +142,7 @@
                     <h4 class="box-title">Preview</h4>
                 </div>
             </div>
-            <div id="isi-warna" class="small-box {{ $shortcut->status == 1 ? '' : 'tp02' }}"
-                style="background-color: {{ $shortcut->warna ?? '#00c0ef' }}; border-radius: 5px;">
+            <div id="isi-warna" class="small-box {{ $shortcut->status == 1 ? '' : 'tp02' }}" style="background-color: {{ $shortcut->warna ?? '#00c0ef' }}; border-radius: 5px;">
                 <div class="inner">
                     <h3 id="isi-count" class="text-white">{{ $shortcut->count ?? '0' }}</h3>
                     <p id="isi-judul" class="text-white">{{ $shortcut->judul ?? 'Judul' }}</p>
@@ -159,9 +150,7 @@
                 <div class="icon">
                     <i id="isi-icon" class="faa {{ $shortcut->icon ?? 'fa-user' }}"></i>
                 </div>
-                <a id="isi-link" href="{{ site_url($shortcut->link ?? 'shortcut') }}"
-                    class="small-box-footer text-white" style="border-radius:  0 0 5px 5px">Lihat Detail <i
-                        class="fa fa-arrow-circle-right"></i></a>
+                <a id="isi-link" href="{{ site_url($shortcut->link ?? 'shortcut') }}" class="small-box-footer text-white" style="border-radius:  0 0 5px 5px">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>

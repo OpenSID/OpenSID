@@ -1,8 +1,8 @@
 <?php if (can('u')) : ?>
 	<?php $this->load->view('global/validasi_form'); ?>
 	<?php
-	$sekarang = $log_status_dasar['tgl_peristiwa'] != '' ? $log_status_dasar['tgl_peristiwa'] : date('d-m-Y');
-	?>
+    $sekarang = $log_status_dasar['tgl_peristiwa'] != '' ? $log_status_dasar['tgl_peristiwa'] : date('d-m-Y');
+    ?>
 	<form action="<?= $form_action ?>" method="post" id="validasi" class="tgl_lapor_peristiwa" enctype="multipart/form-data">
 		<div class='modal-body'>
 			<div class="box box-danger">

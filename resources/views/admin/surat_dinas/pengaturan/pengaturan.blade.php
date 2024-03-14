@@ -18,7 +18,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#header" data-toggle="tab">Header</a></li>
             <li><a href="#footer" data-toggle="tab">Footer</a></li>
-            <li><a href="#alur" data-toggle="tab">Alur Surat</a></li>            
+            <li><a href="#alur" data-toggle="tab">Alur Surat</a></li>
             <li><a href="#sumber-penduduk" data-toggle="tab">Form Penduduk Luar</a></li>
             <li><a href="#kode-isian" data-toggle="tab">Kode Isian Alias</a></li>
             <li><a href="#lainnya" data-toggle="tab">Lainnya</a></li>
@@ -27,7 +27,7 @@
             @include('admin.surat_dinas.pengaturan.kembali')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_header')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_footer')
-            @include('admin.surat_dinas.pengaturan.partials.pengaturan_alur')            
+            @include('admin.surat_dinas.pengaturan.partials.pengaturan_alur')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_sumber_penduduk')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_kodeisian')
             @include('admin.surat_dinas.pengaturan.partials.pengaturan_lainnya')

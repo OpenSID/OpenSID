@@ -106,7 +106,7 @@ class Teks_berjalan extends Admin_Controller
                     } else {
                         $tautan = $tampil = $row->tautan;
                     }
-                    
+
                     return '<a href="' . $tautan . '" target="_blank">' . $tampil . '</a>';
                 })
                 ->rawColumns(['ceklist', 'aksi', 'teks', 'judul_tautan'])

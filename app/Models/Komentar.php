@@ -37,8 +37,8 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -131,9 +131,7 @@ class Komentar extends BaseModel
 
     public function getFotoAttribute()
     {
-        return cache()->rememberForever('foto_komentar_' . $this->id, static function () {
-            return Foto_Default(null, rand(1, 2));
-        });
+        return cache()->rememberForever('foto_komentar_' . $this->id, static fn () => Foto_Default(null, mt_rand(1, 2)));
     }
 
     public function children(): HasMany
@@ -159,7 +157,7 @@ class Komentar extends BaseModel
 
     public function getUrlArtikelAttribute()
     {
-        $artikel = Artikel::findOrFail($this->id_artikel);
+        $artikel    = Artikel::findOrFail($this->id_artikel);
         $tgl_upload = Carbon::createFromFormat('Y-m-d H:i:s', $artikel->tgl_upload)->format('Y/m/d');
 
         return site_url("artikel/{$tgl_upload}/{$artikel->slug}");

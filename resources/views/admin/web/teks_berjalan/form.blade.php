@@ -40,7 +40,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-12" id="internal" style="display: {{ in_array($teks['tipe'], ['2']) ? 'none' : ''  }}">
+            <div class="col-sm-12" id="internal" style="display: {{ in_array($teks['tipe'], ['2']) ? 'none' : '' }}">
                 <div class="form-group">
                     <label class="control-label">Tautan ke artikel</label>
                     <select class="form-control select2 " id="tautan_internal" name="tautan_internal">
@@ -53,7 +53,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-12" id="eksternal" style="display: {{ in_array($teks['tipe'], [null, '1']) ? 'none' : ''  }}">
+            <div class="col-md-12" id="eksternal" style="display: {{ in_array($teks['tipe'], [null, '1']) ? 'none' : '' }}">
                 <div class="form-group">
                     <label class="control-label">Tautan Luar</label>
                     <input class="form-control input-sm required" placeholder="Contoh: https://opendesa.id" id="tautan_eksternal" name="tautan_eksternal" value="<?= $teks['tautan'] ?>" maxlength="150"></input>

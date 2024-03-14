@@ -14,13 +14,13 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
     <div class="box-body">
         <div class="form-group">
             <label>Fomat penomoran surat </label>
             <input type="text" name="format_nomor_surat_dinas" class="form-control input-sm" value="{{ setting('format_nomor_surat_dinas') }}">
         </div>
-    </div>    
+    </div>
     <div class="box-body">
         <div class="form-group">
             <label>Format tanggal surat </label>

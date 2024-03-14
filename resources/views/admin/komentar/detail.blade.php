@@ -36,7 +36,7 @@
                         <i class="fa fa-eye"></i>Lihat Komentar Artikel
                     </a>
                 </div>
-                
+
                 <div class="box-body">
                     <div class="direct-chat-messages">
                         @include('admin.komentar.chat-info', $komentar)

@@ -37,8 +37,8 @@
 
 namespace App\Models;
 
-use Exception;
 use App\Traits\ConfigId;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -120,7 +120,7 @@ class Shortcut extends BaseModel
             }
 
             if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
-                if (!preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
+                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
                     $raw_query = preg_replace('/^DB::table/i', 'DB::table', $raw_query);
                     $raw_query = preg_replace('/->count\(\)/i', "->where('config_id', {$config_id})->count()", $raw_query);
                 }
@@ -129,7 +129,7 @@ class Shortcut extends BaseModel
             }
 
             if (preg_match('/^select/i', $raw_query)) {
-                if (!preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
+                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
                     $raw_query = preg_replace('/^select/i', 'select', $raw_query);
                     $raw_query = preg_replace('/from/i', 'from', $raw_query);
                     $raw_query = preg_replace('/where/i', "where config_id = {$config_id} and", $raw_query);
@@ -138,7 +138,7 @@ class Shortcut extends BaseModel
                 return DB::statement($raw_query);
             }
 
-            if (!class_exists($raw_query)) {
+            if (! class_exists($raw_query)) {
                 throw new Exception("Class '{$raw_query}' not found");
             }
 
@@ -184,7 +184,7 @@ class Shortcut extends BaseModel
             'Kepala Keluarga Perempuan' => Penduduk::status()->where('kk_level', 1)->where('sex', 2)->count(),
 
             // RTM
-            'RTM'                  => RTM::count(),
+            'RTM'                  => Rtm::count(),
             'Kepala RTM'           => Penduduk::status()->where('rtm_level', 1)->count(),
             'Kepala RTM Laki-laki' => Penduduk::status()->where('rtm_level', 1)->where('sex', 1)->count(),
             'Kepala RTM Perempuan' => Penduduk::status()->where('rtm_level', 1)->where('sex', 1)->count(),
@@ -222,15 +222,15 @@ class Shortcut extends BaseModel
                         });
                 })
                 ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                ->when($isAdmin == null || !in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
+                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
 
             // Layanan Mandiri
             'Verifikasi Layanan Mandiri' => PendudukMandiri::status()->count(),
 
             // Lapak
-            'Produk'          => DB::table('produk')->count(),
-            'Pelapak'         => DB::table('pelapak')->count(),
-            'Kategori Produk' => DB::table('produk_kategori')->count(),
+            'Produk'          => Produk::count(),
+            'Pelapak'         => Pelapak::count(),
+            'Kategori Produk' => ProdukKategori::count(),
         ];
     }
 }

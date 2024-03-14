@@ -9,6 +9,6 @@
             >
                 <i class="fa fa-refresh"></i>Mengembalikan Surat Bawaan/Sistem
             </a>
-        @endif        
+        @endif
     @endif
 </div>

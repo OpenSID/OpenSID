@@ -18,34 +18,27 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('sosmed') }}"
-                class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                    class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Media Sosial</a>
+            <a href="{{ site_url('sosmed') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Media Sosial</a>
         </div>
         {!! form_open_multipart($form_action, 'id="validasi"') !!}
         <div class="box-body">
             <div class="form-group">
                 <label>Nama</label>
-                <input name="nama" class="form-control input-sm required judul" maxlength="50" type="text"
-                    value="{{ $sosmed->nama }}">
+                <input name="nama" class="form-control input-sm required judul" maxlength="50" type="text" value="{{ $sosmed->nama }}">
             </div>
             <div class="form-group">
                 <label>Link</label>
-                <input name="link" class="form-control input-sm required" maxlength="200" type="url"
-                    value="{{ $sosmed->new_link }}">
+                <input name="link" class="form-control input-sm required" maxlength="200" type="url" value="{{ $sosmed->new_link }}">
             </div>
             <div class="form-group">
                 <label>Icon</label>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control {{ $sosmed->gambar ? '' : 'required' }}"
-                                id="file_path" name="gambar">
-                            <input type="file" class="hidden" id="file" name="gambar"
-                                accept=".gif,.jpg,.jpeg,.png">
+                            <input type="text" class="form-control {{ $sosmed->gambar ? '' : 'required' }}" id="file_path" name="gambar">
+                            <input type="file" class="hidden" id="file" name="gambar" accept=".gif,.jpg,.jpeg,.png">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info" id="file_browser"><i
-                                        class="fa fa-search"></i>&nbsp;Browse</button>
+                                <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>
                             </span>
                         </div>
                     </div>

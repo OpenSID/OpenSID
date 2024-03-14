@@ -35,9 +35,9 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -286,8 +286,8 @@ class Migrasi_dev extends MY_model
 
     public function migrasi_2024021371($hasil, $config_id)
     {
-        if (!Schema::hasTable('shortcut')) {
-            Schema::create('shortcut', function (Blueprint $table) {
+        if (! Schema::hasTable('shortcut')) {
+            Schema::create('shortcut', static function (Blueprint $table) {
                 $table->id();
                 $table->integer('config_id');
                 $table->string('judul', 50);
@@ -308,91 +308,91 @@ class Migrasi_dev extends MY_model
             DB::table('shortcut')->insert([
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Wilayah [desa]',
-                    'link' => 'wilayah',
-                    'akses' => 'wilayah-administratif',
+                    'judul'     => 'Wilayah [desa]',
+                    'link'      => 'wilayah',
+                    'akses'     => 'wilayah-administratif',
                     'raw_query' => 'Dusun',
-                    'icon' => 'fa-map-marker',
-                    'urut' => 1,
-                    'warna' => '#605ca8',
-                    'status' => 1,
+                    'icon'      => 'fa-map-marker',
+                    'urut'      => 1,
+                    'warna'     => '#605ca8',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Penduduk',
-                    'link' => 'penduduk',
-                    'akses' => 'penduduk',
+                    'judul'     => 'Penduduk',
+                    'link'      => 'penduduk',
+                    'akses'     => 'penduduk',
                     'raw_query' => 'Penduduk',
-                    'icon' => 'fa-user',
-                    'urut' => 2,
-                    'warna' => '#00c0ef',
-                    'status' => 1,
+                    'icon'      => 'fa-user',
+                    'urut'      => 2,
+                    'warna'     => '#00c0ef',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Keluarga',
-                    'link' => 'keluarga',
-                    'akses' => 'keluarga',
+                    'judul'     => 'Keluarga',
+                    'link'      => 'keluarga',
+                    'akses'     => 'keluarga',
                     'raw_query' => 'Keluarga',
-                    'icon' => 'fa-users',
-                    'urut' => 3,
-                    'warna' => '#00a65a',
-                    'status' => 1,
+                    'icon'      => 'fa-users',
+                    'urut'      => 3,
+                    'warna'     => '#00a65a',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Surat Tercetak',
-                    'link' => 'keluar',
-                    'akses' => 'arsip-layanan',
+                    'judul'     => 'Surat Tercetak',
+                    'link'      => 'keluar',
+                    'akses'     => 'arsip-layanan',
                     'raw_query' => 'Surat Tercetak',
-                    'icon' => 'fa-file-text-o',
-                    'urut' => 4,
-                    'warna' => '#0073b7',
-                    'status' => 1,
+                    'icon'      => 'fa-file-text-o',
+                    'urut'      => 4,
+                    'warna'     => '#0073b7',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Kelompok',
-                    'link' => 'kelompok',
-                    'akses' => 'kelompok',
+                    'judul'     => 'Kelompok',
+                    'link'      => 'kelompok',
+                    'akses'     => 'kelompok',
                     'raw_query' => 'Kelompok',
-                    'icon' => 'fa-user-plus',
-                    'urut' => 5,
-                    'warna' => '#dd4b39',
-                    'status' => 1,
+                    'icon'      => 'fa-user-plus',
+                    'urut'      => 5,
+                    'warna'     => '#dd4b39',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Rumah Tangga',
-                    'link' => 'rtm',
-                    'akses' => 'rumah-tangga',
+                    'judul'     => 'Rumah Tangga',
+                    'link'      => 'rtm',
+                    'akses'     => 'rumah-tangga',
                     'raw_query' => 'RTM',
-                    'icon' => 'fa-home',
-                    'urut' => 6,
-                    'warna' => '#d2d6de',
-                    'status' => 1,
+                    'icon'      => 'fa-home',
+                    'urut'      => 6,
+                    'warna'     => '#d2d6de',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Bantuan',
-                    'link' => 'program_bantuan',
-                    'akses' => 'bantuan',
+                    'judul'     => 'Bantuan',
+                    'link'      => 'program_bantuan',
+                    'akses'     => 'bantuan',
                     'raw_query' => 'Bantuan',
-                    'icon' => 'fa-handshake-o',
-                    'urut' => 7,
-                    'warna' => '#f39c12',
-                    'status' => 1,
+                    'icon'      => 'fa-handshake-o',
+                    'urut'      => 7,
+                    'warna'     => '#f39c12',
+                    'status'    => 1,
                 ],
                 [
                     'config_id' => $config_id,
-                    'judul' => 'Verifikasi Layanan Mandiri',
-                    'link' => 'mandiri',
-                    'akses' => 'pendaftar-layanan-mandiri',
+                    'judul'     => 'Verifikasi Layanan Mandiri',
+                    'link'      => 'mandiri',
+                    'akses'     => 'pendaftar-layanan-mandiri',
                     'raw_query' => 'Verifikasi Layanan Mandiri',
-                    'icon' => 'fa-drivers-license',
-                    'urut' => 8,
-                    'warna' => '#39cccc',
-                    'status' => 1,
+                    'icon'      => 'fa-drivers-license',
+                    'urut'      => 8,
+                    'warna'     => '#39cccc',
+                    'status'    => 1,
                 ],
             ]);
         }
@@ -414,8 +414,8 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024031375($hasil)
     {
-        if (!$this->db->field_exists('parent_id', 'komentar')) {
-            $hasil = $hasil && $this->db->query("ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL");
+        if (! $this->db->field_exists('parent_id', 'komentar')) {
+            $hasil = $hasil && $this->db->query('ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL');
         }
 
         return $hasil;
@@ -423,8 +423,8 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024031371($hasil)
     {
-        if (!$this->db->field_exists('file_akta_mati', 'log_penduduk')) {
-            $hasil = $hasil && $this->db->query("ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;");
+        if (! $this->db->field_exists('file_akta_mati', 'log_penduduk')) {
+            $hasil = $hasil && $this->db->query('ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;');
         }
 
         return $hasil;

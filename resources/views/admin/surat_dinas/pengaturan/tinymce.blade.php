@@ -6,7 +6,7 @@
 
     <div class="box-body">
         <div class="form-group">
-            <textarea name="template_desa" data-filemanager='{!! json_encode(['external_filemanager_path'=> base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' data-urlsalintemplate="surat_dinas" data-salintemplate="isi" class="form-control input-sm editor required">{{ $suratDinas->template_desa ?? $suratDinas->template }}</textarea>
+            <textarea name="template_desa" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' data-urlsalintemplate="surat_dinas" data-salintemplate="isi" class="form-control input-sm editor required">{{ $suratDinas->template_desa ?? $suratDinas->template }}</textarea>
         </div>
     </div>
 </div>
@@ -83,7 +83,7 @@
                                 >
                             </div>
                         </div>
-                        
+
                         <hr>
                         <h5><b>Sumber Data Pelaku</b></h5>
                         <div class="table-responsive">
@@ -115,7 +115,7 @@
                                                 @endforeach
                                             </select>
                                         </td>
-                                    </tr>                                  
+                                    </tr>
 
                                     <tr class="sumber_data">
                                         <td>Jenis Kelamin</td>
@@ -385,16 +385,16 @@
                         var utama_isi_label = editElm[0].querySelector('.isi-label')
                         var utama_isi_info = editElm[0].querySelector('.isi-info')
                         var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')
-                        var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')                        
+                        var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
-                        utama_isi_info.name = `kategori_info[${nama_kategori}]`                        
+                        utama_isi_info.name = `kategori_info[${nama_kategori}]`
 
                         utama_isi_judul.value = nama_kategori
                         utama_isi_label.value = nama_kategori
                         utama_isi_info.value = ''
-                        utama_isi_prefix.value = nama_kategori                        
+                        utama_isi_prefix.value = nama_kategori
 
                         // utama_isi_judul.removeAttribute('readonly')
                         utama_isi_prefix.removeAttribute('readonly')
@@ -414,7 +414,7 @@
 
                         var elsumberData = editElm[0].querySelector('.sumber-data')
                         var elkodeIsian = editElm[0].querySelector('.kode-isian')
-                        
+
                         var elLabel = editElm[0].querySelector('input.isi-label')
                         oldname = elLabel.getAttribute('name')
                         newname = `kategori_${oldname}[${nama_kategori}]`

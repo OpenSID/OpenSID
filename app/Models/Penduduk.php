@@ -562,7 +562,6 @@ class Penduduk extends BaseModel
         ];
     }
 
-
     public function scopeAyah($query, $idKk)
     {
         return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::SUAMI])->where('sex', JenisKelaminEnum::LAKI_LAKI);
