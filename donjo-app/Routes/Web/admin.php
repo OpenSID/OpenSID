@@ -1914,30 +1914,22 @@ Route::group('optimasi_gambar', static function (): void {
 // Admin Web > Artikel
 // Admin Web > Slider
 Route::group('web', static function (): void {
-    Route::get('/clear', 'Web@clear')->name('web.clear');
-    Route::get('/tab/{cat?}', 'Web@tab')->name('web.tab');
-    Route::get('/form/{id?}', 'Web@form')->name('web.form');
-    Route::post('/filter/{filter}', 'Web@filter')->name('web.filter');
-    Route::post('/insert', 'Web@insert')->name('web.insert');
-    Route::post('/update/{id?}', 'Web@update')->name('web.update');
-    Route::get('/delete/{id?}', 'Web@delete')->name('web.delete');
-    Route::post('/delete_all', 'Web@delete_all')->name('web.delete_all');
-    Route::match(['GET', 'POST'], '/hapus', 'Web@hapus')->name('web.hapus');
-    Route::get('/ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
-    Route::post('/update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
-    Route::get('/artikel_lock/{id?}/{val?}', 'Web@artikel_lock')->name('web.artikel_lock');
-    Route::get('/komentar_lock/{id?}/{val?}', 'Web@komentar_lock')->name('web.komentar_lock');
-    Route::get('/ajax_add_kategori/{cat?}/{p?}/{o?}', 'Web@ajax_add_kategori')->name('web.ajax_add_kategori');
-    Route::post('/insert_kategori/{cat?}/{p?}/{o?}', 'Web@insert_kategori')->name('web.insert_kategori');
-    Route::get('/headline/{id?}', 'Web@headline')->name('web.headline');
-    Route::get('/slide/{id?}', 'Web@slide')->name('web.slide');
-    Route::get('/slider', 'Web@slider')->name('web.slider');
-    Route::post('/update_slider', 'Web@update_slider')->name('web.update_slider');
-    Route::get('/teks_berjalan', 'Web@teks_berjalan')->name('web.teks_berjalan');
-    Route::post('/update_teks_berjalan', 'Web@update_teks_berjalan')->name('web.update_teks_berjalan');
-    Route::get('/reset', 'Web@reset')->name('web.reset');
-    Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Web@index')->name('web.index-default');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Web@index')->name('web.index');
+    Route::get('clear', static function () {
+        redirect('web');
+    });
+    Route::get('form/{cat}/{id?}', 'Web@form')->name('web.form');
+    Route::get('datatables', 'Web@datatables')->name('web.datatables');
+    Route::post('insert/{cat}', 'Web@insert')->name('web.insert');
+    Route::post('update/{cat}/{id?}', 'Web@update')->name('web.update');
+    Route::match(['GET', 'POST'], 'delete/{cat}/{id?}', 'Web@delete')->name('web.delete');
+    Route::match(['GET', 'POST'], 'hapus/{cat}', 'Web@hapus')->name('web.hapus');
+    Route::get('ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
+    Route::post('update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
+    Route::get('lock/{cat}/{column}/{id}', 'Web@lock')->name('web.lock');
+    Route::get('slider', 'Web@slider')->name('web.slider');
+    Route::post('update_slider', 'Web@update_slider')->name('web.update_slider');
+    Route::post('reset/{cat}', 'Web@reset')->name('web.reset');
+    Route::get('{cat?}', 'Web@index')->name('web.index');
 });
 
 // Admin Web > Widget
