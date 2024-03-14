@@ -116,7 +116,6 @@
             <div class="box-body">
                 @include('admin.pengaturan.form')
             </div>
-            aaa
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i>
                     Batal</button>
