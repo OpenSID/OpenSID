@@ -75,7 +75,7 @@ class Pengaduan extends Web_Controller
         $data['halaman_statis']  = 'pengaduan/index';
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function kirim(): void

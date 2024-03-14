@@ -35,9 +35,10 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -71,6 +72,7 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024080301($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031171($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024021371($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024031471($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -81,7 +83,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024080301($hasil, $config_id)
     {
-        $hasil && $this->tambah_modul([
+        $hasil = $hasil && $this->tambah_modul([
             'config_id'  => $config_id,
             'modul'      => 'Surat Dinas',
             'slug'       => 'surat-dinas',
@@ -112,7 +114,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024080302($hasil)
     {
-        if (! Schema::hasTable('surat_dinas')) {
+        if (!Schema::hasTable('surat_dinas')) {
             Schema::create('surat_dinas', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('config_id')->nullable();
@@ -425,6 +427,64 @@ class Migrasi_dev extends MY_model
     {
         if (! $this->db->field_exists('file_akta_mati', 'log_penduduk')) {
             $hasil = $hasil && $this->db->query('ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;');
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2024031471($hasil, $config_id)
+    {
+        $hasil = $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Tema',
+            'slug'       => 'theme',
+            'url'        => 'theme',
+            'aktif'      => 1,
+            'ikon'       => 'fa-object-group',
+            'urut'       => 5,
+            'level'      => 1,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-object-group',
+            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'admin-web'])->row()->id,
+        ]);
+
+        if (!Schema::hasTable('theme')) {
+            Schema::create('theme', function (Blueprint $table) {
+                $table->id();
+                $table->integer('config_id');
+                $table->string('nama', 50)->default('0');
+                $table->string('slug', 60)->nullable();
+                $table->string('versi', 10)->nullable();
+                $table->tinyInteger('sistem')->default(0);
+                $table->string('path', 100)->default('');
+                $table->tinyInteger('status')->default(0);
+                $table->text('keterangan')->nullable();
+                $table->text('opsi')->nullable();
+                $table->timestamps();
+
+                $table->unique(['slug', 'config_id']);
+                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+            });
+
+            $this->load->helper('theme');
+            theme_scan();
+
+            $this->sesuaikanTemaAktif($hasil, $config_id);
+        }
+
+        return $hasil;
+    }
+
+    protected function sesuaikanTemaAktif($hasil, $config_id)
+    {
+        if (DB::table('setting_aplikasi')->where('config_id', $config_id)->where('key', 'web_theme')->exists()) {
+            $temaSetting = DB::table('setting_aplikasi')->where('config_id', $config_id)->where('key', 'web_theme')->first()->value;
+            $temaSetting = Str::slug($temaSetting);
+
+            DB::table('theme')->where('config_id', $config_id)->where('slug', $temaSetting)->update(['status' => 1]);
+            DB::table('theme')->where('config_id', $config_id)->where('slug', '!=', $temaSetting)->update(['status' => 0]);
+
+            DB::table('setting_aplikasi')->where('config_id', $config_id)->where('key', 'web_theme')->delete();
         }
 
         return $hasil;

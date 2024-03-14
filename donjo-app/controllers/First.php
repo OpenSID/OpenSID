@@ -117,7 +117,7 @@ class First extends Web_Controller
 
         $this->_get_common_data($data);
         $this->track_model->track_desa('first');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     /*
@@ -156,7 +156,7 @@ class First extends Web_Controller
 
         $this->_get_common_data($data);
         $this->set_template('layouts/artikel.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function unduh_dokumen_artikel($id): void
@@ -176,7 +176,7 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/arsip.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function gallery($p = 1): void
@@ -225,7 +225,7 @@ class First extends Web_Controller
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function kelompok($slug = ''): void
@@ -278,7 +278,7 @@ class First extends Web_Controller
         $this->_get_common_data($data);
 
         $this->set_template('layouts/analisis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
@@ -293,7 +293,7 @@ class First extends Web_Controller
         $data['indikator']  = $this->first_penduduk_m->get_indikator($stat);
         $this->_get_common_data($data);
         $this->set_template('layouts/analisis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function dpt(): void
@@ -313,7 +313,7 @@ class First extends Web_Controller
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function wilayah(): void
@@ -333,7 +333,7 @@ class First extends Web_Controller
         $data['slug_aktif']   = 'data-wilayah';
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function kategori($id, $p = 1): void
@@ -352,7 +352,7 @@ class First extends Web_Controller
         $data['artikel']        = $this->first_artikel_m->list_artikel($data['paging']->offset, $data['paging']->per_page, $id);
 
         $this->_get_common_data($data);
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function add_comment($id = 0): void

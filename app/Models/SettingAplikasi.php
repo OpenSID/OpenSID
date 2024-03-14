@@ -111,19 +111,6 @@ class SettingAplikasi extends BaseModel
 
     public function getOptionAttribute()
     {
-        if ($this->attributes['jenis'] == 'option' && $this->attributes['key'] == 'web_theme') {
-            // TODO : Akan dipindahkan ke modul tema
-            $list_tema  = [];
-            $tema_semua = array_merge(glob('vendor/themes/*', GLOB_ONLYDIR), glob('desa/themes/*', GLOB_ONLYDIR));
-
-            foreach ($tema_semua as $tema) {
-                if (is_file(FCPATH . $tema . '/template.php')) {
-                    $list_tema[] = str_replace(['vendor/', 'themes/'], '', $tema);
-                }
-            }
-
-            return array_combine($list_tema, $list_tema);
-        }
         if ($this->attributes['jenis'] == 'option' && $this->attributes['key'] == 'tampilan_anjungan_slider') {
             return Galeri::whereParrent(Galeri::PARRENT)->whereEnabled(StatusEnum::YA)->pluck('nama', 'id');
         }
