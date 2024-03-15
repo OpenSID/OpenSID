@@ -239,22 +239,22 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Desa' . $ortu,
                 'isian' => 'pend_desa' . $prefix,
-                'data'  => $config->pend_desa,
+                'data'  => $config->nama_desa,
             ],
             [
                 'judul' => 'Kecamatan' . $ortu,
                 'isian' => 'pend_kecamatan' . $prefix,
-                'data'  => $config->pend_kecamatan,
+                'data'  => $config->nama_kecamatan,
             ],
             [
                 'judul' => 'Kabupaten' . $ortu,
                 'isian' => 'pend_kabupaten' . $prefix,
-                'data'  => $config->pend_kabupaten,
+                'data'  => $config->nama_kabupaten,
             ],
             [
                 'judul' => 'Provinsi' . $ortu,
                 'isian' => 'pend_provinsi' . $prefix,
-                'data'  => $config->pend_provinsi,
+                'data'  => $config->nama_propinsi,
             ],
             [
                 'case_sentence' => true,

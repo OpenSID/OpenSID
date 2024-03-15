@@ -11,7 +11,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 5. [#7077](https://github.com/OpenSID/OpenSID/issues/7077) Perbaikan form penduduk untuk penduduk lahir.
 6. [#7775](https://github.com/OpenSID/OpenSID/issues/7775) Perbaikan route pembangunan dokumentasi.
 7. [#7738](https://github.com/OpenSID/OpenSID/issues/7738) Perbaikan saring data penduduk berdasarkan kumpulan nik.
-
+8. [#7766](https://github.com/OpenSID/OpenSID/issues/7766) Perbaikan kode isian penduduk wilayah.
 
 
 #### TEKNIS
