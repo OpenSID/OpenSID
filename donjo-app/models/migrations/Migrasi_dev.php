@@ -51,8 +51,17 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
-        // $hasil = $hasil && $this->migrasi_xxxxxxxx($hasil);
+        $hasil = $hasil && $this->migrasi_2024031451($hasil);
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2024031451($hasil)
+    {
+        if (! $this->db->field_exists('input', 'log_surat')) {
+            $hasil = $hasil && $this->db->query('ALTER TABLE `log_surat` ADD COLUMN `input` LONGTEXT NULL AFTER `pemohon`');
+        }
+
+        return $hasil;
     }
 }

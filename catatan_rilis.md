@@ -12,6 +12,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 6. [#7775](https://github.com/OpenSID/OpenSID/issues/7775) Perbaikan route pembangunan dokumentasi.
 7. [#7738](https://github.com/OpenSID/OpenSID/issues/7738) Perbaikan saring data penduduk berdasarkan kumpulan nik.
 8. [#7766](https://github.com/OpenSID/OpenSID/issues/7766) Perbaikan kode isian penduduk wilayah.
+9. [#7747](https://github.com/OpenSID/OpenSID/issues/7747) Perbaikan buat ulang kembali surat tinymce yang memiliki lampiran.
 
 
 #### TEKNIS

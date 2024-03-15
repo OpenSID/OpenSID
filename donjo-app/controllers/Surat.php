@@ -379,8 +379,9 @@ class Surat extends Admin_Controller
             $nama_surat = $this->nama_surat_arsip($cetak['surat']['url_surat'], $nik, $cetak['no_surat']);
 
             $log_surat['nama_surat'] = $nama_surat;
+            $log_surat['input']      = json_encode($log_surat['input']);
 
-            unset($log_surat['surat'], $log_surat['input']);
+            unset($log_surat['surat']);
             if ($preview) {
                 $cetak['id'] = null;
             }
@@ -401,7 +402,7 @@ class Surat extends Admin_Controller
             // convert in PDF
             try {
                 $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
-                $this->tinymce->generateLampiran($surat->id_pend, $cetak);
+                $this->tinymce->generateLampiran($surat->id_pend, $cetak, $cetak['input']);
 
                 if ($preview) {
                     $this->tinymce->pdfMerge->merge('document.pdf', 'I');
@@ -486,6 +487,7 @@ class Surat extends Admin_Controller
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
                 'kecamatan'       => $cetak['surat']->kecamatan,
+                'input'           => json_encode($cetak['input']),
             ];
             $log_surat['verifikasi_operator'] = 0;
 
@@ -571,6 +573,7 @@ class Surat extends Admin_Controller
 
             $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
+            $input                 = json_decode($surat->input, true);
             $log_surat['input']    = [
                 'nik'            => $surat->id_pend,
                 'nama_non_warga' => $surat->nama_non_warga,
@@ -581,6 +584,7 @@ class Surat extends Admin_Controller
                 'pilih_atas_nama' => $atas_nama,
                 'pamong_id'       => $pamong->pamong_id,
             ];
+            $log_surat['input'] = array_merge($log_surat['input'], $input);
 
             if ($surat->verifikasi_operator != '-1') {
                 $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->isi_surat) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', setting('footer_surat'));
