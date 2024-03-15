@@ -14,6 +14,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 8. [#3633](https://github.com/OpenSID/OpenSID/issues/3633) Penambahan unggah file akta kematian pada penduduk status mati.
 9. [#2486](https://github.com/OpenSID/OpenSID/issues/2486) Penambahan modul tema.
 10. [#6184](https://github.com/OpenSID/OpenSID/issues/6184) Penambahan detail cetak pembangunan.
+11. [#4934](https://github.com/OpenSID/OpenSID/issues/4934) Penambahan pengaturan penerima program bantuan pada sasaran keluarga.
 
 
 #### BUG

@@ -807,6 +807,7 @@ class Program_bantuan_model extends MY_Model
             'asaldana' => $post['asaldana'],
             'sdate'    => date('Y-m-d', strtotime($post['sdate'])),
             'edate'    => date('Y-m-d', strtotime($post['edate'])),
+            'kk_level' => json_encode($post['kk_level']),
         ];
     }
 

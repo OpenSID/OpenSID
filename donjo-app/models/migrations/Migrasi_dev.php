@@ -58,6 +58,7 @@ class Migrasi_dev extends MY_model
         $hasil = $hasil && $this->migrasi_2024080302($hasil);
         $hasil = $hasil && $this->migrasi_2024031375($hasil);
         $hasil = $hasil && $this->migrasi_2024031371($hasil);
+        $hasil = $hasil && $this->migrasi_2024031372($hasil);
 
         return $hasil && true;
     }
@@ -485,6 +486,15 @@ class Migrasi_dev extends MY_model
             DB::table('theme')->where('config_id', $config_id)->where('slug', '!=', $temaSetting)->update(['status' => 0]);
 
             DB::table('setting_aplikasi')->where('config_id', $config_id)->where('key', 'web_theme')->delete();
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024031372($hasil)
+    {
+        if (!$this->db->field_exists('kk_level', 'program')) {
+            $this->db->query("ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`");
         }
 
         return $hasil;
