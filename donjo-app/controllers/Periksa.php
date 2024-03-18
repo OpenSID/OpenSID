@@ -48,6 +48,8 @@ class Periksa extends CI_Controller
     {
         parent::__construct();
 
+        $this->load->database();
+
         if ($this->session->db_error['code'] === 1049) {
             redirect('koneksi-database');
         }

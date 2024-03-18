@@ -45,7 +45,7 @@
     <div class="form-group saksi2_desa">
         <label for="saksi2_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
         <div class="col-sm-5">
-            <select class="form-control select2 input-sm select2-nik-ajax" name="id_pend_{{ $key }}"
+            <select class="form-control select2 input-sm select2-nik-ajax required" name="id_pend_{{ $key }}"
                 style="width:100%;" data-surat="{{ $surat->id }}" data-kategori="{{ $key }}" data-url="<?= site_url('surat/list_penduduk_ajax') ?>"
                 onchange="submit_form_ambil_data(this.id);">
                 <?php if ($kategori["saksi_{$key}"]) : ?>
@@ -70,6 +70,7 @@
     {{-- kode isia kategori --}}
     <?php foreach ($kategori['kode_isian'] as $item): ?>
     <?php $nama = underscore($item->nama, true, true); ?>
+    <?php $class = buat_class($item->atribut, '', $item->required) ?>
     <div class="form-group">
         <label for="<?= $item->nama ?>" class="col-sm-3 control-label">
             <?= $item->nama ?>
@@ -77,7 +78,7 @@
         <?php if ($item->tipe == 'select-manual'): ?>
         <div class="col-sm-4">
             <select name="<?= $nama ?>_{{ $keyname }}"
-                <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?>
+                <?= $class ?>
                 placeholder="<?= $item->deskripsi ?>">
                 <option value="">--<?= $item->deskripsi ?>--</option>
                 <?php foreach ($item->pilihan as $key => $pilih): ?>
@@ -88,7 +89,7 @@
         <?php elseif ($item->tipe == 'select-otomatis'): ?>
         <div class="col-sm-4">
             <select name="<?= $nama ?>_{{ $keyname }}"
-                <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?>
+                <?= $class ?>
                 placeholder="<?= $item->deskripsi ?>">
                 <option value="">--<?= $item->deskripsi ?> --</option>
                 <?php foreach (ref($item->refrensi) as $key => $pilih): ?>
@@ -100,7 +101,7 @@
         </div>
         <?php elseif ($item->tipe == 'textarea'): ?>
         <div class="col-sm-8">
-            <textarea name="<?= $nama ?>_{{ $keyname }}" <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?> placeholder="<?= $item->deskripsi ?>"></textarea>
+            <textarea name="<?= $nama ?>_{{ $keyname }}" <?= $class ?> placeholder="<?= $item->deskripsi ?>"></textarea>
         </div>
         <?php elseif ($item->tipe == 'date'): ?>
         <div class="col-sm-3 col-lg-2">
@@ -109,7 +110,7 @@
                     <i class="fa fa-calendar"></i>
                 </div>
                 <input type="text"
-                    <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm tgl ', $item->atribut) : 'class="form-control input-sm tgl"' ?>
+                <?= buat_class($item->atribut, 'form-control input-sm tgl', $item->required) ?>
                     name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
             </div>
         </div>
@@ -120,7 +121,7 @@
                     <i class="fa fa-clock-o"></i>
                 </div>
                 <input type="text"
-                    <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm jam ', $item->atribut) : 'class="form-control input-sm jam"' ?>
+                <?= buat_class($item->atribut, 'form-control input-sm jam', $item->required) ?>
                     name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
             </div>
         </div>
@@ -131,14 +132,14 @@
                     <i class="fa fa-calendar"></i>
                 </div>
                 <input type="text"
-                    <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm tgl_jam ', $item->atribut) : 'class="form-control input-sm tgl_jam"' ?>
+                <?= buat_class($item->atribut, 'form-control input-sm tgl_jam', $item->required) ?>
                     name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
             </div>
         </div>
         <?php else: ?>
         <div class="col-sm-8">
             <input type="<?= $item->tipe ?>"
-                <?= $item->atribut ? str_replace('class="', 'class="form-control input-sm ', $item->atribut) : 'class="form-control input-sm"' ?>
+                <?= $class ?>
                 name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
         </div>
         <?php endif ?>

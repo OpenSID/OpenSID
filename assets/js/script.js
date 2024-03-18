@@ -41,6 +41,16 @@ $(document).ready(function () {
 		});
 	});
 
+  // Tombol reset form select2
+  $(".btn-reset").on("click", function () {
+    $(this)
+      .closest("form")
+      .find("select.select2[data-old]")
+      .each(function (index, el) {
+        $(el).val($(el).data("old")).trigger("change");
+      });
+  });
+
   // Fungsi untuk filter menu
   $("#cari-menu").on("keyup keypress", function () {
     let hideParentMenu = $(".sidebar-menu li.treeview");

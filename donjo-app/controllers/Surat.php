@@ -91,7 +91,7 @@ class Surat extends Admin_Controller
                     return $aksi;
                 })
                 ->addColumn('jenis', static function ($row) {
-                    return in_array($row->jenis, FormatSurat::RTF) ? 'RTF' : 'TinyMCE';
+                    return jenis_surat($row->jenis);
                 })
                 ->editColumn('lampiran', static function ($row) {
                     return kode_format($row->lampiran);
@@ -122,7 +122,7 @@ class Surat extends Admin_Controller
                     ->map(static function ($item) {
                         return [
                             'id'   => $item->url_surat,
-                            'text' => ($item->jenis == 1 ? '[RTF]' : '[TinyMCE]') . " - {$item->nama}",
+                            'text' => '[' . jenis_surat($item->jenis) . "] - {$item->nama}",
                         ];
                     }),
                 'pagination' => [

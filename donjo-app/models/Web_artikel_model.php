@@ -224,7 +224,6 @@ class Web_artikel_model extends MY_Model
             return;
         }
 
-        $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
         $data['judul'] = judul($data['judul']);
 
@@ -344,7 +343,6 @@ class Web_artikel_model extends MY_Model
             return;
         }
 
-        $data['isi'] = bersihkan_xss($data['isi']); // hapus potensi xss
         // Batasi judul menggunakan teks polos
         $data['judul'] = judul($data['judul']);
 
@@ -635,17 +633,13 @@ class Web_artikel_model extends MY_Model
     {
         $data = $this->config_id()->get_where('artikel', ['id' => $id])->row_array();
 
-        if ($data['headline'] == '3') {
-            $headline = 0;
-        } elseif ($data['headline'] == '2') {
-            $headline = 1;
-        } elseif ($data['headline'] == '1') {
-            $headline = 2;
+        if ($data['slider'] == '1') {
+            $slider = 0;
         } else {
-            $headline = 3;
+            $slider = 1;
         }
 
-        $outp = $this->config_id()->where('id', $id)->update('artikel', ['headline' => $headline]);
+        $outp = $this->config_id()->where('id', $id)->update('artikel', ['slider' => $slider]);
 
         status_sukses($outp); //Tampilkan Pesan
     }

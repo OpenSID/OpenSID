@@ -116,12 +116,19 @@ class Laporan_bulanan_model extends MY_Model
         $thn     = $this->session->tahunku;
         $pad_bln = str_pad($bln, 2, '0', STR_PAD_LEFT); // Untuk membandingkan dengan tgl mysql
 
-        // Perubahan penduduk sebelum bulan laporan
+        // Cari penduduk yang hidup sampai dengan akhir bulan sebelumnya, jadi harus cari berdasarkan log_penduduk
+        // tidak bisa menggunakan status_dasar pada tabel tweb_penduduk
         $penduduk_mutasi_sql = $this->config_id('l')
             ->select('p.*, l.kode_peristiwa')
-            ->from('log_penduduk l')
-            ->join('tweb_penduduk p', 'l.id_pend = p.id and p.status_dasar = 1')
-            ->where("DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'")
+            ->from('tweb_penduduk p')
+            // Ambil log yg terakhir saja
+            ->join("(
+                SELECT    MAX(id) max_id, id_pend
+                FROM      log_penduduk
+                where DATE_FORMAT(tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'
+                GROUP BY  id_pend
+            ) log_max", 'log_max.id_pend = p.id')
+            ->join('log_penduduk l', 'log_max.max_id = l.id and l.kode_peristiwa not in (2, 3, 4)')
             ->get_compiled_select();
 
         $penduduk_mutasi = $this->db
@@ -186,9 +193,15 @@ class Laporan_bulanan_model extends MY_Model
                 // Perubahan penduduk sebelum bulan laporan
                 $this->config_id('l')
                     ->select('p.*, l.kode_peristiwa')
-                    ->from('log_penduduk l')
-                    ->join('tweb_penduduk p', 'l.id_pend = p.id and p.status_dasar = 1')
-                    ->where("DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'");
+                    ->from('tweb_penduduk p')
+                    // Ambil log yg terakhir saja
+                    ->join("(
+                        SELECT    MAX(id) max_id, id_pend
+                        FROM      log_penduduk
+                        where DATE_FORMAT(tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'
+                        GROUP BY  id_pend
+                    ) log_max", 'log_max.id_pend = p.id')
+                    ->join('log_penduduk l', 'log_max.max_id = l.id and l.kode_peristiwa not in (2, 3, 4)');
                 break;
 
             case in_array($tipe, $keluarga):
@@ -498,7 +511,8 @@ class Laporan_bulanan_model extends MY_Model
 
         // Mutasi penduduk
         $mutasi_pada_bln_thn = $this->mutasi_pada_bln_thn($peristiwa);
-        $data                = $this->db
+
+        $data = $this->db
             ->select('sum(case when sex = 1 and warganegara_id <> 2 then 1 else 0 end) AS WNI_L')
             ->select('sum(case when sex = 2 and warganegara_id <> 2 then 1 else 0 end) AS WNI_P')
             ->select('sum(case when sex = 1 and warganegara_id = 2 then 1 else 0 end) AS WNA_L')

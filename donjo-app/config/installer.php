@@ -268,4 +268,107 @@ $config = [
             background-color: #f4f4da; /* misalnya coba ganti menjadi #c8f1c8 */
         }
         EOS,
+
+    'folders' => [
+        'storage.framework' => [
+            'name'  => STORAGEPATH . 'framework',
+            'check' => static function () {
+                return substr(sprintf('%o', fileperms(STORAGEPATH . 'framework')), -4) >= '0755';
+            },
+        ],
+        'storage.logs' => [
+            'name'  => STORAGEPATH . 'logs',
+            'check' => static function () {
+                return substr(sprintf('%o', fileperms(STORAGEPATH . 'logs')), -4) >= '0755';
+            },
+        ],
+        'backup_inkremental' => [
+            'name'  => BACKUPPATH,
+            'check' => static function () {
+                return is_dir(BACKUPPATH) ? substr(sprintf('%o', fileperms(BACKUPPATH)), -4) >= '0755' : true;
+            },
+        ],
+    ],
+
+    'server' => [
+        'php' => [
+            'name'    => 'PHP Version',
+            'version' => '>= 7.4.0 | < 8.0.0',
+            'check'   => static function () {
+                return version_compare(PHP_VERSION, '7.4', '>=') && version_compare(PHP_VERSION, '8.0', '<');
+            },
+        ],
+        'pdo' => [
+            'name'  => 'PDO',
+            'check' => static function () {
+                return extension_loaded('pdo_mysql');
+            },
+        ],
+        'curl' => [
+            'name'  => 'Curl extention',
+            'check' => static function () {
+                return extension_loaded('curl');
+            },
+        ],
+        'fileinfo' => [
+            'name'  => 'Fileinfo extension',
+            'check' => static function () {
+                return extension_loaded('fileinfo');
+            },
+        ],
+        'gd' => [
+            'name'  => 'GD extension',
+            'check' => static function () {
+                return extension_loaded('gd');
+            },
+        ],
+        'iconv' => [
+            'name'  => 'Iconv extension',
+            'check' => static function () {
+                return extension_loaded('iconv');
+            },
+        ],
+        'json' => [
+            'name'  => 'Json extension',
+            'check' => static function () {
+                return extension_loaded('json');
+            },
+        ],
+        'mbstring' => [
+            'name'  => 'Mbstring extension',
+            'check' => static function () {
+                return extension_loaded('mbstring');
+            },
+        ],
+        'mysqli' => [
+            'name'  => 'Mysqli extension',
+            'check' => static function () {
+                return extension_loaded('mysqli');
+            },
+        ],
+        'mysqlnd' => [
+            'name'  => 'Mysqlnd extension',
+            'check' => static function () {
+                return extension_loaded('mysqlnd');
+            },
+        ],
+        'tidy' => [
+            'name'  => 'Tidy extension',
+            'check' => static function () {
+                return extension_loaded('tidy');
+            },
+        ],
+        'zip' => [
+            'name'  => 'Zip extension',
+            'check' => static function () {
+                return extension_loaded('zip');
+            },
+        ],
+        'exif' => [
+            'name'  => 'Exif extension',
+            'check' => static function () {
+                return extension_loaded('exif');
+            },
+        ],
+    ],
 ];

@@ -146,8 +146,12 @@
                     <div class="small-box-footer">
                         <a href="#" class="inner text-white rilis_pengaturan" data-remote="false" data-toggle="modal"
                             data-target="#pengaturan-bantuan"><i class="fa fa-gear"></i></a>
-                        <a href="{{ route($bantuan['link_detail']) }}" class="inner text-white">Lihat Detail <i
+                        @if (can('b', 'statistik'))
+                            <a href="{{ route($bantuan['link_detail']) }}" class="inner text-white">Lihat Detail <i
                                 class="fa fa-arrow-circle-right"></i></a>
+                        @else
+                            &nbsp;
+                        @endif
                     </div>
                 </div>
             </div>

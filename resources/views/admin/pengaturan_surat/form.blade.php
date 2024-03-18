@@ -161,25 +161,72 @@
         }
 
         function reset_form() {
-            var mandiri = "{{ $surat_master['mandiri'] }}";
-
             $(".tipe").removeClass("active");
             $("input[name=mandiri").prop("checked", false);
-            if (mandiri) {
-                $("#m1").addClass('active');
-                $("#n1").addClass('active');
-                $("#o1").addClass('active');
-                $("#g1").prop("checked", true);
-                $("#q1").prop("checked", true);
-                $("#bg1").prop("checked", true);
+
+            var mandiri = "{{ $suratMaster->mandiri }}";
+            if (mandiri == 1) {
+                $("#lm1").addClass('active');
+                $("#im1").prop("checked", true);
             } else {
-                $("#m2").addClass('active');
-                $("#n2").addClass('active');
-                $("#o2").addClass('active');
-                $("#g2").prop("checked", true);
-                $("#q2").prop("checked", true);
-                $("#bg2").prop("checked", true);
+                $("#lm2").addClass('active');
+                $("#im2").prop("checked", true);
             }
+
+            var footer = "{{ $footer }}";
+            if (footer == 1) {
+                $("#lf1").addClass('active');
+                $("#if1").prop("checked", true);
+            } else {
+                $("#lf2").addClass('active');
+                $("#if2").prop("checked", true);
+            }
+
+            var margin_global = "{{ $margin_global }}";
+            if (margin_global == 1) {
+                $("#lmg1").addClass('active');
+                $("#img1").prop("checked", true);
+            } else {
+                $("#lmg2").addClass('active');
+                $("#img2").prop("checked", true);
+            }
+
+            var qr_code = "{{ $suratMaster->qr_code }}";
+            if (qr_code == 1) {
+                $("#lq1").addClass('active');
+                $("#iq1").prop("checked", true);
+            } else {
+                $("#lq2").addClass('active');
+                $("#iq2").prop("checked", true);
+            }
+
+            var header = "{{ $header }}";
+            if (header == 1) {
+                $("#lh1").addClass('active');
+                $("#ih1").prop("checked", true);
+            } else {
+                $("#lh2").addClass('active');
+                $("#ih2").prop("checked", true);
+            }
+
+            var logo_garuda = "{{ $suratMaster->logo_garuda }}";
+            if (logo_garuda == 1) {
+                $("#lbg1").addClass('active');
+                $("#ibg1").prop("checked", true);
+            } else {
+                $("#lbg2").addClass('active');
+                $("#ibg2").prop("checked", true);
+            }
+
+            var kecamatan = "{{ $suratMaster->kecamatan }}";
+            if (kecamatan == 1) {
+                $("#lk1").addClass('active');
+                $("#ik1").prop("checked", true);
+            } else {
+                $("#lk2").addClass('active');
+                $("#ik2").prop("checked", true);
+            }
+
             syarat($('input[name=mandiri]:checked').val());
         };
     </script>
