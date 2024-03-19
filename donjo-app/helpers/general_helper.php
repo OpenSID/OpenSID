@@ -45,7 +45,7 @@ use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-if (! function_exists('asset')) {
+if (!function_exists('asset')) {
     function asset($uri = '', $default = true)
     {
         if ($default) {
@@ -57,21 +57,21 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('set_session')) {
+if (!function_exists('set_session')) {
     function set_session($key = 'success', $value = '')
     {
         return ci()->session->set_flashdata($key, $value);
     }
 }
 
-if (! function_exists('session')) {
+if (!function_exists('session')) {
     function session($nama = '')
     {
         return ci()->session->flashdata($nama);
     }
 }
 
-if (! function_exists('can')) {
+if (!function_exists('can')) {
     /**
      * Cek akses user
      *
@@ -147,7 +147,7 @@ if (! function_exists('can')) {
             'h' => 'hapus',
         ];
 
-        if (! array_key_exists($akses, $alias)) {
+        if (!array_key_exists($akses, $alias)) {
             return false;
         }
 
@@ -159,7 +159,7 @@ if (! function_exists('can')) {
     }
 }
 
-if (! function_exists('isCan')) {
+if (!function_exists('isCan')) {
     /**
      * Cek akses user
      *
@@ -170,12 +170,12 @@ if (! function_exists('isCan')) {
     function isCan($akses = null, $slugModul = null, $adminOnly = false): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('b', $slugModul, $adminOnly)) {
+        if (!can('b', $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
             redirect('beranda');
-        } elseif (! can($akses, $slugModul, $adminOnly)) {
+        } elseif (!can($akses, $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
@@ -185,7 +185,7 @@ if (! function_exists('isCan')) {
 }
 
 // response()->json(array_data);
-if (! function_exists('json')) {
+if (!function_exists('json')) {
     function json($content = [], $header = 200): void
     {
         ci()->output
@@ -199,7 +199,7 @@ if (! function_exists('json')) {
 }
 
 // redirect()->ci_route('example')->with('success', 'information');
-if (! function_exists('redirect_with')) {
+if (!function_exists('redirect_with')) {
     function redirect_with($key = 'success', $value = '', $to = '', $autodismis = null)
     {
         set_session($key, $value);
@@ -217,7 +217,7 @@ if (! function_exists('redirect_with')) {
 }
 
 // ci_route('example');
-if (! function_exists('ci_route')) {
+if (!function_exists('ci_route')) {
     function ci_route($to = null, $params = null)
     {
         if (in_array($to, [null, '', '/'])) {
@@ -238,12 +238,12 @@ if (! function_exists('ci_route')) {
 }
 
 // setting('sebutan_desa');
-if (! function_exists('setting')) {
+if (!function_exists('setting')) {
     function setting($params = null)
     {
         $getSetting = ci()->setting;
 
-        if ($params && ! empty($getSetting)) {
+        if ($params && !empty($getSetting)) {
             if (property_exists($getSetting, $params)) {
                 return $getSetting->{$params};
             }
@@ -256,7 +256,7 @@ if (! function_exists('setting')) {
 }
 
 // identitas('nama_desa');
-if (! function_exists('identitas')) {
+if (!function_exists('identitas')) {
     /**
      * Get identitas desa.
      *
@@ -275,7 +275,7 @@ if (! function_exists('identitas')) {
 }
 
 // hapus_cache('cache_id');
-if (! function_exists('hapus_cache')) {
+if (!function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
         if ($params) {
@@ -286,7 +286,7 @@ if (! function_exists('hapus_cache')) {
     }
 }
 
-if (! function_exists('calculate_days')) {
+if (!function_exists('calculate_days')) {
     /**
      * Calculate minute between 2 date.
      *
@@ -298,7 +298,7 @@ if (! function_exists('calculate_days')) {
     }
 }
 
-if (! function_exists('calculate_date_intervals')) {
+if (!function_exists('calculate_date_intervals')) {
     /**
      * Calculate list dates interval to minutes.
      *
@@ -318,7 +318,7 @@ if (! function_exists('calculate_date_intervals')) {
 }
 
 // Parsedown
-if (! function_exists('parsedown')) {
+if (!function_exists('parsedown')) {
     /**
      * Parsedown.
      *
@@ -339,18 +339,18 @@ if (! function_exists('parsedown')) {
 }
 
 // SebutanDesa('Surat [Desa]');
-if (! function_exists('SebutanDesa')) {
+if (!function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
         return str_replace(
-            ['[Desa]', '[desa]', '[Pemerintah Desa]'],
-            [ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_pemerintah_desa'))],
+            ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'],
+            [ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_pemerintah_desa')), ucwords(setting('sebutan_dusun'))],
             $params
         );
     }
 }
 
-if (! function_exists('underscore')) {
+if (!function_exists('underscore')) {
     /**
      * Membuat spasi menjadi underscore atau sebaliknya
      *
@@ -375,7 +375,7 @@ if (! function_exists('underscore')) {
     }
 }
 
-if (! function_exists('akun_demo')) {
+if (!function_exists('akun_demo')) {
     /**
      * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
      *
@@ -395,7 +395,7 @@ if (! function_exists('akun_demo')) {
     }
 }
 
-if (! function_exists('folder')) {
+if (!function_exists('folder')) {
     /**
      * Membuat folder jika tidak tersedia
      *
@@ -437,7 +437,7 @@ if (! function_exists('folder')) {
     }
 }
 
-if (! function_exists('folder_desa')) {
+if (!function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
@@ -466,7 +466,7 @@ if (! function_exists('folder_desa')) {
     }
 }
 
-if (! function_exists('auth')) {
+if (!function_exists('auth')) {
     /**
      * Ambil data user login
      *
@@ -484,20 +484,20 @@ if (! function_exists('auth')) {
     }
 }
 
-if (! function_exists('ci_db')) {
+if (!function_exists('ci_db')) {
     function ci_db()
     {
         return ci()->db;
     }
 }
 
-if (! function_exists('cek_kehadiran')) {
+if (!function_exists('cek_kehadiran')) {
     /**
      * Cek perangkat lupa absen
      */
     function cek_kehadiran(): void
     {
-        if (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran')) {
+        if (!empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran')) {
             $cek_libur = JamKerja::libur()->first();
             $cek_jam   = JamKerja::jamKerja()->first();
             $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
@@ -521,7 +521,7 @@ if (! function_exists('cek_kehadiran')) {
  *
  * @return void
  */
-if (! function_exists('case_replace')) {
+if (!function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function (array $matches) use ($ke) {
@@ -550,10 +550,10 @@ if (! function_exists('case_replace')) {
     }
 }
 
-if (! function_exists('kirim_versi_opensid')) {
+if (!function_exists('kirim_versi_opensid')) {
     function kirim_versi_opensid(): void
     {
-        if (! config_item('demo_mode')) {
+        if (!config_item('demo_mode')) {
             $ci = get_instance();
             if (empty($ci->header['desa']['kode_desa'])) {
                 return;
@@ -583,7 +583,7 @@ if (! function_exists('kirim_versi_opensid')) {
     }
 }
 
-if (! function_exists('kotak')) {
+if (!function_exists('kotak')) {
     function kotak(?string $data_kolom, int $max_kolom = 26): string
     {
         $view = '';
@@ -602,7 +602,7 @@ if (! function_exists('kotak')) {
     }
 }
 
-if (! function_exists('checklist')) {
+if (!function_exists('checklist')) {
     function checklist($kondisi_1, $kondisi_2): string
     {
         $view = '<td class="kotak padat tengah">';
@@ -614,10 +614,10 @@ if (! function_exists('checklist')) {
     }
 }
 
-if (! function_exists('create_tree_folder')) {
+if (!function_exists('create_tree_folder')) {
     function create_tree_folder($arr, string $baseDir)
     {
-        if (! empty($arr)) {
+        if (!empty($arr)) {
             $tmp = '<ul class="tree-folder">';
 
             foreach ($arr as $i => $val) {
@@ -636,7 +636,7 @@ if (! function_exists('create_tree_folder')) {
     }
 }
 
-if (! function_exists('generatePengikut')) {
+if (!function_exists('generatePengikut')) {
     function generatePengikut($pengikut, $keterangan): string
     {
         $html = '
@@ -688,7 +688,7 @@ if (! function_exists('generatePengikut')) {
     }
 }
 
-if (! function_exists('generatePengikutSuratKIS')) {
+if (!function_exists('generatePengikutSuratKIS')) {
     function generatePengikutSuratKIS($pengikut): string
     {
         $html = '
@@ -728,7 +728,7 @@ if (! function_exists('generatePengikutSuratKIS')) {
     }
 }
 
-if (! function_exists('generatePengikutKartuKIS')) {
+if (!function_exists('generatePengikutKartuKIS')) {
     function generatePengikutKartuKIS($kis): string
     {
         $html = '
@@ -768,7 +768,7 @@ if (! function_exists('generatePengikutKartuKIS')) {
     }
 }
 
-if (! function_exists('generatePengikutPindah')) {
+if (!function_exists('generatePengikutPindah')) {
     function generatePengikutPindah($pengikut): string
     {
         $html = '
@@ -812,7 +812,7 @@ function tidak_ada_data($col = 12, string $message = 'Data Tidak Tersedia'): voi
     echo $html;
 }
 
-if (! function_exists('data_lengkap')) {
+if (!function_exists('data_lengkap')) {
     function data_lengkap(): bool
     {
         $CI = &get_instance();
@@ -821,7 +821,7 @@ if (! function_exists('data_lengkap')) {
     }
 }
 
-if (! function_exists('buat_class')) {
+if (!function_exists('buat_class')) {
     function buat_class($class1 = '', $class2 = '', $required = false): string
     {
         $onlyClass = '';
@@ -844,18 +844,18 @@ if (! function_exists('buat_class')) {
     }
 }
 
-if (! function_exists('cek_lokasi_peta')) {
+if (!function_exists('cek_lokasi_peta')) {
     function cek_lokasi_peta(array $wilayah): bool
     {
         if ($wilayah['dusun'] == '-') {
             $wilayah = identitas();
         }
 
-        return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
+        return $wilayah['path'] && ($wilayah['lat'] && !empty($wilayah['lng']));
     }
 }
 
-if (! function_exists('config_email')) {
+if (!function_exists('config_email')) {
     function config_email()
     {
         return [
@@ -870,7 +870,7 @@ if (! function_exists('config_email')) {
 }
 
 // source: https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
-if (! function_exists('geoip_info')) {
+if (!function_exists('geoip_info')) {
     function geoip_info($ip = null, $purpose = 'location', $deep_detect = true)
     {
         $output = null;
@@ -947,17 +947,17 @@ if (! function_exists('geoip_info')) {
     }
 }
 
-if (! function_exists('batal')) {
+if (!function_exists('batal')) {
     function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
     }
 }
 
-if (! function_exists('sensorEmail')) {
+if (!function_exists('sensorEmail')) {
     function sensorEmail($email): string
     {
-        if (! $email || null === $email) {
+        if (!$email || null === $email) {
             return '';
         }
         $atPosition = strpos($email, '@');
@@ -970,7 +970,7 @@ if (! function_exists('sensorEmail')) {
     }
 }
 
-if (! function_exists('gis_simbols')) {
+if (!function_exists('gis_simbols')) {
     function gis_simbols()
     {
         $simbols = DB::table('gis_simbol')->get('simbol');
@@ -979,7 +979,7 @@ if (! function_exists('gis_simbols')) {
     }
 }
 
-if (! function_exists('admin_menu')) {
+if (!function_exists('admin_menu')) {
     /**
      * admin_menu untuk menampilkan menu admin yang aktif.
      *
@@ -997,7 +997,7 @@ if (! function_exists('admin_menu')) {
     }
 }
 
-if (! function_exists('menu_tema')) {
+if (!function_exists('menu_tema')) {
     /**
      * admin_menu untuk menampilkan menu admin yang aktif.
      *
@@ -1013,7 +1013,7 @@ if (! function_exists('menu_tema')) {
     }
 }
 
-if (! function_exists('createDropdownMenu')) {
+if (!function_exists('createDropdownMenu')) {
     function createDropdownMenu($menuData, $level = 0)
     {
         if ($level) echo '<ul class="dropdown-menu">';
@@ -1021,7 +1021,7 @@ if (! function_exists('createDropdownMenu')) {
         foreach ($menuData as $item) {
             $level++;
             echo '<li class="dropdown"><a class="dropdown-toggle" href="' . $item['link_url'] . '">' . $item['nama'] . '</a>';
-            if (! empty($item['childrens'])) {
+            if (!empty($item['childrens'])) {
                 createDropdownMenu($item['childrens'], $level);
             }
             echo '</li>';
@@ -1038,7 +1038,7 @@ if (! function_exists('createDropdownMenu')) {
  * @return array
  */
 // TODO:: Masih bermasalah untuk nama dengan singkatan, misalnya M., Muh. Moh., A. karena akan terbaca sebagai gelar depan
-if (! function_exists('pecah_nama_gelar')) {
+if (!function_exists('pecah_nama_gelar')) {
     function pecah_nama_gelar($nama)
     {
         $result = [];

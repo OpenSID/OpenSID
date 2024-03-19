@@ -81,6 +81,7 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024021371($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031471($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031572($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024031771($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -616,5 +617,48 @@ class Migrasi_dev extends MY_model
             'attribute'  => 'class="bilangan required" placeholder="7" min="0" type="number"',
             'kategori'   => 'beranda',
         ], $id);
+    }
+
+    protected function migrasi_2024031771($hasil, $id)
+    {
+        $wilayah = [
+            ['id' => 'Peta Wilayah [desa]', 'nama' => 'Peta Wilayah [desa]'],
+            ['id' => 'Peta Wilayah [dusun]', 'nama' => 'Peta Wilayah [dusun]'],
+            ['id' => 'Peta Wilayah RW', 'nama' => 'Peta Wilayah RW'],
+            ['id' => 'Peta Wilayah RT', 'nama' => 'Peta Wilayah RT']
+        ];
+
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Default Tampil Peta Wilayah',
+            'key'        => 'default_tampil_peta_wilayah',
+            'value'      => '',
+            'keterangan' => 'Default peta wilayah yang akan ditampilkan saat pertama kali akses peta',
+            'jenis'      => 'multiple-option-array',
+            'option'     => json_encode($wilayah),
+            'attribute'  => null,
+            'kategori'   => 'peta',
+        ], $id);
+
+        $infrastruktur = [
+            ['id' => 'Infrastruktur [desa]', 'nama' => 'Infrastruktur [desa]'],
+            ['id' => 'Infrastruktur (Area)', 'nama' => 'Infrastruktur (Area)'],
+            ['id' => 'Infrastruktur (Garis)', 'nama' => 'Infrastruktur (Garis)'],
+            ['id' => 'Infrastruktur (Lokasi)', 'nama' => 'Infrastruktur (Lokasi)'],
+            ['id' => 'Infrastruktur (Lokasi Pembangunan)', 'nama' => 'Infrastruktur (Lokasi Pembangunan)'],
+            ['id' => 'Letter C-Desa', 'nama' => 'Letter C-Desa']
+        ];
+
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Default Tampil Peta Infrastruktur',
+            'key'        => 'default_tampil_peta_infrastruktur',
+            'value'      => '',
+            'keterangan' => 'Default peta infrastruktur yang akan ditampilkan saat pertama kali akses peta',
+            'jenis'      => 'multiple-option-array',
+            'option'     => json_encode($infrastruktur),
+            'attribute'  => null,
+            'kategori'   => 'peta',
+        ], $id);
+
+        return $hasil;
     }
 }

@@ -19,6 +19,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 13. [#7763](https://github.com/OpenSID/OpenSID/issues/7763) Penambahan arsip surat dinas.
 14. [#6928](https://github.com/OpenSID/OpenSID/issues/6928) Penambahan pengaturan notifikasi rilis.
 15. [#7703](https://github.com/OpenSID/OpenSID/issues/7703) Penambahan cetak/unduh pada modul lapak (produk, pelapak dan kategori).
+16. [#3777](https://github.com/OpenSID/OpenSID/issues/3777) Penambahan pengaturan wilayah dan infrastruktur yang ditampilkan pada halaman peta web. 
 
 
 #### BUG
