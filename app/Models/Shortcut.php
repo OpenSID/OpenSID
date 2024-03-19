@@ -120,7 +120,7 @@ class Shortcut extends BaseModel
             }
 
             if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
-                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
+                if (!preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
                     $raw_query = preg_replace('/^DB::table/i', 'DB::table', $raw_query);
                     $raw_query = preg_replace('/->count\(\)/i', "->where('config_id', {$config_id})->count()", $raw_query);
                 }
@@ -129,7 +129,7 @@ class Shortcut extends BaseModel
             }
 
             if (preg_match('/^select/i', $raw_query)) {
-                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
+                if (!preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
                     $raw_query = preg_replace('/^select/i', 'select', $raw_query);
                     $raw_query = preg_replace('/from/i', 'from', $raw_query);
                     $raw_query = preg_replace('/where/i', "where config_id = {$config_id} and", $raw_query);
@@ -138,7 +138,7 @@ class Shortcut extends BaseModel
                 return DB::statement($raw_query);
             }
 
-            if (! class_exists($raw_query)) {
+            if (!class_exists($raw_query)) {
                 throw new Exception("Class '{$raw_query}' not found");
             }
 
@@ -165,7 +165,7 @@ class Shortcut extends BaseModel
     {
         $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
 
-        return [
+        $querys = [
             // Wilayah
             'Dusun' => Wilayah::dusun()->count(),
             'RW'    => Wilayah::rw()->count(),
@@ -195,9 +195,6 @@ class Shortcut extends BaseModel
             // Lembaga
             'Lembaga' => Kelompok::status()->tipe('lembaga')->count(),
 
-            // Bantuan
-            'Bantuan' => Bantuan::count(),
-
             // Pembangunan
             'Pembangunan' => Pembangunan::count(),
 
@@ -222,7 +219,7 @@ class Shortcut extends BaseModel
                         });
                 })
                 ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
+                ->when($isAdmin == null || !in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
 
             // Layanan Mandiri
             'Verifikasi Layanan Mandiri' => PendudukMandiri::status()->count(),
@@ -231,6 +228,21 @@ class Shortcut extends BaseModel
             'Produk'          => Produk::count(),
             'Pelapak'         => Pelapak::count(),
             'Kategori Produk' => ProdukKategori::count(),
+
+            // Bantuan
+            'Bantuan'                  => Bantuan::count(),
+            'Bantuan Penduduk'         => Bantuan::whereSasaran(1)->count(),
+            'Bantuan Keluarga'         => Bantuan::whereSasaran(2)->count(),
+            'Bantuan Rumah Tangga'     => Bantuan::whereSasaran(3)->count(),
+            'Bantuan Kelompok/Lembaga' => Bantuan::whereSasaran(4)->count(),
         ];
+
+        $bantuan = Bantuan::withCount('peserta')->get()->mapWithKeys(function ($bantuan) {
+            return [
+                'Bantuan ' . $bantuan->nama => $bantuan->peserta_count
+            ];
+        })->toArray();
+
+        return array_merge($querys, $bantuan);
     }
 }
