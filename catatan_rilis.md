@@ -18,6 +18,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 12. [#7764](https://github.com/OpenSID/OpenSID/issues/7764) Penambahan cetak surat dinas.
 13. [#7763](https://github.com/OpenSID/OpenSID/issues/7763) Penambahan arsip surat dinas.
 14. [#6928](https://github.com/OpenSID/OpenSID/issues/6928) Penambahan pengaturan notifikasi rilis.
+15. [#7703](https://github.com/OpenSID/OpenSID/issues/7703) Penambahan cetak/unduh pada modul lapak (produk, pelapak dan kategori).
 
 
 #### BUG

@@ -49,19 +49,10 @@ class Lapak_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('pamong_model');
     }
 
-    public function index(): void
-    {
-        redirect("{$this->controller}/produk");
-    }
-
-    public function navigasi()
-    {
-        return Produk::navigasi();
-    }
-
-    public function produk()
+    public function index()
     {
         $data['navigasi'] = Produk::navigasi();
 
@@ -185,5 +176,31 @@ class Lapak_admin extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal mengubah data', "{$this->controller}/produk");
+    }
+
+
+
+    public function dialog($aksi = 'cetak'): void
+    {
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("lapak_admin/produk/aksi/{$aksi}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi($aksi = 'cetak'): void
+    {
+        $post                   = $this->input->post();
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['main']           = Produk::with(['pelapak.penduduk:id,nama', 'kategori:id,kategori'])->get();
+        $data['file']           = 'Data Produk';
+        $data['isi']            = 'admin.lapak.produk.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 }

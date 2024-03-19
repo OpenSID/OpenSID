@@ -53,6 +53,11 @@ class Pelapak extends BaseModel
         return $this->belongsTo(PendudukHidup::class, 'id_pend', 'id');
     }
 
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id', 'id_pelapak');
+    }
+
     public function scopelistPelapak($query)
     {
         return $this->withoutGlobalScopes()
