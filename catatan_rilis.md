@@ -15,6 +15,8 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 9. [#2486](https://github.com/OpenSID/OpenSID/issues/2486) Penambahan modul tema.
 10. [#6184](https://github.com/OpenSID/OpenSID/issues/6184) Penambahan detail cetak pembangunan.
 11. [#4934](https://github.com/OpenSID/OpenSID/issues/4934) Penambahan pengaturan penerima program bantuan pada sasaran keluarga.
+12. [#7764](https://github.com/OpenSID/OpenSID/issues/7764) Penambahan cetak surat dinas.
+13. [#7763](https://github.com/OpenSID/OpenSID/issues/7763) Penambahan arsip surat dinas.
 
 
 #### BUG

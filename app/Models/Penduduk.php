@@ -740,4 +740,20 @@ class Penduduk extends BaseModel
             return $item;
         })->toArray();
     }
+
+    public static function listDokumen(int $idPenduduk): array
+    {
+        $result = [];
+
+        $result = DokumenHidup::whereIdPend($idPenduduk)->where('deleted', 0)
+            ->get()->map(static function ($item, $key) {
+                $result           = $item->toArray();
+                $result['hidden'] = $item->id_parent ? true : false;
+                $result['no']     = $key + 1;
+
+            return $result;
+        })->toArray();
+
+        return $result;
+    }
 }

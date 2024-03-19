@@ -55,6 +55,7 @@ use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
 use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use App\Models\Pamong;
 use App\Models\SuratDinas;
 use CI_Controller;
@@ -271,7 +272,7 @@ class TinyMCE
 
             $kodeIsianPendudukLuar = KodeIsianPendudukLuar::$kodeIsian;
             if ($key == 'individu') {
-                if (! array_intersect($value['data'], [1])) {
+                if (! array_intersect(($value['data'] ?? []), [1])) {
                     $daftar_kode_isian[$judulPenduduk] = collect($daftar_kode_isian[$judulPenduduk])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
@@ -281,7 +282,7 @@ class TinyMCE
             } else {
                 $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
                 $kodeIsianPendudukLuar              = array_map(static fn ($item): string => $item . "_{$key}", $kodeIsianPendudukLuar);
-                if (! array_intersect($value['data'], [1])) {
+                if (! array_intersect($value['data'] ?? [], [1])) {
                     $daftar_kode_isian[$value['judul']] = collect($daftar_kode_isian[$value['judul']])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
@@ -613,7 +614,7 @@ class TinyMCE
         }
 
         // exclude lampiran jika lampiran tidak dikaitkan dengan nilai inputan tertentu
-        $lampiran = $this->excludeLampiran($surat, $input, $lampiran);
+        $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
 
         for ($i = 0; $i < count($lampiran); $i++) {
             // Cek lampiran desa
@@ -723,13 +724,23 @@ class TinyMCE
     public function cetak_surat($id)
     {
         $surat = LogSurat::find($id);
-        $input = json_decode($surat->input, true) ?? [];
+        $this->cetak_surat_tinymce($surat);
+    }
 
+    public function cetak_surat_dinas($id)
+    {
+        $surat              = LogSuratDinas::find($id);
+        $surat->formatSurat = $surat->suratDinas;
+        $this->cetak_surat_tinymce($surat);
+    }
+
+    public function cetak_surat_tinymce($surat)
+    {
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
             return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
-
+        $input          = json_decode($surat->input, true) ?? [];
         $isi_cetak      = $surat->isi_surat;
         $nama_surat     = $surat->nama_surat;
         $cetak['surat'] = $surat->formatSurat;

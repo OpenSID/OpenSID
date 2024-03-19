@@ -414,7 +414,7 @@ class SuratDinas extends BaseModel
      */
     public function logSurat(): BelongsTo
     {
-        return $this->belongsTo(LogSurat::class, 'id', 'id_format_surat');
+        return $this->belongsTo(LogSuratDinas::class, 'id', 'id_format_surat');
     }
 
     /**

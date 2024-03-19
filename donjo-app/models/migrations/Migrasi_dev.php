@@ -35,10 +35,13 @@
  *
  */
 
-use Illuminate\Support\Str;
+defined('BASEPATH') || exit('No direct script access allowed');
+
+use App\Models\Modul;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,10 +58,12 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2024031371($hasil);
         $hasil = $hasil && $this->migrasi_2024080302($hasil);
         $hasil = $hasil && $this->migrasi_2024031375($hasil);
+        $hasil = $hasil && $this->migrasi_2024031373($hasil);
         $hasil = $hasil && $this->migrasi_2024031371($hasil);
-        $hasil = $hasil && $this->migrasi_2024031372($hasil);
+        $hasil = $hasil && $this->migrasi_2024031374($hasil);
 
         return $hasil && true;
     }
@@ -72,6 +77,7 @@ class Migrasi_dev extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024080301($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031171($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024031372($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024021371($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031471($hasil, $id);
         }
@@ -97,6 +103,7 @@ class Migrasi_dev extends MY_model
             'ikon_kecil' => 'fa fa-book',
             'parent'     => 0,
         ]);
+        $parentId = Modul::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where(['config_id' => $config_id, 'slug' => 'surat-dinas'])->first()->id;
 
         return $hasil && $this->tambah_modul([
             'config_id'  => $config_id,
@@ -109,13 +116,13 @@ class Migrasi_dev extends MY_model
             'level'      => 2,
             'hidden'     => 0,
             'ikon_kecil' => 'fa fa-cog',
-            'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'surat-dinas'])->row()->id,
+            'parent'     => $parentId,
         ]);
     }
 
     protected function migrasi_2024080302($hasil)
     {
-        if (!Schema::hasTable('surat_dinas')) {
+        if (! Schema::hasTable('surat_dinas')) {
             Schema::create('surat_dinas', static function (Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('config_id')->nullable();
@@ -147,7 +154,8 @@ class Migrasi_dev extends MY_model
                 $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
                 $table->integer('updated_by')->nullable();
 
-                $table->unique(['config_id', 'url_surat'], 'url_surat_config');
+                $table->unique(['config_id', 'url_surat'], 'url_surat_dinas_config');
+                $table->foreign(['config_id'], 'surat_dinas_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
             });
         }
 
@@ -287,6 +295,92 @@ class Migrasi_dev extends MY_model
         ], $id);
     }
 
+    protected function migrasi_2024031371($hasil)
+    {
+        if (! Schema::hasTable('log_surat_dinas')) {
+            Schema::create('log_surat_dinas', static function (Blueprint $table) {
+                $table->integer('id', true);
+                $table->integer('config_id')->nullable()->index('log_surat_config_fk');
+                $table->integer('id_format_surat');
+                $table->integer('id_pamong');
+                $table->string('nama_pamong', 100)->nullable()->comment('Nama pamong agar tidak berubah saat ada perubahan di master pamong');
+                $table->string('nama_jabatan', 100)->nullable();
+                $table->integer('id_user');
+                $table->timestamp('tanggal')->useCurrent();
+                $table->string('bulan', 2)->nullable();
+                $table->string('tahun', 4)->nullable();
+                $table->string('no_surat', 20)->nullable();
+                $table->string('nama_surat', 100)->nullable();
+                $table->string('lampiran', 100)->nullable();
+                $table->string('keterangan', 200)->nullable();
+                $table->string('lokasi_arsip', 150)->nullable()->default('');
+                $table->integer('urls_id')->nullable()->unique('urls_id');
+                $table->tinyInteger('status')->default(0)->comment('0. Konsep, 1. Cetak');
+                $table->string('log_verifikasi', 100)->nullable();
+                $table->boolean('tte')->nullable();
+                $table->boolean('verifikasi_operator')->nullable();
+                $table->boolean('verifikasi_kades')->nullable();
+                $table->boolean('verifikasi_sekdes')->nullable();
+                $table->longText('isi_surat')->nullable();
+                $table->longText('input')->nullable();
+                $table->tinyInteger('karakter')->default(1)->nullable()->comment('1:biasa, 2:terbatas, 3:rahasia');
+                $table->tinyInteger('derajat')->default(1)->nullable()->comment('1:biasa, 2:segera, 3:sangat segera');
+                $table->timestamp('created_at')->nullable()->useCurrent();
+                $table->integer('created_by')->nullable();
+                $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
+                $table->integer('updated_by')->nullable();
+                $table->dateTime('deleted_at')->nullable();
+
+                $table->foreign(['config_id'], 'log_surat_dinas_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
+                $table->foreign(['id_format_surat'], 'log_surat_dinas_format_fk')->references(['id'])->on('surat_dinas')->onUpdate('CASCADE')->onDelete('CASCADE');
+                $table->foreign(['id_user'], 'log_surat_dinas_user_fk')->references(['id'])->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
+                $table->foreign(['created_by'], 'log_surat_dinas_created_by_fk')->references(['id'])->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
+                $table->foreign(['updated_by'], 'log_surat_dinas_updated_by_fk')->references(['id'])->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
+            });
+        }
+
+        if (! Schema::hasColumn('log_tolak', 'id_surat_dinas') && Schema::hasTable('log_surat_dinas')) {
+            Schema::table('log_tolak', static function (Blueprint $table) {
+                $table->integer('id_surat_dinas')->nullable();
+            });
+            $this->tambahForeignKey('log_tolak_surat_dinas_fk', 'log_tolak', 'id_surat_dinas', 'log_surat_dinas', 'id', true);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024031372($hasil, $config_id)
+    {
+        $parentId = Modul::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where(['config_id' => $config_id, 'slug' => 'surat-dinas'])->first()->id;
+        $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Cetak Surat',
+            'slug'       => 'cetak-surat-dinas',
+            'url'        => 'surat_dinas_cetak',
+            'aktif'      => 1,
+            'ikon'       => 'fa-files-o',
+            'urut'       => 2,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa fa-files-o',
+            'parent'     => $parentId,
+        ]);
+
+        return $hasil && $this->tambah_modul([
+            'config_id'  => $config_id,
+            'modul'      => 'Arsip Layanan',
+            'slug'       => 'arsip-surat-dinas',
+            'url'        => 'surat_dinas_arsip',
+            'aktif'      => 1,
+            'ikon'       => 'fa-folder-open',
+            'urut'       => 3,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa fa-folder-open',
+            'parent'     => $parentId,
+        ]);
+    }
+
     public function migrasi_2024021371($hasil, $config_id)
     {
         if (! Schema::hasTable('shortcut')) {
@@ -424,7 +518,7 @@ class Migrasi_dev extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2024031371($hasil)
+    protected function migrasi_2024031373($hasil)
     {
         if (! $this->db->field_exists('file_akta_mati', 'log_penduduk')) {
             $hasil = $hasil && $this->db->query('ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;');
@@ -449,8 +543,8 @@ class Migrasi_dev extends MY_model
             'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'admin-web'])->row()->id,
         ]);
 
-        if (!Schema::hasTable('theme')) {
-            Schema::create('theme', function (Blueprint $table) {
+        if (! Schema::hasTable('theme')) {
+            Schema::create('theme', static function (Blueprint $table) {
                 $table->id();
                 $table->integer('config_id');
                 $table->string('nama', 50)->default('0');
@@ -491,10 +585,10 @@ class Migrasi_dev extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2024031372($hasil)
+    protected function migrasi_2024031374($hasil)
     {
-        if (!$this->db->field_exists('kk_level', 'program')) {
-            $this->db->query("ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`");
+        if (! $this->db->field_exists('kk_level', 'program')) {
+            $this->db->query('ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`');
         }
 
         return $hasil;

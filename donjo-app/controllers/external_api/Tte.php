@@ -36,6 +36,7 @@
  */
 
 use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use App\Models\LogTte;
 use App\Models\Pamong;
 use App\Models\PermohonanSurat;
@@ -145,7 +146,8 @@ class Tte extends Tte_Controller
         DB::beginTransaction();
 
         try {
-            $data    = LogSurat::where('id', '=', $request['id'])->first();
+            $tipe    = $request['tipe'] ?? 'layanan_surat';
+            $data    = $tipe == 'surat_dinas' ? LogSuratDinas::where('id', '=', $request['id'])->first() : LogSurat::where('id', '=', $request['id'])->first();
             $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             if (setting('visual_tte') == 1) {

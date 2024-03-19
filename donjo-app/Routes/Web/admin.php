@@ -727,7 +727,7 @@ Route::group('surat_mohon', static function (): void {
     Route::post('/deleteAll', 'Surat_mohon@delete_all')->name('surat_mohon.delete_all');
 });
 
-// Surat Dinas > Pengaturan Surat
+// Surat Dinas > Pengaturan Surat Dinas
 Route::group('surat_dinas', static function (): void {
     Route::get('', 'Surat_dinas@index')->name('surat_dinas.index');
     Route::get('datatables', 'Surat_dinas@datatables')->name('surat_dinas.datatables');
@@ -752,6 +752,49 @@ Route::group('surat_dinas', static function (): void {
     Route::post('impor_store', 'Surat_dinas@impor_store')->name('surat_dinas.impor_store');
     Route::post('impor', 'Surat_dinas@impor')->name('surat_dinas.impor');
     Route::get('templateTinyMCE', 'Surat_dinas@templateTinyMCE')->name('surat_dinas.templateTinyMCE');
+});
+// Surat Dinas > Cetak
+Route::group('surat_dinas_cetak', static function (): void {
+    Route::get('', 'Surat_dinas_cetak@index')->name('surat_dinas_cetak.index');
+    Route::get('datatables', 'Surat_dinas_cetak@datatables')->name('surat_dinas_cetak.datatables');
+    Route::get('apidaftarsurat', 'Surat_dinas_cetak@apidaftarsurat')->name('surat_dinas_cetak.apidaftarsurat');
+    Route::match(['GET', 'POST'], 'form/{url?}/{id?}', 'Surat_dinas_cetak@form')->name('surat_dinas_cetak.form');
+    Route::post('pratinjau/{url?}/{id?}', 'Surat_dinas_cetak@pratinjau')->name('surat_dinas_cetak.pratinjau');
+    Route::post('pdf/{preview?}', 'Surat_dinas_cetak@pdf')->name('surat_dinas_cetak.pdf');
+    Route::post('konsep', 'Surat_dinas_cetak@konsep')->name('surat_dinas_cetak.konsep');
+    Route::match(['GET', 'POST'], 'cetak/{id}', 'Surat_dinas_cetak@cetak')->name('surat_dinas_cetak.cetak');
+    Route::post('nomor_surat_duplikat', 'Surat_dinas_cetak@nomor_surat_duplikat')->name('surat_dinas_cetak.nomor_surat_duplikat');
+    Route::post('search', 'Surat_dinas_cetak@search')->name('surat_dinas_cetak.search');
+    Route::match(['GET', 'POST'], 'favorit/{id?}/{val?}', 'Surat_dinas_cetak@favorit')->name('surat_dinas_cetak.favorit');
+    Route::post('format_nomor_surat', 'Surat_dinas_cetak@format_nomor_surat')->name('surat_dinas_cetak.format_nomor_surat');
+    Route::get('apipenduduksurat', 'Surat_dinas_cetak@apipenduduksurat')->name('surat_dinas_cetak.apipenduduksurat');
+});
+// Surat Dinas > Arsip Layanan
+Route::group('surat_dinas_arsip', static function (): void {
+    Route::get('', 'Surat_dinas_arsip@index')->name('surat_dinas_arsip.index');
+    Route::get('masuk', 'Surat_dinas_arsip@masuk')->name('surat_dinas_arsip.masuk');
+    Route::get('ditolak', 'Surat_dinas_arsip@ditolak')->name('surat_dinas_arsip.ditolak');
+    Route::get('datatables', 'Surat_dinas_arsip@datatables')->name('surat_dinas_arsip.datatables');
+    Route::post('verifikasi', 'Surat_dinas_arsip@verifikasi')->name('surat_dinas_arsip.verifikasi');
+    Route::post('tolak', 'Surat_dinas_arsip@tolak')->name('surat_dinas_arsip.tolak');
+    Route::get('tte', 'Surat_dinas_arsip@tte')->name('surat_dinas_arsip.tte');
+    Route::get('kembalikan', 'Surat_dinas_arsip@kembalikan')->name('surat_dinas_arsip.kembalikan');
+    Route::get('periksa/{id}', 'Surat_dinas_arsip@periksa')->name('surat_dinas_arsip.periksa');
+    Route::get('edit_keterangan/{id}', 'Surat_dinas_arsip@edit_keterangan')->name('surat_dinas_arsip.edit_keterangan');
+    Route::post('update_keterangan/{id}', 'Surat_dinas_arsip@update_keterangan')->name('surat_dinas_arsip.update_keterangan');
+    Route::get('delete/{id}', 'Surat_dinas_arsip@delete')->name('surat_dinas_arsip.delete');
+    Route::get('perorangan/{id?}', 'Surat_dinas_arsip@perorangan')->name('surat_dinas_arsip.perorangan');
+    Route::get('perorangan_datatables', 'Surat_dinas_arsip@perorangan_datatables')->name('surat_dinas_arsip.perorangan_datatables');
+    Route::get('graph', 'Surat_dinas_arsip@graph')->name('surat_dinas_arsip.graph');
+    Route::get('unduh/{tipe?}/{id?}/{preview?}', 'Surat_dinas_arsip@unduh')->name('surat_dinas_arsip.unduh');
+    Route::get('dialog_cetak/{aksi?}', 'Surat_dinas_arsip@dialog_cetak')->name('surat_dinas_arsip.dialog_cetak');
+    Route::post('cetak/{aksi?}', 'Surat_dinas_arsip@cetak')->name('surat_dinas_arsip.cetak');
+    Route::get('qrcode/{id?}', 'Surat_dinas_arsip@qrcode')->name('surat_dinas_arsip.qrcode');
+    Route::get('perbaiki', 'Surat_dinas_arsip@perbaiki')->name('surat_dinas_arsip.perbaiki');
+    Route::get('kecamatan', 'Surat_dinas_arsip@kecamatan')->name('surat_dinas_arsip.kecamatan');
+    Route::get('data_kecamatan', 'Surat_dinas_arsip@data_kecamatan')->name('surat_dinas_arsip.data_kecamatan');
+    Route::get('dataPenduduk/{id?}', 'Surat_dinas_arsip@dataPenduduk')->name('surat_dinas_arsip.dataPenduduk');
+    Route::get('bulanTahun/{tahun?}', 'Surat_dinas_arsip@bulanTahun')->name('surat_dinas_arsip.bulanTahun');
 });
 
 // Sekretariat > Informasi Publik

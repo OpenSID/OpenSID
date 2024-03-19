@@ -6,7 +6,7 @@
 
     <div class="box-body">
         <div class="form-group">
-            <textarea name="template_desa" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' data-urlsalintemplate="surat_dinas" data-salintemplate="isi" class="form-control input-sm editor required">{{ $suratDinas->template_desa ?? $suratDinas->template }}</textarea>
+            <textarea name="template_desa" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' data-urlkodeisian="surat_dinas" data-urlsalintemplate="surat_dinas" data-salintemplate="isi" class="form-control input-sm editor required">{{ $suratDinas->template_desa ?? $suratDinas->template }}</textarea>
         </div>
     </div>
 </div>
@@ -14,20 +14,7 @@
 <div class="tab-pane" id="form-isian">
     @include('admin.surat_dinas.pengaturan.kembali')
 
-    <div class="box-body">
-        <div class="row">
-            <label for="penduduk_berulang" class="col-sm-3">Data Pelaku Digunakan Berulang</label>
-            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
-                <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratDinas->sumber_penduduk_berulang ?? 0)">
-                    <input type="radio" name="sumber_penduduk_berulang" class="form-check-input" value="1" @checked($suratDinas->sumber_penduduk_berulang ?? 0) autocomplete="off">Ya
-                </label>
-                <label class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!($suratDinas->sumber_penduduk_berulang ?? 0))">
-                    <input type="radio" name="sumber_penduduk_berulang" class="form-check-input" value="0" @checked(!($suratDinas->sumber_penduduk_berulang ?? 0)) autocomplete="off">Tidak
-                </label>
-            </div>
-        </div>
-
-        <hr>
+    <div class="box-body">        
         <a id="btn-new-tab" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Bagian Form</a>
         <hr>
 
@@ -82,95 +69,7 @@
                                     readonly
                                 >
                             </div>
-                        </div>
-
-                        <hr>
-                        <h5><b>Sumber Data Pelaku</b></h5>
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped sumber-data">
-                                <tbody>
-                                    <tr style="font-weight: bold;">
-                                        <td width="40%">Data Kategori</td>
-                                        <td>Pilihan</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Tampil Sumber Data</td>
-                                        <td>
-                                            <select id="sumber_data" class="form-control input-sm isi-sumber-data" name="sumber" onchange='tampil_sumber_dinamis("#form-utama", this.value)'>
-                                                <option value="1" @selected('1' == $suratDinas->form_isian->individu->sumber)>YA
-                                                <option value="0" @selected('0' == $suratDinas->form_isian->individu->sumber)>TIDAK
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="sumber_data">
-                                        <td>Data Pelaku</td>
-                                        <td>
-                                            @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                            <select id="data_utama" class="form-control input-sm select2 required" name="data_utama[]" multiple>
-                                                <option value="1" @selected(in_array(1, $suratDinas->form_isian->individu->data ?? []))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
-                                                @foreach ($pendudukLuar as $index => $penduduk)
-                                                    <option value="{{ $index }}" @selected(in_array($index, $suratDinas->form_isian->individu->data ?? []))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="sumber_data">
-                                        <td>Jenis Kelamin</td>
-                                        <td>
-                                            <select class="form-control input-sm" name="individu_sex">
-                                                <option value="">SEMUA</option>
-                                                @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data)
-                                                    <option value="{{ $key }}" @selected($key == $suratDinas->form_isian->individu->sex)>
-                                                        {{ $data }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="sumber_data">
-                                        <td>Jenis Peristiwa</td>
-                                        <td>
-                                            <select id="individu_status_dasar" class="form-control select2 input-sm" name="individu_status_dasar[]" multiple>
-                                                @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
-                                                    @php
-                                                        $select = false;
-                                                        if (in_array($key, is_array($suratDinas->form_isian->individu->status_dasar) ? $suratDinas->form_isian->individu->status_dasar : [$suratDinas->form_isian->individu->status_dasar])) {
-                                                            $select = true;
-                                                        }
-                                                    @endphp
-                                                    <option value="{{ $key }}" @selected($select)>
-                                                        {{ $data }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr class="sumber_data">
-                                        <td>Status Hubungan Dalam Keluarga (SHDK)</td>
-                                        <td>
-                                            <select id="individu_kk_level" class="form-control kk_level select2 input-sm" name="individu_kk_level[]" multiple>
-                                                @foreach ($form_isian['daftar_shdk'] as $key => $data)
-                                                    @php
-                                                        $select = false;
-                                                        if (in_array($key, $suratDinas->form_isian->individu->kk_level ?? [])) {
-                                                            $select = true;
-                                                        }
-                                                    @endphp
-                                                    <option value="{{ $key }}" @selected($select)>
-                                                        {{ $data }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        </div>                        
                         <hr>
 
                         @include('admin.surat_dinas.pengaturan.kode_isian')
@@ -178,8 +77,7 @@
                 </div>
                 @forelse ($kategori_nama as $item)
                     @php
-                        $kategori = $kategori_isian[$item];
-                        $tampil_sumber = $suratDinas->form_isian->{$item}->sumber == '1' ? '' : 'hide';
+                        $kategori = $kategori_isian[$item];                        
                     @endphp
                     <div class="tab-pane" id="tab-{{ $item }}">
                         <div class="box-body">
@@ -207,127 +105,8 @@
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ strtolower($suratDinas->form_isian->$item->prefix ?? $item) }}" minlength="3" maxlength="50">
                                 </div>
-                            </div>
-                            <div class="row" style="margin-top: 5px">
-                                <label for="isi-sebagai" class="col-sm-2">Sebagai</label>
-                                <div class="col-sm-8">
-                                    <select id="{{ $item }}_sebagai" class="form-control input-sm isi-sebagai-data" name="kategori_sebagai[{{ $item }}]" onchange='ubah_sebagai_dinamis("#tab-{{ $item }}", this.value)'>
-                                        <option value="0" @selected('0' == $suratDinas->form_isian->{$item}->sebagai)>Tidak Ada
-                                        <option value="2" @selected('2' == $suratDinas->form_isian->{$item}->sebagai)>Pemohon
-                                    </select>
-                                </div>
-                            </div>
-                            <hr>
-                            <h5 class="sumber-data-title"><b>Sumber Data Pelaku</b></h5>
-                            <div class="table-responsive">
-                                <table class="table table-hover table-striped sumber-data">
-                                    <tbody>
-                                        <tr style="font-weight: bold;">
-                                            <td width="40%">Data Kategori</td>
-                                            <td>Pilihan</td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>Tampil Sumber Data</td>
-                                            <td>
-                                                <select id="sumber_data_{{ $item }}" class="form-control input-sm isi-sumber-data" name="kategori_sumber[{{ $item }}]" onchange='tampil_sumber_dinamis("#tab-{{ $item }}", this.value)'>
-                                                    <option value="1" @selected('1' == $suratDinas->form_isian->{$item}->sumber)>YA
-                                                    <option value="0" @selected('0' == $suratDinas->form_isian->{$item}->sumber)>TIDAK
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="sumber_data {{ $tampil_sumber }}">
-                                            <td>Data Individu</td>
-                                            <td>
-                                                @php $desa_pend = strtoupper(setting('sebutan_desa')) @endphp
-                                                <select id="data_utama_{{ $item }}" class="form-control input-sm kategori" name="kategori_data_utama[{{ $item }}][]" multiple>
-                                                    <option value="1" @selected(in_array(1, $suratDinas->form_isian->{$item}->data ?? []))>{{ strtoupper('PENDUDUK ' . $desa_pend) }}</option>
-                                                    @foreach ($pendudukLuar as $index => $penduduk)
-                                                        <option value="{{ $index }}" @selected(in_array($index, $suratDinas->form_isian->{$item}->data ?? []))>{{ strtoupper(SebutanDesa($penduduk['title'])) }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @push('scripts')
-                                                    <script>
-                                                        $("#data_utama_{{ $item }}").select2();
-                                                    </script>
-                                                @endpush
-                                            </td>
-                                        </tr>
-
-                                        <tr class="sumber_data {{ $tampil_sumber }}">
-                                            <td>Jenis Kelamin</td>
-                                            <td>
-                                                <select class="form-control input-sm kategori select2" name="kategori_individu_sex[{{ $item }}]">
-                                                    <option value="">SEMUA</option>
-                                                    @foreach ($form_isian['daftar_jenis_kelamin'] as $key => $data)
-                                                        <option value="{{ $key }}" @selected($key == $suratDinas->form_isian->$item->sex)>
-                                                            {{ $data }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="sumber_data {{ $tampil_sumber }}">
-                                            <td>Jenis Peristiwa</td>
-                                            <td>
-                                                <select id="kategori_individu_status_dasar_{{ $item }}" class="form-control input-sm select2 kategori" name="kategori_individu_status_dasar[{{ $item }}][]" multiple>
-                                                    <option value="">SEMUA</option>
-                                                    @foreach ($form_isian['daftar_status_dasar'] as $key => $data)
-                                                        @php
-                                                            $select = false;
-                                                            if (in_array($key, $suratDinas->form_isian->$item->status_dasar ?? [])) {
-                                                                $select = true;
-                                                            }
-                                                        @endphp
-                                                        <option value="{{ $key }}" @selected($select)>
-                                                            {{ $data }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="sumber_data {{ $tampil_sumber }}">
-                                            <td>Status Hubungan Dalam Keluarga (SHDK)</td>
-                                            <td>
-                                                <select id="individu_kk_level_{{ $item }}" class="form-control input-sm select2 kategori kk_level" name="kategori_individu_kk_level[{{ $item }}][]" multiple>
-                                                    @foreach ($form_isian['daftar_shdk'] as $key => $data)
-                                                        @php
-                                                            $select = false;
-                                                            if (in_array($key, $suratDinas->form_isian->$item->kk_level ?? [])) {
-                                                                $select = true;
-                                                            }
-                                                        @endphp
-                                                        <option value="{{ $key }}" @selected($select)>
-                                                            {{ $data }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr class="sumber_data {{ $tampil_sumber }}">
-                                            <td>Hubungan Data</td>
-                                            <td>
-                                                <select class="form-control input-sm select2 kategori" name="kategori_hubungan[{{ $item }}]">
-                                                    <option value="">Pilih hubungan</option>
-                                                    @foreach ($suratDinas->form_isian as $key => $data)
-                                                        @if ($key == $item)
-                                                            @continue
-                                                        @endif
-                                                        <option value="{{ $key }}" @selected($key == $suratDinas->form_isian->$item->hubungan)>
-                                                            {{ $data->judul ?: $key }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <hr>
+                            </div>                            
+                            <hr>                            
 
                             @include('admin.surat_dinas.pengaturan.kategori_isian', ['key_kategori' => $item])
                         </div>
@@ -345,8 +124,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            var num = 0;
-            $('#form-utama select[name=sumber]').trigger('change')
+            var num = 0;            
             $('#btn-new-tab').click(function(e) {
                 var nama_kategori = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
                 num++
@@ -384,8 +162,7 @@
                         var utama_isi_judul = editElm[0].querySelector('.isi-judul')
                         var utama_isi_label = editElm[0].querySelector('.isi-label')
                         var utama_isi_info = editElm[0].querySelector('.isi-info')
-                        var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')
-                        var utama_sumber_data = editElm[0].querySelector('.isi-sumber-data')
+                        var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')                        
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
@@ -397,22 +174,16 @@
                         utama_isi_prefix.value = nama_kategori
 
                         // utama_isi_judul.removeAttribute('readonly')
-                        utama_isi_prefix.removeAttribute('readonly')
-                        utama_sumber_data.removeAttribute('disabled')
-                        utama_sumber_data.setAttribute('onchange', `tampil_sumber_dinamis("#tab-${nama_kategori}", this.value)`)
+                        utama_isi_prefix.removeAttribute('readonly')                        
 
                         // utama_isi_judul.setAttribute('onkeyup', `$('#tab-${nama_kategori} .isi-prefix').text(this.value.toLowerCase().replace(/ /g, '_'))`);
 
                         var utama_delete_btn = editElm[0].querySelector('.utama-delete')
                         utama_delete_btn.dataset.kategori = nama_kategori
                         utama_delete_btn.classList.remove('hide')
-
-                        var tbodySumberData = editElm[0].querySelector('table.sumber-data').querySelector('tbody')
-                        var lastTrSumberData = tbodySumberData.lastElementChild.cloneNode(true)
-                        var dropdownOptionTr = lastTrSumberData.lastElementChild.lastElementChild
+                        
                         var tabs = $('#form-isian #tabs').find('li')
-
-                        var elsumberData = editElm[0].querySelector('.sumber-data')
+                        
                         var elkodeIsian = editElm[0].querySelector('.kode-isian')
 
                         var elLabel = editElm[0].querySelector('input.isi-label')
@@ -420,38 +191,7 @@
                         newname = `kategori_${oldname}[${nama_kategori}]`
                         elLabel.name = newname
                         elLabel.value = nama_kategori
-
-                        if (elsumberData != null) {
-                            var selects = editElm[0].querySelectorAll('.sumber-data select');
-                            // Menghapus semua atribut dan kelas "select2" dari setiap elemen <select>
-                            selects.forEach((elselect2) => {
-                                oldname = elselect2.getAttribute('name')
-                                newname = `kategori_${oldname}[${nama_kategori}]`
-                                if (oldname == 'individu_kk_level[]') {
-                                    newname = `kategori_individu_kk_level[${nama_kategori}][]`
-                                }
-                                if (oldname == 'individu_status_dasar[]') {
-                                    newname = `kategori_individu_status_dasar[${nama_kategori}][]`
-                                }
-                                elselect2.name = newname
-                                elselect2.id = elselect2.id + `-${nama_kategori}`
-                            });
-
-                            lastTrSumberData.firstElementChild.innerText = 'Hubungan Data'
-                            dropdownOptionTr.innerHTML = ''
-                            dropdownOptionTr.name = `kategori_hubungan[${nama_kategori}]`
-                            dropdownOptionTr.removeAttribute('id')
-                            dropdownOptionTr.removeAttribute('multiple')
-                            dropdownOptionTr.className = 'form-control input-sm';
-                            // tambahkan option dinamis berdasarkan bagian form
-                            dropdownOptionTr.innerHTML += `<option value="">Pilih hubungan form</option>`
-                            tabs.each(function() {
-                                dropdownOptionTr.innerHTML += `<option value="${$(this).attr('data-name')}">${$(this).find('a').text()}</option>`
-                            })
-
-                            tbodySumberData.appendChild(lastTrSumberData)
-                            $(`[name="kategori_hubungan[${nama_kategori}]"]`).select2();
-                        }
+                        
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
 
@@ -578,17 +318,7 @@
                 $('#form-utama .isi-sebagai-data').val(1);
                 $(parent + ' .isi-sebagai-data').val(tipe);
             }
-        }
-
-        function tampil_sumber_dinamis(parent, tipe) {
-            if (tipe == 1) {
-                $(parent + ' .sumber_data').show();
-                $(parent + ' .sumber_data').removeClass('hide');
-            } else {
-                $(parent + ' .sumber_data').hide();
-                $(parent + ' .sumber_data').addClass('hide');
-            }
-        }
+        }        
 
         function loadSelect() {
             // console.log('load select');

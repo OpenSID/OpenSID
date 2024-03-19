@@ -284,7 +284,7 @@ class Surat_dinas extends Admin_Controller
                 }
             }
         }
-        $counter = count($request['tipe_kode']);
+        $counter = count($request['tipe_kode'] ?? []);
 
         for ($i = 0; $i < $counter; $i++) {
             if (empty($request['tipe_kode'][$i])) {
@@ -317,35 +317,18 @@ class Surat_dinas extends Admin_Controller
         // TODO:: Gabungkan kategori individu dengan kategori lainnya, jika individu hilangkan prefix kategorinya (individu)
         $formIsian = [
             'individu' => [
-                'sumber'         => (int) $request['sumber'] ?? 1,
-                'data'           => $request['data_utama'] ?? [1],
-                'sex'            => $request['individu_sex'] ?? null,
-                'status_dasar'   => $request['individu_status_dasar'] ?? null,
-                'kk_level'       => $request['individu_kk_level'] ?? null,
-                'data_orang_tua' => $request['data_orang_tua'] ?? 0,
-                'data_pasangan'  => $request['data_pasangan'] ?? 0,
-                'judul'          => $request['judul'] ?? 'Utama',
-                'label'          => $request['label'] ?? '',
-                'info'           => $request['info'] ?? '',
-                'hubungan'       => null,
+                'judul' => $request['judul'] ?? 'Utama',
+                'label' => $request['label'] ?? '',
+                'info'  => $request['info'] ?? '',
             ],
         ];
 
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
                 $formIsian[$kategori] = [
-                    'sumber'       => (int) $request['kategori_sumber'][$kategori] ?? 1,
-                    'data'         => $request['kategori_data_utama'][$kategori] ?? [1],
-                    'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
-                    'status_dasar' => $request['kategori_individu_status_dasar'][$kategori] ?? null,
-                    'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
-                    'judul'        => $request['kategori_judul'][$kategori] ?? null,
-                    'label'        => $request['kategori_label'][$kategori] ?? null,
-                    'info'         => $request['kategori_info'][$kategori] ?? null,
-                    'sebagai'      => (int) $request['kategori_sebagai'][$kategori] ?? 0,
-                    'hubungan'     => $request['kategori_hubungan'][$kategori] ?? null,
-                    // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
-                    // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
+                    'judul' => $request['kategori_judul'][$kategori] ?? null,
+                    'label' => $request['kategori_label'][$kategori] ?? null,
+                    'info'  => $request['kategori_info'][$kategori] ?? null,
                 ];
                 $manual_data = array_values(array_filter($request['kategori_pilihan_kode'][$kategori] ?? []));
                 if ($manual_data !== []) {
@@ -501,16 +484,15 @@ class Surat_dinas extends Admin_Controller
     public function pengaturan()
     {
         $this->set_hak_akses_rfm();
-        $data['font_option']   = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-        $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']        = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
-        $data['aksi']          = ci_route('surat_dinas.update');
-        $data['formAksi']      = ci_route('surat_dinas.edit_pengaturan');
-        $margin                = setting('surat_dinas_margin');
-        $data['margins']       = json_decode($margin, null) ?? SuratDinas::MARGINS;
-        $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
-        $data['alias']         = AliasKodeIsian::get();
+        $data['font_option'] = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+        $data['tte_demo']    = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $data['kades']       = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']      = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['aksi']        = ci_route('surat_dinas.update');
+        $data['formAksi']    = ci_route('surat_dinas.edit_pengaturan');
+        $margin              = setting('surat_dinas_margin');
+        $data['margins']     = json_decode($margin, null) ?? SuratDinas::MARGINS;
+        $data['alias']       = AliasKodeIsian::get();
 
         return view('admin.surat_dinas.pengaturan.pengaturan', $data);
     }
@@ -552,7 +534,6 @@ class Surat_dinas extends Admin_Controller
             'format_nomor_surat_dinas'   => $request['format_nomor_surat_dinas'],
             'format_tanggal_surat_dinas' => $request['format_tanggal_surat_dinas'],
             'surat_dinas_margin'         => json_encode($request['surat_dinas_margin'], JSON_THROW_ON_ERROR),
-            'form_penduduk_luar'         => json_encode(updateIndex($request['penduduk_luar']), JSON_THROW_ON_ERROR),
             'kodeisian_alias'            => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
         ];
     }
