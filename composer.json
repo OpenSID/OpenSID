@@ -21,8 +21,8 @@
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
-		"themes/esensi": "^2402",
-		"themes/natra": "^2402",
+		"themes/esensi": "dev-main",
+		"themes/natra": "dev-premium",
 		"voku/anti-xss": "^4.1"
 	},
 	"require-dev": {

@@ -75,15 +75,14 @@
                                                                             <a href="{{ route('teks_berjalan.urut').'/'. $data->id.'/1'}}" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
                                                                             <a href="{{ route('teks_berjalan.urut').'/'. $data->id.'/2'}}" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
                                                                             <a href="{{ route('teks_berjalan.form').'/'. $data->id }}" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-                                                                            @if ($data->status == '2')
-                                                                                <a href="{{ route('teks_berjalan.lock').'/'. $data->id.'/1'}}" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+                                                                            @if ($data->status == \App\Enums\StatusEnum::YA)
+                                                                                <a href="{{ route('teks_berjalan.lock').'/'. $data->id.'/'.\App\Enums\StatusEnum::TIDAK}}" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
                                                                             @else
-                                                                                <a href="{{ route('teks_berjalan.lock').'/'. $data->id.'/2'}}" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+                                                                                <a href="{{ route('teks_berjalan.lock').'/'. $data->id.'/'.\App\Enums\StatusEnum::YA}}" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
                                                                             @endif
                                                                         @endif
                                                                         @if (can('h'))
-                                                                    
-                                                                        <a href="#" data-href="{{ route('teks_berjalan.delete').'/'. $data->id}}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                                                                            <a href="#" data-href="{{ route('teks_berjalan.delete').'/'. $data->id}}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                                         @endif
                                                                     </td>
                                                                 @endif

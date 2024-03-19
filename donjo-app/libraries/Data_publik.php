@@ -37,6 +37,8 @@
 
 use Esyede\Curly;
 
+require_once 'donjo-app/libraries/Curly.php';
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_publik

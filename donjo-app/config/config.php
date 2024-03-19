@@ -668,7 +668,7 @@ $config['api_sdgs'] = 'https://sid.kemendesa.go.id/sdgs/searching/score-sdgs?loc
 |--------------------------------------------------------------------------
 |
 */
-$config['api_hari_libur'] = 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/calendar.min.json';
+$config['api_hari_libur'] = 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json';
 
 /*
 |--------------------------------------------------------------------------

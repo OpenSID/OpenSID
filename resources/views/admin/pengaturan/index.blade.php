@@ -155,9 +155,30 @@
             $('#form_tampilan_anjungan_waktu').hide();
         }
     }
+
     if (e != null) {
         e.onchange = show;
         show();
+    }
+
+    showTelegram($('#telegram_notifikasi').val());
+
+    $('#telegram_notifikasi').on('select2:select', function (e) {
+        showTelegram(e.params.data.id);
+    });
+
+    function showTelegram(value) {
+        if (value == 0) {
+            $('#form_telegram_token').hide();
+            $('#form_telegram_user_id').hide();
+            $('#telegram_token').removeClass('required');
+            $('#telegram_user_id').removeClass('required');
+        } else {
+            $('#form_telegram_token').show();
+            $('#form_telegram_user_id').show();
+            $('#telegram_token').addClass('required');
+            $('#telegram_user_id').addClass('required');
+        }
     }
 </script>
 @endpush

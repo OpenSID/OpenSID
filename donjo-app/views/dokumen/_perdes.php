@@ -78,13 +78,13 @@
     </div>
 </div>
 <div class="form-group">
-    <label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Berita <?= setting('sebutan_kepala_desa') ?></label>
+    <label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Berita <?= ucwords($this->setting->sebutan_desa); ?></label>
     <div class="col-sm-6">
         <input name="attr[no_berita_desa]" class="form-control input-sm nomor_sk" type="text" value="<?=$dokumen['attr']['no_berita_desa']?>"></input>
     </div>
 </div>
 <div class="form-group">
-    <label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita <?= setting('sebutan_kepala_desa') ?></label>
+    <label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita <?= ucwords($this->setting->sebutan_desa); ?></label>
     <div class="col-sm-6">
         <div class="input-group input-group-sm date">
             <div class="input-group-addon">

@@ -46,17 +46,6 @@
 			<tr>
 				<td class="no_urut">1</td>
 				<td colspan="2">Penduduk/Keluarga awal bulan ini</td>
-				<!-- Butuh informasi mengenai hal ini
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['WNI_L'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['WNI_P'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['WNA_L'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['WNA_P'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as(($penduduk_awal['WNI_L'] + $penduduk_awal['WNA_L']), '-')?></td>
-				<td class="bilangan"><?= show_zero_as(($penduduk_awal['WNI_P'] + $penduduk_awal['WNA_P']), '-')?></td>
-				<td class="bilangan"><?= show_zero_as(($penduduk_awal['WNI_L'] + $penduduk_awal['WNA_L']) + ($penduduk_awal['WNI_P'] + $penduduk_awal['WNA_P']), '-')?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['KK_L'], '-')?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['KK_P'], '-')?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_awal['KK'], '-')?></td>-->
 				<td class="bilangan"><?= $penduduk_awal['WNI_L'] ? '<a href="' . site_url($this->controller . '/detail_penduduk/awal/wni_l') . '">' . $penduduk_awal['WNI_L'] . '</a>' : '-' ?></td>
 				<td class="bilangan"><?= $penduduk_awal['WNI_P'] ? '<a href="' . site_url($this->controller . '/detail_penduduk/awal/wni_p') . '">' . $penduduk_awal['WNI_P'] . '</a>' : '-'  ?></td>
 				<td class="bilangan"><?= $penduduk_awal['WNA_L'] ? '<a href="' . site_url($this->controller . '/detail_penduduk/awal/wna_l') . '">' . $penduduk_awal['WNA_L'] . '</a>' : '-'  ?></td>
@@ -141,17 +130,6 @@
 			<tr>
 				<td class="no_urut">7</td>
 				<td colspan="2">Penduduk/Keluarga akhir bulan ini</td>
-				<!-- Butuh informasi mengenai hal ini
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['WNI_L'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['WNI_P'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['WNA_L'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['WNA_P'], '-') ?></td>
-				<td class="bilangan"><?= show_zero_as(($penduduk_akhir['WNI_L'] + $penduduk_akhir['WNA_L']), '-')?></td>
-				<td class="bilangan"><?= show_zero_as(($penduduk_akhir['WNI_P'] + $penduduk_akhir['WNA_P']), '-')?></td>
-				<td class="bilangan"><?= show_zero_as(($penduduk_akhir['WNI_L'] + $penduduk_akhir['WNA_L']) + ($penduduk_akhir['WNI_P'] + $penduduk_akhir['WNA_P']), '-')?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['KK_L'], '-')?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['KK_P'], '-')?></td>
-				<td class="bilangan"><?= show_zero_as($penduduk_akhir['KK'], '-')?></td> -->
 				<td class="bilangan"><?= $penduduk_akhir['WNI_L'] ? '<a href="' . site_url($this->controller . '/detail_penduduk/akhir/wni_l') . '">' . $penduduk_akhir['WNI_L'] . '</a>' : '-' ?></td>
 				<td class="bilangan"><?= $penduduk_akhir['WNI_P'] ? '<a href="' . site_url($this->controller . '/detail_penduduk/akhir/wni_p') . '">' . $penduduk_akhir['WNI_P'] . '</a>' : '-'  ?></td>
 				<td class="bilangan"><?= $penduduk_akhir['WNA_L'] ? '<a href="' . site_url($this->controller . '/detail_penduduk/akhir/wna_l') . '">' . $penduduk_akhir['WNA_L'] . '</a>' : '-'  ?></td>

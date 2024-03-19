@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\FormatSurat;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\UserGrup;
@@ -59,11 +60,11 @@ if (! function_exists('view')) {
     /**
      * Get the evaluated view contents for the given view.
      *
-     * @param string|null                                   $view
-     * @param array|\Illuminate\Contracts\Support\Arrayable $data
-     * @param array                                         $mergeData
+     * @param string|null                                  $view
+     * @param array|Illuminate\Contracts\Support\Arrayable $data
+     * @param array                                        $mergeData
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Illuminate\Contracts\View\Factory|Illuminate\Contracts\View\View
      */
     function view($view = null, $data = [], $mergeData = [])
     {
@@ -872,5 +873,16 @@ if (! function_exists('buat_class')) {
         }
 
         return 'class="' . $class2 . ' ' . $onlyClass . '" ' . $onlyAttributes;
+    }
+}
+
+if (! function_exists('jenis_surat')) {
+    function jenis_surat($jenis)
+    {
+        if (in_array($jenis, FormatSurat::RTF)) {
+            return 'RTF';
+        }
+
+        return 'TinyMCE';
     }
 }

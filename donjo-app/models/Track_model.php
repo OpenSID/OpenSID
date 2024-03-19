@@ -38,6 +38,7 @@
 use App\Models\Artikel;
 use App\Models\BantuanPeserta;
 use App\Models\Dokumen;
+use App\Models\Keluarga;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
@@ -127,6 +128,7 @@ class Track_model extends CI_Model
             'jml_unsur_peta'      => $this->jml_unsur_peta(),
             'jml_persil'          => Persil::count(),
             'jml_dokumen'         => Dokumen::hidup()->count(),
+            'jml_keluarga'        => Keluarga::status()->count(),
             'jml_surat_tte'       => $suratTTE, // jumlah surat terverifikasi secara tte
             'modul_tte'           => ($suratTTE > 0 && $settingTTE == 1) ? 1 : 0, // cek modul tte
         ];

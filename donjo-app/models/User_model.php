@@ -36,6 +36,7 @@
  */
 
 use App\Models\LoginAttempts;
+use App\Models\Modul;
 use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
@@ -167,7 +168,7 @@ class User_model extends MY_Model
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
 
-        if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             $this->load->library('Telegram/telegram');
 
             try {
@@ -780,7 +781,7 @@ class User_model extends MY_Model
             return true;
         }
         // Controller yang boleh diakses oleh semua pengguna yg telah login
-        if ($group && in_array($controller[0], ['notif', 'pengguna', 'tte', 'sign', 'surat_kecamatan'])) {
+        if ($group && in_array($controller[0], Modul::SELALU_AKTIF)) {
             return true;
         }
 
