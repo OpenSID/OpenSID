@@ -114,7 +114,7 @@ class Daftar_kontak extends Admin_Controller
 
     public function form($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $navigasi = 'Eksternal';
 
@@ -133,7 +133,7 @@ class Daftar_kontak extends Admin_Controller
 
     public function form_penduduk($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $navigasi     = 'Penduduk';
         $action       = 'Ubah';
@@ -145,7 +145,7 @@ class Daftar_kontak extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (DaftarKontak::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -155,7 +155,7 @@ class Daftar_kontak extends Admin_Controller
 
     public function update($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = DaftarKontak::findOrFail($id);
 
@@ -167,7 +167,7 @@ class Daftar_kontak extends Admin_Controller
 
     public function update_penduduk($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = Penduduk::findOrFail($id);
 
@@ -179,7 +179,7 @@ class Daftar_kontak extends Admin_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (DaftarKontak::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');

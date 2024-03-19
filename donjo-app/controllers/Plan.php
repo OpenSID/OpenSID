@@ -46,10 +46,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan extends Admin_Controller
 {
-    public $modul_ini     = 'pemetaan';
-    public $sub_modul_ini = 'pengaturan-peta';
-    public $akses_modul   = 'plan';
-    private int $tip      = 3;
+    public $modul_ini       = 'pemetaan';
+    public $sub_modul_ini   = 'pengaturan-peta';
+    public $aliasController = 'plan';
+    private int $tip        = 3;
 
     public function __construct()
     {

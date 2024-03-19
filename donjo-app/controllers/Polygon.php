@@ -122,7 +122,7 @@ class Polygon extends Admin_Controller
 
     public function form($parent = 1, $id = ''): View
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->parent = $parent;
 
         if ($id) {
@@ -149,7 +149,7 @@ class Polygon extends Admin_Controller
 
     public function insert(int $parent): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $dataInsert            = $this->validasi($this->input->post());
         $dataInsert['parrent'] = $parent;
         $tipe                  = $this->tipe($parent);
@@ -166,7 +166,7 @@ class Polygon extends Admin_Controller
 
     public function update($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $dataUpdate            = $this->validasi($this->input->post());
         $dataUpdate['parrent'] = $parent;
         $tipe                  = $this->tipe($parent);
@@ -184,7 +184,7 @@ class Polygon extends Admin_Controller
     public function delete($parent, $id): void
     {
         $tipe = $this->tipe($parent);
-        $this->redirect_hak_akses('h', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        isCan('h');
 
         try {
             PolygonModel::whereId($id)->delete();
@@ -198,7 +198,7 @@ class Polygon extends Admin_Controller
     public function delete_all($parent): void
     {
         $tipe = $this->tipe($parent);
-        $this->redirect_hak_akses('h', ci_route('polygon.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        isCan('h');
 
         try {
             PolygonModel::whereIn('id', $this->input->post('id_cb'))->delete();
@@ -211,7 +211,7 @@ class Polygon extends Admin_Controller
 
     public function polygon_lock($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $tipe = $this->tipe($parent);
 
         try {
@@ -225,7 +225,7 @@ class Polygon extends Admin_Controller
 
     public function polygon_unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $tipe = $this->tipe($parent);
 
         try {

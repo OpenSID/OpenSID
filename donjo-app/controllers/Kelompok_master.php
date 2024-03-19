@@ -84,7 +84,7 @@ class Kelompok_master extends Admin_Controller
 
     public function form($id = 0)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if ($id) {
             $data['kelompok_master'] = KelompokMaster::tipe($this->tipe)->find($id) ?? show_404();
             $data['form_action']     = site_url("{$this->controller}/update/{$id}");
@@ -100,7 +100,7 @@ class Kelompok_master extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         (new KelompokMaster($this->validate($this->input->post())))->save();
 
@@ -109,7 +109,7 @@ class Kelompok_master extends Admin_Controller
 
     public function update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         KelompokMaster::findOrFail($id)->update($this->validate($this->input->post()));
 
@@ -118,7 +118,7 @@ class Kelompok_master extends Admin_Controller
 
     public function delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $this->delete_kelompok($id);
 
@@ -127,7 +127,7 @@ class Kelompok_master extends Admin_Controller
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
             $this->delete_kelompok($id);

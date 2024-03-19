@@ -64,9 +64,7 @@ class Web_Controller extends MY_Controller
             exit;
         }
         if ($this->setting->offline_mode == 1) {
-            $this->load->model('user_model');
-            $grup = $this->user_model->sesi_grup($this->session->sesi);
-            if (! $this->user_model->hak_akses($grup, 'web', 'b')) {
+            if (can('b', 'web')) {
                 $this->view_maintenance();
 
                 exit;

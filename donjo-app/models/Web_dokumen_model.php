@@ -358,7 +358,7 @@ class Web_dokumen_model extends MY_Model
         return $retval;
     }
 
-    private function validasi($post)
+    public function validasi($post)
     {
         $data                         = [];
         $data['nama']                 = nomor_surat_keputusan($post['nama']);

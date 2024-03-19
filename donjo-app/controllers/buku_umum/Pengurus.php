@@ -339,11 +339,11 @@ class Pengurus extends Admin_Controller
     protected function foto($post)
     {
         $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
-            // Penduduk Luar Desa
-            $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
-            if ($foto = upload_foto_penduduk($foto, $dimensi)) {
-                Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
-            }
+        // Penduduk Luar Desa
+        $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
+        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
+            Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
+        }
     }
 
     public function ttd($jenis, $id, $val)
@@ -520,7 +520,7 @@ class Pengurus extends Admin_Controller
 
     public function jabatanform($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
@@ -539,7 +539,7 @@ class Pengurus extends Admin_Controller
 
     public function jabataninsert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (RefJabatan::create(static::jabatanValidate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'pengurus/jabatan');
@@ -549,7 +549,7 @@ class Pengurus extends Admin_Controller
 
     public function jabatanUpdate($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = RefJabatan::find($id) ?? show_404();
 
@@ -561,7 +561,7 @@ class Pengurus extends Admin_Controller
 
     public function jabatandelete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $data = RefJabatan::find($id) ?? show_404();
         if (in_array($data->id, RefJabatan::getKadesSekdes())) {

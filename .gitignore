@@ -24,10 +24,6 @@ version.json
 # obfuscator
 Obfuscator.php
 
-# Uncomment untuk rilis
-# /vendor
-# composer.lock
-
 # Abaikan tema premium
 vendor/themes/denatra/
 vendor/themes/silir/

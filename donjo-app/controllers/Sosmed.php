@@ -76,7 +76,7 @@ class Sosmed extends Admin_Controller
 
     public function update($sosmed): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->web_sosmed_model->update($sosmed);
         $redirect = (empty($sosmed)) ? 'sosmed' : "sosmed/tab/{$sosmed}";
         redirect($redirect);

@@ -43,4 +43,17 @@ class Notif extends Admin_Controller
     {
         $this->notif_model->update_notifikasi($this->input->post('kode'), $this->input->post('non_aktifkan'));
     }
+
+    public function update_setting(): void
+    {
+        $this->load->model('setting_model');
+
+        if ($this->setting_model->update_setting($this->input->post())) {
+            set_session('success', 'Berhasil Ubah Data');
+        } else {
+            set_session('error', 'Gagal Ubah Data. ' . session('flash_error_msg'));
+        }
+
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 }

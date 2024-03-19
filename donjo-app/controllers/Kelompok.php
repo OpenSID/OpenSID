@@ -81,11 +81,11 @@ class Kelompok extends Admin_Controller
                         $query->where('id_master', $filter);
                     }
                 })->whereHas('ketua', static function ($query) use ($status): void {
-                        if ($status == 1) {
-                            $query->where('status_dasar', 1);
-                        } elseif ($status == 2) {
-                            $query->where('status_dasar', null);
-                        }
+                    if ($status == 1) {
+                        $query->where('status_dasar', 1);
+                    } elseif ($status == 2) {
+                        $query->where('status_dasar', null);
+                    }
                 });
 
             return datatables()->of($query)
@@ -114,7 +114,7 @@ class Kelompok extends Admin_Controller
 
     public function form($id = 0)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $list_master = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if (count($list_master) <= 0) {
@@ -202,7 +202,7 @@ class Kelompok extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data        = $this->validate($this->input->post());
         $getKelompok = KelompokModel::where('kode', $data['kode'])->exists();
@@ -231,7 +231,7 @@ class Kelompok extends Admin_Controller
 
     public function update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data        = $this->validate($this->input->post());
         $getKelompok = KelompokModel::where('id', '!=', $id)
@@ -270,7 +270,7 @@ class Kelompok extends Admin_Controller
 
     public function delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $this->delete_kelompok($id);
 
@@ -279,7 +279,7 @@ class Kelompok extends Admin_Controller
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
             $this->delete_kelompok($id);

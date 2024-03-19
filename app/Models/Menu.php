@@ -172,4 +172,9 @@ class Menu extends BaseModel
 
         return $this->listMenu;
     }
+
+    protected function scopeArtikel($query)
+    {
+        return $query->where('link', 'like', 'artikel/%');
+    }
 }

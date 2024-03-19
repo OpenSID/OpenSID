@@ -95,7 +95,7 @@ class Surat_masuk extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['pengirim']    = $this->surat_masuk_model->autocomplete();
         $data['klasifikasi'] = $this->klasifikasi_model->list_kode();
         $data['p']           = $p;
@@ -133,7 +133,7 @@ class Surat_masuk extends Admin_Controller
 
     public function form_upload($p = 1, $o = 0, $url = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = site_url("surat_masuk/upload/{$p}/{$o}/{$url}");
         $this->load->view('surat_masuk/ajax-upload', $data);
     }
@@ -162,35 +162,35 @@ class Surat_masuk extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->surat_masuk_model->insert();
         redirect('surat_masuk');
     }
 
     public function update($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->surat_masuk_model->update($id);
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
     public function upload($p = 1, $o = 0, $url = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->surat_masuk_model->upload($url);
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
     public function delete($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->surat_masuk_model->delete($id);
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
     public function delete_all($p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->surat_masuk_model->delete_all();
         redirect("surat_masuk/index/{$p}/{$o}");
     }

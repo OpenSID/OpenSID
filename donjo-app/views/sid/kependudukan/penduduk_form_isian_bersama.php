@@ -850,6 +850,7 @@
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('BELUM WAJIB');
+				$('#akseptor_kb').hide();
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -857,6 +858,7 @@
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
+				$('#akseptor_kb').show();
 				break;
 			case '3':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -864,6 +866,7 @@
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				$('#wajib_ktp').text('WAJIB');
+				$('#akseptor_kb').show();
 				break;
 			case '4':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -871,6 +874,7 @@
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
+				$('#akseptor_kb').show();
 				break;
 		}
 	}

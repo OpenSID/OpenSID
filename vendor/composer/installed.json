@@ -675,17 +675,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.337.0",
-            "version_normalized": "0.337.0.0",
+            "version": "v0.339.0",
+            "version_normalized": "0.339.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "0f2a9a00c91a903b2f30f4f531a09af948df384e"
+                "reference": "5662d2ab3da41ac0e0e99db221a8c22c511c8f9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/0f2a9a00c91a903b2f30f4f531a09af948df384e",
-                "reference": "0f2a9a00c91a903b2f30f4f531a09af948df384e",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/5662d2ab3da41ac0e0e99db221a8c22c511c8f9c",
+                "reference": "5662d2ab3da41ac0e0e99db221a8c22c511c8f9c",
                 "shasum": ""
             },
             "require": {
@@ -694,7 +694,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2024-02-26T01:00:27+00:00",
+            "time": "2024-03-10T01:06:17+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -716,7 +716,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.337.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.339.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -3238,17 +3238,17 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.36",
-            "version_normalized": "3.0.36.0",
+            "version": "3.0.37",
+            "version_normalized": "3.0.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c2fb5136162d4be18fdd4da9980696f3aee96d7b"
+                "reference": "cfa2013d0f68c062055180dd4328cc8b9d1f30b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c2fb5136162d4be18fdd4da9980696f3aee96d7b",
-                "reference": "c2fb5136162d4be18fdd4da9980696f3aee96d7b",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/cfa2013d0f68c062055180dd4328cc8b9d1f30b8",
+                "reference": "cfa2013d0f68c062055180dd4328cc8b9d1f30b8",
                 "shasum": ""
             },
             "require": {
@@ -3266,7 +3266,7 @@
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
                 "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
-            "time": "2024-02-26T05:13:14+00:00",
+            "time": "2024-03-03T02:14:58+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -3331,7 +3331,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.36"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.37"
             },
             "funding": [
                 {
@@ -4895,17 +4895,17 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v5.4.36",
-            "version_normalized": "5.4.36.0",
+            "version": "v5.4.37",
+            "version_normalized": "5.4.37.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "63a872e01fd70802b77023e2f5924170c99b2825"
+                "reference": "4ef7ed872564852b3c6c15fecf492975a52cbff3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/63a872e01fd70802b77023e2f5924170c99b2825",
-                "reference": "63a872e01fd70802b77023e2f5924170c99b2825",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/4ef7ed872564852b3c6c15fecf492975a52cbff3",
+                "reference": "4ef7ed872564852b3c6c15fecf492975a52cbff3",
                 "shasum": ""
             },
             "require": {
@@ -4962,7 +4962,7 @@
                 "symfony/console": "",
                 "symfony/dependency-injection": ""
             },
-            "time": "2024-02-27T06:22:59+00:00",
+            "time": "2024-03-04T20:55:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4990,7 +4990,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v5.4.36"
+                "source": "https://github.com/symfony/http-kernel/tree/v5.4.37"
             },
             "funding": [
                 {

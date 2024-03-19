@@ -63,4 +63,9 @@ class PendudukHidup extends BaseModel
     {
         return $this->hasOne(PendudukMandiri::class, 'id_pend', 'id');
     }
+
+    public function map()
+    {
+        return $this->belongsTo(PendudukMap::class, 'id', 'id');
+    }
 }

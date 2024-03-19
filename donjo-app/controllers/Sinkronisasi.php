@@ -112,7 +112,7 @@ class Sinkronisasi extends Admin_Controller
 
     public function kirim($modul): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         switch ($modul) {
             case 'penduduk':

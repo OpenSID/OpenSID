@@ -112,7 +112,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function form(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->unset_userdata($this->_list_session);
         $id_penduduk = $this->input->get('terdata');
         $data        = [
@@ -174,7 +174,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function update()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->vaksin_covid_model->update_vaksin();
 
         if ($this->session->success == -1) {
@@ -309,7 +309,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function impor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->vaksin_covid_model->impor();
 
         redirect('vaksin_covid');

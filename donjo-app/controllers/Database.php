@@ -87,7 +87,7 @@ class Database extends Admin_Controller
 
     public function migrasi_db_cri(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         session_error_clear();
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
@@ -165,7 +165,7 @@ class Database extends Admin_Controller
 
     public function restore(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (config_item('demo_mode')) {
             redirect($this->controller);
@@ -201,7 +201,7 @@ class Database extends Admin_Controller
 
     public function acak()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
             return;
         }
@@ -219,7 +219,7 @@ class Database extends Admin_Controller
     // Digunakan untuk server yg hanya digunakan untuk web publik
     public function mutakhirkan_data_server(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->error_msg = null;
         if ($this->setting->penggunaan_server != 6) {
             return;
@@ -229,7 +229,7 @@ class Database extends Admin_Controller
 
     public function proses_sinkronkan(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->load->model('sinkronisasi_model');
 
         $this->load->library('MY_Upload', null, 'upload');

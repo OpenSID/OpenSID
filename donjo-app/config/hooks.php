@@ -111,9 +111,11 @@ $app->configure('datatables');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\CarbonServiceProvider::class);
+$app->register(\App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\DataTablesServiceProvider::class);
+
+$app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

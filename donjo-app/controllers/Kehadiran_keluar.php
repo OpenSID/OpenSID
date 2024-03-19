@@ -87,7 +87,7 @@ class Kehadiran_keluar extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action           = 'Ubah';
@@ -104,7 +104,7 @@ class Kehadiran_keluar extends Admin_Controller
 
     public function create(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (AlasanKeluar::create(static::validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -115,7 +115,7 @@ class Kehadiran_keluar extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = AlasanKeluar::findOrFail($id);
 
@@ -128,7 +128,7 @@ class Kehadiran_keluar extends Admin_Controller
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (AlasanKeluar::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -139,7 +139,7 @@ class Kehadiran_keluar extends Admin_Controller
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (AlasanKeluar::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');

@@ -84,6 +84,7 @@ class Config extends BaseModel
         'website',
         'kantor_desa',
         'warna',
+        'border',
         'created_by',
         'updated_by',
     ];

@@ -187,7 +187,7 @@ class Penduduk_log extends Admin_Controller
 
     public function edit($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['log_status_dasar'] = $this->penduduk_log_model->get_log($id) ?? show_404();
         $data['list_ref_pindah']  = $this->referensi_model->list_data('ref_pindah');
         $data['sebab']            = $this->referensi_model->list_ref(SEBAB);
@@ -199,7 +199,7 @@ class Penduduk_log extends Admin_Controller
 
     public function update($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->penduduk_log_model->update($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -207,7 +207,7 @@ class Penduduk_log extends Admin_Controller
 
     public function kembalikan_status($id_log): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (! data_lengkap()) {
             show_404();
@@ -221,7 +221,7 @@ class Penduduk_log extends Admin_Controller
 
     public function ajax_kembalikan_status_pergi($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['nik']         = $this->penduduk_model->get_penduduk($id);
         $data['form_action'] = site_url("{$this->controller}/kembalikan_status_pergi/{$id}");
 
@@ -230,7 +230,7 @@ class Penduduk_log extends Admin_Controller
 
     public function kembalikan_status_pergi($id_log = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (! data_lengkap()) {
             show_404();
@@ -244,7 +244,7 @@ class Penduduk_log extends Admin_Controller
 
     public function kembalikan_status_all(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (! data_lengkap()) {
             show_404();

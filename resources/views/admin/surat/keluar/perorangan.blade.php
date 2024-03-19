@@ -35,7 +35,7 @@
                                         <div class="form-group">
                                             <div>
                                                 <select class="form-control required input-sm select2-nik-ajax" id="nik" name="nik" data-url="{{ ci_route('surat/list_penduduk_bersurat_ajax') }}">
-                                                    @if($penduduk)
+                                                    @if ($penduduk)
                                                         <option value="{{ $penduduk->id }}">NIK/Tag ID Card : {{ $penduduk->nik }} - {{ $penduduk->nama }} Alamat: {{ $penduduk->alamat_wilayah }}</option>
                                                     @endif
                                                 </select>

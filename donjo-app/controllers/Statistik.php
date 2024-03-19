@@ -247,7 +247,7 @@ class Statistik extends Admin_Controller
 
     public function rentang_insert(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $data['insert'] = $this->laporan_penduduk_model->insert_rentang();
         redirect('statistik/rentang_umur');
@@ -255,7 +255,7 @@ class Statistik extends Admin_Controller
 
     public function rentang_update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->laporan_penduduk_model->update_rentang($id);
         redirect('statistik/rentang_umur');
@@ -263,14 +263,14 @@ class Statistik extends Admin_Controller
 
     public function rentang_delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->laporan_penduduk_model->delete_rentang($id);
         redirect('statistik/rentang_umur');
     }
 
     public function delete_all_rentang(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->laporan_penduduk_model->delete_all_rentang();
         redirect('statistik/rentang_umur');
     }

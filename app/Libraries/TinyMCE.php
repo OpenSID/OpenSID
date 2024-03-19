@@ -537,21 +537,20 @@ class TinyMCE
      *
      * @return PdfMerge|null
      */
-    public function generateLampiran($id = null, array $data = [])
+    public function generateLampiran($id = null, array $data = [], array $input = [])
     {
         if (empty($data['surat']['lampiran'])) {
             return;
         }
 
         $surat    = $data['surat'];
-        $input    = $data['input'];
         $config   = identitas();
         $individu = $this->surat_model->get_data_surat($id);
 
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        $lampiran     = $input['lampiran'];
+        $lampiran     = $input['lampiran'] ?? [];
         $format_surat = substitusiNomorSurat($input['nomor'], $surat['format_nomor_global'] ? setting('format_nomor_surat') : $surat['format_nomor']);
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
@@ -695,6 +694,7 @@ class TinyMCE
     public function cetak_surat($id)
     {
         $surat = LogSurat::find($id);
+        $input = json_decode($surat->input, true) ?? [];
 
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
@@ -717,7 +717,7 @@ class TinyMCE
         // convert in PDF
         try {
             $this->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
-            $this->generateLampiran($surat->id_pend, $cetak);
+            $this->generateLampiran($surat->id_pend, $cetak, $input);
 
             $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
         } catch (Html2PdfException $e) {

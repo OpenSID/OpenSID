@@ -53,7 +53,7 @@ final class NamaPengurusTest extends TestCase
     {
         $pengurus = $this->getDummyData();
 
-        $formattedName = $this->gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
         $this->assertEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
@@ -62,7 +62,7 @@ final class NamaPengurusTest extends TestCase
     public function testInvalidNameUpperWithTitle()
     {
         $pengurus = $this->getDummyData();
-        $formattedName = $this->gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = gelar($pengurus->gelar_depan, strtoupper($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
         $this->assertNotEquals('Dr. Drs. Ir. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
@@ -71,7 +71,7 @@ final class NamaPengurusTest extends TestCase
     public function testValidNameUcwordsWithTitle()
     {
         $pengurus = $this->getDummyData();
-        $formattedName = $this->gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
         $this->assertEquals('Dr. Drs. Ir. Wijaya Kusuma, Bc.I.P., S.H., M.Si.', $formattedName);
@@ -80,25 +80,9 @@ final class NamaPengurusTest extends TestCase
     public function testInvalidNameUcwordsWithTitle()
     {
         $pengurus = $this->getDummyData();
-        $formattedName = $this->gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
+        $formattedName = gelar($pengurus->gelar_depan, ucwords($pengurus->pamong_nama), $pengurus->gelar_belakang);
 
         // Assert that the formatted name is as expected
         $this->assertNotEquals('Dr. Drs. Ir. WIJAYA KUSUMA, Bc.I.P., S.H., M.Si.', $formattedName);
-    }
-
-    // TODO:: Gunakan opensid_helper.php -> gelar()
-    private function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
-    {
-        // Gelar depan
-        if ($gelar_depan) {
-            $nama = $gelar_depan . ' ' . $nama;
-        }
-
-        // Gelar belakang
-        if ($gelar_belakang) {
-            return $nama . ', ' . $gelar_belakang;
-        }
-
-        return $nama;
     }
 }

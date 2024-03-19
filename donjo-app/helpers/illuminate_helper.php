@@ -260,8 +260,8 @@ if (! function_exists('dispatch')) {
                 if (! $this->shouldDispatch()) {
                     return;
                 }
-                    app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
 
+                app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
             }
         };
     }
@@ -334,7 +334,7 @@ if ( ! function_exists('response')) {
      * @param int    $statusCode
      * @param array  $headers
      *
-     * @return \Illuminate\Http\Response|Response
+     * @return Illuminate\Http\Response|Response
      */
     function response($content = '', $statusCode = 200, $headers = [])
     {
