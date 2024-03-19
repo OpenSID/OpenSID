@@ -44,7 +44,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Beranda extends Admin_Controller
 {
     public $isAdmin;
-    public $modul_ini = 'beranda';
+    public $modul_ini           = 'beranda';
+    public $kategori_pengaturan = 'beranda';
 
     public function __construct()
     {

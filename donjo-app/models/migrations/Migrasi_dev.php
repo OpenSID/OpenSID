@@ -80,6 +80,7 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024031372($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024021371($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031471($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024031572($hasil, $id);
         }
 
         // Migrasi tanpa config_id
@@ -383,7 +384,7 @@ class Migrasi_dev extends MY_model
 
     public function migrasi_2024021371($hasil, $config_id)
     {
-        if (! Schema::hasTable('shortcut')) {
+        if (!Schema::hasTable('shortcut')) {
             Schema::create('shortcut', static function (Blueprint $table) {
                 $table->id();
                 $table->integer('config_id');
@@ -511,7 +512,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024031375($hasil)
     {
-        if (! $this->db->field_exists('parent_id', 'komentar')) {
+        if (!$this->db->field_exists('parent_id', 'komentar')) {
             $hasil = $hasil && $this->db->query('ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL');
         }
 
@@ -520,7 +521,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024031373($hasil)
     {
-        if (! $this->db->field_exists('file_akta_mati', 'log_penduduk')) {
+        if (!$this->db->field_exists('file_akta_mati', 'log_penduduk')) {
             $hasil = $hasil && $this->db->query('ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;');
         }
 
@@ -601,5 +602,19 @@ class Migrasi_dev extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024031572($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Rentang Waktu Notifikasi Rilis',
+            'key'        => 'rentang_waktu_notifikasi_rilis',
+            'value'      => 7,
+            'keterangan' => 'Pengaturan rentang waktu notifikasi rilis dalam satuan hari.',
+            'jenis'      => 'input',
+            'option'     => null,
+            'attribute'  => 'class="bilangan required" placeholder="7" min="0" type="number"',
+            'kategori'   => 'beranda',
+        ], $id);
     }
 }
