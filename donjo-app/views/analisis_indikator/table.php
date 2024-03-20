@@ -133,7 +133,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php foreach ($main as $data): ?>
+																<?php foreach ($main as $mulai => $data): ?>
 																	<tr>
 																		<?php if ($analisis_master['lock'] == 1 && $this->CI->cek_hak_akses('u')): ?>
 																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
@@ -141,6 +141,10 @@
 																		<td><?= $data['no']?></td>
 																		<?php if ($analisis_master['lock'] == 1): ?>
 																			<td nowrap>
+																				<?php if ($this->CI->cek_hak_akses('u')): ?>
+																					<a href="<?= site_url("analisis_indikator/urut/{$data['id']}/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																					<a href="<?= site_url("analisis_indikator/urut/{$data['id']}/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $mulai && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																				<?php endif; ?>
 																				<?php if ($data['id_tipe'] == 1 || $data['id_tipe'] == 2): ?>
 																					<a href="<?= site_url("analisis_indikator/parameter/{$data['id']}")?>" class="btn bg-purple btn-flat btn-sm"  title="Jawaban"><i class='fa fa-list'></i></a>
 																				<?php endif; ?>
