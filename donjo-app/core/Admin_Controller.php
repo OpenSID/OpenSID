@@ -62,6 +62,10 @@ class Admin_Controller extends MY_Controller
         $this->CI = &get_instance();
         $this->load->library('cek', null, 'premium');
         $this->controller = strtolower($this->router->fetch_class());
+        if (! auth()) {
+            redirect('siteman');
+        }
+
         $this->cek_identitas_desa();
 
         // paksa untuk logout jika melakukan ubah password
@@ -119,12 +123,6 @@ class Admin_Controller extends MY_Controller
 
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
                 redirect('siteman');
-            } else {
-
-                // TODO:: cek masalah ini kenapa selalu muncul error di untuk can('u', 'pelanggan)
-                // session_error('Anda tidak mempunyai akses pada fitur itu');
-                unset($_SESSION['request_uri']);
-                redirect('main');
             }
         }
 
