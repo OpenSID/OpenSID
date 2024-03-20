@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Models\Modul;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,4 +52,9 @@ class GrupAkses extends BaseModel
      * @var string
      */
     protected $table = 'grup_akses';
+
+    public function modul()
+    {
+        return $this->belongsTo(Modul::class, 'id_modul', 'id');
+    }
 }

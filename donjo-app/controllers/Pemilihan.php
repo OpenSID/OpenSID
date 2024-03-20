@@ -49,6 +49,7 @@ class Pemilihan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         isCan('u');
         if (! Schema::hasTable('pemilihan')) {
             session_error('Tabel Pemilihan tidak ditemukan, silahkan lakukan migrasi database terlebih dahulu.');

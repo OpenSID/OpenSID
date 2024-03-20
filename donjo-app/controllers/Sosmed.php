@@ -45,6 +45,7 @@ class Sosmed extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         $this->load->model('web_sosmed_model');
     }

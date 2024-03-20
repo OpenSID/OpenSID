@@ -47,6 +47,7 @@ class Bumindes_arsip extends Admin_controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('arsip_fisik_model');
     }
 

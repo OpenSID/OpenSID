@@ -48,6 +48,7 @@ class Data_persil extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['data_persil_model', 'cdesa_model', 'pamong_model', 'wilayah_model']);
     }
 

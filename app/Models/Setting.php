@@ -167,4 +167,15 @@ class Setting extends BaseModel
 
         return $data;
     }
+
+    // booted update remove cache
+    protected static function booted()
+    {
+        static::boot();
+
+        static::updated(static function () {
+            cache()->flush();
+        });
+    }
+    
 }

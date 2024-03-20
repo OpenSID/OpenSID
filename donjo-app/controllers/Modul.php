@@ -49,6 +49,7 @@ class Modul extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['modul_model']);
     }
 

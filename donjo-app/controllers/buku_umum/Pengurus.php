@@ -54,6 +54,7 @@ class Pengurus extends Admin_Controller
 {
     public $modul_ini           = 'buku-administrasi-desa';
     public $sub_modul_ini       = 'administrasi-umum';
+    public $akses_modul         = 'pemerintah-desa';
     public $kategori_pengaturan = 'Pemerintah Desa';
 
     public function __construct()

@@ -48,6 +48,7 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
     }
 

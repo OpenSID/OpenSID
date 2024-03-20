@@ -51,11 +51,13 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 class Program_bantuan extends Admin_Controller
 {
     public $modul_ini        = 'bantuan';
+    public $akses_modul      = 'program-bantuan';
     private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b', 'program-bantuan');
         $this->load->model(['program_bantuan_model']);
     }
 
@@ -245,7 +247,7 @@ class Program_bantuan extends Admin_Controller
 
     public function create(): void
     {
-        isCan('u');
+        isCan('u', 'program-bantuan');
 
         $this->form_validation->set_rules('cid', 'Sasaran', 'required');
         $this->form_validation->set_rules('nama', 'Nama Program', 'required');
@@ -266,7 +268,7 @@ class Program_bantuan extends Admin_Controller
     // $id = program.id
     public function edit($id = 0): void
     {
-        isCan('u');
+        isCan('u', 'program-bantuan');
 
         $this->form_validation->set_rules('cid', 'Sasaran', 'required');
         $this->form_validation->set_rules('nama', 'Nama Program', 'required');
@@ -291,7 +293,7 @@ class Program_bantuan extends Admin_Controller
     // $id = program.id
     public function update($id): void
     {
-        isCan('u');
+        isCan('u', 'program-bantuan');
         $this->program_bantuan_model->update_program($id);
         redirect("program_bantuan/detail/{$id}");
     }
@@ -299,7 +301,7 @@ class Program_bantuan extends Admin_Controller
     // $id = program.id
     public function hapus($id): void
     {
-        isCan('h');
+        isCan('h', 'program-bantuan');
         $this->program_bantuan_model->hapus_program($id);
         redirect('program_bantuan');
     }
@@ -320,7 +322,7 @@ class Program_bantuan extends Admin_Controller
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
     public function impor(): void
     {
-        isCan('u');
+        isCan('u', 'program-bantuan');
 
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize([
@@ -639,7 +641,7 @@ class Program_bantuan extends Admin_Controller
     // TODO: ubah peserta menggunakan id untuk semua sasaran dan gunakan relasi database delete cascade
     public function bersihkan_data(): void
     {
-        isCan('h');
+        isCan('h', 'program-bantuan');
 
         $invalid      = [];
         $list_sasaran = array_keys($this->referensi_model->list_ref(SASARAN));
@@ -663,7 +665,7 @@ class Program_bantuan extends Admin_Controller
 
     public function bersihkan_data_peserta(): void
     {
-        isCan('h');
+        isCan('h', 'program-bantuan');
 
         $this->db
             ->where('config_id', identitas('id'))

@@ -49,6 +49,7 @@ class Plugin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
     }
 

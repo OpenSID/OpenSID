@@ -53,6 +53,7 @@ class Dokumen_sekretariat extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         $this->load->model('web_dokumen_model');
     }

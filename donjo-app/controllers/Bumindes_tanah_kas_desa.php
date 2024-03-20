@@ -46,6 +46,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['tanah_kas_desa_model', 'pamong_model', 'data_persil_model']);
     }
 

@@ -111,7 +111,7 @@ class Grup extends Admin_Controller
         $data['view']        = $this->view_only;
         $data['grup']        = [];
 
-        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->status(1)->orderBy('urut')])->status(1)->root()->orderBy('urut')->get();
+        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->isActive()->orderBy('urut')])->isActive()->isParent()->orderBy('urut')->get();
         $idGrup             = $this->ref_grup ?? $id;
         $data['grup_akses'] = $idGrup ? GrupAkses::select(['id_modul', 'akses'])->whereIdGrup($idGrup)->get()->keyBy('id_modul') : collect([]);
 

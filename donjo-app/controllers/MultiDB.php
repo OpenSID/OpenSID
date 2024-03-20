@@ -41,7 +41,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
-    public $aliasController = 'database';
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'aplikasi';
 
     // Tabel dengan kondisi khusus, memiliki child dan parent
     public $tabelKhusus = [
@@ -57,6 +58,7 @@ class MultiDB extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b', $this->sub_modul_ini);
     }
 
     // PROSES BACKUP DATA
@@ -161,6 +163,8 @@ class MultiDB extends Admin_Controller
     // PROSES RESTORE DATA
     public function restore()
     {
+        isCan('b', $this->sub_modul_ini, true);
+
         $this->load->library('MY_Upload', null, 'upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),

@@ -52,6 +52,7 @@ class Sms extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('sms_model');
     }
 
