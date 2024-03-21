@@ -723,7 +723,6 @@ class Keluarga extends Admin_Controller
     public function search_kumpulan_kk(): void
     {
         $data['kumpulan_kk'] = $this->session->kumpulan_kk ?? null;
-        // dd($data['kumpulan_kk']);
         $data['form_action'] = site_url("{$this->controller}/filter/kumpulan_kk");
 
         $this->load->view('sid/kependudukan/ajax_search_kumpulan_kk', $data);
