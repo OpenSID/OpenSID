@@ -58,6 +58,7 @@ class Stunting extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->library('rekap');
         $this->load->helper('tglindo_helper');
     }

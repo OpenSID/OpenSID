@@ -50,6 +50,7 @@ class Ekspedisi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->helper('download');
         $this->load->model('pamong_model');
         $this->uploadConfig = [

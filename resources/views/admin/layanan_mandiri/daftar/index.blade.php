@@ -116,6 +116,7 @@
                     {
                         data: 'penduduk.nik',
                         name: 'penduduk.nik',
+                        defaultContent: '',
                         searchable: true,
                         orderable: true
                     },

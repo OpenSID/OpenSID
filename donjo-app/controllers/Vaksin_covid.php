@@ -50,6 +50,7 @@ class Vaksin_covid extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['vaksin_covid_model', 'wilayah_model', 'pamong_model']);
     }
 

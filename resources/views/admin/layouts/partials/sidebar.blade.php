@@ -39,10 +39,9 @@
 
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MENU UTAMA</li>
-
             <?php $modul = admin_menu(); ?>
             <?php foreach ($modul as $mod): ?>
-            <?php if (is_array($mod['submodul']) && count($mod['submodul']) > 0): ?>
+            <?php if (is_array($mod['childrens']) && count($mod['childrens']) > 0): ?>
             <li class="treeview <?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= ci_route($mod['url']) ?>">
                     <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
@@ -50,7 +49,7 @@
                 </a>
                 <ul class="treeview-menu <?= jecho($modul_ini, $mod['slug'], 'active') ?>">
 
-                    <?php foreach ($mod['submodul'] as $submod): ?>
+                    <?php foreach ($mod['childrens'] as $submod): ?>
                     <li class="<?= jecho($sub_modul_ini, $submod['slug'], 'active') ?>">
                         <a href="<?= ci_route($submod['url']) ?>">
                             <i class="fa <?= $submod['ikon'] != null ? $submod['ikon'] : 'fa-circle-o' ?> <?= jecho($sub_modul_ini, $submod['slug'], 'text-red') ?>"></i>
@@ -61,7 +60,7 @@
 
                 </ul>
             </li>
-            <?php else: ?>
+            <?php elseif (! empty($mod['url'])): ?>
             <li class="<?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= ci_route($mod['url']) ?>">
                     <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>

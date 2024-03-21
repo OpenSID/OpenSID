@@ -64,6 +64,7 @@ class Gis extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('penduduk_model');
         $this->load->model('plan_lokasi_model');
         $this->load->model('plan_area_model');

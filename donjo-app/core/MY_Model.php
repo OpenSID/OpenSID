@@ -473,11 +473,16 @@ class MY_Model extends CI_Model
 
     // Buat ulang yang hanya dibutuhkan
     // Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
-    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom, $ubahNull = false)
+    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom, $ubahNull = false, $primaryForeignKey = false)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         DB::statement("alter table `{$ke_tbl}` modify column `{$ke_kolom}` int(11) NOT NULL AUTO_INCREMENT");
-        DB::statement("alter table `{$di_tbl}` modify column `{$fk}` int(11) NULL");
+        
+        // kondisi dimana kolom di set primary key yg auto increment (tdk boleh null) tapi di set foreign key yg boleh null
+        // contoh di tweb_penduduk_mandiri, yg seharusnya diperbaiki. dibuatkan kolom id yg auto increment dan primary key
+        if (! $primaryForeignKey) {
+            DB::statement("alter table `{$di_tbl}` modify column `{$fk}` int(11) NULL");
+        }
 
         $query = $this->db
             ->where('CONSTRAINT_SCHEMA', $this->db->database)

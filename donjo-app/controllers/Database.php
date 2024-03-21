@@ -55,6 +55,7 @@ class Database extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');

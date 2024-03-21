@@ -62,6 +62,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->tinymce = new TinyMCE();
         $this->load->library('MY_Upload', null, 'upload');
     }

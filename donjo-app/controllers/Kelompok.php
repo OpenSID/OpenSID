@@ -52,6 +52,7 @@ class Kelompok extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['kelompok_model', 'pamong_model']);
         $this->kelompok_model->set_tipe($this->tipe);
     }

@@ -50,6 +50,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['pamong_model', 'penduduk_model', 'laporan_bulanan_model', 'laporan_sinkronisasi_model', 'wilayah_model']);
         $this->logpenduduk = new LogPenduduk();
     }

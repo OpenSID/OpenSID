@@ -48,5 +48,6 @@ class Bumindes_hasil_pembangunan extends Bumindes_rencana_pembangunan
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 }

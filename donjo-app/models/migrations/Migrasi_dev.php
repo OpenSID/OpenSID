@@ -35,8 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Models\Modul;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -83,9 +81,6 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024031572($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031771($hasil, $id);
         }
-
-        // Migrasi tanpa config_id
-        $hasil = $hasil && $this->migrasi_2024031451($hasil);
 
         return $hasil && true;
     }
@@ -591,15 +586,6 @@ class Migrasi_dev extends MY_model
     {
         if (! $this->db->field_exists('kk_level', 'program')) {
             $this->db->query('ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`');
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024031451($hasil)
-    {
-        if (! $this->db->field_exists('input', 'log_surat')) {
-            $hasil = $hasil && $this->db->query('ALTER TABLE `log_surat` ADD COLUMN `input` LONGTEXT NULL AFTER `pemohon`');
         }
 
         return $hasil;

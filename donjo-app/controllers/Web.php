@@ -54,6 +54,7 @@ class Web extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {

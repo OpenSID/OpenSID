@@ -270,14 +270,14 @@ require_once APPPATH . 'core/Web_Controller.php';
 require_once APPPATH . 'core/Mandiri_Controller.php';
 
 // Api controller
-require_once APPPATH . 'core/Web_Controller.php';
+require_once APPPATH . 'core/Api_Controller.php';
 
 class Tte_Controller extends MY_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->siteman != 1) {
+        if (! auth()) {
             redirect('siteman');
         }
     }

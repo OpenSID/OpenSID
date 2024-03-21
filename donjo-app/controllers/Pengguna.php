@@ -44,6 +44,7 @@ class Pengguna extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        dd('index');
         $this->lang->load('passwords');
         $this->load->library('Reset/Password', '', 'password');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');

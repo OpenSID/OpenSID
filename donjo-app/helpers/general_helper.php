@@ -83,10 +83,10 @@ if (!function_exists('can')) {
      */
     function can($akses = null, $slugModul = null, $adminOnly = false)
     {
-        $idGrup   = auth()->id_grup;
-        $slugGrup = UserGrup::find($idGrup)->slug;
-        $data     = cache()->remember('akses_grup_' . $idGrup, 604800, static function () use ($idGrup, $slugGrup) {
-            if (in_array($idGrup, UserGrup::getGrupSistem())) {
+        $grupId   = auth()->id_grup;
+        $slugGrup = UserGrup::find($grupId)->slug;
+        $data     = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
+            if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
                 if (count($grup) === 1 && array_keys($grup)[0] == '*') {
@@ -96,7 +96,7 @@ if (!function_exists('can')) {
                     $grupAkses = Modul::whereIn('slug', array_keys($grup))->get();
                 }
 
-                return $grupAkses->mapWithKeys(static function ($item) use ($idGrup, $rbac, $grup) {
+                return $grupAkses->mapWithKeys(static function ($item) use ($grupId, $rbac, $grup) {
                     $rbac ??= $grup[$item->slug];
                     $rbac = $rbac === 0 ? 1 : $rbac;
 
@@ -104,7 +104,7 @@ if (!function_exists('can')) {
                         $item->slug => [
                             'id_modul' => $item->id,
                             // 'parent_slug' => Modul::find($item->parent)->slug ?? null,
-                            'id_grup' => $idGrup,
+                            'id_grup' => $grupId,
                             'akses'   => $rbac,
                             'baca'    => $rbac >= 1,
                             'ubah'    => $rbac >= 3,
@@ -115,7 +115,7 @@ if (!function_exists('can')) {
             }
             $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
                 // ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
-                ->where('id_grup', $idGrup)
+                ->where('id_grup', $grupId)
                 ->select('grup_akses.*', 's1.slug as slug')
                 // ->select('s2.slug as parent_slug')
                 ->get();
@@ -987,12 +987,9 @@ if (!function_exists('admin_menu')) {
      */
     function admin_menu()
     {
-        $CI = &get_instance();
-
-        return cache()->remember("{$CI->session->user}_admin_menu", 604800, static function () use ($CI) {
-            $CI->load->model('modul_model');
-
-            return $CI->modul_model->list_aktif();
+        $grupId = auth()->id_grup;
+        return cache()->rememberForever("{$grupId}_admin_menu", static function () use ($grupId) {
+            return (new Modul())->tree($grupId)->toArray();
         });
     }
 }
@@ -1006,9 +1003,7 @@ if (!function_exists('menu_tema')) {
     function menu_tema()
     {
         return cache()->rememberForever('menu_tema', static function () {
-            $menu = new Menu();
-
-            return $menu->tree()->toArray();
+            return (new Menu())->tree()->toArray();
         });
     }
 }

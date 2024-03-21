@@ -35,42 +35,43 @@
  *
  */
 
-use App\Enums\JawabanKepuasanEnum;
-use App\Models\Pendapat as ModelsPendapat;
+use App\Models\PendudukMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pendapat extends Admin_Controller
+class Migrasi_2024032051 extends MY_model
 {
-    public $modul_ini     = 'layanan-mandiri';
-    public $sub_modul_ini = 'pendapat';
-    protected ModelsPendapat $pendapat;
-
-    public function __construct()
+    public function up()
     {
-        parent::__construct();
-        isCan('b');
-        $this->pendapat = new ModelsPendapat();
+        $hasil = true;
+
+        $hasil = $hasil && $this->migrasi_2024031451($hasil);
+        $hasil = $hasil && $this->migrasi_2024031851($hasil);
+        $hasil = $hasil && $this->migrasi_2024031951($hasil);
+
+        return $hasil && true;
     }
 
-    public function index()
+    protected function migrasi_2024031451($hasil)
     {
-        $tipe                  = session('tipe');
-        $data['list_pendapat'] = JawabanKepuasanEnum::all();
-
-        foreach (array_keys($data['list_pendapat']) as $key) {
-            $data["pilihan_{$key}"] = $this->pendapat->pendapat($tipe, $key)['total'];
+        if (! $this->db->field_exists('input', 'log_surat')) {
+            $hasil = $hasil && $this->db->query('ALTER TABLE `log_surat` ADD COLUMN `input` LONGTEXT NULL AFTER `pemohon`');
         }
-        $data['main']   = $this->pendapat->pendapat($tipe);
-        $data['detail'] = $this->pendapat->with('penduduk')->whereRaw($this->pendapat->kondisi($tipe)['where'])->get()->toArray();
 
-        return view('admin.pendapat.index', $data);
+        return $hasil;
     }
 
-    public function detail(int $tipe = 1): void
+    protected function migrasi_2024031851($hasil)
     {
-        set_session('tipe', $tipe);
+        PendudukMandiri::whereDoesntHave('penduduk')->delete();
+        $hasil && $this->tambahForeignKey('tweb_penduduk_mandiri_penduduk_fk', 'tweb_penduduk_mandiri', 'id_pend', 'tweb_penduduk', 'id', false, true);
 
-        redirect('pendapat');
+        return $hasil;
+    }
+
+    protected function migrasi_2024031951($hasil)
+    {
+        // duplikasi foreign key
+        return $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_fk', 'suplemen_terdata');
     }
 }

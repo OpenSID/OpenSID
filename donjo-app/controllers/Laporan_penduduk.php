@@ -49,5 +49,6 @@ class Laporan_penduduk extends Laporan_apbdes
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 }

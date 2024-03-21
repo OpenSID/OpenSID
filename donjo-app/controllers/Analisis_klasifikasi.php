@@ -45,7 +45,8 @@ class Analisis_klasifikasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
+        isCan('b');
+        
         if (! $this->session->has_userdata('analisis_master')) {
             $this->session->success   = -1;
             $this->session->error_msg = 'Pilih master analisis terlebih dahulu';

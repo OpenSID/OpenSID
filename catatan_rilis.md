@@ -33,6 +33,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 7. [#7738](https://github.com/OpenSID/OpenSID/issues/7738) Perbaikan saring data penduduk berdasarkan kumpulan nik.
 8. [#7766](https://github.com/OpenSID/OpenSID/issues/7766) Perbaikan kode isian penduduk wilayah.
 9. [#7747](https://github.com/OpenSID/OpenSID/issues/7747) Perbaikan buat ulang kembali surat tinymce yang memiliki lampiran.
+10. [#7779](https://github.com/OpenSID/OpenSID/issues/7779) Perbaikan relasi tabel penduduk dan pendaftar layanan mandiri.
 
 
 #### TEKNIS
@@ -46,7 +47,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 7. [#7753](https://github.com/OpenSID/OpenSID/issues/7753) Penyesuaian modul Peta menggunakan ORM dan Blade Laravel.
 8. [#7758](https://github.com/OpenSID/OpenSID/issues/7758) Penyesuaian modul Artikel menggunakan ORM dan Blade Laravel.
 9. [#2117](https://github.com/OpenSID/OpenSID/issues/2117) Penyesuaian pengguna barang pada menu inventaris.
-
+10. [#6998](https://github.com/OpenSID/OpenSID/issues/6998) Penyesuaian tambah data penduduk dengan identifikasi penduduk yang sama.
 
 #### KEAMANAN
 

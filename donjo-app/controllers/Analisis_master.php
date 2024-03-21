@@ -51,6 +51,8 @@ class Analisis_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
+        
         $this->load->model('analisis_master_model');
         $this->load->model('analisis_import_model');
         $this->load->model('analisis_indikator_model');

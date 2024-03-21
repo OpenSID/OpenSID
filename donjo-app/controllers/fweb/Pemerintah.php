@@ -43,9 +43,9 @@ class Pemerintah extends Web_Controller
 {
     public function index(): void
     {
-        // if (! $this->web_menu_model->menu_aktif('pemerintah')) {
-        //     show_404();
-        // }
+        if (! $this->web_menu_model->menu_aktif('pemerintah')) {
+            show_404();
+        }
 
         $data = $this->includes;
         $this->_get_common_data($data);

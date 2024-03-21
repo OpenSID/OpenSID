@@ -48,6 +48,7 @@ class Gawai_layanan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()

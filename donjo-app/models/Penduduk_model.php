@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -822,6 +823,23 @@ class Penduduk_model extends MY_Model
 
     public function validasi_data_penduduk(&$data, $id = null)
     {
+        // validasi jika NIK sementara dengan data yang sama sudah ada
+        if (strpos($data['nik'], '0') === 0) {
+            $tanggal_lahir = date('Y-m-d', strtotime($data['tanggallahir']));
+
+            $existing_data = Penduduk::where('nama', $data['nama'])
+                ->where('tanggallahir', $tanggal_lahir)
+                ->where('tempatlahir', $data['tempatlahir'])
+                ->where('sex', $data['sex'])
+                ->exists();
+
+            if ($existing_data) {
+                $valid[]                      = "Data Penduduk dengan NIK Sementara {$data['nik']} sudah ada";
+                $_SESSION['validation_error'] = true;
+
+                return $valid;
+            }
+        }
         $data['tanggallahir']         = empty($data['tanggallahir']) ? null : tgl_indo_in($data['tanggallahir']);
         $data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? null : tgl_indo_in($data['tanggal_akhir_paspor']);
         $data['tanggalperkawinan']    = empty($data['tanggalperkawinan']) ? null : tgl_indo_in($data['tanggalperkawinan']);
@@ -1019,7 +1037,7 @@ class Penduduk_model extends MY_Model
         $error_validasi = $this->validasi_data_penduduk($data);
         if (! empty($error_validasi)) {
             foreach ($error_validasi as $error) {
-                $_SESSION['error_msg'] .= ': ' . $error . '\n';
+                $_SESSION['error_msg'] .= '- ' . $error . '<br>';
             }
             // Form menggunakan kolom id_sex = sex dan id_status = status
             $_POST['id_sex']    = $_POST['sex'];

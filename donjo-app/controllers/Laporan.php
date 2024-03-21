@@ -49,6 +49,7 @@ class Laporan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['laporan_bulanan_model', 'pamong_model']);
         $this->logpenduduk = new LogPenduduk();
     }
