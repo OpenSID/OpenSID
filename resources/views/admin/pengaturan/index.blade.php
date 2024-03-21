@@ -20,7 +20,7 @@
         {!! form_open_multipart(ci_route('notif.update_setting'), 'id="validasi" class="form-horizontal"') !!}
         @if ($atur_latar)
             <div class="col-md-3">
-                @if (in_array('sistem', $pengaturan_kategori))
+                @if (in_array('sistem', $pengaturan_kategori ?? []))
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <b>Latar Website</b>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 @endif
-                @if (in_array('setting_mandiri', $pengaturan_kategori))
+                @if (in_array('setting_mandiri', $pengaturan_kategori ?? []))
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <b>Latar Login Mandiri</b>

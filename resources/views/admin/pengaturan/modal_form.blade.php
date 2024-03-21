@@ -17,7 +17,7 @@
                         multiple="multiple">
                         @foreach ($pengaturan->option as $val)
                             <option value="{{ $val }}"
-                                {{ in_array($val, json_decode($pengaturan->value)) ? 'selected' : '' }}>
+                                {{ in_array($val, json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>
                                 {{ $val }}</option>
                         @endforeach
                     </select>
@@ -26,7 +26,7 @@
                     <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $key => $val)
                             <option value="{{ $val['id'] }}"
-                                {{ in_array($val['id'], json_decode($pengaturan->value)) ? 'selected' : '' }}>
+                                {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>
                                 {{ SebutanDesa($val['nama']) }}</option>
                         @endforeach
                     </select>
@@ -71,7 +71,7 @@
                         @endphp
                         <option value="-" @selected(empty($selectedValue))>Tanpa Referensi (kosong)</option>
                         @foreach ($referensiData as $val)
-                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue))>{{ $val[$modelData['label']] }}</option>
+                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
                         @endforeach
                     </select>
                     {{-- prettier-ignore-end --}}
