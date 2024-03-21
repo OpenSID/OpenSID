@@ -2200,6 +2200,8 @@ Route::group('dtks', static function (): void {
 // Buku Tamu > Data Tamu
 Route::group('buku_tamu', static function (): void {
     Route::get('/', 'Buku_tamu@index')->name('buku_tamu.index');
+    Route::get('/edit/{id}', 'Buku_tamu@edit')->name('buku_tamu.edit');
+    Route::post('/update/{id}', 'Buku_tamu@update')->name('buku_tamu.update');
     Route::get('/delete/{id?}', 'Buku_tamu@delete')->name('buku_tamu.delete');
     Route::post('/delete', 'Buku_tamu@delete')->name('buku_tamu.delete-all');
     Route::get('/cetak', 'Buku_tamu@cetak')->name('buku_tamu.cetak');
