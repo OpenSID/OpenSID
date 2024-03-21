@@ -35,17 +35,14 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\BukuTamu;
-use App\Enums\StatusEnum;
-use App\Models\RefJabatan;
-use App\Models\BukuKepuasan;
-use App\Models\BukuKeperluan;
 use App\Enums\JenisKelaminEnum;
-use OpenSpout\Common\Entity\Style\Color;
+use App\Models\BukuKepuasan;
+use App\Models\BukuTamu;
+use Carbon\Carbon;
 use OpenSpout\Common\Entity\Style\Border;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
+use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
+use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Buku_tamu extends Anjungan_Controller
@@ -77,16 +74,9 @@ class Buku_tamu extends Anjungan_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
-                    $aksi = '';
-                    if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('buku_tamu.edit', $row->id) . '" class="btn bg-teal btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                    }
-
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('buku_tamu.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        return '<a href="#" data-href="' . ci_route('buku_tamu.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
-
-                    return $aksi;
                 })
                 ->addColumn('tampil_foto', static fn ($row): string => '<img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '">')
                 ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
@@ -95,49 +85,6 @@ class Buku_tamu extends Anjungan_Controller
         }
 
         return view('admin.buku_tamu.tamu.index');
-    }
-
-    public function edit($id = null)
-    {
-        $this->redirect_hak_akses('u');
-
-        $data['action']      = 'Ubah';
-        $data['form_action'] = ci_route('buku_tamu.update', $id);
-        $data['buku_tamu']   = BukuTamu::findOrFail($id);
-        $data['bertemu']     = RefJabatan::pluck('nama', 'id');
-        $data['keperluan']   = BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
-
-        // dd($data['buku_tamu']);
-
-        return view('admin.buku_tamu.tamu.form', $data);
-    }
-
-    public function update($id = null): void
-    {
-        $this->redirect_hak_akses('u');
-
-        $dataTamu = BukuTamu::findOrFail($id);
-
-        if ($dataTamu->update($this->validate())) {
-            redirect_with('success', 'Berhasil Ubah Data');
-        }
-
-        redirect_with('error', 'Gagal Ubah Data');
-    }
-
-    private function validate()
-    {
-        $request = $this->input->post();
-
-        return [
-            'nama'          => $request['nama'],
-            'telepon'       => $request['telepon'],
-            'instansi'      => $request['instansi'],
-            'jenis_kelamin' => (int) $request['jenis_kelamin'],
-            'alamat'        => $request['alamat'],
-            'bidang'        => $request['bidang'],
-            'keperluan'     => $request['keperluan'],
-        ];
     }
 
     public function delete($id = null): void
