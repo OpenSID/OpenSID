@@ -1,4 +1,5 @@
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.asset_fancybox')
 
 @extends('admin.layouts.index')
 
