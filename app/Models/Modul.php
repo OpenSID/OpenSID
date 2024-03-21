@@ -61,7 +61,7 @@ class Modul extends BaseModel
             'modul' => 'Beranda',
             'slug'  => 'beranda',
             'url'   => 'beranda',
-            'ikon'  => 'fa-dashboard',
+            'ikon'  => 'fa-home',
         ],
     ];
 

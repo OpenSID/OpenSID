@@ -988,9 +988,9 @@ if (! function_exists('admin_menu')) {
     function admin_menu()
     {
         $grupId = auth()->id_grup;
-        // return cache()->rememberForever("{$grupId}_admin_menu", static function () use ($grupId) {
+        return cache()->rememberForever("{$grupId}_admin_menu", static function () use ($grupId) {
             return (new Modul())->tree($grupId)->toArray();
-        // });
+        });
     }
 }
 
@@ -1003,9 +1003,7 @@ if (! function_exists('menu_tema')) {
     function menu_tema()
     {
         return cache()->rememberForever('menu_tema', static function () {
-            $menu = new Menu();
-
-            return $menu->tree()->toArray();
+            return (new Menu())->tree()->toArray();
         });
     }
 }
