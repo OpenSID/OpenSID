@@ -66,4 +66,6 @@ php.ini
 
 Modules/*
 !Modules/.gitkeep
+!Modules/.htaccess
+!Modules/index.html
 .phpunit.result.cache

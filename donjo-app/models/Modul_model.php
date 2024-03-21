@@ -107,8 +107,6 @@ class Modul_model extends MY_Model
             }
         }
 
-        dd($aktif);
-
         return $aktif;
     }
 
