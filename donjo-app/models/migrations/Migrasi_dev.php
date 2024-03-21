@@ -82,6 +82,8 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024031771($hasil, $id);
         }
 
+        $hasil = $hasil && $this->migrasi_2024032051($hasil, $id);
+        
         return $hasil && true;
     }
 
@@ -646,5 +648,10 @@ class Migrasi_dev extends MY_model
         ], $id);
 
         return $hasil;
+    }
+
+    protected function migrasi_2024032051($hasil)
+    {
+        return $hasil && DB::table('setting_modul')->where('slug', 'beranda')->delete();
     }
 }
