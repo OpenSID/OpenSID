@@ -523,6 +523,8 @@ function fTampilTgl($sdate, $edate): string
         } else {
             $tgl = date('j M Y', strtotime($sdate)) . ' - ' . date('j M Y', strtotime($edate));
         }
+    } else {
+        $tgl = fTampilTgl($edate, $sdate);
     }
 
     return $tgl;

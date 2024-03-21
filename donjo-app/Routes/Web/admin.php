@@ -721,7 +721,7 @@ Route::group('surat_mohon', static function (): void {
     Route::get('/', 'Surat_mohon@index')->name('surat_mohon.index');
     Route::get('/datatables', 'Surat_mohon@datatables')->name('surat_mohon.datatables');
     Route::get('/form/{id?}', 'Surat_mohon@form')->name('surat_mohon.form');
-    Route::post('/insert', 'Surat_mohon@create')->name('surat_mohon.create');
+    Route::post('/insert', 'Surat_mohon@insert')->name('surat_mohon.insert');
     Route::post('/update/{id?}', 'Surat_mohon@update')->name('surat_mohon.update');
     Route::get('/delete/{id?}', 'Surat_mohon@delete')->name('surat_mohon.delete');
     Route::post('/deleteAll', 'Surat_mohon@delete_all')->name('surat_mohon.delete_all');
