@@ -178,16 +178,28 @@ class Shortcut extends BaseModel
             'Penduduk TagID'     => Penduduk::status()->whereNotNull('tag_id_card')->count(),
 
             // Keluarga
-            'Keluarga'                  => Keluarga::count(),
-            'Kepala Keluarga'           => Penduduk::status()->where('kk_level', 1)->count(),
-            'Kepala Keluarga Laki-laki' => Penduduk::status()->where('kk_level', 1)->where('sex', 1)->count(),
-            'Kepala Keluarga Perempuan' => Penduduk::status()->where('kk_level', 1)->where('sex', 2)->count(),
+            'Keluarga'                  => Keluarga::with('kepalaKeluarga')->status()->count(),
+            'Kepala Keluarga'           => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+                $query->status()->where('kk_level', 1);
+            }])->count(),
+            'Kepala Keluarga Laki-laki' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+                $query->status()->where('kk_level', 1)->where('sex', 1);
+            }])->count(),
+            'Kepala Keluarga Perempuan' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+                $query->status()->where('kk_level', 1)->where('sex', 2);
+            }])->count(),
 
             // RTM
-            'RTM'                  => Rtm::count(),
-            'Kepala RTM'           => Penduduk::status()->where('rtm_level', 1)->count(),
-            'Kepala RTM Laki-laki' => Penduduk::status()->where('rtm_level', 1)->where('sex', 1)->count(),
-            'Kepala RTM Perempuan' => Penduduk::status()->where('rtm_level', 1)->where('sex', 1)->count(),
+            'RTM'                  => Rtm::status()->count(),
+            'Kepala RTM'           => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                $query->status()->where('rtm_level', 1);
+            }])->count(),
+            'Kepala RTM Laki-laki' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                $query->status()->where('rtm_level', 1)->where('sex', 1);
+            }])->count(),
+            'Kepala RTM Perempuan' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                $query->status()->where('rtm_level', 1)->where('sex', 2);
+            }])->count(),
 
             // Kelompok
             'Kelompok' => Kelompok::status()->tipe()->count(),
