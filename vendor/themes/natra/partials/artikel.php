@@ -121,7 +121,7 @@
 						<table class="table table-bordered table-striped dataTable table-hover">
 							<thead class="bg-gray disabled color-palette">
 								<tr>
-									<th colspan="2" style="text-align: left;"><i class="fa fa-comment"></i> <?= $data['pengguna'] ?></th>
+									<th colspan="2" style="text-align: left;"><i class="fa fa-comment"></i> <?= $data['pengguna']['nama'] ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -138,7 +138,7 @@
 												<table class="table table-bordered table-striped dataTable table-hover">
 													<thead class="bg-gray disabled color-palette">
 														<tr>
-															<th style="text-align: left;"><i class="fa fa-comment"></i> <?= $children['pengguna'] ?></th>
+															<th style="text-align: left;"><i class="fa fa-comment"></i> <?= $children['pengguna']['nama'] ?> <code>(<?= $children['pengguna']['level'] ?>)</code></th>
 														</tr>
 													</thead>
 													<tbody>

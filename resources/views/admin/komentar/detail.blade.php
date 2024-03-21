@@ -39,7 +39,10 @@
 
                 <div class="box-body">
                     <div class="direct-chat-messages">
-                        @include('admin.komentar.chat-info', $komentar)
+                        @include('admin.komentar.message', $komentar)
+                        @foreach ($komentar['children'] as $child)
+                            @include('admin.komentar.message', $child)
+                        @endforeach
                     </div>
                 </div>
                 <div class="box-footer">

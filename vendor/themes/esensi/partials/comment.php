@@ -33,7 +33,7 @@
                 <div class="space-y-2">
                   <blockquote class="italic">"<?= $comment['komentar'] ?></blockquote>
                   <div class="space-y-1 space-x-3 text-xs lg:text-sm">
-                    <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $comment['pengguna'] ?></span>
+                    <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $comment['pengguna']['nama'] ?></span>
                     <span><i class="fa fa-calendar-alt mr-1 text-accent-100"></i> <?= tgl_indo($comment['tgl_upload']) ?></span>
                   </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="space-y-2">
                       <blockquote class="italic">"<?= $children['komentar'] ?></blockquote>
                       <div class="space-y-1 space-x-3 text-xs lg:text-sm">
-                        <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $children['pengguna'] ?></span>
+                        <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $children['pengguna']['nama'] ?> <code>(<?= $children['pengguna']['level'] ?>)</code></span>
                         <span><i class="fa fa-calendar-alt mr-1 text-accent-100"></i> <?= tgl_indo($children['tgl_upload']) ?></span>
                       </div>
                     </div>

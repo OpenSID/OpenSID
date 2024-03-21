@@ -117,13 +117,11 @@ class Komentar extends BaseModel
         return $query->where('tipe', $tipePesan);
     }
 
-    // buat relasi ke table artikel
     public function artikel()
     {
         return $this->belongsTo(Artikel::class, 'id_artikel');
     }
 
-    // buat relasi ke table kategori
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'tipe');
@@ -131,7 +129,11 @@ class Komentar extends BaseModel
 
     public function getFotoAttribute()
     {
-        return cache()->rememberForever('foto_komentar_' . $this->id, static fn () => Foto_Default(null, mt_rand(1, 2)));
+        if ($this->parent_id) {
+            $foto = User::find($this->owner)->foto;
+        }
+
+        return cache()->rememberForever('foto_komentar_' . $this->id, static fn () => AmbilFoto($foto, 'kecil_', mt_rand(1, 2)));
     }
 
     public function children(): HasMany
@@ -144,11 +146,20 @@ class Komentar extends BaseModel
         $parent = $this->parent_id;
         $owner  = $this->owner;
 
+        cache()->flush();
         return cache()->rememberForever('pengguna_komentar_' . $this->id, static function () use ($parent, $owner) {
             if ($parent) {
                 $user = User::with('userGrup')->find($owner);
 
-                return $user->nama . ' (' . $user->userGrup->nama . ')';
+                $owner = [
+                    'nama'  => ucwords($user->nama),
+                    'level' => ucwords($user->userGrup->nama),
+                ];
+            } else {
+                $owner = [
+                    'nama'  => ucwords($owner),
+                    'level' => 'Pengunjung',
+                ];
             }
 
             return $owner;

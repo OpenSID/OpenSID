@@ -12,7 +12,7 @@
 								<table class="table table-bordered table-striped dataTable table-hover">
 									<thead class="bg-gray disabled color-palette">
 										<tr>
-											<th><i class="fa fa-comment"></i> <?= $data['owner']?></th>
+											<th><i class="fa fa-comment"></i> <?= $data['pengguna']['nama']?></th>
 										</tr>
 									</thead>
 									<tbody>
