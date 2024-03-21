@@ -78,7 +78,7 @@ class Buku_tamu extends Anjungan_Controller
                         return '<a href="#" data-href="' . ci_route('buku_tamu.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
                 })
-                ->addColumn('tampil_foto', static fn ($row): string => '<img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '">')
+                ->addColumn('tampil_foto', static fn ($row): string => '<a data-fancybox="buku-tamu" href="' . $row->url_foto . '"><img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '"></a>')
                 ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
                 ->rawColumns(['ceklist', 'tampil_foto', 'aksi'])
                 ->make();
