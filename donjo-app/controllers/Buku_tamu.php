@@ -107,8 +107,6 @@ class Buku_tamu extends Anjungan_Controller
         $data['bertemu']     = RefJabatan::pluck('nama', 'id');
         $data['keperluan']   = BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
 
-        // dd($data['buku_tamu']);
-
         return view('admin.buku_tamu.tamu.form', $data);
     }
 

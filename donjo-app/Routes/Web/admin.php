@@ -2211,8 +2211,10 @@ Route::group('buku_tamu', static function (): void {
 // Buku Tamu > Data Kepuasan
 Route::group('buku_kepuasan', static function (): void {
     Route::get('/', 'Buku_kepuasan@index')->name('buku_kepuasan.index');
+    Route::get('/show/{id}', 'Buku_kepuasan@show')->name('buku_kepuasan.show');
+    Route::get('/datatables_show/{id}', 'Buku_kepuasan@datatables_show')->name('buku_kepuasan.datatables-show');
     Route::get('/delete/{id?}', 'Buku_kepuasan@delete')->name('buku_kepuasan.delete');
-    Route::post('/delete', 'Buku_kepuasan@delete')->name('buku_kepuasan.delete-all');
+    Route::post('/deleteAll', 'Buku_kepuasan@deleteAll')->name('buku_kepuasan.delete-all');
 });
 
 // Buku Tamu > Data Pertanyaan

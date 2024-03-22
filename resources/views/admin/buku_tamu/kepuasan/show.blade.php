@@ -4,17 +4,21 @@
 
 @section('title')
     <h1>
-        Data Kepuasan
+        Detail Kepuasan
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Data Kepuasan</li>
+    <li><a href="{{ ci_route('buku_kepuasan') }}">Data Kepuasan</a></li>
+    <li class="active">Detail Kepuasan</li>
 @endsection
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
+        <div class="box-header with-border">
+            <b>Pertanyaan : </b> {{ $pertanyaan }}
+        </div>
         <div class="box-header with-border">
             @if (can('h'))
                 <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('buku_keperluan.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
@@ -30,7 +34,9 @@
                             <th><input type="checkbox" id="checkall" /></th>
                             <th class="padat">NO</th>
                             <th class="padat">AKSI</th>
-                            <th>PERTANYAAN</th>
+                            <th class="padat">HARI / TANGGAL</th>
+                            <th>NAMA</th>
+                            <th class="padat">JAWABAN</th>
                         </tr>
                     </thead>
                 </table>
@@ -48,7 +54,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('buku_kepuasan') }}",
+                ajax: `{{ ci_route('buku_kepuasan/datatables_show/' . $id_pertanyaan) }}`,
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -68,9 +74,24 @@
                         orderable: false
                     },
                     {
-                        data: 'pertanyaan',
+                        data: 'created_at',
+                        name: 'created_at',
+                        searchable: true,
+                        orderable: true,
+                        class: 'padat'
+                    },
+                    {
+                        data: 'tamu.nama',
+                        name: 'tamu.nama',
                         searchable: true,
                         orderable: true
+                    },
+                    {
+                        data: 'jawaban',
+                        name: 'jawaban',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
                     },
                 ],
                 order: [

@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#6335](https://github.com/OpenSID/OpenSID/issues/6335) Penambahan untuk memperbesar foto pada buku tamu.
 2. [#6340](https://github.com/OpenSID/OpenSID/issues/6340) Penambahan untuk mengubah data buku tamu.
+3. [#6241](https://github.com/OpenSID/OpenSID/issues/6241) Peringkasan halaman buku kepuasan.
 
 
 #### BUG
