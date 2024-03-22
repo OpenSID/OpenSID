@@ -111,23 +111,6 @@ class Beranda extends Admin_Controller
         return $info;
     }
 
-    public function hapus_foreign_key($tabel, $nama_constraint, $drop): bool
-    {
-        $query = $this->db
-            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
-            ->where('CONSTRAINT_SCHEMA', $this->db->database)
-            ->where('REFERENCED_TABLE_NAME', $tabel)
-            ->where('CONSTRAINT_NAME', $nama_constraint)
-            ->get();
-
-        $hasil = true;
-        if ($query->num_rows() > 0) {
-            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
-        }
-
-        return $hasil;
-    }
-
     private function bantuan()
     {
         $program                = Bantuan::with('peserta')->whereId($this->setting->dashboard_program_bantuan)->first();
