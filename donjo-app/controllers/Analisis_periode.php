@@ -46,7 +46,7 @@ class Analisis_periode extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        
+
         if (! $this->session->has_userdata('analisis_master')) {
             $this->session->success   = -1;
             $this->session->error_msg = 'Pilih master analisis terlebih dahulu';

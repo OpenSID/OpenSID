@@ -477,7 +477,7 @@ class MY_Model extends CI_Model
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         DB::statement("alter table `{$ke_tbl}` modify column `{$ke_kolom}` int(11) NOT NULL AUTO_INCREMENT");
-        
+
         // kondisi dimana kolom di set primary key yg auto increment (tdk boleh null) tapi di set foreign key yg boleh null
         // contoh di tweb_penduduk_mandiri, yg seharusnya diperbaiki. dibuatkan kolom id yg auto increment dan primary key
         if (! $primaryForeignKey) {

@@ -1978,7 +1978,7 @@ Route::group('web', static function (): void {
     Route::get('clear', static function () {
         redirect('web');
     });
-    Route::get('form/{cat}/{id?}', 'Web@form')->name('web.form');
+    Route::get('form/{cat?}/{id?}', 'Web@form')->name('web.form');
     Route::get('datatables', 'Web@datatables')->name('web.datatables');
     Route::post('insert/{cat}', 'Web@insert')->name('web.insert');
     Route::post('update/{cat}/{id?}', 'Web@update')->name('web.update');

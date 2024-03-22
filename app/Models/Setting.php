@@ -177,5 +177,4 @@ class Setting extends BaseModel
             cache()->flush();
         });
     }
-    
 }

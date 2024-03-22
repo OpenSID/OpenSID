@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Models\Modul;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');

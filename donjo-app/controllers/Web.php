@@ -146,14 +146,16 @@ class Web extends Admin_Controller
         return show_404();
     }
 
-    public function form($cat, $id = null): void
+    public function form($cat = null, $id = null): void
     {
         isCan('u');
+
         $this->set_hak_akses_rfm();
 
         if (null !== $id) {
-            $id      = decrypt($id);
-            $artikel = Artikel::withOnly(['category'])->findOrFail($id);
+            $id        = decrypt($id);
+            $relations = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? ['agenda'] : ['category'];
+            $artikel   = Artikel::withOnly($relations)->findOrFail($id);
 
             if (! $artikel->bolehUbah()) {
                 redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini');
@@ -164,6 +166,9 @@ class Web extends Admin_Controller
             $data['id']          = $id;
             $data['kategori']    = is_numeric($cat) && $cat > 0 ? $artikel->category->toArray() : ['kategori' => ''];
         } else {
+            if ($cat === null) {
+                redirect_with('error', 'Kategori tidak ditemukan');
+            }
             $data['artikel']     = null;
             $data['form_action'] = ci_route('web.insert', $cat);
             $data['kategori']    = ['kategori' => ''];
@@ -192,6 +197,7 @@ class Web extends Admin_Controller
         foreach ($list_gambar as $gambar) {
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
             $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
+            $nama_file   = trim(str_replace(' ', '_', $nama_file));
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
                 $hasil     = UploadArtikel($nama_file, $gambar);
@@ -205,6 +211,10 @@ class Web extends Admin_Controller
         $data['id_kategori'] = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? null : $cat;
         $data['tipe']        = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? $cat : 'dinamis';
         $data['id_user']     = auth()->id;
+        // set null id_kategori, artikel tanpa kategori
+        if ($data['id_kategori'] == -1) {
+            $data['id_kategori'] = null;
+        }
 
         // Kontributor tidak dapat mengaktifkan artikel
         if (auth()->id_grup == 4) {
@@ -307,6 +317,7 @@ class Web extends Admin_Controller
         foreach ($list_gambar as $gambar) {
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
             $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
+            $nama_file   = trim(str_replace(' ', '_', $nama_file));
 
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);

@@ -20,7 +20,7 @@
         <div class="col-md-9">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    @if (can('u') && $cat != 0)
+                    @if (can('u') && !in_array($cat, ['0', '-1', null]))
                         <a href="{{ ci_route('web.form', $cat) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah
                             {{ $kategori ? $kategori : (in_array($cat, ['statis', 'agenda', 'keuangan']) ? ucfirst($cat) : '') }}</a>
                     @endif
@@ -61,7 +61,7 @@
                                     <th class="padat">AKSI</th>
                                     <th nowrap>JUDUL</th>
                                     <th nowrap>HIT</th>
-                                    <th nowrap>DIPOSTING PADA</th>
+                                    <th width="15%" nowrap>DIPOSTING PADA</th>
                                 </tr>
                             </thead>
                         </table>
@@ -117,7 +117,8 @@
                         data: 'hit',
                         name: 'hit',
                         searchable: false,
-                        orderable: true
+                        orderable: true,
+                        class: 'padat'
                     },
                     {
                         data: 'tgl_upload',
@@ -126,7 +127,9 @@
                         orderable: true
                     },
                 ],
-                aaSorting: [],
+                order: [
+                    [5, 'desc']
+                ],
             });
 
             if (hapus == 0) {

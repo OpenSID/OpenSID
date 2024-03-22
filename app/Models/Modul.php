@@ -187,9 +187,11 @@ class Modul extends BaseModel
                 if (isset($item['childrens'])) {
                     $item['childrens'] = $item['childrens']->map(static function ($child) {
                         $child['modul'] = SebutanDesa($child['modul']);
+
                         return $child;
                     });
                 }
+
                 return $item;
             })
             ->values();
