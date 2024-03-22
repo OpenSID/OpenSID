@@ -175,7 +175,7 @@ class Garis extends BaseModel
 
     public static function activeGarisMap()
     {
-        return self::active()->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol'])]),
+        return self::active()->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol', 'color', 'tebal', 'jenis'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol', 'color', 'tebal', 'jenis'])]),
         ])->get()->map(function ($item) {
             $item->jenis       = $item->line->parent->nama ?? '';
             $item->kategori    = $item->line->nama ?? '';
