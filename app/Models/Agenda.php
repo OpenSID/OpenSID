@@ -65,4 +65,8 @@ class Agenda extends BaseModel
         'koordinator_kegiatan',
         'lokasi_kegiatan',
     ];
+
+    protected $casts = [
+        'tgl_agenda' => 'datetime:d-m-Y H:i:s',
+    ];
 }
