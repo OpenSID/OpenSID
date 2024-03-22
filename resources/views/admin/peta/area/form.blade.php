@@ -74,7 +74,7 @@
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
                         <div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-                            <label id="sx3" class="btn btn-info  btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label @if (! $area->isLock() || $area->enabled == null) {{ 'active' }} @endif">
+                            <label id="sx3" class="btn btn-info  btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label @if (!$area->isLock() || $area->enabled == null) {{ 'active' }} @endif">
                                 <input
                                     id="sx1"
                                     type="radio"
@@ -82,7 +82,7 @@
                                     class="form-check-input"
                                     type="radio"
                                     value="{{ \App\Models\Area::UNLOCK }}"
-                                    @if (! $area->isLock() || $area->enabled == null) {{ 'checked' }} @endif
+                                    @if (!$area->isLock() || $area->enabled == null) {{ 'checked' }} @endif
                                     autocomplete="off"
                                 > Aktif
                             </label>

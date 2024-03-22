@@ -37,7 +37,6 @@
 
 use App\Models\Config;
 use App\Models\LogSurat;
-use App\Models\Modul;
 use App\Models\Pamong;
 use App\Models\Pesan;
 use App\Models\UserGrup;
