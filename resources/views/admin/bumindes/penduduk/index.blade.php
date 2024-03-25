@@ -1,4 +1,6 @@
 @extends('admin.layouts.index')
+@include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
 @section('title')
     <h1>

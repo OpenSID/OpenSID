@@ -1118,14 +1118,15 @@ Route::group('bumindes_penduduk_mutasi', static function (): void {
 });
 
 Route::group('bumindes_penduduk_rekapitulasi', static function (): void {
+    Route::get('/datatables', 'Bumindes_penduduk_rekapitulasi@datatables')->name('bumindes_penduduk_rekapitulasi.datatables');
+    Route::get('/dialog_cetak/{aksi?}', 'Bumindes_penduduk_rekapitulasi@dialog_cetak')->name('bumindes_penduduk_rekapitulasi.dialog_cetak');
     Route::match(['GET', 'POST'], '/', 'Bumindes_penduduk_rekapitulasi@index');
     Route::match(['GET', 'POST'], '/index', 'Bumindes_penduduk_rekapitulasi@index');
-    Route::match(['GET', 'POST'], '/index/{page_number}', 'Bumindes_penduduk_rekapitulasi@index');
-    Route::get('/clear', 'Bumindes_penduduk_rekapitulasi@clear')->name('bumindes_penduduk_rekapitulasi.clear');
+    Route::get('/clear', static function () {
+        redirect('/bumindes_penduduk_rekapitulasi');
+    });
     Route::get('/ajax_cetak/{aksi}', 'Bumindes_penduduk_rekapitulasi@ajax_cetak')->name('bumindes_penduduk_rekapitulasi.ajax_cetak');
     Route::post('/cetak/{aksi}', 'Bumindes_penduduk_rekapitulasi@cetak')->name('bumindes_penduduk_rekapitulasi.cetak');
-    Route::get('/autocomplete', 'Bumindes_penduduk_rekapitulasi@autocomplete')->name('bumindes_penduduk_rekapitulasi.autocomplete');
-    Route::post('/filter/{filter}', 'Bumindes_penduduk_rekapitulasi@filter')->name('bumindes_penduduk_rekapitulasi.filter');
 });
 
 Route::group('bumindes_penduduk_sementara', static function (): void {
@@ -1136,15 +1137,14 @@ Route::group('bumindes_penduduk_sementara', static function (): void {
 });
 
 Route::group('bumindes_penduduk_ktpkk', static function (): void {
+    Route::get('/clear', static function () {
+        redirect('/bumindes_penduduk_ktpkk');
+    });
+    Route::get('/dialog_cetak/{aksi?}', 'Bumindes_penduduk_ktpkk@dialog_cetak')->name('bumindes_penduduk_ktpkk.dialog_cetak');
+    Route::post('/cetak/{aksi?}', 'Bumindes_penduduk_ktpkk@cetak')->name('bumindes_penduduk_ktpkk.cetak');
+    Route::get('/datatables', 'Bumindes_penduduk_ktpkk@datatables')->name('bumindes_penduduk_ktpkk.datatables');
     Route::match(['GET', 'POST'], '/', 'Bumindes_penduduk_ktpkk@index');
     Route::match(['GET', 'POST'], '/index', 'Bumindes_penduduk_ktpkk@index');
-    Route::match(['GET', 'POST'], '/index/{page_number}', 'Bumindes_penduduk_ktpkk@index');
-    Route::match(['GET', 'POST'], '/index/{page_number}/{order_by}', 'Bumindes_penduduk_ktpkk@index');
-    Route::get('/clear', 'Bumindes_penduduk_ktpkk@clear')->name('bumindes_penduduk_ktpkk.clear');
-    Route::get('/ajax_cetak/{page}/{o}/{aksi}', 'Bumindes_penduduk_ktpkk@ajax_cetak')->name('bumindes_penduduk_ktpkk.ajax_cetak');
-    Route::post('/cetak/{page}/{o}/{aksi}/{privasi_nik?}', 'Bumindes_penduduk_ktpkk@cetak')->name('bumindes_penduduk_ktpkk.cetak');
-    Route::get('/autocomplete', 'Bumindes_penduduk_ktpkk@autocomplete')->name('bumindes_penduduk_ktpkk.autocomplete');
-    Route::post('/filter/{filter}', 'Bumindes_penduduk_ktpkk@filter')->name('bumindes_penduduk_ktpkk.filter');
 });
 
 // - Buku Administrasi Pembangunan

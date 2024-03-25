@@ -94,12 +94,11 @@ function strip_kosong($str)
 }
 
 // Simpan laporan html sebagai file PDF
-function buat_pdf(string $isi, string $file, $style = null, $orientation = 'P', $page_size = 'A4'): void
+function buat_pdf($isi, string $file, $style = null, $orientation = 'P', $page_size = 'A4'): void
 {
     // CSS perlu ditambahkan secara eksplisit
     $style     = $style ?: APPPATH . '../assets/css/report.css';
     $style_isi = "<style>\n " . file_get_contents($style) . "</style>\n" . $isi;
-
     // Konversi ke PDF menggunakan html2pdf
     try {
         $html2pdf = new Html2Pdf($orientation, $page_size);

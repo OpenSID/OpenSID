@@ -614,8 +614,6 @@ class Laporan_penduduk_model extends MY_Model
             $data = [];
         }
 
-        $data[] = $this->baris_jumlah($total, $judul_jumlah);
-
         $data[] = $this->baris_belum($semua, $total, $judul_belum);
         $this->hitung_persentase($data, $semua);
 
