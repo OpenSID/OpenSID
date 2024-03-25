@@ -1,0 +1,56 @@
+[
+    {
+        "judul":"Warna Dasar Tema",
+        "key":"warna_dasar",
+        "value":"#e64946",
+        "type":"color-picker",
+        "keterangan":"Warna Dasar Tema yang akan digunakan pada website",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Statistik [desa]",
+        "key":"statistik_desa",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilakn statistik [desa] pada footer website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Jam",
+        "key":"jam",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilakn jam pada website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Pintasan Masuk",
+        "key":"pintasan_masuk",
+        "value":"1",
+        "type":"select",
+        "keterangan":"Tampilakn pintasan masuk admin dan layanan mandiri pada website",
+        "options":{
+            "1":"Ya",
+            "0":"Tidak"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    }
+]

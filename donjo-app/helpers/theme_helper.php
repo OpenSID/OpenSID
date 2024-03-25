@@ -166,6 +166,10 @@ if (!function_exists('theme_config')) {
         $tema = theme_active()->opsi;
 
         if ($key) {
+            if ($default === null) {
+                $default = collect(json_decode(file_get_contents(theme_full_path() . '/config.json'), true))->where('key', $key)->first()['value'] ?? null;
+            }
+
             return $tema[$key] ?? $default;
         }
 

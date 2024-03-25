@@ -34,7 +34,7 @@
                                 <div class="row">
                                     <div class="form-group col-sm-12">
                                         <label for="input{{ $value['key'] }}"
-                                            class="col-sm-2 control-label">{{ $value['judul'] }}</label>
+                                            class="col-sm-2 control-label">{{ SebutanDesa($value['judul']) }}</label>
                                         <div class="col-sm-6">
                                             @php
                                                 $value['default'] = $tema->opsi[$value['key']] ?? $value['value'];
@@ -58,7 +58,7 @@
                                             ])
 
                                         </div>
-                                        <label class="col-sm-4 control-label">{{ $value['keterangan'] }}</label>
+                                        <label class="col-sm-4 control-label">{{ SebutanDesa($value['keterangan']) }}</label>
                                     </div>
                                 </div>
                             </div>
