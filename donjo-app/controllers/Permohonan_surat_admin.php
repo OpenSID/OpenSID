@@ -207,6 +207,8 @@ class Permohonan_surat_admin extends Admin_Controller
         Komentar::create($data);
         $this->proses($id_permohonan, $tipe);
 
+        $this->kirim_notifikasi_penduduk($id_permohonan, $data['komentar'], $data['subjek'], '/layanan');
+
         redirect('permohonan_surat_admin');
     }
 
