@@ -145,16 +145,16 @@ class Surat_dinas extends Admin_Controller
         }
 
         $data['margins']              = json_decode($data['suratDinas']->margin, null) ?? json_decode(setting('surat_dinas_margin'), true);
-        $data['margin_global']        = $data['suratDinas']->margin_global ?? 1;
+        $data['margin_global']        = $data['suratDinas']->margin_global ?? StatusEnum::YA;
         $data['orientations']         = SuratDinas::ORIENTATAIONS;
         $data['sizes']                = SuratDinas::SIZES;
         $data['default_orientations'] = SuratDinas::DEFAULT_ORIENTATAIONS;
         $data['default_sizes']        = SuratDinas::DEFAULT_SIZES;
-        $data['header']               = $data['suratDinas']->header ?? 1;
-        $data['footer']               = $data['suratDinas']->footer ?? 1;
+        $data['header']               = $data['suratDinas']->header ?? StatusEnum::YA;
+        $data['footer']               = $data['suratDinas']->footer ?? StatusEnum::YA;
         $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiranSuratDinas();
         $data['format_nomor']         = $data['suratDinas']->format_nomor;
-        $data['format_nomor_global']  = $data['suratDinas']->format_nomor_global ?? 1;
+        $data['format_nomor_global']  = $data['suratDinas']->format_nomor_global ?? StatusEnum::YA;
         $data['form_isian']           = $this->form_isian();
         $data['simpan_sementara']     = ci_route('surat_dinas/simpan_sementara');
         $data['masaBerlaku']          = SuratDinas::MASA_BERLAKU;
