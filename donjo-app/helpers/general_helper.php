@@ -1076,3 +1076,22 @@ if (!function_exists('pecah_nama_gelar')) {
         return $result;
     }
 }
+
+if (! function_exists('invalid_tags')) {
+    function invalid_tags()
+    {
+        return [
+            '<center>',
+            '<article>',
+            '<aside>',
+            '<details>',
+            '<figcaption>',
+            '<figure>',
+            '<header>',
+            '<main>',
+            '<nav>',
+            '<section>',
+            '<time>',
+        ];
+    }
+}

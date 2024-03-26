@@ -546,6 +546,7 @@ class Penduduk_model extends MY_Model
                 break;
 
             default:
+                // terapkan order by ini ke konversi
                 $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)');
                 break;
         }

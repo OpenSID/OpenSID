@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <td class="text-center">
-                <h4>BUKU INDUK PENDUDUK BULAN <?= strtoupper(getBulan(date('m'))) ?> TAHUN <?= date('Y') ?></h4>
+                <h4>BUKU INDUK PENDUDUK BULAN {{ strtoupper(getBulan(date('m'))) }} TAHUN {{ date('Y') }}</h4>
             </td>
         </tr>
         <tr>
