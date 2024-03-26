@@ -46,6 +46,7 @@ use App\Models\LogSuratDinas;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use App\Models\SuratDinas;
+use App\Models\SuratKeluar;
 use App\Models\Urls;
 use Carbon\Carbon;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -63,6 +64,7 @@ class Surat_dinas_cetak extends Admin_Controller
     {
         parent::__construct();
         $this->tinymce = new TinyMCE();
+        $this->load->model(['penomoran_surat_model']);
     }
 
     public function index()
@@ -262,6 +264,27 @@ class Surat_dinas_cetak extends Admin_Controller
                 $surat = LogSuratDinas::find($cetak['id']);
             } else {
                 $surat = new LogSuratDinas($log_surat);
+            }
+
+            $keluar = json_decode($surat->input, true);
+
+            if (! $preview && $keluar['surat_keluar']) {
+                $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
+                $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
+                $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
+                $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
+                $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
+                $last_surat   = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
+
+                SuratKeluar::create([
+                    'nomor_urut'    => $last_surat['no_surat'] + 1,
+                    'nomor_surat'   => $format_surat,
+                    'kode_surat'    => $surat->suratDinas->kode_surat,
+                    'tanggal_surat' => tgl_indo_in($keluar['tanggal_surat']),
+                    'tujuan'        => $keluar['tujuan'],
+                    'isi_singkat'   => $keluar['isi_singkat'],
+                    'berkas_scan'   => $surat->nama_surat,
+                ]);
             }
 
             // Replace Gambar

@@ -80,6 +80,8 @@
 
             @include('admin.surat_dinas.cetak.sifat_surat')
 
+            @include('admin.surat_dinas.cetak.surat_keluar')
+
             @include('admin.surat_dinas.cetak.form_pamong')
 
         </div>
