@@ -354,6 +354,13 @@ class Keluar extends Admin_Controller
 
             if ($mandiri != null) {
                 $mandiri->update(['status' => 3]);
+
+                // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
+                $id_penduduk = $mandiri['id_pemohon'];
+                $pesan       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+                $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+
+                $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
             }
         } else {
             $log_surat = LogSurat::where('id', '=', $id)->first();

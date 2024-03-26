@@ -122,6 +122,8 @@ class Tte extends Tte_Controller
                 fclose($file);
             }
 
+            $this->kirim_notifikasi($mandiri);
+
             return $this->response([
                 'status'      => true,
                 'pesan'       => 'success',
@@ -200,6 +202,8 @@ class Tte extends Tte_Controller
                 fclose($file);
             }
 
+            $this->kirim_notifikasi($mandiri);
+
             return $this->response([
                 'status'      => true,
                 'pesan'       => 'success',
@@ -233,5 +237,15 @@ class Tte extends Tte_Controller
         ]);
 
         return json($notif);
+    }
+
+    public function kirim_notifikasi($mandiri)
+    {
+        // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
+        $id_penduduk = $mandiri['id_pemohon'];
+        $pesan       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+        $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+
+        $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
     }
 }
