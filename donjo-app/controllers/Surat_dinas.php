@@ -558,7 +558,7 @@ class Surat_dinas extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $log_surat['surat'] = SuratDinas::find($id);
-            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat);
+            $kode_isian         = $this->tinymce->getFormatedKodeIsian($log_surat, false, true);
 
             return json($kode_isian);
         }

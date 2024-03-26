@@ -204,8 +204,10 @@ class TinyMCE
             ]);
     }
 
-    public function getFormatedKodeIsian(array $data = [], $withData = false)
+    public function getFormatedKodeIsian(array $data = [], $withData = false, $suratDinas = false)
     {
+        $daftar_kode_isian = [];
+
         $idPenduduk      = $data['id_pend'];
         $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
         $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
@@ -213,41 +215,45 @@ class TinyMCE
 
         $alias = AliasKodeIsian::get();
 
-        $daftar_kode_isian = [
-            // Kode Isian Alias
-            'Alias' => $alias->map(static fn ($item): array => [
+        $daftar_kode_isian['Alias'] = $alias->map(static fn ($item): array => [
                 'judul' => $item->judul,
                 'isian' => $item->alias,
                 'data'  => $item->content,
-            ])->toArray(),
+            ])->toArray();
 
-            // Data Surat
-            'Surat' => KodeIsianSurat::get($data),
+        // Surat
+        $daftar_kode_isian['Surat'] = KodeIsianSurat::get($data);
+        
+        // Data Form Surat
+        $daftar_kode_isian['Form Surat'] = KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0);
+        
+        // Data Identitas Desa
+        $daftar_kode_isian['Identitas Desa'] =  KodeIsianIdentitas::get();
 
-            // Data Form Surat
-            'Form Surat' => KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0),
+        // Data Dusun
+        $daftar_kode_isian['Wilayah'] =  KodeIsianWilayah::get();
 
-            // Data Identitas Desa
-            'Identitas Desa' => KodeIsianIdentitas::get(),
+        // Data Penduduk
+        if (! $suratDinas) {
+            $daftar_kode_isian[$judulPenduduk] = KodeIsianPenduduk::get($idPenduduk);
+        }
 
-            // Data Dusun
-            'Wilayah' => KodeIsianWilayah::get(),
+        // Data Form Penduduk
+        $formPenduduk = KodeIsianForm::get($data['input'], $daftarKodeIsian['individu'] ?? []);
+        if (count($formPenduduk) > 0) {
+            $daftar_kode_isian["Form {$judulPenduduk}"] = $formPenduduk;
+        }
 
-            // Data Penduduk
-            $judulPenduduk => KodeIsianPenduduk::get($idPenduduk),
-
-            // Data Form Penduduk
-            "Form {$judulPenduduk}" => KodeIsianForm::get($data['input'], $daftarKodeIsian['individu'] ?? []),
-
+        if (! $suratDinas) {
             // Data Anggota keluarga
-            'Anggota Keluarga' => KodeIsianAnggotaKeluarga::get($idPenduduk),
+            $daftar_kode_isian['Anggota Keluarga'] = KodeIsianAnggotaKeluarga::get($idPenduduk);
 
             // Data Pasangan
-            'Pasangan' => KodeIsianPasangan::get($idPenduduk),
+            $daftar_kode_isian['Pasangan'] = KodeIsianPasangan::get($idPenduduk);
+        }
 
-            // Data Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
-            'Aritmatika' => KodeIsianAritmatika::get(),
-        ];
+        // Data Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
+        $daftar_kode_isian['Aritmatika'] = KodeIsianAritmatika::get();
 
         if ($alias->count() <= 0) {
             unset($daftar_kode_isian['Alias']);
