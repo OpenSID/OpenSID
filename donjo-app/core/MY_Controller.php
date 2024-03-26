@@ -168,6 +168,10 @@ class MY_Controller extends CI_Controller
                 return $query->where('jabatan_id', '=', kades()->id);
             }
 
+            if ($next == 'all') {
+                    return $query;
+            }
+
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
         })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id')))->get();
 
