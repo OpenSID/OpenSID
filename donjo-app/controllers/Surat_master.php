@@ -231,6 +231,8 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
+        $this->checkTags($this->request['template_desa']);
+
         if (FormatSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -242,6 +244,7 @@ class Surat_master extends Admin_Controller
     {
         isCan('u');
         $id = $this->request['id_surat'] ?: null;
+        $this->checkTags($this->request['template_desa'], $id);
 
         $cek_surat = FormatSurat::find($id);
 
@@ -261,6 +264,8 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
+        $this->checkTags($this->request['template_desa'], $id);
+
         $data = FormatSurat::findOrFail($id);
 
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
@@ -268,6 +273,17 @@ class Surat_master extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    private function checkTags($template_desa, $id = null)
+    {
+        $invalid_tags = invalid_tags();
+
+        foreach ($invalid_tags as $invalid_tag) {
+            if (strpos($template_desa, $invalid_tag) !== false) {
+                redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
+            }
+        }
     }
 
     private function validate($request = [], $jenis = 4, $id = null)
