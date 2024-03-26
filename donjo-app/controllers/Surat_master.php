@@ -463,7 +463,7 @@ class Surat_master extends Admin_Controller
         return view('admin.pengaturan_surat.kode_isian', ['suratMaster' => $suratMaster]);
     }
 
-    public function kunci($id = null, $val = 0): void
+    public function kunci($id = null): void
     {
         isCan('u');
 
@@ -474,7 +474,7 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function favorit($id = null, $val = 0): void
+    public function favorit($id = null): void
     {
         isCan('u');
 

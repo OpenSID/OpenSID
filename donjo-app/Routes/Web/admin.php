@@ -633,8 +633,8 @@ Route::group('surat_master', static function (): void {
     Route::post('/simpan_sementara', 'Surat_master@simpan_sementara')->name('surat_master.simpan_sementara');
     Route::post('/update/{id?}', 'Surat_master@update')->name('surat_master.update');
     Route::post('/kodeIsian/{id?}', 'Surat_master@kodeIsian')->name('surat_master.kodeIsian');
-    Route::match(['GET', 'POST'], '/kunci/{id?}/{val?}', 'Surat_master@kunci')->name('surat_master.kunci');
-    Route::match(['GET', 'POST'], '/favorit/{id?}/{val?}', 'Surat_master@favorit')->name('surat_master.favorit');
+    Route::match(['GET', 'POST'], '/kunci/{id?}', 'Surat_master@kunci')->name('surat_master.kunci');
+    Route::match(['GET', 'POST'], '/favorit/{id?}', 'Surat_master@favorit')->name('surat_master.favorit');
     Route::get('/delete/{id}', 'Surat_master@delete')->name('surat_master.delete');
     Route::post('/delete_all', 'Surat_master@delete_all')->name('surat_master.delete_all');
     Route::get('/restore_surat_bawaan/{surat?}', 'Surat_master@restore_surat_bawaan')->name('surat_master.restore_surat_bawaan');
@@ -738,8 +738,8 @@ Route::group('surat_dinas', static function (): void {
     Route::post('simpan_sementara', 'Surat_dinas@simpan_sementara')->name('surat_dinas.simpan_sementara');
     Route::post('update/{id?}', 'Surat_dinas@update')->name('surat_dinas.update');
     Route::post('kodeIsian/{id?}', 'Surat_dinas@kodeIsian')->name('surat_dinas.kodeIsian');
-    Route::match(['GET', 'POST'], 'kunci/{id?}/{val?}', 'Surat_dinas@kunci')->name('surat_dinas.kunci');
-    Route::match(['GET', 'POST'], 'favorit/{id?}/{val?}', 'Surat_dinas@favorit')->name('surat_dinas.favorit');
+    Route::match(['GET', 'POST'], 'kunci/{id?}', 'Surat_dinas@kunci')->name('surat_dinas.kunci');
+    Route::match(['GET', 'POST'], 'favorit/{id?}', 'Surat_dinas@favorit')->name('surat_dinas.favorit');
     Route::match(['GET', 'POST'], 'delete/{id?}', 'Surat_dinas@delete')->name('surat_dinas.delete');
     Route::get('restore_surat_bawaan/{surat?}', 'Surat_dinas@restore_surat_bawaan')->name('surat_dinas.restore_surat_bawaan');
     Route::get('pengaturan', 'Surat_dinas@pengaturan')->name('surat_dinas.pengaturan');
