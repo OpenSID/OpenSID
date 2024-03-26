@@ -16,6 +16,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 10. [#7779](https://github.com/OpenSID/OpenSID/issues/7779) Perbaikan relasi tabel penduduk dan pendaftar layanan mandiri.
 11. [#7789](https://github.com/OpenSID/OpenSID/issues/7789) Perbaikan menampilkan infrastruktur garis pada peta.
 12. [#7789](https://github.com/OpenSID/OpenSID/issues/7789) Perbaikan notifikasi jika template surat tidak valid.
+13. [#7721](https://github.com/OpenSID/OpenSID/issues/7721) Perbaikan nomor surat pada lampiran.
 
 
 #### TEKNIS
@@ -31,6 +32,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 9. [#2117](https://github.com/OpenSID/OpenSID/issues/2117) Penyesuaian pengguna barang pada menu inventaris.
 10. [#6998](https://github.com/OpenSID/OpenSID/issues/6998) Penyesuaian tambah data penduduk dengan identifikasi penduduk yang sama.
 11. [#7707](https://github.com/OpenSID/OpenSID/issues/7707) Penyesuaian modul Buku Rekapitulasi Jumlah Penduduk dan Buku KTP dan KK menggunakan ORM dan Blade Laravel.
+
 
 #### KEAMANAN
 
