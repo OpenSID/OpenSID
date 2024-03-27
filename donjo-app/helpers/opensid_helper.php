@@ -1779,9 +1779,7 @@ if (! function_exists('nextVersion')) {
             $bulan = 1;
         } else {
             $bulan++;
-            if ($bulan < 10) {
-                $bulan = '0' . $bulan;
-            }
+            $bulan = '0' . $bulan;
         }
 
         return $tahun . $bulan;
@@ -2225,7 +2223,7 @@ if (! function_exists('akas')) {
      *
      * @return object
      */
-    function akas($class, $directory = '', $param = null)
+    function akas(string $class, string $directory = '', $param = null)
     {
         static $_classes = [];
 
@@ -2281,7 +2279,7 @@ if (! function_exists('akas')) {
 }
 
 if (! function_exists('forceRemoveDir')) {
-    function forceRemoveDir($dir)
+    function forceRemoveDir(string $dir): void
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);

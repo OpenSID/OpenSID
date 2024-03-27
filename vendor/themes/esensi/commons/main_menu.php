@@ -9,7 +9,7 @@
     </li>
     <?php if(menu_tema()) : ?>
       <?php foreach(menu_tema() as $menu) : ?>
-        <?php $has_dropdown = count($menu['childrens']) > 0 ?>
+        <?php $has_dropdown = count($menu['childrens'] ?? []) > 0 ?>
         <li class="inline-block relative" <?php $has_dropdown and print('x-data="{dropdown: false}"') ?>>
 
           <?php $menu_link = $has_dropdown ? '#!' : $menu['link_url'] ?>
@@ -45,7 +45,7 @@
               </a></li>
 
                   <?php foreach($childrens['childrens'] as $bmenu) : ?>
-                    <?php $bhas_dropdown = count($bmenu['childrens']) > 0 ?>
+                    <?php $bhas_dropdown = count($bmenu['childrens'] ?? []) > 0 ?>
                     <li class="inline-block relative" <?php $bhas_dropdown and print('x-data="{dropdown: false}"') ?>>
 
                       <?php $bmenu_link = $bhas_dropdown ? '#!' : $bmenu['link_url'] ?>

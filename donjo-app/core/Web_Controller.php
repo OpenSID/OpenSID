@@ -63,12 +63,10 @@ class Web_Controller extends MY_Controller
 
             exit;
         }
-        if ($this->setting->offline_mode == 1) {
-            if (can('b', 'web')) {
-                $this->view_maintenance();
+        if ($this->setting->offline_mode == 1 && can('b', 'web')) {
+            $this->view_maintenance();
 
-                exit;
-            }
+            exit;
         }
 
         $this->load->model('web_menu_model');

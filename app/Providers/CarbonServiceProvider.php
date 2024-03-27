@@ -48,7 +48,7 @@ use Throwable;
 
 class CarbonServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $locale = 'id';
 
@@ -71,7 +71,7 @@ class CarbonServiceProvider extends ServiceProvider
         }
     }
 
-    public function register()
+    public function register(): void
     {
     }
 }

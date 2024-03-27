@@ -1006,9 +1006,11 @@ if (! function_exists('menu_tema')) {
 }
 
 if (! function_exists('createDropdownMenu')) {
-    function createDropdownMenu($menuData, $level = 0)
+    function createDropdownMenu($menuData, $level = 0): void
     {
-        if ($level) echo '<ul class="dropdown-menu">';
+        if ($level) {
+            echo '<ul class="dropdown-menu">';
+        }
 
         foreach ($menuData as $item) {
             $level++;
@@ -1018,7 +1020,9 @@ if (! function_exists('createDropdownMenu')) {
             }
             echo '</li>';
         }
-        if ($level) echo '</ul>';
+        if ($level) {
+            echo '</ul>';
+        }
     }
 }
 
@@ -1031,7 +1035,7 @@ if (! function_exists('createDropdownMenu')) {
  */
 // TODO:: Masih bermasalah untuk nama dengan singkatan, misalnya M., Muh. Moh., A. karena akan terbaca sebagai gelar depan
 if (! function_exists('pecah_nama_gelar')) {
-    function pecah_nama_gelar($nama)
+    function pecah_nama_gelar($nama): array
     {
         $result = [];
 
@@ -1062,9 +1066,11 @@ if (! function_exists('pecah_nama_gelar')) {
             } else {
                 $nama = $firstPart;
             }
+            // Combine the rest as gelar_belakang
+            $counter = count($parts);
 
             // Combine the rest as gelar_belakang
-            for ($i = 1; $i < count($parts); $i++) {
+            for ($i = 1; $i < $counter; $i++) {
                 $gelar_belakang .= ($i > 1 ? ', ' : '') . $parts[$i];
             }
 

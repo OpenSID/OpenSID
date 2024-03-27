@@ -100,7 +100,7 @@ class Ekspedisi extends BaseModel
 
     protected static function booted()
     {
-        static::addGlobalScope('custom_where', static function ($builder) {
+        static::addGlobalScope('custom_where', static function ($builder): void {
             $builder->where('ekspedisi', 1);
         });
     }

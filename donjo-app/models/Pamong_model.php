@@ -205,7 +205,7 @@ class Pamong_model extends MY_Model
     {
         $data_query = Pamong::aktif()->urut()->get()->toArray();
 
-        $result = collect($data_query)->map(static function (array $item) {
+        $result = collect($data_query)->map(static function (array $item): array {
             $kehadiran = Kehadiran::where('pamong_id', $item['pamong_id'])
                 ->where('tanggal', Carbon::now()->format('Y-m-d'))
                 ->orderBy('id', 'DESC')->first();

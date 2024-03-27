@@ -86,10 +86,10 @@ class Bumindes_kader extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('umur', static fn ($row) => usia($row->penduduk->tanggallahir, null, '%y'))
+                ->editColumn('umur', static fn ($row): string => usia($row->penduduk->tanggallahir, null, '%y'))
                 ->editColumn('pendidikan', static fn ($row) => PendidikanKKEnum::valueOf($row->penduduk->pendidikan_kk_id) . '</br>' . preg_replace('/[^a-zA-Z, ]/', '', $row->kursus))
                 ->editColumn('bidang', static fn ($row) => preg_replace('/[^a-zA-Z, ]/', '', $row->bidang))
-                ->orderColumn('umur', static function ($query, $order) {
+                ->orderColumn('umur', static function ($query, $order): void {
                      $query->whereHas('penduduk', static fn ($q) => $q->orderBy('tanggallahir', $order));
                 })
                 ->rawColumns(['ceklist', 'aksi', 'pendidikan'])
@@ -154,12 +154,12 @@ class Bumindes_kader extends Admin_Controller
 
         $data = collect(array_filter(array_unique([...$kursus, ...$new])));
 
-        $data = $data->filter(static fn ($item) => stripos($item, $nama) !== false);
+        $data = $data->filter(static fn ($item): bool => stripos($item, (string) $nama) !== false);
 
         echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function get_bidang()
+    public function get_bidang(): void
     {
         $nama   = $this->input->get('nama');
         $bidang = RefPendudukBidang::get()->pluck('nama')->toArray();
@@ -184,7 +184,7 @@ class Bumindes_kader extends Admin_Controller
 
         $data = collect(array_filter(array_unique([...$bidang, ...$new])));
 
-        $data = $data->filter(static fn ($item) => stripos($item, $nama) !== false);
+        $data = $data->filter(static fn ($item): bool => stripos($item, (string) $nama) !== false);
 
         echo json_encode($data, JSON_THROW_ON_ERROR);
     }
@@ -206,7 +206,7 @@ class Bumindes_kader extends Admin_Controller
 
         $update = KaderMasyarakat::findOrFail($id);
 
-        $data = $this->validate($this->request, $id);
+        $data = $this->validate($this->request);
 
         if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data');

@@ -57,7 +57,7 @@ class Kelompok_anggota extends Admin_Controller
         $this->load->model(['kelompok_model', 'pamong_model']);
     }
 
-    public function index()
+    public function index(): void
     {
         redirect($this->aliasController);
     }
@@ -207,10 +207,10 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    public function update($id = 0, $id_a = 0)
+    public function update($id = 0, $id_a = 0): void
     {
         isCan('u');
-        $data                = $this->validasi_anggota($this->input->post(), $id_a);
+        $data                = $this->validasi_anggota($this->input->post());
         $data['id_kelompok'] = $id;
         KelompokAnggotaModel::UbahJabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
         if ($data['id_kelompok']) {

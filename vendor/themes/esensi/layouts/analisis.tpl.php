@@ -24,7 +24,7 @@
           <h1 class="text-h2">Daftar Agregasi Data Analisis Desa</h1>
           <?php if ($list_indikator): ?>
             <?php if(IS_PREMIUM) : ?>
-              <?php if (count($master_indikator) > 1) : ?>
+              <?php if (count($master_indikator ?? []) > 1) : ?>
                 <form action="<?=site_url('data_analisis'); ?>" method="get">
                   <div class="space-y-1 flex gap-3 items-center">
                     <label for="master" class="block text-sm">Analisis:</label>

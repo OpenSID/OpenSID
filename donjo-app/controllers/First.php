@@ -213,7 +213,7 @@ class First extends Web_Controller
         $data['tipe']        = $tipe;
         $data['st']          = $stat;
         $data['slug_aktif']  = $stat;
-        $data['bantuan']     = ((int) $stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
+        $data['bantuan']     = (int) $stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk']);
         $data['last_update'] = Penduduk::latest()->first()->updated_at;
 
         $this->_get_common_data($data);

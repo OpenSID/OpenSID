@@ -36,7 +36,6 @@
  */
 
 use App\Models\Line as LineModel;
-use Illuminate\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -118,7 +117,7 @@ class Line extends Admin_Controller
         return show_404();
     }
 
-    public function form($parent = 1, $id = ''): View
+    public function form($parent = 1, $id = '')
     {
         isCan('u');
         $this->parent = $parent;

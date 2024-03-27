@@ -7,7 +7,7 @@
   </ol>
 </nav>
 <h1 class="text-h2">Arsip Situs Web</h1>
-<?php if(count($farsip) > 0) : ?>
+<?php if(count($farsip ?? []) > 0) : ?>
   <ol class="divide-y mb-5">
     <?php foreach($farsip AS $data): ?>
       <li class="py-5">

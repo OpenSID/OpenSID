@@ -104,7 +104,6 @@ class Pesan extends Mandiri_Controller
 
     public function baca($kat = 2, $id = ''): void
     {
-        $nik   = $this->is_login->nik;
         $pesan = PesanMandiri::findOrFail($id);
         if ($kat == 2) {
             $pesan->status = PesanMandiri::READ;
