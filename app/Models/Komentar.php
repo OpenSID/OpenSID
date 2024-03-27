@@ -146,7 +146,6 @@ class Komentar extends BaseModel
         $parent = $this->parent_id;
         $owner  = $this->owner;
 
-        cache()->flush();
         return cache()->rememberForever('pengguna_komentar_' . $this->id, static function () use ($parent, $owner) {
             if ($parent) {
                 $user = User::with('userGrup')->find($owner);

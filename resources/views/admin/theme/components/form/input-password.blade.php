@@ -1,9 +1,16 @@
 <div class="input-group">
-    <input type="password" class="form-control input-sm" id="input{{ $value['key'] }}" name="opsi[{{ $value['key'] }}]"
-        placeholder="{{ $value['placeholder'] }}" value="" {{ $value['readonly'] }} {!! $value['attributes'] !!}
-        data-password="{{ $value['default'] ? 1 : 0 }}">
-    <span class="input-group-addon input-sm show-hide-password"><i class="fa fa-eye-slash"
-            onclick="togglePasswordVisibility('input{{ $value['key'] }}')"></i></span>
+    <input
+        type="password"
+        class="form-control input-sm"
+        id="input{{ $value['key'] }}"
+        name="opsi[{{ $value['key'] }}]"
+        placeholder="{{ $value['placeholder'] }}"
+        value=""
+        {{ $value['readonly'] }}
+        {!! $value['attributes'] !!}
+        data-password="{{ $value['default'] ? 1 : 0 }}"
+    >
+    <span class="input-group-addon input-sm show-hide-password"><i class="fa fa-eye-slash" onclick="togglePasswordVisibility('input{{ $value['key'] }}')"></i></span>
 </div>
 @if ($value['default'])
     <p class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>

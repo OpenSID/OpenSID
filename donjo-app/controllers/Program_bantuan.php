@@ -37,16 +37,16 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\SasaranEnum;
 use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
-use App\Enums\SasaranEnum;
-use Illuminate\Support\Str;
-use App\Models\BantuanPeserta;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Program_bantuan extends Admin_Controller
@@ -156,11 +156,7 @@ class Program_bantuan extends Admin_Controller
 
     private function get_pilihan_kk($cari, $peserta, $kk_level)
     {
-        if (empty($kk_level)) {
-            $kk_level = ['1', '2', '3', '4'];
-        } else {
-            $kk_level = json_decode($kk_level, true);
-        }
+        $kk_level = empty($kk_level) ? ['1', '2', '3', '4'] : json_decode($kk_level, true);
 
         $penduduk = Penduduk::with('pendudukHubungan')
             ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])

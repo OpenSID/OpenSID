@@ -78,7 +78,7 @@ class Pelapak extends BaseModel
             ->where('p.nik', '<>', '')
             ->where('p.nik', '<>', 0)
             ->where('p.config_id', identitas('id'))
-            ->whereNotIn('p.id', static function ($query) use ($id) {
+            ->whereNotIn('p.id', static function ($query) use ($id): void {
                 $query->select('id_pend')
                     ->from('pelapak')
                     ->where('id_pend', '!=', $id)
@@ -119,7 +119,7 @@ class Pelapak extends BaseModel
         $this->where('id', $id)->update($data);
     }
 
-    private function pelapakValidasi()
+    private function pelapakValidasi(): array
     {
         $post = ci()->input->post();
 

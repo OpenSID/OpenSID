@@ -53,8 +53,7 @@
             </div>
             <div class="box-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped dataTable table-hover tabel-daftar"
-                        id="tabel-kategori">
+                    <table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-kategori">
                         <thead class="bg-gray disabled color-palette">
                             <tr>
                                 <th><input type="checkbox" id="checkall" /></th>

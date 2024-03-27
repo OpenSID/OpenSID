@@ -60,7 +60,7 @@ class Lapak_pelapak_admin extends Admin_Controller
             $status = $this->input->get('status');
 
             $query = Pelapak::listPelapak()
-                ->when($status, static function ($query, $status) {
+                ->when($status, static function ($query, $status): void {
                     $query->where('pelapak.status', $status);
                 });
 

@@ -71,16 +71,16 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of($this->sumberData())
                 ->addIndexColumn()
-                ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->penduduk->sex)))
+                ->editColumn('sex', static fn ($row): string => strtoupper(JenisKelaminEnum::valueOf($row->penduduk->sex)))
                 ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->penduduk->tanggallahir))
-                ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->penduduk->warganegara_id)))
+                ->editColumn('warganegara', static fn ($row): string => strtoupper(WargaNegaraEnum::valueOf($row->penduduk->warganegara_id)))
                 ->editColumn('alamat_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? $row->penduduk->alamat_sebelumnya : '-')
                 ->editColumn('tanggal_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? tgl_indo_out($row->penduduk->created_at) : '-')
                 ->editColumn('alamat_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? $row->alamat_tujuan : '-')
                 ->editColumn('tanggal_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? tgl_indo_out($row->tgl_peristiwa) : '-')
                 ->editColumn('meninggal_di', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? $row->meninggal_di : '-')
                 ->editColumn('tanggal_meninggal', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? tgl_indo_out($row->tgl_peristiwa) : '-')
-                ->editColumn('ket', static fn ($row) => ! $row->penduduk->created_at ? 'Penduduk sudah dihapus.' : ($row->catatan ? strtoupper($row->catatan) : '-'))
+                ->editColumn('ket', static fn ($row): string => $row->penduduk->created_at ? ($row->catatan ? strtoupper($row->catatan) : '-') : ('Penduduk sudah dihapus.'))
                 ->make();
         }
 
@@ -108,7 +108,7 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
 
         return LogPenduduk::with(['penduduk'])
             ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::BARU_PINDAH_MASUK])
-            ->whereHas('penduduk', static function ($query) {
+            ->whereHas('penduduk', static function ($query): void {
                 $query->where('status', StatusPendudukEnum::TETAP);
             })
             ->orderByDesc('tgl_lapor')

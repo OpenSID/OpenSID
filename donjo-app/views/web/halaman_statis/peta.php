@@ -93,10 +93,10 @@
   (function() {
     var infoWindow;
     window.onload = function() {
-      <?php if (!empty($desa['lat']) && !empty($desa['lng'])) : ?>
+      <?php if (! empty($desa['lat']) && ! empty($desa['lng'])) : ?>
         var posisi = [<?= $desa['lat'] . ',' . $desa['lng'] ?>];
         var zoom = <?= $desa['zoom'] ?: 10 ?>;
-      <?php elseif (!empty($desa['path'])) : ?>
+      <?php elseif (! empty($desa['path'])) : ?>
         var wilayah_desa = <?= $desa['path'] ?>;
         var posisi = wilayah_desa[0][0];
         var zoom = <?= $desa['zoom'] ?: 10 ?>;
@@ -116,7 +116,7 @@
       //Inisialisasi tampilan peta
       var mymap = L.map('map', options).setView(posisi, zoom);
 
-      <?php if (!empty($desa['path'])) : ?>
+      <?php if (! empty($desa['path'])) : ?>
         mymap.fitBounds(<?= $desa['path'] ?>);
       <?php endif; ?>
 
@@ -155,22 +155,22 @@
       console.log(PENGATURAN_WILAYAH);
 
       //OVERLAY WILAYAH DESA
-      <?php if (!empty($desa['path'])) : ?>
+      <?php if (! empty($desa['path'])) : ?>
         set_marker_desa_content(marker_desa, <?= json_encode($desa, JSON_THROW_ON_ERROR) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>", '#isi_popup');
       <?php endif; ?>
 
       //OVERLAY WILAYAH DUSUN
-      <?php if (!empty($dusun_gis)) : ?>
+      <?php if (! empty($dusun_gis)) : ?>
         set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //OVERLAY WILAYAH RW
-      <?php if (!empty($rw_gis)) : ?>
+      <?php if (! empty($rw_gis)) : ?>
         set_marker_content(marker_rw, '<?= addslashes(json_encode($rw_gis, JSON_THROW_ON_ERROR)) ?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //OVERLAY WILAYAH RT
-      <?php if (!empty($rt_gis)) : ?>
+      <?php if (! empty($rt_gis)) : ?>
         set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis, JSON_THROW_ON_ERROR)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
       <?php endif; ?>
 

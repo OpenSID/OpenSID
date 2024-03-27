@@ -86,7 +86,7 @@ class Sosmed extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('url_icon', static fn ($row) => '<a href="' . $row->new_link . '" target="_blank"><img src="' . $row->url_icon . '" class="img-thumbnail" width="50" height="50"></a>')
+                ->editColumn('url_icon', static fn ($row): string => '<a href="' . $row->new_link . '" target="_blank"><img src="' . $row->url_icon . '" class="img-thumbnail" width="50" height="50"></a>')
                 ->editColumn('enabled', static fn ($row): string => ($row->enabled == StatusEnum::YA) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
                 ->rawColumns(['ceklist', 'aksi', 'url_icon', 'enabled'])
                 ->make();

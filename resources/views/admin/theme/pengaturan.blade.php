@@ -19,8 +19,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('theme') }}"
-                class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ site_url('theme') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left "></i>Kembali ke Tema
             </a>
         </div>
@@ -33,8 +32,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="form-group col-sm-12">
-                                        <label for="input{{ $value['key'] }}"
-                                            class="col-sm-2 control-label">{{ SebutanDesa($value['judul']) }}</label>
+                                        <label for="input{{ $value['key'] }}" class="col-sm-2 control-label">{{ SebutanDesa($value['judul']) }}</label>
                                         <div class="col-sm-6">
                                             @php
                                                 $value['default'] = $tema->opsi[$value['key']] ?? $value['value'];
@@ -78,8 +76,7 @@
                     <h4><i class="icon fa fa-info"></i> Info</h4>
                     Pengaturan untuk tema ini belum tersedia.
                     @if (!$tema->sistem)
-                        <a href="{{ ci_route('theme/salin_config', $tema->id) }}" class="btn btn-social bg-navy btn-sm"
-                            style="text-decoration: none">
+                        <a href="{{ ci_route('theme/salin_config', $tema->id) }}" class="btn btn-social bg-navy btn-sm" style="text-decoration: none">
                             <i class="fa fa-download none"></i> Salin Config
                         </a>
                     @endif

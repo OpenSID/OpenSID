@@ -524,14 +524,12 @@ class First_artikel_m extends MY_Model
             ->get()
             ->result_array();
 
-        $komentar = collect($komentar)->map(function ($item) use ($id_artikel) {
+        return collect($komentar)->map(function (array $item) use ($id_artikel): array {
             $item['owner']    = 's';
             $item['children'] = $this->list_komentar($id_artikel, $item['id'], 'ASC');
 
             return $item;
         })->toArray();
-
-        return $komentar;
     }
 
     // Tampilan di widget sosmed

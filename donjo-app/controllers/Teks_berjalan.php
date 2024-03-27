@@ -92,15 +92,11 @@ class Teks_berjalan extends Admin_Controller
                 ->addColumn('teks', static function ($row): string {
                     $text = $row->teks;
 
-                    if ($row->tipe == 1) {
-                        $tautan = menu_slug('artikel/' . $row->tautan);
-                    } else {
-                        $tautan = $row->tautan;
-                    }
+                    $tautan = $row->tipe == 1 ? menu_slug('artikel/' . $row->tautan) : $row->tautan;
 
                     return $text . (' <a href="' . $tautan . '" target="_blank">' . $row->judul_tautan . '</a><br>');
                 })
-                ->addColumn('judul_tautan', static function ($row) {
+                ->addColumn('judul_tautan', static function ($row): string {
                     if ($row->tipe == 1) {
                         $tautan = menu_slug('artikel/' . $row->tautan);
                         $tampil = tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul;
@@ -193,11 +189,7 @@ class Teks_berjalan extends Admin_Controller
             'status'       => (int) $request['status'],
         ];
 
-        if ($data['title'] === '') {
-            $data['tautan'] = $request['tautan_internal'];
-        } else {
-            $data['tautan'] = $request['tautan_eksternal'];
-        }
+        $data['tautan'] = $data['title'] === '' ? $request['tautan_internal'] : $request['tautan_eksternal'];
 
         if ($id === null) {
             $data['urut'] = TeksBerjalan::UrutMax();

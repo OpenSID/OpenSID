@@ -71,13 +71,13 @@ class Lapak_admin extends Admin_Controller
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
-                ->when($status, static function ($query, $status) {
+                ->when($status, static function ($query, $status): void {
                     $query->where('produk.status', $status);
                 })
-                ->when($id_pend, static function ($query, $id_pend) {
+                ->when($id_pend, static function ($query, $id_pend): void {
                     $query->where('p.id', $id_pend);
                 })
-                ->when($id_produk_kategori, static function ($query, $id_produk_kategori) {
+                ->when($id_produk_kategori, static function ($query, $id_produk_kategori): void {
                     $query->where('pk.id', $id_produk_kategori);
                 });
 
@@ -178,8 +178,6 @@ class Lapak_admin extends Admin_Controller
 
         redirect_with('error', 'Gagal mengubah data', "{$this->controller}/produk");
     }
-
-
 
     public function dialog($aksi = 'cetak'): void
     {

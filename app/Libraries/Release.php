@@ -81,11 +81,11 @@ class Release
      */
     public function __construct()
     {
-        if (!$this->cache) {
+        if (! $this->cache) {
             $this->setCacheFolder(config_item('cache_path'));
         }
 
-        if (!$this->interval) {
+        if (! $this->interval) {
             $this->setInterval(ENVIRONMENT == 'development' ? 0 : setting('rentang_waktu_notifikasi_rilis'));
         }
     }
@@ -131,7 +131,7 @@ class Release
         $folder = str_replace(FCPATH, '', $folder);
         $folder = trim($folder, DIRECTORY_SEPARATOR);
 
-        $folder = !is_dir($folder) || !is_writable($folder) ? FCPATH : FCPATH . $folder . DIRECTORY_SEPARATOR;
+        $folder = ! is_dir($folder) || ! is_writable($folder) ? FCPATH : FCPATH . $folder . DIRECTORY_SEPARATOR;
 
         $this->cache = $folder . 'version.json';
 
@@ -276,7 +276,7 @@ class Release
      */
     public function cacheIsOutdated(): bool
     {
-        return !is_file($this->cache) || (time() > (filemtime($this->cache) + $this->interval));
+        return ! is_file($this->cache) || (time() > (filemtime($this->cache) + $this->interval));
     }
 
     /**

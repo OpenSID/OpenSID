@@ -58,17 +58,17 @@
             <input type="hidden" id="url_remote" name="url_remote" value="{{ ci_route('surat_dinas_cetak.nomor_surat_duplikat') }}">
 
             @include('admin.surat_dinas.cetak.nomor_surat')
-            
+
             @if ($judul_kategori['individu'] != '-')
                 <div class="form-group subtitle_head">
-                    <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>                    
+                    <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
                 </div>
             @endif
             @if ($surat->form_isian->individu->info)
                 <div class="callout callout-warning">
                     <b>{{ $surat->form_isian->individu->info }}</b>
                 </div>
-            @endif            
+            @endif
 
             @include('admin.surat_dinas.cetak.kode_isian')
 
@@ -112,7 +112,7 @@
             }
         }
         $('document').ready(function() {
-            $('[data-visible-required=1]:visible').addClass('required')           
+            $('[data-visible-required=1]:visible').addClass('required')
             // kaitkan data 
             $('select[data-kaitkan]').each(function() {
                 let _kaitkan = $(this).data('kaitkan')

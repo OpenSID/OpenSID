@@ -55,7 +55,7 @@ class Laporan_apbdes extends Admin_Controller
         isCan('b');
     }
 
-    public function index()
+    public function index(): void
     {
         view('admin.opendk.index', [
             'judul'     => ($this->tipe == 'laporan_apbdes') ? 'Laporan APBDes' : 'Laporan Penduduk',
@@ -83,9 +83,8 @@ class Laporan_apbdes extends Admin_Controller
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route($routePath . '.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Laporan Penduduk" ><i class="fa fa-edit"></i></a> ';
                     }
-                    $aksi .= '<a href="' . ci_route($routePath . '.unduh', $row->id) . '" class="btn bg-purple btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>';
 
-                    return $aksi;
+                    return $aksi . ('<a href="' . ci_route($routePath . '.unduh', $row->id) . '" class="btn bg-purple btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>');
                 })
                 ->editColumn('updated_at', static fn ($q) => $q->updated_at->format('Y-m-d H:i:s'))
                 ->rawColumns(['ceklist', 'aksi'])

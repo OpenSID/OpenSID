@@ -21,7 +21,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 @if ($tab_ini == 10)
-                    <div class="box-header with-border">                        
+                    <div class="box-header with-border">
                         <a href="{{ ci_route('surat_dinas_arsip.graph') }}" class="btn btn-social bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
                         <a href="{{ ci_route('surat_dinas_arsip.dialog_cetak/cetak') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox"
                             data-title="Cetak Arsip Layanan Surat"
@@ -86,7 +86,7 @@
                                                             <th>Aksi</th>
                                                             <th nowrap>Kode Surat</th>
                                                             <th>No Urut</th>
-                                                            <th nowrap>Jenis Surat</th>                                                            
+                                                            <th nowrap>Jenis Surat</th>
                                                             <th nowrap>Keterangan</th>
                                                             <th nowrap>Ditandatangani Oleh</th>
                                                             <th nowrap>Tanggal</th>
@@ -153,7 +153,7 @@
                         name: 'id_format_surat',
                         searchable: false,
                         orderable: false
-                    },                    
+                    },
                     {
                         data: 'keterangan',
                         name: 'keterangan',
@@ -191,7 +191,7 @@
                         orderable: false,
                         defaultContent: '',
                         visible: {{ $state == 'tolak' ? 1 : 0 }}
-                    },                    
+                    },
 
                 ],
                 aaSorting: [],

@@ -273,12 +273,12 @@ class Surat_dinas extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function checkTags($template_desa, $id = null)
+    private function checkTags($template_desa, $id = null): void
     {
         $invalid_tags = invalid_tags();
 
         foreach ($invalid_tags as $invalid_tag) {
-            if (strpos($template_desa, $invalid_tag) !== false) {
+            if (strpos($template_desa, (string) $invalid_tag) !== false) {
                 redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
             }
         }

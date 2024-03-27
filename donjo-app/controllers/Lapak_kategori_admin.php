@@ -59,7 +59,7 @@ class Lapak_kategori_admin extends Admin_Controller
             $status = $this->input->get('status');
 
             $query = ProdukKategori::listKategori()
-                ->when($status, static function ($query, $status) {
+                ->when($status, static function ($query, $status): void {
                     $query->where('status', $status);
                 });
 

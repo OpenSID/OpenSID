@@ -1,9 +1,9 @@
 @foreach ($form_kategori as $key => $kategori)
-    <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->    
+    <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->
     <div id="kategori-{{ $key }}">
         @if ($judul_kategori[$key] != '-')
             <div class="form-group subtitle_head">
-                <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>                
+                <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori[$key] ?? $key)) }}</label>
                 <input name="anchor" type="hidden" value="<?= $anchor ?>" />
             </div>
         @endif
@@ -11,7 +11,7 @@
             <div class="callout callout-warning">
                 <b>{{ $surat->form_isian->{$key}->info }}</b>
             </div>
-        @endif        
+        @endif
 
         @if ($kategori["saksi_{$key}"])
             @php

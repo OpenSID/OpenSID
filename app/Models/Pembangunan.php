@@ -146,7 +146,7 @@ class Pembangunan extends BaseModel
     public function scopeTipe($query, $tipe = null)
     {
         if ($tipe == 'kegiatan') {
-            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query) {
+            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query): void {
                 $query->whereRaw('CAST(REPLACE(persentase, "%", "") AS SIGNED) < 100');
             });
         }
@@ -156,7 +156,7 @@ class Pembangunan extends BaseModel
         }
 
         if ($tipe == 'hasil') {
-            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query) {
+            return $query->orWhereHas('pembangunanDokumentasi', static function ($query): void {
                 $query->whereRaw('CAST(REPLACE(persentase, "%", "") AS SIGNED) = 100');
             });
         }

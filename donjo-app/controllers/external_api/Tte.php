@@ -239,7 +239,7 @@ class Tte extends Tte_Controller
         return json($notif);
     }
 
-    public function kirim_notifikasi($mandiri)
+    public function kirim_notifikasi($mandiri): void
     {
         // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
         $id_penduduk = $mandiri['id_pemohon'];

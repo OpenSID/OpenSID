@@ -38,12 +38,12 @@
 						<div class="col-sm-9">
 							<select class="form-control input-sm select2 required" name="kk_level[]" multiple="multiple" <?= $jml != 0 ? 'disabled' : '' ?>>
 								<?php
-									if (empty($data['kk_level'])) {
-										$data['kk_level'] = ['1', '2', '3', '4'];
-									} else {
-										$data['kk_level'] = json_decode($data['kk_level'], true);
-									}
-								?>
+                                    if (empty($data['kk_level'])) {
+                                        $data['kk_level'] = ['1', '2', '3', '4'];
+                                    } else {
+                                        $data['kk_level'] = json_decode($data['kk_level'], true);
+                                    }
+                                ?>
 
 								<?php foreach ($kk_level as $key => $value): ?>
 									<option value="<?= $key ?>" <?= in_array($key, $data['kk_level']) ? 'selected' : '' ?>><?= $value ?></option>

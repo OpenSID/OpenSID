@@ -120,7 +120,7 @@ class Shortcut extends BaseModel
             }
 
             if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
-                if (!preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
+                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
                     $raw_query = preg_replace('/^DB::table/i', 'DB::table', $raw_query);
                     $raw_query = preg_replace('/->count\(\)/i', "->where('config_id', {$config_id})->count()", $raw_query);
                 }
@@ -129,7 +129,7 @@ class Shortcut extends BaseModel
             }
 
             if (preg_match('/^select/i', $raw_query)) {
-                if (!preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
+                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
                     $raw_query = preg_replace('/^select/i', 'select', $raw_query);
                     $raw_query = preg_replace('/from/i', 'from', $raw_query);
                     $raw_query = preg_replace('/where/i', "where config_id = {$config_id} and", $raw_query);
@@ -138,7 +138,7 @@ class Shortcut extends BaseModel
                 return DB::statement($raw_query);
             }
 
-            if (!class_exists($raw_query)) {
+            if (! class_exists($raw_query)) {
                 throw new Exception("Class '{$raw_query}' not found");
             }
 
@@ -178,8 +178,8 @@ class Shortcut extends BaseModel
             'Penduduk TagID'     => Penduduk::status()->whereNotNull('tag_id_card')->count(),
 
             // Keluarga
-            'Keluarga'                  => Keluarga::with('kepalaKeluarga')->status()->count(),
-            'Kepala Keluarga'           => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+            'Keluarga'        => Keluarga::with('kepalaKeluarga')->status()->count(),
+            'Kepala Keluarga' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
                 $query->status()->where('kk_level', 1);
             }])->count(),
             'Kepala Keluarga Laki-laki' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
@@ -190,8 +190,8 @@ class Shortcut extends BaseModel
             }])->count(),
 
             // RTM
-            'RTM'                  => Rtm::status()->count(),
-            'Kepala RTM'           => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+            'RTM'        => Rtm::status()->count(),
+            'Kepala RTM' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
                 $query->status()->where('rtm_level', 1);
             }])->count(),
             'Kepala RTM Laki-laki' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
@@ -231,7 +231,7 @@ class Shortcut extends BaseModel
                         });
                 })
                 ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                ->when($isAdmin == null || !in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
+                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
 
             // Layanan Mandiri
             'Verifikasi Layanan Mandiri' => PendudukMandiri::status()->count(),
@@ -249,9 +249,9 @@ class Shortcut extends BaseModel
             'Bantuan Kelompok/Lembaga' => Bantuan::whereSasaran(4)->count(),
         ];
 
-        $bantuan = Bantuan::withCount('peserta')->get()->mapWithKeys(function ($bantuan) {
+        $bantuan = Bantuan::withCount('peserta')->get()->mapWithKeys(static function ($bantuan) {
             return [
-                'Bantuan ' . $bantuan->nama => $bantuan->peserta_count
+                'Bantuan ' . $bantuan->nama => $bantuan->peserta_count,
             ];
         })->toArray();
 

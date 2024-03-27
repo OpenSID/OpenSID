@@ -35,34 +35,34 @@
  *
  */
 
-use Carbon\Carbon;
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
-if (!function_exists('theme')) {
+if (! function_exists('theme')) {
     /**
      * Ambil model tema
-     * 
-     * @return \App\Models\Theme
+     *
+     * @return App\Models\Theme
      */
     function theme()
     {
         if (Schema::hasTable('theme')) {
-            return (new \App\Models\Theme);
+            return new \App\Models\Theme();
         }
 
         return null;
     }
 }
 
-if (!function_exists('theme_list')) {
+if (! function_exists('theme_list')) {
     /**
      * Get list of themes
-     * 
-     * @return \App\Models\Theme[]
+     *
+     * @return App\Models\Theme[]
      */
     function theme_list()
     {
@@ -77,11 +77,11 @@ if (! function_exists('theme_list_with_path')) {
     }
 }
 
-if (!function_exists('theme_active')) {
+if (! function_exists('theme_active')) {
     /**
      * Get active theme
-     * 
-     * @return \App\Models\Theme
+     *
+     * @return App\Models\Theme
      */
     function theme_active()
     {
@@ -102,10 +102,10 @@ if (!function_exists('theme_active')) {
     }
 }
 
-if (!function_exists('theme_path')) {
+if (! function_exists('theme_path')) {
     /**
      * Get path of active theme
-     * 
+     *
      * @return string
      */
     function theme_path()
@@ -114,10 +114,10 @@ if (!function_exists('theme_path')) {
     }
 }
 
-if (!function_exists('theme_full_path')) {
+if (! function_exists('theme_full_path')) {
     /**
      * Get full path of active theme
-     * 
+     *
      * @return string
      */
     function theme_full_path()
@@ -126,10 +126,10 @@ if (!function_exists('theme_full_path')) {
     }
 }
 
-if (!function_exists('theme_view_path')) {
+if (! function_exists('theme_view_path')) {
     /**
      * Get view path of active theme
-     * 
+     *
      * @return string
      */
     function theme_view_path()
@@ -138,13 +138,15 @@ if (!function_exists('theme_view_path')) {
     }
 }
 
-if (!function_exists('theme_asset')) {
+if (! function_exists('theme_asset')) {
     /**
      * Get asset path of active theme
-     * 
+     *
+     * @param mixed $uri
+     *
      * @return string
      */
-    function theme_asset($uri)
+    function theme_asset(string $uri)
     {
         $path = theme_active()->view_path . '/assets/' . $uri;
 
@@ -152,13 +154,13 @@ if (!function_exists('theme_asset')) {
     }
 }
 
-if (!function_exists('theme_config')) {
+if (! function_exists('theme_config')) {
     /**
      * Get config of active theme
-     * 
+     *
      * @param string $key
      * @param mixed  $default
-     * 
+     *
      * @return mixed
      */
     function theme_config($key = null, $default = null)
@@ -177,41 +179,37 @@ if (!function_exists('theme_config')) {
     }
 }
 
-if (!function_exists('theme_view')) {
+if (! function_exists('theme_view')) {
     /**
      * Render view tema
-     * 
-     * @param string $view
+     *
      * @param array $data
-     * 
+     * @param mixed $return
+     *
      * @return object|string
      */
-    function theme_view($view, $data = [], $return = false)
+    function theme_view(string $view, $data = [], $return = false)
     {
         return get_instance()->load->view(theme_view_path() . '/' . $view, $data, $return);
     }
 }
 
 // pindai semua folder tema
-if (!function_exists('theme_scan')) {
+if (! function_exists('theme_scan')) {
     /**
      * Scan all theme folders
-     * 
-     * @return array
      */
-    function theme_scan()
+    function theme_scan(): void
     {
         $themeSistem = glob('vendor/themes/*', GLOB_ONLYDIR);
         $themeDesa   = glob('desa/themes/*', GLOB_ONLYDIR);
 
         $themeList = collect($themeSistem)->merge($themeDesa)
-            ->filter(function ($tema) {
-                return is_file(FCPATH . $tema . '/template.php');
-            })
-            ->map(function ($tema) {
+            ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/template.php'))
+            ->map(static function (string $tema) {
                 $sistem = preg_match('/vendor/', $tema) ? 1 : 0;
 
-                if (!is_file(FCPATH . $tema . '/composer.json')) {
+                if (! is_file(FCPATH . $tema . '/composer.json')) {
                     $versi = VERSION;
                     $nama  = basename($tema);
                     $slug  = Str::slug(($sistem ? 'sistem ' : 'desa ') . $nama);
@@ -222,6 +220,7 @@ if (!function_exists('theme_scan')) {
                     $slug       = Str::slug(($sistem ? '' : 'desa ') . $nama);
                     $keterangan = $composer['description'];
                 }
+
                 return [
                     'config_id'  => identitas('id'),
                     'nama'       => ucwords($nama),
@@ -229,7 +228,7 @@ if (!function_exists('theme_scan')) {
                     'versi'      => $versi,
                     'sistem'     => $sistem,
                     'path'       => $tema,
-                    'keterangan' => $keterangan ? $keterangan : (preg_match('/vendor/', $tema) ? 'Tema bawaan sistem' : 'Tema buatan desa'),
+                    'keterangan' => $keterangan ?: (preg_match('/vendor/', $tema) ? 'Tema bawaan sistem' : 'Tema buatan desa'),
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
@@ -248,17 +247,13 @@ if (! function_exists('media_sosial')) {
      */
     function media_sosial()
     {
-        return cache()->remember('media_sosial', 60 * 60 * 24, static function () {
-            return MediaSosial::status(StatusEnum::YA)
-                ->get()
-                ->map(static function ($media) {
-                    return [
-                        'nama' => $media->nama,
-                        'link' => empty($media->link) ? '' : $media->new_link,
-                        'icon' => $media->url_icon,
-                    ];
-                })
-                ->toArray();
-        });
+        return cache()->remember('media_sosial', 60 * 60 * 24, static fn () => MediaSosial::status(StatusEnum::YA)
+            ->get()
+            ->map(static fn ($media): array => [
+                'nama' => $media->nama,
+                'link' => empty($media->link) ? '' : $media->new_link,
+                'icon' => $media->url_icon,
+            ])
+            ->toArray());
     }
 }

@@ -26,7 +26,7 @@
         </div>
 
         <div class="box-body">
-            @if($surat->suratDinas->form_isian->individu->sumber)
+            @if ($surat->suratDinas->form_isian->individu->sumber)
                 <div class="form-group">
                     <label class="control-label col-sm-3">NIK / Nama Penduduk</label>
                     <div class="col-sm-9">
@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-    </div>   
+    </div>
 
     @if ($surat->verifikasi_operator == '-1')
         <div class="box box-info">

@@ -38,8 +38,8 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -137,7 +137,6 @@ class Theme extends BaseModel
 
         return self::status()->first();
     }
-
 
     public static function boot()
     {

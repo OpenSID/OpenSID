@@ -56,7 +56,7 @@ class Theme extends Admin_Controller
         theme_active();
 
         return view('admin.theme.index', [
-            'listTheme'   => ThemeModel::orderBy('status', 'desc')->orderBy('sistem', 'desc')->get(),
+            'listTheme' => ThemeModel::orderBy('status', 'desc')->orderBy('sistem', 'desc')->get(),
         ]);
     }
 
@@ -66,10 +66,10 @@ class Theme extends Admin_Controller
 
         $form_action = site_url('theme/proses-unggah');
 
-        return view('admin.theme.unggah', compact('form_action'));
+        return view('admin.theme.unggah', ['form_action' => $form_action]);
     }
 
-    public function proses_unggah()
+    public function proses_unggah(): void
     {
         isCan('u', 'theme', true);
 
@@ -86,10 +86,10 @@ class Theme extends Admin_Controller
 
         $form_action = site_url("theme/ubah-pengaturan/{$id}");
 
-        return view('admin.theme.pengaturan', compact('form_action', 'tema'));
+        return view('admin.theme.pengaturan', ['form_action' => $form_action, 'tema' => $tema]);
     }
 
-    public function ubah_pengaturan($id = '')
+    public function ubah_pengaturan($id = ''): void
     {
         isCan('u');
 
@@ -100,7 +100,7 @@ class Theme extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data', "theme/pengaturan/{$id}");
     }
 
-    public function salin_config($id = '')
+    public function salin_config($id = ''): void
     {
         isCan('u');
 
@@ -120,7 +120,7 @@ class Theme extends Admin_Controller
         redirect_with('error', 'Gagal Salin Config', "theme/pengaturan/{$id}");
     }
 
-    public function aktifkan($id = null)
+    public function aktifkan($id = null): void
     {
         isCan('u');
 
@@ -132,7 +132,7 @@ class Theme extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         isCan('h');
 
@@ -185,7 +185,7 @@ class Theme extends Admin_Controller
 
             $lokasi_tema = $lokasi_ekstrak . substr($subfolder, 0, -1);
 
-            if (!file_exists($lokasi_tema . '/template.php')) {
+            if (! file_exists($lokasi_tema . '/template.php')) {
                 delete_files($lokasi_tema, true);
 
                 return [
@@ -208,7 +208,7 @@ class Theme extends Admin_Controller
         ];
     }
 
-    public function pindai()
+    public function pindai(): void
     {
         isCan('u');
 

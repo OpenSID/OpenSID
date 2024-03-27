@@ -118,7 +118,7 @@ class Penduduk_log extends Admin_Controller
         $this->render('penduduk_log/penduduk_log', $data);
     }
 
-    public function dokumen($id)
+    public function dokumen($id): void
     {
         $data['main'] = $this->penduduk_log_model->get_log($id);
 

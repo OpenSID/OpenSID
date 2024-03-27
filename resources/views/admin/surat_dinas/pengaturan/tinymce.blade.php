@@ -14,7 +14,7 @@
 <div class="tab-pane" id="form-isian">
     @include('admin.surat_dinas.pengaturan.kembali')
 
-    <div class="box-body">        
+    <div class="box-body">
         <a id="btn-new-tab" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Bagian Form</a>
         <hr>
 
@@ -69,7 +69,7 @@
                                     readonly
                                 >
                             </div>
-                        </div>                        
+                        </div>
                         <hr>
 
                         @include('admin.surat_dinas.pengaturan.kode_isian')
@@ -77,7 +77,7 @@
                 </div>
                 @forelse ($kategori_nama as $item)
                     @php
-                        $kategori = $kategori_isian[$item];                        
+                        $kategori = $kategori_isian[$item];
                     @endphp
                     <div class="tab-pane" id="tab-{{ $item }}">
                         <div class="box-body">
@@ -105,14 +105,13 @@
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control input-sm required prefix_tinymce isi-prefix" name="kategori_prefix[{{ $item }}]" value="{{ strtolower($suratDinas->form_isian->$item->prefix ?? $item) }}" minlength="3" maxlength="50">
                                 </div>
-                            </div>                            
-                            <hr>                            
+                            </div>
+                            <hr>
 
                             @include('admin.surat_dinas.pengaturan.kategori_isian', ['key_kategori' => $item])
                         </div>
                     </div>
                 @empty
-
                 @endforelse
             </div>
         </div>
@@ -124,7 +123,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            var num = 0;            
+            var num = 0;
             $('#btn-new-tab').click(function(e) {
                 var nama_kategori = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)
                 num++
@@ -162,7 +161,7 @@
                         var utama_isi_judul = editElm[0].querySelector('.isi-judul')
                         var utama_isi_label = editElm[0].querySelector('.isi-label')
                         var utama_isi_info = editElm[0].querySelector('.isi-info')
-                        var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')                        
+                        var utama_isi_prefix = editElm[0].querySelector('.isi-prefix')
 
                         utama_isi_judul.name = `kategori_judul[${nama_kategori}]`
                         utama_isi_prefix.name = `kategori_prefix[${nama_kategori}]`
@@ -174,16 +173,16 @@
                         utama_isi_prefix.value = nama_kategori
 
                         // utama_isi_judul.removeAttribute('readonly')
-                        utama_isi_prefix.removeAttribute('readonly')                        
+                        utama_isi_prefix.removeAttribute('readonly')
 
                         // utama_isi_judul.setAttribute('onkeyup', `$('#tab-${nama_kategori} .isi-prefix').text(this.value.toLowerCase().replace(/ /g, '_'))`);
 
                         var utama_delete_btn = editElm[0].querySelector('.utama-delete')
                         utama_delete_btn.dataset.kategori = nama_kategori
                         utama_delete_btn.classList.remove('hide')
-                        
+
                         var tabs = $('#form-isian #tabs').find('li')
-                        
+
                         var elkodeIsian = editElm[0].querySelector('.kode-isian')
 
                         var elLabel = editElm[0].querySelector('input.isi-label')
@@ -191,7 +190,7 @@
                         newname = `kategori_${oldname}[${nama_kategori}]`
                         elLabel.name = newname
                         elLabel.value = nama_kategori
-                        
+
                         if (elkodeIsian != null) {
                             var elganda = editElm[0].querySelector('#gandakan-0');
 
@@ -318,7 +317,7 @@
                 $('#form-utama .isi-sebagai-data').val(1);
                 $(parent + ' .isi-sebagai-data').val(tipe);
             }
-        }        
+        }
 
         function loadSelect() {
             // console.log('load select');

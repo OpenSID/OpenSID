@@ -18,8 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ site_url('theme') }}"
-                class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ site_url('theme') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left "></i>Kembali ke Tema
             </a>
         </div>
@@ -27,13 +26,13 @@
         <div class="box-body">
             <div class="form-group">
                 <label>File Tema <code>(.zip)</code></label>
-                    <div class="input-group">
-                        <input type="text" class="form-control input-sm" id="file_path" name="userfile">
-                        <input type="file" class="hidden required" id="file" name="userfile" accept=".zip" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;Cari</button>
-                        </span>
-                    </div>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" id="file_path" name="userfile">
+                    <input type="file" class="hidden required" id="file" name="userfile" accept=".zip" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-info btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;Cari</button>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="box-footer">

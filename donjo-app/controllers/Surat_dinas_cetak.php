@@ -260,11 +260,7 @@ class Surat_dinas_cetak extends Admin_Controller
 
             unset($log_surat['surat']);
 
-            if ($cetak['id']) {
-                $surat = LogSuratDinas::find($cetak['id']);
-            } else {
-                $surat = new LogSuratDinas($log_surat);
-            }
+            $surat = $cetak['id'] ? LogSuratDinas::find($cetak['id']) : new LogSuratDinas($log_surat);
 
             $keluar = json_decode($surat->input, true);
 
@@ -514,7 +510,7 @@ class Surat_dinas_cetak extends Admin_Controller
     }
 
     // Data yang digunakan surat jenis rtf dan tinymce
-    private function get_data_untuk_form($url, &$data, $kategori = 'individu')
+    private function get_data_untuk_form($url, array &$data): void
     {
         // TinyMCE
         $data['surat_terakhir']     = LogSuratDinas::lastNomerSurat($url);

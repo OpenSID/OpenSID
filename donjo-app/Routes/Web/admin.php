@@ -1630,8 +1630,8 @@ Route::group('lapak_admin', static function (): void {
         Route::get('/', 'Lapak_admin@index')->name('lapak_admin.produk.index');
         Route::post('/', 'Lapak_admin@index')->name('lapak_admin.produk.datatables');
 
-        Route::get('/dialog/{aksi?}', "Lapak_admin@dialog")->name("lapak_admin.produk.dialog");
-        Route::post('/aksi/{aksi?}', "Lapak_admin@aksi")->name("lapak_admin.produk.aksi");
+        Route::get('/dialog/{aksi?}', 'Lapak_admin@dialog')->name('lapak_admin.produk.dialog');
+        Route::post('/aksi/{aksi?}', 'Lapak_admin@aksi')->name('lapak_admin.produk.aksi');
     });
     Route::get('/produk_form/{id?}', 'Lapak_admin@produk_form')->name('lapak_admin.form');
     Route::post('/produk_insert', 'Lapak_admin@produk_insert')->name('lapak_admin.insert');
@@ -1646,8 +1646,8 @@ Route::group('lapak_admin', static function (): void {
         Route::get('/', 'Lapak_pelapak_admin@index')->name('lapak_admin.pelapak.index');
         Route::post('/', 'Lapak_pelapak_admin@index')->name('lapak_admin.pelapak.datatables');
 
-        Route::get('/dialog/{aksi?}', "Lapak_pelapak_admin@dialog")->name("lapak_admin.pelapak.dialog");
-        Route::post('/aksi/{aksi?}', "Lapak_pelapak_admin@aksi")->name("lapak_admin.pelapak.aksi");
+        Route::get('/dialog/{aksi?}', 'Lapak_pelapak_admin@dialog')->name('lapak_admin.pelapak.dialog');
+        Route::post('/aksi/{aksi?}', 'Lapak_pelapak_admin@aksi')->name('lapak_admin.pelapak.aksi');
     });
     Route::get('/pelapak_form/{id?}', 'Lapak_pelapak_admin@pelapak_form')->name('lapak_admin.pelapak.form');
     Route::get('/pelapak_maps/{id?}', 'Lapak_pelapak_admin@pelapak_maps')->name('lapak_admin.pelapak.maps');
@@ -1663,8 +1663,8 @@ Route::group('lapak_admin', static function (): void {
         Route::get('/', 'Lapak_kategori_admin@index')->name('lapak_kategori.index');
         Route::post('/', 'Lapak_kategori_admin@index')->name('lapak_kategori.datatables');
 
-        Route::get('/dialog/{aksi?}', "Lapak_kategori_admin@dialog")->name("lapak_kategori.dialog");
-        Route::post('/aksi/{aksi?}', "Lapak_kategori_admin@aksi")->name("lapak_kategori.aksi");
+        Route::get('/dialog/{aksi?}', 'Lapak_kategori_admin@dialog')->name('lapak_kategori.dialog');
+        Route::post('/aksi/{aksi?}', 'Lapak_kategori_admin@aksi')->name('lapak_kategori.aksi');
     });
     Route::get('/kategori_form/{id?}', 'Lapak_kategori_admin@kategori_form')->name('lapak_admin.kategori.form');
     Route::post('/kategori_insert', 'Lapak_kategori_admin@kategori_insert')->name('lapak_admin.kategori.insert');

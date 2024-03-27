@@ -6,19 +6,7 @@
                     <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
                 @endif
                 <h1 class="judul" align="center">
-                    PEMERINTAH {!! strtoupper(
-                        setting('sebutan_kabupaten') .
-                            ' ' .
-                            $config['nama_kabupaten'] .
-                            ' <br>' .
-                            setting('sebutan_kecamatan') .
-                            ' ' .
-                            $config['nama_kecamatan'] .
-                            ' <br>' .
-                            setting('sebutan_desa') .
-                            ' ' .
-                            $config['nama_desa'],
-                    ) !!}
+                    PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $config['nama_kabupaten'] . ' <br>' . setting('sebutan_kecamatan') . ' ' . $config['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . ' ' . $config['nama_desa']) !!}
                 </h1>
             </td>
         </tr>

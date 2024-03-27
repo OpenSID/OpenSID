@@ -7,21 +7,9 @@
     <div class="col-sm-6 col-lg-4">
         <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
             <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label">
-                <input
-                    type="radio"
-                    name="surat_keluar"
-                    class="form-check-input"
-                    value="1"
-                    autocomplete="off"
-                >Ya</label>
+                <input type="radio" name="surat_keluar" class="form-check-input" value="1" autocomplete="off">Ya</label>
             <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label active">
-                <input
-                    type="radio"
-                    name="surat_keluar"
-                    class="form-check-input"
-                    value="0"
-                    autocomplete="off"
-                >Tidak
+                <input type="radio" name="surat_keluar" class="form-check-input" value="0" autocomplete="off">Tidak
             </label>
         </div>
     </div>
@@ -56,26 +44,26 @@
 </div>
 
 @push('scripts')
-<script type="text/javascript">
-    $(function() {
-        surat_keluar();
-        $('input[name="surat_keluar"]').on('change', function(e) {
-            surat_keluar()
-        });
+    <script type="text/javascript">
+        $(function() {
+            surat_keluar();
+            $('input[name="surat_keluar"]').on('change', function(e) {
+                surat_keluar()
+            });
 
-        function surat_keluar() {
-            if ($('input[name="surat_keluar"]').filter(':checked').val() == 1) {
-                $('input[name="tanggal_surat"]').attr("required", true);
-                $('input[name="tujuan"]').attr("required", true);
-                $('input[name="isi_singkat"]').attr("required", true);
-                $('#modul-surat-keluar').show();
-            } else {
-                $('input[name="tanggal_surat"]').attr("required", false);
-                $('input[name="tujuan"]').attr("required", false);
-                $('input[name="isi_singkat"]').attr("required", false);
-                $('#modul-surat-keluar').hide();
+            function surat_keluar() {
+                if ($('input[name="surat_keluar"]').filter(':checked').val() == 1) {
+                    $('input[name="tanggal_surat"]').attr("required", true);
+                    $('input[name="tujuan"]').attr("required", true);
+                    $('input[name="isi_singkat"]').attr("required", true);
+                    $('#modul-surat-keluar').show();
+                } else {
+                    $('input[name="tanggal_surat"]').attr("required", false);
+                    $('input[name="tujuan"]').attr("required", false);
+                    $('input[name="isi_singkat"]').attr("required", false);
+                    $('#modul-surat-keluar').hide();
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 @endpush

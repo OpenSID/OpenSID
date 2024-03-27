@@ -2302,7 +2302,7 @@ if (! function_exists('forceRemoveDir')) {
     }
 }
 
-function waktu($waktu_terakhir)
+function waktu($waktu_terakhir): string
 {
     $waktu_sekarang = time();
     $selisih_detik  = $waktu_sekarang - strtotime($waktu_terakhir);
@@ -2312,8 +2312,8 @@ function waktu($waktu_terakhir)
     $jam    = floor($selisih_detik / 3600);
     $hari   = floor($selisih_detik / 86400);
     $minggu = floor($selisih_detik / 604800);
-    $bulan  = floor($selisih_detik / 2628000);
-    $tahun  = floor($selisih_detik / 31536000);
+    $bulan  = floor($selisih_detik / 2_628_000);
+    $tahun  = floor($selisih_detik / 31_536_000);
 
     if ($detik <= 60) {
         return 'Baru saja';

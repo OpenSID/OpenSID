@@ -216,22 +216,22 @@ class TinyMCE
         $alias = AliasKodeIsian::get();
 
         $daftar_kode_isian['Alias'] = $alias->map(static fn ($item): array => [
-                'judul' => $item->judul,
-                'isian' => $item->alias,
-                'data'  => $item->content,
-            ])->toArray();
+            'judul' => $item->judul,
+            'isian' => $item->alias,
+            'data'  => $item->content,
+        ])->toArray();
 
         // Surat
         $daftar_kode_isian['Surat'] = KodeIsianSurat::get($data);
-        
+
         // Data Form Surat
         $daftar_kode_isian['Form Surat'] = KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0);
-        
+
         // Data Identitas Desa
-        $daftar_kode_isian['Identitas Desa'] =  KodeIsianIdentitas::get();
+        $daftar_kode_isian['Identitas Desa'] = KodeIsianIdentitas::get();
 
         // Data Dusun
-        $daftar_kode_isian['Wilayah'] =  KodeIsianWilayah::get();
+        $daftar_kode_isian['Wilayah'] = KodeIsianWilayah::get();
 
         // Data Penduduk
         if (! $suratDinas) {

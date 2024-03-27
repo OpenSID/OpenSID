@@ -61,10 +61,10 @@ class Shortcut extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? false;
             $order  = $this->input->get('order') ?? false;
-            $query  = ShortcutModel::when(!$order, static fn ($q) => $q->orderBy('urut', 'asc'))->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('status', $status));
+            $query  = ShortcutModel::when(! $order, static fn ($q) => $q->orderBy('urut', 'asc'))->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('status', $status));
 
             return datatables()->of($query)
-                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
+                ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -91,8 +91,8 @@ class Shortcut extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('judul', static fn ($row) => SebutanDesa($row->judul))
-                ->editColumn('icon', static fn ($row) => '<i class="fa ' . $row->icon . ' fa-lg"></i>')
-                ->editColumn('warna', static fn ($row) => '<div style="background-color:' . $row->warna . '; width: auto; height: 10px;"></div>')
+                ->editColumn('icon', static fn ($row): string => '<i class="fa ' . $row->icon . ' fa-lg"></i>')
+                ->editColumn('warna', static fn ($row): string => '<div style="background-color:' . $row->warna . '; width: auto; height: 10px;"></div>')
                 ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
                 ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'icon', 'warna', 'status'])
                 ->make();
@@ -119,10 +119,10 @@ class Shortcut extends Admin_Controller
         $moduls = Modul::where('slug', '!=', 'home')->where('hidden', '!=', 2)->get()->pluck('modul', 'slug')->toArray();
         $querys = array_keys(ShortcutModel::querys());
 
-        return view('admin.shortcut.form', compact('action', 'form_action', 'shortcut', 'icons', 'moduls', 'querys'));
+        return view('admin.shortcut.form', ['action' => $action, 'form_action' => $form_action, 'shortcut' => $shortcut, 'icons' => $icons, 'moduls' => $moduls, 'querys' => $querys]);
     }
 
-    public function insert()
+    public function insert(): void
     {
         isCan('u');
 
@@ -132,7 +132,7 @@ class Shortcut extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         isCan('u');
 
@@ -144,7 +144,7 @@ class Shortcut extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         isCan('h');
 
@@ -156,7 +156,7 @@ class Shortcut extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
         isCan('h');
 
@@ -165,7 +165,7 @@ class Shortcut extends Admin_Controller
         }
     }
 
-    public function lock($id = 0)
+    public function lock($id = 0): void
     {
         isCan('u');
 

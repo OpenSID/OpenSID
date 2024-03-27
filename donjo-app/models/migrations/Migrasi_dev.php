@@ -83,7 +83,7 @@ class Migrasi_dev extends MY_model
         }
 
         $hasil = $hasil && $this->migrasi_2024032051($hasil, $id);
-        
+
         return $hasil && true;
     }
 
@@ -382,7 +382,7 @@ class Migrasi_dev extends MY_model
 
     public function migrasi_2024021371($hasil, $config_id)
     {
-        if (!Schema::hasTable('shortcut')) {
+        if (! Schema::hasTable('shortcut')) {
             Schema::create('shortcut', static function (Blueprint $table) {
                 $table->id();
                 $table->integer('config_id');
@@ -510,7 +510,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024031375($hasil)
     {
-        if (!$this->db->field_exists('parent_id', 'komentar')) {
+        if (! $this->db->field_exists('parent_id', 'komentar')) {
             $hasil = $hasil && $this->db->query('ALTER TABLE `komentar` ADD COLUMN `parent_id` INT(11) NULL');
         }
 
@@ -519,7 +519,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024031373($hasil)
     {
-        if (!$this->db->field_exists('file_akta_mati', 'log_penduduk')) {
+        if (! $this->db->field_exists('file_akta_mati', 'log_penduduk')) {
             $hasil = $hasil && $this->db->query('ALTER TABLE `log_penduduk` ADD `file_akta_mati` VARCHAR(255) NULL DEFAULT NULL AFTER `akta_mati`;');
         }
 
@@ -613,7 +613,7 @@ class Migrasi_dev extends MY_model
             ['id' => 'Peta Wilayah [desa]', 'nama' => 'Peta Wilayah [desa]'],
             ['id' => 'Peta Wilayah [dusun]', 'nama' => 'Peta Wilayah [dusun]'],
             ['id' => 'Peta Wilayah RW', 'nama' => 'Peta Wilayah RW'],
-            ['id' => 'Peta Wilayah RT', 'nama' => 'Peta Wilayah RT']
+            ['id' => 'Peta Wilayah RT', 'nama' => 'Peta Wilayah RT'],
         ];
 
         $hasil = $hasil && $this->tambah_setting([
@@ -633,10 +633,10 @@ class Migrasi_dev extends MY_model
             ['id' => 'Infrastruktur (Garis)', 'nama' => 'Infrastruktur (Garis)'],
             ['id' => 'Infrastruktur (Lokasi)', 'nama' => 'Infrastruktur (Lokasi)'],
             ['id' => 'Infrastruktur (Lokasi Pembangunan)', 'nama' => 'Infrastruktur (Lokasi Pembangunan)'],
-            ['id' => 'Letter C-Desa', 'nama' => 'Letter C-Desa']
+            ['id' => 'Letter C-Desa', 'nama' => 'Letter C-Desa'],
         ];
 
-        $hasil = $hasil && $this->tambah_setting([
+        return $hasil && $this->tambah_setting([
             'judul'      => 'Default Tampil Peta Infrastruktur',
             'key'        => 'default_tampil_peta_infrastruktur',
             'value'      => '',
@@ -646,8 +646,6 @@ class Migrasi_dev extends MY_model
             'attribute'  => null,
             'kategori'   => 'peta',
         ], $id);
-
-        return $hasil;
     }
 
     protected function migrasi_2024032051($hasil)

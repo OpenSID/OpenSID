@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Models\Produk;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 

@@ -32,7 +32,7 @@
                             <th>No</th>
                             <th>No Kode Surat</th>
                             <th>No Urut Surat</th>
-                            <th>Jenis Surat</th>                            
+                            <th>Jenis Surat</th>
                             <th>Keterangan</th>
                             <th>Ditandatangani Oleh</th>
                             <th>Tanggal</th>
@@ -45,7 +45,7 @@
                                 <td>{{ $key + 1 }} </td>
                                 <td class="textx">{{ $data->suratDinas->kode_surat ?? '' }} </td>
                                 <td class="textx">{{ $data->no_surat }} </td>
-                                <td class="textx">{{ $data->suratDinas->nama ?? '' }} </td>                                
+                                <td class="textx">{{ $data->suratDinas->nama ?? '' }} </td>
                                 <td>{{ $data->keterangan }} </td>
                                 <td>{{ $data->nama_pamong }} </td>
                                 <td nowrap>{{ tgl_indo2($data->tanggal) }}</td>
