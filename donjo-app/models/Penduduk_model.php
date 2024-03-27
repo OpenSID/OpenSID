@@ -832,6 +832,7 @@ class Penduduk_model extends MY_Model
                 ->where('tanggallahir', $tanggal_lahir)
                 ->where('tempatlahir', $data['tempatlahir'])
                 ->where('sex', $data['sex'])
+                ->where('id', '!=', $id)
                 ->exists();
 
             if ($existing_data) {
