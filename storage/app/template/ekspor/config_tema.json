@@ -32,15 +32,6 @@
         "readonly":false
     },
     {
-        "judul":"Input Password1",
-        "key":"input-password1",
-        "value":"",
-        "type":"input-password",
-        "keterangan":"Contoh Input Password1",
-        "options": null,
-        "readonly":false
-    },
-    {
         "judul":"Input Email",
         "key":"input-email",
         "value":"admin@gmail.com",

@@ -39,16 +39,18 @@
                                                 $value['readonly'] = $value['readonly'] == true ? 'readonly' : '';
                                                 $value['class'] = $value['attributes']['class'];
                                                 unset($value['attributes']['class'], $value['attributes']['readonly']);
-                                                $value['attributes'] = implode(
-                                                    ' ',
-                                                    array_map(
-                                                        function ($key, $value) {
-                                                            return "$key=\"$value\"";
-                                                        },
-                                                        array_keys($value['attributes']),
-                                                        $value['attributes'],
-                                                    ),
-                                                );
+                                                if (! empty($value['attributes'])) {
+                                                    $value['attributes'] = implode(
+                                                        ' ',
+                                                        array_map(
+                                                            function ($key, $value) {
+                                                                return "$key=\"$value\"";
+                                                            },
+                                                            array_keys($value['attributes']),
+                                                            $value['attributes'],
+                                                        ),
+                                                    );
+                                                }
                                             @endphp
 
                                             @include("admin.theme.components.form.{$value['type']}", [

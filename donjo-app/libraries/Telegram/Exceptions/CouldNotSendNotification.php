@@ -35,13 +35,12 @@
  *
  */
 
-use Exception;
 use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class CouldNotSendNotification.
  */
-class CouldNotSendNotification extends Exception
+class CouldNotSendNotification extends \Exception
 {
     /**
      * Thrown when there's a bad request and an error is responded.

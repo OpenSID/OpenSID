@@ -35,7 +35,6 @@
  *
  */
 
-<<<<<<<< HEAD:storage/app/template/lampiran/f.1-21/data.php
     defined('BASEPATH') || exit('No direct script access allowed');
 
     define('MAX_ANGGOTA_F116', 10);
@@ -65,31 +64,3 @@
 
     // include data F101
     include STORAGEPATH . 'app/template/lampiran/f-1.01/data.php';
-========
-namespace App\Traits;
-
-use Exception;
-
-trait Upload
-{
-    protected function upload($file, $config = [])
-    {
-        $this->load->library('MY_Upload', null, 'upload');
-        $this->upload->initialize($config);
-
-        try {
-            $upload = $this->upload->do_upload($file);
-
-            if (! $upload) {
-                redirect_with('error', $this->upload->display_errors(), $this->controller);
-            }
-
-            $uploadData = $this->upload->data();
-
-            return $uploadData['file_name'];
-        } catch (Exception $e) {
-            redirect_with('error', $this->upload->display_errors(), $this->controller);
-        }
-    }
-}
->>>>>>>> bug-fix:app/Traits/Upload.php
