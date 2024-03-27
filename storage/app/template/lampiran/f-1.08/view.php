@@ -321,10 +321,10 @@
 		<tr>
 			<td>7.</td>
 			<td>Rencana Tgl Pindah</td>
-			<?php $tgl = date('dd', strtotime($input['tanggal_pindah']));
-			$bln = date('mm', strtotime($input['tanggal_pindah']));
-			$thn = date('Y', strtotime($input['tanggal_pindah']));
-			?>
+			<?php $tgl    = date('dd', strtotime($input['tanggal_pindah']));
+            $bln = date('mm', strtotime($input['tanggal_pindah']));
+            $thn = date('Y', strtotime($input['tanggal_pindah']));
+            ?>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
 					<?php if (isset($tgl[$j])) : ?>
@@ -372,11 +372,11 @@
 		</tr>
 
 		<?php
-		for ($i = 0; $i < MAX_PINDAH; $i++) :
-			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'] ?? [])) :
-				$id = trim($input['id_pengikut_pindah'][$i], "'");
-				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
+        for ($i = 0; $i < MAX_PINDAH; $i++) :
+            $nomor = $i + 1;
+            if ($i < count($input['id_pengikut_pindah'] ?? [])) :
+                $id       = trim($input['id_pengikut_pindah'][$i], "'");
+                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>
 					<?php for ($j = 0; $j < 16; $j++) : ?>
@@ -389,7 +389,7 @@
 						</td>
 					<?php endfor; ?>
 					<td><?= $penduduk['nama']; ?></td>
-					<?php $shdk = str_pad($penduduk['kk_level'], 2, "0", STR_PAD_LEFT); ?>
+					<?php $shdk = str_pad($penduduk['kk_level'], 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>
 						<td class="tengah">
 							<?= $shdk[$j]; ?>
@@ -423,9 +423,9 @@
 			<td><?= $penandatangan['atas_nama']?></td>
 		</tr>
 		<tr class="pendek">
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
+			<td><?= str_replace(' ', '&nbsp;', 'No.                            .., tgl.       ., 20') ?></td>
 			<td>&nbsp;</td>
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
+			<td><?= str_replace(' ', '&nbsp;', "No. {$format_surat}, tgl.       ., 20") ?></td>
 		</tr>
 		<tr style="font-size: 8mm; line-height: normal;">
 			<td>&nbsp;</td>
@@ -608,11 +608,11 @@
 		</tr>
 
 		<?php
-		for ($i = 0; $i < MAX_PINDAH; $i++) :
-			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'] ?? [])) :
-				$id = trim($input['id_pengikut_pindah'][$i], "'");
-				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
+        for ($i = 0; $i < MAX_PINDAH; $i++) :
+            $nomor = $i + 1;
+            if ($i < count($input['id_pengikut_pindah'] ?? [])) :
+                $id       = trim($input['id_pengikut_pindah'][$i], "'");
+                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
 
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>
@@ -626,7 +626,7 @@
 						</td>
 					<?php endfor; ?>
 					<td><?= $penduduk['nama']; ?></td>
-					<?php $shdk = str_pad($penduduk['kk_level'], 2, "0", STR_PAD_LEFT); ?>
+					<?php $shdk = str_pad($penduduk['kk_level'], 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>
 						<td class="tengah">
 							<?= $shdk[$j]; ?>
@@ -661,8 +661,8 @@
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
+			<td><?= str_replace(' ', '&nbsp;', 'No                           .., tgl.       ., 20') ?></td>
+			<td><?= str_replace(' ', '&nbsp;', 'No                           .., tgl.       ., 20') ?></td>
 		</tr>
 		<tr style="font-size: 8mm; line-height: normal;">
 			<td>&nbsp;</td>

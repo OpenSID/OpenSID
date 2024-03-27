@@ -46,7 +46,7 @@
 			<?php foreach($baris as $baris_program) : ?>
 				<tr>
 					<td >
-						<?php $width = 100/count($baris_program)-count($baris_program)?>
+						<?php $width = 100/count($baris_program ?? [])-count($baris_program ?? [])?>
 						<?php foreach($baris_program as $key => $program) : ?>
 							<span style="display: inline-block; width: <?= $width.'%'?>">
 								<a href="<?= $program['tautan']?>" rel="noopener noreferrer" target="_blank"><img src="<?= base_url(LOKASI_GAMBAR_WIDGET . $program['gambar']) ?>" style="float:left; margin:0px 0px 0px 0px;" alt="<?= $program['judul']?>" /></a>

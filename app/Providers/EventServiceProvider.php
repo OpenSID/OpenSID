@@ -63,19 +63,17 @@ class EventServiceProvider extends ServiceProvider
     /**
      * {@inheritDoc}
      */
-    public function register()
+    public function register(): void
     {
 
     }
 
     /**
      * Register the application's event listeners.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        $this->callAfterResolving('events', function (Dispatcher $events) {
+        $this->callAfterResolving('events', function (Dispatcher $events): void {
             foreach ($this->listens() as $event => $listeners) {
                 foreach ($listeners as $listener) {
                     $events->listen($event, $listener);

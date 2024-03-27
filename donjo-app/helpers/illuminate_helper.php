@@ -338,7 +338,7 @@ if ( ! function_exists('response')) {
      */
     function response($content = '', $statusCode = 200, $headers = [])
     {
-        $responseClass = class_exists('Illuminate\Http\Response') ? '\Illuminate\Http\Response' : 'Response';
+        $responseClass = class_exists(\Illuminate\Http\Response::class) ? \Illuminate\Http\Response::class : 'Response';
 
         return new $responseClass($content, $statusCode, $headers);
     }

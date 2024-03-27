@@ -161,7 +161,7 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/sertifkat', $data);
     }
 
-    public function berkas_vaksin($id_penduduk, $vaksin_ke)
+    public function berkas_vaksin($id_penduduk, $vaksin_ke): void
     {
         $this->berkas($id_penduduk, $vaksin_ke, false, false);
     }
@@ -173,7 +173,7 @@ class Vaksin_covid extends Admin_Controller
         ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN, $tampil);
     }
 
-    public function update()
+    public function update(): void
     {
         isCan('u');
         $this->vaksin_covid_model->update_vaksin();

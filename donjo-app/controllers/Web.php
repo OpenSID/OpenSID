@@ -133,11 +133,9 @@ class Web extends Admin_Controller
                             }
                     }
 
-                    $aksi .= '<a href="' . $row->url_slug . '" target="_blank" class="btn bg-green btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>';
-
-                    return $aksi;
+                    return $aksi . ('<a href="' . $row->url_slug . '" target="_blank" class="btn bg-green btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>');
                 })
-                ->editColumn('hit', static fn ($row) => hit($row->hit))
+                ->editColumn('hit', static fn ($row): string => hit($row->hit))
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['aksi', 'ceklist'])
                 ->make();
@@ -294,10 +292,8 @@ class Web extends Admin_Controller
         if (! $artikel->bolehUbah()) {
             redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini', ci_route('web', $cat));
         }
-        if (! in_array(auth()->id_grup, (new UserGrup())->getGrupSistem())) {
-            if ($artikel->id_user != auth()->id) {
-                redirect_with('error', 'Anda tidak memiliki hak akses untuk mengubah artikel ini', ci_route('web', $cat));
-            }
+        if (! in_array(auth()->id_grup, (new UserGrup())->getGrupSistem()) && $artikel->id_user != auth()->id) {
+            redirect_with('error', 'Anda tidak memiliki hak akses untuk mengubah artikel ini', ci_route('web', $cat));
         }
         $data           = $_POST;
         $hapus_lampiran = $data['hapus_lampiran'];
@@ -512,7 +508,7 @@ class Web extends Admin_Controller
                     $id      = str_replace('artikel/', '', $item->link);
                     $artikel = Artikel::find($id);
                     if ($artikel) {
-                        $artikel->hit = $artikel->hit * ($persen / 100);
+                        $artikel->hit *= $persen / 100;
                         $artikel->save();
                     }
                 }

@@ -318,10 +318,10 @@ class Penduduk extends BaseModel
     public function scopeUrut($query)
     {
         return $query
-        ->select('tweb_penduduk.*')
-        ->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')
+            ->select('tweb_penduduk.*')
+            ->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')
         // ->orderBy(DB::raw('CONCAT(tweb_keluarga.no_kk, tweb_penduduk.id_kk, tweb_penduduk.kk_level)'), 'asc')
-        ->orderBy(DB::raw("CASE
+            ->orderBy(DB::raw("CASE
                 WHEN CHAR_LENGTH(tweb_penduduk.nik) < 16 THEN 1
                 WHEN tweb_penduduk.nik LIKE '0%' AND CHAR_LENGTH(tweb_penduduk.nik) = 16 THEN 2
                 ELSE 3
@@ -378,7 +378,7 @@ class Penduduk extends BaseModel
      */
     public function getWajibKTPAttribute(): string
     {
-        return (($this->tanggallahir->age > 16) || (!empty($this->status_kawin) && $this->status_kawin != 1))
+        return (($this->tanggallahir->age > 16) || (! empty($this->status_kawin) && $this->status_kawin != 1))
             ? 'WAJIB KTP'
             : 'BELUM';
     }
@@ -423,7 +423,7 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return !empty($this->status_kawin) && $this->status_kawin != 2
+        return ! empty($this->status_kawin) && $this->status_kawin != 2
             ? $this->statusKawin->nama
             : (
                 empty($this->akta_perkawinan)
@@ -445,7 +445,7 @@ class Penduduk extends BaseModel
      */
     public function getNamaAsuransiAttribute(): string
     {
-        return !empty($this->id_asuransi) && $this->id_asuransi != 1 ? (($this->id_asuransi == 99) ? "Nama/No Asuransi : {$this->no_asuransi}" : "No Asuransi : {$this->no_asuransi}") : '';
+        return ! empty($this->id_asuransi) && $this->id_asuransi != 1 ? (($this->id_asuransi == 99) ? "Nama/No Asuransi : {$this->no_asuransi}" : "No Asuransi : {$this->no_asuransi}") : '';
     }
 
     /**
@@ -522,7 +522,7 @@ class Penduduk extends BaseModel
     public function scopefilters($query, array $filters = [], array $allowedFilters = ['sex', 'status_dasar', 'kk_level'])
     {
         foreach ($filters as $key => $value) {
-            if (!in_array($key, $allowedFilters)) {
+            if (! in_array($key, $allowedFilters)) {
                 continue;
             }
 

@@ -8,7 +8,7 @@
     <ul class="divide-y">
       <?php foreach($menu_kiri as $data): ?>
       <li><a href="<?= site_url("artikel/kategori/$data[slug]"); ?>" class="py-2 block"><?= $data['kategori']; ?></a>
-        <?php if(count($data['submenu']) > 0): ?>
+        <?php if(count($data['submenu'] ?? []) > 0): ?>
         <ul class="divide-y">
           <?php foreach($data['submenu'] as $submenu): ?>
           <li><a href="<?= site_url("artikel/kategori/$submenu[slug]"); ?>" class="py-2 block"><?= $submenu['kategori']?></a></li>

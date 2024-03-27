@@ -7,21 +7,36 @@
 @endpush
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{ route('bumindes_penduduk_rekapitulasi.dialog_cetak', ['aksi' => 'cetak']) }}"
+        <a
+            href="{{ route('bumindes_penduduk_rekapitulasi.dialog_cetak', ['aksi' => 'cetak']) }}"
             class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Buku Rekapitulasi Penduduk Desa" data-remote="false" data-toggle="modal"
-            data-target="#modalBox" data-title="Cetak Buku Rekapitulasi Penduduk Desa">
+            title="Cetak Buku Rekapitulasi Penduduk Desa"
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Cetak Buku Rekapitulasi Penduduk Desa"
+        >
             <i class="fa fa-print"></i>Cetak
         </a>
-        <a href="{{ site_url("{$controller}/dialog_cetak/unduh") }}" class="btn btn-social bg-navy btn-sm
+        <a
+            href="{{ site_url("{$controller}/dialog_cetak/unduh") }}"
+            class="btn btn-social bg-navy btn-sm
 			btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Buku Rekapitulasi Penduduk Desa" data-remote="false" data-toggle="modal"
-            data-target="#modalBox" data-title="Unduh Buku Rekapitulasi Penduduk Desa"><i
-                class="fa fa-download"></i>Unduh</a>
-        <a href="{{ site_url($controller . '/dialog_cetak/pdf'); }}" title="Laporan PDF Buku Rekapitulasi Penduduk Desa"
+            title="Unduh Buku Rekapitulasi Penduduk Desa"
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Unduh Buku Rekapitulasi Penduduk Desa"
+        ><i class="fa fa-download"></i>Unduh</a>
+        <a
+            href="{{ site_url($controller . '/dialog_cetak/pdf') }}"
+            title="Laporan PDF Buku Rekapitulasi Penduduk Desa"
             class="btn btn-social bg-green btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            data-remote="false" data-toggle="modal" data-target="#modalBox"
-            data-title="Laporan PDF Buku Rekapitulasi Penduduk Desa"><i class="fa fa-file-pdf-o"></i> Laporan PDF</a>
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Laporan PDF Buku Rekapitulasi Penduduk Desa"
+        ><i class="fa fa-file-pdf-o"></i> Laporan PDF</a>
     </div>
     <div class="box-body">
         <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -31,7 +46,7 @@
                         <select class="form-control input-sm select2 " name="tahun" id="tahun">
                             <option value="">Pilih Tahun</option>
                             @foreach (tahun($tahun) as $value)
-                            <option value="{{ $value }}">{{ $value }}</option>
+                                <option value="{{ $value }}">{{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -39,7 +54,7 @@
                         <select class="form-control input-sm select2" name="filter_bulan" id="bulan">
                             <option value="">Pilih Bulan</option>
                             @foreach (bulan() as $idx => $nama_bulan)
-                            <option value="{{ $idx }}">{{ $nama_bulan }}</option>
+                                <option value="{{ $idx }}">{{ $nama_bulan }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -168,8 +183,8 @@
     </div>
 </div>
 @push('scripts')
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -181,8 +196,7 @@
                         req.bulan = $('#bulan').val();
                     }
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',
                         searchable: false,
@@ -659,5 +673,5 @@
                 TableData.column(2).visible(false);
             }
         });
-</script>
+    </script>
 @endpush

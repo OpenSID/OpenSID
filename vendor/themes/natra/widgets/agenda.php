@@ -8,20 +8,20 @@
 	<h2><a href="<?= site_url('first/kategori/1000')?>"><i class="fa fa-calendar"></i>&ensp;<?= $judul_widget ?></a></h2>
 	<div id="agenda" class="box-body">
 		<ul class="nav nav-tabs">
-			<?php if (is_array($hari_ini) && count($hari_ini) > 0): ?>
+			<?php if (count($hari_ini ?? []) > 0): ?>
 				<li class="active"><a data-toggle="tab" href="#hari-ini">Hari ini</a></li>
 			<?php endif; ?>
-			<?php if (is_array($yad) && count($yad) > 0): ?>
-				<li class="<?php count($hari_ini) == 0 and print('active')?>"><a data-toggle="tab" href="#yad">Mendatang</a></li>
+			<?php if (count($yad ?? []) > 0): ?>
+				<li class="<?php count($hari_ini ?? []) == 0 and print('active')?>"><a data-toggle="tab" href="#yad">Mendatang</a></li>
 			<?php endif; ?>
-			<?php if (is_array($lama) && count($lama) > 0): ?>
-				<li class="<?php count(array_merge($hari_ini, $yad)) == 0 and print('active')?>"><a data-toggle="tab" href="#lama">Lama</a></li>
+			<?php if (count($lama ?? []) > 0): ?>
+				<li class="<?php count(array_merge($hari_ini, $yad) ?? []) == 0 and print('active')?>"><a data-toggle="tab" href="#lama">Lama</a></li>
 			<?php endif; ?>
 		</ul>
 		<div class="tab-content">
 			<?php
 				$merge = array_merge($hari_ini, $yad, $lama);
-				if (is_array($merge) && count($merge) > 0):
+				if (count($merge ?? []) > 0):
 			?>
 				<div id="hari-ini" class="tab-pane fade in active">
 					<ul class="sidebar-latest">
@@ -52,9 +52,9 @@
 					</ul>
 				</div>
 
-				<div id="yad" class="tab-pane fade <?php is_array($hari_ini) && count($hari_ini) == 0 and print('in active')?>">
+				<div id="yad" class="tab-pane fade <?php count($hari_ini ?? []) == 0 and print('in active')?>">
 					<ul class="sidebar-latest">
-						<?php if (is_array($yad) && count($yad) > 0): ?>
+						<?php if (count($yad ?? []) > 0): ?>
 							<?php foreach ($yad as $agenda): ?>
 								<li>
 									<table id="table-agenda" width="100%">
@@ -83,7 +83,7 @@
 					</ul>
 				</div>
 
-				<div id="lama" class="tab-pane fade <?php is_array($merge) && count($merge) == 0 and print('in active')?>">
+				<div id="lama" class="tab-pane fade <?php count($merge ?? []) == 0 and print('in active')?>">
 					<marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior=”alternate”>
 						<ul class="sidebar-latest">
 							<?php foreach ($lama as $agenda): ?>

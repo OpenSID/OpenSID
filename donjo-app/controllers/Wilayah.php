@@ -133,7 +133,7 @@ class Wilayah extends Admin_Controller
 
             return datatables()->of($model)
                 ->addIndexColumn()
-                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
+                ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('aksi', static function ($row) use ($parent, $mapKantor, $mapWilayah, $level, $subOrdinat, $cek_lokasi_peta): string {
                     $aksi = '';
                     if ($level != 'rt') {

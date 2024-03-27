@@ -283,7 +283,7 @@ class Artikel extends BaseModel
         return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
     }
 
-    public function bolehUbah()
+    public function bolehUbah(): bool
     {
         return auth()->id == $this->id_user || auth()->id_grup != 4;
     }

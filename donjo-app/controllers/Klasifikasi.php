@@ -196,7 +196,7 @@ class Klasifikasi extends Admin_Controller
         if ($this->upload->do_upload('klasifikasi')) {
             $upload = $this->upload->data();
 
-            $result = (new KlasifikasiSuratImports())->setPath($upload['full_path'])->import();
+            $result = (new KlasifikasiSuratImports($upload['full_path']))->import();
             if (! $result) {
                 redirect_with('error', 'Klasifikasi surat gagal diimport');
             }

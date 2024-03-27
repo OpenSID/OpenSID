@@ -83,7 +83,7 @@ class Sistem
         return $data;
     }
 
-    public static function cekKebutuhanSistem()
+    public static function cekKebutuhanSistem(): array
     {
         $data = [];
 
@@ -107,7 +107,7 @@ class Sistem
         return $data;
     }
 
-    public static function cekPhp()
+    public static function cekPhp(): array
     {
         return [
             'versi' => PHP_VERSION,
@@ -115,7 +115,7 @@ class Sistem
         ];
     }
 
-    public static function cekDatabase()
+    public static function cekDatabase(): array
     {
         $versi = DB::select('SELECT VERSION() AS version')[0]->version;
 
@@ -125,7 +125,7 @@ class Sistem
         ];
     }
 
-    public static function disableFunctions()
+    public static function disableFunctions(): array
     {
         $wajib    = [];
         $disabled = explode(',', ini_get('disable_functions'));

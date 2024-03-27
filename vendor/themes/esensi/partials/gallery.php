@@ -8,7 +8,7 @@
 </nav>
 <h1 class="text-h2">Album Galeri</h1>
 
-<?php if(count($gallery)) : ?>
+<?php if(count($gallery ?? [])) : ?>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-5 main-content py-4">
     <?php foreach($gallery as $album) : ?>
       <?php if(is_file(LOKASI_GALERI . "kecil_" . $album['gambar'])) : ?>

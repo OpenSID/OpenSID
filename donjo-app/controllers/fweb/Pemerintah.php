@@ -54,7 +54,7 @@ class Pemerintah extends Web_Controller
         $data['pemerintah']     = $data['aparatur_desa']['daftar_perangkat'];
         $settings               = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
         $data['media_sosial']   = collect($settings->option)
-            ->filter(static fn ($item) => in_array($item['id'], json_decode($settings->value)))
+            ->filter(static fn ($item): bool => in_array($item['id'], json_decode($settings->value)))
             ->toArray();
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');

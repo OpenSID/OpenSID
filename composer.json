@@ -101,7 +101,7 @@
         ],
         "style-fix": [
             "php-cs-fixer fix --allow-risky=yes",
-            "rector process --dry-run",
+            "rector process",
             "npm run prettier-blade"
         ]
     }

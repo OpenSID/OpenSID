@@ -47,7 +47,7 @@ $onlyDirectory = [
     'donjo-app/helpers',
     'donjo-app/controllers',
     'donjo-app/models',
-    'donjo-app/third_party/pelanggan/libraries/pelanggan',
+    'donjo-app/third_party/pelanggan/libraries',
 ];
 
 $exceptDirectory = [
@@ -56,8 +56,6 @@ $exceptDirectory = [
     'views',
     'DevelBar',
     'security',
-    'pelanggan',
-    'pendaftaran_kerjasama',
 ];
 
 $onlyFile = [

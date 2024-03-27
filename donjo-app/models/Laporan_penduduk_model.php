@@ -358,7 +358,7 @@ class Laporan_penduduk_model extends MY_Model
             ->select("({$str_jml_perempuan}) as perempuan");
     }
 
-    private function str_jml_penduduk(string $where, string $sex = '', $status_dasar = '1')
+    private function str_jml_penduduk(string $where, string $sex = '', string $status_dasar = '1')
     {
         $this->filter_wilayah();
 

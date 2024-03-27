@@ -50,7 +50,11 @@
                 </a>
             @endif
         </div>
-        <div class="box-header"><strong>{{ $title }}</strong></div>
+        @if ($title)
+            <div class="box-header">
+                <strong>{{ $title }}</strong>
+            </div>
+        @endif
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             <div class="table-responsive">

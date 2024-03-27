@@ -33,7 +33,7 @@
                 <select id="tahun" class="form-control input-sm select2">
                     <option value="">Pilih Tahun</option>
                     @foreach ($list_tahun as $value)
-                        <option value="{{ $value['tahun'] }}" >{{ $value['tahun'] }}</option>
+                        <option value="{{ $value['tahun'] }}">{{ $value['tahun'] }}</option>
                     @endforeach
                 </select>
             </div>
@@ -99,8 +99,7 @@
                         req.bulan = $('#bulan').val();
                     }
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',
                         searchable: false,

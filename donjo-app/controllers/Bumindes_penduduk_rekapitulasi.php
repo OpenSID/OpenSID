@@ -141,18 +141,23 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         $file      = FCPATH . LOKASI_DOKUMEN . $nama_file;
         // $data['width']      = 400; // lebar dalam mm
         $data['ispdf'] = true;
-        $laporan = View::make('admin.layouts.components.format_cetak', $data)->render();
+        $laporan       = View::make('admin.layouts.components.format_cetak', $data)->render();
         buat_pdf($laporan, $file, null, 'L', [200, 400]); // perlu berikan dimensi eksplisit dalam mm
 
+        $bulan = $this->session->filter_bulan ?? date('m');
+        $tahun = $this->session->filter_tahun ?? date('Y');
+
         $where = [
-            'semester' => $this->session->filter_bulan,
-            'tahun'    => $this->session->filter_tahun,
+            'semester' => $bulan,
+            'tahun'    => $tahun,
         ];
+
+        log_message('notice', 'Laporan Rekap Jumlah Penduduk ' . $bulan . ' ' . $tahun . ' telah dibuat.');
 
         $lap_sinkron = [
             'judul'     => 'Rekap Jumlah Penduduk',
-            'semester'  => $this->session->filter_bulan,
-            'tahun'     => $this->session->filter_tahun,
+            'semester'  => $bulan,
+            'tahun'     => $tahun,
             'nama_file' => $nama_file . '.pdf',
             'tipe'      => 'laporan_penduduk',
         ];

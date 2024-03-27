@@ -39,9 +39,11 @@
                 </a>
             @endif
         </div>
-        <div class="box-header with-border">
-            <strong>{!! $subtitle !!}</strong>
-        </div>
+        @if ($subtitle)
+            <div class="box-header with-border">
+                <strong>{!! $subtitle !!}</strong>
+            </div>
+        @endif
         <div class="box-body">
             <div class="row">
                 <div class="col-sm-2">

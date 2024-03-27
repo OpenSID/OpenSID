@@ -20,7 +20,7 @@
     <?php $menu_atas = menu_tema() ?>
     <?php if($menu_atas) : ?>
       <?php foreach($menu_atas as $menu) : ?>
-        <?php $has_dropdown = count($menu['childrens']) > 0 ?>
+        <?php $has_dropdown = count($menu['childrens'] ?? []) > 0 ?>
         <li class="block relative" <?php $has_dropdown && print 'x-data="{dropdown: false}"' ?>>
 
           <?php $menu_link = $has_dropdown ? '#!' : $menu['link_url'] ?>

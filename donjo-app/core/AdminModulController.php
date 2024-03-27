@@ -59,14 +59,14 @@ abstract class AdminModulController extends Admin_Controller
         return substr(dirname($reflection->getFileName()), 0, -1 * strlen('/Http/Controllers'));
     }
 
-    private function loadHelper()
+    private function loadHelper(): void
     {
         foreach (glob($this->moduleDirectory . '/Helpers/*.php') as $file) {
             require_once $file;
         }
     }
 
-    private function loadConfig()
+    private function loadConfig(): void
     {
         foreach (glob($this->moduleDirectory . '/Config/*.php') as $file) {
             $this->mergeConfigFrom($file, substr(basename($file), 0, -4));
