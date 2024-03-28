@@ -650,6 +650,6 @@ class Migrasi_2024032771 extends MY_model
 
     protected function migrasi_2024032051($hasil)
     {
-        return $hasil && DB::table('setting_modul')->where('slug', 'beranda')->delete();
+        return $hasil && DB::table('setting_modul')->whereIn('slug', ['beranda', 'home'])->delete();
     }
 }
