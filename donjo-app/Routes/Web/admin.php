@@ -2040,7 +2040,7 @@ Route::group('komentar', static function (): void {
     Route::get('/datatables', 'Komentar@datatables')->name('komentar.datatables');
     Route::post('/insert', 'Komentar@insert')->name('komentar.insert');
     Route::post('/update/{id?}', 'Komentar@update')->name('komentar.update');
-    Route::get('/delete/{id}', 'Komentar@delete')->name('komentar.delete');
+    Route::get('/delete/{parent_id?}/{id?}', 'Komentar@delete')->name('komentar.delete');
     Route::post('/delete_all', 'Komentar@delete_all')->name('komentar.delete_all');
     Route::get('/lock/{id?}', 'Komentar@lock')->name('komentar.lock');
     Route::get('/detail/{id?}', 'Komentar@detail')->name('komentar.detail');

@@ -33,6 +33,7 @@
 							</select>
 						</div>
 					</div>
+					<?php if ($kk_level): ?>
 					<div class="form-group" id="penerima" <?= $data['sasaran'] == '2' ? '' : 'style="display: none;"' ?>>
 						<label class="col-sm-3 control-label" for="penerima">Penerima</label>
 						<div class="col-sm-9">
@@ -46,11 +47,12 @@
                                 ?>
 
 								<?php foreach ($kk_level as $key => $value): ?>
-									<option value="<?= $key ?>" <?= in_array($key, $data['kk_level']) ? 'selected' : '' ?>><?= $value ?></option>
+									<option value="<?= $key ?>" <?= in_array($key, $data['kk_level'] ?? []) ? 'selected' : '' ?>><?= $value ?></option>
 								<?php endforeach ?>
 							</select>
 						</div>
 					</div>
+					<?php endif ?>
 					<div class="form-group">
 						<label class="control-label col-sm-3" for="nama">Nama Program</label>
 						<div class="col-sm-8">

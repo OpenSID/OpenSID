@@ -163,7 +163,9 @@ class Komentar extends Admin_Controller
     {
         isCan('u');
 
-        $data['komentar']    = ModelsKomentar::with('children')->find($id)->toArray();
+        $komentar = ModelsKomentar::with('children')->find($id) ?? show_404();
+
+        $data['komentar']    = $komentar->toArray();
         $data['form_action'] = site_url("komentar/balas/{$id}");
 
         view('admin.komentar.detail', $data);
@@ -193,14 +195,21 @@ class Komentar extends Admin_Controller
         redirect_with('success', 'Komentar berhasil disimpan', "{$this->controller}/detail/{$id}");
     }
 
-    public function delete($id = ''): void
+    public function delete($parent_id = null, $id = ''): void
     {
         isCan('h');
-        if (ModelsKomentar::destroy($id)) {
-            redirect_with('success', 'Berhasil Hapus Data');
+
+        if (! empty($id)) {
+            $to = site_url("komentar/detail/{$parent_id}");
+        } else {
+            $to = site_url('komentar');
+            $id = $parent_id;
         }
 
-        redirect_with('error', 'Gagal Hapus Data');
+        if (ModelsKomentar::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', $to);
+        }
+        redirect_with('error', 'Gagal Hapus Data', $to);
     }
 
     public function delete_all(): void

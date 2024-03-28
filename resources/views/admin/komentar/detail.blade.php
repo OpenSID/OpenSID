@@ -24,6 +24,7 @@
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
+    @include('admin.layouts.components.konfirmasi_hapus')
 
     <div class="row">
         <div class="col-md-12">

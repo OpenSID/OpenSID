@@ -44,7 +44,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// TODO:: Pisahkan isi data komentar artikel dan pesan masuk layanan mandiri pada tabel yang berbeda
 class Komentar extends BaseModel
 {
     use ConfigId;
@@ -167,14 +166,22 @@ class Komentar extends BaseModel
 
     public function getUrlArtikelAttribute()
     {
-        $artikel    = Artikel::findOrFail($this->id_artikel);
-        $tgl_upload = Carbon::createFromFormat('Y-m-d H:i:s', $artikel->tgl_upload)->format('Y/m/d');
+        $artikel    = Artikel::find($this->id_artikel);
+        if ($artikel) {
+            $tgl_upload = Carbon::createFromFormat('Y-m-d H:i:s', $artikel->tgl_upload)->format('Y/m/d');
+    
+            return site_url("artikel/{$tgl_upload}/{$artikel->slug}");
+        }
 
-        return site_url("artikel/{$tgl_upload}/{$artikel->slug}");
+        return null;
     }
 
     protected static function booted()
     {
+        self::boot();
+        static::addGlobalScope('isKomentar', static function (Builder $builder) {
+            $builder->whereNotIn('id_artikel', ['null', '775']);
+        });
         static::deleting(static function ($komentar) {
             $komentar->children()->delete();
         });

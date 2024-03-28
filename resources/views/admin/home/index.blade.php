@@ -34,8 +34,6 @@
 
     @include('admin.home.rilis')
 
-    @include('admin.home.bantuan')
-
     <div class="row">
         @foreach ($shortcut as $sc)
             @if (can('b', $sc['akses']))

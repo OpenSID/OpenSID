@@ -83,6 +83,10 @@ if (! function_exists('can')) {
      */
     function can($akses = null, $slugModul = null, $adminOnly = false)
     {
+        if ($slugModul === Modul::DEFAULT_MODUL['beranda']['slug']) {
+            return true;
+        }
+
         $grupId   = auth()->id_grup;
         $slugGrup = UserGrup::find($grupId)->slug;
         $data     = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {

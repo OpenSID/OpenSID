@@ -176,6 +176,7 @@ class Shortcut extends BaseModel
             'Penduduk Laki-laki' => Penduduk::status()->where('sex', 1)->count(),
             'Penduduk Perempuan' => Penduduk::status()->where('sex', 2)->count(),
             'Penduduk TagID'     => Penduduk::status()->whereNotNull('tag_id_card')->count(),
+            'Dokumen Penduduk'   => Penduduk::status()->withCount('dokumen')->get()->sum('dokumen_count'),
 
             // Keluarga
             'Keluarga'        => Keluarga::with('kepalaKeluarga')->status()->count(),
