@@ -119,8 +119,8 @@
         $input['umur_ayah']        = str_pad($input['umur_ayah'], 3, '0', STR_PAD_LEFT);
     }
 
-    if ($input['id_pend_Pelapor']) {
-        $pelapor                        = $this->surat_model->get_data_surat($input['id_pend_Pelapor']);
+    if ($input['id_pend_pelapor']) {
+        $pelapor                        = $this->surat_model->get_data_surat($input['id_pend_pelapor']);
         $input['nik_pelapor']           = get_nik($pelapor['nik']);
         $input['nama_pelapor']          = $pelapor['nama'];
         $input['tanggal_lahir_pelapor'] = $pelapor['tanggallahir'];
@@ -144,8 +144,8 @@
         $input['umur_pelapor']        = str_pad($input['umur_pelapor'], 3, '0', STR_PAD_LEFT);
     }
 
-    if ($input['id_pend_Saksi_I']) {
-        $saksi1                        = $this->surat_model->get_data_surat($input['id_pend_Saksi_I']);
+    if ($input['id_pend_saksi_i']) {
+        $saksi1                        = $this->surat_model->get_data_surat($input['id_pend_saksi_i']);
         $input['nik_saksi1']           = get_nik($saksi1['nik']);
         $input['nama_saksi1']          = $saksi1['nama'];
         $input['tanggal_lahir_saksi1'] = $saksi1['tanggallahir'];
@@ -169,8 +169,8 @@
         $input['umur_saksi1']        = str_pad($input['umur_saksi1'], 3, '0', STR_PAD_LEFT);
     }
 
-    if ($input['id_pend_Saksi_II']) {
-        $saksi2                        = $this->surat_model->get_data_surat($input['id_pend_Saksi_II']);
+    if ($input['id_pend_saksi_ii']) {
+        $saksi2                        = $this->surat_model->get_data_surat($input['id_pend_saksi_ii']);
         $input['nik_saksi2']           = get_nik($saksi2['nik']);
         $input['nama_saksi2']          = $saksi2['nama'];
         $input['tanggal_lahir_saksi2'] = $saksi2['tanggallahir'];
