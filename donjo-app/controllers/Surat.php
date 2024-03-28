@@ -249,12 +249,12 @@ class Surat extends Admin_Controller
             if ($this->request['sebagai']) {
                 $name_pelapor = $this->request['sebagai'];
                 if ($this->request['id_pend_' . $name_pelapor]) {
-                    $pelapor['id_pend_Pelapor'] = $this->request['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['id_pend_pelapor'] = $this->request['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
-                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['id_pend_pelapor'] = null;
                     $pelapor['nik_pelapor']     = $this->request[$name_pelapor]['nik'];
                     $pelapor['nama_pelapor']    = $this->request[$name_pelapor]['nama'];
                 }
@@ -361,12 +361,12 @@ class Surat extends Admin_Controller
             if ($cetak['input']['sebagai']) {
                 $name_pelapor = $cetak['input']['sebagai'];
                 if ($cetak['input']['id_pend_' . $name_pelapor]) {
-                    $pelapor['id_pend_Pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
-                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['id_pend_pelapor'] = null;
                     $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
                     $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
                 }
@@ -511,12 +511,12 @@ class Surat extends Admin_Controller
             if ($cetak['input']['sebagai']) {
                 $name_pelapor = $cetak['input']['sebagai'];
                 if ($cetak['input']['id_pend_' . $name_pelapor]) {
-                    $pelapor['id_pend_Pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
-                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['id_pend_pelapor'] = null;
                     $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
                     $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
                 }
