@@ -2188,7 +2188,7 @@ Route::group('dtks', static function (): void {
     Route::get('/loadRecentImpor', 'Dtks@loadRecentImpor')->name('dtks.loadRecentImpor');
     Route::get('/ekspor', 'Dtks@ekspor')->name('dtks.ekspor');
     Route::match(['GET', 'POST'], '/cetak2/{id?}', 'Dtks@cetak2')->name('dtks.cetak2');
-    Route::post('/new/{id_rtm}', 'Dtks@new')->name('dtks.new');
+    Route::match(['GET', 'POST'], '/new/{id_rtm}', 'Dtks@new')->name('dtks.new');
     Route::get('/latest/{id_rtm}', 'Dtks@latest')->name('dtks.latest');
     Route::get('/form/{id}', 'Dtks@form')->name('dtks.form');
     Route::post('/savePengaturan/{versi_dtks}', 'Dtks@savePengaturan')->name('dtks.savePengaturan');

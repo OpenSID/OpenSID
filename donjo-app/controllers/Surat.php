@@ -156,11 +156,11 @@ class Surat extends Admin_Controller
             }
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
-
             if (! empty($kategori)) {
                 $form_kategori   = [];
                 $kategori_isian  = [];
                 $filter_kategori = collect($data['surat']->kode_isian)->filter(static function ($item) use (&$kategori_isian): bool {
+                    $item->kategori                    = strtolower($item->kategori);
                     $kategori_isian[$item->kategori][] = $item;
 
                     return isset($item->kategori);
@@ -186,7 +186,6 @@ class Surat extends Admin_Controller
                 $data['surat']['kode_isian'] = $this->groupByLabel($data['surat']->kode_isian);
             }
             $this->get_data_untuk_form($url, $data);
-
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
             $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = ci_route('surat.pratinjau', $url);

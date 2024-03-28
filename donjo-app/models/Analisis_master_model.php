@@ -244,7 +244,7 @@ class Analisis_master_model extends MY_Model
 
         $this->config_id()->where('id_master', $id)->delete('analisis_respon_hasil');
 
-        $this->config_id()->where('id_master', $id)->delete('analisis_partisipasi');
+        $this->db->where('id_master', $id)->delete('analisis_partisipasi');
 
         $this->config_id()->where('id_master', $id)->delete('analisis_periode');
 

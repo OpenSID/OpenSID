@@ -156,9 +156,8 @@ function get_key_form_kategori($data, $utama = false)
             $judul = 'Utama';
         }
 
-        return [$key => $judul];
+        return [strtolower($key) => $judul];
     })->toArray();
-
     if (! $utama) {
         unset($kategori['individu']);
     }
