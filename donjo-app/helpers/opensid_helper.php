@@ -35,14 +35,15 @@
  *
  */
 
-use App\Enums\Statistik\StatistikEnum;
-use App\Models\Bantuan;
-use App\Models\RefJabatan;
-use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use App\Models\Bantuan;
+use App\Models\Suplemen;
 use voku\helper\AntiXSS;
+use App\Models\RefJabatan;
+use Illuminate\Support\Str;
+use App\Enums\Statistik\StatistikEnum;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * VERSION
@@ -964,9 +965,7 @@ function buat_slug(array $data_slug): string
 
 function namafile($str): string
 {
-    $tgl = date('d_m_Y');
-
-    return urlencode(underscore($str, true, true) . '_' . $tgl);
+    return Str::slug($str, '_') . '_' . date('d_m_Y');
 }
 
 function luas($int = 0, $satuan = 'meter')

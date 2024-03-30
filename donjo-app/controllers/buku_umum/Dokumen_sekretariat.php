@@ -229,13 +229,10 @@ class Dokumen_sekretariat extends Admin_Controller
 
             if ($this->input->post('satuan')) {
                 $data['satuan'] = $result = $this->upload_dokumen();
-                if ($result == false) {
-                    return false;
-                }
             }
 
-            if ($result === null && $data['tipe'] == 1) {
-                return false;
+            if ($result === false && $data['tipe'] == 1) {
+                redirect_with('error', 'Data gagal disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
             }
 
             Dokumen::create($data);
@@ -458,6 +455,8 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
+
+        log_message('notice', 'anu : ' . print_r($data['url'], true));
 
         if ($data['url'] != null) {
             redirect($data['url']);
