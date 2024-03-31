@@ -164,6 +164,7 @@ class Setting_model extends MY_Model
     public function update_setting($data)
     {
         $hasil = true;
+        $this->load->model('theme_model');
 
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website'] != '') {
