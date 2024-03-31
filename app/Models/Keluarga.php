@@ -124,6 +124,18 @@ class Keluarga extends BaseModel
         });
     }
 
+    public function scopeLogTerakhir($query, $configId, $tgl)
+    {
+        $tgl    = date('Y-m-d', strtotime($tgl . ' + 1 day'));
+        $sqlRaw = "select max(id) id from log_keluarga where id_kk != 0 and config_id = {$configId} and tgl_peristiwa < '{$tgl}'  group by id_kk";
+
+        return $query->join('log_keluarga', static function ($q) use ($configId) {
+            $q->on('log_keluarga.id_kk', '=', 'tweb_keluarga.id')
+                ->where('log_keluarga.config_id', '=', $configId)
+                ->whereNotIn('log_keluarga.id_peristiwa', [2, 3, 4]);
+        })->join(DB::raw("({$sqlRaw}) as log"), 'log.id', '=', 'log_keluarga.id');
+    }
+
     protected static function nomerKKSementara()
     {
         // buat jadi orm laravel

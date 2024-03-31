@@ -35,19 +35,76 @@
  *
  */
 
+namespace App\Enums\Statistik;
+
+use App\Enums\BaseEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2310_ke_2311 extends MY_Model
+class StatistikEnum extends BaseEnum
 {
-    public function up()
+    public const PENDUDUK = 'penduduk';
+    public const KELUARGA = 'keluarga';
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
+        return [
+            self::PENDUDUK => 'Penduduk',
+            self::KELUARGA => 'Keluarga / KK',
+        ];
+    }
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2304');
+    /**
+     * Get all statistik
+     */
+    public static function allStatistik(): array
+    {
+        return [
+            self::PENDUDUK => StatistikPendudukEnum::$data,
+            self::KELUARGA => StatistikKeluargaEnum::$data,
+        ];
+    }
 
-        status_sukses($hasil);
+    /**
+     * Get all statistik merge
+     */
+    public static function allStatistikMerge(): array
+    {
+        return collect(self::allStatistik())->collapse()->pluck('slug', 'key')->toArray();
+    }
 
-        return $hasil;
+    /**
+     * Get slug from key
+     *
+     * @param mixed $key
+     */
+    public static function slugFromKey($key): ?string
+    {
+        return self::allStatistikMerge()[$key] ?? null;
+    }
+
+    /**
+     * Get key form slug
+     *
+     * @param mixed $slug
+     */
+    public static function keyFromSlug($slug): ?string
+    {
+        return array_search($slug, self::allStatistikMerge());
+    }
+
+    /**
+     * Get label from slug
+     *
+     * @param mixed $slug
+     */
+    public static function labelFromSlug($slug): ?string
+    {
+        $all = collect(self::allStatistik())->collapse()->pluck('label', 'slug')->toArray();
+
+        return $all[$slug] ?? null;
     }
 }
