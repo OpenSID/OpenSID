@@ -220,24 +220,25 @@ class Validasi
 
         $os = $this->ci->agent->platform();
 
-        try {
-            $client = new GuzzleHttp\Client();
-            $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
-                'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
-                'form_params' => [
-                    'kode_desa'  => kode_wilayah($this->ci->header['desa']['kode_desa']),
-                    'ip_address' => $this->ci->input->ip_address(),
-                    'token'      => $this->ci->setting->layanan_opendesa_token,
-                    'waktu'      => date('Y-m-d h:i:sa'),
-                    'browser'    => $browser,
-                    'os'         => $os,
-                    'domain'     => get_domain(APP_URL),
-                ],
-            ])->getBody();
-        } catch (ClientException $cx) {
-            log_message('error', $cx);
-        } catch (Exception $e) {
-            log_message('error', $e);
+            try {
+                $client = new GuzzleHttp\Client();
+                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
+                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'form_params' => [
+                        'kode_desa'  => kode_wilayah($this->ci->header['desa']['kode_desa']),
+                        'ip_address' => $this->ci->input->ip_address(),
+                        'token'      => $this->ci->setting->layanan_opendesa_token,
+                        'waktu'      => date('Y-m-d h:i:sa'),
+                        'browser'    => $browser,
+                        'os'         => $os,
+                        'domain'     => get_domain(APP_URL),
+                    ],
+                ])->getBody();
+            } catch (ClientException $cx) {
+                log_message('error', $cx);
+            } catch (Exception $e) {
+                log_message('error', $e);
+            }
         }
     }
 }

@@ -43,8 +43,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 <script>
 	$(function() {
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete( {
+		var keyword = <?= $keyword ?>;
+		$("#cari").autocomplete({
 			source: keyword,
 			maxShowItems: 10,
 		});
@@ -54,11 +54,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content-header">
 		<h1>Pengelompokan Rumah Tangga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar Rumah Tangga</li>
 		</ol>
 	</section>
-	<?php if ($pesan_rtm): ?>
+	<?php if ($pesan_rtm) : ?>
 		<section class="content" id="maincontent">
 			<div class="box box-info">
 				<div class="box-header with-border">
@@ -72,17 +72,17 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				</div>
 			</div>
 		</section>
-	<?php else: ?>
+	<?php else : ?>
 		<section class="content" id="maincontent">
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<?php if (can('u')): ?>
+					<?php if (can('u')) : ?>
 						<a href="<?= site_url('rtm/form_old'); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Rumah Tangga Per Penduduk" title="Tambah Dari Data Penduduk" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i>Tambah Rumah Tangga</a>
 					<?php endif; ?>
-					<?php if (can('h')): ?>
+					<?php if (can('h')) : ?>
 						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('rtm/delete_all'); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					<?php endif; ?>
-					<?php if (can('u')): ?>
+					<?php if (can('u')) : ?>
 						<a href="<?= site_url('suplemen/impor/'); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block btn-import" title="Impor Data" data-target="#impor" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i>Impor</a>
 					<?php endif; ?>
 					<div class="btn-group-vertical">
@@ -103,72 +103,72 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<form id="mainform" name="mainform" method="post">
 							<div class="row">
 								<div class="col-sm-8">
-									<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('rtm/filter/status_dasar')?>')">
+									<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?= site_url('rtm/filter/status_dasar') ?>')">
 										<option value="">Pilih Status</option>
 										<option value="1" <?= selected(1, $status_dasar); ?>>Aktif</option>
 										<option value="2" <?= selected(2, $status_dasar); ?>>Tidak Aktif</option>
 									</select>
-									<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('rtm/filter/sex')?>')">
+									<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('rtm/filter/sex') ?>')">
 										<option value="">Pilih Jenis Kelamin</option>
-										<?php foreach ($list_sex as $data): ?>
-											<option value="<?= $data['id']?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
+										<?php foreach ($list_sex as $data) : ?>
+											<option value="<?= $data['id'] ?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama']) ?></option>
 										<?php endforeach; ?>
 									</select>
 									<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('rtm/dusun'); ?>')">
 										<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
-										<?php foreach ($list_dusun as $data): ?>
-											<option value="<?= $data['dusun']?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun']); ?></option>
+										<?php foreach ($list_dusun as $data) : ?>
+											<option value="<?= $data['dusun'] ?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun']); ?></option>
 										<?php endforeach; ?>
 									</select>
-									<?php if ($dusun): ?>
-										<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('rtm/rw'); ?>')" >
+									<?php if ($dusun) : ?>
+										<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('rtm/rw'); ?>')">
 											<option value="">Pilih RW</option>
-											<?php foreach ($list_rw as $data): ?>
-												<option value="<?= $data['rw']?>" <?= selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw']); ?></option>
+											<?php foreach ($list_rw as $data) : ?>
+												<option value="<?= $data['rw'] ?>" <?= selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw']); ?></option>
 											<?php endforeach; ?>
 										</select>
 									<?php endif; ?>
-									<?php if ($rw): ?>
+									<?php if ($rw) : ?>
 										<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('rtm/rt'); ?>')">
 											<option value="">Pilih RT</option>
-											<?php foreach ($list_rt as $data): ?>
-												<option value="<?= $data['rt']?>" <?= selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt']); ?></option>
+											<?php foreach ($list_rt as $data) : ?>
+												<option value="<?= $data['rt'] ?>" <?= selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt']); ?></option>
 											<?php endforeach; ?>
 										</select>
 									<?php endif; ?>
 								</div>
 								<div class="col-sm-4">
 									<div class="input-group input-group-sm pull-right">
-										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url('rtm/filter/cari'); ?>');$('#'+'mainform').submit();}">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari) ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url('rtm/filter/cari'); ?>');$('#'+'mainform').submit();}">
 										<div class="input-group-btn">
-											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url('rtm/filter/cari'); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url('rtm/filter/cari'); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="table-responsive">
-								<?php if ($judul_statistik): ?>
+								<?php if ($judul_statistik) : ?>
 									<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
 								<?php endif; ?>
 								<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 									<thead class="bg-gray disabled color-palette">
 										<tr>
-											<th><input type="checkbox" id="checkall"/></th>
+											<th><input type="checkbox" id="checkall" /></th>
 											<th>No</th>
 											<th>Aksi</th>
 											<th>Foto</th>
-											<?php if ($order_by == 2): ?>
+											<?php if ($order_by == 2) : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/1'); ?>">Nomor Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
-											<?php elseif ($order_by == 1): ?>
+											<?php elseif ($order_by == 1) : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/2'); ?>">Nomor Rumah Tangga <i class='fa fa-sort-desc fa-sm'></i></a></th>
-											<?php else: ?>
+											<?php else : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/1'); ?>">Nomor Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
 											<?php endif; ?>
-											<?php if ($order_by == 4): ?>
+											<?php if ($order_by == 4) : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/3'); ?>">Kepala Rumah Tangga <i class='fa fa-sort-asc fa-sm'></i></a></th>
-											<?php elseif ($order_by == 3): ?>
+											<?php elseif ($order_by == 3) : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/4'); ?>">Kepala Rumah Tangga <i class='fa fa-sort-desc fa-sm'></i></a></th>
-											<?php else: ?>
+											<?php else : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/3'); ?>">Kepala Rumah Tangga <i class='fa fa-sort fa-sm'></i></a></th>
 											<?php endif; ?>
 											<th width="10%">NIK</th>
@@ -178,46 +178,44 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<th><?= ucwords($this->setting->sebutan_dusun); ?></th>
 											<th>RW</th>
 											<th>RT</th>
-											<?php if ($order_by == 6): ?>
+											<?php if ($order_by == 6) : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/5'); ?>">Tanggal Terdaftar <i class='fa fa-sort-asc fa-sm'></i></a></th>
-											<?php elseif ($order_by == 5): ?>
+											<?php elseif ($order_by == 5) : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/6'); ?>">Tanggal Terdaftar <i class='fa fa-sort-desc fa-sm'></i></a></th>
-											<?php else: ?>
+											<?php else : ?>
 												<th><a href="<?= site_url('rtm/filter/order_by/5'); ?>">Tanggal Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
 											<?php endif; ?>
 										</tr>
 									</thead>
 									<tbody>
-										<?php if ($main): ?>
-											<?php foreach ($main as $key => $data): ?>
+										<?php if ($main) : ?>
+											<?php foreach ($main as $key => $data) : ?>
 												<tr>
-													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk']?>" /></td>
+													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['no_kk'] ?>" /></td>
 													<td class="padat"><?= ($paging->offset + $key + 1); ?></td>
 													<td class="aksi">
 														<a href="<?= site_url("rtm/anggota/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
-														<?php if (can('u') && $data['status_dasar'] == 1): ?>
+														<?php if (can('u') && $data['status_dasar'] == 1) : ?>
 															<a href="<?= site_url("rtm/ajax_add_anggota/{$data['id']}"); ?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
 															<a href="<?= site_url("rtm/edit_nokk/{$data['id']}"); ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
 														<?php endif; ?>
-														<?php if (can('h')): ?>
+														<?php if (can('h')) : ?>
 															<a href="#" data-href="<?= site_url("rtm/delete/{$data['no_kk']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<?php endif; ?>
-														<?php if ($data['terdaftar_dtks']) : ?>
+														<?php if ($data['terdaftar_dtks'] && can('u', 'dtks')) : ?>
 															<a href="<?= site_url("dtks/new/{$data['id']}"); ?>" onclick="show_confirm(this)" data-remote="false" data-toggle="modal" data-target="#show_confirm_modal" class="btn bg-purple btn-flat btn-sm" title="DTKS"><i class="fa fa-plus "></i> DTKS</a>
 														<?php endif; ?>
 													</td>
 													<td class="padat">
-														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
+														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk" />
 													</td>
 													<td>
-														<label><?= $data['no_kk']?></label>
+														<label><?= $data['no_kk'] ?></label>
 													</td>
 													<td><?= strtoupper($data['kepala_kk']); ?></td>
 													<td><?= strtoupper($data['nik']); ?></td>
 													<td><?= ($data['terdaftar_dtks']) ? 'Terdaftar' : 'Tidak Terdaftar'; ?></td>
-													<td class="padat">
-														<a href="<?= site_url("rtm/anggota/{$data['id']}"); ?>"><?= $data['jumlah_anggota']?></a>
-													</td>
+													<td class="padat"><?= $data['jumlah_anggota'] ?></td>
 													<td><?= strtoupper($data['alamat']); ?></td>
 													<td><?= strtoupper($data['dusun']); ?></td>
 													<td><?= strtoupper($data['rw']); ?></td>
@@ -225,7 +223,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 													<td><?= tgl_indo($data['tgl_daftar']); ?></td>
 												</tr>
 											<?php endforeach; ?>
-										<?php else: ?>
+										<?php else : ?>
 											<tr>
 												<td class="text-center" colspan="14">Data Tidak Tersedia</td>
 											</tr>
@@ -241,43 +239,42 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</section>
 	<?php endif; ?>
 </div>
-<div class='modal fade' id='show_confirm_modal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
-	<div class='modal-dialog modal-lg'>
-		<div class='modal-content'>
-			<div class='modal-header'>
-				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'>
-					<i class='fa fa-exclamation-triangle text-blue'></i>&nbsp;&nbsp;&nbsp;Pemberitahuan
-				</h4>
-			</div>
-			<div class='modal-body'>
-				<div class="col-sm-12">
-					<div class="box" style="border-top:none">
-						<a href="#" id="tujuan" class="btn btn-social pull-right btn-flat btn-success btn-sm" >
-							<i class='fa fa-plus'></i> Ubah/Buat DTKS Baru
-						</a>
-						<div>
-						<?php
-                            view('admin.dtks.info_new_dtks');
-?>
+<?php if (can('u', 'dtks')) : ?>
+	<div class='modal fade' id='show_confirm_modal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+		<div class='modal-dialog modal-lg'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='modal-title' id='myModalLabel'>
+						<i class='fa fa-exclamation-triangle text-blue'></i>&nbsp;&nbsp;&nbsp;Pemberitahuan
+					</h4>
+				</div>
+				<div class='modal-body'>
+					<div class="col-sm-12">
+						<div class="box" style="border-top:none">
+							<a href="#" id="tujuan" class="btn btn-social pull-right btn-flat btn-success btn-sm">
+								<i class='fa fa-plus'></i> Ubah/Buat DTKS Baru
+							</a>
+							<div>
+								<?php view('admin.dtks.info_new_dtks'); ?>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class='modal-footer'>
-				<button type="button" class="btn pull-left btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<div class='modal-footer'>
+					<button type="button" class="btn pull-left btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+<?php endif ?>
 <?php $this->load->view('global/confirm_delete'); ?>
 <?php $this->load->view('rtm/impor'); ?>
 <script>
-	function show_confirm(el){
+	function show_confirm(el) {
 		$('#versi')
-			.replaceWith("<?=App\Enums\Dtks\DtksEnum::VERSION_LIST[App\Enums\Dtks\DtksEnum::VERSION_CODE]?>")
-		$('#rtm_clear').attr('href', "<?=site_url('rtm/clear')?>");
+			.replaceWith("<?= App\Enums\Dtks\DtksEnum::VERSION_LIST[App\Enums\Dtks\DtksEnum::VERSION_CODE] ?>")
+		$('#rtm_clear').attr('href', "<?= site_url('rtm/clear') ?>");
 		$('#tujuan').attr('href', $(el).attr('href'))
-
 	}
 </script>
