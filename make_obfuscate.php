@@ -48,6 +48,7 @@ $onlyDirectory = [
     'donjo-app/controllers',
     'donjo-app/models',
     'donjo-app/third_party/pelanggan/libraries',
+    'donjo-app/third_party/MX',
 ];
 
 $exceptDirectory = [
@@ -66,6 +67,7 @@ $exceptFile = [
     'general_helper.php',
     'Install.php',
     'ViewServiceProvider.php',
+    'Router.php',
 ];
 
 foreach ($onlyDirectory as $list) {
