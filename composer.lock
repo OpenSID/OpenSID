@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e454a7febe3522a562eb62cd9e580da",
+    "content-hash": "fabb18c034bd0c80d45068be1844b309",
     "packages": [
         {
             "name": "agungsugiarto/codeigniter-datables",
@@ -4486,16 +4486,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "6.6.2",
+            "version": "7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "4b795ce4049e2038c79d0ec940de78f17cbe4694"
+                "reference": "c011b5164178ac5224e658bf2aed713479fc78ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/4b795ce4049e2038c79d0ec940de78f17cbe4694",
-                "reference": "4b795ce4049e2038c79d0ec940de78f17cbe4694",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/c011b5164178ac5224e658bf2aed713479fc78ae",
+                "reference": "c011b5164178ac5224e658bf2aed713479fc78ae",
                 "shasum": ""
             },
             "type": "component",
@@ -4520,7 +4520,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT-only"
+                "GPL-2.0-or-later"
             ],
             "description": "Web based JavaScript HTML WYSIWYG editor control.",
             "homepage": "https://www.tiny.cloud/",
@@ -4539,9 +4539,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/6.6.2"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/7.0.0"
             },
-            "time": "2023-08-09T04:58:32+00:00"
+            "time": "2024-03-20T05:46:56+00:00"
         }
     ],
     "aliases": [],
@@ -4558,5 +4558,5 @@
         "php": "^7.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
