@@ -1,4 +1,4 @@
-Di rilis ini, versi 2403.1.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2404.0.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @totoprayogo1916 yang terus berkontribusi.
 
