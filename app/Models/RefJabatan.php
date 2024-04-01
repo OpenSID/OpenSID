@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
@@ -106,5 +107,15 @@ class RefJabatan extends BaseModel
     public function scopeUrut($query, $order = 'ASC')
     {
         return $query->orderBy(DB::raw('CASE WHEN jenis = 0 THEN 9999 ELSE jenis END'), $order);
+    }
+
+    public static function scopeNonAktif()
+    {
+        return self::select('id')->whereNotExists(static function ($query) {
+            $query->select(DB::raw(1))
+                ->from('tweb_desa_pamong')
+                ->where('tweb_desa_pamong.pamong_status', StatusEnum::YA)
+                ->whereRaw('ref_jabatan.id = tweb_desa_pamong.jabatan_id');
+        })->get();
     }
 }

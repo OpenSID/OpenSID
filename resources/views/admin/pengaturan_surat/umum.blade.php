@@ -104,14 +104,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
-                    <label id="n1"
+                    <label id="lmg1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($margin_global)">
-                        <input id="m1" type="radio" name="margin_global" @checked($margin_global)
+                        <input id="img1" type="radio" name="margin_global" @checked($margin_global)
                             class="form-check-input" type="radio" value="1" autocomplete="off">Ya
                     </label>
-                    <label id="n2"
+                    <label id="lmg2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$margin_global)">
-                        <input id="m2" type="radio" name="margin_global" class="form-check-input"
+                        <input id="img2" type="radio" name="margin_global" class="form-check-input"
                             @checked(!$margin_global) type="radio" value="0" autocomplete="off">Tidak
                     </label>
                 </div>
@@ -165,14 +165,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="mandiri">Tampilkan QR Code</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="n1"
+                    <label id="lq1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->qr_code)">
-                        <input id="q1" type="radio" name="qr_code" class="form-check-input" type="radio"
+                        <input id="iq1" type="radio" name="qr_code" class="form-check-input" type="radio"
                             value="1" @checked($suratMaster->qr_code) autocomplete="off">Ya
                     </label>
-                    <label id="n2"
+                    <label id="lq2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->qr_code)">
-                        <input id="q2" type="radio" name="qr_code" class="form-check-input" type="radio"
+                        <input id="iq2" type="radio" name="qr_code" class="form-check-input" type="radio"
                             value="0" @checked(!$suratMaster->qr_code) autocomplete="off">Tidak
                     </label>
                 </div>
@@ -183,14 +183,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="mandiri">Tampilkan Header</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="n1"
+                    <label id="lh1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($header)">
-                        <input id="q1" type="radio" name="header" class="form-check-input" type="radio"
+                        <input id="ih1" type="radio" name="header" class="form-check-input" type="radio"
                             value="1" @checked($header) autocomplete="off">Ya
                     </label>
-                    <label id="n2"
+                    <label id="lh2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$header)">
-                        <input id="q2" type="radio" name="header" class="form-check-input" type="radio"
+                        <input id="ih2" type="radio" name="header" class="form-check-input" type="radio"
                             value="0" @checked(!$header) autocomplete="off">Tidak
                     </label>
                 </div>
@@ -201,14 +201,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="mandiri">Tampilkan Footer</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="n1"
+                    <label id="lf1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($footer)">
-                        <input id="q1" type="radio" name="footer" class="form-check-input" type="radio"
+                        <input id="if1" type="radio" name="footer" class="form-check-input" type="radio"
                             value="1" @checked($footer) autocomplete="off">Ya
                     </label>
-                    <label id="n2"
+                    <label id="lf2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$footer)">
-                        <input id="q2" type="radio" name="footer" class="form-check-input" type="radio"
+                        <input id="if2" type="radio" name="footer" class="form-check-input" type="radio"
                             value="0" @checked(!$footer) autocomplete="off">Tidak
                     </label>
                 </div>
@@ -219,14 +219,14 @@
         <div class="form-group">
             <label class="col-sm-3 control-label" for="logo_garuda">Logo Burung Garuda</label>
             <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                <label id="o1"
+                <label id="lbg1"
                     class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->logo_garuda)">
-                    <input id="bg1" type="radio" name="logo_garuda" class="form-check-input" type="radio"
+                    <input id="ibg1" type="radio" name="logo_garuda" class="form-check-input" type="radio"
                         value="1" @checked($suratMaster->logo_garuda) autocomplete="off">Ya
                 </label>
-                <label id="o2"
+                <label id="lbg2"
                     class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->logo_garuda)">
-                    <input id="bg2" type="radio" name="logo_garuda" class="form-check-input" type="radio"
+                    <input id="ibg2" type="radio" name="logo_garuda" class="form-check-input" type="radio"
                         value="0" @checked(!$suratMaster->logo_garuda) autocomplete="off">Tidak
                 </label>
             </div>
@@ -236,14 +236,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="kecamatan">Kirim ke Kecamatan</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="n1"
+                    <label id="lk1"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->kecamatan)">
-                        <input id="q1" type="radio" name="kecamatan" class="form-check-input"
+                        <input id="ik1" type="radio" name="kecamatan" class="form-check-input"
                             type="radio" value="1" @checked($suratMaster->kecamatan) autocomplete="off">Ya
                     </label>
-                    <label id="n2"
+                    <label id="lk2"
                         class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->kecamatan)">
-                        <input id="q2" type="radio" name="kecamatan" class="form-check-input"
+                        <input id="ik2" type="radio" name="kecamatan" class="form-check-input"
                             type="radio" value="0" @checked(!$suratMaster->kecamatan) autocomplete="off">Tidak
                     </label>
                 </div>
@@ -253,14 +253,14 @@
         <div class="form-group">
             <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
             <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                <label id="m1"
+                <label id="lm1"
                     class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->mandiri)">
-                    <input id="g1" type="radio" name="mandiri" class="form-check-input" type="radio"
+                    <input id="im1" type="radio" name="mandiri" class="form-check-input" type="radio"
                         value="1" @checked($suratMaster->mandiri) autocomplete="off">Ya
                 </label>
-                <label id="m2"
+                <label id="lm2"
                     class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->mandiri)">
-                    <input id="g2" type="radio" name="mandiri" class="form-check-input" type="radio"
+                    <input id="im2" type="radio" name="mandiri" class="form-check-input" type="radio"
                         value="0" @checked(!$suratMaster->mandiri) autocomplete="off">Tidak
                 </label>
             </div>

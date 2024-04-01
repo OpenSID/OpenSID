@@ -128,7 +128,8 @@ class Database_model extends MY_Model
         '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => '24.01'],
         '24.01'   => ['migrate' => 'migrasi_2401_ke_2402', 'nextVersion' => '24.02'],
         '24.02'   => ['migrate' => 'migrasi_2402_ke_2403', 'nextVersion' => '24.03'],
-        '24.03'   => ['migrate' => 'migrasi_2403_ke_2404', 'nextVersion' => null],
+        '24.03'   => ['migrate' => 'migrasi_2403_ke_2404', 'nextVersion' => '24.04'],
+        '24.04'   => ['migrate' => 'migrasi_2404_ke_2405', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -233,8 +234,11 @@ class Database_model extends MY_Model
             $this->_migrasi_db_cri();
         }
 
-        // Lakukan migrasi ini untuk memperbaiki collation
-        $this->jalankan_migrasi('migrasi_jalan');
+        // Migrasi dev
+        $this->jalankan_migrasi('migrasi_dev', false);
+
+        // Migrasi yang selalu dijalankan
+        $this->jalankan_migrasi('migrasi_jalan', false);
 
         // Lengkapi folder desa
         folder_desa();

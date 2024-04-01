@@ -6,6 +6,7 @@
                 <td>TIPE</td>
                 <td>NAMA</td>
                 <td>PLACEHOLDER</td>
+                <td class="padat">HARUS DIISI</td>
                 <td>ATRIBUT</td>
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
@@ -47,8 +48,8 @@
                         name="kategori_pilihan_kode[{{$value->kategori}}][{{$jumlah_isian}}][]" multiple placeholder="Masukkan Pilihan"
                         @disabled($value->tipe
                         == '')>
-                        @foreach ($value->pilihan as $item)
-                        <option value="{{ $item }}" selected>{{ $item }}</option>
+                        @foreach ($value->pilihan as $pilihan)
+                        <option value="{{ $pilihan }}" selected>{{ $pilihan }}</option>
                         @endforeach
                     </select>
                     <select
@@ -120,6 +121,6 @@
             @endif
         </tbody>
     </table>
-    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="gandakan-{{$value->kategori}}" data-kategori="{{$value->kategori}}"><i
+    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="gandakan-{{ $item }}" data-kategori="{{ $item }}"><i
             class="fa fa-plus"></i></button>
 </div>

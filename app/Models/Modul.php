@@ -45,6 +45,9 @@ class Modul extends BaseModel
 {
     use ConfigId;
 
+    // TODO :: Cek agar hom_sid aktif sesuai pengaturan grup usernya
+    public const SELALU_AKTIF = ['hom_sid', 'notif', 'pengguna'];
+
     /**
      * The table associated with the model.
      *

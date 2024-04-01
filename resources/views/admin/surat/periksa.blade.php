@@ -59,11 +59,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($mandiri->syarat_surat)
-                        @foreach ($mandiri->syarat_surat as $key => $syarat )
+                    @if ($list_dokumen_syarat != null)
+                        @foreach ($list_dokumen_syarat as $key => $syarat )
                             <tr>
                                 <td class="padat"><?= ($key + 1); ?></td>
-                                <td> {{  $syarat['nama_syarat']  }}</td>
+                                <td> {{  $syarat['nama']  }}</td>
                                 <td class="padat">
                                     @if ($syarat['id'] == '-1')
                                         <strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>

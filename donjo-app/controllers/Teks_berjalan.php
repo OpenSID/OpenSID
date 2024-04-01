@@ -144,6 +144,7 @@ class Teks_berjalan extends Admin_Controller
             'tautan'       => (int) $request['tautan'],
             'judul_tautan' => htmlentities($request['judul_tautan']),
             'tipe'         => (int) $request['tipe'],
+            'status'       => (int) $request['status'],
         ];
 
         if ($id === null) {

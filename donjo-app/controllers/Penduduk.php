@@ -1006,7 +1006,7 @@ class Penduduk extends Admin_Controller
 
     public function impor()
     {
-        if (config_item('demo_mode')) {
+        if (config_item('demo_mode') || data_lengkap()) {
             redirect($this->controller);
         }
 
@@ -1022,7 +1022,7 @@ class Penduduk extends Admin_Controller
 
     public function proses_impor()
     {
-        if (config_item('demo_mode')) {
+        if (config_item('demo_mode') || data_lengkap()) {
             redirect($this->controller);
         }
 
@@ -1035,7 +1035,7 @@ class Penduduk extends Admin_Controller
 
     public function impor_bip()
     {
-        if (config_item('demo_mode') || setting('multi_desa')) {
+        if (config_item('demo_mode') || setting('multi_desa') || data_lengkap()) {
             redirect($this->controller);
         }
 
@@ -1051,7 +1051,7 @@ class Penduduk extends Admin_Controller
 
     public function proses_impor_bip()
     {
-        if (config_item('demo_mode') || setting('multi_desa')) {
+        if (config_item('demo_mode') || setting('multi_desa') || data_lengkap()) {
             redirect($this->controller);
         }
 

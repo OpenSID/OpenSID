@@ -74,6 +74,8 @@ class Koneksi_database extends CI_Controller
 
     public function desaBaru()
     {
+        $this->load->database();
+
         if ($this->session->cek_app_key) {
             // Tambahkan data sementara
             Config::create([

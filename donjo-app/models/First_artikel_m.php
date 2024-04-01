@@ -56,7 +56,7 @@ class First_artikel_m extends MY_Model
             ->from('artikel a')
             ->join('user u', 'a.id_user = u.id', 'LEFT')
             ->where('a.enabled', 1)
-            ->where('(headline = 2 or headline = 1)')
+            ->where('headline', 1)
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'))
             ->order_by('tgl_upload DESC')
             ->get()
@@ -65,7 +65,7 @@ class First_artikel_m extends MY_Model
 
     public function get_feed()
     {
-        $sumber_feed = 'https://www.covid19.go.id/feed/';
+        $sumber_feed = setting('link_feed');
         if (! cek_bisa_akses_site($sumber_feed)) {
             return null;
         }
@@ -109,7 +109,7 @@ class First_artikel_m extends MY_Model
             ->join('user u', 'a.id_user = u.id', 'LEFT')
             ->join('kategori k', 'a.id_kategori = k.id', 'LEFT')
             ->where('a.enabled', 1)
-            ->where('(a.headline != 1 and a.headline != 2)')
+            ->where('(a.headline != 1)')
             ->where('a.id_kategori NOT IN (1000)')
             ->where('a.tgl_upload <', date('Y-m-d H:i:s'));
 
@@ -244,7 +244,7 @@ class First_artikel_m extends MY_Model
             ->select('id, judul, gambar, slug, YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
             ->from('artikel')
             ->where('enabled', 1)
-            ->where('(headline = 2 or headline = 3)')
+            ->where('slider', 1)
             ->where($gambar . ' !=', '')
             ->where('tgl_upload <', date('Y-m-d H:i:s'));
 
@@ -285,7 +285,7 @@ class First_artikel_m extends MY_Model
                     ->where('enabled', 1)
                     ->where('gambar !=', '')
                     ->where('tgl_upload <', date('Y-m-d H:i:s'))
-                    ->where('(headline = 2 or headline = 3)')
+                    ->where('slider', 1)
                     ->order_by('tgl_upload DESC')
                     ->limit(10)
                     ->get('artikel')

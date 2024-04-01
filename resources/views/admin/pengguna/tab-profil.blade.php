@@ -27,7 +27,7 @@
                 </span>
             </div>
         </div>
-        @if (! empty(setting('telegram_token')))
+        @if (setting('telegram_notifikasi'))
         <div class="form-group">
             <label for="notif_telegram" class="control-label">Notifikasi Telegram</label>
             <div class="btn-group col-xs-12 col-sm-8 input-group" data-toggle="buttons">
