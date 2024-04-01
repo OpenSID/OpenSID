@@ -35,7 +35,11 @@
  *
  */
 
+use App\Models\KaderMasyarakat;
 use App\Models\Modul;
+use App\Models\PendudukMandiri;
+use App\Models\RefPendudukBidang;
+use App\Models\RefPendudukKursus;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -43,7 +47,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024032771 extends MY_model
+class Migrasi_2024040171 extends MY_model
 {
     public function up()
     {
@@ -56,7 +60,6 @@ class Migrasi_2024032771 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        $hasil = $hasil && $this->migrasi_2024031371($hasil);
         $hasil = $hasil && $this->migrasi_2024080302($hasil);
         $hasil = $hasil && $this->migrasi_2024031375($hasil);
         $hasil = $hasil && $this->migrasi_2024031373($hasil);
@@ -73,6 +76,7 @@ class Migrasi_2024032771 extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024030151($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024080301($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031171($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024031372($hasil, $id);
@@ -82,9 +86,97 @@ class Migrasi_2024032771 extends MY_model
             $hasil = $hasil && $this->migrasi_2024031771($hasil, $id);
         }
 
-        $hasil = $hasil && $this->migrasi_2024032051($hasil, $id);
+        // Migrasi tanpa config_id
+        $hasil = $hasil && $this->migrasi_2024030751($hasil);
+        $hasil = $hasil && $this->migrasi_2024031051($hasil);
+        $hasil = $hasil && $this->migrasi_2024031251($hasil);
+        $hasil = $hasil && $this->migrasi_2024031451($hasil);
+        $hasil = $hasil && $this->migrasi_2024031851($hasil);
+        $hasil = $hasil && $this->migrasi_2024032051($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2024031951($hasil);
+    }
+
+    protected function migrasi_2024030151($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Sinkronisasi OpenDK Server',
+            'key'        => 'sinkronisasi_opendk',
+            'value'      => setting('api_opendk_key') ? 1 : 0,
+            'keterangan' => 'Aktifkan Sinkronisasi Server OpenDK',
+            'kategori'   => 'opendk',
+            'jenis'      => 'boolean',
+            'option'     => null,
+        ], $id);
+    }
+
+    protected function migrasi_2024030751($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-tanah-di-desa', 'url' => 'bumindes_tanah_desa/clear'],
+            ['url' => 'bumindes_tanah_desa']
+        );
+    }
+
+    protected function migrasi_2024031051($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'rumah-tangga', 'url' => 'rtm/clear'],
+            ['url' => 'rtm']
+        );
+    }
+
+    protected function migrasi_2024031251($hasil)
+    {
+        $kader  = KaderMasyarakat::get();
+        $bidang = RefPendudukBidang::get();
+        $kursus = RefPendudukKursus::get();
+
+        foreach ($kader as $item) {
+            $resultBidang = [];
+            $resultKursus = [];
+
+            foreach ($bidang as $valueBidang) {
+                if (strpos($item->bidang, $valueBidang['nama']) !== false) {
+                    $resultBidang[] = $valueBidang['nama'];
+                }
+            }
+
+            foreach ($kursus as $valueKursus) {
+                if (strpos($item->kursus, $valueKursus['nama']) !== false) {
+                    $resultKursus[] = $valueKursus['nama'];
+                }
+            }
+            KaderMasyarakat::find($item->id)->update([
+                'bidang' => json_encode($resultBidang),
+                'kursus' => json_encode($resultKursus),
+            ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024031451($hasil)
+    {
+        if (! $this->db->field_exists('input', 'log_surat')) {
+            $hasil = $hasil && $this->db->query('ALTER TABLE `log_surat` ADD COLUMN `input` LONGTEXT NULL AFTER `pemohon`');
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024031851($hasil)
+    {
+        PendudukMandiri::whereDoesntHave('penduduk')->delete();
+        $hasil && $this->tambahForeignKey('tweb_penduduk_mandiri_penduduk_fk', 'tweb_penduduk_mandiri', 'id_pend', 'tweb_penduduk', 'id', false, true);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024031951($hasil)
+    {
+        // duplikasi foreign key
+        return $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_fk', 'suplemen_terdata');
     }
 
     protected function migrasi_2024080301($hasil, $config_id)
@@ -587,7 +679,7 @@ class Migrasi_2024032771 extends MY_model
     protected function migrasi_2024031374($hasil)
     {
         if (! $this->db->field_exists('kk_level', 'program')) {
-            $this->db->query('ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`');
+            $hasil = $hasil && $this->db->query('ALTER TABLE `program` ADD COLUMN `kk_level` TEXT NULL DEFAULT NULL AFTER `sasaran`');
         }
 
         return $hasil;

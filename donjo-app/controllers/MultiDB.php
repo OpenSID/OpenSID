@@ -41,9 +41,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
-    public $modul_ini               = 'pengaturan';
-    public $sub_modul_ini           = 'aplikasi';
-    private $tergantungDataPenduduk = [
+    public $modul_ini                     = 'pengaturan';
+    public $sub_modul_ini                 = 'aplikasi';
+    private array $tergantungDataPenduduk = [
         'tweb_keluarga'        => ['key' => 'nik_kepala', 'nik_kepala' => [], 'unique_record' => ['no_kk']],
         'tweb_rtm'             => ['key' => 'nik_kepala', 'nik_kepala' => [], 'unique_record' => ['no_kk']],
         'tweb_wil_clusterdesa' => ['key' => 'id_kepala', 'id_kepala' => [], 'unique_record' => ['rt', 'rw', 'dusun']],
@@ -434,8 +434,10 @@ class MultiDB extends Admin_Controller
 
             // write_file(DESAPATH . 'app_key', $backupData['tabel']['config']['data'][0]['app_key']);
             // delete dulu sebelum direstore
-            foreach (array_reverse($backupData['tabel']) as $tableName => $tableDetails) {
-                if ($tableName == 'config') continue;
+            foreach (array_keys(array_reverse($backupData['tabel'])) as $tableName) {
+                if ($tableName == 'config') {
+                    continue;
+                }
                 DB::table($tableName)->where(['config_id' => identitas('id')])->delete();
                 log_message('error', 'hapus data tabel ' . $tableName);
             }

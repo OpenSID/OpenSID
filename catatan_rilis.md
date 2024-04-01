@@ -1,6 +1,7 @@
-Di rilis ini, versi 2403.1.0 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2404.0.0 berisi penambahan modul surat dinas dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] telah ikut berkontribusi.
+Terima kasih pada @arifpriadi telah ikut berkontribusi.
+
 
 #### FITUR
 

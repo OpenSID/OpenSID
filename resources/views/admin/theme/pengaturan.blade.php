@@ -39,7 +39,7 @@
                                                 $value['readonly'] = $value['readonly'] == true ? 'readonly' : '';
                                                 $value['class'] = $value['attributes']['class'];
                                                 unset($value['attributes']['class'], $value['attributes']['readonly']);
-                                                if (! empty($value['attributes'])) {
+                                                if (!empty($value['attributes'])) {
                                                     $value['attributes'] = implode(
                                                         ' ',
                                                         array_map(

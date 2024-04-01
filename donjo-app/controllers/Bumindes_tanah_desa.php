@@ -215,7 +215,7 @@ class Bumindes_tanah_desa extends Admin_Controller
         if ($id != 0) {
             return;
         }
-        if (!Penduduk::whereNik($data['nik'])->exists()) {
+        if (! Penduduk::whereNik($data['nik'])->exists()) {
             return;
         }
         redirect_with('error', "NIK {$data['nik']} sudah digunakan");

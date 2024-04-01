@@ -35,22 +35,22 @@
  *
  */
 
+use App\Enums\Statistik\StatistikEnum;
+use App\Models\Bantuan;
+use App\Models\RefJabatan;
+use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use App\Models\Bantuan;
-use App\Models\Suplemen;
-use voku\helper\AntiXSS;
-use App\Models\RefJabatan;
-use Illuminate\Support\Str;
-use App\Enums\Statistik\StatistikEnum;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Str;
+use voku\helper\AntiXSS;
 
 /**
  * VERSION
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2403.1.0');
+define('VERSION', '2404.0.0');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024032771');
+define('VERSI_DATABASE', '2024040171');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini

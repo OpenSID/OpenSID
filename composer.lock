@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3764abc645c0a23db2586f259cd89c41",
+    "content-hash": "4f3a77d18a07565cc7e37ea2ad12845d",
     "packages": [
         {
             "name": "brick/math",
@@ -6235,16 +6235,16 @@
         },
         {
             "name": "themes/esensi",
-            "version": "v2403.0.0",
+            "version": "v2404.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi.git",
-                "reference": "468a5c7e8dab7f5781ba331830b384f89243f09b"
+                "reference": "65cfeb05e7ab773957cedb4ec811859e763823d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/468a5c7e8dab7f5781ba331830b384f89243f09b",
-                "reference": "468a5c7e8dab7f5781ba331830b384f89243f09b",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/65cfeb05e7ab773957cedb4ec811859e763823d3",
+                "reference": "65cfeb05e7ab773957cedb4ec811859e763823d3",
                 "shasum": ""
             },
             "type": "library",
@@ -6266,22 +6266,22 @@
             ],
             "support": {
                 "issues": "https://github.com/OpenSID/tema-esensi/issues",
-                "source": "https://github.com/OpenSID/tema-esensi/tree/v2403.0.0"
+                "source": "https://github.com/OpenSID/tema-esensi/tree/v2404.0.0"
             },
-            "time": "2024-03-01T08:31:59+00:00"
+            "time": "2024-03-31T08:59:19+00:00"
         },
         {
             "name": "themes/natra",
-            "version": "v2403.0.0",
+            "version": "v2404.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra.git",
-                "reference": "d610533148594337bd2b1c5d00c31d2bb33e2037"
+                "reference": "d3fcfd34ba1300484766d6454d9f4ccf84f87ef2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/d610533148594337bd2b1c5d00c31d2bb33e2037",
-                "reference": "d610533148594337bd2b1c5d00c31d2bb33e2037",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/d3fcfd34ba1300484766d6454d9f4ccf84f87ef2",
+                "reference": "d3fcfd34ba1300484766d6454d9f4ccf84f87ef2",
                 "shasum": ""
             },
             "type": "library",
@@ -6303,9 +6303,9 @@
             ],
             "support": {
                 "issues": "https://github.com/OpenSID/tema-natra/issues",
-                "source": "https://github.com/OpenSID/tema-natra/tree/v2403.0.0"
+                "source": "https://github.com/OpenSID/tema-natra/tree/v2404.0.0"
             },
-            "time": "2024-03-01T08:23:02+00:00"
+            "time": "2024-03-31T08:58:25+00:00"
         },
         {
             "name": "voku/anti-xss",
@@ -7840,16 +7840,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.65",
+            "version": "1.10.66",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6"
+                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3c657d057a0b7ecae19cb12db446bbc99d8839c6",
-                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/94779c987e4ebd620025d9e5fdd23323903950bd",
+                "reference": "94779c987e4ebd620025d9e5fdd23323903950bd",
                 "shasum": ""
             },
             "require": {
@@ -7898,7 +7898,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T10:30:26+00:00"
+            "time": "2024-03-28T16:17:31+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -8,7 +8,7 @@
         {{ $komentar }}
         @if ($parent_id)
             <div class="tools" style="margin-top: 10px;">
-                <a href="#" data-href="{{ ci_route("komentar.delete/{$parent_id}/{$id}") }}" class="btn btn-danger btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o" style="color: rgb(255, 255, 255);"></i></a>
+                <a href="#" data-href="{{ ci_route("komentar.delete/{$parent_id}/{$id}") }}" class="btn btn-danger btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o" style="color: rgb(255, 255, 255);"></i></a>
             </div>
         @endif
     </div>

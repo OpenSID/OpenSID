@@ -175,15 +175,9 @@ class DataSuratPenduduk extends CI_Controller
             }
 
             $dataPenduduk = Penduduk::where('id_kk', $data['individu']['id_kk'])
-                ->when(!empty($value->sex), function ($query) use ($value) {
-                    return $query->where('sex', $value->sex);
-                })
-                ->when(!empty($value->kk_level), function ($query) use ($value) {
-                    return $query->whereIn('kk_level', $value->kk_level);
-                })
-                ->when(!empty($value->status_dasar), function ($query) use ($value) {
-                    return $query->whereIn('status_dasar', $value->status_dasar);
-                })
+                ->when(! empty($value->sex), static fn ($query) => $query->where('sex', $value->sex))
+                ->when(! empty($value->kk_level), static fn ($query) => $query->whereIn('kk_level', $value->kk_level))
+                ->when(! empty($value->status_dasar), static fn ($query) => $query->whereIn('status_dasar', $value->status_dasar))
                 ->get()
                 ->toArray();
 
