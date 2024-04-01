@@ -1,9 +1,11 @@
-Di rilis ini, versi 2403.1.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2404.0.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @totoprayogo1916 yang terus berkontribusi.
 
+
 ### Penambahan Fitur
 1. [#6618](https://github.com/OpenSID/OpenSID/issues/6618) Pemasangan aplikasi dengan wizard.
+
 
 #### Perbaikan Bug
 1. [#6882](https://github.com/OpenSID/OpenSID/issues/6882) Perbaikan luas peta tidak tampil mengikuti pengaturan pada modul pemetaan.
