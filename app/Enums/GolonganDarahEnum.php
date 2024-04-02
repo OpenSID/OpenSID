@@ -35,48 +35,45 @@
  *
  */
 
+namespace App\Enums;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\SettingAplikasi;
-
-class Migrasi_dev extends MY_model
+class GolonganDarahEnum extends BaseEnum
 {
-    public function up()
+    public const A          = 1;
+    public const B          = 2;
+    public const AB         = 3;
+    public const O          = 4;
+    public const A_PLUS     = 5;
+    public const A_MIN      = 6;
+    public const B_PLUS     = 7;
+    public const B_MIN      = 8;
+    public const AB_PLUS    = 9;
+    public const AB_MIN     = 10;
+    public const O_PLUS     = 11;
+    public const O_MIN      = 12;
+    public const TIDAK_TAHU = 13;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && true;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
-        // }
-
-        $hasil = $hasil && $this->migrasi_2024040271($hasil);
-
-        return $hasil && true;
-    }
-
-    protected function migrasi_2024040271($hasil)
-    {
-        $penduduk_luar     = SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first();
-        $value             = json_decode($penduduk_luar->value, true);
-        $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
-        $penduduk_luar->update(['value' => json_encode($value)]);
-
-        return $hasil;
+        return [
+            self::A          => 'A',
+            self::B          => 'B',
+            self::AB         => 'AB',
+            self::O          => 'O',
+            self::A_PLUS     => 'A+',
+            self::A_MIN      => 'A-',
+            self::B_PLUS     => 'B+',
+            self::B_MIN      => 'B-',
+            self::AB_PLUS    => 'AB+',
+            self::AB_MIN     => 'AB-',
+            self::O_PLUS     => 'O+',
+            self::O_MIN      => 'O-',
+            self::TIDAK_TAHU => 'TIDAK_TAHU',
+        ];
     }
 }
