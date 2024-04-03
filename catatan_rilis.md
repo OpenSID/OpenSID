@@ -11,8 +11,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### TEKNIS
 
-1. 
+1. [#3612](https://github.com/OpenSID/premium/issues/3612) Penyesuaian migrasi database.
+
 
 #### KEAMANAN
 
-1. 
+1.
