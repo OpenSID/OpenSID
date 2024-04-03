@@ -13,7 +13,7 @@
     <span class="input-group-addon input-sm show-hide-password"><i class="fa fa-eye-slash" onclick="togglePasswordVisibility('input{{ $value['key'] }}')"></i></span>
 </div>
 @if ($value['default'])
-    <p class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
+    <p class="help-block small text-red">{!! $value['caption'] !!}</p>
 @endif
 @push('scripts')
     <script>
