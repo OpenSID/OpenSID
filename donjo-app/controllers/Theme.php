@@ -62,7 +62,7 @@ class Theme extends Admin_Controller
 
     public function unggah()
     {
-        isCan('u', 'theme', true);
+        isCan('u', 'theme', true, true);
 
         $form_action = site_url('theme/proses-unggah');
 

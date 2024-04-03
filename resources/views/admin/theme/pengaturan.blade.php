@@ -58,7 +58,7 @@
                                             ])
 
                                         </div>
-                                        <label class="col-sm-4 control-label">{{ SebutanDesa($value['keterangan']) }}</label>
+                                        <label class="col-sm-4 control-label">{!! SebutanDesa($value['keterangan']) !!}</label>
                                     </div>
                                 </div>
                             </div>

@@ -799,6 +799,11 @@ class Program_bantuan_model extends MY_Model
 
     private function validasi_bantuan($post)
     {
+        $kk_level = json_encode($post['kk_level']);
+        if ($post['sasaran'] != 2) {
+            $kk_level = null;
+        }
+
         return [
             // Ambil dan bersihkan data input
             'sasaran'  => $post['cid'],
@@ -807,7 +812,7 @@ class Program_bantuan_model extends MY_Model
             'asaldana' => $post['asaldana'],
             'sdate'    => date('Y-m-d', strtotime($post['sdate'])),
             'edate'    => date('Y-m-d', strtotime($post['edate'])),
-            'kk_level' => json_encode($post['kk_level']),
+            'kk_level' => $kk_level,
         ];
     }
 

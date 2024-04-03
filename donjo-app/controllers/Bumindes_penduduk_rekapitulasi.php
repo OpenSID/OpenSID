@@ -72,7 +72,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
         ];
 
-        $rekapitulasi = LogPenduduk::RekapitulasiList($filters)->get();
+        $rekapitulasi = LogPenduduk::RekapitulasiList($filters)->get()->toArray();
 
         $collected = $this->dataProcess($rekapitulasi);
 
@@ -117,7 +117,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $rekap                 = LogPenduduk::RekapitulasiList()->get();
+        $rekap                 = LogPenduduk::RekapitulasiList()->get()->toArray();
         $data                  = $this->modal_penandatangan();
         $data['aksi']          = $aksi;
         $data['main']          = $this->dataProcess($rekap);

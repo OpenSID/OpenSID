@@ -118,11 +118,6 @@ class Database_model extends MY_Model
                         $this->jalankan_migrasi('Migrasi_' . $migrateName);
                         $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
                         $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
-
-                        if ($this->getShowProgress()) {
-                            // sleep(1.5);
-                            echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0]);
-                        }
                     }
                 }
             }
@@ -226,6 +221,10 @@ class Database_model extends MY_Model
     public function jalankan_migrasi($migrasi)
     {
         $this->load->model('migrations/' . $migrasi);
+        if ($this->getShowProgress()) {
+            // sleep(1.5);
+            echo json_encode(['message' => 'Jalankan ' . $migrasi, 'status' => 0]);
+        }
 
         try {
             $this->{$migrasi}->up();
@@ -234,6 +233,10 @@ class Database_model extends MY_Model
             return true;
         } catch (Exception $e) {
             log_message('error', 'Gagal Jalankan ' . $migrasi . ' dengan error ' . $e->getMessage());
+            if ($this->getShowProgress()) {
+                // sleep(1.5);
+                echo json_encode(['message' => 'Gagal Jalankan ' . $migrasi . ' dengan error ' . $e->getMessage(), 'status' => 500]);
+            }
         }
 
         return false;

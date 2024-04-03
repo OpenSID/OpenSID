@@ -12,9 +12,15 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### BUG
 
-1.
+1. [#7832](https://github.com/OpenSID/OpenSID/issues/7832) Perbaikan menampilkan data buku rekapitulasi penduduk.
+2. [#7809](https://github.com/OpenSID/OpenSID/issues/7809) Perbaikan cetak prelist DTKS.
 
 
 #### TEKNIS
 
-1. 
+1. [#3612](https://github.com/OpenSID/premium/issues/3612) Penyesuaian migrasi database.
+
+
+#### KEAMANAN
+
+1.

@@ -81,8 +81,12 @@ if (! function_exists('can')) {
      *
      * @return array|bool
      */
-    function can($akses = null, $slugModul = null, $adminOnly = false)
+    function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false)
     {
+        if ($demoOnly && config_item('demo_mode')) {
+            return false;
+        }
+
         if ($slugModul === Modul::DEFAULT_MODUL['beranda']['slug']) {
             return true;
         }
@@ -171,15 +175,15 @@ if (! function_exists('isCan')) {
      * @param string|null $slugModul
      * @param bool        $adminOnly
      */
-    function isCan($akses = null, $slugModul = null, $adminOnly = false): void
+    function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('b', $slugModul, $adminOnly)) {
+        if (! can('b', $slugModul, $adminOnly, $demoOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
             redirect('beranda');
-        } elseif (! can($akses, $slugModul, $adminOnly)) {
+        } elseif (! can($akses, $slugModul, $adminOnly, $demoOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 

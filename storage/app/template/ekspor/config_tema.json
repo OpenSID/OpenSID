@@ -28,6 +28,7 @@
         "value":"",
         "type":"input-password",
         "keterangan":"Contoh Input Password",
+        "caption":"Kosongkan jika tidak ingin mengubah Password.",
         "options": null,
         "readonly":false
     },

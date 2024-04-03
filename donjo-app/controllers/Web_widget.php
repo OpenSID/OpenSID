@@ -272,10 +272,6 @@ class Web_widget extends Admin_Controller
     {
         isCan('u');
 
-        if ($this->session->error_msg) {
-            redirect_with('error', $this->session->error_msg);
-        }
-
         if (Widget::gantiStatus($id, 'enabled')) {
             redirect_with('success', 'Berhasil Ubah Status');
         }

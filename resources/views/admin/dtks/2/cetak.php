@@ -206,7 +206,7 @@
         $kode_terpilih = [];
 
         if($value == 0) {
-            return 0;
+            return $kode_terpilih;
         }
 
         while($value > 0 || $index >= count($list_kode)){
