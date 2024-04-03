@@ -468,10 +468,9 @@ class DTKSRegsosEk2022k
             log_message('error', $th);
         }
         $dtks      = $this->generateDefaultDtks($dtks);
-        $nama_file = 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
+        $nama_file = 'cetak_regsosek2022k_' . $dtks->kepalaKeluarga->nik
             . '_' . $dtks->id_rtm . '_' . str_replace([':', '-', ' '], '', $dtks->updated_at) . '.pdf';
         $path = FCPATH . LOKASI_FOTO_DTKS . $nama_file;
-
         if (! is_file($path) || $preview) {
             // OK, berkas ada. Ambil konten berkasnya
             if (is_file($path) && $preview) {
@@ -488,7 +487,7 @@ class DTKSRegsosEk2022k
             }
 
             // cari berkas dtks lama untuk dihapus
-            foreach (glob(FCPATH . LOKASI_FOTO_DTKS . 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
+            foreach (glob(FCPATH . LOKASI_FOTO_DTKS . 'cetak_regsosek2022k_' . $dtks->kepalaKeluarga->nik
                 . '_' . $dtks->id_rtm . '_*.pdf') as $file) {
                 if (file_exists($file)) {
                     unlink($file);
@@ -501,7 +500,7 @@ class DTKSRegsosEk2022k
                 // get the HTML using output buffer
                 ob_start();
 
-                include FCPATH . config_item('views_blade') . '/admin/dtks/2/cetak.php';
+                include FCPATH . config_item('views_blade')[0] . '/admin/dtks/2/cetak.php';
                 $content = ob_get_clean();
 
                 $html2pdf = new Html2Pdf();
