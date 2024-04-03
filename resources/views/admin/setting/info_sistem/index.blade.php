@@ -3,7 +3,7 @@
 @include('admin.layouts.components.jquery_ui')
 
 @extends('admin.layouts.index')
-
+{{-- prettier-ignore-start --}}
 @push('css')
     <style>
         .scroll {
@@ -66,7 +66,7 @@
         }
     </style>
 @endpush
-
+{{-- prettier-ignore-end --}}
 @section('title')
     <h1>
         Info Sistem
