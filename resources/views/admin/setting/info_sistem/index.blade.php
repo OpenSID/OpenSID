@@ -20,7 +20,12 @@
             align-items: self-end;
         }
 
-        ul.tree-folder,
+        ul.tree-folder {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
         ul.tree-folder ul {
             list-style: none;
             margin: 0;
@@ -313,7 +318,7 @@
                         </div>
                     </div>
                 </div>
-
+                {{-- prettier-ignore-start --}}
                 @if (auth()->id == super_admin())
                     <div id="info_sistem" class="tab-pane fade in">
                     @php
@@ -371,7 +376,8 @@
                         </div>
                     @endforeach
                 @endif
-                </div>
+                {{-- prettier-ignore-end --}}
+            </div>
             @endif
 
             <div id="optimasi" class="tab-pane fade in">

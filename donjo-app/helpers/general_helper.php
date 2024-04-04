@@ -78,6 +78,7 @@ if (! function_exists('can')) {
      * @param string|null $akses
      * @param string|null $slugModul
      * @param bool        $adminOnly
+     * @param mixed       $demoOnly
      *
      * @return array|bool
      */
@@ -174,6 +175,7 @@ if (! function_exists('isCan')) {
      * @param string|null $akses
      * @param string|null $slugModul
      * @param bool        $adminOnly
+     * @param mixed       $demoOnly
      */
     function isCan($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false): void
     {
