@@ -197,7 +197,7 @@ class Inventaris_laporan_model extends MY_Model
             $this->db->where("{$inventaris[1]}.visible", 1);
             $this->db->where("{$inventaris[1]}.status", 0);
             if ($tahun != 1) {
-                if ($inventaris[3] == 'tahun_pengadaan') {
+                if ($inventaris[3] === 'tahun_pengadaan') {
                     $this->db->where("{$inventaris[1]}.tahun_pengadaan", $tahun);
                 } else {
                     $this->db->where('year(tanggal_dokument)', $tahun);
@@ -259,7 +259,7 @@ class Inventaris_laporan_model extends MY_Model
             $this->db->where("{$inventaris[1]}.status", 1);
             $this->db->where("{$inventaris[1]}.visible", 1);
             if ($tahun != 1) {
-                if ($inventaris[3] == 'tahun_pengadaan') {
+                if ($inventaris[3] === 'tahun_pengadaan') {
                     $this->db->where("{$inventaris[1]}.tahun_pengadaan", $tahun);
                 } else {
                     $this->db->where('year(tanggal_dokument)', $tahun);
@@ -273,194 +273,6 @@ class Inventaris_laporan_model extends MY_Model
         }
 
         return $result;
-    }
-
-    public function permen_47($tahun, $jns_asset)
-    {
-        $kondisi = [
-            'Baik'                      => 1,
-            'Perbaiki'                  => 2,
-            'Rusak'                     => 2,
-            'Barang Rusak Dijual'       => 2,
-            'Masih Baik Dijual'         => 1,
-            'Masih Baik Disumbangkan'   => 1,
-            'Barang Rusak Disumbangkan' => 2,
-            'null'                      => 1,
-        ];
-
-        // sub query untuk mencari asset < tahun ke n
-        // barang rusak pada tahun n-1 tidak akan masuk
-        if ($jns_asset !== null) {
-            $this->db->where('asset', $jns_asset);
-        } // cek filter
-
-        $sub_q = $this->db
-            ->select('concat(b.asset,b.id_inventaris_asset)')
-            ->where('b.status_mutasi', 'Hapus')
-            ->where('year(tahun_mutasi) <', $tahun)
-            ->where('b.config_id', identitas('id'))
-            ->from('rekap_mutasi_inventaris as b')
-            ->get_compiled_select();
-
-        $tgl_thn_n = $this->db
-            ->select('MAX(c.tahun_mutasi)')
-            ->where('year(c.tahun_mutasi)', $tahun)
-            ->where('a.asset = c.asset')
-            ->where('a.id_inventaris_asset = c.id_inventaris_asset')
-            ->where('c.config_id', identitas('id'))
-            ->from('rekap_mutasi_inventaris as c')
-            ->get_compiled_select();
-
-        $tgl_thn_min_n = $this->db
-            ->select('MAX(c.tahun_mutasi)')
-            ->where('year(c.tahun_mutasi) <', $tahun)
-            ->where('a.asset = c.asset')
-            ->where('a.id_inventaris_asset = c.id_inventaris_asset')
-            ->where('c.config_id', identitas('id'))
-            ->from('rekap_mutasi_inventaris as c')
-            ->get_compiled_select();
-
-        // mutasi asset yang tidak rusak saat tahun n-1 data dianggap sebagai data akhir tahun n dan awal tahun
-        $this->db
-            ->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})")
-            ->where("tahun_mutasi = ({$tgl_thn_min_n})");
-
-        if ($jns_asset !== null) {
-            $this->db->where('asset', $jns_asset);
-        } // cek filter
-
-        foreach ($this->db->get('rekap_mutasi_inventaris as a') as $asset) {
-            $akhir_tahun[$asset->asset][$asset->id_inventaris_asset] = $asset;
-            $awal_tahun[$asset->asset][$asset->id_inventaris_asset]  = $asset;
-        }
-
-        // jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
-        if ($jns_asset !== null) {
-            $this->db->where('asset', $jns_asset);
-        } // cek filter
-
-        $this->db->where("tahun_mutasi = ({$tgl_thn_n})");
-
-        foreach ($this->db->where('a.config_id', identitas('id'))->get('rekap_mutasi_inventaris As a')->result() as $asset) {
-            if ($asset->status_mutasi == null) {
-                $asset->kondisi = 2;
-            } elseif ($asset->status_mutasi == 'Hapus') {
-                $asset->kondisi = $kondisi[$asset->jenis_mutasi];
-            } else {
-                $asset->kondisi = $kondisi[$asset->status_mutasi];
-            }
-            if ($asset->status_mutasi == null) {
-                $asset->status_mutasi = 'Hapus';
-            }
-            $akhir_tahun[$asset->asset][$asset->id_inventaris_asset] = $asset; // memperbarui data akhir tahun
-        }
-
-        // ambil master data iventaris
-        $inventaris = [];
-        if ($jns_asset !== null) {
-            $this->db->where('asset', $jns_asset);
-        } // cek filter
-        $master_data = $this->db
-            ->where("concat(a.asset,a.id) NOT IN ({$sub_q})")
-            ->where('a.tahun_pengadaan <=', $tahun)
-            ->where('a.config_id', identitas('id'))
-            ->get('master_inventaris AS a');
-
-        foreach ($master_data->result() as $asset) {
-            // akhir tahun
-            if (isset($akhir_tahun[$asset->asset][$asset->id])) {
-                $asset->akhir_tahun   = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
-                $asset->tahun_mutasi  = $akhir_tahun[$asset->asset][$asset->id]->tahun_mutasi;
-                $asset->status_mutasi = $akhir_tahun[$asset->asset][$asset->id]->status_mutasi;
-                $asset->jenis_mutasi  = $akhir_tahun[$asset->asset][$asset->id]->jenis_mutasi;
-            } else {
-                $asset->akhir_tahun = $kondisi[$asset->kondisi];
-            }
-
-            // awal tahun
-            if (isset($awal_tahun[$asset->asset][$asset->id])) {
-                $asset->awal_tahun = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
-            } else {
-                $asset->awal_tahun = $kondisi[$asset->kondisi];
-            }
-            $inventaris[] = $asset;
-        }
-
-        // rekapitulasi
-        $rekap = [];
-
-        foreach ($inventaris as $value) {
-            if (! isset($rekap[$value->nama_barang])) {
-                $rekap[$value->nama_barang] = [
-                    'Bantuan Kabupaten'  => [],
-                    'Bantuan Pemerintah' => [],
-                    'Bantuan Provinsi'   => [],
-                    'Pembelian Sendiri'  => [],
-                    'Sumbangan'          => [],
-                    'awal_baik'          => [],
-                    'awal_rusak'         => [],
-                    'hapus_rusak'        => [],
-                    'hapus_jual'         => [],
-                    'hapus_sumbang'      => [],
-                    'akhir_baik'         => [],
-                    'akhir_rusak'        => [],
-                    'keterangan'         => [],
-                ];
-            }
-
-            $rekap[$value->nama_barang][$value->asal][] = 1;
-            if (isset($value->tahun_mutasi)) {
-                $rekap[$value->nama_barang]['tahun_mutasi'] = $value->tahun_mutasi;
-            } //tahun mutasi
-            // rekap awal tahun
-            if ($value->awal_tahun == 1) {
-                $rekap[$value->nama_barang]['awal_baik'][] = 1;
-            }
-
-            if ($value->awal_tahun == 2) {
-                $rekap[$value->nama_barang]['awal_rusak'][] = 1;
-            }
-
-            // Penghapusan
-            if ($value->status_mutasi == 'Hapus') {
-                if ($value->jenis_mutasi == 'Rusak') {
-                    $rekap[$value->nama_barang]['hapus_rusak'][] = 1;
-                }
-
-                if ($value->jenis_mutasi == 'Masih Baik Disumbangkan') {
-                    $rekap[$value->nama_barang]['hapus_sumbang'][] = 1;
-                }
-
-                if ($value->jenis_mutasi == 'Barang Rusak Disumbangkan') {
-                    $rekap[$value->nama_barang]['hapus_sumbang'][] = 1;
-                }
-
-                if ($value->jenis_mutasi == 'Barang Rusak Dijual') {
-                    $rekap[$value->nama_barang]['hapus_jual'][] = 1;
-                }
-
-                if ($value->jenis_mutasi == 'Masih Baik Dijual') {
-                    $rekap[$value->nama_barang]['hapus_jual'][] = 1;
-                }
-
-                $rekap[$value->nama_barang]['tgl_hapus'] = $value->tahun_mutasi;
-            } else {
-                // rekap akhir tahun
-                if ($value->akhir_tahun == 1) {
-                    $rekap[$value->nama_barang]['akhir_baik'][] = 1;
-                }
-
-                if ($value->akhir_tahun == 2) {
-                    $rekap[$value->nama_barang]['akhir_rusak'][] = 1;
-                }
-            }
-
-            if ($value->keterangan != '') {
-                $rekap[$value->nama_barang]['keterangan'][] = $value->keterangan;
-            }
-        }
-
-        return $rekap;
     }
 
     public function min_tahun()
