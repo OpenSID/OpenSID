@@ -35,6 +35,9 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\SettingAplikasi;
@@ -52,6 +55,8 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2024040451($hasil);
+
         return $hasil && true;
     }
 
@@ -76,6 +81,18 @@ class Migrasi_dev extends MY_model
         $value             = json_decode($penduduk_luar->value, true);
         $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
         $penduduk_luar->update(['value' => json_encode($value)]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024040451($hasil)
+    {
+        if (! Schema::hasColumn('user', 'batasi_wilayah')) {
+            Schema::table('user', static function (Blueprint $table) {
+                $table->unsignedTinyInteger('batasi_wilayah')->default(0);
+                $table->text('akses_wilayah')->nullable();
+            });
+        }
 
         return $hasil;
     }

@@ -182,18 +182,23 @@ class Wilayah extends BaseModel
         }
     }
 
-    public function isDusun()
+    public function isDusun(): bool
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
     }
 
-    public function isRw()
+    public function isRw(): bool
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';
     }
 
-    public function isRt()
+    public function isRt(): bool
     {
         return $this->attributes['rt'] != '0';
+    }
+
+    public static function tree()
+    {
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! in_array($q->rt, ['-', 0]))));
     }
 }
