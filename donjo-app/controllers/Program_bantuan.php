@@ -289,7 +289,7 @@ class Program_bantuan extends Admin_Controller
         $data['program']      = $this->program_bantuan_model->get_program(1, $id) ?? show_404();
         $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
         $data['nama_excerpt'] = Str::limit($data['program'][0]['nama'], 25);
-        $data['kk_level'] = DB::table('tweb_penduduk_hubungan')->pluck('nama', 'id')->toArray();
+        $data['kk_level']     = DB::table('tweb_penduduk_hubungan')->pluck('nama', 'id')->toArray();
 
         if ($this->form_validation->run() === false) {
             $this->render('program_bantuan/edit', $data);
@@ -375,7 +375,7 @@ class Program_bantuan extends Admin_Controller
                         $value = $this->cek_is_date($cells[1]);
 
                         // Data terakhir
-                        if ($title == '###') {
+                        if ($title === '###') {
                             break;
                         }
 
@@ -437,7 +437,7 @@ class Program_bantuan extends Admin_Controller
                         $nik     = (string) $cells[2];
 
                         // Data terakhir
-                        if ($peserta == '###') {
+                        if ($peserta === '###') {
                             break;
                         }
 

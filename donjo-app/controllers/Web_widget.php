@@ -288,7 +288,7 @@ class Web_widget extends Admin_Controller
         }
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['judul']        = judul($post['judul']);
         $data['jenis_widget'] = (int) $post['jenis_widget'];
@@ -303,7 +303,7 @@ class Web_widget extends Admin_Controller
         return $data;
     }
 
-    private function bersihkan_html($isi)
+    private function bersihkan_html($isi): string
     {
         // Konfigurasi tidy
         $config = [

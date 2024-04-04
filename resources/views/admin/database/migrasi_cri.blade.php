@@ -9,18 +9,14 @@
                                                     <div class="box-body">
                                                         <div class="row">
                                                             <div class="col-sm-12">
-                                                                <form action="{{ $form_action }}" method="post"
-                                                                    enctype="multipart/form-data" id="excell"
-                                                                    class="form-horizontal">
+                                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
                                                                     <p>Proses ini untuk mengubah database SID ke
                                                                         struktur database
                                                                         {{ config_item('nama_aplikasi') }}
                                                                         {{ AmbilVersi() }}.</p>
-                                                                    <p class="text-muted text-red well well-sm no-shadow"
-                                                                        style="margin-top: 10px;">
+                                                                    <p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
                                                                         <small>
-                                                                            <strong><i
-                                                                                    class="fa fa-info-circle text-red"></i>
+                                                                            <strong><i class="fa fa-info-circle text-red"></i>
                                                                                 Sebelum melakukan migrasi ini, pastikan
                                                                                 database SID anda telah
                                                                                 dibackup.</strong>
@@ -29,48 +25,31 @@
                                                                     <p>Apabila sesudah melakukan konversi ini, masih
                                                                         ditemukan masalah, laporkan di :</P>
                                                                     <ul>
-                                                                        <li> <a
-                                                                                href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a>
+                                                                        <li> <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a>
                                                                         </li>
-                                                                        <li> <a
-                                                                                href="{{ config_item('fb_opendesa') }}">{{ config_item('fb_opendesa') }}</a>
+                                                                        <li> <a href="{{ config_item('fb_opendesa') }}">{{ config_item('fb_opendesa') }}</a>
                                                                         </li>
                                                                     </ul>
                                                                     <table class="table table-bordered">
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td
-                                                                                    style="padding-top:20px;padding-bottom:10px;">
+                                                                                <td style="padding-top:20px;padding-bottom:10px;">
                                                                                     <div class="form-group">
                                                                                         <div class="col-sm-5 col-md-4">
                                                                                             <div class="btn-group">
-                                                                                                <button type="button"
-                                                                                                    class="btn btn-social btn-info btn-danger ajax" style="border-radius: 3px 0 0 3px;"
-                                                                                                    data-toggle="dropdown"
-                                                                                                    aria-haspopup="true"
-                                                                                                    aria-expanded="false"><i
-                                                                                                        class="fa fa-database"></i>
+                                                                                                <button type="button" class="btn btn-social btn-info btn-danger ajax" style="border-radius: 3px 0 0 3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-database"></i>
                                                                                                     Migrasi Database
                                                                                                 </button>
-                                                                                                <button type="button"
-                                                                                                    class="btn dropdown-toggle btn-danger"
-                                                                                                    data-toggle="dropdown"
-                                                                                                    aria-haspopup="true"
-                                                                                                    aria-expanded="true">
-                                                                                                    <span
-                                                                                                        class="caret"></span>
-                                                                                                    <span
-                                                                                                        class="sr-only">Toggle
+                                                                                                <button type="button" class="btn dropdown-toggle btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                                                    <span class="caret"></span>
+                                                                                                    <span class="sr-only">Toggle
                                                                                                         Dropdown</span>
                                                                                                 </button>
-                                                                                                <ul
-                                                                                                    class="dropdown-menu">
-                                                                                                    <li><a class="migrasi"  data-migrasi="new"
-                                                                                                            href="#">Migrasi
+                                                                                                <ul class="dropdown-menu">
+                                                                                                    <li><a class="migrasi" data-migrasi="new" href="#">Migrasi
                                                                                                             Terbaru</a>
                                                                                                     </li>
-                                                                                                    <li><a class="migrasi" data-migrasi="all"
-                                                                                                            href="#">Semua
+                                                                                                    <li><a class="migrasi" data-migrasi="all" href="#">Semua
                                                                                                             Migrasi</a>
                                                                                                     </li>
                                                                                                 </ul>
@@ -122,7 +101,7 @@
                                                                         let lastResponseLength = false
                                                                         let a = Swal.getHtmlContainer().querySelector("b");
                                                                         $.ajax({
-                                                                            url: '{{ $form_action }}?mode='+_mode,
+                                                                            url: '{{ $form_action }}?mode=' + _mode,
                                                                             type: "POST",
                                                                             data: f,
                                                                             dataType: 'json',
@@ -166,17 +145,17 @@
                                                                                             // error code set 500
                                                                                             if (parsedResponse[
                                                                                                     'status'] == 500) {
-                                                                                                    _error.push(a.textContent)                                                                         
+                                                                                                _error.push(a.textContent)
                                                                                             }
                                                                                             if (parsedResponse[
                                                                                                     'status'] == 1) {
-                                                                                                if(_error.length){
+                                                                                                if (_error.length) {
                                                                                                     Swal.fire({
                                                                                                         title: "Pesan kesalahan migrasi ",
                                                                                                         html: _error.join('<br>'),
                                                                                                         timerProgressBar: !0,
                                                                                                     })
-                                                                                                }                                                                                                
+                                                                                                }
                                                                                                 _redirect = true
                                                                                                 Swal.enableButtons()
                                                                                             }
