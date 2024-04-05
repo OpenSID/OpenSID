@@ -2,7 +2,7 @@
     <tbody>
         <tr>
             <td class="text-center">
-                <h4>BUKU TANAH KAS DESA BULAN <?= strtoupper(getBulan($bulan)) ?> TAHUN <?= $tahun ?></h4>
+                <h4>{{ strtoupper('BUKU TANAH KAS ' . setting('sebutan_desa') . ' BULAN ' . getBulan($bulan) . ' TAHUN ' . $tahun) }}</h4>
             </td>
         </tr>
         <tr>
@@ -75,41 +75,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $count = 1;
-
-                foreach ($main as $data) :
-                    ?>
+                        @foreach ($main as $key => $data)
                             <tr>
-                                <td class="text-left"><?= $count ?></td>
-                                <td><?= strtoupper($data['asal']) ?></td>
-                                <td class="text-left"><?= $data['letter_c'] ?></td>
-                                <td><?= strtoupper($data['luas']) ?></td>
-                                <td><?= strtoupper($data['kode']) ?></td>
-                                <td class="text-center"><?= $data['asli_milik_desa'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['pemerintah'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['provinsi'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['kabupaten_kota'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['lain_lain'] ?: '' ?></td>
-                                <td><?= tgl_indo_out($data['tanggal_perolehan']) ?></td>
-                                <td class="text-center"><?= $data['sawah'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['tegal'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['kebun'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['tambak_kolam'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['tanah_kering_darat'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['ada_patok'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['tidak_ada_patok'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['ada_papan_nama'] ?: '' ?></td>
-                                <td class="text-center"><?= $data['tidak_ada_papan_nama'] ?: '' ?></td>
-                                <td><?= strtoupper($data['lokasi']) ?></td>
-                                <td class="text-center"><?= strtoupper($data['peruntukan_tanah'] ?: '') ?></td>
-                                <td><?= strtoupper($data['mutasi']) ?></td>
-                                <td><?= strtoupper($data['keterangan']) ?></td>
+                                <td class="text-left">{{ $key + 1 }}</td>
+                                <td>{{ strtoupper($data['ref_asal_tanah_kas']['nama']) }}</td>
+                                <td class="text-left">{{ $data['letter_c'] }}</td>
+                                <td>{{ strtoupper($data['luas']) }}</td>
+                                <td>{{ strtoupper($data['ref_persil_kelas']['kode']) }}</td>
+                                <td class="text-center">{{ $data['asli_milik_desa'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['pemerintah'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['provinsi'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['kabupaten_kota'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['lain_lain'] ?: '' }}</td>
+                                <td>{{ tgl_indo_out($data['tanggal_perolehan']) }}</td>
+                                <td class="text-center">{{ $data['sawah'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['tegal'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['kebun'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['tambak_kolam'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['tanah_kering_darat'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['ada_patok'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['tidak_ada_patok'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['ada_papan_nama'] ?: '' }}</td>
+                                <td class="text-center">{{ $data['tidak_ada_papan_nama'] ?: '' }}</td>
+                                <td>{{ strtoupper($data['lokasi']) }}</td>
+                                <td class="text-center">{{ strtoupper($data['ref_peruntukan_tanah_kas']['nama'] ?: '') }}</td>
+                                <td>{{ strtoupper($data['mutasi']) }}</td>
+                                <td>{{ strtoupper($data['keterangan']) }}</td>
                             </tr>
-                        <?php
-                        $count++;
-                endforeach;
-                ?>
+                        @endforeach
                     </tbody>
                 </table>
             </td>

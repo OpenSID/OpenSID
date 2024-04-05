@@ -35,45 +35,62 @@
  *
  */
 
+namespace App\Models;
+
+use App\Traits\Author;
+use App\Traits\ConfigId;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class TanahKasDesa extends BaseModel
 {
-    public function up()
+    use Author;
+    use ConfigId;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tanah_kas_desa';
+
+    protected $with = ['ref_asal_tanah_kas', 'ref_persil_kelas', 'ref_peruntukan_tanah_kas'];
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+
+    public function scopeCheckLetterC($query, $letterC_persil)
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
+        return $query->where('letter_c', $letterC_persil)->where('visible', 1)->exists();
     }
 
-    protected function migrasi_tabel($hasil)
+    public function scopeCheckOldLetterC($query, $value, $letterC_persil)
     {
-        return $hasil && true;
+        return $query->where('visible', 1)->where('id', $value)->first()->letter_c == $letterC_persil;
     }
 
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
+    public function scopeVisible($query, $value = 1)
     {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
-        // }
-
-        $hasil = $hasil && $this->migrasi_2024032052($hasil);
-
-        return $hasil && true;
+        return $query->where('visible', $value);
     }
 
-    protected function migrasi_2024032052($hasil)
+    // relasi ke table ref_asal_tanah_kas
+    public function ref_asal_tanah_kas()
     {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-tanah-kas-desa', 'url' => 'bumindes_tanah_kas_desa/clear'],
-            ['url' => 'bumindes_tanah_kas_desa']
-        );
-        return $hasil;
+        return $this->belongsTo(RefAsalTanahKas::class, 'nama_pemilik_asal');
+    }
+
+    public function ref_peruntukan_tanah_kas()
+    {
+        return $this->belongsTo(RefPeruntukanTanahKas::class, 'peruntukan');
+    }
+
+    public function ref_persil_kelas()
+    {
+        return $this->belongsTo(RefPersilKelas::class, 'kelas');
     }
 }

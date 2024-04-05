@@ -35,45 +35,23 @@
  *
  */
 
+namespace App\Models;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class RefPeruntukanTanahKas extends BaseModel
 {
-    public function up()
-    {
-        $hasil = true;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_peruntukan_tanah_kas';
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && true;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
-        // }
-
-        $hasil = $hasil && $this->migrasi_2024032052($hasil);
-
-        return $hasil && true;
-    }
-
-    protected function migrasi_2024032052($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'buku-tanah-kas-desa', 'url' => 'bumindes_tanah_kas_desa/clear'],
-            ['url' => 'bumindes_tanah_kas_desa']
-        );
-        return $hasil;
-    }
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

@@ -17,6 +17,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#7754](https://github.com/OpenSID/OpenSID/issues/7754) Penyesuaian modul Buku Inventaris dan Kekayaan Desa menggunakan ORM dan Blade.
 3. [#7760](https://github.com/OpenSID/OpenSID/issues/7760) Penyesuaian modul Keluarga menggunakan ORM dan Blade.
 4. [#7175](https://github.com/OpenSID/OpenSID/issues/7175) Penyesuaian input tanggal cerai untuk status kawin "cerai mati".
+5. [#3557](https://github.com/OpenSID/OpenSID/issues/3557) Penyesuaian modul Buku Tanah Kas Desa  menggunakan ORM dan Blade.
+
 
 #### KEAMANAN
 

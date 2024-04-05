@@ -252,7 +252,7 @@ Route::group('penduduk_log', static function (): void {
 // Kependudukan > Keluarga
 Route::group('keluarga', static function (): void {
     Route::get('', 'Keluarga@index');
-    Route::get('/clear', static function () {
+    Route::get('/clear', static function (): void {
         redirect('keluarga');
     });
     Route::get('datatables', 'Keluarga@datatables')->name('keluarga.datatables');
@@ -1123,16 +1123,20 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
 // Buku Tanah Kas Desa
 Route::group('bumindes_tanah_kas_desa', static function (): void {
+    Route::get('/datatables', 'Bumindes_tanah_kas_desa@datatables')->name('bumindes_tanah_kas_desa.datatables');
     Route::get('/clear', static function (): void {
         redirect('bumindes_tanah_kas_desa');
     });
     Route::match(['GET', 'POST'], '/', 'Bumindes_tanah_kas_desa@index')->name('bumindes_tanah_kas_desa.index');
+    Route::get('/dialog_cetak/{aksi?}', 'Bumindes_tanah_kas_desa@dialog_cetak')->name('bumindes_tanah_kas_desa.dialog_cetak');
+    Route::post('/cetak/{aksi?}', 'Bumindes_tanah_kas_desa@cetak')->name('bumindes_tanah_kas_desa.cetak');
     Route::get('/view_tanah_kas_desa/{id}', 'Bumindes_tanah_kas_desa@view_tanah_kas_desa')->name('bumindes_tanah_kas_desa.view_tanah_kas_desa');
     Route::get('/form/{id?}', 'Bumindes_tanah_kas_desa@form')->name('bumindes_tanah_kas_desa.form');
     Route::post('/add_tanah_kas_desa', 'Bumindes_tanah_kas_desa@add_tanah_kas_desa')->name('bumindes_tanah_kas_desa.add_tanah_kas_desa');
     Route::post('/update_tanah_kas_desa/{id?}', 'Bumindes_tanah_kas_desa@update_tanah_kas_desa')->name('bumindes_tanah_kas_desa.update_tanah_kas_desa');
     Route::get('/delete_tanah_kas_desa/{id?}', 'Bumindes_tanah_kas_desa@delete_tanah_kas_desa')->name('bumindes_tanah_kas_desa.delete_tanah_kas_desa');
-    Route::post('/cetak_tanah_kas_desa/{aksi?}', 'Bumindes_tanah_kas_desa@cetak_tanah_kas_desa')->name('bumindes_tanah_kas_desa.cetak_tanah_kas_desa');
+    Route::post('/delete_all', 'Bumindes_tanah_kas_desa@delete_all')->name('bumindes_tanah_kas_desa.delete_all');
+    // Route::post('/cetak_tanah_kas_desa/{aksi?}', 'Bumindes_tanah_kas_desa@cetak_tanah_kas_desa')->name('bumindes_tanah_kas_desa.cetak_tanah_kas_desa');
 });
 
 // Buku Tanah Desa
