@@ -35,55 +35,29 @@
  *
  */
 
-namespace App\Models;
-
-use App\Enums\SasaranEnum;
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class BantuanPeserta extends BaseModel
+class AsuransiEnum extends BaseEnum
 {
-    use ConfigId;
+    public const TIDAK_BELUM_PUNYA               = 1;
+    public const BPJS_PENERIMA_BANTUAN_IURAN     = 2;
+    public const BPJS_NON_PENERIMA_BANTUAN_IURAN = 3;
+    public const BPJS_BANTUAN_DAERAH             = 4;
+    public const ASURANSI_LAINNYA                = 99;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'program_peserta';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
+    public static function all(): array
     {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
+        return [
+            self::TIDAK_BELUM_PUNYA               => 'Tidak/Belum Punya',
+            self::BPJS_PENERIMA_BANTUAN_IURAN     => 'BPJS Penerima Bantuan Iuran',
+            self::BPJS_NON_PENERIMA_BANTUAN_IURAN => 'BPJS Non Penerima Bantuan Iuran',
+            self::BPJS_BANTUAN_DAERAH             => 'BPJS Bantuan Daerah',
+            self::ASURANSI_LAINNYA                => 'Asuransi Lainnya',
+        ];
     }
 }

@@ -286,7 +286,7 @@ class Setting_model extends MY_Model
         return false;
     }
 
-    private function notifikasi_tracker()
+    private function notifikasi_tracker(): bool
     {
         if ($this->setting->enable_track == 0) {
             // Notifikasi tracker dimatikan

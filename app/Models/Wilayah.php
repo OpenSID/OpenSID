@@ -140,7 +140,7 @@ class Wilayah extends BaseModel
     public function rws(): HasMany
     {
         return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rw', '!=', '-')->where('rt', '=', '-');
-    }
+    }   
 
     public function rts(): HasMany
     {
@@ -199,23 +199,20 @@ class Wilayah extends BaseModel
 
     public function bukanRT(): bool
     {
-        return in_array($this->attributes['rt'], ['0', '-']);
+        return in_array($this->attributes['rt'] ,['0','-']);
     }
-
     public static function tree()
     {
-        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => !$q->isDusun() && ! $q->bukanRT() )));
     }
 
     public static function treeAccess()
     {
-        $user = auth();
-        if ($user->batasi_wilayah) {
+        $user = auth();        
+        if ($user->batasi_wilayah){
             $aksesWilayah = $user->akses_wilayah ?? [];
-
-            return self::select(['id', 'dusun', 'rt', 'rw'])->whereIn('id', $aksesWilayah)->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+            return self::select(['id', 'dusun', 'rt', 'rw'])->whereIn('id', $aksesWilayah)->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => !$q->isDusun() && ! $q->bukanRT() )));            
         }
-
-        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => !$q->isDusun() && ! $q->bukanRT()  )));
     }
 }

@@ -78,9 +78,7 @@
               </div>
             </div>
           <?php else:
-
-              $this->load->view('bumindes/penduduk/rekapitulasi/data_lengkap', ['judul_rekap' => 'Data Penduduk']);
-
+              view('admin.bumindes.penduduk.data_lengkap', ['judul' => 'Data Penduduk']);
           endif; ?>
 				</div>
 			</div>

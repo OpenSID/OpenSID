@@ -35,55 +35,23 @@
  *
  */
 
-namespace App\Models;
-
-use App\Enums\SasaranEnum;
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class BantuanPeserta extends BaseModel
+class HamilEnum extends BaseEnum
 {
-    use ConfigId;
+    public const HAMIL       = 1;
+    public const TIDAK_HAMIL = 2;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'program_peserta';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
+    public static function all(): array
     {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
+        return [
+            self::HAMIL       => 'Hamil',
+            self::TIDAK_HAMIL => 'Tidak Hamil',
+        ];
     }
 }

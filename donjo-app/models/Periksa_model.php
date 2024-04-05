@@ -70,7 +70,7 @@ class Periksa_model extends MY_Model
         $calon            = $current_version;
 
         // Deteksi jabatan kades atau sekdes tidak ada
-        if (! empty($jabatan = $this->deteksi_jabatan())) {
+        if (($jabatan = $this->deteksi_jabatan()) !== []) {
             $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
             $this->periksa['data_jabatan'] = $jabatan;
         }
@@ -140,7 +140,7 @@ class Periksa_model extends MY_Model
             ->result_array();
     }
 
-    private function deteksi_jabatan()
+    private function deteksi_jabatan(): array
     {
         $jabatan = [];
 
@@ -274,7 +274,7 @@ class Periksa_model extends MY_Model
         $this->session->db_error = null;
     }
 
-    private function perbaiki_autoincrement()
+    private function perbaiki_autoincrement(): bool
     {
         $hasil = true;
 
@@ -321,7 +321,7 @@ class Periksa_model extends MY_Model
         return $hasil;
     }
 
-    private function perbaiki_collation_table()
+    private function perbaiki_collation_table(): bool
     {
         $hasil  = true;
         $tables = $this->periksa['collation_table'];
@@ -339,7 +339,7 @@ class Periksa_model extends MY_Model
         return $hasil;
     }
 
-    private function perbaiki_jabatan()
+    private function perbaiki_jabatan(): bool
     {
         if ($jabatan = $this->periksa['data_jabatan']) {
             RefJabatan::insert($jabatan);
@@ -366,7 +366,7 @@ class Periksa_model extends MY_Model
             if (isset($id_sementara[$value->id_kk])) {
                 continue;
             }
-            $nokk_sementara = '0' . $kode_desa . sprintf('%05d', $digit);
+            $nokk_sementara = '0' . $kode_desa . sprintf('%05d', $digit + 1);
             $hasil          = Keluarga::create([
                 'id'         => $value->id_kk,
                 'config_id'  => $config_id,

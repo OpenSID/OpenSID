@@ -35,9 +35,23 @@
  *
  */
 
-header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=keluarga_' . date('Y-m-d') . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Models;
 
-include 'donjo-app/views/sid/kependudukan/keluarga_cetak.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class KelasSosial extends BaseModel
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tweb_keluarga_sejahtera';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+}

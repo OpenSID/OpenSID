@@ -38,9 +38,11 @@
 namespace App\Models;
 
 use App\Enums\AgamaEnum;
+use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Scopes\AccessWilayahScope;
+use App\Enums\StatusDasarEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -100,13 +102,78 @@ class Penduduk extends BaseModel
      * {@inheritDoc}
      */
     protected $fillable = [
-        'email',
-        'telepon',
-        'telegram',
-        'hubung_warga',
+        'nama',
+        'nik',
+        'id_kk',
+        'kk_level',
         'id_rtm',
         'rtm_level',
+        'sex',
+        'tempatlahir',
+        'tanggallahir',
+        'agama_id',
+        'pendidikan_kk_id',
+        'pendidikan_sedang_id',
+        'pekerjaan_id',
+        'status_kawin',
+        'warganegara_id',
+        'dokumen_pasport',
+        'dokumen_kitas',
+        'ayah_nik',
+        'ibu_nik',
+        'nama_ayah',
+        'nama_ibu',
+        'foto',
+        'golongan_darah_id',
+        'id_cluster',
+        'status',
+        'alamat_sebelumnya',
+        'alamat_sekarang',
+        'status_dasar',
+        'hamil',
+        'cacat_id',
+        'sakit_menahun_id',
+        'akta_lahir',
+        'akta_perkawinan',
+        'tanggalperkawinan',
+        'akta_perceraian',
+        'tanggalperceraian',
+        'cara_kb_id',
+        'telepon',
+        'tanggal_akhir_paspor',
+        'no_kk_sebelumnya',
+        'ktp_el',
+        'status_rekam',
+        'waktu_lahir',
+        'tempat_dilahirkan',
+        'jenis_kelahiran',
+        'kelahiran_anak_ke',
+        'penolong_kelahiran',
+        'berat_lahir',
+        'panjang_lahir',
+        'tag_id_card',
+        'created_at',
+        'created_by',
         'updated_at',
+        'updated_by',
+        'id_asuransi',
+        'no_asuransi',
+        'email',
+        'email_token',
+        'email_tgl_kadaluarsa',
+        'email_tgl_verifikasi',
+        'telegram',
+        'telegram_token',
+        'telegram_tgl_kadaluarsa',
+        'telegram_tgl_verifikasi',
+        'bahasa_id',
+        'ket',
+        'negara_asal',
+        'tempat_cetak_ktp',
+        'tanggal_cetak_ktp',
+        'suku',
+        'bpjs_ketenagakerjaan',
+        'hubung_warga',
     ];
 
     /**
@@ -374,11 +441,21 @@ class Penduduk extends BaseModel
     /**
      * Define a one-to-many relationship.
      *
-     * @return HasMany
+     * @return HasOne
      */
     public function log_latest()
     {
         return $this->hasOne(LogPenduduk::class, 'id_pend')->latest();
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return HasMany
+     */
+    public function log()
+    {
+        return $this->hasMany(LogPenduduk::class, 'id_pend');
     }
 
     /**
@@ -756,19 +833,234 @@ class Penduduk extends BaseModel
         })->toArray();
     }
 
-    public static function listDokumen(int $idPenduduk): array
+    public static function nikSementara()
     {
-        $result = [];
+        $digit = self::selectRaw('RIGHT(nik, 5) as digit')
+            ->orderBy(DB::raw('RIGHT(nik, 5)'), 'desc')
+            ->where('nik', 'like', '0%')
+            ->where('nik', '!=', '0')
+            ->first()
+            ->digit ?? 0;
 
-        $result = DokumenHidup::whereIdPend($idPenduduk)->where('deleted', 0)
-            ->get()->map(static function ($item, $key) {
-                $result           = $item->toArray();
-                $result['hidden'] = $item->id_parent ? true : false;
-                $result['no']     = $key + 1;
+        // NIK Sementara menggunakan format 0[kode-desa][nomor-urut]
+        return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
+    }
+
+    public static function validasi(&$data, $id = null)
+    {
+        $result = ['status' => true, 'messages' => ''];
+        // validasi jika NIK sementara dengan data yang sama sudah ada
+        if (strpos($data['nik'], '0') === 0) {
+            $tanggal_lahir = date('Y-m-d', strtotime($data['tanggallahir']));
+
+            $existingData = Penduduk::where('nama', $data['nama'])
+                ->where('tanggallahir', $tanggal_lahir)
+                ->where('tempatlahir', $data['tempatlahir'])
+                ->where('sex', $data['sex'])
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existingData) {
+                $result['status']   = false;
+                $result['messages'] = "Data Penduduk dengan NIK Sementara {$data['nik']} sudah ada";
+
+                return $result;
+            }
+        }
+
+        $data['tanggallahir']         = empty($data['tanggallahir']) ? null : tgl_indo_in($data['tanggallahir']);
+        $data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? null : tgl_indo_in($data['tanggal_akhir_paspor']);
+        $data['tanggalperkawinan']    = empty($data['tanggalperkawinan']) ? null : tgl_indo_in($data['tanggalperkawinan']);
+        $data['tanggalperceraian']    = empty($data['tanggalperceraian']) ? null : tgl_indo_in($data['tanggalperceraian']);
+        $data['tanggal_cetak_ktp']    = empty($data['tanggal_cetak_ktp']) ? null : tgl_indo_in($data['tanggal_cetak_ktp']);
+
+        $data['pendidikan_kk_id']     = $data['pendidikan_kk_id'] ?: null;
+        $data['pendidikan_sedang_id'] = $data['pendidikan_sedang_id'] ?: null;
+        $data['pekerjaan_id']         = $data['pekerjaan_id'] ?: null;
+        $data['status_kawin']         = $data['status_kawin'] ?: null;
+        $data['id_asuransi']          = $data['id_asuransi'] ?: null;
+        $data['hamil']                = $data['hamil'] ?: null;
+
+        $data['ktp_el']             = $data['ktp_el'] ?: null;
+        $data['tag_id_card']        = $data['tag_id_card'] ?: null;
+        $data['status_rekam']       = $data['status_rekam'] ?: null;
+        $data['berat_lahir']        = $data['berat_lahir'] ?: null;
+        $data['tempat_dilahirkan']  = $data['tempat_dilahirkan'] ?: null;
+        $data['jenis_kelahiran']    = $data['jenis_kelahiran'] ?: null;
+        $data['penolong_kelahiran'] = $data['penolong_kelahiran'] ?: null;
+        $data['panjang_lahir']      = $data['panjang_lahir'] ?: null;
+        $data['cacat_id']           = $data['cacat_id'] ?: null;
+        $data['sakit_menahun_id']   = $data['sakit_menahun_id'] ?: null;
+        $data['ket']                = htmlentities($data['ket']);
+        if (empty($data['id_asuransi']) || $data['id_asuransi'] == 1) {
+            $data['no_asuransi'] = null;
+        }
+        if (empty($data['warganegara_id'])) {
+            $data['warganegara_id'] = 1;
+        } //default WNI
+
+        // Hanya status 'kawin' yang boleh jadi akseptor kb
+        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], CaraKBEnum::keys())) {
+            $data['cara_kb_id'] = null;
+        }
+        // Status hamil tidak berlaku bagi laki-laki
+        if ($data['sex'] == 1) {
+            $data['hamil'] = null;
+        }
+        if (empty($data['kelahiran_anak_ke'])) {
+            $data['kelahiran_anak_ke'] = null;
+        }
+        if ($data['warganegara_id'] == 1 || empty($data['dokumen_kitas'])) {
+            $data['dokumen_kitas'] = null;
+        }
+        // Tanggal cetak ktp harus <= tanggal input
+        if ($data['tanggal_cetak_ktp'] > date('Y-m-d')) {
+            $data['tanggal_cetak_ktp'] = date('Y-m-d');
+        }
+
+        switch ($data['status_kawin']) {
+            case 1:
+                // Status 'belum kawin' tidak berlaku akta perkawinan dan perceraian
+                $data['akta_perkawinan']   = '';
+                $data['akta_perceraian']   = '';
+                $data['tanggalperkawinan'] = null;
+                $data['tanggalperceraian'] = null;
+                break;
+
+            case 2:
+                // Status 'kawin' tidak berlaku akta perceraian
+                $data['akta_perceraian']   = '';
+                $data['tanggalperceraian'] = null;
+                break;
+
+            case 3:
+            case 4:
+                break;
+        }
+
+        // Sterilkan data
+        $data['no_kk_sebelumnya']     = preg_replace('/[^0-9\.]/', '', strip_tags($data['no_kk_sebelumnya']));
+        $data['akta_lahir']           = nomor_surat_keputusan($data['akta_lahir']);
+        $data['tempatlahir']          = strip_tags($data['tempatlahir']);
+        $data['dokumen_pasport']      = nomor_surat_keputusan($data['dokumen_pasport']);
+        $data['nama_ayah']            = nama($data['nama_ayah']);
+        $data['nama_ibu']             = nama($data['nama_ibu']);
+        $data['alamat_sebelumnya']    = strip_tags($data['alamat_sebelumnya']);
+        $data['alamat_sekarang']      = strip_tags($data['alamat_sekarang']);
+        $data['akta_perkawinan']      = nomor_surat_keputusan($data['akta_perkawinan']);
+        $data['akta_perceraian']      = nomor_surat_keputusan($data['akta_perceraian']);
+        $data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
+        $data['suku']                 = nama_terbatas($data['suku']);
+
+        $data['telepon']  = empty($data['telepon']) ? null : bilangan($data['telepon']);
+        $data['email']    = empty($data['email']) ? null : email($data['email']);
+        $data['telegram'] = empty($data['telegram']) ? null : bilangan($data['telegram']);
+
+        $valid = [];
+        if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['nama'])) {
+            $valid[] = 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
+        }
+        if (isset($data['nik'])) {
+            $errorNik = self::nik_error($data['nik'], 'NIK');
+            if ($errorNik) {
+                $result['status']   = false;
+                $result['messages'] = $errorNik;
+
+                return $result;
+            }
+             //Tidak termasuk penduduk yg diupdate
+            $existingData = Penduduk::select(['nik', 'status_dasar'])
+                ->when($id, static fn ($q) => $q->where('id', '!=', $id))
+                ->where('nik', $data['nik'])
+                ->where('nik', '!=', 0)
+                ->first();
+
+            if ($existingData) {
+                if ($existingData->status_dasar != StatusDasarEnum::PERGI) {
+                    $result['messages'] = "NIK {$data['nik']} sudah digunakan";
+                } else {
+                    $result['messages'] = "NIK {$data['nik']} terdaftar Penduduk PERGI. Ubah Status di Menu Log Penduduk";
+                }
+                $result['status'] = false;
+
+                return $result;
+            }
+        }
+        $errorNikAyah = self::nik_error($data['ayah_nik'], 'NIK Ayah');
+        if ($errorNikAyah) {
+            $result['status']   = false;
+            $result['messages'] = $errorNikAyah;
 
             return $result;
-        })->toArray();
+        }
+        $errorNikIbu = self::nik_error($data['ibu_nik'], 'NIK Ibu');
+        if ($errorNikIbu) {
+            $result['status']   = false;
+            $result['messages'] = $errorNikIbu;
+
+            return $result;
+        }
+
+        //cek email duplikat
+        if (isset($data['email'])) {
+            $existingData = Penduduk::where('email', $data['email'])
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existingData) {
+                $result['status']   = false;
+                $result['messages'] = "Email {$data['email']} sudah digunakan";
+
+                return $result;
+            }
+        }
+
+        //cek telegram duplikat
+        if (isset($data['telegram'])) {
+            $existingData = Penduduk::where('telegram', $data['telegram'])
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existingData) {
+                $result['status']   = false;
+                $result['messages'] = "Email {$data['telegram']} sudah digunakan";
+
+                return $result;
+            }
+        }
+
+        // Cek duplikasi Tag ID Card
+        if (isset($data['tag_id_card'])) {
+            $existingData = Penduduk::where('tag_id_card', $data['tag_id_card'])
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existingData) {
+                $result['status']   = false;
+                $result['messages'] = "Tag ID Card {$data['tag_id_card']} sudah digunakan";
+
+                return $result;
+            }
+        }
 
         return $result;
+    }
+
+    public static function nik_error($nilai, string $judul)
+    {
+        if (empty($nilai)) {
+            return false;
+        }
+        if (! ctype_digit($nilai)) {
+            return $judul . ' hanya berisi angka';
+        }
+        if (strlen($nilai) == 16) {
+            return false;
+        }
+        if ($nilai == '0') {
+            return false;
+        }
+
+        return $judul . ' panjangnya harus 16 atau bernilai 0';
     }
 }

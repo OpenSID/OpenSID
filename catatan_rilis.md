@@ -12,19 +12,22 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7804](https://github.com/OpenSID/OpenSID/issues/7804) Penambahan kode isian operator artimatika perkalian dan pembagian.
 7. [#5125](https://github.com/OpenSID/OpenSID/issues/5125) Penambahan cetak/unduh rincian laporan bulanan.
 8. [#2229](https://github.com/OpenSID/OpenSID/issues/2229) Penambahan pengaturan sebutan anjungan mandiri.
-9. [#7830](https://github.com/OpenSID/OpenSID/issues/7830) Penambahan penerapan hak akses wilayah pada modul rumah tangga.
+9. [#7830](https://github.com/OpenSID/OpenSID/issues/7830) Penambahan penerapan hak akses wilayah pada modul keluarga, rumah tangga.
 
 
 #### BUG
 
 1. [#7832](https://github.com/OpenSID/OpenSID/issues/7832) Perbaikan menampilkan data buku rekapitulasi penduduk.
 2. [#7809](https://github.com/OpenSID/OpenSID/issues/7809) Perbaikan cetak prelist DTKS.
+3. [#7841](https://github.com/OpenSID/OpenSID/issues/7841) Perbaikan notifikasi laporan penduduk jika diatur data penduduk belum lengkap.
 
 
 #### TEKNIS
 
 1. [#3612](https://github.com/OpenSID/premium/issues/3612) Penyesuaian migrasi database.
-
+2. [#7754](https://github.com/OpenSID/OpenSID/issues/7754) Penyesuaian modul Buku Inventaris dan Kekayaan Desa menggunakan ORM dan Blade.
+3. [#7760](https://github.com/OpenSID/OpenSID/issues/7760) Penyesuaian modul Keluarga menggunakan ORM dan Blade.
+4. [#7175](https://github.com/OpenSID/OpenSID/issues/7175) Penyesuaian input tanggal cerai untuk status kawin "cerai mati".
 
 #### KEAMANAN
 
