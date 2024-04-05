@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#7832](https://github.com/OpenSID/OpenSID/issues/7832) Perbaikan menampilkan data buku rekapitulasi penduduk.
 2. [#7809](https://github.com/OpenSID/OpenSID/issues/7809) Perbaikan cetak prelist DTKS.
 3. [#7841](https://github.com/OpenSID/OpenSID/issues/7841) Perbaikan notifikasi laporan penduduk jika diatur data penduduk belum lengkap.
+4. [#7837](https://github.com/OpenSID/OpenSID/issues/7837) Perbaikan judul dokumen pada saat menginput judul Peraturan di Desa dan keputusan kepala desa bisa menggunakan koma (,).
 
 
 #### TEKNIS

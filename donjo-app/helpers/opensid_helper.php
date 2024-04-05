@@ -882,7 +882,7 @@ function alfanumerik_titik($str): ?string
 
 function nomor_surat_keputusan($str)
 {
-    return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', $str);
+    return preg_replace('/[^a-zA-Z0-9 \.\-\/,]/', '', $str);
 }
 
 // Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip

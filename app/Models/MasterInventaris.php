@@ -135,7 +135,6 @@ class MasterInventaris extends BaseModel
             return $asset;
         });
 
-        // dd($rekap);
         return collect($inventarisnew)->groupBy('nama_barang')->map(static function ($items): array {
             $result = [
                 'Bantuan Kabupaten'  => [],
