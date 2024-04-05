@@ -154,19 +154,29 @@ class Buku_tamu extends Anjungan_Controller
     public function cetak()
     {
         return view('admin.buku_tamu.tamu.cetak', [
-            'data_tamu' => $this->data($this->input->get('tanggal')),
+            'data_tamu' => $this->data(),
         ]);
     }
 
-    private function data($tanggal = null)
+    private function data()
+    {
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
+
+        return $query->take($paramDatatable['length'])->get();
+    }
+
+    private function sumberData()
     {
         $filters = [
-            'tanggal' => $tanggal,
+            'tanggal' => $this->input->get('tanggal') ?? null,
         ];
 
-        return BukuTamu::filters($filters)
-            ->latest()
-            ->get();
+        return BukuTamu::filters($filters);
     }
 
     public function ekspor(): void
