@@ -35,55 +35,47 @@
  *
  */
 
-namespace App\Models;
-
-use App\Enums\SasaranEnum;
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class BantuanPeserta extends BaseModel
+class SakitMenahunEnum extends BaseEnum
 {
-    use ConfigId;
+    public const JANTUNG           = 1;
+public const LEVER                 = 2;
+public const PARU_PARU             = 3;
+public const KANKER                = 4;
+public const STROKE                = 5;
+public const DIABETES_MELITUS      = 6;
+public const GINJAL                = 7;
+public const MALARIA               = 8;
+public const LEPRA_KUSTA           = 9;
+public const HIV_AIDS              = 10;
+public const GILA_STRESS           = 11;
+public const TBC                   = 12;
+public const ASTHMA                = 13;
+public const TIDAK_ADA_TIDAK_SAKIT = 14;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'program_peserta';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
+    public static function all(): array
     {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
+        return [
+            self::JANTUNG               => 'JANTUNG',
+            self::LEVER                 => 'LEVER',
+            self::PARU_PARU             => 'PARU-PARU',
+            self::KANKER                => 'KANKER',
+            self::STROKE                => 'STROKE',
+            self::DIABETES_MELITUS      => 'DIABETES MELITUS',
+            self::GINJAL                => 'GINJAL',
+            self::MALARIA               => 'MALARIA',
+            self::LEPRA_KUSTA           => 'LEPRA/KUSTA',
+            self::HIV_AIDS              => 'HIV/AIDS',
+            self::GILA_STRESS           => 'GILA/STRESS',
+            self::TBC                   => 'TBC',
+            self::ASTHMA                => 'ASTHMA',
+            self::TIDAK_ADA_TIDAK_SAKIT => 'TIDAK ADA/TIDAK SAKIT',
+        ];
     }
 }

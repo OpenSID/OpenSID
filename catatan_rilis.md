@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#3612](https://github.com/OpenSID/premium/issues/3612) Penyesuaian migrasi database.
 2. [#7754](https://github.com/OpenSID/OpenSID/issues/7754) Penyesuaian modul Buku Inventaris dan Kekayaan Desa menggunakan ORM dan Blade.
+3. [#7760](https://github.com/OpenSID/OpenSID/issues/7760) Penyesuaian modul Keluarga menggunakan ORM dan Blade.
 
 #### KEAMANAN
 

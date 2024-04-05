@@ -35,55 +35,35 @@
  *
  */
 
-namespace App\Models;
-
-use App\Enums\SasaranEnum;
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class BantuanPeserta extends BaseModel
+class StatusKTPEnum extends BaseEnum
 {
-    use ConfigId;
+    public const BELUM_REKAM            = 2;
+    public const SUDAH_REKAM            = 3;
+    public const CARD_PRINTED           = 4;
+    public const PRINT_READY_RECORD     = 5;
+    public const CARD_SHIPPED           = 6;
+    public const SENT_FOR_CARD_PRINTING = 7;
+    public const CARD_ISSUED            = 8;
+    public const BELUM_WAJIB            = 1;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'program_peserta';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
+    public static function all(): array
     {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
+        return [
+            self::BELUM_REKAM            => 'BELUM REKAM',
+            self::SUDAH_REKAM            => 'SUDAH REKAM',
+            self::CARD_PRINTED           => 'CARD PRINTED',
+            self::PRINT_READY_RECORD     => 'PRINT READY RECORD',
+            self::CARD_SHIPPED           => 'CARD SHIPPED',
+            self::SENT_FOR_CARD_PRINTING => 'SENT FOR CARD PRINTING',
+            self::CARD_ISSUED            => 'CARD ISSUED',
+            self::BELUM_WAJIB            => 'BELUM WAJIB',
+        ];
     }
 }

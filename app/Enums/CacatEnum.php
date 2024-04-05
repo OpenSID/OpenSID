@@ -35,55 +35,33 @@
  *
  */
 
-namespace App\Models;
-
-use App\Enums\SasaranEnum;
-use App\Traits\ConfigId;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class BantuanPeserta extends BaseModel
+class CacatEnum extends BaseEnum
 {
-    use ConfigId;
+    public const CACAT_FISIK            = 1;
+    public const CACAT_NETRA_BUTA       = 2;
+    public const CACAT_RUNGU_WICARA     = 3;
+    public const CACAT_MENTAL_JIWA      = 4;
+    public const CACAT_FISIK_DAN_MENTAL = 5;
+    public const CACAT_LAINNYA          = 6;
+    public const TIDAK_CACAT            = 7;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'program_peserta';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
+    public static function all(): array
     {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
+        return [
+            self::CACAT_FISIK            => 'CACAT FISIK',
+            self::CACAT_NETRA_BUTA       => 'CACAT NETRA/BUTA',
+            self::CACAT_RUNGU_WICARA     => 'CACAT RUNGU/WICARA',
+            self::CACAT_MENTAL_JIWA      => 'CACAT MENTAL/JIWA',
+            self::CACAT_FISIK_DAN_MENTAL => 'CACAT FISIK DAN MENTAL',
+            self::CACAT_LAINNYA          => 'CACAT LAINNYA',
+            self::TIDAK_CACAT            => 'TIDAK CACAT',
+        ];
     }
 }

@@ -142,6 +142,11 @@ class Wilayah extends BaseModel
         return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rw', '!=', '-')->where('rt', '=', '-');
     }
 
+    public function rwAll(): HasMany
+    {
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '=', '-');
+    }
+
     public function rts(): HasMany
     {
         return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '!=', '0')->where('rt', '!=', '-');
