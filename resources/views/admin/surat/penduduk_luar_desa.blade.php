@@ -185,17 +185,17 @@
     @endif
 
     @if (in_array('tanggal_perkawinan', $input))
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><strong>Tanggal Perkawinan</strong></label>
-        <div class="col-sm-3 col-lg-2">
-            <div class="input-group input-group-sm date">
-                <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Tanggal Perkawinan</strong></label>
+            <div class="col-sm-3 col-lg-2">
+                <div class="input-group input-group-sm date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input title="Pilih Tanggal" class="form-control datepicker input-sm" name="{{ $kategori }}[tanggalperkawinan]" type="text" placeholder="Tgl. Perkawinan" />
                 </div>
-                <input title="Pilih Tanggal" class="form-control datepicker input-sm" name="{{ $kategori }}[tanggalperkawinan]" type="text" placeholder="Tgl. Perkawinan" />
             </div>
         </div>
-    </div>
     @endif
 
     @if (in_array('shdk', $input))
@@ -213,38 +213,38 @@
     @endif
 
     @if (in_array('no_paspor', $input))
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><strong>No. Paspor</strong></label>
-        <div class="col-sm-5 col-lg-6">
-            <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_pasport]" placeholder="No. Paspor" />
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>No. Paspor</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_pasport]" placeholder="No. Paspor" />
+            </div>
         </div>
-    </div>
     @endif
 
     @if (in_array('no_kitas', $input))
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><strong>No. KITAS / KITAP</strong></label>
-        <div class="col-sm-5 col-lg-6">
-            <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_kitas]" placeholder="No. KITAS / KITAP" />
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>No. KITAS / KITAP</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_kitas]" placeholder="No. KITAS / KITAP" />
+            </div>
         </div>
-    </div>
     @endif
 
     @if (in_array('nama_ayah', $input))
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><strong>Nama Ayah</strong></label>
-        <div class="col-sm-5 col-lg-6">
-            <input class="form-control input-sm" type="text" name="{{ $kategori }}[nama_ayah]" placeholder="Nama Ayah" />
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Nama Ayah</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[nama_ayah]" placeholder="Nama Ayah" />
+            </div>
         </div>
-    </div>
     @endif
 
     @if (in_array('nama_ibu', $input))
-    <div class="form-group">
-        <label class="col-sm-3 control-label"><strong>Nama Ibu</strong></label>
-        <div class="col-sm-5 col-lg-6">
-            <input class="form-control input-sm" type="text" name="{{ $kategori }}[nama_ibu]" placeholder="Nama Ibu" />
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Nama Ibu</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[nama_ibu]" placeholder="Nama Ibu" />
+            </div>
         </div>
-    </div>
     @endif
 </div>

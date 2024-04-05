@@ -90,40 +90,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-2">
-                    <select id="dusun" class="form-control input-sm select2">
-                        <option value="">Pilih Dusun</option>
-                        @foreach ($wilayah as $item)
-                            <option value="{{ $item->id }}">{{ $item->dusun }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select id="rw" class="form-control input-sm select2">
-                        <option value="">Pilih RW</option>
-                        @foreach ($wilayah as $item)
-                            <optgroup label="{{ $item->dusun }}">
-                                @foreach ($item->rws as $child)
-                                    <option value="{{ $child->id }}">{{ $child->rw }}</option>
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select id="rt" class="form-control input-sm select2">
-                        <option value="">Pilih RT</option>
-                        @foreach ($wilayah as $item)
-                            @foreach ($item->rws as $child)
-                                <optgroup value={{ $child->id }} label="{{ $child->rw }}">
-                                    @foreach ($item->rts as $rt)
-                                        <option value="{{ $rt->id }}">{{ $rt->rt }}</option>
-                                    @endforeach
-                                </optgroup>
-                            @endforeach
-                        @endforeach
-                    </select>
-                </div>
+                @include('admin.layouts.components.wilayah')
             </div>
             <hr>
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -231,12 +198,14 @@
                     {
                         data: 'kepala_keluarga.nama',
                         name: 'kepalaKeluarga.nama',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kepala_keluarga.nik',
                         name: 'kepalaKeluarga.nik',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: false
                     },
@@ -302,32 +271,6 @@
                 TableData.column(2).visible(false);
             }
 
-            $('#dusun').change(function() {
-                let _label = $(this).find('option:selected').text()
-                $('#rw').find(`optgroup`).prop('disabled', 1)
-                if ($(this).val()) {
-                    $('#rw').closest('div').show()
-                    $('#rw').find(`optgroup[label="${_label}"]`).prop('disabled', 0)
-                } else {
-                    $('#rw').closest('div').hide()
-                    $('#rw').find(`optgroup`).prop('disabled', 1)
-                }
-                $('#rw').val('')
-                $('#rw').trigger('change')
-            })
-
-            $('#rw').change(function() {
-                let _label = $(this).find('option:selected').val()
-                $('#rt').find(`optgroup`).prop('disabled', 1)
-                if ($(this).val()) {
-                    $('#rt').closest('div').show()
-                    $('#rt').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
-                } else {
-                    $('#rt').closest('div').hide()
-                    $('#rt').find(`optgroup`).prop('disabled', 1)
-                }
-            })
-
             $('#status, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
                 TableData.draw()
             })
@@ -337,8 +280,6 @@
                     $('#jenis_kelamin').val(filterColumn['sex'])
                 }
             }
-
-            $('#dusun').trigger('change')
         });
     </script>
 @endpush

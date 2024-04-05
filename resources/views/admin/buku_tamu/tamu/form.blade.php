@@ -35,7 +35,15 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Telepon</label>
-                        <input type="text" class="form-control input-sm bilangan telepon required" name="telepon" placeholder="Isi No. Telp./HP" maxlength="20" pattern="[0-9]+" value="{{ $buku_tamu->telepon }}">
+                        <input
+                            type="text"
+                            class="form-control input-sm bilangan telepon required"
+                            name="telepon"
+                            placeholder="Isi No. Telp./HP"
+                            maxlength="20"
+                            pattern="[0-9]+"
+                            value="{{ $buku_tamu->telepon }}"
+                        >
                     </div>
                 </div>
             </div>

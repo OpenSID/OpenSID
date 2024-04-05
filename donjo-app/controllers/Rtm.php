@@ -72,11 +72,10 @@ class Rtm extends Admin_Controller
         $data = [
             'status'          => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
             'jenis_kelamin'   => JenisKelaminEnum::all(),
-            'wilayah'         => Wilayah::with(['rws' => static fn ($q) => $q->select(['id', 'dusun', 'rt', 'rw'])->with(['rts' => static fn ($r) => $r->select(['id', 'dusun', 'rt', 'rw'])])])->select(['id', 'dusun', 'rt', 'rw'])->dusun()->get(),
+            'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
         ];
-
         view('admin.penduduk.rtm.index', $data);
     }
 
@@ -85,7 +84,7 @@ class Rtm extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status    = $this->input->get('status') ?? null;
             $sex       = $this->input->get('jenis_kelamin') ?? null;
-            $dusun     = $this->input->get('dusun') ?? null;
+            $namaDusun = $this->input->get('dusun') ?? null;
             $rw        = $this->input->get('rw') ?? null;
             $rt        = $this->input->get('rt') ?? null;
             $bdt       = $this->input->get('bdt') ?? null;
@@ -94,12 +93,11 @@ class Rtm extends Admin_Controller
             $idCluster = $rt ? [$rt] : [];
 
             if (empty($idCluster) && ! empty($rw)) {
-                $rws       = Wilayah::with(['rts' => static fn ($q) => $q->select(['id'])])->find($rw);
-                $idCluster = array_merge([$rw], $rws->rts->pluck('id')->toArray());
+                [$namaDusun, $namaRw] = explode('__', $rw);
+                $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
             }
 
-            if (empty($idCluster) && ! empty($dusun)) {
-                $namaDusun = Wilayah::find($dusun)->dusun;
+            if (empty($idCluster) && ! empty($namaDusun)) {
                 $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
             }
 

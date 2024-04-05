@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -149,6 +150,13 @@ class Penduduk extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new AccessWilayahScope());
+    }
 
     public function getJmlAnakAttribute(): string
     {

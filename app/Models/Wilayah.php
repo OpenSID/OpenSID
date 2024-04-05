@@ -197,8 +197,25 @@ class Wilayah extends BaseModel
         return $this->attributes['rt'] != '0';
     }
 
+    public function bukanRT(): bool
+    {
+        return in_array($this->attributes['rt'], ['0', '-']);
+    }
+
     public static function tree()
     {
-        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! in_array($q->rt, ['-', 0]))));
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+    }
+
+    public static function treeAccess()
+    {
+        $user = auth();
+        if ($user->batasi_wilayah) {
+            $aksesWilayah = $user->akses_wilayah ?? [];
+
+            return self::select(['id', 'dusun', 'rt', 'rw'])->whereIn('id', $aksesWilayah)->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+        }
+
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != 0)->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
     }
 }
