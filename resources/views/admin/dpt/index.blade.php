@@ -69,24 +69,15 @@
         </div>
         <div class="box-header with-border form-inline">
             <div class="row col-md-12 search-dropdown">
-                <select class="form-control input-sm" name="sex">
-                    <option value="">Jenis Kelamin</option>
-                    @foreach ($jenis_kelamin as $data)
-                        <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
-                    @endforeach
-                </select>
-                <select class="form-control input-sm" id="dusun" name="dusun">
-                    <option value="">Pilih Dusun</option>
-                    @foreach ($dusun as $item)
-                        <option value="{{ $item->dusun }}">{{ $item->dusun }}</option>
-                    @endforeach
-                </select>
-                <select class="form-control input-sm hide" id="rw" name="rw">
-                    <option value="">Pilih RW</option>
-                </select>
-                <select class="form-control input-sm  hide" id="rt" name="rt">
-                    <option value="">Pilih RT</option>
-                </select>
+                <div class="col-md-1" style="margin-right:20px">
+                    <select class="form-control input-sm" name="sex">
+                        <option value="">Jenis Kelamin</option>
+                        @foreach ($jenis_kelamin as $data)
+                            <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @include('admin.layouts.components.wilayah')
             </div>
         </div>
         <div class="box-body">
@@ -114,7 +105,6 @@
         </div>
     </div>
 @endsection
-@include('admin.layouts.components.filter_wilayah')
 @include('admin.dpt.modal_search_form')
 @push('scripts')
     <script>
@@ -128,9 +118,9 @@
                     data: function(req) {
                         req.tgl_pemilihan = $('input[name=tgl_pemilihan]').val()
                         req.sex = $('select[name=sex]').val()
-                        req.dusun = $('select[name=dusun]').val()
-                        req.rw = $('select[name=rw]').val()
-                        req.rt = $('select[name=rt]').val()
+                        req.dusun = $('#dusun').val()
+                        req.rw = $('#rw').val()
+                        req.rt = $('#rt').val()
                         req.advanced = {
                             umur: {
                                 min: $('input[name=umur_min]').val(),
@@ -246,9 +236,9 @@
                 $('th.info-umur').text('UMUR PADA ' + $(this).val())
             })
 
-            document.querySelector('.search-dropdown').querySelectorAll('select').forEach($item => $item.addEventListener('change', function() {
+            $('select[name=sex], #dusun, #rw, #rt').change(function() {
                 TableData.draw()
-            }))
+            })
 
             $('#btnSearchAdvance').click(function() {
                 $(this).closest('.modal').modal('hide')

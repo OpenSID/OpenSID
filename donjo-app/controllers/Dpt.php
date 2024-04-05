@@ -66,7 +66,7 @@ class Dpt extends Admin_Controller
     {
         isCan('b');
         $data['jenis_kelamin']        = Sex::get();
-        $data['dusun']                = Wilayah::dusun()->get();
+        $data['wilayah']              = Wilayah::treeAccess();
         $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['input_umur']           = true;
         $data['list_agama']           = Agama::get()->toArray();
@@ -127,7 +127,8 @@ class Dpt extends Admin_Controller
             $cluster = new Wilayah();
             $cluster = $cluster->whereDusun($dusun);
             if ($rw) {
-                $cluster = $cluster->whereRw($rw);
+                [, $namaRw] = explode('__', $rw);
+                $cluster    = $cluster->whereRw($namaRw);
                 if ($rt) {
                     $cluster = $cluster->whereRt($rt);
                 }
