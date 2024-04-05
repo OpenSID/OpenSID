@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#7787](https://github.com/OpenSID/OpenSID/issues/7787) Penambahan kode isian penduduk luar desa sesuai isian standar kartu keluarga.
 5. [#7828](https://github.com/OpenSID/OpenSID/issues/7828) Penambahan pengaturan hak akses berdasarkan wilayah (dusun/rw/rt).
 6. [#7804](https://github.com/OpenSID/OpenSID/issues/7804) Penambahan kode isian operator artimatika perkalian dan pembagian.
+7. [#5125](https://github.com/OpenSID/OpenSID/issues/5125) Penambahan cetak/unduh rincian laporan bulanan.
 
 
 #### BUG

@@ -1,5 +1,14 @@
 <form id="validasi" action="<?= $form_action ?>" method="post" target="_blank">
     <div class="modal-body">
+        <?php if ($sensor_nik): ?>
+            <div class="form-group">
+                <label for="sensor_nik">Sensor NIK</label>
+                <select class="form-control input-sm select2 required" name="sensor_nik">
+                    <option value="1">Ya</option>
+                    <option value="0">Tidak</option>
+                </select>
+            </div>
+        <?php endif; ?>
         <div class="form-group">
             <label for="pamong_ttd">Laporan Ditandatangani</label>
             <select class="form-control input-sm select2 required" name="pamong_ttd">

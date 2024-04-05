@@ -457,6 +457,8 @@ Route::group('laporan', static function (): void {
     Route::post('/unduh', 'Laporan@unduh')->name('laporan.unduh');
     Route::post('/bulan', 'Laporan@bulan')->name('laporan.bulan');
     Route::get('/detail_penduduk/{rincian}/{tipe}', 'Laporan@detail_penduduk')->name('laporan.detail_penduduk');
+    Route::get('/detail_dialog/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_dialog')->name('laporan.detail_dialog');
+    Route::post('/detail_aksi/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_aksi')->name('laporan.detail_aksi');
 });
 
 // Statistik > Laporan Kelompok Rentan
