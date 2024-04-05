@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Anjungan OpenSID">
+    <meta name="description" content="{{ setting('sebutan_anjungan_mandiri') }}">
     <meta name="author" content="OpenDesa">
     <meta name="keywords" content="anjungan, opensid, mandiri, desa">
-    <title>Anjungan OpenSID</title>
+    <title>{{ setting('sebutan_anjungan_mandiri') }}</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
@@ -43,7 +43,7 @@
                 <div class="anjungan-head-logo difle-l">
                     <img src="{{ gambar_desa($desa['logo']) }}" alt="logo">
                     <div>
-                        <h1>Anjungan Desa Mandiri</h1>
+                        <h1>{{ setting('sebutan_anjungan_mandiri') }}</h1>
                         <p> {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
                         </p>
                     </div>
@@ -196,7 +196,7 @@
                                                             <div class="mlr-10">
                                                                 <div class="grider mlr-min5">
                                                                     <div class="col-2">
-                                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i]->toArray())) }}" class="popup">
+                                                                        <a data-value="{{ $arsip_terkini[$i]['url_slug'] }}" class="popup">
                                                                             <div class="imagecrop-grid">
                                                                                 @if (file_exists(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
                                                                                     <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']) }}">
@@ -215,7 +215,7 @@
 
                                                                     @if ($arsip_terkini[$i + 1])
                                                                         <div class="col-2">
-                                                                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i + 1]->toArray())) }}" class="popup">
+                                                                            <a data-value="{{ $arsip_terkini[$i + 1]['url_slug'] }}" class="popup">
                                                                                 <div class="imagecrop-grid">
                                                                                     @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1]['gambar']))
                                                                                         <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1]['gambar']) }}">
@@ -257,7 +257,7 @@
                                             <div class="marquee-top">
                                                 <div class="track-top">
                                                     @foreach ($arsip_populer as $arsip)
-                                                        <a data-value="{{ site_url('artikel/' . buat_slug($arsip->toArray())) }}" class="popup">
+                                                        <a data-value="{{ $arsip['url_slug'] }}" class="popup">
                                                             <div class="article-row">
                                                                 <div class="relhid mlr-min5">
                                                                     <div class="article-image">

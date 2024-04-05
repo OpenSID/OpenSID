@@ -35,12 +35,13 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 class Migrasi_dev extends MY_model
 {
@@ -64,11 +65,11 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024040571($hasil, $id);
+        }
 
         $hasil = $hasil && $this->migrasi_2024040271($hasil);
 
@@ -95,5 +96,19 @@ class Migrasi_dev extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024040571($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Sebutan Anjungan Mandiri',
+            'key'        => 'sebutan_anjungan_mandiri',
+            'value'      => 'Anjungan [desa] Mandiri',
+            'keterangan' => 'Pengaturan sebutan anjungan mandiri',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'anjungan',
+        ], $id);
     }
 }

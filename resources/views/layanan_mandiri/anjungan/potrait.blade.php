@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anjungan Desa Mandiri</title>
+    <title>{{ setting('sebutan_anjungan_mandiri') }}</title>
     {{-- Font --}}
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
@@ -32,7 +32,7 @@
         <div class="flex center">
             <img src="{{ gambar_desa($desa['logo']) }}" class="logo" alt="Logo">
             <div class="box-anjungan">
-                <h4 class="tulisan-anjungan">Anjungan Desa Mandiri</h4>
+                <h4 class="tulisan-anjungan">{{ setting('sebutan_anjungan_mandiri') }}</h4>
                 <p class="tulisan-desa">
                     {{ ucwords($setting->sebutan_desa . ' ' . $desa['nama_desa'] . ' Kec. ' . $desa['nama_kecamatan'] . ' Kab. ' . $desa['nama_kabupaten']) }}
                 </p>
@@ -94,7 +94,7 @@
                 <div id="terkini" class="tab-pane fade in active row" role="tabpanel">
                     @foreach ($arsip_terkini as $arsip)
                         <div class="col-md-3 box-berita">
-                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
+                            <a data-value="{{ $arsip['url_slug'] }}" class="popup">
                                 @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
                                     <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']) }}" />
                                 @else
@@ -114,7 +114,7 @@
                 <div id="populer" class="tab-pane fade in row" role="tabpanel">
                     @foreach ($arsip_populer as $arsip)
                         <div class="col-md-3 box-berita">
-                            <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
+                            <a data-value="{{ $arsip['url_slug'] }}" class="popup">
                                 @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
                                     <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']) }}" />
                                 @else

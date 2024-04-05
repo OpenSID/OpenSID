@@ -79,6 +79,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
     protected static function validated(array $request = []): array
     {
         return [
+            'sebutan_anjungan_mandiri' => strip_tags($request['sebutan_anjungan_mandiri']),
             'anjungan_artikel'         => json_encode($request['artikel'], JSON_THROW_ON_ERROR),
             'anjungan_teks_berjalan'   => strip_tags($request['teks_berjalan']),
             'anjungan_profil'          => bilangan($request['tampilan_profil']),
