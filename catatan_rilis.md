@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#6241](https://github.com/OpenSID/OpenSID/issues/6241) Peringkasan halaman buku kepuasan.
 4. [#7787](https://github.com/OpenSID/OpenSID/issues/7787) Penambahan kode isian penduduk luar desa sesuai isian standar kartu keluarga.
 5. [#7828](https://github.com/OpenSID/OpenSID/issues/7828) Penambahan pengaturan hak akses berdasarkan wilayah (dusun/rw/rt).
+6. [#7804](https://github.com/OpenSID/OpenSID/issues/7804) Penambahan kode isian operator artimatika perkalian dan pembagian.
 
 
 #### BUG

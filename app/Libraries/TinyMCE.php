@@ -427,7 +427,7 @@ class TinyMCE
         $pisahkanFoto = [];
 
         foreach ($newKodeIsian as $key => $value) {
-            if (in_array(strtolower($key), array_map('strtolower', ['[terbilang]', '[hitung]']))) {
+            if (in_array(strtolower($key), ['[terbilang]', '[hitung]'])) {
                 continue;
             }
             if (preg_match('/(<img src=")(.*?)(">)/', $key)) {
@@ -436,7 +436,7 @@ class TinyMCE
                 continue;
             }
             // TODO:: Cek dari awal pembuatan, kodeisian [format_nomor_surat] tidak mengikuti aturan penulisan, selalu hasilnya huruf besar.
-            if (in_array(strtolower($key), array_map('strtolower', ['[format_nomor_surat]']))) {
+            if (in_array(strtolower($key), ['[format_nomor_surat]'])) {
                 $result = str_ireplace($key, strtoupper($value), $result);
             }
             if (preg_match('/pengikut_surat/i', $key)) {
