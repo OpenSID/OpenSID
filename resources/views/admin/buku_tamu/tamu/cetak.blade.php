@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <td class="text-center">
-                    <h4>BUKU TAMU</h4>
+                    <h4><u>BUKU TAMU</u></h4>
                 </td>
             </tr>
             <tr>
@@ -48,6 +48,7 @@
                                 <th nowrap>JENIS KELAMIN</th>
                                 <th nowrap>ALAMAT</th>
                                 <th nowrap>KEPERLUAN</th>
+                                <th nowrap>FOTO</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,6 +65,7 @@
                                         {{ \App\Enums\JenisKelaminEnum::all()[$tamu->jenis_kelamin] }}</td>
                                     <td>{{ $tamu->alamat }}</td>
                                     <td>{{ $tamu->keperluan }}</td>
+                                    <td width="1%"class="text-center"><img src="{{ $tamu->url_foto }}" alt="foto" width="50px"></td>
                                 </tr>
                             @endforeach
                         </tbody>
