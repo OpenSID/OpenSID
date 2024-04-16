@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#7830](https://github.com/OpenSID/OpenSID/issues/7830) Penambahan penerapan hak akses wilayah pada modul keluarga, rumah tangga, dpt.
 10. [#6332](https://github.com/OpenSID/OpenSID/issues/6332) Penambahan pengurutan cetak buku tamu.
 11. [#6334](https://github.com/OpenSID/OpenSID/issues/6334) Penambahan foto pada cetak buku tamu.
+12. [#7858](https://github.com/OpenSID/OpenSID/issues/7858) Penambahan pengaturan icon lokasi pelapak pada peta.
 
 
 #### BUG

@@ -69,6 +69,7 @@ class Migrasi_dev extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024040571($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024041671($hasil, $id);
         }
 
         $hasil = $hasil && $this->migrasi_2024040271($hasil);
@@ -129,5 +130,19 @@ class Migrasi_dev extends MY_model
             ['slug' => 'arsip-surat-dinas', 'modul' => 'Arsip Layanan'],
             ['modul' => 'Arsip Surat Dinas']
         );
+    }
+
+    public function migrasi_2024041671($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Icon Lapak Peta',
+            'key'        => 'icon_lapak_peta',
+            'value'      => 'fastfood.png',
+            'keterangan' => 'Icon penanda Lapak yang ditampilkan pada Peta',
+            'jenis'      => 'select-simbol',
+            'option'     => json_encode(['model' => 'App\\Models\\Simbol', 'value' => 'simbol', 'label' => 'simbol']),
+            'attribute'  => 'class="form-control input-sm select2-icon-img required" data-lokasi="' . base_url(LOKASI_SIMBOL_LOKASI) . '"',
+            'kategori'   => 'lapak',
+        ], $id);
     }
 }
