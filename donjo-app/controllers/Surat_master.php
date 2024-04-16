@@ -130,7 +130,8 @@ class Surat_master extends Admin_Controller
 
             collect($data['suratMaster']->kode_isian)->filter(static function ($item) use (&$kategori_isian): bool {
                 if (isset($item->kategori)) {
-                    $kategori_isian[$item->kategori][] = $item;
+                    $item->kategori                                = strtolower($item->kategori);
+                    $kategori_isian[strtolower($item->kategori)][] = $item;
 
                     return true;
                 }
@@ -195,7 +196,7 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    private function form_isian()
+    private function form_isian(): array
     {
         return [
             'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
@@ -286,7 +287,7 @@ class Surat_master extends Admin_Controller
         }
     }
 
-    private function validate($request = [], $jenis = 4, $id = null)
+    private function validate($request = [], $jenis = 4, $id = null): array
     {
         // fix bagian key select-manual
         $kodeIsian   = null;
@@ -855,7 +856,7 @@ class Surat_master extends Admin_Controller
             ->toArray();
     }
 
-    private function prosesImport($list_data = null, $id = null)
+    private function prosesImport($list_data = null, $id = null): bool
     {
         if ($list_data) {
             foreach ($list_data as $key => $value) {

@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#7841](https://github.com/OpenSID/OpenSID/issues/7841) Perbaikan notifikasi laporan penduduk jika diatur data penduduk belum lengkap.
 4. [#7837](https://github.com/OpenSID/OpenSID/issues/7837) Perbaikan judul dokumen pada saat menginput judul Peraturan di Desa dan keputusan kepala desa bisa menggunakan koma (,).
 5. [#7848](https://github.com/OpenSID/OpenSID/issues/7848) Perbaikan hapus kategori artikel.
+6. [#7845](https://github.com/OpenSID/OpenSID/issues/7845) Perbaikan ubah surat layanan dan dinas.
 
 
 #### TEKNIS
