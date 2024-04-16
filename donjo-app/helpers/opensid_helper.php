@@ -37,6 +37,7 @@
 
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\RefJabatan;
+use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -402,7 +403,7 @@ function get_dynamic_title_page_from_path(): string
 
     for ($i = 0; $i < $counter; $i++) {
         $t = trim($explo[$i]);
-        if ($t !== '' && $t != '1' && $t != '0') {
+        if ($t !== '' && $t !== '1' && $t !== '0') {
             $title .= ((is_numeric($t)) ? ' ' : ' - ') . $t;
         }
     }
@@ -458,7 +459,7 @@ karena file image dan PDF juga mengandung string ini.
 function isPHP($file, $filename): bool
 {
     $ext = get_extension($filename);
-    if ($ext == '.php') {
+    if ($ext === '.php') {
         return true;
     }
 
@@ -541,10 +542,10 @@ function xcopy($src = '', $dest = '', $exclude = [], $only = []): void
         if ($exclude && in_array($file, $exclude)) {
             continue;
         }
-        if ($file == '.') {
+        if ($file === '.') {
             continue;
         }
-        if ($file == '..') {
+        if ($file === '..') {
             continue;
         }
         if (is_dir($srcfile)) {
@@ -1115,7 +1116,7 @@ function format_telpon(string $no_telpon, string $kode_negara = '+62'): string
 {
     $awalan = substr($no_telpon, 0, 2);
 
-    if ($awalan == '62') {
+    if ($awalan === '62') {
         return '+' . $no_telpon;
     }
 
@@ -1812,7 +1813,7 @@ if (! function_exists('checkWebsiteAccessibility')) {
 
         if ($headers) {
             $status = substr($headers[0], 9, 3);
-            if ($status == '200') {
+            if ($status === '200') {
                 return true;
             }
 
@@ -2138,7 +2139,7 @@ if (! function_exists('bungkusKotak')) {
 
         return preg_replace_callback($pola, static function (array $matches) use ($setting): string {
             $rapat = false;
-            if (substr($matches[0], 1, 2) == '##') {
+            if (substr($matches[0], 1, 2) === '##') {
                 $rapat = true;
 
                 return tampilkanKotak($matches[1], $rapat, $setting);
@@ -2282,7 +2283,7 @@ if (! function_exists('forceRemoveDir')) {
             $objects = scandir($dir);
 
             foreach ($objects as $object) {
-                if ($object != '.' && $object != '..') {
+                if ($object !== '.' && $object !== '..') {
                     $item = $dir . '/' . $object;
 
                     if (is_dir($item)) {
