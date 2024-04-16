@@ -64,6 +64,7 @@ class Migrasi_dev extends MY_model
         // }
 
         $hasil = $hasil && $this->migrasi_2024032052($hasil);
+        $hasil = $hasil && $this->migrasi_20240401471($hasil);
 
         return $hasil && true;
     }
@@ -75,5 +76,13 @@ class Migrasi_dev extends MY_model
             ['url' => 'bumindes_tanah_kas_desa']
         );
         return $hasil;
+    }
+
+    protected function migrasi_20240401471($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-surat-dinas', 'modul' => 'Arsip Layanan'],
+            ['modul' => 'Arsip Surat Dinas']
+        );
     }
 }

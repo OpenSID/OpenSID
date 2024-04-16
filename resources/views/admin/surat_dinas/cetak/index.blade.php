@@ -5,12 +5,12 @@
 
 @section('title')
     <h1>
-        Cetak Layanan Surat Dinas
+        Cetak Surat Dinas
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">Cetak Layanan Surat Dinas</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">Cetak Surat Dinas</a></li>
 @endsection
 
 @section('content')

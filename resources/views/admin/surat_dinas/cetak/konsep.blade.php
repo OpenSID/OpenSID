@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ ci_route('surat') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ ci_route('surat_dinas_cetak') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
             </a>
             <button type="button" id="preview-pdf" class="btn btn-social btn-vk btn-success btn-sm"><i class="fa fa-eye"></i>Tinjau PDF</button>

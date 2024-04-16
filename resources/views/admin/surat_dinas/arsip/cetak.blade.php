@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td class="text-center">
-                <h4><u> DATA ARSIP LAYANAN SURAT {{ strtoupper(setting('sebutan_desa')) }} </u></h4>
+                <h4><u> DATA ARSIP SURAT DINAS {{ strtoupper(setting('sebutan_desa')) }} </u></h4>
             </td>
         </tr>
         <tr>
