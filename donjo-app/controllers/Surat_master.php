@@ -294,7 +294,7 @@ class Surat_master extends Admin_Controller
         if ($manual_data !== []) {
             $data    = [];
             $no      = 0;
-            $counter = count($request['tipe_kode']);
+            $counter = count($request['tipe_kode'] ?? []);
 
             for ($i = 0; $i < $counter; $i++) {
                 if ($request['tipe_kode'][$i] == 'select-manual') {
@@ -302,7 +302,7 @@ class Surat_master extends Admin_Controller
                 }
             }
         }
-        $counter = count($request['tipe_kode']);
+        $counter = count($request['tipe_kode'] ?? []);
 
         for ($i = 0; $i < $counter; $i++) {
             if (empty($request['tipe_kode'][$i])) {
@@ -370,7 +370,7 @@ class Surat_master extends Admin_Controller
                 if ($manual_data !== []) {
                     $data    = [];
                     $no      = 0;
-                    $counter = count($request['kategori_tipe_kode'][$kategori]);
+                    $counter = count($request['kategori_tipe_kode'][$kategori] ?? []);
 
                     for ($i = 0; $i < $counter; $i++) {
                         if ($request['kategori_tipe_kode'][$kategori][$i] == 'select-manual') {
@@ -380,7 +380,7 @@ class Surat_master extends Admin_Controller
                         }
                     }
                 }
-                $counter = count($request['kategori_tipe_kode'][$kategori]);
+                $counter = count($request['kategori_tipe_kode'][$kategori] ?? []);
 
                 for ($i = 0; $i < $counter; $i++) {
                     if (empty($request['kategori_tipe_kode'][$kategori][$i])) {

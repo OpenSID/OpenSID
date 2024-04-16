@@ -191,19 +191,19 @@ class Keluarga extends Admin_Controller
         }
 
         return KeluargaModel::when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static function ($r) use ($status) {
-                   switch($status) {
-                        case 1:
-                            return $r->whereStatusDasar($status);
+                switch($status) {
+                    case 1:
+                        return $r->whereStatusDasar($status);
 
-                        case 2:
-                            return $r->where('status_dasar', '!=', 1);
+                    case 2:
+                        return $r->where('status_dasar', '!=', 1);
 
-                        case 3:
-                            return $r->where(static fn ($s) => $s->whereNull('status_dasar')->orwhere('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA) );
+                    case 3:
+                        return $r->where(static fn ($s) => $s->whereNull('status_dasar')->orwhere('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA) );
 
-                        case 4:
-                            return $r->where('no_kk', 'like', '0%');
-                   }
+                    case 4:
+                        return $r->where('no_kk', 'like', '0%');
+                }
             }))->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
             ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))

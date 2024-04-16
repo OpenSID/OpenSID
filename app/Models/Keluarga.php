@@ -290,9 +290,9 @@ class Keluarga extends BaseModel
 
         $keluarga = Keluarga::create($data);
 
-        $pend->id_kk      = $keluarga->id;
-        $pend->kk_level   = SHDKEnum::KEPALA_KELUARGA;
-        $pend->status     = 1; // statusnya menjadi tetap        
+        $pend->id_kk    = $keluarga->id;
+        $pend->kk_level = SHDKEnum::KEPALA_KELUARGA;
+        $pend->status   = 1; // statusnya menjadi tetap
         $pend->save();
 
         $log['id_pend']    = $data['nik_kepala'];

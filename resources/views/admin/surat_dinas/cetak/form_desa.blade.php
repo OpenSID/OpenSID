@@ -1,4 +1,5 @@
 @include('admin.layouts.components.asset_validasi')
+@include('admin.layouts.components.datetime_picker')
 
 @extends('admin.layouts.index')
 
@@ -59,9 +60,9 @@
 
             @include('admin.surat_dinas.cetak.nomor_surat')
 
-            @if ($judul_kategori['individu'] != '-')
+            @if ($judul_kategori['individu'] != '-' && $surat['kode_isian'])
                 <div class="form-group subtitle_head">
-                    <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
+                    <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan')) }}</label>
                 </div>
             @endif
             @if ($surat->form_isian->individu->info)

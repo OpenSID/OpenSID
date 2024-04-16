@@ -122,7 +122,7 @@ class Surat_dinas_arsip extends Admin_Controller
         }
 
         $data['user_admin']  = config_item('user_admin') == auth()->id;
-        $data['title']       = 'Arsip Layanan Surat';
+        $data['title']       = 'Arsip Surat Dinas';
         $data['tahun_surat'] = LogSuratDinas::withOnly([])->selectRaw(DB::raw('YEAR(tanggal) as tahun'))->groupBy(DB::raw('YEAR(tanggal)'))->orderBy(DB::raw('YEAR(tanggal)'), 'desc')->get();
         $data['bulan_surat'] = [];
         $data['jenis_surat'] = SuratDinas::whereHas('logSurat')->distinct()->select(['id', 'nama'])->get();
@@ -324,10 +324,10 @@ class Surat_dinas_arsip extends Admin_Controller
             unlink(FCPATH . LOKASI_ARSIP . $log_surat->nama_surat);
 
             $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
-                if ($next == 'verifikasi_sekdes') {
+                if ($next === 'verifikasi_sekdes') {
                     return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
                 }
-                if ($next == 'verifikasi_kades') {
+                if ($next === 'verifikasi_kades') {
                     return $query->where('jabatan_id', '=', kades()->id);
                 }
             })->where('notif_telegram', '=', '1')->first();
@@ -349,10 +349,10 @@ class Surat_dinas_arsip extends Admin_Controller
             $payload    = '/permohonan/surat/periksa/' . $id . '/Periksa Surat';
 
             $allToken = FcmToken::whereHas('user.pamong', static function ($query) use ($next) {
-                if ($next == 'verifikasi_sekdes') {
+                if ($next === 'verifikasi_sekdes') {
                     return $query->where('jabatan_id', '=', sekdes()->id)->where('pamong_ttd', '=', '1');
                 }
-                if ($next == 'verifikasi_kades') {
+                if ($next === 'verifikasi_kades') {
                     return $query->where('jabatan_id', '=', kades()->id);
                 }
             })->get();

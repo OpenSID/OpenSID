@@ -47,7 +47,7 @@
                         <div class="row" style="margin-top: 5px">
                             <label for="isi-label" class="col-sm-2" title="Isi dengan karakter - untuk sembunyikan label">Label Bagian</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratDinas->form_isian->individu->label ?? 'Keterangan Pemohon' }}" minlength="1" maxlength="30">
+                                <input type="text" class="form-control input-sm required isi-label" name="label" value="{{ $suratDinas->form_isian->individu->label ?? 'Keterangan' }}" minlength="1" maxlength="30">
                             </div>
                         </div>
                         <div class="row" style="margin-top: 5px">
