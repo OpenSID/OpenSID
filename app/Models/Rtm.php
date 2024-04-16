@@ -84,7 +84,7 @@ class Rtm extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     /**
