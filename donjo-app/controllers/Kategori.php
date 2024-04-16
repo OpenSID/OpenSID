@@ -69,7 +69,7 @@ class Kategori extends Admin_Controller
             $canDelete = can('h');
             $canUpdate = can('u');
 
-            return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent'])->orderBy('urut', 'asc'))
+            return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent', 'artikel'])->orderBy('urut', 'asc'))
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
@@ -94,7 +94,9 @@ class Kategori extends Admin_Controller
                     }
 
                     if ($canDelete) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('kategori.delete', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        if ($row->artikel->count() == 0) {
+                            $aksi .= '<a href="#" data-href="' . ci_route('kategori.delete', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        }
                     }
 
                     return $aksi;
@@ -165,6 +167,10 @@ class Kategori extends Admin_Controller
     public function delete($parent, $id = null): void
     {
         isCan('h');
+
+        if (KategoriModel::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('artikel')->count()) {
+            redirect_with('error', 'Kategori tidak dapat dihapus karena masih memiliki artikel');
+        }
 
         if (KategoriModel::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
             redirect_with('error', 'Kategori tidak dapat dihapus karena masih memiliki subkategori');
