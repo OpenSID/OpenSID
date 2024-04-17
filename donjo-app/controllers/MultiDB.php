@@ -314,9 +314,9 @@ class MultiDB extends Admin_Controller
         $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
 
         // $rand       = mt_rand(100000, 999999);
-        // ambil dari 6 digit terakhir kode desa
+        // ambil dari 6 digit terakhir kode desa + 999999 agar tidak duplikasi dengan data maksimal
         $kode_desa  = DB::table('config')->where('app_key', get_app_key())->value('kode_desa');
-        $rand       = (int) substr($kode_desa, -6);
+        $rand       = 999999 + (int) substr($kode_desa, -6);
         $backupData = [
             'info' => [
                 'versi'    => VERSION,
