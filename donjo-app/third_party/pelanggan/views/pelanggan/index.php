@@ -206,7 +206,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box box-info">
+            <div class="box box-info" id="box-pemesanan-premium">
                 <div class="box-header with-border">
                     <b>Rincian Pemesanan Premium</b>
                     <?php if ($permohonan = $this->session->errors->messages->permohonan) : ?>
@@ -246,9 +246,10 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
+                                            <?php $pemesananPremium = 0; ?>
                                             <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                                 <?php if ($layanan->kategori_id == 4) : ?>
-
+                                                    <?php $pemesananPremium++; ?>
                                                     <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?><?= $layanan->number; ?></a><br>
                                                     <?= '<style>#tbl-premium-' . $number . ' { display:table-row!important;}</style>'; ?>
 
@@ -275,13 +276,16 @@
                                             <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
                                         </td>
                                     </tr>
+                                    <?php if ($pemesananPremium == 0) : ?>
+                                        <?= '<style>#box-pemesanan-premium { display:none;}</style>'; ?>
+                                    <?php endif; ?>
                                 <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="box box-info">
+            <div class="box box-info" id="box-pemesanan-lainnya">
                 <div class="box-header with-border">
                     <b>Rincian Pemesanan Lainnya</b>
                     <?php if ($permohonan = $this->session->errors->messages->permohonan) : ?>
@@ -305,6 +309,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $pemesananLainnya = 0; ?>
                                 <?php foreach ($response->body->pemesanan as $number => $pemesanan) : ?>
                                     <tr id="tbl-pemesanan-<?= $number ?>">
                                         <td class="padat"><?= ($number + 1) ?></td>
@@ -323,11 +328,10 @@
                                         <td>
                                             <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                                 <?php if ($layanan->kategori_id != 4) : ?>
-
+                                                    <?php $pemesananLainnya++; ?>
                                                     <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
                                                     <?= '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>'; ?>
-
-                                                <?php else : ?>
+                                                    <?php else : ?>
                                                     <?= '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>'; ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
@@ -346,6 +350,9 @@
                                         </td>
                                     </tr>
                                 <?php endforeach ?>
+                                <?php if ($pemesananLainnya == 0) : ?>
+                                    <?= '<style>#box-pemesanan-lainnya { display:none;}</style>'; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
