@@ -47,6 +47,7 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use Illuminate\Filesystem\Filesystem;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -563,7 +564,7 @@ class Surat_master extends Admin_Controller
             ]);
 
             if ($this->upload->do_upload('font_custom')) {
-                $font = \TCPDF_FONTS::addTTFfont(
+                $font = TCPDF_FONTS::addTTFfont(
                     $this->upload->data('full_path'),
                     '',
                     '',
@@ -578,6 +579,9 @@ class Surat_master extends Admin_Controller
                     $font_surat->save();
 
                     rename($this->upload->data('full_path'), LOKASI_FONT_DESA . "{$font}.ttf");
+
+                    // copy fonts di vendor ke folder desa
+                    (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
                 }
             } else {
                 redirect_with('error', $this->upload->display_errors());
@@ -707,7 +711,6 @@ class Surat_master extends Admin_Controller
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
-            $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
             $html2pdf->writeHTML($isi_cetak);
             $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {

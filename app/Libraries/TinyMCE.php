@@ -57,6 +57,7 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\LogSuratDinas;
 use App\Models\Pamong;
+use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
 use CI_Controller;
 use Karriere\PdfMerge\PdfMerge;
@@ -68,6 +69,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 if (! in_array(setting('font_surat'), FONT_SYSTEM_TINYMCE)) {
     define('K_PATH_MAIN', '');
+}
+
+if (file_exists(LOKASI_FONT_DESA . 'times_new_roman.php')) {
     define('K_PATH_FONTS', LOKASI_FONT_DESA);
 }
 
@@ -326,8 +330,11 @@ class TinyMCE
     {
         $isi = $this->generateMultiPage($isi);
 
-        $isi = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
-
+        $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+        $font_surat   = SettingAplikasi::where(['key' => 'font_surat', 'kategori' => 'format_surat'])->first()->option ?? [];
+        $font_surat   = array_map('strtolower', $font_surat);
+        $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
+        $isi          = str_replace($font_surat, $replace_font, $isi);
         // Pisahkan isian surat
         $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
@@ -559,7 +566,6 @@ class TinyMCE
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
-            ->setDefaultFont(underscore(setting('font_surat'), true, true))
             ->writeHTML($surat) // buat surat
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
@@ -654,7 +660,6 @@ class TinyMCE
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
-            ->setDefaultFont(underscore(setting('font_surat'), true, true))
             ->writeHTML($lampiran) // buat lampiran
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
