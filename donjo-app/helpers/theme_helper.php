@@ -51,7 +51,7 @@ if (! function_exists('theme')) {
     function theme()
     {
         if (Schema::hasTable('theme')) {
-            return new \App\Models\Theme();
+            return new App\Models\Theme();
         }
 
         return null;

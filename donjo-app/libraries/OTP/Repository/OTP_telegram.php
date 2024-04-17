@@ -47,7 +47,7 @@ class OTP_telegram implements OTP_interface
      */
     protected $ci;
 
-    protected \Telegram $telegram;
+    protected Telegram $telegram;
 
     public function __construct()
     {

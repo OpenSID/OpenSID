@@ -75,7 +75,7 @@ class Install_modul extends CI_Controller
                 $token        = App\Models\SettingAplikasi::where(['key' => 'layanan_opendesa_token'])->first();
                 $response     = Http::withToken($token->value)->post($urlHitModule, ['module_name' => $name]);
                 log_message('error', $response->body());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }

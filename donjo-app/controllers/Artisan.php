@@ -42,7 +42,7 @@ class Artisan extends CI_Controller
 {
     public function index(): void
     {
-        $kernel = app(\Illuminate\Contracts\Console\Kernel::class);
+        $kernel = app(Illuminate\Contracts\Console\Kernel::class);
 
         exit($kernel->handle(new ArgvInput(), new ConsoleOutput()));
     }

@@ -178,8 +178,8 @@ class MY_Controller extends CI_Controller
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
             try {
-                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new \Fcm\Push\Notification();
+                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())
@@ -217,8 +217,8 @@ class MY_Controller extends CI_Controller
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
             try {
-                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new \Fcm\Push\Notification();
+                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())

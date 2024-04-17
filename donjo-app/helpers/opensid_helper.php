@@ -1222,7 +1222,7 @@ function kode_format($lampiran = ''): string
  */
 function exists($array, $key): bool
 {
-    if ($array instanceof \ArrayAccess) {
+    if ($array instanceof ArrayAccess) {
         return $array->offsetExists($key);
     }
 
@@ -1345,7 +1345,7 @@ function idm($kode_desa, $tahun)
 
     // ambil dari api idm
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new Client();
         $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -1393,7 +1393,7 @@ function sdgs()
     }
 
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new Client();
         $response = $client->get(config_item('api_sdgs') . $kode_desa, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -1791,7 +1791,7 @@ if (! function_exists('getVariableName')) {
             return null;
         }
 
-        $reflection   = new \ReflectionClass($class);
+        $reflection   = new ReflectionClass($class);
         $constants    = $reflection->getConstants();
         $variableName = array_search($value, $constants);
 

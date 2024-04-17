@@ -301,7 +301,7 @@ class Stunting extends Admin_Controller
     {
         $anakId = [];
 
-        foreach (KiA::all() as $data) {
+        foreach (KIA::all() as $data) {
             $anakId[] = $data->anak_id ?? 0;
         }
 

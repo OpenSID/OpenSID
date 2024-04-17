@@ -111,7 +111,7 @@ class Laporan_inventaris extends Admin_Controller
 
         $this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
     }
-    
+
     // TODO: Ini digunakan dimana pada view
     public function filter($filter): void
     {

@@ -77,7 +77,7 @@ class Keluarga extends Admin_Controller
     public $kategori_pengaturan = 'data_lengkap';
     private $judulStatistik;
     private $filterColumn  = [];
-    private $defaultStatus = App\Enums\StatusDasarKKEnum::AKTIF;
+    private $defaultStatus = StatusDasarKKEnum::AKTIF;
 
     public function __construct()
     {
@@ -321,7 +321,7 @@ class Keluarga extends Admin_Controller
     public function add_exist($id = 0): void
     {
         isCan('u');
-        $data['penduduk']       = PendudukHidup::lepas()->get();        
+        $data['penduduk']       = PendudukHidup::lepas()->get();
         $data['nokk_sementara'] = KeluargaModel::formatNomerKKSementara();
         $data['form_action']    = ci_route("keluarga.insert.{$id}");
         view('admin.penduduk.keluarga.modal.ajax_add_keluarga', $data);
@@ -478,7 +478,7 @@ class Keluarga extends Admin_Controller
     {
         isCan('h');
 
-        if (data_lengkap()) {            
+        if (data_lengkap()) {
             redirect_with('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
         }
 

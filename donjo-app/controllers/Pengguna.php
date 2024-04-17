@@ -183,7 +183,7 @@ class Pengguna extends Admin_Controller
             $status = $this->password->driver('email')->sendVerifyLink([
                 'email' => $user->email,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
             redirect_with('error', 'Tidak berhasil mengirim verifikasi email');
         }

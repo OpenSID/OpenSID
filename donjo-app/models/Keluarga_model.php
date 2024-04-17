@@ -1070,7 +1070,7 @@ class Keluarga_model extends MY_Model
 
             $this->penduduk_model->tulis_log_penduduk_data($x);
             $this->db->trans_commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
             $this->db->trans_rollback();
         }

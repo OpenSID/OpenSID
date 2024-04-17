@@ -207,7 +207,7 @@ class Mailbox extends Admin_Controller
             $pesan->status = $nextStatus;
             $pesan->save();
             redirect_with('success', 'Berhasil ubah status', ci_route('mailbox', $tipe));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             redirect_with('error', 'Gagal ubah status ' . $e->getMessage(), ci_route('mailbox', $tipe));
         }
     }

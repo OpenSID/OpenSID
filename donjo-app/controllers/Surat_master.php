@@ -564,7 +564,7 @@ class Surat_master extends Admin_Controller
             ]);
 
             if ($this->upload->do_upload('font_custom')) {
-                $font = \TCPDF_FONTS::addTTFfont(
+                $font = TCPDF_FONTS::addTTFfont(
                     $this->upload->data('full_path'),
                     '',
                     '',

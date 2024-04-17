@@ -1224,7 +1224,7 @@ class Penduduk extends Admin_Controller
                 $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
             }
             $writer->close();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             $this->session->set_flashdata('notif', 'Tidak berhasil mengekspor data penduduk, harap mencoba kembali.');

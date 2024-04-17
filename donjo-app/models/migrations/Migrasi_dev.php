@@ -71,11 +71,10 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024032052($hasil)
     {
-        $hasil = $hasil && $this->ubah_modul(
+        return $hasil && $this->ubah_modul(
             ['slug' => 'buku-tanah-kas-desa', 'url' => 'bumindes_tanah_kas_desa/clear'],
             ['url' => 'bumindes_tanah_kas_desa']
         );
-        return $hasil;
     }
 
     protected function migrasi_20240401471($hasil)

@@ -230,7 +230,7 @@ class Cek
             $os = $this->ci->agent->platform();
 
             try {
-                $client = new \GuzzleHttp\Client();
+                $client = new GuzzleHttp\Client();
                 $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
                     'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                     'form_params' => [

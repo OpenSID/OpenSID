@@ -483,7 +483,7 @@ class MultiDB extends Admin_Controller
             DB::commit();
             hapus_cache('_cache_modul');
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             log_message('error', 'gagal restore ' . $e->getMessage() );
             redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));

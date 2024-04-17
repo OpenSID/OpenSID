@@ -112,7 +112,7 @@ class Plugin extends Admin_Controller
                 $token        = setting('layanan_opendesa_token');
                 $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name]);
                 log_message('error', $response->body());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }

@@ -122,7 +122,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
 
                 return $aksi;
             })
-            ->editColumn('kode', static fn($row) => $row->ref_persil_kelas->kode)
+            ->editColumn('kode', static fn ($row) => $row->ref_persil_kelas->kode)
             ->rawColumns(['aksi', 'kode'])
             ->make();
         }

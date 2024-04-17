@@ -56,7 +56,7 @@ class Surat_kecamatan extends Tte_Controller
         parent::__construct();
 
         if (! empty($this->setting->sinkronisasi_opendk)) {
-            $this->client = new \GuzzleHttp\Client([
+            $this->client = new GuzzleHttp\Client([
                 'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat/",
             ]);
         }

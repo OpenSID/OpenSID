@@ -50,7 +50,7 @@ class Pelanggan_Controller extends Admin_Controller
     /**
      * @var Client HTTP Client
      */
-    protected \GuzzleHttp\Client $client;
+    protected Client $client;
 
     protected $server;
 
