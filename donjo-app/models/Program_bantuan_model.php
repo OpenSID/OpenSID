@@ -800,7 +800,7 @@ class Program_bantuan_model extends MY_Model
     private function validasi_bantuan($post)
     {
         $kk_level = json_encode($post['kk_level']);
-        if ($post['sasaran'] != 2) {
+        if ($post['cid'] != 2) {
             $kk_level = null;
         }
 

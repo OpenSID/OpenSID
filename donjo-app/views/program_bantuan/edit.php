@@ -39,7 +39,7 @@
 							<select class="form-control input-sm select2 required" name="kk_level[]" multiple="multiple" <?= $jml != 0 ? 'disabled' : '' ?>>
 								<?php
                                     $data['kk_level'] = json_decode($data['kk_level'], true);
-                                    if (count($kk_level) == 0) {
+                                    if ($data['kk_level'] === null || count($kk_level) == 0) {
                                         $data['kk_level'] = ['1', '2', '3', '4'];
                                     }
                                 ?>

@@ -94,8 +94,10 @@
 		var cid = $(this).val();
 		if (cid == 2) {
 			$('#penerima').show();
+			$('#penerima').find('select').addClass('required');
 		} else {
 			$('#penerima').hide();
+			$('#penerima').find('select').removeClass('required');
 		}
 	});
 </script>
