@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class Migrasi_2024041751 extends MY_model
 {
     public function up()
     {
@@ -63,6 +63,25 @@ class Migrasi_dev extends MY_model
         //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
         // }
 
+        $hasil = $hasil && $this->migrasi_2024032052($hasil);
+        $hasil = $hasil && $this->migrasi_20240401471($hasil);
+
         return $hasil && true;
+    }
+
+    protected function migrasi_2024032052($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-tanah-kas-desa', 'url' => 'bumindes_tanah_kas_desa/clear'],
+            ['url' => 'bumindes_tanah_kas_desa']
+        );
+    }
+
+    protected function migrasi_20240401471($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-surat-dinas', 'modul' => 'Arsip Layanan'],
+            ['modul' => 'Arsip Surat Dinas']
+        );
     }
 }
