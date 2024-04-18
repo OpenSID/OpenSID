@@ -1,6 +1,7 @@
 @extends('installer.install')
 
 @section('step')
+    <div style="display:none;" id="loader"></div>
     @if($ci->session->errors)
         @if (is_array($ci->session->errors))
             @foreach($ci->session->errors as $error)
@@ -71,7 +72,7 @@
                 <button
                     type="summit"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"
-                    onClick="this.form.submit(); this.disabled=true; this.innerText='Mohon tunggu sebentar…';"
+                    onClick="this.form.submit(); this.disabled=true; this.innerText='Mohon tunggu sebentar…'; document.getElementById('loader').style.display = 'block';"
                 >
                     Langkah berikutnya
                     <svg class="fill-current w-5 h-5 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

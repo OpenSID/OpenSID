@@ -389,7 +389,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
         if (data_lengkap()) {
-            session_error('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
+            session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
 
             redirect("{$this->controller}/index/{$p}/{$o}");
         }
@@ -405,7 +405,7 @@ class Penduduk extends Admin_Controller
         $this->redirect_hak_akses('h');
 
         if (data_lengkap()) {
-            session_error('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
+            session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
 
             redirect("{$this->controller}/index/{$p}/{$o}");
         }
@@ -574,6 +574,12 @@ class Penduduk extends Admin_Controller
     public function edit_status_dasar($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('u');
+        if (! data_lengkap()) {
+            session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
+
+            redirect("{$this->controller}/index/{$p}/{$o}");
+        }
+
         $data['nik']             = $this->penduduk_model->get_penduduk($id);
         $data['form_action']     = site_url("{$this->controller}/update_status_dasar/{$p}/{$o}/{$id}");
         $data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
@@ -590,6 +596,12 @@ class Penduduk extends Admin_Controller
     public function update_status_dasar($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
+        if (! data_lengkap()) {
+            session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
+
+            redirect("{$this->controller}/index/{$p}/{$o}");
+        }
+
         $this->penduduk_model->update_status_dasar($id);
         $this->cache->hapus_cache_untuk_semua('_wilayah');
 

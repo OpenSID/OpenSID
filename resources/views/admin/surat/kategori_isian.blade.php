@@ -82,7 +82,7 @@
                 placeholder="<?= $item->deskripsi ?>">
                 <option value="">--<?= $item->deskripsi ?>--</option>
                 <?php foreach ($item->pilihan as $key => $pilih): ?>
-                <option value="<?= $pilih ?>"><?= $pilih ?></option>
+                    <option @selected(set_value("{$nama}_{$keyname}") == $pilih) value="<?= $pilih ?>"><?= $pilih ?></option>
                 <?php endforeach ?>
             </select>
         </div>
@@ -93,7 +93,7 @@
                 placeholder="<?= $item->deskripsi ?>">
                 <option value="">--<?= $item->deskripsi ?> --</option>
                 <?php foreach (ref($item->refrensi) as $key => $pilih): ?>
-                <option value="<?= $pilih->nama ?>">
+                <option @selected(set_value("{$nama}_{$keyname}") == $pilih->nama) value="<?= $pilih->nama ?>">
                     <?= $pilih->nama ?>
                 </option>
                 <?php endforeach ?>
@@ -101,7 +101,7 @@
         </div>
         <?php elseif ($item->tipe == 'textarea'): ?>
         <div class="col-sm-8">
-            <textarea name="<?= $nama ?>_{{ $keyname }}" <?= $class ?> placeholder="<?= $item->deskripsi ?>"></textarea>
+            <textarea name="<?= $nama ?>_{{ $keyname }}" <?= $class ?> placeholder="<?= $item->deskripsi ?>"><?= set_value("{$nama}_{$keyname}") ?></textarea>
         </div>
         <?php elseif ($item->tipe == 'date'): ?>
         <div class="col-sm-3 col-lg-2">
@@ -111,7 +111,7 @@
                 </div>
                 <input type="text"
                 <?= buat_class($item->atribut, 'form-control input-sm tgl', $item->required) ?>
-                    name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
+                    name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" value="<?= set_value("{$nama}_{$keyname}") ?>" />
             </div>
         </div>
         <?php elseif ($item->tipe == 'time'): ?>
@@ -122,7 +122,7 @@
                 </div>
                 <input type="text"
                 <?= buat_class($item->atribut, 'form-control input-sm jam', $item->required) ?>
-                    name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
+                    name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" value="<?= set_value("{$nama}_{$keyname}") ?>" />
             </div>
         </div>
         <?php elseif ($item->tipe == 'datetime'): ?>
@@ -133,14 +133,14 @@
                 </div>
                 <input type="text"
                 <?= buat_class($item->atribut, 'form-control input-sm tgl_jam', $item->required) ?>
-                    name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
+                    name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" value="<?= set_value("{$nama}_{$keyname}") ?>" />
             </div>
         </div>
         <?php else: ?>
         <div class="col-sm-8">
             <input type="<?= $item->tipe ?>"
                 <?= $class ?>
-                name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" />
+                name="<?= $nama ?>_{{ $keyname }}" placeholder="<?= $item->deskripsi ?>" value="<?= set_value("{$nama}_{$keyname}") ?>" />
         </div>
         <?php endif ?>
     </div>

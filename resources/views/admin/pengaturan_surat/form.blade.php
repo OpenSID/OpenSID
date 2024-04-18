@@ -1,5 +1,6 @@
 @include('admin.layouts.components.asset_validasi')
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
 @extends('admin.layouts.index')
 
@@ -19,8 +20,9 @@
     @include('admin.layouts.components.notifikasi')
 
     {!! form_open($formAction, 'id="validasi" enctype="multipart/form-data"') !!}
-    <input type="hidden" id="id_surat" name="id_surat" value="{{ $suratMaster->id }}">
+    <input type="hidden" id="id_surat" name="id_surat" value="{{ $suratMaster->id }}">    
     <div class="nav-tabs-custom">
+        <div class="container identitas-surat"><h4>Surat {{ $suratMaster->nama ?? '' }}</h4></div>
         <ul class="nav nav-tabs" id="tabs">
             <li class="active"><a href="#pengaturan-umum" data-toggle="tab">Umum</a></li>
             <li><a href="#template-surat" data-toggle="tab">Template</a></li>
@@ -76,6 +78,10 @@
             $('input[name="mandiri"]').change(function() {
                 syarat($(this).val());
             });            
+
+            $('#pengaturan-umum input[name=nama]').keyup(function(e){                
+                $('div.identitas-surat h4').text('Surat '+ $(this).val())
+            })
 
             $('#preview').click(function(e) {
                 e.preventDefault();
@@ -144,7 +150,6 @@
                         })
                     })
             });
-            
         });
 
         function masaBerlaku() {
@@ -204,9 +209,12 @@
             if (header == 1) {
                 $("#lh1").addClass('active');
                 $("#ih1").prop("checked", true);
-            } else {
+            } else if (header == 2) {
                 $("#lh2").addClass('active');
                 $("#ih2").prop("checked", true);
+            } else {
+                $("#lh3").addClass('active');
+                $("#ih3").prop("checked", true);
             }
 
             var logo_garuda = "{{ $suratMaster->logo_garuda }}";
@@ -226,6 +234,9 @@
                 $("#lk2").addClass('active');
                 $("#ik2").prop("checked", true);
             }
+
+            var lampiran = "{{ $suratMaster->lampiran }}";
+            $('.lampiran-multiple').val(lampiran.split(',')).change();
 
             syarat($('input[name=mandiri]:checked').val());
         };

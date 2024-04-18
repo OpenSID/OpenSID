@@ -27,12 +27,11 @@ Library PHP yang digunakan:
 - https://code.google.com/archive/p/php-excel-reader/, untuk membaca file Excel format 2003
 - http://sourceforge.net/projects/simplehtmldom/, parse form surat untuk tampilkan kode isian
 - https://github.com/monperrus/crawler-user-agents/, tambahan data crawler
-- https://github.com/esyede/curly/, untuk melakukan http request via cURL
 - http://phpqrcode.sourceforge.net/, Porting Ci https://github.com/dwisetiyadi/CodeIgniter-PHP-QR-Code, untuk membuat QRCode, Porting asli telah dimodifikasi untuk pemakaian di OpenSID dan ditambahkan fungsi Sisipan Logo dan Warna back/foreground
 - https://www.responsivefilemanager.com/, pengelolaan berkas
 - https://github.com/mike42/escpos-php/, membuat dan mencetak tanda terima printer yang kompatibel
 - https://github.com/googleapis/google-api-php-client, menangani impor data dari google form
 - https://github.com/spipu/html2pdf, pengonversi HTML ke PDF yang ditulis dalam PHP
-- https://www.github.com/box/spout, untuk membaca dan menulis file spreadsheet (CSV, XLSX, dan ODS)
+- https://github.com/openspout/openspout, untuk membaca dan menulis file spreadsheet (CSV, XLSX, dan ODS)
 - https://github.com/JCSama/CodeIgniter-develbar, untuk menampilkan debugging / pengoptimalan, Basis Data, Model, Pembantu, Pustaka, Tampilan, Ajax dll pada proses development.
 

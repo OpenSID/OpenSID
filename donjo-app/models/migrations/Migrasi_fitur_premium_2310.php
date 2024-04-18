@@ -55,7 +55,7 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil && $this->migrasi_2023101252($hasil);
     }
 
     // Migrasi perubahan data
@@ -66,19 +66,16 @@ class Migrasi_fitur_premium_2310 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2023091851($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2023092571($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023092951($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023092652($hasil, $id);
         }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_23090451($hasil);
+        $hasil = $hasil && $this->migrasi_23090651($hasil);
 
-        return $hasil && $this->migrasi_23090651($hasil);
-    }
-
-    protected function migrasi_xxxxxxxxxx($hasil)
-    {
-        return $hasil;
+        return $hasil && $this->migrasi_2023100351($hasil);
     }
 
     protected function migrasi_23090451($hasil)
@@ -151,6 +148,20 @@ class Migrasi_fitur_premium_2310 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2023092571($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Kode Isian data kosong',
+            'key'        => 'ganti_data_kosong',
+            'value'      => '-',
+            'keterangan' => 'Bawaan jika kode isian memiliki data kosong',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_surat',
+        ], $id);
+    }
+
     protected function migrasi_2023092951($hasil, $id)
     {
         foreach ([
@@ -174,12 +185,76 @@ class Migrasi_fitur_premium_2310 extends MY_model
         return $hasil && $this->tambah_setting([
             'judul'      => 'Telegram Notifikasi',
             'key'        => 'telegram_notifikasi',
-            'value'      => '0',
+            'value'      => setting('telegram_notifikasi') === null && ! empty(setting('telegram_user_id')) && ! empty(setting('telegram_token')) ? 1 : 0,
             'keterangan' => 'Aktif atau nonaktifkan notifikasi telegram',
             'jenis'      => 'boolean',
             'option'     => null,
             'attribute'  => null,
             'kategori'   => 'sistem',
         ], $id);
+    }
+
+    protected function migrasi_2023100351($hasil)
+    {
+        $surat = DB::table('tweb_surat_format')->where('syarat_surat', '!=', null)->get();
+
+        foreach ($surat as $data_surat) {
+            $cart = [];
+
+            foreach (json_decode($data_surat->syarat_surat) as $row) {
+                $cart[] = $this->cek_syarat_surat($row, $data_surat->config_id);
+            }
+            DB::table('tweb_surat_format')->where('id', $data_surat->id)->update(['syarat_surat' => json_encode($cart)]);
+        }
+
+        return $hasil;
+    }
+
+    protected function cek_syarat_surat($ref_syarat_id, $config_id)
+    {
+        $syarat_surat = [
+            '1'  => 'Surat Pengantar RT/RW',
+            '2'  => 'Fotokopi KK',
+            '3'  => 'Fotokopi KTP',
+            '4'  => 'Fotokopi Surat Nikah/Akta Nikah/Kutipan Akta Perkawinan',
+            '5'  => 'Fotokopi Akta Kelahiran/Surat Kelahiran bagi keluarga yang mempunyai anak',
+            '6'  => 'Surat Pindah Datang dari tempat asal',
+            '7'  => 'Surat Keterangan Kematian dari Rumah Sakit, Rumah Bersalin Puskesmas, atau visum Dokter',
+            '8'  => 'Surat Keterangan Cerai',
+            '9'  => 'Fotokopi Ijasah Terakhir',
+            '10' => 'SK. PNS/KARIP/SK. TNI – POLRI',
+            '11' => 'Surat Keterangan Kematian dari Kepala Desa/Kelurahan',
+            '12' => 'Surat imigrasi / STMD (Surat Tanda Melapor Diri)',
+        ];
+
+        $nama_awal = $syarat_surat[$ref_syarat_id];
+
+        $ambil_syarat_surat = DB::table('ref_syarat_surat')->where('ref_syarat_nama', $nama_awal)->where('config_id', $config_id)->get();
+
+        return $ambil_syarat_surat[0]->ref_syarat_id;
+    }
+
+    protected function migrasi_2023101251($hasil)
+    {
+        $query = 'update config set kode_desa = SUBSTRING(kode_desa,1, 10), kode_kecamatan = SUBSTRING(kode_kecamatan,1, 6), kode_kabupaten = SUBSTRING(kode_kabupaten,1, 4), kode_propinsi = SUBSTRING(kode_propinsi,1, 2) ';
+        DB::statement($query);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023101252($hasil)
+    {
+        $hasil = $hasil && $this->migrasi_2023101251($hasil);
+
+        $queryKodeDesa      = 'alter table config MODIFY COLUMN kode_desa varchar(10)';
+        $queryKodeKecamatan = 'alter table config MODIFY COLUMN kode_kecamatan varchar(6)';
+        $queryKodeKabupaten = 'alter table config MODIFY COLUMN kode_kabupaten varchar(4)';
+        $queryKodePropinsi  = 'alter table config MODIFY COLUMN kode_propinsi varchar(2)';
+        DB::statement($queryKodeDesa);
+        DB::statement($queryKodeKecamatan);
+        DB::statement($queryKodeKabupaten);
+        DB::statement($queryKodePropinsi);
+
+        return $hasil;
     }
 }

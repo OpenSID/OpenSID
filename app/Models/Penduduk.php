@@ -472,9 +472,13 @@ class Penduduk extends BaseModel
      *
      * @return Builder
      */
-    public function scopefilters($query, array $filters = [])
+    public function scopefilters($query, array $filters = [], array $allowedFilters = ['sex', 'status_dasar', 'kk_level'])
     {
         foreach ($filters as $key => $value) {
+            if (! in_array($key, $allowedFilters)) {
+                continue;
+            }
+
             $query->when($value ?? false, static function ($query) use ($value, $key) {
                 $query->where($key, $value);
             });

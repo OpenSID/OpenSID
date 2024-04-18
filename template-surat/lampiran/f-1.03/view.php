@@ -122,7 +122,7 @@
 		<tr>
 			<td>2.</td>
 			<td>Nama Lengkap Pemohon</td>
-			<td colspan=22 class="kotak"><?= $individu['kepala_kk']; ?></td>
+			<td colspan=22 class="kotak"><?= $individu['nama']; ?></td>
 		</tr>
 		<tr>
 			<td>3.</td>

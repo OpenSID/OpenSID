@@ -67,3 +67,51 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
+
+<script>
+
+	// dokument ready
+	$(document).ready(function() {
+		function validateMin() {
+			var min = parseFloat($('#dari').val());
+			var max = parseFloat($('#sampai').val());
+
+			if (min >= max) {
+				$('#dari').prop('max', max);
+			} else {
+				$('#dari').prop('max', '');
+				$('#sampai').prop('min', '');
+			}
+		}
+
+		function validateMax() {
+			var min = parseFloat($('#dari').val());
+			var max = parseFloat($('#sampai').val());
+
+			if (max < min) {
+				$('#sampai').prop('min', min);
+			} else {
+				$('#sampai').prop('min', '');
+				$('#dari').prop('max', '');
+			}
+		}
+
+		$('#dari').on('keyup', function() {
+			validateMin();
+		});
+
+		$('#sampai').on('keyup', function() {
+			validateMax();
+		});
+
+		$('#validasi').submit(function(e) {
+			var min = parseFloat($('#dari').val());
+			var max = parseFloat($('#sampai').val());
+
+			if (min >= max) {
+				e.preventDefault();
+			}
+		});
+	});
+</script>
+

@@ -675,6 +675,11 @@ class Wilayah_model extends MY_Model
     {
         $data = $_POST;
         $id   = $_POST['id'];
+
+        if ($data['path'] == '[]') {
+            $data['path'] = null;
+        }
+
         $outp = $this->config_id()
             ->where('id', $id)
             ->update('tweb_wil_clusterdesa', $data);

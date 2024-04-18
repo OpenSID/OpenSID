@@ -37,13 +37,16 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$route['default_controller']   = 'first';
+$route['default_controller']   = 'first/index';
 $route['404_override']         = '';
 $route['translate_uri_dashes'] = false;
 
 $route['sitemap\.xml'] = 'Sitemap/index';
 $route['feed\.xml']    = 'Feed/index';
 $route['ppid']         = 'Api_informasi_publik/ppid';
+
+// First
+$route['first'] = 'first/utama';
 
 // Artikel
 $route['artikel/(:num)']                      = 'first/artikel/$1'; // Contoh : artikel/1

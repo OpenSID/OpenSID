@@ -280,7 +280,14 @@ class Kelompok extends Admin_Controller
     public function delete($id = 0)
     {
         $this->redirect_hak_akses('h');
-        $this->kelompok_model->delete($id);
+
+        if ($this->kelompok_model->get_kelompok_having_anggota($id)) {
+            $this->kelompok_model->delete($id);
+
+            redirect($this->controller);
+        }
+
+        status_sukses(false, false, "Tidak bisa menghapus {$this->tipe} yang sudah memiliki anggota");
 
         redirect($this->controller);
     }
