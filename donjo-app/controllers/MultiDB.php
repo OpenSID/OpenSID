@@ -515,6 +515,7 @@ class MultiDB extends Admin_Controller
                     }
 
                 }
+                reset_auto_increment($tableName);
                 DB::table($tableName)->insert($record);
                 log_message('notice', 'Restore data ' . $tableName . ' id ' . $record['id'] . ' berhasil.');
             }

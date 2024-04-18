@@ -37,8 +37,9 @@
 
 namespace App\Imports;
 
-use App\Models\KlasifikasiSurat;
 use Exception;
+use App\Models\KlasifikasiSurat;
+use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class KlasifikasiSuratImports
@@ -62,6 +63,8 @@ class KlasifikasiSuratImports
 
         try {
             $dataImport = [];
+
+            reset_auto_increment('klasifikasi_surat');
 
             (new FastExcel())->import($this->path, static function (array $line) use ($configId, &$dataImport): void {
                 $dataUpdate = [

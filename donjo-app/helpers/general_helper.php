@@ -1111,3 +1111,18 @@ if (! function_exists('invalid_tags')) {
         ];
     }
 }
+
+if (! function_exists('reset_auto_increment')) {
+    /**
+     * Reset auto increment.
+     * 
+     * @param string $table
+     * 
+     * @return void
+     */
+    function reset_auto_increment($table)
+    {
+        $max_id = DB::table($table)->max('id');
+        DB::statement("ALTER TABLE {$table} AUTO_INCREMENT = " . ($max_id + 1));
+    }
+}

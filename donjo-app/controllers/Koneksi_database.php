@@ -74,6 +74,8 @@ class Koneksi_database extends CI_Controller
     {
         $this->load->database();
         if (Config::appKey()->count() == 0) {
+            reset_auto_increment('config');
+
             // Tambahkan data sementara
             Config::create([
                 'app_key'           => get_app_key(),
