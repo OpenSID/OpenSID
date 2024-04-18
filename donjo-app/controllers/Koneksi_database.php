@@ -93,6 +93,8 @@ class Koneksi_database extends CI_Controller
             $this->data_awal->up();
 
             DB::table('migrasi')->truncate();
+            $this->load->model('database_model');
+            $this->database_model->cek_migrasi(true);
 
             // hapus cache
             resetCacheDesa();
