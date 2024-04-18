@@ -55,7 +55,10 @@ class MY_Exceptions extends CI_Exceptions
     {
         parent::__construct();
 
-        $this->ci = get_instance();
+        if (! is_cli()) {
+            $this->ci = get_instance();
+        }
+
     }
 
     /**

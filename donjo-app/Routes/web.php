@@ -126,7 +126,6 @@ Route::group('koneksi_database', static function (): void {
     Route::get('/', 'Koneksi_database@index');
     Route::get('config', 'Koneksi_database@config');
     Route::get('updateKey', 'Koneksi_database@updateKey');
-    Route::get('desaBaru', 'Koneksi_database@desaBaru');
     Route::get('encryptPassword', 'Koneksi_database@encryptPassword');
 });
 
