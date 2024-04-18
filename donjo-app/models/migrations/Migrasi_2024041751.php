@@ -56,13 +56,6 @@ class Migrasi_2024041751 extends MY_model
     // Migrasi perubahan data
     protected function migrasi_data($hasil)
     {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
-        // }
-
         $hasil = $hasil && $this->migrasi_2024032052($hasil);
         $hasil = $hasil && $this->migrasi_20240401471($hasil);
 
