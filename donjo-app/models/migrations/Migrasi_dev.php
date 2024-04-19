@@ -36,6 +36,7 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,6 +53,8 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2023120558($hasil);
+
         return $hasil && true;
     }
 
@@ -82,7 +85,19 @@ class Migrasi_dev extends MY_model
             'default_tampil_peta_wilayah',
             'default_tampil_peta_infrastruktur',
         ])->update(['kategori' => 'peta']);
-        
+
+        return $hasil;
+    }
+
+    protected function migrasi_2023120558($hasil)
+    {
+        if (Schema::hasColumn('kelompok', 'kode')) {
+            Schema::table('kelompok', static function ($table) {
+                $table->dropUnique('kode_config');
+                $table->unique(['config_id', 'kode', 'tipe'], 'config_kode_tipe');
+            });
+        }
+
         return $hasil;
     }
 }
