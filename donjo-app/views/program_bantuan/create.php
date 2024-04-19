@@ -94,10 +94,10 @@
 		var cid = $(this).val();
 		if (cid == 2) {
 			$('#penerima').show();
-			$('#penerima').find('select').addClass('required');
+			$('[name="kk_level[]"]').addClass('required');
 		} else {
 			$('#penerima').hide();
-			$('#penerima').find('select').removeClass('required');
+			$('[name="kk_level[]"]').removeClass('required');
 		}
 	});
 </script>
