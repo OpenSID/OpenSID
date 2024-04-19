@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -63,6 +65,24 @@ class Migrasi_dev extends MY_model
         //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
         // }
 
+        $hasil = $hasil && $this->migrasi_2024041951($hasil);
+
         return $hasil && true;
+    }
+
+    protected function migrasi_2024041951($hasil)
+    {
+        DB::table('setting_aplikasi')->whereIn('key', [
+            'mapbox_key',
+            'jenis_peta',
+            'tampil_luas_peta',
+            'min_zoom_peta',
+            'max_zoom_peta',
+            'tampilkan_tombol_peta',
+            'default_tampil_peta_wilayah',
+            'default_tampil_peta_infrastruktur',
+        ])->update(['kategori' => 'peta']);
+        
+        return $hasil;
     }
 }
