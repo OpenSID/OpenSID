@@ -135,4 +135,18 @@ class LogPenduduk extends BaseModel
     {
         return static::PENYEBAB_KEMATIAN[$this->sebab] ?? '';
     }
+
+    public static function kodePeristiwaAll($index)
+    {
+        $result = [
+            self::BARU_LAHIR        => 'Baru Lahir',
+            self::MATI              => 'Mati',
+            self::PINDAH_KELUAR     => 'Pindah Keluar',
+            self::HILANG            => 'Hilang',
+            self::BARU_PINDAH_MASUK => 'Baru Pindah Masuk',
+            self::TIDAK_TETAP_PERGI => 'Tidak Tetap Pergi',
+        ];
+
+        return $result[$index] ?? '-';
+    }
 }

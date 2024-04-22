@@ -66,7 +66,7 @@ class Job extends CI_Controller
             show_404();
         }
 
-        delete_files(config_item('log_path'), true);
+        kosongkanFolder(config_item('log_path'));
         log_message('notice', '>_ Mulai');
 
         // Kecuali folder

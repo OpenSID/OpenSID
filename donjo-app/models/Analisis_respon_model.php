@@ -602,6 +602,7 @@ class Analisis_respon_model extends MY_Model
                         if (! $dx) {
                             $data['id_indikator'] = $indikator;
                             $data['jawaban']      = $id_p;
+                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_parameter', $data);
                             unset($data);
                             $dx = $this->config_id()

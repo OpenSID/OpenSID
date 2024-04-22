@@ -61,22 +61,26 @@ class Surat_master extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['surat_master_model', 'surat_model']);
-        $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'pengaturan-surat';
+        $this->tinymce            = new TinyMCE();
+        $this->modul_ini          = 'layanan-surat';
+        $this->sub_modul_ini      = 'pengaturan-surat';
+        $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()
     {
+        $nonAktifkanRTF = setting('nonaktifkan_rtf');
+
         return view('admin.pengaturan_surat.index', [
-            'jenisSurat' => FormatSurat::JENIS_SURAT,
+            'jenisSurat' => $nonAktifkanRTF ? FormatSurat::JENIS_SURAT_TANPA_RTF : FormatSurat::JENIS_SURAT,
         ]);
     }
 
     public function datatables()
     {
+        $nonAktifkanRTF = setting('nonaktifkan_rtf');
         if ($this->input->is_ajax_request()) {
-            return datatables(FormatSurat::jenis($this->input->get('jenis')))
+            return datatables((new FormatSurat())->setNonAktifkanRTF($nonAktifkanRTF)->jenis($this->input->get('jenis')))
                 ->addColumn('ceklist', static function ($row) {
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                 })
@@ -127,8 +131,6 @@ class Surat_master extends Admin_Controller
         $data['action']      = $id ? 'Ubah' : 'Tambah';
         $data['formAction']  = $id ? route('surat_master.update', $id) : route('surat_master.insert');
         $data['suratMaster'] = $id ? FormatSurat::findOrFail($id) : null;
-
-        $this->set_hak_akses_rfm();
 
         if ($id) {
             $kategori_isian        = [];
@@ -346,19 +348,15 @@ class Surat_master extends Admin_Controller
         }
 
         $formIsian = [
-            'data'           => $request['data_utama'] ?? 1,
-            'individu'       => null,
-            'data_orang_tua' => $request['data_orang_tua'] ?? 0,
-            'data_pasangan'  => $request['data_pasangan'] ?? 0,
+            'individu' => [
+                'data'           => $request['data_utama'] ?? 1,
+                'sex'            => $request['individu_sex'] ?? null,
+                'status_dasar'   => $request['individu_status_dasar'] ?? null,
+                'kk_level'       => $request['individu_kk_level'] ?? null,
+                'data_orang_tua' => $request['data_orang_tua'] ?? 0,
+                'data_pasangan'  => $request['data_pasangan'] ?? 0,
+            ],
         ];
-
-        if ($request['data_utama'] != 2) {
-            $formIsian['individu'] = [
-                'sex'          => $request['individu_sex'] ?? null,
-                'status_dasar' => $request['individu_status_dasar'] ?? null,
-                'kk_level'     => $request['individu_kk_level'] ?? null,
-            ];
-        }
 
         if (isset($request['kategori'])) {
             foreach ($request['kategori'] as $kategori) {
@@ -367,6 +365,8 @@ class Surat_master extends Admin_Controller
                     'sex'          => $request['kategori_individu_sex'][$kategori] ?? null,
                     'status_dasar' => $request['kategori_status_dasar'][$kategori] ?? null,
                     'kk_level'     => $request['kategori_individu_kk_level'][$kategori] ?? null,
+                    // 'data_orang_tua' => $request['kategori_data_orang_tua'] ?? 0,
+                    // 'data_pasangan'  => $request['kategori_data_pasangan'] ?? 0,
                 ];
                 $manual_data = array_values(array_filter($request['kategori_pilihan_kode'][$kategori]));
                 if (count($manual_data) > 0) {
@@ -620,6 +620,7 @@ class Surat_master extends Admin_Controller
             'visual_tte_weight'  => (int) $request['visual_tte_weight'],
             'visual_tte_height'  => (int) $request['visual_tte_height'],
             'format_nomor_surat' => $request['format_nomor_surat'],
+            'ganti_data_kosong'  => $request['ganti_data_kosong'],
             'surat_margin'       => json_encode($request['surat_margin']),
         ];
 
@@ -683,7 +684,7 @@ class Surat_master extends Admin_Controller
     public function preview()
     {
         // TODO:: Sederhanakan cara ini, simpan di library TInymCE
-        $setting_header    = $this->request['header'] == StatusEnum::YA ? setting('header_surat') : '';
+        $setting_header    = $this->request['header'] == StatusEnum::TIDAK ? '' : setting('header_surat');
         $setting_footer    = $this->request['footer'] == StatusEnum::YA ? (setting('tte') == StatusEnum::YA ? setting('footer_surat_tte') : setting('footer_surat')) : '';
         $data['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($this->request['template_desa']) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
@@ -796,24 +797,21 @@ class Surat_master extends Admin_Controller
         $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
         $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
 
-        // Pisahkan isian surat
-        $isi_surat  = str_replace('<p><!-- pagebreak --></p>', '', $isi_surat);
-        $isi        = explode('<!-- pagebreak -->', $isi_surat);
-        $backtop    = $this->request['header'] == 0 ? 0 : (((float) setting('tinggi_header')) * 10) . 'mm';
-        $backbottom = $this->request['footer'] == 0 ? 0 : (((float) setting('tinggi_footer')) * 10) . 'mm';
+        $pengikut_1    = Penduduk::where('id', $pend['id'])->get();
+        $pengikut_kis  = generatePengikutSuratKIS($pengikut_1);
+        $pengikut_2[0] = [
+            'kartu'        => mt_rand(1000000000000000, 9999999999999999),
+            'nama'         => $pengikut_1[0]->nama . ' A.',
+            'nik'          => substr($pengikut_1[0]->nik, 0, 15) . '1',
+            'alamat'       => 'INI ALAMAT YANG BENAR',
+            'tanggallahir' => date('d-m-Y', strtotime($pengikut_1[0]->tanggallahir . ' + 1 month')),
+            'faskes'       => 'RSUD',
+        ];
+        $pengikut_kartu_kis = generatePengikutKartuKIS($pengikut_2);
+        $isi_surat          = str_replace('[Pengikut_kiS]', $pengikut_kis, $isi_surat);
+        $isi_surat          = str_replace('[Pengikut_kartu_kiS]', $pengikut_kartu_kis, $isi_surat);
 
-        $isi_cetak = '
-            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
-                <page_header>
-                ' . $isi[0] . '
-                </page_header>
-                <page_footer>
-                ' . $isi[2] . '
-                </page_footer>
-
-                ' . $isi[1] . '
-            </page>
-        ';
+        $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], $isi_surat);
 
         // Logo Surat
         $file_logo = ($this->request['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(identitas()->logo, false, true));

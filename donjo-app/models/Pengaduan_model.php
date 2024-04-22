@@ -184,11 +184,13 @@ class Pengaduan_model extends MY_Model
 
     public function m_insert($id = '')
     {
-        $updateinduk = $this->config_id()->where('id', $id)->
-                update('pengaduan', ['status' => $this->input->post('status')]);
+        $updateinduk = $this->config_id()
+            ->where('id', $id)
+            ->update('pengaduan', ['status' => $this->input->post('status')]);
 
-        $update = $this->config_id()->where('id_pengaduan', $id)->
-                update('pengaduan', ['status' => $this->input->post('status')]);
+        $update = $this->config_id()
+            ->where('id_pengaduan', $id)
+            ->update('pengaduan', ['status' => $this->input->post('status')]);
 
         $post              = $this->input->post();
         $data              = $this->m_validasi($post, $id);

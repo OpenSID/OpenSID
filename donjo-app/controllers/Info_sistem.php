@@ -99,13 +99,7 @@ class Info_sistem extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $dir = config_item('cache_path');
-
-        foreach (directory_map($dir) as $file) {
-            if ($file !== 'index.html') {
-                unlink($dir . DIRECTORY_SEPARATOR . $file);
-            }
-        }
+        kosongkanFolder(config_item('cache_path'));
 
         status_sukses(true);
 
@@ -116,13 +110,7 @@ class Info_sistem extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $dir = config_item('cache_blade');
-
-        foreach (directory_map($dir) as $file) {
-            if ($file !== 'index.html') {
-                unlink($dir . DIRECTORY_SEPARATOR . $file);
-            }
-        }
+        kosongkanFolder(config_item('cache_blade'));
 
         status_sukses(true);
 

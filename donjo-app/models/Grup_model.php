@@ -45,6 +45,8 @@ class Grup_model extends MY_Model
 
     public function autocomplete()
     {
+        $this->filter_sql();
+
         return $this->autocomplete_str('nama', $this->table);
     }
 

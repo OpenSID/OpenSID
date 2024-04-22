@@ -73,13 +73,12 @@ $config = [
     ],
 
     'lainnya' => [
-        'storage/framework/'       => [0775, 'htaccess3'],
-        'storage/framework/views/' => [0775, 'htaccess3'],
-        'storage/framework/cache/' => [0775, 'htaccess3'],
-        'storage/logs/'            => [0775, 'htaccess3'],
-        'backup_inkremental/'      => [0775, 'htaccess3'],
-        'assets/'                  => [0755, 'htaccess3'],
-        'assets/filemanager/'      => [0755, 'htaccess4'],
+        'storage/framework/'         => [0775, 'htaccess3'],
+        'storage/logs/'              => [0775, 'htaccess3'],
+        'backup_inkremental/'        => [0775, 'htaccess3'],
+        'assets/'                    => [0755, 'htaccess3'],
+        'assets/filemanager/'        => [0755, 'htaccess4'],
+        'assets/filemanager/config/' => [0755, 'htaccess4'],
     ],
 
     'config' => <<<'EOS'
@@ -99,19 +98,10 @@ $config = [
         // Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
         $config['user_admin'] = 0;
 
-        // Ijinkan agar bisa melakukan impor data penduduk dari OpenKAB
-        $config['impor_massal'] = false;
-
         // Untuk menghindari masalah keamanan, Anda mungkin ingin mengonfigurasi daftar "host tepercaya".
         // Contoh: ['localhost', 'my-development.com', 'my-production.com', 'subdomain.domain.com']
         $config['trusted_hosts'] = [];
 
-        // config email
-        $config['protocol']       = 'smtp';  // mail	mail, sendmail, or smtp	The mail sending protocol.
-        $config['smtp_host']      = '';      // SMTP Server Address.
-        $config['smtp_user']      = '';      // SMTP Username.
-        $config['smtp_pass']      = '';      // SMTP Password.
-        $config['smtp_port']      = '';      // SMTP Port."
         EOS,
 
     'database' => <<<'EOS'
@@ -129,6 +119,7 @@ $config = [
         $db['default']['password'] = '';
         $db['default']['port']     = 3306;
         $db['default']['database'] = 'umum';
+        $db['default']['dbcollat'] = 'utf8_general_ci';
 
         /*
         | Untuk setting koneksi database 'Strict Mode'

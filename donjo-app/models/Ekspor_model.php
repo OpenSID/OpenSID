@@ -551,7 +551,7 @@ class Ekspor_model extends MY_Model
                 concat(
                     'ALTER TABLE ',
                     TABLE_NAME,
-                    ' CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;'
+                    ' CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat};'
                 ) as execute
                 "
             )
@@ -559,7 +559,7 @@ class Ekspor_model extends MY_Model
             ->where([
                 'TABLE_SCHEMA' => $this->db->database,
                 'TABLE_TYPE'   => 'BASE TABLE',
-                'TABLE_COLLATION != utf8_general_ci',
+                "TABLE_COLLATION != {$this->db->dbcollat}",
             ])
             ->get()
             ->result();
@@ -576,7 +576,7 @@ class Ekspor_model extends MY_Model
         $ketentuan = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /', '', $ketentuan);
         $ketentuan = preg_replace('/ENGINE=MyISAM|ENGINE=MEMORY|ENGINE=CSV|ENGINE=ARCHIVE|ENGINE=MRG_MYISAM|ENGINE=BLACKHOLE|ENGINE=FEDERATED/', 'ENGINE=InnoDB', $ketentuan);
 
-        return preg_replace('/COLLATE=utf8_general_ci|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|utf8_general_ci;/', '', $ketentuan);
+        return preg_replace("/COLLATE={$this->db->dbcollat}|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|{$this->db->dbcollat};/", '', $ketentuan);
     }
 
     private function _build_schema($nama_tabel, $nama_tanda)
