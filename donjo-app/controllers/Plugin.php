@@ -117,7 +117,7 @@ class Plugin extends Admin_Controller
             }
         }
         // reset cache views_blade karena di MY_Controller diset cache rememberForever
-        cache()->flush();
+        cache()->forget('views_blade');
         redirect('plugin');
     }
 
@@ -148,7 +148,7 @@ class Plugin extends Admin_Controller
                 // Optional: Remove the downloaded ZIP file
                 unlink($zipFilePath);
                 // reset cache views_blade karena di MY_Controller diset cache rememberForever
-                cache()->flush();
+                cache()->forget('views_blade');
             } else {
                 set_session('error', 'Gagal download paket ' . $url . ' atau gagal ekstract ke folder ' . $extractedDir);
             }
@@ -170,7 +170,7 @@ class Plugin extends Admin_Controller
             forceRemoveDir($this->modulesDirectory . $name);
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
             // reset cache views_blade karena di MY_Controller diset cache rememberForever
-            cache()->flush();
+            cache()->forget('views_blade');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
@@ -212,8 +212,6 @@ class Plugin extends Admin_Controller
         }
 
         $this->jalankanMigrasi($name, $action ?? 'up');
-
-        cache()->flush();
 
         redirect_with('success', 'Migrasi Modul ' . $name . ' berhasil dijalankan');
     }

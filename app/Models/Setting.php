@@ -174,7 +174,8 @@ class Setting extends BaseModel
         static::boot();
 
         static::updated(static function () {
-            cache()->flush();
+            // TODO:: hanya hapus cache dengan prefix akses_grup_* karena ada kaitannya dengan daftar modul
+            // cache()->flush();
         });
     }
 }
