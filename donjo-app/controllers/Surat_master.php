@@ -58,6 +58,7 @@ class Surat_master extends Admin_Controller
 {
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'pengaturan-surat';
+    private $reference;
     protected TinyMCE $tinymce;
 
     public function __construct()
@@ -85,23 +86,24 @@ class Surat_master extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . site_url("surat_master/form/{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('surat_master.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
 
                         if ($row->kunci) {
-                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
 
                             if ($row->favorit) {
-                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}") . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
                             } else {
-                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}") . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
                             }
                         }
                     }
 
                     if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
-                        $aksi .= '<a href="#" data-href="' . site_url("surat_master/delete/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('surat_master.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -114,15 +116,28 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
+    public function salin($id): void
+    {
+        $this->reference = $id;
+        $this->form();
+    }
+
     public function form($id = null)
     {
         isCan('u');
         $this->set_hak_akses_rfm();
 
-        $data['action']      = $id ? 'Ubah' : 'Tambah';
-        $data['formAction']  = $id ? ci_route('surat_master.update', $id) : ci_route('surat_master.insert');
+        $data['action']     = $id ? 'Ubah' : 'Tambah';
+        $data['formAction'] = $id ? ci_route('surat_master.update', $id) : ci_route('surat_master.insert');
+        if ($this->reference) {
+            $id = $this->reference;
+        }
         $data['suratMaster'] = $id ? FormatSurat::findOrFail($id) : null;
-
+        if ($this->reference) {
+            $data['suratMaster']->nama  = null;
+            $data['suratMaster']->jenis = FormatSurat::TINYMCE_DESA;
+            $data['suratMaster']->id    = null;
+        }
         if ($id) {
             $kategori_isian = [];
             // hanya ambil key saja
@@ -143,8 +158,6 @@ class Surat_master extends Admin_Controller
             $data['kode_isian']     = collect($data['suratMaster']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratMaster']->kode_surat)->first();
-
-            $data['formAction'] = ci_route('surat_master.update', $id);
         }
 
         $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
