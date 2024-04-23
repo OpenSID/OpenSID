@@ -737,6 +737,7 @@ Route::group('surat_dinas', static function (): void {
     Route::post('edit_pengaturan', 'Surat_dinas@edit_pengaturan')->name('surat_dinas.edit_pengaturan');
     Route::match(['GET', 'POST'], 'kode_isian/{jenis?}/{id?}', 'Surat_dinas@kode_isian')->name('surat_dinas.kode_isian');
     Route::match(['GET', 'POST'], 'salin_template/{jenis?}', 'Surat_dinas@salin_template')->name('surat_dinas.salin_template');
+    Route::get('salin/{id}', 'Surat_dinas@salin')->name('surat_dinas.salin');
     Route::post('preview', 'Surat_dinas@preview')->name('surat_dinas.preview');
     Route::post('ekspor', 'Surat_dinas@ekspor')->name('surat_dinas.ekspor');
     Route::get('impor_filter/{data}', 'Surat_dinas@impor_filter')->name('surat_dinas.impor_filter');
