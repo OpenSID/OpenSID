@@ -1118,12 +1118,13 @@ if (! function_exists('reset_auto_increment')) {
      * Reset auto increment.
      *
      * @param string $table
+     * @param string $column
      *
      * @return void
      */
-    function reset_auto_increment($table)
+    function reset_auto_increment($table, $column = 'id')
     {
-        $max_id = DB::table($table)->max('id');
+        $max_id = DB::table($table)->max($column);
         DB::statement("ALTER TABLE {$table} AUTO_INCREMENT = " . ($max_id + 1));
     }
 }
