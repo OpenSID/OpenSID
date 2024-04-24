@@ -40,31 +40,42 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class Migrasi_2024042451 extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
+        $hasil = $hasil && $this->migrasi_2023120558($hasil);
+        $hasil = $hasil && $this->migrasi_2024041951($hasil);
 
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
         return $hasil;
     }
 
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
+    protected function migrasi_2024041951($hasil)
     {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        DB::table('setting_aplikasi')->whereIn('key', [
+            'mapbox_key',
+            'jenis_peta',
+            'tampil_luas_peta',
+            'min_zoom_peta',
+            'max_zoom_peta',
+            'tampilkan_tombol_peta',
+            'default_tampil_peta_wilayah',
+            'default_tampil_peta_infrastruktur',
+        ])->update(['kategori' => 'peta']);
 
-        // foreach ($config_id as $id) {
-        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
-        // }
+        return $hasil;
+    }
+
+    protected function migrasi_2023120558($hasil)
+    {
+        if (Schema::hasColumn('kelompok', 'kode')) {
+            Schema::table('kelompok', static function ($table) {
+                $table->dropUnique('kode_config');
+                $table->unique(['config_id', 'kode', 'tipe'], 'config_kode_tipe');
+            });
+        }
 
         return $hasil;
     }
