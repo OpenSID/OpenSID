@@ -63,6 +63,8 @@ class KlasifikasiSuratImports
         try {
             $dataImport = [];
 
+            reset_auto_increment('klasifikasi_surat');
+
             (new FastExcel())->import($this->path, static function (array $line) use ($configId, &$dataImport): void {
                 $dataUpdate = [
                     'kode'      => alfanumerik_titik($line['kode']),

@@ -107,7 +107,7 @@ class Setting extends BaseModel
         return $data;
     }
 
-    public static function cekKebutuhanSistem()
+    public static function cekKebutuhanSistem(): array
     {
         $data = [];
 
@@ -131,7 +131,7 @@ class Setting extends BaseModel
         return $data;
     }
 
-    public static function cekPhp()
+    public static function cekPhp(): array
     {
         return [
             'versi' => PHP_VERSION,
@@ -139,7 +139,7 @@ class Setting extends BaseModel
         ];
     }
 
-    public static function cekDatabase()
+    public static function cekDatabase(): array
     {
         $versi = DB::select('SELECT VERSION() AS version')[0]->version;
 
@@ -149,7 +149,7 @@ class Setting extends BaseModel
         ];
     }
 
-    public static function disableFunctions()
+    public static function disableFunctions(): array
     {
         $wajib    = [];
         $disabled = explode(',', ini_get('disable_functions'));
@@ -173,8 +173,9 @@ class Setting extends BaseModel
     {
         static::boot();
 
-        static::updated(static function () {
-            cache()->flush();
+        static::updated(static function (): void {
+            // TODO:: hanya hapus cache dengan prefix akses_grup_* karena ada kaitannya dengan daftar modul
+            // cache()->flush();
         });
     }
 }

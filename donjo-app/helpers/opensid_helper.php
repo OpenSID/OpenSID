@@ -36,7 +36,9 @@
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -48,7 +50,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2404.0.0');
+define('VERSION', '2404.0.2');
 
 /**
  * PREMIUM
@@ -64,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024040171');
+define('VERSI_DATABASE', '2024041751');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -1221,7 +1223,7 @@ function kode_format($lampiran = ''): string
  */
 function exists($array, $key): bool
 {
-    if ($array instanceof \ArrayAccess) {
+    if ($array instanceof ArrayAccess) {
         return $array->offsetExists($key);
     }
 
@@ -1344,7 +1346,7 @@ function idm($kode_desa, $tahun)
 
     // ambil dari api idm
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new Client();
         $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -1392,7 +1394,7 @@ function sdgs()
     }
 
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new Client();
         $response = $client->get(config_item('api_sdgs') . $kode_desa, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -1790,7 +1792,7 @@ if (! function_exists('getVariableName')) {
             return null;
         }
 
-        $reflection   = new \ReflectionClass($class);
+        $reflection   = new ReflectionClass($class);
         $constants    = $reflection->getConstants();
         $variableName = array_search($value, $constants);
 

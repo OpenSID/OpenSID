@@ -110,9 +110,9 @@
                                 <label>Query Otomatis</label>
                                 <select class="form-control select2" name="query_otomatis" data-placeholder="Pilih Query">
                                     <option value=""></option>
-                                    @foreach ($querys as $query)
-                                        <option value="{{ $query }}" @selected($query === $shortcut->raw_query)>Jumlah
-                                            {{ $query }}</option>
+                                    @foreach ($querys as $key => $query)
+                                        <option value="{{ $key }}" @selected($key === $shortcut->raw_query)>Jumlah
+                                            {{ $key }}</option>
                                     @endforeach
                                 </select>
                             </div>

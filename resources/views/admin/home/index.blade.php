@@ -40,7 +40,7 @@
                 <div class="col-lg-3 col-sm-6 col-xs-6">
                     <div class="small-box" style="background-color: {!! $sc['warna'] !!}; border-radius: 5px;">
                         <div class="inner">
-                            <h3 class="text-white">{{ $sc['count'] }}</h3>
+                            <h3 class="text-white">{{ $sc['count'] ?? '0' }}</h3>
                             <p class="text-white">{{ SebutanDesa($sc['judul']) }}</p>
                         </div>
                         <div class="icon">

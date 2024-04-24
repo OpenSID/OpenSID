@@ -414,13 +414,13 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
-            <select class="form-control input-sm-tags nama_suku" data-url="{{ ci_route('penduduk.ajax_penduduk_suku') }}" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
+            <select class="form-control input-sm-tags nama_suku select2" data-url="{{ ci_route('penduduk.ajax_penduduk_suku') }}" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
                 <option value="">Pilih Suku/Etnis</option>
                 @if ($suku_penduduk)
                     @foreach ($suku_penduduk as $key => $value)
                         <option value="{{ $key }}" @selected($penduduk['suku'] == $key)>{{ $key }}</option>
                     @endforeach
-                    <option disabled>----------------------</option>
+                    <optgroup label="----------"></optgroup>
                 @endif
                 @foreach ($suku as $key => $value)
                     <option value="{{ $key }}" @selected($penduduk['suku'] == $key)>{{ $key }}</option>
@@ -571,7 +571,7 @@
                             {{ 'KK' }}
                         @endif
                     </label>
-                    <select id="dusun" class="form-control input-sm select2">
+                    <select id="dusun" class="form-control input-sm select2 required">
                         <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
                             <option value="{{ $keyDusun }}" @selected($keyDusun == $penduduk['wilayah']['dusun'])>{{ $keyDusun }}</option>
@@ -583,10 +583,10 @@
                             {{ 'KK' }}
                         @endif
                     </label>
-                    <select id="rw" class="form-control input-sm select2">
+                    <select id="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}">
+                            <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun) >
                                 @foreach ($dusun as $keyRw => $rw)
                                     <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
                                 @endforeach
@@ -599,11 +599,11 @@
                             {{ 'KK' }}
                         @endif
                     </label>
-                    <select id="rt" class="form-control input-sm select2">
+                    <select id="id_cluster" name="id_cluster" class="form-control input-sm select2 required">
                         <option value="">Pilih RT</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
                             @foreach ($dusun as $keyRw => $rw)
-                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ $keyRw }}">
+                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ $keyRw }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
                                     @foreach ($rw as $rt)
                                         <option value="{{ $rt->id }}" @selected($penduduk['id_cluster'] == $rt->id)>{{ $rt->rt }}</option>
                                     @endforeach
@@ -673,7 +673,7 @@
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="status_kawin"> Cara Hubung Warga </label>
+            <label for="hubung_warga"> Cara Hubung Warga </label>
             <select class="form-control input-sm" name="hubung_warga">
                 <option value="">Pilih Cara Hubungi</option>
                 @foreach (['SMS', 'Email', 'Telegram'] as $value)
@@ -979,21 +979,31 @@
                 let _label = $(this).find('option:selected').val()
                 $('#mainform #rw').find(`optgroup`).prop('disabled', 1)
                 if ($(this).val()) {
+                    $('#mainform #rw').closest('div').show()
                     $('#mainform #rw').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
+                } else {
+                    $('#mainform #rw').closest('div').hide()
                 }
                 $('#mainform #rw').val('')
                 $('#mainform #rw').trigger('change')
             })
 
             $('#mainform #rw').change(function() {
-                let _label = $(this).find('option:selected').val()
+                let _label = $(this).find('option:selected').val()                
                 $('#mainform #id_cluster').find(`optgroup`).prop('disabled', 1)
                 if ($(this).val()) {
+                    $('#mainform #id_cluster').closest('div').show()
                     $('#mainform #id_cluster').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
+                } else {
+                    $('#mainform #id_cluster').closest('div').hide()
                 }
                 $('#mainform #id_cluster').val('')
                 $('#mainform #id_cluster').trigger('change')
             })
+
+            @if (!$penduduk['id'])
+                $('#mainform #dusun').trigger('change')
+            @endif
         });
 
         $('#mainform').on('reset', function(e) {

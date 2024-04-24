@@ -1,6 +1,6 @@
 @foreach ($form_kategori as $key => $kategori)
     <!-- jika bukan array maka jadikan array dulu, karena data lama bukan bentuk array -->
-    @if(!$kategori['kode_isian']->isEmpty())
+    @if (!$kategori['kode_isian']->isEmpty())
         <div id="kategori-{{ $key }}">
             @if ($judul_kategori[$key] != '-')
                 <div class="form-group subtitle_head">

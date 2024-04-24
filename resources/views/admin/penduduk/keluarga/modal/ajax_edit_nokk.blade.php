@@ -105,8 +105,10 @@
             let _label = $(this).find('option:selected').val()
             $('#validasi #rw').find(`optgroup`).prop('disabled', 1)
             if ($(this).val()) {
+                $('#validasi #rw').closest('div').show()
                 $('#validasi #rw').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
             } else {
+                $('#validasi #rw').closest('div').hide()
                 $('#validasi #rw').find(`optgroup`).prop('disabled', 1)
             }
             $('#validasi #rw').val('')
@@ -117,8 +119,10 @@
             let _label = $(this).find('option:selected').val()
             $('#validasi #id_cluster').find(`optgroup`).prop('disabled', 1)
             if ($(this).val()) {
+                $('#validasi #id_cluster').closest('div').show()
                 $('#validasi #id_cluster').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
             } else {
+                $('#validasi #id_cluster').closest('div').hide()
                 $('#validasi #id_cluster').find(`optgroup`).prop('disabled', 1)
             }
             $('#validasi #id_cluster').val('')

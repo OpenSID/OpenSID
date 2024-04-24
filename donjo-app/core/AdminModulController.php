@@ -95,7 +95,7 @@ abstract class AdminModulController extends Admin_Controller
 
     protected function activate()
     {
-        if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
+        if ((config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) || cache('siappakai') === true) {
             return true;
         }
 

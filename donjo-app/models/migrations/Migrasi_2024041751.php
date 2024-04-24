@@ -35,10 +35,46 @@
  *
  */
 
-header('Content-type: application/octet-stream');
-$tahun = empty($_SESSION['filter']) ? '_semua' : '_' . $_SESSION['filter'];
-header('Content-Disposition: attachment; filename=surat_keluar' . $tahun . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-include 'donjo-app/views/surat_keluar/surat_keluar_print.php';
+class Migrasi_2024041751 extends MY_model
+{
+    public function up()
+    {
+        $hasil = true;
+
+        $hasil = $hasil && $this->migrasi_tabel($hasil);
+
+        return $hasil && $this->migrasi_data($hasil);
+    }
+
+    protected function migrasi_tabel($hasil)
+    {
+        return $hasil && true;
+    }
+
+    // Migrasi perubahan data
+    protected function migrasi_data($hasil)
+    {
+        $hasil = $hasil && $this->migrasi_2024032052($hasil);
+        $hasil = $hasil && $this->migrasi_20240401471($hasil);
+
+        return $hasil && true;
+    }
+
+    protected function migrasi_2024032052($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'buku-tanah-kas-desa', 'url' => 'bumindes_tanah_kas_desa/clear'],
+            ['url' => 'bumindes_tanah_kas_desa']
+        );
+    }
+
+    protected function migrasi_20240401471($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'arsip-surat-dinas', 'modul' => 'Arsip Layanan'],
+            ['modul' => 'Arsip Surat Dinas']
+        );
+    }
+}

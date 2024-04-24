@@ -81,7 +81,7 @@
                             ><i class="fa fa-random"></i> Pindah Wilayah Kolektif</a>
                         </li>
                     @endif
-                    @if (can('h'))
+                    @if (can('h') && !data_lengkap())
                         <li>
                             <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('keluarga.delete_all') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
                         </li>
@@ -117,12 +117,20 @@
             </div>
         </div>
         <div class="box-body">
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select id="status" class="form-control input-sm select2">
                         <option value="">Pilih Status</option>
                         @foreach ($status as $key => $item)
                             <option @selected($key == $defaultStatus) value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <select id="jenis_kelamin" class="form-control input-sm select2">
+                        <option value="">Pilih Jenis Kelamin</option>
+                        @foreach ($jenis_kelamin as $key => $item)
+                        <option value="{{ $key }}">{{ $item }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -137,7 +145,7 @@
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
                         <tr>
-                            <th nowrap><input type="checkbox" id="checkall" @disabled(!data_lengkap())></th>
+                            <th nowrap><input type="checkbox" id="checkall"></th>
                             <th nowrap>NO</th>
                             <th nowrap>AKSI</th>
                             <th nowrap>FOTO</th>
@@ -167,6 +175,9 @@
     <style>
         .select2-results__option[aria-disabled=true] {
             display: none;
+        }
+        .row.mepet>div{
+            margin-right: -25px;
         }
     </style>
 @endpush
@@ -239,7 +250,7 @@
                         name: 'kepalaKeluarga.nik',
                         defaultContent: '',
                         render: function(item, data, row) {
-                            return !item ? '' : `<a href='{{ ci_route('penduduk.detail.1.0') }}/${row.nik_kepala}'>${item}</a>`
+                            return !item ? '' : `<a href='{{ ci_route('penduduk.detail') }}/${row.nik_kepala}'>${item}</a>`
                         },
                         searchable: true,
                         orderable: false

@@ -19,7 +19,7 @@
             <?php if (is_array($subdata) && isset($subdata['judul'], $subdata['realisasi'], $subdata['anggaran'], $subdata['persen'])): ?>
               <div class="progress-group">
                 <?=
-                \Illuminate\Support\Str::of($subdata['judul'])
+                Illuminate\Support\Str::of($subdata['judul'])
                     ->title()
                     ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
                         if ($string != 'Dana Desa') {

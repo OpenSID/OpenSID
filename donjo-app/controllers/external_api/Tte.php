@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Tte extends Tte_Controller
 {
-    protected \GuzzleHttp\Client $client;
+    protected GuzzleHttp\Client $client;
     protected bool $demo;
 
     /**
@@ -59,7 +59,7 @@ class Tte extends Tte_Controller
     {
         parent::__construct();
 
-        $this->client = new \GuzzleHttp\Client([
+        $this->client = new GuzzleHttp\Client([
             'base_uri' => empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL) ? site_url() : $this->setting->tte_api,
             'auth'     => [
                 $this->setting->tte_username,

@@ -104,7 +104,6 @@ class Shortcut extends Admin_Controller
     public function form($id = '')
     {
         isCan('u');
-
         if ($id) {
             $action      = 'Ubah';
             $form_action = ci_route('shortcut.update', $id);
@@ -114,10 +113,9 @@ class Shortcut extends Admin_Controller
             $form_action = ci_route('shortcut.insert');
             $shortcut    = null;
         }
-
         $icons  = ShortcutModel::listIcon();
         $moduls = Modul::where('slug', '!=', 'home')->where('hidden', '!=', 2)->get()->pluck('modul', 'slug')->toArray();
-        $querys = array_keys(ShortcutModel::querys());
+        $querys = ShortcutModel::querys()['jumlah'];
 
         return view('admin.shortcut.form', ['action' => $action, 'form_action' => $form_action, 'shortcut' => $shortcut, 'icons' => $icons, 'moduls' => $moduls, 'querys' => $querys]);
     }
@@ -181,6 +179,8 @@ class Shortcut extends Admin_Controller
         $shortcut = $this->input->post('data');
 
         ShortcutModel::setNewOrder($shortcut);
+
+        shortcut_cache();
 
         return json(['status' => 1]);
     }

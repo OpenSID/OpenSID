@@ -50,7 +50,7 @@ class Pelanggan_Controller extends Admin_Controller
     /**
      * @var Client HTTP Client
      */
-    protected \GuzzleHttp\Client $client;
+    protected Client $client;
 
     protected $server;
 
@@ -113,6 +113,7 @@ class Pelanggan_Controller extends Admin_Controller
     {
         kirim_versi_opensid();
         hapus_cache('status_langganan');
+        cache()->forget('siappakai');
         session_success();
         sleep(3);
         redirect($this->controller);

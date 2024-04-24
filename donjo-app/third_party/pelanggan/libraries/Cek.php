@@ -103,8 +103,13 @@ class Cek
         $disarankan = 'v' . str_replace('-', '', substr($berakhir, 2, 5)) . '.0.0-premium';
 
         if ($this->isPremiumVersionExpired($berakhir)) {
-            $this->ci->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
-            $this->ci->session->set_userdata('error_premium_pesan', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$this->ci->versi_setara} umum.");
+            if (empty($berakhir)) {
+                $this->ci->session->set_userdata('error_premium', 'Token premium tidak valid.');
+                $this->ci->session->set_userdata('error_premium_pesan', 'Langganan premium tidak ditemukan, silahkan berlangganan terlebih dahulu atau gunakan versi umum.');
+            } else {
+                $this->ci->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
+                $this->ci->session->set_userdata('error_premium_pesan', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$this->ci->versi_setara} umum.");
+            }
 
             return false;
         }
@@ -142,8 +147,13 @@ class Cek
         if ($this->isPremiumVersionExpired($berakhir)) {
             $versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
             $versi_setara = str_replace('-', '', substr($versi_setara, 2, 5)) . '.0.0';
-            log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
-            log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
+            if (empty($berakhir)) {
+                log_message('error', 'Token premium tidak valid.');
+                log_message('error', 'Langganan premium tidak ditemukan, silahkan berlangganan terlebih dahulu atau gunakan versi umum.');
+            } else {
+                log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
+                log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
+            }
 
             return false;
         }
@@ -220,7 +230,7 @@ class Cek
             $os = $this->ci->agent->platform();
 
             try {
-                $client = new \GuzzleHttp\Client();
+                $client = new GuzzleHttp\Client();
                 $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
                     'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                     'form_params' => [

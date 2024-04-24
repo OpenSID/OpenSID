@@ -107,9 +107,9 @@ class Keluarga extends Admin_Controller
             $dataLengkap = data_lengkap();
 
             return datatables()->of($this->sumberData())
-                ->addColumn('ceklist', static function ($row) use ($canDelete, $dataLengkap) {
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
-                        return '<input type="checkbox" name="id_cb[]" ' . ($dataLengkap ? '' : 'disabled') . ' value="' . $row->id . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })->addColumn('valid_kk', static function ($row) {
                     $result = '';
@@ -182,11 +182,11 @@ class Keluarga extends Admin_Controller
         $idCluster = $rt ? [$rt] : [];
 
         if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun,$namaRw]       = explode('__', $rw);
-            $idCluster = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+            [$namaDusun,$namaRw] = explode('__', $rw);
+            $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        if (empty($idCluster) && ! empty($dusun)) {            
+        if (empty($idCluster) && ! empty($dusun)) {
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
@@ -320,7 +320,7 @@ class Keluarga extends Admin_Controller
     public function add_exist($id = 0): void
     {
         isCan('u');
-        $data['penduduk']       = PendudukHidup::lepas()->get();        
+        $data['penduduk']       = PendudukHidup::lepas()->get();
         $data['nokk_sementara'] = KeluargaModel::formatNomerKKSementara();
         $data['form_action']    = ci_route("keluarga.insert.{$id}");
         view('admin.penduduk.keluarga.modal.ajax_add_keluarga', $data);
@@ -477,7 +477,7 @@ class Keluarga extends Admin_Controller
     {
         isCan('h');
 
-        if (data_lengkap()) {            
+        if (data_lengkap()) {
             redirect_with('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap');
         }
 

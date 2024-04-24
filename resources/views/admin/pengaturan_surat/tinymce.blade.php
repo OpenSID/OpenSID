@@ -36,12 +36,12 @@
                 <li data-name="utama" class="active">
                     <a href="#form-utama" data-toggle="tab">{{ $suratMaster->form_isian->individu->judul ?? 'Utama' }}</a>
                 </li>
-                @forelse ($suratMaster->form_isian as $item => $value)
+                @forelse ($kategori as $item => $value)
                     @if ($item == 'individu')
                         @continue
                     @endif
                     <li class="ui-list-tab" id="list-{{ $item }}" data-name="{{ $item }}">
-                        <a id="nav-tab-{{ $item }}" href="#tab-{{ $item }}" data-toggle="tab">{{ str_replace('_', ' ', $value->judul ?? ucwords(str_replace('_', ' ', $item))) }}</a>
+                        <a id="nav-tab-{{ $item }}" href="#tab-{{ $item }}" data-toggle="tab">{{ $value }}</a>
                         <input type="hidden" name="kategori[]" value="{{ $item }}">
                     </li>
                 @empty

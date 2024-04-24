@@ -262,7 +262,7 @@ class MY_Model extends CI_Model
         cache()->forget('identitas_desa');
 
         if (Schema::hasColumn('setting_aplikasi', 'config_id')) {
-            $cek = SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
+            $cek = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
 
             if ($cek->exists()) {
                 unset($setting['value']);
@@ -448,6 +448,8 @@ class MY_Model extends CI_Model
     // TODO:: Cek variabel $berulang
     public function data_awal(?string $tabel = null, array $data = [], $berulang = false)
     {
+        // reset_auto_increment($tabel);
+
         $config_id = $this->config_id;
 
         if ($this->db->table_exists($tabel) && $data !== []) {

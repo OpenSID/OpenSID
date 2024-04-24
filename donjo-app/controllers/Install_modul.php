@@ -75,12 +75,12 @@ class Install_modul extends CI_Controller
                 $token        = App\Models\SettingAplikasi::where(['key' => 'layanan_opendesa_token'])->first();
                 $response     = Http::withToken($token->value)->post($urlHitModule, ['module_name' => $name]);
                 log_message('error', $response->body());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }
         // reset cache views_blade karena di MY_Controller diset cache rememberForever
-        cache()->flush();
+        // cache()->flush();
         log_message('error', 'Paket ' . $name . ' berhasil dipasang');
     }
 
@@ -100,7 +100,7 @@ class Install_modul extends CI_Controller
             }
             $this->jalankanMigrasi($name, 'down');
             // reset cache views_blade karena di MY_Controller diset cache rememberForever
-            cache()->flush();
+            cache()->forget('views_blade');
             log_message('error', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -112,7 +112,7 @@ class Install_modul extends CI_Controller
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
-        if ($action == 'up') {
+        if ($action === 'up') {
             usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
         }
 

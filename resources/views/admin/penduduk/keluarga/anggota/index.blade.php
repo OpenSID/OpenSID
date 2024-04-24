@@ -106,7 +106,7 @@
                                         <td class="padat">{{ $key + 1 }} </td>
                                         <td class="aksi">
                                             @if (can('u'))
-                                                <a href="{{ ci_route("penduduk.form.1.1.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+                                                <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
                                                 <a
                                                     href="#"
                                                     data-href="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}"

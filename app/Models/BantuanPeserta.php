@@ -77,6 +77,11 @@ class BantuanPeserta extends BaseModel
         return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
     }
 
+    public function bantuanPenduduk()
+    {
+        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
+    }
+
     /**
      * Scope query untuk peserta.
      *

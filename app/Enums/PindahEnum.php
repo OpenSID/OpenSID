@@ -35,9 +35,27 @@
  *
  */
 
-header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=Penduduk_' . date('Y-m-d') . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Enums;
 
-include 'donjo-app/views/sid/kependudukan/penduduk_cetak.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class PindahEnum extends BaseEnum
+{
+    public const DESA      = 1;
+    public const KECAMATAN = 2;
+    public const KABUPATEN = 3;
+    public const PROVINSI  = 4;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::DESA      => 'Pindah keluar Desa/Kelurahan',
+            self::KECAMATAN => 'Pindah keluar Kecamatan',
+            self::KABUPATEN => 'Pindah keluar Kabupaten/Kota',
+            self::PROVINSI  => 'Pindah keluar Provinsi',
+        ];
+    }
+}

@@ -142,7 +142,7 @@ class Pengaduan_admin extends Admin_Controller
             ]);
 
             redirect_with('success', 'Berhasil Ditanggapi');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
         }
 
@@ -175,7 +175,7 @@ class Pengaduan_admin extends Admin_Controller
             Pengaduan::whereIn('id_pengaduan', $this->request['id_cb'])->delete();
 
             redirect_with('success', 'Berhasil Hapus Data');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
         }
 

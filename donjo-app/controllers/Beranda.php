@@ -37,7 +37,6 @@
 
 use App\Libraries\Release;
 use App\Models\Shortcut;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -58,10 +57,9 @@ class Beranda extends Admin_Controller
         get_pesan_opendk(); //ambil pesan baru di opendk
 
         $this->load->library('saas');
-
         $data = [
             'rilis'           => $this->getUpdate(),
-            'shortcut'        => cache()->rememberForever('shortcut', static fn () => Schema::hasTable('shortcut') ? Shortcut::status(Shortcut::ACTIVE)->orderBy('urut')->get()->toArray() : null),
+            'shortcut'        => Shortcut::querys()['data'],
             'saas'            => $this->saas->peringatan(),
             'notif_langganan' => $this->pelanggan_model->status_langganan(),
         ];

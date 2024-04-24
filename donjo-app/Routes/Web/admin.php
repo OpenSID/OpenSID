@@ -174,55 +174,51 @@ Route::group('pendaftaran_kerjasama', static function (): void {
 
 // Kependudukan > Penduduk
 Route::group('penduduk', static function (): void {
-    Route::get('/list_nik_ajax', 'Penduduk@list_nik_ajax')->name('penduduk.list_nik_ajax');
-    Route::get('/clear', 'Penduduk@clear')->name('penduduk.clear');
-    Route::get('/ambil_foto', 'Penduduk@ambil_foto')->name('penduduk.ambil_foto');
-    Route::get('/form_peristiwa/{periswita?}', 'Penduduk@form_peristiwa')->name('penduduk.form_peristiwa');
-    Route::get('/form/{p?}/{o?}/{id?}', 'Penduduk@form')->name('penduduk.form');
-    Route::get('/detail/{p?}/{o?}/{id?}', 'Penduduk@detail')->name('penduduk.detail');
-    Route::get('/dokumen/{id?}', 'Penduduk@dokumen')->name('penduduk.dokumen');
-    Route::get('/dokumen_datatables', 'Penduduk@dokumen_datatables')->name('penduduk.dokumen_datatables');
-    Route::get('/dokumen_form/{id?}/{id_dokumen?}', 'Penduduk@dokumen_form')->name('penduduk.dokumen_form');
-    Route::get('/dokumen_list/{id?}', 'Penduduk@dokumen_list')->name('penduduk.dokumen_list');
-    Route::post('/dokumen_insert', 'Penduduk@dokumen_insert')->name('penduduk.dokumen_insert');
-    Route::post('/dokumen_update/{id?}', 'Penduduk@dokumen_update')->name('penduduk.dokumen_update');
+    Route::get('', 'Penduduk@index');
+    Route::get('clear', static function (): void {
+        redirect('penduduk');
+    });
+    Route::get('datatables', 'Penduduk@datatables')->name('penduduk.datatables');
+    Route::get('list_nik_ajax', 'Penduduk@list_nik_ajax')->name('penduduk.list_nik_ajax');
+    Route::get('ambil_foto', 'Penduduk@ambil_foto')->name('penduduk.ambil_foto');
+    Route::get('form_peristiwa/{periswita?}', 'Penduduk@form_peristiwa')->name('penduduk.form_peristiwa');
+    Route::get('form/{id?}', 'Penduduk@form')->name('penduduk.form');
+    Route::get('detail/{id}', 'Penduduk@detail')->name('penduduk.detail');
+    Route::get('dokumen/{id?}', 'Penduduk@dokumen')->name('penduduk.dokumen');
+    Route::get('dokumen_datatables', 'Penduduk@dokumen_datatables')->name('penduduk.dokumen_datatables');
+    Route::get('dokumen_form/{id?}/{id_dokumen?}', 'Penduduk@dokumen_form')->name('penduduk.dokumen_form');
+    Route::get('dokumen_list/{id?}', 'Penduduk@dokumen_list')->name('penduduk.dokumen_list');
+    Route::post('dokumen_insert', 'Penduduk@dokumen_insert')->name('penduduk.dokumen_insert');
+    Route::post('dokumen_update/{id?}', 'Penduduk@dokumen_update')->name('penduduk.dokumen_update');
     Route::match(['GET', 'POST'], '/delete_dokumen/{id_pend?}/{id?}', 'Penduduk@delete_dokumen')->name('penduduk.delete_dokumen');
-    Route::get('/cetak_biodata/{id?}', 'Penduduk@cetak_biodata')->name('penduduk.cetak_biodata');
-    Route::post('/filter/{filter}', 'Penduduk@filter')->name('penduduk.filter');
-    Route::get('/nik_sementara', 'Penduduk@nik_sementara')->name('penduduk.nik_sementara');
-    Route::post('/insert', 'Penduduk@insert')->name('penduduk.insert');
-    Route::post('/update/{p?}/{o?}/{id?}', 'Penduduk@update')->name('penduduk.update');
-    Route::get('/delete/{p?}/{o?}/{id?}', 'Penduduk@delete')->name('penduduk.delete');
-    Route::post('/delete_all/{p?}/{o?}', 'Penduduk@delete_all')->name('penduduk.delete_all');
-    Route::get('/ajax_adv_search', 'Penduduk@ajax_adv_search')->name('penduduk.ajax_adv_search');
-    Route::post('/adv_search_proses', 'Penduduk@adv_search_proses')->name('penduduk.adv_search_proses');
-    Route::get('/ajax_penduduk_pindah_rw/{dusun?}', 'Penduduk@ajax_penduduk_pindah_rw')->name('penduduk.ajax_penduduk_pindah_rw');
-    Route::get('/ajax_penduduk_pindah_rt/{dusun?}/{rw?}', 'Penduduk@ajax_penduduk_pindah_rt')->name('penduduk.ajax_penduduk_pindah_rt');
-    Route::get('/ajax_penduduk_cari_rw/{dusun?}', 'Penduduk@ajax_penduduk_cari_rw')->name('penduduk.ajax_penduduk_cari_rw');
-    Route::get('/ajax_penduduk_maps/{p?}/{o?}/{id?}/{edit?}', 'Penduduk@ajax_penduduk_maps')->name('penduduk.ajax_penduduk_maps');
-    Route::post('/update_maps/{p?}/{o?}/{id?}/{edit?}', 'Penduduk@update_maps')->name('penduduk.update_maps');
-    Route::get('/edit_status_dasar/{p?}/{o?}/{id?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
-    Route::post('/update_status_dasar/{p?}/{o?}/{id?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
-    Route::get('/kembalikan_status/{p?}/{o?}/{id?}', 'Penduduk@kembalikan_status')->name('penduduk.kembalikan_status');
-    Route::get('/cetak/{p?}/{o?}/{aksi?}/{privasi_nik?}', 'Penduduk@cetak')->name('penduduk.cetak');
-    Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk@statistik')->name('penduduk.statistik');
-    Route::get('/lap_statistik/{id_cluster?}/{tipe?}/{no?}', 'Penduduk@lap_statistik')->name('penduduk.lap_statistik');
-    Route::post('/autocomplete', 'Penduduk@autocomplete')->name('penduduk.autocomplete');
-    Route::get('/search_kumpulan_nik', 'Penduduk@search_kumpulan_nik')->name('penduduk.search_kumpulan_nik');
-    Route::get('/ajax_cetak/{p?}/{o?}/{aksi?}', 'Penduduk@ajax_cetak')->name('penduduk.ajax_cetak');
-    Route::get('/program_bantuan', 'Penduduk@program_bantuan')->name('penduduk.program_bantuan');
-    Route::post('/program_bantuan_proses', 'Penduduk@program_bantuan_proses')->name('penduduk.program_bantuan_proses');
-    Route::get('/unduh_berkas/{id_dokumen?}/{tampil?}', 'Penduduk@unduh_berkas')->name('penduduk.unduh_berkas');
-    Route::get('/impor', 'Penduduk@impor')->name('penduduk.impor');
-    Route::post('/proses_impor', 'Penduduk@proses_impor')->name('penduduk.proses_impor');
-    Route::get('/impor_bip', 'Penduduk@impor_bip')->name('penduduk.impor_bip');
-    Route::post('/proses_impor_bip', 'Penduduk@proses_impor_bip')->name('penduduk.proses_impor_bip');
-    Route::get('/ekspor/{huruf?}', 'Penduduk@ekspor')->name('penduduk.ekspor');
-    Route::get('/foto_bawaan/{id}', 'Penduduk@foto_bawaan')->name('penduduk.foto_bawaan');
-    Route::match(['GET', 'POST'], '/index', 'Penduduk@index');
-    Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Penduduk@index');
-    Route::match(['GET', 'POST'], '/index/{p?}', 'Penduduk@index');
-    Route::match(['GET', 'POST'], '/', 'Penduduk@index');
+    Route::get('cetak_biodata/{id?}', 'Penduduk@cetak_biodata')->name('penduduk.cetak_biodata');
+    Route::post('insert/{peristiwa}', 'Penduduk@insert')->name('penduduk.insert');
+    Route::post('update/{id?}', 'Penduduk@update')->name('penduduk.update');
+    Route::get('delete/{id?}', 'Penduduk@delete')->name('penduduk.delete');
+    Route::post('delete_all/{p?}/{o?}', 'Penduduk@delete_all')->name('penduduk.delete_all');
+    Route::get('ajax_adv_search', 'Penduduk@ajax_adv_search')->name('penduduk.ajax_adv_search');
+    Route::post('adv_search_proses', 'Penduduk@adv_search_proses')->name('penduduk.adv_search_proses');
+    // Route::get('ajax_penduduk_pindah_rw/{dusun?}', 'Penduduk@ajax_penduduk_pindah_rw')->name('penduduk.ajax_penduduk_pindah_rw');
+    // Route::get('ajax_penduduk_pindah_rt/{dusun?}/{rw?}', 'Penduduk@ajax_penduduk_pindah_rt')->name('penduduk.ajax_penduduk_pindah_rt');
+    Route::get('ajax_penduduk_maps/{id?}/{edit?}', 'Penduduk@ajax_penduduk_maps')->name('penduduk.ajax_penduduk_maps');
+    Route::post('update_maps/{id?}/{edit?}', 'Penduduk@update_maps')->name('penduduk.update_maps');
+    Route::get('edit_status_dasar/{id?}', 'Penduduk@edit_status_dasar')->name('penduduk.edit_status_dasar');
+    Route::post('update_status_dasar/{id?}', 'Penduduk@update_status_dasar')->name('penduduk.update_status_dasar');
+    Route::get('kembalikan_status/{id?}', 'Penduduk@kembalikan_status')->name('penduduk.kembalikan_status');
+    Route::post('cetak/{aksi?}/{privasi_nik?}', 'Penduduk@cetak')->name('penduduk.cetak');
+    Route::get('statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk@statistik')->name('penduduk.statistik');
+    Route::get('lap_statistik/{id_cluster?}/{tipe?}/{no?}', 'Penduduk@lap_statistik')->name('penduduk.lap_statistik');
+    Route::get('search_kumpulan_nik', 'Penduduk@search_kumpulan_nik')->name('penduduk.search_kumpulan_nik');
+    Route::get('ajax_cetak/{aksi?}', 'Penduduk@ajax_cetak')->name('penduduk.ajax_cetak');
+    Route::get('program_bantuan', 'Penduduk@program_bantuan')->name('penduduk.program_bantuan');
+    Route::post('program_bantuan_proses', 'Penduduk@program_bantuan_proses')->name('penduduk.program_bantuan_proses');
+    Route::get('unduh_berkas/{id_dokumen?}/{tampil?}', 'Penduduk@unduh_berkas')->name('penduduk.unduh_berkas');
+    Route::get('impor', 'Penduduk@impor')->name('penduduk.impor');
+    Route::post('proses_impor', 'Penduduk@proses_impor')->name('penduduk.proses_impor');
+    Route::get('impor_bip', 'Penduduk@impor_bip')->name('penduduk.impor_bip');
+    Route::post('proses_impor_bip', 'Penduduk@proses_impor_bip')->name('penduduk.proses_impor_bip');
+    Route::get('ekspor/{huruf?}', 'Penduduk@ekspor')->name('penduduk.ekspor');
+    Route::get('foto_bawaan/{id}', 'Penduduk@foto_bawaan')->name('penduduk.foto_bawaan');
 });
 
 // Kependudukan > Penduduk > Log Penduduk
@@ -1081,24 +1077,18 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
     // Surat Keluar
     Route::group('surat_keluar', static function (): void {
-        Route::get('/clear/{id?}', 'Surat_keluar@clear')->name('buku-umum.surat_keluar.clear');
-        Route::get('/form/{p?}/{o?}/{id?}', 'Surat_keluar@form')->name('buku-umum.surat_keluar.form');
-        Route::get('/form_upload/{p?}/{o?}/{url?}', 'Surat_keluar@form_upload')->name('buku-umum.surat_keluar.form_upload');
-        Route::get('/search', 'Surat_keluar@search')->name('buku-umum.surat_keluar.search');
-        Route::post('/filter', 'Surat_keluar@filter')->name('buku-umum.surat_keluar.filter');
+        Route::get('/', 'Surat_keluar@index')->name('buku-umum.surat_keluar.index');
+        Route::get('/datatables', 'Surat_keluar@datatables')->name('buku-umum.surat_keluar.datatables');
+        Route::get('/form/{id?}', 'Surat_keluar@form')->name('buku-umum.surat_keluar.form');
         Route::post('/insert', 'Surat_keluar@insert')->name('buku-umum.surat_keluar.insert');
-        Route::post('/update/{p?}/{o?}/{id?}', 'Surat_keluar@update')->name('buku-umum.surat_keluar.update');
-        Route::post('/upload/{p?}/{o?}/{url?}', 'Surat_keluar@upload')->name('buku-umum.surat_keluar.upload');
-        Route::get('/delete/{p?}/{o?}/{id?}', 'Surat_keluar@delete')->name('buku-umum.surat_keluar.delete');
-        Route::post('/delete_all//{p?}/{o?}', 'Surat_keluar@delete_all')->name('buku-umum.surat_keluar.delete_all');
-        Route::get('/dialog_cetak/{o?}', 'Surat_keluar@dialog_cetak')->name('buku-umum.surat_keluar.dialog_cetak');
-        Route::get('/dialog_unduh/{o?}', 'Surat_keluar@dialog_unduh')->name('buku-umum.surat_keluar.dialog_unduh');
-        Route::match(['GET', 'POST'], '/dialog/{aksi?}/{o?}', 'Surat_keluar@dialog')->name('buku-umum.surat_keluar.dialog');
+        Route::post('/update/{id?}', 'Surat_keluar@update')->name('buku-umum.surat_keluar.update');
+        Route::get('/delete/{id?}', 'Surat_keluar@delete')->name('buku-umum.surat_keluar.delete');
+        Route::post('/delete_all', 'Surat_keluar@delete_all')->name('buku-umum.surat_keluar.delete_all');
+        Route::get('/dialog/{aksi?}', 'Surat_keluar@dialog')->name('buku-umum.surat_keluar.dialog');
+        Route::post('/cetak/{aksi?}', 'Surat_keluar@cetak')->name('buku-umum.surat_keluar.cetak');
         Route::get('/berkas/{idSuratKeluar?}/{tipe?}', 'Surat_keluar@berkas')->name('buku-umum.surat_keluar.berkas');
         Route::post('/nomor_surat_duplikat', 'Surat_keluar@nomor_surat_duplikat')->name('buku-umum.surat_keluar.nomor_surat_duplikat');
-        Route::get('/untuk_ekspedisi/{p?}/{o?}/{id?}', 'Surat_keluar@untuk_ekspedisi')->name('buku-umum.surat_keluar.untuk_ekspedisi');
-        Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Surat_keluar@index')->name('buku-umum.surat_keluar.index');
-        Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Surat_keluar@index')->name('buku-umum.surat_keluar.index-page');
+        Route::get('/untuk_ekspedisi/{id?}', 'Surat_keluar@untuk_ekspedisi')->name('buku-umum.surat_keluar.untuk_ekspedisi');
     });
 
     // Surat Masuk

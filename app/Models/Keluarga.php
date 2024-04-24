@@ -41,6 +41,7 @@ use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -51,6 +52,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Keluarga extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -310,7 +312,6 @@ class Keluarga extends BaseModel
         ];
         // Untuk statistik perkembangan keluarga
         LogKeluarga::create($log_keluarga);
-
     }
 
     public static function baru($data)
@@ -374,8 +375,8 @@ class Keluarga extends BaseModel
         $penduduk = Penduduk::create($data);
 
         if ($foto = upload_foto_penduduk(time() . '-' . $penduduk->id . '-' . random_int(10000, 999999))) {
-                $penduduk->foto = $foto;
-                $penduduk->save();
+            $penduduk->foto = $foto;
+            $penduduk->save();
         }
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
@@ -383,17 +384,17 @@ class Keluarga extends BaseModel
         if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
             self::where(['id' => $data['id_kk']])->whereNull('nik_kepala')->update(['nik_kepala' => $penduduk->id]);
         }
-            // Jenis peristiwa didapat dari form yang berbeda
-            // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
-            $x = [
-                'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
-                'kode_peristiwa'           => $data['jenis_peristiwa'],
-                'tgl_lapor'                => $data['tgl_lapor'],
-                'created_by'               => auth()->id,
-                'maksud_tujuan_kedatangan' => $maksud_tujuan,
-            ];
+        // Jenis peristiwa didapat dari form yang berbeda
+        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+        $x = [
+            'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
+            'kode_peristiwa'           => $data['jenis_peristiwa'],
+            'tgl_lapor'                => $data['tgl_lapor'],
+            'created_by'               => auth()->id,
+            'maksud_tujuan_kedatangan' => $maksud_tujuan,
+        ];
 
-            $penduduk->log()->create($x);
+        $penduduk->log()->create($x);
     }
 
     public static function pecahKK($id, $data)
@@ -510,5 +511,31 @@ class Keluarga extends BaseModel
         }
 
         return $result;
+    }
+
+    public function pindah($idCluster): void
+    {
+        $this->update(['id_cluster' => $idCluster, 'updated_by' => auth()->id]);
+        $this->pindahAnggota($idCluster);
+    }
+
+    private function pindahAnggota($idCluster): void
+    {
+        // Ubah dusun/rw/rt untuk semua anggota keluarga
+        if (! empty($idCluster)) {
+            $data['id_cluster'] = $idCluster;
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['updated_by'] = auth()->id;
+
+            foreach ($this->anggota as $anggota) {
+                $anggota->update($data);
+                $log = [
+                    'id_pend'        => $anggota->id,
+                    'kode_peristiwa' => 6,
+                    'tgl_peristiwa'  => date('Y-m-d H:i:s'),
+                ];
+                $anggota->log()->upsert($log, ['kode_peristiwa', 'tgl_peristiwa', 'id_pend']);
+            }
+        }
     }
 }

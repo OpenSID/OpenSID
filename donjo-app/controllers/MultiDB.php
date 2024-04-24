@@ -314,9 +314,9 @@ class MultiDB extends Admin_Controller
         $tableNames = collect($tableNames)->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
 
         // $rand       = mt_rand(100000, 999999);
-        // ambil dari 6 digit terakhir kode desa
+        // ambil dari 6 digit terakhir kode desa + 999999 agar tidak duplikasi dengan data maksimal
         $kode_desa  = DB::table('config')->where('app_key', get_app_key())->value('kode_desa');
-        $rand       = (int) substr($kode_desa, -6);
+        $rand       = 999999 + (int) substr($kode_desa, -6);
         $backupData = [
             'info' => [
                 'versi'    => VERSION,
@@ -483,7 +483,7 @@ class MultiDB extends Admin_Controller
             DB::commit();
             hapus_cache('_cache_modul');
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
             log_message('error', 'gagal restore ' . $e->getMessage() );
             redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
@@ -515,6 +515,7 @@ class MultiDB extends Admin_Controller
                     }
 
                 }
+                reset_auto_increment($tableName, $tableDetails['primary_key']);
                 DB::table($tableName)->insert($record);
                 log_message('notice', 'Restore data ' . $tableName . ' id ' . $record['id'] . ' berhasil.');
             }

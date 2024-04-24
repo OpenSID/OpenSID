@@ -651,11 +651,15 @@ class Migrasi_2024040171 extends MY_model
                 $table->unique(['slug', 'config_id']);
                 $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
+        }
 
+        if (DB::table('theme')->where('config_id', $config_id)->count() == 0) {
             $this->load->helper('theme');
             theme_scan();
 
             $this->sesuaikanTemaAktif($hasil, $config_id);
+
+            log_message('error', 'Jalan Jie');
         }
 
         return $hasil;

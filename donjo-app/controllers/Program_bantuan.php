@@ -157,7 +157,7 @@ class Program_bantuan extends Admin_Controller
     private function get_pilihan_kk($cari, $peserta, $kk_level)
     {
         $kk_level = json_decode($kk_level, true);
-        if (count($kk_level) == 0) {
+        if ($kk_level === null || count($kk_level) == 0) {
             $kk_level = ['1', '2', '3', '4'];
         }
 

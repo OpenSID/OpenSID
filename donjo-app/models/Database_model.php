@@ -124,7 +124,7 @@ class Database_model extends MY_Model
             // untuk mencegah kesalahan nama file migrasi, tambahkan record berdasarkan VERSI_DATABASE saat ini
             $migrasiDb = Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
             $migrasiDb->update(['premium' => ['Migrasi_' . VERSI_DATABASE]]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
                 echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
@@ -137,9 +137,9 @@ class Database_model extends MY_Model
         // Lengkapi folder desa
         folder_desa();
         kosongkanFolder(config_item('cache_blade'));
-        cache()->flush();
+        // cache()->flush();
 
-        SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
+        SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
 

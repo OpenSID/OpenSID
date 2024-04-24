@@ -142,7 +142,8 @@ class Surat_dinas extends Admin_Controller
 
             collect($data['suratDinas']->kode_isian)->filter(static function ($item) use (&$kategori_isian): bool {
                 if (isset($item->kategori)) {
-                    $kategori_isian[$item->kategori][] = $item;
+                    $item->kategori                                = strtolower($item->kategori);
+                    $kategori_isian[strtolower($item->kategori)][] = $item;
 
                     return true;
                 }

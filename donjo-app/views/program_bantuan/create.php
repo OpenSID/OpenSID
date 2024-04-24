@@ -94,8 +94,10 @@
 		var cid = $(this).val();
 		if (cid == 2) {
 			$('#penerima').show();
+			$('[name="kk_level[]"]').addClass('required');
 		} else {
 			$('#penerima').hide();
+			$('[name="kk_level[]"]').removeClass('required');
 		}
 	});
 </script>

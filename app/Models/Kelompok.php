@@ -38,12 +38,14 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -246,5 +248,10 @@ class Kelompok extends BaseModel
     public function scopeListJabatan($query, $id_kelompok = 0)
     {
         return $query->whereRaw('jabatan', 'REGEXP', '[a-zA-Z]+')->where('id_kelompok', $id_kelompok)->orderBy('jabatan')->get()->toArray();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
     }
 }
