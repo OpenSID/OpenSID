@@ -513,8 +513,29 @@ class Keluarga extends BaseModel
         return $result;
     }
 
-    protected static function boot()
+    public function pindah($idCluster): void
     {
-        parent::boot();
+        $this->update(['id_cluster' => $idCluster, 'updated_by' => auth()->id]);
+        $this->pindahAnggota($idCluster);
+    }
+
+    private function pindahAnggota($idCluster): void
+    {
+        // Ubah dusun/rw/rt untuk semua anggota keluarga
+        if (! empty($idCluster)) {
+            $data['id_cluster'] = $idCluster;
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $data['updated_by'] = auth()->id;
+
+            foreach ($this->anggota as $anggota) {
+                $anggota->update($data);
+                $log = [
+                    'id_pend'        => $anggota->id,
+                    'kode_peristiwa' => 6,
+                    'tgl_peristiwa'  => date('Y-m-d H:i:s'),
+                ];
+                $anggota->log()->upsert($log, ['kode_peristiwa', 'tgl_peristiwa', 'id_pend']);
+            }
+        }
     }
 }

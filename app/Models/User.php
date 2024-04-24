@@ -84,6 +84,7 @@ class User extends BaseModel
     protected $casts = [
         'email_verified_at'    => 'datetime',
         'telegram_verified_at' => 'datetime',
+        'akses_wilayah'        => 'json',
     ];
 
     protected static function boot()

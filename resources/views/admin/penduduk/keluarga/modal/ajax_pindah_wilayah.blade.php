@@ -3,11 +3,10 @@
     <div class="modal-body">
         <div class="form-group">
             <label for="dusun">{{ ucwords(setting('sebutan_dusun')) }} </label>
-            <select id="dusun" class="form-control input-sm required select2">
+            <select id="dusun" class="form-control input-sm select2">
                 <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
-                @foreach ($wilayah as $item)
-                    <option value="{{ $item->id }}">{{ $item->dusun }}
-                    </option>
+                @foreach ($wilayah as $keyDusun => $dusun)
+                    <option value="{{ $keyDusun }}">{{ $keyDusun }}</option>
                 @endforeach
             </select>
         </div>
@@ -15,11 +14,10 @@
             <label for="rw">RW</label>
             <select id="rw" class="form-control input-sm required select2">
                 <option class="placeholder" value="">Pilih RW</option>
-                @foreach ($wilayah as $item)
-                    <optgroup label="{{ $item->dusun }}" value="{{ $item->id }}" @disabled(true)>
-                        @foreach ($item->rwAll as $child)
-                            <option value="{{ $child->id }}">
-                                {{ $child->rw }}</option>
+                @foreach ($wilayah as $keyDusun => $dusun)
+                    <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}">
+                        @foreach ($dusun as $keyRw => $rw)
+                            <option value="{{ $keyDusun }}__{{ $keyRw }}">{{ $keyRw }}</option>
                         @endforeach
                     </optgroup>
                 @endforeach
@@ -29,12 +27,11 @@
             <label for="rt">RT</label>
             <select id="id_cluster" name="id_cluster" class="form-control input-sm required select2">
                 <option class="placeholder" value="">Pilih RT </option>
-                @foreach ($wilayah as $item)
-                    @foreach ($item->rwAll as $child)
-                        <optgroup value={{ $child->id }} label="{{ $child->rw }}" @disabled(true)>
-                            @foreach ($item->rts->where('rw', $child->rw) as $rt)
-                                <option value="{{ $rt->id }}">
-                                    {{ $rt->rt }}</option>
+                @foreach ($wilayah as $keyDusun => $dusun)
+                    @foreach ($dusun as $keyRw => $rw)
+                        <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ $keyRw }}">
+                            @foreach ($rw as $rt)
+                                <option value="{{ $rt->id }}">{{ $rt->rt }}</option>
                             @endforeach
                         </optgroup>
                     @endforeach

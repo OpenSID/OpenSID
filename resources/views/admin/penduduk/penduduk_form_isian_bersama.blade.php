@@ -574,8 +574,7 @@
                     <select id="dusun" class="form-control input-sm select2 required">
                         <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <option value="{{ $keyDusun }}" @selected($keyDusun == $penduduk['wilayah']['dusun'])>{{ $keyDusun }}
-                            </option>
+                            <option value="{{ $keyDusun }}" @selected($keyDusun == $penduduk['wilayah']['dusun'])>{{ $keyDusun }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -587,7 +586,7 @@
                     <select id="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
+                            <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun) >
                                 @foreach ($dusun as $keyRw => $rw)
                                     <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
                                 @endforeach
@@ -604,7 +603,7 @@
                         <option value="">Pilih RT</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
                             @foreach ($dusun as $keyRw => $rw)
-                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ 'RW ' . $keyRw }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
+                                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ $keyRw }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
                                     @foreach ($rw as $rt)
                                         <option value="{{ $rt->id }}" @selected($penduduk['id_cluster'] == $rt->id)>{{ $rt->rt }}</option>
                                     @endforeach
@@ -674,7 +673,7 @@
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="status_kawin"> Cara Hubung Warga </label>
+            <label for="hubung_warga"> Cara Hubung Warga </label>
             <select class="form-control input-sm" name="hubung_warga">
                 <option value="">Pilih Cara Hubungi</option>
                 @foreach (['SMS', 'Email', 'Telegram'] as $value)
@@ -990,7 +989,7 @@
             })
 
             $('#mainform #rw').change(function() {
-                let _label = $(this).find('option:selected').val()
+                let _label = $(this).find('option:selected').val()                
                 $('#mainform #id_cluster').find(`optgroup`).prop('disabled', 1)
                 if ($(this).val()) {
                     $('#mainform #id_cluster').closest('div').show()

@@ -28,8 +28,8 @@
                 <label for="dusun">{{ ucwords(setting('sebutan_dusun')) }} </label>
                 <select id="dusun" class="form-control input-sm required">
                     <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
-                    @foreach ($wilayah as $item)
-                        <option value="{{ $item->id }}" @selected($item->dusun == $kk->wilayah->dusun)>{{ $item->dusun }}</option>
+                    @foreach ($wilayah as $keyDusun => $dusun)
+                        <option value="{{ $keyDusun }}" @selected($keyDusun == $kk->wilayah->dusun)>{{ $keyDusun }}</option>
                     @endforeach
                 </select>
             </div>
@@ -37,11 +37,11 @@
                 <label for="rw">RW</label>
                 <select id="rw" class="form-control input-sm required">
                     <option class="placeholder" value="">Pilih RW</option>
-                    @foreach ($wilayah as $item)
-                        <optgroup label="{{ $item->dusun }}" value="{{ $item->id }}" @disabled($kk->wilayah->dusun != $item->dusun)>
-                            @foreach ($item->rwAll as $child)
-                                <option value="{{ $child->id }}" @selected($kk->wilayah->rw == $child->rw && $kk->wilayah->dusun == $child->dusun)>{{ $child->rw }}
-                                </option>
+                    @foreach ($wilayah as $keyDusun => $dusun)
+                        <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}" @disabled($keyDusun != $kk->wilayah->dusun)>
+                            @foreach ($dusun as $keyRw => $rw)
+                                <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($kk->wilayah->rw == $keyRw && $kk->wilayah->dusun == $keyDusun)>
+                                    {{ $keyRw }}</option>
                             @endforeach
                         </optgroup>
                     @endforeach
@@ -51,10 +51,10 @@
                 <label for="rt">RT</label>
                 <select id="id_cluster" name="id_cluster" class="form-control input-sm required">
                     <option class="placeholder" value="">Pilih RT </option>
-                    @foreach ($wilayah as $item)
-                        @foreach ($item->rwAll as $child)
-                            <optgroup value={{ $child->id }} label="{{ $child->rw }}" @disabled($kk->wilayah->rw != $child->rw or $kk->wilayah->dusun != $child->dusun)>
-                                @foreach ($item->rts->where('rw', $child->rw) as $rt)
+                    @foreach ($wilayah as $keyDusun => $dusun)
+                        @foreach ($dusun as $keyRw => $rw)
+                            <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ $keyRw }}" @disabled($keyDusun != $kk->wilayah->dusun || $keyRw != $kk->wilayah->rw)>
+                                @foreach ($rw as $rt)
                                     <option value="{{ $rt->id }}" @selected($kk->id_cluster == $rt->id)>
                                         {{ $rt->rt }}</option>
                                 @endforeach

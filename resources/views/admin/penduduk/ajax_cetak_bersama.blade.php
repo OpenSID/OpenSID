@@ -4,6 +4,7 @@
         delete(_objParams.draw)
         delete(_objParams.search)
         $('input[name=params]').val(JSON.stringify(_objParams))
+        $('input[name=judul]').val($('#judul-statistik').text())
         // copy id_rb terpilih ke form ini
         let _clone = $('#tabeldata').find('input[name="id_cb[]"]:checked').clone()
         $('#checkbox_div').append(_clone)
@@ -30,6 +31,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <input type="hidden" name="params" value="">
+                    <input type="hidden" name="judul" value="">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="privasi_nik">
                         <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
