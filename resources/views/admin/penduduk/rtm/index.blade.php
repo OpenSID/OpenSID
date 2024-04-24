@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="box-body">
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select id="status" class="form-control input-sm select2">
                         <option value="">Pilih Status</option>
@@ -131,6 +131,10 @@
     <style>
         .select2-results__option[aria-disabled=true] {
             display: none;
+        }
+
+        .row.mepet>div{
+            margin-right: -25px;
         }
     </style>
 @endpush

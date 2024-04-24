@@ -67,10 +67,10 @@
         <div class="box-header">
             <h4 class="text-center"><strong>DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN <span id="info-tgl-pemilihan">{{ $tanggal_pemilihan }}</span></strong></h4>
         </div>
-        <div class="box-header with-border form-inline">
-            <div class="row col-md-12 search-dropdown">
-                <div class="col-md-1" style="margin-right:20px">
-                    <select class="form-control input-sm" name="sex">
+        <div class="box-body">
+            <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2" name="sex">
                         <option value="">Jenis Kelamin</option>
                         @foreach ($jenis_kelamin as $data)
                             <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
@@ -79,8 +79,7 @@
                 </div>
                 @include('admin.layouts.components.wilayah')
             </div>
-        </div>
-        <div class="box-body">
+            <hr>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
@@ -106,6 +105,17 @@
     </div>
 @endsection
 @include('admin.dpt.modal_search_form')
+@push('css')
+<style>
+    .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+
+    .row.mepet>div {
+        margin-right: -25px;
+    }
+</style>
+@endpush
 @push('scripts')
     <script>
         $(document).ready(function() {
