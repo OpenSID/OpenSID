@@ -149,7 +149,7 @@ class Wilayah extends BaseModel
 
     public function rts(): HasMany
     {
-        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '!=', '0')->where('rt', '!=', '-');
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '!=', '0');
     }
 
     public function pendudukPria(): HasManyThrough
@@ -200,5 +200,20 @@ class Wilayah extends BaseModel
     public function isRt()
     {
         return $this->attributes['rt'] != '0';
+    }
+
+    public function bukanRT(): bool
+    {
+        return in_array($this->attributes['rt'], ['0']);
+    }
+
+    public static function tree()
+    {
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+    }
+
+    public static function treeAccess()
+    {
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw != '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
     }
 }

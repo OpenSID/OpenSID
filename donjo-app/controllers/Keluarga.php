@@ -107,9 +107,9 @@ class Keluarga extends Admin_Controller
             $dataLengkap = data_lengkap();
 
             return datatables()->of($this->sumberData())
-                ->addColumn('ceklist', static function ($row) use ($canDelete, $dataLengkap) {
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
-                        return '<input type="checkbox" name="id_cb[]" ' . ($dataLengkap ? '' : 'disabled') . ' value="' . $row->id . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })->addColumn('valid_kk', static function ($row) {
                     $result = '';
@@ -260,7 +260,7 @@ class Keluarga extends Admin_Controller
         $data['kk']                 = null;
         $data['form_action']        = ci_route('keluarga.insert_new');
         $data['penduduk_lepas']     = PendudukHidup::lepas(true)->get();
-        $data['wilayah']            = Wilayah::with(['rwAll' => static fn ($q) => $q->select(['id', 'dusun', 'rt', 'rw'])->with(['rts' => static fn ($r) => $r->select(['id', 'dusun', 'rt', 'rw'])])])->select(['id', 'dusun', 'rt', 'rw'])->dusun()->get();
+        $data['wilayah']            = Wilayah::treeAccess();
         $data['agama']              = AgamaEnum::all();
         $data['pendidikan_sedang']  = PendidikanSedangEnum::all();
         $data['pendidikan_kk']      = PendidikanKKEnum::all();

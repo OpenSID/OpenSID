@@ -81,7 +81,7 @@
                             ><i class="fa fa-random"></i> Pindah Wilayah Kolektif</a>
                         </li>
                     @endif
-                    @if (can('h'))
+                    @if (can('h') && ! data_lengkap())
                         <li>
                             <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('keluarga.delete_all') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
                         </li>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="col-sm-2">
                     <select id="dusun" class="form-control input-sm select2">
-                        <option value="">Pilih Dusun</option>
+                        <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
                         @foreach ($wilayah as $item)
                             <option value="{{ $item->id }}">{{ $item->dusun }}</option>
                         @endforeach
@@ -178,7 +178,7 @@
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
                         <tr>
-                            <th nowrap><input type="checkbox" id="checkall" @disabled(!data_lengkap())></th>
+                            <th nowrap><input type="checkbox" id="checkall"></th>
                             <th nowrap>NO</th>
                             <th nowrap>AKSI</th>
                             <th nowrap>FOTO</th>
