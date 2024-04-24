@@ -37,9 +37,8 @@
 
 namespace App\Imports;
 
-use Exception;
 use App\Models\KlasifikasiSurat;
-use Illuminate\Support\Facades\DB;
+use Exception;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class KlasifikasiSuratImports

@@ -656,12 +656,11 @@ class Migrasi_2024040171 extends MY_model
         if (DB::table('theme')->where('config_id', $config_id)->count() == 0) {
             $this->load->helper('theme');
             theme_scan();
-    
+
             $this->sesuaikanTemaAktif($hasil, $config_id);
-            
+
             log_message('error', 'Jalan Jie');
         }
-
 
         return $hasil;
     }

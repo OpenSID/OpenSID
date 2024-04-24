@@ -47,9 +47,8 @@ class Migrasi_2024042451 extends MY_model
         $hasil = true;
 
         $hasil = $hasil && $this->migrasi_2023120558($hasil);
-        $hasil = $hasil && $this->migrasi_2024041951($hasil);
 
-        return $hasil;
+        return $hasil && $this->migrasi_2024041951($hasil);
     }
 
     protected function migrasi_2024041951($hasil)

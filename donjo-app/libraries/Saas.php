@@ -68,9 +68,7 @@ class Saas
                         $saas->status_pemesanan = $data->status_pemesanan;
                         $saas->sisa_aktif       = $saas->tgl_akhir->diffInDays(Carbon::now()) + 1;
 
-                        cache()->rememberForever('siappakai', static function () use ($data) {
-                            return true;
-                        });
+                        cache()->rememberForever('siappakai', static fn () => true);
 
                         return $saas;
                     }
