@@ -258,8 +258,9 @@ class AnggotaKeluarga extends Admin_Controller
         $data['jenis_peristiwa']    = $peristiwa;
 
         // data orang tua
-        // $data['data_ayah'] = collect(Penduduk::ayah($id)->first(['nama', 'nik']))->toArray();
-        // $data['data_ibu']  = collect(Penduduk::ibu($id)->first(['nama', 'nik']))->toArray();
+        $orangTua          = Penduduk::orangTua($id);
+        $data['data_ayah'] = $orangTua['ayah'];
+        $data['data_ibu']  = $orangTua['ibu'];
 
         $originalInput = session('old_input');
         if ($originalInput) {
@@ -270,8 +271,9 @@ class AnggotaKeluarga extends Admin_Controller
             }
             $data['penduduk']['id_sex'] = $originalInput['sex'];
             $data['no_kk']              = $originalInput['no_kk'];
-
         }
+
+
         view('admin.penduduk.keluarga.anggota.form', $data);
     }
 
