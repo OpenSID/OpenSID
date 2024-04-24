@@ -1077,24 +1077,18 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
     // Surat Keluar
     Route::group('surat_keluar', static function (): void {
-        Route::get('/clear/{id?}', 'Surat_keluar@clear')->name('buku-umum.surat_keluar.clear');
-        Route::get('/form/{p?}/{o?}/{id?}', 'Surat_keluar@form')->name('buku-umum.surat_keluar.form');
-        Route::get('/form_upload/{p?}/{o?}/{url?}', 'Surat_keluar@form_upload')->name('buku-umum.surat_keluar.form_upload');
-        Route::get('/search', 'Surat_keluar@search')->name('buku-umum.surat_keluar.search');
-        Route::post('/filter', 'Surat_keluar@filter')->name('buku-umum.surat_keluar.filter');
+        Route::get('/', 'Surat_keluar@index')->name('buku-umum.surat_keluar.index');
+        Route::get('/datatables', 'Surat_keluar@datatables')->name('buku-umum.surat_keluar.datatables');
+        Route::get('/form/{id?}', 'Surat_keluar@form')->name('buku-umum.surat_keluar.form');
         Route::post('/insert', 'Surat_keluar@insert')->name('buku-umum.surat_keluar.insert');
-        Route::post('/update/{p?}/{o?}/{id?}', 'Surat_keluar@update')->name('buku-umum.surat_keluar.update');
-        Route::post('/upload/{p?}/{o?}/{url?}', 'Surat_keluar@upload')->name('buku-umum.surat_keluar.upload');
-        Route::get('/delete/{p?}/{o?}/{id?}', 'Surat_keluar@delete')->name('buku-umum.surat_keluar.delete');
-        Route::post('/delete_all//{p?}/{o?}', 'Surat_keluar@delete_all')->name('buku-umum.surat_keluar.delete_all');
-        Route::get('/dialog_cetak/{o?}', 'Surat_keluar@dialog_cetak')->name('buku-umum.surat_keluar.dialog_cetak');
-        Route::get('/dialog_unduh/{o?}', 'Surat_keluar@dialog_unduh')->name('buku-umum.surat_keluar.dialog_unduh');
-        Route::match(['GET', 'POST'], '/dialog/{aksi?}/{o?}', 'Surat_keluar@dialog')->name('buku-umum.surat_keluar.dialog');
+        Route::post('/update/{id?}', 'Surat_keluar@update')->name('buku-umum.surat_keluar.update');
+        Route::get('/delete/{id?}', 'Surat_keluar@delete')->name('buku-umum.surat_keluar.delete');
+        Route::post('/delete_all', 'Surat_keluar@delete_all')->name('buku-umum.surat_keluar.delete_all');
+        Route::get('/dialog/{aksi?}', 'Surat_keluar@dialog')->name('buku-umum.surat_keluar.dialog');
+        Route::post('/cetak/{aksi?}', 'Surat_keluar@cetak')->name('buku-umum.surat_keluar.cetak');
         Route::get('/berkas/{idSuratKeluar?}/{tipe?}', 'Surat_keluar@berkas')->name('buku-umum.surat_keluar.berkas');
         Route::post('/nomor_surat_duplikat', 'Surat_keluar@nomor_surat_duplikat')->name('buku-umum.surat_keluar.nomor_surat_duplikat');
-        Route::get('/untuk_ekspedisi/{p?}/{o?}/{id?}', 'Surat_keluar@untuk_ekspedisi')->name('buku-umum.surat_keluar.untuk_ekspedisi');
-        Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Surat_keluar@index')->name('buku-umum.surat_keluar.index');
-        Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Surat_keluar@index')->name('buku-umum.surat_keluar.index-page');
+        Route::get('/untuk_ekspedisi/{id?}', 'Surat_keluar@untuk_ekspedisi')->name('buku-umum.surat_keluar.untuk_ekspedisi');
     });
 
     // Surat Masuk
