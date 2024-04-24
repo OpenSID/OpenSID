@@ -198,7 +198,7 @@ class Grup extends Admin_Controller
         }
     }
 
-    private function simpanAkses($grupId, $moduls): void
+    private function simpanAkses(string $grupId, array $moduls): void
     {
         $grupAkses = [];
         $configId  = identitas()->id;

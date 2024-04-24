@@ -112,7 +112,7 @@ class Install_modul extends CI_Controller
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
-        if ($action == 'up') {
+        if ($action === 'up') {
             usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
         }
 
