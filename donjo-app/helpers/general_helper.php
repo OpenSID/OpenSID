@@ -41,6 +41,7 @@ use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\Menu;
 use App\Models\Modul;
+use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -1115,14 +1116,25 @@ if (! function_exists('invalid_tags')) {
 if (! function_exists('reset_auto_increment')) {
     /**
      * Reset auto increment.
-     * 
+     *
      * @param string $table
-     * 
+     *
      * @return void
      */
     function reset_auto_increment($table)
     {
         $max_id = DB::table($table)->max('id');
         DB::statement("ALTER TABLE {$table} AUTO_INCREMENT = " . ($max_id + 1));
+    }
+}
+
+// TODO:: Hapus ini jika sudah menggunakan ORM Laravel semua
+if (! function_exists('shortcut_cache')) {
+    function shortcut_cache()
+    {
+        User::pluck('id')->each(static function ($id) {
+            log_message('notice', 'Menghapus cache shortcut_' . $id . '...');
+            cache()->forget('shortcut_' . $id);
+        });
     }
 }

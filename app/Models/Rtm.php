@@ -39,12 +39,14 @@ namespace App\Models;
 
 use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Rtm extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.

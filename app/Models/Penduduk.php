@@ -44,6 +44,7 @@ use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +55,7 @@ class Penduduk extends BaseModel
 {
     use Author;
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * Static data tempat lahir.
@@ -387,7 +389,7 @@ class Penduduk extends BaseModel
         return $query
             ->select('tweb_penduduk.*')
             ->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')
-        // ->orderBy(DB::raw('CONCAT(tweb_keluarga.no_kk, tweb_penduduk.id_kk, tweb_penduduk.kk_level)'), 'asc')
+            // ->orderBy(DB::raw('CONCAT(tweb_keluarga.no_kk, tweb_penduduk.id_kk, tweb_penduduk.kk_level)'), 'asc')
             ->orderBy(DB::raw("CASE
                 WHEN CHAR_LENGTH(tweb_penduduk.nik) < 16 THEN 1
                 WHEN tweb_penduduk.nik LIKE '0%' AND CHAR_LENGTH(tweb_penduduk.nik) = 16 THEN 2
@@ -791,16 +793,15 @@ class Penduduk extends BaseModel
             'keluarga',
             'rtm',
         ])->with(['map'])->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
-                if ($groupType == 'rtm') {
-                    return $r->whereNotNull('id_rtm')->where('id_rtm', '!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
-                }
-                if ($groupType == 'keluarga') {
-                    return $r->whereNotNull('id_kk')->where(['kk_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
-                }
+            if ($groupType == 'rtm') {
+                return $r->whereNotNull('id_rtm')->where('id_rtm', '!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
+            }
+            if ($groupType == 'keluarga') {
+                return $r->whereNotNull('id_kk')->where(['kk_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+            }
 
-                    return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
-
-            })->when(! empty($idCluster), static fn ($q) => $q->whereIn('id_cluster', $idCluster))
+            return $r->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_kk = tweb_penduduk.id_kk) as jumlah_anggota'));
+        })->when(! empty($idCluster), static fn ($q) => $q->whereIn('id_cluster', $idCluster))
             ->when($sex, static fn ($q) => $q->whereSex($sex))
             ->when($agama, static fn ($q) => $q->whereAgamaId($agama))
             ->when($umurMin && $umurMax, static fn ($q) => $q->batasiUmur(['max' => $umurMax, 'min' => $umurMin, 'satuan' => $umurSatuan], date('d-m-Y')))
@@ -821,8 +822,8 @@ class Penduduk extends BaseModel
                 $item->umur   = $item->umur;
                 unset($item->map);
 
-            return $item;
-        })->toArray();
+                return $item;
+            })->toArray();
     }
 
     public static function nikSementara()
@@ -960,7 +961,7 @@ class Penduduk extends BaseModel
 
                 return $result;
             }
-             //Tidak termasuk penduduk yg diupdate
+            //Tidak termasuk penduduk yg diupdate
             $existingData = Penduduk::select(['nik', 'status_dasar'])
                 ->when($id, static fn ($q) => $q->where('id', '!=', $id))
                 ->where('nik', $data['nik'])

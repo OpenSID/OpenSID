@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Pembangunan extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.

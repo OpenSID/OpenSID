@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Spatie\EloquentSortable\SortableTrait;
@@ -48,11 +49,11 @@ class Shortcut extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
+    use ShortcutCache;
 
     public const ACTIVE   = 1;
     public const INACTIVE = 0;
-
-    // use ConfigId;
+    // public const is_shortcut = true;
 
     /**
      * The table associated with the model.
@@ -116,7 +117,7 @@ class Shortcut extends BaseModel
 
         try {
             if ($jenis_query == 0) {
-                return $this->querys()[$raw_query];
+                return $this->querys()['jumlah'][$raw_query];
             }
 
             if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
@@ -153,9 +154,6 @@ class Shortcut extends BaseModel
     protected static function boot()
     {
         parent::boot();
-
-        cache()->forget('shortcut');
-
         static::creating(static function ($model): void {
             $model->urut = self::max('urut') + 1;
         });
@@ -165,97 +163,102 @@ class Shortcut extends BaseModel
     {
         $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
 
-        $querys = [
-            // Wilayah
-            'Dusun' => Wilayah::dusun()->count(),
-            'RW'    => Wilayah::rw()->count(),
-            'RT'    => Wilayah::rt()->count(),
+        return cache()->rememberForever('shortcut_' . auth()->id, static function () use ($isAdmin) {
+            $querys           = [];
+            $querys['data']   = self::where('status', '=', '1')->orderBy('urut')->get();
+            $querys['jumlah'] = [
+                'Dusun' => Wilayah::dusun()->count(),
+                'RW'    => Wilayah::rw()->count(),
+                'RT'    => Wilayah::rt()->count(),
 
-            // Penduduk
-            'Penduduk'           => Penduduk::status()->count(),
-            'Penduduk Laki-laki' => Penduduk::status()->where('sex', 1)->count(),
-            'Penduduk Perempuan' => Penduduk::status()->where('sex', 2)->count(),
-            'Penduduk TagID'     => Penduduk::status()->whereNotNull('tag_id_card')->count(),
-            'Dokumen Penduduk'   => Penduduk::status()->withCount('dokumen')->get()->sum('dokumen_count'),
+                // Penduduk
+                'Penduduk'           => Penduduk::status()->count(),
+                'Penduduk Laki-laki' => Penduduk::status()->where('sex', 1)->count(),
+                'Penduduk Perempuan' => Penduduk::status()->where('sex', 2)->count(),
+                'Penduduk TagID'     => Penduduk::status()->whereNotNull('tag_id_card')->count(),
+                'Dokumen Penduduk'   => Penduduk::status()->withCount('dokumen')->get()->sum('dokumen_count'),
 
-            // Keluarga
-            'Keluarga'        => Keluarga::with('kepalaKeluarga')->status()->count(),
-            'Kepala Keluarga' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
-                $query->status()->where('kk_level', 1);
-            }])->count(),
-            'Kepala Keluarga Laki-laki' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
-                $query->status()->where('kk_level', 1)->where('sex', 1);
-            }])->count(),
-            'Kepala Keluarga Perempuan' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
-                $query->status()->where('kk_level', 1)->where('sex', 2);
-            }])->count(),
+                // Keluarga
+                'Keluarga'        => Keluarga::with('kepalaKeluarga')->status()->count(),
+                'Kepala Keluarga' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+                    $query->status()->where('kk_level', 1);
+                }])->count(),
+                'Kepala Keluarga Laki-laki' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+                    $query->status()->where('kk_level', 1)->where('sex', 1);
+                }])->count(),
+                'Kepala Keluarga Perempuan' => Keluarga::with(['kepalaKeluarga' => static function ($query): void {
+                    $query->status()->where('kk_level', 1)->where('sex', 2);
+                }])->count(),
 
-            // RTM
-            'RTM'        => Rtm::status()->count(),
-            'Kepala RTM' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
-                $query->status()->where('rtm_level', 1);
-            }])->count(),
-            'Kepala RTM Laki-laki' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
-                $query->status()->where('rtm_level', 1)->where('sex', 1);
-            }])->count(),
-            'Kepala RTM Perempuan' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
-                $query->status()->where('rtm_level', 1)->where('sex', 2);
-            }])->count(),
+                // RTM
+                'RTM'        => Rtm::status()->count(),
+                'Kepala RTM' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                    $query->status()->where('rtm_level', 1);
+                }])->count(),
+                'Kepala RTM Laki-laki' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                    $query->status()->where('rtm_level', 1)->where('sex', 1);
+                }])->count(),
+                'Kepala RTM Perempuan' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                    $query->status()->where('rtm_level', 1)->where('sex', 2);
+                }])->count(),
 
-            // Kelompok
-            'Kelompok' => Kelompok::status()->tipe()->count(),
+                // Kelompok
+                'Kelompok' => Kelompok::status()->tipe()->count(),
 
-            // Lembaga
-            'Lembaga' => Kelompok::status()->tipe('lembaga')->count(),
+                // Lembaga
+                'Lembaga' => Kelompok::status()->tipe('lembaga')->count(),
 
-            // Pembangunan
-            'Pembangunan' => Pembangunan::count(),
+                // Pembangunan
+                'Pembangunan' => Pembangunan::count(),
 
-            // Pengaduan
-            'Pengaduan'                   => Pengaduan::count(),
-            'Pengaduan Menunggu Diproses' => Pengaduan::where('status', 1)->count(),
-            'Pengaduan Sedang Diproses'   => Pengaduan::where('status', 2)->count(),
-            'Pengaduan Selesai Diproses'  => Pengaduan::where('status', 3)->count(),
+                // Pengaduan
+                'Pengaduan'                   => Pengaduan::count(),
+                'Pengaduan Menunggu Diproses' => Pengaduan::where('status', 1)->count(),
+                'Pengaduan Sedang Diproses'   => Pengaduan::where('status', 2)->count(),
+                'Pengaduan Selesai Diproses'  => Pengaduan::where('status', 3)->count(),
 
-            // Pengguna
-            'Pengguna'      => User::count(),
-            'Grup Pengguna' => UserGrup::count(),
+                // Pengguna
+                'Pengguna'      => User::count(),
+                'Grup Pengguna' => UserGrup::count(),
 
-            // Surat
-            'Surat'          => LogSurat::whereNull('deleted_at')->count(),
-            'Surat Tercetak' => LogSurat::whereNull('deleted_at')
-                ->when($isAdmin->jabatan_id == kades()->id, static function ($q) {
-                    return $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
-                        ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-                        ->orWhere(static function ($verifikasi) {
-                            $verifikasi->whereNull('verifikasi_operator');
-                        });
-                })
-                ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
+                // Surat
+                'Surat'          => LogSurat::whereNull('deleted_at')->count(),
+                'Surat Tercetak' => LogSurat::whereNull('deleted_at')
+                    ->when($isAdmin->jabatan_id == kades()->id, static function ($q) {
+                        return $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                            ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                            ->orWhere(static function ($verifikasi) {
+                                $verifikasi->whereNull('verifikasi_operator');
+                            });
+                    })
+                    ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+                    ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
 
-            // Layanan Mandiri
-            'Verifikasi Layanan Mandiri' => PendudukMandiri::status()->count(),
+                // Layanan Mandiri
+                'Verifikasi Layanan Mandiri' => PendudukMandiri::status()->count(),
 
-            // Lapak
-            'Produk'          => Produk::count(),
-            'Pelapak'         => Pelapak::count(),
-            'Kategori Produk' => ProdukKategori::count(),
+                // Lapak
+                'Produk'          => Produk::count(),
+                'Pelapak'         => Pelapak::count(),
+                'Kategori Produk' => ProdukKategori::count(),
 
-            // Bantuan
-            'Bantuan'                  => Bantuan::count(),
-            'Bantuan Penduduk'         => Bantuan::whereSasaran(1)->count(),
-            'Bantuan Keluarga'         => Bantuan::whereSasaran(2)->count(),
-            'Bantuan Rumah Tangga'     => Bantuan::whereSasaran(3)->count(),
-            'Bantuan Kelompok/Lembaga' => Bantuan::whereSasaran(4)->count(),
-        ];
-
-        $bantuan = Bantuan::withCount('peserta')->get()->mapWithKeys(static function ($bantuan) {
-            return [
-                'Bantuan ' . $bantuan->nama => $bantuan->peserta_count,
+                // Bantuan
+                'Bantuan'                  => Bantuan::count(),
+                'Bantuan Penduduk'         => Bantuan::whereSasaran(1)->count(),
+                'Bantuan Keluarga'         => Bantuan::whereSasaran(2)->count(),
+                'Bantuan Rumah Tangga'     => Bantuan::whereSasaran(3)->count(),
+                'Bantuan Kelompok/Lembaga' => Bantuan::whereSasaran(4)->count(),
             ];
-        })->toArray();
 
-        return array_merge($querys, $bantuan);
+            $bantuan = Bantuan::withCount('peserta')->get()->mapWithKeys(static function ($bantuan) {
+                return [
+                    'Bantuan ' . $bantuan->nama => $bantuan->peserta_count,
+                ];
+            })->toArray();
+
+            $querys['jumlah'] = array_merge($querys['jumlah'], $bantuan);
+
+            return $querys;
+        });
     }
 }

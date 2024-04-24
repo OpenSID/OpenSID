@@ -35,69 +35,35 @@
  *
  */
 
-namespace App\Models;
+namespace App\Observers;
 
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
-class ProdukKategori extends BaseModel
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class ClearCacheObserver
 {
-    use ConfigId;
-    use ShortcutCache;
-
-    protected $table   = 'produk_kategori';
-    protected $guarded = [];
-    public $timestamps = false;
-
-    public function produk()
+    public function creating(Model $model): void
     {
-        return $this->belongsTo(Produk::class, 'id', 'id_produk_kategori');
+        $this->clearAllCache();
     }
 
-    public function scopelistKategori($query)
+    public function deleting(Model $model): void
     {
-        return $this->withoutGlobalScopes()
-            ->withConfigId('produk_kategori')
-            ->select(
-                'produk_kategori.*',
-                DB::raw('(SELECT COUNT(pr.id) FROM produk pr WHERE pr.id_produk_kategori = produk_kategori.id) as jumlah')
-            );
+        $this->clearAllCache();
     }
 
-    public function kategoriInsert($post = []): void
+    public function updating(Model $model): void
     {
-        $data = $this->kategoriValidasi($post);
-
-        $this->create($data);
+        log_message('notice', 'Clearing cache...');
+        $this->clearAllCache();
     }
 
-    public function kategoriUpdate($id = 0, $post = []): void
+    public function clearAllCache(): void
     {
-        $data = $this->kategoriValidasi($post);
-
-        $this->where('id', $id)->update($data);
-    }
-
-    public function kategoriDelete($id = 0): void
-    {
-        $this->where('id', $id)->delete();
-    }
-
-    public function kategoriDeleteAll(): void
-    {
-        $id_cb = $_POST['id_cb'];
-
-        foreach ($id_cb as $id) {
-            $this->kategoriDelete($id);
-        }
-    }
-
-    private function kategoriValidasi($post = [])
-    {
-        return [
-            'kategori' => alfanumerik_spasi($post['kategori']),
-            'slug'     => url_title($post['kategori'], 'dash', true),
-        ];
+        User::pluck('id')->each(function ($id) {
+            cache()->forget('shortcut_' . $id);
+        });
     }
 }

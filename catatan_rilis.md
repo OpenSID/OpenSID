@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#7846](https://github.com/OpenSID/OpenSID/issues/7846) Perbaikan tambah lembaga/kelompok dengan kode lembaga dan kelompok yang sama.
 10.[#7859](https://github.com/OpenSID/OpenSID/issues/7859) Perbaikan rentang waktu pada program bantuan.
 11. [#7865](https://github.com/OpenSID/OpenSID/issues/7865) Perbaikan tambah/ubah data widget.
+12.. [#7836](https://github.com/OpenSID/OpenSID/issues/7836) Perbaikan menampilkan shorcut menggunakan cache.
 
 
 #### TEKNIS

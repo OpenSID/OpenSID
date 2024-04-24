@@ -38,11 +38,13 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
 class Pelapak extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     protected $table   = 'pelapak';
     protected $guarded = [];
@@ -141,5 +143,10 @@ class Pelapak extends BaseModel
         foreach ($id_cb as $id) {
             $this->pelapakDelete($id);
         }
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
     }
 }

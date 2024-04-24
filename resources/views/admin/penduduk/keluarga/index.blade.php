@@ -81,7 +81,7 @@
                             ><i class="fa fa-random"></i> Pindah Wilayah Kolektif</a>
                         </li>
                     @endif
-                    @if (can('h') && ! data_lengkap())
+                    @if (can('h') && !data_lengkap())
                         <li>
                             <a href="#confirm-delete" class="btn btn-social btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('keluarga.delete_all') }}')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
                         </li>

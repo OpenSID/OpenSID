@@ -42,6 +42,7 @@ use App\Casts\Zoom;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -53,6 +54,7 @@ class Wilayah extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -187,24 +189,24 @@ class Wilayah extends BaseModel
         }
     }
 
-    public function isDusun()
+    public function isDusun(): bool
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
     }
 
-    public function isRw()
+    public function isRw(): bool
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';
     }
 
-    public function isRt()
+    public function isRt(): bool
     {
         return $this->attributes['rt'] != '0';
     }
 
     public function bukanRT(): bool
     {
-        return in_array($this->attributes['rt'], ['0']);
+        return $this->attributes['rt'] == '0';
     }
 
     public static function tree()
