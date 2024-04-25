@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#7859](https://github.com/OpenSID/OpenSID/issues/7859) Perbaikan rentang waktu pada program bantuan.
 11. [#7865](https://github.com/OpenSID/OpenSID/issues/7865) Perbaikan tambah/ubah data widget.
 12. [#7836](https://github.com/OpenSID/OpenSID/issues/7836) Perbaikan menampilkan shorcut menggunakan cache.
+13. [#7874](https://github.com/OpenSID/OpenSID/issues/7874) Perbaikan perhitungan statistik > rtm > bdt.
 
 
 #### TEKNIS
