@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#7858](https://github.com/OpenSID/OpenSID/issues/7858) Penambahan pengaturan icon lokasi pelapak pada peta.
 13. [#7285](https://github.com/OpenSID/OpenSID/issues/7285) Penambahan agar mendukung font bali.
 14. [#7860](https://github.com/OpenSID/OpenSID/issues/7860) Penambahan salin surat layanan dan dinas.
+15. [#7875](https://github.com/OpenSID/OpenSID/issues/7875) Penambahan kembalikan surat layanan secara massal.
 
 
 #### BUG

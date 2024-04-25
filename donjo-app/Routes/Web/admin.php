@@ -623,7 +623,8 @@ Route::group('surat_master', static function (): void {
     Route::match(['GET', 'POST'], '/favorit/{id?}', 'Surat_master@favorit')->name('surat_master.favorit');
     Route::get('/delete/{id}', 'Surat_master@delete')->name('surat_master.delete');
     Route::post('/delete_all', 'Surat_master@delete_all')->name('surat_master.delete_all');
-    Route::get('/restore_surat_bawaan/{surat?}', 'Surat_master@restore_surat_bawaan')->name('surat_master.restore_surat_bawaan');
+    Route::get('/restore_surat_bawaan/{surat?}/{all?}', 'Surat_master@restore_surat_bawaan')->name('surat_master.restore_surat_bawaan');
+    Route::post('/restore_surat_bawaan_all', 'Surat_master@restore_surat_bawaan_all')->name('surat_master.restore_surat_bawaan_all');
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
     Route::match(['GET', 'POST'], '/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
