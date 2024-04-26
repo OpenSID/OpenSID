@@ -36,7 +36,6 @@
  */
 
 use App\Models\Polygon as PolygonModel;
-use Illuminate\View\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,16 +46,17 @@ class Polygon extends Admin_Controller
 
     public $modul_ini     = 'pemetaan';
     public $sub_modul_ini = 'pengaturan-peta';
-    private $tip          = 5;
-    private $parent       = 1;
-    private $tipe         = 0;
+    private int $tip      = 5;
+    private int $parent   = 1;
+    private int $tipe     = 0;
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
-    public function index()
+    public function index(): void
     {
         $data = ['tip' => $this->tip, 'tipe' => $this->input->get('tipe') ?? $this->tipe,  'parent' => $this->input->get('parent') ?? $this->parent, 'parent_jenis' => ''];
         if ($data['tipe'] == '2') {
@@ -111,8 +111,8 @@ class Polygon extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row) => $row->enabled == '1' ? 'Ya' : 'Tidak')
-                ->editColumn('color', static fn ($row) => '<div style="background-color:' . $row->color . '">&nbsp;<div>')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('color', static fn ($row): string => '<div style="background-color:' . $row->color . '">&nbsp;<div>')
                 ->rawColumns(['aksi', 'ceklist', 'color'])
                 ->make();
         }
@@ -120,7 +120,7 @@ class Polygon extends Admin_Controller
         return show_404();
     }
 
-    public function form($parent = 1, $id = ''): View
+    public function form($parent = 1, $id = '')
     {
         isCan('u');
         $this->parent = $parent;

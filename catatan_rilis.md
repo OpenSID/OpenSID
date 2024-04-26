@@ -1,33 +1,29 @@
-Di rilis ini, versi 2403.0.1 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2404.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [isi disini] telah ikut berkontribusi.
+Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+
 
 #### BUG
 
-1. [#7725](https://github.com/OpenSID/OpenSID/issues/7725) Perbaikan pengaturan api sinkronisasi ke OpenDK agar datanya tidak hilang jika pengaturan dimatikan.
-2. [#7751](https://github.com/OpenSID/OpenSID/issues/7751) Perbaikan total data perempuan pada modul wilayah administratif.
-3. [#7761](https://github.com/OpenSID/OpenSID/issues/7761) Perbaikan simpan data peta wilayah beserta warna area dan bordernya.
-4. [#7767](https://github.com/OpenSID/OpenSID/issues/7767) Perbaikan route dtks.
-5. [#7077](https://github.com/OpenSID/OpenSID/issues/7077) Perbaikan form penduduk untuk penduduk lahir.
-6. [#7775](https://github.com/OpenSID/OpenSID/issues/7775) Perbaikan route pembangunan dokumentasi.
-7. [#7738](https://github.com/OpenSID/OpenSID/issues/7738) Perbaikan saring data penduduk berdasarkan kumpulan nik.
-8. [#7766](https://github.com/OpenSID/OpenSID/issues/7766) Perbaikan kode isian penduduk wilayah.
-9. [#7747](https://github.com/OpenSID/OpenSID/issues/7747) Perbaikan buat ulang kembali surat tinymce yang memiliki lampiran.
+1. [#7832](https://github.com/OpenSID/OpenSID/issues/7832) Perbaikan menampilkan data buku rekapitulasi penduduk.
+2. [#7809](https://github.com/OpenSID/OpenSID/issues/7809) Perbaikan cetak prelist DTKS.
+3. [#7841](https://github.com/OpenSID/OpenSID/issues/7841) Perbaikan notifikasi laporan penduduk jika diatur data penduduk belum lengkap.
+4. [#7837](https://github.com/OpenSID/OpenSID/issues/7837) Perbaikan judul dokumen pada saat menginput judul Peraturan di Desa dan keputusan kepala desa bisa menggunakan koma (,).
+5. [#7848](https://github.com/OpenSID/OpenSID/issues/7848) Perbaikan hapus kategori artikel.
+6. [#7845](https://github.com/OpenSID/OpenSID/issues/7845) Perbaikan ubah surat layanan dan dinas.
+7. [#7833](https://github.com/OpenSID/OpenSID/issues/7833) Perbaikan informasi publik.
+8. [#7847](https://github.com/OpenSID/OpenSID/issues/7847) Perbaikan data anggota rumah tangga hanya menampilkan penduduk hidup saja.
+9. [#7846](https://github.com/OpenSID/OpenSID/issues/7846) Perbaikan tambah lembaga/kelompok dengan kode lembaga dan kelompok yang sama.
+10.[#7859](https://github.com/OpenSID/OpenSID/issues/7859) Perbaikan rentang waktu pada program bantuan.
+11. [#7865](https://github.com/OpenSID/OpenSID/issues/7865) Perbaikan tambah/ubah data widget.
+12. [#7836](https://github.com/OpenSID/OpenSID/issues/7836) Perbaikan menampilkan shorcut menggunakan cache.
 
 
 #### TEKNIS
 
-1. [#7737](https://github.com/OpenSID/OpenSID/issues/7737) Penyesuaian modul Buku Tanah di Desa menggunakan ORM dan Blade Laravel.
-2. [#7705](https://github.com/OpenSID/OpenSID/issues/7705) Penyesuaian modul Laporan Penduduk dan APBDes di Desa menggunakan ORM dan Blade Laravel.
-3. [#3508](https://github.com/OpenSID/premium/issues/3508) Penyesuaian pengecekan hak akses modul agar tidak duplikasi fungsi.
-4. [#7704](https://github.com/OpenSID/OpenSID/issues/7704) Penyesuaian modul Buku Kader Pemberdayaan Masyarakat di Desa menggunakan ORM dan Blade Laravel.
-5. [#7553](https://github.com/OpenSID/OpenSID/issues/7553) Penyesuaian modul Lapak menggunakan ORM dan Blade Laravel.
-6. [#7752](https://github.com/OpenSID/OpenSID/issues/7752) Penyesuaian modul Rumah Tangga menggunakan ORM dan Blade Laravel.
-7. [#7753](https://github.com/OpenSID/OpenSID/issues/7753) Penyesuaian modul Peta menggunakan ORM dan Blade Laravel.
-8. [#7758](https://github.com/OpenSID/OpenSID/issues/7758) Penyesuaian modul Artikel menggunakan ORM dan Blade Laravel.
-9. [#2117](https://github.com/OpenSID/OpenSID/issues/2117) Penyesuaian pengguna barang pada menu inventaris.
-
-
-#### KEAMANAN
-
-1. [#3507](https://github.com/OpenSID/premium/issues/3507) Peningkatan unggah file pada modul informasi publik.
+1. [#3612](https://github.com/OpenSID/premium/issues/3612) Penyesuaian migrasi database.
+2. [#7754](https://github.com/OpenSID/OpenSID/issues/7754) Penyesuaian modul Buku Inventaris dan Kekayaan Desa menggunakan ORM dan Blade.
+3. [#7760](https://github.com/OpenSID/OpenSID/issues/7760) Penyesuaian modul Keluarga menggunakan ORM dan Blade.
+4. [#7175](https://github.com/OpenSID/OpenSID/issues/7175) Penyesuaian input tanggal cerai untuk status kawin "cerai mati".
+5. [#3557](https://github.com/OpenSID/OpenSID/issues/3557) Penyesuaian modul Buku Tanah Kas Desa  menggunakan ORM dan Blade.
+6. [#7838](https://github.com/OpenSID/OpenSID/issues/7838) Penyesuaian surat dinas.

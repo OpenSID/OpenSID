@@ -239,7 +239,7 @@ $(document).ready(function() {
 	}, `Hanya boleh berisi karakter alfanumerik, spasi, strip, (, ), &, :, =, °, %`);
 
 	jQuery.validator.addMethod("nomor_sk", function(value, element) {
-		valid = /^[a-zA-Z0-9 \.\-\/]+$/i.test(value);
+		valid = /^[a-zA-Z0-9 \.\-\/,]+$/i.test(value);
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
 

@@ -133,7 +133,7 @@ class Track_model extends CI_Model
         }
 
         $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
-        if (! empty($trackSID_output)) {
+        if ($trackSID_output !== null && $trackSID_output !== '' && $trackSID_output !== '0') {
             cache()->put('tracksid_admin_web', date('Y m d'), DAY);
             $this->cek_notifikasi_TrackSID($trackSID_output);
         }

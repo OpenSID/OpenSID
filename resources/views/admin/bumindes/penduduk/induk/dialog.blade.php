@@ -13,18 +13,28 @@
                 <input class="form-control input-sm pull-right required" id="tgl_1" name="tgl_cetak" type="text" value="{{ date('d-m-Y') }}">
             </div>
         </div>
-        <label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
-        <div class="form-group">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" value="1" name="privasi_nik">
-                <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
+        @if (isset($rekap) && $rekap == true)
+            <div class="form-group">
+                <label for="tgl_cetak">Tampilkan Jumlah</label>
+                <select class="form-control input-sm select2 required" id="tampil_jumlah" name="tampil_jumlah">
+                    <option value="1">Ya</option>
+                    <option value="0">Tidak</option>
+                </select>
             </div>
-        </div>
+        @else
+            <label for="nama">Centang kotak berikut apabila NIK/No. KK ingin disensor</label>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" value="1" name="privasi_nik">
+                    <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
+                </div>
+            </div>
+        @endif
     </div>
     <div class="modal-footer">
         {!! batal() !!}
         <button type="submit" class="btn btn-social btn-info btn-sm" id="btn-ok">
-            @if ($aksi == 'cetak')
+            @if ($aksi == 'cetak' || $aksi == 'pdf')
                 <i class='fa fa-print'></i> Cetak
             @else
                 <i class='fa fa-download'></i> Unduh

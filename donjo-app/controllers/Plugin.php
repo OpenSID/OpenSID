@@ -49,6 +49,7 @@ class Plugin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
     }
 
@@ -98,7 +99,7 @@ class Plugin extends Admin_Controller
     {
         [$name, $url, $version] = explode('___', $this->request['pasang']);
         $pasangBaru             = true;
-        if (! empty($version)) {
+        if ($version !== '' && $version !== '0') {
             forceRemoveDir($this->modulesDirectory . $name);
             $pasangBaru = false;
         }
@@ -111,12 +112,12 @@ class Plugin extends Admin_Controller
                 $token        = setting('layanan_opendesa_token');
                 $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name]);
                 log_message('error', $response->body());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }
         // reset cache views_blade karena di MY_Controller diset cache rememberForever
-        cache()->flush();
+        cache()->forget('views_blade');
         redirect('plugin');
     }
 
@@ -147,7 +148,7 @@ class Plugin extends Admin_Controller
                 // Optional: Remove the downloaded ZIP file
                 unlink($zipFilePath);
                 // reset cache views_blade karena di MY_Controller diset cache rememberForever
-                cache()->flush();
+                cache()->forget('views_blade');
             } else {
                 set_session('error', 'Gagal download paket ' . $url . ' atau gagal ekstract ke folder ' . $extractedDir);
             }
@@ -169,7 +170,7 @@ class Plugin extends Admin_Controller
             forceRemoveDir($this->modulesDirectory . $name);
             set_session('success', 'Paket ' . $name . ' berhasil dihapus');
             // reset cache views_blade karena di MY_Controller diset cache rememberForever
-            cache()->flush();
+            cache()->forget('views_blade');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             set_session('error', 'Paket ' . $name . ' gagal dihapus (' . $e->getMessage() . ')');
@@ -182,8 +183,9 @@ class Plugin extends Admin_Controller
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
-        // sort by name, jika up maka urutkan dari yang paling lama namun jika down maka urutkan dari yang paling baru
-        $action == 'up' ? usort($migrations, static fn ($a, $b): int => strcmp($a, $b)) : usort($migrations, static fn ($a, $b): int => strcmp($b, $a));
+        if ($action == 'up') {
+            usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+        }
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
@@ -210,8 +212,6 @@ class Plugin extends Admin_Controller
         }
 
         $this->jalankanMigrasi($name, $action ?? 'up');
-
-        cache()->flush();
 
         redirect_with('success', 'Migrasi Modul ' . $name . ' berhasil dijalankan');
     }

@@ -41,9 +41,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($main as $data)
+                        @foreach ($main as $key => $data)
                             <tr>
-                                <td>{{ $data['no'] }} </td>
+                                <td>{{ $key + 1 }} </td>
                                 <td class="textx">{{ $data->formatSurat->kode_surat ?? '' }} </td>
                                 <td class="textx">{{ $data->no_urut }} </td>
                                 <td class="textx">{{ $data->formatSurat->nama ?? '' }} </td>

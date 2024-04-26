@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Web_widget_model extends MY_Model
 {
     private string $tabel = 'widget';
-    private \Urut_Model $urut_model;
+    private Urut_Model $urut_model;
 
     public function __construct()
     {
@@ -422,7 +422,7 @@ class Web_widget_model extends MY_Model
         $data['yad']             = $this->first_artikel_m->agenda_show('yad');
         $data['lama']            = $this->first_artikel_m->agenda_show('lama');
         $data['komen']           = $this->first_artikel_m->komentar_show();
-        $data['sosmed']          = $this->first_artikel_m->list_sosmed();
+        $data['sosmed']          = media_sosial();
         $data['arsip_terkini']   = $this->first_artikel_m->arsip_show('terkini');
         $data['arsip_populer']   = $this->first_artikel_m->arsip_show('populer');
         $data['arsip_acak']      = $this->first_artikel_m->arsip_show('acak');

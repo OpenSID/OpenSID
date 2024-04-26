@@ -48,10 +48,11 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
     }
 
-    private function clear_session()
+    private function clear_session(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->filter_bulan = date('n');
@@ -59,7 +60,7 @@ class Penduduk_log extends Admin_Controller
         $this->session->per_page     = 20;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->clear_session();
 
@@ -115,6 +116,21 @@ class Penduduk_log extends Admin_Controller
         $data['list_dusun']           = $this->wilayah_model->list_dusun();
 
         $this->render('penduduk_log/penduduk_log', $data);
+    }
+
+    public function dokumen($id): void
+    {
+        $data['main'] = $this->penduduk_log_model->get_log($id);
+
+        // download file
+        $this->load->helper('download');
+        $file = $data['main']['file_akta_mati'];
+        if ($file != '') {
+            $path = LOKASI_DOKUMEN . $file;
+            force_download($path, null);
+        } else {
+            show_404();
+        }
     }
 
     public function filter($filter): void
@@ -275,19 +291,17 @@ class Penduduk_log extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
 
-    public function statistik($tipe = '0', $nomor = 0, $sex = null)
+    public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $this->clear_session();
         $this->session->sex = ($sex == 0) ? null : $sex;
 
-        switch ((string) $tipe) {
-            case 'akta-kematian':
-                $session                       = 'akta_kematian';
-                $kategori                      = 'AKTA KEMATIAN : ';
-                $this->session->status_dasar   = 2;
-                $this->session->kode_peristiwa = 2;
-                $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
-                break;
+        if ((string) $tipe === 'akta-kematian') {
+            $session                       = 'akta_kematian';
+            $kategori                      = 'AKTA KEMATIAN : ';
+            $this->session->status_dasar   = 2;
+            $this->session->kode_peristiwa = 2;
+            $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
         }
 
         $this->session->{$session} = rawurldecode($nomor);

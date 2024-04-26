@@ -48,6 +48,7 @@ class Statistik extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
     }
 
@@ -78,7 +79,7 @@ class Statistik extends Admin_Controller
         ];
 
         $data['judul_kelompok'] = 'Jenis Kelompok';
-        $data['bantuan']        = ((int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
+        $data['bantuan']        = (int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk']);
         $this->get_data_stat($data, $data['lap']);
 
         $this->render('statistik/penduduk', $data);

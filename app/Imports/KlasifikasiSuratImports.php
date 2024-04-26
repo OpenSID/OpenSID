@@ -56,14 +56,16 @@ class KlasifikasiSuratImports
         $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'klasifikasi_surat.xlsx';
     }
 
-    public function import()
+    public function import(): bool
     {
         $configId = identitas('id');
 
         try {
             $dataImport = [];
 
-            (new FastExcel())->import($this->path, static function ($line) use ($configId, &$dataImport) {
+            reset_auto_increment('klasifikasi_surat');
+
+            (new FastExcel())->import($this->path, static function (array $line) use ($configId, &$dataImport): void {
                 $dataUpdate = [
                     'kode'      => alfanumerik_titik($line['kode']),
                     'nama'      => alfa_spasi($line['nama']),

@@ -126,7 +126,7 @@ class KelompokAnggota extends BaseModel
         return strtoupper(JabatanKelompokEnum::valueOf($this->jabatan));
     }
 
-    public function scopeUbahJabatan($query, $id_kelompok, $id_penduduk, $jabatan, $jabatan_lama)
+    public function scopeUbahJabatan($query, $id_kelompok, $id_penduduk, $jabatan, $jabatan_lama): bool
     {
         $query->where('id_kelompok', $id_kelompok);
         $kelompok = Kelompok::find($id_kelompok);

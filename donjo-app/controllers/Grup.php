@@ -111,7 +111,7 @@ class Grup extends Admin_Controller
         $data['view']        = $this->view_only;
         $data['grup']        = [];
 
-        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->status(1)->orderBy('urut')])->status(1)->root()->orderBy('urut')->get();
+        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->isActive()->orderBy('urut')])->isActive()->isParent()->orderBy('urut')->get();
         $idGrup             = $this->ref_grup ?? $id;
         $data['grup_akses'] = $idGrup ? GrupAkses::select(['id_modul', 'akses'])->whereIdGrup($idGrup)->get()->keyBy('id_modul') : collect([]);
 
@@ -198,7 +198,7 @@ class Grup extends Admin_Controller
         }
     }
 
-    private function simpanAkses($grupId, $moduls): void
+    private function simpanAkses(string $grupId, array $moduls): void
     {
         $grupAkses = [];
         $configId  = identitas()->id;
@@ -235,7 +235,7 @@ class Grup extends Admin_Controller
             }
             GrupAkses::whereIn('id_grup', $this->request['id_cb'] ?? [$id])->delete();
             UserGrup::destroy($this->request['id_cb'] ?? $id);
-            cache()->flush();
+            // cache()->flush();
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
             redirect_with('success', 'Grup pengguna berhasil dihapus');
         } catch (Exception $e) {

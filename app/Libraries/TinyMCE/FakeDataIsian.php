@@ -93,7 +93,7 @@ class FakeDataIsian
 
             foreach ($form_isian as $key => $value) {
                 if ($value) {
-                    if (in_array(1, $value['data'])) {
+                    if (in_array(1, ($value['data'] ?? []))) {
                         $this->data['input']['id_pend_' . $key] = Penduduk::filters([
                             'sex'          => $value['sex'],
                             'status_dasar' => $value['status_dasar'],

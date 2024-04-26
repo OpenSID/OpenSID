@@ -177,6 +177,7 @@ define('PENDAPAT', 'assets/images/layanan_mandiri/');
 define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/anjungan/images/');
 define('LOKASI_SURAT_SISTEM', 'template-surat/');
 define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'storage/app/template/lampiran/');
+define('DEFAULT_LOKASI_LAMPIRAN_SURAT_DINAS', 'storage/app/template/surat-dinas/lampiran/');
 define('DEFAULT_LOKASI_EKSPOR', 'storage/app/template/ekspor/');
 define('DEFAULT_LOKASI_IMPOR', 'storage/app/template/impor/');
 define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
@@ -201,6 +202,7 @@ define('LOKASI_ARSIP', 'desa/arsip/');
 define('LOKASI_CACHE', 'desa/cache/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
 define('LOKASI_LAMPIRAN_SURAT_DESA', 'desa/template-surat/lampiran/');
+define('LOKASI_LAMPIRAN_SURAT_DINAS_DESA', 'desa/template-surat/surat-dinas/lampiran/');
 define('LOKASI_TEMA_DESA', 'desa/themes/');
 define('LOKASI_UPLOAD', 'desa/upload/');
 define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
@@ -226,6 +228,7 @@ define('LOKASI_ICON_MENU_ANJUNGAN', 'desa/anjungan/menu/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_FOTO_DTKS', 'desa/upload/dtks/');
 define('LOKASI_FONT_DESA', 'desa/upload/fonts/');
+define('LOKASI_ICON_SOSMED', 'desa/upload/sosmed/');
 define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bookman Old Style', 'Comic Sans MS', 'Courier New', 'Georgia', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana']);
 
 // File

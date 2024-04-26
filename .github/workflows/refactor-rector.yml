@@ -25,7 +25,7 @@ jobs:
             with:
                 php-version: 8.1
                 
-          -   run: composer global require rector/rector
+          -   run: composer global require rector/rector:1.0.3
           - name: Rector Cache
             uses: actions/cache@v3
             with:
@@ -34,7 +34,7 @@ jobs:
               restore-keys: ${{ runner.os }}-rector-          
           #   proses file yang berubah saja, kalau satu folder masih belum sempurna
           #   git diff --name-only $CI_COMMIT_SHA $CI_MERGE_REQUEST_TARGET_BRANCH_NAME, jika PR          
-          -   run: git diff --name-only origin/${{ github.head_ref }} origin/${{ github.base_ref }} | grep -E -v '^(vendor|resources|assets|composer)' | xargs  rector process --ansi --debug
+          -   run: git diff --name-only --diff-filter=d origin/${{ github.head_ref }} origin/${{ github.base_ref }} | grep -E -v '^(vendor|resources|assets|composer)' | grep -Ev 'ConsoleServiceProvider.php' | xargs  rector process --ansi --debug
           #   untuk push
           # -   run: git diff --name-only ${{ github.sha }} | xargs  rector process --ansi --debug
           # -   run: rector process --dry-run --ansi --debug

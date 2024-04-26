@@ -71,11 +71,20 @@ class Modul_model extends MY_Model
     // Menampilkan menu dan sub menu halaman pengguna login berdasarkan daftar modul dan sub modul yang aktif.
     public function list_aktif()
     {
+        $aktif = [];
+
         if (empty($_SESSION['grup'])) {
             return [];
         }
-        $aktif = [];
-        $data  = $this->config_id()
+
+        $aktif[] = [
+            'modul' => 'Beranda',
+            'slug'  => 'beranda',
+            'url'   => 'beranda',
+            'ikon'  => 'fa-dashboard',
+        ];
+
+        $data = $this->config_id()
             ->where('aktif', 1)
             ->where('parent', 0)
             ->order_by('urut')

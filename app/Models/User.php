@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class User extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     // use HasApiTokens;
     // use HasFactory;

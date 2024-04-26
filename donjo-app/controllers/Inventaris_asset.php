@@ -47,6 +47,7 @@ class Inventaris_asset extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['inventaris_asset_model', 'pamong_model', 'aset_model']);
     }
 

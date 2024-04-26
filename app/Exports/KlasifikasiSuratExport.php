@@ -58,7 +58,7 @@ class KlasifikasiSuratExport
         $dataExport = KlasifikasiSurat::get($this->fields)->toArray();
 
         if (empty($dataExport)) {
-            $dataExport = [['kode' => '', 'nama' => '', 'uraian' => '']];
+            return [['kode' => '', 'nama' => '', 'uraian' => '']];
         }
 
         return $dataExport;

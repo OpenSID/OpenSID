@@ -33,6 +33,22 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group" id="penerima" <?= $data['sasaran'] == '2' ? '' : 'style="display: none;"' ?>>
+						<label class="col-sm-3 control-label" for="penerima">Penerima</label>
+						<div class="col-sm-9">
+							<select class="form-control input-sm select2 required" name="kk_level[]" multiple="multiple" <?= $jml != 0 ? 'disabled' : '' ?>>
+								<?php
+                                    $data['kk_level'] = json_decode($data['kk_level'], true);
+                                    if ($data['kk_level'] === null || count($kk_level) == 0) {
+                                        $data['kk_level'] = ['1', '2', '3', '4'];
+                                    }
+                                ?>
+								<?php foreach ($kk_level as $key => $value): ?>
+									<option value="<?= $key ?>" <?= in_array($key, $data['kk_level'] ?? []) ? 'selected' : '' ?>><?= $value ?></option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-3" for="nama">Nama Program</label>
 						<div class="col-sm-8">
@@ -65,7 +81,7 @@ $val             = $data['asaldana']; ?>
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right" id="tgl_mulai" name="sdate" placeholder="Tgl. Mulai" type="text" value="<?= date('d/m/Y', strtotime($data['sdate'])); ?>">
+								<input class="form-control input-sm pull-right" id="tgl_mulai" name="sdate" placeholder="Tgl. Mulai" type="text" value="<?= date('d-m-Y', strtotime($data['sdate'])); ?>">
 							</div>
 						</div>
 						<div class="col-sm-4">
@@ -73,7 +89,7 @@ $val             = $data['asaldana']; ?>
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right" id="tgl_akhir" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date('d/m/Y', strtotime($data['edate'])); ?>">
+								<input class="form-control input-sm pull-right" id="tgl_akhir" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date('d-m-Y', strtotime($data['edate'])); ?>">
 							</div>
 						</div>
 					</div>
@@ -86,3 +102,15 @@ $val             = $data['asaldana']; ?>
 		</div>
 	</section>
 </div>
+<script>
+	$('#cid').change(function(){
+		var cid = $(this).val();
+		if (cid == 2) {
+			$('#penerima').show();
+			$('#penerima').find('select').addClass('required');
+		} else {
+			$('#penerima').hide();
+			$('#penerima').find('select').removeClass('required');
+		}
+	});
+</script>

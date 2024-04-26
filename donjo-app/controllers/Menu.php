@@ -52,6 +52,7 @@ class Menu extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index(): void
@@ -146,6 +147,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::create($data);
+            // TODO:: hapus cache hanya prefix *_admin_menu
             cache()->flush();
             redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
@@ -162,7 +164,7 @@ class Menu extends Admin_Controller
         try {
             $obj = MenuModel::findOrFail($id);
             $obj->update($data);
-            cache()->flush();
+            // cache()->flush();
             redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -180,7 +182,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::destroy($this->request['id_cb'] ?? $id);
-            cache()->flush();
+            // cache()->flush();
             redirect_with('success', 'Menu berhasil dihapus', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -194,7 +196,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::gantiStatus($id, 'enabled');
-            cache()->flush();
+            // cache()->flush();
             redirect_with('success', 'Berhasil ubah status', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -206,7 +208,7 @@ class Menu extends Admin_Controller
     {
         $menu = $this->input->post('data');
         MenuModel::setNewOrder($menu);
-        cache()->flush();
+        // cache()->flush();
 
         return json(['status' => 1]);
     }

@@ -271,7 +271,7 @@
     </div>
     <div class="modal-footer">
         {!! batal() !!}
-        <button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+        <button type="submit" class="btn btn-social btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
     </div>
 </form>
 

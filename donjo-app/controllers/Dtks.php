@@ -61,6 +61,7 @@ class Dtks extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     /**
@@ -248,7 +249,7 @@ class Dtks extends Admin_Controller
     {
         try {
             return (new DTKSRegsosEk2022k())->info();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             echo 'File info tidak ditemukan';
         }
     }
@@ -257,7 +258,7 @@ class Dtks extends Admin_Controller
     {
         try {
             return (new DTKSRegsosEk2022k())->impor();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             echo 'File info tidak ditemukan';
         }
     }

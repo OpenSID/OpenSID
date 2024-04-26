@@ -37,13 +37,11 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-/*
- * User: didikkurniawan
- * Date: 10/1/16
- * Time: 06:59
- */
 class Api_inventaris_kontruksi extends Admin_Controller
 {
+    public $modul_ini     = 'sekretariat';
+    public $sub_modul_ini = 'inventaris';
+
     public function __construct()
     {
         parent::__construct();

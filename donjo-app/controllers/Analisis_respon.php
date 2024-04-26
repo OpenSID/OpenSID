@@ -47,6 +47,7 @@ class Analisis_respon extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         if (! $this->session->has_userdata('analisis_master')) {
             $this->session->success   = -1;

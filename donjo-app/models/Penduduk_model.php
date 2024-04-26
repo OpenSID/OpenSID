@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -545,6 +546,7 @@ class Penduduk_model extends MY_Model
                 break;
 
             default:
+                // terapkan order by ini ke konversi
                 $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)');
                 break;
         }
@@ -822,6 +824,24 @@ class Penduduk_model extends MY_Model
 
     public function validasi_data_penduduk(&$data, $id = null)
     {
+        // validasi jika NIK sementara dengan data yang sama sudah ada
+        if (strpos($data['nik'], '0') === 0) {
+            $tanggal_lahir = date('Y-m-d', strtotime($data['tanggallahir']));
+
+            $existing_data = Penduduk::where('nama', $data['nama'])
+                ->where('tanggallahir', $tanggal_lahir)
+                ->where('tempatlahir', $data['tempatlahir'])
+                ->where('sex', $data['sex'])
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existing_data) {
+                $valid[]                      = "Data Penduduk dengan NIK Sementara {$data['nik']} sudah ada";
+                $_SESSION['validation_error'] = true;
+
+                return $valid;
+            }
+        }
         $data['tanggallahir']         = empty($data['tanggallahir']) ? null : tgl_indo_in($data['tanggallahir']);
         $data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? null : tgl_indo_in($data['tanggal_akhir_paspor']);
         $data['tanggalperkawinan']    = empty($data['tanggalperkawinan']) ? null : tgl_indo_in($data['tanggalperkawinan']);
@@ -1019,7 +1039,7 @@ class Penduduk_model extends MY_Model
         $error_validasi = $this->validasi_data_penduduk($data);
         if (! empty($error_validasi)) {
             foreach ($error_validasi as $error) {
-                $_SESSION['error_msg'] .= ': ' . $error . '\n';
+                $_SESSION['error_msg'] .= '- ' . $error . '<br>';
             }
             // Form menggunakan kolom id_sex = sex dan id_status = status
             $_POST['id_sex']    = $_POST['sex'];
@@ -1263,6 +1283,10 @@ class Penduduk_model extends MY_Model
             'config_id'      => $this->config_id,
         ];
 
+        if ($log['kode_peristiwa'] == 2 && ! empty($_FILES['nama_file']['name'])) {
+            $log['file_akta_mati'] = $this->upload_akta_mati($id);
+        }
+
         if ($log['kode_peristiwa'] == 3) {
             $pindah               = $this->input->post('ref_pindah');
             $log['ref_pindah']    = empty($pindah) ? 1 : $pindah;
@@ -1277,6 +1301,29 @@ class Penduduk_model extends MY_Model
         }
 
         status_sukses($id_log_penduduk);
+    }
+
+    private function upload_akta_mati($id)
+    {
+        $this->load->library('My_upload', null, 'upload');
+
+        $config = [
+            'upload_path'   => LOKASI_DOKUMEN,
+            'allowed_types' => 'jpg|jpeg|png|pdf',
+            'max_size'      => 1024 * 10,
+            'file_name'     => 'akta_mati_' . $id . '_' . time(),
+        ];
+
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('nama_file')) {
+            session_error($this->upload->display_errors());
+            redirect($this->controller);
+        }
+
+        $uploadData = $this->upload->data();
+
+        return $uploadData['file_name'];
     }
 
     /**

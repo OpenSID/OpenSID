@@ -49,5 +49,6 @@ class Lembaga_anggota extends Kelompok_anggota
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 }

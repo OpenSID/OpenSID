@@ -143,7 +143,7 @@ function AmbilFoto(?string $foto, string $ukuran = 'kecil_', ?string $sex = '1')
  */
 function Foto_Default(?string $foto, ?string $sex = '1'): string
 {
-    if (! in_array($foto, ['kuser.png', 'wuser.png']) && ! empty($foto)) {
+    if (! in_array($foto, ['kuser.png', 'wuser.png']) && ($foto !== null && $foto !== '' && $foto !== '0')) {
         return $foto;
     }
     if (($foto == 'kuser.png') || $sex == 1) {

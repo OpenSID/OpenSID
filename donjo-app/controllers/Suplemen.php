@@ -59,6 +59,7 @@ class Suplemen extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['pamong_model']);
     }
 
@@ -128,7 +129,7 @@ class Suplemen extends Admin_Controller
         try {
             ModelsSuplemen::create(static::validated($this->request));
             redirect_with('success', 'Berhasil Tambah Data');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
         }
     }
@@ -144,7 +145,7 @@ class Suplemen extends Admin_Controller
             $data['sasaran'] ??= $update->sasaran;
             $update->update($data);
             redirect_with('success', 'Berhasil Ubah Data');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             redirect_with('error', 'Gagal Ubah Data ' . $e->getMessage());
         }
     }

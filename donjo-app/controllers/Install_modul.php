@@ -62,7 +62,7 @@ class Install_modul extends CI_Controller
     {
         [$name, $url, $version] = explode('___', $namaModulVersi);
         $pasangBaru             = true;
-        if (! empty($version)) {
+        if ($version !== '' && $version !== '0') {
             $pasangBaru = false;
         }
         // jalankan migrasi dari paket
@@ -75,12 +75,12 @@ class Install_modul extends CI_Controller
                 $token        = App\Models\SettingAplikasi::where(['key' => 'layanan_opendesa_token'])->first();
                 $response     = Http::withToken($token->value)->post($urlHitModule, ['module_name' => $name]);
                 log_message('error', $response->body());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }
         // reset cache views_blade karena di MY_Controller diset cache rememberForever
-        cache()->flush();
+        // cache()->flush();
         log_message('error', 'Paket ' . $name . ' berhasil dipasang');
     }
 
@@ -95,25 +95,26 @@ class Install_modul extends CI_Controller
     {
         try {
             $name = $namaModulVersi;
-            if (empty($name)) {
+            if ($name === '' || $name === '0') {
                 log_message('error', 'Nama paket tidak boleh kosong');
             }
             $this->jalankanMigrasi($name, 'down');
             // reset cache views_blade karena di MY_Controller diset cache rememberForever
-            cache()->flush();
+            cache()->forget('views_blade');
             log_message('error', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }
     }
 
-    private function jalankanMigrasi($name, string $action = 'up'): void
+    private function jalankanMigrasi(string $name, string $action = 'up'): void
     {
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
-        // sort by name, jika up maka urutkan dari yang paling lama namun jika down maka urutkan dari yang paling baru
-        $action == 'up' ? usort($migrations, static fn ($a, $b): int => strcmp($a, $b)) : usort($migrations, static fn ($a, $b): int => strcmp($b, $a));
+        if ($action === 'up') {
+            usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+        }
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;

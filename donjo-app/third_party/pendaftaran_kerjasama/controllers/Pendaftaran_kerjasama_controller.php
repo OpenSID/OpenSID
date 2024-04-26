@@ -50,13 +50,14 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
     /**
      * @var Client HTTP Client
      */
-    protected \GuzzleHttp\Client $client;
+    protected Client $client;
 
     protected $server;
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         // jangan aktifkan jika demo dan di domain whitelist
         if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
@@ -155,7 +156,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
 
     public function dokumen_template(): void
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $desa = $this->header['desa'];
 
         $data['desa']         = $desa['nama_desa'];

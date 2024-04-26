@@ -85,6 +85,7 @@ class Cdesa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('data_persil_model');
         $this->load->model('cdesa_model');
         $this->load->model('wilayah_model');

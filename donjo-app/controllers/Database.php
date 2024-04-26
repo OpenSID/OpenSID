@@ -55,6 +55,7 @@ class Database extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
@@ -92,11 +93,16 @@ class Database extends Admin_Controller
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
         ob_end_flush();
-        // Migrasi::where('versi_database', VERSI_DATABASE)->delete();
-        $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
-        if ($migrasiTerakhir) {
-            $migrasiTerakhir->delete();
+        $mode = $this->input->get('mode');
+        if ($mode == 'all') {
+            Migrasi::whereNotNull('id')->delete();
+        } else {
+            $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
+            if ($migrasiTerakhir) {
+                $migrasiTerakhir->delete();
+            }
         }
+
         echo json_encode(['message' => 'Ulangi migrasi database versi ' . VERSI_DATABASE, 'status' => 0]);
         $this->database_model->setShowProgress(1)->cek_migrasi();
         echo json_encode(['message' => 'Proses migrasi database telah berhasil', 'status' => 1]);

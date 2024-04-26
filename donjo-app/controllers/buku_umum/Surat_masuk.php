@@ -48,6 +48,7 @@ class Surat_masuk extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         // Untuk bisa menggunakan helper force_download()
         $this->load->helper('download');
         $this->load->model('surat_masuk_model');
@@ -242,7 +243,7 @@ class Surat_masuk extends Admin_Controller
     public function disposisi($id): void
     {
         $disposisi = [];
-        collect($this->ref_disposisi())->each(static function ($item, $key) use (&$disposisi) {
+        collect($this->ref_disposisi())->each(static function ($item, $key) use (&$disposisi): void {
             $disposisi[] = ['id' => $key, 'nama' => $item];
         })->toArray();
         $data['input']          = $_POST;

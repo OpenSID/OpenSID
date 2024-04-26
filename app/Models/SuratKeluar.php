@@ -53,4 +53,26 @@ class SuratKeluar extends BaseModel
      * @var string
      */
     protected $table = 'surat_keluar';
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'config_id',
+        'nomor_urut',
+        'nomor_surat',
+        'kode_surat',
+        'tanggal_surat',
+        'tanggal_catat',
+        'tujuan',
+        'isi_singkat',
+        'berkas_scan',
+        'tanggal_pengiriman',
+        'tanda_terima',
+        'keterangan',
+        'created_by',
+        'updated_by',
+    ];
 }

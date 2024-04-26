@@ -43,9 +43,9 @@ class Pemerintah extends Web_Controller
 {
     public function index(): void
     {
-        // if (! $this->web_menu_model->menu_aktif('pemerintah')) {
-        //     show_404();
-        // }
+        if (! $this->web_menu_model->menu_aktif('pemerintah')) {
+            show_404();
+        }
 
         $data = $this->includes;
         $this->_get_common_data($data);
@@ -54,10 +54,10 @@ class Pemerintah extends Web_Controller
         $data['pemerintah']     = $data['aparatur_desa']['daftar_perangkat'];
         $settings               = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
         $data['media_sosial']   = collect($settings->option)
-            ->filter(static fn ($item) => in_array($item['id'], json_decode($settings->value)))
+            ->filter(static fn ($item): bool => in_array($item['id'], json_decode($settings->value)))
             ->toArray();
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 }

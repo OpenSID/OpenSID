@@ -221,7 +221,7 @@
 														</td>
 														<td nowrap><?= $data['tag_id_card']; ?></td>
 														<td nowrap><?= strtoupper($data['nama']); ?></td>
-														<td class="padat"><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}"); ?>"><?= $data['no_kk']; ?> </a></td>
+														<td class="padat"><a href="<?= site_url("keluarga/kartu_keluarga/{$data['id_kk']}"); ?>"><?= $data['no_kk']; ?> </a></td>
 														<!-- tambah kolom orang tua-->
 														<td nowrap><?= $data['nama_ayah']; ?></td>
 														<td nowrap><?= $data['nama_ibu']; ?></td>

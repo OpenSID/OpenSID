@@ -43,7 +43,7 @@ require_once __DIR__ . '/Modules.php';
 class MX_Router extends CI_Router
 {
     public $module;
-    private $located = 0;
+    private int $located = 0;
 
     /**
      * [fetch_module description]
@@ -68,7 +68,9 @@ class MX_Router extends CI_Router
     {
         if ($this->translate_uri_dashes === true) {
             foreach (range(0, 2) as $v) {
-                isset($segments[$v]) && $segments[$v] = str_replace('-', '_', $segments[$v]);
+                if (isset($segments[$v])) {
+                    $segments[$v] = str_replace('-', '_', $segments[$v]);
+                }
             }
         }
 
@@ -153,13 +155,7 @@ class MX_Router extends CI_Router
 
         // Backward function
         // Before PHP 7.1.0, list() only worked on numerical arrays and assumes the numerical indices start at 0.
-        if (version_compare(PHP_VERSION, '7.1', '<')) {
-            // php version isn't high enough
-            // get the segments array elements
-            [$module, $directory, $controller] = array_pad($segments, 3, null);
-        } else {
-            [$module, $directory, $controller] = array_pad($segments, 3, null);
-        }
+        [$module, $directory, $controller] = array_pad($segments, 3, null);
 
         // check modules
         foreach (Modules::$locations as $location => $offset) {
@@ -202,7 +198,7 @@ class MX_Router extends CI_Router
             }
         }
 
-        if (! empty($this->directory)) {
+        if ($this->directory !== null && $this->directory !== '' && $this->directory !== '0') {
             return;
         }
 
@@ -276,12 +272,12 @@ class MX_Router extends CI_Router
      *
      * @param [type]    $class [description]
      */
-    public function set_class($class)
+    public function set_class($class): void
     {
         $suffix = $this->config->item('controller_suffix');
         // Fixing Error Message: strpos(): Non-string needles will be interpreted as strings in the future.
         // Use an explicit chr() call to preserve the current behavior.
-        if ($suffix && strpos($class, $suffix) === false) {
+        if ($suffix && strpos($class, (string) $suffix) === false) {
             $class .= $suffix;
         }
         parent::set_class($class);

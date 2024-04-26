@@ -43,13 +43,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Ekspedisi extends Admin_Controller
 {
-    public $modul_ini     = 'buku-administrasi-desa';
-    public $sub_modul_ini = 'administrasi-umum';
-    private $uploadConfig = [];
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
+    private array $uploadConfig = [];
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->helper('download');
         $this->load->model('pamong_model');
         $this->uploadConfig = [
@@ -77,9 +78,7 @@ class Ekspedisi extends Admin_Controller
                         $aksi .= '<a href="' . route('buku-umum.ekspedisi.unduh_tanda_terima', ['id' => $row->id]) . '" class="btn btn-purple btn-sm bg-purple" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a> ';
                     }
 
-                    $aksi .= '<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>';
-
-                    return $aksi;
+                    return $aksi . ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
                 })
                 ->editColumn('tanggal_pengiriman', static fn ($row): string => tgl_indo($row->tanggal_pengiriman))
                 ->rawColumns(['aksi'])
@@ -137,11 +136,8 @@ class Ekspedisi extends Admin_Controller
         $error_msg = '';
 
         // Ambil nama berkas scan lama dari database
-        $berkas_lama  = ModelsEkspedisi::GetTandaTerima($id)->tanda_terima;
-        $uploadConfig = $this->uploadConfig;
-
-        // Lokasi berkas scan lama (absolut)
-        $lokasi_berkas_lama = $uploadConfig['upload_path'] . $berkas_lama;
+        $berkas_lama        = ModelsEkspedisi::GetTandaTerima($id)->tanda_terima;
+        $uploadConfig       = $this->uploadConfig;
         $lokasi_berkas_lama = $uploadConfig['upload_path'] . $berkas_lama;
         $lokasi_berkas_lama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasi_berkas_lama);
 
@@ -263,7 +259,7 @@ class Ekspedisi extends Admin_Controller
         $post          = $this->input->post();
         $data['input'] = $post;
         $data['tahun'] = $post['tahun'];
-        $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post) {
+        $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post): void {
             $query->whereYear('tanggal_surat', $post['tahun']);
         })->get();
         $data['desa'] = $this->header['desa'];

@@ -10,16 +10,16 @@
 					<div class="col-sm-12">
 						<ul class="list-group">
 							<?php
-							foreach ($kd_reg as $reg) {
-								if (strlen($reg->register) == 21) {
-									echo '<li class="list-group-item" data-position-id="123">
+                            foreach ($kd_reg as $reg) {
+                                if (strlen($reg->register) == 21) {
+                                    echo '<li class="list-group-item" data-position-id="123">
 												<div class="companyPosItem">
 													<span class="companyPosLabel">' . substr($reg->register, -6) . '</span>
 												</div>
 											</li>';
-								}
-							}
-							?>
+                                }
+                            }
+                            ?>
 						</ul>
 					</div>
 				</div>

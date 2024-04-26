@@ -30,7 +30,7 @@
                             data-toggle="modal"
                             data-backdrop="false"
                             data-keyboard="false"
-                            data-title="Tambah Laporan Penduduk"
+                            data-title="Tambah {{ $judul }}"
                         ><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))

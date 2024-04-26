@@ -38,11 +38,12 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// TODO:: Pisahkan isi data komentar artikel dan pesan masuk layanan mandiri pada tabel yang berbeda
 class Komentar extends BaseModel
 {
     use ConfigId;
@@ -82,7 +83,9 @@ class Komentar extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel'];
+    protected $fillable = ['email', 'owner', 'subjek', 'komentar', 'tipe', 'status', 'id_artikel', 'parent_id'];
+
+    protected $appends = ['foto', 'pengguna', 'url_artikel'];
 
     /**
      * Scope a query to only enable category.
@@ -113,15 +116,74 @@ class Komentar extends BaseModel
         return $query->where('tipe', $tipePesan);
     }
 
-    // buat relasi ke table artikel
     public function artikel()
     {
         return $this->belongsTo(Artikel::class, 'id_artikel');
     }
 
-    // buat relasi ke table kategori
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'tipe');
+    }
+
+    public function getFotoAttribute()
+    {
+        if ($this->parent_id) {
+            $foto = User::find($this->owner)->foto;
+        }
+
+        return cache()->rememberForever('foto_komentar_' . $this->id, static fn () => AmbilFoto($foto, 'kecil_', mt_rand(1, 2)));
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Komentar::class, 'parent_id', 'id');
+    }
+
+    public function getPenggunaAttribute()
+    {
+        $parent = $this->parent_id;
+        $owner  = $this->owner;
+
+        return cache()->rememberForever('pengguna_komentar_' . $this->id, static function () use ($parent, $owner) {
+            if ($parent) {
+                $user = User::with('userGrup')->find($owner);
+
+                $owner = [
+                    'nama'  => ucwords($user->nama),
+                    'level' => ucwords($user->userGrup->nama),
+                ];
+            } else {
+                $owner = [
+                    'nama'  => ucwords($owner),
+                    'level' => 'Pengunjung',
+                ];
+            }
+
+            return $owner;
+        });
+    }
+
+    public function getUrlArtikelAttribute()
+    {
+        $artikel = Artikel::find($this->id_artikel);
+        if ($artikel) {
+            $tgl_upload = Carbon::createFromFormat('Y-m-d H:i:s', $artikel->tgl_upload)->format('Y/m/d');
+
+            return site_url("artikel/{$tgl_upload}/{$artikel->slug}");
+        }
+
+        return null;
+    }
+
+    protected static function booted()
+    {
+        self::boot();
+        static::addGlobalScope('isKomentar', static function (Builder $builder) {
+            $builder->whereNotIn('id_artikel', ['null', '775']);
+        });
+        static::deleting(static function ($komentar) {
+            $komentar->children()->delete();
+        });
     }
 }

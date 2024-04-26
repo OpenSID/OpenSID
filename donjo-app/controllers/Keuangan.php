@@ -44,6 +44,7 @@ class Keuangan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_grafik_model');
         $this->load->model('keuangan_grafik_dd_model');

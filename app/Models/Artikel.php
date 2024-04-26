@@ -91,6 +91,7 @@ class Artikel extends BaseModel
         'slider',
         'tipe',
         'id_kategori',
+        'id_user',
     ];
 
     /**
@@ -111,6 +112,10 @@ class Artikel extends BaseModel
      */
     protected $appends = [
         'url_slug',
+    ];
+
+    protected $casts = [
+        'tgl_upload' => 'datetime:d-m-Y H:i:s',
     ];
 
     /**
@@ -215,6 +220,16 @@ class Artikel extends BaseModel
         return $this->hasMany(Komentar::class, 'id_artikel');
     }
 
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return HasMany
+     */
+    public function agenda()
+    {
+        return $this->hasOne(Agenda::class, 'id_artikel');
+    }
+
     public function getPerkiraanMembacaAttribute()
     {
         return Str::perkiraanMembaca($this->isi);
@@ -268,7 +283,7 @@ class Artikel extends BaseModel
         return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
     }
 
-    public function bolehUbah()
+    public function bolehUbah(): bool
     {
         return auth()->id == $this->id_user || auth()->id_grup != 4;
     }

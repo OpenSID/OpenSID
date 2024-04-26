@@ -1,0 +1,83 @@
+[
+    {
+        "judul":"Input Text",
+        "key":"input-text",
+        "value":"Input Text",
+        "type":"input-text",
+        "keterangan":"Contoh Input Text",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Input Number",
+        "key":"input-number",
+        "value":1,
+        "type":"input-number",
+        "keterangan":"Contoh Input Number",
+        "options": null,
+        "attributes": {
+            "min":1,
+            "max":10,
+            "step":1
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Input Password",
+        "key":"input-password",
+        "value":"",
+        "type":"input-password",
+        "keterangan":"Contoh Input Password",
+        "caption":"Kosongkan jika tidak ingin mengubah Password.",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Input Email",
+        "key":"input-email",
+        "value":"admin@gmail.com",
+        "type":"input-email",
+        "keterangan":"Contoh Input Email",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Color Picker",
+        "key":"color-picker",
+        "value":"#fffff",
+        "type":"color-picker",
+        "keterangan":"Contoh Input Color Picker",
+        "options": null,
+        "readonly":false
+    },
+    {
+        "judul":"Select",
+        "key":"select",
+        "value":"2",
+        "type":"select",
+        "keterangan":"Contoh Input Warna",
+        "options":{
+            "1":"Pilan 1",
+            "2":"Pilan 2",
+            "3":"Pilan 3",
+            "4":"Pilan 4",
+            "5":"Pilan 5"
+        },
+        "attributes": {
+            "class":"select2"
+        },
+        "readonly":false
+    },
+    {
+        "judul":"Textarea",
+        "key":"textarea",
+        "value":"Textarea",
+        "type":"textarea",
+        "keterangan":"Contoh Input Textarea",
+        "attributes": {
+            "rows":5
+        },
+        "options": null,
+        "readonly":false
+    }
+]

@@ -54,6 +54,7 @@ class Web extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
@@ -132,11 +133,9 @@ class Web extends Admin_Controller
                             }
                     }
 
-                    $aksi .= '<a href="' . $row->url_slug . '" target="_blank" class="btn bg-green btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>';
-
-                    return $aksi;
+                    return $aksi . ('<a href="' . $row->url_slug . '" target="_blank" class="btn bg-green btn-sm" title="Lihat Artikel"><i class="fa fa-eye"></i></a>');
                 })
-                ->editColumn('hit', static fn ($row) => hit($row->hit))
+                ->editColumn('hit', static fn ($row): string => hit($row->hit))
                 ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['aksi', 'ceklist'])
                 ->make();
@@ -145,14 +144,16 @@ class Web extends Admin_Controller
         return show_404();
     }
 
-    public function form($cat, $id = null): void
+    public function form($cat = null, $id = null): void
     {
         isCan('u');
+
         $this->set_hak_akses_rfm();
 
         if (null !== $id) {
-            $id      = decrypt($id);
-            $artikel = Artikel::withOnly(['category'])->findOrFail($id);
+            $id        = decrypt($id);
+            $relations = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? ['agenda'] : ['category'];
+            $artikel   = Artikel::withOnly($relations)->findOrFail($id);
 
             if (! $artikel->bolehUbah()) {
                 redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini');
@@ -163,6 +164,9 @@ class Web extends Admin_Controller
             $data['id']          = $id;
             $data['kategori']    = is_numeric($cat) && $cat > 0 ? $artikel->category->toArray() : ['kategori' => ''];
         } else {
+            if ($cat === null) {
+                redirect_with('error', 'Kategori tidak ditemukan');
+            }
             $data['artikel']     = null;
             $data['form_action'] = ci_route('web.insert', $cat);
             $data['kategori']    = ['kategori' => ''];
@@ -191,6 +195,7 @@ class Web extends Admin_Controller
         foreach ($list_gambar as $gambar) {
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
             $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
+            $nama_file   = trim(str_replace(' ', '_', $nama_file));
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
                 $hasil     = UploadArtikel($nama_file, $gambar);
@@ -204,6 +209,10 @@ class Web extends Admin_Controller
         $data['id_kategori'] = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? null : $cat;
         $data['tipe']        = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? $cat : 'dinamis';
         $data['id_user']     = auth()->id;
+        // set null id_kategori, artikel tanpa kategori
+        if ($data['id_kategori'] == -1) {
+            $data['id_kategori'] = null;
+        }
 
         // Kontributor tidak dapat mengaktifkan artikel
         if (auth()->id_grup == 4) {
@@ -283,10 +292,8 @@ class Web extends Admin_Controller
         if (! $artikel->bolehUbah()) {
             redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini', ci_route('web', $cat));
         }
-        if (! in_array(auth()->id_grup, (new UserGrup())->getGrupSistem())) {
-            if ($artikel->id_user != auth()->id) {
-                redirect_with('error', 'Anda tidak memiliki hak akses untuk mengubah artikel ini', ci_route('web', $cat));
-            }
+        if (! in_array(auth()->id_grup, (new UserGrup())->getGrupSistem()) && $artikel->id_user != auth()->id) {
+            redirect_with('error', 'Anda tidak memiliki hak akses untuk mengubah artikel ini', ci_route('web', $cat));
         }
         $data           = $_POST;
         $hapus_lampiran = $data['hapus_lampiran'];
@@ -306,6 +313,7 @@ class Web extends Admin_Controller
         foreach ($list_gambar as $gambar) {
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
             $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
+            $nama_file   = trim(str_replace(' ', '_', $nama_file));
 
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
@@ -500,7 +508,7 @@ class Web extends Admin_Controller
                     $id      = str_replace('artikel/', '', $item->link);
                     $artikel = Artikel::find($id);
                     if ($artikel) {
-                        $artikel->hit = $artikel->hit * ($persen / 100);
+                        $artikel->hit *= $persen / 100;
                         $artikel->save();
                     }
                 }

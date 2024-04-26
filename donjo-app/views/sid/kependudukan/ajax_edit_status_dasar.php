@@ -3,7 +3,7 @@
 	<?php
     $sekarang = $log_status_dasar['tgl_peristiwa'] != '' ? $log_status_dasar['tgl_peristiwa'] : date('d-m-Y');
     ?>
-	<form action="<?= $form_action ?>" method="post" id="validasi" class="tgl_lapor_peristiwa">
+	<form action="<?= $form_action ?>" method="post" id="validasi" class="tgl_lapor_peristiwa" enctype="multipart/form-data">
 		<div class='modal-body'>
 			<div class="box box-danger">
 				<div class="box-body">
@@ -54,6 +54,17 @@
 					<div class="form-group mati">
 						<label for="akta_mati">Nomor Akta Kematian</label>
 						<input name="akta_mati" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Akta Kematian"></input>
+					</div>
+					<div class="form-group mati">
+						<label for="file">File Akta Kematian : <code>(.jpg, .jpeg, .png, .pdf)</code></label>
+						<div class="input-group input-group-sm">
+							<input type="text" class="form-control" id="file_path" name="satuan">
+							<input type="file" class="hidden" id="file" name="nama_file" accept=".jpg,.jpeg,.png,.pdf">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Cari</button>
+							</span>
+						</div>
+						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
 					</div>
 					<div class="form-group pindah">
 						<div class="form-group">

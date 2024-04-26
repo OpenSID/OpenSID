@@ -50,6 +50,7 @@ class Mandiri extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
         $this->load->library('email');
         $this->email->initialize(config_email());
@@ -175,7 +176,7 @@ class Mandiri extends Admin_Controller
         try {
             // TODO: Sederhanakan query ini, pindahkan ke model
             $this->telegram->sendMessage($data);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             status_sukses(false);
@@ -198,9 +199,9 @@ class Mandiri extends Admin_Controller
                 ->message($message);
 
             if (! $this->email->send()) {
-                throw new \Exception($this->email->print_debugger());
+                throw new Exception($this->email->print_debugger());
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             status_sukses(false);
@@ -217,7 +218,7 @@ class Mandiri extends Admin_Controller
         try {
             Penduduk::where(['id' => $id_pend])->update(['telepon' => bilangan($this->request['telepon'])]);
             redirect_with('success', 'Data berhasil disimpan');
-        } catch (\Exception  $e) {
+        } catch (Exception  $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }
@@ -241,7 +242,7 @@ class Mandiri extends Admin_Controller
             set_session('info', $flash);
 
             redirect_with('success', 'Data berhasil disimpan');
-        } catch (\Exception  $e) {
+        } catch (Exception  $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }
@@ -284,7 +285,7 @@ class Mandiri extends Admin_Controller
             set_session('info', $flash);
 
             redirect_with('success', 'Data berhasil disimpan');
-        } catch (\Exception  $e) {
+        } catch (Exception  $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }

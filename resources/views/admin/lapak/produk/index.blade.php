@@ -21,15 +21,18 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a href="{{ ci_route("{$controller}/produk_form") }}" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah
-                </a>
-            @endif
-            @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route("{$controller}/produk_delete_all") }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i> Hapus</a>
-            @endif
+            @includeIf('admin.layouts.components.buttons.tambah', ['url' => 'lapak_admin/produk_form'])
+            @includeIf('admin.layouts.components.buttons.hapus', [
+                'url' => 'lapak_admin/produk_delete_all',
+            ])
+            @includeIf('admin.layouts.components.buttons.cetak', [
+                'modal' => true,
+                'url' => 'lapak_admin/produk/dialog/cetak',
+            ])
+            @includeIf('admin.layouts.components.buttons.unduh', [
+                'modal' => true,
+                'url' => 'lapak_admin/produk/dialog/unduh',
+            ])
         </div>
         <form id="mainform" name="mainform" method="post">
             <div class="box-header with-border form-inline">
@@ -139,9 +142,11 @@
                         'data': function(data) {
                             let status;
                             if (data.status == 1) {
-                                status = `<a href="{{ ci_route("{$controller}/produk_status/") }}${data.id}/2" class="btn bg-navy btn-sm" title="Non Aktifkan Produk"><i class="fa fa-unlock"></i></a>`
+                                status =
+                                    `<a href="{{ ci_route("{$controller}/produk_status/") }}${data.id}/2" class="btn bg-navy btn-sm" title="Non Aktifkan Produk"><i class="fa fa-unlock"></i></a>`
                             } else {
-                                status = `<a href="{{ ci_route("{$controller}/produk_status/") }}${data.id}/1" class="btn bg-navy btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`
+                                status =
+                                    `<a href="{{ ci_route("{$controller}/produk_status/") }}${data.id}/1" class="btn bg-navy btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`
                             }
 
                             return `

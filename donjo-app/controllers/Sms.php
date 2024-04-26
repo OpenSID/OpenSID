@@ -52,6 +52,7 @@ class Sms extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('sms_model');
     }
 
@@ -342,7 +343,7 @@ class Sms extends Admin_Controller
                         $result['jumlahBerhasil']++;
 
                         break;
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         log_message('error', $e);
                         $result['pesanError'] = "Gagal kirim pesan Email ke : {$anggota->nama} </br>";
                     }
@@ -355,7 +356,7 @@ class Sms extends Admin_Controller
                             'isi'    => $data['isi'],
                         ]);
                         $result['jumlahBerhasil']++;
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         log_message('error', $e);
                         $result['pesanError'] = "Gagal kirim pesan Telegram ke : {$anggota->nama} </br>";
                     }

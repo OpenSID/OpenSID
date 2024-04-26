@@ -45,6 +45,7 @@ class Qr_code extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -57,7 +58,7 @@ class Qr_code extends Admin_Controller
         return view('admin.qrcode.setting_qr', $data);
     }
 
-    public function qrcode_generate()
+    public function qrcode_generate(): void
     {
         isCan('u');
         $post     = $this->input->post();

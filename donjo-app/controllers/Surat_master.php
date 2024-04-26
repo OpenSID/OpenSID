@@ -62,6 +62,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->tinymce = new TinyMCE();
         $this->load->library('MY_Upload', null, 'upload');
     }
@@ -129,7 +130,8 @@ class Surat_master extends Admin_Controller
 
             collect($data['suratMaster']->kode_isian)->filter(static function ($item) use (&$kategori_isian): bool {
                 if (isset($item->kategori)) {
-                    $kategori_isian[$item->kategori][] = $item;
+                    $item->kategori                                = strtolower($item->kategori);
+                    $kategori_isian[strtolower($item->kategori)][] = $item;
 
                     return true;
                 }
@@ -146,16 +148,16 @@ class Surat_master extends Admin_Controller
         }
 
         $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
-        $data['margin_global']        = $data['suratMaster']->margin_global ?? 1;
+        $data['margin_global']        = $data['suratMaster']->margin_global ?? StatusEnum::YA;
         $data['orientations']         = FormatSurat::ORIENTATAIONS;
         $data['sizes']                = FormatSurat::SIZES;
         $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
         $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
-        $data['header']               = $data['suratMaster']->header ?? 1;
-        $data['footer']               = $data['suratMaster']->footer ?? 1;
+        $data['header']               = $data['suratMaster']->header ?? StatusEnum::YA;
+        $data['footer']               = $data['suratMaster']->footer ?? StatusEnum::YA;
         $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
         $data['format_nomor']         = $data['suratMaster']->format_nomor;
-        $data['format_nomor_global']  = $data['suratMaster']->format_nomor_global ?? 1;
+        $data['format_nomor_global']  = $data['suratMaster']->format_nomor_global ?? StatusEnum::YA;
         $data['form_isian']           = $this->form_isian();
         $data['simpan_sementara']     = site_url('surat_master/simpan_sementara');
         $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
@@ -194,7 +196,7 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    private function form_isian()
+    private function form_isian(): array
     {
         return [
             'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
@@ -230,6 +232,8 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
+        $this->checkTags($this->request['template_desa']);
+
         if (FormatSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -241,6 +245,7 @@ class Surat_master extends Admin_Controller
     {
         isCan('u');
         $id = $this->request['id_surat'] ?: null;
+        $this->checkTags($this->request['template_desa'], $id);
 
         $cek_surat = FormatSurat::find($id);
 
@@ -260,6 +265,8 @@ class Surat_master extends Admin_Controller
             $this->preview();
         }
 
+        $this->checkTags($this->request['template_desa'], $id);
+
         $data = FormatSurat::findOrFail($id);
 
         if ($data->update(static::validate($this->request, $data->jenis, $id))) {
@@ -269,7 +276,18 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = [], $jenis = 4, $id = null)
+    private function checkTags($template_desa, $id = null): void
+    {
+        $invalid_tags = invalid_tags();
+
+        foreach ($invalid_tags as $invalid_tag) {
+            if (strpos($template_desa, (string) $invalid_tag) !== false) {
+                redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
+            }
+        }
+    }
+
+    private function validate($request = [], $jenis = 4, $id = null): array
     {
         // fix bagian key select-manual
         $kodeIsian   = null;
@@ -277,7 +295,7 @@ class Surat_master extends Admin_Controller
         if ($manual_data !== []) {
             $data    = [];
             $no      = 0;
-            $counter = count($request['tipe_kode']);
+            $counter = count($request['tipe_kode'] ?? []);
 
             for ($i = 0; $i < $counter; $i++) {
                 if ($request['tipe_kode'][$i] == 'select-manual') {
@@ -285,7 +303,7 @@ class Surat_master extends Admin_Controller
                 }
             }
         }
-        $counter = count($request['tipe_kode']);
+        $counter = count($request['tipe_kode'] ?? []);
 
         for ($i = 0; $i < $counter; $i++) {
             if (empty($request['tipe_kode'][$i])) {
@@ -353,7 +371,7 @@ class Surat_master extends Admin_Controller
                 if ($manual_data !== []) {
                     $data    = [];
                     $no      = 0;
-                    $counter = count($request['kategori_tipe_kode'][$kategori]);
+                    $counter = count($request['kategori_tipe_kode'][$kategori] ?? []);
 
                     for ($i = 0; $i < $counter; $i++) {
                         if ($request['kategori_tipe_kode'][$kategori][$i] == 'select-manual') {
@@ -363,7 +381,7 @@ class Surat_master extends Admin_Controller
                         }
                     }
                 }
-                $counter = count($request['kategori_tipe_kode'][$kategori]);
+                $counter = count($request['kategori_tipe_kode'][$kategori] ?? []);
 
                 for ($i = 0; $i < $counter; $i++) {
                     if (empty($request['kategori_tipe_kode'][$kategori][$i])) {
@@ -446,7 +464,7 @@ class Surat_master extends Admin_Controller
         return view('admin.pengaturan_surat.kode_isian', ['suratMaster' => $suratMaster]);
     }
 
-    public function kunci($id = null, $val = 0): void
+    public function kunci($id = null): void
     {
         isCan('u');
 
@@ -457,7 +475,7 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function favorit($id = null, $val = 0): void
+    public function favorit($id = null): void
     {
         isCan('u');
 
@@ -546,7 +564,7 @@ class Surat_master extends Admin_Controller
             ]);
 
             if ($this->upload->do_upload('font_custom')) {
-                $font = \TCPDF_FONTS::addTTFfont(
+                $font = TCPDF_FONTS::addTTFfont(
                     $this->upload->data('full_path'),
                     '',
                     '',
@@ -838,7 +856,7 @@ class Surat_master extends Admin_Controller
             ->toArray();
     }
 
-    private function prosesImport($list_data = null, $id = null)
+    private function prosesImport($list_data = null, $id = null): bool
     {
         if ($list_data) {
             foreach ($list_data as $key => $value) {

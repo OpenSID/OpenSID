@@ -58,6 +58,7 @@ class Stunting extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->library('rekap');
         $this->load->helper('tglindo_helper');
     }
@@ -300,7 +301,7 @@ class Stunting extends Admin_Controller
     {
         $anakId = [];
 
-        foreach (KiA::all() as $data) {
+        foreach (KIA::all() as $data) {
             $anakId[] = $data->anak_id ?? 0;
         }
 

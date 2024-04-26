@@ -2,22 +2,33 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="box-header with-border">
-                                                        <h3 class="box-title"><strong>Migrasi Database Ke {{ config_item('nama_aplikasi') }} {{ AmbilVersi() }}</strong></h3>
+                                                        <h3 class="box-title"><strong>Migrasi Database Ke
+                                                                {{ config_item('nama_aplikasi') }}
+                                                                {{ AmbilVersi() }}</strong></h3>
                                                     </div>
                                                     <div class="box-body">
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
-                                                                    <p>Proses ini untuk mengubah database SID ke struktur database {{ config_item('nama_aplikasi') }} {{ AmbilVersi() }}.</p>
+                                                                    <p>Proses ini untuk mengubah database SID ke
+                                                                        struktur database
+                                                                        {{ config_item('nama_aplikasi') }}
+                                                                        {{ AmbilVersi() }}.</p>
                                                                     <p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
                                                                         <small>
-                                                                            <strong><i class="fa fa-info-circle text-red"></i> Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
+                                                                            <strong><i class="fa fa-info-circle text-red"></i>
+                                                                                Sebelum melakukan migrasi ini, pastikan
+                                                                                database SID anda telah
+                                                                                dibackup.</strong>
                                                                         </small>
                                                                     </p>
-                                                                    <p>Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di :</P>
+                                                                    <p>Apabila sesudah melakukan konversi ini, masih
+                                                                        ditemukan masalah, laporkan di :</P>
                                                                     <ul>
-                                                                        <li> <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a></li>
-                                                                        <li> <a href="{{ config_item('fb_opendesa') }}">{{ config_item('fb_opendesa') }}</a></li>
+                                                                        <li> <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a>
+                                                                        </li>
+                                                                        <li> <a href="{{ config_item('fb_opendesa') }}">{{ config_item('fb_opendesa') }}</a>
+                                                                        </li>
                                                                     </ul>
                                                                     <table class="table table-bordered">
                                                                         <tbody>
@@ -25,7 +36,24 @@
                                                                                 <td style="padding-top:20px;padding-bottom:10px;">
                                                                                     <div class="form-group">
                                                                                         <div class="col-sm-5 col-md-4">
-                                                                                            <a href="#" class="btn btn-block btn-danger btn-sm ajax migrasi" title="Migrasi DB"></i> Migrasi Database Ke {{ config_item('nama_aplikasi') }} {{ AmbilVersi() }}</a>
+                                                                                            <div class="btn-group">
+                                                                                                <button type="button" class="btn btn-social btn-info btn-danger ajax" style="border-radius: 3px 0 0 3px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-database"></i>
+                                                                                                    Migrasi Database
+                                                                                                </button>
+                                                                                                <button type="button" class="btn dropdown-toggle btn-danger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                                                    <span class="caret"></span>
+                                                                                                    <span class="sr-only">Toggle
+                                                                                                        Dropdown</span>
+                                                                                                </button>
+                                                                                                <ul class="dropdown-menu">
+                                                                                                    <li><a class="migrasi" data-migrasi="new" href="#">Migrasi
+                                                                                                            Terbaru</a>
+                                                                                                    </li>
+                                                                                                    <li><a class="migrasi" data-migrasi="all" href="#">Semua
+                                                                                                            Migrasi</a>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="ajax-content"></div>
@@ -48,7 +76,9 @@
                                             <script src="{{ asset('js/backup.min.js') }}"></script>
                                             <script>
                                                 $(function() {
-                                                    $('.migrasi').click(function(e) {
+                                                    $('a.migrasi').click(function(e) {
+                                                        const _mode = $(this).data('migrasi')
+                                                        const _error = []
                                                         e.preventDefault();
                                                         Swal.fire({
                                                             title: 'Apakah anda sudah melakukan backup database ?',
@@ -71,7 +101,7 @@
                                                                         let lastResponseLength = false
                                                                         let a = Swal.getHtmlContainer().querySelector("b");
                                                                         $.ajax({
-                                                                            url: '{{ $form_action }}',
+                                                                            url: '{{ $form_action }}?mode=' + _mode,
                                                                             type: "POST",
                                                                             data: f,
                                                                             dataType: 'json',
@@ -81,28 +111,51 @@
                                                                                 // Getting on progress streaming response
                                                                                 onprogress: function(e) {
                                                                                     var result, tmpJson;
-                                                                                    var response = e.currentTarget.response;
+                                                                                    var response = e.currentTarget
+                                                                                        .response;
                                                                                     var parsedResponse;
                                                                                     let lastPosition = 0;
                                                                                     if (lastResponseLength === false) {
                                                                                         result = response;
-                                                                                        lastResponseLength = response.length;
+                                                                                        lastResponseLength = response
+                                                                                            .length;
                                                                                     } else {
-                                                                                        result = response.substring(lastResponseLength);
-                                                                                        lastResponseLength = response.length;
+                                                                                        result = response.substring(
+                                                                                            lastResponseLength);
+                                                                                        lastResponseLength = response
+                                                                                            .length;
                                                                                     }
 
                                                                                     try {
-                                                                                        lastPosition = result.lastIndexOf('{');
-                                                                                        tmpJson = $.trim(result.substring(lastPosition));
+                                                                                        lastPosition = result
+                                                                                            .lastIndexOf('{');
+                                                                                        tmpJson = $.trim(result
+                                                                                            .substring(lastPosition)
+                                                                                        );
 
-                                                                                        parsedResponse = JSON.parse(tmpJson);
+                                                                                        parsedResponse = JSON.parse(
+                                                                                            tmpJson);
 
-                                                                                        a.textContent = parsedResponse['message']
-                                                                                        if (parsedResponse['status'] !== undefined) {
+                                                                                        a.textContent = parsedResponse[
+                                                                                            'message']
+                                                                                        if (parsedResponse['status'] !==
+                                                                                            undefined) {
                                                                                             Swal.hideLoading()
                                                                                             Swal.disableButtons();
-                                                                                            if (parsedResponse['status'] == 1) {
+                                                                                            // error code set 500
+                                                                                            if (parsedResponse[
+                                                                                                    'status'] == 500) {
+                                                                                                _error.push(a.textContent)
+                                                                                            }
+                                                                                            if (parsedResponse[
+                                                                                                    'status'] == 1) {
+                                                                                                if (_error.length) {
+                                                                                                    Swal.fire({
+                                                                                                        title: "Pesan kesalahan migrasi ",
+                                                                                                        html: _error.join('<br>'),
+                                                                                                        timerProgressBar: !0,
+                                                                                                    })
+                                                                                                }
                                                                                                 _redirect = true
                                                                                                 Swal.enableButtons()
                                                                                             }

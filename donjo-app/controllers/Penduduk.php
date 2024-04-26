@@ -55,6 +55,7 @@ class Penduduk extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model', 'referensi_model', 'penduduk_log_model', 'impor_model', 'ekspor_model']);
     }
 
@@ -1223,7 +1224,7 @@ class Penduduk extends Admin_Controller
                 $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
             }
             $writer->close();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             $this->session->set_flashdata('notif', 'Tidak berhasil mengekspor data penduduk, harap mencoba kembali.');

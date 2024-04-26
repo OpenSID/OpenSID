@@ -60,7 +60,6 @@ class Install extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->load->config('installer');
         $this->folder_lainnya();
     }
@@ -170,7 +169,7 @@ class Install extends CI_Controller
         }
 
         try {
-            $connection = new \PDO(
+            $connection = new PDO(
                 sprintf(
                     'mysql:host=%s;port=%s;dbname=%s',
                     $this->input->post('database_hostname'),
@@ -391,7 +390,7 @@ class Install extends CI_Controller
         return true;
     }
 
-    public function folder_lainnya()
+    public function folder_lainnya(): void
     {
         foreach (config_item('lainnya') as $folder => $lainnya) {
             folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);

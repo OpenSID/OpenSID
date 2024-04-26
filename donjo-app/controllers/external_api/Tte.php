@@ -36,6 +36,7 @@
  */
 
 use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use App\Models\LogTte;
 use App\Models\Pamong;
 use App\Models\PermohonanSurat;
@@ -46,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Tte extends Tte_Controller
 {
-    protected \GuzzleHttp\Client $client;
+    protected GuzzleHttp\Client $client;
     protected bool $demo;
 
     /**
@@ -58,7 +59,7 @@ class Tte extends Tte_Controller
     {
         parent::__construct();
 
-        $this->client = new \GuzzleHttp\Client([
+        $this->client = new GuzzleHttp\Client([
             'base_uri' => empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL) ? site_url() : $this->setting->tte_api,
             'auth'     => [
                 $this->setting->tte_username,
@@ -121,6 +122,8 @@ class Tte extends Tte_Controller
                 fclose($file);
             }
 
+            $this->kirim_notifikasi($mandiri);
+
             return $this->response([
                 'status'      => true,
                 'pesan'       => 'success',
@@ -145,7 +148,8 @@ class Tte extends Tte_Controller
         DB::beginTransaction();
 
         try {
-            $data    = LogSurat::where('id', '=', $request['id'])->first();
+            $tipe    = $request['tipe'] ?? 'layanan_surat';
+            $data    = $tipe == 'surat_dinas' ? LogSuratDinas::where('id', '=', $request['id'])->first() : LogSurat::where('id', '=', $request['id'])->first();
             $mandiri = PermohonanSurat::where('id_surat', $data->id_format_surat)->where('isian_form->nomor', $data->no_surat)->first();
 
             if (setting('visual_tte') == 1) {
@@ -198,6 +202,8 @@ class Tte extends Tte_Controller
                 fclose($file);
             }
 
+            $this->kirim_notifikasi($mandiri);
+
             return $this->response([
                 'status'      => true,
                 'pesan'       => 'success',
@@ -231,5 +237,15 @@ class Tte extends Tte_Controller
         ]);
 
         return json($notif);
+    }
+
+    public function kirim_notifikasi($mandiri): void
+    {
+        // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
+        $id_penduduk = $mandiri['id_pemohon'];
+        $pesan       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+        $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+
+        $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
     }
 }

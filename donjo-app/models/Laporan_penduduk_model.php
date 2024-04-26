@@ -358,7 +358,7 @@ class Laporan_penduduk_model extends MY_Model
             ->select("({$str_jml_perempuan}) as perempuan");
     }
 
-    private function str_jml_penduduk(string $where, string $sex = '', $status_dasar = '1')
+    private function str_jml_penduduk(string $where, string $sex = '', string $status_dasar = '1')
     {
         $this->filter_wilayah();
 
@@ -613,8 +613,6 @@ class Laporan_penduduk_model extends MY_Model
         if ($lap === 'bdt') {
             $data = [];
         }
-
-        $data[] = $this->baris_jumlah($total, $judul_jumlah);
 
         $data[] = $this->baris_belum($semua, $total, $judul_belum);
         $this->hitung_persentase($data, $semua);

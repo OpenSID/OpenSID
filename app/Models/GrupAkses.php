@@ -51,4 +51,9 @@ class GrupAkses extends BaseModel
      * @var string
      */
     protected $table = 'grup_akses';
+
+    public function modul()
+    {
+        return $this->belongsTo(Modul::class, 'id_modul', 'id');
+    }
 }

@@ -416,10 +416,8 @@ class ConsoleServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
-     *
-     * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return array_merge(array_values($this->commands), array_values($this->devCommands));
     }

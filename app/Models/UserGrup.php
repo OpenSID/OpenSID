@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +48,7 @@ class UserGrup extends BaseModel
 {
     use ConfigId;
     use Author;
+    use ShortcutCache;
 
     // UserGrup bawaan
     public const ADMINISTRATOR = 'administrator';
@@ -80,6 +82,11 @@ class UserGrup extends BaseModel
     public static function getGrupId($slug)
     {
         return self::where('slug', $slug)->value('id');
+    }
+
+    public static function isAdministrator($id_grup): bool
+    {
+        return $id_grup == self::getGrupId(self::ADMINISTRATOR);
     }
 
     /**
@@ -125,5 +132,10 @@ class UserGrup extends BaseModel
                 '*' => 3,
             ],
         ];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
     }
 }

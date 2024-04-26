@@ -56,7 +56,7 @@
                                     <br>
                                 <?php endif ?>
                                 <br>
-                                <?php if (count($media_sosial) > 0) : ?>
+                                <?php if (count($media_sosial ?? []) > 0) : ?>
                                     <?php  $sosmed_pengurus = json_decode($data['media_sosial'], true); ?>
                                     <?php foreach ($media_sosial as $value): ?>
                                         <?php if ($sosmed_pengurus[$value['id']]): ?>

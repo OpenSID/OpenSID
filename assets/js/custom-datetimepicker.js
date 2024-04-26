@@ -13,26 +13,33 @@ $(document).ready(function()
 		format: 'dd-mm-yyyy',
 		autoclose: true
 	});
+
+	var defaultTglMulai = ($('#tgl_mulai').val() != '') ? moment($('#tgl_mulai').val(), 'DD-MM-YYYY') : moment();
 	$('#tgl_mulai').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
 		useCurrent: false,
-		date: moment(new Date())
+		date: defaultTglMulai
 	});
 
+	var defaultTglAkhir = ($('#tgl_akhir').val() != '') ? moment($('#tgl_akhir').val(), 'DD-MM-YYYY') : moment(new Date()).add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku'));
 	$('#tgl_akhir').datetimepicker({
 		locale:'id',
 		format: 'DD-MM-YYYY',
 		useCurrent: false,
-		minDate: moment(new Date()).add(-1, 'day'), // Todo: mengapa harus dikurangi -- bug?
-		date: moment(new Date()).add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku'))
+		minDate: defaultTglMulai,
+		date: defaultTglAkhir
 	});
+
 	$('#tgl_mulai').datetimepicker().on('dp.change', function (e) {
-		$('#tgl_akhir').data('DateTimePicker').minDate(moment(new Date(e.date)));
+		var tglMulai = moment(new Date(e.date));
+		var defaultTglAkhir = ($('#tgl_akhir').val() != '') ? moment($('#tgl_akhir').val(), 'DD-MM-YYYY') : moment();
+
+		$('#tgl_akhir').data('DateTimePicker').minDate(tglMulai);
+		if (tglMulai.isAfter(defaultTglAkhir)) {
+			$('#tgl_akhir').data('DateTimePicker').date(tglMulai.add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku')));
+		}
 		$(this).data("DateTimePicker").hide();
-		var tglAkhir = moment(new Date(e.date));
-		tglAkhir.add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku'));
-		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
 	});
 
 	$('.tgl_minimal').datetimepicker().on('dp.change', function (e) {

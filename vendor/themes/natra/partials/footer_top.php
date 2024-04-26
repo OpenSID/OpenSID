@@ -1,8 +1,13 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
-<?php if (!is_null($transparansi)) $this->load->view("$folder_themes/partials/apbdesa-tema", $transparansi); ?>
+<?php
+    if (!is_null($transparansi)) {
+        $this->load->view("$folder_themes/partials/apbdesa-tema", $transparansi);
+    }
+?>
+<?php if (theme_config('statistik_desa')): ?>
     <div class="col-md-12" align="center">
-        <h2>Statistik Desa</h2><hr>
+        <h2>Statistik <?php ucwords(setting('sebutan_desa')) ?></h2><hr>
         <div class="col-md-6">
             <a href="<?= site_url(); ?>data-wilayah"><img alt="Statistik Wilayah" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_wil.png") ?>" /></a> 
             <a href="<?= site_url(); ?>first/statistik/0"><img alt="Statistik Pendidikan" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_pend.png") ?>" /></a>
@@ -14,6 +19,7 @@
             <a href="<?= site_url(); ?>first/statistik/13"><img alt="Statistik Umur" width="30%" src="<?= base_url("$this->theme_folder/$this->theme/images/statistik_umur.png") ?>" /></a>
         <hr></div>
     </div>
+<?php endif; ?>
 <div class="footer_top">
     <div class="container">
         <div class="row">
@@ -39,13 +45,10 @@
                     <?php if (setting('tte')): ?>
                         <img src="<?= asset('assets/images/bsre.png?v', false); ?>" alt="Bsre" class="img-responsive" style="width: 185px;" />
                     <?php endif ?>
-                    <?php foreach ($sosmed As $data): ?>
-                        <?php if (!empty($data["link"])): ?>
+                    <?php foreach ($sosmed as $data): ?>
+                        <?php if (! empty($data["link"])): ?>
                             <a href="<?= $data['link']?>" rel="noopener noreferrer" target="_blank">
-                                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?>-square fa-3x"></i></span>
-                                <?php if (strtolower($data["nama"]) == 'whatsapp' OR strtolower($data["nama"]) == 'instagram' OR strtolower($data["nama"]) == 'telegram'): ?>
-                                <span style="color:#fff"><i class="fa fa-<?= strtolower($data['nama']) ?> fa-3x"></i></span>
-                                <?php endif; ?>
+                                <img src="<?= $data['icon'] ?>" alt="<?= $data['nama'] ?>" style="width:50px;height:50px;"/>
                             </a>
                         <?php endif; ?>
                     <?php endforeach; ?>

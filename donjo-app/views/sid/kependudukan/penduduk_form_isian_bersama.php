@@ -127,7 +127,7 @@
 			<select id="kk_level" class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
-					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA && $this->controller === 'keluarga') : ?>
+					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == App\Enums\SHDKEnum::KEPALA_KELUARGA && $this->controller === 'keluarga') : ?>
 						<option selected value="<?= $data['id'] ?>"><?= strtoupper($data['nama']) ?></option>
 						<?php break ?>
 					<?php else : ?>
@@ -871,8 +871,8 @@
 			case '4':
 				$("#akta_perkawinan").attr('disabled', false);
 				$("input[name=tanggalperkawinan]").attr('disabled', false);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', false);
+				$("input[name=tanggalperceraian]").attr('disabled', false);
 				$('#wajib_ktp').text('WAJIB');
 				$('#akseptor_kb').show();
 				break;

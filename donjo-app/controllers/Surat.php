@@ -49,6 +49,7 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Urls;
@@ -68,6 +69,7 @@ class Surat extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['penduduk_model', 'keluarga_model', 'surat_model', 'keluar_model', 'penomoran_surat_model', 'permohonan_surat_model']);
         $this->tinymce     = new TinyMCE();
         $this->logpenduduk = new LogPenduduk();
@@ -154,11 +156,11 @@ class Surat extends Admin_Controller
             }
             // cek apakah surat itu memiliki form kategori ( saksi etc )
             $kategori = get_key_form_kategori($data['surat']['form_isian']);
-
             if (! empty($kategori)) {
                 $form_kategori   = [];
                 $kategori_isian  = [];
                 $filter_kategori = collect($data['surat']->kode_isian)->filter(static function ($item) use (&$kategori_isian): bool {
+                    $item->kategori                    = strtolower($item->kategori);
                     $kategori_isian[$item->kategori][] = $item;
 
                     return isset($item->kategori);
@@ -184,7 +186,6 @@ class Surat extends Admin_Controller
                 $data['surat']['kode_isian'] = $this->groupByLabel($data['surat']->kode_isian);
             }
             $this->get_data_untuk_form($url, $data);
-
             // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
             $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = ci_route('surat.pratinjau', $url);
@@ -205,6 +206,13 @@ class Surat extends Admin_Controller
         if ($id) {
             // Ganti status menjadi 'Menunggu Tandatangan'
             $this->permohonan_surat_model->proses($id, 2);
+
+            //update isian form
+            $post       = $this->input->post();
+            $remove     = ['berlaku_dari', 'berlaku_sampai', 'pilih_atas_nama', 'submit_cetak'];
+            $isian_form = array_diff_key($post, array_flip($remove));
+
+            PermohonanSurat::where('id', $id)->update(['isian_form' => json_encode($isian_form)]);
         }
 
         $surat     = FormatSurat::cetak($url)->first();
@@ -241,12 +249,12 @@ class Surat extends Admin_Controller
             if ($this->request['sebagai']) {
                 $name_pelapor = $this->request['sebagai'];
                 if ($this->request['id_pend_' . $name_pelapor]) {
-                    $pelapor['id_pend_Pelapor'] = $this->request['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['id_pend_pelapor'] = $this->request['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
-                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['id_pend_pelapor'] = null;
                     $pelapor['nik_pelapor']     = $this->request[$name_pelapor]['nik'];
                     $pelapor['nama_pelapor']    = $this->request[$name_pelapor]['nama'];
                 }
@@ -353,12 +361,12 @@ class Surat extends Admin_Controller
             if ($cetak['input']['sebagai']) {
                 $name_pelapor = $cetak['input']['sebagai'];
                 if ($cetak['input']['id_pend_' . $name_pelapor]) {
-                    $pelapor['id_pend_Pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
-                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['id_pend_pelapor'] = null;
                     $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
                     $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
                 }
@@ -450,8 +458,8 @@ class Surat extends Admin_Controller
                         ->pluck('token')
                         ->all();
 
-                    $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new \Fcm\Push\Notification();
+                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                    $notification = new Fcm\Push\Notification();
 
                     $notification
                         ->addRecipient($allToken)
@@ -503,12 +511,12 @@ class Surat extends Admin_Controller
             if ($cetak['input']['sebagai']) {
                 $name_pelapor = $cetak['input']['sebagai'];
                 if ($cetak['input']['id_pend_' . $name_pelapor]) {
-                    $pelapor['id_pend_Pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
-                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_Pelapor'])->first();
+                    $pelapor['id_pend_pelapor'] = $cetak['input']['id_pend_' . $name_pelapor];
+                    $pelapor                    = Penduduk::where('id', $pelapor['id_pend_pelapor'])->first();
                     $pelapor['nik_pelapor']     = $pelapor->nik;
                     $pelapor['nama_pelapor']    = $pelapor->nama;
                 } else {
-                    $pelapor['id_pend_Pelapor'] = null;
+                    $pelapor['id_pend_pelapor'] = null;
                     $pelapor['nik_pelapor']     = $cetak['input'][$name_pelapor]['nik'];
                     $pelapor['nama_pelapor']    = $cetak['input'][$name_pelapor]['nama'];
                 }
@@ -811,7 +819,7 @@ class Surat extends Admin_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
                 $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }

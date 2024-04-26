@@ -4,7 +4,7 @@
 	<h2 class="post_titile" >Data Demografi Berdasar <?= $heading; ?></h2>
 	<div class="box-body">
 		<div class="table-responsive">
-		<?php if(is_array($daftar_dusun) && count($daftar_dusun) > 0) : ?>
+		<?php if(count($daftar_dusun ?? []) > 0) : ?>
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
@@ -79,7 +79,7 @@
 					<?php endforeach; ?>
 				</tbody>
 				<tfoot>
-					<tr style="background-color:#e64946;font-weight:bold;">
+					<tr style="background-color:<?=theme_config('warna_dasar', '#e64946')?>;font-weight:bold;">
 						<td colspan="9" align="left"><label>TOTAL</label></td>
 						<td align="right"><?= $total['total_kk']; ?></td>
 						<td align="right"><?= $total['total_warga']; ?></td>

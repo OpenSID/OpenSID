@@ -70,7 +70,7 @@
 						<td><?= $s['Kelompok']?></td>
 						<td colspan='3'>
 						<?=
-                        \Illuminate\Support\Str::of($s['Nama_Kelompok'])
+                        Illuminate\Support\Str::of($s['Nama_Kelompok'])
                             ->title()
                             ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
                                 if ($string != 'Dana Desa') {
@@ -92,7 +92,7 @@
 								<td colspan='2'><?= $q['Jenis'] ?></td>
 								<td>
 								<?=
-                                \Illuminate\Support\Str::of($q['Nama_Jenis'])
+                                Illuminate\Support\Str::of($q['Nama_Jenis'])
                                     ->title()
                                     ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
                                         if ($string != 'Dana Desa') {
@@ -177,7 +177,7 @@
 							<td><?= substr($b1['Kd_Bid'], 8) ?></td>
 							<td colspan='3'>
 							<?=
-                            \Illuminate\Support\Str::of($b1['Nama_Bidang'])
+                            Illuminate\Support\Str::of($b1['Nama_Bidang'])
                                 ->title()
                                 ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
                                     if ($string != 'Dana Desa') {
@@ -199,7 +199,7 @@
 									<td colspan='2'><?= substr($b2['Kd_Keg'], 8) ?></td>
 									<td>
 									<?=
-                                    \Illuminate\Support\Str::of($b2['Nama_Kegiatan'])
+                                    Illuminate\Support\Str::of($b2['Nama_Kegiatan'])
                                         ->title()
                                         ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
                                             if ($string != 'Dana Desa') {
