@@ -77,7 +77,7 @@ class Keluarga extends Admin_Controller
     public $kategori_pengaturan = 'data_lengkap';
     private $judulStatistik;
     private $filterColumn  = [];
-    private $defaultStatus = App\Enums\StatusDasarKKEnum::AKTIF;
+    private $defaultStatus = StatusDasarKKEnum::AKTIF;
 
     public function __construct()
     {

@@ -243,17 +243,17 @@ class Penduduk extends Admin_Controller
                     $statistikFilter['umur_min'] = $rentangUmur->dari;
                     $statistikFilter['umur_max'] = $rentangUmur->sampai;
                 }
-                
+
                 $umurMin           = $statistikFilter['umur_min'];
                 $umurMax           = $statistikFilter['umur_max'];
                 $umurObj['satuan'] = 'tahun';
                 if ($umurMin) {
                     $umurObj['min'] = $umurMin;
                 }
-                if (!is_null($umurMax)) {
+                if (null !== $umurMax) {
                     $umurObj['max'] = $umurMax;
                 }
-                
+
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status_kawin'         => 'status_kawin',
@@ -277,41 +277,39 @@ class Penduduk extends Admin_Controller
                     'hamil'                => 'hamil',
                     'buku-nikah'           => 'akta_perkawinan',
                     'kia'                  => 'kia',
-                    'id_cluster'           => 'id_cluster' 
-                ];                
+                    'id_cluster'           => 'id_cluster',
+                ];
 
                 foreach ($statistikFilter as $key => $val) {
                     if ($val != '') {
-                        if (isset($map[$key])) {                            
-                            if ($map[$key] == 'ktp_el'){
-                                if ($val == BELUM_MENGISI){
+                        if (isset($map[$key])) {
+                            if ($map[$key] == 'ktp_el') {
+                                if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('status_rekam', 0)->orWhereNull('status_rekam'));
-                                }else {
+                                } else {
                                     $statusKTP = $statusKTP::find($val);
                                     $q->where('ktp_el', $statusKTP->ktp_el)->where('status_rekam', $statusKTP->status_rekam);
-                                }                                
-                            }else if ($map[$key] == 'kia'){
+                                }
+                            } elseif ($map[$key] == 'kia') {
                                 $umurObj['min'] = 0;
                                 $umurObj['max'] = 17;
-                                if ($val == BELUM_MENGISI){
+                                if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('status_rekam', 0)->orWhereNull('status_rekam'));
-                                }else {
+                                } else {
                                     $statusKTP = $statusKTP::find($val);
                                     $q->where('ktp_el', $statusKTP->ktp_el)->where('status_rekam', $statusKTP->status_rekam);
-                                }                                
-                            } 
-                            else if($map[$key] == 'akta_perkawinan'){
-                                $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);                                
-                                if ($val == BELUM_MENGISI){
-                                    $q->where(static fn($r) => $r->where('akta_perkawinan','=','')->orWhereNull('akta_perkawinan'));
                                 }
-                            }
-                            else {
-                                if ($val == BELUM_MENGISI){
+                            } elseif ($map[$key] == 'akta_perkawinan') {
+                                $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);
+                                if ($val == BELUM_MENGISI) {
+                                    $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
+                                }
+                            } else {
+                                if ($val == BELUM_MENGISI) {
                                     $q->whereNull($map[$key]);
-                                }else {
+                                } else {
                                     $q->where($map[$key], $val);
-                                }                                
+                                }
                             }
                         }
                     }
@@ -505,7 +503,7 @@ class Penduduk extends Admin_Controller
     }
 
     public function detail($id): void
-    {          
+    {
         $penduduk             = PendudukModel::findOrFail($id);
         $data['list_dokumen'] = $penduduk->dokumen;
         $data['penduduk']     = $penduduk;
@@ -756,7 +754,7 @@ class Penduduk extends Admin_Controller
         if (! $validasiPenduduk['status']) {
             set_session('old_input', $originalInput);
             redirect_with('error', $validasiPenduduk['messages'], ci_route('penduduk.form', $id));
-        }        
+        }
 
         unset($data['file_foto'], $data['old_foto'], $data['nik_lama'], $data['dusun'], $data['rw']);
 
@@ -1031,10 +1029,10 @@ class Penduduk extends Admin_Controller
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);        
+        $paramDatatable = json_decode($this->input->post('params'), 1);
         $_GET           = $paramDatatable;
-        $listNIK         = $this->input->post('id_cb') ?? null;
-        
+        $listNIK        = $this->input->post('id_cb') ?? null;
+
         $orderColumn = $paramDatatable['columns'][$paramDatatable['order'][0]['column']]['name'];
         $orderDir    = $paramDatatable['order'][0]['dir'];
         $orderColumn = $paramDatatable['columns'][$paramDatatable['order'][0]['column']]['name'];
@@ -1053,7 +1051,7 @@ class Penduduk extends Admin_Controller
         $data = [
             'main'  => $query->take($paramDatatable['length'])->orderBy($orderColumn, $orderDir)->get(),
             'start' => $paramDatatable['start'],
-            'judul' => $this->input->post('judul')
+            'judul' => $this->input->post('judul'),
         ];
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
@@ -1257,10 +1255,10 @@ class Penduduk extends Admin_Controller
     public function lap_statistik($id_cluster = 0, $tipe = 0, $nomor = 0): void
     {
         $this->statistikFilter['id_cluster'] = $id_cluster;
-        if ($nomor){
+        if ($nomor) {
             $this->statistikFilter['sex'] = $nomor;
         }
-        
+
         switch ($tipe) {
             case 1:
                 $this->statistikFilter['sex'] = '1';
@@ -1452,44 +1450,44 @@ class Penduduk extends Admin_Controller
 
             $writer = WriterEntityFactory::createXLSXWriter();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
-            $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));            
+            $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
             //Isi Tabel
-            $paramDatatable = json_decode($this->input->get('params'), 1);        
+            $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
             // harusnya order by no_kk
             $get = $this->sumberData()->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')->with(['map'])->orderBy('tweb_keluarga.no_kk', 'asc')->orderBy('kk_level', 'asc')->get();
 
             foreach ($get as $row) {
-                $penduduk = [];                
-                $row->alamat = $row->keluarga->alamat ?? $row->alamat;
-                $row->dusun = $row->wilayah->dusun ?? '-';
-                $row->rw = $row->wilayah->rw ?? '-';
-                $row->rt = $row->wilayah->rt ?? '-';                
-                $row->no_kk = $row->keluarga->no_kk;                
-                $row->sex = $huruf ? App\Enums\JenisKelaminEnum::valueOf($row->sex) : $row->sex;
-                $row->tanggallahir_str = $row->tanggallahir->format('Y-m-d');
-                $row->agama_id = $huruf ? $row->agama->nama : $row->agama_id;
-                $row->pendidikan_kk_id = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
+                $penduduk                  = [];
+                $row->alamat               = $row->keluarga->alamat ?? $row->alamat;
+                $row->dusun                = $row->wilayah->dusun ?? '-';
+                $row->rw                   = $row->wilayah->rw ?? '-';
+                $row->rt                   = $row->wilayah->rt ?? '-';
+                $row->no_kk                = $row->keluarga->no_kk;
+                $row->sex                  = $huruf ? JenisKelaminEnum::valueOf($row->sex) : $row->sex;
+                $row->tanggallahir_str     = $row->tanggallahir->format('Y-m-d');
+                $row->agama_id             = $huruf ? $row->agama->nama : $row->agama_id;
+                $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan->nama : $row->pendidikan_sedang_id;
-                $row->pekerjaan_id = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id; 
-                $row->status_kawin = $huruf ? App\Enums\StatusKawinEnum::valueOf($row->status_kawin) : $row->status_kawin;
-                $row->kk_level = $huruf ? App\Enums\SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
-                $row->warganegara_id = $huruf ? $row->warganegara->nama : $row->warganegara_id;
-                $row->golongan_darah_id = $huruf ? $row->golonganDarah->nama : $row->golongan_darah_id;
+                $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
+                $row->status_kawin         = $huruf ? StatusKawinEnum::valueOf($row->status_kawin) : $row->status_kawin;
+                $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
+                $row->warganegara_id       = $huruf ? $row->warganegara->nama : $row->warganegara_id;
+                $row->golongan_darah_id    = $huruf ? $row->golonganDarah->nama : $row->golongan_darah_id;
                 $row->tanggal_akhir_paspor = $row->tanggal_akhir_paspor ? date_format(date_create($row->tanggal_akhir_paspor), 'Y-m-d') : '';
-                $row->tanggalperkawinan = $row->tanggalperkawinan ? date_format(date_create($row->tanggalperkawinan), 'Y-m-d') : '';
-                $row->tanggalperceraian = $row->tanggalperceraian ? date_format(date_create($row->tanggalperceraian), 'Y-m-d') : '';
-                $row->cacat_id = $huruf ? $row->cacat->nama : $row->cacat_id;
-                $row->cara_kb_id = $huruf ? App\Enums\CaraKBEnum::valueOf($row->cara_kb_id) : $row->cara_kb_id;
-                $row->hamil = $huruf ? App\Enums\HamilEnum::valueOf($row->hamil) : $row->hamil;
-                $row->status_rekam = $huruf ? App\Enums\StatusKTPEnum::valueOf($row->status_rekam) : $row->status_rekam;
-                $row->status_dasar = $huruf ? App\Enums\StatusDasarEnum::valueOf($row->status_dasar) : $row->status_dasar;
-                $row->lat = $row->map->lat;
-                $row->lng = $row->map->lng;
-                                
+                $row->tanggalperkawinan    = $row->tanggalperkawinan ? date_format(date_create($row->tanggalperkawinan), 'Y-m-d') : '';
+                $row->tanggalperceraian    = $row->tanggalperceraian ? date_format(date_create($row->tanggalperceraian), 'Y-m-d') : '';
+                $row->cacat_id             = $huruf ? $row->cacat->nama : $row->cacat_id;
+                $row->cara_kb_id           = $huruf ? CaraKBEnum::valueOf($row->cara_kb_id) : $row->cara_kb_id;
+                $row->hamil                = $huruf ? HamilEnum::valueOf($row->hamil) : $row->hamil;
+                $row->status_rekam         = $huruf ? StatusKTPEnum::valueOf($row->status_rekam) : $row->status_rekam;
+                $row->status_dasar         = $huruf ? StatusDasarEnum::valueOf($row->status_dasar) : $row->status_dasar;
+                $row->lat                  = $row->map->lat;
+                $row->lng                  = $row->map->lng;
+
                 foreach ($daftar_kolom as $kolom) {
                     // $this->bersihkanData($row, $kolom);
-                    if($kolom == 'tanggallahir'){
+                    if ($kolom == 'tanggallahir') {
                         $kolom = 'tanggallahir_str';
                     }
                     $penduduk[] = $this->bersihkanData($row->{$kolom}, $kolom);
@@ -1506,13 +1504,13 @@ class Penduduk extends Admin_Controller
             redirect('penduduk');
         }
     }
+
     private function bersihkanData($str, $key): string
     {
-        if (is_null($str)) $str = '';
+        if (null === $str) $str = '';
 
         if (strstr($str, '"')) {
-            $str = '"' . str_replace('"', '""', $str) . '"';
-            return $str;
+            return '"' . str_replace('"', '""', $str) . '"';
         }
         // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
         $kecuali = ['nik', 'no_kk'];
@@ -1522,9 +1520,10 @@ class Penduduk extends Admin_Controller
         if (in_array($key, $kecuali)) {
             return $str;
         }
-        $str = '';
-        return $str;        
+
+        return '';
     }
+
     public function foto_bawaan($id)
     {
         $penduduk = PendudukModel::findOrFail($id);

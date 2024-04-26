@@ -54,18 +54,6 @@ class SuratKeluar extends BaseModel
      */
     protected $table = 'surat_keluar';
 
-    public function scopeTahun($query)
-    {
-        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
-    }
-
-    public function scopeAutocomplete($query)
-    {
-        $query->select('tujuan')->distinct()->orderBy('tujuan');
-
-        return $query->limit(15)->pluck('tujuan')->toArray();
-    }
-    
     /**
      * The fillable with the model.
      *
@@ -88,6 +76,18 @@ class SuratKeluar extends BaseModel
         'created_by',
         'updated_by',
     ];
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
+    }
+
+    public function scopeAutocomplete($query)
+    {
+        $query->select('tujuan')->distinct()->orderBy('tujuan');
+
+        return $query->limit(15)->pluck('tujuan')->toArray();
+    }
 
     public static function boot(): void
     {

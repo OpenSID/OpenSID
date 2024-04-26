@@ -85,11 +85,11 @@ class Surat_keluar extends Admin_Controller
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('surat_keluar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
-                    
+
                     if ($row->berkas_scan) {
                         $aksi .= '<a href="' . ci_route("surat_keluar.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
                     }
-                    
+
                     if (can('u')) {
                         if ($row->ekspedisi) {
                             $aksi .= '<a href="' . ci_route('ekspedisi') . '" class="btn bg-info btn-sm" title="Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a> ';
@@ -97,7 +97,7 @@ class Surat_keluar extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('surat_keluar.untuk_ekspedisi', $row->id) . '" class="btn bg-blue btn-sm" title="Tambahkan ke Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a> ';
                         }
                     }
-                    
+
                     if (can('h')) {
                         $aksi .= '<a href="#" data-href="' . ci_route('surat_keluar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
@@ -166,7 +166,7 @@ class Surat_keluar extends Admin_Controller
             redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
         }
 
-        $uploadData  = null;
+        $uploadData = null;
         // Ada lampiran file
         if ($adaLampiran) {
             // Tes tidak berisi script PHP
@@ -259,7 +259,7 @@ class Surat_keluar extends Admin_Controller
                 if ($update->update($data)) {
                     redirect_with('success', 'Berhasil Ubah Data');
                 }
-        
+
                 redirect_with('error', 'Gagal Ubah Data');
             }
         }
@@ -267,9 +267,9 @@ class Surat_keluar extends Admin_Controller
         else {
             unset($data['berkas_scan']);
             if ($hapusLampiranLama) {
-                $data['berkas_scan']   = null;
-                $adaBerkasLamaDiDisk   = file_exists($lokasiBerkasLama);
-                $oldFileRemoved        = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
+                $data['berkas_scan'] = null;
+                $adaBerkasLamaDiDisk = file_exists($lokasiBerkasLama);
+                $oldFileRemoved      = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
                 ($oldFileRemoved) ? null : redirect_with('error', ' -> Gagal menghapus berkas lama');
             }
 
@@ -278,7 +278,7 @@ class Surat_keluar extends Admin_Controller
             if ($update->update($data)) {
                 redirect_with('success', 'Berhasil Ubah Data');
             }
-    
+
             redirect_with('error', 'Gagal Ubah Data');
         }
     }
@@ -326,12 +326,12 @@ class Surat_keluar extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $query             = $this->sumberData();
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $query->get()->toArray();
-        $data['config']    = $this->header['desa'];
-        $data['tahun']     = $this->input->post('tahun');
+        $query          = $this->sumberData();
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['main']   = $query->get()->toArray();
+        $data['config'] = $this->header['desa'];
+        $data['tahun']  = $this->input->post('tahun');
         if ($data['tahun']) {
             $data['main'] = $query->whereYear('tanggal_surat', $data['tahun'])->get()->toArray();
         }

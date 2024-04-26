@@ -46,8 +46,8 @@ use App\Scopes\AccessWilayahScope;
 use App\Enums\StatusDasarEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use Carbon\Carbon;
 use App\Traits\ShortcutCache;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -699,11 +699,11 @@ class Penduduk extends BaseModel
     }
 
     protected function scopeBatasiUmur($query, $tglPemilihan, $umurObj = [])
-    {                       
+    {
         if (empty($umurObj['max']) && empty($umurObj['min'])) {
             return $query;
         }
-        
+
         $satuan  = $umurObj['satuan'] == 'tahun' ? 'YEAR' : 'MONTH';
         $umurMin = empty($umurObj['min']) ? 0 : $umurObj['min'];
         $umurMax = empty($umurObj['max']) && $umurObj['max'] != 0 ? 1000 : $umurObj['max'];
@@ -1226,5 +1226,5 @@ class Penduduk extends BaseModel
         $this->pesertaBantuan()->delete();
 
         return parent::delete();
-    }    
+    }
 }

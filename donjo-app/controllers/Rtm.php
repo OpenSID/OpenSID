@@ -101,7 +101,7 @@ class Rtm extends Admin_Controller
                 $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
             }
 
-            return datatables()->of(RtmModel::when($status != null, function ($q) use ($status) {
+            return datatables()->of(RtmModel::when($status != null, static function ($q) use ($status) {
                     if ($status == '1') {
                         $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereStatusDasar($status));
                     } elseif ($status == '0') {
