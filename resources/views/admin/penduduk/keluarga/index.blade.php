@@ -176,9 +176,6 @@
         .select2-results__option[aria-disabled=true] {
             display: none;
         }
-        .row.mepet>div{
-            margin-right: -25px;
-        }
     </style>
 @endpush
 @push('scripts')

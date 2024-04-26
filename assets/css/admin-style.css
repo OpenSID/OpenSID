@@ -837,3 +837,9 @@ div.form-surat .content-header {
 .btn-group-vertical > .btn:first-child:not(:last-child) {
     border-radius: 3px;
 }
+
+@media (min-width: 992px) {
+    .row.mepet > div {
+        margin-right: -25px;
+    }
+}

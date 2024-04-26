@@ -16,7 +16,7 @@
     <select id="rw" class="form-control input-sm select2">
         <option value="">Pilih RW</option>
         @foreach ($wilayah as $keyDusun => $dusun)
-            <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}">
+            <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}">
                 @foreach ($dusun as $keyRw => $rw)
                     <option value="{{ $keyDusun }}__{{ $keyRw }}">{{ $keyRw }}</option>
                 @endforeach
@@ -32,7 +32,7 @@
         <option value="">Pilih RT</option>
         @foreach ($wilayah as $keyDusun => $dusun)
             @foreach ($dusun as $keyRw => $rw)
-                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ $keyRw }}">
+                <optgroup value="{{ $keyDusun }}__{{ $keyRw }}" label="{{ 'RW ' . $keyRw }}">
                     @foreach ($rw as $rt)
                         <option value="{{ $rt->id }}">{{ $rt->rt }}</option>
                     @endforeach
