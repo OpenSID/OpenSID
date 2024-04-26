@@ -191,7 +191,7 @@
                         <select class="form-control input-sm select2" id="status_ktp" name="status_ktp">
                             <option value=""> -- </option>
                             @foreach ($list_status_ktp as $key => $item)
-                                <option value="{{ $key }}" @selected($status_ktp == $key)>{{ $item }}</option>                                
+                                <option value="{{ $key }}" @selected($status_ktp == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -205,7 +205,7 @@
                         <select class="form-control input-sm select2" id="id_asuransi" name="id_asuransi">
                             <option value=""> -- </option>
                             @foreach ($list_asuransi as $key => $item)
-                                <option value="{{ $key }}" @selected($id_asuransi == $key)>{{ $item }}</option>                                
+                                <option value="{{ $key }}" @selected($id_asuransi == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -233,7 +233,7 @@
                         <select class="form-control input-sm select2" id="golongan_darah" name="golongan_darah">
                             <option value=""> -- </option>
                             @foreach ($list_golongan_darah as $key => $item)
-                                <option value="{{ $key }}" @selected($golongan_darah == $key)>{{ $item }}</option>                                
+                                <option value="{{ $key }}" @selected($golongan_darah == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -247,7 +247,7 @@
                         <select class="form-control input-sm select2" id="menahun" name="menahun">
                             <option value=""> -- </option>
                             @foreach ($list_sakit_menahun as $key => $item)
-                                <option value="{{ $key }}" @selected($menahun == $key)>{{ $item }}</option>                                
+                                <option value="{{ $key }}" @selected($menahun == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -299,16 +299,16 @@
         }
         $(this).prop('min', min)
     });
-    $(function(){
+    $(function() {
         let advanceSearch = $('#tabeldata').data('advancesearch')
-        if(advanceSearch){
-            for(let x in advanceSearch){
+        if (advanceSearch) {
+            for (let x in advanceSearch) {
                 console.log(advanceSearch[x])
-                if(advanceSearch[x]){
-                    $('.modal [name='+x+']').val(advanceSearch[x])
-                    $('.modal [name='+x+']').trigger('change')
+                if (advanceSearch[x]) {
+                    $('.modal [name=' + x + ']').val(advanceSearch[x])
+                    $('.modal [name=' + x + ']').trigger('change')
                 }
-                
+
             }
         }
     })

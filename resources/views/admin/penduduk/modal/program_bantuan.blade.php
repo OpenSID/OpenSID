@@ -33,7 +33,7 @@
     }
     $(function() {
         let bantuanTerpilih = $('#tabeldata').data('bantuan')
-        if(bantuanTerpilih){
+        if (bantuanTerpilih) {
             $('select[name=program_bantuan]').val(bantuanTerpilih)
             $('select[name=program_bantuan]').trigger('change')
         }

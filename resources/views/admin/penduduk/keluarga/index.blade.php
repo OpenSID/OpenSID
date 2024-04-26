@@ -130,7 +130,7 @@
                     <select id="jenis_kelamin" class="form-control input-sm select2">
                         <option value="">Pilih Jenis Kelamin</option>
                         @foreach ($jenis_kelamin as $key => $item)
-                        <option value="{{ $key }}">{{ $item }}</option>
+                            <option value="{{ $key }}">{{ $item }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -176,7 +176,8 @@
         .select2-results__option[aria-disabled=true] {
             display: none;
         }
-        .row.mepet>div{
+
+        .row.mepet>div {
             margin-right: -25px;
         }
     </style>

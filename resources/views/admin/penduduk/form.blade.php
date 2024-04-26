@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-    @include('admin.layouts.components.notifikasi')    
+    @include('admin.layouts.components.notifikasi')
     <div class="row">
         <form id="mainform" name="mainform" action="{{ $form_action }}" method="post" enctype="multipart/form-data">
             @include('admin.penduduk.penduduk_form_isian')

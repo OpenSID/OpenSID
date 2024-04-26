@@ -586,7 +586,7 @@
                     <select id="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun) >
+                            <optgroup value="{{ $keyDusun }}" label="{{ $keyDusun }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
                                 @foreach ($dusun as $keyRw => $rw)
                                     <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
                                 @endforeach
@@ -989,7 +989,7 @@
             })
 
             $('#mainform #rw').change(function() {
-                let _label = $(this).find('option:selected').val()                
+                let _label = $(this).find('option:selected').val()
                 $('#mainform #id_cluster').find(`optgroup`).prop('disabled', 1)
                 if ($(this).val()) {
                     $('#mainform #id_cluster').closest('div').show()

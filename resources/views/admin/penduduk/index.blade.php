@@ -20,48 +20,93 @@
                     <a class="btn btn-social btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Penduduk</a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="{{ ci_route('penduduk.form_peristiwa.1') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i>  Penduduk Lahir</a>
+                            <a href="{{ ci_route('penduduk.form_peristiwa.1') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i> Penduduk Lahir</a>
                         </li>
                         <li>
-                            <a href="{{ ci_route('penduduk.form_peristiwa.5') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i>  Penduduk Masuk</a>
+                            <a href="{{ ci_route('penduduk.form_peristiwa.5') }}" class="btn btn-social btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Penduduk Masuk</a>
                         </li>
                     </ul>
                 </div>
             @endif
-            @if (can('h') && ! data_lengkap())
-                <a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '{{ ci_route("penduduk.delete_all") }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+            @if (can('h') && !data_lengkap())
+                <a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '{{ ci_route('penduduk.delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'
+                    ></i> Hapus Data Terpilih</a>
             @endif
             <div class="btn-group-vertical">
                 <a class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
                 <ul class="dropdown-menu" role="menu">
                     <li>
-                        <a id="cetak_id" href="{{ ci_route("penduduk.ajax_cetak.cetak") }}" class="btn btn-social btn-block btn-sm" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print"></i> Cetak</a>
+                        <a
+                            id="cetak_id"
+                            href="{{ ci_route('penduduk.ajax_cetak.cetak') }}"
+                            class="btn btn-social btn-block btn-sm"
+                            title="Cetak Data"
+                            data-remote="false"
+                            data-toggle="modal"
+                            data-target="#modalBox"
+                            data-title="Cetak Data"
+                        ><i class="fa fa-print"></i> Cetak</a>
                     </li>
                     <li>
-                        <a id="unduh_id" href="{{ ci_route("penduduk.ajax_cetak.unduh") }}" class="btn btn-social btn-block btn-sm" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
+                        <a
+                            id="unduh_id"
+                            href="{{ ci_route('penduduk.ajax_cetak.unduh') }}"
+                            class="btn btn-social btn-block btn-sm"
+                            title="Unduh Data"
+                            data-remote="false"
+                            data-toggle="modal"
+                            data-target="#modalBox"
+                            data-title="Unduh Data"
+                        ><i class="fa fa-download"></i> Unduh</a>
                     </li>
                     <li>
-                        <a href="{{ ci_route('penduduk.ajax_adv_search') }}" class="btn btn-social btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
+                        <a
+                            href="{{ ci_route('penduduk.ajax_adv_search') }}"
+                            class="btn btn-social btn-block btn-sm"
+                            title="Pencarian Spesifik"
+                            data-remote="false"
+                            data-toggle="modal"
+                            data-target="#modalBox"
+                            data-title="Pencarian Spesifik"
+                        ><i class="fa fa-search"></i> Pencarian Spesifik</a>
                     </li>
                     <li>
-                        <a href="{{ ci_route('penduduk.program_bantuan')}}" class="btn btn-social btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                        <a
+                            href="{{ ci_route('penduduk.program_bantuan') }}"
+                            class="btn btn-social btn-block btn-sm"
+                            title="Pencarian Program Bantuan"
+                            data-remote="false"
+                            data-toggle="modal"
+                            data-target="#modalBox"
+                            data-title="Pencarian Program Bantuan"
+                        ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
                     </li>
                     <li>
-                        <a href="{{ ci_route('penduduk.search_kumpulan_nik') }}" class="btn btn-social btn-block btn-sm" title="Pilihan Kumpulan NIK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan NIK"><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
+                        <a
+                            href="{{ ci_route('penduduk.search_kumpulan_nik') }}"
+                            class="btn btn-social btn-block btn-sm"
+                            title="Pilihan Kumpulan NIK"
+                            data-remote="false"
+                            data-toggle="modal"
+                            data-target="#modalBox"
+                            data-title="Pilihan Kumpulan NIK"
+                        ><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
                     </li>
                     <li>
-                        <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK Sementara</a>
+                        <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK
+                            Sementara</a>
                     </li>
                 </ul>
             </div>
             <div class="btn-group-vertical">
                 <a class="btn btn-social bg-navy btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Impor / Ekspor</a>
                 <ul class="dropdown-menu" role="menu">
-                    @if (! config_item('demo_mode') && auth()->id_grup == $akses && ! data_lengkap())
+                    @if (!config_item('demo_mode') && auth()->id_grup == $akses && !data_lengkap())
                         <li>
                             <a href="{{ ci_route('penduduk.impor') }}" class="btn btn-social btn-block btn-sm" title="Impor Penduduk"><i class="fa fa-upload"></i> Impor Penduduk</a>
                         </li>
-                        @if (! setting('multi_desa'))
+                        @if (!setting('multi_desa'))
                             <li>
                                 <a href="{{ ci_route('penduduk.impor_bip') }}" class="btn btn-social btn-block btn-sm" title="Impor BIP"><i class="fa fa-upload"></i> Impor BIP</a>
                             </li>
@@ -74,7 +119,7 @@
                         <a href="{{ ci_route('penduduk.ekspor.1') }}" target="_blank" class="btn btn-social btn-block btn-sm btn-ekspor" title="Ekspor Penduduk Berupa Isian Lengkap (Huruf)"><i class="fa fa-download"></i> Ekspor Penduduk Huruf</a>
                     </li>
                 </ul>
-            </div>            
+            </div>
         </div>
         <div class="box-body">
             <div class="row mepet">
@@ -86,8 +131,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-2">                
-                    <select class="form-control input-sm  select2" id="status_dasar" >
+                <div class="col-sm-2">
+                    <select class="form-control input-sm  select2" id="status_dasar">
                         <option value="">Status Dasar</option>
                         @foreach ($list_status_dasar as $key => $item)
                             <option value="{{ $key }}" @selected($defaultStatusDasar == $key)>{{ set_ucwords($item) }}</option>
@@ -98,11 +143,11 @@
                     <select class="form-control input-sm select2" id="jenis_kelamin">
                         <option value="">Jenis Kelamin</option>
                         @foreach ($list_jenis_kelamin as $key => $item)
-                        <option value="{{ $key }}">{{ set_ucwords($item) }}</option>
+                            <option value="{{ $key }}">{{ set_ucwords($item) }}</option>
                         @endforeach
                     </select>
-                </div>                
-                @include('admin.layouts.components.wilayah')                
+                </div>
+                @include('admin.layouts.components.wilayah')
             </div>
             <hr>
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
@@ -123,7 +168,7 @@
                             <th nowrap>NO. KK</th>
                             <th nowrap>NAMA AYAH</th>
                             <th nowrap>NAMA IBU</th>
-                            <th nowrap>NO. RUMAH TANGGA</th>                            
+                            <th nowrap>NO. RUMAH TANGGA</th>
                             <th nowrap>ALAMAT</th>
                             <th nowrap>{{ strtoupper(setting('sebutan_dusun')) }}</th>
                             <th nowrap>RW</th>
@@ -151,7 +196,8 @@
         .select2-results__option[aria-disabled=true] {
             display: none;
         }
-        .row.mepet>div{
+
+        .row.mepet>div {
             margin-right: -25px;
         }
     </style>
@@ -159,7 +205,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            let filterColumn = {!! json_encode($filterColumn) !!}            
+            let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -177,7 +223,7 @@
                         req.nik_sementara = $('#tabeldata').data('nik_sementara')
                         req.bantuan = $('#tabeldata').data('bantuan')
                         req.advancesearch = $('#tabeldata').data('advancesearch')
-                        req.statistikfilter = $('#tabeldata').data('statistikfilter')                        
+                        req.statistikfilter = $('#tabeldata').data('statistikfilter')
                     }
                 },
                 columns: [{
@@ -251,14 +297,14 @@
                         defaultContent: '',
                         searchable: false,
                         orderable: false
-                    },    
+                    },
                     {
                         data: 'rtm.no_kk',
                         name: 'rtm.no_kk',
                         searchable: false,
                         orderable: false,
                         defaultContent: ''
-                    },                                    
+                    },
                     {
                         data: 'alamat_sekarang',
                         name: 'alamat_sekarang',
@@ -300,7 +346,7 @@
                         searchable: false,
                         orderable: true,
                         defaultContent: '-',
-                    },                    
+                    },
                     {
                         data: 'pekerjaan.nama',
                         name: 'pekerjaan.nama',
@@ -358,9 +404,9 @@
                 }
             }
 
-            $('.btn-ekspor').click(function(){
+            $('.btn-ekspor').click(function() {
                 let _href = $(this).attr('href')
-                let _newHref = _href+'?params='+JSON.stringify($('#tabeldata').DataTable().ajax.params())
+                let _newHref = _href + '?params=' + JSON.stringify($('#tabeldata').DataTable().ajax.params())
                 location.href = _newHref
             })
         });
