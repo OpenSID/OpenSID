@@ -88,7 +88,7 @@ class Laporan extends Admin_Controller
 
         $tanggal_lengkap = $this->logpenduduk::min('tgl_lapor');
 
-        if (!$this->setting->tgl_data_lengkap_aktif) {
+        if (! $this->setting->tgl_data_lengkap_aktif) {
             $data['data_lengkap'] = false;
             $this->render('laporan/bulanan', $data);
 

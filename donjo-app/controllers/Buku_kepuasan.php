@@ -35,9 +35,9 @@
  *
  */
 
-use Carbon\Carbon;
 use App\Models\BukuKepuasan;
 use App\Models\BukuPertanyaan;
+use Carbon\Carbon;
 
 class Buku_kepuasan extends Anjungan_Controller
 {
@@ -82,7 +82,7 @@ class Buku_kepuasan extends Anjungan_Controller
         BukuKepuasan::where('id_pertanyaan', $id)->first() ?? show_404();
 
         return view('admin.buku_tamu.kepuasan.show', [
-            'id_pertanyaan' => $id
+            'id_pertanyaan' => $id,
         ]);
     }
 

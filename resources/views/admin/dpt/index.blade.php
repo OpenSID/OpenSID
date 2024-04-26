@@ -106,15 +106,11 @@
 @endsection
 @include('admin.dpt.modal_search_form')
 @push('css')
-<style>
-    .select2-results__option[aria-disabled=true] {
-        display: none;
-    }
-
-    .row.mepet>div {
-        margin-right: -25px;
-    }
-</style>
+    <style>
+        .select2-results__option[aria-disabled=true] {
+            display: none;
+        }
+    </style>
 @endpush
 @push('scripts')
     <script>
