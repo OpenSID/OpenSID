@@ -231,12 +231,14 @@
                     {
                         data: 'kepala_keluarga.nama',
                         name: 'kepalaKeluarga.nama',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kepala_keluarga.nik',
                         name: 'kepalaKeluarga.nik',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: false
                     },
