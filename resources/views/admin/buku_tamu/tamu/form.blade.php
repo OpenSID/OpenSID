@@ -62,7 +62,7 @@
                             @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
                                 <option value="{{ $key }}" @selected($key == $buku_tamu->jenis_kelamin)>{{ $value }}
                                 </option>
-                            @endforeach; ?>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -70,28 +70,28 @@
 
             <div class="form-group">
                 <label>Alamat</label>
-                <textarea name="pertanyaan" class="form-control input-sm required" placeholder="Isi Alamat" rows="5">{{ $buku_tamu->alamat }}</textarea>
+                <textarea name="alamat" class="form-control input-sm required" placeholder="Isi Alamat" rows="5">{{ $buku_tamu->alamat }}</textarea>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Bertemu</label>
-                        <select class="form-control select2" name="bidang">
+                        <select class="form-control select2 required" name="id_bidang">
                             @foreach ($bertemu as $key => $value)
                                 <option value="{{ $key }}" @selected($key == $buku_tamu->bidang)>{{ $value }}
                                 </option>
-                            @endforeach; ?>
+                            @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Keperluan</label>
-                        <select class="form-control select2" name="keperluan">
+                        <select class="form-control select2 required" name="id_keperluan">
                             @foreach ($keperluan as $key => $value)
-                                <option value="{{ $value }}" @selected($key == $buku_tamu->keperluan)>{{ $value }}
+                                <option value="{{ $key }}" @selected($key == $buku_tamu->keperluan)>{{ $value }}
                                 </option>
-                            @endforeach; ?>
+                            @endforeach
                         </select>
                     </div>
                 </div>

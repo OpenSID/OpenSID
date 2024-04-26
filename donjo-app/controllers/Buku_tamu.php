@@ -79,7 +79,7 @@ class Buku_tamu extends Anjungan_Controller
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('buku_tamu.edit', $row->id) . '" class="btn bg-teal btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('buku_tamu.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
@@ -99,7 +99,7 @@ class Buku_tamu extends Anjungan_Controller
 
     public function edit($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data['action']      = 'Ubah';
         $data['form_action'] = ci_route('buku_tamu.update', $id);
@@ -112,7 +112,7 @@ class Buku_tamu extends Anjungan_Controller
 
     public function update($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $dataTamu = BukuTamu::findOrFail($id);
 
@@ -128,13 +128,13 @@ class Buku_tamu extends Anjungan_Controller
         $request = $this->input->post();
 
         return [
-            'nama'          => $request['nama'],
-            'telepon'       => $request['telepon'],
-            'instansi'      => $request['instansi'],
-            'jenis_kelamin' => (int) $request['jenis_kelamin'],
-            'alamat'        => $request['alamat'],
-            'bidang'        => $request['bidang'],
-            'keperluan'     => $request['keperluan'],
+            'nama'          => htmlentities($request['nama']),
+            'telepon'       => htmlentities($request['telepon']),
+            'instansi'      => htmlentities($request['instansi']),
+            'jenis_kelamin' => bilangan($request['jenis_kelamin']),
+            'alamat'        => htmlentities($request['alamat']),
+            'bidang'        => bilangan($request['id_bidang']),
+            'keperluan'     => bilangan($request['id_keperluan']),
         ];
     }
 
@@ -143,7 +143,6 @@ class Buku_tamu extends Anjungan_Controller
         isCan('h');
 
         if (BukuTamu::destroy($this->request['id_cb'] ?? $id) !== 0) {
-            // Hapus juga data indeks kepuasan
             BukuKepuasan::whereIdNama($this->request['id_cb'] ?? $id)->delete();
             redirect_with('success', 'Berhasil Hapus Data');
         }
