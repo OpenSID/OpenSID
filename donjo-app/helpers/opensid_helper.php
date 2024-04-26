@@ -1570,7 +1570,7 @@ function kasus_lain($kategori = null, $str = null)
 if (! function_exists('updateConfigFile')) {
     function updateConfigFile(string $key, string $value): void
     {
-        log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
+        // log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
 
         if ($key === 'password') {
             $file    = LOKASI_CONFIG_DESA . 'database.php';
