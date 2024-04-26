@@ -422,7 +422,7 @@ Route::group('statistik', static function (): void {
     Route::post('/dusun/{lap?}', 'Statistik@dusun')->name('statistik.dusun');
     Route::post('/rw/{lap?}', 'Statistik@rw')->name('statistik.rw');
     Route::post('/rt/{lap?}', 'Statistik@rt')->name('statistik.rt');
-    Route::get('/filter/{key}', 'Statistik@filter')->name('statistik.filter');
+    Route::match(['GET', 'POST'], '/filter/{key}', 'Statistik@filter')->name('statistik.filter');
     Route::get('/load_chart_gis/{lap?}', 'Statistik@load_chart_gis')->name('statistik.load_chart_gis');
     Route::get('/chart_gis_desa/{lap?}/{desa?}', 'Statistik@chart_gis_desa')->name('statistik.chart_gis_desa');
     Route::get('/chart_gis_dusun/{lap?}/{dusun?}', 'Statistik@chart_gis_dusun')->name('statistik.chart_gis_dusun');
