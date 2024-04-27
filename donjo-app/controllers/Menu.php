@@ -44,6 +44,7 @@ use App\Models\Suplemen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO:: Ganti cara hapus cache yang gunakan prefix dimudol menu
 class Menu extends Admin_Controller
 {
     public $modul_ini     = 'admin-web';
@@ -72,10 +73,11 @@ class Menu extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $parent    = (int) ($this->input->get('parent') ?? 0);
             $status    = $this->input->get('status') ?? null;
+            $status    = $status === '2' ? '0' : $status; // TODO:: Seragamkan untuk status, hanya gunakan 0 dan 1
             $canDelete = can('h');
             $canUpdate = can('u');
 
-            return datatables()->of(MenuModel::child($parent)->with(['parent'])->orderBy('urut', 'asc')->when($status, static fn ($q) => $q->where('enabled', $status)))
+            return datatables()->of(MenuModel::child($parent)->with(['parent'])->orderBy('urut', 'asc')->when(in_array($status, ['0', '1']), static fn ($q) => $q->where('enabled', $status)))
                 ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
@@ -164,7 +166,7 @@ class Menu extends Admin_Controller
         try {
             $obj = MenuModel::findOrFail($id);
             $obj->update($data);
-            // cache()->flush();
+            cache()->flush();
             redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -182,7 +184,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::destroy($this->request['id_cb'] ?? $id);
-            // cache()->flush();
+            cache()->flush();
             redirect_with('success', 'Menu berhasil dihapus', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -196,7 +198,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::gantiStatus($id, 'enabled');
-            // cache()->flush();
+            cache()->flush();
             redirect_with('success', 'Berhasil ubah status', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -208,7 +210,7 @@ class Menu extends Admin_Controller
     {
         $menu = $this->input->post('data');
         MenuModel::setNewOrder($menu);
-        // cache()->flush();
+        cache()->flush();
 
         return json(['status' => 1]);
     }
