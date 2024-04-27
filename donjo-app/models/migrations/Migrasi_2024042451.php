@@ -46,7 +46,7 @@ class Migrasi_2024042451 extends MY_model
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->migrasi_2023120558($hasil);
+        $hasil = $hasil && $this->migrasi_2024042351($hasil);
 
         return $hasil && $this->migrasi_2024041951($hasil);
     }
@@ -67,9 +67,9 @@ class Migrasi_2024042451 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2023120558($hasil)
+    protected function migrasi_2024042351($hasil)
     {
-        if (Schema::hasColumn('kelompok', 'kode')) {
+        if ($this->cek_indeks('kelompok', 'kode_config')) {
             Schema::table('kelompok', static function ($table) {
                 $table->dropUnique('kode_config');
                 $table->unique(['config_id', 'kode', 'tipe'], 'config_kode_tipe');

@@ -1643,6 +1643,18 @@ if (! function_exists('super_admin')) {
     }
 }
 
+if (! function_exists('is_super_admin')) {
+    /**
+     * - Fungsi untuk mengecek apakah user adalah super admin.
+     *
+     * @return bool
+     */
+    function is_super_admin()
+    {
+        return (int) auth()->id === (int) super_admin();
+    }
+}
+
 if (! function_exists('ref')) {
     /**
      * - Fungsi untuk mengambil data tabel refrensi.

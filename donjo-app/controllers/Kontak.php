@@ -39,10 +39,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\DaftarKontak;
 
+// TODO:: Hapus bagian ini karena tidak digunakan, menggunakan controller DaftarKontak
 class Kontak extends Admin_Controller
 {
     public $modul_ini           = 'hubung-warga';
-    public $sub_modul_ini       = 40;
+    public $sub_modul_ini       = 'daftar-kontak';
     public $kategori_pengaturan = 'hubung warga';
 
     public function __construct()

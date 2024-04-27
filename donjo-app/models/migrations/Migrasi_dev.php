@@ -86,6 +86,16 @@ class Migrasi_dev extends MY_model
         $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
         $penduduk_luar->update(['value' => json_encode($value)]);
 
+        $hasil = $hasil && $this->migrasi_2024042751($hasil);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024042751($hasil)
+    {
+        log_message('notice', 'Migrasi data 2024042751');
+        DB::table('menu')->where('enabled', 2)->update(['enabled' => 0]);
+
         return $hasil;
     }
 

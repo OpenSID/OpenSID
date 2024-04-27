@@ -139,6 +139,8 @@
                 },
             });
 
+            $('#status').select2().val(1).trigger('change');
+
             $('#status').change(function() {
                 TableData.draw();
             })
