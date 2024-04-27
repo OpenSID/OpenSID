@@ -41,6 +41,8 @@ use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO:: Ganti cara hapus cache yang gunakan prefix dimodul menu ("{$grupId}_admin_menu")
+
 class Modul extends Admin_Controller
 {
     public $modul_ini     = 'pengaturan';
@@ -133,7 +135,7 @@ class Modul extends Admin_Controller
             ModulModel::where(['id' => $id])->update($data);
             // update juga children
             $obj->children()->update(['aktif' => $data['aktif']]);
-            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+            cache()->flush();
             redirect_with('success', 'Modul berhasil disimpan', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -149,7 +151,7 @@ class Modul extends Admin_Controller
 
         try {
             ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::LOCK]);
-            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+            cache()->flush();
             redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -165,7 +167,7 @@ class Modul extends Admin_Controller
 
         try {
             ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::UNLOCK]);
-            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+            cache()->flush();
             redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
