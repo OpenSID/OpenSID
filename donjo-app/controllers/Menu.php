@@ -73,7 +73,6 @@ class Menu extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $parent    = (int) ($this->input->get('parent') ?? 0);
             $status    = $this->input->get('status') ?? null;
-            $status    = $status === '2' ? '0' : $status; // TODO:: Seragamkan untuk status, hanya gunakan 0 dan 1
             $canDelete = can('h');
             $canUpdate = can('u');
 
