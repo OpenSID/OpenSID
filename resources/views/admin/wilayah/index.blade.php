@@ -99,6 +99,8 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var level = "{{ $level }}";
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -215,6 +217,13 @@
                     }
                 }
             });
+
+            if (level !== 'dusun') {
+                if (level !== 'rw') {
+                    TableData.column(7).visible(false);
+                }
+                TableData.column(6).visible(false);
+            }
 
             if (hapus == 0) {
                 TableData.column(1).visible(false);
