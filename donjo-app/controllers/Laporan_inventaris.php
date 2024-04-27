@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Laporan_inventaris extends Admin_Controller
 {
     public $modul_ini           = 'sekretariat';
-    public $sub_modul_ini       = 61;
+    public $sub_modul_ini       = 'inventaris';
     private array $list_session = ['tahun'];
 
     public function __construct()
