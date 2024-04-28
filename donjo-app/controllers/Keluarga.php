@@ -76,8 +76,9 @@ class Keluarga extends Admin_Controller
     public $sub_modul_ini       = 'keluarga';
     public $kategori_pengaturan = 'data_lengkap';
     private $judulStatistik;
-    private $filterColumn  = [];
-    private $defaultStatus = StatusDasarKKEnum::AKTIF;
+    private $filterColumn    = [];
+    private $defaultStatus   = StatusDasarKKEnum::AKTIF;
+    private $statistikFilter = [];
 
     public function __construct()
     {
@@ -93,6 +94,7 @@ class Keluarga extends Admin_Controller
             'wilayah'         => Wilayah::treeAccess(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
+            'statistikFilter' => $this->statistikFilter,
             'defaultStatus'   => $this->defaultStatus,
         ];
 
@@ -102,9 +104,8 @@ class Keluarga extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $canDelete   = can('h');
-            $canUpdate   = can('u');
-            $dataLengkap = data_lengkap();
+            $canDelete = can('h');
+            $canUpdate = can('u');
 
             return datatables()->of($this->sumberData())
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
@@ -170,15 +171,27 @@ class Keluarga extends Admin_Controller
 
     private function sumberData()
     {
-        $status      = $this->input->get('status') ?? null;
-        $sex         = $this->input->get('jenis_kelamin') ?? null;
-        $dusun       = $this->input->get('dusun') ?? null;
-        $rw          = $this->input->get('rw') ?? null;
-        $rt          = $this->input->get('rt') ?? null;
-        $kumpulanKK  = $this->input->get('kumpulanKK');
-        $bantuan     = $this->input->get('bantuan');
-        $kelasSosial = $this->input->get('kelas_sosial') ?? null;
+        $status          = $this->input->get('status') ?? null;
+        $sex             = $this->input->get('jenis_kelamin') ?? null;
+        $dusun           = $this->input->get('dusun') ?? null;
+        $rw              = $this->input->get('rw') ?? null;
+        $rt              = $this->input->get('rt') ?? null;
+        $kumpulanKK      = $this->input->get('kumpulanKK');
+        $bantuan         = $this->input->get('bantuan');
+        $kelasSosial     = $this->input->get('kelas_sosial') ?? null;
+        $statistikFilter = $this->input->get('statistikfilter') ?? null;
 
+        if ($statistikFilter) {
+            switch ($statistikFilter['tipe']) {
+                case 'kelas_sosial':
+                    $kelasSosial = $statistikFilter['value'];
+                    break;
+
+                case 'bantuan_keluarga':
+                    $bantuan = $statistikFilter['value'];
+                    break;
+            }
+        }
         $idCluster = $rt ? [$rt] : [];
 
         if (empty($idCluster) && ! empty($rw)) {
@@ -208,10 +221,36 @@ class Keluarga extends Admin_Controller
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
             ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
             ->when($kumpulanKK, static fn ($q) => $q->whereIn('no_kk', $kumpulanKK))
-            ->when(in_array($kelasSosial, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $kelasSosial == BELUM_MENGISI ? $q->whereNull('kelas_sosial') : $q->whereNotNull('kelas_sosial'))
-            ->when($kelasSosial && ! in_array($kelasSosial, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $kelasSosial != TOTAL ? $q->where('kelas_sosial', $kelasSosial) : $q)
-            ->when($bantuan, static fn ($q) => $q->whereHas('bantuan', static fn ($r) => $r->where('program_id', $bantuan)))
-            ->orderBy(DB::raw("CASE
+            ->when($kelasSosial, static function ($q) use ($kelasSosial) {
+                switch($kelasSosial) {
+                    case JUMLAH:
+                        return $q->whereNotNull('kelas_sosial');
+
+                    case BELUM_MENGISI:
+                        return $q->whereNull('kelas_sosial');
+
+                    case TOTAL:
+                        return $q;
+
+                    default:
+                        return $q->where('kelas_sosial', $kelasSosial);
+                }
+            })
+            ->when($bantuan, static function ($q) use ($bantuan) {
+                switch($bantuan) {
+                    case JUMLAH:
+                        return $q->whereHas('bantuan');
+
+                    case BELUM_MENGISI:
+                        return $q->whereDoesntHave('bantuan');
+
+                    case TOTAL:
+                        return $q;
+
+                    default:
+                        return $q->whereHas('bantuan', static fn ($r) => $r->where('program_id', $bantuan));
+                }
+            })->orderBy(DB::raw("CASE
                 WHEN CHAR_LENGTH(no_kk) < 16 THEN 1
                 WHEN no_kk LIKE '0%' AND CHAR_LENGTH(no_kk) = 16 THEN 2
                 ELSE 3
@@ -575,7 +614,6 @@ class Keluarga extends Admin_Controller
 
             case $tipe == 'bantuan_keluarga':
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
-                    // $this->session->status_dasar = null;
                     $this->defaultStatus = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $kategori = 'PENERIMA BANTUAN (KELUARGA) : ';
@@ -583,12 +621,9 @@ class Keluarga extends Admin_Controller
 
             case $tipe > 50:
                 $program_id = preg_replace('/^50/', '', $tipe);
-
-                // TODO: Sederhanakan query ini, pindahkan ke model
-                $nama = Bantuan::find($program_id)->nama ?? '-';
+                $nama       = Bantuan::find($program_id)->nama ?? '-';
 
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
-                    // $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $this->defaultStatus = null;
                     $nomor               = $program_id;
                 }
@@ -600,7 +635,8 @@ class Keluarga extends Admin_Controller
         if ($judul['nama']) {
             $this->judulStatistik = $kategori . $judul['nama'];
         }
-        $this->filterColumn = ['sex' => $sex, 'status' => $nomor];
+        $this->filterColumn    = ['sex' => $sex];
+        $this->statistikFilter = ['sex' => $sex, 'value' => $nomor, 'tipe' => $tipe];
         $this->index();
     }
 
