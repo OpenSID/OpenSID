@@ -1,10 +1,18 @@
 <form id="mainform" name="mainform" method="post" class="">
     <div class="box box-info">
         <div class="box-header with-border">
-            <div class="row">
+            <a href="{{ route('bumindes_inventaris_kekayaan.cetak', ['aksi' => 'cetak']) }}" target="_blank" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Inventaris">
+                <i class="fa fa-print"></i>Cetak
+            </a>
+            <a href="{{ route('bumindes_inventaris_kekayaan.cetak', ['aksi' => 'unduh']) }}" target="_blank" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
+                <i class="fa fa-download"></i>Unduh
+            </a>
+        </div>
+        <div class="box-body">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="tahun" name="tahun">
-                        <option value="{{ date('Y') }}" selected>Semua Tahun</option>
+                        <option value="{{ date('Y') }}" selected>Pilih Tahun</option>
                         @if ($min_tahun)
                             @for ($i = date('Y'); $i >= $min_tahun; $i--)
                                 <option value="{{ $i }}">{{ $i }}</option>
@@ -12,16 +20,8 @@
                         @endif
                     </select>
                 </div>
-                <div class="col-sm-10">
-                    <a href="{{ route('bumindes_inventaris_kekayaan.cetak', ['aksi' => 'cetak']) }}" target="_blank" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Inventaris">
-                        <i class="fa fa-print"></i>Cetak
-                    </a>
-                    <a href="{{ route('bumindes_inventaris_kekayaan.cetak', ['aksi' => 'unduh']) }}" target="_blank" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
-                        <i class="fa fa-download"></i>Unduh
-                    </a>
-                </div>
             </div>
-            <hr>
+            <hr class="batas">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">

@@ -36,7 +36,7 @@
                     @endif
                 </div>
                 <div class="box-body">
-                    <div class="row">
+                    <div class="row mepet">
                         <div class="col-sm-2">
                             <select id="status" class="form-control input-sm select2">
                                 <option value="">Pilih Status</option>
@@ -45,7 +45,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <select id="line" class="form-control input-sm select2">
                                 <option value="">Pilih Jenis</option>
                                 @foreach ($line as $item)
@@ -54,7 +54,7 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <select id="subline" class="form-control input-sm select2">
                                 <option value="">Pilih Kategori</option>
                                 @foreach ($line as $item)
@@ -68,7 +68,7 @@
                         </div>
 
                     </div>
-                    <hr>
+                    <hr class="batas">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover" id="tabeldata">

@@ -44,75 +44,73 @@
         @endif
     </div>
     <div class="box-body">
-        <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-            <form id="mainform" name="mainform" method="post">
-                <input name="kategori" id="kategori" type="hidden" value="{{ $kat }}">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <select class="form-control input-sm select2" name="filter" id="filter">
-                            <option value="">Status</option>
-                            <option value="1">Berlaku</option>
-                            <option value="2">Dicabut/Tidak Berlaku</option>
-                        </select>
-                    </div>
-                    @if ($kat == 3)
-                        <div class="col-sm-2">
-                            <select class="form-control input-sm select2" name="jenis_peraturan" id="jenis_peraturan">
-                                <option value="">Jenis Peraturan</option>
-                                @foreach ($jenis_peraturan as $jenis)
-                                    <option value="{{ $jenis }}">
-                                        {{ $jenis }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-                    <div class="col-sm-2">
-                        <select class="form-control input-sm select2 " name="tahun" id="tahun">
-                            <option value="">Tahun</option>
-                            @foreach ($list_tahun as $thn)
-                                <option value="{{ $thn['tahun'] }}" @selected($tahun == $thn['tahun'])>
-                                    {{ $thn['tahun'] }}
+        <form id="mainform" name="mainform" method="post">
+            <input name="kategori" id="kategori" type="hidden" value="{{ $kat }}">
+            <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2" name="filter" id="filter">
+                        <option value="">Pilih Status</option>
+                        <option value="1">Berlaku</option>
+                        <option value="2">Dicabut/Tidak Berlaku</option>
+                    </select>
+                </div>
+                @if ($kat == 3)
+                    <div class="col-sm-3">
+                        <select class="form-control input-sm select2" name="jenis_peraturan" id="jenis_peraturan">
+                            <option value="">Pilih Jenis Peraturan</option>
+                            @foreach ($jenis_peraturan as $jenis)
+                                <option value="{{ $jenis }}">
+                                    {{ $jenis }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
+                @endif
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2 " name="tahun" id="tahun">
+                        <option value="">Pilih Tahun</option>
+                        @foreach ($list_tahun as $thn)
+                            <option value="{{ $thn['tahun'] }}" @selected($tahun == $thn['tahun'])>
+                                {{ $thn['tahun'] }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="tabeldata">
-                                <thead class="bg-gray color-palette">
-                                    <tr>
-                                        <th><input type="checkbox" id="checkall" /></th>
-                                        <th>No</th>
-                                        <th>Aksi</th>
-                                        <th>Judul</th>
-                                        @if ($kat == 1)
-                                            <th>Kategori Info Publik</th>
-                                            <th>Tahun</th>
-                                        @elseif ($kat == 2)
-                                            <th nowrap>No./Tgl Keputusan</th>
-                                            <th nowrap>Uraian Singkat</th>
-                                        @elseif ($kat == 3)
-                                            <th>Jenis Peraturan</th>
-                                            <th>No./Tgl Ditetapkan</th>
-                                            <th>Uraian Singkat</th>
-                                        @endif
-                                        <th nowrap>Aktif <i class='fa fa-sort fa-sm'></i></th>
-                                        <th nowrap>Dimuat Pada <i class='fa fa-sort fa-sm'></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+            </div>
+            <hr class="batas">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tabeldata">
+                            <thead class="bg-gray color-palette">
+                                <tr>
+                                    <th><input type="checkbox" id="checkall" /></th>
+                                    <th>No</th>
+                                    <th>Aksi</th>
+                                    <th>Judul</th>
+                                    @if ($kat == 1)
+                                        <th>Kategori Info Publik</th>
+                                        <th>Tahun</th>
+                                    @elseif ($kat == 2)
+                                        <th nowrap>No./Tgl Keputusan</th>
+                                        <th nowrap>Uraian Singkat</th>
+                                    @elseif ($kat == 3)
+                                        <th>Jenis Peraturan</th>
+                                        <th>No./Tgl Ditetapkan</th>
+                                        <th>Uraian Singkat</th>
+                                    @endif
+                                    <th nowrap>Aktif <i class='fa fa-sort fa-sm'></i></th>
+                                    <th nowrap>Dimuat Pada <i class='fa fa-sort fa-sm'></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                </tbody>
-                            </table>
-                        </div>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 @push('scripts')

@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="box-header">
+        <div class="box-header" style="border-bottom: 1px solid #f4f4f4;">
             <h4 class="text-center"><strong>DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN <span id="info-tgl-pemilihan">{{ $tanggal_pemilihan }}</span></strong></h4>
         </div>
         <div class="box-body">
@@ -79,7 +79,7 @@
                 </div>
                 @include('admin.layouts.components.wilayah')
             </div>
-            <hr>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>

@@ -33,7 +33,7 @@
                         <div class="col-sm-12">
                             <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                 <form id="mainform" name="mainform" method="post">
-                                    <div class="row">
+                                    <div class="row mepet">
                                         <div class="col-sm-2">
                                             <select name="status" id="status" class="form-control input-sm select2">
                                                 <option value="">Semua</option>
@@ -42,7 +42,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <hr class="batas">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="table-responsive">

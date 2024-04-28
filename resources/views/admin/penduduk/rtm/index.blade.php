@@ -92,7 +92,7 @@
                 </div>
                 @include('admin.layouts.components.wilayah')
             </div>
-            <hr>
+            <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             @if ($judul_statistik)
                 <h5 class="box-title text-center"><b>{{ $judul_statistik }}</b></h5>

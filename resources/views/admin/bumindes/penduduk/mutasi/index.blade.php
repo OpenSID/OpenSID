@@ -23,7 +23,7 @@
             ><i class="fa fa-download"></i> Unduh</a>
         </div>
         <div class="box-body">
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select id="tahun" class="form-control input-sm select2">
                         <option value="">Pilih Tahun</option>
@@ -41,7 +41,7 @@
                     </select>
                 </div>
             </div>
-            <hr>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
                     <thead class="bg-gray color-palette">
@@ -69,7 +69,7 @@
                 </table>
             </div>
             @if ($hapus > 0)
-                <hr>
+                <hr class="batas">
                 <div class="box-header with-border">
                     <div class="form-group">
                         <label class="col-sm-12 control-label">

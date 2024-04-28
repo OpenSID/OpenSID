@@ -55,19 +55,18 @@
             @endif
         </div>
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
-        <div class="box-header with-border form-inline">
-            <div class="row">
+        <div class="box-body">
+            <div class="row mepet">
                 <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="jenis" name="jenis">
-                        <option value="">Semua Surat</option>
+                        <option value="">Pilih Surat</option>
                         @foreach ($jenisSurat as $key => $value)
                             <option value="{{ $key }}">{{ SebutanDesa($value) }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="box-body">
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
                     <thead class="bg-gray">

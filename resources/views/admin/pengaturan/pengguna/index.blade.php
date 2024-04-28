@@ -34,7 +34,7 @@
                 </div>
                 @endif
                 <div class="box-body">
-                    <div class="row">
+                    <div class="row mepet">
                         <div class="col-sm-2">
                             <select id="status" class="form-control input-sm select2" name="status">
                                 <option value="">Semua</option>
@@ -43,7 +43,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <select id="group" class="form-control input-sm select2" name="group">
                                 <option value="">Semua</option>
                                 @foreach ($user_group as $id => $item)
@@ -52,7 +52,7 @@
                             </select>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="batas">
                     {!! form_open(null, 'id="mainform" name="mainform"') !!}
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">

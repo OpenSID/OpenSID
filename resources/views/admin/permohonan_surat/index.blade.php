@@ -16,19 +16,18 @@
     @include('admin.layouts.components.notifikasi')
     <div class="box box-info">
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
-        <div class="box-header with-border form-inline">
-            <div class="row">
-                <div class="col-sm-2">
+        <div class="box-body">
+            <div class="row mepet">
+                <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="status" name="status">
-                        <option value="">Semua Status</option>
+                        <option value="">Pilih Status</option>
                         @foreach ($list_status_permohonan as $id => $value)
                             <option value="{{ $id }}">{{ $value }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="box-body">
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>

@@ -843,3 +843,8 @@ div.form-surat .content-header {
         margin-right: -25px;
     }
 }
+
+hr.batas {
+    border-top: 1px solid #f4f4f4;
+    margin: 10px -10px;
+}

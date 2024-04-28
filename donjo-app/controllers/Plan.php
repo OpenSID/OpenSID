@@ -60,7 +60,7 @@ class Plan extends Admin_Controller
     public function index($parent = 0): void
     {
         $data           = ['tip' => $this->tip, 'parent' => $parent];
-        $data['status'] = [Point::LOCK => 'Aktif', Point::UNLOCK => 'Non Aktif'];
+        $data['status'] = [Point::LOCK => 'Aktif', Point::UNLOCK => 'Tidak Aktif'];
         $data['point']  = Point::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.lokasi.index', $data);
