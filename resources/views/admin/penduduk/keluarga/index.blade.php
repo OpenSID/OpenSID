@@ -142,7 +142,7 @@
                 <h5 id="judul-statistik" class="box-title text-center"><b>{{ $judul_statistik }}</b></h5>
             @endif
             <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="tabeldata">
+                <table class="table table-bordered table-hover" id="tabeldata" data-statistikfilter='{!! json_encode($statistikFilter) !!}'>
                     <thead>
                         <tr>
                             <th nowrap><input type="checkbox" id="checkall"></th>
@@ -195,10 +195,8 @@
                         req.rw = $('#rw').val();
                         req.rt = $('#rt').val();
                         req.kumpulanKK = $('#tabeldata').data('kumpulanKK')
-                        req.bantuan = $('#tabeldata').data('bantuan')
-                        if (filterColumn['status']) {
-                            req.kelas_sosial = filterColumn['status'];
-                        }
+                        req.bantuan = $('#tabeldata').data('bantuan')    
+                        req.statistikfilter = $('#tabeldata').data('statistikfilter')                    
                     }
                 },
                 columns: [{
