@@ -302,8 +302,8 @@
                         defaultContent: ''
                     },
                     {
-                        data: 'alamat_sekarang',
-                        name: 'alamat_sekarang',
+                        data: 'alamat_wilayah',
+                        name: 'alamat_wilayah',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',
