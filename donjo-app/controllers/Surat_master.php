@@ -609,9 +609,6 @@ class Surat_master extends Admin_Controller
                     $font_surat->save();
 
                     rename($this->upload->data('full_path'), LOKASI_FONT_DESA . "{$font}.ttf");
-
-                    // copy fonts di vendor ke folder desa
-                    (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
                 }
             } else {
                 redirect_with('error', $this->upload->display_errors());
