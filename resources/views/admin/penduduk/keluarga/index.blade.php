@@ -195,8 +195,8 @@
                         req.rw = $('#rw').val();
                         req.rt = $('#rt').val();
                         req.kumpulanKK = $('#tabeldata').data('kumpulanKK')
-                        req.bantuan = $('#tabeldata').data('bantuan')    
-                        req.statistikfilter = $('#tabeldata').data('statistikfilter')                    
+                        req.bantuan = $('#tabeldata').data('bantuan')
+                        req.statistikfilter = $('#tabeldata').data('statistikfilter')
                     }
                 },
                 columns: [{

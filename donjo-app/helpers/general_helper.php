@@ -96,7 +96,7 @@ if (! function_exists('can')) {
         $grupId   = auth()->id_grup;
         $slugGrup = UserGrup::find($grupId)->slug;
 
-        $data     = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
+        $data = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
             if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
@@ -104,7 +104,7 @@ if (! function_exists('can')) {
                     $grupAkses = Modul::when(! super_admin(), static function ($query) {
                             $query->isActive();
                         })->get();
-                    $rbac      = array_values($grup)[0];
+                    $rbac = array_values($grup)[0];
                 } else {
                     $grupAkses = Modul::whereIn('slug', array_keys($grup))->isActive()->get();
                 }
