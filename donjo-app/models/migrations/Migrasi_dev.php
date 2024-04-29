@@ -65,9 +65,7 @@ class Migrasi_dev extends MY_model
         //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
         // }
 
-        $hasil = $hasil && $this->migrasi_2024042751($hasil);
-
-        return $hasil;
+        return $hasil && $this->migrasi_2024042751($hasil);
     }
 
     protected function migrasi_2024042751($hasil)

@@ -173,7 +173,7 @@ class Modul extends BaseModel
                         $query->whereNotIn('slug', ['layanan-pelanggan', 'pendaftaran-kerjasama']);
                     })
                     ->isChild()->isShow()
-                    ->when(! $superAdmin, static function ($query) use ($superAdmin) {
+                    ->when(! $superAdmin, static function ($query) {
                         $query->isActive();
                     })
                     ->orderBy('urut');
@@ -185,7 +185,7 @@ class Modul extends BaseModel
                     });
                 })
             ->isParent()->isShow()
-            ->when(! $superAdmin, static function ($query) use ($superAdmin) {
+            ->when(! $superAdmin, static function ($query) {
                 $query->isActive();
             })
             ->orderBy('urut')
