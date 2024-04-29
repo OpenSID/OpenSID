@@ -81,9 +81,9 @@ class Pemilihan extends Admin_Controller
 
                     if (can('u')) {
                         if ($row->status) {
-                            $aksi .= '<a href="' . site_url("pemilihan/status/{$row->uuid}") . '" class="btn bg-olive btn-sm" title="Non Aktifkan"><i class="fa fa-star"></i></a> ';
+                            $aksi .= '<a href="' . site_url("pemilihan/status/{$row->uuid}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . site_url("pemilihan/status/{$row->uuid}") . '" class="btn bg-purple btn-sm" title="Aktifkan"><i class="fa fa-star-o"></i></a> ';
+                            $aksi .= '<a href="' . site_url("pemilihan/status/{$row->uuid}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         }
                     }
 
