@@ -11,7 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#7828](https://github.com/OpenSID/OpenSID/issues/7828) Penambahan pengaturan hak akses berdasarkan wilayah (dusun/rw/rt).
 6. [#7804](https://github.com/OpenSID/OpenSID/issues/7804) Penambahan kode isian operator artimatika perkalian dan pembagian.
 7. [#5125](https://github.com/OpenSID/OpenSID/issues/5125) Penambahan cetak/unduh rincian laporan bulanan.
-8. [#2229](https://github.com/OpenSID/OpenSID/issues/2229) Penambahan pengaturan sebutan anjungan mandiri.
+8. [#7885](https://github.com/OpenSID/OpenSID/issues/7885) Penambahan pengaturan sebutan anjungan mandiri.
 9. [#7830](https://github.com/OpenSID/OpenSID/issues/7830) Penambahan penerapan hak akses wilayah pada modul penduduk, keluarga, rumah tangga dan dpt.
 10. [#6332](https://github.com/OpenSID/OpenSID/issues/6332) Penambahan pengurutan cetak buku tamu.
 11. [#6334](https://github.com/OpenSID/OpenSID/issues/6334) Penambahan foto pada cetak buku tamu.
