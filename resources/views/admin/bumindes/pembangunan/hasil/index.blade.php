@@ -2,14 +2,24 @@
 
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="{{ ci_route('bumindes_hasil_pembangunan/dialog/cetak') }}"
+        <a
+            href="{{ ci_route('bumindes_hasil_pembangunan/dialog/cetak') }}"
             class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Buku Hasil Pembangunan" data-remote="false" data-toggle="modal" data-target="#modalBox"
-            data-title="Cetak Buku Hasil Pembangunan"><i class="fa fa-print "></i> Cetak</a>
-        <a href="{{ ci_route('bumindes_hasil_pembangunan/dialog/unduh') }}"
+            title="Cetak Buku Hasil Pembangunan"
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Cetak Buku Hasil Pembangunan"
+        ><i class="fa fa-print "></i> Cetak</a>
+        <a
+            href="{{ ci_route('bumindes_hasil_pembangunan/dialog/unduh') }}"
             class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Buku Hasil Pembangunan" data-remote="false" data-toggle="modal" data-target="#modalBox"
-            data-title="Unduh Buku Hasil Pembangunan"><i class="fa fa-download"></i> Unduh</a>
+            title="Unduh Buku Hasil Pembangunan"
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Unduh Buku Hasil Pembangunan"
+        ><i class="fa fa-download"></i> Unduh</a>
     </div>
     <div class="box-body">
         <div class="row mepet">
