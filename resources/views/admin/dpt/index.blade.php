@@ -71,7 +71,7 @@
             <div class="row mepet">
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" name="sex">
-                        <option value="">Jenis Kelamin</option>
+                        <option value="">Pilih Jenis Kelamin</option>
                         @foreach ($jenis_kelamin as $data)
                             <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
                         @endforeach

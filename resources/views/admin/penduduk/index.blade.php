@@ -125,7 +125,7 @@
             <div class="row mepet">
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="status_penduduk">
-                        <option value="">Status Penduduk</option>
+                        <option value="">Pilih Status Penduduk</option>
                         @foreach ($list_status_penduduk as $key => $item)
                             <option value="{{ $key }}">{{ $item }}</option>
                         @endforeach
@@ -133,7 +133,7 @@
                 </div>
                 <div class="col-sm-2">
                     <select class="form-control input-sm  select2" id="status_dasar">
-                        <option value="">Status Dasar</option>
+                        <option value="">Pilih Status Dasar</option>
                         @foreach ($list_status_dasar as $key => $item)
                             <option value="{{ $key }}" @selected($defaultStatusDasar == $key)>{{ set_ucwords($item) }}</option>
                         @endforeach
@@ -141,7 +141,7 @@
                 </div>
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="jenis_kelamin">
-                        <option value="">Jenis Kelamin</option>
+                        <option value="">Pilih Jenis Kelamin</option>
                         @foreach ($list_jenis_kelamin as $key => $item)
                             <option value="{{ $key }}">{{ set_ucwords($item) }}</option>
                         @endforeach
