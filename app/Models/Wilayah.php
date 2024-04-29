@@ -141,7 +141,7 @@ class Wilayah extends BaseModel
      */
     public function rws(): HasMany
     {
-        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rw', '!=', '-')->where('rt', '=', '-');
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '=', '-');
     }
 
     public function rwAll(): HasMany
@@ -151,7 +151,7 @@ class Wilayah extends BaseModel
 
     public function rts(): HasMany
     {
-        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '!=', '0');
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->whereNotIn('rt', ['0', '-']);
     }
 
     public function pendudukPria(): HasManyThrough
@@ -177,13 +177,13 @@ class Wilayah extends BaseModel
         $urut = 1;
 
         foreach ($all as $dusun) {
-            $dusun->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+            $dusun->update(['urut_cetak' => $urut++]);
 
             foreach ($dusun->rws as $rw) {
-                $rw->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+                $rw->update(['urut_cetak' => $urut++]);
 
                 foreach ($rw->rts as $rt) {
-                    $rt->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+                    $rt->update(['urut_cetak' => $urut++]);
                 }
             }
         }

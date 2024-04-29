@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#7873](https://github.com/OpenSID/OpenSID/issues/7873) Perbaikan unggah akta kematian pada modu peristiwa.
 14. [#7874](https://github.com/OpenSID/OpenSID/issues/7874) Perbaikan perhitungan statistik > rtm > bdt.
 15. [#7873](https://github.com/OpenSID/OpenSID/issues/7873) Perbaikan unggah file akta kematian pada modul peristiwa.
+16. [#7881](https://github.com/OpenSID/OpenSID/issues/7881) Perbaikan cetak dan urutkan wilayah tingkat RT.
 
 
 #### TEKNIS
