@@ -1,4 +1,4 @@
-Di rilis ini, versi 2404.1.0 berisi penambahan pengurutan kode isian surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2405.0.0 berisi penambahan pengurutan kode isian surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
 

@@ -37,14 +37,14 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2403_ke_2404 extends MY_Model
+class Migrasi_2405_ke_2406 extends MY_Model
 {
     public function up()
     {
         $hasil = true;
 
         // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2309', false);
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2311', false);
 
         status_sukses($hasil);
 
