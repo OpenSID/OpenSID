@@ -2,7 +2,8 @@ Di rilis ini, versi 2405.0.0 berisi penambahan pengurutan kode isian surat TinyM
 
 Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontribusi.
 
-#### Penambahan Fitur
+
+#### FITUR
 1. [#6884](https://github.com/OpenSID/OpenSID/issues/6884) Penambahan fitur pengurutan kode isian TinyMCE.
 2. [#6285](https://github.com/OpenSID/OpenSID/issues/6285) Penambahan kode isian foto penduduk untuk surat TinyMCE.
 3. [#7042](https://github.com/OpenSID/OpenSID/issues/7042) Penambahan pengaturan header surat TinyMCE untuk halaman utama saja.
@@ -11,7 +12,8 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 6. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan tools fullscreen pada wilayah peta.
 7. [#7031](https://github.com/OpenSID/OpenSID/issues/7031) Penambahan slug pada halaman web statistik.
 
-#### Perbaikan Bug
+
+#### BUG
 1. [#7073](https://github.com/OpenSID/OpenSID/issues/7073) Menampilkan nomor surat ketika memeriksa surat permohonan.
 2. [#7078](https://github.com/OpenSID/OpenSID/issues/7078) Perbaikan daftar jabatan yang ditampilkan saat disposisi surat masuk.
 3. [#7058](https://github.com/OpenSID/OpenSID/issues/7058) Perbaikan modul yang selalu bisa di akses.
@@ -41,7 +43,8 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 27. [#7136](https://github.com/OpenSID/OpenSID/issues/7136) Perbaikan modul buku inventaris dan kekayaan desa.
 28. [#7134](https://github.com/OpenSID/OpenSID/issues/7134) Perbaikan validasi pada tampilan untuk element select2.
 
-#### Penyesuaian Teknis
+
+#### TEKNIS
 1. [#2870](https://github.com/OpenSID/premium/issues/2870) Penyesuaian load database setelah penambahan wizard installer.
 2. [#6935](https://github.com/OpenSID/OpenSID/issues/6935) Penyesuaian informasi jenis surat yang ditampilkan pada pencarian cetak surat.
 3. [#7096](https://github.com/OpenSID/OpenSID/issues/7096) Penyesuaian jenis format pengisian pada kode isian surat TinyMCE menggunakan bahasa indonesia.
@@ -51,5 +54,5 @@ Terima kasih pada @ghozysamudra, @guangrei dan @arifpriadi baru mulai berkontrib
 7. [#7142](https://github.com/OpenSID/OpenSID/issues/7142) Penyesuaian sumber data hari libur nasional.
 
 
-#### Peningkatan Keamanan
+#### KEAMANAN
 1. [#2917](https://github.com/OpenSID/premium/issues/2917) Pembatasan input terhadap serangan xss pada modul pengaduan admin.
