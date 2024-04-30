@@ -168,18 +168,18 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<tbody>
 											<?php foreach ($main as $data): ?>
 												<?php if ($lap > 50) {
-												    $tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
+													$tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
 												} ?>
 												<tr>
 													<td class="padat"><?= $data['no']; ?></td>
 													<td class="text-left"><?= strtoupper($data['nama']); ?></td>
 													<td class="text-right">
-														<a href="<?= $tautan_data . $data[id] ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
+														<a href="<?= $tautan_data . $data['id'] ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
 													</td>
 													<td class="text-right"><?= $data['persen']; ?></td>
-													<td class="text-right"><a href="<?= $tautan_data . $data[id] ?>/1" target="_blank"><?= $data['laki']; ?></a></td>
+													<td class="text-right"><a href="<?= $tautan_data . $data['id'] ?>/1" target="_blank"><?= $data['laki']; ?></a></td>
 													<td class="text-right"><?= $data['persen1']; ?></td>
-													<td class="text-right"><a href="<?= $tautan_data . $data[id] ?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
+													<td class="text-right"><a href="<?= $tautan_data . $data['id'] ?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
 													<td class="text-right"><?= $data['persen2']; ?></td>
 												</tr>
 											<?php endforeach; ?>
