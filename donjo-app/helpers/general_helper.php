@@ -558,7 +558,7 @@ if (! function_exists('kirim_versi_opensid')) {
 
             if ($versi != $ci->cache->file->get('versi_app_cache')) {
                 try {
-                    $client = new \GuzzleHttp\Client();
+                    $client = new GuzzleHttp\Client();
                     $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                         'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                         'form_params' => [
