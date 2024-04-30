@@ -160,8 +160,8 @@ class OTP_email implements OTP_interface
                 ->message($this->ci->load->view('fmandiri/email/kirim-pin', ['pin' => $pin, 'nama' => $nama], true));
 
             return (bool) ($this->ci->email->send());
-        } catch (Throwable $th) {
-            throw new Exception($this->ci->email->print_debugger());
+        } catch (\Throwable $th) {
+            throw new \Exception($this->ci->email->print_debugger());
         }
     }
 

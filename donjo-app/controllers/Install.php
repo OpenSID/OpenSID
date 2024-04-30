@@ -168,7 +168,7 @@ class Install extends CI_Controller
         }
 
         try {
-            $connection = new PDO(
+            $connection = new \PDO(
                 sprintf(
                     'mysql:host=%s;port=%s;dbname=%s',
                     $this->input->post('database_hostname'),

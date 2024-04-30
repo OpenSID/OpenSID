@@ -273,7 +273,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <script>
 	function show_confirm(el) {
 		$('#versi')
-			.replaceWith("<?= App\Enums\Dtks\DtksEnum::VERSION_LIST[App\Enums\Dtks\DtksEnum::VERSION_CODE] ?>")
+			.replaceWith("<?= \App\Enums\Dtks\DtksEnum::VERSION_LIST[\App\Enums\Dtks\DtksEnum::VERSION_CODE] ?>")
 		$('#rtm_clear').attr('href', "<?= site_url('rtm/clear') ?>");
 		$('#tujuan').attr('href', $(el).attr('href'))
 	}
