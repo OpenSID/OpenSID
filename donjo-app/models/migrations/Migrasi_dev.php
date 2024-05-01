@@ -35,13 +35,7 @@
  *
  */
 
-use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
-
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class Migrasi_dev extends MY_model
 {
@@ -56,8 +50,6 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        $hasil = $hasil && $this->migrasi_2024040451($hasil);
-
         return $hasil && true;
     }
 
@@ -65,91 +57,11 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024040571($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024041671($hasil, $id);
-        }
-
-        $hasil = $hasil && $this->migrasi_2024040271($hasil);
-        $hasil = $hasil && $this->migrasi_2024032052($hasil);
-        $hasil = $hasil && $this->migrasi_20240401471($hasil);
+        // foreach ($config_id as $id) {
+        // }
 
         return $hasil && true;
-    }
-
-    protected function migrasi_2024040271($hasil)
-    {
-        $penduduk_luar     = SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first();
-        $value             = json_decode($penduduk_luar->value, true);
-        $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu';
-        $penduduk_luar->update(['value' => json_encode($value)]);
-
-        return $hasil && $this->migrasi_2024042751($hasil);
-    }
-
-    protected function migrasi_2024042751($hasil)
-    {
-        log_message('notice', 'Migrasi data 2024042751');
-        DB::table('menu')->where('enabled', 2)->update(['enabled' => 0]);
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024040451($hasil)
-    {
-        if (! Schema::hasColumn('user', 'batasi_wilayah')) {
-            Schema::table('user', static function (Blueprint $table) {
-                $table->unsignedTinyInteger('batasi_wilayah')->default(0);
-                $table->text('akses_wilayah')->nullable();
-            });
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024040571($hasil, $id)
-    {
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Sebutan Anjungan Mandiri',
-            'key'        => 'sebutan_anjungan_mandiri',
-            'value'      => 'Anjungan [desa] Mandiri',
-            'keterangan' => 'Pengaturan sebutan anjungan mandiri',
-            'jenis'      => 'text',
-            'option'     => null,
-            'attribute'  => null,
-            'kategori'   => 'anjungan',
-        ], $id);
-    }
-
-    protected function migrasi_2024032052($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'buku-tanah-kas-desa', 'url' => 'bumindes_tanah_kas_desa/clear'],
-            ['url' => 'bumindes_tanah_kas_desa']
-        );
-    }
-
-    protected function migrasi_20240401471($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'arsip-surat-dinas', 'modul' => 'Arsip Layanan'],
-            ['modul' => 'Arsip Surat Dinas']
-        );
-    }
-
-    public function migrasi_2024041671($hasil, $id)
-    {
-        return $hasil && $this->tambah_setting([
-            'judul'      => 'Icon Lapak Peta',
-            'key'        => 'icon_lapak_peta',
-            'value'      => 'fastfood.png',
-            'keterangan' => 'Icon penanda Lapak yang ditampilkan pada Peta',
-            'jenis'      => 'select-simbol',
-            'option'     => json_encode(['model' => 'App\\Models\\Simbol', 'value' => 'simbol', 'label' => 'simbol']),
-            'attribute'  => 'class="form-control input-sm select2-icon-img required" data-lokasi="' . base_url(LOKASI_SIMBOL_LOKASI) . '"',
-            'kategori'   => 'lapak',
-        ], $id);
     }
 }
