@@ -53,15 +53,15 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="jenis">Jenis Widget</label>
                         <div class="col-sm-6">
-                            <select id="jenis_widget" name="jenis_widget" class="form-control input-sm required">
+                            <select id="jenis_widget" name="jenis_widget" class="form-control input-sm select2 required">
                                 <option value="">-- Pilih Jenis Widget --</option>
-                                <option value="2" {{ selected($widget['jenis_widget'], 2) }}>Statis</option>
-                                <option value="3" {{ selected($widget['jenis_widget'], 3) }}>Dinamis</option>
+                                <option value="2" @selected($widget['jenis_widget'] === 2)>Statis</option>
+                                <option value="3" @selected($widget['jenis_widget'] === 3)>Dinamis</option>
                             </select>
                         </div>
                     </div>
                     @php
-                        if ($widget['jenis_widget'] && $widget['jenis_widget'] != '1' && $widget['jenis_widget'] != '2') {
+                        if ($widget['jenis_widget'] && $widget['jenis_widget'] !== 1 && $widget['jenis_widget'] !== 2) {
                             $dinamis = true;
                         }
                     @endphp
@@ -73,11 +73,11 @@
                         </div>
                     </div>
                     @php
-                        if ($widget['jenis_widget'] && $widget['jenis_widget'] == 2) {
+                        if ($widget['jenis_widget'] && $widget['jenis_widget'] === 2) {
                             $statis = true;
                         }
                     @endphp
-                    <div id="statis" class="form-group" @if (!$statis) style="display:none;" @endif>
+                    <div id="statis" class="form-group">
                         <label class="col-sm-3 control-label" for="isi-statis">Nama File Widget (.php)</label>
                         <div class="col-sm-6">
                             @if ($list_widget)
@@ -116,7 +116,12 @@
                 var isiStatisInput = $("#isi-statis");
                 var isiDinamisInput = $("#isi-dinamis");
 
-                if (selectedValue === "3") {
+                if (selectedValue == 2) {
+                    dinamis.hide();
+                    statis.show();
+                    isiStatisInput.addClass("required");
+                    isiDinamisInput.removeClass("required");
+                } else if (selectedValue == 3) {
                     dinamis.show();
                     statis.hide();
                     isiStatisInput.removeClass("required");
