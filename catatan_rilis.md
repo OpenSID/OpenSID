@@ -1,4 +1,4 @@
-Di rilis ini, versi 2404.1.0 berisi penerapan hak akses wilayah dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2405.0.0 berisi penerapan hak akses wilayah dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
