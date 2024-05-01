@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -57,11 +59,20 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024050251($hasil, $id);
+        }
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2024050251($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
+            ['url' => 'penduduk_log']
+        );
     }
 }

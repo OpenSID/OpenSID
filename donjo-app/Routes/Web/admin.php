@@ -223,26 +223,20 @@ Route::group('penduduk', static function (): void {
 
 // Kependudukan > Penduduk > Log Penduduk
 Route::group('penduduk_log', static function (): void {
-    Route::get('/clear', 'Penduduk_log@clear')->name('penduduk_log.clear');
-    Route::match(['GET', 'POST'], '/', 'Penduduk_log@index')->name('penduduk_log.index');
-    Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/index/{p}', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Penduduk_log@index');
-    Route::post('/filter/{kode_peristiwa?}', 'Penduduk_log@filter')->name('penduduk_log.filter');
-    Route::post('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
-    Route::post('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
-    Route::post('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
-    Route::post('/tahun_bulan', 'Penduduk_log@tahun_bulan')->name('penduduk_log.tahun_bulan');
-    Route::get('/edit/{p}/{o}/{id?}', 'Penduduk_log@edit')->name('penduduk_log.edit');
-    Route::post('/update/{p}/{o}/{id?}', 'Penduduk_log@update')->name('penduduk_log.update');
-    Route::get('/kembalikan_status/{id}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
-    Route::get('/ajax_kembalikan_status_pergi/{id?}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
-    Route::post('/kembalikan_status_pergi/{id?}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
-    Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
-    Route::get('/cetak/{o}/{aksi}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
-    Route::get('/ajax_cetak/{o}/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
-    Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk_log@statistik')->name('penduduk_log.statistik');
-    Route::get('/dokumen/{id?}', 'Penduduk_log@dokumen')->name('penduduk_log.dokumen');
+    Route::get('clear', 'Penduduk_log@index')->name('penduduk_log.clear');
+    Route::get('', 'Penduduk_log@index')->name('penduduk_log.index');
+    Route::get('index', 'Penduduk_log@index');            
+    Route::get('datatables', 'Penduduk_log@datatables')->name('penduduk_log.datatables');
+    Route::get('edit/{id}', 'Penduduk_log@edit')->name('penduduk_log.edit');
+    Route::post('update/{id}', 'Penduduk_log@update')->name('penduduk_log.update');
+    Route::get('kembalikan_status/{id}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
+    Route::get('ajax_kembalikan_status_pergi/{id}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
+    Route::post('kembalikan_status_pergi/{id}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
+    Route::post('kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
+    Route::post('cetak/{aksi}/{privasi_nik}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
+    Route::get('ajax_cetak/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
+    Route::get('statistik/{tipe}/{nomor}/{sex}', 'Penduduk_log@statistik')->name('penduduk_log.statistik');
+    Route::get('dokumen/{id}', 'Penduduk_log@dokumen')->name('penduduk_log.dokumen');
 });
 
 // Kependudukan > Keluarga

@@ -130,6 +130,9 @@
             e.preventDefault();
             $("#file").click();
         });
+        $('#file').change(function() {
+            $('#file_path').val($(this).val());
+        });
         $('.modal #status_dasar').change(function() {
             if ($(this).val() == '3' || $(this).val() == '2') {
                 if ($(this).val() == '3') {
