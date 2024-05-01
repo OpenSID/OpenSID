@@ -3,11 +3,13 @@
 	<form action="<?= $form_action; ?>" method="post">
 		<div class="modal-body">
 			<div class="form-group">
-				<select name="status" class="form-control input-sm" required="">
+				<?php if ($main->status == '3') : ?>
+					<input type="hidden" name="status" value="<?= $main->status ?>">
+				<?php endif ?>
+				<select name="status" class="form-control input-sm" required <?= $main->status == '3' ? 'disabled' : '' ?>>
 					<option value="">Pilih Status Pengaduan</option>
-					<!-- <option value="1" <?= selected(1, $value['status']) ?>>Menunggu Diproses</option> -->
-					<option value="2" <?= selected(2, $value['status']) ?>>Sedang Diproses</option>
-					<option value="3" <?= selected(3, $value['status']) ?>>Selesai Diproses</option>
+					<option value="2" <?= selected(2, $main->status) ?>>Sedang Diproses</option>
+					<option value="3" <?= selected(3, $main->status) ?>>Selesai Diproses</option>
 				</select>
 			</div>
 			<div class="form-group">

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\Statistik\StatistikEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class First extends Web_Controller
@@ -117,8 +119,12 @@ class First extends Web_Controller
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
     */
-    public function artikel($thn, $bln, $hr, $url)
+    public function artikel($thn = null, $bln = null, $hr = null, $url = null)
     {
+        if ($url == null || $thn == null || $bln == null || $hr == null) {
+            show_404();
+        }
+
         if (is_numeric($url)) {
             $data_artikel = $this->first_artikel_m->get_artikel_by_id($url);
             if ($data_artikel) {
@@ -133,7 +139,7 @@ class First extends Web_Controller
         $id                     = $data['single_artikel']['id'];
 
         // replace isi artikel dengan shortcodify
-        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode(bersihkan_xss($data['single_artikel']['isi']));
+        $data['single_artikel']['isi'] = $this->shortcode_model->shortcode($data['single_artikel']['isi']);
         $data['title']                 = ucwords($data['single_artikel']['judul']);
         $data['detail_agenda']         = $this->first_artikel_m->get_agenda($id); //Agenda
         $data['komentar']              = $this->first_artikel_m->list_komentar($id);
@@ -184,22 +190,27 @@ class First extends Web_Controller
         redirect('galeri' . $index);
     }
 
-    public function statistik($stat = 0, $tipe = 0)
+    // redirect ke halaman data-statistik
+    public function statistik($stat = '0', $tipe = '0')
     {
+        if ($slug = StatistikEnum::slugFromKey($stat)) {
+            redirect('data-statistik/' . $slug);
+        }
+
         if (! $this->web_menu_model->menu_aktif('statistik/' . $stat)) {
             show_404();
         }
 
         $data = $this->includes;
 
-        $data['heading'] = $this->laporan_penduduk_model->judul_statistik($stat);
-        $data['title']   = 'Statistik ' . $data['heading'];
-        $data['stat']    = $this->laporan_penduduk_model->list_data($stat);
-        $data['tipe']    = $tipe;
-        $data['st']      = $stat;
+        $data['heading']          = $this->laporan_penduduk_model->judul_statistik($stat);
+        $data['title']            = 'Statistik ' . $data['heading'];
+        $data['stat']             = $this->laporan_penduduk_model->list_data($stat);
+        $data['tipe']             = $tipe;
+        $data['st']               = $stat;
+        $data['daftar_statistik'] = StatistikEnum::allStatistik();
 
         $this->_get_common_data($data);
-
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
     }
@@ -284,8 +295,10 @@ class First extends Web_Controller
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
         $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+        $data['tipe']              = 4;
+        $data['daftar_statistik']  = StatistikEnum::allStatistik();
+
         $this->_get_common_data($data);
-        $data['tipe'] = 4;
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
     }
@@ -299,13 +312,14 @@ class First extends Web_Controller
         $this->load->model('wilayah_model');
         $data = $this->includes;
 
-        $data['heading']      = 'Populasi Per Wilayah';
-        $data['tipe']         = 3;
-        $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
-        $data['total']        = $this->wilayah_model->total();
-        $data['st']           = 1;
-        $this->_get_common_data($data);
+        $data['heading']          = 'Populasi Per Wilayah';
+        $data['tipe']             = 3;
+        $data['daftar_dusun']     = $this->wilayah_model->daftar_wilayah_dusun();
+        $data['total']            = $this->wilayah_model->total();
+        $data['st']               = 1;
+        $data['daftar_statistik'] = StatistikEnum::allStatistik();
 
+        $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
         $this->load->view($this->template, $data);
     }
@@ -540,5 +554,10 @@ class First extends Web_Controller
 
             header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code', true) . '&formId=' . $this->session->google_form_id);
         }
+    }
+
+    public function utama()
+    {
+        redirect('/');
     }
 }

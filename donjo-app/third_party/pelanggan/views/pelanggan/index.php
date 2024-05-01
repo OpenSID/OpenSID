@@ -230,9 +230,6 @@
                                             <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi') : ?>
                                                 <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                             <?php endif; ?>
-                                            <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0) : ?>
-                                                <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
-                                            <?php endif; ?>
                                             <?php if ($notif_langganan['warna'] == 'orange') : ?>
                                                 <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
                                             <?php endif; ?>
@@ -266,25 +263,6 @@
                                         <td class="padat">
                                             <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
                                         </td>
-                                        <div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">×</span>
-                                                        </button>
-                                                        <h4 class="modal-title">Bukti Pembayaran</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
-                                                        <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Tutup</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>
@@ -327,9 +305,6 @@
                                             <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi') : ?>
                                                 <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                             <?php endif; ?>
-                                            <?php if ($pemesanan->mitra_id == '' || $pemesanan->mitra_id == null || $pemesanan->mitra_id == 0) : ?>
-                                                <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
-                                            <?php endif; ?>
                                             <?php if ($notif_langganan['warna'] == 'orange') : ?>
                                                 <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
                                             <?php endif; ?>
@@ -358,25 +333,6 @@
                                         <td class="padat">
                                             <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
                                         </td>
-                                        <div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">×</span>
-                                                        </button>
-                                                        <h4 class="modal-title">Bukti Pembayaran</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
-                                                        <button type="button" class="btn btn-sm btn-info" data-dismiss="modal">Tutup</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>

@@ -426,11 +426,7 @@ class AccessToken
                 $exponent
             ]), 256),
         ]);
-        $formattedPublicKey = $key->toString('PKCS8');
-        if (!is_string($formattedPublicKey)) {
-            throw new TypeError('Failed to initialize the key');
-        }
-        return $formattedPublicKey;
+        return $key->toString('PKCS8');
     }
 
     /**

@@ -63,7 +63,6 @@ class Install extends CI_Controller
 
         $this->load->config('installer');
         $this->load->library('form_validation');
-        $this->folder_lainnya();
     }
 
     /**
@@ -169,7 +168,7 @@ class Install extends CI_Controller
         }
 
         try {
-            $connection = new PDO(
+            $connection = new \PDO(
                 sprintf(
                     'mysql:host=%s;port=%s;dbname=%s',
                     $this->input->post('database_hostname'),
@@ -233,6 +232,7 @@ class Install extends CI_Controller
                 {$db}['default']['password'] = '{$this->session->password}';
                 {$db}['default']['port']     = {$this->session->port};
                 {$db}['default']['database'] = '{$this->session->database}';
+                {$db}['default']['dbcollat'] = 'utf8_general_ci';
 
                 /*
                 | Untuk setting koneksi database 'Strict Mode'
@@ -354,7 +354,8 @@ class Install extends CI_Controller
 
         $this->form_validation
             ->set_rules('username', 'Username', 'required')
-            ->set_rules('password', 'Password', 'required|callback_syarat_sandi');
+            ->set_rules('password', 'Password', 'required|callback_syarat_sandi')
+            ->set_rules('confirm_password', 'Konfirmasi Password', 'required|matches[password]');
 
         if (! $this->form_validation->run()) {
             return view('installer.steps.user');
@@ -394,12 +395,5 @@ class Install extends CI_Controller
         }
 
         return true;
-    }
-
-    public function folder_lainnya()
-    {
-        foreach (config_item('lainnya') as $folder => $lainnya) {
-            folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
-        }
     }
 }

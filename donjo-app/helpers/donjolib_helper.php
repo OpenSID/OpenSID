@@ -667,9 +667,9 @@ function set_ucwords($data)
     return trim($data);
 }
 
-function persen($data, $simbol = '%', $digit = 2)
+function persen($data, string $simbol = '%', $digit = 2): string
 {
-    $str = number_format((is_numeric($hasil) && ! is_infinite($hasil)) ? (float) ($data * 100) : 0, $digit, '.', '');
+    $str = number_format(is_nan($data) ? 0 : (float) ($data * 100), $digit, '.', '');
 
     return str_replace('.', ',', $str) . $simbol;
 }

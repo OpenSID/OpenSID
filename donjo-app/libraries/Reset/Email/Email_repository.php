@@ -66,6 +66,7 @@ class Email_repository implements Password_interface
         $this->tokens     = $token;
 
         $this->ci->load->library('email');
+        $this->ci->email->initialize(config_email());
     }
 
     /**

@@ -224,6 +224,35 @@
 				</script>
 				<?php session_error_clear(); ?>
 
+				<?php if (isset($perbaharui_langganan) && ! config_item('demo_mode')) : ?>
+					<!-- cek status langganan -->
+					<script type="text/javascript">
+						var controller = '<?= $this->controller ?>';
+						$.ajax({
+								url: `<?= config_item('server_layanan') ?>/api/v1/pelanggan/pemesanan`,
+								headers: {
+									"Authorization": `Bearer <?= setting('layanan_opendesa_token') ?>`,
+									"X-Requested-With": `XMLHttpRequest`,
+								},
+								type: 'Post',
+							})
+							.done(function(response) {
+								let data = {
+									body: response
+								}
+								$.ajax({
+									url: `${SITE_URL}pelanggan/pemesanan`,
+									type: 'Post',
+									dataType: 'json',
+									data: data,
+								}).done(function() {
+									if (controller == 'pelanggan') {
+										location.reload();
+									}
+								});
+							})
+					</script>
+				<?php endif ?>
 				</body>
 
 				</html>

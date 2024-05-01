@@ -56,8 +56,8 @@
                         <div class="col-input">
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-control form-select select2 alamat required"
-                                    data-bs-placeholder="Jenis Kelamin" data-control="select2" required>
+                                <select name="jenis_kelamin" class="form-control form-select alamat required"
+                                    data-bs-placeholder="Jenis Kelamin" required>
                                     <option label="Pilih">Jenis Kelamin</option>
                                     @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -75,7 +75,7 @@
                             <div class="col-input">
                                 <div class="form-group">
                                     <label>Bertemu</label>
-                                    <select class="form-control select2 required" name="id_bidang" placeholder="Bertemu"
+                                    <select class="form-control required" name="id_bidang" placeholder="Bertemu"
                                         required>
                                         <option label="Pilih" value="">Pilih</option>
                                         @foreach ($bertemu as $key => $value)
@@ -87,7 +87,7 @@
                             <div class="col-input">
                                 <div class="form-group">
                                     <label>Keperluan</label>
-                                    <select name="id_keperluan" class="form-control form-select select2"
+                                    <select name="id_keperluan" class="form-control form-select"
                                         data-bs-placeholder="Keperluan" required>
                                         <option label="Pilih" value="">Keperluan</option>
                                         @foreach ($keperluan as $key => $value)

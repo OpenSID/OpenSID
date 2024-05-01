@@ -109,9 +109,10 @@ class Man_user extends Admin_Controller
             $data['form_action'] = site_url('man_user/insert');
         }
 
-        $data['user_group'] = UserGrup::get(['id', 'nama']);
-        $data['akses']      = UserGrup::getGrupSistem();
-        $data['pamong']     = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
+        $data['user_group']          = UserGrup::get(['id', 'nama']);
+        $data['akses']               = UserGrup::getGrupSistem();
+        $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
+        $data['notifikasi_telegram'] = setting('telegram_notifikasi');
 
         $this->render('man_user/manajemen_user_form', $data);
     }

@@ -148,13 +148,7 @@
                                 <?= config_item('nama_aplikasi') ?> dan hanya berlaku
                                 untuk surat yang menggunakan TinyMCE
                             </div>
-                        @endif
-
-                        <div class="alert alert-info alert-dismissible">
-                            <h4><i class="icon fa fa-info"></i> Info !</h4>
-                            Jika pilihan Visual TTE aktif, Letakan kode [ttd_bsre] pada tempat yang ingin ditempelkan gambar
-                            TTD.
-                        </div>
+                        @endif                        
 
                         <label>Aktifkan Modul TTE</label>
                         <div class="input-group col-xs-12 col-sm-8">
@@ -281,6 +275,14 @@
                         <label>Fomat penomoran surat </label>
                         <input type="text" name="format_nomor_surat" class="form-control input-sm"
                             value="{{ setting('format_nomor_surat') }}">
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Kode Isian data kosong </label>
+                        <input type="text" name="ganti_data_kosong" class="form-control input-sm"
+                            value="{{ setting('ganti_data_kosong') }}">
                     </div>
                 </div>
 

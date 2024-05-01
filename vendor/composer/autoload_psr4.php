@@ -37,6 +37,7 @@ return array(
     'OpenSpout\\' => array($vendorDir . '/openspout/openspout/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Mike42\\' => array($vendorDir . '/mike42/escpos-php/src/Mike42', $vendorDir . '/mike42/gfx-php/src/Mike42'),
+    'Karriere\\PdfMerge\\' => array($vendorDir . '/karriere/pdf-merge/src'),
     'Jenssegers\\Blade\\' => array($vendorDir . '/jenssegers/blade/src'),
     'Illuminate\\View\\' => array($vendorDir . '/illuminate/view'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/collections', $vendorDir . '/illuminate/macroable', $vendorDir . '/illuminate/support'),

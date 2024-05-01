@@ -13,7 +13,7 @@ info.php
 sftp-config.json
 .php-cs-fixer.cache
 rector.php
-.htaccess
+/.htaccess
 *.sql
 mitra
 
@@ -59,9 +59,4 @@ examples/
 
 vendor/libreoffice/*
 vendor/mikey179/*
-.vscode/*
-/node_modules
-
-# Struktur Laravel
-storage/framework/
-assets/filemanager/index.html
+.vscode/settings.json

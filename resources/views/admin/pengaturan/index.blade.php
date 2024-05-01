@@ -180,5 +180,52 @@
             $('#telegram_user_id').addClass('required');
         }
     }
+
+    showEmail($('#email_notifikasi').val());
+
+    $('#email_notifikasi').on('select2:select', function (e) {
+        showEmail(e.params.data.id);
+    });
+
+    function showEmail(value) {
+        if (value == 0) {
+            $('#form_email_protocol').hide();
+            $('#form_email_smtp_host').hide();
+            $('#form_email_smtp_user').hide();
+            $('#form_email_smtp_pass').hide();
+            $('#form_email_smtp_port').hide();
+            $('#email_protocol').removeClass('required');
+            $('#email_smtp_host').removeClass('required');
+            $('#email_smtp_user').removeClass('required');
+            $('#email_smtp_pass').removeClass('required');
+            $('#email_smtp_port').removeClass('required');            
+        } else {
+            $('#form_email_protocol').show();
+            $('#form_email_smtp_host').show();
+            $('#form_email_smtp_user').show();
+            $('#form_email_smtp_pass').show();
+            $('#form_email_smtp_port').show();
+            $('#email_protocol').addClass('required');
+            $('#email_smtp_host').addClass('required');
+            $('#email_smtp_user').addClass('required');
+            // jika password masih kosong maka set required
+            if (! $('#email_smtp_pass').data('password')){
+                $('#email_smtp_pass').addClass('required');
+            }            
+            $('#email_smtp_port').addClass('required');
+        }
+    }
+
+    $('.show-hide-password').click(function(){
+       let _passwordElm = $(this).prev('input')
+       let _currentType = _passwordElm.attr('type')
+       if(_currentType == 'password') {
+        _passwordElm.attr('type', 'text');
+       }else {
+        _passwordElm.attr('type', 'password');
+       }
+       $(this).find('i').toggleClass('fa-eye fa-eye-slash') 
+       
+    })
 </script>
 @endpush
