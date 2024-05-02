@@ -472,11 +472,6 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
-        // copy fonts di vendor ke folder desa
-        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
-
-        config()->set('app.key', get_app_key());
-
         // set config app.key untuk proses intall
         config()->set('app.key', get_app_key());
 
