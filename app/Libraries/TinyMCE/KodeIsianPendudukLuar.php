@@ -62,6 +62,14 @@ class KodeIsianPendudukLuar
         'pend_kecamatan',
         'pend_kabupaten',
         'pend_provinsi',
+        'gol_darah',
+        'status_kawin',
+        'tanggalperkawinan',
+        'hubungan_kk',
+        'dokumen_pasport',
+        'dokumen_kitas',
+        'nama_ayah',
+        'nama_ibu',
 
         // kode isian lama
         'form_nama_non_warga',

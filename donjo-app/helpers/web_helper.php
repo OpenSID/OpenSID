@@ -90,7 +90,7 @@ if (! function_exists('menu_anjungan')) {
  *
  * @param mixed $nama_file
  */
-function icon_menu_anjungan(string $nama_file): string
+function icon_menu_anjungan(?string $nama_file): string
 {
     if (is_file(FCPATH . LOKASI_ICON_MENU_ANJUNGAN . $nama_file)) {
         return base_url(LOKASI_ICON_MENU_ANJUNGAN . $nama_file);

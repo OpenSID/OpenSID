@@ -21,6 +21,12 @@
             {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
             <div class="box-body">
                 <div class="form-group">
+                    <label class="col-sm-3 control-label" for="sebutan_anjungan">Sebutan Anjungan</label>
+                    <div class="col-sm-9">
+                        <input class="form-control input-sm" type="text" placeholder="Masukkan sebutan anjungan" name="sebutan_anjungan_mandiri" value="{{ $pengaturan['sebutan_anjungan_mandiri'] }}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-3 control-label" for="layar">Jenis Layar</label>
                     <div class="col-sm-9">
                         <select class="form-control input-sm" name="layar">

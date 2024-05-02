@@ -273,7 +273,6 @@ class AnggotaKeluarga extends Admin_Controller
             $data['no_kk']              = $originalInput['no_kk'];
         }
 
-
         view('admin.penduduk.keluarga.anggota.form', $data);
     }
 

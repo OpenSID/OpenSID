@@ -68,18 +68,25 @@ class Wilayah extends Admin_Controller
             case 'rt':
                 $title   .= 'RW ' . ($wilayah->rw ?? '') . ' / Dusun ' . ($wilayah->dusun ?? '');
                 $backUrl .= '?parent=' . WilayahModel::where(['dusun' => $wilayah->dusun])->dusun()->first()->id . '&level=rw';
+                $adaUrutKosong = WilayahModel::rt()->whereRw($wilayah->rw)->where('rt', '!=', '-')->whereDusun($wilayah->dusun)->whereNull('urut')->count();
                 break;
 
             case 'rw':
                 $title .= 'Dusun ' . $wilayah->dusun ?? '';
+                $adaUrutKosong = WilayahModel::rw()->whereDusun($wilayah->dusun)->whereNull('urut')->count();
+                break;
+
+            default:
+                $adaUrutKosong = WilayahModel::dusun()->whereNotNull('urut')->count();
         }
         $data = [
-            'parent'  => $parent,
-            'wilayah' => $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level),
-            'jabatan' => $level == 'dusun' ? 'Kepala' : 'Ketua',
-            'level'   => $level,
-            'title'   => $title,
-            'backUrl' => $backUrl,
+            'parent'       => $parent,
+            'wilayah'      => $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level),
+            'jabatan'      => $level == 'dusun' ? 'Kepala' : 'Ketua',
+            'level'        => $level,
+            'title'        => $title,
+            'backUrl'      => $backUrl,
+            'refreshOrder' => $adaUrutKosong,
         ];
 
         view('admin.wilayah.index', $data);
@@ -99,7 +106,6 @@ class Wilayah extends Admin_Controller
                     $mapWilayah      = 'ajax_wilayah_rw_maps';
                     $wilayah         = WilayahModel::find($parent);
                     $cek_lokasi_peta = cek_lokasi_peta($wilayah->toArray());
-                    $adaUrutKosong   = WilayahModel::rw()->whereDusun($wilayah->dusun)->whereNull('urut')->get();
                     $model           = WilayahModel::rw()->whereDusun($wilayah->dusun)->with(['kepala'])->orderBy('urut')
                         ->withCount(['rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw'))]);
                     break;
@@ -113,22 +119,15 @@ class Wilayah extends Admin_Controller
                         $wilayahRw = WilayahModel::dusun()->whereDusun($wilayah->dusun)->first()->toArray();
                     }
                     $cek_lokasi_peta = cek_lokasi_peta($wilayahRw);
-                    $adaUrutKosong   = WilayahModel::rt()->whereRw($wilayah->rw)->where('rt', '!=', '-')->whereDusun($wilayah->dusun)->whereNull('urut')->get();
                     $model           = WilayahModel::rt()->whereRw($wilayah->rw)->where('rt', '!=', '-')->whereDusun($wilayah->dusun)->with(['kepala'])->orderBy('urut')
                         ->withCount(['keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw and laravel_reserved_0.rt = tweb_wil_clusterdesa.rt')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw and laravel_reserved_1.rt = tweb_wil_clusterdesa.rt')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw and laravel_reserved_2.rt = tweb_wil_clusterdesa.rt'))]);
                     break;
 
                 default:
-                    $adaUrutKosong   = WilayahModel::dusun()->whereNull('urut')->get();
                     $model           = WilayahModel::dusun()->with(['kepala'])->orderBy('urut')->withCount('rts', 'rws', 'keluargaAktif', 'pendudukPria', 'pendudukWanita');
                     $cek_lokasi_peta = cek_lokasi_peta(collect(identitas())->toArray());
                     $mapKantor       = 'ajax_kantor_dusun_maps';
                     $mapWilayah      = 'ajax_wilayah_dusun_maps';
-            }
-
-            if (! $adaUrutKosong->isempty()) {
-                // update urut dan urut cetak
-                WilayahModel::updateUrutan();
             }
 
             return datatables()->of($model)
@@ -209,7 +208,7 @@ class Wilayah extends Admin_Controller
         if ($wilayah) {
             WilayahModel::setNewOrder($wilayah);
             // setiap ada perubahan urutan maka harus diupdate lagi, karena berimbas ke urutan cetak
-            WilayahModel::updateUrutan();
+            // WilayahModel::updateUrutan();
         }
 
         return json(['status' => 1]);
@@ -231,15 +230,14 @@ class Wilayah extends Admin_Controller
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['desa']           = $this->header['desa'];
         $data['dusuns']         = WilayahModel::dusun()->with([
-            'kepala', 'rws' => static fn ($q) => $q->orderBy('urut_cetak')->with([
-                'kepala', 'rts' => static fn ($q) => $q->orderBy('urut_cetak')->with('kepala')->withCount([
+            'kepala', 'rws' => static fn ($q) => $q->orderBy('urut')->with([
+                'kepala', 'rts' => static fn ($q) => $q->orderBy('urut')->with('kepala')->withCount([
                     'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_9.rw = tweb_wil_clusterdesa.rw and laravel_reserved_9.rt = tweb_wil_clusterdesa.rt')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_10.rw = tweb_wil_clusterdesa.rw and laravel_reserved_10.rt = tweb_wil_clusterdesa.rt')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_11.rw = tweb_wil_clusterdesa.rw and laravel_reserved_11.rt = tweb_wil_clusterdesa.rt')),
                 ]),
             ])->withCount([
                 'rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_5.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_6.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_7.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_8.rw = tweb_wil_clusterdesa.rw')),
             ]),
-        ])->orderBy('urut_cetak')->withCount('rts', 'rws', 'keluargaAktif', 'pendudukPria', 'pendudukWanita')->get();
-
+        ])->orderBy('urut')->withCount('rts', 'rws', 'keluargaAktif', 'pendudukPria', 'pendudukWanita')->get();
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');
@@ -455,7 +453,7 @@ class Wilayah extends Admin_Controller
     {
         $dusun         = WilayahModel::find($id);
         $data['dusun'] = $dusun->dusun;
-        $data['rws']   = WilayahModel::rw()->whereDusun($dusun->dusun)->with(['kepala'])->orderBy('urut_cetak')
+        $data['rws']   = WilayahModel::rw()->whereDusun($dusun->dusun)->with(['kepala'])->orderBy('urut')
             ->withCount(['rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_3.rw = tweb_wil_clusterdesa.rw'))])
             ->get();
 
@@ -476,7 +474,7 @@ class Wilayah extends Admin_Controller
     {
         $rw            = WilayahModel::find($id);
         $data['dusun'] = $rw->dusun;
-        $data['rts']   = WilayahModel::rt()->whereRw($rw->rw)->where('rt', '!=', '-')->whereDusun($rw->dusun)->with(['kepala'])->orderBy('urut_cetak')
+        $data['rts']   = WilayahModel::rt()->whereRw($rw->rw)->where('rt', '!=', '-')->whereDusun($rw->dusun)->with(['kepala'])->orderBy('urut')
             ->withCount(['keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_0.rw = tweb_wil_clusterdesa.rw and laravel_reserved_0.rt = tweb_wil_clusterdesa.rt')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_1.rw = tweb_wil_clusterdesa.rw and laravel_reserved_1.rt = tweb_wil_clusterdesa.rt')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_2.rw = tweb_wil_clusterdesa.rw and laravel_reserved_2.rt = tweb_wil_clusterdesa.rt'))])
             ->get();
 

@@ -833,3 +833,18 @@ div.form-surat .content-header {
 .tp02 {
     opacity: 0.2;
 }
+
+.btn-group-vertical > .btn:first-child:not(:last-child) {
+    border-radius: 3px;
+}
+
+@media (min-width: 992px) {
+    .row.mepet > div {
+        margin-right: -25px;
+    }
+}
+
+hr.batas {
+    border-top: 1px solid #f4f4f4;
+    margin: 10px -10px;
+}

@@ -35,11 +35,12 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Models\Pamong;
 use App\Models\User;
 use App\Models\UserGrup;
+use App\Models\Wilayah;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Man_user extends Admin_Controller
 {
@@ -132,6 +133,7 @@ class Man_user extends Admin_Controller
             $data['action']      = 'Tambah';
         }
 
+        $data['wilayah']             = Wilayah::tree();
         $data['user_group']          = UserGrup::get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
@@ -287,6 +289,8 @@ class Man_user extends Admin_Controller
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),
             'id_telegram'    => (int) ($request['id_telegram'] ?? 0),
             'config_id'      => identitas('id'),
+            'batasi_wilayah' => (int) ($request['batasi_wilayah'] ?? 0),
+            'akses_wilayah'  => $request['akses_wilayah'] ?? [],
         ];
 
         if (! empty($request['password'])) {

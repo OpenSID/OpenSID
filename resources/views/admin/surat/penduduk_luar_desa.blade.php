@@ -155,4 +155,96 @@
             </div>
         </div>
     @endif
+
+    @if (in_array('golongan_darah', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Golongan Darah</strong></label>
+            <div class="col-sm-3">
+                <select class="form-control input-sm select2" name="{{ $kategori }}[gol_darah]">
+                    <option value="">-- Pilih Golongan Darah --</option>
+                    @foreach (\App\Models\GolonganDarah::get() as $data)
+                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('status_perkawinan', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Status Perkawinan</strong></label>
+            <div class="col-sm-3">
+                <select class="form-control input-sm select2" name="{{ $kategori }}[status_kawin]">
+                    <option value="">-- Pilih Status Perkawinan --</option>
+                    @foreach (\App\Models\StatusKawin::get() as $data)
+                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('tanggal_perkawinan', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Tanggal Perkawinan</strong></label>
+            <div class="col-sm-3 col-lg-2">
+                <div class="input-group input-group-sm date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input title="Pilih Tanggal" class="form-control datepicker input-sm" name="{{ $kategori }}[tanggalperkawinan]" type="text" placeholder="Tgl. Perkawinan" />
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('shdk', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Status Hubungan Dalam Keluarga</strong></label>
+            <div class="col-sm-3">
+                <select class="form-control input-sm select2" name="{{ $kategori }}[hubungan_kk]">
+                    <option value="">-- Pilih Status Hubungan Dalam Keluarga --</option>
+                    @foreach (\App\Models\PendudukHubungan::get() as $data)
+                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('no_paspor', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>No. Paspor</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_pasport]" placeholder="No. Paspor" />
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('no_kitas', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>No. KITAS / KITAP</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[dokumen_kitas]" placeholder="No. KITAS / KITAP" />
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('nama_ayah', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Nama Ayah</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[nama_ayah]" placeholder="Nama Ayah" />
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('nama_ibu', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Nama Ibu</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[nama_ibu]" placeholder="Nama Ibu" />
+            </div>
+        </div>
+    @endif
 </div>

@@ -21,9 +21,9 @@
             @endif
         </div>
         <div class="box-body">
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
-                    <select class="form-control input-sm" id="sasaran" name="sasaran">
+                    <select class="form-control input-sm select2" id="sasaran" name="sasaran">
                         <option value="">Pilih Sasaran</option>
                         @foreach ($list_sasaran as $key => $value)
                             @if (in_array($key, ['1', '2']))
@@ -33,7 +33,7 @@
                     </select>
                 </div>
             </div>
-            <hr>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>

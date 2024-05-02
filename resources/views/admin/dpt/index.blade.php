@@ -64,32 +64,22 @@
                 </div>
             </div>
         </div>
-        <div class="box-header">
+        <div class="box-header" style="border-bottom: 1px solid #f4f4f4;">
             <h4 class="text-center"><strong>DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN <span id="info-tgl-pemilihan">{{ $tanggal_pemilihan }}</span></strong></h4>
         </div>
-        <div class="box-header with-border form-inline">
-            <div class="row col-md-12 search-dropdown">
-                <select class="form-control input-sm" name="sex">
-                    <option value="">Jenis Kelamin</option>
-                    @foreach ($jenis_kelamin as $data)
-                        <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
-                    @endforeach
-                </select>
-                <select class="form-control input-sm" id="dusun" name="dusun">
-                    <option value="">Pilih Dusun</option>
-                    @foreach ($dusun as $item)
-                        <option value="{{ $item->dusun }}">{{ $item->dusun }}</option>
-                    @endforeach
-                </select>
-                <select class="form-control input-sm hide" id="rw" name="rw">
-                    <option value="">Pilih RW</option>
-                </select>
-                <select class="form-control input-sm  hide" id="rt" name="rt">
-                    <option value="">Pilih RT</option>
-                </select>
-            </div>
-        </div>
         <div class="box-body">
+            <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2" name="sex">
+                        <option value="">Pilih Jenis Kelamin</option>
+                        @foreach ($jenis_kelamin as $data)
+                            <option value="{{ $data->id }}">{{ set_ucwords($data->nama) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @include('admin.layouts.components.wilayah')
+            </div>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
@@ -114,8 +104,14 @@
         </div>
     </div>
 @endsection
-@include('admin.layouts.components.filter_wilayah')
 @include('admin.dpt.modal_search_form')
+@push('css')
+    <style>
+        .select2-results__option[aria-disabled=true] {
+            display: none;
+        }
+    </style>
+@endpush
 @push('scripts')
     <script>
         $(document).ready(function() {
@@ -128,9 +124,9 @@
                     data: function(req) {
                         req.tgl_pemilihan = $('input[name=tgl_pemilihan]').val()
                         req.sex = $('select[name=sex]').val()
-                        req.dusun = $('select[name=dusun]').val()
-                        req.rw = $('select[name=rw]').val()
-                        req.rt = $('select[name=rt]').val()
+                        req.dusun = $('#dusun').val()
+                        req.rw = $('#rw').val()
+                        req.rt = $('#rt').val()
                         req.advanced = {
                             umur: {
                                 min: $('input[name=umur_min]').val(),
@@ -246,9 +242,9 @@
                 $('th.info-umur').text('UMUR PADA ' + $(this).val())
             })
 
-            document.querySelector('.search-dropdown').querySelectorAll('select').forEach($item => $item.addEventListener('change', function() {
+            $('select[name=sex], #dusun, #rw, #rt').change(function() {
                 TableData.draw()
-            }))
+            })
 
             $('#btnSearchAdvance').click(function() {
                 $(this).closest('.modal').modal('hide')

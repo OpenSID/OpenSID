@@ -38,7 +38,7 @@
             </div>
         @endif
         <div class="box-body">
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select id="status" class="form-control input-sm select2" name="status">
                         <option value="">Pilih Status</option>
@@ -48,7 +48,7 @@
                     </select>
                 </div>
             </div>
-            <hr>
+            <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">

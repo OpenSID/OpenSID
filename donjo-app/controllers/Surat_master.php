@@ -47,6 +47,7 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
+use Illuminate\Filesystem\Filesystem;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -57,6 +58,7 @@ class Surat_master extends Admin_Controller
 {
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'pengaturan-surat';
+    private $reference;
     protected TinyMCE $tinymce;
 
     public function __construct()
@@ -84,23 +86,24 @@ class Surat_master extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . site_url("surat_master/form/{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('surat_master.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
 
                         if ($row->kunci) {
-                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . site_url("surat_master/kunci/{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('surat_master.kunci', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan Surat"><i class="fa fa-unlock"></i></a> ';
 
                             if ($row->favorit) {
-                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}") . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Keluarkan dari Daftar Favorit"><i class="fa fa-star"></i></a> ';
                             } else {
-                                $aksi .= '<a href="' . site_url("surat_master/favorit/{$row->id}") . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
+                                $aksi .= '<a href="' . ci_route('surat_master.favorit', $row->id) . '" class="btn bg-purple btn-sm" title="Tambahkan ke Daftar Favorit"><i class="fa fa-star-o"></i></a> ';
                             }
                         }
                     }
 
                     if (can('h') && ($row->jenis === FormatSurat::TINYMCE_DESA)) {
-                        $aksi .= '<a href="#" data-href="' . site_url("surat_master/delete/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('surat_master.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -113,15 +116,28 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
+    public function salin($id): void
+    {
+        $this->reference = $id;
+        $this->form();
+    }
+
     public function form($id = null)
     {
         isCan('u');
         $this->set_hak_akses_rfm();
 
-        $data['action']      = $id ? 'Ubah' : 'Tambah';
-        $data['formAction']  = $id ? ci_route('surat_master.update', $id) : ci_route('surat_master.insert');
+        $data['action']     = $id ? 'Ubah' : 'Tambah';
+        $data['formAction'] = $id ? ci_route('surat_master.update', $id) : ci_route('surat_master.insert');
+        if ($this->reference) {
+            $id = $this->reference;
+        }
         $data['suratMaster'] = $id ? FormatSurat::findOrFail($id) : null;
-
+        if ($this->reference) {
+            $data['suratMaster']->nama  = null;
+            $data['suratMaster']->jenis = FormatSurat::TINYMCE_DESA;
+            $data['suratMaster']->id    = null;
+        }
         if ($id) {
             $kategori_isian = [];
             // hanya ambil key saja
@@ -143,8 +159,6 @@ class Surat_master extends Admin_Controller
             $data['kode_isian']     = collect($data['suratMaster']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratMaster']->kode_surat)->first();
-
-            $data['formAction'] = ci_route('surat_master.update', $id);
         }
 
         $data['margins']              = json_decode($data['suratMaster']->margin, null) ?? FormatSurat::MARGINS;
@@ -511,7 +525,7 @@ class Surat_master extends Admin_Controller
         }
     }
 
-    public function restore_surat_bawaan($url_surat = ''): void
+    public function restore_surat_bawaan($url_surat = '', $all = null): void
     {
         $cek_surat = FormatSurat::where('url_surat', $url_surat);
         $ada_surat = $cek_surat->first() ?? show_404();
@@ -523,12 +537,28 @@ class Surat_master extends Admin_Controller
                 ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
                 ->first();
 
-            if ($list_data && $cek_surat->update($list_data)) {
+            if ($list_data && $cek_surat->update($list_data) && (! $all)) {
                 redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
             }
         }
 
-        redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+        if (! $all) {
+            redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', 'surat_master/form/' . $ada_surat->id);
+        }
+    }
+
+    public function restore_surat_bawaan_all(): void
+    {
+        isCan('u');
+
+        foreach ($this->request['id_cb'] as $id) {
+            $url_surat = FormatSurat::where('jenis', FormatSurat::TINYMCE_SISTEM)->find($id)->url_surat;
+            if ($url_surat) {
+                $this->restore_surat_bawaan($url_surat, true);
+            }
+        }
+
+        redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem');
     }
 
     public function pengaturan()
@@ -708,7 +738,6 @@ class Surat_master extends Admin_Controller
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
-            $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
             $html2pdf->writeHTML($isi_cetak);
             $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {

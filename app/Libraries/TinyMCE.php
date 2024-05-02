@@ -57,6 +57,7 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\LogSuratDinas;
 use App\Models\Pamong;
+use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
 use CI_Controller;
 use Karriere\PdfMerge\PdfMerge;
@@ -66,10 +67,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-if (! in_array(setting('font_surat'), FONT_SYSTEM_TINYMCE)) {
-    define('K_PATH_MAIN', '');
-    define('K_PATH_FONTS', LOKASI_FONT_DESA);
-}
+define('K_PATH_FONTS', LOKASI_FONT_DESA);
 
 class TinyMCE
 {
@@ -326,8 +324,11 @@ class TinyMCE
     {
         $isi = $this->generateMultiPage($isi);
 
-        $isi = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
-
+        $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+        $font_surat   = SettingAplikasi::where(['key' => 'font_surat', 'kategori' => 'format_surat'])->first()->option ?? [];
+        $font_surat   = array_map('strtolower', $font_surat);
+        $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
+        $isi          = str_replace($font_surat, $replace_font, $isi);
         // Pisahkan isian surat
         $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
@@ -427,7 +428,7 @@ class TinyMCE
         $pisahkanFoto = [];
 
         foreach ($newKodeIsian as $key => $value) {
-            if (in_array(strtolower($key), array_map('strtolower', ['[terbilang]', '[hitung]']))) {
+            if (in_array(strtolower($key), ['[terbilang]', '[hitung]'])) {
                 continue;
             }
             if (preg_match('/(<img src=")(.*?)(">)/', $key)) {
@@ -436,7 +437,7 @@ class TinyMCE
                 continue;
             }
             // TODO:: Cek dari awal pembuatan, kodeisian [format_nomor_surat] tidak mengikuti aturan penulisan, selalu hasilnya huruf besar.
-            if (in_array(strtolower($key), array_map('strtolower', ['[format_nomor_surat]']))) {
+            if (in_array(strtolower($key), ['[format_nomor_surat]'])) {
                 $result = str_ireplace($key, strtoupper($value), $result);
             }
             if (preg_match('/pengikut_surat/i', $key)) {
@@ -559,7 +560,6 @@ class TinyMCE
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
-            ->setDefaultFont(underscore(setting('font_surat'), true, true))
             ->writeHTML($surat) // buat surat
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
@@ -654,7 +654,6 @@ class TinyMCE
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
-            ->setDefaultFont(underscore(setting('font_surat'), true, true))
             ->writeHTML($lampiran) // buat lampiran
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 

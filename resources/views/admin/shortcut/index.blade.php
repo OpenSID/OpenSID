@@ -27,7 +27,7 @@
         </div>
         <div class="box-body">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select name="status" id="status" class="form-control input-sm select2">
                         <option value="">Semua</option>
@@ -36,7 +36,7 @@
                     </select>
                 </div>
             </div>
-            <hr>
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>

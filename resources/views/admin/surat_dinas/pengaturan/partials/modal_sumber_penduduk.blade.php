@@ -38,8 +38,6 @@
                                         <div class="checkbox">
                                             <label><input type="checkbox" data-id="agama"> Agama</label>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
                                         <div class="checkbox">
                                             <label><input type="checkbox" data-id="pendidikan_kk"> Pendidikan</label>
                                         </div>
@@ -49,8 +47,34 @@
                                         <div class="checkbox">
                                             <label><input type="checkbox" data-id="warga_negara"> Warga Negara</label>
                                         </div>
+                                    </div>
+                                    <div class="col-sm-6">
                                         <div class="checkbox">
                                             <label><input type="checkbox" data-id="alamat"> Alamat</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="golongan_darah"> Golongan Darah</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="status_perkawinan"> Status Perkawinan</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="tanggal_perkawinan"> Tanggal Perkawinan</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="shdk"> Status Hubungan Dalam Keluarga</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="no_paspor"> No. Paspor</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="no_kitas"> No. KITAS / KITAP</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="nama_ayah"> Nama Ayah</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" data-id="nama_ibu"> Nama Ibu</label>
                                         </div>
                                     </div>
                                 </div>

@@ -55,6 +55,7 @@ class Mailbox extends Admin_Controller
     {
         $data['submenu']  = array_flip(unserialize(KATEGORI_MAILBOX));
         $data['kategori'] = $kategori;
+
         view('admin.mailbox.index', $data);
     }
 

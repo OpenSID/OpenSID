@@ -25,6 +25,13 @@
                     ></i>
                     Hapus</a>
             @endif
+            @if (super_admin())
+                <a href="#" title="Mengembalikan Surat Bawaan/Sistem" onclick="restore('mainform','{{ ci_route('surat_master/restore_surat_bawaan_all') }}')"
+                    class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
+                >
+                    <i class="fa fa-refresh"></i>Mengembalikan Surat
+                </a>
+            @endif
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
                     <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>
@@ -56,19 +63,18 @@
             @endif
         </div>
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
-        <div class="box-header with-border form-inline">
-            <div class="row">
+        <div class="box-body">
+            <div class="row mepet">
                 <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="jenis" name="jenis">
-                        <option value="">Semua Surat</option>
+                        <option value="">Pilih Surat</option>
                         @foreach ($jenisSurat as $key => $value)
                             <option value="{{ $key }}">{{ SebutanDesa($value) }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-        </div>
-        <div class="box-body">
+            <hr class="batas">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
                     <thead class="bg-gray">
@@ -84,6 +90,28 @@
                 </table>
             </div>
             </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirm-restore" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle text-red"></i>
+                        Konfirmasi</h4>
+                </div>
+                <div class="modal-body btn-info">
+                    Apakah Anda yakin ingin mengembalikan surat bawaan/sistem ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                    <a class="btn-ok">
+                        <a href="#" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i>
+                            Kembalikan</a>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -166,5 +194,15 @@
                 TableData.draw();
             });
         });
+
+        function restore(idForm, action) {
+            $("#confirm-restore").modal("show");
+            $("#ok-restore").click(function() {
+                $("#" + idForm).attr("action", action);
+                addCsrfField($("#" + idForm)[0]);
+                $("#" + idForm).submit();
+            });
+            return false;
+        }
     </script>
 @endpush

@@ -574,8 +574,7 @@
                     <select id="dusun" class="form-control input-sm select2 required">
                         <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <option value="{{ $keyDusun }}" @selected($keyDusun == $penduduk['wilayah']['dusun'])>{{ $keyDusun }}
-                            </option>
+                            <option value="{{ $keyDusun }}" @selected($keyDusun == $penduduk['wilayah']['dusun'])>{{ $keyDusun }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -587,7 +586,7 @@
                     <select id="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
-                            <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['rw'] != $keyRw || $penduduk['wilayah']['dusun'] != $keyDusun)>
+                            <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['dusun'] != $keyDusun)>
                                 @foreach ($dusun as $keyRw => $rw)
                                     <option value="{{ $keyDusun }}__{{ $keyRw }}" @selected($penduduk['wilayah']['rw'] == $keyRw && $penduduk['wilayah']['dusun'] == $keyDusun)>{{ $keyRw }}</option>
                                 @endforeach
@@ -674,7 +673,7 @@
     </div>
     <div class='col-sm-4'>
         <div class='form-group'>
-            <label for="status_kawin"> Cara Hubung Warga </label>
+            <label for="hubung_warga"> Cara Hubung Warga </label>
             <select class="form-control input-sm" name="hubung_warga">
                 <option value="">Pilih Cara Hubungi</option>
                 @foreach (['SMS', 'Email', 'Telegram'] as $value)

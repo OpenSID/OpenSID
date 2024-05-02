@@ -189,6 +189,13 @@ class Laporan extends Admin_Controller
 
     public function detail_penduduk($rincian, $tipe): void
     {
+        $data = $this->sumberData($rincian, $tipe);
+
+        $this->render('laporan/detail/index', $data);
+    }
+
+    private function sumberData($rincian, $tipe)
+    {
         $data         = [];
         $keluarga     = ['kk', 'kk_l', 'kk_p'];
         $tahun        = $this->session->tahunku;
@@ -246,6 +253,35 @@ class Laporan extends Admin_Controller
                 break;
         }
 
-        $this->render('laporan/tabel_bulanan_detil', $data);
+        $data['rincian'] = $rincian;
+        $data['tipe']    = $tipe;
+
+        return $data;
+    }
+
+    public function detail_dialog($aksi = 'cetak', $rincian = 'awal', $tipe = 'wni_l')
+    {
+        $data                = $this->modal_penandatangan();
+        $data['sensor_nik']  = true;
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("laporan/detail_aksi/{$aksi}/{$rincian}/{$tipe}");
+
+        $this->load->view('global/ttd_pamong', $data);
+    }
+
+    public function detail_aksi($aksi = 'cetak', $rincian = 'awal', $tipe = 'wni_l')
+    {
+        $post                   = $this->input->post();
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['main']           = $this->sumberData($rincian, $tipe);
+        $data['file']           = $data['main']['title'];
+        $data['isi']            = 'laporan/detail/cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+        $data['sensor_nik']     = $post['sensor_nik'] ?? false;
+
+        $this->load->view('global/format_cetak', $data);
     }
 }

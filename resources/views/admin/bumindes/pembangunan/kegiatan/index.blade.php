@@ -1,8 +1,28 @@
 @include('admin.layouts.components.asset_datatables')
 
 <div class="box box-info">
+    <div class="box-header with-border">
+        <a
+            href="{{ ci_route('bumindes_kegiatan_pembangunan/dialog/cetak') }}"
+            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+            title="Cetak Buku Kegiatan Kerja Pembangunan"
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Cetak Buku Kegiatan Kerja Pembangunan"
+        ><i class="fa fa-print "></i> Cetak</a>
+        <a
+            href="{{ ci_route('bumindes_kegiatan_pembangunan/dialog/unduh') }}"
+            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+            title="Unduh Buku Kegiatan Kerja Pembangunan"
+            data-remote="false"
+            data-toggle="modal"
+            data-target="#modalBox"
+            data-title="Unduh Buku Kegiatan Kerja Pembangunan"
+        ><i class="fa fa-download"></i> Unduh</a>
+    </div>
     <div class="box-body">
-        <div class="row">
+        <div class="row mepet">
             <div class="col-sm-2">
                 <select id="tahun" class="form-control input-sm select2">
                     <option value="">Pilih Tahun</option>
@@ -11,28 +31,8 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-sm-10">
-                <a
-                    href="{{ ci_route('bumindes_kegiatan_pembangunan/dialog/cetak') }}"
-                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Cetak Buku Kegiatan Kerja Pembangunan"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-target="#modalBox"
-                    data-title="Cetak Buku Kegiatan Kerja Pembangunan"
-                ><i class="fa fa-print "></i> Cetak</a>
-                <a
-                    href="{{ ci_route('bumindes_kegiatan_pembangunan/dialog/unduh') }}"
-                    class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Unduh Buku Kegiatan Kerja Pembangunan"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-target="#modalBox"
-                    data-title="Unduh Buku Kegiatan Kerja Pembangunan"
-                ><i class="fa fa-download"></i> Unduh</a>
-            </div>
         </div>
-        <hr>
+        <hr class="batas">
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="table-responsive">
             <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">

@@ -56,7 +56,6 @@ class ClearCacheObserver
 
     public function updating(Model $model): void
     {
-        log_message('notice', 'Clearing cache...');
         $this->clearAllCache();
     }
 

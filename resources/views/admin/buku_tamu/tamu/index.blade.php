@@ -1,4 +1,5 @@
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.asset_fancybox')
 
 @extends('admin.layouts.index')
 
@@ -18,8 +19,9 @@
         <div class="box-header with-border">
             <div class="form-inline">
                 @if (can('h'))
-                    <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('buku_tamu.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                            class='fa fa-trash-o'></i>
+                    <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('buku_tamu.deleteAll') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                            class='fa fa-trash-o'
+                        ></i>
                         Hapus</a>
                 @endif
                 <div class="input-group input-group-sm date">

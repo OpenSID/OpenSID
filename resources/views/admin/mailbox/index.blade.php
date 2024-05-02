@@ -39,7 +39,7 @@
                         <div class="col-sm-12">
                             <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                                 <form id="mainform" name="mainform" method="post">
-                                    <div class="row">
+                                    <div class="row mepet">
                                         <div class="col-md-4">
                                             <select class="form-control input-sm select2-nik-ajax redraw" id="nik" style="width:100%" name="nik" data-url="{{ ci_route('mailbox.list_pendaftar_mandiri_ajax') }}">
                                                 <option value="">Semua Pendaftar Layanan Mandiri</option>
@@ -54,7 +54,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <hr class="batas">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="table-responsive">

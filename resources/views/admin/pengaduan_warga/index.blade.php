@@ -17,26 +17,24 @@
     @include('admin.pengaduan_warga.widget')
 
     <div class="box box-info">
-        <div class="box-header with-border form-inline">
-            <div class="row">
+        @if (can('h'))
+            <div class="box-header with-border">
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengaduan_admin.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'></i> Hapus</a>
+            </div>
+        @endif
+        <div class="box-body">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="status" name="status">
-                        <option value="">Semua Status</option>
+                        <option value="">Pilih Status</option>
                         @foreach (\App\Enums\StatusPengaduanEnum::all() as $key => $item)
                             <option value="{{ $key }}">{{ $item }}</option>
                         @endforeach
                     </select>
                 </div>
-                @if (can('h'))
-                    <div class="col-sm-1">
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengaduan_admin.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'
-                            ></i> Hapus</a>
-                    </div>
-                @endif
             </div>
-        </div>
-        <div class="box-body">
+            <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">

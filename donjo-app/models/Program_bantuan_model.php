@@ -1031,15 +1031,16 @@ class Program_bantuan_model extends MY_Model
         // keluarga
         if ($sasaran == 'bantuan_keluarga') {
             $this->db->where('p.sasaran', 2);
+            $sasaran = '1';
         }
         // penduduk
         elseif ($sasaran == 'bantuan_penduduk') {
             $this->db->where('p.sasaran', 1);
+            $sasaran = '2';
         } else {
             $id = substr($sasaran, 2);
             $this->db->where('p.id', $id);
             $sasaran = Bantuan::find($id)->sasaran;
-            log_message('error', 'sasaran: ' . $sasaran);
         }
 
         switch ($sasaran) {
@@ -1115,8 +1116,8 @@ class Program_bantuan_model extends MY_Model
             if ($filter['tahun'] != '') {
                 $this->db
                     ->group_start()
-                    ->where('YEAR(u.sdate) <=', $filter['tahun'])
-                    ->where('YEAR(u.edate) >=', $filter['tahun'])
+                    ->where('YEAR(p.sdate) <=', $filter['tahun'])
+                    ->where('YEAR(p.edate) >=', $filter['tahun'])
                     ->group_end();
             }
         }

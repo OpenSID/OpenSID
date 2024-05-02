@@ -36,6 +36,8 @@
  */
 
 use App\Models\BukuKepuasan;
+use App\Models\BukuPertanyaan;
+use Carbon\Carbon;
 
 class Buku_kepuasan extends Anjungan_Controller
 {
@@ -52,7 +54,7 @@ class Buku_kepuasan extends Anjungan_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(BukuKepuasan::query()->with('tamu'))
+            return datatables()->of(BukuPertanyaan::query()->whereIn('id', BukuKepuasan::select('id_pertanyaan')->groupBy('id_pertanyaan')))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -60,9 +62,13 @@ class Buku_kepuasan extends Anjungan_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
+                    $aksi = '<a href="' . site_url('buku_kepuasan/show/' . $row->id) . '" class="btn bg-teal btn-sm" title="Lihat Data"><i class="fa fa-list"></i></a> ';
+
                     if (can('h')) {
-                        return '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
+
+                    return $aksi;
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -71,14 +77,59 @@ class Buku_kepuasan extends Anjungan_Controller
         return view('admin.buku_tamu.kepuasan.index');
     }
 
+    public function show($id = null)
+    {
+        BukuKepuasan::where('id_pertanyaan', $id)->first() ?? show_404();
+
+        return view('admin.buku_tamu.kepuasan.show', [
+            'id_pertanyaan' => $id,
+        ]);
+    }
+
+    public function datatables_show($id = null)
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(BukuKepuasan::query()->where('id_pertanyaan', $id)->with('tamu'))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '<a href="' . site_url('buku_kepuasan/show/' . $row->id) . '" class="btn bg-teal btn-sm" title="Lihat Data"><i class="fa fa-list"></i></a> ';
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
+        }
+
+        return show_404();
+    }
+
     public function delete($id = null): void
     {
         isCan('h');
 
-        if (BukuKepuasan::destroy($this->request['id_cb'] ?? $id) !== 0) {
+        if (BukuKepuasan::where('id_pertanyaan', $id)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function deleteAll(): void
+    {
+        isCan('h');
+
+        foreach ($this->request['id_cb'] as $id) {
+            $this->delete($id);
+        }
     }
 }

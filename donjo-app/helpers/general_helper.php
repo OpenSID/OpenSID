@@ -35,16 +35,17 @@
  *
  */
 
-use App\Models\Config;
-use App\Models\GrupAkses;
-use App\Models\JamKerja;
-use App\Models\Kehadiran;
-use App\Models\Menu;
-use App\Models\Modul;
-use App\Models\User;
-use App\Models\UserGrup;
 use Carbon\Carbon;
+use App\Models\Menu;
+use App\Models\User;
+use App\Models\Modul;
+use App\Models\Config;
+use App\Models\JamKerja;
+use App\Models\UserGrup;
+use App\Models\GrupAkses;
+use App\Models\Kehadiran;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Filesystem\Filesystem;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -95,15 +96,18 @@ if (! function_exists('can')) {
 
         $grupId   = auth()->id_grup;
         $slugGrup = UserGrup::find($grupId)->slug;
-        $data     = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
+
+        $data = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
             if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
                 if (count($grup) === 1 && array_keys($grup)[0] == '*') {
-                    $grupAkses = Modul::get();
-                    $rbac      = array_values($grup)[0];
+                    $grupAkses = Modul::when(! super_admin(), static function ($query) {
+                            $query->isActive();
+                        })->get();
+                    $rbac = array_values($grup)[0];
                 } else {
-                    $grupAkses = Modul::whereIn('slug', array_keys($grup))->get();
+                    $grupAkses = Modul::whereIn('slug', array_keys($grup))->isActive()->get();
                 }
 
                 return $grupAkses->mapWithKeys(static function ($item) use ($grupId, $rbac, $grup) {
@@ -467,6 +471,9 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
+
+        // copy fonts di vendor ke folder desa
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
 
         config()->set('app.key', get_app_key());
 

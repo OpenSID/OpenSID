@@ -36,8 +36,11 @@
  */
 
 use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusEnum;
+use App\Models\BukuKeperluan;
 use App\Models\BukuKepuasan;
 use App\Models\BukuTamu;
+use App\Models\RefJabatan;
 use Carbon\Carbon;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\Color;
@@ -74,11 +77,18 @@ class Buku_tamu extends Anjungan_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
-                    if (can('h')) {
-                        return '<a href="#" data-href="' . ci_route('buku_tamu.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('buku_tamu.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('buku_tamu.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
                 })
-                ->addColumn('tampil_foto', static fn ($row): string => '<img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '">')
+                ->addColumn('tampil_foto', static fn ($row): string => '<a data-fancybox="buku-tamu" href="' . $row->url_foto . '"><img src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="' . $row->nama . '"></a>')
                 ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
                 ->rawColumns(['ceklist', 'tampil_foto', 'aksi'])
                 ->make();
@@ -87,12 +97,52 @@ class Buku_tamu extends Anjungan_Controller
         return view('admin.buku_tamu.tamu.index');
     }
 
+    public function edit($id = null)
+    {
+        isCan('u');
+
+        $data['action']      = 'Ubah';
+        $data['form_action'] = ci_route('buku_tamu.update', $id);
+        $data['buku_tamu']   = BukuTamu::findOrFail($id);
+        $data['bertemu']     = RefJabatan::pluck('nama', 'id');
+        $data['keperluan']   = BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
+
+        return view('admin.buku_tamu.tamu.form', $data);
+    }
+
+    public function update($id = null): void
+    {
+        isCan('u');
+
+        $dataTamu = BukuTamu::findOrFail($id);
+
+        if ($dataTamu->update($this->validate())) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    private function validate()
+    {
+        $request = $this->input->post();
+
+        return [
+            'nama'          => htmlentities($request['nama']),
+            'telepon'       => htmlentities($request['telepon']),
+            'instansi'      => htmlentities($request['instansi']),
+            'jenis_kelamin' => bilangan($request['jenis_kelamin']),
+            'alamat'        => htmlentities($request['alamat']),
+            'bidang'        => bilangan($request['id_bidang']),
+            'keperluan'     => bilangan($request['id_keperluan']),
+        ];
+    }
+
     public function delete($id = null): void
     {
         isCan('h');
 
         if (BukuTamu::destroy($this->request['id_cb'] ?? $id) !== 0) {
-            // Hapus juga data indeks kepuasan
             BukuKepuasan::whereIdNama($this->request['id_cb'] ?? $id)->delete();
             redirect_with('success', 'Berhasil Hapus Data');
         }
@@ -103,19 +153,29 @@ class Buku_tamu extends Anjungan_Controller
     public function cetak()
     {
         return view('admin.buku_tamu.tamu.cetak', [
-            'data_tamu' => $this->data($this->input->get('tanggal')),
+            'data_tamu' => $this->data(),
         ]);
     }
 
-    private function data($tanggal = null)
+    private function data()
+    {
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
+
+        return $query->take($paramDatatable['length'])->get();
+    }
+
+    private function sumberData()
     {
         $filters = [
-            'tanggal' => $tanggal,
+            'tanggal' => $this->input->get('tanggal') ?? null,
         ];
 
-        return BukuTamu::filters($filters)
-            ->latest()
-            ->get();
+        return BukuTamu::filters($filters);
     }
 
     public function ekspor(): void

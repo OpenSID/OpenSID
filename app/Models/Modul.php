@@ -160,7 +160,9 @@ class Modul extends BaseModel
 
     public function tree($grupId)
     {
-        $modul = $this->with(['childrens' => static function ($q) use ($grupId) {
+        $superAdmin = is_super_admin();
+
+        $modul = $this->with(['childrens' => static function ($q) use ($grupId, $superAdmin) {
                 $q->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])
                     ->when(! UserGrup::isAdministrator($grupId), static function ($query) use ($grupId) {
                         $query->whereIn('id', static function ($query) use ($grupId) {
@@ -170,7 +172,11 @@ class Modul extends BaseModel
                     ->when(config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO), static function ($query) {
                         $query->whereNotIn('slug', ['layanan-pelanggan', 'pendaftaran-kerjasama']);
                     })
-                    ->isChild()->isShow()->isActive()->orderBy('urut');
+                    ->isChild()->isShow()
+                    ->when(! $superAdmin, static function ($query) {
+                        $query->isActive();
+                    })
+                    ->orderBy('urut');
             }])
             ->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])
             ->when(! UserGrup::isAdministrator($grupId), static function ($query) use ($grupId) {
@@ -178,7 +184,11 @@ class Modul extends BaseModel
                         $query->select('id_modul')->from('grup_akses')->where('id_grup', $grupId);
                     });
                 })
-            ->isParent()->isShow()->isActive()->orderBy('urut')
+            ->isParent()->isShow()
+            ->when(! $superAdmin, static function ($query) {
+                $query->isActive();
+            })
+            ->orderBy('urut')
             ->get();
 
         return collect(self::DEFAULT_MODUL)->merge($modul)

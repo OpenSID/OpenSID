@@ -55,7 +55,7 @@ class Gallery extends Admin_Controller
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Non Aktif'],
+            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
             'parent' => strlen($parent) > 20 ? decrypt($parent) : $parent,
         ];
         $data['parentEncrypt'] = encrypt($data['parent']);

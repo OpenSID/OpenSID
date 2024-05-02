@@ -70,7 +70,7 @@ class Pengurus extends Admin_Controller
         $data['selected_nav']       = 'pengurus';
         $data['jabatanSekdes']      = sekdes()->id;
         $data['jabatanKadesSekdes'] = RefJabatan::getKadesSekdes();
-        $data['status']             = [Pamong::LOCK => 'Aktif', Pamong::UNLOCK => 'Non Aktif'];
+        $data['status']             = [Pamong::LOCK => 'Aktif', Pamong::UNLOCK => 'Tidak Aktif'];
 
         view('admin.bumindes.index', $data);
     }

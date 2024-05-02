@@ -71,7 +71,9 @@ class Setting_model extends MY_Model
         }
 
         $CI->list_setting = SettingAplikasi::orderBy('key')->get();
-        $CI->setting      = (object) $CI->list_setting->pluck('value', 'key')->toArray();
+        $CI->setting      = (object) $CI->list_setting->pluck('value', 'key')
+            ->map(static fn ($value, $key) => SebutanDesa($value))
+            ->toArray();
 
         $this->apply_setting();
     }
@@ -144,6 +146,14 @@ class Setting_model extends MY_Model
         // Feeds
         if (empty($this->setting->link_feed)) {
             $this->setting->link_feed = 'https://www.covid19.go.id/feed/';
+        }
+
+        if (empty($this->setting->anjungan_layar)) {
+            $this->setting->anjungan_layar = 1;
+        }
+
+        if (empty($this->setting->sebutan_anjungan_mandiri)) {
+            $this->setting->sebutan_anjungan_mandiri = SebutanDesa('Anjungan [desa] Mandiri');
         }
 
         // Konversi nilai margin global dari cm ke mm

@@ -58,6 +58,16 @@ class KodeIsianAritmatika
                 'isian'         => 'Op-',
             ],
             [
+                'case_sentence' => true,
+                'judul'         => 'Operasi Perkalian',
+                'isian'         => 'Op*',
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Operasi Pembagian',
+                'isian'         => 'Op\\', // TODO:: cek kenapa tidak bisa gunakan Op/ karena akan error (return -)
+            ],
+            [
                 'judul' => 'Proses Perhitungan',
                 'isian' => 'Hitung',
             ],

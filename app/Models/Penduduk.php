@@ -40,12 +40,17 @@ namespace App\Models;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
@@ -218,6 +223,13 @@ class Penduduk extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new AccessWilayahScope());
+    }
 
     public function getJmlAnakAttribute(): string
     {
@@ -691,9 +703,10 @@ class Penduduk extends BaseModel
         if (empty($umurObj['max']) && empty($umurObj['min'])) {
             return $query;
         }
+
         $satuan  = $umurObj['satuan'] == 'tahun' ? 'YEAR' : 'MONTH';
         $umurMin = empty($umurObj['min']) ? 0 : $umurObj['min'];
-        $umurMax = empty($umurObj['max']) ? 1000 : $umurObj['max'];
+        $umurMax = empty($umurObj['max']) && $umurObj['max'] != 0 ? 1000 : $umurObj['max'];
 
         return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
     }
@@ -735,6 +748,31 @@ class Penduduk extends BaseModel
     public function pesan(): HasMany
     {
         return $this->hasMany(PesanMandiri::class, 'identitas', 'nik');
+    }
+
+    public function bantuan(): HasManyThrough
+    {
+        return $this->hasManyThrough(Bantuan::class, BantuanPeserta::class, 'peserta', 'id', 'nik', 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
+    }
+
+    public function pesertaBantuan(): HasMany
+    {
+        return $this->hasMany(BantuanPeserta::class, 'peserta', 'nik')->whereHas('bantuanPenduduk');
+    }
+
+    public function asuransi(): BelongsTo
+    {
+        return $this->belongsTo(PendudukAsuransi::class, 'id_asuransi');
+    }
+
+    public function pembuat(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function pengubah(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function bahasa()
@@ -1055,5 +1093,138 @@ class Penduduk extends BaseModel
         }
 
         return $judul . ' panjangnya harus 16 atau bernilai 0';
+    }
+
+    public static function baru($data)
+    {
+        $penduduk = self::create($data);
+
+        if ($foto = upload_foto_penduduk(time() . '-' . $penduduk->id . '-' . random_int(10000, 999999))) {
+                $penduduk->foto = $foto;
+                $penduduk->save();
+        }
+        $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+        unset($data['maksud_tujuan_kedatangan']);
+
+        // Jenis peristiwa didapat dari form yang berbeda
+        // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
+        $x = [
+            'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
+            'kode_peristiwa'           => $data['jenis_peristiwa'],
+            'tgl_lapor'                => $data['tgl_lapor'],
+            'created_by'               => auth()->id,
+            'maksud_tujuan_kedatangan' => $maksud_tujuan,
+        ];
+
+        $penduduk->log()->create($x);
+
+        return $penduduk;
+    }
+
+    public function ubah($data): void
+    {
+        // Reset data terkait kewarganegaarn dari WNA / Dua Kewarganegaraan menjadi WNI
+        if ($data['warganegara_id'] == 1) {
+            $data['negara_asal'] = null;
+        }
+
+        // Reset data terkait kepemilikan KTP dari Memiliki KTP-EL menjadi Belum Memiliki KTP-EL
+        if ($data['ktp_el'] == 1) {
+            $data['tempat_cetak_ktp']  = null;
+            $data['tanggal_cetak_ktp'] = null;
+        }
+        $clusterLama = $this->id_cluster;
+        $alamat      = $data['alamat'];
+        if (($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) && $this->id_kk) {
+            // Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
+            $lvl['kk_level']   = SHDKEnum::LAINNYA;
+            $lvl['updated_at'] = Carbon::now();
+            $lvl['updated_by'] = auth()->id;
+            Penduduk::where('id_kk', $this->id_kk)->where('id', '!=', $this->id)
+                ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                ->update($lvl);
+            Keluarga::where('id', $this->id_kk)->update(['nik_kepala' => $this->id]);
+        }
+
+        // Untuk anggota keluarga
+        if ($this->id_kk) {
+            // Ganti alamat KK
+            $keluarga = Keluarga::find($this->id_kk);
+            $keluarga->update(['alamat' => $alamat]);
+            if ($clusterLama != $data['id_cluster']) {
+                $keluarga->pindah($data['id_cluster']);
+            }
+        }
+
+        if ($foto = upload_foto_penduduk(time() . '-' . $this->id . '-' . random_int(10000, 999999))) {
+            $data['foto'] = $foto;
+        } else {
+            unset($data['foto']);
+        }
+
+        unset($data['no_kk'], $data['dusun'], $data['rw'], $data['file_foto'], $data['old_foto']);
+
+        $tgl_lapor = rev_tgl($data['tgl_lapor']);
+        if ($data['tgl_peristiwa']) {
+            $tgl_peristiwa = rev_tgl($data['tgl_peristiwa']);
+        }
+        unset($data['tgl_lapor'], $data['tgl_peristiwa']);
+
+        // Reset data terkait penduduk TIDAK TETAP saat status berubah menjadi TETAP
+        $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+        if ($data['status'] == 1) {
+            $data['maksud_tujuan_kedatangan'] = null;
+        }
+        unset($data['maksud_tujuan_kedatangan']);
+        $this->update($data);
+
+        // Perbarui data log, mengecek status dasar dari penduduk, jika status dasar adalah hidup
+        // maka akan menupdate data dengan kode_peristiwa 1/5
+        $log = [
+            'tgl_peristiwa'            => $tgl_peristiwa,
+            'updated_at'               => date('Y-m-d H:i:s'),
+            'updated_by'               => $this->session->user,
+            'maksud_tujuan_kedatangan' => $maksud_tujuan,
+        ];
+
+        if ($data['tgl_lapor']) {
+            $log['tgl_lapor'] = $tgl_lapor;
+        }
+        if ($data['tgl_peristiwa']) {
+            if ($this->status_dasar == StatusDasarEnum::HIDUP) {
+                LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])->update($log);
+            } else {
+                LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', $this->status_dasar)->update($log);
+            }
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->foto) {
+            // Hapus file foto penduduk yg di hapus di folder desa/upload/user_pict
+            $file_foto = LOKASI_USER_PICT . $this->foto;
+            if (is_file($file_foto)) {
+                unlink($file_foto);
+            }
+
+            // Hapus file foto kecil penduduk yg di hapus di folder desa/upload/user_pict
+            $file_foto_kecil = LOKASI_USER_PICT . 'kecil_' . $this->foto;
+            if (is_file($file_foto_kecil)) {
+                unlink($file_foto_kecil);
+            }
+        }
+        $log = [
+            'id_pend'    => $this->id,
+            'nik'        => $this->nik,
+            'foto'       => $this->foto,
+            'deleted_by' => auth()->id,
+            'deleted_at' => date('Y-m-d H:i:s'),
+        ];
+        LogHapusPenduduk::create($log);
+        // hapus bantuan penduduk tersebut
+        $this->pesertaBantuan()->delete();
+
+        return parent::delete();
     }
 }

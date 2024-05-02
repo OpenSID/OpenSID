@@ -126,6 +126,10 @@ class SettingAplikasi extends BaseModel
 
     public function getValueAttribute()
     {
+        if ($this->attributes['jenis'] == 'select-simbol') {
+            return base_url(LOKASI_SIMBOL_LOKASI . $this->attributes['value']);
+        }
+
         return $this->attributes['value'];
     }
 }

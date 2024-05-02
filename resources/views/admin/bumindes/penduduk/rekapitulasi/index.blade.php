@@ -41,7 +41,7 @@
     <div class="box-body">
         <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
             <form id="mainform" name="mainform" method="post">
-                <div class="row">
+                <div class="row mepet">
                     <div class="col-sm-2">
                         <select class="form-control input-sm select2 " name="tahun" id="tahun">
                             <option value="">Pilih Tahun</option>
@@ -59,7 +59,7 @@
                         </select>
                     </div>
                 </div>
-                <hr>
+                <hr class="batas">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="table-responsive">

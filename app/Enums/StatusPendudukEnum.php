@@ -39,7 +39,7 @@ namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class StatusPendudukEnum
+class StatusPendudukEnum extends BaseEnum
 {
     public const TETAP       = 1;
     public const TIDAK_TETAP = 2;

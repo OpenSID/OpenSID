@@ -57,6 +57,7 @@ class Surat_dinas extends Admin_Controller
     public $modul_ini     = 'surat-dinas';
     public $sub_modul_ini = 'pengaturan-surat-dinas';
     protected TinyMCE $tinymce;
+    private $reference;
 
     public function __construct()
     {
@@ -83,7 +84,7 @@ class Surat_dinas extends Admin_Controller
 
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route("surat_dinas.form.{$row->id}") . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-
+                        $aksi .= '<a href="' . ci_route('surat_dinas.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
                         if ($row->kunci) {
                             $aksi .= '<a href="' . ci_route("surat_dinas.kunci.{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a> ';
                         } else {
@@ -111,6 +112,12 @@ class Surat_dinas extends Admin_Controller
         return show_404();
     }
 
+    public function salin($id): void
+    {
+        $this->reference = $id;
+        $this->form();
+    }
+
     public function form($id = null)
     {
         isCan('u');
@@ -118,8 +125,15 @@ class Surat_dinas extends Admin_Controller
 
         $data['action']     = $id ? 'Ubah' : 'Tambah';
         $data['formAction'] = $id ? ci_route('surat_dinas.update', $id) : ci_route('surat_dinas.insert');
+        if ($this->reference) {
+            $id = $this->reference;
+        }
         $data['suratDinas'] = $id ? SuratDinas::findOrFail($id) : null;
-
+        if ($this->reference) {
+            $data['suratDinas']->nama  = null;
+            $data['suratDinas']->id    = null;
+            $data['suratDinas']->jenis = SuratDinas::TINYMCE_DESA;
+        }
         if ($id) {
             $kategori_isian = [];
             // hanya ambil key saja
@@ -141,8 +155,6 @@ class Surat_dinas extends Admin_Controller
             $data['kode_isian']     = collect($data['suratDinas']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratDinas']->kode_surat)->first();
-
-            $data['formAction'] = ci_route('surat_dinas.update', $id);
         }
 
         $data['margins']              = json_decode($data['suratDinas']->margin, null) ?? json_decode(setting('surat_dinas_margin'), true);
@@ -606,7 +618,6 @@ class Surat_dinas extends Admin_Controller
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
-            $html2pdf->setDefaultFont(underscore(setting('font_surat'), true, true));
             $html2pdf->writeHTML($isi_cetak);
             $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {

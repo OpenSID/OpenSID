@@ -55,7 +55,7 @@ class Point extends Admin_Controller
     {
         $data['status'] = [
             ModelsPoint::LOCK   => 'Aktif',
-            ModelsPoint::UNLOCK => 'Non Aktif',
+            ModelsPoint::UNLOCK => 'Tidak Aktif',
         ];
 
         return view('admin.peta.point.index', $data);

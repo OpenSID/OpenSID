@@ -62,7 +62,7 @@ class Polygon extends Admin_Controller
         if ($data['tipe'] == '2') {
             $data['parent_jenis'] = PolygonModel::find($data['parent'])->nama ?? '';
         }
-        $data['status'] = [PolygonModel::LOCK => 'Aktif', PolygonModel::UNLOCK => 'Non Aktif'];
+        $data['status'] = [PolygonModel::LOCK => 'Aktif', PolygonModel::UNLOCK => 'Tidak Aktif'];
 
         view('admin.peta.polygon.index', $data);
     }

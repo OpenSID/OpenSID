@@ -50,7 +50,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2404.0.2');
+define('VERSION', '2405.0.0');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024041751');
+define('VERSI_DATABASE', '2024050171');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -1570,7 +1570,7 @@ function kasus_lain($kategori = null, $str = null)
 if (! function_exists('updateConfigFile')) {
     function updateConfigFile(string $key, string $value): void
     {
-        log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
+        // log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
 
         if ($key === 'password') {
             $file    = LOKASI_CONFIG_DESA . 'database.php';
@@ -1640,6 +1640,16 @@ if (! function_exists('super_admin')) {
         $ci->load->model('user_model');
 
         return $ci->user_model->get_super_admin();
+    }
+}
+
+if (! function_exists('is_super_admin')) {
+    /**
+     * - Fungsi untuk mengecek apakah user adalah super admin.
+     */
+    function is_super_admin(): bool
+    {
+        return (int) auth()->id === super_admin();
     }
 }
 
@@ -2018,7 +2028,7 @@ if (! function_exists('terjemahkanTerbilang')) {
                 $suffix = ' rupiah';
             }
 
-            $ke = $prefix . trim(to_word((int) preg_replace('/[^0-9]/', '', $matches[2]))) . $suffix;
+            $ke = $prefix . trim(to_word(preg_replace('/[^0-9\.]/', '', $matches[2]))) . $suffix;
 
             return caseWord($matches[1], $ke);
         }, $teks);
@@ -2070,9 +2080,13 @@ if (! function_exists('caseHitung')) {
     function caseHitung($teks)
     {
         $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
+        $teks = str_replace(['[Op+]', '[Op\\]', '[Op*]', '[Op-]'], ['+', '/', '*', '-'], $teks);
 
         return preg_replace_callback($pola, static function (array $matches) {
-            $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\(\)]/', '', $matches[2]);
+            $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\*\/\(\)]/', '', $matches[2]);
+            if (strpos($onlyNumberAndOperator, '/0') !== false) {
+            return '0';
+            }
 
             $operasi = eval("return {$onlyNumberAndOperator};");
 
@@ -2080,7 +2094,7 @@ if (! function_exists('caseHitung')) {
 
             if (preg_match('/[Rr][pP]/', $matches[2])) {
                 // jika hasil operasinya -, maka minus berada di depan Rp. contohnya - Rp. 100.000
-                return strpos($ke, '-') === 0 ? str_replace('-', '- Rp. ', $ke) : rupiah24($ke, 'Rp. ', 0);
+                return strpos($ke, '-') === 0 ? str_replace('-', '- Rp. ', rupiah24($ke, 'Rp. ', 0)) : rupiah24($ke, 'Rp. ', 0);
             }
 
             return $ke;

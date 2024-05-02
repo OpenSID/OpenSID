@@ -30,9 +30,7 @@
                             <th><input type="checkbox" id="checkall" /></th>
                             <th class="padat">NO</th>
                             <th class="padat">AKSI</th>
-                            <th>NAMA</th>
                             <th>PERTANYAAN</th>
-                            <th class="padat">JAWABAN</th>
                         </tr>
                     </thead>
                 </table>
@@ -70,22 +68,9 @@
                         orderable: false
                     },
                     {
-                        data: 'tamu.nama',
-                        name: 'tamu.nama',
+                        data: 'pertanyaan',
                         searchable: true,
                         orderable: true
-                    },
-                    {
-                        data: 'pertanyaan_statis',
-                        searchable: true,
-                        orderable: true
-                    },
-                    {
-                        data: 'jawaban',
-                        name: 'jawaban',
-                        class: 'padat',
-                        searchable: false,
-                        orderable: false
                     },
                 ],
                 order: [

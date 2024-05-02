@@ -38,18 +38,17 @@
             ])
         </div>
         <form id="mainform" name="mainform" method="post">
-            <div class="box-header with-border form-inline">
-                <div class="row">
+            <div class="box-body">
+                <div class="row mepet">
                     <div class="col-sm-2">
                         <select class="form-control input-sm select2" id="status" name="status">
-                            <option value="">Semua Status</option>
-                            <option value="1">Aktif</option>
-                            <option value="2">Non Aktif</option>
+                            <option value="">Pilih Status</option>
+                            <option value="1" selected>Aktif</option>
+                            <option value="2">Tidak Aktif</option>
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="box-body">
+                <hr class="batas">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-pelapak">
                         <thead class="bg-gray disabled color-palette">

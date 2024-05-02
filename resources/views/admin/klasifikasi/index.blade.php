@@ -44,43 +44,42 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                                <form id="mainform" name="mainform" method="post">
-                                    <input name="kategori" type="hidden" value="{{ $kat }}">
-                                    <div class="row" style="margin-bottom: 10px">
-                                        <div class="col-sm-6">
-                                            <select class="form-control input-sm " name="enable">
-                                                <option value="">Semua</option>
-                                                <option value="1">Aktif</option>
-                                                <option value="0">Tidak Aktif</option>
-                                            </select>
-                                        </div>
+                            <form id="mainform" name="mainform" method="post">
+                                <input name="kategori" type="hidden" value="{{ $kat }}">
+                                <div class="row mepet">
+                                    <div class="col-sm-2">
+                                        <select class="form-control input-sm select2" name="enable">
+                                            <option value="">Pilih Status</option>
+                                            <option value="1" selected>Aktif</option>
+                                            <option value="0">Tidak Aktif</option>
+                                        </select>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-striped dataTable table-hover" id="tabeldata">
-                                                    <thead class="bg-gray disabled color-palette">
-                                                        <tr>
-                                                            <th>
-                                                                @if (can('u'))
-                                                                    <input type="checkbox" id="checkall" />
-                                                                @endif
-                                                            </th>
-                                                            <th>No</th>
-                                                            <th>Aksi</th>
-                                                            <th class="nowrap"> Kode </th>
-                                                            <th> Nama </th>
-                                                            <th>Keterangan</th>
-                                                        </tr>
-                                                    </thead>
+                                </div>
+                                <hr class="batas">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped dataTable table-hover" id="tabeldata">
+                                                <thead class="bg-gray disabled color-palette">
+                                                    <tr>
+                                                        <th>
+                                                            @if (can('u'))
+                                                                <input type="checkbox" id="checkall" />
+                                                            @endif
+                                                        </th>
+                                                        <th>No</th>
+                                                        <th>Aksi</th>
+                                                        <th class="nowrap"> Kode </th>
+                                                        <th> Nama </th>
+                                                        <th>Keterangan</th>
+                                                    </tr>
+                                                </thead>
 
-                                                </table>
-                                            </div>
+                                            </table>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

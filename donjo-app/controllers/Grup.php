@@ -59,7 +59,7 @@ class Grup extends Admin_Controller
     {
         $data = [
             'tab_ini' => $this->tab_ini,
-            'jenis'   => [UserGrup::SISTEM => 'System', UserGrup::DESA => 'Tambahan'],
+            'jenis'   => [UserGrup::SISTEM => 'Sistem', UserGrup::DESA => 'Tambahan'],
         ];
 
         return view('admin.pengaturan.grup.index', $data);

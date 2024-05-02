@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="box-body">
-            <div class="row">
+            <div class="row mepet">
                 <div class="col-sm-2">
                     <select id="status" class="form-control input-sm select2">
                         <option value="">Pilih Status</option>
@@ -90,42 +90,9 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-sm-2">
-                    <select id="dusun" class="form-control input-sm select2">
-                        <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
-                        @foreach ($wilayah as $item)
-                            <option value="{{ $item->id }}">{{ $item->dusun }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select id="rw" class="form-control input-sm select2">
-                        <option value="">Pilih RW</option>
-                        @foreach ($wilayah as $item)
-                            <optgroup label="{{ $item->dusun }}">
-                                @foreach ($item->rwAll as $child)
-                                    <option value="{{ $child->id }}">{{ $child->rw }}</option>
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-sm-2">
-                    <select id="rt" class="form-control input-sm select2">
-                        <option value="">Pilih RT</option>
-                        @foreach ($wilayah as $item)
-                            @foreach ($item->rwAll as $child)
-                                <optgroup value={{ $child->id }} label="{{ $child->rw }}">
-                                    @foreach ($item->rts->where('rw', $child->rw) as $rt)
-                                        <option value="{{ $rt->id }}">{{ $rt->rt }}</option>
-                                    @endforeach
-                                </optgroup>
-                            @endforeach
-                        @endforeach
-                    </select>
-                </div>
+                @include('admin.layouts.components.wilayah')
             </div>
-            <hr>
+            <hr class="batas">
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             @if ($judul_statistik)
                 <h5 class="box-title text-center"><b>{{ $judul_statistik }}</b></h5>
@@ -231,12 +198,14 @@
                     {
                         data: 'kepala_keluarga.nama',
                         name: 'kepalaKeluarga.nama',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kepala_keluarga.nik',
                         name: 'kepalaKeluarga.nik',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: false
                     },
@@ -302,32 +271,6 @@
                 TableData.column(2).visible(false);
             }
 
-            $('#dusun').change(function() {
-                let _label = $(this).find('option:selected').text()
-                $('#rw').find(`optgroup`).prop('disabled', 1)
-                if ($(this).val()) {
-                    $('#rw').closest('div').show()
-                    $('#rw').find(`optgroup[label="${_label}"]`).prop('disabled', 0)
-                } else {
-                    $('#rw').closest('div').hide()
-                    $('#rw').find(`optgroup`).prop('disabled', 1)
-                }
-                $('#rw').val('')
-                $('#rw').trigger('change')
-            })
-
-            $('#rw').change(function() {
-                let _label = $(this).find('option:selected').val()
-                $('#rt').find(`optgroup`).prop('disabled', 1)
-                if ($(this).val()) {
-                    $('#rt').closest('div').show()
-                    $('#rt').find(`optgroup[value="${_label}"]`).prop('disabled', 0)
-                } else {
-                    $('#rt').closest('div').hide()
-                    $('#rt').find(`optgroup`).prop('disabled', 1)
-                }
-            })
-
             $('#status, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
                 TableData.draw()
             })
@@ -337,8 +280,6 @@
                     $('#jenis_kelamin').val(filterColumn['sex'])
                 }
             }
-
-            $('#dusun').trigger('change')
         });
     </script>
 @endpush

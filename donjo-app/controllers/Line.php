@@ -59,7 +59,7 @@ class Line extends Admin_Controller
         if ($data['tipe'] == '2') {
             $data['parent_jenis'] = LineModel::find($data['parent'])->nama ?? '';
         }
-        $data['status'] = [LineModel::LOCK => 'Aktif', LineModel::UNLOCK => 'Non Aktif'];
+        $data['status'] = [LineModel::LOCK => 'Aktif', LineModel::UNLOCK => 'Tidak Aktif'];
 
         view('admin.peta.line.index', $data);
     }

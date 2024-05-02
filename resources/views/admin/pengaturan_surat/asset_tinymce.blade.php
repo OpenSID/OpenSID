@@ -2,14 +2,14 @@
     $fonts = '';
     $cssFont = '';
     foreach (glob(LOKASI_FONT_DESA . '*.ttf') as $font) {
-        $url = site_url(LOKASI_FONT_DESA . $font);
+        $url = site_url($font);
         $nameFont = ucfirst(pathinfo($font, PATHINFO_FILENAME));
     
         $fonts .= $nameFont . '=' . pathinfo($font, PATHINFO_FILENAME) . '; ';
         $cssFont .= "
             @font-face {
                 font-family: '{$nameFont}';
-                src: url($url) format('ttf');
+                src: url($url) format('truetype');
             }
         ";
     }
@@ -101,7 +101,7 @@
                     "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
                 },
                 // content_css: [
-                //     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+                //     '//fonts.googleapis.com/css2?family=Noto+Sans+Javanese:wght@400..700&display=swap',
                 //     '//www.tinymce.com/css/codepen.min.css'
                 // ],
                 skin: 'tinymce-5',
