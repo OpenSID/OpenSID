@@ -24,7 +24,7 @@
                                             <label><input type="checkbox" data-id="nama" checked disabled> Nama Lengkap</label>
                                         </div>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" data-id="no_ktp" checked disabled> NIK / No. KTP</label>
+                                            <label><input type="checkbox" data-id="no_ktp" checked disabled> NIK</label>
                                         </div>
                                         <div class="checkbox">
                                             <label><input type="checkbox" data-id="tempat_lahir"> Tempat lahir</label>

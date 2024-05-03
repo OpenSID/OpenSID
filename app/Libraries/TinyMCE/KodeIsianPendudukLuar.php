@@ -144,4 +144,28 @@ class KodeIsianPendudukLuar
     {
         return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(fn ($item) => $this->alias($item))->toArray();
     }
+
+    public static function getLabels()
+    {
+        return [
+            'nama'               => 'Nama Lengkap',
+            'no_ktp'             => 'NIK',
+            'tempat_lahir'       => 'Tempat Lahir',
+            'tanggal_lahir'      => 'Tanggal Lahir',
+            'jenis_kelamin'      => 'Jenis Kelamin',
+            'agama'              => 'Agama',
+            'pendidikan_kk'      => 'Pendidikan',
+            'pekerjaan'          => 'Pekerjaan',
+            'warga_negara'       => 'Warga Negara',
+            'alamat'             => 'Alamat',
+            'golongan_darah'     => 'Golongan Darah',
+            'status_perkawinan'  => 'Status Perkawinan',
+            'tanggal_perkawinan' => 'Tanggal Perkawinan',
+            'shdk'               => 'Status Hubungan Dalam Keluarga',
+            'no_paspor'          => 'No. Paspor',
+            'no_kitas'           => 'No. KITAS / KITAP',
+            'nama_ayah'          => 'Nama Ayah',
+            'nama_ibu'           => 'Nama Ibu',
+        ];
+    }
 }

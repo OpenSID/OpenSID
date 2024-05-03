@@ -38,6 +38,7 @@
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
 use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
@@ -47,7 +48,6 @@ use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 use App\Models\User;
-use Illuminate\Filesystem\Filesystem;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -574,6 +574,7 @@ class Surat_master extends Admin_Controller
         $data['margins']       = json_decode($margin, null) ?? FormatSurat::MARGINS;
         $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
         $data['alias']         = AliasKodeIsian::get();
+        $data['p_luar_map']    = KodeIsianPendudukLuar::getLabels();
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }

@@ -5,7 +5,7 @@
             <input {{ $kategori == 'individu' ? 'data-visible-required="1"' : '' }} name="{{ $kategori }}[nama]" class="form-control input-sm isi-penduduk-luar" type="text" placeholder="Nama Lengkap" />
         </div>
         <div class="col-sm-3 col-lg-2">
-            <input {{ $kategori == 'individu' ? 'data-visible-required="1"' : '' }} name="{{ $kategori }}[nik]" class="form-control input-sm isi-penduduk-luar nik" type="text" placeholder="Nomor KTP" />
+            <input {{ $kategori == 'individu' ? 'data-visible-required="1"' : '' }} name="{{ $kategori }}[nik]" class="form-control input-sm isi-penduduk-luar nik" type="text" placeholder="NIK" />
         </div>
     </div>
     @if (in_array('tempat_lahir', $input) && in_array('tanggal_lahir', $input))
