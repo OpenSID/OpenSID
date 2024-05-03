@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### FITUR
 1. [#7886](https://github.com/OpenSID/OpenSID/issues/7886) Penambahan hak akses wilayah (dusun/rw/rt) pada modul Peta dan Suplemen.
 2. [#7899](https://github.com/OpenSID/OpenSID/issues/7899) Penambahan pengaturan icon pembangunan yang ditampilkan pada peta.
+3. [#6287](https://github.com/OpenSID/OpenSID/issues/6287) Penambahan opsi keperluan buku tamu yang dapat diketik manual. 
 
 
 #### BUG

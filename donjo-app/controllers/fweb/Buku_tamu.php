@@ -125,7 +125,7 @@ class Buku_tamu extends MY_Controller
     {
         $tamu = BukuTamu::find($id);
 
-        if (! $tamu || ! in_array($jawaban, JawabanKepuasanEnum::keys())) {
+        if (!$tamu || !in_array($jawaban, JawabanKepuasanEnum::keys())) {
             set_session('error', 'Jawaban Gagal Disimpan');
         } else {
             $cek_pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
@@ -153,7 +153,7 @@ class Buku_tamu extends MY_Controller
         $sudah_ada  = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
         $pertanyaan = BukuPertanyaan::whereNotIn('id', $sudah_ada)->whereStatus(StatusEnum::YA)->first();
 
-        if (! $pertanyaan) {
+        if (!$pertanyaan) {
             set_session('success', '<h1>TERIMA KASIH</h1><br><br>Anda Telah Membantu Kami Untuk Melayani Lebih Baik Lagi.');
             redirect('buku-tamu');
         }
@@ -163,16 +163,22 @@ class Buku_tamu extends MY_Controller
 
     private function validate($request = [])
     {
-        return [
+        $validate = [
             'nama'          => htmlentities($request['nama']),
             'telepon'       => htmlentities($request['telepon']),
             'instansi'      => htmlentities($request['instansi']),
             'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities($request['alamat']),
             'bidang'        => bilangan($request['id_bidang']),
-            'keperluan'     => bilangan($request['id_keperluan']),
+            'keperluan'     => bilangan($request['keperluan']),
             'foto'          => $this->foto($request['foto']),
         ];
+
+        if ($validate['keperluan'] === '0') {
+            $validate['keperluan'] = htmlentities($request['keperluan_lainnya']);
+        }
+
+        return $validate;
     }
 
     private function foto($base64 = null)

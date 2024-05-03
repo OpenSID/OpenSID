@@ -113,14 +113,4 @@ class BukuTamu extends BaseModel
     {
         $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
     }
-
-    /**
-     * Setter untuk keperluan
-     *
-     * @param mixed $value
-     */
-    public function setKeperluanAttribute($value): void
-    {
-        $this->attributes['keperluan'] = BukuKeperluan::find($value)->keperluan ?? null;
-    }
 }
