@@ -592,14 +592,14 @@ function to_word($number): string
 
     $unit = ['', 'ribu', 'juta', 'milyar', 'triliun', 'kuadriliun', 'kuintiliun', 'sekstiliun', 'septiliun', 'oktiliun', 'noniliun', 'desiliun', 'undesiliun', 'duodesiliun', 'tredesiliun', 'kuatuordesiliun'];
 
-    if (strpos($number, '.') !== false) {
-        $parts       = explode('.', $number);
+    if (strpos($number, ',') === true) {
+        $parts       = explode(',', $number);
         $intPart     = (int) $parts[0];
         $decimalPart = (int) $parts[1];
 
         $words = to_word($intPart) . ' koma ' . to_word($decimalPart);
     } else {
-        $number = (int) $number; // Ubah menjadi integer untuk memastikan hanya bilangan bulat yang diproses
+        $number = (int) str_replace('.', '', $number); // Ubah menjadi integer untuk memastikan hanya bilangan bulat yang diproses
 
         if ($number < 12) {
             $words = ' ' . $arr_number[$number];
