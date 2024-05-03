@@ -1394,7 +1394,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor'),
@@ -1410,7 +1410,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
         $hapus = isset($_POST['hapus_data']);
         $this->impor_model->impor_excel($hapus);
         redirect('penduduk/impor');
@@ -1422,7 +1422,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor_bip'),
@@ -1438,7 +1438,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
 
         // TODO: Sederhanakan query ini, pindahkan ke model
         if (PendudukModel::count() > 0) {

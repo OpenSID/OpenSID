@@ -225,7 +225,7 @@ Route::group('penduduk', static function (): void {
 Route::group('penduduk_log', static function (): void {
     Route::get('clear', 'Penduduk_log@index')->name('penduduk_log.clear');
     Route::get('', 'Penduduk_log@index')->name('penduduk_log.index');
-    Route::get('index', 'Penduduk_log@index');            
+    Route::get('index', 'Penduduk_log@index');
     Route::get('datatables', 'Penduduk_log@datatables')->name('penduduk_log.datatables');
     Route::get('edit/{id}', 'Penduduk_log@edit')->name('penduduk_log.edit');
     Route::post('update/{id}', 'Penduduk_log@update')->name('penduduk_log.update');
@@ -429,8 +429,8 @@ Route::group('statistik', static function (): void {
 Route::group('laporan', static function (): void {
     Route::get('/', 'Laporan@index')->name('laporan.index');
     Route::get('/clear', 'Laporan@clear')->name('laporan.clear');
-    Route::get('/dialog/{aksi}', 'Laporan@dialog')->name('laporan.dialog');    
-    Route::post('/cetak/{cetak}', 'Laporan@cetak')->name('laporan.cetak');    
+    Route::get('/dialog/{aksi}', 'Laporan@dialog')->name('laporan.dialog');
+    Route::post('/cetak/{cetak}', 'Laporan@cetak')->name('laporan.cetak');
     Route::post('/bulan', 'Laporan@bulan')->name('laporan.bulan');
     Route::get('/detail_penduduk/{rincian}/{tipe}', 'Laporan@detail_penduduk')->name('laporan.detail_penduduk');
     Route::get('/detail_dialog/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_dialog')->name('laporan.detail_dialog');

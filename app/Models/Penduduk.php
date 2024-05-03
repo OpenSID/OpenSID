@@ -1229,11 +1229,13 @@ class Penduduk extends BaseModel
         return parent::delete();
     }
 
-    public static function awalBulan($tahun, $bulan){
+    public static function awalBulan($tahun, $bulan)
+    {
         $akhirBulanKemarin = Carbon::createFromDate($tahun, $bulan)->subMonth()->endOfMonth()->format('Y-m-d');
         // penduduk yang masih hidup sampai dengan akhir bulan kemarin
         $listKodePeristiwa = array_diff(array_keys(LogPenduduk::kodePeristiwa()), [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::HILANG]);
-        return Penduduk::select(['status', 'nama', 'nik','tanggallahir','tempatlahir','nama_ayah','nama_ibu', 'id_kk', 'kk_level', 'sex', 'warganegara_id'])->withOnly([])->whereHas('log', function($q) use ($akhirBulanKemarin, $listKodePeristiwa) {            
+
+        return Penduduk::select(['status', 'nama', 'nik', 'tanggallahir', 'tempatlahir', 'nama_ayah', 'nama_ibu', 'id_kk', 'kk_level', 'sex', 'warganegara_id'])->withOnly([])->whereHas('log', static function ($q) use ($akhirBulanKemarin, $listKodePeristiwa) {
             $q->peristiwaSampaiDengan($akhirBulanKemarin)->whereIn('kode_peristiwa', $listKodePeristiwa);
         });
         // ->whereStatus(StatusPendudukEnum::TETAP)->get();
