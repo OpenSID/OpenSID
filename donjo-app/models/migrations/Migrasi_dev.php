@@ -62,12 +62,27 @@ class Migrasi_dev extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024050272($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024050251($hasil, $id);
         }
 
         return $hasil && true;
     }
 
+    public function migrasi_2024050272($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Icon Pembangunan Peta',
+            'key'        => 'icon_pembangunan_peta',
+            'value'      => 'construction.png',
+            'keterangan' => 'Icon penanda Lokasi Pembangunan yang ditampilkan pada Peta',
+            'jenis'      => 'select-simbol',
+            'option'     => json_encode(['model' => 'App\\Models\\Simbol', 'value' => 'simbol', 'label' => 'simbol']),
+            'attribute'  => 'class="required"',
+            'kategori'   => 'pembangunan',
+        ], $id);
+    }
+      
     protected function migrasi_2024050251($hasil)
     {
         return $hasil && $this->ubah_modul(
