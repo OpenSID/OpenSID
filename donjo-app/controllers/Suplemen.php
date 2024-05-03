@@ -179,9 +179,9 @@ class Suplemen extends Admin_Controller
     {
         $sasaran  = unserialize(SASARAN);
         $suplemen = ModelsSuplemen::findOrFail($id);
-        $dusun    = Wilayah::dusun()->pluck('dusun');
+        $wilayah  = Wilayah::treeAccess();
 
-        return view('admin.suplemen.detail', ['sasaran' => $sasaran, 'suplemen' => $suplemen, 'dusun' => $dusun]);
+        return view('admin.suplemen.detail', ['sasaran' => $sasaran, 'suplemen' => $suplemen, 'wilayah' => $wilayah]);
     }
 
     public function datatables_terdata()
@@ -195,8 +195,14 @@ class Suplemen extends Admin_Controller
                 'rw'    => $this->input->get('rw'),
                 'rt'    => $this->input->get('rt'),
             ];
+            $user          = auth();
+            $aksesWilayah  = [];
+            $batasiWilayah = $user->batasi_wilayah ? true : false;
+            if ($batasiWilayah) {
+                $aksesWilayah = $user->akses_wilayah ?? [];
+            }
 
-            return datatables()->of(SuplemenTerdata::anggota($sasaran, $id)->filter($filters))
+            return datatables()->of(SuplemenTerdata::anggota($sasaran, $id)->when($batasiWilayah, static fn ($q) => $q->whereIn('tweb_wil_clusterdesa.id', $aksesWilayah))->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
