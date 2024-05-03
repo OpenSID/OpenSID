@@ -339,6 +339,10 @@
                     $('#jenis_kelamin').val(filterColumn['sex'])
                     $('#jenis_kelamin').trigger('change')
                 }
+                if (filterColumn['dusun']) {
+                    $('#dusun').val(filterColumn['dusun'])
+                    $('#dusun').trigger('change')
+                }
             }
         });
     </script>

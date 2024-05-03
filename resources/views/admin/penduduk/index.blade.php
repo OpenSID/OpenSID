@@ -398,6 +398,16 @@
                     $('#status_dasar').val(filterColumn['status_dasar'])
                     $('#status_dasar').trigger('change')
                 }
+
+                if (filterColumn['dusun']) {
+                    $('#dusun').val(filterColumn['dusun'])
+                    $('#dusun').trigger('change')
+                }
+
+                if (filterColumn['sex']) {
+                    $('#jenis_kelamin').val(filterColumn['sex'])
+                    $('#jenis_kelamin').trigger('change')
+                }
             }
 
             $('.btn-ekspor').click(function() {

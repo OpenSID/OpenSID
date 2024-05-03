@@ -493,43 +493,26 @@ class Wilayah extends Admin_Controller
 
     public function warga($id = ''): void
     {
-        $temp  = WilayahModel::find($id)->toArray();
-        $dusun = $temp['dusun'];
-
-        $_SESSION['per_page'] = 100;
-        $_SESSION['dusun']    = $dusun;
-        redirect('penduduk/index/1/0');
+        $temp = WilayahModel::find($id)->toArray();
+        redirect('penduduk?dusun=' . $temp['dusun']);
     }
 
     public function warga_kk($id = ''): void
     {
-        $temp                 = WilayahModel::find($id)->toArray();
-        $dusun                = $temp['dusun'];
-        $_SESSION['per_page'] = 50;
-        $_SESSION['dusun']    = $dusun;
-        redirect('keluarga/index/1/0');
+        $temp = WilayahModel::find($id)->toArray();
+        redirect('keluarga?dusun=' . $temp['dusun']);
     }
 
     public function warga_l($id = ''): void
     {
-        $temp  = WilayahModel::find($id)->toArray();
-        $dusun = $temp['dusun'];
-
-        $_SESSION['per_page'] = 100;
-        $_SESSION['dusun']    = $dusun;
-        $_SESSION['sex']      = 1;
-        redirect('penduduk/index/1/0');
+        $temp = WilayahModel::find($id)->toArray();
+        redirect('penduduk?dusun=' . $temp['dusun'] . '&sex=1');
     }
 
     public function warga_p($id = ''): void
     {
-        $temp  = WilayahModel::find($id)->toArray();
-        $dusun = $temp['dusun'];
-
-        $_SESSION['per_page'] = 100;
-        $_SESSION['dusun']    = $dusun;
-        $_SESSION['sex']      = 2;
-        redirect('penduduk/index/1/0');
+        $temp = WilayahModel::find($id)->toArray();
+        redirect('penduduk?dusun=' . $temp['dusun'] . '&sex=2');
     }
 
     public function ajax_kantor_dusun_maps(int $id): void
