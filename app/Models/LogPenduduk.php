@@ -41,6 +41,7 @@ use Exception;
 use Carbon\Carbon;
 use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
 use App\Traits\ShortcutCache;
 use App\Enums\StatusDasarEnum;
 
@@ -252,6 +253,15 @@ class LogPenduduk extends BaseModel
         return $this->belongsTo(RefPindah::class, 'ref_pindah', 'id')->withDefault();
     }
 
+    public function scopePeristiwaSampaiDengan($query, string $tanggal)
+    {        
+        $configId = identitas('id');        
+        $subQuery = DB::raw(
+            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = '.$configId.' and tgl_lapor <= \''.$tanggal.'\' group by id_pend) as logMax'
+        );
+
+        return $query->join($subQuery, 'logMax.id', '=', 'log_penduduk.id');
+    }
     public function pergiTerakhir()
     {
         return $this->hasOne(LogPenduduk::class, 'id_pend', 'id_pend')->whereIn('kode_peristiwa', [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])->orderByDesc('id');
@@ -387,18 +397,5 @@ class LogPenduduk extends BaseModel
                 LogKeluarga::upsert($logKeluarga, ['id_kk', ['id_peristiwa', 'tgl_peristiwa', 'config_id']]);                
             }            
         }
-    }
-
-    /**
-     * Kembalikan status dasar sekumpulan penduduk ke hidup
-     */
-    public function kembalikan_status_all(): void
-    {
-        unset($_SESSION['success']);
-        $id_cb = $_POST['id_cb'];
-
-        foreach ($id_cb as $id) {
-            $this->kembalikan_status($id);
-        }
-    }
+    }    
 }

@@ -429,14 +429,12 @@ Route::group('statistik', static function (): void {
 Route::group('laporan', static function (): void {
     Route::get('/', 'Laporan@index')->name('laporan.index');
     Route::get('/clear', 'Laporan@clear')->name('laporan.clear');
-    Route::get('/dialog_cetak', 'Laporan@dialog_cetak')->name('laporan.dialog_cetak');
-    Route::get('/dialog_unduh', 'Laporan@dialog_unduh')->name('laporan.dialog_unduh');
-    Route::post('/cetak', 'Laporan@cetak')->name('laporan.cetak');
-    Route::post('/unduh', 'Laporan@unduh')->name('laporan.unduh');
+    Route::get('/dialog/{aksi}', 'Laporan@dialog')->name('laporan.dialog');    
+    Route::post('/cetak/{cetak}', 'Laporan@cetak')->name('laporan.cetak');    
     Route::post('/bulan', 'Laporan@bulan')->name('laporan.bulan');
     Route::get('/detail_penduduk/{rincian}/{tipe}', 'Laporan@detail_penduduk')->name('laporan.detail_penduduk');
     Route::get('/detail_dialog/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_dialog')->name('laporan.detail_dialog');
-    Route::post('/detail_aksi/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_aksi')->name('laporan.detail_aksi');
+    Route::post('/detail_cetak/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_cetak')->name('laporan.detail_cetak');
 });
 
 // Statistik > Laporan Kelompok Rentan
