@@ -1,4 +1,5 @@
 @extends('admin.layouts.index')
+@include('admin.layouts.components.asset_highcharts')
 
 @section('content')
     @include('admin.layouts.components.notifikasi')
@@ -348,10 +349,10 @@
                                 link_detail = '{{ ci_route('rtm.anggota') }}/' + penduduk[x].rtm.id;
                             } else if (layer_keluarga == 1) {
                                 info_lain = '<br/>Anggota Keluarga : ' + penduduk[x].jumlah_anggota;
-                                link_detail = '{{ ci_route('keluarga.anggota.1.0') }}/' + penduduk[x].id_kk;
+                                link_detail = '{{ ci_route('keluarga.anggota') }}/' + penduduk[x].id_kk;
                             } else {
                                 info_lain = '';
-                                link_detail = '{{ ci_route('penduduk.detail.1.0') }}/' + penduduk[x].id;
+                                link_detail = '{{ ci_route('penduduk.detail') }}/' + penduduk[x].id;
                             }
 
                             //Konten yang akan ditampilkan saat marker diklik

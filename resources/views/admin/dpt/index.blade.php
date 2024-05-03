@@ -150,7 +150,7 @@
                         searchable: true,
                         orderable: true,
                         render: function(data, type, row) {
-                            return `<a href="{{ ci_route('penduduk.detail.1.0') }}/${row.id}" id="test" name="${row.id}">${row.nik}</a>`
+                            return `<a href="{{ ci_route('penduduk.detail') }}/${row.id}" id="test" name="${row.id}">${row.nik}</a>`
                         },
                     },
                     {
@@ -172,7 +172,7 @@
                         orderable: true,
                         defaultContent: '',
                         render: function(data, type, row) {
-                            return row.id_kk ? `<a href="{{ ci_route('keluarga.kartu_keluarga.1.0') }}/${row.id_kk}" >${row.keluarga.no_kk}</a>` : ``
+                            return row.id_kk ? `<a href="{{ ci_route('keluarga.kartu_keluarga') }}/${row.id_kk}" >${row.keluarga.no_kk}</a>` : ``
                         },
                     },
                     {
