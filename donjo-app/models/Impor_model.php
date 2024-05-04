@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\SHDKEnum;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukAsuransi;
@@ -46,7 +47,8 @@ use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 class Impor_model extends MY_Model
 {
     public $error_tulis_penduduk; // error pada pemanggilan terakhir tulis_tweb_penduduk()
-    public $daftar_kolom = [
+    private $info_tulis_penduduk = []; // error pada pemanggilan terakhir tulis_tweb_penduduk()
+    public $daftar_kolom         = [
         'alamat',
         'dusun',
         'rw',
@@ -170,7 +172,7 @@ class Impor_model extends MY_Model
 
             return false;
         }
-        $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12'];
+        $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12', 'application/wps-office.xlsx'];
         if (! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel)) {
             set_session('error', ' -> Jenis file salah: ' . $_FILES['userfile']['type']);
 
@@ -538,6 +540,7 @@ class Impor_model extends MY_Model
     {
         $this->load->model('penduduk_model');
         $this->error_tulis_penduduk = null;
+        $this->info_tulis_penduduk  = [];
 
         $data = [];
 
@@ -558,6 +561,16 @@ class Impor_model extends MY_Model
                 if (! ($key == 'nik' && $value == '0')) {
                     unset($data[$key]);
                 } // Kecuali untuk kolom NIk boleh 0
+            }
+        }
+        // jika kk_level adalah kepala keluarga maka periksa,
+        // apakah sudah ada kepala_keluarga untuk keluarga tersebut ?
+        // maka ganti menjadi lainnya
+        if ($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
+            $adaKepalaKeluarga = $this->config_id()->get_where('tweb_penduduk', ['id_kk' => $isi_baris['id_kk'], 'kk_level' => SHDKEnum::KEPALA_KELUARGA])->row_array();
+            if ($adaKepalaKeluarga) {
+                $data['kk_level']                     = SHDKEnum::LAINNYA;
+                $this->info_tulis_penduduk['message'] = 'KK level pada NIK : ' . $data['nik'] . ' diubah menjadi ' . SHDKEnum::LAINNYA . ' karena dalam keluarga tersebut sudah ada kepala keluarga';
             }
         }
         // Masukkan penduduk ke tabel tweb_penduduk apabila
@@ -684,7 +697,7 @@ class Impor_model extends MY_Model
 
         // Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
         // dan sudah ada NIK
-        if ($data['kk_level'] == 1) {
+        if ($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $this->config_id()
                 ->where('id', $data['id_kk'])
                 ->update('tweb_keluarga', [
@@ -819,18 +832,19 @@ class Impor_model extends MY_Model
                         if (empty($error_validasi)) {
                             $this->tulis_tweb_wil_clusterdesa($isi_baris);
                             $this->tulis_tweb_keluarga($isi_baris);
-
                             // Untuk pesan jika data yang sama akan diganti
                             if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
                                 $ganda++;
                                 $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
                             }
                             $data_penduduk[] = $isi_baris['nik'];
-
                             $this->tulis_tweb_penduduk($isi_baris);
                             if ($error = $this->error_tulis_penduduk) {
                                 $gagal++;
                                 $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                            }
+                            if ($this->info_tulis_penduduk) {
+                                $pesan .= $baris_data . ') ' . $this->info_tulis_penduduk['message'] . '<br>';
                             }
                         } else {
                             $gagal++;

@@ -93,6 +93,10 @@ Route::group('periksaLogPenduduk', static function (): void {
     Route::post('/hapusLog', 'PeriksaLogPenduduk@hapusLog')->name('periksaLogPenduduk.hapusLog');
     Route::post('/updateStatusDasar', 'PeriksaLogPenduduk@updateStatusDasar')->name('periksaLogPenduduk.updateStatusDasar');
 });
+Route::group('periksaKepalaKeluargaGanda', static function (): void {
+    Route::get('/', 'PeriksaKepalaKeluargaGanda@index')->name('periksaKepalaKeluargaGanda.index');
+    Route::post('/ubahShdk', 'PeriksaKepalaKeluargaGanda@ubahShdk')->name('periksaKepalaKeluargaGanda.ubahShdk');
+});
 
 // Info Desa > Identitas Desa
 Route::group('identitas_desa', static function (): void {

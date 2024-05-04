@@ -6,7 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### BUG
 
 1. [#7898](https://github.com/OpenSID/OpenSID/issues/7898) Perbaikan detail data (penduduk dan keluarga) pada modul wilayah.
-2.
+2. [#7903](https://github.com/OpenSID/OpenSID/issues/7903) Perbaikan proses impor penduduk yang berkeluarga hanya boleh terdapat 1 kepala keluarga.
 
 
 #### TEKNIS
