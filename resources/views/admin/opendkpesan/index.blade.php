@@ -25,54 +25,21 @@
                     </div>
                 </div>
             </div>
-            @if (can('h') && $selected_nav != 'arsip')
-                <div class="box box-solid">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Label</h3>
-                        <div class="box-tools">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body no-padding">
-                        <div class="box-footer no-padding">
-                            {!! form_open(site_url('opendk_pesan/filter/status'), 'id="label" name="label"', ['status' => '1']) !!}
-                            <ul class="nav nav-stacked" id="label">
-                                <li {{ jecho($status, '1', 'class="active"') }} data-status='1'><a href="javascript:;">Sudah Dibaca</a></li>
-                                <li {{ jecho($status, '0', 'class="active"') }} data-status='0'><a href="javascript:;">Belum Dibaca</a></li>
-                            </ul>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endif
         </div>
 
         <div class="col-md-8 col-lg-9">
 
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <div class="col-sm-4 col-md-2  pull-right">
-                        {!! form_open('', 'id="mainform" name="mainform"') !!}
-                        <div class="input-group input-group-sm">
-                            <input
-                                name="cari"
-                                id="cari"
-                                class="form-control ui-autocomplete-input"
-                                placeholder="Cari..."
-                                type="text"
-                                value="{{ $cari }}"
-                                onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '{{ site_url('opendk_pesan/search') }}');$('#'+'mainform').submit();}"
-                                autocomplete="off"
-                            >
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default" onclick="$('#mainform').attr('action', '{{ site_url('opendk_pesan/search/') }}');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
-                            </div>
+                    <div class="row mepet">
+                        <div class="col-sm-2">
+                            <select name="status" id="status" class="form-control input-sm select2">
+                                <option value="">Pilih Status</option>
+                                <option value="1">Sudah Dibaca</option>
+                                <option value="0">Belum Dibaca</option>
+                            </select>
                         </div>
-                        </form>
                     </div>
-
-                    <a href="{{ ci_route('opendk_pesan.clear') }}" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
-                    </form>
                 </div>
                 <div class="box-body">
                     <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -88,33 +55,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($pesan as $key => $data)
-                                        <tr @if ($data->sudah_dibaca == 0) class="info" @endif>
-
-                                            <td>{{ $key + 1 }}</td>
-                                            <td class="aksi">
-                                                @if (can('u'))
-                                                    <a href="{{ site_url('opendk_pesan/show/' . $data->id) }}" title="Tampilkan Pesan" class="btn bg-blue btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-                                                @endif
-                                            </td>
-                                            <td> {{ $data->judul }} - {{ strip_tags($data->detailpesan[0]->text) ?? '' }} </td>
-                                            <td> {{ $data->jenis == 'Pesan Masuk' ? 'Pesan Keluar' : 'Pesan Masuk' }} </td>
-                                            <td>
-                                                @if ($data->sudah_dibaca == 0)
-                                                    <span class="label label-warning">Belum dibaca</span>
-                                                @else
-                                                    <span class="label label-success">Sudah dibaca</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6">Tidak ada Pesan untuk ditampilkan</td>
-                                        </tr>
-                                    @endforelse
                                 </tbody>
                             </table>
-                            {{ $pesan->links('vendor.pagination.simple-bootstrap') }}
                         </div>
                         </form>
                     </div>
@@ -153,12 +95,64 @@
 @push('scripts')
     <script>
         $(function() {
-            $('#label a').click(function(e) {
-                e.preventDefault();
-                var data = $(this).parent().data('status');
-                $('input[name="status"]').val(data);
-                $('form#label').submit();
+            var TableData = $('#tabeldata').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ ci_route('opendk_pesan.datatables') }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                        @if ($selected_nav == 'arsip')
+                            req.arsip = 1;
+                        @endif
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'aksi',
+                        class: 'aksi',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'judul',
+                        name: 'judul',
+                        searchable: true,
+                        orderable: false,
+                    },
+                    {
+                        data: 'tipe',
+                        name: 'tipe',
+                        searchable: true,
+                        orderable: false
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        searchable: true,
+                        orderable: false
+                    },
+                ],
+                aaSorting: [],
             });
+
+            $('#status').change(function() {
+                TableData.draw();
+            });
+
+            if (hapus == 0) {
+                TableData.column(1).visible(false);
+            }
+
+            if (ubah == 0) {
+                TableData.column(3).visible(false);
+            }
         });
     </script>
 @endpush

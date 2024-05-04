@@ -1675,6 +1675,7 @@ Route::group('pengaduan_admin', static function (): void {
 // OpenDK > Pesan
 Route::group('opendk_pesan', static function (): void {
     Route::get('/', 'Opendk_pesan@index')->name('opendk_pesan.index');
+    Route::get('/datatables', 'Opendk_pesan@datatables')->name('opendk_pesan.datatables');
     Route::get('/cek', 'Opendk_pesan@cek')->name('opendk_pesan.cek');
     Route::get('/clear/{return?}', 'Opendk_pesan@clear')->name('opendk_pesan.clear');
     Route::post('/filter/{filter}/{return?}', 'Opendk_pesan@filter')->name('opendk_pesan.filter');

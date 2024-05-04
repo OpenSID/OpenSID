@@ -14,3 +14,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#7811](https://github.com/OpenSID/OpenSID/issues/7811) Penyesuaian modul Peristiwa menggunakan ORM dan Blade.
 2. [#7876](https://github.com/OpenSID/OpenSID/issues/7876) Penyesuaian label pada pengaturan kode isian penduduk luar.
 3. [#7811](https://github.com/OpenSID/OpenSID/issues/7811) Penyesuaian modul Laporan Bulanan menggunakan ORM dan Blade.
+4. [#7824](https://github.com/OpenSID/OpenSID/issues/7824) Penyesuaian modul OpenDK > Pesan menggunakan ORM dan Blade.
