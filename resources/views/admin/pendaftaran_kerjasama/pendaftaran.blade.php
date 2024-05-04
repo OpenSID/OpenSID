@@ -105,20 +105,22 @@
                         var cek = that.validate();
                         setTimeout(function() {
 
-                            const formData = new FormData();
-                            formData.append('user_id', that.find('input[name="user_id"]').val());
-                            formData.append('email', that.find('input[name="email"]').val());
-                            formData.append('desa', that.find('input[name="desa"]').val());
-                            formData.append('domain', that.find('input[name="domain"]').val());
-                            formData.append('kontak_nama', that.find('input[name="kontak_nama"]').val());
-                            formData.append('kontak_no_hp', that.find('input[name="kontak_no_hp"]').val());
-                            formData.append('status_langganan', that.find('input[name="status_langganan_id"]')
-                                .val());
-                            formData.append('permohonan', that.find('input[name="permohonan"]').val());
+                            const formData = new FormData(document.getElementById('validasi'));
+                            // formData.append('user_id', that.find('input[name="user_id"]').val());
+                            // formData.append('email', that.find('input[name="email"]').val());
+                            // formData.append('desa', that.find('input[name="desa"]').val());
+                            // formData.append('domain', that.find('input[name="domain"]').val());
+                            // formData.append('kontak_nama', that.find('input[name="kontak_nama"]').val());
+                            // formData.append('kontak_no_hp', that.find('input[name="kontak_no_hp"]').val());
+                            formData.append('status_langganan', that.find('input[name="status_langganan_id"]').val());
+                            // formData.append('permohonan', that.find('input[name="permohonan"]').val());
                             if (that.valid() == true) {
                                 Swal.showLoading()
                                 $.ajax({
                                         url: '{{ config_item('server_layanan') . '/api/v1/pelanggan/register' }}',
+                                        headers: {
+                                            'Accept': 'application/json',
+                                        },
                                         type: "POST",
                                         data: formData,
                                         processData: false,

@@ -131,7 +131,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="kontak_nama">Nama Kontak</label>
                             <div class="col-sm-8">
-                                <input id="kontak_nama" class="form-control input-sm nama" readonly type="text" name="kontak_nama" value="<?= $response->data->nama_kontak ?>">
+                                <input id="kontak_nama" class="form-control input-sm nama" type="text" name="kontak_nama" value="<?= $response->data->nama_kontak ?>">
                                 <?php if ($kontak_nama = $this->session->errors->messages->kontak_nama) : ?>
                                     <p class="error"><?= $kontak_nama ?></p>
                                 <?php endif ?>
@@ -140,7 +140,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="email">No HP. Kontak</label>
                             <div class="col-sm-8">
-                                <input id="kontak_no_hp" class="form-control input-sm" readonly type="number" name="kontak_no_hp" value="<?= $response->data->no_hp_kontak ?>">
+                                <input id="kontak_no_hp" class="form-control input-sm" type="number" name="kontak_no_hp" value="<?= $response->data->no_hp_kontak ?>">
                                 <?php if ($kontak_no_hp = $this->session->errors->messages->kontak_no_hp) : ?>
                                     <p class="error"><?= $kontak_no_hp ?></p>
                                 <?php endif ?>
@@ -151,7 +151,7 @@
                             <div class="col-sm-8">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control" id="file_path" name="permohonan">
-                                    <input id="file" type="file" class="hidden" name="permohonan">
+                                    <input id="file" type="file" class="hidden" accept=".pdf" name="permohonan">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Pilih</button>
                                     </span>
