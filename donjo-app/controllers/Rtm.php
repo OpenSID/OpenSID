@@ -195,24 +195,27 @@ class Rtm extends Admin_Controller
         $post = $this->input->post();
         $nik  = bilangan($post['nik']);
 
-        $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
-
         try {
+            if (empty($post['no_rtm'])) {
+                $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
 
-            if ($lastRtm) {
-                $noRtm = $lastRtm->no_kk;
-                if (strlen($noRtm) >= 5) {
-                    // Gunakan 5 digit terakhir sebagai nomor urut
-                    $kw           = substr($noRtm, 0, strlen($noRtm) - 5);
-                    $noUrut       = substr($noRtm, -5);
-                    $noUrut       = str_pad($noUrut + 1, 5, '0', STR_PAD_LEFT);
-                    $rtm['no_kk'] = $kw . $noUrut;
+                if ($lastRtm) {
+                    $noRtm = $lastRtm->no_kk;
+                    if (strlen($noRtm) >= 5) {
+                        // Gunakan 5 digit terakhir sebagai nomor urut
+                        $kw           = substr($noRtm, 0, strlen($noRtm) - 5);
+                        $noUrut       = substr($noRtm, -5);
+                        $noUrut       = str_pad($noUrut + 1, 5, '0', STR_PAD_LEFT);
+                        $rtm['no_kk'] = $kw . $noUrut;
+                    } else {
+                        $rtm['no_kk'] = str_pad($noRtm + 1, strlen($noRtm), '0', STR_PAD_LEFT);
+                    }
                 } else {
-                    $rtm['no_kk'] = str_pad($noRtm + 1, strlen($noRtm), '0', STR_PAD_LEFT);
+                    $kw           = identitas()->kode_desa;
+                    $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
                 }
             } else {
-                $kw           = identitas()->kode_desa;
-                $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
+                $rtm['no_kk'] = $post['no_rtm'];
             }
 
             $rtm['nik_kepala']     = $nik;
