@@ -62,6 +62,7 @@ class Migrasi_dev extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024050271($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024050272($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024050251($hasil, $id);
         }
@@ -82,12 +83,39 @@ class Migrasi_dev extends MY_model
             'kategori'   => 'pembangunan',
         ], $id);
     }
-      
+
     protected function migrasi_2024050251($hasil)
     {
         return $hasil && $this->ubah_modul(
             ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
             ['url' => 'penduduk_log']
         );
+    }
+
+    public function migrasi_2024050271($hasil, $id)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Jumlah Gambar Galeri',
+            'key'        => 'jumlah_gambar_galeri',
+            'value'      => 4,
+            'keterangan' => 'Jumlah gambar galeri yang ditampilkan pada widget galeri',
+            'jenis'      => 'input-number',
+            'attribute'  => 'min="1" max="50" step="1"',
+            'kategori'   => 'galeri',
+        ], $id);
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Urutan Gambar Galeri',
+            'key'        => 'urutan_gambar_galeri',
+            'value'      => 'acak',
+            'keterangan' => 'Urutan gambar galeri yang ditampilkan pada widget galeri',
+            'jenis'      => 'option',
+            'option'     => json_encode([
+                'asc'  => 'A - Z',
+                'desc' => 'Z - A',
+                'acak' => 'Acak',
+            ]),
+            'kategori'   => 'galeri',
+        ], $id);
     }
 }

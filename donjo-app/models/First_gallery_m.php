@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Galery;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class First_gallery_m extends MY_Model
@@ -134,11 +136,18 @@ class First_gallery_m extends MY_Model
     // daftar album di widget
     public function gallery_widget()
     {
-        return $this->config_id()
-            ->where('enabled', 1)
+        $jumlah = setting('jumlah_album_galeri') ?: 4;
+        $urut   = setting('urutan_gambar_galeri') ?: 'acak';
+        
+
+        return Galery::where('enabled', 1)
             ->where('parrent', 0)
-            ->order_by('rand()')
-            ->get('gambar_gallery', 4)
-            ->result_array();
+            ->when($urut === 'acak', function ($query) {
+                return $query->inRandomOrder();
+            }, function ($query) use ($urut) {
+                return $query->orderBy('urut', $urut);
+            })
+            ->limit($jumlah)
+            ->get();
     }
 }
