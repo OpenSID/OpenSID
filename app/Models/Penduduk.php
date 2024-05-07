@@ -699,9 +699,18 @@ class Penduduk extends BaseModel
             })->whereNotIn('pekerjaan_id', ['6', '7']);
     }
 
+    protected function scopeDusun($query, $dusun = null)
+    {
+        if(!$dusun){
+            return $query;
+        }
+        $listRt = Wilayah::whereDusun($dusun)->pluck('id');
+        return $query->whereIn('id_cluster', $listRt);
+    }
+
     protected function scopeBatasiUmur($query, $tglPemilihan, $umurObj = [])
     {
-        if (empty($umurObj['max']) && empty($umurObj['min'])) {
+        if (empty($umurObj) || !isset($umurObj['min']) || !isset($umurObj['max'])) {
             return $query;
         }
 
