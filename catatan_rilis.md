@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#7898](https://github.com/OpenSID/OpenSID/issues/7898) Perbaikan detail data (penduduk dan keluarga) pada modul wilayah.
 2. [#7903](https://github.com/OpenSID/OpenSID/issues/7903) Perbaikan proses impor penduduk yang berkeluarga hanya boleh terdapat 1 kepala keluarga.
 3. [#7902](https://github.com/OpenSID/OpenSID/issues/7902) Perbaikan cara hitung jumlah penduduk, keluarga dan rumah tangga pada masing-masing modul terkait.
+4. [#7907](https://github.com/OpenSID/OpenSID/issues/7907) Perbaikan tambah peta area.
 
 
 #### TEKNIS
