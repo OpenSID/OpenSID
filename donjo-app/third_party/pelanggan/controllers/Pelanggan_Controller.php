@@ -74,7 +74,6 @@ class Pelanggan_Controller extends Admin_Controller
         $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
         $notif_langganan = $this->pelanggan_model->status_langganan();
 
-        kirim_versi_opensid();
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
         if ((null !== $response && $response->body->token !== $this->setting->layanan_opendesa_token) && empty(config_item('token_layanan'))) {
             $post['layanan_opendesa_token'] = $response->body->token;
@@ -111,7 +110,6 @@ class Pelanggan_Controller extends Admin_Controller
 
     public function perbarui(): void
     {
-        kirim_versi_opensid();
         hapus_cache('status_langganan');
         cache()->forget('siappakai');
         session_success();
