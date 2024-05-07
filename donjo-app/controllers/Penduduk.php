@@ -35,7 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
@@ -74,6 +73,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penduduk extends Admin_Controller
 {
@@ -889,14 +890,23 @@ class Penduduk extends Admin_Controller
         return $data;
     }
 
-    public function ajax_penduduk_maps($id = null, $edit = 1): void
+    public function ajax_penduduk_maps($id = null, $edit = '1'): void
     {
         isCan('u');
+        $penduduk = PendudukModel::withOnly(['keluarga', 'rtm', 'map'])->findOrFail($id);
+
+        if ($penduduk->map === null && $edit !== '2') {
+            redirect(ci_route("penduduk.ajax_penduduk_maps.{$id}.2"));
+        }
 
         $data['id']          = $id;
         $data['edit']        = $edit;
-        $penduduk            = PendudukModel::withOnly('map')->findOrFail($id);
-        $data['penduduk']    = $penduduk->map ? array_merge($penduduk->map->toArray(), ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar]) : ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
+        $data['penduduk'] = ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
+        if ($penduduk->lokasi) {
+            $data['penduduk'] = array_merge($penduduk->lokasi->toArray(), $data['penduduk']);
+        } elseif ($penduduk->map) {
+            $data['penduduk'] = array_merge($penduduk->map->toArray(), $data['penduduk']);
+        }
         $data['desa']        = $this->header['desa'];
         $data['wil_atas']    = $this->header['desa'];
         $data['dusun_gis']   = Wilayah::dusun()->get()->toArray();
@@ -922,6 +932,8 @@ class Penduduk extends Admin_Controller
         $map->lat = $data['lat'];
         $map->lng = $data['lng'];
         $map->save();
+        
+        set_session('success', 'Data berhasil disimpan');
 
         if ($edit == 1) {
             redirect(ci_route("penduduk.form.{$id}"));

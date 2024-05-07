@@ -37,23 +37,24 @@
 
 namespace App\Models;
 
-use App\Enums\AgamaEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\SasaranEnum;
+use Carbon\Carbon;
+use App\Traits\Author;
 use App\Enums\SHDKEnum;
+use App\Enums\AgamaEnum;
+use App\Traits\ConfigId;
+use App\Enums\CaraKBEnum;
+use App\Enums\SasaranEnum;
+use App\Models\PendudukMap;
+use App\Traits\ShortcutCache;
 use App\Enums\StatusDasarEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
-use App\Traits\Author;
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -191,6 +192,7 @@ class Penduduk extends BaseModel
         'alamat_wilayah',
         'nama_asuransi',
         'jml_anak',
+        'lokasi',
     ];
 
     /**
@@ -1255,5 +1257,18 @@ class Penduduk extends BaseModel
             $q->peristiwaSampaiDengan($akhirBulanKemarin)->whereIn('kode_peristiwa', $listKodePeristiwa);
         });
         // ->whereStatus(StatusPendudukEnum::TETAP)->get();
+    }
+
+    public function getLokasiAttribute()
+    {
+        if ($this->rtm != '[]' && $this->rtm != null) {
+            $id = $this->rtm->nik_kepala;
+        } else if ($this->keluarga != '[]' && $this->keluarga != null) {
+            $id = $this->keluarga->nik_kepala;
+        } else {
+            $id = $this->id;
+        }
+
+        return PendudukMap::find($id);
     }
 }
