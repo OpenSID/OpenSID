@@ -738,9 +738,14 @@ function eximGpxPoint(layerpeta) {
   controlGpxPoint = L.Control.fileLayerLoad({
     addToMap: false,
     formats: [".gpx", ".kml"],
-    fitBounds: true,
+    fitBounds: false,
     layerOptions: {
       pointToLayer: function (data, latlng) {
+        layerpeta.eachLayer(function (layer) {
+          if (layer instanceof L.Marker) {
+            layer.remove();
+          }
+        });
         return L.marker(latlng);
       },
     },
@@ -753,12 +758,17 @@ function eximGpxPoint(layerpeta) {
     var coords = [];
     var geojson = layer.toGeoJSON();
     var shape_for_db = JSON.stringify(geojson);
-    var polygon = L.geoJson(JSON.parse(shape_for_db), {
+    L.geoJson(JSON.parse(shape_for_db), {
       pointToLayer: function (feature, latlng) {
         return L.marker(latlng);
       },
       onEachFeature: function (feature, layer) {
-        coords.push(feature.geometry.coordinates);
+        if (feature.geometry.type == "Point") {
+          coords.push(feature.geometry.coordinates);
+          layerpeta.setView([coords[0][1], coords[0][0]], layerpeta.getZoom());
+        } else {
+          _error("Pilih file GPX dengan tipe Point");
+        }
       },
     }).addTo(layerpeta);
 

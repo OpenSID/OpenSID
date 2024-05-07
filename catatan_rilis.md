@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#6287](https://github.com/OpenSID/OpenSID/issues/6287) Penambahan opsi keperluan buku tamu yang dapat diketik manual.
 4. [#7868](https://github.com/OpenSID/OpenSID/issues/7868) Penambahan nomor rumah tanggan pada form input rumah tangga.
 5. [#7829](https://github.com/OpenSID/OpenSID/issues/7829) Penambahan pengaturan jumlah dan urutan gambar galeri yang ditampilkan pada web widget.
+6. [#4522](https://github.com/OpenSID/OpenSID/issues/4522) Penambahan impor GPX/KML lokasi penduduk.
 
 
 #### BUG

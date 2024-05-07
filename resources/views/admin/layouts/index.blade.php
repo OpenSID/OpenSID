@@ -80,6 +80,9 @@
     <script type="text/javascript">
         var SITE_URL = "{{ site_url() }}";
         var BASE_URL = "{{ base_url() }}";
+        var baca = "{{ can('b') }}";
+        var ubah = "{{ can('u') }}";
+        var hapus = "{{ can('h') }}";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
