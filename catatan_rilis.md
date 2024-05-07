@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#7829](https://github.com/OpenSID/OpenSID/issues/7829) Penambahan pengaturan jumlah dan urutan gambar galeri yang ditampilkan pada web widget.
 6. [#4522](https://github.com/OpenSID/OpenSID/issues/4522) Penambahan impor GPX/KML lokasi penduduk.
 7. [#5808](https://github.com/OpenSID/OpenSID/issues/5808) Penambahan tambah/ubah lokasi penduduk, keluarga dan rumah tangga.
+8. [#7895](https://github.com/OpenSID/OpenSID/issues/7895) Penambahan grup dan hak akses bawaan sesuai tupoksi perangkat desa.
 
 
 #### BUG
