@@ -133,7 +133,7 @@ class Keluarga extends BaseModel
     public function scopeStatus()
     {
         return static::whereHas('kepalaKeluarga', static function ($query): void {
-            $query->status()->where('kk_level', '1');
+            $query->status()->kepalaKeluarga();
         });
     }
 

@@ -77,7 +77,7 @@ class Statistik extends Admin_Controller
             'rw'     => $data['rw'],
             'rt'     => $data['rt'],
         ];
-        $data['filter_global'] = http_build_query($this->session->filter_global);
+        $data['filter_global']  = http_build_query($this->session->filter_global);
         $data['judul_kelompok'] = 'Jenis Kelompok';
         $data['bantuan']        = (int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk']);
         $this->get_data_stat($data, $data['lap']);

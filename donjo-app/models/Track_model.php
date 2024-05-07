@@ -63,6 +63,7 @@ class Track_model extends CI_Model
 
         $this->session->set_userdata('balik_ke', $dari);
         $this->kirim_data();
+        kirim_versi_opensid();
     }
 
     public function kirim_data(): void

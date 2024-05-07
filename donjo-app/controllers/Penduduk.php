@@ -97,6 +97,12 @@ class Penduduk extends Admin_Controller
         if ($this->input->get('dusun')) {
             $this->filterColumn['dusun'] = $this->input->get('dusun');
         }
+        if ($this->input->get('rw')) {
+            $this->filterColumn['rw'] = $this->input->get('rw');
+        }
+        if ($this->input->get('rt')) {
+            $this->filterColumn['rt'] = $this->input->get('rt');
+        }
         if ($this->input->get('sex')) {
             $this->filterColumn['sex'] = $this->input->get('sex');
         }
@@ -226,6 +232,14 @@ class Penduduk extends Admin_Controller
                 $sex     = $statistikFilter['sex'];
                 unset($statistikFilter);
             }
+
+            $dusun = $statistikFilter['dusun'] ?? null;
+            $rw = $statistikFilter['rw'] ?? null;
+            $rt = $statistikFilter['rt'] ?? null;
+            if($rt){
+                [$namaDusun,$namaRw] = explode('__', $rw);
+                $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->whereRt($rt)->select(['id'])->get()->pluck('id')->toArray();
+            }
         }
 
         if (empty($idCluster) && ! empty($rw)) {
@@ -253,13 +267,13 @@ class Penduduk extends Admin_Controller
                 $umurMin           = $statistikFilter['umur_min'];
                 $umurMax           = $statistikFilter['umur_max'];
                 $umurObj['satuan'] = 'tahun';
-                if ($umurMin) {
+                if (null !== $umurMin) {
                     $umurObj['min'] = $umurMin;
                 }
                 if (null !== $umurMax) {
                     $umurObj['max'] = $umurMax;
                 }
-
+                
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status_kawin'         => 'status_kawin',
@@ -309,6 +323,12 @@ class Penduduk extends Admin_Controller
                                 $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
+                                }
+                            } elseif ($map[$key] == 'cacat_id') {                                
+                                if ($val == CacatEnum::TIDAK_CACAT) {
+                                    $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
+                                }else {
+                                    $q->where($map[$key], $val);
                                 }
                             } else {
                                 if ($val == BELUM_MENGISI) {
@@ -1074,6 +1094,18 @@ class Penduduk extends Admin_Controller
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $this->statistikFilter['status_dasar'] = StatusDasarEnum::HIDUP;
+        $dusun           = $this->input->get('dusun') ?? null;
+        $rw              = $this->input->get('rw') ?? null;
+        $rt              = $this->input->get('rt') ?? null;
+        if (! empty($dusun)) {
+            $this->statistikFilter['dusun'] = $dusun;
+        }
+        if (! empty($rw)) {
+            $this->statistikFilter['rw'] = $dusun.'__'.$rw;
+        }
+        if (! empty($rt)) {
+            $this->statistikFilter['rt'] = $rt;
+        }
         if (! empty($sex)) {
             $this->statistikFilter['sex'] = $sex;
         }
@@ -1310,7 +1342,7 @@ class Penduduk extends Admin_Controller
 
             case 8:
                 $this->statistikFilter['umur_min'] = '61';
-
+                $this->statistikFilter['umur_max'] = '9999';
                 $pre = 'BERUMUR >60';
                 break;
 
@@ -1394,7 +1426,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor'),
@@ -1410,7 +1442,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
         $hapus = isset($_POST['hapus_data']);
         $this->impor_model->impor_excel($hapus);
         redirect('penduduk/impor');
@@ -1422,7 +1454,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
 
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor_bip'),
@@ -1438,7 +1470,7 @@ class Penduduk extends Admin_Controller
             redirect($this->controller);
         }
 
-        isCan('h');
+        isCan('u');
 
         // TODO: Sederhanakan query ini, pindahkan ke model
         if (PendudukModel::count() > 0) {

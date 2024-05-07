@@ -390,7 +390,9 @@
             }
 
             $('#status_dasar, #status_penduduk, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
-                TableData.draw()
+                if ($('#tabeldata').data('statistikfilter').length < 1) {
+                    TableData.draw()
+                }
             })
 
             if (filterColumn) {
@@ -402,6 +404,18 @@
                 if (filterColumn['dusun']) {
                     $('#dusun').val(filterColumn['dusun'])
                     $('#dusun').trigger('change')
+
+                    if (filterColumn['rw']) {
+                        $('#rw').val(filterColumn['dusun'] + '__' + filterColumn['rw'])
+                        $('#rw').trigger('change')
+                    }
+
+                    if (filterColumn['rt']) {
+                        $('#rt').find('optgroup[value="' + filterColumn['dusun'] + '__' + filterColumn['rw'] + '"] option').filter(function() {
+                            return $(this).text() == filterColumn['rt']
+                        }).prop('selected', 1)
+                        $('#rt').trigger('change')
+                    }
                 }
 
                 if (filterColumn['sex']) {

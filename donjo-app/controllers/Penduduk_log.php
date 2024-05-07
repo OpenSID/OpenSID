@@ -62,7 +62,7 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
     }
 
     public function index(): void
@@ -72,7 +72,7 @@ class Penduduk_log extends Admin_Controller
             'tahun' => date('Y'),
             'bulan' => date('m'),
         ];
-        if($this->statistikFilter){
+        if ($this->statistikFilter) {
             $defaultFilter = $this->statistikFilter;
         }
         $data['tahun_log_pertama']    = $tglLaporAwal ? (Carbon::createFromFormat('Y-m-d H:i:s', $tglLaporAwal))->format('Y') : date('Y');
@@ -169,16 +169,16 @@ class Penduduk_log extends Admin_Controller
         $statistikFilter = $this->input->get('statistikfilter') ?? null;
 
         if ($statistikFilter) {
-            $dusun = $statistikFilter['dusun'];
-            $rw = $statistikFilter['dusun'].'__'.$statistikFilter['rw'];
+            $dusun  = $statistikFilter['dusun'];
+            $rw     = $statistikFilter['dusun'] . '__' . $statistikFilter['rw'];
             $namaRw = $statistikFilter['rw'];
             $namaRt = $statistikFilter['rt'];
-            if($namaRt){
+            if ($namaRt) {
                 $rt = Wilayah::whereDusun($dusun)->whereRw($namaRw)->whereRt($namaRt)->select(['id'])->first()->id;
             }
         }
 
-        $idCluster = $rt ? [$rt] : [];        
+        $idCluster = $rt ? [$rt] : [];
 
         if (empty($idCluster) && ! empty($rw)) {
             [$namaDusun,$namaRw] = explode('__', $rw);
@@ -193,13 +193,16 @@ class Penduduk_log extends Admin_Controller
             ->when($kodePeristiwa, static fn ($r) => $r->whereKodePeristiwa($kodePeristiwa))
             ->when($tahun, static fn ($r) => $r->whereYear('tgl_lapor', $tahun))
             ->when($bulan, static fn ($r) => $r->whereMonth('tgl_lapor', $bulan))
-            ->when($statistikFilter, function($q) use($statistikFilter){
+            ->when($statistikFilter, static function ($q) use ($statistikFilter) {
                 $kriteria = $statistikFilter['value'];
-                switch($kriteria){
+
+                switch($kriteria) {
                     case TOTAL:
                         return $q;
+
                     case BELUM_MENGISI:
                         return $q->whereNull('akta_mati');
+
                     case JUMLAH:
                         return $q->whereNotNull('akta_mati');
                 }
@@ -412,31 +415,34 @@ class Penduduk_log extends Admin_Controller
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
-        $dusun = $this->input->get('dusun');
-        $rw = $this->input->get('rw');
-        $rt = $this->input->get('rt');
-        $this->statistikFilter['sex'] = ($sex == 0) ? null : $sex;
-        $judulJenisKelamin = $sex ? ' - '. strtoupper(JenisKelaminEnum::valueOf($sex)) : '';
+        $dusun                          = $this->input->get('dusun');
+        $rw                             = $this->input->get('rw');
+        $rt                             = $this->input->get('rt');
+        $this->statistikFilter['sex']   = ($sex == 0) ? null : $sex;
+        $judulJenisKelamin              = $sex ? ' - ' . strtoupper(JenisKelaminEnum::valueOf($sex)) : '';
         $this->statistikFilter['dusun'] = $dusun;
-        $this->statistikFilter['rw'] = $rw;
-        $this->statistikFilter['rt'] = $rt;
+        $this->statistikFilter['rw']    = $rw;
+        $this->statistikFilter['rt']    = $rt;
         $this->statistikFilter['value'] = $nomor;
         if ((string) $tipe === 'akta-kematian') {
             $kategori                                = 'AKTA KEMATIAN : ';
             $this->statistikFilter['status_dasar']   = StatusDasarEnum::MATI;
             $this->statistikFilter['kode_peristiwa'] = LogPenduduk::MATI;
         }
-        
-        switch($nomor){
+
+        switch($nomor) {
             case BELUM_MENGISI:
                 $this->judulStatistik = $kategori . 'BELUM MENGISI';
                 break;
+
             case TOTAL:
                 $this->judulStatistik = $kategori . 'TOTAL';
                 break;
+
             case JUMLAH:
                 $this->judulStatistik = $kategori . 'JUMLAH';
                 break;
+
             default:
                 $judul = RentangUmur::find($nomor);
                 if ($judul['nama']) {

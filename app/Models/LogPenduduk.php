@@ -37,13 +37,13 @@
 
 namespace App\Models;
 
-use Exception;
-use Carbon\Carbon;
 use App\Enums\SHDKEnum;
-use App\Traits\ConfigId;
-use Illuminate\Support\Facades\DB;
-use App\Traits\ShortcutCache;
 use App\Enums\StatusDasarEnum;
+use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -154,7 +154,7 @@ class LogPenduduk extends BaseModel
      */
     public function keluarga()
     {
-        return $this->hasOneThrough(Keluarga::class, Penduduk::class ,'id', 'id', 'id_pend', 'id_kk');
+        return $this->hasOneThrough(Keluarga::class, Penduduk::class, 'id', 'id', 'id_pend', 'id_kk');
     }
 
     /**
@@ -224,9 +224,9 @@ class LogPenduduk extends BaseModel
         return self::kodePeristiwa()[$index] ?? '-';
     }
 
-    public static function kodePeristiwa(): array    
+    public static function kodePeristiwa(): array
     {
-        $result = [
+        return [
             self::BARU_LAHIR        => 'Baru Lahir',
             self::MATI              => 'Mati',
             self::PINDAH_KELUAR     => 'Pindah Keluar',
@@ -234,8 +234,6 @@ class LogPenduduk extends BaseModel
             self::BARU_PINDAH_MASUK => 'Baru Pindah Masuk',
             self::TIDAK_TETAP_PERGI => 'Tidak Tetap Pergi',
         ];
-
-        return $result;
     }
 
     public function scopeTahun($query)
@@ -254,29 +252,34 @@ class LogPenduduk extends BaseModel
     }
 
     public function scopePeristiwaSampaiDengan($query, string $tanggal)
-    {        
-        $configId = identitas('id');        
+    {
+        $configId = identitas('id');
         $subQuery = DB::raw(
-            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = '.$configId.' and tgl_lapor <= \''.$tanggal.'\' group by id_pend) as logMax'
+            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = ' . $configId . ' and tgl_lapor <= \'' . $tanggal . ' 23:59:59\' group by id_pend) as logMax'
         );
 
         return $query->join($subQuery, 'logMax.id', '=', 'log_penduduk.id');
     }
+
     public function pergiTerakhir()
     {
         return $this->hasOne(LogPenduduk::class, 'id_pend', 'id_pend')->whereIn('kode_peristiwa', [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])->orderByDesc('id');
     }
 
-    public function isKembaliDatang(){
-        $tgl_lapor                  = Carbon::parse($this->tgl_lapor)->format('m-Y');
-        $tgl_sekarang               = Carbon::now()->format('m-Y');
+    public function isKembaliDatang()
+    {
+        $tgl_lapor    = Carbon::parse($this->tgl_lapor)->format('m-Y');
+        $tgl_sekarang = Carbon::now()->format('m-Y');
+
         return $tgl_lapor < $tgl_sekarang;
     }
 
-    public function isLogPergiTerakhir(){
-        if(!$this->pergiTerakhir){
+    public function isLogPergiTerakhir()
+    {
+        if (! $this->pergiTerakhir) {
             return false;
         }
+
         return $this->id == $this->pergiTerakhir->id;
     }
 
@@ -288,7 +291,7 @@ class LogPenduduk extends BaseModel
      * @return void
      */
     public function kembalikan_status()
-    {                
+    {
         // Kembalikan status selain lahir dan masuk
         if (! in_array($this->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
             Penduduk::where('id', $this->id_pend)
@@ -301,7 +304,7 @@ class LogPenduduk extends BaseModel
                 try {
                     // tambah log penduduk datang
                     LogPenduduk::create([
-                        'id_pend'        => $this->id_pend,                        
+                        'id_pend'        => $this->id_pend,
                         'kode_peristiwa' => 1,
                         'tgl_lapor'      => date('Y-m-d'),
                         'tgl_peristiwa'  => date('Y-m-d'),
@@ -316,7 +319,7 @@ class LogPenduduk extends BaseModel
 
                         // tambah log penduduk pindah
                         $pendudukPindah = LogPenduduk::create([
-                            'id_pend'        => $pindah->id,                            
+                            'id_pend'        => $pindah->id,
                             'kode_peristiwa' => 3,
                             'tgl_lapor'      => date('Y-m-d'),
                             'tgl_peristiwa'  => date('Y-m-d'),
@@ -325,15 +328,15 @@ class LogPenduduk extends BaseModel
 
                         if ($pindah->id_kk) {
                             LogKeluarga::create([
-                                'id_kk'           => $pindah->id_kk,                                
+                                'id_kk'           => $pindah->id_kk,
                                 'id_peristiwa'    => 3,
                                 'updated_by'      => auth()->id,
                                 'id_log_penduduk' => $pendudukPindah->id,
                             ]);
                         }
-                    }                                       
-                } catch (Exception $e) {                    
-                    throw new Exception($e->getMessage());                     
+                    }
+                } catch (Exception $e) {
+                    throw new Exception($e->getMessage());
                 }
             } else {
                 // Hapus log_keluarga, jika terkait
@@ -343,26 +346,27 @@ class LogPenduduk extends BaseModel
                 }
 
                 // Hapus log penduduk
-                $this->delete();                            
+                $this->delete();
             }
-        } else {            
-            throw new Exception('tidak dapat mengubah status dasar.');        
-        }        
+        } else {
+            throw new Exception('tidak dapat mengubah status dasar.');
+        }
     }
 
     /**
      * Kembalikan status dasar penduduk dari PERGI ke HIDUP
      *
-     * @param $id_log id log penduduk
+     * @param       $id_log id log penduduk
+     * @param mixed $data
      */
     public function kembalikan_status_pergi($data = []): void
-    {        
+    {
         // Cek tgl lapor
         // tampilkan hanya jika beda tanggal lapor
         $tgl_lapor    = Carbon::parse($this->tgl_lapor)->format('m-Y');
         $tgl_sekarang = Carbon::now()->format('m-Y');
         if ($tgl_lapor >= $tgl_sekarang) {
-            throw new Exception('Tidak dapat mengubah status dasar penduduk, karena tanggal lapor masih sama dengan tanggal sekarang.');            
+            throw new Exception('Tidak dapat mengubah status dasar penduduk, karena tanggal lapor masih sama dengan tanggal sekarang.');
         }
 
         // Kembalikan status_dasar hanya jika penduduk pindah keluar (3) atau tidak tetap pergi (6)
@@ -370,7 +374,7 @@ class LogPenduduk extends BaseModel
             Penduduk::where('id', $this->id_pend)
                 ->update([
                     'status_dasar' => StatusDasarEnum::HIDUP,
-                ]);            
+                ]);
 
             // Log Penduduk
             $logPenduduk = [
@@ -382,7 +386,7 @@ class LogPenduduk extends BaseModel
                 'maksud_tujuan_kedatangan' => $data['maksud_tujuan'],
                 'config_id'                => $this->config_id,
             ];
-            LogPenduduk::upsert($logPenduduk, ['tgl_peristiwa', 'tgl_peristiwa','kode_peristiwa', 'id_pend', 'config_id']);            
+            LogPenduduk::upsert($logPenduduk, ['tgl_peristiwa', 'tgl_peristiwa', 'kode_peristiwa', 'id_pend', 'config_id']);
 
             // Log Keluarga jika kepala keluarga
             $penduduk = Penduduk::select(['id', 'id_kk', 'kk_level'])->find($this->id_pend);
@@ -394,8 +398,8 @@ class LogPenduduk extends BaseModel
                     'updated_by'    => auth()->id,
                     'config_id'     => $this->config_id,
                 ];
-                LogKeluarga::upsert($logKeluarga, ['id_kk', ['id_peristiwa', 'tgl_peristiwa', 'config_id']]);                
-            }            
+                LogKeluarga::upsert($logKeluarga, ['id_kk', ['id_peristiwa', 'tgl_peristiwa', 'config_id']]);
+            }
         }
-    }    
+    }
 }

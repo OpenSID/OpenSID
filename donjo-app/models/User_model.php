@@ -539,7 +539,7 @@ class User_model extends MY_Model
     // get super admin
     public function get_super_admin()
     {
-        return $this->config_id()
+        return (int) $this->config_id()
             ->select('id')
             ->where('id_grup', $this->user_model->id_grup(UserGrup::ADMINISTRATOR))
             ->get('user')

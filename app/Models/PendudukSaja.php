@@ -37,31 +37,10 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pesan extends BaseModel
+class PendudukSaja extends Penduduk
 {
-    use ConfigId;
-
-    protected $table    = 'pesan';
-    protected $fillable = ['id', 'judul', 'jenis', 'sudah_dibaca', 'diarsipkan'];
-
-    public function scopeStatus($query, $status)
-    {
-        if ($status != null) {
-            return $query->where('sudah_dibaca', (int) $status);
-        }
-    }
-
-    public function detailPesan()
-    {
-        return $this->hasMany(PesanDetail::class, 'pesan_id', 'id');
-    }
-
-    public function getCustomDateAttribute()
-    {
-        return $this->created_at->format('d-m-Y H:i');
-    }
+   protected $appends = [];
+   protected $with   = [];
 }

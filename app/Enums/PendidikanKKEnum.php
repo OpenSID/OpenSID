@@ -67,7 +67,7 @@ class PendidikanKKEnum extends BaseEnum
             self::AKADEMI        => 'AKADEMI/ DIPLOMA III / S. MUDA',
             self::STRATA_I       => 'DIPLOMA IV / STRATA I',
             self::STRATA_II      => 'STRATA II',
-            self::STRATA_III     => 'STRATA III'
+            self::STRATA_III     => 'STRATA III',
         ];
     }
 }

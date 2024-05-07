@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
@@ -122,6 +123,12 @@ class Periksa_model extends MY_Model
         if (! $log_keluarga_ganda->isEmpty()) {
             $this->periksa['masalah'][]          = 'log_keluarga_ganda';
             $this->periksa['log_keluarga_ganda'] = $log_keluarga_ganda->toArray();
+        }
+
+        $kepala_keluarga_ganda = $this->deteksi_kepala_keluarga_ganda();
+        if (! $kepala_keluarga_ganda->isEmpty()) {
+            $this->periksa['masalah'][]             = 'kepala_keluarga_ganda';
+            $this->periksa['kepala_keluarga_ganda'] = $kepala_keluarga_ganda->toArray();
         }
 
         $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
@@ -230,6 +237,13 @@ class Periksa_model extends MY_Model
         $config_id = identitas('id');
 
         return Keluarga::whereIn('id', static fn ($query) => $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
+    }
+
+    public function deteksi_kepala_keluarga_ganda()
+    {
+        $kepalaKeluargaDobel = Penduduk::withOnly([])->select(['id_kk'])->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->groupBy(['id_kk'])->having(DB::raw('count(id_kk)'), '>', 1)->pluck('id_kk')->toArray();
+
+        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])->kepalaKeluarga()->whereIn('id_kk', $kepalaKeluargaDobel)->orderBy('id_kk')->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()

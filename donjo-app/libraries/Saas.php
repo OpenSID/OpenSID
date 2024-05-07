@@ -62,7 +62,6 @@ class Saas
                     $kategori_siappakai = $data->layanan->kategori_siappakai ?? 'Dasbor SiapPakai';
                     $saas               = collect($data->layanan)->firstWhere('nama_kategori', $kategori_siappakai);
 
-                    
                     if ($saas !== null) {
                         $saas->tgl_mulai        = Carbon::parse($data->tgl_mulai);
                         $saas->tgl_akhir        = Carbon::parse($data->tgl_akhir);

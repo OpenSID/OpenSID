@@ -54,9 +54,6 @@
             <div class="text-center">
                 <a class="btn btn-primary" href="{{ APP_URL }}">Kembali ke Awal</a>
                 <a class="btn btn-danger" href="{{ site_url('koneksi_database/updateKey') }}">Perbarui AppKey</a>
-                <!--
-                <a class="btn btn-success hide" href="{{ site_url('koneksi_database/desaBaru') }}">Buat Desa Baru</a>
-                -->
             </div>
         </div>
     </div>

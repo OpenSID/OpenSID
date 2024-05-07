@@ -288,7 +288,7 @@ class Laporan extends Admin_Controller
 
     public function detail_penduduk($rincian, $tipe): void
     {
-        $data = $this->sumberData($rincian, $tipe);
+        $data            = $this->sumberData($rincian, $tipe);
         $data['rincian'] = $rincian;
         $data['tipe']    = $tipe;
         view('admin.laporan.detail.index', $data);
@@ -419,7 +419,7 @@ class Laporan extends Admin_Controller
         $data['aksi']           = $aksi;
         $data['config']         = identitas();
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();        
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['isi']            = 'admin.laporan.detail.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
         $data['sensor_nik']     = $this->input->post('sensor_nik') ?? false;
