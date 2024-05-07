@@ -701,22 +701,33 @@ class Penduduk extends BaseModel
 
     protected function scopeDusun($query, $dusun = null)
     {
-        if(!$dusun){
+        if (! $dusun) {
             return $query;
         }
         $listRt = Wilayah::whereDusun($dusun)->pluck('id');
+
         return $query->whereIn('id_cluster', $listRt);
     }
 
     protected function scopeBatasiUmur($query, $tglPemilihan, $umurObj = [])
     {
-        if (empty($umurObj) || !isset($umurObj['min']) || !isset($umurObj['max'])) {
+        if (empty($umurObj) || ! isset($umurObj['min']) || ! isset($umurObj['max'])) {
             return $query;
+        }
+
+        if (isset($umurObj['min'], $umurObj['max'])  ) {
+            if ($umurObj['min'] == '' && $umurObj['max'] == '') {
+                return $query;
+            }
         }
 
         $satuan  = $umurObj['satuan'] == 'tahun' ? 'YEAR' : 'MONTH';
         $umurMin = empty($umurObj['min']) ? 0 : $umurObj['min'];
         $umurMax = empty($umurObj['max']) && $umurObj['max'] != 0 ? 1000 : $umurObj['max'];
+
+        if ($umurMax == '') {
+            $umurMax = 1000;
+        }
 
         return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
     }
