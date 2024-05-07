@@ -800,7 +800,7 @@
                                                     <code>Informasi: Harap mengganti salah satu SHDK dari salah satu penduduk dengan Nomor KK yang sama.</code>
                                                 </strong>
                                                 <hr>
-                                                
+
                                                 <div class="col-md-10 col-offset-1" id="info-kepala-keluarga-ganda"></div>
                                                 <table class="table">
                                                     <tr>

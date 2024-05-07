@@ -37,27 +37,10 @@
 
 namespace App\Models;
 
-use App\Enums\AgamaEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\SasaranEnum;
-use App\Enums\SHDKEnum;
-use App\Enums\StatusDasarEnum;
-use App\Enums\StatusPendudukEnum;
-use App\Scopes\AccessWilayahScope;
-use App\Traits\Author;
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PendudukSaja extends Penduduk
-{   protected $appends = [];
-    protected $with = [];
+{
+   protected $appends = [];
+    protected $with   = [];
 }
