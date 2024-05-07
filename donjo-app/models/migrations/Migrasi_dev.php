@@ -62,8 +62,10 @@ class Migrasi_dev extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024050251($hasil, $id);
+
         }
+        $hasil = $hasil && $this->migrasi_2024050251($hasil);
+        $hasil = $hasil && $this->migrasi_2024050751($hasil);
 
         return $hasil && true;
     }
@@ -74,5 +76,12 @@ class Migrasi_dev extends MY_model
             ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
             ['url' => 'penduduk_log']
         );
+    }
+
+    protected function migrasi_2024050751($hasil)
+    {
+        DB::statement('delete from grup_akses where id_modul not in (select id from setting_modul)');
+
+        return $hasil;
     }
 }
