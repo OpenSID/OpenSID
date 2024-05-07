@@ -439,7 +439,7 @@ class MultiDB extends Admin_Controller
                     continue;
                 }
                 DB::table($tableName)->where(['config_id' => identitas('id')])->delete();
-                log_message('error', 'hapus data tabel ' . $tableName);
+                // log_message('notice', 'hapus data tabel ' . $tableName);
             }
 
             foreach ($backupData['tabel'] as $tableName => $tableDetails) {
@@ -465,16 +465,16 @@ class MultiDB extends Admin_Controller
                         $idPendudukBaru = (int) $idPenduduk + $rand;
                         $nik            = $mapPenduduk[$idPendudukBaru]['nik'];
                         // get id penduduk terbaru
-                        log_message('error', 'penduduk nik ' . $nik);
+                        // log_message('error', 'penduduk nik ' . $nik);
                         $penduduk    = DB::table('tweb_penduduk')->where(['nik' => $nik, 'config_id' => identitas('id')])->first();
                         $uniqueValue = explode('__', $record);
                         if ($penduduk) {
-                            log_message('error', 'penduduk ' . $penduduk->id);
+                            // log_message('error', 'penduduk ' . $penduduk->id);
                             $condition              = array_combine($uniqueRecord, $uniqueValue);
                             $condition['config_id'] = identitas('id');
-                            log_message('error', 'kondisi ' . json_encode($condition));
+                            // log_message('error', 'kondisi ' . json_encode($condition));
                             DB::table($table)->where($condition)->update([$key => $penduduk->id]);
-                            log_message('error', 'tabel ' . $table);
+                            // log_message('error', 'tabel ' . $table);
                         }
                     }
                 }
@@ -525,7 +525,7 @@ class MultiDB extends Admin_Controller
     private function reStrukturTableData($tableName, $tableDetails, $rand): void
     {
         $primary_key = $tableDetails['primary_key'];
-        log_message('notice', 'reStrukturTableData  ' . $tableName . ' id ');
+        // log_message('notice', 'reStrukturTableData  ' . $tableName . ' id ');
         $idIni = DB::table('config')->where('app_key', get_app_key())->value('id');
         if ($primary_key !== null) {
             if ($tableName == 'config') {
