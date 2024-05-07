@@ -796,10 +796,12 @@
                                     @if (in_array('kepala_keluarga_ganda', $masalah))
                                         <div class="panel panel-default">
                                             <div class="panel-body">
-                                                <strong>Terdeteksi keluarga memiliki kepala keluarga ganda</strong>
-                                                <div class="col-md-10 col-offset-1" id="info-kepala-keluarga-ganda">
-
-                                                </div>
+                                                <strong>Terdeteksi keluarga memiliki kepala keluarga ganda<br>
+                                                    <code>Informasi: Harap mengganti salah satu SHDK dari salah satu penduduk dengan Nomor KK yang sama.</code>
+                                                </strong>
+                                                <hr>
+                                                
+                                                <div class="col-md-10 col-offset-1" id="info-kepala-keluarga-ganda"></div>
                                                 <table class="table">
                                                     <tr>
                                                         <th>Nama</th>
