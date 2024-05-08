@@ -115,7 +115,7 @@ class Shortcut extends Admin_Controller
         }
         $icons  = ShortcutModel::listIcon();
         $moduls = Modul::where('slug', '!=', 'home')->where('hidden', '!=', 2)->get()->pluck('modul', 'slug')->toArray();
-        $querys = ShortcutModel::querys()['jumlah'];
+        $querys = ShortcutModel::querys()['mapping'];
 
         return view('admin.shortcut.form', ['action' => $action, 'form_action' => $form_action, 'shortcut' => $shortcut, 'icons' => $icons, 'moduls' => $moduls, 'querys' => $querys]);
     }

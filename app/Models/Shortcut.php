@@ -160,11 +160,12 @@ class Shortcut extends BaseModel
         $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
 
         return cache()->rememberForever('shortcut_' . auth()->id, static function () use ($isAdmin) {
-            $activeShortcut   = self::where('status', '=', '1')->orderBy('urut')->get();
-            $querys           = [];
-            $querys['data']   = $activeShortcut;
-            $querys['jumlah'] = [];
-            $mapping          = collect([
+            $activeShortcut    = self::where('status', '=', '1')->orderBy('urut')->get();
+            $querys            = [];
+            $querys['data']    = $activeShortcut;
+            $querys['jumlah']  = [];
+            $querys['mapping'] = [];
+            $mapping           = collect([
                 'Dusun' => Wilayah::dusun(),
                 'RW'    => Wilayah::rw(),
                 'RT'    => Wilayah::rt(),
@@ -258,7 +259,7 @@ class Shortcut extends BaseModel
 
                 $mapping = $mapping->merge($pesertaBantuan);
             }
-
+            $querys['mapping'] = $mapping->keys();
             if ($activeShortcut) {
                 $resultJumlah     = $activeShortcut->mapWithKeys(static fn ($item) => [$item->raw_query => $mapping->get($item->raw_query)->count()])->toArray();
                 $querys['jumlah'] = $resultJumlah;
