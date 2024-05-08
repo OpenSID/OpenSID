@@ -35,44 +35,24 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Models;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
-{
-    public function up()
-    {
-        $hasil = true;
+class LogEkspor extends BaseModel
+{    
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && true;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-
-        // }
-        $hasil = $this->migrasi_2024050851($hasil);
-        return $hasil && true;
-    }
-
-    protected function migrasi_2024050851($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
-            ['url' => 'dokumen']
-        );
-    }
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'log_ekspor';
+    public $timestamps = false;
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];    
 }

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,50 +29,33 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class KategoriPublicEnum extends BaseEnum
 {
-    public function up()
+    public const INFORMASI_BERKALA      = 1;
+    public const INFORMASI_SERTA_MERTA  = 2;
+    public const INFORMASI_SEIAP_SAAT   = 3;
+    public const INFORMASI_DIKECUALIKAN = 4;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && true;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-
-        // }
-        $hasil = $this->migrasi_2024050851($hasil);
-        return $hasil && true;
-    }
-
-    protected function migrasi_2024050851($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
-            ['url' => 'dokumen']
-        );
+        return [
+            self::INFORMASI_BERKALA      => 'Informasi Berkala',
+            self::INFORMASI_SERTA_MERTA  => 'Informasi Serta-merta',
+            self::INFORMASI_SEIAP_SAAT   => 'Informasi Setiap Saat',
+            self::INFORMASI_DIKECUALIKAN => 'Informasi Dikecualikan',
+        ];
     }
 }

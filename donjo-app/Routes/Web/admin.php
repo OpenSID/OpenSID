@@ -783,26 +783,22 @@ Route::group('surat_dinas_arsip', static function (): void {
 
 // Sekretariat > Informasi Publik
 Route::group('dokumen', static function (): void {
-    Route::get('/clear', 'Dokumen@clear')->name('dokumen.clear');
-    Route::get('/form/{kat?}/{p?}/{o?}/{id?}', 'Dokumen@form')->name('dokumen.form');
-    Route::post('/search', 'Dokumen@search')->name('dokumen.search');
-    Route::post('/filter', 'Dokumen@filter')->name('dokumen.filter');
-    Route::post('/insert', 'Dokumen@insert')->name('dokumen.insert');
-    Route::post('/update/{kat?}/{id?}/{p?}/{o?}', 'Dokumen@update')->name('dokumen.update');
-    Route::get('/delete/{kat?}/{p?}/{o?}/{id?}', 'Dokumen@delete')->name('dokumen.delete');
-    Route::post('/delete_all/{kat?}/{p?}/{o?}', 'Dokumen@delete_all')->name('dokumen.delete_all');
-    Route::get('/dokumen_lock/{kat?}/{id?}', 'Dokumen@dokumen_lock')->name('dokumen.dokumen_lock');
-    Route::get('/dokumen_unlock/{kat?}/{id?}', 'Dokumen@dokumen_unlock')->name('dokumen.dokumen_unlock');
-    Route::get('/dialog_cetak/{kat?}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
-    Route::post('/cetak/{kat?}', 'Dokumen@cetak')->name('dokumen.cetak');
-    Route::get('/dialog_excel/{kat?}', 'Dokumen@dialog_excel')->name('dokumen.dialog_excel');
-    Route::post('/excel/{kat?}', 'Dokumen@excel')->name('dokumen.excel');
-    Route::get('/unduh_berkas/{id_dokumen?}/{id_pend?}/{tampil?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
-    Route::get('/tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
-    Route::match(['GET', 'POST'], '/index', 'Dokumen@index');
-    Route::match(['GET', 'POST'], '/index/{kat?}/{p?}/{o?}', 'Dokumen@index');
-    Route::match(['GET', 'POST'], '/index/{kat?}/{p?}', 'Dokumen@index');
-    Route::match(['GET', 'POST'], '/', 'Dokumen@index');
+    Route::get('clear', static function (): void {
+        redirect('dokumen');
+    });
+    Route::get('', 'Dokumen@index');
+    Route::get('datatables', 'Dokumen@datatables')->name('dokumen.datatables');
+    Route::get('form/{id?}', 'Dokumen@form')->name('dokumen.form');
+    Route::post('insert', 'Dokumen@insert')->name('dokumen.insert');
+    Route::post('update/{id}', 'Dokumen@update')->name('dokumen.update');
+    Route::match(['GET', 'POST'],'delete/{id?}', 'Dokumen@delete')->name('dokumen.delete');    
+    Route::get('lock/{id}', 'Dokumen@lock')->name('dokumen.lock');    
+    Route::get('dialog_cetak/{aksi}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
+    Route::post('cetak/{aksi}', 'Dokumen@cetak')->name('dokumen.cetak');    
+    Route::get('unduh_berkas/{id_dokumen?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
+    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');    
+    Route::get('ekspor', 'Dokumen@ekspor')->name('dokumen.ekspor');
+    Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');    
 });
 
 // Sekretariat > Inventaris

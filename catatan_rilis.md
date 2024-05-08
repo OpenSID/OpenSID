@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#7824](https://github.com/OpenSID/OpenSID/issues/7824) Penyesuaian modul OpenDK > Pesan menggunakan ORM dan Blade.
 5. [#7822](https://github.com/OpenSID/OpenSID/issues/7822) Penyesuaian modul Laporan Kelompok Rentan menggunakan ORM dan Blade.
 6. [#7756](https://github.com/OpenSID/OpenSID/issues/7756) Penyesuaian modul Buku Agenda - Surat Masuk menggunakan ORM dan Blade.
+7. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul Informasi Publik menggunakan ORM dan Blade.
 
 
 #### KEAMANAN

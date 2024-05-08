@@ -35,44 +35,25 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class DokumenEnum extends BaseEnum
 {
-    public function up()
+    public const INFORMASI_PUBLIK      = 1;
+    public const KEPUTUSAN_KEPALA_DESA = 2;
+    public const PERATURAN             = 3;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
-        return $hasil && $this->migrasi_data($hasil);
-    }
-
-    protected function migrasi_tabel($hasil)
-    {
-        return $hasil && true;
-    }
-
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
-    {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-
-        // }
-        $hasil = $this->migrasi_2024050851($hasil);
-        return $hasil && true;
-    }
-
-    protected function migrasi_2024050851($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
-            ['url' => 'dokumen']
-        );
+        return [
+            self::INFORMASI_PUBLIK      => 'Informasi Publik',
+            self::KEPUTUSAN_KEPALA_DESA => 'Keputusan Kepala Desa',
+            self::PERATURAN             => 'Peraturan',
+        ];
     }
 }
