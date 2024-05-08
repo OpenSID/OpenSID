@@ -39,32 +39,35 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_dev extends MY_model
+class Migrasi_2024050851 extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->migrasi_tabel($hasil);
-
         return $hasil && $this->migrasi_data($hasil);
     }
 
-    protected function migrasi_tabel($hasil)
+    protected function migrasi_data($hasil)
     {
+        $hasil = $hasil && $this->migrasi_2024050251($hasil);
+        $hasil = $hasil && $this->migrasi_2024050751($hasil);
+
         return $hasil && true;
     }
 
-    // Migrasi perubahan data
-    protected function migrasi_data($hasil)
+    protected function migrasi_2024050251($hasil)
     {
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
+            ['url' => 'penduduk_log']
+        );
+    }
 
-        // foreach ($config_id as $id) {
+    protected function migrasi_2024050751($hasil)
+    {
+        DB::statement('delete from grup_akses where id_modul not in (select id from setting_modul)');
 
-        // }
-
-        return $hasil && true;
+        return $hasil;
     }
 }
