@@ -241,9 +241,16 @@ class Periksa_model extends MY_Model
 
     public function deteksi_kepala_keluarga_ganda()
     {
+        $config_id = identitas('id');
+
         $kepalaKeluargaDobel = Penduduk::withOnly([])->select(['id_kk'])->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->groupBy(['id_kk'])->having(DB::raw('count(id_kk)'), '>', 1)->pluck('id_kk')->toArray();
 
-        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])->kepalaKeluarga()->whereIn('id_kk', $kepalaKeluargaDobel)->orderBy('id_kk')->get();
+        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])
+            ->kepalaKeluarga()
+            ->whereIn('id_kk', $kepalaKeluargaDobel)
+            ->whereNotIn('id', static fn ($q) => $q->from('tweb_keluarga')->select(['nik_kepala'])->where(['config_id' => $config_id])->whereNotNull('nik_kepala'))
+            ->orderBy('id_kk')
+            ->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()
