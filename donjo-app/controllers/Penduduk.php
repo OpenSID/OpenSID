@@ -234,9 +234,9 @@ class Penduduk extends Admin_Controller
             }
 
             $dusun = $statistikFilter['dusun'] ?? null;
-            $rw = $statistikFilter['rw'] ?? null;
-            $rt = $statistikFilter['rt'] ?? null;
-            if($rt){
+            $rw    = $statistikFilter['rw'] ?? null;
+            $rt    = $statistikFilter['rt'] ?? null;
+            if ($rt) {
                 [$namaDusun,$namaRw] = explode('__', $rw);
                 $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->whereRt($rt)->select(['id'])->get()->pluck('id')->toArray();
             }
@@ -273,7 +273,7 @@ class Penduduk extends Admin_Controller
                 if (null !== $umurMax) {
                     $umurObj['max'] = $umurMax;
                 }
-                
+
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status_kawin'         => 'status_kawin',
@@ -324,10 +324,10 @@ class Penduduk extends Admin_Controller
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
                                 }
-                            } elseif ($map[$key] == 'cacat_id') {                                
+                            } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
                                     $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
-                                }else {
+                                } else {
                                     $q->where($map[$key], $val);
                                 }
                             } else {
@@ -1094,14 +1094,14 @@ class Penduduk extends Admin_Controller
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $this->statistikFilter['status_dasar'] = StatusDasarEnum::HIDUP;
-        $dusun           = $this->input->get('dusun') ?? null;
-        $rw              = $this->input->get('rw') ?? null;
-        $rt              = $this->input->get('rt') ?? null;
+        $dusun                                 = $this->input->get('dusun') ?? null;
+        $rw                                    = $this->input->get('rw') ?? null;
+        $rt                                    = $this->input->get('rt') ?? null;
         if (! empty($dusun)) {
             $this->statistikFilter['dusun'] = $dusun;
         }
         if (! empty($rw)) {
-            $this->statistikFilter['rw'] = $dusun.'__'.$rw;
+            $this->statistikFilter['rw'] = $dusun . '__' . $rw;
         }
         if (! empty($rt)) {
             $this->statistikFilter['rt'] = $rt;
@@ -1343,7 +1343,7 @@ class Penduduk extends Admin_Controller
             case 8:
                 $this->statistikFilter['umur_min'] = '61';
                 $this->statistikFilter['umur_max'] = '9999';
-                $pre = 'BERUMUR >60';
+                $pre                               = 'BERUMUR >60';
                 break;
 
             case 91:

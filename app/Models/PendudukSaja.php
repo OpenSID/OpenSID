@@ -42,5 +42,5 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class PendudukSaja extends Penduduk
 {
    protected $appends = [];
-   protected $with   = [];
+   protected $with    = [];
 }

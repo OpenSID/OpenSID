@@ -445,7 +445,7 @@ Route::group('laporan', static function (): void {
 Route::group('laporan_rentan', static function (): void {
     Route::get('/', 'Laporan_rentan@index')->name('laporan_rentan.index');
     Route::get('/clear', 'Laporan_rentan@clear')->name('laporan_rentan.clear');
-    Route::get('/cetak/{aksi}', 'Laporan_rentan@cetak')->name('laporan_rentan.cetak');    
+    Route::get('/cetak/{aksi}', 'Laporan_rentan@cetak')->name('laporan_rentan.cetak');
     Route::post('/dusun', 'Laporan_rentan@dusun')->name('laporan_rentan.dusun');
 });
 
