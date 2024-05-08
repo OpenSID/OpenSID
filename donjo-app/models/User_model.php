@@ -109,7 +109,9 @@ class User_model extends MY_Model
             return false;
         }
 
-        $user = User::where('username', $username)->status()->first();
+        $user = User::where('username', $username)
+            ->status()
+            ->first();
 
         // Cek hasil query ke db, ada atau tidak data user ybs.
         $pwMasihMD5 = $user && ((strlen($user->password) == 32) && (stripos($user->password, '$') === false));

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
@@ -62,13 +63,23 @@ class Grup extends Admin_Controller
             'jenis'   => [UserGrup::SISTEM => 'Sistem', UserGrup::DESA => 'Tambahan'],
         ];
 
+        $data['status'] = [
+            ['id' => '1', 'nama' => 'Aktif'],
+            ['id' => '0', 'nama' => 'Tidak Aktif'],
+        ];
+
         return view('admin.pengaturan.grup.index', $data);
     }
 
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(UserGrup::query()->withCount('users'))
+            $status = $this->input->get('status');
+
+            return datatables()->of(UserGrup::withCount('users')
+                ->when($status != '', static function ($query) use ($status): void {
+                    $query->status($status);
+                }))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return $row->jenis == UserGrup::DESA && $row->users_count <= 0 ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>' : '';
@@ -87,6 +98,11 @@ class Grup extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                         }
                         $aksi .= '<a href="' . ci_route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
+                        if ($row->status == StatusEnum::YA) {
+                            $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('grup.lock', "{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        }
                     }
                     if (can('h') && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
                         $aksi .= '<a href="#" data-href="' . ci_route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
@@ -125,6 +141,8 @@ class Grup extends Admin_Controller
             }
         }
 
+        $data['status'] = $data['grup']['status'] ?? StatusEnum::YA;
+
         return view('admin.pengaturan.grup.form', $data);
     }
 
@@ -148,8 +166,13 @@ class Grup extends Admin_Controller
             redirect_with('error', trim(validation_errors()));
         } else {
             try {
-                $nama   = $this->input->post('nama');
-                $grup   = UserGrup::create(['nama' => $nama, unique_slug('user_grup', $nama), 'jenis' => UserGrup::DESA]);
+                $nama = $this->input->post('nama');
+                $grup = UserGrup::create([
+                    'nama' => $nama,
+                    unique_slug('user_grup', $nama),
+                    'jenis'  => UserGrup::DESA,
+                    'status' => $this->input->post('status'),
+                ]);
                 $moduls = $this->input->post('modul');
                 $this->simpanAkses($grup->id, $moduls);
                 redirect_with('success', 'Grup pengguna berhasil disimpan');
@@ -187,7 +210,11 @@ class Grup extends Admin_Controller
                 if ($grup->jenis == UserGrup::SISTEM) {
                     redirect_with('error', 'Grup pengguna dari sistem tidak boleh dirubah');
                 }
-                $grup->update(['nama' => $nama, unique_slug('user_grup', $nama)]);
+                $grup->update([
+                    'nama' => $nama,
+                    unique_slug('user_grup', $nama),
+                    'status' => $this->input->post('status'),
+                ]);
                 $moduls = $this->input->post('modul');
                 $this->simpanAkses($grup->id, $moduls);
                 redirect_with('success', 'Grup pengguna berhasil disimpan');
@@ -242,5 +269,16 @@ class Grup extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('success', 'Grup pengguna gagal dihapus');
         }
+    }
+
+    public function lock($id = 0): void
+    {
+        isCan('u');
+
+        if (UserGrup::gantiStatus($id, 'status')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+
+        redirect_with('error', 'Gagal Ubah Status');
     }
 }

@@ -70,6 +70,7 @@ class UserGrup extends BaseModel
     protected $fillable = [
         'nama',
         'jenis',
+        'status',
         'created_by',
         'updated_by',
     ];
@@ -132,6 +133,23 @@ class UserGrup extends BaseModel
                 '*' => 3,
             ],
         ];
+    }
+
+    /**
+     * Scope query untuk status pengguna
+     *
+     * @param mixed $query
+     * @param mixed $status
+     *
+     * @return Builder
+     */
+    public function scopeStatus($query, $status = 1)
+    {
+        if ($status == '') {
+            return $query;
+        }
+
+        return $query->where('status', $status);
     }
 
     protected static function boot()

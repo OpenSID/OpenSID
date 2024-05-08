@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
@@ -100,6 +101,18 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024050551($hasil)
     {
+        if (! $this->db->field_exists('status', 'user_grup')) {
+            $this->dbforge->add_column('user_grup', [
+                'status' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                    'null'       => false,
+                    'default'    => 1,
+                    'after'      => 'jenis',
+                ],
+            ]);
+        }
+
         if ($this->db->field_exists('nama', 'user_grup')) {
             $hasil = $hasil && $this->dbforge->modify_column('user_grup', [
                 'nama' => [
@@ -115,6 +128,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Sekretaris Desa',
                 'slug'       => 'sekretaris-desa',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -125,6 +139,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kaur Perencanaan',
                 'slug'       => 'kaur-perencanaan',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -135,6 +150,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kasi Pemerintahan',
                 'slug'       => 'kasi-pemerintahan',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -145,6 +161,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kasi Pelayanan',
                 'slug'       => 'kasi-pelayanan',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -155,6 +172,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kasi Kesejahteraan',
                 'slug'       => 'kasi-kesejahteraan',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -165,6 +183,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kaur Umum dan Perencanaan',
                 'slug'       => 'kaur-umum-dan-perencanaan',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -175,6 +194,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kaur Keuangan',
                 'slug'       => 'kaur-keuangan',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),
@@ -185,6 +205,7 @@ class Migrasi_dev extends MY_model
                 'nama'       => 'Kepala Dusun',
                 'slug'       => 'kepala-dusun',
                 'jenis'      => 1,
+                'status'     => StatusEnum::TIDAK,
                 'created_at' => Carbon::now(),
                 'created_by' => 0,
                 'updated_at' => Carbon::now(),

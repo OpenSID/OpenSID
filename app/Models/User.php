@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 
@@ -156,6 +157,12 @@ class User extends BaseModel
     {
         if ($status == '') {
             return $query;
+        }
+
+        if ($status == StatusEnum::YA) {
+            return $query->whereHas('userGrup', static function ($query) {
+                    $query->status(StatusEnum::YA);
+            });
         }
 
         return $query->where('active', $status);
