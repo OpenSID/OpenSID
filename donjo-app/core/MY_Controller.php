@@ -115,7 +115,7 @@ class MY_Controller extends CI_Controller
 
         if (Config::count() === 0) {
             $this->session->cek_app_key = true;
-            redirect('koneksi_database/desaBaru');
+            show_error('Silahkan tambah desa baru melalui console');
         } elseif (Config::count() > 1) {
             $appKeyDb = Config::appKey()->first();
         }

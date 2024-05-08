@@ -15,10 +15,10 @@
             <td colspan="27"><strong>[NAma_dapp]</strong></td>
         </tr>
         <tr>
-            <td colspan="20">Nomor Induk Keinputan</td>
+            <td colspan="20">Nomor Induk Kependudukan</td>
             <td>: </td>
             <td colspan="27">[NiK_dapp]</td>
-            
+
         </tr>
         <tr>
             <td colspan="20">Jenis Kelamin</td>
@@ -29,42 +29,42 @@
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
             <td colspan="27">[TtL_dapp]</td>
-            
+
         </tr>
         <tr>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
             <td colspan="27">[WaRga_negara_dapp]</td>
-            
+
         </tr>
         <tr>
             <td colspan="20">Agama</td>
             <td>: </td>
             <td colspan="27">[AgAma_dapp]</td>
-            
+
         </tr>
         <tr>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
             <td colspan="27">[PeKerjaan_dapp]</td>
-            
+
         </tr>
         <tr>
             <td colspan="20">Pendidikan Terakhir</td>
             <td>: </td>
             <td colspan="27">[PeNdidikan_kk_dapp]</td>
-            
+
         </tr>
         <tr>
             <td colspan="20">Alamat</td>
             <td>: </td>
             <td colspan="27">[AlAmat_dapp]</td>
-            
+
         </tr>
     </table>
-    
+
     <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus [Form_status_kawin_wanitA], dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
-    
+
     <p>Demikianlah surat pernyataan ini saya buat dengan sebenarnya, dalam keadaan sehat jasmani dan rohani tanpa ada paksaan dari pihak manapun. Apabila di kemudian hari menyalahi surat pernyataan ini, saya bersedia dituntut sesuai Perundang-undangan/Hukum yang berlaku dan tidak akan melibatkan aparat setempat ( Resiko Sendiri).</p>
 
     <!-- Penandatangan -->
@@ -87,7 +87,7 @@
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>
-    
+
     <!-- Saksi -->
     <br><br><br>
     <p>Saksi-saksi :</p>

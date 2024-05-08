@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -150,6 +151,14 @@ class Dokumen extends BaseModel
     public function scopePengguna($query): void
     {
         // return $query->where('id_pend', auth('jwt')->id());
+    }
+
+    /**
+     * Get the penduduk that owns the Dokumen
+     */
+    public function penduduk(): BelongsTo
+    {
+        return $this->belongsTo(Penduduk::class, 'id_pend');
     }
 
     /**

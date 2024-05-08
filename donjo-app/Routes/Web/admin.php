@@ -93,6 +93,10 @@ Route::group('periksaLogPenduduk', static function (): void {
     Route::post('/hapusLog', 'PeriksaLogPenduduk@hapusLog')->name('periksaLogPenduduk.hapusLog');
     Route::post('/updateStatusDasar', 'PeriksaLogPenduduk@updateStatusDasar')->name('periksaLogPenduduk.updateStatusDasar');
 });
+Route::group('periksaKepalaKeluargaGanda', static function (): void {
+    Route::get('/', 'PeriksaKepalaKeluargaGanda@index')->name('periksaKepalaKeluargaGanda.index');
+    Route::post('/ubahShdk', 'PeriksaKepalaKeluargaGanda@ubahShdk')->name('periksaKepalaKeluargaGanda.ubahShdk');
+});
 
 // Info Desa > Identitas Desa
 Route::group('identitas_desa', static function (): void {
@@ -223,26 +227,20 @@ Route::group('penduduk', static function (): void {
 
 // Kependudukan > Penduduk > Log Penduduk
 Route::group('penduduk_log', static function (): void {
-    Route::get('/clear', 'Penduduk_log@clear')->name('penduduk_log.clear');
-    Route::match(['GET', 'POST'], '/', 'Penduduk_log@index')->name('penduduk_log.index');
-    Route::match(['GET', 'POST'], '/index', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/index/{p}', 'Penduduk_log@index');
-    Route::match(['GET', 'POST'], '/index/{p}/{o}', 'Penduduk_log@index');
-    Route::post('/filter/{kode_peristiwa?}', 'Penduduk_log@filter')->name('penduduk_log.filter');
-    Route::post('/dusun', 'Penduduk_log@dusun')->name('penduduk_log.dusun');
-    Route::post('/rw', 'Penduduk_log@rw')->name('penduduk_log.rw');
-    Route::post('/rt', 'Penduduk_log@rt')->name('penduduk_log.rt');
-    Route::post('/tahun_bulan', 'Penduduk_log@tahun_bulan')->name('penduduk_log.tahun_bulan');
-    Route::get('/edit/{p}/{o}/{id?}', 'Penduduk_log@edit')->name('penduduk_log.edit');
-    Route::post('/update/{p}/{o}/{id?}', 'Penduduk_log@update')->name('penduduk_log.update');
-    Route::get('/kembalikan_status/{id}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
-    Route::get('/ajax_kembalikan_status_pergi/{id?}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
-    Route::post('/kembalikan_status_pergi/{id?}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
-    Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
-    Route::get('/cetak/{o}/{aksi}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
-    Route::get('/ajax_cetak/{o}/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
-    Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk_log@statistik')->name('penduduk_log.statistik');
-    Route::get('/dokumen/{id?}', 'Penduduk_log@dokumen')->name('penduduk_log.dokumen');
+    Route::get('clear', 'Penduduk_log@index')->name('penduduk_log.clear');
+    Route::get('', 'Penduduk_log@index')->name('penduduk_log.index');
+    Route::get('index', 'Penduduk_log@index');
+    Route::get('datatables', 'Penduduk_log@datatables')->name('penduduk_log.datatables');
+    Route::get('edit/{id}', 'Penduduk_log@edit')->name('penduduk_log.edit');
+    Route::post('update/{id}', 'Penduduk_log@update')->name('penduduk_log.update');
+    Route::get('kembalikan_status/{id}', 'Penduduk_log@kembalikan_status')->name('penduduk_log.kembalikan_status');
+    Route::get('ajax_kembalikan_status_pergi/{id}', 'Penduduk_log@ajax_kembalikan_status_pergi')->name('penduduk_log.ajax_kembalikan_status_pergi');
+    Route::post('kembalikan_status_pergi/{id}', 'Penduduk_log@kembalikan_status_pergi')->name('penduduk_log.kembalikan_status_pergi');
+    Route::post('kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
+    Route::post('cetak/{aksi}/{privasi_nik}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
+    Route::get('ajax_cetak/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
+    Route::get('statistik/{tipe}/{nomor}/{sex}', 'Penduduk_log@statistik')->name('penduduk_log.statistik');
+    Route::get('dokumen/{id}', 'Penduduk_log@dokumen')->name('penduduk_log.dokumen');
 });
 
 // Kependudukan > Keluarga
@@ -435,22 +433,19 @@ Route::group('statistik', static function (): void {
 Route::group('laporan', static function (): void {
     Route::get('/', 'Laporan@index')->name('laporan.index');
     Route::get('/clear', 'Laporan@clear')->name('laporan.clear');
-    Route::get('/dialog_cetak', 'Laporan@dialog_cetak')->name('laporan.dialog_cetak');
-    Route::get('/dialog_unduh', 'Laporan@dialog_unduh')->name('laporan.dialog_unduh');
-    Route::post('/cetak', 'Laporan@cetak')->name('laporan.cetak');
-    Route::post('/unduh', 'Laporan@unduh')->name('laporan.unduh');
+    Route::get('/dialog/{aksi}', 'Laporan@dialog')->name('laporan.dialog');
+    Route::post('/cetak/{cetak}', 'Laporan@cetak')->name('laporan.cetak');
     Route::post('/bulan', 'Laporan@bulan')->name('laporan.bulan');
     Route::get('/detail_penduduk/{rincian}/{tipe}', 'Laporan@detail_penduduk')->name('laporan.detail_penduduk');
     Route::get('/detail_dialog/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_dialog')->name('laporan.detail_dialog');
-    Route::post('/detail_aksi/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_aksi')->name('laporan.detail_aksi');
+    Route::post('/detail_cetak/{aksi?}/{rincian?}/{tipe?}', 'Laporan@detail_cetak')->name('laporan.detail_cetak');
 });
 
 // Statistik > Laporan Kelompok Rentan
 Route::group('laporan_rentan', static function (): void {
     Route::get('/', 'Laporan_rentan@index')->name('laporan_rentan.index');
     Route::get('/clear', 'Laporan_rentan@clear')->name('laporan_rentan.clear');
-    Route::get('/cetak', 'Laporan_rentan@cetak')->name('laporan_rentan.cetak');
-    Route::get('/excel', 'Laporan_rentan@excel')->name('laporan_rentan.excel');
+    Route::get('/cetak/{aksi}', 'Laporan_rentan@cetak')->name('laporan_rentan.cetak');
     Route::post('/dusun', 'Laporan_rentan@dusun')->name('laporan_rentan.dusun');
 });
 
@@ -1683,6 +1678,7 @@ Route::group('pengaduan_admin', static function (): void {
 // OpenDK > Pesan
 Route::group('opendk_pesan', static function (): void {
     Route::get('/', 'Opendk_pesan@index')->name('opendk_pesan.index');
+    Route::get('/datatables', 'Opendk_pesan@datatables')->name('opendk_pesan.datatables');
     Route::get('/cek', 'Opendk_pesan@cek')->name('opendk_pesan.cek');
     Route::get('/clear/{return?}', 'Opendk_pesan@clear')->name('opendk_pesan.clear');
     Route::post('/filter/{filter}/{return?}', 'Opendk_pesan@filter')->name('opendk_pesan.filter');

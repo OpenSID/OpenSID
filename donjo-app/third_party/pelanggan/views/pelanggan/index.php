@@ -276,9 +276,9 @@
                                             <span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
                                         </td>
                                     </tr>
-                                    <?php if ($pemesananPremium == 0) : ?>
+                                    <!-- <?php if ($pemesananPremium !== 0) : ?>
                                         <?= '<style>#box-pemesanan-premium { display:none;}</style>'; ?>
-                                    <?php endif; ?>
+                                    <?php endif; ?> -->
                                 <?php endforeach ?>
                             </tbody>
                         </table>

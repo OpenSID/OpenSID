@@ -248,7 +248,7 @@ class Data_awal extends MY_Model
                 'akses' => $row['akses'],
             ];
             if (empty($dataInsert['id_modul'])) {
-                log_message('error', 'id_modul_null -- ' . json_encode($row));
+                // log_message('error', 'id_modul_null -- ' . json_encode($row));
 
                 continue;
             }

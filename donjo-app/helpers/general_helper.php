@@ -35,17 +35,16 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Menu;
-use App\Models\User;
-use App\Models\Modul;
 use App\Models\Config;
-use App\Models\JamKerja;
-use App\Models\UserGrup;
 use App\Models\GrupAkses;
+use App\Models\JamKerja;
 use App\Models\Kehadiran;
+use App\Models\Menu;
+use App\Models\Modul;
+use App\Models\User;
+use App\Models\UserGrup;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Filesystem\Filesystem;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -471,11 +470,6 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
-
-        // copy fonts di vendor ke folder desa
-        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
-
-        config()->set('app.key', get_app_key());
 
         // set config app.key untuk proses intall
         config()->set('app.key', get_app_key());

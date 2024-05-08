@@ -36,9 +36,10 @@
  */
 
 use App\Models\SettingAplikasi;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,6 +50,8 @@ class Migrasi_2024050171 extends MY_model
         $hasil = true;
 
         $hasil = $hasil && $this->migrasi_tabel($hasil);
+
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
 
         return $hasil && $this->migrasi_data($hasil);
     }

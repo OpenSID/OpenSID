@@ -48,6 +48,13 @@ class Pesan extends BaseModel
     protected $table    = 'pesan';
     protected $fillable = ['id', 'judul', 'jenis', 'sudah_dibaca', 'diarsipkan'];
 
+    public function scopeStatus($query, $status)
+    {
+        if ($status != null) {
+            return $query->where('sudah_dibaca', (int) $status);
+        }
+    }
+
     public function detailPesan()
     {
         return $this->hasMany(PesanDetail::class, 'pesan_id', 'id');

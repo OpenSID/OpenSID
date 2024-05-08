@@ -37,13 +37,20 @@
 
 namespace App\Models;
 
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogPenduduk extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * KETERANGAN kode_peristiwa di log_penduduk
@@ -109,11 +116,45 @@ class LogPenduduk extends BaseModel
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'file_akta_mati');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'file_akta_mati', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_DOKUMEN . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
+    }
+
+    /**
      * Get the post that owns the comment.
      */
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_pend', 'id');
+    }
+
+    /**
+     * Get the post that owns the comment.
+     */
+    public function keluarga()
+    {
+        return $this->hasOneThrough(Keluarga::class, Penduduk::class, 'id', 'id', 'id_pend', 'id_kk');
     }
 
     /**
@@ -180,7 +221,12 @@ class LogPenduduk extends BaseModel
 
     public static function kodePeristiwaAll($index): string
     {
-        $result = [
+        return self::kodePeristiwa()[$index] ?? '-';
+    }
+
+    public static function kodePeristiwa(): array
+    {
+        return [
             self::BARU_LAHIR        => 'Baru Lahir',
             self::MATI              => 'Mati',
             self::PINDAH_KELUAR     => 'Pindah Keluar',
@@ -188,8 +234,6 @@ class LogPenduduk extends BaseModel
             self::BARU_PINDAH_MASUK => 'Baru Pindah Masuk',
             self::TIDAK_TETAP_PERGI => 'Tidak Tetap Pergi',
         ];
-
-        return $result[$index] ?? '-';
     }
 
     public function scopeTahun($query)
@@ -205,5 +249,157 @@ class LogPenduduk extends BaseModel
     public function refPindah()
     {
         return $this->belongsTo(RefPindah::class, 'ref_pindah', 'id')->withDefault();
+    }
+
+    public function scopePeristiwaSampaiDengan($query, string $tanggal)
+    {
+        $configId = identitas('id');
+        $subQuery = DB::raw(
+            '(SELECT MAX(id) as id, id_pend from log_penduduk where config_id = ' . $configId . ' and tgl_lapor <= \'' . $tanggal . ' 23:59:59\' group by id_pend) as logMax'
+        );
+
+        return $query->join($subQuery, 'logMax.id', '=', 'log_penduduk.id');
+    }
+
+    public function pergiTerakhir()
+    {
+        return $this->hasOne(LogPenduduk::class, 'id_pend', 'id_pend')->whereIn('kode_peristiwa', [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])->orderByDesc('id');
+    }
+
+    public function isKembaliDatang()
+    {
+        $tgl_lapor    = Carbon::parse($this->tgl_lapor)->format('m-Y');
+        $tgl_sekarang = Carbon::now()->format('m-Y');
+
+        return $tgl_lapor < $tgl_sekarang;
+    }
+
+    public function isLogPergiTerakhir()
+    {
+        if (! $this->pergiTerakhir) {
+            return false;
+        }
+
+        return $this->id == $this->pergiTerakhir->id;
+    }
+
+    /**
+     * Kembalikan status dasar penduduk ke hidup
+     *
+     * @param $id_log id log penduduk
+     *
+     * @return void
+     */
+    public function kembalikan_status()
+    {
+        // Kembalikan status selain lahir dan masuk
+        if (! in_array($this->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])) {
+            Penduduk::where('id', $this->id_pend)
+                ->update([
+                    'status_dasar' => StatusDasarEnum::HIDUP,
+                ]);
+            $penduduk = Penduduk::where('nik', $this->penduduk->nik)->where('id', '!=', $this->id_pend)->where('status_dasar', StatusDasarEnum::HIDUP)->get();
+
+            if (! $penduduk->isEmpty()) {
+                try {
+                    // tambah log penduduk datang
+                    LogPenduduk::create([
+                        'id_pend'        => $this->id_pend,
+                        'kode_peristiwa' => 1,
+                        'tgl_lapor'      => date('Y-m-d'),
+                        'tgl_peristiwa'  => date('Y-m-d'),
+                        'ref_pindah'     => $this->ref_pindah,
+                    ]);
+
+                    foreach ($penduduk as $pindah) {
+                        // ubah status Dasar selain $log->id_pend menjadi LogPenduduk::PINDAH_KELUAR
+                        $pindah->update([
+                            'status_dasar' => LogPenduduk::PINDAH_KELUAR,
+                        ]);
+
+                        // tambah log penduduk pindah
+                        $pendudukPindah = LogPenduduk::create([
+                            'id_pend'        => $pindah->id,
+                            'kode_peristiwa' => 3,
+                            'tgl_lapor'      => date('Y-m-d'),
+                            'tgl_peristiwa'  => date('Y-m-d'),
+                            'ref_pindah'     => $this->ref_pindah,
+                        ]);
+
+                        if ($pindah->id_kk) {
+                            LogKeluarga::create([
+                                'id_kk'           => $pindah->id_kk,
+                                'id_peristiwa'    => 3,
+                                'updated_by'      => auth()->id,
+                                'id_log_penduduk' => $pendudukPindah->id,
+                            ]);
+                        }
+                    }
+                } catch (Exception $e) {
+                    throw new Exception($e->getMessage());
+                }
+            } else {
+                // Hapus log_keluarga, jika terkait
+                $logKeluarga = LogKeluarga::where('id_log_penduduk', $this->id)->first();
+                if ($logKeluarga) {
+                    $logKeluarga->delete();
+                }
+
+                // Hapus log penduduk
+                $this->delete();
+            }
+        } else {
+            throw new Exception('tidak dapat mengubah status dasar.');
+        }
+    }
+
+    /**
+     * Kembalikan status dasar penduduk dari PERGI ke HIDUP
+     *
+     * @param       $id_log id log penduduk
+     * @param mixed $data
+     */
+    public function kembalikan_status_pergi($data = []): void
+    {
+        // Cek tgl lapor
+        // tampilkan hanya jika beda tanggal lapor
+        $tgl_lapor    = Carbon::parse($this->tgl_lapor)->format('m-Y');
+        $tgl_sekarang = Carbon::now()->format('m-Y');
+        if ($tgl_lapor >= $tgl_sekarang) {
+            throw new Exception('Tidak dapat mengubah status dasar penduduk, karena tanggal lapor masih sama dengan tanggal sekarang.');
+        }
+
+        // Kembalikan status_dasar hanya jika penduduk pindah keluar (3) atau tidak tetap pergi (6)
+        if (in_array($this->kode_peristiwa, [LogPenduduk::PINDAH_KELUAR, LogPenduduk::TIDAK_TETAP_PERGI])) {
+            Penduduk::where('id', $this->id_pend)
+                ->update([
+                    'status_dasar' => StatusDasarEnum::HIDUP,
+                ]);
+
+            // Log Penduduk
+            $logPenduduk = [
+                'tgl_peristiwa'            => rev_tgl($data['tgl_peristiwa']),
+                'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
+                'tgl_lapor'                => rev_tgl($data['tgl_lapor'], null),
+                'id_pend'                  => $this->id_pend,
+                'created_by'               => auth()->id,
+                'maksud_tujuan_kedatangan' => $data['maksud_tujuan'],
+                'config_id'                => $this->config_id,
+            ];
+            LogPenduduk::upsert($logPenduduk, ['tgl_peristiwa', 'tgl_peristiwa', 'kode_peristiwa', 'id_pend', 'config_id']);
+
+            // Log Keluarga jika kepala keluarga
+            $penduduk = Penduduk::select(['id', 'id_kk', 'kk_level'])->find($this->id_pend);
+            if ($penduduk->kk_level == SHDKEnum::KEPALA_KELUARGA) {
+                $logKeluarga = [
+                    'id_kk'         => $penduduk->id_kk,
+                    'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
+                    'tgl_peristiwa' => rev_tgl($data['tgl_lapor'], null),
+                    'updated_by'    => auth()->id,
+                    'config_id'     => $this->config_id,
+                ];
+                LogKeluarga::upsert($logKeluarga, ['id_kk', ['id_peristiwa', 'tgl_peristiwa', 'config_id']]);
+            }
+        }
     }
 }

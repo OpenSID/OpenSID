@@ -59,15 +59,15 @@ class PendidikanKKEnum extends BaseEnum
     {
         return [
             self::BELUM_SEKOLAH  => 'TIDAK / BELUM SEKOLAH',
-            self::BELUM_TAMAT_SD => 'BELUM TAMAT SD/SEDERAJAT',
+            self::BELUM_TAMAT_SD => 'BELUM TAMAT SD / SEDERAJAT',
             self::TAMAT_SD       => 'TAMAT SD / SEDERAJAT',
-            self::SLTP           => 'SLTP/SEDERAJAT',
+            self::SLTP           => 'SLTP / SEDERAJAT',
             self::SLTA           => 'SLTA / SEDERAJAT',
             self::DIPLOMA        => 'DIPLOMA I / II',
-            self::AKADEMI        => 'AKADEMI/ DIPLOMA III/S. MUDA',
-            self::STRATA_I       => 'DIPLOMA IV/ STRATA I',
-            self::STRATA_II      => 'DIPLOMA IV/ STRATA I',
-            self::STRATA_III     => 'DIPLOMA IV/ STRATA I',
+            self::AKADEMI        => 'AKADEMI/ DIPLOMA III / S. MUDA',
+            self::STRATA_I       => 'DIPLOMA IV / STRATA I',
+            self::STRATA_II      => 'STRATA II',
+            self::STRATA_III     => 'STRATA III',
         ];
     }
 }

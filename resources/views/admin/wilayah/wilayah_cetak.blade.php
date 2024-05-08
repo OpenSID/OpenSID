@@ -75,7 +75,7 @@
                                 <td align="right">{{ $rw->penduduk_pria_count }}</td>
                                 <td align="right">{{ $rw->penduduk_wanita_count }}</td>
                             </tr>
-                            @foreach ($rw->rts->where('rw', $rw->rw)->where('rt','!=', '-') as $rt)
+                            @foreach ($rw->rts->where('rw', $rw->rw)->where('rt', '!=', '-') as $rt)
                                 <tr>
                                     <td align="center">{{ $no++ }}</td>
                                     <td></td>

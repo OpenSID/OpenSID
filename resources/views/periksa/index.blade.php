@@ -793,8 +793,44 @@
                                         </div>
                                     @endif
 
+                                    @if (in_array('kepala_keluarga_ganda', $masalah))
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <strong>Terdeteksi keluarga memiliki kepala keluarga ganda atau tidak valid<br></strong>
+                                                <hr>
+
+                                                <div class="col-md-10 col-offset-1" id="info-kepala-keluarga-ganda"></div>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>Nama</th>
+                                                        <th>NIK</th>
+                                                        <th>No KK</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                    @foreach ($kepala_keluarga_ganda as $penduduk)
+                                                        <tr data-kepala-keluarga-ganda="{{ $penduduk['id'] }}">
+                                                            <td>{{ $penduduk['nama'] }}</td>
+                                                            <td>{{ $penduduk['nik'] }}</td>
+                                                            <td>{{ $penduduk['keluarga']['no_kk'] }}</td>
+                                                            <td><button
+                                                                    type="button"
+                                                                    class="btn btn-sm btn-danger"
+                                                                    data-title="Ubah SHDK Keluarga {{ $penduduk['nik'] }} / {{ $penduduk['nama'] }}"
+                                                                    data-url='periksaKepalaKeluargaGanda'
+                                                                    data-ref='{!! json_encode(['id' => $penduduk['id']]) !!}'
+                                                                    data-toggle="modal"
+                                                                    data-target="#modal-kosong"
+                                                                    data-close-btn-center=0
+                                                                ><i class="fa fa-pencil"></i> Ubah SHDK</button></td>
+                                                        </tr>
+                                                    @endforeach
+                                                </table>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     @php
-                                        $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda', 'log_penduduk_tidak_sinkron'];
+                                        $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda', 'log_penduduk_tidak_sinkron', 'kepala_keluarga_ganda'];
                                         $pengurangMasalah = 0;
                                         foreach ($excludePerbaikiSemua as $mandiri) {
                                             if (in_array($mandiri, $masalah)) {

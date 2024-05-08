@@ -41,7 +41,7 @@
                         <div class="panel-body">
                             <ul>
                                 @foreach (explode(',', $penduduk['input']) as $item)
-                                    <li>{{ $item }}</li>
+                                    <li>{{ $p_luar_map[$item] }}</li>
                                 @endforeach
                             </ul>
                             <input type="hidden" value="{{ $penduduk['title'] }}" name="penduduk_luar[{{ $index }}][title]" />

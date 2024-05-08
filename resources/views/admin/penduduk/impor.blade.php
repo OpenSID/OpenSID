@@ -181,6 +181,8 @@
                     denyButtonText: `Batal`,
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        // ubah nilai csrf, karena nilainya berubah
+                        $('input[name=sidcsrf]').val(getCsrfToken())
                         document.getElementById('impor').submit();
                         $('#loading').modal('show');
                     }

@@ -172,8 +172,6 @@ class Database_model extends MY_Model
         // Migrasi direkam di tabel migrasi
         if (($this->premium->validasi_versi($install) || $install) && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri($install);
-            // Kirim versi aplikasi ke layanan setelah migrasi selesai
-            kirim_versi_opensid();
         }
     }
 
