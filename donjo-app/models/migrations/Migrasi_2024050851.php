@@ -35,82 +35,39 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\ConfigId;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class SuratMasuk extends BaseModel
+class Migrasi_2024050851 extends MY_model
 {
-    use ConfigId;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'surat_masuk';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The fillable with the model.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'config_id',
-        'nomor_urut',
-        'tanggal_penerimaan',
-        'nomor_surat',
-        'kode_surat',
-        'tanggal_surat',
-        'tanggal_catat',
-        'pengirim',
-        'isi_singkat',
-        'isi_disposisi',
-        'berkas_scan',
-        'lokasi_arsip',
-    ];
-
-    public function scopeTahun($query)
+    public function up()
     {
-        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
+        $hasil = true;
+
+        return $hasil && $this->migrasi_data($hasil);
     }
 
-    public function scopeAutocomplete($query)
+    protected function migrasi_data($hasil)
     {
-        $query->select('pengirim')->distinct()->orderBy('pengirim');
+        $hasil = $hasil && $this->migrasi_2024050251($hasil);
+        $hasil = $hasil && $this->migrasi_2024050751($hasil);
 
-        return $query->limit(15)->pluck('pengirim')->toArray();
+        return $hasil && true;
     }
 
-    public static function boot(): void
+    protected function migrasi_2024050251($hasil)
     {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'berkas_scan');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'berkas_scan', true);
-        });
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
+            ['url' => 'penduduk_log']
+        );
     }
 
-    public static function deleteFile($model, ?string $file, $deleting = false): void
+    protected function migrasi_2024050751($hasil)
     {
-        if ($model->isDirty($file) || $deleting) {
-            $gambar = LOKASI_ARSIP . $model->getOriginal($file);
-            if (file_exists($gambar)) {
-                unlink($gambar);
-            }
-        }
+        DB::statement('delete from grup_akses where id_modul not in (select id from setting_modul)');
+
+        return $hasil;
     }
 }

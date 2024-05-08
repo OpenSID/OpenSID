@@ -292,4 +292,37 @@ class Artikel extends BaseModel
     {
         return $this->tipe == 'dinamis' ? $this->id_kategori : $this->tipe;
     }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'gambar');
+            static::deleteFile($model, 'gambar1');
+            static::deleteFile($model, 'gambar2');
+            static::deleteFile($model, 'gambar3');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'gambar', true);
+            static::deleteFile($model, 'gambar1', true);
+            static::deleteFile($model, 'gambar2', true);
+            static::deleteFile($model, 'gambar3', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $kecil  = LOKASI_FOTO_ARTIKEL . 'kecil_' . $model->getOriginal($file);
+            $sedang = LOKASI_FOTO_ARTIKEL . 'sedang_' . $model->getOriginal($file);
+            if (file_exists($kecil)) {
+                unlink($kecil);
+            }
+            if (file_exists($sedang)) {
+                unlink($sedang);
+            }
+        }
+    }
 }

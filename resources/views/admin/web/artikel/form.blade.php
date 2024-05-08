@@ -61,7 +61,6 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             @if ($artikel['gambar'])
-                                <input type="hidden" name="old_gambar" value="{{ $artikel['gambar'] }}">
                                 <img class="profile-user-img img-responsive img-circle" src="{{ AmbilFotoArtikel($artikel['gambar'], 'kecil') }}" alt="Gambar Utama">
                                 <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar_hapus" value="{{ $artikel['gambar'] }}" /> Hapus Gambar</label></p>
                             @else
@@ -80,7 +79,6 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             @if ($artikel['gambar1'])
-                                <input type="hidden" name="old_gambar1" value="{{ $artikel['gambar1'] }}">
                                 <img class="profile-user-img img-responsive img-circle" src="{{ AmbilFotoArtikel($artikel['gambar1'], 'kecil') }}" alt="Gambar Utama">
                                 <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar1_hapus" value="{{ $artikel['gambar1'] }}" /> Hapus Gambar</label></p>
                             @else
@@ -99,7 +97,6 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             @if ($artikel['gambar2'])
-                                <input type="hidden" name="old_gambar2" value="{{ $artikel['gambar2'] }}">
                                 <img class="profile-user-img img-responsive img-circle" src="{{ AmbilFotoArtikel($artikel['gambar2'], 'kecil') }}" alt="Gambar Utama">
                                 <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar2_hapus" value="{{ $artikel['gambar2'] }}" /> Hapus Gambar</label></p>
                             @else
@@ -118,7 +115,6 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             @if ($artikel['gambar3'])
-                                <input type="hidden" name="old_gambar3" value="{{ $artikel['gambar3'] }}">
                                 <img class="profile-user-img img-responsive img-circle" src="{{ AmbilFotoArtikel($artikel['gambar3'], 'kecil') }}" alt="Gambar Utama">
                                 <p class="text-center"><label class="control-label"><input type="checkbox" name="gambar3_hapus" value="{{ $artikel['gambar3'] }}" /> Hapus Gambar</label></p>
                             @else

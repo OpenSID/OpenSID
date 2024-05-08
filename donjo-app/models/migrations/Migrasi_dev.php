@@ -93,8 +93,8 @@ class Migrasi_dev extends MY_model
     protected function migrasi_2024050251($hasil)
     {
         return $hasil && $this->ubah_modul(
-            ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
-            ['url' => 'penduduk_log']
+            ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
+            ['url' => 'dokumen']
         );
     }
 

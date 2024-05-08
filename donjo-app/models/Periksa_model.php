@@ -241,9 +241,16 @@ class Periksa_model extends MY_Model
 
     public function deteksi_kepala_keluarga_ganda()
     {
+        $config_id = identitas('id');
+
         $kepalaKeluargaDobel = Penduduk::withOnly([])->select(['id_kk'])->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->groupBy(['id_kk'])->having(DB::raw('count(id_kk)'), '>', 1)->pluck('id_kk')->toArray();
 
-        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])->kepalaKeluarga()->whereIn('id_kk', $kepalaKeluargaDobel)->orderBy('id_kk')->get();
+        return Penduduk::withOnly(['keluarga' => static fn ($q) => $q->withOnly([])])
+            ->kepalaKeluarga()
+            ->whereIn('id_kk', $kepalaKeluargaDobel)
+            ->whereNotIn('id', static fn ($q) => $q->from('tweb_keluarga')->select(['nik_kepala'])->where(['config_id' => $config_id])->whereNotNull('nik_kepala'))
+            ->orderBy('id_kk')
+            ->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()
@@ -259,7 +266,7 @@ class Periksa_model extends MY_Model
         $this->session->user_id = $this->session->user_id ?: 1;
 
         // Perbaiki masalah data yg terdeteksi untuk error yg dilaporkan
-        log_message('error', '========= Perbaiki masalah data =========');
+        log_message('notice', '========= Perbaiki masalah data =========');
 
         foreach ($this->periksa['masalah'] as $masalah_ini) {
             $this->selesaikan_masalah($masalah_ini);
@@ -345,7 +352,7 @@ class Periksa_model extends MY_Model
                 if ($this->db->table_exists($tbl['TABLE_NAME'])) {
                     $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat}");
 
-                    log_message('error', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . " menjadi {$this->db->dbcollat}.");
+                    log_message('notice', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . " menjadi {$this->db->dbcollat}.");
                 }
             }
         }

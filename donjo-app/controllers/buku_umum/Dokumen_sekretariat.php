@@ -197,7 +197,6 @@ class Dokumen_sekretariat extends Admin_Controller
 
         $this->_set_tab($kat);
 
-        // $this->render('dokumen/form', $data);
         view('admin.dokumen.buku_kades.form', $data);
     }
 

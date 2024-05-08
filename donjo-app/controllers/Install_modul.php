@@ -81,7 +81,7 @@ class Install_modul extends CI_Controller
         }
         // reset cache views_blade karena di MY_Controller diset cache rememberForever
         // cache()->flush();
-        log_message('error', 'Paket ' . $name . ' berhasil dipasang');
+        log_message('notice', 'Paket ' . $name . ' berhasil dipasang');
     }
 
     /**
@@ -101,7 +101,7 @@ class Install_modul extends CI_Controller
             $this->jalankanMigrasi($name, 'down');
             // reset cache views_blade karena di MY_Controller diset cache rememberForever
             cache()->forget('views_blade');
-            log_message('error', 'Paket ' . $name . ' berhasil dihapus');
+            log_message('notice', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
         }

@@ -240,9 +240,6 @@ class Web extends Admin_Controller
             }
         }
 
-        foreach ($list_gambar as $gambar) {
-            unset($data['old_' . $gambar]);
-        }
         if ($data['tgl_upload'] == '') {
             $data['tgl_upload'] = date('Y-m-d H:i:s');
         } else {
@@ -273,7 +270,7 @@ class Web extends Admin_Controller
 
     }
 
-    private function ambil_data_agenda(&$data)
+    private function ambil_data_agenda(array &$data): array
     {
         $agenda               = [];
         $agenda['tgl_agenda'] = $data['tgl_agenda'];
@@ -320,7 +317,6 @@ class Web extends Admin_Controller
                 $hasil     = UploadArtikel($nama_file, $gambar);
                 if ($hasil) {
                     $data[$gambar] = $nama_file;
-                    HapusArtikel($data['old_' . $gambar]);
                 } else {
                     unset($data[$gambar]);
                 }
@@ -359,9 +355,6 @@ class Web extends Admin_Controller
             }
         }
 
-        foreach ($list_gambar as $gambar) {
-            unset($data['old_' . $gambar]);
-        }
         if ($data['tgl_upload'] == '') {
             $data['tgl_upload'] = date('Y-m-d H:i:s');
         } else {

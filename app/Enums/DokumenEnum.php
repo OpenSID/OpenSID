@@ -35,12 +35,25 @@
  *
  */
 
-namespace App\Models;
+namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class PendudukSaja extends Penduduk
+class DokumenEnum extends BaseEnum
 {
-   protected $appends = [];
-   protected $with    = [];
+    public const INFORMASI_PUBLIK      = 1;
+    public const KEPUTUSAN_KEPALA_DESA = 2;
+    public const PERATURAN             = 3;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::INFORMASI_PUBLIK      => 'Informasi Publik',
+            self::KEPUTUSAN_KEPALA_DESA => 'Keputusan Kepala Desa',
+            self::PERATURAN             => 'Peraturan',
+        ];
+    }
 }

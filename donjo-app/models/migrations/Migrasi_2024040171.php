@@ -658,8 +658,6 @@ class Migrasi_2024040171 extends MY_model
             theme_scan();
 
             $this->sesuaikanTemaAktif($hasil, $config_id);
-
-            log_message('error', 'Jalan Jie');
         }
 
         return $hasil;
