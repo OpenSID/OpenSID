@@ -414,7 +414,7 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
-            <select class="form-control input-sm-tags nama_suku select2" data-url="{{ ci_route('penduduk.ajax_penduduk_suku') }}" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
+            <select class="form-control input-sm select2-tags nama_suku" data-url="{{ ci_route('penduduk.ajax_penduduk_suku') }}" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
                 <option value="">Pilih Suku/Etnis</option>
                 @if ($suku_penduduk)
                     @foreach ($suku_penduduk as $key => $value)
@@ -915,6 +915,10 @@
                 format: 'DD-MM-YYYY',
                 locale: 'id',
                 maxDate: 'now',
+            });
+
+            $('.select2-tags').select2({
+                tags: true
             });
 
             var addOrRemoveRequiredAttribute = function() {
