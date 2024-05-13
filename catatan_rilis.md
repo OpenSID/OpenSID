@@ -15,7 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#7923](https://github.com/OpenSID/OpenSID/issues/7923) Perbaikan urutan anggota keluarga pengikut pada surat keterangna pindah.
 9. [#7921](https://github.com/OpenSID/OpenSID/issues/7921) Perbaikan form tambah penduduk.
 10. [#7929](https://github.com/OpenSID/OpenSID/issues/7929) Perbaikan tambah/ubah grup penggun.
-
+11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip web.
 
 #### TEKNIS
 
