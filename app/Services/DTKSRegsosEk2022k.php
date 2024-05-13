@@ -329,7 +329,7 @@ class DTKSRegsosEk2022k
             $item->kd_status_kehamilan = $tmp_anggota->hamil ?? '2'; // 410 // 2. Tidak Hamil
             // digunakan untuk membantu memilih pekerjaan dan pendidikan
             $item->pekerjaan_saat_ini     = $tmp_anggota->pekerjaan->nama;
-            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan->nama;
+            $item->pendidikan_saat_ini    = $tmp_anggota->pendidikan;
             $item->pendidikan_kk_saat_ini = $tmp_anggota->pendidikanKK->nama;
 
             if ($tmp_anggota->usia >= 5) {

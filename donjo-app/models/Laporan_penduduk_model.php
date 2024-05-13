@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\PendidikanSedangEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_penduduk_model extends MY_Model
@@ -394,12 +396,28 @@ class Laporan_penduduk_model extends MY_Model
             '7'           => ['id_referensi' => 'golongan_darah_id', 'tabel_referensi' => 'tweb_golongan_darah'],
             '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
-            '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
+            // '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
             '16'          => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
             '19'          => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
         switch ("{$lap}") {
+
+            // with reference enum
+            case '14':
+                // Pendidikan Sedang
+                $this->config_id('u')
+                    ->select('u.pendidikan_sedang_id AS id, u.pendidikan_sedang_id AS nama')
+                    ->select('COUNT(u.sex) AS jumlah')
+                    ->select('COUNT(CASE WHEN u.sex = 1 THEN 1 END) AS laki')
+                    ->select('COUNT(CASE WHEN u.sex = 2 THEN 1 END) AS perempuan')
+                    ->from('penduduk_hidup AS u')
+                    ->where('u.pendidikan_sedang_id IS NOT NULL')
+                    ->where('u.pendidikan_sedang_id != ""')
+                    ->group_by('u.pendidikan_sedang_id');
+
+                break;
+
             case 'akta-kematian':
                 // Akta Kematian
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";
@@ -618,6 +636,26 @@ class Laporan_penduduk_model extends MY_Model
         $data[] = $this->baris_jumlah($total, $judul_jumlah);
         $data[] = $this->baris_belum($semua, $total, $judul_belum);
         $this->hitung_persentase($data, $semua);
+
+        if ($lap == '14') {
+            $val  = collect($data);
+            $data = collect(PendidikanSedangEnum::all())->map(function ($item, $key) use ($val) {
+                $val = $val->where('id', $key)->first();
+                return [
+                    "id" => "$key",
+                    "nama" => "$item",
+                    "jumlah" => $val['jumlah'] ?? "0",
+                    "laki" => $val['laki'] ?? "0",
+                    "perempuan" => $val['perempuan'] ?? "0",
+                    "no" => $key,
+                    "persen" => $val['persen'] ?? "0%",
+                    "persen1" => $val['persen1'] ?? "0%",
+                    "persen2" => $val['persen2'] ?? "0%",
+                ];
+            })
+            ->merge($val->slice(-3))
+            ->toArray();
+        }
 
         return $data;
     }

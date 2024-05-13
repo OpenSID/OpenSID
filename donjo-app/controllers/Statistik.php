@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\PendidikanSedangEnum;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -59,6 +60,7 @@ class Statistik extends Admin_Controller
 
         $data['order_by']              = $this->session->order_by;
         $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
+        // dd($data['main']);
         $data['tautan_data']           = $this->tautan_data($data['lap']);
         $data['list_dusun']            = $this->wilayah_model->list_dusun();
         $data['heading']               = $this->laporan_penduduk_model->judul_statistik($data['lap']);

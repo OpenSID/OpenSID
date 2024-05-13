@@ -70,7 +70,7 @@
                             <td>{{ tgl_indo($data->tanggallahir) }}</td>
                             <td align="right">{{ usia($data->tanggallahir, $tglPemilihan, '%y') }}</td>
                             <td>{{ $data->agama->nama }}</td>
-                            <td>{{ $data->pendidikan->nama }}</td>
+                            <td>{{ $data->pendidikan }}</td>
                             <td>{{ $data->pekerjaan->nama }}</td>
                             <td>{{ $data->statusKawin->nama }}</td>
                             <td>{{ App\Enums\SHDKEnum::all()[$data->kk_level] }}</td>

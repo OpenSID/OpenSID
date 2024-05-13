@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#3030](https://github.com/OpenSID/OpenSID/issues/3030) Penambahan fungsi reset peta tipe point dan polygon ke default.
 12. [#5750](https://github.com/OpenSID/OpenSID/issues/5750) Penambahan hapus file backup inkremental.
 13. [#5075](https://github.com/OpenSID/OpenSID/issues/5075) Penambahan modul produk pada lapak layanan mandiri warga.
+14. [#5129](https://github.com/OpenSID/OpenSID/issues/5129) Penambahan referensi pendidikan yang sedang ditempuh.
 
 
 #### BUG

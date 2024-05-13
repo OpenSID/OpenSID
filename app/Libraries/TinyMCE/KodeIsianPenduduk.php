@@ -202,7 +202,7 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,
                 'isian' => 'pendidikan_sedang' . $prefix,
-                'data'  => $penduduk->pendidikan->nama,
+                'data'  => $penduduk->pendidikan,
             ],
             [
                 'judul' => 'Pendidikan Dalam KK' . $ortu,

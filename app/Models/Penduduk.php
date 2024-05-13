@@ -51,6 +51,7 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
 use Illuminate\Support\Facades\DB;
+use App\Enums\PendidikanSedangEnum;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -188,6 +189,7 @@ class Penduduk extends BaseModel
      * {@inheritDoc}
      */
     protected $appends = [
+        'pendidikan',
         'usia',
         'alamat_wilayah',
         'nama_asuransi',
@@ -201,7 +203,6 @@ class Penduduk extends BaseModel
     protected $with = [
         'jenisKelamin',
         'agama',
-        'pendidikan',
         'pendidikanKK',
         'pekerjaan',
         'wargaNegara',
@@ -296,14 +297,9 @@ class Penduduk extends BaseModel
         return $this->belongsTo(Agama::class, 'agama_id')->withDefault();
     }
 
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendidikan()
+    public function getPendidikanAttribute()
     {
-        return $this->belongsTo(Pendidikan::class, 'pendidikan_sedang_id')->withDefault();
+        return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
     }
 
     /**
@@ -689,7 +685,7 @@ class Penduduk extends BaseModel
     public function formIndividu()
     {
         $individu                = $this->toArray();
-        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan']['nama'] ?? '');
+        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan'] ?? '');
         $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
         $individu['agama']       = $this->agama->nama ?? '';
         $individu['umur']        = $this->umur;

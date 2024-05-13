@@ -35,18 +35,24 @@
  *
  */
 
-use App\Enums\StatusEnum;
+use Carbon\Carbon;
+use App\Models\Sex;
 use App\Models\Agama;
+use App\Models\Wilayah;
+use App\Enums\AgamaEnum;
+use App\Models\Penduduk;
+use App\Enums\StatusEnum;
 use App\Models\Pekerjaan;
 use App\Models\Pemilihan;
 use App\Models\Pendidikan;
-use App\Models\PendidikanKK;
-use App\Models\Penduduk;
-use App\Models\PendudukStatus;
-use App\Models\Sex;
 use App\Models\StatusKawin;
-use App\Models\Wilayah;
-use Carbon\Carbon;
+use App\Enums\PekerjaanEnum;
+use App\Models\PendidikanKK;
+use App\Enums\StatusKawinEnum;
+use App\Models\PendudukStatus;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\PendidikanSedangEnum;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,12 +75,12 @@ class Dpt extends Admin_Controller
         $data['wilayah']              = Wilayah::treeAccess();
         $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['input_umur']           = true;
-        $data['list_agama']           = Agama::get()->toArray();
-        $data['list_pendidikan']      = Pendidikan::get()->toArray();
-        $data['list_pendidikan_kk']   = PendidikanKK::get()->toArray();
-        $data['list_pekerjaan']       = Pekerjaan::get()->toArray();
-        $data['list_status_kawin']    = StatusKawin::get()->toArray();
-        $data['list_status_penduduk'] = PendudukStatus::get()->toArray();
+        $data['list_agama']           = AgamaEnum::all();
+        $data['list_pendidikan']      = PendidikanSedangEnum::all();
+        $data['list_pendidikan_kk']   = PendidikanKKEnum::all();
+        $data['list_pekerjaan']       = PekerjaanEnum::all();
+        $data['list_status_kawin']    = StatusKawinEnum::all();
+        $data['list_status_penduduk'] = StatusPendudukEnum::all();
         $data['list_tag_id_card']     = StatusEnum::all();
 
         view('admin.dpt.index', $data);
