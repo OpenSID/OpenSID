@@ -35,24 +35,18 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Sex;
-use App\Models\Agama;
-use App\Models\Wilayah;
 use App\Enums\AgamaEnum;
-use App\Models\Penduduk;
-use App\Enums\StatusEnum;
-use App\Models\Pekerjaan;
-use App\Models\Pemilihan;
-use App\Models\Pendidikan;
-use App\Models\StatusKawin;
 use App\Enums\PekerjaanEnum;
-use App\Models\PendidikanKK;
-use App\Enums\StatusKawinEnum;
-use App\Models\PendudukStatus;
 use App\Enums\PendidikanKKEnum;
-use App\Enums\StatusPendudukEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\StatusEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Models\Pemilihan;
+use App\Models\Penduduk;
+use App\Models\Sex;
+use App\Models\Wilayah;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');

@@ -26,7 +26,7 @@
 				</thead>
 				<tbody>
 					<?php if ($produk) :
-						foreach ($produk as $key => $data) : ?>
+                        foreach ($produk as $key => $data) : ?>
 							<tr <?= jecho($data['status'], '2', 'class="select_row"'); ?>>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
@@ -40,7 +40,7 @@
 								<td class="padat"><?= $data->status == '1' ? '<label class="label label-success">Aktif</label>' : '<label class="label label-danger" title="Sedang Diverifikasi" >Tidak Aktif</label>'; ?></td>
 							</tr>
 						<?php endforeach;
-					else : ?>
+                    else : ?>
 						<tr>
 							<td class="text-center" colspan="7">Data tidak tersedia</td>
 						</tr>

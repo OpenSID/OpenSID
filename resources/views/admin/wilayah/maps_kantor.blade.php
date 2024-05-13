@@ -63,7 +63,7 @@
             var posisi = [{{ config('map.point.lat') }}, {{ config('map.point.lng') }}];
             var zoom = {{ config('map.zoom') }};
         @endif
-        
+
         window.onload = function() {
             // Inisialisasi tampilan peta
             var peta_kantor = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);

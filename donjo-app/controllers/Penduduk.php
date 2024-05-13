@@ -62,7 +62,6 @@ use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
-use App\Models\Pendidikan;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
 use App\Models\RentangUmur;
@@ -899,8 +898,8 @@ class Penduduk extends Admin_Controller
             redirect(ci_route("penduduk.ajax_penduduk_maps.{$id}.2"));
         }
 
-        $data['id']          = $id;
-        $data['edit']        = $edit;
+        $data['id']       = $id;
+        $data['edit']     = $edit;
         $data['penduduk'] = ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
         if ($penduduk->lokasi) {
             $data['penduduk'] = array_merge($penduduk->lokasi->toArray(), $data['penduduk']);
@@ -932,7 +931,7 @@ class Penduduk extends Admin_Controller
         $map->lat = $data['lat'];
         $map->lng = $data['lng'];
         $map->save();
-        
+
         set_session('success', 'Data berhasil disimpan');
 
         if ($edit == 1) {

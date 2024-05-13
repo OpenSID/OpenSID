@@ -35,12 +35,12 @@
  *
  */
 
-use App\Models\Produk as ProdukModel;
-use App\Models\Pelapak;
-use App\Models\Wilayah;
-use App\Models\Penduduk;
 use App\Enums\StatusEnum;
+use App\Models\Pelapak;
+use App\Models\Penduduk;
+use App\Models\Produk as ProdukModel;
 use App\Models\ProdukKategori;
+use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,7 +66,7 @@ class Produk extends Mandiri_Controller
     public function form($id = null): void
     {
         $this->verifikasi();
-        
+
         if ($id) {
             $data['produk']      = ProdukModel::findOrFail($id);
             $data['form_action'] = site_url("layanan-mandiri/produk/update/{$id}");
@@ -74,7 +74,7 @@ class Produk extends Mandiri_Controller
             if (! $data['verifikasi']) {
                 $data['notifikasi'] = [
                     'status' => 'warning',
-                    'pesan' => 'Produk ini sedang dalam proses verifikasi. Silahkan tunggu beberapa saat.'
+                    'pesan'  => 'Produk ini sedang dalam proses verifikasi. Silahkan tunggu beberapa saat.',
                 ];
             }
         } else {
@@ -83,10 +83,10 @@ class Produk extends Mandiri_Controller
             if ($data['batas']) {
                 $data['notifikasi'] = [
                     'status' => 'warning',
-                    'pesan' => 'Anda telah mencapai jumlah maksimal ' . setting('jumlah_pengajuan_produk') . ' produk / hari yang dapat didaftarkan.'
+                    'pesan'  => 'Anda telah mencapai jumlah maksimal ' . setting('jumlah_pengajuan_produk') . ' produk / hari yang dapat didaftarkan.',
                 ];
             }
-            $data['produk'] = null;
+            $data['produk']      = null;
             $data['form_action'] = site_url('layanan-mandiri/produk/store');
         }
 
@@ -99,31 +99,30 @@ class Produk extends Mandiri_Controller
     public function store(): void
     {
         $this->verifikasi();
-        
+
         $post               = $this->input->post();
         $post['id_pelapak'] = $this->lapak->id;
         $post['status']     = StatusEnum::TIDAK;
 
         if ((new ProdukModel())->produkInsert($post)) {
-            redirect_with('success', 'Berhasil menambah data', "layanan-mandiri/produk");
+            redirect_with('success', 'Berhasil menambah data', 'layanan-mandiri/produk');
         }
 
-        redirect_with('error', 'Gagal menambah data', "layanan-mandiri/produk/form");
+        redirect_with('error', 'Gagal menambah data', 'layanan-mandiri/produk/form');
     }
-
 
     public function update($id): void
     {
         $this->verifikasi();
-        
-        $post = $this->input->post();
+
+        $post               = $this->input->post();
         $post['id_pelapak'] = $this->lapak->id;
         $post['status']     = StatusEnum::TIDAK;
 
         ProdukModel::where('id_pelapak', $this->lapak->id)->findOrFail($id);
 
         if ((new ProdukModel())->produkUpdate($id, $post)) {
-            redirect_with('success', 'Berhasil mengubah data', "layanan-mandiri/produk");
+            redirect_with('success', 'Berhasil mengubah data', 'layanan-mandiri/produk');
         }
 
         redirect_with('error', 'Gagal mengubah data', "layanan-mandiri/produk/form/{$id}");
@@ -132,12 +131,12 @@ class Produk extends Mandiri_Controller
     public function pengaturan(): void
     {
         if (! $this->lapak) {
-            $pelapak = null;
-            $notifikasi   = [
+            $pelapak    = null;
+            $notifikasi = [
                 'status' => 'danger',
-                'pesan' => 'Anda belum terdaftar sebagai pelapak. Silahkan daftar terlebih dahulu untuk menggunakan layanan ini.'
+                'pesan'  => 'Anda belum terdaftar sebagai pelapak. Silahkan daftar terlebih dahulu untuk menggunakan layanan ini.',
             ];
-            $aksi    = 'Daftar';
+            $aksi = 'Daftar';
         } else {
             $pelapak    = $this->lapak;
             $notifikasi = null;
@@ -145,9 +144,9 @@ class Produk extends Mandiri_Controller
             $verifikasi = $pelapak->status == StatusEnum::YA;
 
             if (! $verifikasi) {
-                $notifikasi   = [
+                $notifikasi = [
                     'status' => 'warning',
-                    'pesan' => 'Pendaftaran anda sedang dalam proses verifikasi. Silahkan tunggu beberapa saat.'
+                    'pesan'  => 'Pendaftaran anda sedang dalam proses verifikasi. Silahkan tunggu beberapa saat.',
                 ];
             }
         }
@@ -176,8 +175,8 @@ class Produk extends Mandiri_Controller
                 break;
 
             default:
-                $lat  = config('app.map.point.lat');
-                $lng  = config('app.map.point.lng');
+                $lat = config('app.map.point.lat');
+                $lng = config('app.map.point.lng');
                 break;
         }
 
@@ -202,7 +201,7 @@ class Produk extends Mandiri_Controller
 
     public function pengaturanUpdate(): void
     {
-        $post = $this->input->post();
+        $post    = $this->input->post();
         $pelapak = [
             'id_pend' => $this->is_login->id_pend,
             'telepon' => $post['telepon'],
@@ -214,15 +213,15 @@ class Produk extends Mandiri_Controller
         if (! $this->lapak) {
             $pelapak['status'] = StatusEnum::TIDAK;
             if (Pelapak::create($pelapak)) {
-                redirect_with('success', 'Berhasil melakukan pendaftaran', "layanan-mandiri/produk/pengaturan");
+                redirect_with('success', 'Berhasil melakukan pendaftaran', 'layanan-mandiri/produk/pengaturan');
             }
-            redirect_with('error', 'Gagal melakukan pendaftaran', "layanan-mandiri/produk/pengaturan");
+            redirect_with('error', 'Gagal melakukan pendaftaran', 'layanan-mandiri/produk/pengaturan');
         } else {
             $cek = Pelapak::find($this->lapak->id);
             if ($cek->update($pelapak)) {
-                redirect_with('success', 'Berhasil mengubah data', "layanan-mandiri/produk/pengaturan");
+                redirect_with('success', 'Berhasil mengubah data', 'layanan-mandiri/produk/pengaturan');
             }
-            redirect_with('error', 'Gagal mengubah data', "layanan-mandiri/produk/pengaturan");
+            redirect_with('error', 'Gagal mengubah data', 'layanan-mandiri/produk/pengaturan');
         }
     }
 

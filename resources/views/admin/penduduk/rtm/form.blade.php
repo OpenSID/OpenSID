@@ -3,14 +3,12 @@
         <div class='modal-body'>
             <div class="form-group">
                 <label for="no_rtm">Nomor Rumah Tangga</label>
-                <input id="no_rtm" name="no_rtm" class="form-control input-sm digits" type="text"
-                    placeholder="Nomor Rumah Tangga" maxlength="30" />
+                <input id="no_rtm" name="no_rtm" class="form-control input-sm digits" type="text" placeholder="Nomor Rumah Tangga" maxlength="30" />
                 <code>Kosongkan untuk melanjutkan nomor rumah tangga terakhir</code>
             </div>
             <div class="form-group">
                 <label for="nik">Kepala Rumah Tangga</label>
-                <select class="form-control input-sm select2 required" id="nik" name="nik"
-                    style="width:100%;">
+                <select class="form-control input-sm select2 required" id="nik" name="nik" style="width:100%;">
                     <option option value="">-- Silakan Cari NIK / Nama Penduduk--</option>
                 </select>
             </div>
@@ -21,8 +19,15 @@
 
             <div class="form-group">
                 <label for="bdt">BDT</label>
-                <input class="form-control input-sm angka" type="text" placeholder="BDT" name="bdt"
-                    value="<?= $kk['bdt'] ?>" minlength="16" maxlength="16" />
+                <input
+                    class="form-control input-sm angka"
+                    type="text"
+                    placeholder="BDT"
+                    name="bdt"
+                    value="<?= $kk['bdt'] ?>"
+                    minlength="16"
+                    maxlength="16"
+                />
             </div>
             <div class="form-group">
                 <label for="terdaftar_dtks">

@@ -28,7 +28,7 @@
 	<?php if ($verifikasi) : ?>
 	<div class="box-body box-line">
 		<div class="form-group">
-			<a href="<?= site_url("layanan-mandiri/produk"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Produk</a>
+			<a href="<?= site_url('layanan-mandiri/produk'); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Produk</a>
 		</div>
 	</div>
 	<?php endif ?>
@@ -45,7 +45,7 @@
 		<div class="box-body">
 			<div class="form-group">
 				<label class="control-label" for="telepon">No. Telepon</label>
-				<input class="form-control input-sm number required" type="text" name="telepon" id="telepon" placeholder="Nomer Telepon" value="<?=$pelapak->telepon;?>">
+				<input class="form-control input-sm number required" type="text" name="telepon" id="telepon" placeholder="Nomer Telepon" value="<?=$pelapak->telepon; ?>">
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="lokasi">Lokasi</label>
@@ -114,28 +114,28 @@
 		var marker_rt = [];
 
 		//WILAYAH DESA
-		<?php if (!empty($desa['path'])): ?>
+		<?php if (! empty($desa['path'])): ?>
 			set_marker_desa(marker_desa, <?= json_encode($desa, JSON_THROW_ON_ERROR) ?>, "<?=ucwords($ci->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?=favico_desa() ?>");
 		<?php endif ?>
 
 		//WILAYAH DUSUN
-		<?php if (!empty($dusun_gis)): ?>
+		<?php if (! empty($dusun_gis)): ?>
 			set_marker_multi(marker_dusun, '<?= addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) ?>', '#FFFF00', '<?=ucwords($ci->setting->sebutan_dusun) ?>', 'dusun');
 		<?php endif ?>
 
 		//WILAYAH RW
-		<?php if (!empty($rw_gis)): ?>
+		<?php if (! empty($rw_gis)): ?>
 			set_marker(marker_rw, '<?= addslashes(json_encode($rw_gis, JSON_THROW_ON_ERROR)) ?>', '#8888dd', 'RW', 'rw');
 		<?php endif ?>
 
 
 		//WILAYAH RT
-		<?php if (!empty($rt_gis)): ?>
+		<?php if (! empty($rt_gis)): ?>
 			set_marker(marker_rt, '<?= addslashes(json_encode($rt_gis, JSON_THROW_ON_ERROR)) ?>', '#008000', 'RT', 'rt');
 		<?php endif ?>
 
 		//2. Menampilkan overlayLayers Peta Semua Wilayah
-		<?php if (!empty($wil_atas['path'])): ?>
+		<?php if (! empty($wil_atas['path'])): ?>
 			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($ci->setting->sebutan_desa) ?>", "<?=ucwords($ci->setting->sebutan_dusun) ?>");
 		<?php else: ?>
 			var overlayLayers = {};

@@ -138,15 +138,10 @@ class First_gallery_m extends MY_Model
     {
         $jumlah = setting('jumlah_album_galeri') ?: 4;
         $urut   = setting('urutan_gambar_galeri') ?: 'acak';
-        
 
         return Galery::where('enabled', 1)
             ->where('parrent', 0)
-            ->when($urut === 'acak', function ($query) {
-                return $query->inRandomOrder();
-            }, function ($query) use ($urut) {
-                return $query->orderBy('urut', $urut);
-            })
+            ->when($urut === 'acak', static fn ($query) => $query->inRandomOrder(), static fn ($query) => $query->orderBy('urut', $urut))
             ->limit($jumlah)
             ->get();
     }

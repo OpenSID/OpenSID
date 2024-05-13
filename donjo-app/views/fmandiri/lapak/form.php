@@ -10,7 +10,7 @@
 	</div>
 	<div class="box-body box-line">
 		<div class="form-group">
-			<a href="<?= site_url("layanan-mandiri/produk"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Produk</a>
+			<a href="<?= site_url('layanan-mandiri/produk'); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Produk</a>
 		</div>
 	</div>
 	<div class="box-body box-line">
@@ -103,10 +103,10 @@
 				<?php $foto = json_decode($produk->foto, null); ?>
 				<div class="row">
 					<?php
-					$banyak_foto = $ci->setting->banyak_foto_tiap_produk ?? 3;
-					$col         = 12 / $banyak_foto;
+                    $banyak_foto = $ci->setting->banyak_foto_tiap_produk ?? 3;
+                    $col         = 12 / $banyak_foto;
 
-					for ($i = 0; $i < $banyak_foto; $i++) : ?>
+                    for ($i = 0; $i < $banyak_foto; $i++) : ?>
 						<?php $ii = $i + 1; ?>
 						<div class="col-sm-<?=$col?>">
 							<center>

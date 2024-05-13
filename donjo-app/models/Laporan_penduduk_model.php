@@ -397,8 +397,8 @@ class Laporan_penduduk_model extends MY_Model
             '9'           => ['id_referensi' => 'cacat_id', 'tabel_referensi' => 'tweb_cacat'],
             '10'          => ['id_referensi' => 'sakit_menahun_id', 'tabel_referensi' => 'tweb_sakit_menahun'],
             // '14'          => ['id_referensi' => 'pendidikan_sedang_id', 'tabel_referensi' => 'tweb_penduduk_pendidikan'],
-            '16'          => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
-            '19'          => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
+            '16' => ['id_referensi' => 'cara_kb_id', 'tabel_referensi' => 'tweb_cara_kb'],
+            '19' => ['id_referensi' => 'id_asuransi', 'tabel_referensi' => 'tweb_penduduk_asuransi'],
         ];
 
         switch ("{$lap}") {
@@ -639,22 +639,23 @@ class Laporan_penduduk_model extends MY_Model
 
         if ($lap == '14') {
             $val  = collect($data);
-            $data = collect(PendidikanSedangEnum::all())->map(function ($item, $key) use ($val) {
+            $data = collect(PendidikanSedangEnum::all())->map(static function ($item, $key) use ($val) {
                 $val = $val->where('id', $key)->first();
+
                 return [
-                    "id" => "$key",
-                    "nama" => "$item",
-                    "jumlah" => $val['jumlah'] ?? "0",
-                    "laki" => $val['laki'] ?? "0",
-                    "perempuan" => $val['perempuan'] ?? "0",
-                    "no" => $key,
-                    "persen" => $val['persen'] ?? "0%",
-                    "persen1" => $val['persen1'] ?? "0%",
-                    "persen2" => $val['persen2'] ?? "0%",
+                    'id'        => "{$key}",
+                    'nama'      => "{$item}",
+                    'jumlah'    => $val['jumlah'] ?? '0',
+                    'laki'      => $val['laki'] ?? '0',
+                    'perempuan' => $val['perempuan'] ?? '0',
+                    'no'        => $key,
+                    'persen'    => $val['persen'] ?? '0%',
+                    'persen1'   => $val['persen1'] ?? '0%',
+                    'persen2'   => $val['persen2'] ?? '0%',
                 ];
             })
-            ->merge($val->slice(-3))
-            ->toArray();
+                ->merge($val->slice(-3))
+                ->toArray();
         }
 
         return $data;

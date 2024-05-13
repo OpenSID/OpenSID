@@ -37,25 +37,24 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Traits\Author;
-use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
-use App\Traits\ConfigId;
 use App\Enums\CaraKBEnum;
-use App\Enums\SasaranEnum;
-use App\Models\PendudukMap;
-use App\Traits\ShortcutCache;
-use App\Enums\StatusDasarEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
-use Illuminate\Support\Facades\DB;
-use App\Enums\PendidikanSedangEnum;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\Author;
+use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -1270,7 +1269,7 @@ class Penduduk extends BaseModel
     {
         if ($this->rtm != '[]' && $this->rtm != null) {
             $id = $this->rtm->nik_kepala;
-        } else if ($this->keluarga != '[]' && $this->keluarga != null) {
+        } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
             $id = $this->keluarga->nik_kepala;
         } else {
             $id = $this->id;

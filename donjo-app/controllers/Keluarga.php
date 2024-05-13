@@ -35,36 +35,36 @@
  *
  */
 
-use App\Enums\SHDKEnum;
-use App\Enums\SukuEnum;
-use App\Models\Bantuan;
-use App\Models\Wilayah;
 use App\Enums\AgamaEnum;
-use App\Enums\CacatEnum;
-use App\Enums\HamilEnum;
-use App\Models\Penduduk;
-use App\Enums\BahasaEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\SasaranEnum;
 use App\Enums\AsuransiEnum;
-use App\Models\KelasSosial;
-use App\Models\LogPenduduk;
-use App\Traits\GenerateRtf;
-use App\Enums\PekerjaanEnum;
-use App\Enums\StatusKTPEnum;
-use App\Models\PendudukHidup;
-use App\Enums\StatusDasarEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\WargaNegaraEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\SakitMenahunEnum;
+use App\Enums\BahasaEnum;
+use App\Enums\CacatEnum;
+use App\Enums\CaraKBEnum;
 use App\Enums\GolonganDarahEnum;
-use App\Enums\StatusDasarKKEnum;
-use App\Enums\StatusPendudukEnum;
-use Illuminate\Support\Facades\DB;
+use App\Enums\HamilEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Enums\PendidikanSedangEnum;
+use App\Enums\SakitMenahunEnum;
+use App\Enums\SasaranEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusDasarKKEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKTPEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\SukuEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\Bantuan;
+use App\Models\KelasSosial;
 use App\Models\Keluarga as KeluargaModel;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
+use App\Models\PendudukHidup;
+use App\Models\Wilayah;
+use App\Traits\GenerateRtf;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

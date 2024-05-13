@@ -9,7 +9,10 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ ci_route('buku_tamu') }}">Data Tamu</a></li>
+    <li class="breadcrumb-item">
+
+        <a href="{{ ci_route('buku_tamu') }}">Data Tamu</a>
+    </li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -87,8 +90,7 @@
             </div>
             <div class="form-group">
                 <label>Keperluan</label>
-                <textarea name="keperluan" class="form-control input-sm required" placeholder="Isi Keperluan"
-                    rows="5">{{ $buku_tamu->keperluan }}</textarea>
+                <textarea name="keperluan" class="form-control input-sm required" placeholder="Isi Keperluan" rows="5">{{ $buku_tamu->keperluan }}</textarea>
             </div>
         </div>
         <div class="box-footer">

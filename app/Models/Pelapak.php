@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Models\Penduduk;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
@@ -149,10 +148,10 @@ class Pelapak extends BaseModel
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($model) {
+        static::creating(static function ($model) {
             Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
         });
-        static::updating(function ($model) {
+        static::updating(static function ($model) {
             Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
         });
     }
