@@ -81,8 +81,8 @@ class Grup extends Admin_Controller
                     $query->status($status);
                 }))
                 ->addColumn('ceklist', static function ($row) {
-                    if (can('h')) {
-                        return $row->jenis == UserGrup::DESA && $row->users_count <= 0 ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>' : '';
+                    if (can('h') || can('u')) {
+                        return $row->jenis == UserGrup::DESA ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>' : '';
                     }
                 })
                 ->addIndexColumn()
@@ -280,5 +280,137 @@ class Grup extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Ubah Status');
+    }
+
+    public function ekspor(): void
+    {
+        isCan('u');
+
+        $id = $this->request['id_cb'];
+
+        if (null === $id) {
+            redirect_with('error', 'Tidak ada pengguna yang dipilih.');
+        }
+
+        $ekspor = UserGrup::where('jenis', UserGrup::DESA)->whereIn('id', $id)->latest('id')->get();
+
+        foreach ($ekspor as $key => $value) {
+            $ekspor[$key]['akses'] = GrupAkses::with(['modul' => static function ($query): void {
+                $query->select('id', 'slug');
+            }])->where('id_grup', $value->id)->select(['id_modul', 'akses'])->get();
+        }
+
+        if ($ekspor->count() === 0) {
+            redirect_with('error', 'Tidak ada pengguna yang ditemukan dari pilihan anda.');
+        }
+
+        $file_name = namafile('Grup Pengguna') . '.json';
+        $ekspor    = $ekspor->map(static fn ($item) => collect($item)->except('id', 'config_id', 'jenis', 'created_at', 'updated_at', 'created_by', 'updated_by')->toArray())->toArray();
+
+        $this->output
+            ->set_header("Content-Disposition: attachment; filename={$file_name}")
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
+    }
+
+    public function impor(): void
+    {
+        isCan('u');
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'json';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 1024;
+        $config['file_name']     = time() . '_template_pengguna.json';
+
+        $this->upload->initialize($config);
+
+        if ($this->upload->do_upload('userfile')) {
+            $list_data = $this->formatImport(file_get_contents($this->upload->data()['full_path']));
+            if ($list_data) {
+                $this->impor_filter($list_data);
+            }
+        }
+
+        redirect_with('error', 'Gagal Impor Data<br/>' . $this->upload->display_errors());
+    }
+
+    private function formatImport($list_data = null)
+    {
+        return collect(json_decode($list_data, true))
+            ->map(static fn ($item): array => [
+                'config_id'  => identitas('id'),
+                'nama'       => $item['nama'],
+                'slug'       => $item['slug'],
+                'jenis'      => UserGrup::DESA,
+                'status'     => $item['status'],
+                'akses'      => $item['akses'],
+                'created_at' => date('Y-m-d H:i:s'),
+                'creted_by'  => auth()->id,
+                'updated_at' => date('Y-m-d H:i:s'),
+                'updated_by' => auth()->id,
+            ])
+            ->filter(static fn ($item): bool => $item['nama'] && $item['slug'])
+            ->toArray();
+    }
+
+    public function impor_filter($data)
+    {
+        set_session('data_impor_pengguna', $data);
+
+        return view('admin.pengaturan.grup.impor_select', [
+            'data' => $data,
+        ]);
+    }
+
+    public function impor_store(): void
+    {
+        isCan('u');
+
+        $id = $this->request['id_cb'];
+
+        if (null === $id) {
+            redirect_with('error', 'Tidak ada grup pengguna yang dipilih.');
+        }
+
+        $this->prosesImport(session('data_impor_pengguna'), $id);
+
+        redirect_with('success', 'Berhasil Impor Data');
+    }
+
+    private function prosesImport($list_data = null, $id = null): bool
+    {
+        if ($list_data) {
+            foreach ($list_data as $key => $value) {
+                $grup = collect($value)->except('akses')->toArray();
+                if ($id !== null) {
+                    foreach ($id as $row) {
+                        if ($row == $key) {
+                            if ($user = UserGrup::where('slug', $value['slug'])->first()) {
+                                $user->update($grup);
+                                GrupAkses::where('id_grup', $user->id)->delete();
+                            } else {
+                                $user = UserGrup::create($grup);
+                            }
+
+                            foreach ($value['akses'] as $row) {
+                                if ($id_modul = Modul::where('slug', $row['modul']['slug'])->first()->id) {
+                                    $dataInsert = [
+                                        'config_id' => identitas('id'),
+                                        'id_grup'   => $user->id,
+                                        'id_modul'  => $id_modul,
+                                        'akses'     => $row['akses'],
+                                    ];
+                                }
+                                GrupAkses::create($dataInsert, ['id_grup'], ['id_modul']);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

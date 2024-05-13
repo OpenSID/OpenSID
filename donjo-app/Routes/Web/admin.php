@@ -1901,6 +1901,9 @@ Route::group('grup', static function (): void {
     Route::post('/update/{id}', 'Grup@update')->name('grup.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Grup@delete')->name('grup.delete');
     Route::get('/lock/{id}', 'Grup@lock')->name('grup.lock');
+    Route::post('/ekspor', 'Grup@ekspor')->name('grup.ekspor');
+    Route::post('/impor', 'Grup@impor')->name('grup.impor');
+    Route::post('impor_store', 'Grup@impor_store')->name('grup.impor_store');
 });
 // Pengaturan > Database
 Route::group('database', static function (): void {

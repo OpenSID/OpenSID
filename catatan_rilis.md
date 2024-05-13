@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#5808](https://github.com/OpenSID/OpenSID/issues/5808) Penambahan tambah/ubah lokasi penduduk, keluarga dan rumah tangga.
 8. [#7895](https://github.com/OpenSID/OpenSID/issues/7895) Penambahan grup dan hak akses bawaan sesuai tupoksi perangkat desa.
 9. [#7915](https://github.com/OpenSID/OpenSID/issues/7915) Penambahan aktifkan/nonaktifkan status pada modul grup.
+10. [#7896](https://github.com/OpenSID/OpenSID/issues/7896) Penambahan ekspor dan impor grup pengguna.
 
 
 #### BUG
