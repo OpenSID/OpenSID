@@ -1,9 +1,3 @@
-$(document).ready(function () {
-  $("#resetme").click(function () {
-    window.location.reload(false);
-  });
-});
-
 var error_message = "";
 var sebutan_dusun;
 var layers = {};
@@ -1208,7 +1202,8 @@ function showCurrentPoint(posisi1, layerpeta, mode = true) {
     });
   });
 
-  var lc = L.control
+  if ($("a[title='Lokasi Saya']").length == 0) {
+    var lc = L.control
     .locate({
       drawCircle: false,
       icon: "fa fa-map-marker",
@@ -1219,6 +1214,7 @@ function showCurrentPoint(posisi1, layerpeta, mode = true) {
       },
     })
     .addTo(layerpeta);
+  }
 
   layerpeta.on("locationfound", function (e) {
     $("#lat").val(e.latlng.lat);
@@ -2189,4 +2185,42 @@ function message(desa = null, dusun = null, rw = null, rt = null) {
   }
 
   return message + "</b> tidak valid.<br>";
+}
+
+function resetPoint(layer_peta, posisi, zoom) {
+  $("#reset-peta").click(function () {
+    $("#lat").val(posisi[0]);
+    $("#lng").val(posisi[1]);
+    layer_peta.eachLayer(function (layer) {
+      if (layer instanceof L.Marker) {
+        layer_peta.removeLayer(layer);
+      }
+    });
+
+    layer_peta.setView(posisi, zoom);
+    showCurrentPoint(posisi, layer_peta);
+  });
+}
+
+function resetPolygon(layer_peta, wilayah, posisi, zoom, multi, warna, TAMPIL_LUAS) {
+  $("#reset-peta").click(function () {
+    $("#path").val(wilayah);
+    layer_peta.eachLayer(function (layer) {
+      if (layer instanceof L.Polygon) {
+        layer_peta.removeLayer(layer);
+      }
+    });
+
+    layer_peta.setView(posisi, zoom);
+
+    if (wilayah) {
+      if (multi) {
+        showCurrentMultiPolygon(wilayah, layer_peta, warna, TAMPIL_LUAS);
+        addPetaMultipoly(layer_peta);
+      } else {
+        showCurrentPolygon(wilayah, layer_peta, warna, TAMPIL_LUAS);
+        addPetaPoly(layer_peta);
+      }
+    }
+  });
 }

@@ -55,7 +55,7 @@
                     <a href="#"
                         class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i
+                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i
                             class='fa fa-times'></i> Reset</button>
                     @if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar']))
                         <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
@@ -68,7 +68,7 @@
                     <a href="#"
                         class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i
+                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="reset-peta"><i
                             class='fa fa-times'></i> Reset</button>
                     @if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar']))
                         <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
@@ -152,6 +152,9 @@
                 position: 'topleft',
                 collapsed: true
             }).addTo(peta_penduduk);
+
+            // Reset peta type point
+            resetPoint(peta_penduduk, posisi, zoom);
 
         }; //EOF window.onload
     </script>
