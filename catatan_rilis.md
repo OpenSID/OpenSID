@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7917](https://github.com/OpenSID/OpenSID/issues/7917) Perbaikan ejaan pada lampiran surat nikah.
 7. [#7920](https://github.com/OpenSID/OpenSID/issues/7920) Perbaikan unduh salinan kartu kerluarga.
 8. [#7923](https://github.com/OpenSID/OpenSID/issues/7923) Perbaikan urutan anggota keluarga pengikut pada surat keterangna pindah.
+9. [#7921](https://github.com/OpenSID/OpenSID/issues/7921) Perbaikan form tambah penduduk.
 
 
 #### TEKNIS

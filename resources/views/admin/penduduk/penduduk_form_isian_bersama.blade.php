@@ -89,7 +89,7 @@
                                         <select name="ktp_el" id="ktp_el" class="form-control input-sm wajib_identitas" onchange="show_hide_ktp_el($(this).find(':selected').val())">
                                             <option value="">Pilih Identitas-EL</option>
                                             @foreach ($ktp_el as $id => $nama)
-                                                <option value="{{ $id }}" @selected(($jenis_peristiwa == '1' && $id == 3) || strtolower($penduduk['ktp_el']) == $nama)>
+                                                <option value="{{ $id }}" @selected(($jenis_peristiwa == '1' && $id == 3) || $penduduk['ktp_el'] == $id)>
                                                     {{ strtoupper($nama) }}</option>
                                             @endforeach
                                         </select>
@@ -98,7 +98,7 @@
                                         <select name="status_rekam" class="form-control input-sm wajib_identitas">
                                             <option value="">Pilih Status Rekam</option>
                                             @foreach ($status_rekam as $id => $nama)
-                                                <option value="{{ $id }}" @selected(strtolower($penduduk['status_rekam']) == $nama)>
+                                                <option value="{{ $id }}" @selected($penduduk['status_rekam'] == $id)>
                                                     {{ strtoupper($nama) }}</option>
                                             @endforeach
                                         </select>
