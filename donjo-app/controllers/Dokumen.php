@@ -276,13 +276,13 @@ class Dokumen extends Admin_Controller
         ];
 
         // Ambil data dan berkas infoemasi publik
-        $file = fopen($tmpfname, 'wb');
+        $file       = fopen($tmpfname, 'wb');
         $tipeEkspor = $this->input->post('data_ekspor');
-        $kodeDesa = identitas('kode_desa');
-        $tglDari = $this->input->post('tgl_dari');
-        if($tipeEkspor == 1){
+        $kodeDesa   = identitas('kode_desa');
+        $tglDari    = $this->input->post('tgl_dari');
+        if ($tipeEkspor == 1) {
             $data = DokumenHidup::informasiPublik()->selectRaw("id, 0 as aksi,'{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun")->get()->toArray();
-        }else {
+        } else {
             $data = DokumenHidup::informasiPublik()->selectRaw("id,
 			(CASE when deleted = 1
 				then '3'
@@ -293,7 +293,7 @@ class Dokumen extends Admin_Controller
 					end
 				end) as aksi
 		,'{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun")->whereRaw(DB::raw("DATE(updated_at) > STR_TO_DATE('{$tglDari}', '%d-%m-%Y')"))->get()->toArray();
-        }        
+        }
 
         $header = array_keys($data[0]);
         fputcsv($file, $header);
@@ -324,5 +324,5 @@ class Dokumen extends Admin_Controller
         header('Content-disposition: attachment; filename=informasi_publik_' . $data['kode_desa'] . '_' . date('d-m-Y') . '.zip');
         header('Content-type: application/zip');
         readfile($berkas_zip);
-    }    
+    }
 }

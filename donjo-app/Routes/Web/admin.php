@@ -791,14 +791,14 @@ Route::group('dokumen', static function (): void {
     Route::get('form/{id?}', 'Dokumen@form')->name('dokumen.form');
     Route::post('insert', 'Dokumen@insert')->name('dokumen.insert');
     Route::post('update/{id}', 'Dokumen@update')->name('dokumen.update');
-    Route::match(['GET', 'POST'],'delete/{id?}', 'Dokumen@delete')->name('dokumen.delete');    
-    Route::get('lock/{id}', 'Dokumen@lock')->name('dokumen.lock');    
+    Route::match(['GET', 'POST'], 'delete/{id?}', 'Dokumen@delete')->name('dokumen.delete');
+    Route::get('lock/{id}', 'Dokumen@lock')->name('dokumen.lock');
     Route::get('dialog_cetak/{aksi}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
-    Route::post('cetak/{aksi}', 'Dokumen@cetak')->name('dokumen.cetak');    
+    Route::post('cetak/{aksi}', 'Dokumen@cetak')->name('dokumen.cetak');
     Route::get('unduh_berkas/{id_dokumen?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
-    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');    
+    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
     Route::get('ekspor', 'Dokumen@ekspor')->name('dokumen.ekspor');
-    Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');    
+    Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');
 });
 
 // Sekretariat > Inventaris

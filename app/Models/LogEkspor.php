@@ -40,19 +40,20 @@ namespace App\Models;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class LogEkspor extends BaseModel
-{    
-
+{
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'log_ekspor';
+
     public $timestamps = false;
+
     /**
      * The guarded with the model.
      *
      * @var array
      */
-    protected $guarded = [];    
+    protected $guarded = [];
 }

@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\DokumenEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 
@@ -47,8 +46,8 @@ class DokumenHidup extends BaseModel
 {
     use ConfigId;
     use Author;
-    
-    public const ENABLE              = 1;
+
+    public const ENABLE = 1;
 
     /**
      * The table associated with the model.
@@ -117,11 +116,12 @@ class DokumenHidup extends BaseModel
 
         return $data;
     }
-    
+
     public function isActive(): bool
     {
         return $this->attributes['enabled'] == self::ENABLE;
     }
+
     public function scopeInformasiPublik($query)
     {
         return $query->where(['id_pend' => 0]);

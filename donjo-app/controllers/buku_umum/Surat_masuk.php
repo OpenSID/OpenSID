@@ -35,11 +35,11 @@
  *
  */
 
+use App\Models\DisposisiSuratmasuk;
+use App\Models\KlasifikasiSurat;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use App\Models\SuratMasuk;
-use App\Models\KlasifikasiSurat;
-use App\Models\DisposisiSuratmasuk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -95,7 +95,7 @@ class Surat_masuk extends Admin_Controller
                     if ($row->berkas_scan) {
                         $aksi .= '<a href="' . ci_route("surat_masuk.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
                     }
-                    
+
                     if (can('h')) {
                         $aksi .= '<a href="#" data-href="' . ci_route('surat_masuk.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
@@ -140,10 +140,10 @@ class Surat_masuk extends Admin_Controller
         $data['ref_disposisi'] = $this->ref_disposisi();
 
         // Buang unique id pada link nama file
-        $berkas                              = explode('__sid__', $data['surat_masuk']['berkas_scan']);
-        $namaFile                            = $berkas[0];
-        $ekstensiFile                        = explode('.', end($berkas));
-        $ekstensiFile                        = end($ekstensiFile);
+        $berkas                             = explode('__sid__', $data['surat_masuk']['berkas_scan']);
+        $namaFile                           = $berkas[0];
+        $ekstensiFile                       = explode('.', end($berkas));
+        $ekstensiFile                       = end($ekstensiFile);
         $data['surat_masuk']['berkas_scan'] = $namaFile . '.' . $ekstensiFile;
 
         return view('admin.surat_masuk.form', $data);
@@ -372,6 +372,7 @@ class Surat_masuk extends Admin_Controller
         $data                = $this->modal_penandatangan();
         $data['aksi']        = 'cetak';
         $data['form_action'] = site_url("surat_masuk/disposisi/{$id}");
+
         return view('admin.layouts.components.ttd_pamong', $data);
     }
 
@@ -388,7 +389,7 @@ class Surat_masuk extends Admin_Controller
         $data['ref_disposisi']         = $disposisi;
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = SuratMasuk::findOrFail($id)->toArray();
-        
+
         return view('admin.surat_masuk.disposisi', $data);
     }
 
