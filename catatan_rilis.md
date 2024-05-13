@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#7907](https://github.com/OpenSID/OpenSID/issues/7907) Perbaikan tambah peta area.
 5. [#7908](https://github.com/OpenSID/OpenSID/issues/7908) Perbaikan ekspor database gabungan (.sid).
 6. [#7917](https://github.com/OpenSID/OpenSID/issues/7917) Perbaikan ejaan pada lampiran surat nikah.
+7. [#7920](https://github.com/OpenSID/OpenSID/issues/7920) Perbaikan unduh salinan kartu kerluarga.
 
 
 #### TEKNIS
