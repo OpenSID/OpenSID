@@ -148,8 +148,12 @@ class Grup extends Admin_Controller
             redirect_with('error', trim(validation_errors()));
         } else {
             try {
-                $nama   = $this->input->post('nama');
-                $grup   = UserGrup::create(['nama' => $nama, unique_slug('user_grup', $nama), 'jenis' => UserGrup::DESA]);
+                $nama = $this->input->post('nama');
+                $grup = UserGrup::create([
+                    'nama'  => $nama,
+                    'slug'  => unique_slug('user_grup', $nama),
+                    'jenis' => UserGrup::DESA,
+                ]);
                 $moduls = $this->input->post('modul');
                 $this->simpanAkses($grup->id, $moduls);
                 redirect_with('success', 'Grup pengguna berhasil disimpan');
@@ -187,7 +191,10 @@ class Grup extends Admin_Controller
                 if ($grup->jenis == UserGrup::SISTEM) {
                     redirect_with('error', 'Grup pengguna dari sistem tidak boleh dirubah');
                 }
-                $grup->update(['nama' => $nama, unique_slug('user_grup', $nama)]);
+                $grup->update([
+                    'nama' => $nama,
+                    'slug' => unique_slug('user_grup', $nama),
+                ]);
                 $moduls = $this->input->post('modul');
                 $this->simpanAkses($grup->id, $moduls);
                 redirect_with('success', 'Grup pengguna berhasil disimpan');

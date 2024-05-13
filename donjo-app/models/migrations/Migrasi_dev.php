@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,6 +66,8 @@ class Migrasi_dev extends MY_model
 
         // }
         $hasil = $this->migrasi_2024050851($hasil);
+        $hasil = $this->migrasi_2024051251($hasil);
+
         return $hasil && true;
     }
 
@@ -74,5 +77,16 @@ class Migrasi_dev extends MY_model
             ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
             ['url' => 'dokumen']
         );
+    }
+
+    protected function migrasi_2024051251($hasil)
+    {
+        UserGrup::where('slug', null)->get()->each(static function ($user) {
+            $user->update([
+                'slug' => unique_slug('user_grup', $user->nama),
+            ]);
+        });
+
+        return $hasil;
     }
 }
