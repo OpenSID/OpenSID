@@ -70,6 +70,7 @@ class UserGrup extends BaseModel
     protected $fillable = [
         'nama',
         'jenis',
+        'slug',
         'status',
         'created_by',
         'updated_by',

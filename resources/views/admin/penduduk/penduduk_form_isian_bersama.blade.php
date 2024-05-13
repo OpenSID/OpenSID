@@ -89,7 +89,7 @@
                                         <select name="ktp_el" id="ktp_el" class="form-control input-sm wajib_identitas" onchange="show_hide_ktp_el($(this).find(':selected').val())">
                                             <option value="">Pilih Identitas-EL</option>
                                             @foreach ($ktp_el as $id => $nama)
-                                                <option value="{{ $id }}" @selected(($jenis_peristiwa == '1' && $id == 3) || strtolower($penduduk['ktp_el']) == $nama)>
+                                                <option value="{{ $id }}" @selected(($jenis_peristiwa == '1' && $id == 3) || $penduduk['ktp_el'] == $id)>
                                                     {{ strtoupper($nama) }}</option>
                                             @endforeach
                                         </select>
@@ -98,7 +98,7 @@
                                         <select name="status_rekam" class="form-control input-sm wajib_identitas">
                                             <option value="">Pilih Status Rekam</option>
                                             @foreach ($status_rekam as $id => $nama)
-                                                <option value="{{ $id }}" @selected(strtolower($penduduk['status_rekam']) == $nama)>
+                                                <option value="{{ $id }}" @selected($penduduk['status_rekam'] == $id)>
                                                     {{ strtoupper($nama) }}</option>
                                             @endforeach
                                         </select>
@@ -414,7 +414,7 @@
     <div class='col-sm-12'>
         <div class='form-group'>
             <label for="etnis">Suku/Etnis</label>
-            <select class="form-control input-sm-tags nama_suku select2" data-url="{{ ci_route('penduduk.ajax_penduduk_suku') }}" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
+            <select class="form-control input-sm select2-tags nama_suku" data-url="{{ ci_route('penduduk.ajax_penduduk_suku') }}" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
                 <option value="">Pilih Suku/Etnis</option>
                 @if ($suku_penduduk)
                     @foreach ($suku_penduduk as $key => $value)
@@ -915,6 +915,10 @@
                 format: 'DD-MM-YYYY',
                 locale: 'id',
                 maxDate: 'now',
+            });
+
+            $('.select2-tags').select2({
+                tags: true
             });
 
             var addOrRemoveRequiredAttribute = function() {

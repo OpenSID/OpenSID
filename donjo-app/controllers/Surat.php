@@ -293,7 +293,7 @@ class Surat extends Admin_Controller
             }
 
             if (isset($log_surat['input']['id_pengikut_pindah'])) {
-                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->get();
+                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderBy('kk_level')->get();
                 $pindah   = [];
 
                 foreach ($pengikut as $anggota) {
@@ -627,7 +627,7 @@ class Surat extends Admin_Controller
         return Pamong::kepalaDesa()->first()->pamong_id;
     }
 
-    private function nama_surat_arsip($url, $nik, $nomor)
+    private function nama_surat_arsip(string $url, string $nik, $nomor): string
     {
         $nomor_surat = str_replace("'", '', $nomor);
         $nomor_surat = preg_replace('/[^a-zA-Z0-9.	]/', '-', $nomor_surat);
@@ -652,7 +652,7 @@ class Surat extends Admin_Controller
     }
 
     // Data yang digunakan surat jenis rtf dan tinymce
-    private function get_data_untuk_form($url, &$data, $kategori = 'individu')
+    private function get_data_untuk_form($url, array &$data, $kategori = 'individu')
     {
         // TinyMCE
         // Data penduduk diambil sesuai pengaturan surat
@@ -804,7 +804,7 @@ class Surat extends Admin_Controller
         return show_404();
     }
 
-    private function pengikutDibawah18Tahun($data)
+    private function pengikutDibawah18Tahun(array $data)
     {
         $pengikut = null;
         $minUmur  = 18;
@@ -828,14 +828,14 @@ class Surat extends Admin_Controller
         return $pengikut;
     }
 
-    private function pengikutSuratKIS($data)
+    private function pengikutSuratKIS(array $data)
     {
         return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
     }
 
-    private function pengikutPindah($data)
+    private function pengikutPindah(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderBy('kk_level')->get();
     }
 
     private function groupByLabel($array)

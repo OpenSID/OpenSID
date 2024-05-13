@@ -335,6 +335,7 @@ class Surat_keluar extends Admin_Controller
         if ($data['tahun']) {
             $data['main'] = $query->whereYear('tanggal_surat', $data['tahun'])->get()->toArray();
         }
+        $data['file']      = 'Surat Keluar';
         $data['isi']       = 'admin.surat_keluar.cetak';
         $data['letak_ttd'] = ['1', '1', '23'];
 

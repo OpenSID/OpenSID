@@ -168,8 +168,8 @@ class Grup extends Admin_Controller
             try {
                 $nama = $this->input->post('nama');
                 $grup = UserGrup::create([
-                    'nama' => $nama,
-                    unique_slug('user_grup', $nama),
+                    'nama'   => $nama,
+                    'slug'   => unique_slug('user_grup', $nama),
                     'jenis'  => UserGrup::DESA,
                     'status' => $this->input->post('status'),
                 ]);
@@ -211,8 +211,8 @@ class Grup extends Admin_Controller
                     redirect_with('error', 'Grup pengguna dari sistem tidak boleh dirubah');
                 }
                 $grup->update([
-                    'nama' => $nama,
-                    unique_slug('user_grup', $nama),
+                    'nama'   => $nama,
+                    'slug'   => unique_slug('user_grup', $nama),
                     'status' => $this->input->post('status'),
                 ]);
                 $moduls = $this->input->post('modul');

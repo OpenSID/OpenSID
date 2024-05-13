@@ -38,7 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // SITEMAN
-Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () {
+Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function (): void {
     Route::get('/', 'Anjungan@index')->name('layanan-mandiri.anjungan.index');
     Route::get('/masuk', 'Masuk@index')->name('layanan-mandiri.masuk.index');
     Route::post('/cek', 'Masuk@cek')->name('layanan-mandiri.masuk.cek');
@@ -60,7 +60,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () 
     Route::get('/pesan-masuk/{id?}', 'Pesan@index')->name('layanan-mandiri.pesan.masuk')->param('id', 2);
     Route::get('/pesan-keluar/{id?}', 'Pesan@index')->name('layanan-mandiri.pesan.keluar')->param('id', 1);
 
-    Route::group('pesan', static function () {
+    Route::group('pesan', static function (): void {
         Route::post('/kirim/{kat?}', 'Pesan@kirim')->name('layanan-mandiri.pesan.kirim');
         Route::get('/baca/{kat}/{id?}', 'Pesan@baca')->name('layanan-mandiri.pesan.baca');
         Route::get('/tulis/{id?}', 'Pesan@tulis')->name('layanan-mandiri.pesan.tulis')->param('id', 1);
@@ -68,17 +68,17 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () 
     });
 
     Route::post('proses-daftar', 'Daftar@proses_daftar')->name('layanan-mandiri.daftar.proses_daftar');
-    Route::group('daftar', static function () {
+    Route::group('daftar', static function (): void {
         Route::get('/', 'Daftar@index')->name('layanan-mandiri.daftar.index');
 
-        Route::group('verifikasi', static function () {
+        Route::group('verifikasi', static function (): void {
             Route::get('/', 'Daftar_verifikasi@index')->name('layanan-mandiri.daftar_verifikasi.index');
-            Route::group('telegram', static function () {
+            Route::group('telegram', static function (): void {
                 Route::get('/', 'Daftar_verifikasi@telegram')->name('layanan-mandiri.daftar_verifikasi.telegram');
                 Route::post('/kirim-userid', 'Daftar_verifikasi@kirim_otp_telegram')->name('layanan-mandiri.daftar_verifikasi.kirim_otp_telegram');
                 Route::post('/kirim-otp', 'Daftar_verifikasi@verifikasi_telegram')->name('layanan-mandiri.daftar_verifikasi.verifikasi_telegram');
             });
-            Route::group('email', static function () {
+            Route::group('email', static function (): void {
                 Route::get('/', 'Daftar_verifikasi@email')->name('layanan-mandiri.daftar_verifikasi.email');
                 Route::post('/kirim-email', 'Daftar_verifikasi@kirim_otp_email')->name('layanan-mandiri.daftar_verifikasi.kirim_otp_email');
                 Route::post('/kirim-otp', 'Daftar_verifikasi@verifikasi_email')->name('layanan-mandiri.daftar_verifikasi.verifikasi_email');
@@ -89,7 +89,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () 
     Route::get('/permohonan-surat/{id?}', 'Surat@index')->name('layanan-mandiri.surat.index')->param('id', 1);
     Route::get('/arsip-surat/{id?}', 'Surat@index')->name('layanan-mandiri.surat.index-arsip')->param('id', 2);
 
-    Route::group('surat', static function () {
+    Route::group('surat', static function (): void {
         Route::get('/buat/{id?}', 'Surat@buat')->name('layanan-mandiri.surat.buat');
         Route::post('/cek_syarat', 'Surat@cek_syarat')->name('layanan-mandiri.surat.cek_syarat');
         Route::post('/form/{id?}', 'Surat@form')->name('layanan-mandiri.surat.form');
@@ -99,12 +99,12 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () 
         Route::get('/{id}', 'Surat@cetak')->name('layanan-mandiri.surat.cetak');
     });
 
-    Route::group('bantuan', static function () {
+    Route::group('bantuan', static function (): void {
         Route::get('/', 'Bantuan@index')->name('layanan-mandiri.bantuan.index');
         Route::get('/kartu_peserta/{aksi?}/{id_peserta?}', 'Bantuan@kartu_peserta')->name('layanan-mandiri.bantuan.kartu_peserta');
     });
 
-    Route::group('dokumen', static function () {
+    Route::group('dokumen', static function (): void {
         Route::get('/', 'Dokumen@index')->name('layanan-mandiri.dokumen.index');
         Route::get('/form/{id?}', 'Dokumen@form')->name('layanan-mandiri.dokumen.form');
         Route::post('/tambah', 'Dokumen@tambah')->name('layanan-mandiri.dokumen.tambah');
@@ -112,28 +112,32 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function () 
         Route::get('/hapus/{id?}', 'Dokumen@hapus')->name('layanan-mandiri.dokumen.hapus');
         Route::get('/unduh/{id?}', 'Dokumen@unduh')->name('layanan-mandiri.dokumen.unduh');
     });
-    Route::group('kehadiran', static function () {
+    Route::group('kehadiran', static function (): void {
         Route::get('/', 'Kehadiran_perangkat@index')->name('layanan-mandiri.kehadiran_perangkat.index');
         Route::match(['GET', 'POST'], '/lapor/{id}', 'Kehadiran_perangkat@lapor')->name('layanan-mandiri.kehadiran_perangkat.lapor');
     });
 
-    Route::group('lapak', static function () {
+    Route::group('lapak', static function (): void {
         Route::get('/{p?}', 'Lapak@index')->name('layanan-mandiri.lapak.index');
     });
 
-    Route::group('verifikasi', static function () {
+    Route::group('verifikasi', static function (): void {
         Route::get('/', 'Verifikasi@index')->name('layanan-mandiri.verifikasi.index');
-        Route::get('/telegram', 'Verifikasi@telegram')->name('layanan-mandiri.verifikasi.telegram');
-        Route::get('/kirim_otp_telegram', 'Verifikasi@kirim_otp_telegram')->name('layanan-mandiri.verifikasi.kirim_otp_telegram');
-        Route::get('/verifikasi_telegram', 'Verifikasi@verifikasi_telegram')->name('layanan-mandiri.verifikasi.verifikasi_telegram');
-        Route::get('/email', 'Verifikasi@email')->name('layanan-mandiri.verifikasi.email');
-        Route::get('/kirim_otp_email', 'Verifikasi@kirim_otp_email')->name('layanan-mandiri.verifikasi.kirim_otp_email');
-        Route::get('/verifikasi_email', 'Verifikasi@verifikasi_email')->name('layanan-mandiri.verifikasi.verifikasi_email');
+        Route::group('telegram', static function (): void {
+            Route::get('/', 'Verifikasi@telegram')->name('layanan-mandiri.verifikasi.telegram');
+            Route::post('/kirim-userid', 'Verifikasi@kirim_otp_telegram')->name('layanan-mandiri.verifikasi.kirim_otp_telegram');
+            Route::post('/kirim-otp', 'Verifikasi@verifikasi_telegram')->name('layanan-mandiri.verifikasi.verifikasi_telegram');
+        });
+        Route::group('email', static function (): void {
+            Route::get('/', 'Verifikasi@email')->name('layanan-mandiri.verifikasi.email');
+            Route::post('/kirim-email', 'Verifikasi@kirim_otp_email')->name('layanan-mandiri.verifikasi.kirim_otp_email');
+            Route::post('/kirim-otp', 'Verifikasi@verifikasi_email')->name('layanan-mandiri.verifikasi.verifikasi_email');
+        });
     });
 });
 // harus define ulang karena di code ada yang memanggil fmandiri langsung bukan layanan-mandiri
-Route::group('fmandiri', ['namespace' => 'fmandiri'], static function () {
-    Route::group('surat', static function () {
+Route::group('fmandiri', ['namespace' => 'fmandiri'], static function (): void {
+    Route::group('surat', static function (): void {
         Route::post('/kirim', 'Surat@kirim')->name('fmandiri.surat.kirim');
         Route::get('/proses/{id?}', 'Surat@proses')->name('fmandiri.surat.proses');
         Route::get('/cetak_no_antrian/{no_antrian}', 'Surat@cetak_no_antrian')->name('fmandiri.surat.cetak_no_antrian');

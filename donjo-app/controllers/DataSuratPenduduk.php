@@ -67,7 +67,7 @@ class DataSuratPenduduk extends CI_Controller
     {
         $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $kategori];
 
-        if ($kategori == 'individu') {
+        if ($kategori === 'individu') {
             $statusDasar = is_array($surat->form_isian->{$kategori}->status_dasar) ? $surat->form_isian->{$kategori}->status_dasar : [$surat->form_isian->{$kategori}->status_dasar];
             if (array_intersect($statusDasar, $this->logpenduduk::PERISTIWA)) {
                 $data['logpenduduk'] = $this->logpenduduk;
@@ -230,10 +230,10 @@ class DataSuratPenduduk extends CI_Controller
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->get();
+        return Penduduk::status()->where(['id_kk' => $data['individu']['id_kk']])->orderBy('kk_level')->get();
     }
 
-    private function kategoriYangDikaitkan($id, $hubunganForm)
+    private function kategoriYangDikaitkan($id, $hubunganForm): array
     {
         $data = ['individu' => Penduduk::findOrFail($id), 'anggota' => null, 'kategori' => $hubunganForm];
 

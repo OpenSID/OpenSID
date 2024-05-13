@@ -73,6 +73,7 @@ class Migrasi_dev extends MY_model
         }
 
         $hasil = $hasil && $this->migrasi_2024050551($hasil);
+        $hasil = $hasil && $this->migrasi_2024051251($hasil);
 
         return $hasil && true;
     }
@@ -886,5 +887,16 @@ class Migrasi_dev extends MY_model
             ]),
             'kategori' => 'galeri',
         ], $id);
+    }
+
+    protected function migrasi_2024051251($hasil)
+    {
+        UserGrup::where('slug', null)->get()->each(static function ($user) {
+            $user->update([
+                'slug' => unique_slug('user_grup', $user->nama),
+            ]);
+        });
+
+        return $hasil;
     }
 }

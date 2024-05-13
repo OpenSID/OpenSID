@@ -223,7 +223,7 @@ class Shortcut extends BaseModel
                 // Surat
                 'Surat'          => LogSurat::whereNull('deleted_at'),
                 'Surat Tercetak' => LogSurat::whereNull('deleted_at')
-                    ->when($isAdmin->jabatan_id == kades()->id, static fn($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                    ->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
                         ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
                         ->orWhere(static function ($verifikasi): void {
                             $verifikasi->whereNull('verifikasi_operator');
@@ -249,7 +249,7 @@ class Shortcut extends BaseModel
 
             $bantuan = Bantuan::get();
             if ($bantuan) {
-                $pesertaBantuan = $bantuan->filter(static fn ($item) => $activeShortcut->where('raw_query', 'Bantuan ' . $item->nama)->count())->mapWithKeys(static fn($item): array => [
+                $pesertaBantuan = $bantuan->filter(static fn ($item) => $activeShortcut->where('raw_query', 'Bantuan ' . $item->nama)->count())->mapWithKeys(static fn ($item): array => [
                     'Bantuan ' . $item->nama => BantuanPeserta::where('program_id', $item->id),
                 ]);
 
