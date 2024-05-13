@@ -874,7 +874,7 @@ class Migrasi_dev extends MY_model
             'kategori'   => 'galeri',
         ], $id);
 
-        return $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'judul'      => 'Urutan Gambar Galeri',
             'key'        => 'urutan_gambar_galeri',
             'value'      => 'acak',
@@ -886,6 +886,16 @@ class Migrasi_dev extends MY_model
                 'acak' => 'Acak',
             ]),
             'kategori' => 'galeri',
+        ], $id);
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Jumlah Pengajuan Produk Oleh Warga',
+            'key'        => 'jumlah_pengajuan_produk',
+            'value'      => 3,
+            'keterangan' => 'Jumlah pengajuan produk perhari oleh warga melalui layanan mandiri',
+            'jenis'      => 'input-number',
+            'attribute'  => 'min="1" max="50" step="1"',
+            'kategori'   => 'lapak',
         ], $id);
     }
 
