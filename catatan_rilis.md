@@ -15,6 +15,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#7915](https://github.com/OpenSID/OpenSID/issues/7915) Penambahan aktifkan/nonaktifkan status pada modul grup.
 10. [#7896](https://github.com/OpenSID/OpenSID/issues/7896) Penambahan ekspor dan impor grup pengguna.
 11. [#3030](https://github.com/OpenSID/OpenSID/issues/3030) Penambahan fungsi reset peta tipe point dan polygon ke default.
+12. [#5750](https://github.com/OpenSID/OpenSID/issues/5750) Penambahan hapus file backup inkremental.
+
 
 #### BUG
 

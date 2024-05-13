@@ -130,6 +130,10 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    return '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                })
+                ->rawColumns(['aksi'])
                 ->make();
         }
 
@@ -168,6 +172,16 @@ class Database extends Admin_Controller
         $za           = new FlxZipArchive();
         $za->tmp_file = $file->path;
         $za->download('backup_inkremental' . $file->created_at->format('Y_m-d') . '.zip');
+    }
+
+    public function inkremental_delete($id): void
+    {
+        $file = LogBackup::findOrFail($id);
+        if ($file->delete()) {
+            redirect_with('success', 'Data berhasil dihapus', 'database/desa_inkremental');
+        }
+        
+        redirect_with('error', 'Data gagal dihapus', 'database/desa_inkremental');
     }
 
     public function restore(): void
