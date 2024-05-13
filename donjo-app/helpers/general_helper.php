@@ -1135,7 +1135,6 @@ if (! function_exists('shortcut_cache')) {
     function shortcut_cache()
     {
         User::pluck('id')->each(static function ($id) {
-            log_message('notice', 'Menghapus cache shortcut_' . $id . '...');
             cache()->forget('shortcut_' . $id);
         });
     }
