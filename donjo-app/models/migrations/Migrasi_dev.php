@@ -73,6 +73,52 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_2024050851($hasil)
     {
+        // karena data awal belum diubah, maka perlu diubah
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'qr-code', 'url' => 'setting/qrcode/clear'],
+            ['url' => 'qr_code']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-grup', 'url' => 'grup/clear'],
+            ['url' => 'grup']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'artikel', 'url' => 'web/clear'],
+            ['url' => 'web']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-ktp-dan-kk', 'url' => 'bumindes_penduduk_ktpkk/clear'],
+            ['url' => 'bumindes_penduduk_ktpkk']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-rekapitulasi-jumlah-penduduk', 'url' => 'bumindes_penduduk_rekapitulasi/clear'],
+            ['url' => 'bumindes_penduduk_rekapitulasi']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'penduduk', 'url' => 'penduduk/clear'],
+            ['url' => 'penduduk']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'keluarga', 'url' => 'keluarga/clear'],
+            ['url' => 'keluarga']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'surat-keluar', 'url' => 'surat_keluar/clear'],
+            ['url' => 'surat_keluar']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'surat-masuk', 'url' => 'surat_masuk/clear'],
+            ['url' => 'surat_masuk']
+        );
+
         return $hasil && $this->ubah_modul(
             ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
             ['url' => 'dokumen']

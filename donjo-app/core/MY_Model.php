@@ -251,8 +251,8 @@ class MY_Model extends CI_Model
 
         $this->db->update('setting_modul', $modul);
 
-        // Hapus cache menu navigasi
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+        // TODO:: Ganti ini dengan cache prefix "{$grupId}_admin_menu"
+        cache()->flush();
 
         return true;
     }
