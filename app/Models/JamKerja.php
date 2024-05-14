@@ -39,12 +39,24 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 use Carbon\Carbon;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class JamKerja extends BaseModel
 {
     use ConfigId;
+    use QueryCacheable;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    public $cacheFor = -1;
 
     /**
      * The table associated with the model.

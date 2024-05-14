@@ -203,7 +203,7 @@ class User_model extends MY_Model
         }
     }
 
-    private function set_fm_key($key = null)
+    private function set_fm_key($key = null): string
     {
         $fmHash = $key . date('Ymdhis');
         $salt   = random_int(100000, 999999);
@@ -258,7 +258,12 @@ class User_model extends MY_Model
         return $query->row_array();
     }
 
-    private function periksa_input_password($id)
+    /**
+     * @param mixed $id
+     *
+     * @return mixed[]
+     */
+    private function periksa_input_password($id): array
     {
         $this->session->success   = 1;
         $this->session->error_msg = '';

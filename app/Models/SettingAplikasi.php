@@ -40,15 +40,28 @@ namespace App\Models;
 use App\Enums\StatusEnum;
 use App\Models\Galery as Galeri;
 use App\Traits\ConfigId;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class SettingAplikasi extends BaseModel
 {
     use ConfigId;
+    use QueryCacheable;
 
     public const WARNA_TEMA              = '#eab308';
     public const RENTANG_WAKTU_KEHADIRAN = 10;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    // forever cache
+    public $cacheFor = -1;
 
     /**
      * The table associated with the model.

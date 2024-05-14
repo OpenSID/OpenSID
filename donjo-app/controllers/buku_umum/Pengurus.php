@@ -359,6 +359,8 @@ class Pengurus extends Admin_Controller
                 // Hanya 1 yang bisa jadi a.n dan harus sekretaris
                 if ($output) {
                     Pamong::where('pamong_ttd', 1)->where('pamong_id', '!=', $id)->update(['pamong_ttd' => 0]);
+                    // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+                    (new Pamong())->flushQueryCache();
                     redirect_with('success', 'Penandatangan a.n berhasil disimpan');
                 }
             } else {
@@ -370,6 +372,8 @@ class Pengurus extends Admin_Controller
         if ($jenis == 'u.b') {
             if (! in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
                 $output = Pamong::whereNotIn('jabatan_id', RefJabatan::getKadesSekdes())->find($id)->update(['pamong_ub' => $val]);
+                // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+                (new Pamong())->flushQueryCache();
                 redirect_with('success', 'Penandatangan u.b berhasil disimpan');
             } else {
                 $pesan = ', Penandatangan u.b harus pamong selain ' . RefJabatan::whereJenis(RefJabatan::KADES)->first(['nama'])->nama . ' dan ' . RefJabatan::whereJenis(RefJabatan::SEKDES)->first(['nama'])->nama;
@@ -384,6 +388,8 @@ class Pengurus extends Admin_Controller
     {
         $pamong = $this->input->post('data');
         Pamong::setNewOrder($pamong);
+        // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        (new Pamong())->flushQueryCache();
 
         return json(['status' => 1]);
     }
@@ -477,7 +483,8 @@ class Pengurus extends Admin_Controller
         }
 
         Pamong::whereRaw("pamong_id in ({$list_id})")->update($data);
-
+        // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        (new Pamong())->flushQueryCache();
         redirect_with('success', 'Data Berhasil Simpan');
     }
 
