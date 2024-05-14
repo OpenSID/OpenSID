@@ -347,10 +347,10 @@ class Penduduk extends Admin_Controller
                 $umurMin           = $advanceSearch['umur_min'];
                 $umurMax           = $advanceSearch['umur_max'];
                 $umurObj['satuan'] = $advanceSearch['umur'];
-                if ($umurMin) {
+                if ($umurMin !== null) {
                     $umurObj['min'] = $umurMin;
                 }
-                if ($umurMax) {
+                if ($umurMax !== null) {
                     $umurObj['max'] = $umurMax;
                 }
                 $map = [
