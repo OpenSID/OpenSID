@@ -85,6 +85,7 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         __DIR__ . '/donjo-app/libraries/Log_Viewer.php',
         __DIR__ . '/donjo-app/libraries/FeedParser.php',
+        __DIR__ . '/donjo-app/libraries/Spreadsheet_Excel_Reader.php',
         __DIR__ . '/donjo-app/third_party/DevelBar',
         __DIR__ . '/donjo-app/models/migrations',
         __DIR__ . '/donjo-app/models/seeders',

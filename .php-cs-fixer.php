@@ -87,6 +87,7 @@ $finder = Symfony\Component\Finder\Finder::create()
         __DIR__ . '/donjo-app/third_party/*/views',
         __DIR__ . '/donjo-app/models/migrations',
         __DIR__ . '/donjo-app/models/seeders',
+        __DIR__ . '/donjo-app/libraries/Spreadsheet_Excel_Reader.php',
     ])
     ->append([
         __DIR__ . '/index.php',

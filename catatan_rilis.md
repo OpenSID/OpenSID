@@ -18,7 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip web.
 12. [#7927](https://github.com/OpenSID/OpenSID/issues/7927) Perbaikan route halaman verifikasi email dan telegram.
 13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
-
+14. [#7911](https://github.com/OpenSID/OpenSID/issues/7911) Perbaikan impor data penduduk menggunakan format BIP.
 
 #### TEKNIS
 
