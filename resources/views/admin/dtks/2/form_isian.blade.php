@@ -1,5 +1,7 @@
 <style>
-    .title{color:#000}
+    .title {
+        color: #000
+    }
 </style>
 <div class="col-md-12">
     <div class="box box-primary">
@@ -12,9 +14,11 @@
                     <td>No Kartu Rumah Tangga(KRT)</td>
                     <td>:</td>
                     <td>{{ $dtks->rtm->no_kk }}</td>
-                    @if($dtks->jumlah_keluarga > 1)
+                    @if ($dtks->jumlah_keluarga > 1)
                         <td rowspan="4">
-                            <a href="#" id="btn-modal-keluarga-lainnya" data-remote="false" data-toggle="modal" data-target="#modal-keluarga-lainnya" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Data Keluarga dalam rumah tangga ini</a>
+                            <a href="#" id="btn-modal-keluarga-lainnya" data-remote="false" data-toggle="modal" data-target="#modal-keluarga-lainnya" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                                    class="fa fa-plus"
+                                ></i> Data Keluarga dalam rumah tangga ini</a>
                         </td>
                     @endif
                 </tr>
@@ -34,8 +38,16 @@
                     <td>{{ $dtks->updated_at }}</td>
                 </tr>
             </table>
-            @if($dtks->jumlah_keluarga > 1)
-                <div class="modal fade" id="modal-keluarga-lainnya" style="overflow: scroll;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            @if ($dtks->jumlah_keluarga > 1)
+                <div
+                    class="modal fade"
+                    id="modal-keluarga-lainnya"
+                    style="overflow: scroll;"
+                    tabindex="-1"
+                    role="dialog"
+                    aria-labelledby="myModalLabel"
+                    aria-hidden="true"
+                >
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -51,9 +63,9 @@
                                         <th>Jumlah Anggota</th>
                                         <th>Aksi</th>
                                     </tr>
-                                    @foreach($dtks->all_dtks_id as $item)
-                                    <tr>
-                                        {{-- <td>{{$dtks->all_dtks_id[1]}}</td> --}}
+                                    @foreach ($dtks->all_dtks_id as $item)
+                                        <tr>
+                                            {{-- <td>{{$dtks->all_dtks_id[1]}}</td> --}}
                                             <td>{{ $item ? $item->rtm->kepalaKeluarga->nama : '' }}</td>
                                             <td>{{ $item ? $item->keluarga->no_kk : '' }}</td>
                                             <td>{{ $item ? $item->keluarga->kepalaKeluarga->nama : '' }}</td>
@@ -113,38 +125,38 @@
 </div>
 
 @push('scripts')
-<script type="text/javascript">
-    function show_when_otherwise_hide(condition, element_ids_to_show, element_ids_to_hide){
-        if(condition){
-            element_ids_to_show.forEach(function(el){
-                $('#' + el).show();
-                // $('#' + el).find('input, select').each(function(index, el){
-                //     if( ! $(el).hasClass('select2-search__field')){
-                //         $(el).addClass('required');
-                //     }
-                // })
-            });
-        }else{
-            element_ids_to_hide.forEach(function(el){
-                $('#' + el).hide();
-                // $('#' + el).find('input, select').each(function(index, el){
-                //     if( ! $(el).hasClass('select2-search__field')){
-                //         $(el).removeClass('required');
-                //     }
-                // })
-            });
-        }
-    };
-    $(document).ready(function() {
-        $.each($(".tab-content .tab-pane"), function(index, val) {
-            var id = $(val).attr('id');
-            $(`#nav-${id}`).on('click', function(){
-                $('#judul-bagian').text($(`#nav-${id} strong`).text());
-            });
-            if (index == 0) {
-                $(`#nav-${id}`).trigger("click");
+    <script type="text/javascript">
+        function show_when_otherwise_hide(condition, element_ids_to_show, element_ids_to_hide) {
+            if (condition) {
+                element_ids_to_show.forEach(function(el) {
+                    $('#' + el).show();
+                    // $('#' + el).find('input, select').each(function(index, el){
+                    //     if( ! $(el).hasClass('select2-search__field')){
+                    //         $(el).addClass('required');
+                    //     }
+                    // })
+                });
+            } else {
+                element_ids_to_hide.forEach(function(el) {
+                    $('#' + el).hide();
+                    // $('#' + el).find('input, select').each(function(index, el){
+                    //     if( ! $(el).hasClass('select2-search__field')){
+                    //         $(el).removeClass('required');
+                    //     }
+                    // })
+                });
             }
+        };
+        $(document).ready(function() {
+            $.each($(".tab-content .tab-pane"), function(index, val) {
+                var id = $(val).attr('id');
+                $(`#nav-${id}`).on('click', function() {
+                    $('#judul-bagian').text($(`#nav-${id} strong`).text());
+                });
+                if (index == 0) {
+                    $(`#nav-${id}`).trigger("click");
+                }
+            });
         });
-    });
-</script>
+    </script>
 @endpush

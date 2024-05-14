@@ -2,7 +2,7 @@
 	<body>
 		<div id="content" class="container_12 clearfix">
 			<div id="content-main" class="grid_7">
-				<link href="<?= base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
+				<link href="<?= asset('css/surat.css') ?>" rel="stylesheet" type="text/css" />
 				<table width="100%" style="border: solid 0px black; text-align: left; margin-bottom: -15px;">
 					<tr>
 						<td width="8%">NIK</td>
@@ -115,7 +115,7 @@
 						<td><?= strtoupper($penduduk['status'])?></td>
 					</tr>
 					<tr>
-						<td>Nomor Telpon/HP</td><td >:</td>
+						<td>Nomor Telepon/HP</td><td >:</td>
 						<td><?= strtoupper($penduduk['telepon'])?></td>
 					</tr>
 					<tr>

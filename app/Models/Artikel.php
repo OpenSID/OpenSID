@@ -61,6 +61,36 @@ class Artikel extends BaseModel
     protected $table = 'artikel';
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'gambar',
+        'isi',
+        'enabled',
+        'tgl_upload',
+        'judul',
+        'headline',
+        'gambar1',
+        'gambar2',
+        'gambar3',
+        'dokumen',
+        'link_dokumen',
+        'boleh_komentar',
+        'slug',
+        'hit',
+        'slider',
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array

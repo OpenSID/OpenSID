@@ -79,8 +79,6 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->migrasi_2023060571($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023060573($hasil, $id);
             $hasil = $hasil && $this->migrasi_2023061251($hasil, $id);
-
-            // Jalankan Migrasi TinyMCE'
             $hasil = $hasil && $this->migrasi_2023062251($hasil, $id);
             $hasil = $hasil && $this->suratKetDomisili($hasil, $id);
             $hasil = $hasil && $this->suratLahirMati($hasil, $id);
@@ -95,7 +93,6 @@ class Migrasi_fitur_premium_2307 extends MY_model
             $hasil = $hasil && $this->suratPermohonanKartuKeluarga($hasil, $id);
             $hasil = $hasil && $this->suratKeteranganPengantarRujukCerai($hasil, $id);
             $hasil = $hasil && $this->suratPermohonanPerubahanKartuKeluarga($hasil, $id);
-            // Jalankan Migrasi TinyMCE
         }
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2023060572($hasil);
@@ -2789,6 +2786,4 @@ class Migrasi_fitur_premium_2307 extends MY_model
 
         return $hasil;
     }
-
-    // Function Migrasi TinyMCE
 }

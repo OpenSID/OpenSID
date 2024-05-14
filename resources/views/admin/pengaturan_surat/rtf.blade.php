@@ -10,16 +10,14 @@
                     <input type="text" class="form-control" id="file_path" name="surat">
                     <input type="file" class="hidden" id="file" name="surat">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-info" id="file_browser"><i
-                                class="fa fa-search"></i>&nbsp;Browse</button>
+                        <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>
                         @if ($suratMaster->url_surat_sistem)
-                            <a href="{{ base_url($suratMaster->url_surat_sistem) }}" class="btn btn-success" title="Unduh Template Sistem"
-                                target="_blank"><i class="fa fa-download"></i>&nbsp;Template Sistem</a>
+                            <a href="{{ base_url($suratMaster->url_surat_sistem) }}" class="btn btn-success" title="Unduh Template Sistem" target="_blank"><i class="fa fa-download"></i>&nbsp;Template Sistem</a>
                         @endif
                         @if ($suratMaster->url_surat_desa)
-                            <a href="{{ base_url($suratMaster->url_surat_desa) }}" class="btn btn-warning" title="{{ SebutanDesa('Unduh Template [Desa]') }} "
-                                target="_blank"><i class="fa fa-download"></i>&nbsp;{{ SebutanDesa('Template [Desa]') }} </a>
-                            <a href="#" data-href="{{route('surat_master.delete_template_desa', $suratMaster->url_surat)}}" class="btn bg-maroon btn-flat btn-sm"  title="{{ SebutanDesa('Hapus Template [Desa]') }}" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                            <a href="{{ base_url($suratMaster->url_surat_desa) }}" class="btn btn-warning" title="{{ SebutanDesa('Unduh Template [Desa]') }} " target="_blank"><i class="fa fa-download"></i>&nbsp;{{ SebutanDesa('Template [Desa]') }} </a>
+                            <a href="#" data-href="{{ route('surat_master.delete_template_desa', $suratMaster->url_surat) }}" class="btn bg-maroon btn-flat btn-sm" title="{{ SebutanDesa('Hapus Template [Desa]') }}" data-toggle="modal" data-target="#confirm-delete"><i
+                                    class="fa fa-trash-o"></i></a>
                         @endif
                     </span>
                 </div>
@@ -84,7 +82,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
                 <a class="btn-ok">
-                    <a href="{{route('surat_master.delete_template_desa', $suratMaster->url_surat)}}" class="btn btn-social btn-danger btn-sm" id="ok-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+                    <a href="{{ route('surat_master.delete_template_desa', $suratMaster->url_surat) }}" class="btn btn-social btn-danger btn-sm" id="ok-delete"><i class="fa fa-trash-o"></i> Hapus</a>
                 </a>
             </div>
         </div>

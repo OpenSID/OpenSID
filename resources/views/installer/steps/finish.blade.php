@@ -26,7 +26,7 @@
                 <a class="text-blue-500 hover:underline" href="{{ $path }}">{{ $path }}</a>
             </p>
         </div>
-        @if(config('installer.admin_area'))
+        @if (config('installer.admin_area'))
             <div>
                 <p class="pb-3 text-gray-800">
                     <b>Administration Area</b>
@@ -36,7 +36,7 @@
                 <p class="pb-3">
                     <a class="text-blue-500 hover:underline" href="{{ $path }}/auth/login">{{ $path }}/auth/login</a>
                 </p>
-                @if(config('installer.admin_area.user'))
+                @if (config('installer.admin_area.user'))
                     <p class="pb-3 text-gray-800">
                         Email: <b>{{ config('installer.admin_area.user.email') }}</b>
                         <br>
@@ -46,7 +46,7 @@
             </div>
         @endif
     </div>
-    @if(config('installer.support_url'))
+    @if (config('installer.support_url'))
         <p class="pb-3 text-gray-800">
             <b>Support and questions</b>
             <br>

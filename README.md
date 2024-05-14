@@ -32,6 +32,19 @@ OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) 
 
 Pedoman pemasangan dan penggunaan OpenSID dapat dilihat di wiki OpenSID di https://github.com/opensid/opensid/wiki.
 
+## 📑 Distribusi "VERSI PUBLIK (UMUM)" dan "VERSI PREMIUM":
+- 'Versi Publik (UMUM)' adalah salinan perangkat lunak dengan akses terbatas ke fitur-fitur 'Versi Premium' untuk jangka waktu 6 bulan.
+- 'Versi Premium' terus diperbarui berdasarkan umpan balik pengguna, dengan perbaikan bug mingguan dan rilis fitur bulanan.
+- Setiap fitur dan peningkatan yang dirilis dalam 'Versi Premium' selama bulan tertentu juga akan disertakan dalam 'Versi Publik (UMUM)', tetapi dengan penundaan selama 6 bulan.
+- penting untuk dicatat bahwa ada beberapa fitur tertentu yang tidak akan pernah dirilis dalam 'Versi Publik (UMUM)'.
+- Fitur-fitur ini secara eksklusif disediakan untuk pengguna 'Versi Premium' dan bukan merupakan bagian dari 'Versi Publik (UMUM)' karena kebijakan yang ditetapkan oleh administrator.
+
+## 📑 Hak Cipta dan Lisensi Tambahan:
+- Pemegang hak cipta memiliki hak eksklusif untuk menentukan dan mengatur perbedaan antara 'Versi Publik (UMUM)' dan 'Versi Premium' dalam hal akses ke fitur dan fungsi perangkat lunak.
+- Pemegang hak cipta berhak menetapkan aturan, kebijakan, dan jadwal pembaruan untuk 'Versi Premium' dan 'Versi Publik (UMUM)' sesuai dengan ketentuan GPL yang berlaku.
+- Perbedaan antara 'Versi Publik (UMUM)' dan 'Versi Premium' yang ditentukan oleh pemegang hak cipta bersifat final dan mengikat. Fitur yang disediakan secara eksklusif untuk pengguna 'Versi Premium' tidak akan pernah disertakan dalam 'Versi Publik (UMUM)'.
+
+
 ## 📑 HAK CIPTA, SYARAT, DAN KETENTUAN
 
 Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh COMBINE Resource Institution sejak tahun 2009. Pemegang hak cipta aslinya adalah Combine Resource Institution (http://lumbungkomunitas.net/).
@@ -42,7 +55,7 @@ Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Ver
 
 ## 💻 DEMO
 
-Demo aplikasi OpenSID Versi Umum dapat diujicoba di https://demosid.opendesa.id. Versi yang terlihat di demo itu adalah rilis Umum terkini. Modul administrasi demo OpenSID dapat diaskses pada https://demosid.opendesa.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+Demo aplikasi OpenSID Versi Publik dapat diujicoba di https://demosid.opendesa.id. Versi yang terlihat di demo itu adalah rilis Umum terkini. Modul administrasi demo OpenSID dapat diaskses pada https://demosid.opendesa.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 
 Demo aplikasi OpenSID Versi Premium dapat diujicoba di https://berputar.opendesa.id. Versi ini disediakan bagi pelanggan fitur Premium. Modul administrasi demo versi Premium dapat diaskses pada https://berputar.opendesa.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 

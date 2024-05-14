@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content-header">
 		<h1>Profil Terdata Data Suplemen</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('suplemen')?>"><i class="fa fa-home"></i> Data Suplemen</a></li>
 			<li class="active">Profil Terdata Data Suplemen</li>
 		</ol>
@@ -55,7 +55,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url()?>suplemen" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
+				<a href="<?= site_url('suplemen') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
 			</div>
 			<div class="box-body">
 				<h5><b>Profil Terdata</b></h5>

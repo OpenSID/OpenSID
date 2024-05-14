@@ -27,11 +27,9 @@
                     <div class="col-md-8 no-padding">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select name="kuartal" id="kuartal" required class="form-control input-sm"
-                                    title="Pilih salah satu">
+                                <select name="kuartal" id="kuartal" required class="form-control input-sm" title="Pilih salah satu">
                                     @foreach (kuartal2() as $item)
-                                        <option value="{{ $item['ke'] }}"
-                                            {{ $item['ke'] == $kuartal ? 'selected' : '' }}>Kuartal ke
+                                        <option value="{{ $item['ke'] }}" {{ $item['ke'] == $kuartal ? 'selected' : '' }}>Kuartal ke
                                             {{ $item['ke'] }} ({{ $item['bulan'] }})</option>
                                     @endforeach
                                 </select>
@@ -39,8 +37,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <select name="tahun" id="tahun" required class="form-control input-sm"
-                                    title="Pilih salah satu">
+                                <select name="tahun" id="tahun" required class="form-control input-sm" title="Pilih salah satu">
                                     @foreach ($dataTahun as $item)
                                         <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
                                     @endforeach
@@ -117,7 +114,7 @@
                                             {{ $item['user']['no_kia'] }}</td>
                                         <td style="vertical-align: middle;">{{ $item['user']['nama_ibu'] }}</td>
                                         <td class="text-center" style="vertical-align: middle;">
-                                            {{ $item['user']['status_kehamilan'] = ($item['user']['status_kehamilan'] == 1) ? "NORMAL" : (($item['user']['status_kehamilan'] == 2)  ? "RISTI" : (($item['user']['status_kehamilan'] == 3)  ? "KEK" : "-")) }}</td>
+                                            {{ $item['user']['status_kehamilan'] = $item['user']['status_kehamilan'] == 1 ? 'NORMAL' : ($item['user']['status_kehamilan'] == 2 ? 'RISTI' : ($item['user']['status_kehamilan'] == 3 ? 'KEK' : '-')) }}</td>
                                         <td class="text-center" style="vertical-align: middle;">
                                             {{ $item['user']['usia_kehamilan'] ?? '-' }}</td>
                                         <td class="text-center" style="vertical-align: middle;">

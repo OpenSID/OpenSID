@@ -299,7 +299,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+		<?= batal() ?>
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>

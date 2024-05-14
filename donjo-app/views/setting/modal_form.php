@@ -1,7 +1,7 @@
 <?php foreach ($this->list_setting as $pengaturan): ?>
     <?php if ($pengaturan->jenis != 'upload' && in_array($pengaturan->kategori, $kategori)): ?>
         <div class="form-group" id="form_<?= $pengaturan->key ?>">
-            <label><?= $judul ?></label>
+            <label><?= $pengaturan->judul ?></label>
             <?php if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean'): ?>
                 <select class="form-control input-sm select2 required" id="<?= $pengaturan->key ?>" name="<?= $pengaturan->key ?>" <?= $pengaturan->attribute ?>>
                     <?php foreach ($pengaturan->option as $key => $value): ?>
@@ -26,7 +26,7 @@
             <?php else: ?>
                 <input id="<?= $pengaturan->key ?>" name="<?= $pengaturan->key ?>" class="form-control input-sm" type="text" value="<?= $pengaturan->value ?>" <?= $pengaturan->attribute ?> />
             <?php endif ?>
-            <label><code><?= $pengaturan->keterangan ?></code></label>
+            <label style="margin-top: 5px;"><code><?= $pengaturan->keterangan ?></code></label>
         </div>
     <?php endif ?>
 <?php endforeach ?>

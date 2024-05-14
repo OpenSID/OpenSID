@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1>SINKRONISASI</h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li class="active">Sinkronisasi</li>
         </ol>
     </section>
@@ -117,7 +117,7 @@
                 <div class="modal-body">
                     Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirmkan.
                     <div class='text-center'>
-                        <img src="<?= base_url('assets/images/background/loading.gif') ?>">
+                        <img src="<?= asset('images/background/loading.gif') ?>">
                     </div>
                 </div>
             </div>

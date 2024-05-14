@@ -221,6 +221,9 @@ class Penduduk extends Admin_Controller
             $data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
         }
         $data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
+        $data['pesan_hapus']     = 'Apakah Anda yakin ingin mengembalikan foto menggunakan foto bawaan?';
+        $data['tombol_hapus']    = 'Kembalikan';
+        $data['icon_hapus']      = 'fa fa-undo';
 
         $this->session->unset_userdata(['dari_internal']);
 

@@ -4,14 +4,14 @@
     $.fn.select2.defaults.set('language', {
         errorLoading: function() {
             return 'Hasil tidak dapat dimuat. <a href="' + $('.select-nama-desa').data('tracker') + '/index.php/api/wilayah/caridesa?&token=' + $('.select-nama-desa').data(
-                    'token') + '" target="_blank">Lihat Url</a>';
+                'token') + '" target="_blank">Lihat Url</a>';
         },
         loadingMore: function() {
             return "Memuat hasil lainnya…"
         },
         noResults: function() {
             return 'Tidak ada hasil yang ditemukan. <a href="' + $('.select-nama-desa').data('tracker') + '/index.php/api/wilayah/caridesa?&token=' + $('.select-nama-desa').data(
-                    'token') + '" target="_blank">Lihat Url</a>';
+                'token') + '" target="_blank">Lihat Url</a>';
         },
         searching: function() {
             return "Mencari…"
@@ -42,7 +42,7 @@
         placeholder: '--  Cari Nama Desa --',
         minimumInputLength: 0,
         allowClear: true,
-        escapeMarkup: function (markup) {
+        escapeMarkup: function(markup) {
             return markup;
         },
     });

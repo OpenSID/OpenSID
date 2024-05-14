@@ -297,6 +297,12 @@ class MY_Model extends CI_Model
         $data['syarat_surat'] = json_encode($data['syarat_surat']);
         $data['created_by']   = auth()->id;
         $data['updated_by']   = auth()->id;
+        if (is_array($data['form_isian'])) {
+            $data['form_isian'] = json_encode($data['form_isian']);
+        }
+        if (is_array($data['kode_isian'])) {
+            $data['kode_isian'] = json_encode($data['kode_isian']);
+        }
 
         // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
         $cek_surat = DB::table('tweb_surat_format')->where('url_surat', $data['url_surat']);

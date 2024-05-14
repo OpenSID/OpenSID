@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Impor Data Siskeudes</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Impor Data Siskeudes</li>
 		</ol>
 	</section>
@@ -11,22 +11,22 @@
 			<input type="hidden" name="jenis_impor" id="jenis_impor" value="baru">
 			<input type="hidden" name="id_keuangan_master" id="id_keuangan_master" value="0">
 			<div class="box box-info">
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
+				<?php if (can('u')): ?>
 					<div class="box-header with-border">
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="file"  class="control-label">Berkas Database Siskuedes :</label>
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path2">
-									<input type="file" class="hidden" id="file2" name="keuangan">
+									<input type="file" class="hidden" id="file2" name="keuangan" accept=".zip">
 									<span class="input-group-btn">
-										<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
+										<button type="button" class="btn btn-info"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 									</span>
 								</div>
 								<p class="help-block small">Pastikan format berkas .zip berisi data Siskeudes dalam format .csv</p>
 							</div>
 							<div class="form-group">
-								<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
+								<button type="button" class="btn btn-social btn-info btn-sm" id="ok" onclick="simpan()"><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>
@@ -37,9 +37,9 @@
 						<table class="table table-bordered table-striped dataTable table-hover nowrap">
 							<thead class="bg-gray disabled color-palette">
 								<tr>
-									<th>No</th>
-									<?php if ($this->CI->cek_hak_akses('h')): ?>
-										<th>Aksi</th>
+									<th class="padat">No</th>
+									<?php if (can('h')): ?>
+										<th class="padat">Aksi</th>
 									<?php endif; ?>
 									<th>Versi</th>
 									<th>Tahun Anggaran</th>
@@ -50,12 +50,12 @@
 								<?php foreach ($main as $data): ?>
 									<tr>
 										<td><?=$data['no']?></td>
-										<?php if ($this->CI->cek_hak_akses('h')): ?>
+										<?php if (can('h')): ?>
 											<td nowrap>
 												<?php if (count($data['desa_ganda']) > 1): ?>
-													<a href="<?= site_url("keuangan/pilih_desa/{$data['id']}")?>" title="Bersihkan desa ganda" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Bersihkan Desa Ganda" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-minus-square"></i></a>
+													<a href="<?= site_url("keuangan/pilih_desa/{$data['id']}")?>" title="Bersihkan desa ganda" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Bersihkan Desa Ganda" class="btn bg-orange btn-sm"><i class="fa fa-minus-square"></i></a>
 												<?php endif; ?>
-												<a href="#" data-href="<?= site_url("keuangan/delete/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+												<a href="#" data-href="<?= site_url("keuangan/delete/{$data['id']}")?>" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 											</td>
 										<?php endif; ?>
 										<td><?=$data['versi_database']?></td>
@@ -76,7 +76,7 @@
 		</form>
 	</section>
 </div>
-<?php if ($this->CI->cek_hak_akses('u')): ?>
+<?php if (can('u')): ?>
 	<div class="modal fade in"  id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -90,8 +90,8 @@
 					<p>Apakah anda ingin melanjutkan proses impor untuk menindih datanya?</p>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-					<button type="button" class="btn btn-social btn-flat btn-info btn-sm" onclick="simpanDataUpdate()"><i class='fa fa-check'></i> Lanjutkan impor</button>
+					<button type="reset" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="button" class="btn btn-social btn-info btn-sm" onclick="simpanDataUpdate()"><i class='fa fa-check'></i> Lanjutkan impor</button>
 				</div>
 			</div>
 		</div>
@@ -109,7 +109,7 @@
 					<p id="kata_peringatan"></p>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<button type="reset" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
 				</div>
 			</div>
 		</div>

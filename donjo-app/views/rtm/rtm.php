@@ -54,7 +54,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<section class="content-header">
 		<h1>Pengelompokan Rumah Tangga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Daftar Rumah Tangga</li>
 		</ol>
 	</section>
@@ -273,7 +273,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <script>
 	function show_confirm(el) {
 		$('#versi')
-			.replaceWith("<?= \App\Enums\Dtks\DtksEnum::VERSION_LIST[\App\Enums\Dtks\DtksEnum::VERSION_CODE] ?>")
+			.replaceWith("<?= App\Enums\Dtks\DtksEnum::VERSION_LIST[App\Enums\Dtks\DtksEnum::VERSION_CODE] ?>")
 		$('#rtm_clear').attr('href', "<?= site_url('rtm/clear') ?>");
 		$('#tujuan').attr('href', $(el).attr('href'))
 	}

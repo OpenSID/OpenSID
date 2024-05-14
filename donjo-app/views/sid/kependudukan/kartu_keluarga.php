@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Salinan Kartu Keluarga</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
 			<li><a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$id_kk}")?>"> Daftar Anggota Keluarga</a></li>
 			<li class="active">Kartu Keluarga</li>

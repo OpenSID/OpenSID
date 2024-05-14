@@ -36,8 +36,7 @@
                     <div class="col-sm-9">
                         <select class="form-control input-sm artikel-multiple" name="artikel[]" multiple="multiple">
                             @foreach ($daftar_kategori as $item)
-                                <option value="{{ $item->id }}"
-                                    {{ in_array($item->id, $anjungan_artikel) ? 'selected' : '' }}>{{ $item->kategori }}
+                                <option value="{{ $item->id }}" {{ in_array($item->id, $anjungan_artikel) ? 'selected' : '' }}>{{ $item->kategori }}
                                 </option>
                             @endforeach
                         </select>
@@ -46,8 +45,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="teks_berjalan">Teks Berjalan</label>
                     <div class="col-sm-9">
-                        <input class="form-control input-sm" type="text" placeholder="Masukkan teks berjalan"
-                            name="teks_berjalan" value="{{ $pengaturan['anjungan_teks_berjalan'] }}">
+                        <input class="form-control input-sm" type="text" placeholder="Masukkan teks berjalan" name="teks_berjalan" value="{{ $pengaturan['anjungan_teks_berjalan'] }}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -61,8 +59,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" id="slide"
-                    style="display: {{ setting('anjungan_profil') == 1 ? '' : 'none' }}">
+                <div class="form-group" id="slide" style="display: {{ setting('anjungan_profil') == 1 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="video">Galeri Gambar</label>
                     <div class="col-sm-9">
                         <select class="form-control input-sm" name="slide">
@@ -73,22 +70,16 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" id="video"
-                    style="display: {{ setting('anjungan_profil') == 2 ? '' : 'none' }}">
+                <div class="form-group" id="video" style="display: {{ setting('anjungan_profil') == 2 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="video">URL Video (.mp4)</label>
                     <div class="col-sm-9">
-                        <input class="form-control input-sm {{ setting('anjungan_profil') == 2 ? 'required' : '' }}"
-                            type="text" placeholder="Masukkan url video" name="video"
-                            value="{{ setting('anjungan_video') }}">
+                        <input class="form-control input-sm {{ setting('anjungan_profil') == 2 ? 'required' : '' }}" type="text" placeholder="Masukkan url video" name="video" value="{{ setting('anjungan_video') }}">
                     </div>
                 </div>
-                <div class="form-group" id="youtube"
-                    style="display: {{ setting('anjungan_profil') == 3 ? '' : 'none' }}">
+                <div class="form-group" id="youtube" style="display: {{ setting('anjungan_profil') == 3 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="youtube">URL Youtube</label>
                     <div class="col-sm-9">
-                        <input class="form-control input-sm {{ setting('anjungan_profil') == 3 ? 'required' : '' }}"
-                            type="text" placeholder="Masukkan url youtube" name="youtube"
-                            value="{{ setting('anjungan_youtube') }}">
+                        <input class="form-control input-sm {{ setting('anjungan_profil') == 3 ? 'required' : '' }}" type="text" placeholder="Masukkan url youtube" name="youtube" value="{{ setting('anjungan_youtube') }}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -102,40 +93,31 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" id="screensaver_waktu"
-                    style="display: {{ setting('tampilan_anjungan') != 0 ? '' : 'none' }}">
+                <div class="form-group" id="screensaver_waktu" style="display: {{ setting('tampilan_anjungan') != 0 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="waktu">Waktu Muncul</label>
                     <div class="col-sm-9">
-                        <input class="form-control input-sm {{ setting('tampilan_anjungan') != 0 ? 'required' : '' }}"
-                            type="text" placeholder="Masukkan waktu muncul screensaver" name="screensaver_waktu"
-                            value="{{ setting('tampilan_anjungan_waktu') }}">
+                        <input class="form-control input-sm {{ setting('tampilan_anjungan') != 0 ? 'required' : '' }}" type="text" placeholder="Masukkan waktu muncul screensaver" name="screensaver_waktu" value="{{ setting('tampilan_anjungan_waktu') }}">
                     </div>
                 </div>
-                <div class="form-group" id="screensaver_slide"
-                    style="display: {{ setting('tampilan_anjungan') == 1 ? '' : 'none' }}">
+                <div class="form-group" id="screensaver_slide" style="display: {{ setting('tampilan_anjungan') == 1 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="slide">Galeri Gambar</label>
                     <div class="col-sm-9">
                         <select class="form-control input-sm" name="screensaver_slide">
                             @foreach ($slides as $item)
-                                <option {{ selected(setting('tampilan_anjungan_slider'), $item->id) }}
-                                    value="{{ $item->id }}">{{ $item->nama }}</option>
+                                <option {{ selected(setting('tampilan_anjungan_slider'), $item->id) }} value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="form-group" id="screensaver_video"
-                    style="display: {{ setting('tampilan_anjungan') == 2 ? '' : 'none' }}">
+                <div class="form-group" id="screensaver_video" style="display: {{ setting('tampilan_anjungan') == 2 ? '' : 'none' }}">
                     <label class="col-sm-3 control-label" for="video">URL Video (.mp4)</label>
                     <div class="col-sm-9">
-                        <input class="form-control input-sm {{ setting('tampilan_anjungan') == 2 ? 'required' : '' }}"
-                            type="text" placeholder="Masukkan url video" name="screensaver_video"
-                            value="{{ setting('tampilan_anjungan_video') }}">
+                        <input class="form-control input-sm {{ setting('tampilan_anjungan') == 2 ? 'required' : '' }}" type="text" placeholder="Masukkan url video" name="screensaver_video" value="{{ setting('tampilan_anjungan_video') }}">
                     </div>
                 </div>
             </div>
             <div class="box-footer">
-                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i
-                        class="fa fa-times"></i> Batal</button>
+                <button type="reset" class="btn btn-social btn-danger btn-sm" onclick="reset_form($(this).val());"><i class="fa fa-times"></i> Batal</button>
                 @if (can('u'))
                     <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                         Simpan</button>

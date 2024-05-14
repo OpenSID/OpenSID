@@ -1,10 +1,9 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
-	<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>Lokasi Tempat Tinggal <?= $penduduk['nama']?></h1>
 			<ol class="breadcrumb">
-				<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 				<?php if ($edit == '2') : ?>
 					<li><a href="<?= site_url('penduduk') ?>"> Daftar Penduduk</a></li>
 				<?php else : ?>
@@ -57,7 +56,6 @@
 		</div>
 		</section>
 	</div>
-
 	<script>
 		window.onload = function() {
 			var mode = '<?= $edit ? true : false ?>';
@@ -70,13 +68,8 @@
 				var zoom = 10;
 			<?php	endif; ?>
 
-			var options = {
-				maxZoom: <?= setting('max_zoom_peta') ?>,
-				minZoom: <?= setting('min_zoom_peta') ?>,
-			};
-
 			//Inisialisasi tampilan peta
-			var peta_penduduk = L.map('tampil-map', options).setView(posisi, zoom);
+			var peta_penduduk = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
 			//1. Menampilkan overlayLayers Peta Semua Wilayah
 			var marker_desa = [];
@@ -115,7 +108,7 @@
 			var baseLayers = getBaseLayers(peta_penduduk, MAPBOX_KEY, JENIS_PETA);
 
 			//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
-			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
+			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= asset('images/folder.svg')?>" alt="file icon"/>';
 			showCurrentPoint(posisi, peta_penduduk, mode);
 
 			//Menambahkan zoom scale ke peta
@@ -125,6 +118,6 @@
 
 		}; //EOF window.onload
 	</script>
-	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-	<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+	<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+	<script src="<?= asset('js/togeojson.js') ?>"></script>
 <?php endif; ?>

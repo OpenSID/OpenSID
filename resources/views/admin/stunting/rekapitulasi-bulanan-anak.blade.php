@@ -27,11 +27,9 @@
                     <div class="col-md-8 no-padding">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select name="kuartal" id="kuartal" required class="form-control input-sm"
-                                    title="Pilih salah satu">
+                                <select name="kuartal" id="kuartal" required class="form-control input-sm" title="Pilih salah satu">
                                     @foreach (kuartal2() as $item)
-                                        <option value="{{ $item['ke'] }}"
-                                            {{ $item['ke'] == $kuartal ? 'selected' : '' }}>Kuartal ke {{ $item['ke'] }}
+                                        <option value="{{ $item['ke'] }}" {{ $item['ke'] == $kuartal ? 'selected' : '' }}>Kuartal ke {{ $item['ke'] }}
                                             ({{ $item['bulan'] }})
                                         </option>
                                     @endforeach
@@ -40,8 +38,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <select name="tahun" id="tahun" required class="form-control input-sm"
-                                    title="Pilih salah satu">
+                                <select name="tahun" id="tahun" required class="form-control input-sm" title="Pilih salah satu">
                                     @foreach ($dataTahun as $item)
                                         <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
                                     @endforeach

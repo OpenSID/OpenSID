@@ -1,14 +1,3 @@
-<?php
-/**
- * File ini:
- *
- * View di modul Pemetaan
- *
- * /donjo-app/views/garis/maps.php
- */
-?>
-
-<!-- TODO: Pindahkan ke external css -->
 <style>
   #map
   {
@@ -21,8 +10,8 @@
     margin: 4px;
   }
   .leaflet-control-layers {
-  	display: block;
-  	position: relative;
+    display: block;
+    position: relative;
   }
   .leaflet-control-locate a {
   font-size: 2em;
@@ -33,7 +22,7 @@
   <section class="content-header">
 		<h1>Peta <?= $garis['nama']?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('garis')?>"> Pengaturan garis </a></li>
 			<li class="active">Peta <?= $garis['nama']?></li>
 		</ol>
@@ -84,17 +73,12 @@
       var zoom = 18;
     <?php endif; ?>
 
-    var options = {
-      maxZoom: <?= setting('max_zoom_peta') ?>,
-      minZoom: <?= setting('min_zoom_peta') ?>,
-    };
-
     var jenis = "<?= $garis['jenis_garis']; ?>";
     var tebal = "<?= $garis['tebal']; ?>";
     var warna = "<?= $garis['color']; ?>";
 
   	//Inisialisasi tampilan peta
-    var peta_garis = L.map('map', options).setView(posisi, zoom);
+    var peta_garis = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];
@@ -163,12 +147,12 @@
     hapusPeta(peta_garis);
 
     // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_garis, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>', TAMPIL_LUAS);
+		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_garis, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>', "<?= favico_desa()?>", '<?= base_url(LOKASI_FOTO_AREA) ?>', '<?= base_url(LOKASI_FOTO_GARIS) ?>', '<?= base_url(LOKASI_FOTO_LOKASI) ?>', '<?= base_url(LOKASI_GALERI) ?>', '<?= site_url('pembangunan/')?>', TAMPIL_LUAS);
 
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_garis);
     L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_garis);
 
   }; //EOF window.onload
 </script>
-<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
-<script src="<?= base_url()?>assets/js/togeojson.js"></script>
+<script src="<?= asset('js/leaflet.filelayer.js') ?>"></script>
+<script src="<?= asset('js/togeojson.js') ?>"></script>

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan <?= $kat_nama ?> Di <?= ucwords(setting('sebutan_desa')) ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<?php if (in_array($kat, ['2', '3'])) : ?>
 				<li><a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>"> Daftar <?= $kat_nama ?></a></li>
 			<?php else : ?>
@@ -47,7 +47,7 @@
 								<label class="col-sm-4 control-label">Dokumen</label>
 								<div class="col-sm-4">
 									<input type="hidden" name="old_file" value="">
-									 <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $dokumen['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $dokumen['id'] . '/1/1'?>"></i>
+									 <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $dokumen['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$dokumen['id']}/1/1")?>"></i>
 
 								</div>
 							</div>

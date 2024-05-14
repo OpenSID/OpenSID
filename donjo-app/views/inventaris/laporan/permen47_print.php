@@ -2,7 +2,7 @@
 <head>
 	<title>Buku Inventaris Dan Kekayaan Desa</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="<?= base_url('assets/css/report.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/report.css') ?>">
 	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 	<!-- TODO: Pindahkan ke external css -->
 	<style>

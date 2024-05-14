@@ -80,9 +80,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 	<?php if ($this->controller == 'lapak') : ?>
 		<!-- Map -->
-		<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css') ?>">
-		<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css') ?>">
-		<link rel="stylesheet" href="<?= base_url('assets/css/peta.css') ?>">
+		<link rel="stylesheet" href="<?= asset('css/leaflet.css') ?>">
+		<link rel="stylesheet" href="<?= asset('css/mapbox-gl.css') ?>">
+		<link rel="stylesheet" href="<?= asset('css/peta.css') ?>">
 	<?php endif; ?>
 
 	<!-- Style Mandiri Modification CSS -->
@@ -101,8 +101,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</script>
 	<?php if ($cek_anjungan) : ?>
 		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-		<link rel="stylesheet" href="<?= base_url('assets/css/keyboard.min.css') ?>">
-		<link rel="stylesheet" href="<?= base_url('assets/front/css/mandiri-keyboard.css') ?>">
+		<link rel="stylesheet" href="<?= asset('css/keyboard.min.css') ?>">
+		<link rel="stylesheet" href="<?= asset('front/css/mandiri-keyboard.css') ?>">
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags') ?>
@@ -239,7 +239,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-biodata') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 										<i class="fa fa-print"></i> Cetak Biodata
 									</a>
-									<?php if ($this->is_login->id_kk != 0) : ?>
+									<?php if ($this->is_login->id_kk != null) : ?>
 										<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-kk') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 											<i class="fa fa-print"></i> Cetak Salinan KK
 										</a>
@@ -338,10 +338,10 @@ endif;
 
 	<?php if ($cek_anjungan) : ?>
 		<!-- keyboard widget script -->
-		<script src="<?= base_url('assets/js/jquery.keyboard.min.js') ?>"></script>
-		<script src="<?= base_url('assets/js/jquery.mousewheel.min.js') ?>"></script>
-		<script src="<?= base_url('assets/js/jquery.keyboard.extension-all.min.js') ?>"></script>
-		<script src="<?= base_url('assets/front/js/mandiri-keyboard.js') ?>"></script>
+		<script src="<?= asset('js/jquery.keyboard.min.js') ?>"></script>
+		<script src="<?= asset('js/jquery.mousewheel.min.js') ?>"></script>
+		<script src="<?= asset('js/jquery.keyboard.extension-all.min.js') ?>"></script>
+		<script src="<?= asset('front/js/mandiri-keyboard.js') ?>"></script>
 	<?php endif; ?>
 	<script type="text/javascript">
 		$(window).on('load', function() {
@@ -365,7 +365,7 @@ endif;
 
 	<?php if (cek_koneksi_internet()): ?>
 	<!-- Form Wizard - jquery.smartWizard -->
-	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js') ?>"></script>
 	<?php endif ?>
 </body>
 </html>

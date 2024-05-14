@@ -49,6 +49,7 @@ $config = [
         LOKASI_LAMPIRAN_SURAT_DESA => [0775],
         LOKASI_TEMA_DESA           => [0775],
         LOKASI_UPLOAD              => [0775, 'htaccess1'],
+        LOKASI_FONT_DESA           => [0775, 'htaccess1', ['vendor/tecnickcom/tcpdf/fonts/helvetica.php']],
         LOKASI_FOTO_ARTIKEL        => [0775, 'htaccess1'],
         LOKASI_FOTO_BUKU_TAMU      => [0775, 'htaccess1'],
         LOKASI_DOKUMEN             => [0775, 'htaccess2'],
@@ -77,8 +78,8 @@ $config = [
         'storage/logs/'              => [0775, 'htaccess3'],
         'backup_inkremental/'        => [0775, 'htaccess3'],
         'assets/'                    => [0755, 'htaccess3'],
-        'assets/filemanager/'        => [0755, 'htaccess4'],
-        'assets/filemanager/config/' => [0755, 'htaccess4'],
+        'assets/kelola_file/'        => [0755, 'htaccess4'],
+        'assets/kelola_file/config/' => [0755, 'htaccess4'],
     ],
 
     'config' => <<<'EOS'
@@ -118,7 +119,7 @@ $config = [
         $db['default']['username'] = 'root';
         $db['default']['password'] = '';
         $db['default']['port']     = 3306;
-        $db['default']['database'] = 'umum';
+        $db['default']['database'] = 'premium';
         $db['default']['dbcollat'] = 'utf8_general_ci';
 
         /*

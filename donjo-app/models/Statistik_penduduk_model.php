@@ -99,11 +99,6 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
     public $judul_jumlah = 'PENERIMA';
     public $judul_belum  = 'BUKAN PENERIMA';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function select_per_kategori()
     {
         $this->filter();
@@ -163,11 +158,6 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
 {
     public $judul_jumlah = 'PENERIMA';
     public $judul_belum  = 'BUKAN PENERIMA';
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function select_per_kategori()
     {

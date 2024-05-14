@@ -1,0 +1,10 @@
+{
+    "private": true,
+    "scripts": {
+        "prettier-blade": "prettier resources/views/{**,**/**,**/**/**}.blade.php --write"
+    },
+    "devDependencies": {
+        "@shufo/prettier-plugin-blade": "^1.11.1",
+        "prettier": "^3.0.3"
+    }
+}

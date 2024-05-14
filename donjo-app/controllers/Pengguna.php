@@ -91,12 +91,14 @@ class Pengguna extends Admin_Controller
         ];
     }
 
-    public function update_password($request = [])
+    public function update_password()
     {
         $user = $this->validate_password($this->request);
 
         if ($user['status']) {
+            $this->session->change_password       = true;
             $this->session->force_change_password = false;
+
             redirect_with('success', $user['pesan']);
         }
 

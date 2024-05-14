@@ -36,7 +36,9 @@
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use voku\helper\AntiXSS;
@@ -48,7 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2405.0.0');
+define('VERSION', '2405.1.0');
 
 /**
  * PREMIUM
@@ -64,7 +66,7 @@ define('PREMIUM', false);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024050101');
+define('VERSI_DATABASE', '2024052351');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -361,7 +363,7 @@ function myErrorHandler($code, $message, $file, $line)
         $_SESSION['no_curl'] = 'y';
         echo '<strong>Apabila halamannya tidak tampil, coba di-refresh.</strong>';
         // Ulangi url yang memanggil fungsi tracker.
-        redirect(base_url() . 'index.php/' . $_SESSION['balik_ke']);
+        redirect(base_url("index.php/{$_SESSION['balik_ke']}"));
     }
     // Uncomment apabila melakukan debugging
     // else {
@@ -1421,6 +1423,35 @@ function sdgs()
     return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.<br>'];
 }
 
+function google_recaptcha()
+{
+    $ci = &get_instance();
+
+    // periksa koneksi
+    if (! cek_koneksi_internet()) {
+        return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
+    }
+
+    try {
+        $client = new Client([
+            'base_uri' => config_item('api_google_recaptcha'),
+            'timeout'  => 2.0,
+        ]);
+
+        $response = $client->request('POST', 'siteverify', [
+            'query' => [
+                'secret'   => setting('google_recaptcha_secret_key'),
+                'response' => trim($ci->input->post('g-recaptcha-response')),
+                'remoteip' => $ci->input->ip_address(),
+            ],
+        ]);
+    } catch (Exception $e) {
+        log_message('error', $e->getMessage());
+    }
+
+    return json_decode($response->getBody());
+}
+
 function menu_slug($url)
 {
     $CI = &get_instance();
@@ -1462,6 +1493,10 @@ function menu_slug($url)
 
             break;
 
+        case 'informasi_publik':
+            $url = 'informasi-publik';
+            break;
+
             /*
                 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
                 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
@@ -1469,7 +1504,6 @@ function menu_slug($url)
         case 'arsip':
         case 'data_analisis':
         case 'ambil_data_covid':
-        case 'informasi_publik':
         case 'load_aparatur_desa':
         case 'load_apbdes':
         case 'load_aparatur_wilayah':
@@ -1683,20 +1717,41 @@ if (! function_exists('getFormatIsian')) {
      * - Fungsi untuk mengembalikan format kode isian.
      *
      * @param mixed $kode_isian
+     * @param bool  $case_sentence (opsional) - Menentukan apakah harus mereturn semua kasus kalimat
      *
-     * @return array|object
+     * @return array
      */
-    function getFormatIsian($kode_isian)
+    function getFormatIsian($kode_isian, $case_sentence = false)
     {
-        $strtolower = strtolower($kode_isian);
+        $netral = str_replace(['[', ']'], '', $kode_isian);
+
+        if ($case_sentence) {
+            // jika gambar maka langsung kembalikan tanpa [ ]
+            if (preg_match('/^<img/', $kode_isian)) {
+                return [
+                    'normal' => $kode_isian,
+                ];
+            }
+            // NIK versi lama, banyak digunakan di template
+            if (strpos($netral, 'nik') !== false) {
+                $netral = ucfirst(uclast($netral));
+            }
+
+            return [
+                'normal' => '[' . $netral . ']',
+            ];
+        }
+
+        $strtolower = strtolower($netral);
         $ucfirst    = ucfirst($strtolower);
+        $suffix     = in_array($strtolower, ['terbilang', 'hitung']) ? '[ ]' : '';
 
         return [
-            'normal'  => '[' . ucfirst(uclast($kode_isian)) . ']',
-            'lower'   => '[' . $strtolower . ']',
-            'ucfirst' => '[' . $ucfirst . ']',
-            'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']',
-            'upper'   => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 1, 1)), 1, 1) . ']',
+            'normal'  => '[' . ucfirst(uclast($netral)) . ']' . $suffix,
+            'lower'   => '[' . $strtolower . ']' . $suffix,
+            'ucfirst' => '[' . $ucfirst . ']' . $suffix,
+            'ucwords' => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 2, 1)), 2, 1) . ']' . $suffix,
+            'upper'   => '[' . substr_replace($ucfirst, strtoupper(substr($ucfirst, 1, 1)), 1, 1) . ']' . $suffix,
         ];
     }
 }
@@ -1864,5 +1919,327 @@ if (! function_exists('bersihkan_xss')) {
         $antiXSS->removeEvilHtmlTags(['iframe']);
 
         return $antiXSS->xss_clean($str);
+    }
+}
+
+/**
+ * Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
+ * Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
+ *
+ * @param mixed|null $nomor
+ * @param mixed      $format
+ */
+function substitusiNomorSurat($nomor = null, $format = '')
+{
+    // tanpa panjang nomor surat
+    $format = case_replace('[nomor_surat]', $nomor, $format);
+
+    // jika terdapat panjang nomor surat
+    if (preg_match_all('/\[nomor_surat,\s*(\d+)\]/i', $format, $matches)) {
+        foreach ($matches[0] as $match) {
+            $parts         = explode(',', $match);
+            $panjang       = (int) trim(rtrim($parts[1], ']'));
+            $nomor_panjang = str_pad($nomor, $panjang, '0', STR_PAD_LEFT);
+            $format        = str_ireplace($match, $nomor_panjang, $format);
+        }
+    }
+
+    return $format;
+}
+
+function updateIndex($data)
+{
+    $result = [];
+    $index  = 2; // dimulai index 2 karena 1 untuk penduduk desa
+    if (! empty($data)) {
+        foreach ($data as $key => $value) {
+            $result[$index] = $value;
+            $index++;
+        }
+    }
+
+    return $result;
+}
+
+/**
+ * @param string $tanggal
+ *
+ * @return string
+ */
+if (! function_exists('formatTanggal')) {
+    function formatTanggal($tanggal = null)
+    {
+        if (null === $tanggal) {
+            return setting('ganti_data_kosong');
+        }
+
+        return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
+    }
+}
+
+if (! function_exists('daftar_statistik')) {
+    function daftar_statistik()
+    {
+        $data = [];
+        $data = collect(StatistikEnum::allStatistik())->map(static function ($items, $kategori) {
+            return collect($items)->map(static function ($item) {
+                return [
+                    'key'   => $item['key'],
+                    'slug'  => $item['slug'],
+                    'label' => $item['label'],
+                    'url'   => "data-statistik/{$item['slug']}",
+                ];
+            })->all();
+        })->all();
+        $kategori_bantuan = [
+            [
+                'key'   => 'bantuan_penduduk',
+                'slug'  => 'bantuan-penduduk',
+                'label' => 'Penerima Bantuan Penduduk',
+                'url'   => 'first/statistik/bantuan_penduduk',
+            ],
+            [
+                'key'   => 'bantuan_keluarga',
+                'slug'  => 'bantuan-keluarga',
+                'label' => 'Penerima Bantuan Keluarga',
+                'url'   => 'first/statistik/bantuan_keluarga',
+            ],
+        ];
+        $setiap_bantuan = Bantuan::all()->map(static function ($item) {
+            return [
+                'key'   => "50{$item->id}",
+                'slug'  => "50{$item->id}",
+                'label' => $item->nama,
+                'url'   => "first/statistik/50{$item->id}",
+            ];
+        })->toArray();
+        $data['bantuan'] = array_merge($kategori_bantuan, $setiap_bantuan);
+        $data['lainnya'] = [
+            [
+                'key'   => 'dpt',
+                'slug'  => 'dpt',
+                'label' => 'Calon Pemilih',
+                'url'   => 'first/dpt',
+            ],
+            [
+                'key'   => 'data-wilayah',
+                'slug'  => 'data-wilayah',
+                'label' => 'Populasi Per Wilayah',
+                'url'   => 'data-wilayah',
+            ],
+        ];
+
+        return $data;
+    }
+}
+
+if (! function_exists('isNestedArray')) {
+    function isNestedArray($array, $json = false)
+    {
+        if (is_array($array)) {
+            foreach ($array as $element) {
+                if ($json) {
+                    $element = json_decode($element);
+                }
+                if (is_array($element)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+if (! function_exists('getSuratBawaanTinyMCE')) {
+    function getSuratBawaanTinyMCE($url_surat = null)
+    {
+        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+        $list_data = collect(json_decode($list_data, true))
+            ->when($url_surat, static function ($collection) use ($url_surat) {
+                return $collection->where('url_surat', $url_surat);
+            })->map(static function ($item) {
+                return collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray();
+            });
+
+        return $list_data;
+    }
+}
+
+if (! function_exists('terjemahkanTerbilang')) {
+    function terjemahkanTerbilang($teks)
+    {
+        $pola = '/\[(terbilang|TeRbilang|Terbilang|TerbilanG|TErbilang)]\[(.+?)]/';
+
+        return preg_replace_callback($pola, static function ($matches) {
+            // jika ada - di depan, maka akan ditambahkan prefix depan yakni Minus
+            $prefix = $suffix = '';
+
+            if (strpos($matches[2], '-') === 0) {
+                $prefix = 'minus ';
+            }
+
+            if (preg_match('/[Rr][pP]/', $matches[2])) {
+                $suffix = ' rupiah';
+            }
+
+            $ke = $prefix . trim(to_word((int) preg_replace('/[^0-9]/', '', $matches[2]))) . $suffix;
+
+            return caseWord($matches[1], $ke);
+        }, $teks);
+    }
+}
+
+if (! function_exists('caseWord')) {
+    /**
+     * Mengubah teks sesuai dengan kondisi
+     *
+     * @param string $condition
+     * @param string $teks
+     *
+     * @return string
+     */
+    function caseWord($condition, $teks)
+    {
+        // Normal
+        if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
+            return $teks;
+        }
+
+        // Huruf kecil semua
+        if (ctype_lower($condition[0])) {
+            return strtolower($teks);
+        }
+
+        // Huruf besar semua
+        if (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
+            return strtoupper($teks);
+        }
+
+        // Huruf besar di awal kata
+        if (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
+            return ucwords(strtolower($teks));
+        }
+
+        // Huruf besar di awal kalimat
+        if (ctype_upper($condition[0])) {
+            return ucfirst(strtolower($teks));
+        }
+
+        // Return teks asli jika tidak sesuai kondisi
+        return $teks;
+    }
+}
+
+if (! function_exists('caseHitung')) {
+    function caseHitung($teks)
+    {
+        $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
+
+        return preg_replace_callback($pola, static function ($matches) {
+            $onlyNumberAndOperator = preg_replace('/[^0-9\+\-\(\)]/', '', $matches[2]);
+
+            $operasi = eval("return {$onlyNumberAndOperator};");
+
+            $ke = caseWord($matches[1], $operasi);
+
+            if (preg_match('/[Rr][pP]/', $matches[2])) {
+                // jika hasil operasinya -, maka minus berada di depan Rp. contohnya - Rp. 100.000
+                if (strpos($ke, '-') === 0) {
+                    $ke = str_replace('-', '- Rp. ', $ke);
+                } else {
+                    $ke = rupiah24($ke, 'Rp. ', 0);
+                }
+            }
+
+            return $ke;
+        }, $teks);
+    }
+}
+
+if (! function_exists('caseReplaceFoto')) {
+    function caseReplaceFoto($teks, $isian_foto = null, $ganti_dengan = null)
+    {
+        $pola = '/(<img src=")(.*?)(">)/';
+
+        if (empty($ganti_dengan)) {
+            return preg_replace($pola, '', $teks);
+        }
+
+        return preg_replace_callback($pola, static function ($matches) use ($isian_foto, $ganti_dengan) {
+            $cek1 = str_replace('"', '', explode(' ', $matches[2])[0]);
+            $cek2 = str_replace('"', '', explode(' ', preg_replace('/^.*src="/', '', $isian_foto))[0]);
+
+            if ($cek1 == $cek2) {
+                $allImg = str_replace($cek2, $ganti_dengan, $matches[0]);
+            }
+
+            return $allImg;
+        }, $teks);
+    }
+}
+
+if (! function_exists('usia')) {
+    /**
+     * Menghitung usia berdasarkan tanggal lahir
+     *
+     * @param string $tanggal_lahir
+     * @param string $tanggal_akhir
+     * @param string $format
+     *
+     * contoh format : $y Tahun $m Bulan $d Hari
+     *
+     * return string
+     */
+    function usia($tanggal_lahir, $tanggal_akhir = null, $format = '%y Tahun')
+    {
+        $tanggal_akhir = $tanggal_akhir ?? date('Y-m-d');
+        $tanggal_lahir = Carbon::parse($tanggal_lahir);
+        $tanggal_akhir = Carbon::parse($tanggal_akhir);
+        $usia          = $tanggal_lahir->diff($tanggal_akhir);
+
+        return $usia->format($format);
+    }
+}
+
+if (! function_exists('grup_kode_isian')) {
+    /**
+     * Membuat ulang kode isian berdasarkan masing-masing kategori
+     *
+     * @param array $kode_isian
+     * @param bool  $individu
+     *
+     * @return array
+     */
+    function grup_kode_isian($kode_isian, $individu = true)
+    {
+        return collect($kode_isian)->groupBy(static function ($item) {
+            return $item->kategori ?? 'individu';
+        })->map(static function ($items) {
+            return $items->map(static function ($item) {
+                return (array) $item;
+            });
+        })->when(! $individu, static function ($collection) {
+            return $collection->filter(static function ($item) {
+                return isset($item['kategori']) && $item['kategori'] !== 'individu';
+            });
+        })
+            ->toArray();
+    }
+}
+
+if (! function_exists('get_hari')) {
+    /**
+     * Mengembalikan nama hari berdasarkan tanggal
+     *
+     * @param string $tanggal
+     *
+     * @return string
+     */
+    function get_hari($tanggal)
+    {
+        $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
+
+        return $hari->dayName;
     }
 }

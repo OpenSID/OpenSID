@@ -2,8 +2,8 @@
 	<section class="content-header">
 		<h1><?= empty($data) ? 'Tambah' : 'Ubah'?> Klasifikasi Surat</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url() . $this->controller . '/index'?>"><i class="fa fa-dashboard"></i> Daftar Klasifikasi Surat</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
+			<li><a href="<?= site_url("{$this->controller}/index") ?>"><i class="fa fa-dashboard"></i> Daftar Klasifikasi Surat</a></li>
 			<li class="active"><?= empty($data) ? 'Tambah' : 'Ubah'?> Klasifikasi Surat</li>
 		</ol>
 	</section>
@@ -12,10 +12,10 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
-            <div class="box-header with-border">
-							<a href="<?= site_url() . $this->controller . '/index/' . $kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+						<div class="box-header with-border">
+							<a href="<?= site_url("{$this->controller}/index/{$kat}") ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Klasifikasi Surat
-            	</a>
+							</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">

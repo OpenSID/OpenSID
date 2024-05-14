@@ -3,10 +3,10 @@
   <head>
     <title>Cetak Laporan Bulanan</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+    <link href="<?= asset('css/report.css') ?>" rel="stylesheet" type="text/css">
     <!-- Untuk ubahan style desa -->
     <?php if (is_file('desa/css/siteman.css')): ?>
-      <link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+      <link type='text/css' href="<?= base_url('desa/css/siteman.css') ?>" rel='Stylesheet' />
     <?php endif; ?>
   </head>
   <style type="text/css">

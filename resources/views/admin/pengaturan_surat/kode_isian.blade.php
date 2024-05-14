@@ -6,8 +6,10 @@
                 <td>#</td>
                 <td>TIPE</td>
                 <td>NAMA</td>
+                <td>LABEL</td>
                 <td>PLACEHOLDER</td>
                 <td class="padat">HARUS DIISI</td>
+                <td>KOLOM</td>
                 <td>ATRIBUT</td>
                 <td class="isian-pilihan">PILIHAN</td>
                 <td>AKSI</td>
@@ -27,37 +29,37 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
-                                value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
+                        <td><input type="text" name="nama_kode[]" class="form-control input-sm isian" value="{{ $value->nama }}" placeholder="Masukkan Nama" @disabled($value->tipe == '')>
                         </td>
-                        <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
-                                value="{{ $value->deskripsi }}" placeholder="Masukkan Placeholder"
-                                @disabled($value->tipe == '')>
+                        <td><input type="text" name="label_kode[]" class="form-control input-sm isian" value="{{ $value->label ?? '' }}" placeholder="Masukkan Label" @disabled($value->tipe == '')>
+                        </td>
+                        <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian" value="{{ $value->deskripsi }}" placeholder="Masukkan Placeholder" @disabled($value->tipe == '')>
                         </td>
                         <td class="text-center">
-                            <input class="isian-required" type="checkbox" value="1" @checked($value->required)
-                                @disabled($value->tipe == '') name="required_kode[{{ $key }}]">
+                            <input class="isian-required" type="checkbox" value="1" @checked($value->required) @disabled($value->tipe == '') name="required_kode[{{ $key }}]">
+                        </td>
+                        <td class="text-center">
+                            <select class="form-control input-sm" name="kolom[]">
+                                <option value="" selected>Pilihan lebar kolom</option>
+                                @foreach (range(1, 12) as $item)
+                                    <option value="{{ $item }}" @selected($item == $value->kolom)>col-{{ $item }}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
-                            <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
-                                placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
+                            <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5" placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
                         </td>
                         <td>
-                            <textarea
-                                class="form-control input-sm isian isian-pilihan {{ $value->tipe == 'select-otomatis' || $value->tipe == 'select-manual' ? 'hide' : '' }}"
-                                name="pilihan_kode[]" rows="5" placeholder="Masukkan Pilihan"
-                                {{ $value->tipe != 'select-otomatis' || $value->tipe != 'select-manual' ? 'disabled' : '' }}>{{ json_encode($value->pilihan) }}
+                            <textarea class="form-control input-sm isian isian-pilihan {{ $value->tipe == 'select-otomatis' || $value->tipe == 'select-manual' ? 'hide' : '' }}" name="pilihan_kode[]" rows="5" placeholder="Masukkan Pilihan"
+                                {{ $value->tipe != 'select-otomatis' || $value->tipe != 'select-manual' ? 'disabled' : '' }}
+                            >{{ json_encode($value->pilihan) }}
                             </textarea>
-                            <select
-                                class="{{ $value->tipe == 'select-manual' ? 'select2' : 'hide' }} form-control selectinput-sm isian select-manual"
-                                name="pilihan_kode[{{ $jumlah_isian }}][]" multiple placeholder="Masukkan Pilihan"
-                                @disabled($value->tipe == '')>
+                            <select class="{{ $value->tipe == 'select-manual' ? 'select2' : 'hide' }} form-control selectinput-sm isian select-manual" name="pilihan_kode[{{ $jumlah_isian }}][]" multiple placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
                                 @foreach ($value->pilihan as $item)
                                     <option value="{{ $item }}" selected>{{ $item }}</option>
                                 @endforeach
                             </select>
-                            <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')"
-                                name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
+                            <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')" name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
                                 <option value="" selected>Pilihan Referensi</option>
                                 @foreach (\App\Enums\ReferensiEnum::all() as $label => $val)
                                     <option value="{{ $val }}" @selected($val == $value->refrensi)>
@@ -66,9 +68,13 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td width="1%">
-                            <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                    class='fa fa-trash-o'></i></button>
+                        <td class="padat">
+                            <div class="btn-group-vertical">
+                                <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
+                                <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
+                                <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                                <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="{{ $value->kaitkan_kode ?? '' }}" />
+                            </div>
                         </td>
                     </tr>
                 @endif
@@ -85,29 +91,27 @@
                             @endforeach
                         </select>
                     </td>
-                    <td><input type="text" name="nama_kode[]" class="form-control input-sm isian"
-                            placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
-                    <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian"
-                            placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>
-                    <td class="text-center"><input class="isian-required" type="checkbox" value="1"
-                            @checked($value->required) @disabled($value->tipe == '')
-                            name="required_kode[{{ $jumlah_isian }}]"></td>
-                    <td>
-                        <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5"
-                            placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
+                    <td><input type="text" name="nama_kode[]" class="form-control input-sm isian" placeholder="Masukkan Nama" @disabled($value->tipe == '')></td>
+                    <td><input type="text" name="label_kode[]" class="form-control input-sm isian" placeholder="Masukkan Label" @disabled($value->tipe == '')>
+                    </td>
+                    <td><input type="text" name="deskripsi_kode[]" class="form-control input-sm isian" placeholder="Masukkan Placeholder" @disabled($value->tipe == '')></td>
+                    <td class="text-center"><input class="isian-required" type="checkbox" value="1" @checked($value->required) @disabled($value->tipe == '') name="required_kode[{{ $jumlah_isian }}]"></td>
+                    <td class="text-center">
+                        <select class="form-control input-sm" name="kolom[]">
+                            <option value="" selected>Pilihan lebar</option>
+                            @foreach (range(1, 12) as $item)
+                                <option value="{{ $item }}">col-{{ $item }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td>
-                        <textarea class="form-control input-sm isian isian-pilihan  @display($value->tipe != 'select-manual')" name="pilihan_kode[]" rows="5"
-                            placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ (string) $value->atribut }}</textarea>
-                        <select class="form-control input-sm isian select-manual @display($value->tipe == 'select-manual')"
-                            name="pilihan_kode[{{ $jumlah_isian }}][]" multiple placeholder="Masukkan Pilihan"
-                            @disabled($value->tipe == '')>
-                            {{-- @foreach (\App\Enums\ReferensiEnum::all() as $key => $value)
-                        <option value="{{ $value }}">{{ $key }}</option>
-                        @endforeach --}}
+                        <textarea class="form-control input-sm isian isian-atribut" name="atribut_kode[]" rows="5" placeholder="Masukkan Atribut" @disabled($value->tipe == '')>{{ $value->atribut }}</textarea>
+                    </td>
+                    <td>
+                        <textarea class="form-control input-sm isian isian-pilihan  @display($value->tipe != 'select-manual')" name="pilihan_kode[]" rows="5" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ (string) $value->atribut }}</textarea>
+                        <select class="form-control input-sm isian select-manual @display($value->tipe == 'select-manual')" name="pilihan_kode[{{ $jumlah_isian }}][]" multiple placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
                         </select>
-                        <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')"
-                            name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
+                        <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')" name="referensi_kode[]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
                             <option value="" selected>Pilihan Referensi</option>
                             @foreach (\App\Enums\ReferensiEnum::all() as $key => $value)
                                 <option value="{{ $value }}">{{ $key }}</option>
@@ -115,48 +119,47 @@
                         </select>
                     </td>
                     <td class="padat">
-                        <button type="button" class="btn btn-danger btn-sm hapus-kode"><i
-                                class="fa fa-trash-o"></i></button>
+                        <div class="btn-group-vertical">
+                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="" />
+                        </div>
                     </td>
                 </tr>
             @endif
         </tbody>
     </table>
-    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="utama"><i
-            class="fa fa-plus"></i></button>
+    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="utama"><i class="fa fa-plus"></i></button>
 </div>
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // var counter = $(".duplikasi:last").data("id");
+            var counter = $(".duplikasi:last").data("id");
             // $("#gandakan-" + counter).find("button").hide();
+            // default label = nama
+            let pindahKodeElm, kaitkanKodeElm
+
+            $('input[name="nama_kode[]"]').on('change', function(e) {
+                $(this).closest('tr').find('input[name="label_kode[]"]').val($(this).val())
+            })
+            $('input[name^=kategori_nama_kode]').on('change', function(e) {
+                $(this).closest('tr').find('input[name^=kategori_label_kode]').val($(this).val())
+            })
+
             $('.tambah-kode').on('click', function(e) {
                 var type = this.dataset.type;
-                console.log(type);
-                var kategori = this.dataset.kategori;
+                let _tabContent = $(this).closest('.tab-pane')
+                var kategori = _tabContent.attr('id').substr(4)
                 var editElm;
-                if (type == 'utama') {
-                    var cloneTarget = 'gandakan'
-                    var trElements = document.querySelectorAll("#form-utama table tr.duplikasi");
-                    var lastTrElement = trElements[trElements.length - 1];
-                    var dataId = lastTrElement.getAttribute("data-id");
-                    var counter = dataId;
-                } else {
-                    var trElements = document.querySelectorAll(`#tab-${kategori} table tr.duplikasi`);
-                    var lastTrElement = trElements[trElements.length - 1];
-                    var dataId = lastTrElement.getAttribute("data-id");
-                    var counter = dataId;
-                    var cloneTarget = type
-                }
-                $("#gandakan-" + counter).find("button").hide();
-                console.log('before : ' + counter);
-                counter++;
-                // console.log(cloneTarget);
-                console.log('after : ' + counter);
-                $(`#${cloneTarget}-0`).clone(true)
+                let tbody = $(this).prev('table').find('tbody')
+                let cloneTarget = tbody.find('tr:last')
+
+                let counter = new Date().getTime()
+                cloneTarget.clone(true)
                     .map(function() {
                         editElm = $(this)
-                            .attr('id', `${cloneTarget}-` + counter)
+                            .attr('id', counter)
                             .attr('data-id', counter)
                             .find('select')
                             .end();
@@ -179,44 +182,34 @@
                             elselect2.removeAttribute('data-select2-id')
                         } else if (editElm[0].querySelector('.select-manual') != null) {
                             var elselect2 = element.querySelector('.select-manual')
-                            console.log(elselect2);
+
                             var fullname = `pilihan_kode[${counter + 1}][]`
                             if (type != 'utama') {
                                 fullname = `kategori_pilihan_kode[${kategori}][${counter + 1}][]`
-                                console.log(fullname);
                             }
                             elselect2.name = fullname
                         }
                         return editElm;
                     });
 
-                // ketika row dihapus, tidak bisa tambah baru
-                if ($(`#${cloneTarget}-` + (counter - 1)).length) {
-                    // stuck disini, maybe cek perkondisian
-                    console.log('disini');
-                    $(`#${cloneTarget}-` + (counter - 1)).after(editElm);
-                } else {
-                    console.log($(`#${cloneTarget}-${counter}`));
-                    $(`#${cloneTarget}-${counter}`).after(editElm);
-                }
                 var req_name = `required_kode[${counter}]`
                 if (type != 'utama') {
                     req_name = `kategori_required_kode[${kategori}][${counter}]`
-                    console.log(req_name);
                 }
-                $(`#${cloneTarget}-` + counter + " option:selected").removeAttr('selected');
-                $(`#${cloneTarget}-` + counter).find('input').val('');
-                $(`#${cloneTarget}-` + counter).find('select').change(0);
-                $(`#${cloneTarget}-` + counter).find('textarea').val('');
-                $(`#${cloneTarget}-` + counter).find('.isian').prop("disabled", true);
-                $(`#${cloneTarget}-` + counter).find('.isian-required')
+                editElm.find("option:selected").removeAttr('selected');
+                editElm.find('input').val('');
+                editElm.find('select').change(0);
+                editElm.find('textarea').val('');
+                editElm.find('.isian').prop("disabled", true);
+                editElm.find('.isian-required')
                     .prop("checked", false)
                     .prop("disabled", true)
                     .attr('value', '1')
                     .attr('name', req_name);
 
-                $('.duplikasi').find("button").show();
-                $(`#${cloneTarget}-` + counter).find("button").hide();
+                tbody.find("button").show();
+                editElm.find("button").hide();
+                tbody.append(editElm)
             });
 
             // pakai data-type selector
@@ -225,20 +218,17 @@
             });
 
             $('.pilih_tipe').on('change', function() {
-                // if ($(this).hasClass('kategori')) {
-
-                // }
                 var tipe = $(this).val();
                 var atribut = '';
                 var option = '{}';
                 var parents = $(this).parents('.duplikasi');
-                console.log(parents);
                 var isian_atribut = parents.find('.isian-atribut');
                 var isian_pilihan = parents.find('.isian-pilihan').not('.select-manual');
                 var isian_manual = parents.find('.select-manual');
                 var isian_referensi = parents.find('.isian-referensi');
                 var isian_required = parents.find('.isian-required');
                 var isian = parents.find('.isian');
+                var pindah_kode = parents.find('.pindah-kode');
 
                 if (tipe == '') {
                     atribut = 'Masukkan Atribut';
@@ -250,6 +240,8 @@
 
                     isian_manual.addClass('hide');
                     isian_manual.removeClass('required');
+
+                    // pindah_kode.addClass('hide');
                 } else {
                     isian.prop("disabled", false);
                     isian_required.prop("disabled", false);
@@ -258,6 +250,8 @@
                     isian_referensi.addClass('hide');
                     isian_manual.addClass('hide');
                     isian_manual.removeClass('required');
+
+                    // pindah_kode.removeClass('hide');
 
                     if (tipe == 'select-manual') {
                         atribut = 'size="5"';
@@ -375,6 +369,97 @@
                 });
             }
 
+            function pindahkanKodeIsian(elm) {
+                let _tr = pindahKodeElm.closest('tr')
+                let _modal = $(elm).closest('.modal-dialog')
+                let _tabSelected = _modal.find('.modal-body select').val()
+                let _idAsal = _tr.closest('.tab-pane').attr('id')
+                let _tabAsal = $('#form-isian #tabs').find('li>a[href="#' + _idAsal + '"]').closest('li')
+                let _tabTujuan = $('#form-isian #tabs').find('li>a[href="' + _tabSelected + '"]').closest('li')
+                let _nameElm, _nameElmBaru, _namaKodeUtama
+
+                // sesuaikan nama element, untuk kategori menggunakan kombinasi nama kategori_{nama_element}[{nama_kategori}][]
+                _tr.find('input, select, textarea').each(function() {
+                    _nameElm = $(this).attr('name')
+                    if (_nameElm) {
+                        if (_tabAsal.attr('data-name') == 'utama') {
+                            // tujuan pasti ke kategori
+                            _namaKodeUtama = _nameElm.split('[')[0]
+                            _nameElmBaru = `kategori_${_namaKodeUtama}[${_tabTujuan.attr('data-name')}]${_nameElm.substr(_namaKodeUtama.length)}`
+                        } else {
+                            if (_tabTujuan.attr('data-name') == 'utama') {
+                                _nameElmBaru = _nameElm.replace('kategori_', '').replace('[' + _tabAsal.attr('data-name') + ']', '')
+                            } else {
+                                // antar kategori
+                                _nameElmBaru = _nameElm.replace('[' + _tabAsal.attr('data-name') + ']', '[' + _tabTujuan.attr('data-name') + ']')
+                            }
+                        }
+
+                        $(this).attr('name', _nameElmBaru)
+                    }
+
+                })
+                _tr.appendTo($(_tabSelected).find('table.kode-isian tbody'))
+                _modal.find('button.close').click()
+                $('#form-isian #tabs').find('li>a[href="' + _tabSelected + '"]').click()
+            }
+
+            function tambahKondisiIsian(elm) {
+                let _modal = $(elm).closest('.modal-dialog')
+                var td = kaitkanKodeElm.closest('td')
+                var tr = td.closest('tr')
+                var tipeKode = tr.find('select.pilih_tipe').val()
+                var kaitkanData = td.find('input.kaitkan').val()
+                var tbody = tr.closest('tbody')
+                var optionIsian = [],
+                    optionKodeIsianLain = []
+                var isiPilihanManual = tr.find('select.select-manual').val()
+                for (let i in isiPilihanManual) {
+                    optionIsian.push(`<option>${isiPilihanManual[i]}</option>`)
+                }
+                tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
+                    optionKodeIsianLain.push(`<option>${$(this).val()}</option>`)
+                })
+                var sectionKondisi =
+                    `<div class="panel panel-default isian" style="margin-top:5px">
+                    <div class="panel-heading">
+                        Kondisi
+                        <button type="button" onclick="$(this).closest('.panel').remove()" class="text-danger pull-right" data-dismiss="panel" aria-label="Close">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label">Nilai Kode Isian</label>
+                            <select name="nilai_isian" class="select2 form-control" multiple>${optionIsian.join('')}</select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Kode Isian</label>
+                            <select name="kode_isian_terkait" class="select2 form-control" multiple>${optionKodeIsianLain}</select>
+                        </div>
+                    </div>
+                </div>`
+                _modal.find('.modal-body').append(sectionKondisi)
+                _modal.find('select.select2').select2()
+            }
+
+            function kaitkanKodeIsian(elm) {
+                let _modal = $(elm).closest('.modal-dialog')
+                var td = kaitkanKodeElm.closest('td')
+                var tr = td.closest('tr')
+                var data = []
+                _modal.find('.panel.isian').each(function() {
+                    data.push({
+                        'nilai_isian': $(this).find('select[name=nilai_isian]').val(),
+                        'kode_isian_terkait': $(this).find('select[name=kode_isian_terkait]').val(),
+                        'lampiran_terkait': $(this).find('select[name=lampiran_terkait]').val(),
+                    })
+                })
+
+                td.find('input.kaitkan').val(JSON.stringify(data))
+                _modal.find('button.close').click()
+            }
+
             loadSelect2();
 
             $("#dragable-form-utama").sortable({
@@ -382,6 +467,113 @@
                 placeholder: 'ui-state-highlight',
                 items: '.ui-sortable-handle'
             }).disableSelection();
+
+            $('.pindah-kode').on('click', function() {
+                pindahKodeElm = $(this)
+                $('#pindah_kode_modal').modal('show');
+            });
+
+            $('.pindahkan-btn').on('click', function() {
+                pindahkanKodeIsian($(this))
+            })
+
+            $('#pindah_kode_modal').on('show.bs.modal', function(event) {
+                var tabs = $('#form-isian #tabs').find('li')
+                var tabPaneId = pindahKodeElm.closest('.tab-pane').attr('id')
+
+                var content = ['<select class="form-control">']
+                var modal = $(this);
+                tabs.each(function() {
+                    if (!$(this).find('a[href="#' + tabPaneId + '"]').length) {
+                        content.push(`<option value="${$(this).find('a').attr('href')}">${$(this).find('a').text()}</option>`)
+                    }
+                })
+                content.push('</select>')
+                modal.find('.modal-body').html(content.join('')); // Set modal content
+            });
+
+            $('.kaitkan-kode').on('click', function() {
+                kaitkanKodeElm = $(this)
+                $('#kaitkan_kode_modal').modal('show');
+            });
+
+            $('.kaitkan-btn').on('click', function() {
+                kaitkanKodeIsian($(this))
+            })
+
+            $('#kaitkan_kode_modal').on('show.bs.modal', function(event) {
+                var td = kaitkanKodeElm.closest('td')
+                var tr = td.closest('tr')
+                var tipeKode = tr.find('select.pilih_tipe').val()
+                var kaitkanData = td.find('input.kaitkan').val()
+                var tbody = tr.closest('tbody')
+                var content = ['<button type="button" class="btn btn-sm btn-primary tambah-kondisi-btn">Tambahkan Kondisi Baru</button>']
+                var modal = $(this);
+                if (tipeKode != 'select-manual') {
+                    modal.find('.modal-body').html('Hanya bisa mengaitkan dengan tipe Pilihan (Kustom) '); // Set modal content
+                    return
+                }
+                var optionIsian = [],
+                    optionKodeIsianLain = []
+                var isiPilihanManual = tr.find('select.select-manual').val()
+                if (!$.isEmptyObject(kaitkanData)) {
+                    let sectionKondisi, selected, lampirans = $('#pengaturan-umum select[name="lampiran[]"]').val(),
+                        jsonDataKaitkan = JSON.parse(kaitkanData)
+                    for (let i in jsonDataKaitkan) {
+                        optionIsian = [], optionKodeIsianLain = [], optionLampiran = []
+                        for (let j in isiPilihanManual) {
+                            selected = jsonDataKaitkan[i]['nilai_isian'].includes(isiPilihanManual[j]) ? 'selected' : ''
+                            optionIsian.push(`<option ${selected}>${isiPilihanManual[j]}</option>`)
+                        }
+
+                        for (lampiran of lampirans) {
+                            selected = (jsonDataKaitkan[i]['lampiran_terkait'] ?? []).includes(lampiran) ? 'selected' : ''
+                            optionLampiran.push(`<option ${selected}>${lampiran}</option>`)
+                        }
+
+                        tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
+                            selected = jsonDataKaitkan[i]['kode_isian_terkait'].includes($(this).val()) ? 'selected' : ''
+                            optionKodeIsianLain.push(`<option ${selected}>${$(this).val()}</option>`)
+                        })
+
+                        sectionKondisi =
+                            `<div class="panel panel-default isian" style="margin-top:5px">
+                            <div class="panel-heading">
+                                Kondisi
+                                <button type="button" onclick="$(this).closest('.panel').remove()" class="text-danger pull-right" data-dismiss="panel" aria-label="Close">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="control-label">Nilai Kode Isian</label>
+                                    <select name="nilai_isian" class="select2 form-control" multiple>${optionIsian.join('')}</select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Kode Isian</label>
+                                    <select name="kode_isian_terkait" class="select2 form-control" multiple>${optionKodeIsianLain}</select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Lampiran</label>
+                                    <select name="lampiran_terkait" class="select2 form-control" multiple>${optionLampiran}</select>
+                                </div>
+                            </div>
+                        </div>`
+
+                        content.push(sectionKondisi)
+                    }
+                }
+
+                modal.find('.modal-body').html(content.join('')); // Set modal content
+                modal.find('button.tambah-kondisi-btn').on('click', function() {
+                    tambahKondisiIsian($(this))
+                })
+                if ($.isEmptyObject(kaitkanData)) {
+                    modal.find('button.tambah-kondisi-btn').click()
+                }
+
+                modal.find('select.select2').select2()
+            });
         })
     </script>
 @endpush

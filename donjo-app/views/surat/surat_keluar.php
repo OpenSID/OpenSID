@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1><?= $title ?></h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li class="active"><?= $title ?></li>
         </ol>
     </section>
@@ -92,12 +92,13 @@
                                                                 <?php endif; ?>
                                                                 <th>Jenis Surat</th>
                                                                 <?php if ($o == 4) : ?>
-                                                                    <th nowrap><a href="<?= site_url("keluar/index/{$p}/3") ?>">Nama Penduduk <i class='fa fa-sort-asc fa-sm'></i></a></th>
+                                                                    <th nowrap><a href="<?= site_url("keluar/index/{$p}/3") ?>">Terlapor <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                                                 <?php elseif ($o == 3) : ?>
-                                                                    <th nowrap><a href="<?= site_url("keluar/index/{$p}/4") ?>">Nama Penduduk <i class='fa fa-sort-desc fa-sm'></i></a></th>
+                                                                    <th nowrap><a href="<?= site_url("keluar/index/{$p}/4") ?>">Terlapor <i class='fa fa-sort-desc fa-sm'></i></a></th>
                                                                 <?php else : ?>
-                                                                    <th nowrap><a href="<?= site_url("keluar/index/{$p}/3") ?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
+                                                                    <th nowrap><a href="<?= site_url("keluar/index/{$p}/3") ?>">Terlapor <i class='fa fa-sort fa-sm'></i></a></th>
                                                                 <?php endif; ?>
+                                                                <th nowrap>Pemohon</th>
                                                                 <th nowrap>Keterangan</th>
                                                                 <th nowrap>Ditandatangani Oleh</th>
                                                                 <?php if ($o == 6) : ?>
@@ -197,6 +198,23 @@
                                                                             <strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
                                                                             <strong>NIK: </strong><?= $data['nik_non_warga']; ?>
                                                                         <?php endif; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                    <?php if ($data['pemohon']) : ?>
+                                                                        <?php if (json_decode($data['pemohon'])->id_pend) : ?>
+                                                                            <?= json_decode($data['pemohon'])->nama; ?>
+                                                                        <?php else : ?>
+                                                                            <strong>Non-warga: </strong><?= json_decode($data['pemohon'])->nama; ?><br>
+                                                                            <strong>NIK: </strong><?= json_decode($data['pemohon'])->nik; ?>
+                                                                        <?php endif; ?>
+                                                                    <?php else: ?>
+                                                                        <?php if ($data['nama']) : ?>
+                                                                            <?= $data['nama']; ?>
+                                                                        <?php elseif ($data['nama_non_warga']) : ?>
+                                                                            <strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+                                                                            <strong>NIK: </strong><?= $data['nik_non_warga']; ?>
+                                                                        <?php endif; ?>
+                                                                    <?php endif; ?>
                                                                     </td>
                                                                     <td><?= $data['keterangan'] ?? '-' ?></td>
                                                                     <td><?= $data['pamong_nama'] ?></td>
@@ -369,7 +387,7 @@
                     formData.append('id', id);
                     formData.append('passphrase', passphrase);
 
-                    return fetch('<?= site_url('api/tte/sign_visible') ?>', {
+                    return fetch('<?= site_url('external_api/tte/sign_visible') ?>', {
                         method: 'post',
                         body: formData,
                     }).then(response => {

@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Form Artikel <?= $kategori['kategori']; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('web'); ?>"> Daftar Artikel</a></li>
 			<li class="active">Form Artikel</li>
 		</ol>
@@ -28,7 +28,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Isi Artikel</label>
-								<textarea name="isi" data-filemanager='<?= json_encode(['external_filemanager_path' => base_url('assets/filemanager/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $this->session->fm_key]) ?>' class="form-control input-sm required" style="height:350px;"><?= $artikel['isi'] ?></textarea>
+								<textarea name="isi" data-filemanager='<?= json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $this->session->fm_key]) ?>' class="form-control input-sm required" style="height:350px;"><?= $artikel['isi'] ?></textarea>
 							</div>
 						</div>
 					</div>
@@ -173,7 +173,7 @@
 								<?php if ($artikel['dokumen']) : ?>
 									<div class="form-group">
 										<div class="mailbox-attachment-info bg-black">
-											<a href="<?= base_url() . LOKASI_DOKUMEN . $artikel['dokumen'] ?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
+											<a href="<?= base_url(LOKASI_DOKUMEN . $artikel['dokumen']) ?>" class="mailbox-attachment-name"><i class="fa fa-paperclip"></i> Unduh Dokumen</a>
 										</div>
 									</div>
 								<?php endif; ?>
@@ -244,7 +244,7 @@
 		toolbar3: "| laporan_keuangan | penerima_bantuan | sotk",
 		image_advtab: true,
 		external_plugins: {
-			"filemanager": "<?= asset('filemanager/plugin.min.js') ?>"
+			"filemanager": "<?= asset('kelola_file/plugin.min.js') ?>"
 		},
 		templates: [{
 				title: 'Test template 1',

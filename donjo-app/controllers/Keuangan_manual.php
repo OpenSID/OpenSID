@@ -195,7 +195,12 @@ class Keuangan_manual extends Admin_Controller
         $thn_apbdes               = bilangan($this->input->post('kode'));
         $this->session->set_tahun = $thn_apbdes;
         $data                     = $this->keuangan_manual_model->salin_anggaran_tpl($thn_apbdes);
-        echo json_encode($data);
+
+        if ($data) {
+            return json($data);
+        }
+
+        return json("Duplikat tahun: {$thn_apbdes}", 400);
     }
 
     // data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor

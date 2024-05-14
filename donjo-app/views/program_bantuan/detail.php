@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>Program Bantuan <?= $nama_excerpt; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
 			<li class="active">Program Bantuan <?= $nama_excerpt; ?></li>
 		</ol>

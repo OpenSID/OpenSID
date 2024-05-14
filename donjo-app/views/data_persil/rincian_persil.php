@@ -8,7 +8,7 @@
     <section class="content-header">
         <h1>Rincian Persil</h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
             <li class="active">Rincian Persil</li>
         </ol>
@@ -110,7 +110,6 @@
         </div>
     </section>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function() {
         // tampilkan map
@@ -122,12 +121,7 @@
             var zoom = 4;
         <?php endif; ?>
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-        };
-
-        var peta_area = L.map('map', options).setView(posisi, zoom);
+        var peta_area = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
         //Menampilkan BaseLayers Peta
         var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
