@@ -137,6 +137,7 @@ define('STAT_LAINNYA', serialize([
     'data-vaksinasi'          => 'Vaksin',
     'pemerintah'              => '[Pemerintah Desa]',
     'layanan-mandiri/beranda' => 'Layanan Mandiri',
+    'inventaris'              => 'Inventaris',
 ]));
 
 // Jabatan Kelompok

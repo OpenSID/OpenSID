@@ -1520,6 +1520,7 @@ function menu_slug($url)
         case 'peraturan-desa':
         case 'pemerintah':
         case 'layanan-mandiri':
+        case 'inventaris':
             break;
 
         default:

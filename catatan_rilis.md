@@ -8,7 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#7899](https://github.com/OpenSID/OpenSID/issues/7899) Penambahan pengaturan icon pembangunan yang ditampilkan pada peta.
 3. [#6287](https://github.com/OpenSID/OpenSID/issues/6287) Penambahan opsi keperluan buku tamu yang dapat diketik manual.
 4. [#7868](https://github.com/OpenSID/OpenSID/issues/7868) Penambahan nomor rumah tanggan pada form input rumah tangga.
-5. [#7829](https://github.com/OpenSID/OpenSID/issues/7829) Penambahan pengaturan jumlah dan urutan gambar galeri yang ditampilkan pada web widget.
+5. [#7829](https://github.com/OpenSID/OpenSID/issues/7829) Penambahan pengaturan jumlah dan urutan gambar galeri yang ditampilkan pada  widget website.
 6. [#4522](https://github.com/OpenSID/OpenSID/issues/4522) Penambahan impor GPX/KML lokasi penduduk.
 7. [#5808](https://github.com/OpenSID/OpenSID/issues/5808) Penambahan tambah/ubah lokasi penduduk, keluarga dan rumah tangga.
 8. [#7895](https://github.com/OpenSID/OpenSID/issues/7895) Penambahan grup dan hak akses bawaan sesuai tupoksi perangkat desa.
@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#5075](https://github.com/OpenSID/OpenSID/issues/5075) Penambahan modul produk pada lapak layanan mandiri warga.
 14. [#5129](https://github.com/OpenSID/OpenSID/issues/5129) Penambahan referensi pendidikan yang sedang ditempuh.
 15. [#7882](https://github.com/OpenSID/OpenSID/issues/7882) Penambahan pengaturan dan alur pengelompokan penomoran surat berdasarkan kode klasifikasi surat.
+16. [#3362](https://github.com/OpenSID/OpenSID/issues/3362) Penambahan inventaris pada halaman website.
 
 
 #### BUG
@@ -33,7 +34,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#7923](https://github.com/OpenSID/OpenSID/issues/7923) Perbaikan urutan anggota keluarga pengikut pada surat keterangna pindah.
 9. [#7921](https://github.com/OpenSID/OpenSID/issues/7921) Perbaikan form tambah penduduk.
 10. [#7929](https://github.com/OpenSID/OpenSID/issues/7929) Perbaikan tambah/ubah grup penggun.
-11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip web.
+11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip website.
 12. [#7927](https://github.com/OpenSID/OpenSID/issues/7927) Perbaikan route halaman verifikasi email dan telegram.
 13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
 14. [#7911](https://github.com/OpenSID/OpenSID/issues/7911) Perbaikan impor data penduduk menggunakan format BIP.

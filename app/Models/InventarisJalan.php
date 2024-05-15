@@ -41,7 +41,7 @@ use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class InventarisAsset extends BaseModel
+class InventarisJalan extends BaseModel
 {
     use ConfigId;
 
@@ -50,9 +50,9 @@ class InventarisAsset extends BaseModel
      *
      * @var string
      */
-    protected $table = 'inventaris_asset';
+    protected $table = 'inventaris_jalan';
 
-        /**
+    /**
      * The guarded with the model.
      *
      * @var array
