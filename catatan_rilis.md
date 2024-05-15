@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7756](https://github.com/OpenSID/OpenSID/issues/7756) Penyesuaian modul Buku Agenda - Surat Masuk menggunakan ORM dan Blade.
 7. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul Informasi Publik menggunakan ORM dan Blade.
 8. [#7932](https://github.com/OpenSID/OpenSID/issues/7932) Penyesuaian dan optimasi pada query yang berulang.
+9. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul OpenDK > Sinkronisasi menggunakan ORM dan Blade.
 
 
 #### KEAMANAN

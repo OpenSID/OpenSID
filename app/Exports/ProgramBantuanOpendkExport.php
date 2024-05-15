@@ -35,55 +35,65 @@
  *
  */
 
-namespace App\Models;
+namespace App\Exports;
 
-use App\Traits\ConfigId;
+use App\Models\Bantuan;
+use Rap2hpoutre\FastExcel\FastExcel;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class LogHapusPenduduk extends BaseModel
+class ProgramBantuanOpendkExport
 {
-    use ConfigId;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'log_hapus_penduduk';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    protected $casts = [
-        'deleted_at' => 'datetime:Y-m-d H:i:s',
+    protected $fields = [
+        'id',
+        'nama',
+        'sasaran',
+        'ndesc',
+        'sdate',
+        'edate',
+        'status',
+        'asaldana',
     ];
 
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    // protected $with = ['penduduk'];
-
-    public function penduduk()
+    public function filename($name = null)
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+        return $name ?? namafile('program_bantuan_' . date('d_m_Y') . '_opendk');
     }
 
-    public function scopeData($query)
+    public function data()
     {
-        return $query->where('id_pend', '!=', null);
+        $kodeDesa = identitas()->kode_desa;
+        $dataExport = Bantuan::get($this->fields)->map(function ($item) use ($kodeDesa) {
+            $data = collect($item->toArray());
+            $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
+            $data->put('status', $data->get('status') ? 1 : 0);
+            return $data->toArray();
+        })->toArray();
+
+        if (empty($dataExport)) {
+            return [emptyData($this->fields)];
+        }
+
+        return $dataExport;
+    }
+
+    public function download()
+    {
+        return (new FastExcel())->data($this->data())->download($this->filename());
+    }
+
+    public function export()
+    {
+        $filePath = sys_get_temp_dir() . '/' . $this->filename() . '.xlsx';
+        return (new FastExcel())->data($this->data())->export($filePath);
+    }
+
+    public function zip()
+    {
+        $ci = &get_instance();
+        $data = $this->export();
+        $ci->zip->read_file($data);
+        $filename = $this->filename() . '.zip';
+        $ci->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
+
+        return $filename;
     }
 }

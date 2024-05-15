@@ -1139,3 +1139,16 @@ if (! function_exists('shortcut_cache')) {
         });
     }
 }
+
+if (! function_exists('emptyData')) {
+    function emptyData($fields): array
+    {
+        $data = [];
+
+        foreach ($fields as $key => $value) {
+            $data[$value] = '';
+        }
+
+        return $data;
+    }
+}

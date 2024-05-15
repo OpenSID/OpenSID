@@ -410,6 +410,61 @@ class Penduduk extends BaseModel
                 END"));
     }
 
+    public function scopeEksporData($query)
+    {
+        return $query->select([
+            'tweb_keluarga.alamat',
+            'tweb_wil_clusterdesa.dusun',
+            'tweb_wil_clusterdesa.rw',
+            'tweb_wil_clusterdesa.rt',
+            'tweb_penduduk.nama AS nama',
+            'tweb_keluarga.no_kk AS nomor_kk',
+            'tweb_penduduk.nik AS nomor_nik',
+            'tweb_penduduk.sex as gender',
+            'tweb_penduduk.tempatlahir AS tempat_lahir',
+            'tweb_penduduk.tanggallahir AS tanggal_lahir',
+            'tweb_penduduk.agama_id',
+            'tweb_penduduk.pendidikan_kk_id AS pendidikan_dlm_kk',
+            'tweb_penduduk.pendidikan_sedang_id AS pendidikan_sdg_ditempuh',
+            // dapatkan data pekerjaan etc dari relasi ? lakukan di method map?
+            // cari cara lain? db select manual tanpa model?
+            // di cara export using fast excel itu semuanya yang terexport, sehingga harus di select manual agar sama seperti export sevbelumnya
+            'tweb_penduduk.pekerjaan_id',
+            'tweb_penduduk.status_kawin AS status_kawin',
+            'tweb_penduduk.kk_level AS hubungan_keluarga',
+            'tweb_penduduk.warganegara_id AS kewarganegaraan',
+            'tweb_penduduk.nama_ayah AS nama_ayah',
+            'tweb_penduduk.nama_ibu AS nama_ibu',
+            'tweb_penduduk.golongan_darah_id AS gol_darah',
+            'tweb_penduduk.akta_lahir AS akta_lahir',
+            'tweb_penduduk.dokumen_pasport AS nomor_dokumen_pasport',
+            'tweb_penduduk.tanggal_akhir_paspor AS tanggal_akhir_paspor',
+            'tweb_penduduk.dokumen_kitas AS nomor_dokumen_kitas',
+            'tweb_penduduk.ayah_nik AS nik_ayah',
+            'tweb_penduduk.ibu_nik AS nik_ibu',
+            'tweb_penduduk.akta_perkawinan AS nomor_akta_perkawinan',
+            'tweb_penduduk.tanggalperkawinan AS tanggal_perkawinan',
+            'tweb_penduduk.akta_perceraian AS nomor_akta_perceraian',
+            'tweb_penduduk.tanggalperceraian AS tanggal_perceraian',
+            'tweb_penduduk.cacat_id AS cacat',
+            'tweb_penduduk.cara_kb_id AS cara_kb',
+            'tweb_penduduk.hamil AS hamil',
+            'tweb_penduduk.ktp_el AS ktp_el',
+            'tweb_penduduk.status_rekam AS status_rekam',
+            'tweb_penduduk.alamat_sekarang AS alamat_sekarang',
+            'tweb_penduduk.id',
+            'tweb_penduduk.foto',
+            'tweb_penduduk.status_dasar',
+            'tweb_penduduk.created_at',
+            'tweb_penduduk.updated_at',
+            // Kolom tambahan khusus OpenDK dimana?
+        ])
+            ->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')
+            ->leftJoin('tweb_wil_clusterdesa', 'tweb_penduduk.id_cluster', '=', 'tweb_wil_clusterdesa.id')
+            ->orderBy('tweb_keluarga.no_kk', 'asc')
+            ->orderBy('tweb_penduduk.kk_level', 'asc')->get();
+    }
+
     public function keluarga()
     {
         return $this->belongsTo(Keluarga::class, 'id_kk')->withDefault()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
