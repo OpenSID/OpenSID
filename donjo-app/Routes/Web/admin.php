@@ -1963,7 +1963,7 @@ Route::group('web', static function (): void {
     Route::get('datatables', 'Web@datatables')->name('web.datatables');
     Route::post('insert/{cat}', 'Web@insert')->name('web.insert');
     Route::post('update/{cat}/{id?}', 'Web@update')->name('web.update');
-    Route::match(['GET', 'POST'], 'delete/{cat}/{id?}', 'Web@delete')->name('web.delete');
+    Route::match(['GET', 'POST'], 'delete/{cat?}/{id?}', 'Web@delete')->name('web.delete');
     Route::match(['GET', 'POST'], 'hapus/{cat}', 'Web@hapus')->name('web.hapus');
     Route::get('ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
     Route::post('update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
