@@ -72,7 +72,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
         }
-
+        (new SettingAplikasi())->flushQueryCache();
         redirect_with('success', 'Berhasil Ubah Data');
     }
 

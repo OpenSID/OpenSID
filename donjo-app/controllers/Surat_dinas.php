@@ -534,7 +534,7 @@ class Surat_dinas extends Admin_Controller
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
         }
-
+        (new SettingAplikasi())->flushQueryCache();
         if ($data['kodeisian_alias']) {
             $judulAlias   = $data['kodeisian_alias']['judul'];
             $contentAlias = $data['kodeisian_alias']['content'];

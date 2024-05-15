@@ -104,7 +104,7 @@ class Status_desa extends Admin_Controller
     {
         SettingAplikasi::where('key', 'tahun_idm')->update(['value' => $tahun]);
         set_session('tahun', $tahun);
-
+        (new SettingAplikasi())->flushQueryCache();
         redirect_with('success', 'Berhasil Simpan Data');
     }
 
@@ -125,6 +125,7 @@ class Status_desa extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $kode_bps = $this->request['kode_bps'];
             SettingAplikasi::where('key', 'kode_desa_bps')->update(['value' => $kode_bps]);
+            (new SettingAplikasi())->flushQueryCache();
 
             return json([
                 'status' => true,
