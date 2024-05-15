@@ -638,7 +638,7 @@ class Surat_master extends Admin_Controller
         } else {
             AliasKodeIsian::whereConfigId(identitas('id'))->delete();
         }
-
+        (new SettingAplikasi())->flushQueryCache();
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
         if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
             LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
