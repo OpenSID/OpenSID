@@ -174,7 +174,7 @@ class Admin_pembangunan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validasi($post, $id = null, $old_foto = null)
+    private function validasi(array $post, $id = null, $old_foto = null): array
     {
         return [
             'sumber_dana'             => bersihkan_xss($post['sumber_dana']),
@@ -201,7 +201,7 @@ class Admin_pembangunan extends Admin_Controller
         ];
     }
 
-    private function upload_gambar_pembangunan(string $jenis, $old_foto = '')
+    private function upload_gambar_pembangunan(string $jenis, string $old_foto = '')
     {
         // Inisialisasi library 'upload'
         $this->load->library('MY_Upload', null, 'upload');

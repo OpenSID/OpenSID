@@ -35,11 +35,6 @@
  *
  */
 
-use App\Enums\StatusEnum;
-use App\Models\GrupAkses;
-use App\Models\Modul;
-use App\Models\UserGrup;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -87,7 +82,6 @@ class Migrasi_dev extends MY_model
             'kategori'   => 'pembangunan',
         ], $id);
     }
-
 
     public function migrasi_2024050271($hasil, $id)
     {

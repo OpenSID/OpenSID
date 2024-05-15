@@ -284,6 +284,7 @@ class Laravel extends Container
         if (method_exists($provider, 'boot')) {
             return $this->call([$provider, 'boot']);
         }
+        return null;
     }
 
     /**
@@ -521,6 +522,7 @@ class Laravel extends Container
                 return $path;
             }
         }
+        return null;
     }
 
     /**

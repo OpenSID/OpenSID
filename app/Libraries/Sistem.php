@@ -63,7 +63,7 @@ define('minMariaDBVersion', '10.3.0');
 
 class Sistem
 {
-    public static function cekEkstensi()
+    public static function cekEkstensi(): array
     {
         $e = get_loaded_extensions();
         usort($e, 'strcasecmp');

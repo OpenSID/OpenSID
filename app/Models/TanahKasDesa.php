@@ -68,7 +68,7 @@ class TanahKasDesa extends BaseModel
         return $query->where('letter_c', $letterC_persil)->where('visible', 1)->exists();
     }
 
-    public function scopeCheckOldLetterC($query, $value, $letterC_persil)
+    public function scopeCheckOldLetterC($query, $value, $letterC_persil): bool
     {
         return $query->where('visible', 1)->where('id', $value)->first()->letter_c == $letterC_persil;
     }

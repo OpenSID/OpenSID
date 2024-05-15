@@ -206,7 +206,7 @@ class Wilayah extends BaseModel
 
     public function bukanRT(): bool
     {
-        return in_array($this->attributes['rt'], ['0']);
+        return $this->attributes['rt'] == '0';
     }
 
     public static function tree()

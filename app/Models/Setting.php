@@ -87,7 +87,7 @@ class Setting extends BaseModel
      */
     protected $guarded = ['id'];
 
-    public static function cekEkstensi()
+    public static function cekEkstensi(): array
     {
         $e = get_loaded_extensions();
         usort($e, 'strcasecmp');

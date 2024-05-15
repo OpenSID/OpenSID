@@ -160,7 +160,7 @@ class User extends BaseModel
         }
 
         if ($status == StatusEnum::YA) {
-            return $query->whereHas('userGrup', static function ($query) {
+            return $query->whereHas('userGrup', static function ($query): void {
                     $query->status(StatusEnum::YA);
             });
         }
