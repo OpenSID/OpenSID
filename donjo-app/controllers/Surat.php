@@ -579,7 +579,7 @@ class Surat extends Admin_Controller
                 $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             }
 
-            $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
+            $log_surat['no_surat'] = LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
             $input                 = json_decode($surat->input, true);
             $log_surat['input']    = [
@@ -693,10 +693,10 @@ class Surat extends Admin_Controller
             }
         }
 
-        $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
 
         $penandatangan     = $this->tinymce->formPenandatangan();
         $data['pamong']    = $penandatangan['penandatangan'];

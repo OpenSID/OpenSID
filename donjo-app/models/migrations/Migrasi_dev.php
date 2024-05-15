@@ -64,6 +64,7 @@ class Migrasi_dev extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024050271($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024050272($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024051571($hasil, $id);
         }
 
         return $hasil && true;
@@ -117,6 +118,45 @@ class Migrasi_dev extends MY_model
             'jenis'      => 'input-number',
             'attribute'  => 'min="1" max="50" step="1"',
             'kategori'   => 'lapak',
+        ], $id);
+    }
+
+    public function migrasi_2024051571($hasil, $id)
+    {
+        $option = json_encode([
+            '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',
+            '2' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk setiap surat layanan dengan jenis yang sama',
+            '3' => 'Nomor berurutan untuk keseluruhan surat layanan, masuk dan keluar',
+            '4' => 'Nomor berurutan untuk masing-masing klasifikasi surat yang sama',
+        ]);
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Penomoran Surat',
+            'key'        => 'penomoran_surat',
+            'value'      => '2',
+            'keterangan' => 'Penomoran surat mulai dari satu (1) setiap tahun',
+            'jenis'      => 'option',
+            'option'     => $option,
+            'kategori'   => 'sistem',
+        ], $id);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Penomoran Surat Dinas',
+            'key'        => 'penomoran_surat_dinas',
+            'value'      => '2',
+            'keterangan' => 'Penomoran surat dinas mulai dari satu (1) setiap tahun',
+            'jenis'      => 'option',
+            'option'     => $option,
+            'kategori'   => 'format_surat_dinas',
+        ], $id);
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Panjang Nomor Surat Dinas',
+            'key'        => 'panjang_nomor_surat_dinas',
+            'value'      => '3',
+            'keterangan' => "Nomor akan diisi '0' di sebelah kiri, kalau perlu",
+            'jenis'      => 'text',
+            'attribute'  => 'class="int"',
+            'kategori'   => 'format_surat_dinas',
         ], $id);
     }
 }

@@ -384,7 +384,7 @@ class SuratDinas extends BaseModel
     {
         $thn     = $data['surat']['cek_thn'] ?? date('Y');
         $bln     = $data['surat']['cek_bln'] ?? date('m');
-        $setting = $data['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $data['surat']['format_nomor'];
+        $setting = $data['surat']['format_nomor_global'] ? setting('format_nomor_surat_dinas') : $data['surat']['format_nomor'];
         self::substitusi_nomor_surat($data['input']['nomor'], $setting);
         $array_replace = [
             '[kode_surat]'   => $data['surat']['kode_surat'],

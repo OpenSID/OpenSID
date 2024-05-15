@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#5750](https://github.com/OpenSID/OpenSID/issues/5750) Penambahan hapus file backup inkremental.
 13. [#5075](https://github.com/OpenSID/OpenSID/issues/5075) Penambahan modul produk pada lapak layanan mandiri warga.
 14. [#5129](https://github.com/OpenSID/OpenSID/issues/5129) Penambahan referensi pendidikan yang sedang ditempuh.
+15. [#7882](https://github.com/OpenSID/OpenSID/issues/7882) Penambahan pengaturan dan alur pengelompokan penomoran surat berdasarkan kode klasifikasi surat.
 
 
 #### BUG

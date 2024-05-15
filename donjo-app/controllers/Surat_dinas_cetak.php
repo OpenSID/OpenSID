@@ -265,12 +265,12 @@ class Surat_dinas_cetak extends Admin_Controller
             $keluar = json_decode($surat->input, true);
 
             if (! $preview && $keluar['surat_keluar']) {
-                $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
+                $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat_dinas') : $cetak['surat']['format_nomor_surat']);
                 $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
                 $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
                 $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
                 $format_surat = str_ireplace('[tahun]', date('Y'), $format_surat);
-                $last_surat   = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
+                $last_surat   = LogSuratDinas::suratTerakhir('surat_keluar');
 
                 SuratKeluar::create([
                     'nomor_urut'    => $last_surat['no_surat'] + 1,
@@ -403,7 +403,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $isi_surat = $this->request['isi_surat'];
 
             // Kembalikan kode isian [format_nomor_surat]
-            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
+            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat_dinas') : $cetak['surat']['format_nomor_surat']);
             $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
             $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
             $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
