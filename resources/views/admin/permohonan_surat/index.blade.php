@@ -86,13 +86,15 @@
                         name: 'penduduk.nik',
                         class: 'padat',
                         searchable: true,
-                        orderable: true
+                        orderable: true,
+                        defaultContent: ''
                     },
                     {
                         data: 'penduduk.nama',
                         name: 'penduduk.nama',
                         searchable: true,
-                        orderable: true
+                        orderable: true,
+                        defaultContent: ''
                     },
                     {
                         data: 'no_hp_aktif',

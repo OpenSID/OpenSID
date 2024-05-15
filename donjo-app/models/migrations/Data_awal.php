@@ -138,6 +138,7 @@ class Data_awal extends MY_Model
             ];
 
             if (Config::appKey()->update($data)) {
+                (new Config())->flushQueryCache();
                 log_message('notice', 'Berhasil menggunakan kode desa dari file config');
             } else {
                 log_message('error', 'Gagal menggunakan kode desa dari file config');
@@ -265,7 +266,7 @@ class Data_awal extends MY_Model
         $data = $this->settingAplikasi->getData();
 
         $hasil = $this->data_awal('setting_aplikasi', $data, true);
-
+        (new SettingAplikasi())->flushQueryCache();
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 

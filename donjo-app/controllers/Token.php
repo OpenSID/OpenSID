@@ -35,8 +35,7 @@
  *
  */
 
-use App\Models\Config;
-use Illuminate\Support\Facades\DB;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -66,9 +65,8 @@ class Token extends CI_Controller
         }
 
         if ($token) {
-            DB::table('setting_aplikasi')
-                ->where('config_id', Config::appKey()->first()->id)
-                ->where('key', 'layanan_opendesa_token')
+            // ini bisa otomatis invalidated cache
+            (SettingAplikasi::where('key', 'layanan_opendesa_token')->first())
                 ->update(['value' => $token]);
 
             $this->session->unset_userdata('token_kosong');

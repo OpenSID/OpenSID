@@ -39,12 +39,25 @@ namespace App\Models;
 
 use App\Casts\Path;
 use App\Traits\Author;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Config extends BaseModel
 {
     use Author;
+    use QueryCacheable;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    // forever remember cache
+    public $cacheFor = -1;
 
     /**
      * The table associated with the model.

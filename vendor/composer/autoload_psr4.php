@@ -37,6 +37,7 @@ return array(
     'Spipu\\Html2Pdf\\' => array($vendorDir . '/spipu/html2pdf/src'),
     'Spatie\\EloquentSortable\\' => array($vendorDir . '/spatie/eloquent-sortable/src'),
     'SlowProg\\CopyFile\\' => array($vendorDir . '/slowprog/composer-copy-file'),
+    'Rennokki\\QueryCache\\' => array($vendorDir . '/rennokki/laravel-eloquent-query-cache/src'),
     'Rap2hpoutre\\FastExcel\\' => array($vendorDir . '/rap2hpoutre/fast-excel/src'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),

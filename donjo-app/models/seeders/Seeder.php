@@ -140,6 +140,7 @@ class Seeder extends CI_Model
                 ];
                 // tabel config selalu terisi dari data_awal_seeder
                 if (Config::appKey()->update($data)) {
+                    (new Config())->flushQueryCache();
                     set_session('success', "Kode desa {$kode_desa} diambil dari desa/config/config.php");
                 }
             }

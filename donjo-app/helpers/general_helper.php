@@ -93,10 +93,10 @@ if (! function_exists('can')) {
             return true;
         }
 
-        $grupId   = auth()->id_grup;
-        $slugGrup = UserGrup::find($grupId)->slug;
+        $grupId = auth()->id_grup;
 
-        $data = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
+        $data = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId) {
+            $slugGrup = UserGrup::find($grupId)->slug;
             if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
@@ -1135,7 +1135,6 @@ if (! function_exists('shortcut_cache')) {
     function shortcut_cache()
     {
         User::pluck('id')->each(static function ($id) {
-            log_message('notice', 'Menghapus cache shortcut_' . $id . '...');
             cache()->forget('shortcut_' . $id);
         });
     }

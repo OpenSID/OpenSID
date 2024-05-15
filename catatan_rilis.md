@@ -1,4 +1,4 @@
-Di rilis ini, versi 2405.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2405.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -35,6 +35,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip web.
 12. [#7927](https://github.com/OpenSID/OpenSID/issues/7927) Perbaikan route halaman verifikasi email dan telegram.
 13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
+14. [#7911](https://github.com/OpenSID/OpenSID/issues/7911) Perbaikan impor data penduduk menggunakan format BIP.
+15. [#7938](https://github.com/OpenSID/OpenSID/issues/7938) Perbaikan hapus beberapa artikel sekaligus.
 
 
 #### TEKNIS
@@ -46,6 +48,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#7822](https://github.com/OpenSID/OpenSID/issues/7822) Penyesuaian modul Laporan Kelompok Rentan menggunakan ORM dan Blade.
 6. [#7756](https://github.com/OpenSID/OpenSID/issues/7756) Penyesuaian modul Buku Agenda - Surat Masuk menggunakan ORM dan Blade.
 7. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul Informasi Publik menggunakan ORM dan Blade.
+8. [#7932](https://github.com/OpenSID/OpenSID/issues/7932) Penyesuaian dan optimasi pada query yang berulang.
 
 
 #### KEAMANAN

@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,9 +48,21 @@ class Pamong extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
+    use QueryCacheable;
 
     public const LOCK   = 1;
     public const UNLOCK = 2;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    // forever remember cache
+    public $cacheFor = -1;
 
     /**
      * The table associated with the model.

@@ -1943,6 +1943,9 @@ Route::group('/info_sistem', static function (): void {
 
 // Pengaturan > QR Code
 Route::group('qr_code', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('qr_code');
+    });
     Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
     Route::match(['GET', 'POST'], '/', 'Qr_code@index')->name('qr_code.index');
 });
@@ -1965,7 +1968,7 @@ Route::group('web', static function (): void {
     Route::get('datatables', 'Web@datatables')->name('web.datatables');
     Route::post('insert/{cat}', 'Web@insert')->name('web.insert');
     Route::post('update/{cat}/{id?}', 'Web@update')->name('web.update');
-    Route::match(['GET', 'POST'], 'delete/{cat}/{id?}', 'Web@delete')->name('web.delete');
+    Route::match(['GET', 'POST'], 'delete/{cat?}/{id?}', 'Web@delete')->name('web.delete');
     Route::match(['GET', 'POST'], 'hapus/{cat}', 'Web@hapus')->name('web.hapus');
     Route::get('ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
     Route::post('update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
