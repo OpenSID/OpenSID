@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -46,6 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kategori extends BaseModel
 {
+    use ConfigId;
     use SortableTrait;
 
     public const ENABLE = 1;

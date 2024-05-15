@@ -36,7 +36,10 @@
  */
 
 use App\Models\DisposisiSuratmasuk;
+use App\Models\KlasifikasiSurat;
+use App\Models\Pamong;
 use App\Models\RefJabatan;
+use App\Models\SuratMasuk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,62 +54,83 @@ class Surat_masuk extends Admin_Controller
         isCan('b');
         // Untuk bisa menggunakan helper force_download()
         $this->load->helper('download');
-        $this->load->model('surat_masuk_model');
-        $this->load->model('klasifikasi_model');
-        $this->load->model('pamong_model');
-
         $this->load->model('penomoran_surat_model');
+        $this->uploadConfig = [
+            'upload_path'   => LOKASI_ARSIP,
+            'allowed_types' => 'gif|jpg|jpeg|png|pdf',
+            'max_size'      => max_upload() * 1024,
+        ];
         $this->tab_ini = 2;
     }
 
-    public function clear($id = 0): void
+    public function index()
     {
-        $_SESSION['per_page'] = 20;
-        $_SESSION['surat']    = $id;
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        $data['selected_nav'] = 'agenda_masuk';
+        $data['subtitle']     = 'Buku Agenda - Surat Masuk';
+        $data['main_content'] = 'admin.surat_masuk.index';
+        $data['tahun']        = SuratMasuk::tahun()->pluck('tahun');
 
-        redirect('surat_masuk');
+        return view('admin.bumindes.umum.main', $data);
     }
 
-    public function index($p = 1, $o = 2): void
+    public function datatables()
     {
-        $data['p'] = $p ?? 1;
-        $data['o'] = $o ?? 0;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('surat_masuk.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
+                    $aksi .= '<a href="' . ci_route('surat_masuk.dialog_disposisi', $row->id) . '" class="btn bg-navy btn-sm" title="Cetak Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a> ';
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    if ($row->berkas_scan) {
+                        $aksi .= '<a href="' . ci_route("surat_masuk.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('surat_masuk.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi . ('<a href="' . ci_route("surat_masuk.berkas.{$row->id}.1") . '" target="_blank" class="btn btn-info btn-sm"  title="Lihat Berkas Surat"><i class="fa fa-eye"></i></a> ');
+                })
+                ->editColumn('tanggal_penerimaan', static fn ($row) => tgl_indo_out($row->tanggal_penerimaan))
+                ->editColumn('tanggal_surat', static fn ($row) => tgl_indo_out($row->tanggal_surat))
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
         }
 
-        $this->surat_masuk_model->remove_character();
-        $data['per_page']         = $_SESSION['per_page'];
-        $data['paging']           = $this->surat_masuk_model->paging($p, $o);
-        $data['main']             = $this->surat_masuk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['tahun_penerimaan'] = $this->surat_masuk_model->list_tahun_penerimaan();
-        $data['keyword']          = $this->surat_masuk_model->autocomplete();
-        $data['main_content']     = 'surat_masuk/table';
-        $data['subtitle']         = 'Buku Agenda - Surat Masuk';
-        $data['selected_nav']     = 'agenda_masuk';
-
-        $this->render('bumindes/umum/main', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    private function sumberData()
+    {
+        $tahun = $this->input->get('tahun') ?? null;
+
+        return SuratMasuk::when($tahun, static fn ($q) => $q->whereYear('tanggal_surat', $tahun));
+    }
+
+    public function form($id = '')
     {
         isCan('u');
-        $data['pengirim']    = $this->surat_masuk_model->autocomplete();
-        $data['klasifikasi'] = $this->klasifikasi_model->list_kode();
-        $data['p']           = $p;
-        $data['o']           = $o;
+        $data['pengirim']    = SuratMasuk::autocomplete();
+        $data['klasifikasi'] = KlasifikasiSurat::select(['kode', 'nama'])->get();
 
         if ($id) {
-            $data['surat_masuk']           = $this->surat_masuk_model->get_surat_masuk($id) ?? show_404();
-            $data['form_action']           = site_url("surat_masuk/update/{$p}/{$o}/{$id}");
+            $data['action']                = 'Ubah';
+            $data['surat_masuk']           = SuratMasuk::findOrFail($id);
+            $data['form_action']           = site_url("surat_masuk/update/{$id}");
             $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         } else {
+            $data['action']                    = 'Tambah';
             $last_surat                        = $this->penomoran_surat_model->get_surat_terakhir('surat_masuk');
             $data['surat_masuk']['nomor_urut'] = $last_surat['no_surat'] + 1;
             $data['form_action']               = site_url('surat_masuk/insert');
@@ -122,7 +146,7 @@ class Surat_masuk extends Admin_Controller
         $ekstensiFile                       = end($ekstensiFile);
         $data['surat_masuk']['berkas_scan'] = $namaFile . '.' . $ekstensiFile;
 
-        $this->render('surat_masuk/form', $data);
+        return view('admin.surat_masuk.form', $data);
     }
 
     private function ref_disposisi()
@@ -132,129 +156,268 @@ class Surat_masuk extends Admin_Controller
         return RefJabatan::with('pamongs')->urut()->latest()->pluck('nama', 'id')->except(kades()->id)->except($non_aktif)->toArray();
     }
 
-    public function form_upload($p = 1, $o = 0, $url = ''): void
-    {
-        isCan('u');
-        $data['form_action'] = site_url("surat_masuk/upload/{$p}/{$o}/{$url}");
-        $this->load->view('surat_masuk/ajax-upload', $data);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
-        }
-        redirect('surat_masuk');
-    }
-
-    public function filter(): void
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        redirect('surat_masuk');
-    }
-
     public function insert(): void
     {
         isCan('u');
-        $this->surat_masuk_model->insert();
-        redirect('surat_masuk');
-    }
 
-    public function update($p = 1, $o = 0, $id = ''): void
-    {
-        isCan('u');
-        $this->surat_masuk_model->update($id);
-        redirect("surat_masuk/index/{$p}/{$o}");
-    }
+        // Ambil semua data dari var. global $_POST
+        $data = $this->input->post(null);
 
-    public function upload($p = 1, $o = 0, $url = ''): void
-    {
-        isCan('u');
-        $this->surat_masuk_model->upload($url);
-        redirect("surat_masuk/index/{$p}/{$o}");
-    }
+        unset($data['url_remote'], $data['nomor_urut_lama']);
 
-    public function delete($p = 1, $o = 0, $id = ''): void
-    {
-        isCan('h');
-        $this->surat_masuk_model->delete($id);
-        redirect("surat_masuk/index/{$p}/{$o}");
-    }
+        // ambil disposisi ke variabel lain karena
+        // tidak lagi digunakan pada tabel surat masuk
+        $jabatan = $data['disposisi_kepada'];
 
-    public function delete_all($p = 1, $o = 0): void
-    {
-        isCan('h');
-        $this->surat_masuk_model->delete_all();
-        redirect("surat_masuk/index/{$p}/{$o}");
-    }
+        // hapus data disposisi dari post
+        // surat masuk
+        unset($data['disposisi_kepada']);
+        $this->validasi($data);
 
-    public function dialog_disposisi($o, $id): void
-    {
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = 'Cetak';
-        $data['form_action'] = site_url("surat_masuk/disposisi/{$id}");
-        $this->load->view('global/ttd_pamong', $data);
-    }
+        // Adakah lampiran yang disertakan?
+        $adaLampiran = ! empty($_FILES['satuan']['name']);
 
-    // TODO: Satukan dialog cetak dan unduh
-    public function dialog_cetak($o = 0): void
-    {
-        $data['aksi']        = 'Cetak';
-        $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_masuk/dialog/cetak/{$o}");
-        $this->load->view('surat_masuk/ajax_cetak', $data);
-    }
+        // Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
+        // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
+        if ($adaLampiran && ((strlen($_FILES['satuan']['name']) + 20) >= 100)) {
+            redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
+        }
 
-    // TODO: Satukan dialog cetak dan unduh
-    public function dialog_unduh($o = 0): void
-    {
-        $data['aksi']        = 'Unduh';
-        $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_masuk/dialog/unduh/{$o}");
-        $this->load->view('surat_masuk/ajax_cetak', $data);
-    }
+        $uploadData = null;
+        // Ada lampiran file
+        if ($adaLampiran) {
+            // Tes tidak berisi script PHP
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
+                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan');
+            }
+            // Inisialisasi library 'upload'
+            $this->upload->initialize($this->uploadConfig);
+            // Upload sukses
+            if ($this->upload->do_upload('satuan')) {
+                $uploadData = $this->upload->data();
+                // Buat nama file unik agar url file susah ditebak dari browser
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+                $fileRenamed = rename(
+                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                    $this->uploadConfig['upload_path'] . $namaFileUnik
+                );
+                // Ganti nama di array upload jika file berhasil di-rename --
+                // jika rename gagal, fallback ke nama asli
+                $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+            }
+        }
+        // Berkas lampiran
+        $data['berkas_scan'] = $adaLampiran && null !== $uploadData ? $uploadData['file_name'] : null;
 
-    public function dialog($aksi = 'unduh', $o = 0): void
-    {
-        // TODO :: gunakan view global penandatangan
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-        $data['input']          = $_POST;
-        $_SESSION['filter']     = $data['input']['tahun'];
-        $data['desa']           = $this->header['desa'];
-        $data['main']           = $this->surat_masuk_model->list_data($o, 0, 10000);
-
-        if ($aksi == 'unduh') {
-            $this->load->view('surat_masuk/surat_masuk_excel', $data);
-        } else {
-            $this->load->view('surat_masuk/surat_masuk_print', $data);
+        try {
+            $surat = SuratMasuk::create($data);
+            if ($jabatan) {
+                $this->disposisi_surat_masuk($surat->id, $jabatan);
+            }
+            redirect_with('success', 'Berhasil Tambah Data');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Gagal Tambah Data');
         }
     }
 
-    public function disposisi($id): void
+    public function disposisi_surat_masuk($id_surat_masuk, array $jabatan): void
+    {
+        DisposisiSuratmasuk::destroy($id_surat_masuk);
+
+        foreach ($jabatan as $value) {
+            DisposisiSuratmasuk::create([
+                'id_surat_masuk' => $id_surat_masuk,
+                'id_desa_pamong' => Pamong::where('jabatan_id', $value)->first()->pamong_id,
+                'disposisi_ke'   => $value,
+            ]);
+        }
+    }
+
+    public function update($idSuratMasuk): void
+    {
+        isCan('u');
+        // Ambil semua data dari var. global $_POST
+        $data = $this->input->post(null);
+        unset($data['url_remote'], $data['nomor_urut_lama']);
+
+        // ambil disposisi ke variabel lain karena
+        // tidak lagi digunakan pada tabel surat masuk
+        $jabatan = $data['disposisi_kepada'];
+        // hapus data disposisi dari post
+        // surat masuk
+        unset($data['disposisi_kepada']);
+
+        $this->validasi($data);
+
+        // Ambil nama berkas scan lama dari database
+        $berkasLama = SuratMasuk::findOrFail($idSuratMasuk)->berkas_scan;
+
+        // Lokasi berkas scan lama (absolut)
+        $lokasiBerkasLama = $this->uploadConfig['upload_path'] . $berkasLama;
+        $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasiBerkasLama);
+
+        // Hapus lampiran lama?
+        $hapusLampiranLama = $data['gambar_hapus'];
+        unset($data['gambar_hapus']);
+
+        $uploadData = null;
+
+        // Adakah file baru yang akan diupload?
+        $adaLampiran = ! empty($_FILES['satuan']['name']);
+
+        // Ada lampiran file
+        if ($adaLampiran) {
+            // Tes tidak berisi script PHP
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
+                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan ');
+            }
+            // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
+            // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
+            if ((strlen($_FILES['satuan']['name']) + 20) >= 100) {
+                redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
+            }
+            // Inisialisasi library 'upload'
+            $this->upload->initialize($this->uploadConfig);
+            // Upload sukses
+            if ($this->upload->do_upload('satuan')) {
+                $uploadData = $this->upload->data();
+                // Buat nama file unik untuk nama file upload
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+                $uploadedFileRenamed = rename(
+                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                    $this->uploadConfig['upload_path'] . $namaFileUnik
+                );
+
+                $uploadData['file_name'] = ($uploadedFileRenamed === false) ?: $namaFileUnik;
+
+                $data['berkas_scan'] = $uploadData['file_name'];
+                // Update database dengan `berkas_scan` berisi nama unik
+
+                $update = SuratMasuk::findOrFail($idSuratMasuk);
+
+                if ($jabatan) {
+                    $this->disposisi_surat_masuk($idSuratMasuk, $jabatan);
+                }
+
+                if ($update->update($data)) {
+                    redirect_with('success', 'Berhasil Ubah Data');
+                }
+
+                redirect_with('error', 'Gagal Ubah Data');
+            }
+        }
+        // Tidak ada file upload
+        else {
+            unset($data['berkas_scan']);
+            if ($hapusLampiranLama) {
+                $data['berkas_scan'] = null;
+                $adaBerkasLamaDiDisk = file_exists($lokasiBerkasLama);
+                $oldFileRemoved      = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
+                ($oldFileRemoved) ? null : redirect_with('error', ' -> Gagal menghapus berkas lama');
+            }
+
+            $update = SuratMasuk::findOrFail($idSuratMasuk);
+
+            if ($jabatan) {
+                $this->disposisi_surat_masuk($idSuratMasuk, $jabatan);
+            }
+
+            if ($update->update($data)) {
+                redirect_with('success', 'Berhasil Ubah Data');
+            }
+
+            redirect_with('error', 'Gagal Ubah Data');
+        }
+    }
+
+    private function validasi(array &$data): void
+    {
+        // Normalkan tanggal
+        $data['tanggal_penerimaan'] = tgl_indo_in($data['tanggal_penerimaan']);
+        $data['tanggal_surat']      = tgl_indo_in($data['tanggal_surat']);
+        // Bersihkan data
+        $data['nomor_surat']   = strip_tags($data['nomor_surat']);
+        $data['pengirim']      = alfanumerik_spasi($data['pengirim']);
+        $data['isi_singkat']   = strip_tags($data['isi_singkat']);
+        $data['isi_disposisi'] = strip_tags($data['isi_disposisi']);
+    }
+
+    public function delete($id = ''): void
+    {
+        isCan('h');
+
+        if (SuratMasuk::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function delete_all(): void
+    {
+        isCan('h');
+
+        if (SuratMasuk::destroy($this->request['id_cb'])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function dialog_disposisi($id)
+    {
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = 'cetak';
+        $data['form_action'] = site_url("surat_masuk/disposisi/{$id}");
+
+        return view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function disposisi($id)
     {
         $disposisi = [];
         collect($this->ref_disposisi())->each(static function ($item, $key) use (&$disposisi): void {
             $disposisi[] = ['id' => $key, 'nama' => $item];
         })->toArray();
-        $data['input']          = $_POST;
-        $data['desa']           = $this->header['desa'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-
+        $data['input']                 = $_POST;
+        $data['desa']                  = $this->header['desa'];
+        $data['pamong_ttd']            = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui']        = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['ref_disposisi']         = $disposisi;
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
-        $data['surat']                 = $this->surat_masuk_model->get_surat_masuk($id);
-        $this->load->view('surat_masuk/disposisi', $data);
+        $data['surat']                 = SuratMasuk::findOrFail($id)->toArray();
+
+        return view('admin.surat_masuk.disposisi', $data);
+    }
+
+    public function dialog($aksi = 'cetak')
+    {
+        $data['aksi']       = $aksi;
+        $data['tahun']      = SuratMasuk::tahun()->pluck('tahun');
+        $data['formAction'] = ci_route('surat_masuk.cetak', $aksi);
+
+        return view('admin.surat_masuk.dialog', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $query          = $this->sumberData();
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['main']   = $query->get()->toArray();
+        $data['config'] = $this->header['desa'];
+        $data['tahun']  = $this->input->post('tahun');
+        if ($data['tahun']) {
+            $data['main'] = $query->whereYear('tanggal_surat', $data['tahun'])->get()->toArray();
+        }
+        $data['file']      = 'Surat Masuk';
+        $data['isi']       = 'admin.surat_masuk.cetak';
+        $data['letak_ttd'] = ['1', '1', '2'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     /**
@@ -266,7 +429,7 @@ class Surat_masuk extends Admin_Controller
     public function berkas($idSuratMasuk = 0, $tipe = 0): void
     {
         // Ambil nama berkas dari database
-        $berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
+        $berkas = SuratMasuk::find($idSuratMasuk)->berkas_scan;
         ambilBerkas($berkas, 'surat_masuk', '__sid__', LOKASI_ARSIP, $tipe == 1);
     }
 

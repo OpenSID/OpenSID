@@ -186,7 +186,8 @@ class Modul extends Admin_Controller
             $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
             $this->setting->penggunaan_server = $penggunaan_server;
             SettingAplikasi::where('key', 'penggunaan_server')->update(['value' => $penggunaan_server]);
-            $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+            // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+            (new SettingAplikasi())->flushQueryCache();
             redirect_with('success', 'Berhasil menyimpan pengaturan aplikasi');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

@@ -36,6 +36,7 @@
         "openspout/openspout": "^3.7",
         "ramsey/uuid": "^4.2",
         "rap2hpoutre/fast-excel": "^4.1",
+        "rennokki/laravel-eloquent-query-cache": "3.3.0",
         "slowprog/composer-copy-file": "^0.3.3",
         "spatie/eloquent-sortable": "^3.11",
         "spipu/html2pdf": "^5.2",
@@ -100,9 +101,9 @@
             "vendor/bin/phpunit tests"
         ],
         "style-fix": [
+            "npm run prettier-blade",
             "php-cs-fixer fix --allow-risky=yes",
-            "rector process",
-            "npm run prettier-blade"
+            "rector process"
         ]
     }
 }

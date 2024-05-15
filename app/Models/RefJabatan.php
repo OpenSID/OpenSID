@@ -41,6 +41,7 @@ use App\Enums\StatusEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,9 +49,21 @@ class RefJabatan extends BaseModel
 {
     use Author;
     use ConfigId;
+    use QueryCacheable;
 
     public const KADES  = 1;
     public const SEKDES = 2;
+
+    /**
+     * Invalidate the cache automatically
+     * upon update in the database.
+     *
+     * @var bool
+     */
+    protected static $flushCacheOnUpdate = true;
+
+    // forever remember cache
+    public $cacheFor = -1;
 
     /**
      * The table associated with the model.

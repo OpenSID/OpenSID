@@ -486,7 +486,7 @@ class Web extends Admin_Controller
 
         SettingAplikasi::where('key', 'sumber_gambar_slider')->update(['value' => $this->input->post('pilihan_sumber')]);
         SettingAplikasi::where('key', 'jumlah_gambar_slider')->update(['value' => $this->input->post('jumlah_gambar_slider')]);
-        cache()->forget('setting_aplikasi');
+        (new SettingAplikasi())->flushQueryCache();
         redirect('web/slider');
     }
 

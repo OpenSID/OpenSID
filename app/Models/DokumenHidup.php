@@ -47,9 +47,7 @@ class DokumenHidup extends BaseModel
     use ConfigId;
     use Author;
 
-    public const WIDGET_SISTEM  = 1;
-    public const WIDGET_STATIS  = 2;
-    public const WIDGET_DINAMIS = 3;
+    public const ENABLE = 1;
 
     /**
      * The table associated with the model.
@@ -119,6 +117,16 @@ class DokumenHidup extends BaseModel
         return $data;
     }
 
+    public function isActive(): bool
+    {
+        return $this->attributes['enabled'] == self::ENABLE;
+    }
+
+    public function scopeInformasiPublik($query)
+    {
+        return $query->where(['id_pend' => 0]);
+    }
+
     public function scopeDataCetak($query, $kat = 1, ?string $tahun = '', ?string $jenis_peraturan = '')
     {
         $data = $query->where('id_pend', '0')
@@ -152,7 +160,6 @@ class DokumenHidup extends BaseModel
 
         // Informasi publik termasuk kategori lainnya
         if ($kat != '1') {
-            // $this->db->where('kategori', $kat);
             $data->where('kategori', $kat);
         }
 

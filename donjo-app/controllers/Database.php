@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\FlxZipArchive;
+use App\Libraries\Sistem;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
 use App\Models\Migrasi;
@@ -71,7 +72,7 @@ class Database extends Admin_Controller
             'act_tab'      => 1,
             'inkremental'  => LogBackup::where('status', '<', 2)->latest()->first(),
             'restore'      => LogRestoreDesa::where('status', '=', 0)->exists(),
-            'memory_limit' => Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result'),
+            'memory_limit' => Arr::get(Sistem::cekKebutuhanSistem(), 'memory_limit.result'),
         ];
 
         view('admin.database.index', $data);
@@ -110,7 +111,7 @@ class Database extends Admin_Controller
 
     public function exec_backup()
     {
-        if (! Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result')) {
+        if (! Arr::get(Sistem::cekKebutuhanSistem(), 'memory_limit.result')) {
             return show_404();
         }
 

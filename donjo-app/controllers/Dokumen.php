@@ -35,12 +35,21 @@
  *
  */
 
+use App\Enums\DokumenEnum;
+use App\Enums\KategoriPublicEnum;
+use App\Enums\StatusEnum;
+use App\Models\Dokumen as DokumenModel;
 use App\Models\DokumenHidup;
+use App\Models\LogEkspor;
+use App\Traits\Upload;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini     = 'sekretariat';
     public $sub_modul_ini = 'informasi-publik';
 
@@ -48,205 +57,172 @@ class Dokumen extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('web_dokumen_model');
-        $this->load->model('pamong_model');
         $this->load->helper('download');
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        $data['status']   = [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'];
+        $data['kat_nama'] = DokumenEnum::valueOf(DokumenEnum::INFORMASI_PUBLIK);
 
-        redirect('dokumen');
+        view('admin.dokumen.informasi_publik.index ', $data);
     }
 
-    public function index($kat = 1, $p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p']   = $p ?? 1;
-        $data['o']   = $o ?? 0;
-        $data['kat'] = $kat;
+        if ($this->input->is_ajax_request()) {
+        $status    = $this->input->get('status') ?? null;
+        $canUpdate = can('u');
+        $canDelete = can('h');
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+        return datatables()->of(
+            DokumenHidup::informasiPublik()
+                ->when($status != null, static fn ($q) => $q->whereEnabled($status))
+        )->addColumn('ceklist', static function ($row) use ($canDelete) {
+                if ($canDelete) {
+                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                }
+            })
+            ->addIndexColumn()
+            ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+                $aksi = '';
+                if ($canUpdate) {
+                    if (in_array($row->kategori, [DokumenEnum::KEPUTUSAN_KEPALA_DESA, DokumenEnum::PERATURAN])) {
+                        $aksi .= '<a href="' . ci_route('dokumen_sekretariat.form.' . $row->kategori, $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right: 2px"><i class="fa fa-edit"></i></a>';
+                    } else {
+                        $aksi .= '<a href="' . ci_route('dokumen.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right: 2px"><i class="fa fa-edit"></i></a>';
+                    }
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
+                    if ($row->isActive()) {
+                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right: 2px"><i class="fa fa-unlock"></i></a>';
+                    } else {
+                        $aksi .= '<a href="' . ci_route('dokumen.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right: 2px"><i class="fa fa-lock"></i></a>';
+                    }
+                }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                if ($row->tipe == '1') {
+                    $aksi .= "<a href='" . ci_route('dokumen.unduh_berkas', $row->id) . '\' class="btn bg-purple btn-sm"  title="Unduh" style="margin-right: 2px"><i class="fa fa-download"></i></a>';
+                } else {
+                    $aksi .= "<a href='" . $row->url . '\' class="btn bg-purple btn-sm"  title="Unduh" target="_blank" style="margin-right: 2px"><i class="fa fa-download"></i></a>';
+                }
+
+                if ($canDelete) {
+                    $aksi .= '<a href="#" data-href="' . ci_route('dokumen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete" style="margin-right: 2px"><i class="fa fa-trash-o"></i></a>';
+                }
+
+                return $aksi;
+            })
+            ->addColumn('infoPublic', static fn ($row): ?string => KategoriPublicEnum::valueOf($row->kategori_info_publik))
+            ->addColumn('aktif', static fn ($row): string => $row->isActive() ? 'Ya' : 'Tidak')
+            ->addColumn('dimuat', static fn ($row): string => tgl_indo2($row->tgl_upload))
+            ->rawColumns(['ceklist', 'aksi'])
+            ->make();
         }
-        $data['per_page'] = $_SESSION['per_page'];
 
-        $data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-        $data['paging']   = $this->web_dokumen_model->paging($kat, $p, $o);
-        $data['main']     = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']  = $this->web_dokumen_model->autocomplete();
-
-        $this->render('dokumen/table_dokumen', $data);
+        return show_404();
     }
 
-    public function form($kat = 1, $p = 1, $o = 0, $id = ''): void
+    public function form($id = '')
     {
         isCan('u');
-        $data['p']   = $p;
-        $data['o']   = $o;
-        $data['kat'] = $kat;
 
         if ($id) {
-            $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
-            $data['form_action'] = site_url("dokumen/update/{$kat}/{$id}/{$p}/{$o}");
+            $data['dokumen']     = DokumenHidup::where('id', $id)->first();
+            $data['form_action'] = ci_route('dokumen.update', $id);
         } else {
             $data['dokumen']     = null;
-            $data['form_action'] = site_url('dokumen/insert');
+            $data['form_action'] = ci_route('dokumen.insert');
         }
-        $data['kat_nama']             = $this->web_dokumen_model->kat_nama($kat);
-        $data['list_kategori_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK);
-        $data['jenis_peraturan']      = $this->referensi_model->jenis_peraturan_desa();
 
-        $this->render('dokumen/form', $data);
-    }
+        $data['kat_nama']             = DokumenEnum::valueOf(DokumenEnum::INFORMASI_PUBLIK);
+        $data['list_kategori_publik'] = KategoriPublicEnum::all();
 
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        $kat  = $this->input->post('kategori');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
-        }
-        redirect("dokumen/index/{$kat}");
-    }
-
-    public function filter(): void
-    {
-        $filter = $this->input->post('filter');
-        $kat    = $this->input->post('kategori');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        redirect("dokumen/index/{$kat}");
+        return view('admin.dokumen.informasi_publik.form', $data);
     }
 
     public function insert(): void
     {
         isCan('u');
-        $_SESSION['success'] = 1;
-        $kat                 = $this->input->post('kategori');
-        $outp                = $this->web_dokumen_model->insert();
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $post             = $this->input->post();
+        $post['kategori'] = DokumenEnum::INFORMASI_PUBLIK;
+        $data             = DokumenModel::validasi($post);
+        if ($this->request['satuan']) {
+            $config['upload_path']   = LOKASI_DOKUMEN;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['file_name']     = namafile($this->input->post('nama', true));
+
+            $data['satuan'] = $this->upload('satuan', $config);
         }
-        redirect("dokumen/index/{$kat}");
+
+        try {
+            DokumenModel::create($data);
+            redirect_with('success', 'Dokumen berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Dokumen gagal disimpan');
+        }
     }
 
-    public function update($kat, $id = '', $p = 1, $o = 0): void
+    public function update($id): void
     {
         isCan('u');
-        $_SESSION['success'] = 1;
-        $data                = $this->web_dokumen_model->validasi($this->request);
-        $dokumen             = DokumenHidup::find($id) ?? show_404();
+
+        $dokumen = DokumenModel::find($id) ?? show_404();
+        $data    = DokumenModel::validasi($this->input->post());
         if ($this->request['satuan']) {
-            $data['satuan'] = $this->upload_dokumen();
+            $config['upload_path']   = LOKASI_DOKUMEN;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['file_name']     = namafile($this->input->post('nama', true));
+
+            $data['satuan'] = $this->upload('satuan', $config);
         }
         if ($dokumen->update($data)) {
-            redirect_with('success', 'Berhasil Ubah Data');
+            redirect_with('success', 'Berhasil Ubah Data Dokumen');
         }
-        redirect("dokumen/index/{$kat}/{$p}/{$o}");
+        redirect_with('error', 'Gagal Ubah Data Dokumen');
     }
 
-    public function delete($kat = 1, $p = 1, $o = 0, $id = ''): void
+    public function delete($cat, $id = 0): void
     {
         isCan('h');
-        $dokumen = DokumenHidup::find($id) ?? show_404();
-        if ($dokumen->delete()) {
-            redirect_with('success', 'Berhasil Hapus Data');
-        }
-        redirect("dokumen/index/{$kat}/{$p}/{$o}");
+        DokumenModel::destroy($this->request['id_cb'] ?? $id);
+        redirect_with('success', 'Dokumen berhasil dihapus');
     }
 
-    public function delete_all($kat = 1, $p = 1, $o = 0): void
-    {
-        isCan('h');
-        if (DokumenHidup::whereIn('id', $_POST['id_cb'])->delete()) {
-            redirect_with('success', 'Berhasil Hapus Data');
-        }
-        redirect("dokumen/index/{$kat}/{$p}/{$o}");
-    }
-
-    public function dokumen_lock($kat = 1, $id = ''): void
+    public function lock($id): void
     {
         isCan('u');
-        $this->web_dokumen_model->dokumen_lock($id, 1);
-        redirect("dokumen/index/{$kat}/{$p}/{$o}");
-    }
-
-    public function dokumen_unlock($kat = 1, $id = ''): void
-    {
-        isCan('u');
-        $this->web_dokumen_model->dokumen_lock($id, 2);
-        redirect("dokumen/index/{$kat}/{$p}/{$o}");
-    }
-
-    public function dialog_cetak($kat = 1): void
-    {
-        $data['form_action']     = site_url("dokumen/cetak/{$kat}");
-        $data['kat']             = $kat;
-        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
-        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
-        $this->load->view('dokumen/dialog_cetak', $data);
-    }
-
-    public function cetak($kat = 1): void
-    {
-        $data     = $this->data_cetak($kat);
-        $template = $data['template'];
-        $this->load->view("dokumen/{$template}", $data);
-    }
-
-    private function data_cetak($kat)
-    {
-        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-
-        $post          = $this->input->post();
-        $data['main']  = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
-        $data['input'] = $post;
-        $data['kat']   = $kat;
-        $data['tahun'] = $post['tahun'];
-        $data['desa']  = $this->header['desa'];
-        if ($kat == 1) {
-            $data['kategori'] = 'Informasi Publik';
-        } else {
-            $list_kategori    = $this->web_dokumen_model->list_kategori();
-            $data['kategori'] = $list_kategori[$kat];
-        }
-        if ($kat == 2) {
-            $data['template'] = 'sk_kades_print';
-        } elseif ($kat == 3) {
-            $data['template'] = 'perdes_print';
-        } else {
-            $data['template'] = 'dokumen_print';
+        if (DokumenModel::gantiStatus($id, 'enabled')) {
+            redirect_with('success', 'Berhasil ubah status dokumen');
         }
 
-        return $data;
+        redirect_with('error', 'Gagal status dokumen');
     }
 
-    public function dialog_excel($kat = 1): void
+    public function dialog_cetak($aksi = 'cetak')
     {
-        $data['form_action']     = site_url("dokumen/excel/{$kat}");
-        $data['kat']             = $kat;
-        $data['jenis_peraturan'] = $this->referensi_model->jenis_peraturan_desa();
-        $data['tahun_laporan']   = $this->web_dokumen_model->list_tahun($kat);
-        $this->load->view('dokumen/dialog_cetak', $data);
+        $data['tahun_laporan'] = DokumenHidup::getTahun(DokumenEnum::INFORMASI_PUBLIK);
+        $data['aksi']          = $aksi;
+        $data['kat']           = DokumenEnum::INFORMASI_PUBLIK;
+        $data['form_action']   = ci_route('dokumen.cetak', $aksi);
+
+        return view('admin.layouts.components.kades.dialog_cetak', $data);
     }
 
-    public function excel($kat = 1): void
+    public function cetak($aksi = 'cetak')
     {
-        $data = $this->data_cetak($kat);
-        $this->load->view('dokumen/dokumen_excel', $data);
+        $tahun             = $this->input->post('tahun') ?? null;
+        $data              = $this->modal_penandatangan();
+        $data['tahun']     = $tahun;
+        $data['aksi']      = $aksi;
+        $data['main']      = DokumenHidup::informasiPublik()->when($tahun, static fn ($q) => $q->where(['tahun' => $tahun]))->get();
+        $data['config']    = $this->header['desa'];
+        $data['file']      = 'Dokumen_Informasi_Publik_' . date('Y-m-d');
+        $data['kategori']  = 'Informasi Publik';
+        $data['isi']       = 'admin.dokumen.informasi_publik.cetak';
+        $data['letak_ttd'] = ['2', '2', '5'];
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     /**
@@ -259,7 +235,12 @@ class Dokumen extends Admin_Controller
     public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false): void
     {
         // Ambil nama berkas dari database
-        $data = $this->web_dokumen_model->get_dokumen($id_dokumen, $id_pend);
+        $data = DokumenHidup::getDokumen($id_dokumen);
+
+        if ($data['url'] != null) {
+            redirect($data['url']);
+        }
+
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
     }
 
@@ -268,21 +249,80 @@ class Dokumen extends Admin_Controller
         $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
     }
 
-    private function upload_dokumen()
+    public function ekspor()
     {
-        $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-        $config['file_name']     = namafile($this->input->post('nama', true));
+        $data['form_action']   = ci_route('dokumen.ekspor_csv');
+        $data['log_semua']     = LogEkspor::where(['kode_ekspor' => 'informasi_publik', 'semua' => 1])->orderByDesc('tgl_ekspor')->first();
+        $data['log_perubahan'] = LogEkspor::where(['kode_ekspor' => 'informasi_publik', 'semua' => 2])->orderByDesc('tgl_ekspor')->first();
 
-        $this->load->library('MY_Upload', null, 'upload');
-        $this->upload->initialize($config);
+        view('admin.dokumen.informasi_publik.ekspor', $data);
+    }
 
-        if (! $this->upload->do_upload('satuan')) {
-            session_error($this->upload->display_errors(null, null));
+    public function ekspor_csv()
+    {
+        $filename = 'informasi_publik_' . date('Ymd') . '.csv';
+        // Gunakan file temporer
+        $tmpfname = tempnam(sys_get_temp_dir(), '');
+        // Siapkan daftar berkas untuk dimasukkan ke zip
+        $berkas   = [];
+        $berkas[] = [
+            'nama' => $filename,
+            'file' => $tmpfname,
+        ];
+        // Folder untuk berkas dokumen dalam zip
+        $berkas[] = [
+            'nama' => 'dir',
+            'file' => 'berkas',
+        ];
 
-            return false;
+        // Ambil data dan berkas infoemasi publik
+        $file       = fopen($tmpfname, 'wb');
+        $tipeEkspor = $this->input->post('data_ekspor');
+        $kodeDesa   = identitas('kode_desa');
+        $tglDari    = $this->input->post('tgl_dari');
+        if ($tipeEkspor == 1) {
+            $data = DokumenHidup::informasiPublik()->selectRaw("id, 0 as aksi,'{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun")->get()->toArray();
+        } else {
+            $data = DokumenHidup::informasiPublik()->selectRaw("id,
+			(CASE when deleted = 1
+				then '3'
+				else
+					case when DATE(tgl_upload) > STR_TO_DATE('{$tglDari}', '%d-%m-%Y')
+						then '1'
+						else '2'
+					end
+				end) as aksi
+		,'{$kodeDesa}' as kode_desa, satuan, nama, tgl_upload, updated_at, enabled, kategori_info_publik as kategori, tahun")->whereRaw(DB::raw("DATE(updated_at) > STR_TO_DATE('{$tglDari}', '%d-%m-%Y')"))->get()->toArray();
         }
 
-        return $this->upload->data()['file_name'];
+        $header = array_keys($data[0]);
+        fputcsv($file, $header);
+
+        foreach ($data as $baris) {
+            fputcsv($file, array_values($baris));
+            // Masukkan berkas ke dalam folder dalam zip
+            $berkas[] = [
+                'nama' => 'berkas/' . $baris['satuan'],
+                'file' => FCPATH . LOKASI_DOKUMEN . $baris['satuan'],
+            ];
+        }
+        fclose($file);
+
+        // Tulis log ekspor
+        $log = [
+            'kode_ekspor' => 'informasi_publik',
+            'semua'       => $this->input->post('data_ekspor'),
+            'total'       => count($data),
+        ];
+        LogEkspor::create($log);
+
+        // Masukkan semua berkas ke dalam zip
+        $berkas_zip = masukkan_zip($berkas);
+        // Unduh berkas zip
+        $data = $this->header['desa'];
+        header('Content-Description: File Transfer');
+        header('Content-disposition: attachment; filename=informasi_publik_' . $data['kode_desa'] . '_' . date('d-m-Y') . '.zip');
+        header('Content-type: application/zip');
+        readfile($berkas_zip);
     }
 }

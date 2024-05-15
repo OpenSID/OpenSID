@@ -66,7 +66,7 @@ class Setting_model extends MY_Model
     {
         $CI = &get_instance();
 
-        if ($this->setting || ! $this->db->table_exists('setting_aplikasi')) {
+        if ($this->setting) {
             return;
         }
 
@@ -245,6 +245,8 @@ class Setting_model extends MY_Model
                 }
             }
         }
+        // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual
+        (new SettingAplikasi())->flushQueryCache();
         $this->apply_setting();
 
         return $hasil;
@@ -274,7 +276,7 @@ class Setting_model extends MY_Model
                 unlink($lokasi . $key . '.jpg'); // hapus file yang sebelumya
             }
 
-            $this->config_id()->where('key', $key)->update('setting_aplikasi', $data); // simpan ke database
+            (SettingAplikasi::where('key', $key)->first())->update($data); // simpan ke database
 
             return $lokasi . $config['file_name']; // simpan ke path
         }
@@ -312,10 +314,10 @@ class Setting_model extends MY_Model
         }
 
         if ($key == 'tte' && $value == 1) {
-            $this->config_id()->where('key', 'verifikasi_kades')->update('setting_aplikasi', ['value' => 1]); // jika tte aktif, aktifkan juga verifikasi kades
+            SettingAplikasi::where('key', 'verifikasi_kades')->update(['value' => 1]); // jika tte aktif, aktifkan juga verifikasi kades
         }
 
-        $outp = $this->config_id()->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
+        $outp = SettingAplikasi::where('key', $key)->update(['value' => $value]);
 
         // Hapus Cache
         // $this->cache->hapus_cache_untuk_semua('status_langganan');
@@ -329,10 +331,9 @@ class Setting_model extends MY_Model
 
     public function aktifkan_tracking(): void
     {
-        $outp = $this->config_id()->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
-        // cache()->flush();
-
-        status_sukses($outp);
+        // ini bisa otomatis invalidate cache
+        (SettingAplikasi::where('key', 'enable_track')->first())->update(['value' => 1]);
+        status_sukses(1);
     }
 
     public function update_slider(): void
@@ -340,10 +341,10 @@ class Setting_model extends MY_Model
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
         $this->setting->jumlah_gambar_slider = $this->input->post('jumlah_gambar_slider');
-        $outp                                = $this->config_id()->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
-        $outp                                = $this->config_id()->where('key', 'jumlah_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('jumlah_gambar_slider')]);
-        // cache()->flush();
-
+        SettingAplikasi::where('key', 'sumber_gambar_slider')->update(['value' => $this->input->post('pilihan_sumber')]);
+        SettingAplikasi::where('key', 'jumlah_gambar_slider')->update(['value' => $this->input->post('jumlah_gambar_slider')]);
+        (new SettingAplikasi())->flushQueryCache();
+        $outp = 1;
         if (! $outp) {
             $_SESSION['success'] = -1;
         }
@@ -356,97 +357,12 @@ class Setting_model extends MY_Model
     */
     public function update_penggunaan_server(): void
     {
-        $_SESSION['success']              = 1;
-        $mode                             = $this->input->post('offline_mode_saja');
-        $this->setting->offline_mode      = ($mode === '0' || $mode) ? $mode : $this->input->post('offline_mode');
-        $out1                             = $this->config_id()->where('key', 'offline_mode')->update('setting_aplikasi', ['value' => $this->setting->offline_mode]);
+        $_SESSION['success']         = 1;
+        $mode                        = $this->input->post('offline_mode_saja');
+        $this->setting->offline_mode = ($mode === '0' || $mode) ? $mode : $this->input->post('offline_mode');
+        (SettingAplikasi::where('key', 'offline_mode')->first())->update(['value' => $this->setting->offline_mode]);
         $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
         $this->setting->penggunaan_server = $penggunaan_server;
-        $out2                             = $this->config_id()->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
-
-        if (! $out1 || ! $out2) {
-            $_SESSION['success'] = -1;
-        }
-    }
-
-    public function cekKebutuhanSistem()
-    {
-        $data = [];
-
-        $sistem = [
-            ['max_execution_time', '>=', '300'],
-            ['post_max_size', '>=', '10M'],
-            ['upload_max_filesize', '>=', '20M'],
-            ['memory_limit', '>=', '512M'],
-        ];
-
-        foreach ($sistem as $value) {
-            [$key, $kondisi, $val] = $value;
-
-            $data[$key] = [
-                'v'      => $val,
-                $key     => ini_get($key),
-                'result' => version_compare(ini_get($key), $val, $kondisi),
-            ];
-        }
-
-        return $data;
-    }
-
-    public function cekEkstensi()
-    {
-        $e = get_loaded_extensions();
-        usort($e, 'strcasecmp');
-        $ekstensi = array_flip($e);
-        $e        = unserialize(EKSTENSI_WAJIB);
-        usort($e, 'strcasecmp');
-        $ekstensi_wajib = array_flip($e);
-        $lengkap        = true;
-
-        foreach (array_keys($ekstensi_wajib) as $key) {
-            $ekstensi_wajib[$key] = isset($ekstensi[$key]);
-            $lengkap              = $lengkap && $ekstensi_wajib[$key];
-        }
-        $data['lengkap']  = $lengkap;
-        $data['ekstensi'] = $ekstensi_wajib;
-
-        return $data;
-    }
-
-    public function disableFunctions()
-    {
-        $wajib    = [];
-        $disabled = explode(',', ini_get('disable_functions'));
-
-        $functions = [];
-        $lengkap   = true;
-
-        foreach ($wajib as $fuc) {
-            $functions[$fuc] = ! in_array($fuc, $disabled);
-            $lengkap         = $lengkap && $functions[$fuc];
-        }
-
-        $data['lengkap']   = $lengkap;
-        $data['functions'] = $functions;
-
-        return $data;
-    }
-
-    public function cekPhp()
-    {
-        return [
-            'versi' => PHP_VERSION,
-            'cek'   => (version_compare(PHP_VERSION, minPhpVersion, '>=') && version_compare(PHP_VERSION, maxPhpVersion, '<=')),
-        ];
-    }
-
-    public function cekDatabase()
-    {
-        $versi = $this->db->query('SELECT VERSION() AS version')->row()->version;
-
-        return [
-            'versi' => $versi,
-            'cek'   => (version_compare($versi, minMySqlVersion, '>=') && version_compare($versi, maxMySqlVersion, '<')) || (version_compare($versi, minMariaDBVersion, '>=')),
-        ];
+        (SettingAplikasi::where('key', 'penggunaan_server')->first())->update(['value' => $penggunaan_server]);
     }
 }

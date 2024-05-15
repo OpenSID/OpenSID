@@ -83,6 +83,7 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         ),
         'R' => 
         array (
+            'Rennokki\\QueryCache\\' => 20,
             'Rap2hpoutre\\FastExcel\\' => 22,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
@@ -302,6 +303,10 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         'SlowProg\\CopyFile\\' => 
         array (
             0 => __DIR__ . '/..' . '/slowprog/composer-copy-file',
+        ),
+        'Rennokki\\QueryCache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rennokki/laravel-eloquent-query-cache/src',
         ),
         'Rap2hpoutre\\FastExcel\\' => 
         array (

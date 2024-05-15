@@ -347,10 +347,10 @@ class Penduduk extends Admin_Controller
                 $umurMin           = $advanceSearch['umur_min'];
                 $umurMax           = $advanceSearch['umur_max'];
                 $umurObj['satuan'] = $advanceSearch['umur'];
-                if ($umurMin) {
+                if ($umurMin !== null) {
                     $umurObj['min'] = $umurMin;
                 }
-                if ($umurMax) {
+                if ($umurMax !== null) {
                     $umurObj['max'] = $umurMax;
                 }
                 $map = [
@@ -1445,6 +1445,7 @@ class Penduduk extends Admin_Controller
         isCan('u');
         $hapus = isset($_POST['hapus_data']);
         $this->impor_model->impor_excel($hapus);
+        shortcut_cache();
         redirect('penduduk/impor');
     }
 
@@ -1478,6 +1479,7 @@ class Penduduk extends Admin_Controller
         }
 
         $this->impor_model->impor_bip($this->input->post('hapus_data'));
+        shortcut_cache();
         redirect('penduduk/impor_bip');
     }
 

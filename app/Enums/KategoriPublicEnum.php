@@ -35,10 +35,27 @@
  *
  */
 
-header('Content-type: application/octet-stream');
-$tahun = empty($_SESSION['filter']) ? '_semua' : '_' . $_SESSION['filter'];
-header('Content-Disposition: attachment; filename=surat_masuk' . $tahun . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Enums;
 
-include 'donjo-app/views/surat_masuk/surat_masuk_print.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class KategoriPublicEnum extends BaseEnum
+{
+    public const INFORMASI_BERKALA      = 1;
+    public const INFORMASI_SERTA_MERTA  = 2;
+    public const INFORMASI_SEIAP_SAAT   = 3;
+    public const INFORMASI_DIKECUALIKAN = 4;
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::INFORMASI_BERKALA      => 'Informasi Berkala',
+            self::INFORMASI_SERTA_MERTA  => 'Informasi Serta-merta',
+            self::INFORMASI_SEIAP_SAAT   => 'Informasi Setiap Saat',
+            self::INFORMASI_DIKECUALIKAN => 'Informasi Dikecualikan',
+        ];
+    }
+}

@@ -89,7 +89,7 @@ class Shortcut extends BaseModel
         return $query;
     }
 
-    public static function listIcon()
+    public static function listIcon(): ?array
     {
         $list_icon = [];
 
@@ -99,7 +99,7 @@ class Shortcut extends BaseModel
             $list_icon = file_get_contents($file);
             $list_icon = explode('.', $list_icon);
 
-            return array_map(static fn ($a) => explode(':', $a)[0], $list_icon);
+            return array_map(static fn ($a): string => explode(':', $a)[0], $list_icon);
         }
 
         return null;
@@ -113,7 +113,7 @@ class Shortcut extends BaseModel
 
         try {
             if ($jenis_query == 0) {
-                return $this->querys()['jumlah'][$raw_query];
+                return static::querys()['jumlah'][$raw_query];
             }
 
             if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
@@ -159,7 +159,7 @@ class Shortcut extends BaseModel
     {
         $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
 
-        return cache()->rememberForever('shortcut_' . auth()->id, static function () use ($isAdmin) {
+        return cache()->rememberForever('shortcut_' . auth()->id, static function () use ($isAdmin): array {
             $activeShortcut    = self::where('status', '=', '1')->orderBy('urut')->get();
             $querys            = [];
             $querys['data']    = $activeShortcut;
@@ -223,13 +223,11 @@ class Shortcut extends BaseModel
                 // Surat
                 'Surat'          => LogSurat::whereNull('deleted_at'),
                 'Surat Tercetak' => LogSurat::whereNull('deleted_at')
-                    ->when($isAdmin->jabatan_id == kades()->id, static function ($q) {
-                        return $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
-                            ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-                            ->orWhere(static function ($verifikasi) {
-                                $verifikasi->whereNull('verifikasi_operator');
-                            });
-                    })
+                    ->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                        ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                        ->orWhere(static function ($verifikasi): void {
+                            $verifikasi->whereNull('verifikasi_operator');
+                        }))
                     ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
                     ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator')),
 
@@ -251,17 +249,15 @@ class Shortcut extends BaseModel
 
             $bantuan = Bantuan::get();
             if ($bantuan) {
-                $pesertaBantuan = $bantuan->filter(static fn ($item) => $activeShortcut->where('raw_query', 'Bantuan ' . $item->nama)->count())->mapWithKeys(static function ($item) {
-                    return [
-                        'Bantuan ' . $item->nama => BantuanPeserta::where('program_id', $item->id),
-                    ];
-                });
+                $pesertaBantuan = $bantuan->filter(static fn ($item) => $activeShortcut->where('raw_query', 'Bantuan ' . $item->nama)->count())->mapWithKeys(static fn ($item): array => [
+                    'Bantuan ' . $item->nama => BantuanPeserta::where('program_id', $item->id),
+                ]);
 
                 $mapping = $mapping->merge($pesertaBantuan);
             }
             $querys['mapping'] = $mapping->keys();
             if ($activeShortcut) {
-                $resultJumlah     = $activeShortcut->mapWithKeys(static fn ($item) => [$item->raw_query => $mapping->get($item->raw_query)->count()])->toArray();
+                $resultJumlah     = $activeShortcut->mapWithKeys(static fn ($item): array => [$item->raw_query => $mapping->get($item->raw_query)->count()])->toArray();
                 $querys['jumlah'] = $resultJumlah;
             }
 

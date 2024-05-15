@@ -58,4 +58,59 @@ class SuratMasuk extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'config_id',
+        'nomor_urut',
+        'tanggal_penerimaan',
+        'nomor_surat',
+        'kode_surat',
+        'tanggal_surat',
+        'tanggal_catat',
+        'pengirim',
+        'isi_singkat',
+        'isi_disposisi',
+        'berkas_scan',
+        'lokasi_arsip',
+    ];
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
+    }
+
+    public function scopeAutocomplete($query)
+    {
+        $query->select('pengirim')->distinct()->orderBy('pengirim');
+
+        return $query->limit(15)->pluck('pengirim')->toArray();
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'berkas_scan');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'berkas_scan', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $gambar = LOKASI_ARSIP . $model->getOriginal($file);
+            if (file_exists($gambar)) {
+                unlink($gambar);
+            }
+        }
+    }
 }

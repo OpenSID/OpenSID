@@ -1,4 +1,4 @@
-Di rilis ini, versi 2405.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2405.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -11,6 +11,15 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#7907](https://github.com/OpenSID/OpenSID/issues/7907) Perbaikan tambah peta area.
 5. [#7908](https://github.com/OpenSID/OpenSID/issues/7908) Perbaikan ekspor database gabungan (.sid).
 6. [#7917](https://github.com/OpenSID/OpenSID/issues/7917) Perbaikan ejaan pada lampiran surat nikah.
+7. [#7920](https://github.com/OpenSID/OpenSID/issues/7920) Perbaikan unduh salinan kartu kerluarga.
+8. [#7923](https://github.com/OpenSID/OpenSID/issues/7923) Perbaikan urutan anggota keluarga pengikut pada surat keterangna pindah.
+9. [#7921](https://github.com/OpenSID/OpenSID/issues/7921) Perbaikan form tambah penduduk.
+10. [#7929](https://github.com/OpenSID/OpenSID/issues/7929) Perbaikan tambah/ubah grup penggun.
+11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip web.
+12. [#7927](https://github.com/OpenSID/OpenSID/issues/7927) Perbaikan route halaman verifikasi email dan telegram.
+13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
+14. [#7911](https://github.com/OpenSID/OpenSID/issues/7911) Perbaikan impor data penduduk menggunakan format BIP.
+15. [#7938](https://github.com/OpenSID/OpenSID/issues/7938) Perbaikan hapus beberapa artikel sekaligus.
 
 
 #### TEKNIS
@@ -20,6 +29,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#7811](https://github.com/OpenSID/OpenSID/issues/7811) Penyesuaian modul Laporan Bulanan menggunakan ORM dan Blade.
 4. [#7824](https://github.com/OpenSID/OpenSID/issues/7824) Penyesuaian modul OpenDK > Pesan menggunakan ORM dan Blade.
 5. [#7822](https://github.com/OpenSID/OpenSID/issues/7822) Penyesuaian modul Laporan Kelompok Rentan menggunakan ORM dan Blade.
+6. [#7756](https://github.com/OpenSID/OpenSID/issues/7756) Penyesuaian modul Buku Agenda - Surat Masuk menggunakan ORM dan Blade.
+7. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul Informasi Publik menggunakan ORM dan Blade.
+8. [#7932](https://github.com/OpenSID/OpenSID/issues/7932) Penyesuaian dan optimasi pada query yang berulang.
 
 
 #### KEAMANAN

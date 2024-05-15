@@ -783,26 +783,22 @@ Route::group('surat_dinas_arsip', static function (): void {
 
 // Sekretariat > Informasi Publik
 Route::group('dokumen', static function (): void {
-    Route::get('/clear', 'Dokumen@clear')->name('dokumen.clear');
-    Route::get('/form/{kat?}/{p?}/{o?}/{id?}', 'Dokumen@form')->name('dokumen.form');
-    Route::post('/search', 'Dokumen@search')->name('dokumen.search');
-    Route::post('/filter', 'Dokumen@filter')->name('dokumen.filter');
-    Route::post('/insert', 'Dokumen@insert')->name('dokumen.insert');
-    Route::post('/update/{kat?}/{id?}/{p?}/{o?}', 'Dokumen@update')->name('dokumen.update');
-    Route::get('/delete/{kat?}/{p?}/{o?}/{id?}', 'Dokumen@delete')->name('dokumen.delete');
-    Route::post('/delete_all/{kat?}/{p?}/{o?}', 'Dokumen@delete_all')->name('dokumen.delete_all');
-    Route::get('/dokumen_lock/{kat?}/{id?}', 'Dokumen@dokumen_lock')->name('dokumen.dokumen_lock');
-    Route::get('/dokumen_unlock/{kat?}/{id?}', 'Dokumen@dokumen_unlock')->name('dokumen.dokumen_unlock');
-    Route::get('/dialog_cetak/{kat?}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
-    Route::post('/cetak/{kat?}', 'Dokumen@cetak')->name('dokumen.cetak');
-    Route::get('/dialog_excel/{kat?}', 'Dokumen@dialog_excel')->name('dokumen.dialog_excel');
-    Route::post('/excel/{kat?}', 'Dokumen@excel')->name('dokumen.excel');
-    Route::get('/unduh_berkas/{id_dokumen?}/{id_pend?}/{tampil?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
-    Route::get('/tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
-    Route::match(['GET', 'POST'], '/index', 'Dokumen@index');
-    Route::match(['GET', 'POST'], '/index/{kat?}/{p?}/{o?}', 'Dokumen@index');
-    Route::match(['GET', 'POST'], '/index/{kat?}/{p?}', 'Dokumen@index');
-    Route::match(['GET', 'POST'], '/', 'Dokumen@index');
+    Route::get('clear', static function (): void {
+        redirect('dokumen');
+    });
+    Route::get('', 'Dokumen@index');
+    Route::get('datatables', 'Dokumen@datatables')->name('dokumen.datatables');
+    Route::get('form/{id?}', 'Dokumen@form')->name('dokumen.form');
+    Route::post('insert', 'Dokumen@insert')->name('dokumen.insert');
+    Route::post('update/{id}', 'Dokumen@update')->name('dokumen.update');
+    Route::match(['GET', 'POST'], 'delete/{id?}', 'Dokumen@delete')->name('dokumen.delete');
+    Route::get('lock/{id}', 'Dokumen@lock')->name('dokumen.lock');
+    Route::get('dialog_cetak/{aksi}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
+    Route::post('cetak/{aksi}', 'Dokumen@cetak')->name('dokumen.cetak');
+    Route::get('unduh_berkas/{id_dokumen?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
+    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
+    Route::get('ekspor', 'Dokumen@ekspor')->name('dokumen.ekspor');
+    Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');
 });
 
 // Sekretariat > Inventaris
@@ -1089,25 +1085,19 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
     // Surat Masuk
     Route::group('surat_masuk', static function (): void {
-        Route::get('/clear/{id?}', 'Surat_masuk@clear')->name('buku-umum.surat_masuk.clear');
-        Route::get('/form/{p?}/{o?}/{id?}', 'Surat_masuk@form')->name('buku-umum.surat_masuk.form');
-        Route::get('/form_upload/{p?}/{o?}/{url?}', 'Surat_masuk@form_upload')->name('buku-umum.surat_masuk.form_upload');
-        Route::post('/search', 'Surat_masuk@search')->name('buku-umum.surat_masuk.search');
-        Route::post('/filter', 'Surat_masuk@filter')->name('buku-umum.surat_masuk.filter');
+        Route::get('/', 'Surat_masuk@index')->name('buku-umum.surat_masuk.index');
+        Route::get('/datatables', 'Surat_masuk@datatables')->name('buku-umum.surat_masuk.datatables');
+        Route::get('/form/{id?}', 'Surat_masuk@form')->name('buku-umum.surat_masuk.form');
         Route::post('/insert', 'Surat_masuk@insert')->name('buku-umum.surat_masuk.insert');
-        Route::post('/update/{p?}/{o?}/{id?}', 'Surat_masuk@update')->name('buku-umum.surat_masuk.update');
-        Route::post('/upload/{p?}/{o?}/{url?}', 'Surat_masuk@upload')->name('buku-umum.surat_masuk.upload');
-        Route::get('/delete/{p?}/{o?}/{id?}', 'Surat_masuk@delete')->name('buku-umum.surat_masuk.delete');
-        Route::post('/delete_all/{p?}/{o?}', 'Surat_masuk@delete_all')->name('buku-umum.surat_masuk.delete_all');
-        Route::get('/dialog_disposisi/{o?}/{id?}', 'Surat_masuk@dialog_disposisi')->name('buku-umum.surat_masuk.dialog_disposisi');
-        Route::get('/dialog_cetak/{o?}', 'Surat_masuk@dialog_cetak')->name('buku-umum.surat_masuk.dialog_cetak');
-        Route::get('/dialog_unduh/{o?}', 'Surat_masuk@dialog_unduh')->name('buku-umum.surat_masuk.dialog_unduh');
-        Route::match(['GET', 'POST'], '/dialog/{aksi?}/{o?}', 'Surat_masuk@dialog')->name('buku-umum.surat_masuk.dialog');
+        Route::post('/update/{id?}', 'Surat_masuk@update')->name('buku-umum.surat_masuk.update');
+        Route::get('/delete/{id?}', 'Surat_masuk@delete')->name('buku-umum.surat_masuk.delete');
+        Route::post('/delete_all', 'Surat_masuk@delete_all')->name('buku-umum.surat_masuk.delete_all');
+        Route::get('/dialog_disposisi/{id?}', 'Surat_masuk@dialog_disposisi')->name('buku-umum.surat_masuk.dialog_disposisi');
         Route::post('/disposisi/{id?}', 'Surat_masuk@disposisi')->name('buku-umum.surat_masuk.disposisi');
+        Route::get('/dialog/{aksi?}', 'Surat_masuk@dialog')->name('buku-umum.surat_masuk.dialog');
+        Route::post('/cetak/{aksi?}', 'Surat_masuk@cetak')->name('buku-umum.surat_masuk.cetak');
         Route::get('/berkas/{idSuratMasuk?}/{tipe?}', 'Surat_masuk@berkas')->name('buku-umum.surat_masuk.berkas');
         Route::post('/nomor_surat_duplikat', 'Surat_masuk@nomor_surat_duplikat')->name('buku-umum.surat_masuk.nomor_surat_duplikat');
-        Route::get('/index/{p?}/{o?}', 'Surat_masuk@index')->name('buku-umum.surat_masuk.index');
-        Route::get('/{p?}/{o?}', 'Surat_masuk@index')->name('buku-umum.surat_masuk.index-page');
     });
 });
 
@@ -1948,6 +1938,9 @@ Route::group('/info_sistem', static function (): void {
 
 // Pengaturan > QR Code
 Route::group('qr_code', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('qr_code');
+    });
     Route::post('/qrcode_generate', 'Qr_code@qrcode_generate')->name('qr_code.qrcode_generate');
     Route::match(['GET', 'POST'], '/', 'Qr_code@index')->name('qr_code.index');
 });
@@ -1970,7 +1963,7 @@ Route::group('web', static function (): void {
     Route::get('datatables', 'Web@datatables')->name('web.datatables');
     Route::post('insert/{cat}', 'Web@insert')->name('web.insert');
     Route::post('update/{cat}/{id?}', 'Web@update')->name('web.update');
-    Route::match(['GET', 'POST'], 'delete/{cat}/{id?}', 'Web@delete')->name('web.delete');
+    Route::match(['GET', 'POST'], 'delete/{cat?}/{id?}', 'Web@delete')->name('web.delete');
     Route::match(['GET', 'POST'], 'hapus/{cat}', 'Web@hapus')->name('web.hapus');
     Route::get('ubah_kategori_form/{id?}', 'Web@ubah_kategori_form')->name('web.ubah_kategori_form');
     Route::post('update_kategori/{id?}', 'Web@update_kategori')->name('web.update_kategori');
