@@ -1141,6 +1141,12 @@ class Stunting extends Admin_Controller
     ///////////////////////////////////
     public function scorecard_konvergensi($kuartal = null, $tahun = null, $id = null)
     {
+        $data = $this->sumber_data($kuartal, $tahun, $id);
+
+        return view('admin.stunting.scorcard-konvergensi-desa', $data);
+    }
+
+    private function sumber_data($kuartal = null, $tahun = null, $id = null) {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
         }
@@ -1266,15 +1272,6 @@ class Stunting extends Admin_Controller
         ];
 
         $anak2sd6 = SasaranPaud::query();
-
-        // if ($this->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
-        //     $anak2sd6->where('posyandu_id', $this->session->userdata('id'));
-        // } else {
-        //     if ($id != null) {
-        //         $anak2sd6->where('posyandu_id', $id);
-        //     }
-        // }
-
         $anak2sd6->whereYear('sasaran_paud.created_at', $tahun)->get();
 
         foreach ($anak2sd6 as $datax) {
@@ -1388,7 +1385,42 @@ class Stunting extends Admin_Controller
         $data['_tahun']                = $tahun;
         $data['aktif']                 = 'scorcard';
 
-        return view('admin.stunting.scorcard-konvergensi-desa', $data);
+        return $data;
+    }
+
+    public function dialog_sk($aksi = 'cetak'): void
+    {
+        $kuartal = $this->input->get('kuartal');
+        $tahun   = $this->input->get('tahun');
+        $id      = $this->input->get('id');
+
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("stunting/aksi_sk/{$aksi}?kuartal={$kuartal}&tahun={$tahun}&id={$id}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi_sk($aksi = 'cetak'): void
+    {
+        $this->load->model('pamong_model');
+        
+        $kuartal = $this->input->get('kuartal');
+        $tahun   = $this->input->get('tahun');
+        $id      = $this->input->get('id');
+
+        $post                   = $this->input->post();
+        $data                   = $this->sumber_data($kuartal, $tahun, $id);
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['file']           = 'Data Scorecard Konvergensi';
+        $data['isi']            = 'admin.stunting.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+        $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper(get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     private function widget()

@@ -56,11 +56,21 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2 no-padding">
+                        <div class="col-md-2">
                             <button type="button" class="btn btn-social btn-info btn-sm" id="cari">
                                 <i class="fa fa-search"></i> Cari
                             </button>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+                        @includeIf('admin.layouts.components.buttons.cetak', [
+                            'modal' => true,
+                            'url' => 'stunting/dialog_sk/cetak?kuartal=' . $kuartal . '&tahun=' . $_tahun . '&id=' . $id,
+                        ])
+                        @includeIf('admin.layouts.components.buttons.unduh', [
+                            'modal' => true,
+                            'url' => 'stunting/dialog_sk/unduh?kuartal=' . $kuartal . '&tahun=' . $_tahun . '&id=' . $id,
+                        ])
                     </div>
                 </div>
                 <!-- /.box-header -->

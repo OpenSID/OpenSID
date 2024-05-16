@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#5129](https://github.com/OpenSID/OpenSID/issues/5129) Penambahan referensi pendidikan yang sedang ditempuh.
 15. [#7882](https://github.com/OpenSID/OpenSID/issues/7882) Penambahan pengaturan dan alur pengelompokan penomoran surat berdasarkan kode klasifikasi surat.
 16. [#3362](https://github.com/OpenSID/OpenSID/issues/3362) Penambahan inventaris pada halaman website.
+17. [#6342](https://github.com/OpenSID/OpenSID/issues/6342) Penambahan cetak/unduh laporan Scorecard konvergensi stunting.
 
 
 #### BUG
