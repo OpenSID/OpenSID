@@ -13,7 +13,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.carousel.js"></script>
 <?php endif ?>
 
-<?php $this->load->view('head_tags_front') ?>
+<?= view('admin.layouts.components.token') ?>
 
 <script>
     $.extend($.fn.dataTable.defaults, {

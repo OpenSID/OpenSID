@@ -29,7 +29,8 @@
 		<link rel="stylesheet" href="<?= asset('front/css/mandiri-keyboard.css') ?>">
 	<?php endif; ?>
 
-	<?php $this->load->view('head_tags'); ?>
+	<?= view('admin.layouts.components.token') ?>
+
 	<style type="text/css">
         body.login {
             background-image: url('<?= default_file(LATAR_KEHADIRAN, DEFAULT_LATAR_KEHADIRAN) ?>');

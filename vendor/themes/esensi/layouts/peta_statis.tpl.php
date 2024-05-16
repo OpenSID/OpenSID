@@ -46,7 +46,7 @@
     <br>
     <?php $this->load->view($halaman_peta); ?>
   </main>
-  <?php $this->load->view('head_tags_front') ?>
+  <?= view('admin.layouts.components.token') ?>
 </body>
 
 </html>

@@ -1,8 +1,8 @@
 @if (config_item('csrf_protection'))
     <!-- CSRF Token -->
     <script type="text/javascript">
-        var csrfParam = "{{ $token }}";
-        var csrfVal = '{{ $ci->security->get_csrf_hash() }}';
+        var csrfParam = "{{ $token_name }}";
+        var csrfVal = "{{ $token_value }}";
         function getCsrfToken() {
             return csrfVal;
         }

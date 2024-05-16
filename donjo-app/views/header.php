@@ -122,7 +122,7 @@
     <script src="<?= asset('js/highcharts/accessibility.js') ?>"></script>
 
 
-    <?php require __DIR__ . '/head_tags.php' ?>
+    <?= view('admin.layouts.components.token') ?>
 </head>
 
 <body id="sidebar_collapse" class="<?= $this->setting->warna_tema_admin ?> sidebar-mini fixed">
