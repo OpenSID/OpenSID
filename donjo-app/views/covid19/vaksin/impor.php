@@ -21,7 +21,7 @@
                             <label for="file" class="control-label">File .xslx untuk diimpor : </label>
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" id="file_path" name="userfile" required>
-                                <input type="file" class="hidden" id="file" name="userfile">
+                                <input type="file" class="hidden" id="file" name="userfile" accept=".xlsx">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                 </span>
@@ -29,7 +29,7 @@
                             <code>Data dengan NIK sama akan ditimpa.</code>
                             <br/>
                             <br/>
-                            <a href="<?= base_url('assets/import/FormatImporVaksin.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Penerima Vaksin</a>
+                            <a href="<?= asset('import/FormatImporVaksin.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Penerima Vaksin</a>
                         </div>
                     </div>
                     <div class="modal-footer">

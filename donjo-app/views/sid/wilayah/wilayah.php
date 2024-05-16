@@ -11,7 +11,7 @@
 	<section class="content-header">
 		<h1>Wilayah Administratif <?= ucwords($this->setting->sebutan_dusun) ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Daftar <?= ucwords($this->setting->sebutan_dusun) ?></li>
 		</ol>
 	</section>
@@ -88,6 +88,7 @@
 																	<?php if (can('h')): ?>
 																		<a href="#" data-href="<?= site_url("wilayah/delete/dusun/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm <?= jecho($data['deletable'], 0, 'disabled') ?>" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
+																	<?php if($cek_lokasi_peta): ?>
 																	<div class="btn-group">
 																		<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Peta</button>
 																		<ul class="dropdown-menu" role="menu">
@@ -99,6 +100,7 @@
 																			</li>
 																		</ul>
 																	</div>
+																	<?php endif; ?>
 																</td>
 																<td><?= strtoupper($data['dusun'])?></td>
 																<td nowrap><strong><?= strtoupper($data['nama_kadus'])?></strong> - <?= $data['nik_kadus']?></td>
@@ -146,8 +148,8 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
-<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+<script src="<?= asset('js/validasi.js') ?>"></script>
+<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
 
 

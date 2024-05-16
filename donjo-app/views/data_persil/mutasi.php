@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengelolaan Sebab Dan Tanggal Perubahan Persil</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('data_persil/clear')?>"> Daftar Persil</a></li>
 			<li class="active">Pengelolaan Sebab Dan Tanggal Perubahan Persil</li>
 		</ol>

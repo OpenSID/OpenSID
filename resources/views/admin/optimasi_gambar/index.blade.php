@@ -13,7 +13,6 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
 
-
     <div class="box box-info">
         <div class="row">
             <div class="col-md-12">
@@ -29,9 +28,7 @@
                                         <td class="col-sm-10">Folder desa/upload/</td>
                                         <td class="col-sm-2">
                                             @if (can('u'))
-                                                <button type="button"
-                                                    class="btn btn-social btn-flat btn-block btn-info btn-sm resize-all"
-                                                    title="Resize Gambar"><i class="fa fa-picture-o"></i> Resize Gambar
+                                                <button type="button" class="btn btn-social btn-flat btn-block btn-info btn-sm resize-all" title="Resize Gambar"><i class="fa fa-picture-o"></i> Resize Gambar
                                                 </button>
                                             @endif
                                         </td>
@@ -46,9 +43,7 @@
                                             <td class="col-sm-10">Folder desa/upload/<b>{{ $dir }}</b></td>
                                             <td class="col-sm-2">
                                                 @if (can('u'))
-                                                    <button data-dir="{{ $dir }}" type="button"
-                                                        class="btn btn-social btn-flat btn-block btn-info btn-sm resize"
-                                                        title="Resize Gambar"><i class="fa fa-picture-o"></i> Resize Gambar
+                                                    <button data-dir="{{ $dir }}" type="button" class="btn btn-social btn-flat btn-block btn-info btn-sm resize" title="Resize Gambar"><i class="fa fa-picture-o"></i> Resize Gambar
                                                     </button>
                                                 @endif
                                             </td>

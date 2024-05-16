@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1>Rincian C-DESA</h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li><a href="<?= site_url('cdesa')?>"> Daftar C-DESA</a></li>
             <li class="active">Rincian C-DESA</li>
         </ol>
@@ -131,7 +131,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     // deklarasi variable diluar fungsi agar terbaca di semua fungsi
     var peta_area;
@@ -143,15 +142,10 @@
         var zoom = 4;
     <?php endif; ?>
 
-    var options = {
-        maxZoom: <?= setting('max_zoom_peta') ?>,
-        minZoom: <?= setting('min_zoom_peta') ?>,
-    };
-
     $(document).ready(function() {
         $(document).on('shown.bs.modal','#map-modal', function(event) {
             if (L.DomUtil.get('map')._leaflet_id  == undefined) {
-                peta_area = L.map('map', options).setView(posisi, zoom);
+                peta_area = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
                 //Menampilkan BaseLayers Peta
                 var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);

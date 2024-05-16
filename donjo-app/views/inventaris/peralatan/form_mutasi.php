@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Isi Data Mutasi Inventaris Peralatan Dan Mesin</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('inventaris_peralatan/mutasi') ?>">Daftar Mutasi Inventaris Peralatan Dan Mesin</a></li>
 			<li class="active">Isi Data Mutasi</li>
 		</ol>

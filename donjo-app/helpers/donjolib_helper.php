@@ -588,26 +588,36 @@ function to_word($number)
         'delapan',
         'sembilan',
         'sepuluh',
-        'sebelas', ];
+        'sebelas',
+    ];
+
+    $unit = ['', 'ribu', 'juta', 'milyar', 'triliun', 'kuadriliun', 'kuintiliun', 'sekstiliun', 'septiliun', 'oktiliun', 'noniliun', 'desiliun', 'undesiliun', 'duodesiliun', 'tredesiliun', 'kuatuordesiliun'];
 
     if ($number < 12) {
         $words = ' ' . $arr_number[$number];
     } elseif ($number < 20) {
         $words = to_word($number - 10) . ' belas';
     } elseif ($number < 100) {
-        $words = to_word($number / 10) . ' puluh' . to_word($number % 10);
+        $words = to_word(intdiv($number, 10)) . ' puluh' . to_word($number % 10);
     } elseif ($number < 200) {
-        $words = 'seratus ' . to_word($number - 100);
+        $words = ' seratus' . to_word($number - 100);
     } elseif ($number < 1000) {
-        $words = to_word($number / 100) . ' ratus' . to_word($number % 100);
-    } elseif ($number < 2000) {
-        $words = 'seribu ' . to_word($number - 1000);
-    } elseif ($number < 1000000) {
-        $words = to_word($number / 1000) . ' ribu' . to_word($number % 1000);
-    } elseif ($number < 1000000000) {
-        $words = to_word($number / 1000000) . ' juta' . to_word($number % 1000000);
+        $words = to_word(intdiv($number, 100)) . ' ratus' . to_word($number % 100);
+    } elseif ($number >= 1000 && $number < 2000) {
+        $words = ' seribu' . to_word($number - 1000);
     } else {
-        $words = 'undefined';
+        for ($i = count($unit) - 1; $i >= 0; $i--) {
+            $divider = 10 ** (3 * $i);
+            if ($number < $divider) {
+                continue;
+            }
+
+            $div = intdiv($number, $divider);
+            $mod = $number % $divider;
+
+            $words = to_word($div) . ' ' . $unit[$i] . to_word($mod);
+            break;
+        }
     }
 
     return $words;

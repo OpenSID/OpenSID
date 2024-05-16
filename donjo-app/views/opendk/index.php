@@ -52,7 +52,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<small>Daftar Data</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Daftar Data</li>
 		</ol>
 	</section>
@@ -118,7 +118,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="modal-body">
 				Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirimkan.
 				<div class='text-center'>
-					<img src="<?= base_url('assets/images/background/loading.gif')?>">
+					<img src="<?= asset('images/background/loading.gif')?>">
 				</div>
 			</div>
 		</div>

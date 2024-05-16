@@ -5,7 +5,7 @@
 			<small><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('admin_pembangunan') ?>"> Pembangunan</a></li>
 			<li class="active"><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</li>
 		</ol>

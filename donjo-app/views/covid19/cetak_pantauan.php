@@ -3,7 +3,7 @@
 	<head>
 		<title>Data Pemudik Saat Pandemi Covid-19</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<link href="<?= asset('css/report.css') ?>" rel="stylesheet" type="text/css">
 		<style type="text/css">
 			.textx
 			{

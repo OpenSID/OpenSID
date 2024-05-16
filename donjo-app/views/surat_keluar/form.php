@@ -5,7 +5,7 @@
 	<section class="content-header">
 		<h1>Surat Keluar</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('surat_keluar')?>"> Daftar Surat Keluar</a></li>
 			<li class="active">Surat Keluar</li>
 		</ol>
@@ -32,9 +32,9 @@
 							<label class="col-sm-3 control-label" for="kode_pos"></label>
 							<div class="col-sm-8">
 								<?php if (get_extension($surat_keluar['berkas_scan']) == '.pdf'): ?>
-                                    <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_keluar['id'] . '/1'?>"></i>
+                                    <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$surat_keluar['id']}/1") ?>"></i>
                                 <?php else: ?>
-                                	<i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_keluar['id']?>" src="<?= site_url() . $this->controller . '/berkas/' . $surat_keluar['id']?>"></i>
+                                	<i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_keluar['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$surat_keluar['id']}") ?>" src="<?= site_url("{$this->controller}/berkas/{$surat_keluar['id']}") ?>"></i>
                                 <?php endif ?>
 								<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?=  $surat_keluar['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
 							</div>
@@ -45,7 +45,7 @@
 						<div class="col-sm-6">
 							<div class="input-group input-group-sm col-sm-12">
 								<input type="text" class="form-control" id="file_path">
-								<input type="file" class="hidden" id="file" name="satuan">
+								<input type="file" class="hidden" id="file" name="satuan" accept=".gif,.jpg,.jpeg,.png,.pdf">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 								</span>

@@ -3,7 +3,7 @@
     <section class="content-header">
         <h1>Peta Wilayah <?= $nama_wilayah ?></h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
             <?php foreach ($breadcrumb as $tautan): ?>
                 <li><a href="<?= $tautan['link'] ?>"> <?= $tautan['judul'] ?></a></li>
             <?php endforeach; ?>
@@ -60,16 +60,8 @@
             var zoom = 10;
         <?php endif; ?>
 
-        var options = {
-            maxZoom: <?= setting('max_zoom_peta') ?>,
-            minZoom: <?= setting('min_zoom_peta') ?>,
-            fullscreenControl: {
-                position: 'topright' // Menentukan posisi tombol fullscreen
-            }
-        };
-
         // Inisialisasi tampilan peta
-        var peta_wilayah = L.map('tampil-map', options).setView(posisi, zoom);
+        var peta_wilayah = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
         // 1. Menampilkan overlayLayers Peta Semua Wilayah
         var marker_desa = [];

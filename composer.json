@@ -11,6 +11,7 @@
 		"php": "^7.3",
 		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"codeigniter/framework": "^3.1",
+		"edwinhoksberg/php-fcm": "^1.2",
 		"google/apiclient": "^2.11",
 		"illuminate/database": "^8.78",
 		"illuminate/pagination": "^8.79",
@@ -18,6 +19,7 @@
 		"karriere/pdf-merge": "^2.1",
 		"mike42/escpos-php": "^3.0",
 		"openspout/openspout": "^3.7",
+		"ramsey/uuid": "^4.2",
 		"simplehtmldom/simplehtmldom": "^2.0@RC",
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
@@ -30,18 +32,6 @@
 		"mikey179/vfsstream": "1.1.*",
 		"tinymce/tinymce": "^6.5"
 	},
-	"repositories": [
-		{
-			"type": "git",
-			"url": "https://github.com/OpenSID/tema-natra",
-			"reference": "premium"
-		},
-		{
-			"type": "git",
-			"url": "https://github.com/OpenSID/tema-esensi",
-			"reference": "main"
-		}
-	],
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"autoload": {

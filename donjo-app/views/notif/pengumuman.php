@@ -62,7 +62,7 @@
 		$.ajax({
 			type: "POST",
 			url: SITE_URL + "<?= $aksi_ya ?>",
-      data: $('#form-pengumuman').serialize(),
+			data: $('#form-pengumuman').serialize(),
 			success: function() {
 				$('#indikator').hide();
 				$('#pengumuman').modal('hide');

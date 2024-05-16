@@ -26,7 +26,7 @@
 	<section class="content-header">
 		<h1>Data Penduduk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Data Penduduk</li>
 		</ol>
 	</section>
@@ -212,7 +212,7 @@
 														</td>
 														<td class="padat">
 															<a href="<?= site_url("penduduk/ambil_foto?foto={$data['foto']}&sex={$data['id_sex']}"); ?>" class="progressive replace penduduk_kecil">
-																<img class="preview " loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Foto Penduduk"/>
+																<img class="preview " loading="lazy" src="<?= asset('images/img-loader.gif') ?>" alt="Foto Penduduk"/>
 															</a>
 
 														</td>

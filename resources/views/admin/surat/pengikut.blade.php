@@ -6,7 +6,7 @@
                 <table class="table table-bordered table-striped table-hover tabel-daftar">
                     <thead class="bg-gray disabled color-palette">
                         <tr>
-                            <th><input type="checkbox" id="checkall"/></th>
+                            <th><input type="checkbox" id="checkall" /></th>
                             <th>NIK</th>
                             <th>Nama</th>
                             <th>Jenis Kelamin</th>
@@ -19,19 +19,19 @@
                     </thead>
                     <tbody>
                         @foreach ($pengikut as $key => $data)
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="id_pengikut[]" value="<?= $data->id ?>" onchange="ket_($(this).is(':unchecked'),'<?= $data->id;?>');"/>
-                            </td>
-                            <td class="padat">{{ $data->nik }}</td>
-                            <td nowrap>{{ $data->nama }}</td>
-                            <td nowrap>{{ $data->jenisKelamin->nama }}</td>
-                            <td nowrap>{{ $data->tempatlahir }}</td>
-                            <td nowrap>{{ tgl_indo($data->tanggallahir) }}</td>
-                            <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
-                            <td nowrap>{{ $data->umur }}</td>
-                            <td><input id="ket_<?= $data->id ?>" name="ket_<?= $data->id ?>" value="" disabled="disabled"></td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="id_pengikut[]" value="<?= $data->id ?>" onchange="ket_($(this).is(':unchecked'),'<?= $data->id ?>');" />
+                                </td>
+                                <td class="padat">{{ $data->nik }}</td>
+                                <td nowrap>{{ $data->nama }}</td>
+                                <td nowrap>{{ $data->jenisKelamin->nama }}</td>
+                                <td nowrap>{{ $data->tempatlahir }}</td>
+                                <td nowrap>{{ tgl_indo($data->tanggallahir) }}</td>
+                                <td nowrap>{{ $data->pendudukHubungan->nama }}</td>
+                                <td nowrap>{{ $data->umur }}</td>
+                                <td><input id="ket_<?= $data->id ?>" name="ket_<?= $data->id ?>" value="" disabled="disabled"></td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -40,18 +40,14 @@
     </div>
 </div>
 @push('scripts')
-<script>
-    function ket_(centang, urut)
-    {
-        if (centang)
-        {
-            $('#ket_' + urut).attr('disabled', 'disabled');
-            $('#ket_' + urut).val('');
+    <script>
+        function ket_(centang, urut) {
+            if (centang) {
+                $('#ket_' + urut).attr('disabled', 'disabled');
+                $('#ket_' + urut).val('');
+            } else {
+                $('#ket_' + urut).removeAttr('disabled');
+            }
         }
-        else
-        {
-            $('#ket_' + urut).removeAttr('disabled');
-        }
-    }
-</script>
+    </script>
 @endpush

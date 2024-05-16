@@ -37,10 +37,10 @@
 
 namespace App\Models;
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -468,7 +468,6 @@ class Penduduk extends BaseModel
      * Scope query untuk menyaring data penduduk berdasarkan parameter yang ditentukan
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -480,7 +479,11 @@ class Penduduk extends BaseModel
             }
 
             $query->when($value ?? false, static function ($query) use ($value, $key) {
-                $query->where($key, $value);
+                if (is_array($value)) {
+                    return $query->whereIn($key, $value);
+                }
+
+                return $query->where($key, $value);
             });
         }
 
@@ -489,23 +492,17 @@ class Penduduk extends BaseModel
 
     public function getUsiaAttribute()
     {
-        $tglSekarang = Carbon::now();
-        $tglLahir    = Carbon::parse($this->tanggallahir);
-
-        return $tglLahir->diffInYears($tglSekarang) . ' Tahun';
+        return $this->getUmurAttribute() . ' Tahun';
     }
 
     public function getUmurAttribute()
     {
-        $tglSekarang = Carbon::now();
-        $tglLahir    = Carbon::parse($this->tanggallahir);
-
-        return $tglLahir->diffInYears($tglSekarang);
+        return usia($this->tanggallahir, null, '%y');
     }
 
     public function getAlamatWilayahAttribute()
     {
-        if (! in_array($this->id_kk, [0, null])) {
+        if ($this->id_kk != null) {
             return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
         }
 
@@ -515,5 +512,15 @@ class Penduduk extends BaseModel
     public function scopeKepalaKeluarga($query)
     {
         return $query->where(['kk_level' => SHDKEnum::KEPALA_KELUARGA]);
+    }
+
+    public function scopeAyah($query, $idKk)
+    {
+        return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::SUAMI])->where('sex', JenisKelaminEnum::LAKI_LAKI);
+    }
+
+    public function scopeIbu($query, $idKk)
+    {
+        return $query->where('id_kk', $idKk)->whereIn('kk_level', [SHDKEnum::KEPALA_KELUARGA, SHDKEnum::ISTRI])->where('sex', JenisKelaminEnum::PEREMPUAN);
     }
 }

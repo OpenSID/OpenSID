@@ -46,22 +46,14 @@
     <div class="box box-info">
         @if (can('u'))
             <div class="box-header with-border">
-                <a href="{{ route('identitas_desa.form') }}"
-                    class="btn btn-social btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Ubah Data {{ ucwords($setting->sebutan_desa) }}"><i class="fa fa-edit"></i> Ubah Data
+                <a href="{{ route('identitas_desa.form') }}" class="btn btn-social btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Data {{ ucwords($setting->sebutan_desa) }}"><i class="fa fa-edit"></i> Ubah Data
                     {{ ucwords($setting->sebutan_desa) }}</a>
-                <a href="{{ route('identitas_desa.maps.kantor') }}"
-                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Lokasi Kantor {{ ucwords($setting->sebutan_desa) }}"><i class='fa fa-map-marker'></i> Lokasi
+                <a href="{{ route('identitas_desa.maps.kantor') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Lokasi Kantor {{ ucwords($setting->sebutan_desa) }}"><i class='fa fa-map-marker'></i> Lokasi
                     Kantor {{ ucwords($setting->sebutan_desa) }}</a>
-                <a href="{{ route('identitas_desa.maps.wilayah') }}"
-                    class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Peta Wilayah {{ ucwords($setting->sebutan_desa) }}"><i class='fa fa-map'></i> Peta Wilayah
+                <a href="{{ route('identitas_desa.maps.wilayah') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Peta Wilayah {{ ucwords($setting->sebutan_desa) }}"><i class='fa fa-map'></i> Peta Wilayah
                     {{ ucwords($setting->sebutan_desa) }}</a>
                 @if (!$main)
-                    <a href="{{ route('identitas_desa.reset') }}"
-                        class="btn btn-social btn-danger btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                        title="Reset AppKey"><i class="fa fa-times"></i> Reset AppKey</a>
+                    <a href="{{ route('identitas_desa.reset') }}" class="btn btn-social btn-danger btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset AppKey"><i class="fa fa-times"></i> Reset AppKey</a>
                 @endif
             </div>
         @endif
@@ -118,7 +110,7 @@
                             <td>{{ $main['email_desa'] }}</td>
                         </tr>
                         <tr>
-                            <td>Nomor Telpon {{ ucwords($setting->sebutan_desa) }}</td>
+                            <td>Nomor Telepon {{ ucwords($setting->sebutan_desa) }}</td>
                             <td>:</td>
                             <td>{{ $main['telepon'] }}</td>
                         </tr>

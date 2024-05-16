@@ -11,7 +11,7 @@
 	<section class="content-header">
 		<h1>Master Analisis Data Potensi/Sumber Daya </h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Master Analisis</li>
 		</ol>
 	</section>
@@ -159,4 +159,4 @@
 <?php $this->load->view('analisis_master/modal_pertanyaan', $data); ?>
 <?php $this->load->view('analisis_master/modal_jawaban_pilihan', $data); ?>
 <?php $this->load->view('analisis_master/modal_hasil_import', $data); ?>
-<script type="text/javascript" src="<?= base_url() ?>assets/js/custom-analisis.js"></script>
+<script type="text/javascript" src="<?= asset('js/custom-analisis.js') ?>"></script>

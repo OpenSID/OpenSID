@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1>Disposisi Surat Masuk</h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li><a href="<?= site_url('surat_masuk'); ?>"> Daftar Surat Masuk</a></li>
             <li class="active">Disposisi Surat Masuk</li>
         </ol>
@@ -40,9 +40,9 @@
                             <label class="col-sm-3 control-label" for="kode_pos"></label>
                             <div class="col-sm-6">
                                 <?php if (get_extension($surat_masuk['berkas_scan']) == '.pdf'): ?>
-                                <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_masuk['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_masuk['id'] . '/1'?>"></i>
+                                <i class="fa fa-file-pdf-o pop-up-pdf" aria-hidden="true" style="font-size: 60px;" data-title="Berkas <?= $surat_masuk['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$surat_masuk['id']}/1") ?>"></i>
                                 <?php else: ?>
-                                    <i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_masuk['nomor_surat']?>" data-url="<?= site_url() . $this->controller . '/berkas/' . $surat_masuk['id']?>" src="<?= site_url() . $this->controller . '/berkas/' . $surat_masuk['id']?>"></i>
+                                    <i class="fa fa-picture-o pop-up-images" style="font-size: 60px;" aria-hidden="true" data-title="Berkas <?= $surat_masuk['nomor_surat']?>" data-url="<?= site_url("{$this->controller}/berkas/{$surat_masuk['id']}") ?>" src="<?= site_url("{$this->controller}/berkas/{$surat_masuk['id']}") ?>"></i>
                                 <?php endif ?>
                                 <p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
                             </div>
@@ -53,7 +53,7 @@
                         <div class="col-sm-6">
                             <div class="input-group input-group-sm col-sm-12">
                                 <input type="text" class="form-control" id="file_path">
-                                <input type="file" class="hidden" id="file" name="satuan">
+                                <input type="file" class="hidden" id="file" name="satuan" accept=".gif,.jpg,.jpeg,.png,.pdf">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                 </span>

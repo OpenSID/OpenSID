@@ -1,6 +1,6 @@
-<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script type="text/javascript" src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('js/validasi.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('js/localization/messages_id.js') ?>"></script>
 <!-- TODO: Pindahkan ke external css -->
 <style>
 	.form-group {

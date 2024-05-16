@@ -18,23 +18,26 @@
         <div class="box-header with-border">
             <div class="form-inline">
                 @if (can('h'))
-                    <a href="#confirm-delete" title="Hapus Data"
-                        onclick="deleteAllBox('mainform', '{{ route('buku_tamu.delete') }}')"
-                        class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                            class='fa fa-trash-o'></i> Hapus</a>
+                    <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('buku_tamu.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i>
+                        Hapus</a>
                 @endif
                 <div class="input-group input-group-sm date">
                     <div class="input-group-addon" style="border-radius: 5px 0 0 5px">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" name="tanggal" class="form-control input-sm" title="Rentang Tanggal"
-                        placeholder="Masukaan Rentang Tanggal" id="date-range" style="border-radius: 0 5px 5px 0">
+                    <input
+                        type="text"
+                        name="tanggal"
+                        class="form-control input-sm"
+                        title="Rentang Tanggal"
+                        placeholder="Masukaan Rentang Tanggal"
+                        id="date-range"
+                        style="border-radius: 0 5px 5px 0"
+                    >
                 </div>
-                <a id="cetak" title="Cetak Data"
-                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <a id="cetak" title="Cetak Data" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                     <i class='fa fa-print'></i> Cetak</a>
-                <a id="expor" title="Expor Data"
-                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <a id="expor" title="Expor Data" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                     <i class='fa fa-file'></i> Expor</a>
             </div>
         </div>

@@ -2,7 +2,7 @@
     <section class="content-header">
         <h1>Pengaturan Lokasi</h1>
         <ol class="breadcrumb">
-            <li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
             <li><a href="<?= site_url('plan') ?>"><i class="fa fa-dashboard"></i> Daftar Lokasi</a></li>
             <li class="active">Pengaturan Lokasi</li>
         </ol>
@@ -42,7 +42,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-sm-3"></label>
                                     <div class="col-sm-7">
-                                        <img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_LOKASI?>kecil_<?= $lokasi['foto']?>" alt="Foto">
+                                        <img class="attachment-img img-responsive img-circle" src="<?= base_url(LOKASI_FOTO_LOKASI) ?>kecil_<?= $lokasi['foto']?>" alt="Foto">
                                     </div>
                                 </div>
                             <?php endif; ?>

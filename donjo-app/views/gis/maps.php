@@ -34,7 +34,7 @@
 				<div id="map">
 					<?php include 'donjo-app/views/gis/cetak_peta.php'; ?>
 					<div class="leaflet-top leaflet-right">
-						<div class="leaflet-control-layers leaflet-bar leaflet-control">
+						<div class="leaflet-control-layers leaflet-bar leaflet-control" style="margin-top: 50px;">
 							<a class="leaflet-control-control icos" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i class="fa fa-gears"></i></a>
 							<a class="leaflet-control-control icos" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i class="fa fa-list"></i></a>
 						</div>
@@ -167,13 +167,8 @@
 				var zoom = 10;
 			<?php endif; ?>
 
-			var options = {
-				maxZoom: <?= setting('max_zoom_peta') ?>,
-				minZoom: <?= setting('min_zoom_peta') ?>,
-			};
-
 			//Inisialisasi tampilan peta
-			var peta = L.map('map', options).setView(posisi, zoom);
+			var peta = L.map('map', pengaturan_peta).setView(posisi, zoom);
 
 			<?php if (! empty($desa['path'])) : ?>
 				peta.fitBounds(<?= $desa['path'] ?>);
@@ -272,12 +267,12 @@
 			var all_garis = '<?= addslashes(json_encode($garis)) ?>';
 			var all_lokasi = '<?= addslashes(json_encode($lokasi)) ?>';
 			var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan)) ?>';
-			var LOKASI_SIMBOL_LOKASI = '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>';
+			var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>';
 			var favico_desa = '<?= favico_desa() ?>';
-			var LOKASI_FOTO_AREA = '<?= base_url() . LOKASI_FOTO_AREA ?>';
-			var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
-			var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
-			var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
+			var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
+			var LOKASI_FOTO_GARIS = '<?= base_url(LOKASI_FOTO_GARIS) ?>';
+			var LOKASI_FOTO_LOKASI = '<?= base_url(LOKASI_FOTO_LOKASI) ?>';
+			var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
 			var info_pembangunan = '<?= site_url('pembangunan/') ?>';
 			var all_persil = '<?= addslashes(json_encode($persil)) ?>';
 

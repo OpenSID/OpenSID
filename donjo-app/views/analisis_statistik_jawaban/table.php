@@ -11,7 +11,7 @@
 	<section class="content-header">
 		<h1>Laporan Statistik Jawaban</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda'); ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('analisis_master/clear'); ?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url('analisis_master/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
 			<li class="active">Laporan Per Indikator</li>
@@ -38,7 +38,7 @@
 							</a>
 						</div>
 						<div class="box-header with-border">
-							<h5>Analisis Statistik Jawaban - <a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><a href="<?= site_url(); ?>analisis_master/menu/<?= $_SESSION['analisis_master']; ?>"><?= $analisis_master['nama']; ?></a></a></h5>
+							<h5>Analisis Statistik Jawaban - <a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}"); ?>"><a href="<?= site_url("analisis_master/menu/{$_SESSION['analisis_master']}") ?>"><?= $analisis_master['nama']; ?></a></a></h5>
 						</div>
 						<div class="box-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

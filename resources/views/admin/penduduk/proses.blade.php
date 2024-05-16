@@ -7,7 +7,7 @@
             <div class="modal-body">
                 Harap tunggu sampai proses impor selesai. Proses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data penduduk yang di masukkan...
                 <div class="text-center">
-                    <img src="{{ asset("images/background/loading.gif") }}">
+                    <img src="{{ asset('images/background/loading.gif') }}">
                 </div>
             </div>
         </div>

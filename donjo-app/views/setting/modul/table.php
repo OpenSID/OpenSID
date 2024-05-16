@@ -1,10 +1,10 @@
-<link rel="stylesheet" href="<?= base_url()?>assets/css/alert-bootstrap.css">
+<link rel="stylesheet" href="<?= asset('css/alert-bootstrap.css') ?>">
 
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan <?= $sub_modul ? 'Submodul' : 'Modul'; ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<?php if (! $sub_modul): ?>
 				<li class="active">Pengaturan Modul</li>
 			<?php else: ?>

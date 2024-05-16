@@ -104,18 +104,27 @@ class Surat_model extends MY_Model
         $this->config_id('u')
             ->from('tweb_penduduk u')
             ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left');
-        // ->where('status_dasar', 1);
 
         if ($filter['sex']) {
             $this->db->where('sex', $filter['sex']);
         }
 
-        if ($filter['status_dasar']) {
-            $this->db->where('status_dasar', $filter['status_dasar']);
+        if ((is_array($filter['status_dasar']) && $filter['status_dasar'])) {
+            $this->db->where_in('status_dasar', $filter['status_dasar']);
         }
 
-        if ($filter['kk_level']) {
-            $this->db->where('kk_level', $filter['kk_level']);
+        if ((is_array($filter['kk_level']) && $filter['kk_level'])) {
+            $this->db->where_in('kk_level', $filter['kk_level']);
+        }
+
+        // batasi ambil data dari keluarga yang sama saja
+        if ($filter['hubungan']) {
+            $this->db->where('id_kk in (select id_kk from tweb_penduduk where id = ' . $filter['hubungan'] . ') and u.id != ' . $filter['hubungan']);
+        }
+
+        // ambil data selain yang dikecualikan
+        if ($filter['kecuali']) {
+            $this->db->where_not_in('u.id', $filter['kecuali']);
         }
 
         if ($filter['bersurat']) {

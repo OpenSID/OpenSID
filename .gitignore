@@ -1,10 +1,6 @@
 # Abaikan folder desa
 desa/*
 
-# Abaikan backup_inkremental
-backup_inkremental/*
-!backup_inkremental/index.html
-
 # Abaikan file
 *.log
 log-*.php
@@ -59,4 +55,5 @@ examples/
 
 vendor/libreoffice/*
 vendor/mikey179/*
-.vscode/settings.json
+.vscode/*
+/node_modules

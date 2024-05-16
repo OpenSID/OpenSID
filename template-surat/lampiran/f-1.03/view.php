@@ -446,17 +446,17 @@
 			<td rowspan="2">Nomor dan tanggal KITAS & KITAP</td>
 			<?php for ($i = 0; $i < 10; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($input['nomor_itas_&_itap'][$i])) : ?>
-						<?= $input['nomor_itas_&_itap'][$i]; ?>
+					<?php if (isset($input['nomor_itas'][$i])) : ?>
+						<?= $input['nomor_itas'][$i]; ?>
 					<?php else : ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
-			<?php $tgl = date('dd', strtotime($input['tanggal_itas_&_itap']));
-			$bln = date('mm', strtotime($input['tanggal_itas_&_itap']));
-			$thn = date('Y', strtotime($input['tanggal_itas_&_itap']));
+			<?php $tgl = date('dd', strtotime($input['tanggal_itas']));
+			$bln = date('mm', strtotime($input['tanggal_itas']));
+			$thn = date('Y', strtotime($input['tanggal_itas']));
 			?>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
@@ -524,7 +524,7 @@
 		<tr>
 			<td>18.</td>
 			<td>Alamat Tujuan</td>
-			<td colspan=20 class="kotak"><?= $input['alamat_tujuan_(luar_negeri)']; ?></td>
+			<td colspan=20 class="kotak"><?= $input['alamat_tujuan_luar_negeri']; ?></td>
 		</tr>
 
 		<tr>

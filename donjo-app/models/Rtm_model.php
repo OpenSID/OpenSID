@@ -560,8 +560,7 @@ class Rtm_model extends MY_Model
      */
     public function impor()
     {
-        // TODO : belum cek dtks
-        $this->load->library('upload');
+        $this->load->library('MY_Upload', null, 'upload');
 
         $config['upload_path']   = sys_get_temp_dir();
         $config['allowed_types'] = 'xls|xlsx|xlsm';

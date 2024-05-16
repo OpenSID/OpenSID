@@ -1,6 +1,6 @@
-<script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script type="text/javascript" src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('js/validasi.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('js/localization/messages_id.js') ?>"></script>
 <script>
 	//File Upload
 	$('#file_browser').click(function(e)
@@ -24,7 +24,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<p><label class="control-label">Contoh urutan format dapat dilihat pada <a href="<?= base_url()?>assets/import/data_persil.xls">tautan berikut</a></label></p>
+							<p><label class="control-label">Contoh urutan format dapat dilihat pada <a href="<?= asset('import/data_persil.xls') ?>">tautan berikut</a></label></p>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="upload">Upload Fil XLS</label>

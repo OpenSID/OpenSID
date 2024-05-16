@@ -12,8 +12,7 @@
             <ul class="nav navbar-nav">
                 @if ($is_mobile = $ci->agent->is_mobile())
                     <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="true">Selengkapnya...</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Selengkapnya...</a>
                         <ul class="dropdown-menu">
                             <li>
                                 <ul class="menu">
@@ -21,9 +20,7 @@
                 @if ($notif['langganan'] && can('b', 'layanan-pelanggan'))
                     <li>
                         <a href="{{ route('pelanggan') }}">
-                            <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg"
-                                title="Status Langganan {{ $notif['langganan']['masa'] }} hari"
-                                style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
+                            <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
                             @if ($notif['langganan']['status'] > 2)
                                 <span class="badge" id="b_langganan"></span>
                             @endif
@@ -133,16 +130,14 @@
                     </li>
                 </ul>
             <li>
-                <a href="#" data-toggle="control-sidebar" title="Informasi"><i
-                        class="fa fa-question-circle fa-lg"></i></a>
+                <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
             </li>
             @if ($kategori && can('u', $controller))
                 <li>
                     @if ($controller === 'pelanggan')
                         <a href="#" class="atur-token">
                         @else
-                            <a href="#" data-remote="false" data-toggle="modal"
-                                data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
+                            <a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan {{ ucwords($controller) }}" data-target="#pengaturan">
                     @endif
                     <span><i class="fa fa-gear"></i>&nbsp;</span>
                     </a>

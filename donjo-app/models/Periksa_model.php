@@ -285,6 +285,12 @@ class Periksa_model extends MY_Model
             $this->periksa['log_keluarga_bermasalah'] = $log_keluarga_bermasalah->toArray();
         }
 
+        $log_keluarga_ganda = $this->deteksi_log_keluarga_ganda();
+        if (! $log_keluarga_ganda->isEmpty()) {
+            $this->periksa['masalah'][]          = 'log_keluarga_ganda';
+            $this->periksa['log_keluarga_ganda'] = $log_keluarga_ganda->toArray();
+        }
+
         // deteksi no anggota ganda
         $no_anggota_ganda = $this->deteksi_no_anggota_ganda();
         if (! $no_anggota_ganda->isEmpty()) {
@@ -576,7 +582,6 @@ class Periksa_model extends MY_Model
         return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->where('id_kk', '!=', 0)
             ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
                 return $q->where('config_id', $config_id);
             })
@@ -623,8 +628,15 @@ class Periksa_model extends MY_Model
 
     public function deteksi_log_keluarga_bermasalah()
     {
-        return Keluarga::whereDoesntHave('LogKeluarga', static function ($q) {
-            $q->where(['id_peristiwa' => LogKeluarga::KELUARGA_BARU]);
+        return Keluarga::whereDoesntHave('LogKeluarga')->get();
+    }
+
+    public function deteksi_log_keluarga_ganda()
+    {
+        $config_id = identitas('id');
+
+        return Keluarga::whereIn('id', static function ($query) use ($config_id) {
+            return $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1);
         })->get();
     }
 
@@ -1283,7 +1295,6 @@ class Periksa_model extends MY_Model
         $data_penduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->where('id_kk', '!=', 0)
             ->wheredoesntHave('keluarga', static function ($q) use ($config_id) {
                 return $q->where('config_id', $config_id);
             })
@@ -1318,14 +1329,6 @@ class Periksa_model extends MY_Model
                 log_message('error', 'Gagal. Penduduk ' . $value->id . ' belum terdaftar di keluarga');
             }
         }
-    }
-
-    private function perbaiki_log_penduduk_tidak_sinkron()
-    {
-        collect($this->periksa['log_penduduk_tidak_sinkron'])->groupBy('kode_peristiwa')->each(static function ($item, $key) {
-            $statusDasar = in_array($key, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK]) ? StatusDasarEnum::HIDUP : $key;
-            Penduduk::whereIn('id', $item->pluck('id'))->update(['status_dasar' => $statusDasar]);
-        });
     }
 
     private function perbaiki_log_penduduk_null()
@@ -1413,10 +1416,6 @@ class Periksa_model extends MY_Model
             case 'penduduk_tanpa_keluarga':
                 $this->perbaiki_penduduk_tanpa_keluarga();
                 break;
-
-                // case 'log_penduduk_tidak_sinkron':
-            //     $this->perbaiki_log_penduduk_tidak_sinkron();
-            //     break;
 
             case 'log_penduduk_null':
                 $this->perbaiki_log_penduduk_null();

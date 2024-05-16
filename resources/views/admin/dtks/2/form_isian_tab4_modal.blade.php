@@ -58,15 +58,13 @@
                                 <tr id="tr_4_406">
                                     <td>406. Tanggal Lahir</td>
                                     <td>
-                                        <input class="form-control input-sm" disabled name="input[4][406]"
-                                            id="input_4_406" type="date" value="" />
+                                        <input class="form-control input-sm" disabled name="input[4][406]" id="input_4_406" type="date" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_407">
                                     <td>407. Umur (Tahun)</td>
                                     <td>
-                                        <input class="form-control input-sm" disabled name="input[4][407]"
-                                            id="input_4_407" type="text" value="" />
+                                        <input class="form-control input-sm" disabled name="input[4][407]" id="input_4_407" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_408">
@@ -104,8 +102,7 @@
                                     <td>
                                         @include('admin.layouts.components.select_pilihan_dtks', [
                                             'class' => 'select2',
-                                            'attribut' =>
-                                                'disabled multiple id="pilihan_4_411" name="pilihan[4][411]"',
+                                            'attribut' => 'disabled multiple id="pilihan_4_411" name="pilihan[4][411]"',
                                             'pilihan' => $pilihan4['411'],
                                         ])
                                     </td>
@@ -113,8 +110,7 @@
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
-                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i
-                                    class="fa fa-check"></i>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                                 Simpan</button>
                         </div>
                         </form>
@@ -184,8 +180,7 @@
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
-                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i
-                                    class="fa fa-check"></i>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                                 Simpan</button>
                         </div>
                         </form>
@@ -220,8 +215,7 @@
                                 <tr id="tr_4_416b">
                                     <td>416.b. Berapa Jam (nama) bekerja/membantu bekerja selama seminggu yang lalu</td>
                                     <td>
-                                        <input maxlength="2" class="form-control input-sm angka"
-                                            name="input[4][416b]" id="input_4_416b" type="text" value="" />
+                                        <input maxlength="2" class="form-control input-sm angka" name="input[4][416b]" id="input_4_416b" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_417">
@@ -237,9 +231,7 @@
                                 <tr id="tr_4_lapangan_usaha_pekerjaan">
                                     <td>Tulis Selengkap-lengkapnya lapangan usaha dari pekerjaan utama</td>
                                     <td>
-                                        <input class="form-control input-sm nama"
-                                            name="input[4][lapangan_usaha_pekerjaan]"
-                                            id="input_4_lapangan_usaha_pekerjaan" type="text" value="" />
+                                        <input class="form-control input-sm nama" name="input[4][lapangan_usaha_pekerjaan]" id="input_4_lapangan_usaha_pekerjaan" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_418">
@@ -266,17 +258,13 @@
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
-                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i
-                                    class="fa fa-check"></i>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                                 Simpan</button>
                         </div>
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_kepemilikan_usaha">
-                        {!! form_open(
-                            route('dtks.save') . '/' . $dtks->id,
-                            'class="form-4 form-validasi" id="form-4-kepemilikan-usaha"',
-                        ) !!}
+                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-kepemilikan-usaha"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_kepemilikan_usaha'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -305,8 +293,7 @@
                                 <tr id="tr_4_420b">
                                     <td>420b. Berapa jumlah usaha sendiri/bersama yang dimiliki?</td>
                                     <td>
-                                        <input maxlength="2" class="form-control input-sm angka"
-                                            name="input[4][420b]" id="input_4_420b" type="text" value="" />
+                                        <input maxlength="2" class="form-control input-sm angka" name="input[4][420b]" id="input_4_420b" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_421">
@@ -322,23 +309,19 @@
                                 <tr id="tr_4_lapangan_usaha_dr_usaha">
                                     <td>Tulis Selengkap-lengkapnya lapangan usaha dari usaha utama</td>
                                     <td>
-                                        <input class="form-control input-sm nama"
-                                            name="input[4][lapangan_usaha_dr_usaha]"
-                                            id="input_4_lapangan_usaha_dr_usaha" type="text" value="" />
+                                        <input class="form-control input-sm nama" name="input[4][lapangan_usaha_dr_usaha]" id="input_4_lapangan_usaha_dr_usaha" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_422">
                                     <td>422. Jumlah pekerja yang dibayar pada usaha utama</td>
                                     <td>
-                                        <input maxlength="3" class="form-control input-sm angka"
-                                            name="input[4][422]" id="input_4_422" type="text" value="" />
+                                        <input maxlength="3" class="form-control input-sm angka" name="input[4][422]" id="input_4_422" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_423">
                                     <td>423. Jumlah pekerja yang tidak dibayar pada usaha utama</td>
                                     <td>
-                                        <input maxlength="2" class="form-control input-sm angka"
-                                            name="input[4][423]" id="input_4_423" type="text" value="" />
+                                        <input maxlength="2" class="form-control input-sm angka" name="input[4][423]" id="input_4_423" type="text" value="" />
                                     </td>
                                 </tr>
                                 <tr id="tr_4_424">
@@ -375,8 +358,7 @@
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
-                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i
-                                    class="fa fa-check"></i>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                                 Simpan</button>
                         </div>
                         </form>
@@ -542,17 +524,13 @@
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
-                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i
-                                    class="fa fa-check"></i>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                                 Simpan</button>
                         </div>
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_program_perlindungan_sosial">
-                        {!! form_open(
-                            route('dtks.save') . '/' . $dtks->id,
-                            'class="form-4 form-validasi" id="form-4-program-perlindungan-sosial"',
-                        ) !!}
+                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-program-perlindungan-sosial"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_program_perlindungan_sosial'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -632,8 +610,7 @@
                             </tbody>
                         </table>
                         <div class="col-sm-12" style="margin-top:15px">
-                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i
-                                    class="fa fa-check"></i>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
                                 Simpan</button>
                         </div>
                         </form>
@@ -664,13 +641,13 @@
                 // status kehamilan perempuan umur 10 s.d 54
                 show_when_otherwise_hide(global_umur_art >= 10 && global_umur_art <= 54 && ['2', '3', '4']
                     .indexOf($('#pilihan_4_408').val()) > -1 && ['2'].indexOf($('#pilihan_4_405')
-                .val()) > -1, ['tr_4_410'], ['tr_4_410']);
+                        .val()) > -1, ['tr_4_410'], ['tr_4_410']);
             });
 
             // -- sekolah/pendidikan
             $('#pilihan_4_412').on('change', function(ev) {
                 show_when_otherwise_hide(global_umur_art >= 5 && ['2', '3'].indexOf($('#pilihan_4_412')
-                .val()) > -1, ['tr_4_413', 'tr_4_414', 'tr_4_415'], ['tr_4_428', 'tr_4_414',
+                    .val()) > -1, ['tr_4_413', 'tr_4_414', 'tr_4_415'], ['tr_4_428', 'tr_4_414',
                     'tr_4_415'
                 ]);
             });
