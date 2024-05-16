@@ -2,7 +2,10 @@
     <!-- CSRF Token -->
     <script type="text/javascript">
         var csrfParam = "{{ $token }}";
-        var getCsrfToken = () => document.cookie.match(new RegExp(csrfParam + '=(\\w+)'))[1];
+        var csrfVal = '{{ $ci->security->get_csrf_hash() }}';
+        function getCsrfToken() {
+            return csrfVal;
+        }
     </script>
     <script src="{{ asset('js/anti-csrf.js') }}"></script>
 @endif
