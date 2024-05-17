@@ -71,6 +71,7 @@ class FlxZipArchive extends ZipArchive
             return $this->tmp_file;
         }
         echo 'Could not create a zip archive';
+
         return null;
     }
 
