@@ -166,7 +166,7 @@ function UploadFoto($fupload_name, $old_foto, $dimensi = '200x200')
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_USER_PICT;
-    $config['allowed_types'] = 'jpg|png|jpeg';
+    $config['allowed_types'] = 'jpg|png|jpeg|webp';
     $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize($config);
 
@@ -291,7 +291,7 @@ function UploadGallery($fupload_name, $old_foto = '', $tipe_file = '')
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_GALERI;
-    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
     $ci->load->library('upload');
     $ci->upload->initialize($config);
 
@@ -354,7 +354,7 @@ function UploadArtikel($fupload_name, $gambar)
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_FOTO_ARTIKEL;
-    $config['allowed_types'] = 'gif|jpg|png|jpeg';
+    $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
     $ci->load->library('upload');
     $ci->upload->initialize($config);
 
@@ -389,7 +389,7 @@ function UploadPeta($fupload_name, $lokasi, $old_foto = null)
     $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize([
         'upload_path'   => $lokasi,
-        'allowed_types' => 'gif|jpg|png|jpeg',
+        'allowed_types' => 'gif|jpg|png|jpeg|webp',
     ]);
 
     if (! $ci->upload->do_upload('foto')) {

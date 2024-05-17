@@ -195,7 +195,7 @@ class Pembangunan_model extends MY_Model
         $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
-            'allowed_types' => 'jpg|jpeg|png',
+            'allowed_types' => 'jpg|jpeg|png|webp',
             'max_size'      => 1024, // 1 MB
         ];
         $this->upload->initialize($this->uploadConfig);

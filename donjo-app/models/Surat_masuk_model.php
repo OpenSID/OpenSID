@@ -55,7 +55,7 @@ class Surat_masuk_model extends MY_Model
         $this->load->helper('pict_helper');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_ARSIP,
-            'allowed_types' => 'gif|jpg|jpeg|png|pdf',
+            'allowed_types' => 'gif|jpg|jpeg|png|pdf|webp',
             'max_size'      => max_upload() * 1024,
         ];
     }

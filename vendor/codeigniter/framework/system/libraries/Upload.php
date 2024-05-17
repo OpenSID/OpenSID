@@ -919,6 +919,11 @@ class CI_Upload {
 				: ($this->_mimes[$ext] === $this->file_type);
 		}
 
+		if (in_array($ext, array('gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp'), TRUE))
+		{
+			return TRUE;
+		}
+
 		return FALSE;
 	}
 

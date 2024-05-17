@@ -169,7 +169,7 @@
 									<div class="input-group input-group-sm">
 										<input type="hidden" name="old_foto" value="<?= $main->foto; ?>">
 										<input type="text" class="form-control" id="file_path">
-										<input type="file" class="hidden" id="file" name="foto" accept=".jpg,.jpeg,.png">
+										<input type="file" class="hidden" id="file" name="foto" accept=".jpg,.jpeg,.png,.webp">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
 										</span>

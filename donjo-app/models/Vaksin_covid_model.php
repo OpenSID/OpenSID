@@ -292,7 +292,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $config['upload_path']   = LOKASI_VAKSIN;
         $config['file_name']     = 'vaksin';
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf|webp';
         $config['max_size']      = 1024;
         $config['overwrite']     = true;
         $this->upload->initialize($config);

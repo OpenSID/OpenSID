@@ -262,7 +262,7 @@ class Identitas_desa extends Admin_Controller
         $CI->load->library('MY_Upload', null, 'upload');
         $config = [
             'upload_path'   => LOKASI_LOGO_DESA,
-            'allowed_types' => 'gif|jpg|jpeg|png',
+            'allowed_types' => 'gif|jpg|jpeg|png|webp',
             'max_size'      => max_upload() * 1024,
         ];
         // Adakah berkas yang disertakan?

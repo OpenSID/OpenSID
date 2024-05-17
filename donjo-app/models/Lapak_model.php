@@ -213,7 +213,7 @@ class Lapak_model extends MY_Model
         // Inisialisasi library 'upload'
         $this->upload->initialize([
             'upload_path'   => LOKASI_PRODUK,
-            'allowed_types' => 'gif|jpg|jpeg|png',
+            'allowed_types' => 'gif|jpg|jpeg|png|webp',
             'max_size'      => 1024, // 1 MB
         ]);
         // Upload gagal

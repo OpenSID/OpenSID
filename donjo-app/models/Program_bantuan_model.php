@@ -828,7 +828,7 @@ class Program_bantuan_model extends MY_Model
         $data['program_id'] = $program_id;
         $data['peserta']    = $this->input->post('peserta');
         if ($_FILES['file']['name']) {
-            $data['kartu_peserta'] = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png']);
+            $data['kartu_peserta'] = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png|webp']);
         }
 
         $outp = BantuanPeserta::create($data);
@@ -840,7 +840,7 @@ class Program_bantuan_model extends MY_Model
     {
         $peserta = BantuanPeserta::findOrFail($id);
         if ($_FILES['file']['name']) {
-            $peserta->kartu_peserta = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png'], $peserta->kartu_peserta);
+            $peserta->kartu_peserta = unggah_file(['upload_path' => LOKASI_DOKUMEN, 'allowed_types' => 'jpg|jpeg|png|webp'], $peserta->kartu_peserta);
         } else {
             if ($this->input->post('gambar_hapus')) {
                 unlink(LOKASI_DOKUMEN . $peserta->kartu_peserta);

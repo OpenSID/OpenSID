@@ -69,7 +69,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
         <label for="file">File Dokumen</label>
         <div class="input-group">
           <input type="text" class="form-control <?= jecho($dokumen['id'], false, 'required') ?>" id="file_path" name="satuan" readonly />
-          <input type="file" class="hidden" id="file" name="satuan" accept=".jpg,.jpeg,.png,.pdf" />
+          <input type="file" class="hidden" id="file" name="satuan" accept=".jpg,.jpeg,.png,.pdf,.webp" />
           <input type="hidden" name="old_file" value="<?= $dokumen['satuan'] ?>" />
           <span class="input-group-btn">
             <button type="button" class="btn btn-danger btn-flat" onclick="kamera();" id="ambil_kamera"><i class="fa fa-camera"></i> Kamera</button>

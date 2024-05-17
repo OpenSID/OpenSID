@@ -34,7 +34,7 @@
 				<label for="file">Pilih File:</label>
 				<div class="input-group input-group-sm">
 					<input type="text" class="form-control" id="file_path" name="satuan">
-					<input type="file" class="hidden" id="file" name="satuan" accept=".jpg,.jpeg,.png,.pdf" />
+					<input type="file" class="hidden" id="file" name="satuan" accept=".jpg,.jpeg,.png,.pdf,.webp" />
 					<input type="hidden" name="old_file" value="<?= $dokumen['satuan'] ?>">
 					<span class="input-group-btn">
 						<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>

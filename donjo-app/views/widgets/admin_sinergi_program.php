@@ -82,7 +82,7 @@
 																		<td>
 																			<input type="hidden" name="setting[<?= $s ?>][old_gambar]" value="<?= $program['gambar'] ?>" />
 																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url(LOKASI_GAMBAR_WIDGET . $program['gambar']) ?>" alt="Gambar">
-																			<input type="file" name="setting[<?= $s ?>][gambar]" accept=".jpg,.jpeg,.png" />
+																			<input type="file" name="setting[<?= $s ?>][gambar]" accept=".jpg,.jpeg,.png,.webp" />
 																			<p class="help-block">(Kosongkan jika tidak ingin mengubah gambar)</p>
 																		</td>
 																		<td>
@@ -119,7 +119,7 @@
 																			<input class="form-control input-sm" type="text" placeholder="Judul" name="setting[<?= $s ?>][judul]" value="" size="40">
 																		</td>
 																		<td>
-																			<input type="file" name="setting[<?= $s ?>][gambar]" accept=".jpg,.jpeg,.png" />
+																			<input type="file" name="setting[<?= $s ?>][gambar]" accept=".jpg,.jpeg,.png,.webp" />
 																		</td>
 																		<td>
 																			<input class="form-control input-sm" type="text" placeholder="Tautan" name="setting[<?= $s ?>][tautan]" value="" size="40">
