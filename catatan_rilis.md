@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
 14. [#7911](https://github.com/OpenSID/OpenSID/issues/7911) Perbaikan impor data penduduk menggunakan format BIP.
 15. [#7938](https://github.com/OpenSID/OpenSID/issues/7938) Perbaikan hapus beberapa artikel sekaligus.
+16. [#7901](https://github.com/OpenSID/OpenSID/issues/7901) Perbaikan unduh surat pdf yang dibuat ulang.
 
 
 #### TEKNIS
