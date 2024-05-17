@@ -33,6 +33,7 @@
         <button type="submit" class="btn btn-social btn-info btn-sm"><i class='fa fa-check'></i> {{ ucwords($aksi) }}</button>
     </div>
 </form>
+@include('admin.layouts.components.validasi_form')
 <script>
     $(document).ready(function() {
         $('.modal:visible').find('form').validate()
