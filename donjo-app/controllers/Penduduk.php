@@ -1496,7 +1496,7 @@ class Penduduk extends Admin_Controller
             $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
             // harusnya order by no_kk
-            $get = $this->sumberData()->join('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')->with(['map'])->orderBy('tweb_keluarga.no_kk', 'asc')->orderBy('kk_level', 'asc')->get();
+            $get = $this->sumberData()->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk')->with(['map'])->orderBy('tweb_keluarga.no_kk', 'asc')->orderBy('kk_level', 'asc')->get();
 
             foreach ($get as $row) {
                 $penduduk                  = [];
