@@ -3,6 +3,7 @@
     <script type="text/javascript">
         var csrfParam = "{{ $token_name }}";
         var csrfVal = "{{ $token_value }}";
+
         function getCsrfToken() {
             return csrfVal;
         }
