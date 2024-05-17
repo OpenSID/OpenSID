@@ -1,4 +1,4 @@
-Di rilis ini, versi 2405.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2405.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -14,7 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#7920](https://github.com/OpenSID/OpenSID/issues/7920) Perbaikan unduh salinan kartu kerluarga.
 8. [#7923](https://github.com/OpenSID/OpenSID/issues/7923) Perbaikan urutan anggota keluarga pengikut pada surat keterangna pindah.
 9. [#7921](https://github.com/OpenSID/OpenSID/issues/7921) Perbaikan form tambah penduduk.
-10. [#7929](https://github.com/OpenSID/OpenSID/issues/7929) Perbaikan tambah/ubah grup penggun.
+10. [#7929](https://github.com/OpenSID/OpenSID/issues/7929) Perbaikan tambah/ubah grup pengguna.
 11. [#7922](https://github.com/OpenSID/OpenSID/issues/7922) Perbaikan route halaman arsip web.
 12. [#7927](https://github.com/OpenSID/OpenSID/issues/7927) Perbaikan route halaman verifikasi email dan telegram.
 13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul Informasi Publik menggunakan ORM dan Blade.
 8. [#7932](https://github.com/OpenSID/OpenSID/issues/7932) Penyesuaian dan optimasi pada query yang berulang.
 9. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul OpenDK > Sinkronisasi menggunakan ORM dan Blade.
+10. [#7916](https://github.com/OpenSID/OpenSID/issues/7916) Penyesuaian input nama rw dan rt bisa menggunakan huruf, angka, spasi dan strip.
 
 
 #### KEAMANAN

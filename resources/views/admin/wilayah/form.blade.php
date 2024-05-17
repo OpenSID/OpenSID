@@ -28,7 +28,7 @@
                 <div class="col-sm-7">
                     <input
                         id="nama"
-                        class="form-control input-sm {{ $level == 'dusun' ? 'nama_terbatas' : 'digits' }} required"
+                        class="form-control input-sm nama_terbatas required"
                         maxlength="50"
                         type="text"
                         placeholder="Nama {{ $wilayahLabel }}"
