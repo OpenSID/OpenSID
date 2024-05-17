@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,7 +64,15 @@ class Migrasi_dev extends MY_model
         // foreach ($config_id as $id) {
 
         // }
+        $hasil = $hasil && $this->migrasi_2024051251($hasil);
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2024051251($hasil)
+    {
+        DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
+
+        return $hasil;
     }
 }
