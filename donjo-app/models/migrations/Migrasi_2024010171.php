@@ -571,8 +571,13 @@ class Migrasi_2024010171 extends MY_model
     // Penyesuaian data awal dari versi 2312.0.3
     protected function penyesuaian_data_awal($hasil)
     {
-        // Hapus pengaturan tgl_data_lengkap
+        // Tgl Data Lengkap
         DB::table('setting_aplikasi')->where('key', 'tgl_data_lengkap')->delete();
+
+        // ID Pengunjung Kehadiran
+        DB::table('setting_aplikasi')->where('key', 'id_pengunjung_kehadiran')->update(['judul' => 'ID Pengunjung Kehadiran']);
+
+        
 
         return $hasil;
     }
