@@ -4,9 +4,10 @@
         var csrfParam = "{{ $token_name }}";
         var csrfVal = "{{ $token_value }}";
 
-        function getCsrfToken() {
-            return csrfVal;
-        }
+        var getCsrfToken = (csrfVal) => {
+            const match = document.cookie.match(new RegExp(`${csrfParam}=([^;]+)`));
+            return match ? match[1] : csrfVal;
+        };
     </script>
     <script src="{{ asset('js/anti-csrf.js') }}"></script>
 @endif
