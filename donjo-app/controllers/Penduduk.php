@@ -35,7 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\AgamaEnum;
 use App\Enums\AsuransiEnum;
 use App\Enums\BahasaEnum;
@@ -74,6 +73,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penduduk extends Admin_Controller
 {

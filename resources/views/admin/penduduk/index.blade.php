@@ -260,7 +260,7 @@
                     {
                         data: 'tag_id_card',
                         name: 'tag_id_card',
-                        searchable: false,
+                        searchable: true,
                         orderable: false,
                         defaultContent: ''
                     },
