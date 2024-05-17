@@ -112,6 +112,9 @@ Route::group('identitas_desa', static function (): void {
 
 // Info Desa > Wilayah Administratif
 Route::group('wilayah', static function (): void {
+    Route::get('/clear', static function (): void {
+        redirect('wilayah');
+    });
     Route::get('/datatables', 'Wilayah@datatables')->name('wilayah.datatables');
     Route::post('/tukar', 'Wilayah@tukar')->name('wilayah.tukar');
     Route::match(['GET', 'POST'], '/form_dusun/{level?}/{parent?}/{id?}', 'Wilayah@form_dusun')->name('wilayah.form_dusun');
@@ -363,6 +366,9 @@ foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
 
 // Kependudukan > Data Suplemen
 Route::group('suplemen', static function (): void {
+    Route::get('/clear', static function (): void {
+        redirect('suplemen');
+    });
     Route::get('/', 'Suplemen@index')->name('suplemen.index');
     Route::get('/datatables', 'Suplemen@datatables')->name('suplemen.datatables');
     Route::get('/form/{id?}', 'Suplemen@form')->name('suplemen.form');
@@ -386,6 +392,9 @@ Route::group('suplemen', static function (): void {
 
 // Kependudukan > Calon Pemilih
 Route::group('dpt', static function (): void {
+    Route::get('/clear', static function (): void {
+        redirect('dpt');
+    });
     Route::get('/', 'Dpt@index')->name('dpt.index');
     Route::get('/datatables', 'Dpt@datatables')->name('dpt.datatables');
     Route::get('/ajax_cetak/{aksi?}', 'Dpt@ajax_cetak')->name('dpt.ajax_cetak');
@@ -942,6 +951,9 @@ Route::group('laporan_inventaris', static function (): void {
 
 // Sekretariat > Klasifikasi Surat
 Route::group('klasifikasi', static function (): void {
+    Route::get('/clear', static function (): void {
+            redirect('klasifikasi');
+        });
     Route::get('/', 'Klasifikasi@index')->name('klasifikasi.index');
     Route::get('/datatables', 'Klasifikasi@datatables')->name('klasifikasi.datatables');
     Route::get('/form/{id?}', 'Klasifikasi@form')->name('klasifikasi.form');
@@ -1860,6 +1872,9 @@ Route::group('grup_kontak', static function (): void {
 });
 // Pengaturan > Modul
 Route::group('modul', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('modul');
+    });
     Route::get('/datatables', 'Modul@datatables')->name('modul.datatables');
     Route::get('/form/{id}', 'Modul@form')->name('modul.form');
     Route::post('/update/{id}', 'Modul@update')->name('modul.update');
@@ -1976,6 +1991,9 @@ Route::group('web', static function (): void {
 
 // Admin Web > Widget
 Route::group('web_widget', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('web_widget');
+    });
     Route::get('/', 'Web_widget@index')->name('web_widget.index');
     Route::get('/datatables', 'Web_widget@datatables')->name('web_widget.datatables');
     Route::post('/tukar', 'Web_widget@tukar')->name('web_widget.tukar');
@@ -2069,6 +2087,9 @@ Route::group('teks_berjalan', static function (): void {
 
 // Admin Web > Pengunjung
 Route::group('pengunjung', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('pengunjung');
+    });
     Route::get('/', 'Pengunjung@index')->name('pengunjung.index');
     Route::get('/detail/{id?}', 'Pengunjung@detail')->name('pengunjung.detail');
     Route::get('/cetak/{aksi?}', 'Pengunjung@cetak')->name('pengunjung.cetak');
