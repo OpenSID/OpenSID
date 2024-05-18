@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="dusun">Nama  <?= ucwords($this->setting->sebutan_dusun) ?></label>
                         <div class="col-sm-7">
-                            <input id="dusun" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= ucwords($this->setting->sebutan_dusun) ?>" name="dusun" value="<?= $dusun['dusun'] ?>">
+                            <input id="dusun" class="form-control input-sm alfanumerik_spasi_strip_garis_miring required" maxlength="50" type="text" placeholder="Nama <?= ucwords($this->setting->sebutan_dusun) ?>" name="dusun" value="<?= $dusun['dusun'] ?>">
                         </div>
                     </div>
                     <?php if ($dusun->kepala): ?>
