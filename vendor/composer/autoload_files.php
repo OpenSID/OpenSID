@@ -31,6 +31,7 @@ return array(
     'e39a8b23c42d4e1452234d762b03835a' => $vendorDir . '/ramsey/uuid/src/functions.php',
     'b46ad4fe52f4d1899a2951c7e6ea56b0' => $vendorDir . '/voku/portable-utf8/bootstrap.php',
     'a8d3953fd9959404dd22d3dfcd0a79f0' => $vendorDir . '/google/apiclient/src/aliases.php',
+    '17d016dc52a631c1e74d2eb8fdd57342' => $vendorDir . '/laravel/helpers/src/helpers.php',
     'ffaec35ff90c3d86543d09e59707f86b' => $vendorDir . '/opensid/router/src/helpers.php',
     'c379e2a4ec3735f6c4915556c8c81813' => $vendorDir . '/rap2hpoutre/fast-excel/src/functions/fastexcel.php',
     '0b47d6d4a00ca9112ba3953b49e7c9a4' => $vendorDir . '/yajra/laravel-datatables-oracle/src/helper.php',

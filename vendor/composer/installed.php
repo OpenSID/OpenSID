@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => '2405.0.1.x-dev',
-        'version' => '2405.0.1.9999999-dev',
-        'reference' => '09f8e46ba3fcb8fa66f0464df3275398dc926fee',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'a5465a22def40d63b2a69db99045e1a06e5c4109',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -334,6 +334,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laravel/helpers' => array(
+            'pretty_version' => 'v1.7.0',
+            'version' => '1.7.0.0',
+            'reference' => '6caaa242a23bc39b4e3cf57304b5409260a7a346',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel/helpers',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laravel/serializable-closure' => array(
             'pretty_version' => 'v1.3.3',
             'version' => '1.3.3.0',
@@ -398,9 +407,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => '2405.0.1.x-dev',
-            'version' => '2405.0.1.9999999-dev',
-            'reference' => '09f8e46ba3fcb8fa66f0464df3275398dc926fee',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'a5465a22def40d63b2a69db99045e1a06e5c4109',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
