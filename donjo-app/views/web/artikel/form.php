@@ -28,7 +28,7 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Isi Artikel</label>
-								<textarea name="isi" data-filemanager='<?= json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $this->session->fm_key]) ?>' class="form-control input-sm required" style="height:350px;"><?= $artikel['isi'] ?></textarea>
+								<textarea id="isi" name="isi" data-filemanager='<?= json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $this->session->fm_key]) ?>' class="form-control input-sm required" style="height:350px;"><?= $artikel['isi'] ?></textarea>
 							</div>
 						</div>
 					</div>
@@ -210,6 +210,28 @@
 						</div>
 					</div>
 					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Pengaturan SEO</h3>
+							<div class="box-tools">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							</div>
+						</div>
+						<div class="box-body no-padding">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label class="control-label" for="meta_description">Meta Description</label>
+									<textarea id="meta_description" name="meta_description" class="form-control input-sm" rows="3" maxlength="160"><?= $artikel['meta_description'] ?></textarea>
+									<span class="help-block"><code>(Sebagian besar mesin pencari menggunakan maksimum 160 karakter untuk meta deskripsi)</code></span>
+								</div>
+								<div class="form-group">
+									<label class="control-label" for="meta_keywords">Meta Keywords</label>
+									<textarea id="meta_keywords" name="meta_keywords" class="form-control input-sm" rows="3" maxlength="160"><?= $artikel['meta_keywords'] ?></textarea>
+									<span class="help-block"><code>(Sebagian besar mesin pencari menggunakan maksimum 5 kata, pisahkan kata kunci dengan koma)</code></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box box-info">
 						<div class="box-body no-padding">
 							<div class='box-footer'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
@@ -225,7 +247,7 @@
 <script type="text/javascript" src="<?= asset('js/tinymce-651/tinymce.min.js') ?>"></script>
 <script type="text/javascript">
 	tinymce.init({
-		selector: 'textarea',
+		selector: '#isi',
 		height: 700,
 		promotion: false,
 		theme: 'silver',
