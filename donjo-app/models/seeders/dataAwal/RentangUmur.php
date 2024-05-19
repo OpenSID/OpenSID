@@ -163,7 +163,7 @@ class RentangUmur extends CI_Model
                 'status' => 1,
             ],
             [
-                'nama'   => 'Di atas 75 Tahun',
+                'nama'   => '75 Tahun ke Atas',
                 'dari'   => 75,
                 'sampai' => 99999,
                 'status' => 1,

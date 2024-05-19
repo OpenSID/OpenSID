@@ -65,6 +65,7 @@ class Migrasi_dev extends MY_model
 
         // }
         $hasil = $hasil && $this->migrasi_2024051251($hasil);
+        $hasil = $hasil && $this->migrasi_2024051252($hasil);
 
         return $hasil && true;
     }
@@ -72,6 +73,13 @@ class Migrasi_dev extends MY_model
     protected function migrasi_2024051251($hasil)
     {
         DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024051252($hasil)
+    {
+        DB::table('tweb_penduduk_umur')->where('nama', 'Di Atas 75 Tahun')->update(['nama' => '75 Tahun ke Atas']);
 
         return $hasil;
     }
