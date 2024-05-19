@@ -425,7 +425,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSuratDinas::PERIKSA : LogSuratDinas::TERIMA;
 
             if (LogSuratDinas::updateOrCreate(['id' => $cetak['id']], $log_surat)) {
-                redirect_with('success', 'Berhasil Simpan Konsep');
+                redirect_with('success', 'Berhasil Simpan Konsep', 'surat_dinas_arsip/masuk');
             }
         }
 
