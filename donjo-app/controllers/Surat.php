@@ -564,7 +564,7 @@ class Surat extends Admin_Controller
             $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
 
             if (LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)) {
-                redirect_with('success', 'Berhasil Simpan Konsep');
+                redirect_with('success', 'Berhasil Simpan Konsep', 'keluar/masuk');
             }
         }
 
