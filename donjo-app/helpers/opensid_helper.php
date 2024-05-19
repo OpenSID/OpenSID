@@ -904,10 +904,10 @@ function cekNama($str)
     return preg_match("/[^a-zA-Z '\\.,\\-]/", strip_tags($str));
 }
 
-// Nama hanya boleh berisi karakter alfanumerik, spasi dan strip
+// Nama hanya boleh berisi karakter alfanumerik, spasi, slash(/) dan strip
 function nama_terbatas($str)
 {
-    return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
+    return preg_replace('/[^a-zA-Z0-9 \\/\\-]/', '', $str);
 }
 
 // Judul hanya boleh berisi a-zA-Z0-9()[]&_:=°%'".,/ \-
