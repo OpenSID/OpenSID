@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#7938](https://github.com/OpenSID/OpenSID/issues/7938) Perbaikan hapus beberapa artikel sekaligus.
 16. [#7901](https://github.com/OpenSID/OpenSID/issues/7901) Perbaikan unduh surat pdf yang dibuat ulang.
 17. [#7943](https://github.com/OpenSID/OpenSID/issues/7943) Perbaikan ekpor data penduduk.
+18. [#7926](https://github.com/OpenSID/OpenSID/issues/7926) Perbaikan pengaturan default font.
 
 
 #### TEKNIS

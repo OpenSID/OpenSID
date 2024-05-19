@@ -618,6 +618,7 @@ class Surat_dinas extends Admin_Controller
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
             $html2pdf->setTestTdInOnePage(false);
+            $html2pdf->setDefaultFont(underscore(setting('font_surat_dinas')));
             $html2pdf->writeHTML($isi_cetak);
             $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {

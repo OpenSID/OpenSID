@@ -54,7 +54,7 @@ class Beranda extends Admin_Controller
 
     public function index()
     {
-        get_pesan_opendk(); //ambil pesan baru di opendk
+        // get_pesan_opendk(); //ambil pesan baru di opendk
 
         $this->load->library('saas');
         $data = [

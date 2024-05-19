@@ -409,7 +409,8 @@ class Surat extends Admin_Controller
 
             // convert in PDF
             try {
-                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+                $defaultFont = underscore(setting('font_surat'));
+                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $defaultFont);
                 $this->tinymce->generateLampiran($surat->id_pend, $cetak, $cetak['input']);
 
                 if ($preview) {
