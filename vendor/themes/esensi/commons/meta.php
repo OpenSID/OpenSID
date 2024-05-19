@@ -3,7 +3,7 @@
 <?php $is_premium = preg_match('/premium/', ambilVersi()) ?>
 <?php $nama_desa = ucwords($this->setting->sebutan_desa) .' '.ucwords($desa['nama_desa']) ?>
 
-<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2404.0.0') ?>
+<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2405.0.1') ?>
 <?php defined('IS_PREMIUM') or define('IS_PREMIUM', $is_premium) ?>
 <?php defined('NAMA_DESA') or define('NAMA_DESA', $nama_desa) ?>
 

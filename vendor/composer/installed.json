@@ -6634,20 +6634,20 @@
         },
         {
             "name": "themes/esensi",
-            "version": "v2404.0.0",
-            "version_normalized": "2404.0.0.0",
+            "version": "v2405.0.1",
+            "version_normalized": "2405.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi.git",
-                "reference": "65cfeb05e7ab773957cedb4ec811859e763823d3"
+                "reference": "ac0694c82e5cb3b2f2aa6b9f1b08757a48ee1f5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/65cfeb05e7ab773957cedb4ec811859e763823d3",
-                "reference": "65cfeb05e7ab773957cedb4ec811859e763823d3",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/ac0694c82e5cb3b2f2aa6b9f1b08757a48ee1f5d",
+                "reference": "ac0694c82e5cb3b2f2aa6b9f1b08757a48ee1f5d",
                 "shasum": ""
             },
-            "time": "2024-03-31T08:59:19+00:00",
+            "time": "2024-04-30T08:39:01+00:00",
             "type": "library",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -6668,26 +6668,26 @@
             ],
             "support": {
                 "issues": "https://github.com/OpenSID/tema-esensi/issues",
-                "source": "https://github.com/OpenSID/tema-esensi/tree/v2404.0.0"
+                "source": "https://github.com/OpenSID/tema-esensi/tree/v2405.0.1"
             },
             "install-path": "../themes/esensi"
         },
         {
             "name": "themes/natra",
-            "version": "v2404.0.0",
-            "version_normalized": "2404.0.0.0",
+            "version": "v2405.0.1",
+            "version_normalized": "2405.0.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra.git",
-                "reference": "d3fcfd34ba1300484766d6454d9f4ccf84f87ef2"
+                "reference": "cc97dd6c4036a34c177a9ca66e591986a5a069a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/d3fcfd34ba1300484766d6454d9f4ccf84f87ef2",
-                "reference": "d3fcfd34ba1300484766d6454d9f4ccf84f87ef2",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/cc97dd6c4036a34c177a9ca66e591986a5a069a3",
+                "reference": "cc97dd6c4036a34c177a9ca66e591986a5a069a3",
                 "shasum": ""
             },
-            "time": "2024-03-31T08:58:25+00:00",
+            "time": "2024-04-30T08:39:27+00:00",
             "type": "library",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",
@@ -6708,7 +6708,7 @@
             ],
             "support": {
                 "issues": "https://github.com/OpenSID/tema-natra/issues",
-                "source": "https://github.com/OpenSID/tema-natra/tree/v2404.0.0"
+                "source": "https://github.com/OpenSID/tema-natra/tree/v2405.0.1"
             },
             "install-path": "../themes/natra"
         },
