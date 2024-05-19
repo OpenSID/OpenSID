@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#7916](https://github.com/OpenSID/OpenSID/issues/7916) Penyesuaian input nama rw dan rt bisa menggunakan huruf, angka, spasi dan strip.
 11. [#7914](https://github.com/OpenSID/OpenSID/issues/7914) Penyesuaian data awal bawaan sistem modul analisis.
 12. [#7941](https://github.com/OpenSID/OpenSID/issues/7941) Penyesuaian sebutan rentang umur.
+13. [#7953](https://github.com/OpenSID/OpenSID/issues/7953) Penyesuaian agar input ceklist dapat dilakukan melalui labelnya pada halaman siteman.
 
 
 #### KEAMANAN
