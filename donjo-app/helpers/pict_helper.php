@@ -440,7 +440,7 @@ function ResizeGambar($filename, $path, $dimensi)
     ];
     $ci = &get_instance();
 
-    $ci->load->library('image_lib');
+    $ci->load->library('MY_Image_lib', null, 'image_lib');
     $ci->image_lib->initialize($config_manip);
     if (! $ci->image_lib->resize()) {
         session_error($ci->image_lib->display_errors());
