@@ -138,7 +138,6 @@ class Migrasi_2024050171 extends MY_model
 
     protected function migrasi_2024042751($hasil)
     {
-        log_message('notice', 'Migrasi data 2024042751');
         DB::table('menu')->where('enabled', 2)->update(['enabled' => 0]);
 
         return $hasil;

@@ -2046,33 +2046,42 @@ if (! function_exists('caseWord')) {
      */
     function caseWord($condition, $teks)
     {
+        $suffix = $prefix = '';
+
+        // Gelar
+        if (in_array(strtolower($condition), ['nama_kepala_desa', 'nama_kepala_camat', 'nama_pamong'])) {
+            $pecah = pecah_nama_gelar($teks);
+
+            $teks = $pecah['nama'];
+
+            if ($pecah['gelar_depan']) {
+                $prefix = $pecah['gelar_depan'] . ' ';
+            }
+
+            if ($pecah['gelar_belakang']) {
+                $suffix = ', ' . $pecah['gelar_belakang'];
+            }
+        }
+
         // Normal
         if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
-            return set_words($teks);
-        }
-
-        // Huruf kecil semua
-        if (ctype_lower($condition[0])) {
-            return set_words($teks, 'lower');
-        }
-
-        // Huruf besar semua
-        if (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
-            return set_words($teks, 'upper');
-        }
-
-        // Huruf besar di awal kata
-        if (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
-            return set_words($teks, 'ucwords');
-        }
-
-        // Huruf besar di awal kalimat
-        if (ctype_upper($condition[0])) {
-            return set_words($teks, 'ucfirst');
+            $teks = set_words($teks);
+        } elseif // Huruf kecil semua
+        (ctype_lower($condition[0])) {
+            $teks = set_words($teks, 'lower');
+        } elseif // Huruf besar semua
+        (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
+            $teks = set_words($teks, 'upper');
+        } elseif // Huruf besar di awal kata
+        (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
+            $teks = set_words($teks, 'ucwords');
+        } elseif // Huruf besar di awal kalimat
+        (ctype_upper($condition[0])) {
+            $teks = set_words($teks, 'ucfirst');
         }
 
         // Return teks asli jika tidak sesuai kondisi
-        return $teks;
+        return $prefix . $teks . $suffix;
     }
 }
 

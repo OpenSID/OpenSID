@@ -546,13 +546,7 @@ if (! function_exists('case_replace')) {
 
         $result = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
 
-        if (preg_match('/nama_kepala_camat/i', strtolower($dari))) {
-            $pecah_nama_gelar = pecah_nama_gelar($ke);
-            $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
-            $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
-
-            $result = str_ireplace([$gelar_depan, $gelar_belakang], [$gelar_depan, $gelar_belakang], $result);
-        } elseif (preg_match('/pendidikan/i', strtolower($dari))) {
+        if (preg_match('/pendidikan/i', strtolower($dari))) {
             $result = kasus_lain('pendidikan', $result);
         } elseif (preg_match('/pekerjaan/i', strtolower($dari))) {
             $result = kasus_lain('pekerjaan', $result);
