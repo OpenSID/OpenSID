@@ -65,6 +65,7 @@ class KodeIsianPenandaTangan
         $ttd         = $this->inputForm['pilih_atas_nama'];
         $atas_nama   = $kades->pamong_jabatan . ' ' . $nama_desa;
         $jabatan     = $kades->pamong_jabatan;
+        $an_jabatan  = $an_simbol = $ub_simbol = $ub_jabatan = '';
         $nama_pamong = $kades->pamong_nama;
         $nip_pamong  = $kades->pamong_nip;
         $niap_pamong = $kades->pamong_niap;
@@ -73,6 +74,10 @@ class KodeIsianPenandaTangan
         if (preg_match('/a.n/i', $ttd)) {
             $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan;
             $jabatan     = $sekdes->pamong_jabatan;
+            $an_jabatan  = $jabatan;
+            $an_simbol   = 'a.n';
+            $ub_simbol   = '';
+            $ub_jabatan  = '';
             $nama_pamong = $sekdes->pamong_nama;
             $nip_pamong  = $sekdes->pamong_nip;
             $niap_pamong = $sekdes->pamong_niap;
@@ -82,6 +87,10 @@ class KodeIsianPenandaTangan
             $pamong      = Pamong::ttd('u.b')->find($this->inputForm['pamong_id']);
             $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b <br>' . $pamong->jabatan->nama;
             $jabatan     = $pamong->pamong_jabatan;
+            $an_jabatan  = $sekdes->pamong_jabatan;
+            $an_simbol   = 'a.n';
+            $ub_simbol   = 'u.b';
+            $ub_jabatan  = $jabatan;
             $nama_pamong = $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip;
             $niap_pamong = $pamong->pamong_niap;
@@ -102,6 +111,26 @@ class KodeIsianPenandaTangan
         }
 
         return [
+            [
+                'judul' => 'a.n Simbol',
+                'isian' => 'A.n_simboL',
+                'data'  => $an_simbol,
+            ],
+            [
+                'judul' => 'a.n Jabatan',
+                'isian' => 'A.n_jabataN',
+                'data'  => $an_jabatan,
+            ],
+            [
+                'judul' => 'u.b Simbol',
+                'isian' => 'U.b_simboL',
+                'data'  => $ub_simbol,
+            ],
+            [
+                'judul' => 'u.b Jabatan',
+                'isian' => 'U.b_jabataN',
+                'data'  => $ub_jabatan,
+            ],
             [
                 'judul' => 'Atas Nama',
                 'isian' => 'Atas_namA',

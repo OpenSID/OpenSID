@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#3362](https://github.com/OpenSID/OpenSID/issues/3362) Penambahan inventaris pada halaman website.
 17. [#6342](https://github.com/OpenSID/OpenSID/issues/6342) Penambahan cetak/unduh laporan Scorecard konvergensi stunting.
 18. [#7252](https://github.com/OpenSID/OpenSID/issues/7252) Penambahan lampiran surat keterangan kematian format F-2.29.
+19. [#7940](https://github.com/OpenSID/OpenSID/issues/7940) Penambahan kode isian a.n dan u.b yang terpisah.
 
 
 #### BUG
