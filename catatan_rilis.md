@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#7943](https://github.com/OpenSID/OpenSID/issues/7943) Perbaikan ekpor data penduduk.
 18. [#7926](https://github.com/OpenSID/OpenSID/issues/7926) Perbaikan pengaturan default font.
 19. [#7963](https://github.com/OpenSID/OpenSID/issues/7963) Perbaikan nomor tumah tangga tidak tampil pada modul penduduk.
+20. [#7962](https://github.com/OpenSID/OpenSID/issues/7962) Perbaikan format tanggal perkawinan penduduk.
 
 
 #### TEKNIS

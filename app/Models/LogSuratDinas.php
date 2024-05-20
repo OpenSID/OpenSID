@@ -174,6 +174,7 @@ class LogSuratDinas extends BaseModel
         if ($this->lampiran != null) {
             return FCPATH . LOKASI_ARSIP . pathinfo($this->nama_surat, PATHINFO_FILENAME);
         }
+
         return null;
     }
 
