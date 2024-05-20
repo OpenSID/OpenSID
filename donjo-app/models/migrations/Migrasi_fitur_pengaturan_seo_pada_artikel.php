@@ -46,20 +46,22 @@ class Migrasi_fitur_pengaturan_seo_pada_artikel extends MY_model
 
     protected function migrasi_202405180907($hasil)
     {
-        $fields = [
-            'meta_description' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 160,
-                'null'       => true,
-            ],
-            'meta_keywords' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 160,
-                'null'       => true,
-            ],
-        ];
+        if (! $this->db->field_exists('meta_description', 'artikel')) {
+            $fields = [
+                'meta_description' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 160,
+                    'null'       => true,
+                ],
+                'meta_keywords' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 160,
+                    'null'       => true,
+                ],
+            ];
 
-        $this->dbforge->add_column('artikel', $fields);
+            $this->dbforge->add_column('artikel', $fields);
+        }
 
         return $hasil;
     }
