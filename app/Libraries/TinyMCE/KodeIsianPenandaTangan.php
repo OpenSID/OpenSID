@@ -65,18 +65,18 @@ class KodeIsianPenandaTangan
         $ttd         = $this->inputForm['pilih_atas_nama'];
         $atas_nama   = $kades->pamong_jabatan . ' ' . $nama_desa;
         $jabatan     = $kades->pamong_jabatan;
-        $an_jabatan  = $an_simbol = $ub_simbol = $ub_jabatan = '';
+        $jabatan_an  = $simbol_an = $simbol_ub = $ub_jabatan = '';
         $nama_pamong = $kades->pamong_nama;
         $nip_pamong  = $kades->pamong_nip;
         $niap_pamong = $kades->pamong_niap;
 
         $sekdes = Pamong::ttd('a.n')->first();
         if (preg_match('/a.n/i', $ttd)) {
-            $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan;
+            $atas_nama   = 'a.n. ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan;
             $jabatan     = $sekdes->pamong_jabatan;
-            $an_jabatan  = $jabatan;
-            $an_simbol   = 'a.n';
-            $ub_simbol   = '';
+            $jabatan_an  = $jabatan;
+            $simbol_an   = 'a.n.';
+            $simbol_ub   = '';
             $ub_jabatan  = '';
             $nama_pamong = $sekdes->pamong_nama;
             $nip_pamong  = $sekdes->pamong_nip;
@@ -85,11 +85,11 @@ class KodeIsianPenandaTangan
 
         if (preg_match('/u.b/i', $ttd)) {
             $pamong      = Pamong::ttd('u.b')->find($this->inputForm['pamong_id']);
-            $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b <br>' . $pamong->jabatan->nama;
+            $atas_nama   = 'a.n. ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b. <br>' . $pamong->jabatan->nama;
             $jabatan     = $pamong->pamong_jabatan;
-            $an_jabatan  = $sekdes->pamong_jabatan;
-            $an_simbol   = 'a.n';
-            $ub_simbol   = 'u.b';
+            $jabatan_an  = $sekdes->pamong_jabatan;
+            $simbol_an   = 'a.n.';
+            $simbol_ub   = 'u.b';
             $ub_jabatan  = $jabatan;
             $nama_pamong = $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip;
@@ -112,23 +112,23 @@ class KodeIsianPenandaTangan
 
         return [
             [
-                'judul' => 'a.n Simbol',
-                'isian' => 'A.n_simboL',
-                'data'  => $an_simbol,
+                'judul' => 'Simbol a.n.',
+                'isian' => 'Simbol_an',
+                'data'  => $simbol_an,
             ],
             [
-                'judul' => 'a.n Jabatan',
-                'isian' => 'A.n_jabataN',
-                'data'  => $an_jabatan,
+                'judul' => 'Jabatan a.n.',
+                'isian' => 'Jabatan_an',
+                'data'  => $jabatan_an,
             ],
             [
-                'judul' => 'u.b Simbol',
-                'isian' => 'U.b_simboL',
-                'data'  => $ub_simbol,
+                'judul' => 'Simbol u.b.',
+                'isian' => 'Simbol_ub',
+                'data'  => $simbol_ub,
             ],
             [
-                'judul' => 'u.b Jabatan',
-                'isian' => 'U.b_jabataN',
+                'judul' => 'Jabatan u.b.',
+                'isian' => 'Jabatan_ub',
                 'data'  => $ub_jabatan,
             ],
             [
