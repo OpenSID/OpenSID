@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#7941](https://github.com/OpenSID/OpenSID/issues/7941) Penyesuaian sebutan rentang umur.
 13. [#7953](https://github.com/OpenSID/OpenSID/issues/7953) Penyesuaian agar input ceklist dapat dilakukan melalui labelnya pada halaman siteman.
 14. [#7958](https://github.com/OpenSID/OpenSID/issues/7958) Penyesuaian tampilan dan fungsi simpan sebagai konsep pada surat layanan dan dinas.
+15. [#7951](https://github.com/OpenSID/OpenSID/issues/7951) Perbaikan button tooltip donasi pengembangan OpenSID.
 
 
 #### KEAMANAN
