@@ -69,11 +69,12 @@ define('EXT_DOKUMEN', serialize([
 
 define('MIME_TYPE_GAMBAR', serialize([
     'image/jpeg', 'image/pjpeg',
-    'image/png',  'image/x-png',
+    'image/png', 'image/x-png',
+    'image/webp',
 ]));
 
 define('EXT_GAMBAR', serialize([
-    '.jpg', '.jpeg', '.png',
+    '.jpg', '.jpeg', '.png', '.webp',
 ]));
 
 define('MIME_TYPE_ARSIP', serialize([
@@ -84,6 +85,14 @@ define('MIME_TYPE_ARSIP', serialize([
 define('EXT_ARSIP', serialize([
     '.zip', '.rar',
 ]));
+
+define('GAMBAR_ALLOWED_TYPES', 'jpg|jpeg|png|webp');
+
+define('GAMBAR_ALLOWED_TYPES_WITH_GIF', 'gif|jpg|jpeg|png|webp');
+
+define('GAMBAR_ALLOWED_TYPES_WITH_PDF', 'gif|jpg|jpeg|png|webp|pdf');
+
+define('GAMBAR_ALLOWED_TYPES_WITH_GIF_AND_PDF', 'gif|jpg|jpeg|png|webp|pdf');
 
 /**
  * Tambahkan suffix unik ke nama file
@@ -166,7 +175,7 @@ function UploadFoto($fupload_name, $old_foto, $dimensi = '200x200')
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_USER_PICT;
-    $config['allowed_types'] = 'jpg|png|jpeg|webp';
+    $config['allowed_types'] = GAMBAR_ALLOWED_TYPES;
     $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize($config);
 
@@ -291,7 +300,7 @@ function UploadGallery($fupload_name, $old_foto = '', $tipe_file = '')
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_GALERI;
-    $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
+    $config['allowed_types'] = GAMBAR_ALLOWED_TYPES_WITH_GIF;
     $ci->load->library('upload');
     $ci->upload->initialize($config);
 
@@ -354,7 +363,7 @@ function UploadArtikel($fupload_name, $gambar)
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_FOTO_ARTIKEL;
-    $config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
+    $config['allowed_types'] = GAMBAR_ALLOWED_TYPES_WITH_GIF;
     $ci->load->library('upload');
     $ci->upload->initialize($config);
 
@@ -389,7 +398,7 @@ function UploadPeta($fupload_name, $lokasi, $old_foto = null)
     $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize([
         'upload_path'   => $lokasi,
-        'allowed_types' => 'gif|jpg|png|jpeg|webp',
+        'allowed_types' => GAMBAR_ALLOWED_TYPES_WITH_GIF,
     ]);
 
     if (! $ci->upload->do_upload('foto')) {

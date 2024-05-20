@@ -126,7 +126,7 @@ class Pengaduan_model extends MY_Model
             $this->load->library('MY_Upload', null, 'upload');
 
             $config['upload_path']   = LOKASI_PENGADUAN;
-            $config['allowed_types'] = 'jpg|jpeg|png|webp';
+            $config['allowed_types'] = GAMBAR_ALLOWED_TYPES;
             $config['max_size']      = max_upload() * 1024;
             $config['file_name']     = namafile($this->input->post('judul', true));
 

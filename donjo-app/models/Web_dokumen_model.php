@@ -309,7 +309,7 @@ class Web_dokumen_model extends MY_Model
     {
         $old_file                = $this->input->post('old_file', true);
         $config['upload_path']   = LOKASI_DOKUMEN;
-        $config['allowed_types'] = 'jpg|jpeg|png|pdf|webp';
+        $config['allowed_types'] = GAMBAR_ALLOWED_TYPES_WITH_PDF;
         $config['file_name']     = namafile($this->input->post('nama', true));
 
         $this->load->library('MY_Upload', null, 'upload');

@@ -221,7 +221,7 @@ class Setting_model extends MY_Model
         $this->load->library('MY_Upload', null, 'upload');
 
         $config['upload_path']   = $lokasi;
-        $config['allowed_types'] = 'jpg|jpeg|png|webp';
+        $config['allowed_types'] = GAMBAR_ALLOWED_TYPES;
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 1024;
         $config['file_name']     = time() . $key . '.jpg';

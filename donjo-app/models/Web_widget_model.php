@@ -249,7 +249,7 @@ class Web_widget_model extends MY_Model
         $this->load->library('MY_Upload', null, 'upload');
         $uploadConfig = [
             'upload_path'   => LOKASI_GAMBAR_WIDGET,
-            'allowed_types' => 'jpg|jpeg|png|webp',
+            'allowed_types' => GAMBAR_ALLOWED_TYPES,
             'max_size'      => 1024, // 1 MB
         ];
         $this->upload->initialize($uploadConfig);
@@ -354,7 +354,7 @@ class Web_widget_model extends MY_Model
                 $this->load->library('MY_Upload', null, 'upload');
                 $this->upload->initialize([
                     'upload_path'   => LOKASI_GAMBAR_WIDGET,
-                    'allowed_types' => 'jpg|png|jpeg|webp',
+                    'allowed_types' => GAMBAR_ALLOWED_TYPES,
                     'max_size'      => 1024, // 1 MB
                 ]);
 
