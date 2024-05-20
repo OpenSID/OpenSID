@@ -209,6 +209,7 @@ class Penduduk extends BaseModel
         'pendudukStatus',
         'wilayah',
         'keluarga',
+        'rtm',
     ];
 
     /**
