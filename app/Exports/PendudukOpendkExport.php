@@ -119,12 +119,13 @@ class PendudukOpendkExport
     public function export()
     {
         $filePath = sys_get_temp_dir() . '/' . $this->filename() . '.xlsx';
+
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
     public function zip()
     {
-        $ci = &get_instance();
+        $ci       = &get_instance();
         $penduduk = $this->export();
         $ci->zip->read_file($penduduk);
         $filename = $this->filename() . '.zip';

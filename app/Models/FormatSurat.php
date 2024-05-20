@@ -469,7 +469,7 @@ class FormatSurat extends BaseModel
         return $this->format_nomor_global === false && empty($this->format_nomor) ? setting('format_nomor_surat') : $this->format_nomor;
     }
 
-    public function isBawaan()
+    public function isBawaan(): bool
     {
         return $this->jenis == self::TINYMCE_SISTEM;
     }

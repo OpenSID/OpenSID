@@ -116,12 +116,12 @@ class Rentang_umur extends Statistik
 
     public function rentang_insert(): void
     {
-        isCan('u');        
+        isCan('u');
 
         if (RentangUmur::create($this->validate_rentang($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', site_url('statistik/rentang_umur'));
         }
-        
+
         redirect_with('error', 'Gagal Tambah Data', site_url('statistik/rentang_umur'));
     }
 

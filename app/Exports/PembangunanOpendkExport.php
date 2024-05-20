@@ -37,7 +37,6 @@
 
 namespace App\Exports;
 
-use App\Models\BantuanPeserta;
 use App\Models\LogSinkronisasi;
 use App\Models\Pembangunan;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -66,7 +65,6 @@ class PembangunanOpendkExport
         'sifat_proyek',
         'foto',
     ];
-    
     protected $p;
 
     public function __construct($p)
@@ -81,22 +79,23 @@ class PembangunanOpendkExport
 
     public function data()
     {
-        $ci = &get_instance();
+        $ci       = &get_instance();
         $kodeDesa = identitas()->kode_desa;
 
-        $limit = 100;
-        $p     = $this->p;
+        $limit            = 100;
+        $p                = $this->p;
         $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
 
         $dataExport = Pembangunan::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
-        ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))
-        ->get($this->fields)->map(function ($item) use ($kodeDesa, $ci) {
-            $data = collect($item->toArray());
+            ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))
+            ->get($this->fields)->map(static function ($item) use ($kodeDesa, $ci) {
+            $data      = collect($item->toArray());
             $file_foto = LOKASI_GALERI . $data['foto'];
             if (is_file($file_foto)) {
                 $ci->zip->read_file($file_foto);
             }
             $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
+
             return $data->toArray();
         })->toArray();
 
@@ -115,12 +114,13 @@ class PembangunanOpendkExport
     public function export()
     {
         $filePath = sys_get_temp_dir() . '/' . $this->filename() . '.csv';
+
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
     public function zip()
     {
-        $ci = &get_instance();
+        $ci   = &get_instance();
         $data = $this->export();
         $ci->zip->read_file($data);
         $filename = $this->filename() . '.zip';

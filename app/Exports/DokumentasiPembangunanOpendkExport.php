@@ -38,7 +38,6 @@
 namespace App\Exports;
 
 use App\Models\LogSinkronisasi;
-use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
 use Rap2hpoutre\FastExcel\FastExcel;
 
@@ -53,7 +52,6 @@ class DokumentasiPembangunanOpendkExport
         'created_at',
         'updated_at',
     ];
-    
     protected $p;
 
     public function __construct($p)
@@ -68,16 +66,16 @@ class DokumentasiPembangunanOpendkExport
 
     public function data()
     {
-        $ci = &get_instance();
+        $ci       = &get_instance();
         $kodeDesa = identitas()->kode_desa;
 
-        $limit = 100;
-        $p     = $this->p;
+        $limit            = 100;
+        $p                = $this->p;
         $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
 
         $dataExport = PembangunanDokumentasi::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
-            ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))->get($this->fields)->map(function ($item) use ($kodeDesa, $ci) {
-                $data = collect($item->toArray());
+            ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))->get($this->fields)->map(static function ($item) use ($kodeDesa, $ci) {
+                $data      = collect($item->toArray());
                 $file_foto = LOKASI_GALERI . $data['gambar'];
                 if (is_file($file_foto)) {
                     $ci->zip->read_file($file_foto);
@@ -85,6 +83,7 @@ class DokumentasiPembangunanOpendkExport
                 $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
                 $data->put('created_at', $item->created_at->format('Y-m-d'));
                 $data->put('updated_at', $item->updated_at->format('Y-m-d'));
+
                 return $data->toArray();
             })->toArray();
 
@@ -107,7 +106,7 @@ class DokumentasiPembangunanOpendkExport
 
     public function zip()
     {
-        $ci = &get_instance();
+        $ci   = &get_instance();
         $data = $this->export();
         $ci->zip->read_file($data);
         $filename = $this->filename() . '.zip';

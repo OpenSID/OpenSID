@@ -63,12 +63,13 @@ class PesertaBantuanOpendkExport
 
     public function data()
     {
-        $kodeDesa = identitas()->kode_desa;
-        $dataExport = BantuanPeserta::get($this->fields)->map(function ($item) use ($kodeDesa) {
+        $kodeDesa   = identitas()->kode_desa;
+        $dataExport = BantuanPeserta::get($this->fields)->map(static function ($item) use ($kodeDesa) {
             $data = collect($item->toArray());
             $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
             $data->put('sasaran', $data['bantuan']['sasaran']);
             $data->forget('bantuan');
+
             return $data->toArray();
         })->toArray();
 
@@ -87,12 +88,13 @@ class PesertaBantuanOpendkExport
     public function export()
     {
         $filePath = sys_get_temp_dir() . '/' . $this->filename() . '.csv';
+
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
     public function zip()
     {
-        $ci = &get_instance();
+        $ci      = &get_instance();
         $peserta = $this->export();
         $ci->zip->read_file($peserta);
         $filename = $this->filename() . '.zip';

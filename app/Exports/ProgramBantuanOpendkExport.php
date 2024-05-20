@@ -60,11 +60,12 @@ class ProgramBantuanOpendkExport
 
     public function data()
     {
-        $kodeDesa = identitas()->kode_desa;
-        $dataExport = Bantuan::get($this->fields)->map(function ($item) use ($kodeDesa) {
+        $kodeDesa   = identitas()->kode_desa;
+        $dataExport = Bantuan::get($this->fields)->map(static function ($item) use ($kodeDesa) {
             $data = collect($item->toArray());
             $data->prepend(kode_wilayah($kodeDesa), 'desa_id');
             $data->put('status', $data->get('status') ? 1 : 0);
+
             return $data->toArray();
         })->toArray();
 
@@ -83,12 +84,13 @@ class ProgramBantuanOpendkExport
     public function export()
     {
         $filePath = sys_get_temp_dir() . '/' . $this->filename() . '.xlsx';
+
         return (new FastExcel())->data($this->data())->export($filePath);
     }
 
     public function zip()
     {
-        $ci = &get_instance();
+        $ci   = &get_instance();
         $data = $this->export();
         $ci->zip->read_file($data);
         $filename = $this->filename() . '.zip';

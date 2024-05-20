@@ -223,5 +223,6 @@ class DokumenHidup extends BaseModel
                     ->get()
                     ->toArray();
         }
+        return null;
     }
 }

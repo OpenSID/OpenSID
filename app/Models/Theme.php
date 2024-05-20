@@ -86,7 +86,7 @@ class Theme extends BaseModel
         return $this->path;
     }
 
-    public function getViewPathAttribute()
+    public function getViewPathAttribute(): string
     {
         return '../../' . $this->getFullPathAttribute();
     }
@@ -110,7 +110,7 @@ class Theme extends BaseModel
         return $query->where('sistem', $status);
     }
 
-    public function setVersiAttribute($value)
+    public function setVersiAttribute($value): void
     {
         if (empty($value)) {
             $value = VERSION;
@@ -119,7 +119,7 @@ class Theme extends BaseModel
         $this->attributes['versi'] = $value;
     }
 
-    public function getVersiAttribute($value)
+    public function getVersiAttribute(string $value): string
     {
         return 'v' . $value;
     }
@@ -138,15 +138,15 @@ class Theme extends BaseModel
         return self::status()->first();
     }
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
-        static::creating(static function ($model) {
+        static::creating(static function ($model): void {
             $model->slug = Str::slug('desa-' . $model->nama);
         });
 
-        static::deleting(static function ($model) {
+        static::deleting(static function ($model): void {
             File::deleteDirectory($model->path);
         });
     }
