@@ -507,7 +507,7 @@ class TinyMCE
                 'atas_nama'     => $atas_nama,
             ];
         }
-        session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
+        set_session('error', setting('sebutan_kepala_desa') . ' belum ditentukan.');
         redirect('pengurus');
     }
 
