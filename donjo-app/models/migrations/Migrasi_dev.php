@@ -101,18 +101,24 @@ class Migrasi_dev extends MY_model
         $value = json_decode($setting->value, true);
         $option = json_decode($setting->option, true);
 
-        if (count($value) > count($media_sosial)) {
+        if (count($value) > count($media_sosial) || count($option) > count($media_sosial)) {
             $value = array_unique($value);
             $value = array_filter($value, function ($item) use ($media_sosial) {
                 return in_array($item, $media_sosial);
             });
-        }
 
-        if (count($option) > count($media_sosial)) {
             $option = array_unique($option, SORT_REGULAR);
             $option = array_filter($option, function ($item) use ($media_sosial) {
                 return in_array($item['id'], $media_sosial);
             });
+
+            DB::table('setting_aplikasi')
+                ->where('config_id', $id)
+                ->where('key', 'media_sosial_pemerintah_desa')
+                ->update([
+                    'value' => json_encode($value),
+                    'option' => json_encode($option)
+                ]);
         }
 
         return $hasil;
