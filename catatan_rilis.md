@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#7926](https://github.com/OpenSID/OpenSID/issues/7926) Perbaikan pengaturan default font.
 19. [#7963](https://github.com/OpenSID/OpenSID/issues/7963) Perbaikan nomor tumah tangga tidak tampil pada modul penduduk.
 20. [#7962](https://github.com/OpenSID/OpenSID/issues/7962) Perbaikan format tanggal perkawinan penduduk.
+21. [#7949](https://github.com/OpenSID/OpenSID/issues/7949) Perbaikan data nik penduduk desa yang tidak tampil pada modul pengurus.
 
 
 #### TEKNIS
