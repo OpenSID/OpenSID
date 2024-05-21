@@ -45,6 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#7958](https://github.com/OpenSID/OpenSID/issues/7958) Penyesuaian tampilan dan fungsi simpan sebagai konsep pada surat layanan dan dinas.
 15. [#7951](https://github.com/OpenSID/OpenSID/issues/7951) Perbaikan button tooltip donasi pengembangan OpenSID.
 16. [#7814](https://github.com/OpenSID/OpenSID/issues/7814) Penyesuaian modul statistik > rentang umur menggunakan ORM dan Blade.
+17. [#7964](https://github.com/OpenSID/OpenSID/issues/7964) Penyesuaian fungsi pindah posisi pada modul teks berjalan menggunakan dragable.
 
 
 #### KEAMANAN

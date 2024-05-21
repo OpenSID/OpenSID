@@ -2077,12 +2077,12 @@ Route::group('sosmed', static function (): void {
 // Admin Web > Teks Berjalan
 Route::group('teks_berjalan', static function (): void {
     Route::get('/', 'Teks_berjalan@index')->name('teks_berjalan.index');
+    Route::post('/tukar', 'Teks_berjalan@tukar')->name('teks_berjalan.tukar');
     Route::get('/datatables', 'Teks_berjalan@datatables')->name('teks_berjalan.datatables');
     Route::get('/form/{id?}', 'Teks_berjalan@form')->name('teks_berjalan.form');
     Route::post('/insert', 'Teks_berjalan@insert')->name('teks_berjalan.insert');
     Route::post('/update/{id?}', 'Teks_berjalan@update')->name('teks_berjalan.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Teks_berjalan@delete')->name('teks_berjalan.delete');
-    Route::get('/urut/{id?}/{arah?}', 'Teks_berjalan@urut')->name('teks_berjalan.urut');
     Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
