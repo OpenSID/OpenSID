@@ -162,7 +162,8 @@ class Web extends Admin_Controller
             $data['artikel']     = $artikel->toArray();
             $data['form_action'] = ci_route('web.update.' . $cat, $id);
             $data['id']          = $id;
-            $data['kategori']    = is_numeric($cat) && $cat > 0 ? $artikel->category->toArray() : ['kategori' => ''];
+            $data['kategori']    = is_numeric($cat) && $cat > 0 ? ($artikel->category ? $artikel->category->toArray() : ['kategori' => '']) : ['kategori' => ''];
+
         } else {
             if ($cat === null) {
                 redirect_with('error', 'Kategori tidak ditemukan');
