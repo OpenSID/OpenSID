@@ -35,8 +35,8 @@
  *
  */
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -89,28 +89,26 @@ class Migrasi_dev extends MY_model
     {
         $media_sosial = DB::table('media_sosial')
             ->where('config_id', $id)
-            ->pluck('nama')->map(function ($item) {
-                return Str::slug($item);
-        })->toArray();
+            ->pluck('nama')->map(static fn ($item) => Str::slug($item))->toArray();
 
         $setting = DB::table('setting_aplikasi')
             ->where('config_id', $id)
             ->where('key', 'media_sosial_pemerintah_desa')
             ->first();
 
-        $value = json_decode($setting->value, true);
+        $value  = json_decode($setting->value, true);
         $option = json_decode($setting->option, true);
 
         if (count($value) > count($media_sosial) || count($option) > count($media_sosial)) {
-            $value = array_values(array_filter(array_unique($value), fn($item) => in_array($item, $media_sosial)));
-            $option = array_filter(array_unique($option, SORT_REGULAR), fn($item) => in_array($item['id'], $media_sosial));
+            $value  = array_values(array_filter(array_unique($value), static fn ($item) => in_array($item, $media_sosial)));
+            $option = array_filter(array_unique($option, SORT_REGULAR), static fn ($item) => in_array($item['id'], $media_sosial));
 
             DB::table('setting_aplikasi')
                 ->where('config_id', $id)
                 ->where('key', 'media_sosial_pemerintah_desa')
                 ->update([
-                    'value' => json_encode($value),
-                    'option' => json_encode($option)
+                    'value'  => json_encode($value),
+                    'option' => json_encode($option),
                 ]);
         }
 

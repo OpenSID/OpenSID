@@ -420,17 +420,17 @@ class Periksa_model extends MY_Model
     {
         $configId = identitas('id');
         $userId   = auth()->id;
-        $sql = "
+        $sql      = "
             INSERT INTO log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
-            SELECT 
-                {$configId} AS config_id, 
-                id AS id_kk, 
-                1 AS id_peristiwa, 
-                tgl_daftar AS tgl_peristiwa, 
+            SELECT
+                {$configId} AS config_id,
+                id AS id_kk,
+                1 AS id_peristiwa,
+                tgl_daftar AS tgl_peristiwa,
                 {$userId} AS updated_by
-            FROM 
+            FROM
                 tweb_keluarga
-            WHERE 
+            WHERE
                 config_id = {$configId} AND
                 id NOT IN (
                     SELECT id_kk FROM log_keluarga WHERE config_id = {$configId} AND id_kk IS NOT NULL AND id_peristiwa = 1
