@@ -7647,16 +7647,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.57.1",
+            "version": "v3.57.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "3f7efe667a8c9818aacceee478add7c0fc24cb21"
+                "reference": "22f7f3145606df92b02fb1bd22c30abfce956d3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/3f7efe667a8c9818aacceee478add7c0fc24cb21",
-                "reference": "3f7efe667a8c9818aacceee478add7c0fc24cb21",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/22f7f3145606df92b02fb1bd22c30abfce956d3c",
+                "reference": "22f7f3145606df92b02fb1bd22c30abfce956d3c",
                 "shasum": ""
             },
             "require": {
@@ -7735,7 +7735,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.57.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.57.2"
             },
             "funding": [
                 {
@@ -7743,19 +7743,19 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-15T22:01:07+00:00"
+            "time": "2024-05-20T20:41:57+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
             "version": "v5.2.13",
             "source": {
                 "type": "git",
-                "url": "https://github.com/justinrainbow/json-schema.git",
+                "url": "https://github.com/jsonrainbow/json-schema.git",
                 "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
                 "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793",
                 "shasum": ""
             },
@@ -7810,8 +7810,8 @@
                 "schema"
             ],
             "support": {
-                "issues": "https://github.com/justinrainbow/json-schema/issues",
-                "source": "https://github.com/justinrainbow/json-schema/tree/v5.2.13"
+                "issues": "https://github.com/jsonrainbow/json-schema/issues",
+                "source": "https://github.com/jsonrainbow/json-schema/tree/v5.2.13"
             },
             "time": "2023-09-26T02:20:38+00:00"
         },
