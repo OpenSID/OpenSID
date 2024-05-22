@@ -420,10 +420,25 @@ class Periksa_model extends MY_Model
     {
         $configId = identitas('id');
         $userId   = auth()->id;
-        $sql      = "insert into log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
-                select {$configId} as config_id, id as id_kk, 1 as id_peristiwa, tgl_daftar as tgl_peristiwa, {$userId} as updated_by
-                from tweb_keluarga  where id not in ( select id_kk from log_keluarga where id_peristiwa = 1 ) ";
+        $sql = "
+            INSERT INTO log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
+            SELECT 
+                {$configId} AS config_id, 
+                id AS id_kk, 
+                1 AS id_peristiwa, 
+                tgl_daftar AS tgl_peristiwa, 
+                {$userId} AS updated_by
+            FROM 
+                tweb_keluarga
+            WHERE 
+                config_id = {$configId} AND
+                id NOT IN (
+                    SELECT id_kk FROM log_keluarga WHERE config_id = {$configId} AND id_kk IS NOT NULL AND id_peristiwa = 1
+                )
+        ";
+
         DB::statement($sql);
+        DB::table('log_keluarga')->where('config_id', $configId)->whereNull('id_kk')->delete();
     }
 
     private function selesaikan_masalah($masalah_ini): void

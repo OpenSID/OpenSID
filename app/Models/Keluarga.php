@@ -303,7 +303,7 @@ class Keluarga extends BaseModel
         LogPerubahanPenduduk::create($log);
 
         $log_keluarga = [
-            'id_kk'           => null,
+            'id_kk'           => $keluarga->id,
             'id_peristiwa'    => LogKeluarga::KELUARGA_BARU,
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => null,
