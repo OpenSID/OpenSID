@@ -2735,6 +2735,9 @@ class imageLib {
 			case 'png':
 				$img = @imagecreatefrompng($file);
 				break;
+			case 'webp':
+				$img = @imagecreatefromwebp($file);
+				break;
 			case 'bmp':
 				$img = @$this->imagecreatefrombmp($file);
 				break;
@@ -2868,6 +2871,14 @@ class imageLib {
 				file_put_contents($savePath, $this->GD2BMPstring($this->imageResized));
 				break;
 
+			case '.webp':
+				$this->checkInterlaceImage($this->isInterlace);
+				if (imagetypes() & IMG_WEBP) {
+					imagewebp($this->imageResized, $savePath, $imageQuality);
+				} else {
+					$error = 'webp';
+				}
+				break;
 
 			// ... etc
 
@@ -2932,6 +2943,11 @@ class imageLib {
 				$invertScaleQuality = 9 - $scaleQuality;
 
 				imagepng($this->imageResized, '', $invertScaleQuality);
+				break;
+			case 'webp':
+				header('Content-type: image/webp');
+				
+				imagewebp($this->imageResized, '', $imageQuality);
 				break;
 			case 'bmp':
 				echo 'bmp file format is not supported.';

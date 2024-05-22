@@ -473,8 +473,8 @@ function ResizeGambar($filename, $path, $dimensi)
 // $dimensi = array("width"=>lebar, "height"=>tinggi)
 function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
 {
-    // Hanya bisa resize jpeg atau png
-    $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
+    // Hanya bisa resize jpeg, png, atau webp
+    $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/webp'];
     if (! in_array($tipe_file, $mime_type_image)) {
         $_SESSION['error_msg'] .= ' -> Jenis file tidak bisa di-resize: ' . $tipe_file;
         $_SESSION['success'] = -1;
@@ -487,11 +487,19 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
     }
 
     $is_png = ($tipe_file == 'image/png' || $tipe_file == 'image/x-png');
+    $is_webp = ($tipe_file == 'image/webp');
 
-    $image      = ($is_png) ? imagecreatefrompng($filepath_in) : imagecreatefromjpeg($filepath_in);
-    $width      = imagesx($image);
-    $height     = imagesy($image);
-    $new_width  = $dimensi['width'];
+    if ($is_png) {
+        $image = imagecreatefrompng($filepath_in);
+    } elseif ($is_webp) {
+        $image = imagecreatefromwebp($filepath_in);
+    } else {
+        $image = imagecreatefromjpeg($filepath_in);
+    }
+
+    $width = imagesx($image);
+    $height = imagesy($image);
+    $new_width = $dimensi['width'];
     $new_height = $dimensi['height'];
     if ($width > $new_width && $height > $new_height) {
         if ($width < $height) {
@@ -515,6 +523,8 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
         imagecopyresampled($image_p, $image, 0, 0, $cut_width, $cut_height, $dst_width, $dst_height, $width, $height);
         if ($is_png) {
             imagepng($image_p, $filepath_out, 5);
+        } elseif ($is_webp) {
+            imagewebp($image_p, $filepath_out, 80);
         } else {
             imagejpeg($image_p, $filepath_out);
         }
@@ -545,9 +555,9 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
  */
 function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nama_simpan, $old_foto, $tipe_file)
 {
-    // Hanya bisa upload jpeg atau png
-    $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
-    $ext_type_image  = ['.jpg', '.jpeg', '.png'];
+    // Hanya bisa upload jpeg, png, atau webp
+    $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/webp'];
+    $ext_type_image  = ['.jpg', '.jpeg', '.png', '.webp'];
     $ext             = get_extension($fupload_name);
     if (! in_array($tipe_file, $mime_type_image) || ! in_array($ext, $ext_type_image)) {
         $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
@@ -565,11 +575,19 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     move_uploaded_file($_FILES[$jenis_upload]['tmp_name'], $filepath_in);
 
     $is_png = ($tipe_file == 'image/png' || $tipe_file == 'image/x-png');
+    $is_webp = ($tipe_file == 'image/webp');
 
-    $image      = ($is_png) ? imagecreatefrompng($filepath_in) : imagecreatefromjpeg($filepath_in);
-    $width      = imagesx($image);
-    $height     = imagesy($image);
-    $new_width  = $dimensi['width'];
+    if ($is_png) {
+        $image = imagecreatefrompng($filepath_in);
+    } elseif ($is_webp) {
+        $image = imagecreatefromwebp($filepath_in);
+    } else {
+        $image = imagecreatefromjpeg($filepath_in);
+    }
+
+    $width = imagesx($image);
+    $height = imagesy($image);
+    $new_width = $dimensi['width'];
     $new_height = $dimensi['height'];
     if ($width > $new_width && $height > $new_height) {
         $ratio_orig = $width / $height;
@@ -590,6 +608,8 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
         imagecopyresampled($image_p, $image, 0, 0, 0, 0, $dst_width, $dst_height, $width, $height);
         if ($is_png) {
             imagepng($image_p, $filepath_out, 5);
+        } elseif ($is_webp) {
+            imagewebp($image_p, $filepath_out, 80);
         } else {
             imagejpeg($image_p, $filepath_out);
         }
