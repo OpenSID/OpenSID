@@ -367,11 +367,15 @@ class Laporan_penduduk_model extends MY_Model
             $this->db->where('b.sex', $sex);
         }
 
-        return $this->config_id('b')
-            ->select('COUNT(b.id)')
+        $this->db->select('COUNT(b.id)')
             ->from('tweb_penduduk b')
-            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
-            // ->join('log_penduduk l', 'l.id_pend = b.id', 'left')
+            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left');
+
+        if ($status_dasar !== '1') {
+            $this->db->join('log_penduduk l', 'l.id_pend = b.id', 'left');
+        }
+        
+        return $this->config_id('b')
             ->where('b.status_dasar', $status_dasar)
             ->where($where)
             ->get_compiled_select();
