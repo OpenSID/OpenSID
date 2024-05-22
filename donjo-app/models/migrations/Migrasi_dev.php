@@ -102,15 +102,8 @@ class Migrasi_dev extends MY_model
         $option = json_decode($setting->option, true);
 
         if (count($value) > count($media_sosial) || count($option) > count($media_sosial)) {
-            $value = array_unique($value);
-            $value = array_filter($value, function ($item) use ($media_sosial) {
-                return in_array($item, $media_sosial);
-            });
-
-            $option = array_unique($option, SORT_REGULAR);
-            $option = array_filter($option, function ($item) use ($media_sosial) {
-                return in_array($item['id'], $media_sosial);
-            });
+            $value = array_values(array_filter(array_unique($value), fn($item) => in_array($item, $media_sosial)));
+            $option = array_filter(array_unique($option, SORT_REGULAR), fn($item) => in_array($item['id'], $media_sosial));
 
             DB::table('setting_aplikasi')
                 ->where('config_id', $id)
