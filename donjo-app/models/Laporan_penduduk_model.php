@@ -371,7 +371,7 @@ class Laporan_penduduk_model extends MY_Model
             ->select('COUNT(b.id)')
             ->from('tweb_penduduk b')
             ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
-            ->join('log_penduduk l', 'l.id_pend = b.id', 'left')
+            // ->join('log_penduduk l', 'l.id_pend = b.id', 'left')
             ->where('b.status_dasar', $status_dasar)
             ->where($where)
             ->get_compiled_select();
