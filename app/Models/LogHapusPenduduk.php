@@ -75,7 +75,7 @@ class LogHapusPenduduk extends BaseModel
      *
      * @var array
      */
-    protected $with = ['penduduk'];
+    // protected $with = ['penduduk'];
 
     public function penduduk()
     {

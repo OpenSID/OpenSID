@@ -37,6 +37,7 @@ vendor/codeigniter/framework/*
 # Abaikan dokumentasi
 vendor/*/*/.github
 vendor/*/*/*.md
+!vendor/*/*/catatan_rilis.md
 vendor/*/*/*.TXT
 vendor/*/*/*.cache
 vendor/*/*/*.yml

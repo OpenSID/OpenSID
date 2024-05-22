@@ -367,11 +367,15 @@ class Laporan_penduduk_model extends MY_Model
             $this->db->where('b.sex', $sex);
         }
 
-        return $this->config_id('b')
-            ->select('COUNT(b.id)')
+        $this->db->select('COUNT(b.id)')
             ->from('tweb_penduduk b')
-            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
-            ->join('log_penduduk l', 'l.id_pend = b.id', 'left')
+            ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left');
+
+        if ($status_dasar !== '1') {
+            $this->db->join('log_penduduk l', 'l.id_pend = b.id', 'left');
+        }
+        
+        return $this->config_id('b')
             ->where('b.status_dasar', $status_dasar)
             ->where($where)
             ->get_compiled_select();
@@ -623,84 +627,6 @@ class Laporan_penduduk_model extends MY_Model
     }
 
     // -------------------- Akhir siapkan data untuk statistik kependudukan -------------------
-
-    public function list_data_rentang()
-    {
-        return $this->config_id()
-            ->where('status', 1)
-            ->order_by('dari')
-            ->get('tweb_penduduk_umur')
-            ->result_array();
-    }
-
-    public function get_rentang($id = 0)
-    {
-        return $this->config_id()
-            ->where('id', $id)
-            ->where('status', 1)
-            ->get('tweb_penduduk_umur')
-            ->row_array();
-    }
-
-    public function get_rentang_terakhir()
-    {
-        return $this->config_id()
-            ->select('case when max(sampai) is null then 0 else (max(sampai)+1) end as dari')
-            ->where('status', 1)
-            ->get('tweb_penduduk_umur')
-            ->row_array();
-    }
-
-    public function insert_rentang(): void
-    {
-        $data           = $this->input->post();
-        $data['status'] = 1;
-        if ($data['sampai'] != '99999') {
-            $data['nama'] = $data['dari'] . ' s/d ' . $data['sampai'] . ' Tahun';
-        } else {
-            $data['nama'] = 'Di atas ' . $data['dari'] . ' Tahun';
-        }
-        $data['config_id'] = $this->config_id;
-        $outp              = $this->db->insert('tweb_penduduk_umur', $data);
-
-        status_sukses($outp); //Tampilkan Pesan
-    }
-
-    public function update_rentang($id = 0): void
-    {
-        $data = $this->input->post();
-        if ($data['sampai'] != '99999') {
-            $data['nama'] = $data['dari'] . ' s/d ' . $data['sampai'] . ' Tahun';
-        } else {
-            $data['nama'] = 'Di atas ' . $data['dari'] . ' Tahun';
-        }
-        $outp = $this->config_id()->where('id', $id)->update('tweb_penduduk_umur', $data);
-
-        status_sukses($outp); //Tampilkan Pesan
-    }
-
-    public function delete_rentang($id = '', $semua = false): void
-    {
-        if (! $semua) {
-            $this->session->success = 1;
-        }
-
-        $outp = $this->config_id()->where('id', $id)->delete('tweb_penduduk_umur');
-
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
-    }
-
-    public function delete_all_rentang(): void
-    {
-        $this->session->success = 1;
-
-        $id_cb = $_POST['id_cb'];
-
-        foreach ($id_cb as $id) {
-            $this->delete_rentang($id, $semua = true);
-        }
-    }
-
     public function filter(): void
     {
         $this->filter_status();

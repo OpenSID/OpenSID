@@ -50,7 +50,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2405.0.2');
+define('VERSION', '2405.0.3');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024051551');
+define('VERSI_DATABASE', '2024051554');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -904,10 +904,10 @@ function cekNama($str)
     return preg_match("/[^a-zA-Z '\\.,\\-]/", strip_tags($str));
 }
 
-// Nama hanya boleh berisi karakter alfanumerik, spasi dan strip
+// Nama hanya boleh berisi karakter alfanumerik, spasi, slash(/) dan strip
 function nama_terbatas($str)
 {
-    return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
+    return preg_replace('/[^a-zA-Z0-9 \\/\\-]/', '', $str);
 }
 
 // Judul hanya boleh berisi a-zA-Z0-9()[]&_:=°%'".,/ \-
@@ -2046,33 +2046,42 @@ if (! function_exists('caseWord')) {
      */
     function caseWord($condition, $teks)
     {
+        $suffix = $prefix = '';
+
+        // Gelar
+        if (in_array(strtolower($condition), ['nama_kepala_desa', 'nama_kepala_camat', 'nama_pamong'])) {
+            $pecah = pecah_nama_gelar($teks);
+
+            $teks = $pecah['nama'];
+
+            if ($pecah['gelar_depan']) {
+                $prefix = $pecah['gelar_depan'] . ' ';
+            }
+
+            if ($pecah['gelar_belakang']) {
+                $suffix = ', ' . $pecah['gelar_belakang'];
+            }
+        }
+
         // Normal
         if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
-            return set_words($teks);
-        }
-
-        // Huruf kecil semua
-        if (ctype_lower($condition[0])) {
-            return set_words($teks, 'lower');
-        }
-
-        // Huruf besar semua
-        if (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
-            return set_words($teks, 'upper');
-        }
-
-        // Huruf besar di awal kata
-        if (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
-            return set_words($teks, 'ucwords');
-        }
-
-        // Huruf besar di awal kalimat
-        if (ctype_upper($condition[0])) {
-            return set_words($teks, 'ucfirst');
+            $teks = set_words($teks);
+        } elseif // Huruf kecil semua
+        (ctype_lower($condition[0])) {
+            $teks = set_words($teks, 'lower');
+        } elseif // Huruf besar semua
+        (ctype_upper($condition[0]) && ctype_upper($condition[1])) {
+            $teks = set_words($teks, 'upper');
+        } elseif // Huruf besar di awal kata
+        (ctype_upper($condition[0]) && ctype_lower($condition[1])) {
+            $teks = set_words($teks, 'ucwords');
+        } elseif // Huruf besar di awal kalimat
+        (ctype_upper($condition[0])) {
+            $teks = set_words($teks, 'ucfirst');
         }
 
         // Return teks asli jika tidak sesuai kondisi
-        return $teks;
+        return $prefix . $teks . $suffix;
     }
 }
 

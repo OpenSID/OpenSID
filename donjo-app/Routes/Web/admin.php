@@ -76,7 +76,7 @@ Route::get('peringatan', 'Pelanggan@peringatan');
 
 Route::group('periksa', static function (): void {
     Route::get('/', 'Periksa@index')->name('periksa.index');
-    Route::post('/perbaiki', 'Periksa@perbaiki')->name('periksa.perbaiki');
+    Route::match(['GET', 'POST'], '/perbaiki', 'Periksa@perbaiki')->name('periksa.perbaiki');
     Route::match(['GET', 'POST'], '/perbaiki_sebagian/{masalah?}', 'Periksa@perbaiki_sebagian')->name('periksa.perbaiki_sebagian');
     Route::get('/login', 'Periksa@login')->name('periksa.login');
     Route::post('/auth', 'Periksa@auth')->name('periksa.auth');
@@ -112,6 +112,9 @@ Route::group('identitas_desa', static function (): void {
 
 // Info Desa > Wilayah Administratif
 Route::group('wilayah', static function (): void {
+    Route::get('/clear', static function (): void {
+        redirect('wilayah');
+    });
     Route::get('/datatables', 'Wilayah@datatables')->name('wilayah.datatables');
     Route::post('/tukar', 'Wilayah@tukar')->name('wilayah.tukar');
     Route::match(['GET', 'POST'], '/form_dusun/{level?}/{parent?}/{id?}', 'Wilayah@form_dusun')->name('wilayah.form_dusun');
@@ -363,6 +366,9 @@ foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
 
 // Kependudukan > Data Suplemen
 Route::group('suplemen', static function (): void {
+    Route::get('/clear', static function (): void {
+        redirect('suplemen');
+    });
     Route::get('/', 'Suplemen@index')->name('suplemen.index');
     Route::get('/datatables', 'Suplemen@datatables')->name('suplemen.datatables');
     Route::get('/form/{id?}', 'Suplemen@form')->name('suplemen.form');
@@ -386,6 +392,9 @@ Route::group('suplemen', static function (): void {
 
 // Kependudukan > Calon Pemilih
 Route::group('dpt', static function (): void {
+    Route::get('/clear', static function (): void {
+        redirect('dpt');
+    });
     Route::get('/', 'Dpt@index')->name('dpt.index');
     Route::get('/datatables', 'Dpt@datatables')->name('dpt.datatables');
     Route::get('/ajax_cetak/{aksi?}', 'Dpt@ajax_cetak')->name('dpt.ajax_cetak');
@@ -411,12 +420,13 @@ Route::group('statistik', static function (): void {
     Route::get('/order_by/{lap?}/{order_by?}', 'Statistik@order_by')->name('statistik.order_by');
     Route::get('/dialog/{aksi?}', 'Statistik@dialog')->name('statistik.dialog');
     Route::post('/daftar/{aksi?}/{lap?}', 'Statistik@daftar')->name('statistik.daftar');
-    Route::get('/rentang_umur', 'Statistik@rentang_umur')->name('statistik.rentang_umur');
-    Route::get('/form_rentang/{id?}', 'Statistik@form_rentang')->name('statistik.form_rentang');
-    Route::post('/rentang_insert', 'Statistik@rentang_insert')->name('statistik.rentang_insert');
-    Route::post('/rentang_update/{id?}', 'Statistik@rentang_update')->name('statistik.rentang_update');
-    Route::get('/rentang_delete/{id}', 'Statistik@rentang_delete')->name('statistik.rentang_delete');
-    Route::post('/delete_all_rentang', 'Statistik@delete_all_rentang')->name('statistik.delete_all_rentang');
+    Route::get('/rentang_umur', 'Rentang_umur@rentang_umur')->name('statistik.rentang_umur');
+    Route::get('/datatables_rentang_umur', 'Rentang_umur@datatables_rentang_umur')->name('statistik.datatables_rentang_umur');
+    Route::get('/form_rentang/{id?}', 'Rentang_umur@form_rentang')->name('statistik.form_rentang');
+    Route::post('/rentang_insert', 'Rentang_umur@rentang_insert')->name('statistik.rentang_insert');
+    Route::post('/rentang_update/{id?}', 'Rentang_umur@rentang_update')->name('statistik.rentang_update');
+    Route::get('/rentang_delete/{id}', 'Rentang_umur@rentang_delete')->name('statistik.rentang_delete');
+    Route::post('/delete_all_rentang', 'Rentang_umur@delete_all_rentang')->name('statistik.delete_all_rentang');
     Route::post('/dusun/{lap?}', 'Statistik@dusun')->name('statistik.dusun');
     Route::post('/rw/{lap?}', 'Statistik@rw')->name('statistik.rw');
     Route::post('/rt/{lap?}', 'Statistik@rt')->name('statistik.rt');
@@ -942,6 +952,9 @@ Route::group('laporan_inventaris', static function (): void {
 
 // Sekretariat > Klasifikasi Surat
 Route::group('klasifikasi', static function (): void {
+    Route::get('/clear', static function (): void {
+            redirect('klasifikasi');
+        });
     Route::get('/', 'Klasifikasi@index')->name('klasifikasi.index');
     Route::get('/datatables', 'Klasifikasi@datatables')->name('klasifikasi.datatables');
     Route::get('/form/{id?}', 'Klasifikasi@form')->name('klasifikasi.form');
@@ -1860,6 +1873,9 @@ Route::group('grup_kontak', static function (): void {
 });
 // Pengaturan > Modul
 Route::group('modul', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('modul');
+    });
     Route::get('/datatables', 'Modul@datatables')->name('modul.datatables');
     Route::get('/form/{id}', 'Modul@form')->name('modul.form');
     Route::post('/update/{id}', 'Modul@update')->name('modul.update');
@@ -1976,6 +1992,9 @@ Route::group('web', static function (): void {
 
 // Admin Web > Widget
 Route::group('web_widget', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('web_widget');
+    });
     Route::get('/', 'Web_widget@index')->name('web_widget.index');
     Route::get('/datatables', 'Web_widget@datatables')->name('web_widget.datatables');
     Route::post('/tukar', 'Web_widget@tukar')->name('web_widget.tukar');
@@ -2058,17 +2077,20 @@ Route::group('sosmed', static function (): void {
 // Admin Web > Teks Berjalan
 Route::group('teks_berjalan', static function (): void {
     Route::get('/', 'Teks_berjalan@index')->name('teks_berjalan.index');
+    Route::post('/tukar', 'Teks_berjalan@tukar')->name('teks_berjalan.tukar');
     Route::get('/datatables', 'Teks_berjalan@datatables')->name('teks_berjalan.datatables');
     Route::get('/form/{id?}', 'Teks_berjalan@form')->name('teks_berjalan.form');
     Route::post('/insert', 'Teks_berjalan@insert')->name('teks_berjalan.insert');
     Route::post('/update/{id?}', 'Teks_berjalan@update')->name('teks_berjalan.update');
     Route::match(['GET', 'POST'], '/delete/{id?}', 'Teks_berjalan@delete')->name('teks_berjalan.delete');
-    Route::get('/urut/{id?}/{arah?}', 'Teks_berjalan@urut')->name('teks_berjalan.urut');
     Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
 // Admin Web > Pengunjung
 Route::group('pengunjung', static function (): void {
+    Route::get('clear', static function (): void {
+        redirect('pengunjung');
+    });
     Route::get('/', 'Pengunjung@index')->name('pengunjung.index');
     Route::get('/detail/{id?}', 'Pengunjung@detail')->name('pengunjung.detail');
     Route::get('/cetak/{aksi?}', 'Pengunjung@cetak')->name('pengunjung.cetak');

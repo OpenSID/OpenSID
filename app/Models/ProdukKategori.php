@@ -93,7 +93,7 @@ class ProdukKategori extends BaseModel
         }
     }
 
-    private function kategoriValidasi($post = [])
+    private function kategoriValidasi(array $post = []): array
     {
         return [
             'kategori' => alfanumerik_spasi($post['kategori']),

@@ -320,6 +320,11 @@ class Pamong extends BaseModel
         return $pamong_nama;
     }
 
+    public function getPamongNikAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->nik : $this->attributes['pamong_nik'];
+    }
+
     /**
      * Getter status pamong_sex attribute.
      *

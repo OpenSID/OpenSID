@@ -36,7 +36,6 @@
  */
 
 use App\Models\UserGrup;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -59,6 +58,45 @@ class Migrasi_2024051551 extends MY_model
     protected function migrasi_2024050851($hasil)
     {
         // karena data awal belum diubah, maka perlu diubah
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
+            ['url' => 'wilayah']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'calon-pemilih', 'url' => 'dpt/clear'],
+            ['url' => 'dpt']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'modul', 'url' => 'modul/clear'],
+            ['url' => 'modul']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'widget', 'url' => 'web_widget/clear'],
+            ['url' => 'web_widget']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
+            ['url' => 'pengunjung']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
+            ['url' => 'klasifikasi']
+        );
+
         $hasil = $hasil && $this->ubah_modul(
             ['slug' => 'qr-code', 'url' => 'setting/qrcode/clear'],
             ['url' => 'qr_code']

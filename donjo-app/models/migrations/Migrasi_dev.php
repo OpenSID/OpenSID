@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,12 +60,58 @@ class Migrasi_dev extends MY_model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024052151($hasil, $id);
+        }
+        $hasil = $hasil && $this->migrasi_2024051251($hasil);
+        $hasil = $hasil && $this->migrasi_2024051252($hasil);
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2024051251($hasil)
+    {
+        DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024051252($hasil)
+    {
+        DB::table('tweb_penduduk_umur')->where('nama', 'Di Atas 75 Tahun')->update(['nama' => '75 Tahun ke Atas']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024052151($hasil, $id)
+    {
+        $media_sosial = DB::table('media_sosial')
+            ->where('config_id', $id)
+            ->pluck('nama')->map(static fn ($item) => Str::slug($item))->toArray();
+
+        $setting = DB::table('setting_aplikasi')
+            ->where('config_id', $id)
+            ->where('key', 'media_sosial_pemerintah_desa')
+            ->first();
+
+        $value  = json_decode($setting->value, true);
+        $option = json_decode($setting->option, true);
+
+        if (count($value) > count($media_sosial) || count($option) > count($media_sosial)) {
+            $value  = array_values(array_filter(array_unique($value), static fn ($item) => in_array($item, $media_sosial)));
+            $option = array_filter(array_unique($option, SORT_REGULAR), static fn ($item) => in_array($item['id'], $media_sosial));
+
+            DB::table('setting_aplikasi')
+                ->where('config_id', $id)
+                ->where('key', 'media_sosial_pemerintah_desa')
+                ->update([
+                    'value'  => json_encode($value),
+                    'option' => json_encode($option),
+                ]);
+        }
+
+        return $hasil;
     }
 }

@@ -160,7 +160,7 @@ class Menu extends BaseModel
             ->get();
     }
 
-    public function buildArray($nodes, $prefix = [])
+    public function buildArray($nodes, $prefix = []): array
     {
         foreach ($nodes as $node) {
             $tmpPrefix                 = $prefix;

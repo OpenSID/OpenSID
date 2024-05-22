@@ -62,4 +62,6 @@ foreach ($db as $key => $options) {
     ];
 }
 
+$connections['migrations'] = 'migrations';
+
 return $connections;

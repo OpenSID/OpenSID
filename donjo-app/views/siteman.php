@@ -22,7 +22,7 @@
 	<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
 	<script src="<?= asset('js/validasi.js') ?>"></script>
 	<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
-	<?php require __DIR__ . '/head_tags.php' ?>
+	<?= view('admin.layouts.components.token') ?>
 </head>
 
 <body class="login">
@@ -68,7 +68,8 @@
 										<div id="recaptcha"></div>
 									<?php endif ?>
 									<div class="form-group">
-										<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
+										<input type="checkbox" id="checkbox" class="form-checkbox">
+										<label for="checkbox" style="font-weight: unset">Tampilkan kata sandi</label>
 										<a href="<?= site_url('siteman/lupa_sandi') ?>" class="btn" role="button" aria-pressed="true">Lupa Kata Sandi?</a>
 									</div>
 									<hr />

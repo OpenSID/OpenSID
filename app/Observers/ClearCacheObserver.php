@@ -61,7 +61,7 @@ class ClearCacheObserver
 
     public function clearAllCache(): void
     {
-        User::pluck('id')->each(static function ($id) {
+        User::pluck('id')->each(static function (string $id): void {
             cache()->forget('shortcut_' . $id);
         });
     }

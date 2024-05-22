@@ -314,7 +314,8 @@ class Surat_dinas_cetak extends Admin_Controller
 
             // convert in PDF
             try {
-                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+                $defaultFont = underscore(setting('font_surat_dinas'));
+                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $defaultFont);
                 $this->tinymce->generateLampiran(null, $cetak, $cetak['input']);
 
                 if ($preview) {
@@ -424,7 +425,7 @@ class Surat_dinas_cetak extends Admin_Controller
             $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSuratDinas::PERIKSA : LogSuratDinas::TERIMA;
 
             if (LogSuratDinas::updateOrCreate(['id' => $cetak['id']], $log_surat)) {
-                redirect_with('success', 'Berhasil Simpan Konsep');
+                redirect_with('success', 'Berhasil Simpan Konsep', 'surat_dinas_arsip/masuk');
             }
         }
 

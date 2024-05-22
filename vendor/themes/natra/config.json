@@ -13,7 +13,7 @@
         "key":"statistik_desa",
         "value":"1",
         "type":"select",
-        "keterangan":"Tampilakn statistik [desa] pada footer website",
+        "keterangan":"Tampilkan statistik [desa] pada footer website",
         "options":{
             "1":"Ya",
             "0":"Tidak"
@@ -28,7 +28,7 @@
         "key":"jam",
         "value":"1",
         "type":"select",
-        "keterangan":"Tampilakn jam pada website",
+        "keterangan":"Tampilkan jam pada website",
         "options":{
             "1":"Ya",
             "0":"Tidak"
@@ -43,7 +43,7 @@
         "key":"pintasan_masuk",
         "value":"1",
         "type":"select",
-        "keterangan":"Tampilakn pintasan masuk admin dan layanan mandiri pada website",
+        "keterangan":"Tampilkan pintasan masuk admin dan layanan mandiri pada website",
         "options":{
             "1":"Ya",
             "0":"Tidak"

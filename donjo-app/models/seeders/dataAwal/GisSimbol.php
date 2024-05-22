@@ -35,12 +35,16 @@
  *
  */
 
+use Illuminate\Filesystem\Filesystem;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class GisSimbol extends CI_Model
 {
     public function getData()
     {
+        (new Filesystem())->copyDirectory(LOKASI_SIMBOL_LOKASI_DEF, LOKASI_SIMBOL_LOKASI);
+
         return [
             ['simbol' => 'aa_bni.png'],
             ['simbol' => 'aa_bri.png'],

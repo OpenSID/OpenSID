@@ -76,7 +76,7 @@ class Buku_tamu extends Anjungan_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('buku_tamu.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
@@ -123,7 +123,7 @@ class Buku_tamu extends Anjungan_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate()
+    private function validate(): array
     {
         $request = $this->input->post();
 

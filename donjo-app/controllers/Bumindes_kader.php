@@ -237,7 +237,7 @@ class Bumindes_kader extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = []): array
+    private function validate(array $request = []): array
     {
         $kursus = array_unique(explode(',', $request['kursus']));
         $bidang = array_unique(explode(',', $request['bidang']));

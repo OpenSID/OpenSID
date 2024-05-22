@@ -317,8 +317,8 @@ class Wilayah extends Admin_Controller
         }
 
         $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
-        $data['rw']    = bilangan($data['rw']) ?: 0;
-        $data['rt']    = bilangan($data['rt']) ?: 0;
+        $data['rw']    = nama_terbatas(trim($data['rw']));
+        $data['rt']    = nama_terbatas(trim($data['rt']));
 
         return $data;
     }

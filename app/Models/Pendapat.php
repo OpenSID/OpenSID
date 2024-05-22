@@ -49,7 +49,7 @@ class Pendapat extends BaseModel
     public $timestamps = false;
     protected $guarded = ['id'];
 
-    public function scopePendapat($query, $tipe, $pilih = null)
+    public function scopePendapat($query, $tipe, $pilih = null): array
     {
         $kondisi = $this->kondisi($tipe);
         $data    = $query->selectRaw('COUNT(pilihan) AS jumlah, pilihan')
@@ -70,7 +70,7 @@ class Pendapat extends BaseModel
         ];
     }
 
-    public function kondisi($tipe)
+    public function kondisi($tipe): array
     {
         $tgl = date('Y-m-d');
         $bln = date('m');
@@ -125,7 +125,7 @@ class Pendapat extends BaseModel
         ];
     }
 
-    protected function op_tgl(string $op, string $tgl)
+    protected function op_tgl(string $op, string $tgl): string
     {
         return date('Y-m-d', strtotime($op, strtotime($tgl)));
     }

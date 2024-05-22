@@ -84,7 +84,8 @@ class ViewServiceProvider extends ServiceProvider
                 'akses_modul'          => $this->app['ci']->sub_modul_ini ?? $this->app['ci']->modul_ini,
                 'session'              => $this->app['ci']->session,
                 'setting'              => $this->app['ci']->setting,
-                'token'                => $this->app['ci']->security->get_csrf_token_name(),
+                'token_name'           => $this->app['ci']->security->get_csrf_token_name(),
+                'token_value'          => $this->app['ci']->security->get_csrf_hash(),
                 'perbaharui_langganan' => $this->app['ci']->header['perbaharui_langganan'] ?? null,
             ]);
         }

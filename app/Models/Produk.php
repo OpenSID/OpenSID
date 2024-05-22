@@ -106,7 +106,7 @@ class Produk extends BaseModel
         return $this->list_satuan;
     }
 
-    public static function navigasi()
+    public static function navigasi(): array
     {
         return [
             'jml_produk' => [
@@ -159,7 +159,7 @@ class Produk extends BaseModel
         return $result;
     }
 
-    private function produkValidasi(array $post = [])
+    private function produkValidasi(array $post = []): array
     {
         $foto = [];
 
@@ -229,7 +229,7 @@ class Produk extends BaseModel
         return $uploadData;
     }
 
-    private function hapusFotoProduk($where = 'id', $value = 0)
+    private function hapusFotoProduk(string $where = 'id', $value = 0): void
     {
         // Hapus semua foto produk jika produk/kategori/pelapak dihapus agar tidak meninggalkan sampah
         $list_data = $this->select('foto')->where($where, $value)->get();

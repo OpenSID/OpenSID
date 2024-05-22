@@ -638,7 +638,7 @@ class Surat_master extends Admin_Controller
         } else {
             AliasKodeIsian::whereConfigId(identitas('id'))->delete();
         }
-
+        (new SettingAplikasi())->flushQueryCache();
         // Perbarui log_surat jika ada perubahan pengaturan verifikasi kades / sekdes
         if (! setting('verifikasi_kades') || ! setting('verifikasi_sekdes')) {
             LogSurat::where('verifikasi_operator', LogSurat::PERIKSA)->update(['verifikasi_operator' => LogSurat::TERIMA]);
@@ -738,6 +738,7 @@ class Surat_master extends Admin_Controller
         try {
             $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
             $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
+            $html2pdf->setDefaultFont(underscore(setting('font_surat')));
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->writeHTML($isi_cetak);
             $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');

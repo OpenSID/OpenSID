@@ -23,7 +23,7 @@
     <script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
     <script src="<?= asset('js/validasi.js') ?>"></script>
     <script src="<?= asset('js/localization/messages_id.js') ?>"></script>
-    <?php require __DIR__ . '/head_tags.php' ?>
+    <?= view('admin.layouts.components.token') ?>
 </head>
 
 <body class="login">
