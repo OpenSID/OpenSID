@@ -17,7 +17,7 @@
 									<select class="form-control required input-sm select2" id="nik" name="nik" style ="width:100%;" onchange="formAction('main')">
 										<option value="">--  Cari NIK / Nama Penduduk --</option>
 										<?php foreach ($penduduk as $data): ?>
-											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".$data['nama']?></option>
+											<option value="<?= $data['id']?>" <?php if ($individu['nik']==$data['nik']): ?>selected<?php endif; ?>>NIK : <?= $data['nik']." - ".formatNama($data['nama'])?></option>
 										<?php endforeach;?>
 									</select>
 								</div>

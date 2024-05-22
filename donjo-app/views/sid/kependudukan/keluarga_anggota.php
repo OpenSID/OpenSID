@@ -143,7 +143,7 @@
 												<?php endif; ?>
 											</td>
 											<td><?= $data['nik']?></td>
-											<td nowrap width="45%"><?= strtoupper($data['nama'])?></td>
+											<td nowrap width="45%"><?= formatNama($data['nama'])?></td>
 											<td nowrap><?= tgl_indo($data['tanggallahir'])?></td>
 											<td><?= $data['sex']?></td>
 											<td nowrap><?= $data['hubungan']?></td>

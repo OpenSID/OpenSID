@@ -51,7 +51,7 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label">Nama Penduduk</label>
 													<div class="col-sm-9">
-														<input class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= $pemilik['nama'] ?>" disabled >
+														<input class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= formatNama($pemilik['nama']) ?>" disabled >
 													</div>
 												</div>
 												<div class="form-group">

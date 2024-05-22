@@ -132,7 +132,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<?php foreach ($main as $key => $data): ?>
 									<tr>
 										<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-										<td><?= strtoupper($data['nama'])?></td>
+										<td><?= formatNama($data['nama'])?></td>
 										<td class="padat"><?= (strtoupper($data['sex']) == 'LAKI-LAKI') ? 'L' : '' ?></td>
 										<td class="padat"><?= (strtoupper($data['sex']) == 'PEREMPUAN') ? 'P' : '' ?></td>
 										<td><?= $data['nik']?></td>

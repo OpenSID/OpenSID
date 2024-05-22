@@ -174,7 +174,7 @@
 																			<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																		</td>
 																		<td nowrap><?= $data['tag_id_card']; ?></td>
-																		<td><?= strtoupper($data['nama'])?></td>
+																		<td><?= formatNama($data['nama'])?></td>
 																		<td><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}")?>"><?= $data['no_kk']?> </a></td>
 																		<td><?= strtoupper($data['alamat'])?></td>
 																		<td><?= strtoupper($data['dusun'])?></td>

@@ -26,7 +26,7 @@
 								<tbody>
 									<tr>
 										<td nowrap style="padding-top : 10px;padding-bottom : 10px; width:15%;">Nama Penduduk</td>
-										<td nowrap> : <?= $penduduk->nama ?></td>
+										<td nowrap> : <?= formatNama($penduduk->nama) ?></td>
 									</tr>
 									<tr>
 										<td nowrap style="padding-top : 10px;padding-bottom : 10px;">NIK</td>

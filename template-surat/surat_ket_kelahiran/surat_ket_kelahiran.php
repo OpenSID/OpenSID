@@ -326,9 +326,9 @@
 									<label for="ibu_desa" class="col-sm-3 control-label"><strong>NIK / Nama</strong></label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="id_bayi" name="id_bayi" style="width:100%;" onchange="submit_form_ambil_data(this.id);">
-											<option value=""><?php if ($bayi) : ?>NIK : <?= $bayi['nik'] ?> - <?= $bayi['nama'] ?><?php else : ?>-- Cari NIK / Nama Penduduk --<?php endif; ?></option>
+											<option value=""><?php if ($bayi) : ?>NIK : <?= $bayi['nik'] ?> - <?= formatNama($bayi['nama']) ?><?php else : ?>-- Cari NIK / Nama Penduduk --<?php endif; ?></option>
 											<?php foreach ($anak as $data) : ?>
-												<option value="<?= $data['id'] ?>">NIK : <?= $data['nik'] . " - " . $data['nama'] ?></option>
+												<option value="<?= $data['id'] ?>">NIK : <?= $data['nik'] . " - " . formatNama($data['nama']) ?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>

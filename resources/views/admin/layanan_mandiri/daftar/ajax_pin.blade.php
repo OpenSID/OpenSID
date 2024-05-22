@@ -6,7 +6,7 @@
             <select class="form-control input-sm select2 required" id="id_pend" name="id_pend">
                 <option option value="">-- Silakan Cari NIK - Nama Penduduk --</option>
                 @foreach ($penduduk as $data)
-                    <option value="{{ $data['id'] }}" @selected($data['id'] == $id_pend)>{{ $data['nik'] }} - {{ $data['nama'] }}</option>
+                    <option value="{{ $data['id'] }}" @selected($data['id'] == $id_pend)>{{ $data['nik'] }} - {{ formatNama($data['nama']) }}</option>
                 @endforeach
             </select>
         </div>

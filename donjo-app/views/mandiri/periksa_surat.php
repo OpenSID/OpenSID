@@ -19,7 +19,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-3">NIK / Nama Penduduk</label>
                                 <div class="col-sm-9">
-                                    <input class="form-control input-sm" readonly="readonly" value="<?= $individu['nik'] . ' - ' . $individu['nama']; ?>">
+                                    <input class="form-control input-sm" readonly="readonly" value="<?= $individu['nik'] . ' - ' . formatNama($individu['nama']); ?>">
                                 </div>
                             </div>
                             <div class="form-group">

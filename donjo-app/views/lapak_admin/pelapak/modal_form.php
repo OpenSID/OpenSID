@@ -53,7 +53,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<select class="form-control input-sm select2 required" id="id_pend" name="id_pend" onchange="tampil_telepon($(this).find(':selected'))">
 				<option value="">-- Silahkan Cari NIK - Nama Penduduk --</option>
 				<?php foreach ($list_penduduk as $penduduk): ?>
-					<option value="<?= $penduduk->id; ?>" <?= selected($main->id_pend, $penduduk->id); ?> data-telepon="<?= $penduduk->telepon; ?>"><?= $penduduk->nik . ' - ' . $penduduk->nama; ?></option>
+					<option value="<?= $penduduk->id; ?>" <?= selected($main->id_pend, $penduduk->id); ?> data-telepon="<?= $penduduk->telepon; ?>"><?= $penduduk->nik . ' - ' . formatNama($penduduk->nama); ?></option>
 				<?php endforeach ?>
 			</select>
 		</div>

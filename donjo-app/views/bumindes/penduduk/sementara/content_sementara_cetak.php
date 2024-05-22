@@ -126,7 +126,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td class="padat"><?= $data['no'] ?></td>
-							<td><?= strtoupper($data['nama'])?></td>
+							<td><?= formatNama($data['nama'])?></td>
 							<td class="padat"><?= (strtoupper($data['sex']) == 'LAKI-LAKI') ? 'L' : '' ?></td>
 							<td class="padat"><?= (strtoupper($data['sex']) == 'PEREMPUAN') ? 'P' : '' ?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : ($aksi == 'unduh' ? $data['nik'] . '&nbsp' : $data['nik'])?></td>

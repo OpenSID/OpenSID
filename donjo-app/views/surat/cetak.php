@@ -91,9 +91,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td class="textx"><?= $data['format']?></td>
 								<td>
 									<?php if ($data['nama']): ?>
-										<?= $data['nama']; ?>
+										<?= formatNama($data['nama']); ?>
 										<?php elseif ($data['nama_non_warga']): ?>
-											<strong>Non-warga: </strong><?= $data['nama_non_warga']; ?><br>
+											<strong>Non-warga: </strong><?= formatNama($data['nama_non_warga']); ?><br>
 											<strong>NIK: </strong><?= $data['nik_non_warga']; ?>
 										<?php endif; ?>
 									</td>

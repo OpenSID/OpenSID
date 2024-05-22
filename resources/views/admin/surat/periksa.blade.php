@@ -29,7 +29,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-3">NIK / Nama Penduduk</label>
                 <div class="col-sm-9">
-                    <input class="form-control input-sm" readonly="readonly" value="{{ $surat->penduduk->nik }} - {{ $surat->penduduk->nama }}">
+                    <input class="form-control input-sm" readonly="readonly" value="{{ $surat->penduduk->nik }} - {{ formatNama($surat->penduduk->nama) }}">
                 </div>
             </div>
             @include('admin.surat.konfirmasi_pemohon')

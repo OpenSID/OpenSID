@@ -38,6 +38,7 @@
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use App\Models\SettingAplikasi;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -2241,5 +2242,26 @@ if (! function_exists('get_hari')) {
         $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
 
         return $hari->dayName;
+    }
+}
+
+/**
+ * Format Nama
+ *
+ * Mengembalikan nama yang sudah diformat
+ *
+ * @return string
+ */
+function formatNama($nama)
+{
+    $formatNama = setting('format_nama');
+    if ($formatNama == null) {
+        $formatNama = SettingAplikasi::where('key', 'format_nama')->first()->value;
+    }
+
+    if($formatNama == "huruf-besar"){
+        return strtoupper($nama);
+    } else{
+        return $nama;
     }
 }
