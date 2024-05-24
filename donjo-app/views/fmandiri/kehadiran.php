@@ -119,7 +119,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			'columnDefs': [
 				{
 					'searchable': false,
-					'targets': [0, 4]
+					'targets': ( !kehadiran == 1 ? [0, 4] : [0, 3, 4] )
 				},
 				{
 					'orderable': false,
