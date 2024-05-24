@@ -109,7 +109,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	$(document).ready(function() {
 		var kehadiran = '<?= setting('tampilkan_kehadiran') ?>';
 		var tabelData = $('#tabeldata').DataTable({
-			'rowsGroup': [1],
 			'processing': false,
 			'pageLength': 10,
 			'lengthMenu': [
