@@ -8,7 +8,7 @@
 
 <div class="row">
 
-    <a href="{{ ci_route('stunting.index') }}">
+    <a href="{{ route('stunting.index') }}">
         <div class="col-lg-3 col-sm-6 col-xs-6">
             <div class="info-box bg-aqua">
                 <span class="info-box-icon"><i class="ion ion-location"></i></span>
