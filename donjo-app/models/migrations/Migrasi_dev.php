@@ -36,6 +36,7 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,12 +66,60 @@ class Migrasi_dev extends MY_model
             $hasil = $hasil && $this->migrasi_2024050271($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024050272($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024051571($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024052151($hasil, $id);
         }
+
+        $hasil = $hasil && $this->migrasi_2024051251($hasil);
+        $hasil = $hasil && $this->migrasi_2024051252($hasil);
 
         return $hasil && true;
     }
 
-    public function migrasi_2024050272($hasil, $id)
+    protected function migrasi_2024051251($hasil)
+    {
+        DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024051252($hasil)
+    {
+        DB::table('tweb_penduduk_umur')->where('nama', 'Di Atas 75 Tahun')->update(['nama' => '75 Tahun ke Atas']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024052151($hasil, $id)
+    {
+        $media_sosial = DB::table('media_sosial')
+            ->where('config_id', $id)
+            ->pluck('nama')->map(static fn ($item) => Str::slug($item))->toArray();
+
+        $setting = DB::table('setting_aplikasi')
+            ->where('config_id', $id)
+            ->where('key', 'media_sosial_pemerintah_desa')
+            ->first();
+
+        $value  = json_decode($setting->value, true);
+        $option = json_decode($setting->option, true);
+
+        if (count($value) > count($media_sosial) || count($option) > count($media_sosial)) {
+            $value  = array_values(array_filter(array_unique($value), static fn ($item) => in_array($item, $media_sosial)));
+            $option = array_filter(array_unique($option, SORT_REGULAR), static fn ($item) => in_array($item['id'], $media_sosial));
+
+            DB::table('setting_aplikasi')
+                ->where('config_id', $id)
+                ->where('key', 'media_sosial_pemerintah_desa')
+                ->update([
+                    'value'  => json_encode($value),
+                    'option' => json_encode($option),
+                ]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024050272($hasil, $id)
     {
         return $hasil && $this->tambah_setting([
             'judul'      => 'Icon Pembangunan Peta',
@@ -84,7 +133,7 @@ class Migrasi_dev extends MY_model
         ], $id);
     }
 
-    public function migrasi_2024050271($hasil, $id)
+    protected function migrasi_2024050271($hasil, $id)
     {
         $hasil = $hasil && $this->tambah_setting([
             'judul'      => 'Jumlah Gambar Galeri',
@@ -121,7 +170,7 @@ class Migrasi_dev extends MY_model
         ], $id);
     }
 
-    public function migrasi_2024051571($hasil, $id)
+    protected function migrasi_2024051571($hasil, $id)
     {
         $option = json_encode([
             '1' => 'Nomor berurutan untuk masing-masing surat masuk dan keluar; dan untuk semua surat layanan',

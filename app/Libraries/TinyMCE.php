@@ -139,6 +139,8 @@ class TinyMCE
      */
     public $pdfMerge;
 
+    private $defaultFont;
+
     public function __construct()
     {
         $this->ci = &get_instance();
@@ -505,7 +507,7 @@ class TinyMCE
                 'atas_nama'     => $atas_nama,
             ];
         }
-        session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
+        set_session('error', setting('sebutan_kepala_desa') . ' belum ditentukan.');
         redirect('pengurus');
     }
 
@@ -551,15 +553,17 @@ class TinyMCE
      *
      * @param string $surat
      * @param array  $margins
+     * @param mixed  $defaultFont
      *
      * @return PdfMerge
      */
-    public function generateSurat($surat, array $data, $margins)
+    public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
+            ->setDefaultFont($defaultFont)
             ->writeHTML($surat) // buat surat
             ->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
 
@@ -728,12 +732,14 @@ class TinyMCE
 
     public function cetak_surat($id)
     {
-        $surat = LogSurat::find($id);
+        $this->defaultFont = underscore(setting('font_surat'));
+        $surat             = LogSurat::find($id);
         $this->cetak_surat_tinymce($surat);
     }
 
     public function cetak_surat_dinas($id)
     {
+        $this->defaultFont  = underscore(setting('font_surat_dinas'));
         $surat              = LogSuratDinas::find($id);
         $surat->formatSurat = $surat->suratDinas;
         $this->cetak_surat_tinymce($surat);
@@ -761,7 +767,7 @@ class TinyMCE
 
         // convert in PDF
         try {
-            $this->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+            $this->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $this->defaultFont);
             $this->generateLampiran($surat->id_pend, $cetak, $input);
 
             $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');

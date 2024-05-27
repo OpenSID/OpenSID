@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,6 +47,7 @@ class TeksBerjalan extends BaseModel
 {
     use Author;
     use ConfigId;
+    use SortableTrait;
 
     /**
      * The table associated with the model.
@@ -66,7 +68,7 @@ class TeksBerjalan extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     /**
      * The casts with the model.
@@ -75,6 +77,11 @@ class TeksBerjalan extends BaseModel
      */
     protected $casts = [
         'status' => 'boolean',
+    ];
+
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => false,
     ];
 
     public function scopeList($query, $tipe = '', $status = '')
@@ -114,20 +121,6 @@ class TeksBerjalan extends BaseModel
     public function scopeTipe($query, $value = 1)
     {
         return $query->where('tipe', $value);
-    }
-
-    public function scopeNomorUrut($query, $id, $direction)
-    {
-        $data = $this->findOrFail($id);
-
-        $currentNo = $data->urut;
-        $targetNo  = ($direction == 2) ? $currentNo - 1 : $currentNo + 1;
-
-        $query->where('urut', $targetNo)->update(['urut' => $currentNo]);
-
-        $data->update(['urut' => $targetNo]);
-
-        return $query;
     }
 
     public function scopeUrutMax($query)

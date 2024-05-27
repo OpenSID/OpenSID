@@ -409,7 +409,8 @@ class Surat extends Admin_Controller
 
             // convert in PDF
             try {
-                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+                $defaultFont = underscore(setting('font_surat'));
+                $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $defaultFont);
                 $this->tinymce->generateLampiran($surat->id_pend, $cetak, $cetak['input']);
 
                 if ($preview) {
@@ -549,7 +550,7 @@ class Surat extends Admin_Controller
             $log_surat['verifikasi_operator'] = (setting('verifikasi_sekdes') || setting('verifikasi_kades')) ? LogSurat::PERIKSA : LogSurat::TERIMA;
 
             if (LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)) {
-                redirect_with('success', 'Berhasil Simpan Konsep');
+                redirect_with('success', 'Berhasil Simpan Konsep', 'keluar/masuk');
             }
         }
 

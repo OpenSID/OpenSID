@@ -97,8 +97,8 @@
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td align="center" width="2"><?= $data['no']?></td>
-																		<td><a href="<?= site_url("penduduk/detail/1/0/{$data['id_pend']}"); ?>" target="_blank"><?= $data['nik']?></a></td>
-																		<td nowrap width="30%"><a href="<?= site_url("penduduk/detail/1/0/{$data['id_pend']}"); ?>" target="_blank"><?= $data['nama']?></a></td>
+																		<td><a href="<?= site_url("penduduk/detail/{$data['id_pend']}"); ?>" target="_blank"><?= $data['nik']?></a></td>
+																		<td nowrap width="30%"><a href="<?= site_url("penduduk/detail/{$data['id_pend']}"); ?>" target="_blank"><?= $data['nama']?></a></td>
 																		<td><?= strtoupper($data['dusun'])?></td>
 																		<td><?= $data['rw']?></td>
 																		<td><?= $data['rt']?></td>

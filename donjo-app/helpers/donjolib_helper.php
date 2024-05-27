@@ -269,9 +269,10 @@ function getBulan(int $bln)
  *
  * @return string[]
  */
-function tahun(int $awal = 2018, $asc = false): array
+function tahun(?int $awal = null, $asc = false): array
 {
     $akhir = date('Y');
+    $awal ??= $akhir;
     $tahun = [];
 
     for ($i = $akhir; $i >= $awal; $i--) {
@@ -790,9 +791,11 @@ function delete_col(&$array, $offset): bool
 function get_pesan_opendk(): void
 {
     $ci = &get_instance();
-    if ((! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) || empty($ci->setting->api_opendk_key)) {
+
+    if (! setting('sinkronisasi_opendk')) {
         return;
     }
+
     $model_pesan        = new App\Models\Pesan();
     $model_detail_pesan = new App\Models\PesanDetail();
     $id_terakhir        = $model_detail_pesan::latest('id')->first()->id;

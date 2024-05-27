@@ -317,8 +317,8 @@ class Wilayah extends Admin_Controller
         }
 
         $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
-        $data['rw']    = bilangan($data['rw']) ?: 0;
-        $data['rt']    = bilangan($data['rt']) ?: 0;
+        $data['rw']    = nama_terbatas(trim($data['rw'])) ?: 0;
+        $data['rt']    = nama_terbatas(trim($data['rt'])) ?: 0;
 
         return $data;
     }
@@ -328,7 +328,7 @@ class Wilayah extends Admin_Controller
         isCan('u');
 
         try {
-            $data      = $this->bersihkan_data($this->request);
+            $data = $this->bersihkan_data($this->request);
             $parentObj = $parent ? WilayahModel::find($parent) : null;
 
             switch ($level) {

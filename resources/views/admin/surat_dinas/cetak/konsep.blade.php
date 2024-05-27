@@ -29,11 +29,13 @@
             <a href="{{ ci_route('surat_dinas_cetak') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
             </a>
-            <button type="button" id="preview-pdf" class="btn btn-social btn-vk btn-success btn-sm"><i class="fa fa-eye"></i>Tinjau PDF</button>
-            <button type="button" id="cetak-pdf" class="btn btn-social btn-success btn-sm"><i class="fa fa-file-pdf-o"></i>Cetak PDF</button>
             @if ($tolak != '-1')
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
                     Konsep</a>
+            @endif
+            <button type="button" id="preview-pdf" class="btn btn-social btn-vk btn-success btn-sm"><i class="fa fa-eye"></i>Tinjau PDF</button>
+            <button type="button" id="cetak-pdf" class="btn btn-social btn-success btn-sm"><i class="fa fa-file-pdf-o"></i>Cetak PDF</button>
+            @if ($tolak != '-1')
                 <a href="{{ ci_route('surat_dinas_arsip.masuk') }}" id="next" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hide">
                     ke Permohonan Surat<i class="fa fa-arrow-circle-right"></i>
                 @else

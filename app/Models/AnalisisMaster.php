@@ -45,4 +45,6 @@ class AnalisisMaster extends BaseModel
      * {@inheritDoc}
      */
     protected $table = 'analisis_master';
+
+    public $timestamps = false;
 }

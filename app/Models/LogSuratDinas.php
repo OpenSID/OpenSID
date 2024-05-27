@@ -169,11 +169,13 @@ class LogSuratDinas extends BaseModel
         return str_replace(array_keys($array_replace), array_values($array_replace), $format_nomor_surat);
     }
 
-    public function getFileSuratAttribute()
+    public function getFileSuratAttribute(): ?string
     {
         if ($this->lampiran != null) {
             return FCPATH . LOKASI_ARSIP . pathinfo($this->nama_surat, PATHINFO_FILENAME);
         }
+
+        return null;
     }
 
     public function statusPeriksa($jabatanId, $idJabatanKades, $idJabatanSekdes): int

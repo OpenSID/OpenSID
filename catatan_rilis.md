@@ -1,4 +1,4 @@
-Di rilis ini, versi 2405.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2405.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -42,6 +42,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#7930](https://github.com/OpenSID/OpenSID/issues/7930) Perbaikan tambah suku penduduk selain yang ada pada pilihan.
 14. [#7911](https://github.com/OpenSID/OpenSID/issues/7911) Perbaikan impor data penduduk menggunakan format BIP.
 15. [#7938](https://github.com/OpenSID/OpenSID/issues/7938) Perbaikan hapus beberapa artikel sekaligus.
+16. [#7901](https://github.com/OpenSID/OpenSID/issues/7901) Perbaikan unduh surat pdf yang dibuat ulang.
+17. [#7943](https://github.com/OpenSID/OpenSID/issues/7943) Perbaikan ekpor data penduduk.
+18. [#7926](https://github.com/OpenSID/OpenSID/issues/7926) Perbaikan pengaturan default font.
+19. [#7963](https://github.com/OpenSID/OpenSID/issues/7963) Perbaikan nomor tumah tangga tidak tampil pada modul penduduk.
+20. [#7962](https://github.com/OpenSID/OpenSID/issues/7962) Perbaikan format tanggal perkawinan penduduk.
+21. [#7949](https://github.com/OpenSID/OpenSID/issues/7949) Perbaikan data nik penduduk desa yang tidak tampil pada modul pengurus.
+22. [#7974](https://github.com/OpenSID/OpenSID/issues/7974) Perbaikan cetak buku peraturan desa.
+23. [#7919](https://github.com/OpenSID/OpenSID/issues/7919) Perbaikan perhitugan pada statistik penduduk.
+24. [#7969](https://github.com/OpenSID/OpenSID/issues/7969) Perbaikan hasil  laporan pdf pada buku rekapitulasi jumlah penduduk.
+25. [#7997](https://github.com/OpenSID/OpenSID/issues/7997) Perbaikan link detail penduduk pada modul pendapat.
 
 
 #### TEKNIS
@@ -54,6 +64,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#7756](https://github.com/OpenSID/OpenSID/issues/7756) Penyesuaian modul Buku Agenda - Surat Masuk menggunakan ORM dan Blade.
 7. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul Informasi Publik menggunakan ORM dan Blade.
 8. [#7932](https://github.com/OpenSID/OpenSID/issues/7932) Penyesuaian dan optimasi pada query yang berulang.
+9. [#7424](https://github.com/OpenSID/OpenSID/issues/7424) Penyesuaian modul OpenDK > Sinkronisasi menggunakan ORM dan Blade.
+10. [#7916](https://github.com/OpenSID/OpenSID/issues/7916) Penyesuaian input nama rw dan rt bisa menggunakan huruf, angka, spasi dan strip.
+11. [#7914](https://github.com/OpenSID/OpenSID/issues/7914) Penyesuaian data awal bawaan sistem modul analisis.
+12. [#7941](https://github.com/OpenSID/OpenSID/issues/7941) Penyesuaian sebutan rentang umur.
+13. [#7953](https://github.com/OpenSID/OpenSID/issues/7953) Penyesuaian agar input ceklist dapat dilakukan melalui labelnya pada halaman siteman.
+14. [#7958](https://github.com/OpenSID/OpenSID/issues/7958) Penyesuaian tampilan dan fungsi simpan sebagai konsep pada surat layanan dan dinas.
+15. [#7951](https://github.com/OpenSID/OpenSID/issues/7951) Perbaikan button tooltip donasi pengembangan OpenSID.
+16. [#7814](https://github.com/OpenSID/OpenSID/issues/7814) Penyesuaian modul statistik > rentang umur menggunakan ORM dan Blade.
+17. [#7964](https://github.com/OpenSID/OpenSID/issues/7964) Penyesuaian fungsi pindah posisi pada modul teks berjalan menggunakan dragable.
+18. [#7999](https://github.com/OpenSID/OpenSID/issues/7999) Penyesuaian isian enum dengan tabel ref_penduduk_bahasa.
 
 
 #### KEAMANAN

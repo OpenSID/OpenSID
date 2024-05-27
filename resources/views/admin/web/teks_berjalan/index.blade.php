@@ -1,5 +1,5 @@
-@include('admin.pengaturan_surat.asset_tinymce')
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
 @extends('admin.layouts.index')
 
@@ -43,6 +43,7 @@
                                                     <table class="table table-bordered table-hover" id="tabeldata">
                                                         <thead>
                                                             <tr>
+                                                                <th class="padat">#</th>
                                                                 <th><input type="checkbox" id="checkall" /></th>
                                                                 <th class="padat">No</th>
                                                                 <th class="padat">Aksi</th>
@@ -50,6 +51,8 @@
                                                                 <th width="30%">Tautan</th>
                                                             </tr>
                                                         </thead>
+                                                        <tbody id="dragable">
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </div>
@@ -76,6 +79,12 @@
                 serverSide: true,
                 ajax: "{{ ci_route('teks_berjalan.datatables') }}",
                 columns: [{
+                        data: 'drag-handle',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,
@@ -103,21 +112,24 @@
                         data: 'judul_tautan',
                         name: 'judul_tautan',
                         searchable: true,
-                        orderable: true
+                        orderable: false
                     }
                 ],
-                order: [
-                    [3, 'asc']
-                ]
+                aaSorting: [],
+                createdRow: function(row, data, dataIndex) {
+                    $(row).attr('data-id', data.id)
+                    $(row).addClass('dragable-handle');
+                },
             });
 
             if (hapus == 0) {
-                TableData.column(0).visible(false);
+                TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(3).visible(false);
             }
+            @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('teks_berjalan.tukar')])
         });
     </script>
 @endpush

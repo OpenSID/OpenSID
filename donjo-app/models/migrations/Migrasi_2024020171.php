@@ -399,7 +399,7 @@ class Migrasi_2024020171 extends MY_model
             'youtube'   => 'https://www.youtube.com/@KomunitasOpenSID-OpenDesa',
         ];
 
-        $mediaSosial = DB::table('media_sosial')->get()
+        $mediaSosial = DB::table('media_sosial')->where('config_id', $id)->get()
             ->map(static function ($item) use ($pleaceholder) {
                 return [
                     'id'   => Str::slug($item->nama),

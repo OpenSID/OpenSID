@@ -58,10 +58,22 @@ class Teks_berjalan extends Admin_Controller
         return view('admin.web.teks_berjalan.index');
     }
 
+    public function tukar()
+    {
+        $data = $this->input->post('data');
+        TeksBerjalan::setNewOrder($data);
+        cache()->flush();
+
+        return json(['status' => 1]);
+    }
+
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(TeksBerjalan::with('artikel'))
+            $order = $this->input->get('order') ?? false;
+
+            return datatables()->of(TeksBerjalan::with('artikel')->when(! $order, static fn ($q) => $q->orderBy('urut')))
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -72,8 +84,6 @@ class Teks_berjalan extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('teks_berjalan.urut') . '/' . $row->id . '/1' . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('teks_berjalan.urut') . '/' . $row->id . '/2' . '" class="btn bg-olive btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                         $aksi .= '<a href="' . ci_route('teks_berjalan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
 
                         if ($row->status == StatusEnum::YA) {
@@ -106,7 +116,7 @@ class Teks_berjalan extends Admin_Controller
 
                     return '<a href="' . $tautan . '" target="_blank">' . $tampil . '</a>';
                 })
-                ->rawColumns(['ceklist', 'aksi', 'teks', 'judul_tautan'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'teks', 'judul_tautan'])
                 ->orderColumn('teks', static function ($query, $order): void {
                     $query->orderBy('teks', $order);
                 })
@@ -162,13 +172,6 @@ class Teks_berjalan extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function urut($id = 0, $arah = 0): void
-    {
-        isCan('u');
-        TeksBerjalan::nomorUrut($id, $arah);
-        redirect('teks_berjalan');
     }
 
     public function lock($id = 0, $val = 1): void

@@ -70,4 +70,9 @@ class RentangUmur extends BaseModel
         'sampai',
         'status',
     ];
+
+    public function scopeStatus($query, $value = 1)
+    {
+        return $query->where('status', $value);
+    }
 }

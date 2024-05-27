@@ -242,8 +242,8 @@
                             <p align="justify">
                                 Cara mengirimkan donasi dan informasi lebih lanjut ada di:
                             </p>
-                            <a href="<?= config_item('website') ?>/donasi" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan
-                                <?= config_item('nama_aplikasi') ?></a>
+                            <a href="<?= config_item('website') ?>/donasi" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Donasi Pengembangan <?= config_item('nama_aplikasi') ?>"><i
+                                    class="fa fa-heart"></i> Donasi Pengembangan <?= config_item('nama_aplikasi') ?></a>
                         </div>
                     </div>
                 </div>

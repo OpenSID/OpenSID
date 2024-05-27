@@ -55,7 +55,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4">
-					<?php $this->load->view('statistik/side_menu.php'); ?>
+					<?= view('admin.statistik.side', [
+					    'lap'                   => $lap,
+					    'kategori'              => $kategori,
+					    'stat_penduduk'         => $stat_penduduk,
+					    'stat_keluarga'         => $stat_keluarga,
+					    'stat_rtm'              => $stat_rtm,
+					    'stat_kategori_bantuan' => $stat_kategori_bantuan,
+					    'stat_bantuan'          => $stat_bantuan,
+					]) ?>
 				</div>
 				<div class="col-md-8">
 					<div class="box box-info">

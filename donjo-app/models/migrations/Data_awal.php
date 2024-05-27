@@ -101,9 +101,6 @@ class Data_awal extends MY_Model
         // Statistik - Umur
         $hasil = $hasil && $this->tambah_rentang_umur($hasil);
 
-        // Master Analisis
-        $hasil = $hasil && $this->impor_data_awal_analisis($hasil);
-
         // Notifikasi
         $hasil = $hasil && $this->notifikasi($hasil);
 
@@ -730,14 +727,6 @@ class Data_awal extends MY_Model
             // Update parent submodul
             DB::table('setting_modul')->where('config_id', $this->config_id)->where('parent', $key)->update(['parent' => $parent_id]);
         }
-
-        return $hasil;
-    }
-
-    protected function impor_data_awal_analisis($hasil)
-    {
-        $this->load->model('database_model');
-        $this->database_model->impor_data_awal_analisis();
 
         return $hasil;
     }

@@ -105,7 +105,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<link rel="stylesheet" href="<?= asset('front/css/mandiri-keyboard.css') ?>">
 	<?php endif; ?>
 
-	<?php $this->load->view('head_tags') ?>
+	<?= view('admin.layouts.components.token') ?>
 </head>
 
 <body class="hold-transition skin-blue fixed layout-top-nav">

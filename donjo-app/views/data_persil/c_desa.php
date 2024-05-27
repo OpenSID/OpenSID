@@ -93,7 +93,7 @@
 																		<td><?= sprintf('%04s', $item['nomor']) ?></td>
 																		<td><?= $item['nama_kepemilikan'] ?>
 																		<td><?= strtoupper($item['namapemilik']) ?></td>
-																		<td><?= ($item['nik']) ? '<a href=' . site_url("penduduk/detail/1/0/{$item['id_pend']}") . '>' . $item['nik'] . '</a>' : '-'; ?></td>
+																		<td><?= ($item['nik']) ? '<a href=' . site_url("penduduk/detail/{$item['id_pend']}") . '>' . $item['nik'] . '</a>' : '-'; ?></td>
 																		<td><?= $item['jumlah'] ?></td>
 																	</tr>
 																<?php endforeach; ?>
