@@ -333,7 +333,7 @@ class Penduduk extends Admin_Controller
                                         $q->where('ktp_el', 3);
                                     } else {
                                         if ($val != TOTAL) {
-                                            $statusKTP = statusKTP::find($val);
+                                            $statusKTP = StatusKtp::find($val);
                                             $q->where('ktp_el', 3)->where('status_rekam', $statusKTP->status_rekam);
                                         }
                                     }

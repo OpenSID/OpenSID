@@ -59,7 +59,7 @@ class Inventaris extends Web_Controller
     public function detail($slug = null)
     {
         $data = $this->includes;
-        
+
         switch ($slug) {
             case 'tanah':
                 $this->load->model('inventaris_tanah_model');
@@ -108,7 +108,7 @@ class Inventaris extends Web_Controller
                 $data['total']          = $this->inventaris_kontruksi_model->sum_inventaris();
                 $data['halaman_statis'] = 'inventaris/konstruksi';
                 break;
-            
+
             default:
                 show_404();
                 break;

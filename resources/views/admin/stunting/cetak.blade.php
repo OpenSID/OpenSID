@@ -125,12 +125,10 @@
                             <td colspan="3" style="vertical-align: middle;">Ibu hamil periksa kehamilan paling sedikit 4
                                 kali selama kehamilan kehamilan.</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['periksa_kehamilan']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['periksa_kehamilan']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['periksa_kehamilan']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['periksa_kehamilan']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -138,12 +136,10 @@
                             <td colspan="3" style="vertical-align: middle;">Ibu hamil mendapatkan dan minum 1 tablet
                                 tambah darah (pil FE) setiap hari minimal selama 90 hari </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['pil_fe']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['pil_fe']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['pil_fe']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['pil_fe']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -151,12 +147,10 @@
                             <td colspan="3" style="vertical-align: middle;">Ibu bersalin mendapatkan layanan nifas oleh
                                 nakes dilaksanakan minimal 3 kali </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['pemeriksaan_nifas']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['pemeriksaan_nifas']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['pemeriksaan_nifas']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['pemeriksaan_nifas']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -164,12 +158,10 @@
                             <td colspan="3" style="vertical-align: middle;">Ibu hamil mengikuti kegiatan konseling gizi
                                 atau kelas ibu hamil minimal 4 kali selama kehamilan </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['konseling_gizi']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['konseling_gizi']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['konseling_gizi']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['konseling_gizi']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -178,12 +170,10 @@
                                 dan/atau Kekurangan Energi Kronis (KEK) mendapat kunjungan ke rumah oleh bidan Desa
                                 secara terpadu minimal 1 bulan sekali </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['kunjungan_rumah']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['kunjungan_rumah']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['kunjungan_rumah']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['kunjungan_rumah']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -191,12 +181,10 @@
                             <td colspan="3" style="vertical-align: middle;">Rumah Tangga Ibu hamil memiliki sarana akses
                                 air minum yang aman</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['akses_air_bersih']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['akses_air_bersih']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['akses_air_bersih']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['akses_air_bersih']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -204,12 +192,10 @@
                             <td colspan="3" style="vertical-align: middle;">Rumah Tangga Ibu hamil memiliki sarana
                                 jamban keluarga yang layak</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['kepemilikan_jamban']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['kepemilikan_jamban']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['kepemilikan_jamban']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['kepemilikan_jamban']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -217,12 +203,10 @@
                             <td colspan="3" style="vertical-align: middle;">Ibu hamil memiliki jaminan layanan kesehatan
                             </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['jaminan_kesehatan']['Y'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['jaminan_kesehatan']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' :
-                                $ibu_hamil['capaianKonvergensi']['jaminan_kesehatan']['persen'] }}
+                                {{ $ibu_hamil['capaianKonvergensi'] == null ? '0' : $ibu_hamil['capaianKonvergensi']['jaminan_kesehatan']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -232,12 +216,10 @@
                             <td colspan="3" style="vertical-align: middle;">Bayi usia 12 bulan ke bawah mendapatkan
                                 imunisasi dasar lengkap</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['imunisasi']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['imunisasi']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['imunisasi']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['imunisasi']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -245,12 +227,10 @@
                             <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan diukur berat badannya
                                 di posyandu secara rutin setiap bulan </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['pengukuran_berat_badan']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['pengukuran_berat_badan']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['pengukuran_berat_badan']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['pengukuran_berat_badan']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -258,12 +238,10 @@
                             <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan diukur panjang/tinggi
                                 badannya oleh tenaga kesehatan terlatih minimal 2 kali dalam setahun </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['pengukuran_tinggi_badan']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['pengukuran_tinggi_badan']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['pengukuran_tinggi_badan']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['pengukuran_tinggi_badan']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -286,12 +264,10 @@
                                 buruk, gizi kurang, dan stunting mendapat kunjungan ke rumah secara terpadu minimal 1
                                 bulan sekali </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['kunjungan_rumah']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['kunjungan_rumah']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['kunjungan_rumah']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['kunjungan_rumah']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -299,12 +275,10 @@
                             <td colspan="3" style="vertical-align: middle;">Rumah Tangga anak usia 0-23 bulan memiliki
                                 sarana akses air minum yang aman</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['air_bersih']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['air_bersih']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['air_bersih']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['air_bersih']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -312,12 +286,10 @@
                             <td colspan="3" style="vertical-align: middle;">Rumah Tangga anak usia 0-23 bulan memiliki
                                 sarana jamban yang layak</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['jamban_sehat']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['jamban_sehat']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['jamban_sehat']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['jamban_sehat']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -325,12 +297,10 @@
                             <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan memiliki akte kelahiran
                             </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['akta_lahir']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['akta_lahir']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['akta_lahir']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['akta_lahir']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -338,12 +308,10 @@
                             <td colspan="3" style="vertical-align: middle;">Anak usia 0-23 bulan memiliki jaminan
                                 layanan kesehatan</td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['jaminan_kesehatan']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['jaminan_kesehatan']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['jaminan_kesehatan']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['jaminan_kesehatan']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -351,12 +319,10 @@
                             <td colspan="3" style="vertical-align: middle;">Orang tua/pengasuh yang memiliki anak usia
                                 0-23 bulan mengikuti Kelas Pengasuhan minimal sebulan sekali </td>
                             <td colspan="2" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['pengasuhan_paud']['Y'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['pengasuhan_paud']['Y'] }}
                             </td>
                             <td colspan="1" class="text-center" style="vertical-align: middle;">
-                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' :
-                                $bulanan_anak['capaianKonvergensi']['pengasuhan_paud']['persen'] }}
+                                {{ $bulanan_anak['capaianKonvergensi'] == null ? '0' : $bulanan_anak['capaianKonvergensi']['pengasuhan_paud']['persen'] }}
                             </td>
                         </tr>
                         <tr>
@@ -395,30 +361,24 @@
                                 SEHARUSNYA DITERIMA</th>
                         </tr>
                         @php
-                        $JLD_IbuHamil = $ibu_hamil['tingkatKonvergensiDesa'] == null ? '0' :
-                        $ibu_hamil['tingkatKonvergensiDesa']['jumlah_diterima'];
-                        $JLD_Anak = $bulanan_anak['tingkatKonvergensiDesa'] == null ? '0' :
-                        $bulanan_anak['tingkatKonvergensiDesa']['jumlah_diterima'];
-        
-                        $JYSD_IbuHamil = $ibu_hamil['tingkatKonvergensiDesa'] == null ? '0' :
-                        $ibu_hamil['tingkatKonvergensiDesa']['jumlah_seharusnya'];
-                        $JYSD_Anak = $bulanan_anak['tingkatKonvergensiDesa'] == null ? '0' :
-                        $bulanan_anak['tingkatKonvergensiDesa']['jumlah_seharusnya'];
-        
-                        $PERSEN_IbuHamil = $ibu_hamil['tingkatKonvergensiDesa'] == null ? '0' :
-                        $ibu_hamil['tingkatKonvergensiDesa']['persen'];
-                        $PERSEN_Anak = $bulanan_anak['tingkatKonvergensiDesa'] == null ? '0' :
-                        $bulanan_anak['tingkatKonvergensiDesa']['persen'];
-        
-                        $JLD_TOTAL = (int) $JLD_IbuHamil + (int) $JLD_Anak;
-                        $JYSD_TOTAL = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
-        
-                        if ($JYSD_TOTAL != 0) {
-                        $KONV_TOTAL = number_format(($JLD_TOTAL / $JYSD_TOTAL) * 100, 2);
-                        } else {
-                        $KONV_TOTAL = number_format(0, 2);
-                        }
-        
+                            $JLD_IbuHamil = $ibu_hamil['tingkatKonvergensiDesa'] == null ? '0' : $ibu_hamil['tingkatKonvergensiDesa']['jumlah_diterima'];
+                            $JLD_Anak = $bulanan_anak['tingkatKonvergensiDesa'] == null ? '0' : $bulanan_anak['tingkatKonvergensiDesa']['jumlah_diterima'];
+                            
+                            $JYSD_IbuHamil = $ibu_hamil['tingkatKonvergensiDesa'] == null ? '0' : $ibu_hamil['tingkatKonvergensiDesa']['jumlah_seharusnya'];
+                            $JYSD_Anak = $bulanan_anak['tingkatKonvergensiDesa'] == null ? '0' : $bulanan_anak['tingkatKonvergensiDesa']['jumlah_seharusnya'];
+                            
+                            $PERSEN_IbuHamil = $ibu_hamil['tingkatKonvergensiDesa'] == null ? '0' : $ibu_hamil['tingkatKonvergensiDesa']['persen'];
+                            $PERSEN_Anak = $bulanan_anak['tingkatKonvergensiDesa'] == null ? '0' : $bulanan_anak['tingkatKonvergensiDesa']['persen'];
+                            
+                            $JLD_TOTAL = (int) $JLD_IbuHamil + (int) $JLD_Anak;
+                            $JYSD_TOTAL = (int) $JYSD_IbuHamil + (int) $JYSD_Anak;
+                            
+                            if ($JYSD_TOTAL != 0) {
+                                $KONV_TOTAL = number_format(($JLD_TOTAL / $JYSD_TOTAL) * 100, 2);
+                            } else {
+                                $KONV_TOTAL = number_format(0, 2);
+                            }
+                            
                         @endphp
                         <tr>
                             <th colspan="1" class="text-center" style="vertical-align: middle;">1</th>

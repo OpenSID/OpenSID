@@ -52,7 +52,7 @@ class InventarisAsset extends BaseModel
      */
     protected $table = 'inventaris_asset';
 
-        /**
+    /**
      * The guarded with the model.
      *
      * @var array

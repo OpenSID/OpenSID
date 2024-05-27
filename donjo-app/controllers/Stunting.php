@@ -46,7 +46,6 @@ use App\Models\Paud;
 use App\Models\Penduduk;
 use App\Models\Posyandu;
 use App\Models\SasaranPaud;
-use App\Models\UserGrup;
 use Carbon\Carbon;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
@@ -1146,7 +1145,8 @@ class Stunting extends Admin_Controller
         return view('admin.stunting.scorcard-konvergensi-desa', $data);
     }
 
-    private function sumber_data($kuartal = null, $tahun = null, $id = null) {
+    private function sumber_data($kuartal = null, $tahun = null, $id = null)
+    {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
         }
@@ -1404,7 +1404,7 @@ class Stunting extends Admin_Controller
     public function aksi_sk($aksi = 'cetak'): void
     {
         $this->load->model('pamong_model');
-        
+
         $kuartal = $this->input->get('kuartal');
         $tahun   = $this->input->get('tahun');
         $id      = $this->input->get('id');
