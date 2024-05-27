@@ -51,6 +51,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#7951](https://github.com/OpenSID/OpenSID/issues/7951) Perbaikan button tooltip donasi pengembangan OpenSID.
 16. [#7814](https://github.com/OpenSID/OpenSID/issues/7814) Penyesuaian modul statistik > rentang umur menggunakan ORM dan Blade.
 17. [#7964](https://github.com/OpenSID/OpenSID/issues/7964) Penyesuaian fungsi pindah posisi pada modul teks berjalan menggunakan dragable.
+18. [#7999](https://github.com/OpenSID/OpenSID/issues/7999) Penyesuaian isian enum dengan tabel ref_penduduk_bahasa.
 
 
 #### KEAMANAN
