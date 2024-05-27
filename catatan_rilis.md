@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 21. [#7949](https://github.com/OpenSID/OpenSID/issues/7949) Perbaikan data nik penduduk desa yang tidak tampil pada modul pengurus.
 22. [#7974](https://github.com/OpenSID/OpenSID/issues/7974) Perbaikan cetak buku peraturan desa.
 23. [#7919](https://github.com/OpenSID/OpenSID/issues/7919) Perbaikan perhitugan pada statistik penduduk.
+24. [#7969](https://github.com/OpenSID/OpenSID/issues/7969) Perbaikan hasil  laporan pdf pada buku rekapitulasi jumlah penduduk.
 
 
 #### TEKNIS
