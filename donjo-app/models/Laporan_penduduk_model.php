@@ -374,7 +374,7 @@ class Laporan_penduduk_model extends MY_Model
         if ($status_dasar !== '1') {
             $this->db->join('log_penduduk l', 'l.id_pend = b.id', 'left');
         }
-        
+
         return $this->config_id('b')
             ->where('b.status_dasar', $status_dasar)
             ->where($where)
