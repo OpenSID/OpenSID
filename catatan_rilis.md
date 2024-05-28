@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#7997](https://github.com/OpenSID/OpenSID/issues/7997) Perbaikan link detail penduduk pada modul pendapat.
 26. [#7992](https://github.com/OpenSID/OpenSID/issues/7992) Perbaikan saring data wilayah pada modul calon pemilih.
 27. [#8003](https://github.com/OpenSID/OpenSID/issues/8003) Perbaikan judul modal cetak/unduh pada buku administrasi penduduk.
+28. [#8007](https://github.com/OpenSID/OpenSID/issues/8007) Perbaikan tampilan cetak pada kode isian saat peralihan dari penduduk desa dan penduduk luar.
 
 
 #### TEKNIS
