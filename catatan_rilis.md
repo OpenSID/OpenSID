@@ -34,6 +34,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 27. [#8003](https://github.com/OpenSID/OpenSID/issues/8003) Perbaikan judul modal cetak/unduh pada buku administrasi penduduk.
 28. [#8007](https://github.com/OpenSID/OpenSID/issues/8007) Perbaikan tampilan cetak pada kode isian saat peralihan dari penduduk desa dan penduduk luar.
 29. [#8006](https://github.com/OpenSID/OpenSID/issues/8006) Perbaikan saring data berdasarkan tahun pada modul buku peraturan di desa.
+30. [#8009](https://github.com/OpenSID/OpenSID/issues/8009) Perbaikan ubah data pada modul pembangunan.
 
 
 #### TEKNIS

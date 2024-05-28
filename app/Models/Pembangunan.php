@@ -82,6 +82,9 @@ class Pembangunan extends BaseModel
         'sumber_biaya_swadaya',
         'sumber_biaya_jumlah',
         'manfaat',
+        'waktu',
+        'satuan_waktu',
+        'sifat_proyek',
     ];
 
     public function pembangunanDokumentasi()
