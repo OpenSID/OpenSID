@@ -36,7 +36,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#8006](https://github.com/OpenSID/OpenSID/issues/8006) Perbaikan saring data berdasarkan tahun pada modul buku peraturan di desa.
 30. [#8009](https://github.com/OpenSID/OpenSID/issues/8009) Perbaikan ubah data pada modul pembangunan.
 31. [#8010](https://github.com/OpenSID/OpenSID/issues/8010) Perbaikan data cetak/unduh surat pada arsip surat.
-
+32. [#8008](https://github.com/OpenSID/OpenSID/issues/8008) Perbaikan form unggah dokumen penduduk pada layanan mandiri.
 
 #### TEKNIS
 
