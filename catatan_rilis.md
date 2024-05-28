@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#7919](https://github.com/OpenSID/OpenSID/issues/7919) Perbaikan perhitugan pada statistik penduduk.
 24. [#7969](https://github.com/OpenSID/OpenSID/issues/7969) Perbaikan hasil  laporan pdf pada buku rekapitulasi jumlah penduduk.
 25. [#7997](https://github.com/OpenSID/OpenSID/issues/7997) Perbaikan link detail penduduk pada modul pendapat.
+26. [#7992](https://github.com/OpenSID/OpenSID/issues/7992) Perbaikan saring data wilayah pada modul calon pemilih.
 
 
 #### TEKNIS

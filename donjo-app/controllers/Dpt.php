@@ -130,7 +130,7 @@ class Dpt extends Admin_Controller
                 [, $namaRw] = explode('__', $rw);
                 $cluster    = $cluster->whereRw($namaRw);
                 if ($rt) {
-                    $cluster = $cluster->whereRt($rt);
+                    $cluster = $cluster->where('id', $rt);
                 }
             }
             $listCluster = $cluster->select(['id'])->get()->pluck('id', 'id')->toArray();
