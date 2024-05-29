@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### TEKNIS
 
 1. [#7757](https://github.com/OpenSID/OpenSID/issues/7757) Penyesuaian modul buku lembaran desa dan berita desa menggunakan ORM dan Blade.
+2. [#7813](https://github.com/OpenSID/OpenSID/issues/7813) Penyesuaian modul pendaftaran kerjasama desa menggunakan ORM dan Blade.
 
 
 #### KEAMANAN
