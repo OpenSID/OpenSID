@@ -37,6 +37,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#8009](https://github.com/OpenSID/OpenSID/issues/8009) Perbaikan ubah data pada modul pembangunan.
 31. [#8010](https://github.com/OpenSID/OpenSID/issues/8010) Perbaikan data cetak/unduh surat pada arsip surat.
 32. [#8008](https://github.com/OpenSID/OpenSID/issues/8008) Perbaikan form unggah dokumen penduduk pada layanan mandiri.
+33. [#8001](https://github.com/OpenSID/OpenSID/issues/8001) Perbaikan jumlah KK pada data modul wilayah.
+
 
 #### TEKNIS
 
