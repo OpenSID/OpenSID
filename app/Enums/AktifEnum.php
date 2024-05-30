@@ -35,60 +35,25 @@
  *
  */
 
-namespace App\Models;
+namespace App\Enums;
 
-use App\Enums\SasaranEnum;
-use App\Traits\ConfigId;
+use App\Models\Anak;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class BantuanPeserta extends BaseModel
+class AktifEnum extends BaseEnum
 {
-    use ConfigId;
+    public const AKTIF    = 1;
+    public const TIDAK_AKTIF = 0;
 
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Override method all()
      */
-    protected $table = 'program_peserta';
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = ['id'];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
+    public static function all(): array
     {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    public function bantuanKeluarga()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
-    }
-
-    public function bantuanPenduduk()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     */
-    public function scopePeserta($query): void
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
+        return [
+            self::AKTIF    => 'Aktif',
+            self::TIDAK_AKTIF => 'Tidak Aktif',
+        ];
     }
 }

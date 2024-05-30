@@ -1500,6 +1500,7 @@ Route::group('setting', static function (): void {
 
 // Program Bantuan
 Route::group('program_bantuan', static function (): void {
+    Route::get('/datatables', 'Program_bantuan@datatables')->name('program_bantuan.datatables');
     Route::get('/clear', 'Program_bantuan@clear')->name('program_bantuan.clear');
     Route::post('/filter/{filter}', 'Program_bantuan@filter')->name('program_bantuan.filter');
     Route::match(['GET', 'POST'], '/', 'Program_bantuan@index')->name('program_bantuan.index');
