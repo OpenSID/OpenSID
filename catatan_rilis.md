@@ -1,8 +1,8 @@
-Di rilis ini, versi 2405.1.0 berisi penambahan pengaturan / alat kelengkapan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2406.0.0 berisi penambahan pengaturan / alat kelengkapan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @totoprayogo1916 dan @arifpriadi baru mulai berkontribusi.
 
-#### Penambahan Fitur
+#### FITUR
 
 1. [#5026](https://github.com/OpenSID/OpenSID/issues/5026) Penambahan alat tampilan penuh pada peta lokasi.
 2. [#6110](https://github.com/OpenSID/OpenSID/issues/6110) Penambahan fungsi salin grup akses yang sudah ada.
@@ -35,7 +35,7 @@ Terima kasih pada @totoprayogo1916 dan @arifpriadi baru mulai berkontribusi.
 29. [#6113](https://github.com/OpenSID/OpenSID/issues/6113) Penambahan tombol hapus pada permohonan surat yang dibatalkan.
 
 
-#### Perbaikan Bug
+#### BUG
 
 1. [#7143](https://github.com/OpenSID/OpenSID/issues/7143) Perbaikan nama pemohon pada lampiran F-1.03 Surat Keterangan Pindah.
 2. [#7144](https://github.com/OpenSID/OpenSID/issues/7144) Perbaikan input data rentang waktu program bantuan.
@@ -74,7 +74,7 @@ Terima kasih pada @totoprayogo1916 dan @arifpriadi baru mulai berkontribusi.
 35. [#7245](https://github.com/OpenSID/OpenSID/issues/7245) Perbaikan tombol batal untuk select2-tag/multi pada form pengaturan surat.
 36. [#7250](https://github.com/OpenSID/OpenSID/issues/7250) Perbaikan akses hapus kelompok/lembaga jika terdapat anggota.
 
-#### Penyesuaian Teknis
+#### TEKNIS
 
 1. [#7149](https://github.com/OpenSID/OpenSID/issues/7149) Penghapusan duplikasi fungsi detail pada modul keluarga.
 2. [#2843](https://github.com/OpenSID/premium/issues/2843) Penghapusan librari curly digantikan dengan guzzle.
