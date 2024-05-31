@@ -1,4 +1,4 @@
-<div class="penduduk_desa">
+<div class="penduduk_form penduduk_desa">
     <div class="form-group">
         <label for="nik" class="col-sm-3 control-label">NIK / Nama</label>
         <div class="col-sm-6 col-lg-4">

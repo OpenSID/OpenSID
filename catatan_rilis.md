@@ -52,6 +52,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#7919](https://github.com/OpenSID/OpenSID/issues/7919) Perbaikan perhitugan pada statistik penduduk.
 24. [#7969](https://github.com/OpenSID/OpenSID/issues/7969) Perbaikan hasil  laporan pdf pada buku rekapitulasi jumlah penduduk.
 25. [#7997](https://github.com/OpenSID/OpenSID/issues/7997) Perbaikan link detail penduduk pada modul pendapat.
+26. [#7992](https://github.com/OpenSID/OpenSID/issues/7992) Perbaikan saring data wilayah pada modul calon pemilih.
+27. [#8003](https://github.com/OpenSID/OpenSID/issues/8003) Perbaikan judul modal cetak/unduh pada buku administrasi penduduk.
+28. [#8007](https://github.com/OpenSID/OpenSID/issues/8007) Perbaikan tampilan cetak pada kode isian saat peralihan dari penduduk desa dan penduduk luar.
+29. [#8006](https://github.com/OpenSID/OpenSID/issues/8006) Perbaikan saring data berdasarkan tahun pada modul buku peraturan di desa.
+30. [#8009](https://github.com/OpenSID/OpenSID/issues/8009) Perbaikan ubah data pada modul pembangunan.
+31. [#8010](https://github.com/OpenSID/OpenSID/issues/8010) Perbaikan data cetak/unduh surat pada arsip surat.
+32. [#8008](https://github.com/OpenSID/OpenSID/issues/8008) Perbaikan form unggah dokumen penduduk pada layanan mandiri.
+33. [#8001](https://github.com/OpenSID/OpenSID/issues/8001) Perbaikan jumlah KK pada data modul wilayah.
+34. [#7996](https://github.com/OpenSID/OpenSID/issues/7996) Perbaikan format tanggal pada kode isian tanggal lahir.
+35. [#8012](https://github.com/OpenSID/OpenSID/issues/8012) Perbaikan cetak pdf surat yang memiliki karakter berupa simbol.
 
 
 #### TEKNIS

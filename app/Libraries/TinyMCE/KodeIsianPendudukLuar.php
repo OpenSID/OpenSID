@@ -121,6 +121,18 @@ class KodeIsianPendudukLuar
                 $tgl_lahir = $input['tanggallahir'];
             }
 
+            if ($item === 'tanggallahir') {
+                $value = formatTanggal($tgl_lahir);
+            }
+
+            if ($item === 'tempat_tgl_lahir') {
+                $value = $input['tempatlahir'] . '/' . formatTanggal($tgl_lahir);
+            }
+
+            if ($item === 'tanggalperkawinan') {
+                $value = formatTanggal($input['tanggalperkawinan']);
+            }
+
             if ($item === 'ttl') {
                 $value = $input['tempatlahir'] . '/' . formatTanggal($tgl_lahir);
             }

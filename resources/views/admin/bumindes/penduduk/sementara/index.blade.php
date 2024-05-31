@@ -5,20 +5,20 @@
         <a
             href="{{ ci_route('bumindes_penduduk_sementara/dialog/cetak') }}"
             class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Buku Rencana Kerja Pembangunan"
+            title="Cetak Buku Penduduk Sementara"
             data-remote="false"
             data-toggle="modal"
             data-target="#modalBox"
-            data-title="Cetak Buku Rencana Kerja Pembangunan"
+            data-title="Cetak Buku Penduduk Sementara"
         ><i class="fa fa-print "></i> Cetak</a>
         <a
             href="{{ ci_route('bumindes_penduduk_sementara/dialog/unduh') }}"
             class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Buku Rencana Kerja Pembangunan"
+            title="Unduh Buku Penduduk Sementara"
             data-remote="false"
             data-toggle="modal"
             data-target="#modalBox"
-            data-title="Unduh Buku Rencana Kerja Pembangunan"
+            data-title="Unduh Buku Penduduk Sementara"
         ><i class="fa fa-download"></i> Unduh</a>
     </div>
     <div class="box-body">

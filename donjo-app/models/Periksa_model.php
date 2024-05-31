@@ -130,6 +130,19 @@ class Periksa_model extends MY_Model
             $this->periksa['masalah'][]             = 'kepala_keluarga_ganda';
             $this->periksa['kepala_keluarga_ganda'] = $kepala_keluarga_ganda->toArray();
         }
+        // satu nik_kepala berada di lebih dari satu keluarga
+        $keluarga_kepala_ganda = $this->deteksi_keluarga_kepala_ganda();
+        if (! $keluarga_kepala_ganda->isEmpty()) {
+            $this->periksa['masalah'][]             = 'keluarga_kepala_ganda';
+            $this->periksa['keluarga_kepala_ganda'] = $keluarga_kepala_ganda->toArray();
+        }
+
+        // nik_kepala pada tweb_keluarga bukan kk_level = 1
+        $nik_kepala_bukan_kepala_keluarga = $this->deteksi_nik_kepala_bukan_kepala_keluarga();
+        if (! $nik_kepala_bukan_kepala_keluarga->isEmpty()) {
+            $this->periksa['masalah'][]                        = 'nik_kepala_bukan_kepala_keluarga';
+            $this->periksa['nik_kepala_bukan_kepala_keluarga'] = $nik_kepala_bukan_kepala_keluarga->toArray();
+        }
 
         $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
         if (! $klasifikasi_surat_ganda->isEmpty()) {
@@ -253,6 +266,21 @@ class Periksa_model extends MY_Model
             ->get();
     }
 
+    private function deteksi_keluarga_kepala_ganda()
+    {
+        $kepalaKeluargaDobel = Keluarga::groupBy(['nik_kepala'])->having(DB::raw('count(nik_kepala)'), '>', 1)->pluck('nik_kepala')->toArray();
+
+        return Keluarga::whereIn('nik_kepala', $kepalaKeluargaDobel)
+            ->with(['kepalaKeluarga'])
+            ->orderBy('id')
+            ->get();
+    }
+
+    private function deteksi_nik_kepala_bukan_kepala_keluarga()
+    {
+        return Penduduk::withOnly(['keluarga'])->whereIn('id', static fn ($q) => $q->select(['nik_kepala'])->from('tweb_keluarga'))->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->get();
+    }
+
     private function deteksi_klasifikasi_surat_ganda()
     {
         $config_id = identitas('id');
@@ -281,7 +309,8 @@ class Periksa_model extends MY_Model
             ->where('key', 'current_version')
             ->update('setting_aplikasi');
 
-        (new SettingAplikasi())->flushQueryCache();
+        // clear cache
+        cache()->flush();
         $this->load->model('database_model');
         $this->database_model->migrasi_db_cri();
     }
@@ -294,6 +323,8 @@ class Periksa_model extends MY_Model
         $this->selesaikan_masalah($masalah_ini);
 
         $this->session->db_error = null;
+        // clear cache
+        cache()->flush();
     }
 
     private function perbaiki_autoincrement(): bool
@@ -441,6 +472,26 @@ class Periksa_model extends MY_Model
         DB::table('log_keluarga')->where('config_id', $configId)->whereNull('id_kk')->delete();
     }
 
+    private function perbaiki_keluarga_kepala_ganda(): void
+    {
+        $keluarga = $this->periksa['keluarga_kepala_ganda'];
+        if ($keluarga) {
+            foreach ($keluarga as $k) {
+                if ($k['id'] != $k['kepala_keluarga']['id_kk']) {
+                    Keluarga::where('id', $k['id'])->update(['nik_kepala' => null]);
+                }
+            }
+        }
+    }
+
+    private function perbaiki_nik_kepala_bukan_kepala_keluarga(): void
+    {
+        $penduduk = $this->periksa['nik_kepala_bukan_kepala_keluarga'];
+        if ($penduduk) {
+            Penduduk::whereIn('id', array_column($penduduk, 'id'))->update(['kk_level' => SHDKEnum::KEPALA_KELUARGA]);
+        }
+    }
+
     private function selesaikan_masalah($masalah_ini): void
     {
         switch ($masalah_ini) {
@@ -466,6 +517,14 @@ class Periksa_model extends MY_Model
 
             case 'log_keluarga_bermasalah':
                 $this->perbaiki_log_keluarga_bermasalah();
+                break;
+
+            case 'keluarga_kepala_ganda':
+                $this->perbaiki_keluarga_kepala_ganda();
+                break;
+
+            case 'nik_kepala_bukan_kepala_keluarga':
+                $this->perbaiki_nik_kepala_bukan_kepala_keluarga();
                 break;
 
             default:

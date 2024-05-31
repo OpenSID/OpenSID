@@ -178,7 +178,7 @@ class Shortcut extends BaseModel
                 'Dokumen Penduduk'   => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup(),
 
                 // Keluarga
-                'Keluarga'        => Keluarga::status(),
+                'Keluarga'        => Keluarga::statusAktif(),
                 'Kepala Keluarga' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                     $query->status()->kepalaKeluarga();
                 }),

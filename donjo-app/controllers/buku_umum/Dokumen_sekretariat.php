@@ -108,7 +108,8 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         if ($this->input->is_ajax_request()) {
             $kategori = $this->input->get('kategori');
-            $data     = DokumenHidup::PeraturanDesa($kategori);
+            $tahun    = $this->input->get('tahun');
+            $data     = DokumenHidup::PeraturanDesa($kategori, $tahun);
 
         return datatables()->of($data)
             ->addColumn('ceklist', static function ($row) {

@@ -94,7 +94,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
               <?php foreach ($kk as $item) : ?>
                 <?php if ($item['nik'] != $this->is_login->nik) : ?>
                   <tr>
-                    <td class="padat"><input type='checkbox' name='anggota_kk[]' value="<?= $item['id'] ?>" <?= jecho(in_array($item['id'], $anggota), true, 'checked') ?>></td>
+                    <td class="padat"><input type='checkbox' name='anggota_kk[]' value="<?= $item['id'] ?>" <?= jecho(in_array($item['id'], $anggota ?? []), true, 'checked') ?>></td>
                     <td><?= $item['nik'] ?></td>
                     <td><?= $item['nama'] ?></td>
                   </tr>

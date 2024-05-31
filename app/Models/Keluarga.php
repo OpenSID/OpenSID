@@ -137,6 +137,18 @@ class Keluarga extends BaseModel
         });
     }
 
+    /**
+     * Scope query untuk status keluarga dan kepala keluarga dengan status aktif
+     *
+     * @return Builder
+     */
+    public function scopeStatusAktif()
+    {
+        return static::whereHas('kepalaKeluarga', static function ($query): void {
+            $query->status()->kepalaKeluarga();
+        });
+    }
+
     public function scopeLogTerakhir($query, $configId, $tgl)
     {
         $tgl    = date('Y-m-d', strtotime($tgl . ' + 1 day'));
