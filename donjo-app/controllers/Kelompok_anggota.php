@@ -205,6 +205,7 @@ class Kelompok_anggota extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Anggota gagal disimpan', $redirect);
         }
+        return null;
     }
 
     public function update($id = 0, $id_a = 0): void
@@ -240,7 +241,7 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    private function validasi_anggota($post)
+    private function validasi_anggota(array $post)
     {
         if ($post['id_penduduk']) {
             $data['id_penduduk'] = bilangan($post['id_penduduk']);

@@ -148,10 +148,10 @@ class Pelapak extends BaseModel
     protected static function boot()
     {
         parent::boot();
-        static::creating(static function ($model) {
+        static::creating(static function ($model): void {
             Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
         });
-        static::updating(static function ($model) {
+        static::updating(static function ($model): void {
             Penduduk::find($model->id_pend)->update(['telepon' => $model->telepon]);
         });
     }

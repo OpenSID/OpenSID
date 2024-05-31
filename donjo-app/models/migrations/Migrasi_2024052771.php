@@ -35,13 +35,13 @@
  *
  */
 
-use App\Models\Modul;
-use App\Models\UserGrup;
 use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
-use Illuminate\Support\Str;
+use App\Models\Modul;
+use App\Models\UserGrup;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -68,7 +68,7 @@ class Migrasi_2024052771 extends MY_model
     {
         // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
-        
+
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024050271($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024050272($hasil, $id);

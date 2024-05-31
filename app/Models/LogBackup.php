@@ -84,7 +84,7 @@ class LogBackup extends BaseModel
         'downloaded_at' => 'datetime:Y-m-d H:i:s',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 

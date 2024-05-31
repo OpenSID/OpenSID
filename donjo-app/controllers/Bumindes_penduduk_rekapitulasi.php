@@ -135,7 +135,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
         return view('admin.layouts.components.format_cetak', $data);
     }
 
-    private function laporan_pdf($data): void
+    private function laporan_pdf(array $data): void
     {
         $nama_file = 'rekap_jumlah_penduduk_' . date('Y_m_d');
         $file      = FCPATH . LOKASI_DOKUMEN . $nama_file;
