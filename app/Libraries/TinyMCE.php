@@ -324,6 +324,7 @@ class TinyMCE
 
     public function formatPdf(string $header, string $footer, string $isi): string
     {
+        $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
 
         $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
@@ -368,9 +369,17 @@ class TinyMCE
                 $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
                 break;
         }
+        $style = '
+        <style>
+        .special-symbol {
+            font-family: "DejaVuSans", sans-serif;
+        }
+        </style>
+        ';
 
         return '
             <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            ' . $style . '
             ' . $isi_header . '
             ' . $isi_footer . '
             ' . $isi_surat . '
@@ -438,6 +447,7 @@ class TinyMCE
 
                 continue;
             }
+            // coba terapkan yang dari gpt, yaitu tambahkan class/style jika ada simbol yang dicari.
             // TODO:: Cek dari awal pembuatan, kodeisian [format_nomor_surat] tidak mengikuti aturan penulisan, selalu hasilnya huruf besar.
             if (in_array(strtolower($key), ['[format_nomor_surat]'])) {
                 $result = str_ireplace($key, strtoupper($value), $result);
@@ -718,6 +728,19 @@ class TinyMCE
     public function getPreview($request)
     {
         return FakeDataIsian::set($request);
+    }
+
+    public function escapeSymbols($content)
+    {
+        // Daftar simbol yang ingin diganti
+        $symbols = [
+            '≤' => '<span class="special-symbol">&le;</span>',
+            '≥' => '<span class="special-symbol">&ge;</span>',
+            // Tambahkan simbol lain jika diperlukan
+        ];
+
+        // Ganti simbol dengan span dan kelas khusus
+        return str_replace(array_keys($symbols), array_values($symbols), $content);
     }
 
     public function generateMultiPage(?string $templateString)

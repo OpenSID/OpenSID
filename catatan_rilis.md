@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 32. [#8008](https://github.com/OpenSID/OpenSID/issues/8008) Perbaikan form unggah dokumen penduduk pada layanan mandiri.
 33. [#8001](https://github.com/OpenSID/OpenSID/issues/8001) Perbaikan jumlah KK pada data modul wilayah.
 34. [#7996](https://github.com/OpenSID/OpenSID/issues/7996) Perbaikan format tanggal pada kode isian tanggal lahir.
+35. [#8012](https://github.com/OpenSID/OpenSID/issues/8012) Perbaikan cetak pdf surat yang memiliki karakter berupa simbol.
 
 
 #### TEKNIS
