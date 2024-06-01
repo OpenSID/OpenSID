@@ -132,7 +132,7 @@
 										<div class="input-group input-group-sm">
 											<input type="hidden" name="old_foto_<?= $ii; ?>" value="<?= $foto[$i]; ?>">
 											<input type="text" class="form-control" id="file_path<?= $ii; ?>">
-											<input type="file" class="hidden" id="file<?= $ii; ?>" name="foto_<?= $ii; ?>" accept=".gif,.jpg,.jpeg,.png">
+											<input type="file" class="hidden" id="file<?= $ii; ?>" name="foto_<?= $ii; ?>" accept=".gif,.jpg,.jpeg,.png,.webp">
 											<span class="input-group-btn">
 												<button type="button" class="btn btn-info btn-flat" id="file_browser<?= $ii; ?>"><i class="fa fa-search"></i></button>
 											</span>

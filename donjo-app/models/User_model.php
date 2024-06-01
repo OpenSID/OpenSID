@@ -79,7 +79,7 @@ class User_model extends MY_Model
         $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_USER_PICT,
-            'allowed_types' => 'gif|jpg|jpeg|png',
+            'allowed_types' => GAMBAR_ALLOWED_TYPES_WITH_GIF,
             'max_size'      => max_upload() * 1024,
         ];
         $this->load->model('grup_model');
@@ -361,7 +361,7 @@ class User_model extends MY_Model
             $berkasLama = 'kuser.png';
         }
 
-        $nama_foto = $this->uploadFoto('gif|jpg|jpeg|png', LOKASI_USER_PICT, 'foto', 'man_user');
+        $nama_foto = $this->uploadFoto(GAMBAR_ALLOWED_TYPES_WITH_GIF, LOKASI_USER_PICT, 'foto', 'man_user');
 
         if (! empty($nama_foto)) {
             // Ada foto yang berhasil diunggah --> simpan ukuran 100 x 100

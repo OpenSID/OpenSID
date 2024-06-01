@@ -41,6 +41,7 @@ class UploadHandler
     const IMAGETYPE_GIF = 1;
     const IMAGETYPE_JPEG = 2;
     const IMAGETYPE_PNG = 3;
+    const IMAGETYPE_WEBP = 18;
 
     protected $image_objects = array();
 
@@ -92,7 +93,7 @@ class UploadHandler
             // is enabled, set to 0 to disable chunked reading of files:
             'readfile_chunk_size' => 10 * 1024 * 1024, // 10 MiB
             // Defines which files can be displayed inline when downloaded:
-            'inline_file_types' => '/\.(gif|jpe?g|png)$/i',
+            'inline_file_types' => '/\.(gif|jpe?g|png|webp)$/i',
             // Defines which files (based on their names) are accepted for upload.
             // By default, only allows file uploads with image file extensions.
             // Only change this setting after making sure that any allowed file
@@ -100,7 +101,7 @@ class UploadHandler
             // e.g. PHP scripts, nor executed by the browser when downloaded,
             // e.g. HTML files with embedded JavaScript code.
             // Please also read the SECURITY.md document in this repository.
-            'accept_file_types' => '/\.(gif|jpe?g|png)$/i',
+            'accept_file_types' => '/\.(gif|jpe?g|png|webp)$/i',
             // Replaces dots in filenames with the given string.
             // Can be disabled by setting it to false or an empty string.
             // Note that this is a security feature for servers that support
@@ -508,7 +509,7 @@ class UploadHandler
             $index, $content_range) {
         // Add missing file extension for known image types:
         if (strpos($name, '.') === false &&
-                preg_match('/^image\/(gif|jpe?g|png)/', $type, $matches)) {
+                preg_match('/^image\/(gif|jpe?g|png|webp)/', $type, $matches)) {
             $name .= '.'.$matches[1];
         }
         if ($this->options['correct_image_extensions']) {
@@ -521,6 +522,9 @@ class UploadHandler
                     break;
                 case self::IMAGETYPE_GIF:
                     $extensions = array('gif');
+                    break;
+                case self::IMAGETYPE_WEBP:
+                    $extensions = array('webp');
                     break;
             }
             // Adjust incorrect image file extensions:
@@ -733,6 +737,12 @@ class UploadHandler
                 $write_func = 'imagepng';
                 $image_quality = isset($options['png_quality']) ?
                     $options['png_quality'] : 9;
+                break;
+            case 'webp':
+                $src_func = 'imagecreatefromwebp';
+                $write_func = 'imagewebp';
+                $image_quality = isset($options['webp_quality']) ? 
+                    $options['webp_quality'] : 80;
                 break;
             default:
                 return false;
@@ -960,6 +970,12 @@ class UploadHandler
                     $image->setImageCompressionQuality($options['jpeg_quality']);
                 }
                 break;
+            case 'webp':
+                if (!empty($options['webp_quality'])) {
+                    $image->setImageCompression(\imagick::COMPRESSION_WEBP);
+                    $image->setImageCompressionQuality($options['webp_quality']);
+                }
+                break;    
         }
         if ( $image_strip ) {
             $image->stripImage();
@@ -1069,7 +1085,7 @@ class UploadHandler
 
     protected function imagetype($file_path) {
         $fp = fopen($file_path, 'r');
-        $data = fread($fp, 4);
+        $data = fread($fp, 12);
         fclose($fp);
         // GIF: 47 49 46 38
         if ($data === 'GIF8') {
@@ -1083,11 +1099,15 @@ class UploadHandler
         if (bin2hex(@$data[0]).substr($data, 1, 4) === '89PNG') {
             return self::IMAGETYPE_PNG;
         }
+        // WEBP: RIFF + WEBP
+        if (substr($data, 0, 4) === 'RIFF' && substr($data, 8, 4) === 'WEBP') {
+            return self::IMAGETYPE_WEBP;
+        }
         return false;
     }
 
     protected function is_valid_image_file($file_path) {
-        if (!preg_match('/\.(gif|jpe?g|png)$/i', $file_path)) {
+        if (!preg_match('/\.(gif|jpe?g|png|webp)$/i', $file_path)) {
             return false;
         }
         return !!$this->imagetype($file_path);
@@ -1247,6 +1267,8 @@ class UploadHandler
                 return 'image/png';
             case 'gif':
                 return 'image/gif';
+            case 'webp':
+                return 'image/webp';
             default:
                 return '';
         }

@@ -84,6 +84,7 @@ $mime_types = array(
 	"application/x-chess-pgn" => "pgn",
 	"text/x-php" => "php",
 	"image/png" => "png",
+	"image/webp" => "webp",
 	"image/x-portable-anymap" => "pnm",
 	"image/x-portable-pixmap" => "ppm",
 	"application/vnd.ms-powerpoint" => "ppt",

@@ -323,7 +323,7 @@ class Mandiri_model extends MY_Model
         $this->load->library('MY_Upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_PENDAFTARAN,
-            'allowed_types' => 'gif|jpg|jpeg|png',
+            'allowed_types' => GAMBAR_ALLOWED_TYPES_WITH_GIF,
             'max_size'      => max_upload() * 1024,
         ];
 

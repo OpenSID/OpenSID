@@ -43,7 +43,7 @@
                     </div>
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path">
-                        <input type="file" class="hidden" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="file" class="hidden" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png,.webp">
                         <input type="hidden" name="old_logo" value="{{ $main['logo'] }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
@@ -62,7 +62,7 @@
                     <br />
                     <div class="input-group input-group-sm">
                         <input type="text" class="form-control" id="file_path2">
-                        <input type="file" class="hidden" id="file2" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="file" class="hidden" id="file2" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png,.webp">
                         <input type="hidden" name="old_kantor_desa" value="{{ $main['kantor_desa'] }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i></button>
