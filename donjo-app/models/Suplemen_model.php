@@ -315,7 +315,7 @@ class Suplemen_model extends MY_Model
         $this->get_penduduk_terdata_sql($suplemen_id);
         $this->db
             ->select('s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun')
-            ->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat');
+            ->select('(case when (o.id_kk is null) then o.alamat_sekarang else k.alamat end) AS alamat');
         $this->search_sql('1');
         if ($sex = $this->session->sex) {
             $this->db->where('o.sex', $sex);
@@ -504,7 +504,9 @@ class Suplemen_model extends MY_Model
             'keterangan'  => substr(htmlentities($post['keterangan']), 0, 100), // Batasi 100 karakter
         ];
 
-        return $this->db->insert('suplemen_terdata', $data);
+        $this->db->insert('suplemen_terdata', $data);
+
+        return $this->db->affected_rows();
     }
 
     public function hapus_terdata($id_terdata)
@@ -570,7 +572,7 @@ class Suplemen_model extends MY_Model
             case 1:
                 // Rincian Penduduk
                 $row = $this->config_id('o')
-                    ->select('o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun, (case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat')
+                    ->select('o.nama, o.foto, o.nik, w.rt, w.rw, w.dusun, (case when (o.id_kk is null) then o.alamat_sekarang else k.alamat end) AS alamat')
                     ->from('tweb_penduduk o')
                     ->join('tweb_keluarga k', 'k.id = o.id_kk', 'left')
                     ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left')

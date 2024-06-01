@@ -26,6 +26,9 @@
 /.editorconfig     export-ignore
 /.gitattributes    export-ignore
 /.gitignore        export-ignore
-*.cache            export-ignore
-*.log.php          export-ignore
-.php-cs-fixer.php  export-ignore
+/*.cache           export-ignore
+/*.log.php         export-ignore
+/.php-cs-fixer.php export-ignore
+/.prettierrc.json  export-ignore
+/package-lock.json export-ignore
+/package.json      export-ignore

@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<link rel="stylesheet" href="<?= base_url()?>assets/lib/print/css/960.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="<?= base_url()?>assets/lib/print/css/screen.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="<?= base_url()?>assets/lib/print/css/print-preview.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="<?= base_url()?>assets/lib/print/css/print.css" type="text/css" media="print" />
+		<link rel="stylesheet" href="<?= asset('lib/print/css/960.css') ?>" type="text/css" media="screen">
+		<link rel="stylesheet" href="<?= asset('lib/print/css/screen.css') ?>" type="text/css" media="screen" />
+		<link rel="stylesheet" href="<?= asset('lib/print/css/print-preview.css') ?>" type="text/css" media="screen">
+		<link rel="stylesheet" href="<?= asset('lib/print/css/print.css') ?>" type="text/css" media="print" />
 		<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
-		<script src="<?= base_url()?>assets/lib/print/js/jquery.tools.min.js"></script>
-		<script src="<?= base_url()?>assets/lib/print/js/jquery.print-preview.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?= asset('lib/print/js/jquery.tools.min.js') ?>"></script>
+		<script src="<?= asset('lib/print/js/jquery.print-preview.js') ?>" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
 			$(function()

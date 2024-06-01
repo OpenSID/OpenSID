@@ -28,7 +28,7 @@
 
     $ibu = $this->surat_model->surat_model->get_data_ibu($individu['id']);
     if ($ibu) {
-        $input['nik_ibu'] = $ibu['nik'];
+        $input['nik_ibu'] = get_nik($ibu['nik']);
         $input['nama_ibu'] = $ibu['nama'];
         $input['tempat_lahir_ibu']    = strtoupper($ibu['tempatlahir']);
         $input['tanggal_lahir_ibu']	= $ibu['tanggallahir'];
@@ -50,7 +50,7 @@
 
     $ayah = $this->surat_model->get_data_ayah($individu['id']);
     if ($ayah) {
-        $input['nik_ayah'] = $ayah['nik'];
+        $input['nik_ayah'] = get_nik($ayah['nik']);
         $input['nama_ayah'] = $ayah['nama'];
         $input['tempat_lahir_ayah']    = strtoupper($ayah['tempatlahir']);
         $input['tanggal_lahir_ayah'] = $ayah['tanggallahir'];
@@ -72,7 +72,7 @@
 
     if ($input['id_pend_Pelapor']) {
         $pelapor = $this->surat_model->get_data_surat($input['id_pend_Pelapor']);
-        $input['nik_pelapor'] = $pelapor['nik'];
+        $input['nik_pelapor'] = get_nik($pelapor['nik']);
         $input['nama_pelapor'] = $pelapor['nama'];
         $input['tanggal_lahir_pelapor']	= $pelapor['tanggallahir'];
         $input['umur_pelapor'] = str_pad($pelapor['umur'], 3, "0", STR_PAD_LEFT);
@@ -97,7 +97,7 @@
 
     if ($input['id_pend_Saksi_I']) {
         $saksi1 = $this->surat_model->get_data_surat($input['id_pend_Saksi_I']);
-        $input['nik_saksi1'] = $saksi1['nik'];
+        $input['nik_saksi1'] = get_nik($saksi1['nik']);
         $input['nama_saksi1'] = $saksi1['nama'];
         $input['tanggal_lahir_saksi1'] = $saksi1['tanggallahir'];
         $input['umur_saksi1']	= str_pad($saksi1['umur'], 3, "0", STR_PAD_LEFT);
@@ -122,7 +122,7 @@
 
     if ($input['id_pend_Saksi_II']) {
         $saksi2 = $this->surat_model->get_data_surat($input['id_pend_Saksi_II']);
-        $input['nik_saksi2'] = $saksi2['nik'];
+        $input['nik_saksi2'] = get_nik($saksi2['nik']);
         $input['nama_saksi2'] = $saksi2['nama'];
         $input['tanggal_lahir_saksi2'] = $saksi2['tanggallahir'];
         $input['umur_saksi2']	= str_pad($saksi2['umur'], 3, "0", STR_PAD_LEFT);
@@ -146,7 +146,7 @@
     }
 
     // Karena data F-2.01 berisi berbagai jenis lampiran, sehingga yang dimaksud data utama belum sesuai
-    $input['nik_kematian'] = $individu['nik'];
+    $input['nik_kematian'] = get_nik($individu['nik']);
     $input['nama_kematian'] = $individu['nama'];
     $data_mati = $this->surat_model->get_data_mati($individu['id']);
     $input['tanggal_kematian'] = $data_mati->tgl_peristiwa;

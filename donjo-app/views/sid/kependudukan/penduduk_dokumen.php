@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Dokumen / Kelengkapan Penduduk</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('penduduk/clear') ?>"> Daftar Penduduk</a></li>
 			<li class="active">Dokumen / Kelengkapan Penduduk</li>
 		</ol>
@@ -72,7 +72,7 @@
 														<a href="<?= site_url("{$this->controller}/unduh_berkas/{$data->id}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Unduh Dokumen"><i class="fa fa-download"></i></a>
 													</td>
 													<td width="40%"><?= $data->nama ?></td>
-													<td width="30%"><?= $data->jenis_dokumen->ref_syarat_nama ?></a></td>
+													<td width="30%"><?= $data->jenisDokumen->ref_syarat_nama ?></a></td>
 													<td class="padat"><?= tgl_indo2($data->tgl_upload) ?></td>
 												</tr>
 											<?php endforeach; ?>

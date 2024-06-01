@@ -12,7 +12,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Sinergi Program</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Pengaturan Sinergi Program</li>
 		</ol>
 	</section>
@@ -81,7 +81,7 @@
 																		</td>
 																		<td>
 																			<input type="hidden" name="setting[<?= $s ?>][old_gambar]" value="<?= $program['gambar'] ?>" />
-																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url() . LOKASI_GAMBAR_WIDGET . $program['gambar'] ?>" alt="Gambar">
+																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url(LOKASI_GAMBAR_WIDGET . $program['gambar']) ?>" alt="Gambar">
 																			<input type="file" name="setting[<?= $s ?>][gambar]" accept=".jpg,.jpeg,.png" />
 																			<p class="help-block">(Kosongkan jika tidak ingin mengubah gambar)</p>
 																		</td>

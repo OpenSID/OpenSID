@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Libraries\TinyMCE;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
@@ -188,6 +187,7 @@ class FormatSurat extends BaseModel
         'header',
         'footer',
         'format_nomor',
+        'sumber_penduduk_berulang',
         'created_by',
         'updated_by',
     ];
@@ -347,17 +347,7 @@ class FormatSurat extends BaseModel
             return kode_isian($this->url_surat);
         }
 
-        $kode_isian = json_decode($this->attributes['kode_isian']);
-        $non_warga  = json_decode(TinyMCE::getKodeIsianNonWarga());
-        if ($this->getFormIsianAttribute()->data == '2') {
-            if (null !== $kode_isian) {
-                return [...$non_warga, ...$kode_isian];
-            }
-
-            return $non_warga;
-        }
-
-        return $kode_isian;
+        return json_decode($this->attributes['kode_isian']);
     }
 
     /**

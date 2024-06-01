@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_jalan extends MY_model
@@ -45,6 +47,16 @@ class Migrasi_jalan extends MY_model
         $this->load->model('ekspor_model');
 
         $this->ekspor_model->perbaiki_collation();
+
+        // perbarui surat lama tanpa mengubah data desa
+        $config_id   = DB::table('config')->pluck('id')->toArray();
+        $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
+
+        foreach ($uratTinyMCE as $key => $value) {
+            foreach ($config_id as $id) {
+                $hasil = $hasil && $this->tambah_surat_tinymce($value, $id);
+            }
+        }
 
         return $hasil;
     }

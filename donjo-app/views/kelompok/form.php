@@ -3,7 +3,7 @@
 		<section class="content-header">
 			<h1>Master <?= ucfirst($this->controller) ?></h1>
 			<ol class="breadcrumb">
-				<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+				<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 				<li><a href="<?= site_url($this->controller)?>"> Daftar <?= ucfirst($this->controller) ?></a></li>
 				<li class="active">Master <?= ucfirst($this->controller) ?></li>
 			</ol>

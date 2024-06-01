@@ -27,7 +27,7 @@
 	<section class="content-header">
 		<h1>QR Code</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">QR Code</li>
 		</ol>
 	</section>
@@ -139,7 +139,7 @@
 				<h4 class='modal-title' id='myModalLabel'>Atur QR Code</h4>
 			</div>
 			<div class="modal-body">
-				<iframe width="100%" height="400px" src="../../assets/filemanager/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=<?= $this->session->fm_key ?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
+				<iframe width="100%" height="400px" src="../../assets/kelola_file/dialog.php?type=1&lang=id&field_id=logoqr&fldr=&akey=<?= $this->session->fm_key ?>" frameborder="0" style="overflow: scroll; overflow-x: hidden; overflow-y: scroll; "></iframe>
 			</div>
 		</div>
 	</div>

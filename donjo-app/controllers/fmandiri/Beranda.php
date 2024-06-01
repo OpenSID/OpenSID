@@ -78,7 +78,7 @@ class Beranda extends Mandiri_Controller
 
     public function cetak_kk()
     {
-        if ($this->is_login->id_kk == 0) {
+        if ($this->is_login->id_kk == null) {
             // Jika diakses melalui URL
             $respon = [
                 'status' => 1,

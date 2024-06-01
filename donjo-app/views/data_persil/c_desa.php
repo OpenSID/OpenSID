@@ -22,7 +22,7 @@
 	<section class="content-header">
 		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']); ?></h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Daftar C-DESA</li>
 		</ol>
 	</section>

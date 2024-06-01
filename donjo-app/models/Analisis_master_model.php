@@ -153,9 +153,9 @@ class Analisis_master_model extends MY_Model
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no'] = $j + 1;
             if ($data[$i]['lock'] == 1) {
-                $data[$i]['lock'] = "<img src='" . base_url() . "assets/images/icon/unlock.png'>";
+                $data[$i]['lock'] = '<img src="' . base_url('assets/images/icon/unlock.png') . '">';
             } else {
-                $data[$i]['lock'] = "<img src='" . base_url() . "assets/images/icon/lock.png'>";
+                $data[$i]['lock'] = '<img src="' . base_url('assets/images/icon/lock.png') . '">';
             }
             $j++;
         }

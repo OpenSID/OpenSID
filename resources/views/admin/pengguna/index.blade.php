@@ -12,6 +12,38 @@
     <li class="active">Profil</li>
 @endsection
 
+@if ($ci->session->change_password)
+    <div
+        class="modal show"
+        id="change_password"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="change-password"
+        aria-hidden="true"
+        style="display: block;"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="change-password">
+                        <i class="fa fa-exclamation-triangle text-red"></i>
+                        &nbsp;Konfirmasi
+                    </h4>
+                </div>
+                <div class="modal-body btn-info">
+                    Anda akan di arahkan untuk melakukan login kembali! </div>
+                <div class="modal-footer">
+                    <a class="btn-ok" href="{{ site_url('siteman/logout') }}">
+                        <button type="button" class="btn btn-social btn-flat btn-success btn-sm" id="ok-delete">
+                            <i class="fa fa-sign-out"></i> Keluar
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
+
 @section('content')
     @include('admin.layouts.components.notifikasi')
     <div class="row">
@@ -24,15 +56,13 @@
                         <span class="input-group-btn">
                             @if ($userData->email_verified_at === null && !empty($userData->email))
                                 {!! form_open(route('pengguna.kirim_verifikasi')) !!}
-                                <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i
-                                        class="fa fa-share-square"></i>
+                                <button type="submit" class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
                                     Verifikasi Email</button>
                                 </form>
                                 <br />
                             @endif
                             @if ($userData->telegram_verified_at === null && setting('telegram_token') != null && !empty($userData->id_telegram))
-                                <button type="button" id="verif_telegram"
-                                    class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
+                                <button type="button" id="verif_telegram" class="btn btn-sm btn-warning btn-block btn-mb-5"><i class="fa fa-share-square"></i>
                                     Verifikasi Telegram</button>
                                 <br />
                             @endif

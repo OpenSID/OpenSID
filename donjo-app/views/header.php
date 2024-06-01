@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="<?= asset('css/leaflet.groupedlayercontrol.min.css') ?>">
     <link rel="stylesheet" href="<?= asset('css/peta.css') ?>">
     <link rel="stylesheet" href="<?= asset('css/toastr.min.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/leaflet.fullscreen.css') ?>" />
 
     <!-- Sweet Alert -->
     <link rel="stylesheet" href="<?= asset('js/sweetalert2/sweetalert2.min.css') ?>">

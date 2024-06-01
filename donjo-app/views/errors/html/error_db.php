@@ -1,19 +1,12 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
-<?php
-$CI = &get_instance();
-if (! isset($CI)) {
-    $CI = new CI_Controller();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<title>Database Error</title>
-	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url() ?>assets/bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url() ?>assets/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="<?= $CI->config->base_url() ?>assets/css/AdminLTE.css" />
+	<link rel="stylesheet" type="text/css" href="<?= asset('bootstrap/css/bootstrap.min.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= asset('css/font-awesome.min.css') ?>" />
+	<link rel="stylesheet" type="text/css" href="<?= asset('css/AdminLTE.css') ?>" />
 </head>
 
 <body>

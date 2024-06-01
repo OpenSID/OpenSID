@@ -18,5 +18,6 @@ $.extend($.validator.messages, {
 	rangelength: $.validator.format("Panjang karakter yg diizinkan antara {0} dan {1} karakter."),
 	range: $.validator.format("Harap masukkan nilai antara {0} dan {1}."),
 	max: $.validator.format("Harap masukkan nilai lebih kecil atau sama dengan {0}."),
-	min: $.validator.format("Harap masukkan nilai lebih besar atau sama dengan {0}.")
+	min: $.validator.format("Harap masukkan nilai lebih besar atau sama dengan {0}."),
+	accept: "Silakan unggah file dengan ekstensi {0}",
 });

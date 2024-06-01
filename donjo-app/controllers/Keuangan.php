@@ -45,6 +45,7 @@ class Keuangan extends Admin_Controller
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_grafik_model');
         $this->modul_ini = 'keuangan';
+        $this->load->model('keuangan_grafik_dd_model');
     }
 
     public function setdata_laporan($tahun, $semester)
@@ -108,6 +109,26 @@ class Keuangan extends Admin_Controller
                 $this->rincian_realisasi($thn, 'Semester1 Bidang', $smt1 - 1);
                 break;
 
+            case 'grafik-RP-APBD-DD':
+                $this->grafik_rp_apbd_dd($thn);
+                break;
+
+            case 'rincian_realisasi_dd':
+                $this->rincian_realisasi_dd($thn, 'Akhir DD');
+                break;
+
+            case 'rincian_realisasi_smt1_dd':
+                $this->rincian_realisasi_dd($thn, 'Semester1 DD', $smt1 = 1);
+                break;
+
+            case 'rincian_realisasi_bidang_dd':
+                $this->rincian_realisasi_dd($thn, 'Akhir Bidang DD');
+                break;
+
+            case 'rincian_realisasi_smt1_bidang_dd':
+                $this->rincian_realisasi_dd($thn, 'Semester1 Bidang DD', $smt1 - 1);
+                break;
+
             default:
                 $this->grafik_rp_apbd($thn);
                 break;
@@ -124,12 +145,30 @@ class Keuangan extends Admin_Controller
         $this->render('keuangan/rincian_realisasi', $data);
     }
 
+    private function rincian_realisasi_dd($thn, $judul, $smt1 = false)
+    {
+        $data                   = $this->keuangan_grafik_dd_model->lap_rp_apbd($thn, $smt1);
+        $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+        $data['ta']             = $this->session->userdata('set_tahun');
+        $data['sm']             = $smt1 ? '1' : '2';
+        $_SESSION['submenu']    = 'Laporan Keuangan ' . $judul;
+        $this->render('keuangan/rincian_realisasi_dd', $data);
+    }
+
     private function grafik_rp_apbd($thn)
     {
         $data                   = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
         $_SESSION['submenu']    = 'Grafik Keuangan';
         $this->render('keuangan/grafik_rp_apbd', $data);
+    }
+
+    private function grafik_rp_apbd_dd($thn)
+    {
+        $data                   = $this->keuangan_grafik_dd_model->grafik_keuangan_tema($thn);
+        $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
+        $_SESSION['submenu']    = 'Grafik Keuangan DD';
+        $this->render('keuangan/grafik_rp_apbd_dd', $data);
     }
 
     public function impor_data()
@@ -194,7 +233,7 @@ class Keuangan extends Admin_Controller
 
     public function delete($id = '')
     {
-        $this->redirect_hak_akses('h');
+        $this->redirect_hak_akses('h', 'keuangan');
         $outp = $this->keuangan_model->delete($id);
         redirect('keuangan/impor_data');
     }

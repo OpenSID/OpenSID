@@ -12,9 +12,9 @@
 					<div class="col-sm-4">
 						<div class="card">
 							<?php if (is_file(LOKASI_GALERI . $data->foto)): ?>
-								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= base_url() . LOKASI_GALERI . $data->foto ?>" alt="Foto Pembangunan"/>
+								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= base_url(LOKASI_GALERI . $data->foto) ?>" alt="Foto Pembangunan"/>
 							<?php else: ?>
-								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan"/>
+								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan"/>
 							<?php endif; ?>
 							<div class="card-body">
 								<table class="table">
@@ -22,7 +22,7 @@
 										<tr>
                       <th width="auto">Nama Kegiatan</th>
                       <td width="1%">:</td>
-                      <td><?= d($data->judul) ?></td>
+                      <td><?= e($data->judul) ?></td>
                     </tr>
 										<tr>
                       <th>Alamat</th>
@@ -39,7 +39,7 @@
                     <tr>
                       <th>Keterangan</th>
                       <td>:</td>
-                      <td><?= d($data->keterangan) ?></td>
+                      <td><?= e($data->keterangan) ?></td>
                     </tr>
 									</tbody>
 								</table>

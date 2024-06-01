@@ -5,7 +5,7 @@
 			<small><?= ($id_pembangunan ? 'Ubah' : 'Tambah') ?> Data</small>
 		</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url($this->controller) ?>"> Pembangunan</a></li>
 			<li><a href="<?= site_url("{$this->controller}/dokumentasi/{$id_pembangunan}") ?>"></i>Dokumentasi Pembangunan</a></li>
 			<li class="active"><?= ($id_pembangunan ? 'Ubah' : 'Tambah') ?> Data</li>
@@ -57,7 +57,7 @@
 											<label class="control-label col-sm-4" for="nama"></label>
 											<div class="col-sm-6">
 												<input type="hidden" name="old_foto" value="<?= $main->gambar ?>">
-												<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_GALERI . $main->gambar ?>" alt="Gambar Dokumentasi" width="200" height="200">
+												<img class="attachment-img img-responsive img-circle" src="<?= base_url(LOKASI_GALERI . $main->gambar) ?>" alt="Gambar Dokumentasi" width="200" height="200">
 											</div>
 										</div>
 									<?php endif; ?>

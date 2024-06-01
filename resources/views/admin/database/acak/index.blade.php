@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-	<li class="active">Database</li>
+    <li class="active">Database</li>
     <li class="active">Hasil Acak Data Penduduk dan Keluarga</li>
 @endsection
 

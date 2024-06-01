@@ -1,5 +1,4 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -19,19 +18,7 @@
                     <img class="logo" src="{{ gambar_desa($desa->logo) }}" alt="logo-desa">
                     <h1 class="judul">
                         PEMERINTAH
-                        {!! strtoupper(
-                            setting('sebutan_kabupaten') .
-                                ' ' .
-                                $desa->nama_kabupaten .
-                                ' <br>' .
-                                setting('sebutan_kecamatan') .
-                                ' ' .
-                                $desa->nama_kecamatan .
-                                ' <br>' .
-                                setting('sebutan_desa') .
-                                ' ' .
-                                $desa->nama_desa,
-                        ) !!}
+                        {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $desa->nama_kabupaten . ' <br>' . setting('sebutan_kecamatan') . ' ' . $desa->nama_kecamatan . ' <br>' . setting('sebutan_desa') . ' ' . $desa->nama_desa) !!}
                     </h1>
                 </td>
             </tr>
@@ -68,7 +55,7 @@
                                 <tr>
                                     <td width="1%"class="text-center">{{ $no + 1 }}</td>
                                     <td width="15%">
-                                        {{ \Carbon\Carbon::parse($tamu->created_at)->dayName . ' / ' . tgl_indo($tamu->created_at) . ' - ' . \Carbon\Carbon::parse($tamu->created_at)->format('H:i:s')}}
+                                        {{ \Carbon\Carbon::parse($tamu->created_at)->dayName . ' / ' . tgl_indo($tamu->created_at) . ' - ' . \Carbon\Carbon::parse($tamu->created_at)->format('H:i:s') }}
                                     </td>
                                     <td width="20%">{{ $tamu->nama }}</td>
                                     <td width="15%">{{ $tamu->telepon }}</td>

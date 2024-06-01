@@ -12,59 +12,58 @@
         <tr>
             <td colspan="20">Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong><?= $individu['nama']; ?></strong></td>            
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
         <tr>
             <td colspan="20">Nomor Induk Keindividuan</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['nik']; ?></td>
+            <td colspan="27">[NiK]</td>
             
         </tr>
         <tr>
             <td colspan="20">Jenis Kelamin</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['sex_id'] == 1 ? 'Pria' : 'Wanita'; ?></td>
+            <td colspan="27">[JeNis_kelamin]</td>
             
         </tr>
         <tr>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['tempatlahir'].', '. tgl_indo2($individu['tanggallahir']); ?></td>
+            <td colspan="27">[TtL]</td>
             
         </tr>
         <tr>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['warganegara']; ?></td>
+            <td colspan="27">[WaRga_negara]</td>
             
         </tr>
         <tr>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['agama']; ?></td>
+            <td colspan="27">[AgAma]</td>
             
         </tr>
         <tr>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['pekerjaan']; ?></td>
+            <td colspan="27">[PeKerjaan]</td>
             
         </tr>
         <tr>
             <td colspan="20">Pendidikan Terakhir</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['pendidikan']; ?></td>
+            <td colspan="27">[PeNdidikan_kk]</td>
             
         </tr>
         <tr>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27"><?= $individu['alamat_wilayah']; ?></td>
-            
+            <td colspan="27">[AlAmat]</td>
         </tr>
     </table>
     
-    <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus <?= $input['status_kawin'] ?>, dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
+    <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus [Form_status_kawin_priA], dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
     
     <p>Demikianlah surat pernyataan ini saya buat dengan sebenarnya, dalam keadaan sehat jasmani dan rohani tanpa ada paksaan dari pihak manapun. Apabila di kemudian hari menyalahi surat pernyataan ini, saya bersedia dituntut sesuai Perundang-undangan/Hukum yang berlaku dan tidak akan melibatkan aparat setempat ( Resiko Sendiri).</p>
 
@@ -79,11 +78,11 @@
         </tr>
         <tr>
             <td colspan="32"><?= $qrcode ?? '' ?></td>
-            <td colspan="15" class="tengah"><br><b><i>Materai 10.000</i></b><br><br></td>            
+            <td colspan="15" class="tengah"><br><b><i>Materai 10.000</i></b><br><br></td>
             <td colspan="2">&nbsp;</td>
-        </tr>        
+        </tr>
         <tr>
-            <td colspan="27">&nbsp;</td>            
+            <td colspan="27">&nbsp;</td>
             <td colspan="20" class="tengah"><strong><?= $individu['nama'] ?></strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
@@ -104,5 +103,5 @@
             <td colspan="23" class="tengah">( ........................................................................ )</td>
             <td colspan="2">&nbsp;</td>
         </tr>
-    </table>  
+    </table>
 </page>

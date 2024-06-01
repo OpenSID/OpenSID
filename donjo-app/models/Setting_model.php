@@ -63,11 +63,6 @@ define('minMariaDBVersion', '10.3.0');
 
 class Setting_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function init()
     {
         $CI = &get_instance();

@@ -49,14 +49,14 @@
 	});
 </script>
 <!-- Highcharts -->
-<script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+<script src="<?= asset('js/highcharts/highcharts.js') ?>"></script>
+<script src="<?= asset('js/highcharts/exporting.js') ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-more.js') ?>"></script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Grafik Surat Keluar</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('keluar')?>"> Daftar Surat Keluar</a></li>
 			<li class="active">Grafik Surat Keluar</li>
 		</ol>

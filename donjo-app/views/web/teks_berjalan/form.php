@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Pengaturan Teks Berjalan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Pengaturan Teks Berjalan</li>
 		</ol>
 	</section>
@@ -12,7 +12,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url() . $this->controller?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url("{$this->controller}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Teks
 							</a>
 						</div>
@@ -54,7 +54,7 @@
 								<div class="form-group">
 									<label class="control-label">Status</label>
 									<select class="form-control select2" id="status" name="status">
-									<?php foreach (\App\Enums\StatusEnum::all() as $key => $data): ?>
+									<?php foreach (App\Enums\StatusEnum::all() as $key => $data): ?>
 										<option value="<?= $key ?>" <?= selected($key, $teks['status']); ?>><?= $data ?></option>
 									<?php endforeach; ?>
 									</select>

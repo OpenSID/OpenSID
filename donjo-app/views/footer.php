@@ -51,6 +51,7 @@
 
 				<!-- Sweet Alert -->
 				<script src="<?= asset('js/sweetalert2/sweetalert2.all.min.js') ?>"></script>
+				<script src="<?= asset('js/Leaflet.fullscreen.min.js') ?>"></script>
 				<script type="text/javascript">
 					numeral.register("locale", "id-id", {
 						delimiters: {
@@ -70,6 +71,16 @@
 					numeral.locale('id-id');
 					numeral.defaultFormat('0,0.00');
 					console.log(numeral.locale())
+
+					// pengaturan peta
+					var pengaturan_peta = {
+						maxZoom: <?= setting('max_zoom_peta') ?>,
+						minZoom: <?= setting('min_zoom_peta') ?>,
+						fullscreenControl: {
+							position: 'topright' // Menentukan posisi tombol fullscreen
+						}
+					};
+
 				</script>
 
 				<!-- Token Field -->

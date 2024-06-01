@@ -327,7 +327,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->unset_userdata('cari');
         }
 
-        redirect("program_bantuan/detail/{$program_id}");
+        redirect("peserta_bantuan/detail/{$program_id}");
     }
 
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method

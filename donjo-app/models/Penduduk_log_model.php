@@ -530,7 +530,7 @@ class Penduduk_log_model extends MY_Model
 
         for ($i = 0; $i < count($data); $i++) {
             // Ubah alamat penduduk lepas
-            if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == 0) {
+            if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == null) {
                 // Ambil alamat penduduk
                 $query = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
                     ->from('tweb_penduduk p')

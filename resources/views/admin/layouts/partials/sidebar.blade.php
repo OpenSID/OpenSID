@@ -32,8 +32,7 @@
             <div class="input-group mb-0">
                 <input type="text" id="cari-menu" class="form-control" placeholder="Pencarian...">
                 <span class="input-group-btn">
-                    <button type="button" name="search" id="search-btn" class="btn btn-sm"><i
-                            class="fa fa-search"></i></button>
+                    <button type="button" name="search" id="search-btn" class="btn btn-sm"><i class="fa fa-search"></i></button>
                 </span>
             </div>
         </div>
@@ -45,16 +44,14 @@
             <?php if (count($mod['submodul']) == 0): ?>
             <li class="<?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= route($mod['url']) ?>">
-                    <i
-                        class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
+                    <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
                     <span class="pull-right-container"></span>
                 </a>
             </li>
             <?php else: ?>
             <li class="treeview <?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= route($mod['url']) ?>">
-                    <i
-                        class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
+                    <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
                     <span class="pull-right-container"><i class='fa fa-angle-left pull-right'></i></span>
                 </a>
                 <ul class="treeview-menu <?= jecho($modul_ini, $mod['slug'], 'active') ?>">
@@ -62,8 +59,7 @@
                     <?php foreach ($mod['submodul'] as $submod): ?>
                     <li class="<?= jecho($sub_modul_ini, $submod['slug'], 'active') ?>">
                         <a href="<?= route($submod['url']) ?>">
-                            <i
-                                class="fa <?= $submod['ikon'] != null ? $submod['ikon'] : 'fa-circle-o' ?> <?= jecho($sub_modul_ini, $submod['slug'], 'text-red') ?>"></i>
+                            <i class="fa <?= $submod['ikon'] != null ? $submod['ikon'] : 'fa-circle-o' ?> <?= jecho($sub_modul_ini, $submod['slug'], 'text-red') ?>"></i>
                             <?= $submod['modul'] ?>
                         </a>
                     </li>

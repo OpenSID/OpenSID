@@ -220,4 +220,5 @@ return [
     'ott'   => 'application/vnd.oasis.opendocument.text-template',
     'oth'   => 'application/vnd.oasis.opendocument.text-web',
     'sql'   => 'text/plain',
+    'ttf'   => 'font/sfnt',
 ];

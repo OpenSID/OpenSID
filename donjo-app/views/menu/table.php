@@ -11,9 +11,9 @@
 	<section class="content-header">
 		<h1>Menu Statis</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?=site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<?php if ($menu_utama): ?>
-				<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Menu Statis</a></li>
+				<li><a href="<?=site_url('beranda')?>"><i class="fa fa-home"></i> Menu Statis</a></li>
 				<li class="active"><?= $menu_utama['nama']; ?></li>
 			<?php else: ?>
 				<li class="active">Menu Statis</li>

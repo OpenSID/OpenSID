@@ -18,7 +18,7 @@
 	<section class="content-header">
 		<h1>Form Grup Pengguna</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('grup') ?>"> Pengaturan Grup Pengguna</a></li>
 			<li class="active">Form Grup Pengguna</li>
 		</ol>
@@ -29,7 +29,7 @@
 				<div class="col-md-12">
 					<div class="box box-primary">
 						<div class="box-header with-border">
-							<a href="<?= site_url() ?>grup" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Pengaturan Grup Pengguna</a>
+							<a href="<?= site_url('grup') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Pengaturan Grup Pengguna</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">

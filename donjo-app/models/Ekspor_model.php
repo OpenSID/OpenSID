@@ -398,7 +398,7 @@ class Ekspor_model extends MY_Model
         $backup = $this->ketentuan_backup_restore($backup);
 
         $db_name = 'backup-on-' . date('Y-m-d-H-i-s') . '.sql';
-        $save    = base_url() . $db_name;
+        $save    = base_url($db_name);
 
         $this->load->helper('file');
         write_file($save, $backup);
@@ -490,6 +490,7 @@ class Ekspor_model extends MY_Model
         $_SESSION['success'] = 1;
         $this->drop_views();
         $this->drop_tables();
+        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
 
         $query = '';
 
@@ -514,6 +515,7 @@ class Ekspor_model extends MY_Model
             }
         }
 
+        $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
         $this->perbaiki_collation();
 
         $this->load->helper('directory');

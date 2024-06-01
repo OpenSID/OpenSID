@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Artikel;
+
 class Web extends Admin_Controller
 {
     private $_set_page;
@@ -47,7 +49,7 @@ class Web extends Admin_Controller
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
-            redirect('hom_sid');
+            redirect('beranda');
 
             exit;
         }
@@ -264,6 +266,14 @@ class Web extends Admin_Controller
     {
         // Kontributor tidak boleh melakukan ini
         $this->redirect_hak_akses('u');
+
+        $artikel = Artikel::findOrFail(decrypt($id));
+
+        if ($artikel->headline == 1) {
+            $artikel->update(['headline' => 0]);
+            session_success();
+            redirect('web');
+        }
 
         $this->web_artikel_model->headline(decrypt($id));
         redirect('web');

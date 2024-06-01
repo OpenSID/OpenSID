@@ -35,114 +35,130 @@
  *
  */
 
+use App\Models\KelompokMaster;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok_master extends Admin_Controller
 {
-    private $_set_page;
-    private $_list_session;
     protected $tipe = 'kelompok';
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['kelompok_master_model']);
+
         $this->modul_ini     = 'kependudukan';
         $this->sub_modul_ini = 'kelompok';
-        $this->_set_page     = ['20', '50', '100'];
-        $this->_list_session = ['cari', 'filter'];
-        $this->kelompok_master_model->set_tipe($this->tipe);
     }
 
     public function clear()
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
-
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            $controller = $this->controller;
 
-        foreach ($this->_list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
+            return datatables(KelompokMaster::tipe($this->tipe)->withCount('kelompok as jumlah'))
+                ->addIndexColumn()
+                ->addColumn('ceklist', static function ($row) {
+                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                })
+                ->addColumn('aksi', static function ($row) use ($controller) {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . site_url("{$controller}/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah Kategori"><i class="fa fa-edit"></i></a> ';
+                    }
+                    if (can('h') && $row->jumlah == 0) {
+                        $aksi .= '<a href="#" data-href="' . site_url("{$controller}/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
         }
 
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']     = 'index';
-        $data['set_page'] = $this->_set_page;
-        $data['paging']   = $this->kelompok_master_model->paging($p);
-        $data['main']     = $this->kelompok_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']  = $this->kelompok_master_model->autocomplete();
-        $data['tipe']     = $this->tipe;
-
-        $this->render('kelompok_master/table', $data);
+        return view('admin.kelompok_master.index');
     }
 
     public function form($id = 0)
     {
         $this->redirect_hak_akses('u');
         if ($id) {
-            $data['kelompok_master'] = $this->kelompok_master_model->get_kelompok_master($id) ?? show_404();
+            $data['kelompok_master'] = KelompokMaster::tipe($this->tipe)->find($id) ?? show_404();
             $data['form_action']     = site_url("{$this->controller}/update/{$id}");
+            $data['action']          = 'Ubah';
         } else {
             $data['kelompok_master'] = null;
             $data['form_action']     = site_url("{$this->controller}/insert");
+            $data['action']          = 'Tambah';
         }
 
-        $data['tipe'] = $this->tipe;
-
-        $this->render('kelompok_master/form', $data);
-    }
-
-    public function filter($filter)
-    {
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-
-        redirect($this->controller);
+        return view('admin.kelompok_master.form', $data);
     }
 
     public function insert()
     {
         $this->redirect_hak_akses('u');
-        $this->kelompok_master_model->insert();
 
-        redirect($this->controller);
+        (new KelompokMaster($this->validate($this->input->post())))->save();
+
+        redirect_with('success', 'Berhasil menambah data');
     }
 
     public function update($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->kelompok_master_model->update($id);
 
-        redirect($this->controller);
+        KelompokMaster::findOrFail($id)->update($this->validate($this->input->post()));
+
+        redirect_with('success', 'Berhasil mengubah data');
     }
 
     public function delete($id = 0)
     {
         $this->redirect_hak_akses('h');
-        $this->kelompok_master_model->delete($id);
 
-        redirect($this->controller);
+        $this->delete_kelompok($id);
+
+        redirect_with('success', 'Berhasil Hapus Data');
     }
 
     public function delete_all()
     {
         $this->redirect_hak_akses('h');
-        $this->kelompok_master_model->delete_all();
 
-        redirect($this->controller);
+        foreach ($this->request['id_cb'] as $id) {
+            $this->delete_kelompok($id);
+        }
+
+        redirect_with('success', 'Berhasil Hapus Data');
+    }
+
+    protected function delete_kelompok($id = '')
+    {
+        $result = KelompokMaster::tipe($this->tipe)
+            ->doesntHave('kelompok')
+            ->find($id);
+
+        if (! $result) {
+            redirect_with('error', "Tidak dapat ditemukan / Tidak dapat dihapus karena masih terdapat data {$this->tipe}");
+        }
+
+        $result->delete();
+    }
+
+    protected function validate($request = [])
+    {
+        return [
+            'config_id' => identitas('id'),
+            'kelompok'  => nama_terbatas($request['kelompok']),
+            'deskripsi' => htmlentities($request['deskripsi']),
+            'tipe'      => $this->tipe,
+        ];
     }
 }

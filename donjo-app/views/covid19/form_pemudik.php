@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Penambahan Pemudik Covid-19</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li><a href="<?= site_url('covid19')?>"> Daftar Pemudik Saat Covid-19</a></li>
 			<li class="active">Penambahan Pemudik Covid-19</li>
 		</ol>

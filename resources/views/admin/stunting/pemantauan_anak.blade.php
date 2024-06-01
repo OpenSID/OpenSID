@@ -30,7 +30,7 @@
                                 <select name="bulan" id="bulan" class="form-control input-sm">
                                     <option value="">Bulan</option>
                                     @foreach ($bulan as $key => $data)
-                                        <option value="{{ $key+1 }}">
+                                        <option value="{{ $key + 1 }}">
                                             {{ $data }}
                                         </option>
                                     @endforeach
@@ -60,18 +60,14 @@
                     </div>
                     <div class="col-md-5 no-padding">
                         @if (can('u'))
-                            <a href="{{ route('stunting/formAnak') }}"
-                                class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                                    class="fa fa-plus"></i> Tambah</a>
+                            <a href="{{ route('stunting/formAnak') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                         @endif
                         @if (can('h'))
-                            <a href="#confirm-delete" title="Hapus Data"
-                                onclick="deleteAllBox('mainform', '{{ route('stunting.deleteAnak') }}')"
-                                class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                    class='fa fa-trash-o'></i> Hapus</a>
+                            <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('stunting.deleteAnak') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                    class='fa fa-trash-o'
+                                ></i> Hapus</a>
                         @endif
-                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                            class="fa fa-file"></i> Ekspor ke excel</a>
+                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file"></i> Ekspor ke excel</a>
 
                     </div>
                 </div>
@@ -134,8 +130,8 @@
                 ajax: {
                     url: "{{ route('stunting.datatablesAnak') }}",
                     data: function(req) {
-                        req.bulan    = $('#bulan').val();
-                        req.tahun    = $('#tahun').val();
+                        req.bulan = $('#bulan').val();
+                        req.tahun = $('#tahun').val();
                         req.posyandu = $('#posyandu').val();
                     },
                 },
@@ -176,7 +172,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.kia.anak.sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN'
                         },
                         name: 'kia.anak.sex',
@@ -190,7 +186,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             if (data.status_gizi == 1) status = "N"
                             else if (data.status_gizi == 2) status = "GK"
                             else if (data.status_gizi == 3) status = "GB"
@@ -220,7 +216,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             if (data.status_tikar == 1) status = "TD"
                             else if (data.status_tikar == 2) status = "M"
                             else if (data.status_tikar == 3) status = "K"
@@ -232,7 +228,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.pemberian_imunisasi_dasar == 1 ? 'v' : 'x'
                         },
                         name: 'pemberian_imunisasi_dasar',
@@ -240,7 +236,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.pengukuran_berat_badan == 1 ? 'v' : 'x'
                         },
                         name: 'pengukuran_berat_badan',
@@ -248,7 +244,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.pengukuran_tinggi_badan == 1 ? 'v' : 'x'
                         },
                         name: 'pengukuran_tinggi_badan',
@@ -256,7 +252,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.konseling_gizi_ayah == 1 ? 'v' : 'x'
                         },
                         name: 'konseling_gizi_ayah',
@@ -264,7 +260,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.konseling_gizi_ibu == 1 ? 'v' : 'x'
                         },
                         name: 'konseling_gizi_ibu',
@@ -272,7 +268,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.kunjungan_rumah == 1 ? 'v' : 'x'
                         },
                         name: 'kunjungan_rumah',
@@ -280,7 +276,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.air_bersih == 1 ? 'v' : 'x'
                         },
                         name: 'air_bersih',
@@ -288,7 +284,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.kepemilikan_jamban == 1 ? 'v' : 'x'
                         },
                         name: 'kepemilikan_jamban',
@@ -296,7 +292,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.akta_lahir == 1 ? 'v' : 'x'
                         },
                         name: 'akta_lahir',
@@ -304,7 +300,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.jaminan_kesehatan == 1 ? 'v' : 'x'
                         },
                         name: 'jaminan_kesehatan',
@@ -312,7 +308,7 @@
                         orderable: true
                     },
                     {
-                        data: function (data) {
+                        data: function(data) {
                             return data.pengasuhan_paud == 1 ? 'v' : 'x'
                         },
                         name: 'pengasuhan_paud',
@@ -343,14 +339,14 @@
             $(document).on('click', '#excel', function(e) {
                 $.ajax({
                     url: "{{ route('stunting.eksporAnak') }}",
-                    type:"GET",
+                    type: "GET",
                     data: {
                         bulan: $('#bulan').val(),
                         tahun: $('#tahun').val(),
                         posyandu: $('#posyandu').val(),
                     },
-                    success:function(data){
-                    window.open(this.url, '_blank');
+                    success: function(data) {
+                        window.open(this.url, '_blank');
                     },
                 })
             });
