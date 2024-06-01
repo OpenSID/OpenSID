@@ -45,7 +45,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024052771 extends MY_model
+class Migrasi_2024060171 extends MY_model
 {
     public function up()
     {
@@ -58,8 +58,6 @@ class Migrasi_2024052771 extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        $hasil = $hasil && $this->migrasi_2024050551($hasil);
-
         return $hasil && true;
     }
 
@@ -76,22 +74,146 @@ class Migrasi_2024052771 extends MY_model
             $hasil = $hasil && $this->migrasi_2024052151($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024052871($hasil, $id);
         }
-
+        
+        $hasil = $hasil && $this->migrasi_2024050551($hasil);
+        $hasil = $hasil && $this->migrasi_2024050251($hasil);
+        $hasil = $hasil && $this->migrasi_2024050751($hasil);
+        $hasil = $hasil && $this->migrasi_2024050851($hasil);
         $hasil = $hasil && $this->migrasi_2024051251($hasil);
         $hasil = $hasil && $this->migrasi_2024051252($hasil);
+        $hasil = $hasil && $this->migrasi_2024051253($hasil);
         $hasil = $hasil && $this->migrasi_2024053151($hasil);
 
         return $hasil && true;
     }
 
+    protected function migrasi_2024050251($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'peristiwa', 'url' => 'penduduk_log/clear'],
+            ['url' => 'penduduk_log']
+        );
+    }
+
+    protected function migrasi_2024050751($hasil)
+    {
+        DB::statement('delete from grup_akses where id_modul not in (select id from setting_modul)');
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024050851($hasil)
+    {
+        // karena data awal belum diubah, maka perlu diubah
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'wilayah-administratif', 'url' => 'wilayah/clear'],
+            ['url' => 'wilayah']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'calon-pemilih', 'url' => 'dpt/clear'],
+            ['url' => 'dpt']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'data-suplemen', 'url' => 'suplemen/clear'],
+            ['url' => 'suplemen']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'modul', 'url' => 'modul/clear'],
+            ['url' => 'modul']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'widget', 'url' => 'web_widget/clear'],
+            ['url' => 'web_widget']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengunjung', 'url' => 'pengunjung/clear'],
+            ['url' => 'pengunjung']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'klasifikasi-surat', 'url' => 'klasifikasi/clear'],
+            ['url' => 'klasifikasi']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'qr-code', 'url' => 'setting/qrcode/clear'],
+            ['url' => 'qr_code']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-grup', 'url' => 'grup/clear'],
+            ['url' => 'grup']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'artikel', 'url' => 'web/clear'],
+            ['url' => 'web']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-ktp-dan-kk', 'url' => 'bumindes_penduduk_ktpkk/clear'],
+            ['url' => 'bumindes_penduduk_ktpkk']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'buku-rekapitulasi-jumlah-penduduk', 'url' => 'bumindes_penduduk_rekapitulasi/clear'],
+            ['url' => 'bumindes_penduduk_rekapitulasi']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'penduduk', 'url' => 'penduduk/clear'],
+            ['url' => 'penduduk']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'keluarga', 'url' => 'keluarga/clear'],
+            ['url' => 'keluarga']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'surat-keluar', 'url' => 'surat_keluar/clear'],
+            ['url' => 'surat_keluar']
+        );
+
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'surat-masuk', 'url' => 'surat_masuk/clear'],
+            ['url' => 'surat_masuk']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'informasi-publik', 'url' => 'dokumen/clear'],
+            ['url' => 'dokumen']
+        );
+    }
+
     protected function migrasi_2024051251($hasil)
+    {
+        UserGrup::where('slug', null)->get()->each(static function ($user) {
+            $user->update([
+                'slug' => unique_slug('user_grup', $user->nama),
+            ]);
+        });
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024051252($hasil)
     {
         DB::table('analisis_master')->where('jenis', 1)->update(['jenis' => 2]);
 
         return $hasil;
     }
 
-    protected function migrasi_2024051252($hasil)
+    protected function migrasi_2024051253($hasil)
     {
         DB::table('tweb_penduduk_umur')->where('nama', 'Di Atas 75 Tahun')->update(['nama' => '75 Tahun ke Atas']);
 
