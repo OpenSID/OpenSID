@@ -37,17 +37,40 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2403_ke_2404 extends MY_Model
+class Migrasi_fitur_premium_2401 extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2310', false);
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2312', false);
+        $hasil = $hasil && $this->migrasi_tabel($hasil);
 
-        status_sukses($hasil);
+        return $hasil && $this->migrasi_data($hasil);
+    }
 
+    protected function migrasi_tabel($hasil)
+    {
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
+
+    // Migrasi perubahan data
+    protected function migrasi_data($hasil)
+    {
+        // Migrasi berdasarkan config_id
+        // $config_id = DB::table('config')->pluck('id')->toArray();
+
+        // foreach ($config_id as $id) {
+        //     $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil, $id);
+        // }
+
+        // Migrasi tanpa config_id
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+    }
+
+    protected function migrasi_xxxxxxxxxx($hasil)
+    {
         return $hasil;
     }
 }

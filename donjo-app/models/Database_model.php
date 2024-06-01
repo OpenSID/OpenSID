@@ -130,7 +130,8 @@ class Database_model extends MY_Model
         '24.02'   => ['migrate' => 'migrasi_2402_ke_2403', 'nextVersion' => '24.03'],
         '24.03'   => ['migrate' => 'migrasi_2403_ke_2404', 'nextVersion' => '24.04'],
         '24.04'   => ['migrate' => 'migrasi_2404_ke_2405', 'nextVersion' => '24.05'],
-        '24.05'   => ['migrate' => 'migrasi_2405_ke_2406', 'nextVersion' => null],
+        '24.05'   => ['migrate' => 'migrasi_2405_ke_2406', 'nextVersion' => '24.06'],
+        '24.06'   => ['migrate' => 'migrasi_2406_ke_2407', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -268,9 +269,6 @@ class Database_model extends MY_Model
             // sleep(1.5);
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
-
-        $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/rilis-premium/master/index.php');
-        file_put_contents(FCPATH . 'index.php', $index);
     }
 
     // Cek apakah migrasi perlu dijalankan
