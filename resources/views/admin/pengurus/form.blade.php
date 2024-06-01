@@ -66,7 +66,7 @@
                         <div class="col-xs-12 col-sm-8">
                             <select id="id_pend" name="id_pend" class="form-control input-sm" data-placeholder="-- Silakan Masukan NIK / Nama --" onchange="formAction('main')">
                                 <option value="<?= $individu['id'] ?>" selected>NIK :
-                                    <?= $individu['nik'] . ' - ' . $individu['nama'] . ' - ' . $individu['dusun'] ?>
+                                    <?= $individu['nik'] . ' - ' . formatNama($individu['nama']) . ' - ' . $individu['dusun'] ?>
                                 </option>
                             </select>
                         </div>

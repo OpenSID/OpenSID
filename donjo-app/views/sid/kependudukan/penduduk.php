@@ -220,7 +220,7 @@
 															<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a>
 														</td>
 														<td nowrap><?= $data['tag_id_card']; ?></td>
-														<td nowrap><?= strtoupper($data['nama']); ?></td>
+														<td nowrap><?= formatNama($data['nama']); ?></td>
 														<td class="padat"><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}"); ?>"><?= $data['no_kk']; ?> </a></td>
 														<!-- tambah kolom orang tua-->
 														<td nowrap><?= $data['nama_ayah']; ?></td>

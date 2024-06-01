@@ -100,7 +100,7 @@
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
 													<td><?= $data['no']?></td>
-													<td><?= strtoupper($data['nama'])?></td>
+													<td><?= formatNama($data['nama'])?></td>
 													<td><?= $data['nik']?></td>
 													<td><?= $data['no_kk']?></td>
 													<td><?= $data['sex']?></td>

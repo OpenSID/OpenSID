@@ -140,7 +140,7 @@
 											</td>
 											<td><?= $data['nik']?></td>
 											<td><?= $data['no_kk']?></td>
-											<td nowrap><?= strtoupper($data['nama']); ?></td>
+											<td nowrap><?= formatNama($data['nama']); ?></td>
 											<td><?= $data['sex']?></td>
 											<td><?= $data['alamat']; ?></td>
 											<td nowrap><?= strtoupper($data['hubungan']); ?></td>

@@ -50,7 +50,7 @@
 					<tr>
 						<td width="2"><?= $data['no']?></td>
 						<td class="textx"><?= $data['nik']?></td>
-						<td><?= strtoupper($data['nama'])?></td>
+						<td><?= formatNama($data['nama'])?></td>
 						<td><?= strtoupper($data['dusun'])?></td>
 						<td><?= $data['rw']?></td>
 						<td><?= $data['rt']?></td>

@@ -61,7 +61,7 @@
 							<td><?= $privasi_nik ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 							<td><?= $data['tag_id_card']?></td>
-							<td><?= strtoupper($data['nama'])?></td>
+							<td><?= formatNama($data['nama'])?></td>
 							<td><?= strtoupper($data['alamat'])?></td>
 							<td><?= strtoupper($data['dusun'])?></td>
 							<td><?= $data['rw']?></td>

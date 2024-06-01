@@ -88,6 +88,9 @@ class Mandiri extends Admin_Controller
                 ->editColumn('last_login', static function ($row) {
                     return tgl_indo2($row->getRawOriginal('last_login'));
                 })
+                ->editColumn('penduduk.nama', static function($row) {
+                    return formatNama($row->penduduk->nama);
+                })
                 ->rawColumns(['aksi'])
                 ->make();
         }

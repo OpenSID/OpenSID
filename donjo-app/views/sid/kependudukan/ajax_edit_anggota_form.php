@@ -10,7 +10,7 @@
                         </tr>
                         <tr>
                             <td style="padding-top : 10px;padding-bottom : 10px; width:40%;" >Nama Penduduk</td>
-                            <td> : <?= $main['nama']?></td>
+                            <td> : <?= formatNama($main['nama'])?></td>
                         </tr>
                     </table>
                     <div class="box box-danger">

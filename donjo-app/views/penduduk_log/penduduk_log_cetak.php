@@ -94,7 +94,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
-							<td><?= strtoupper($data['nama'])?></td>
+							<td><?= formatNama($data['nama'])?></td>
 							<td>
 								<?= $privasi_nik ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?>
 								<?= ' / ' . $data['nama_kk']?>

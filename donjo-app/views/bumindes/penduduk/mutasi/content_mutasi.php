@@ -61,7 +61,7 @@
                                     <?php foreach ($main as $key => $data): ?>
                                         <tr>
                                             <td class="padat"><?= ($key + $paging->offset + 1) ?></td>
-                                            <td><?= strtoupper($data['nama'])?></td>
+                                            <td><?= formatNama($data['nama'])?></td>
                                             <td><?= $data['tempatlahir']?></td>
                                             <td><?= tgl_indo_out($data['tanggallahir'])?></td>
                                             <td><?= strtoupper($data['sex']) ?></td>
