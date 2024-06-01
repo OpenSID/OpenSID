@@ -79,6 +79,7 @@ class Migrasi_2024052771 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2024051251($hasil);
         $hasil = $hasil && $this->migrasi_2024051252($hasil);
+        $hasil = $hasil && $this->migrasi_2024053151($hasil);
 
         return $hasil && true;
     }
@@ -1004,5 +1005,13 @@ class Migrasi_2024052771 extends MY_model
             ]),
             'kategori' => 'galeri',
         ], $id);
+    }
+
+    protected function migrasi_2024053151($hasil)
+    {
+        DB::table('tweb_wil_clusterdesa')->where('rt', '')->update(['rt' => 0]);
+        DB::table('tweb_wil_clusterdesa')->where('rw', '')->update(['rw' => 0]);
+
+        return $hasil;
     }
 }
