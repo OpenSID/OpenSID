@@ -52,32 +52,35 @@ class BantuanImports
 
     public function __construct($path = null, $ganti_program = 0, $kosongkan_peserta = 0, $ganti_peserta = 0, $rand_kartu_peserta = 0)
     {
-        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'bantuan.xlsx';
-        $this->ganti_program = $ganti_program;
-        $this->kosongkan_peserta = $kosongkan_peserta;
-        $this->ganti_peserta = $ganti_peserta;
+        $this->path               = $path ?? DEFAULT_LOKASI_IMPOR . 'bantuan.xlsx';
+        $this->ganti_program      = $ganti_program;
+        $this->kosongkan_peserta  = $kosongkan_peserta;
+        $this->ganti_peserta      = $ganti_peserta;
         $this->rand_kartu_peserta = $rand_kartu_peserta;
     }
 
-    private function getValue($array) {        
+    private function getValue($array)
+    {
         return array_values($array);
     }
 
-    private function getId($array) {        
+    private function getId($array)
+    {
         return array_keys($array);
     }
 
     public function import(): bool
     {
         try {
-            $ganti_program           = $this->ganti_program;
-            $kosongkan_peserta       = $this->kosongkan_peserta;
-            $ganti_peserta           = $this->ganti_peserta;
-            $rand_kartu_peserta      = $this->rand_kartu_peserta;
-            $daftar_program = Bantuan::pluck('id')->toArray();
+            $ganti_program      = $this->ganti_program;
+            $kosongkan_peserta  = $this->kosongkan_peserta;
+            $ganti_peserta      = $this->ganti_peserta;
+            $rand_kartu_peserta = $this->rand_kartu_peserta;
+            $daftar_program     = Bantuan::pluck('id')->toArray();
 
             $data = (new FastExcel())->importSheets($this->path);
-            foreach($data as $key => $sheet) {
+
+            foreach ($data as $key => $sheet) {
                 $no_baris  = 0;
                 $no_gagal  = 0;
                 $no_sukses = 0;
@@ -85,40 +88,39 @@ class BantuanImports
                 $data_peserta = [];
                 $data_diubah  = '';
 
-                
                 // data program
-                if($key == 0) {
-                    $pesan_program  = '';
-                    $field = ['id', 'nama', 'sasaran', 'ndesc', 'asaldana', 'sdate', 'edate'];
+                if ($key == 0) {
+                    $pesan_program = '';
+                    $field         = ['id', 'nama', 'sasaran', 'ndesc', 'asaldana', 'sdate', 'edate'];
 
                     $data_program['id'] = $this->getId($sheet[0])[1];
-                    if(in_array((int) $data_program['id'], $daftar_program)) {
+                    if (in_array((int) $data_program['id'], $daftar_program)) {
                         $program_id = $data_program['id'];
                         if ($ganti_program === null) {
                             $pesan_program .= 'Data program dengan <b> id = ' . ($data_program['id']) . '</b> ditemukan, data lama tetap digunakan <br>';
                         } else {
                             $pesan_program .= 'Data program dengan <b> id = ' . ($data_program['id']) . '</b> ditemukan, data lama diganti dengan data baru <br>';
                         }
-                    } else if(!in_array((int) $data_program['id'], $daftar_program)) {
+                    } elseif (! in_array((int) $data_program['id'], $daftar_program)) {
                         $program_id = null;
                         $pesan_program .= 'Data program dengan <b> id = ' . ($data_program['id']) . '</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>';
                     }
 
-                    for ($i=0; $i <= 5; $i++) { 
+                    for ($i = 0; $i <= 5; $i++) {
                         $title = $this->getValue($sheet[$i])[0];
                         $value = $this->getValue($sheet[$i])[1];
-                        if(in_array($i, [4,5]) && !validate_date($value, 'Y-m-d')) {
+                        if (in_array($i, [4, 5]) && ! validate_date($value, 'Y-m-d')) {
                             $msg = ', Data program baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah. Cek kembali data ' . $title . ' = ' . $value;
                             redirect_with('error', $msg);
                         }
                         $data_program[$field[$i + 1]] = $value;
-                        $no_baris = $i + 1;
+                        $no_baris                     = $i + 1;
                     }
                     $program_id = Bantuan::impor_program($program_id, $data_program, $ganti_program);
                 }
-                
+
                 // data peserta
-                if($key == 1) {
+                if ($key == 1) {
                     // cek gunakan program lain
                     $pesan_peserta = '';
                     $ambil_peserta = Bantuan::select('id', 'sasaran')->with(['peserta' => static function ($query): void {
@@ -143,7 +145,7 @@ class BantuanImports
                         // Cek valid data peserta sesuai sasaran
                         $cek_peserta = Bantuan::cek_peserta($peserta, $sasaran);
 
-                        if (!in_array($nik, $cek_peserta['valid'])) {
+                        if (! in_array($nik, $cek_peserta['valid'])) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
@@ -153,7 +155,7 @@ class BantuanImports
                         // Cek valid data penduduk sesuai nik
                         $cek_penduduk = Penduduk::where('nik', $nik)->first();
 
-                        if (!$cek_penduduk['id']) {
+                        if (! $cek_penduduk['id']) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / NIK = ' . $nik . '</b> yang terdaftar tidak ditemukan <br>';
 
@@ -179,11 +181,11 @@ class BantuanImports
                         $kartu_tempat_lahir  = (string) $cells[4];
                         $kartu_tanggal_lahir = $cells[5];
                         // $kartu_tanggal_lahir = $this->cek_is_date($kartu_tanggal_lahir);
-                        $kartu_alamat        = (string) $cells[6];
+                        $kartu_alamat = (string) $cells[6];
 
                         if (empty($kartu_tanggal_lahir)) {
                             $kartu_tanggal_lahir = $cek_penduduk['tanggallahir'];
-                        } elseif (!validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
+                        } elseif (! validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
                             $no_gagal++;
                             $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah<br>';
 
@@ -215,13 +217,13 @@ class BantuanImports
                         $data_peserta[] = $simpan;
                         $no_sukses++;
                     }
-                    
+
                     $notif = [
                         'program_id' => $program_id,
-                        'program' => $pesan_program,
-                        'gagal'   => $no_gagal,
-                        'sukses'  => $no_sukses,
-                        'peserta' => $pesan_peserta,
+                        'program'    => $pesan_program,
+                        'gagal'      => $no_gagal,
+                        'sukses'     => $no_sukses,
+                        'peserta'    => $pesan_peserta,
                     ];
 
                     // Proses impor peserta
@@ -234,10 +236,9 @@ class BantuanImports
                 }
             }
 
-            
             set_session('notif', $notif);
             status_sukses($imporPeserta, true);
-            redirect_with("success","Data berhasil disimpan", ci_route('peserta_bantuan/detail_clear', ['program_id' => $notif['program_id']]));
+            redirect_with('success', 'Data berhasil disimpan', ci_route('peserta_bantuan/detail_clear', ['program_id' => $notif['program_id']]));
         } catch (Exception $e) {
             log_message('error', $e);
 
