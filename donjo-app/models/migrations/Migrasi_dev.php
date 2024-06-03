@@ -36,6 +36,7 @@
  */
 
 use App\Models\FormatSurat;
+use Illuminate\Support\Facades\DB;
 
 /*
  *
@@ -99,13 +100,17 @@ class Migrasi_dev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
+        $hasil = $hasil && $this->migrasi_2024060151($hasil);
+
         return $hasil && true;
     }
 
     protected function migrasi_2024060151($hasil)
     {
-        return $hasil && $this->db
-            ->where('url_surat', 'surat-keterangan-pengantar-rujukcerai')
-            ->update('tweb_surat_format', ['jenis' => FormatSurat::TINYMCE_DESA]);
+        return $hasil && DB::table('tweb_surat_format')
+            ->whereIn('url_surat', [
+                'surat-keterangan-pengantar-rujuk-atau-cerai',
+            ])
+            ->update(['jenis' => FormatSurat::TINYMCE_DESA]);
     }
 }
