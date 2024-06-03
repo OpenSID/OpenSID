@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### BUG
 
 1. [#8012](https://github.com/OpenSID/OpenSID/issues/8012) Perbaikan cetak pdf surat yang memiliki karakter berupa simbol.
+2. [#8033](https://github.com/OpenSID/OpenSID/issues/8033) Perbaikan surat bawaan sistem yang duplikasi.
 
 
 #### TEKNIS
@@ -17,4 +18,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### KEAMANAN
 
-1. 
+1.
