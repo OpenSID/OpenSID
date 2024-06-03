@@ -1045,17 +1045,14 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
 
     // Lembaran Desa
     Route::group('lembaran_desa', static function (): void {
-        Route::get('/clear', 'Lembaran_desa@clear')->name('buku-umum.lembaran_desa.clear');
-        Route::get('/form/{p?}/{o?}/{id?}', 'Lembaran_desa@form')->name('buku-umum.lembaran_desa.form');
-        Route::post('/search', 'Lembaran_desa@search')->name('buku-umum.lembaran_desa.search');
-        Route::post('/filter/{filter?}', 'Lembaran_desa@filter')->name('buku-umum.lembaran_desa.filter');
-        Route::post('/update/{id}/{p?}/{o?}', 'Lembaran_desa@update')->name('buku-umum.lembaran_desa.update');
-        Route::get('/lock/{id}/{val?}', 'Lembaran_desa@lock')->name('buku-umum.lembaran_desa.lock');
-        Route::get('/dialog_daftar/{aksi?}/{o?}', 'Lembaran_desa@dialog_daftar')->name('buku-umum.lembaran_desa.dialog_daftar');
-        Route::match(['GET', 'POST'], '/daftar/{aksi?}/{o?}', 'Lembaran_desa@daftar')->name('buku-umum.lembaran_desa.daftar');
+        Route::get('/', 'Lembaran_desa@index')->name('buku-umum.lembaran_desa.index');
+        Route::get('/datatables', 'Lembaran_desa@datatables')->name('buku-umum.lembaran_desa.datatables');
+        Route::get('/form/{id?}', 'Lembaran_desa@form')->name('buku-umum.lembaran_desa.form');
+        Route::post('/update/{id}', 'Lembaran_desa@update')->name('buku-umum.lembaran_desa.update');
+        Route::get('/lock/{id}', 'Lembaran_desa@lock')->name('buku-umum.lembaran_desa.lock');
+        Route::get('/dialog/{aksi?}', 'Lembaran_desa@dialog')->name('buku-umum.lembaran_desa.dialog');
+        Route::post('/cetak/{aksi?}', 'Lembaran_desa@cetak')->name('buku-umum.lembaran_desa.cetak');
         Route::get('/unduh_berkas/{id_dokumen?}', 'Lembaran_desa@unduh_berkas')->name('buku-umum.lembaran_desa.unduh_berkas');
-        Route::match(['GET', 'POST'], '/index/{p?}/{o?}', 'Lembaran_desa@index')->name('buku-umum.lembaran_desa.index');
-        Route::match(['GET', 'POST'], '/{p?}/{o?}', 'Lembaran_desa@index')->name('buku-umum.lembaran_desa.index-page');
     });
 
     // Perangkat/Pengurus Desa
@@ -1505,6 +1502,7 @@ Route::group('setting', static function (): void {
 
 // Program Bantuan
 Route::group('program_bantuan', static function (): void {
+    Route::get('/datatables', 'Program_bantuan@datatables')->name('program_bantuan.datatables');
     Route::get('/clear', 'Program_bantuan@clear')->name('program_bantuan.clear');
     Route::post('/filter/{filter}', 'Program_bantuan@filter')->name('program_bantuan.filter');
     Route::match(['GET', 'POST'], '/', 'Program_bantuan@index')->name('program_bantuan.index');

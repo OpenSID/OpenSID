@@ -119,7 +119,7 @@
                                                             <tr>
                                                                 <td style="padding-top:20px;padding-bottom:10px;">
                                                                     <div class="form-group">
-                                                                        <label for="file"class="col-md-2 col-lg-3 control-label">Pilih File .Sql:</label>
+                                                                        <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .Sql:</label>
                                                                         <div class="col-sm-12 col-md-5 col-lg-5">
                                                                             <div class="input-group input-group-sm">
                                                                                 <input type="text" class="form-control" id="file_path" name="userfile">
@@ -167,7 +167,7 @@
                                                             <tr>
                                                                 <td style="padding-top:20px;padding-bottom:10px;">
                                                                     <div class="form-group">
-                                                                        <label for="file"class="col-md-2 col-lg-3 control-label">Pilih File .sid:</label>
+                                                                        <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .sid:</label>
                                                                         <div class="col-sm-12 col-md-5 col-lg-5">
                                                                             <div class="input-group input-group-sm">
                                                                                 <input type="text" class="form-control" id="file_path" name="userfile">
@@ -213,7 +213,7 @@
                                                     <tr>
                                                         <td style="padding-top:20px;padding-bottom:10px;">
                                                             <div class="form-group">
-                                                                <label for="file"class="col-md-2 col-lg-3 control-label">Pilih File .zip:</label>
+                                                                <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .zip:</label>
                                                                 <div class="col-sm-12 col-md-5 col-lg-5">
                                                                     <div class="input-group input-group-sm">
                                                                         <input type="text" class="form-control" id="file_path1" name="folder_desa">

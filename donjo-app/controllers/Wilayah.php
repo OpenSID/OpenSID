@@ -328,7 +328,7 @@ class Wilayah extends Admin_Controller
         isCan('u');
 
         try {
-            $data      = $this->bersihkan_data($this->request);
+            $data = $this->bersihkan_data($this->request);
             $parentObj = $parent ? WilayahModel::find($parent) : null;
 
             switch ($level) {
