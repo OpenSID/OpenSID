@@ -110,8 +110,7 @@
                         req.sasaran = $('#sasaran').val();
                     }
                 },
-                columns: [
-                    {
+                columns: [{
                         data: 'DT_RowIndex',
                         class: 'padat',
                         searchable: false,
