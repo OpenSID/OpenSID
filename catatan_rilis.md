@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8012](https://github.com/OpenSID/OpenSID/issues/8012) Perbaikan cetak pdf surat yang memiliki karakter berupa simbol.
 2. [#8033](https://github.com/OpenSID/OpenSID/issues/8033) Perbaikan surat bawaan sistem yang duplikasi.
 3. [#8014](https://github.com/OpenSID/OpenSID/issues/8014) Perbaikan unduh buku rekapitulasi jumlah penduduk.
+4. [#8021](https://github.com/OpenSID/OpenSID/issues/8021) Perbaikan terjemahan indonesia pada plugin datatables.
 
 
 #### TEKNIS

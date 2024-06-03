@@ -227,6 +227,8 @@ class Keluarga extends BaseModel
     }
 
     /**
+     * @param mixed $id
+     *
      * @return array<mixed, array<'desa'|'id_kk'|'kepala_kk'|'main', mixed>>
      */
     public static function dataCetak($id): array
@@ -334,7 +336,7 @@ class Keluarga extends BaseModel
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
 
-        $tgl_lapor = rev_tgl($data['tgl_lapor'], null);
+        $tgl_lapor     = rev_tgl($data['tgl_lapor'], null);
         $tgl_peristiwa = $data['tgl_peristiwa'] ? rev_tgl($data['tgl_peristiwa'], null) : rev_tgl($data['tanggallahir'], null);
         unset($data['tgl_lapor'], $data['tgl_peristiwa']);
 
