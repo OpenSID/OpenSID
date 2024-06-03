@@ -204,6 +204,7 @@ class Wilayah extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $wilayah = $this->input->post('data');
         if ($wilayah) {
             WilayahModel::setNewOrder($wilayah);

@@ -386,6 +386,8 @@ class Pengurus extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
+
         $pamong = $this->input->post('data');
         Pamong::setNewOrder($pamong);
         // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual

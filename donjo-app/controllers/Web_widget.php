@@ -124,6 +124,7 @@ class Web_widget extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $widget = $this->input->post('data');
 
         Widget::setNewOrder($widget);

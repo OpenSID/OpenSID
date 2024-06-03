@@ -246,6 +246,7 @@ class Gallery extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $gallery = $this->input->post('data');
         Galery::setNewOrder($gallery);
 

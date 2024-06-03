@@ -159,6 +159,7 @@
             }
 
             if (ubah == 0) {
+                TableData.column(0).visible(false);
                 TableData.column(3).visible(false);
             }
 

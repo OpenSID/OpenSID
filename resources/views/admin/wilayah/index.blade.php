@@ -259,6 +259,7 @@
             }
 
             if (ubah == 0) {
+                TableData.column(0).visible(false);
                 TableData.column(3).visible(false);
             }
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
