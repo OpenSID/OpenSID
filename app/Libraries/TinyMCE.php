@@ -734,8 +734,45 @@ class TinyMCE
     {
         // Daftar simbol yang ingin diganti
         $symbols = [
+            // text
+            '©' => '<span class="special-symbol">&copy;</span>',
+            'µ' => '<span class="special-symbol">&micro;</span>',
+            '·' => '<span class="special-symbol">&middot;</span>',
+            '•' => '<span class="special-symbol">&bull;</span>',
+            '…' => '<span class="special-symbol">&hellip;</span>',
+            '′' => '<span class="special-symbol">&prime;</span>',
+            '″' => '<span class="special-symbol">&Prime;</span>',
+            // quotation
             '≤' => '<span class="special-symbol">&le;</span>',
             '≥' => '<span class="special-symbol">&ge;</span>',
+            '–' => '<span class="special-symbol>&ndash;</span>',
+            '—' => '<span class="special-symbol>&mdash;</span>',
+            '¡' => '<span class="special-symbol">&iexcl;</span>',
+            '¿' => '<span class="special-symbol">&iquest;</span>',
+            'ˆ' => '<span class="special-symbol">&circ;</span>',
+            '˜' => '<span class="special-symbol">&tilde;</span>',
+            '°' => '<span class="special-symbol>&deg;</span>',
+            '−' => '<span class="special-symbol">&minus;</span>',
+            '±' => '<span class="special-symbol">&plusmn;</span>',
+            '÷' => '<span class="special-symbol">&divide;</span>',
+            '⁄' => '<span class="special-symbol">&frasl;</span>',
+            // mathematic
+            '∞' => '<span class="special-symbol">&infin;</span>',
+            '√' => '<span class="special-symbol">&radic;</span>',
+            '∼' => '<span class="special-symbol">&sim;</span>',
+            '≠' => '<span class="special-symbol">&ne;</span>',
+            // arrows
+            '←' => '<span class="special-symbol">&larr;</span>',
+            '↑' => '<span class="special-symbol">&uarr;</span>',
+            '→' => '<span class="special-symbol">&rarr;</span>',
+            '↓' => '<span class="special-symbol">&darr;</span>',
+            '↔' => '<span class="special-symbol">&harr;</span>',
+            '↵' => '<span class="special-symbol">&crarr;</span>',
+            '⇐' => '<span class="special-symbol">&lArr;</span>',
+            '⇑' => '<span class="special-symbol">&uArr;</span>',
+            '⇒' => '<span class="special-symbol">&rArr;</span>',
+            '⇓' => '<span class="special-symbol">&dArr;</span>',
+            '⇔' => '<span class="special-symbol">&hArr;</span>',
             // Tambahkan simbol lain jika diperlukan
         ];
 
