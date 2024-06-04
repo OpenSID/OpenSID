@@ -73,8 +73,9 @@
                                 <td>{{ strtoupper(setting('sebutan_desa')) }}</td>
                                 <td> : </td>
                                 <td>{{ "Desa {$response->data->desa->nama_desa}, Kecamatan
-                                                                {$response->data->desa->nama_kec}, Kabupaten {$response->data->desa->nama_kab}, Provinsi
-                                                                {$response->data->desa->nama_prov}" }}</td>
+                                                                                                {$response->data->desa->nama_kec}, Kabupaten {$response->data->desa->nama_kab}, Provinsi
+                                                                                                {$response->data->desa->nama_prov}" }}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Domain Desa</td>

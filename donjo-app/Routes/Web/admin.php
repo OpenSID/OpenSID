@@ -1496,8 +1496,9 @@ Route::group('analisis_statistik_jawaban', static function (): void {
 });
 
 // Analisis > Pengaturan
-Route::group('setting', static function (): void {
-    Route::get('/analisis', 'Setting@analisis')->name('setting.analisis');
+Route::group('setting_analisis', static function (): void {
+    Route::get('/', 'Setting_analisis@index')->name('setting_analisis.index');
+    Route::post('update', 'Setting_analisis@update')->name('setting_analisis.update');
 });
 
 // Program Bantuan
@@ -2102,8 +2103,9 @@ Route::group('pengunjung', static function (): void {
 });
 
 // Admin Web > Pengaturan
-Route::group('setting', static function (): void {
-    Route::get('/web', 'Setting@web')->name('setting.web');
+Route::group('setting_web', static function (): void {
+    Route::get('/', 'Setting_web@index')->name('setting_web.index');
+    Route::post('/update', 'Setting_web@update')->name('setting_web.update');
 });
 
 // Layanan Mandiri > Kotak Pesan
@@ -2153,7 +2155,10 @@ Route::group('pendapat', static function (): void {
 Route::group('setting', static function (): void {
     Route::get('/ambil_foto', 'Setting@ambil_foto')->name('setting.ambil_foto');
     Route::post('/aktifkan_tracking', 'Setting@aktifkan_tracking')->name('setting.aktifkan_tracking');
-    Route::get('/mandiri', 'Setting@mandiri')->name('setting.mandiri');
+});
+Route::group('setting_mandiri', static function (): void {
+    Route::get('/', 'Setting_mandiri@index')->name('setting_mandiri.index');
+    Route::post('/update', 'Setting_mandiri@update')->name('setting_mandiri.update');
 });
 
 // Anjungan > Daftar Anjungan

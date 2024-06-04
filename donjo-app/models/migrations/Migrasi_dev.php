@@ -101,6 +101,7 @@ class Migrasi_dev extends MY_model
         // }
 
         $hasil = $hasil && $this->migrasi_2024060151($hasil);
+        $hasil = $hasil && $this->migrasi_2024060152($hasil);
 
         return $hasil && true;
     }
@@ -112,5 +113,22 @@ class Migrasi_dev extends MY_model
                 'surat-keterangan-pengantar-rujuk-atau-cerai',
             ])
             ->update(['jenis' => FormatSurat::TINYMCE_DESA]);
+    }
+
+    protected function migrasi_2024060152($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-analisis'],
+            ['url' => 'setting_analisis']
+        );
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-web'],
+            ['url' => 'setting_web']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-layanan-mandiri'],
+            ['url' => 'setting_mandiri']
+        );
     }
 }
