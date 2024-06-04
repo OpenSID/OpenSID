@@ -131,8 +131,11 @@ class Database_model extends MY_Model
             }
         }
 
-        // Migrasi dev
-        $this->jalankan_migrasi('migrasi_dev');
+        // Migrasi beta
+        $this->jalankan_migrasi('migrasi_beta');
+
+        // Migrasi revisi
+        $this->jalankan_migrasi('migrasi_rev');
 
         // Lengkapi folder desa
         folder_desa();

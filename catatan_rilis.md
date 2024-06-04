@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8060](https://github.com/OpenSID/OpenSID/issues/8060) Perbaikan data kode isian warga negara default pada lampiran surat.
 7. [#8047](https://github.com/OpenSID/OpenSID/issues/8047) Perbaikan hak akses buku ekspedisi.
 8. [#8037](https://github.com/OpenSID/OpenSID/issues/8037) Perbaikan informasi arsipkan pesan masuk.
+9. [#8039](https://github.com/OpenSID/OpenSID/issues/8039) Perbaikan validasi panjang karakter jadi 20 pada isian kode alias (judul dan alias).
 
 
 #### TEKNIS
