@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8034](https://github.com/OpenSID/OpenSID/issues/8034) Perbaikan data kode isian penduduk luar.
 6. [#8060](https://github.com/OpenSID/OpenSID/issues/8060) Perbaikan data kode isian warga negara default pada lampiran surat.
 7. [#8047](https://github.com/OpenSID/OpenSID/issues/8047) Perbaikan hak akses buku ekspedisi.
+8. [#8037](https://github.com/OpenSID/OpenSID/issues/8037) Perbaikan informasi arsipkan pesan masuk.
 
 
 #### TEKNIS

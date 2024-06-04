@@ -37,13 +37,11 @@
 
 namespace App\Enums;
 
-use App\Models\Anak;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class AktifEnum extends BaseEnum
 {
-    public const AKTIF    = 1;
+    public const AKTIF       = 1;
     public const TIDAK_AKTIF = 0;
 
     /**
@@ -52,7 +50,7 @@ class AktifEnum extends BaseEnum
     public static function all(): array
     {
         return [
-            self::AKTIF    => 'Aktif',
+            self::AKTIF       => 'Aktif',
             self::TIDAK_AKTIF => 'Tidak Aktif',
         ];
     }
