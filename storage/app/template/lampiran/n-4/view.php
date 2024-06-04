@@ -72,7 +72,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WaRga_negara]</td>
+            <td colspan="27">[WArga_negara]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -128,7 +128,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WaRga_negara_dcpw]</td>
+            <td colspan="27">[WArga_negara_dcpw]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -160,29 +160,29 @@
     <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0">
     <tbody>
     <tr style="height: 18px;">
-    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_desa], [TgL_surat]</td>
     </tr>
     <tr style="height: 18px;">
     <td style="width: 26.6281%; text-align: center; height: 18px;">Calon Suami</td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;">Calon Istri</td>
     </tr>
     <tr style="height: 72px;">
-    <td style="width: 26.6281%; text-align: center; height: 72px;"> </td>
+    <td style="width: 26.6281%; text-align: center; height: 72px;"> </td>
     <td style="width: 2.75528%; height: 72px;"><br><br><br><br></td>
-    <td style="width: 70.6166%; height: 72px;"> </td>
+    <td style="width: 70.6166%; height: 72px;"> </td>
     </tr>
     <tr style="height: 18px;">
     <td style="width: 26.6281%; text-align: center; height: 18px;"><strong>([NAma])</strong></td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;"><strong>([NAma_dcpw])</strong></td>
     </tr>
     <tr style="height: 18px;">
-    <td style="width: 26.6281%; height: 18px;"> </td>
-    <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
+    <td style="width: 26.6281%; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
     </tr>
     </tbody>
     </table>

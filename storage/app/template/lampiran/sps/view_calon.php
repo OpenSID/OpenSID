@@ -35,7 +35,7 @@
         <tr>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WaRga_negara]</td>
+            <td colspan="27">[WArga_negara]</td>
 
         </tr>
         <tr>
