@@ -503,12 +503,12 @@ class TinyMCE
             // Sekretaris Desa
             $sekdes = Pamong::ttd('a.n')->first();
             if ($sekdes) {
-                $atas_nama['a.n'] = 'a.n. ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
+                $atas_nama['a.n'] = 'a.n. ' . $kades->nama_jabatan . ' ' . $config->nama_desa;
 
                 // Pamogn selain Kepala Desa dan Sekretaris Desa
                 $pamong = Pamong::ttd('u.b')->exists();
                 if ($pamong) {
-                    $atas_nama['u.b'] = 'u.b. ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
+                    $atas_nama['u.b'] = 'u.b. ' . $sekdes->nama_jabatan . ' ' . $config->nama_desa;
                 }
             }
 

@@ -2,6 +2,9 @@ Di rilis ini, versi 2406.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+#### FITUR
+1. [#7970](https://github.com/OpenSID/OpenSID/issues/7970) Penambahan status dan sebutan pejabat kepala desa.
+
 
 #### BUG
 

@@ -69,8 +69,8 @@ class KodeIsianPenandaTangan
         $niap_pamong = $kades->pamong_niap;
 
         $sekdes = Pamong::ttd('a.n')->first();
-        if (preg_match('/a.n/i', (string) $ttd)) {
-            $atas_nama   = 'a.n. ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan;
+        if (preg_match('/a.n/i', $ttd)) {
+            $atas_nama   = 'a.n. ' . $kades->nama_jabatan . ' ' . $nama_desa . ' <br> ' . $sekdes->pamong_jabatan;
             $jabatan     = $sekdes->pamong_jabatan;
             $jabatan_an  = $jabatan;
             $simbol_an   = 'a.n.';
@@ -83,7 +83,7 @@ class KodeIsianPenandaTangan
 
         if (preg_match('/u.b/i', (string) $ttd)) {
             $pamong      = Pamong::ttd('u.b')->find($this->inputForm['pamong_id']);
-            $atas_nama   = 'a.n. ' . $atas_nama . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b. <br>' . $pamong->jabatan->nama;
+            $atas_nama   = 'a.n. ' . $kades->nama_jabatan . ' ' . $nama_desa . ' <br> ' . $sekdes->pamong_jabatan . '<br> u.b. <br>' . $pamong->jabatan->nama;
             $jabatan     = $pamong->pamong_jabatan;
             $jabatan_an  = $sekdes->pamong_jabatan;
             $simbol_an   = 'a.n.';

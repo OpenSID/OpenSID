@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\Kehadiran;
 use App\Models\Pamong;
 use Carbon\Carbon;
@@ -151,11 +152,15 @@ class Pamong_model extends MY_Model
 
     public function get_data($id = 0)
     {
+        $pejabat = setting('sebutan_pj_kepala_desa');
+
         $data = $this->config_id('u')
-            ->select('u.*, rj.nama AS jabatan, rj.nama AS pamong_jabatan, rj.id AS ref_jabatan_id,
+            ->select('u.*, rj.id AS ref_jabatan_id,
 				(case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
 				(case when p.foto is not null then p.foto else u.foto end) as foto,
-				(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex')
+				(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
+                (case when u.status_pejabat = 1 THEN CONCAT("' . $pejabat . ' ", rj.nama) else rj.nama end) as pamong_jabatan,
+                (case when u.status_pejabat = 1 THEN CONCAT("' . $pejabat . ' ", rj.nama) else rj.nama end) as jabatan')
             ->from('tweb_desa_pamong u')
             ->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
             ->join('ref_jabatan rj', 'rj.id = u.jabatan_id', 'left')
@@ -215,7 +220,7 @@ class Pamong_model extends MY_Model
 
             return [
                 'pamong_id'        => $item['pamong_id'],
-                'jabatan'          => $item['jabatan']['nama'],
+                'jabatan'          => $item['status_pejabat'] == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $item['jabatan']['nama'] : $item['jabatan']['nama'],
                 'pamong_niap'      => $item['pamong_niap'],
                 'gelar_depan'      => $item['gelar_depan'],
                 'gelar_belakang'   => $item['gelar_belakang'],

@@ -66,7 +66,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<tr>
 							<td class="padat"></td>
 							<td><?= $item->pamong_nama ?></td>
-							<td><?= $item->jabatan->nama; ?></td>
+							<td><?= $item->status_pejabat == 1 ? setting('sebutan_pj_kepala_desa') . ' ' . $item->jabatan->nama : $item->jabatan->nama; ?></td>
 							<td class="padat"><?= empty($item->status_kehadiran) ? '-' : ucfirst($item->status_kehadiran); ?></td>
 							<td class="padat">
 								<?php if ($item->status_kehadiran == 'hadir' && setting('tampilkan_kehadiran') == '1'): ?>

@@ -35,8 +35,7 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,12 +44,39 @@ class Migrasi_beta extends MY_model
     public function up()
     {
         $hasil = true;
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        // Migrasi berdasarkan config_id
+        $config_id = DB::table('config')->pluck('id')->toArray();
+
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024052271($hasil, $id);
+        }
 
         return $hasil && true;
+    }
+
+    public function migrasi_2024052271($hasil, $id)
+    {
+        if (! $this->db->field_exists('status_pejabat', 'tweb_desa_pamong')) {
+            $this->dbforge->add_column('tweb_desa_pamong', [
+                'status_pejabat' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 4,
+                    'null'       => false,
+                    'default'    => 0,
+                ],
+            ]);
+        }
+
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Sebutan PJ Kepala Desa',
+            'key'        => 'sebutan_pj_kepala_desa',
+            'value'      => 'Pj.',
+            'keterangan' => 'Pengganti sebutan PJ Kepala Desa',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'Pemerintah Desa',
+        ], $id);
     }
 }
