@@ -205,6 +205,7 @@ class Kelompok_anggota extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Anggota gagal disimpan', $redirect);
         }
+
         return null;
     }
 

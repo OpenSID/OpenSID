@@ -68,11 +68,9 @@ trait Uuid
     /**
      * Set the value used to represent the primary key.
      *
-     * @param mixed $value
-     *
      * @return $this
      */
-    public function setKey($value)
+    public function setKey(mixed $value)
     {
         $this->setAttribute('uuid', $value);
 

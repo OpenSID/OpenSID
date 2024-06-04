@@ -227,11 +227,9 @@ class Keluarga extends BaseModel
     }
 
     /**
-     * @param mixed $id
-     *
      * @return array<mixed, array<'desa'|'id_kk'|'kepala_kk'|'main', mixed>>
      */
-    public static function dataCetak($id): array
+    public static function dataCetak(mixed $id): array
     {
         $result        = [];
         $ids           = is_array($id) ? $id : [$id];
@@ -496,7 +494,7 @@ class Keluarga extends BaseModel
     {
         $result = ['status' => true, 'messages' => []];
         // Sterilkan data
-        $data['alamat'] = strip_tags($data['alamat']);
+        $data['alamat'] = strip_tags((string) $data['alamat']);
         if (! empty($data['id'])) {
             $kkLama = self::findOrFail($data['id']);
             if ($data['no_kk'] == $kkLama->no_kk) {
@@ -505,10 +503,10 @@ class Keluarga extends BaseModel
         }
         $invalid = [];
         if (isset($data['no_kk'])) {
-            if (! ctype_digit($data['no_kk'])) {
+            if (! ctype_digit((string) $data['no_kk'])) {
                 $invalid[] = 'Nomor KK hanya berisi angka';
             }
-            if (strlen($data['no_kk']) != 16 && $data['no_kk'] != '0') {
+            if (strlen((string) $data['no_kk']) != 16 && $data['no_kk'] != '0') {
                 $invalid[] = 'Nomor KK panjangnya harus 16 atau 0';
             }
             if (self::where(['no_kk' => $data['no_kk']])->exists()) {

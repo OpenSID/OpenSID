@@ -139,12 +139,9 @@ class UserGrup extends BaseModel
     /**
      * Scope query untuk status pengguna
      *
-     * @param mixed $query
-     * @param mixed $status
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $status = 1)
+    public function scopeStatus(mixed $query, mixed $status = 1)
     {
         if ($status == '') {
             return $query;

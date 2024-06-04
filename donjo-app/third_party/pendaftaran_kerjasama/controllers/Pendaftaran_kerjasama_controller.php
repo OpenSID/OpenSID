@@ -76,15 +76,15 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
 
     public function terdaftar(): void
     {
-        $data = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
+        $data     = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
         $response = $data->response;
-        
+
         view('admin.pendaftaran_kerjasama.terdaftar', compact('response'));
     }
 
-    public function form() : void
+    public function form(): void
     {
-        $data = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
+        $data     = json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), null);
         $response = $data->response;
 
         view('admin.pendaftaran_kerjasama.form', compact('response'));

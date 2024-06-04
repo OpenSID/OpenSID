@@ -168,7 +168,7 @@ class Bantuan extends BaseModel
         return $query->select('id', 'nama', 'sasaran', 'ndesc', 'sdate', 'edate', 'status')->get()->toArray();
     }
 
-    public static function peserta_duplikat($program)
+    public static function peserta_duplikat(array $program)
     {
         return DB::table('program_peserta as pp')
             ->select('pp.peserta', DB::raw('COUNT(pp.peserta) as jumlah'), DB::raw('MAX(pp.id) as id'), DB::raw('MAX(p.nama) as nama'), DB::raw('MAX(p.sasaran) as sasaran'), DB::raw('MAX(pp.kartu_nama) as kartu_nama'))
@@ -202,7 +202,7 @@ class Bantuan extends BaseModel
         return $program_id;
     }
 
-    public static function cek_peserta($peserta = '', $sasaran = 1)
+    public static function cek_peserta($peserta = '', $sasaran = 1): false|array
     {
         if (in_array($peserta, [null, '-', ' ', '0'])) {
             return false;
@@ -266,24 +266,27 @@ class Bantuan extends BaseModel
         return [
             'id'              => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
             'sasaran_peserta' => $sasaran_peserta,
-            'valid'           => str_replace("'", '', explode(', ', sql_in_list(array_column($data, 'nik')))), // untuk daftar valid anggota keluarga
+            'valid'           => str_replace("'", '', explode(', ', (string) sql_in_list(array_column($data, 'nik')))), // untuk daftar valid anggota keluarga
         ];
     }
 
-    public static function impor_peserta($program_id = '', $data_peserta = [], $kosongkan_peserta = 0, $data_diubah = '')
+    public static function impor_peserta($program_id = '', $data_peserta = [], $kosongkan_peserta = 0, $data_diubah = ''): bool
     {
         if ($kosongkan_peserta == 1) {
             BantuanPeserta::where('program_id', $program_id)->delete();
         }
 
         if ($data_diubah) {
-            $peserta_ubah = explode(', ', ltrim($data_diubah, ', '));
+            $peserta_ubah = explode(', ', ltrim((string) $data_diubah, ', '));
             BantuanPeserta::where('program_id', $program_id)->whereIn('peserta', $peserta_ubah)->delete();
         }
-
-        if ($data_peserta != null && $kosongkan_peserta != 1) {
-            BantuanPeserta::insert($data_peserta);
+        if ($data_peserta == null) {
+            return true;
         }
+        if ($kosongkan_peserta == 1) {
+            return true;
+        }
+        BantuanPeserta::insert($data_peserta);
 
         return true;
     }
@@ -302,11 +305,10 @@ class Bantuan extends BaseModel
      * Scope query untuk status bantuan
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus($query, mixed $value = 1)
     {
         return $query->where('status', $value);
     }
@@ -314,11 +316,9 @@ class Bantuan extends BaseModel
     /**
      * Scope config_id, dipisah untuk kebutuhan OpenKab.
      *
-     * @param mixed $query
-     *
      * @return Builder
      */
-    public function scopeConfigId($query)
+    public function scopeConfigId(mixed $query)
     {
         return $query->where('config_id', identitas('id'))->orWhereNull('config_id');
     }

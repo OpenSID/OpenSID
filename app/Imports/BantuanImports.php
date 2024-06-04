@@ -45,26 +45,18 @@ use Rap2hpoutre\FastExcel\FastExcel;
 class BantuanImports
 {
     protected $path;
-    protected $ganti_program;
-    protected $kosongkan_peserta;
-    protected $ganti_peserta;
-    protected $rand_kartu_peserta;
 
-    public function __construct($path = null, $ganti_program = 0, $kosongkan_peserta = 0, $ganti_peserta = 0, $rand_kartu_peserta = 0)
+    public function __construct($path = null, protected $ganti_program = 0, protected $kosongkan_peserta = 0, protected $ganti_peserta = 0, protected $rand_kartu_peserta = 0)
     {
-        $this->path               = $path ?? DEFAULT_LOKASI_IMPOR . 'bantuan.xlsx';
-        $this->ganti_program      = $ganti_program;
-        $this->kosongkan_peserta  = $kosongkan_peserta;
-        $this->ganti_peserta      = $ganti_peserta;
-        $this->rand_kartu_peserta = $rand_kartu_peserta;
+        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'bantuan.xlsx';
     }
 
-    private function getValue($array)
+    private function getValue($array): array
     {
         return array_values($array);
     }
 
-    private function getId($array)
+    private function getId($array): array
     {
         return array_keys($array);
     }

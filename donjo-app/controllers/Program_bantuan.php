@@ -47,7 +47,6 @@ use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use OpenSpout\Common\Entity\Style\Color;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
@@ -81,14 +80,14 @@ class Program_bantuan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $sasaran = $this->input->get('sasaran') ?? null;
+            $sasaran    = $this->input->get('sasaran') ?? null;
             $program_id = $this->input->get('program_id') ?? null;
 
             return datatables()->of(Bantuan::configId()->getProgram($program_id)->when($sasaran, static fn ($q) => $q->where('sasaran', $sasaran)))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $openKab = null === $row->config_id ? 'disabled' : '';
-                    $aksi = '';
+                    $aksi    = '';
 
                     $aksi = '<a href="' . site_url("peserta_bantuan/detail_clear/{$row->id}") . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list"></i></a>';
 
@@ -110,15 +109,9 @@ class Program_bantuan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tampil_tanggal', static function ($row): string {
-                    return fTampilTgl($row->sdate, $row->edate);
-                })
-                ->editColumn('sasaran', static function ($row): string {
-                    return SasaranEnum::valueOf($row->sasaran);
-                })
-                ->editColumn('status', static function ($row): string {
-                    return AktifEnum::valueOf($row->status);
-                })
+                ->editColumn('tampil_tanggal', static fn ($row): string => fTampilTgl($row->sdate, $row->edate))
+                ->editColumn('sasaran', static fn ($row): string => SasaranEnum::valueOf($row->sasaran))
+                ->editColumn('status', static fn ($row): string => AktifEnum::valueOf($row->status))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -281,7 +274,8 @@ class Program_bantuan extends Admin_Controller
         view('admin.program_bantuan.panduan');
     }
 
-    private function validasi_form() {
+    private function validasi_form()
+    {
         $this->form_validation->set_rules('cid', 'Sasaran', 'required');
         $this->form_validation->set_rules('nama', 'Nama Program', 'required');
         $this->form_validation->set_rules('sdate', 'Tanggal awal', 'required');
@@ -305,7 +299,7 @@ class Program_bantuan extends Admin_Controller
             'sdate'    => date('Y-m-d', strtotime($post['sdate'])),
             'edate'    => date('Y-m-d', strtotime($post['edate'])),
             'kk_level' => $kk_level,
-            'status' => 1,
+            'status'   => 1,
         ];
     }
 
@@ -346,7 +340,7 @@ class Program_bantuan extends Admin_Controller
         $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
         $data['nama_excerpt'] = Str::limit($data['program']['nama'], 25);
         $data['kk_level']     = DB::table('tweb_penduduk_hubungan')->pluck('nama', 'id')->toArray();
-        $data['sasaran'] = SasaranEnum::all();
+        $data['sasaran']      = SasaranEnum::all();
         if ($this->form_validation->run() === false) {
             view('admin.program_bantuan.edit', $data);
         } else {
@@ -358,7 +352,7 @@ class Program_bantuan extends Admin_Controller
     public function update($post, $id): void
     {
         isCan('u', 'program-bantuan');
-        if($id !== 0) {
+        if ($id !== 0) {
             if (Bantuan::findOrFail($id)->update($this->validasi_bantuan($post))) {
                 redirect_with('success', 'Berhasil Ubah Data');
             }
@@ -390,10 +384,10 @@ class Program_bantuan extends Admin_Controller
         if ($this->upload->do_upload('userfile')) {
             $upload = $this->upload->data();
 
-            $ganti_program           = $this->input->post('ganti_program');
-            $kosongkan_peserta       = $this->input->post('kosongkan_peserta');
-            $ganti_peserta           = $this->input->post('ganti_peserta');
-            $rand_kartu_peserta      = $this->input->post('rand_kartu_peserta');
+            $ganti_program      = $this->input->post('ganti_program');
+            $kosongkan_peserta  = $this->input->post('kosongkan_peserta');
+            $ganti_peserta      = $this->input->post('ganti_peserta');
+            $rand_kartu_peserta = $this->input->post('rand_kartu_peserta');
 
             $result = (new BantuanImports($upload['full_path'], $ganti_program, $kosongkan_peserta, $ganti_peserta, $rand_kartu_peserta))->import();
             if (! $result) {

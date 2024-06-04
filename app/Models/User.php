@@ -148,12 +148,9 @@ class User extends BaseModel
     /**
      * Scope query untuk status pengguna
      *
-     * @param mixed $query
-     * @param mixed $status
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $status = 1)
+    public function scopeStatus(mixed $query, mixed $status = 1)
     {
         if ($status == '') {
             return $query;
@@ -173,11 +170,9 @@ class User extends BaseModel
      *
      * Super admin tidak terikat dengan status (selalu aktif) dan hanya ada 1 untuk setiap desa
      *
-     * @param mixed $query
-     *
      * @return Builder
      */
-    public function scopeSuperAdmin($query)
+    public function scopeSuperAdmin(mixed $query)
     {
         return $query->where('id_grup', UserGrup::getGrupId(UserGrup::ADMINISTRATOR))->first();
     }

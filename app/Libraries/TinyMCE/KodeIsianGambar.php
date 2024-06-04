@@ -42,9 +42,6 @@ use App\Models\Penduduk;
 
 class KodeIsianGambar
 {
-    private $request;
-    private $result;
-    private $surat;
     private $urls_id;
 
     /**
@@ -52,13 +49,10 @@ class KodeIsianGambar
      */
     protected $ci;
 
-    public function __construct($request, $result, $surat = null)
+    public function __construct(private $request, private $result, private $surat = null)
     {
         $this->ci = &get_instance();
         $this->ci->load->model('surat_model');
-        $this->request = $request;
-        $this->result  = $result;
-        $this->surat   = $surat;
     }
 
     public static function set($request, $result, $surat = null): array

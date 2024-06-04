@@ -52,11 +52,6 @@ use Throwable;
 class Kernel implements KernelContract
 {
     /**
-     * The application implementation.
-     */
-    protected Laravel $app;
-
-    /**
      * The Artisan application instance.
      *
      * @var Artisan
@@ -82,10 +77,12 @@ class Kernel implements KernelContract
      *
      * @return void
      */
-    public function __construct(Laravel $app)
-    {
-        $this->app = $app;
-
+    public function __construct(
+        /**
+         * The application implementation.
+         */
+        protected Laravel $app
+    ) {
         if ($this->app->runningInConsole()) {
             $this->setRequestForConsole($this->app);
         }

@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#7813](https://github.com/OpenSID/OpenSID/issues/7813) Penyesuaian modul pendaftaran kerjasama desa menggunakan ORM dan Blade.
 3. [#7410](https://github.com/OpenSID/OpenSID/issues/7410) Penyesuaian modul program bantuan menggunakan ORM dan Blade.
 4. [#8041](https://github.com/OpenSID/OpenSID/issues/8041) Penyesuaian hak akses modul setting.
+5. [#8044](https://github.com/OpenSID/OpenSID/issues/8044) Penyesuaian support php 8.1 dan hapus support php 7.4.
 
 
 #### KEAMANAN

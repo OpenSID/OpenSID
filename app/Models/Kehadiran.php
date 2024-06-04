@@ -100,7 +100,7 @@ class Kehadiran extends BaseModel
     public function scopeFilter($query, array $filters)
     {
         if (! empty($filters['tanggal'])) {
-            [$awal, $akhir] = explode(' - ', $filters['tanggal']);
+            [$awal, $akhir] = explode(' - ', (string) $filters['tanggal']);
             $query->whereBetween('tanggal', [$awal, $akhir]);
         }
 

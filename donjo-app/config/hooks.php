@@ -132,14 +132,3 @@ $app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->boot();
 $moduleLocations = $CFG->item('modules_locations');
 $hook            = getHooks(['modules_location' => $moduleLocations]);
-
-if (ENVIRONMENT === 'development') {
-    Illuminate\Support\Facades\DB::enableQueryLog();
-
-    /**
-     * Uncomment untuk listen semua query dari illuminate database.
-     */
-    Illuminate\Support\Facades\Event::listen(Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
-        log_message('error', array_reduce($query->bindings, static fn ($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql));
-    });
-}

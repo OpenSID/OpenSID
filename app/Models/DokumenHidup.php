@@ -178,7 +178,7 @@ class DokumenHidup extends BaseModel
         $data = $query->where('id', $id)->first()->toArray();
 
         if ($data) {
-            $data['attr'] = json_decode($data['attr'], true);
+            $data['attr'] = json_decode((string) $data['attr'], true);
 
             return array_filter($data);
         }

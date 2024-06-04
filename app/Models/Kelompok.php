@@ -86,12 +86,9 @@ class Kelompok extends BaseModel
     /**
      * Scope query untuk status kelompok
      *
-     * @param mixed $query
-     * @param mixed $status
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $status = 1)
+    public function scopeStatus(mixed $query, mixed $status = 1)
     {
         return $query->whereHas('ketua', static function ($q) use ($status): void {
             $q->status($status);
@@ -101,12 +98,9 @@ class Kelompok extends BaseModel
     /**
      * Scope query untuk tipe kelompok
      *
-     * @param mixed $query
-     * @param mixed $tipe
-     *
      * @return Builder
      */
-    public function scopeTipe($query, $tipe = 'kelompok')
+    public function scopeTipe(mixed $query, mixed $tipe = 'kelompok')
     {
         return $query->where("{$this->table}.tipe", $tipe);
     }
@@ -115,10 +109,8 @@ class Kelompok extends BaseModel
      * Scope query untuk jenis kelalamin ketua.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
-     * @param mixed                              $session
      */
-    public function scopeJenisKelaminKetua($query, $session = ''): void
+    public function scopeJenisKelaminKetua($query, mixed $session = ''): void
     {
         $query->whereHas('ketua', static function ($query) use ($session): void {
             if (! empty($session)) {
@@ -137,7 +129,6 @@ class Kelompok extends BaseModel
      * Scope query untuk penerima bantuan.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
      */
     public function scopePenerimaBantuan($query): void
     {
@@ -177,15 +168,12 @@ class Kelompok extends BaseModel
      * Scope query untuk list penduduk.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
-     * @param mixed                              $exKelompok
-     * @param mixed                              $pendId
      *
      * @return @return \Illuminate\Database\Eloquent\Collection
      */
-    public function scopeListPenduduk($query, $exKelompok = 0, $pendId = 0)
+    public function scopeListPenduduk($query, mixed $exKelompok = 0, mixed $pendId = 0)
     {
-        $sebutanDusun = ucwords(setting('sebutan_dusun'));
+        $sebutanDusun = ucwords((string) setting('sebutan_dusun'));
 
         $query = $this->withoutGlobalScopes()
             ->withConfigId('p')
@@ -223,13 +211,10 @@ class Kelompok extends BaseModel
      * Scope query untuk in list penduduk.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $status
-     * @param mixed                              $kelompok
-     * @param mixed                              $pendId
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function scopeInListPenduduk($query, $kelompok, $pendId)
+    public function scopeInListPenduduk($query, mixed $kelompok, mixed $pendId)
     {
         $query = $this->withoutGlobalScopes()
             ->withConfigId('k')

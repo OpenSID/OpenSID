@@ -139,17 +139,14 @@ class LogSurat extends BaseModel
     /**
      * Scope query untuk Status LogSurat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus(mixed $query, mixed $value = 1)
     {
         return $query->where('status', $value);
     }
 
-    public function getFormatPenomoranSuratAttribute()
+    public function getFormatPenomoranSuratAttribute(): string|array
     {
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
@@ -282,12 +279,11 @@ class LogSurat extends BaseModel
      * Cari surat dengan nomor terakhir sesuai setting aplikasi
      *
      * @param		string 	nama tabel surat
-     * @param mixed      $type
      * @param mixed|null $url
      *
      * @return array surat terakhir
      */
-    public static function suratTerakhir($type, $url = null)
+    public static function suratTerakhir(mixed $type, $url = null)
     {
         $setting = setting('penomoran_surat');
 
@@ -325,7 +321,7 @@ class LogSurat extends BaseModel
                     $surat = LogSurat::whereNull('deleted_at')
                         ->whereYear('tanggal', $thn)
                         ->rightJoin('tweb_surat_format', 'tweb_surat_format.id', '=', 'log_surat.id_format_surat')
-                        ->where('kode_surat', static function ($q) use ($url) {
+                        ->where('kode_surat', static function ($q) use ($url): void {
                             $q->select('kode_surat')
                                 ->from('tweb_surat_format')
                                 ->where('url_surat', $url);

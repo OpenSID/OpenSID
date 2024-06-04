@@ -128,11 +128,11 @@ class Buku_tamu extends Anjungan_Controller
         $request = $this->input->post();
 
         return [
-            'nama'          => htmlentities($request['nama']),
-            'telepon'       => htmlentities($request['telepon']),
-            'instansi'      => htmlentities($request['instansi']),
+            'nama'          => htmlentities((string) $request['nama']),
+            'telepon'       => htmlentities((string) $request['telepon']),
+            'instansi'      => htmlentities((string) $request['instansi']),
             'jenis_kelamin' => bilangan($request['jenis_kelamin']),
-            'alamat'        => htmlentities($request['alamat']),
+            'alamat'        => htmlentities((string) $request['alamat']),
             'bidang'        => bilangan($request['id_bidang']),
             'keperluan'     => bilangan($request['id_keperluan']),
         ];
@@ -159,7 +159,7 @@ class Buku_tamu extends Anjungan_Controller
 
     private function data()
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
         $_GET           = $paramDatatable;
         $query          = $this->sumberData();
         if ($paramDatatable['start']) {

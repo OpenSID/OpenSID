@@ -158,7 +158,7 @@ class Analisis_master extends Admin_Controller
         $master = $this->analisis_master_model->get_analisis_master($id) ?? show_404();
         //Nama File
         $tgl      = date('Y_m_d');
-        $fileName = 'analisis_' . urlencode($master['nama']) . '_' . $tgl . '.xlsx';
+        $fileName = 'analisis_' . urlencode((string) $master['nama']) . '_' . $tgl . '.xlsx';
         $writer->openToBrowser($fileName); // stream data directly to the browser
 
         $this->ekspor_master($writer, $master);
@@ -420,7 +420,7 @@ class Analisis_master extends Admin_Controller
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
 
-            $variabel                   = json_decode($response->getBody(), true);
+            $variabel                   = json_decode((string) $response->getBody(), true);
             $this->session->data_import = $variabel;
             $this->session->gform_id    = $this->input->get('formId');
             $this->session->success     = 5;
@@ -481,7 +481,7 @@ class Analisis_master extends Admin_Controller
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
 
-            $variabel                   = json_decode($response->getBody(), true);
+            $variabel                   = json_decode((string) $response->getBody(), true);
             $this->session->data_import = $variabel;
             $this->analisis_import_model->update_import_gform($id, $variabel);
 

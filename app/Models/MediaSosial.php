@@ -121,40 +121,37 @@ class MediaSosial extends BaseModel
     {
 
         $valid_link = filter_var($link, FILTER_VALIDATE_URL);
-
-        switch (true) {
-            case $nama === 'Facebook' && $tipe === 1:
-                return $valid_link ? $link : 'https://web.facebook.com/' . $link;
-
-            case $nama === 'Facebook' && $tipe === 2:
-                return $valid_link ? $link : 'https://web.facebook.com/groups/' . $link;
-
-            case $nama === 'Twitter':
-                return $valid_link ? $link : 'https://twitter.com/' . $link;
-
-            case $nama === 'YouTube':
-                return $valid_link ? $link : 'https://www.youtube.com/channel/' . $link;
-
-            case $nama === 'Instagram':
-                return $valid_link ? $link : 'https://www.instagram.com/' . $link . '/';
-
-            case $nama === 'WhatsApp' && $tipe === 1:
-                $link = ($valid_link ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
-
-                return str_replace('phone=0', 'phone=62', $link);
-
-            case $nama === 'WhatsApp' && $tipe === 2:
-                return $valid_link ? $link : 'https://chat.whatsapp.com/' . $link;
-
-            case $nama === 'Telegram' && $tipe === 1:
-                return $valid_link ? $link : 'https://t.me/' . $link;
-
-            case $nama === 'Telegram' && $tipe === 2:
-                return $valid_link ? $link : 'https://t.me/joinchat/' . $link;
-
-            default:
-                return $link;
+        if ($nama === 'Facebook' && $tipe === 1) {
+            return $valid_link ? $link : 'https://web.facebook.com/' . $link;
         }
+        if ($nama === 'Facebook' && $tipe === 2) {
+            return $valid_link ? $link : 'https://web.facebook.com/groups/' . $link;
+        }
+        if ($nama === 'Twitter') {
+            return $valid_link ? $link : 'https://twitter.com/' . $link;
+        }
+        if ($nama === 'YouTube') {
+            return $valid_link ? $link : 'https://www.youtube.com/channel/' . $link;
+        }
+        if ($nama === 'Instagram') {
+            return $valid_link ? $link : 'https://www.instagram.com/' . $link . '/';
+        }
+        if ($nama === 'WhatsApp' && $tipe === 1) {
+            $link = ($valid_link ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
+
+            return str_replace('phone=0', 'phone=62', $link);
+        }
+        if ($nama === 'WhatsApp' && $tipe === 2) {
+            return $valid_link ? $link : 'https://chat.whatsapp.com/' . $link;
+        }
+        if ($nama === 'Telegram' && $tipe === 1) {
+            return $valid_link ? $link : 'https://t.me/' . $link;
+        }
+        if ($nama === 'Telegram' && $tipe === 2) {
+            return $valid_link ? $link : 'https://t.me/joinchat/' . $link;
+        }
+
+        return $link;
     }
 
     protected static function booted()

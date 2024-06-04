@@ -37,15 +37,15 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Dokumen;
-use App\Enums\StatusEnum;
-use App\Models\DokumenHidup;
 use App\Enums\JenisPeraturan;
+use App\Enums\StatusEnum;
+use App\Models\Dokumen;
+use App\Models\DokumenHidup;
 
 class Lembaran_desa extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-umum';
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
 
     public function __construct()
     {
@@ -94,7 +94,7 @@ class Lembaran_desa extends Admin_Controller
                 })
                 ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
                 ->editColumn('additional', static function ($row): array {
-                    $attr = json_decode($row->attr, true);
+                    $attr                    = json_decode($row->attr, true);
                     $data['jenis_peraturan'] = $attr['jenis_peraturan'];
                     $data['tgl_ditetapkan']  = strip_kosong($attr['no_ditetapkan']) . ' / ' . $attr['tgl_ditetapkan'];
                     $data['uraian_singkat']  = $attr['uraian'];
@@ -231,11 +231,12 @@ class Lembaran_desa extends Admin_Controller
             $regex   = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-' . $data['tahun'];
             $laporan = DokumenHidup::PeraturanDesa(3)->whereRaw("attr REGEXP '" . $regex . "'")->get();
         }
-        $data['main'] = $laporan->map(function ($document) {
+        $data['main'] = $laporan->map(static function ($document) {
                 $array = $document->toArray();
                 if (isset($array['attr'])) {
                     $array['attr'] = json_decode($array['attr'], true);
                 }
+
                 return $array;
             })->toArray();
         $data['config']    = $this->header['desa'];

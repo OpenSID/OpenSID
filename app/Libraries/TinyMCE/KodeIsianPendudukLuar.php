@@ -39,8 +39,6 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianPendudukLuar
 {
-    private $suratMatser;
-    private $inputForm;
     public static array $kodeIsian = [
         'nik',
         'nama',
@@ -76,10 +74,8 @@ class KodeIsianPendudukLuar
         'form_nik_non_warga',
     ];
 
-    public function __construct($suratMatser, $inputForm)
+    public function __construct(private $suratMatser, private $inputForm)
     {
-        $this->suratMatser = $suratMatser;
-        $this->inputForm   = $inputForm;
     }
 
     public static function get($suratMatser, $inputForm)

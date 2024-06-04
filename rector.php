@@ -62,7 +62,7 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/app',
     ]);
 
-    $rectorConfig->phpVersion(PhpVersion::PHP_74);
+    $rectorConfig->phpVersion(PhpVersion::PHP_81);
 
     // register a single rule, test push
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);
@@ -94,7 +94,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     // define sets of rules
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_74,
+        LevelSetList::UP_TO_PHP_81,
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::TYPE_DECLARATION,

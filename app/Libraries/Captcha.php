@@ -74,21 +74,12 @@ class Captcha
         $bg   = static::background();
         $font = static::font();
         $info = getimagesize($bg);
-        $old  = null;
-
-        switch ($info['mime']) {
-            case 'image/jpg':
-            case 'image/jpeg': $old = imagecreatefromjpeg($bg);
-                break;
-
-            case 'image/gif':  $old = imagecreatefromgif($bg);
-                break;
-
-            case 'image/png':  $old = imagecreatefrompng($bg);
-                break;
-
-            default:           throw new Exception('Only JPG, PNG and GIF are supported for backgrounds.');
-        }
+        $old  = match ($info['mime']) {
+            'image/jpg', 'image/jpeg' => imagecreatefromjpeg($bg),
+            'image/gif' => imagecreatefromgif($bg),
+            'image/png' => imagecreatefrompng($bg),
+            default     => throw new Exception('Only JPG, PNG and GIF are supported for backgrounds.'),
+        };
 
         // default settings
         $width  = 120;
@@ -131,7 +122,7 @@ class Captcha
 
     public static function check($value): bool
     {
-        $value = trim((string) (static::$case_sensitive ? $value : strtolower($value)));
+        $value = trim((string) (static::$case_sensitive ? $value : strtolower((string) $value)));
         $hash  = ci()->session->captcha;
 
         return $value && $hash && Hash::check($value, $hash);
