@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8047](https://github.com/OpenSID/OpenSID/issues/8047) Perbaikan hak akses buku ekspedisi.
 8. [#8037](https://github.com/OpenSID/OpenSID/issues/8037) Perbaikan informasi arsipkan pesan masuk.
 9. [#8039](https://github.com/OpenSID/OpenSID/issues/8039) Perbaikan validasi panjang karakter jadi 20 pada isian kode alias (judul dan alias).
+10. [#8011](https://github.com/OpenSID/OpenSID/issues/8011) Perbaikan template surat biodata penduduk.
 
 
 #### TEKNIS
