@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Ekspedisi extends Admin_Controller
 {
     public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'administrasi-umum';
+    public $sub_modul_ini       = 'buku-eskpedisi';
     private array $uploadConfig = [];
 
     public function __construct()
