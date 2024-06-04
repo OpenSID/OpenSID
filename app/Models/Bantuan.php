@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
@@ -85,32 +84,37 @@ class Bantuan extends BaseModel
         if ($program_id === null) {
             return $query;
         }
+
         return $query->whereId($program_id);
     }
 
     public static function peserta_tidak_valid($sasaran)
     {
         $query = DB::table('program_peserta as pp')
-        ->select('pp.id', 'p.nama', 'p.sasaran', 'pp.peserta', 'pp.kartu_nama')
-        ->join('program as p', 'p.id', '=', 'pp.program_id')
-        ->where('p.sasaran', $sasaran)
-        ->whereNull('s.id')
-        ->orderBy('p.sasaran')
-        ->orderBy('pp.peserta');
+            ->select('pp.id', 'p.nama', 'p.sasaran', 'pp.peserta', 'pp.kartu_nama')
+            ->join('program as p', 'p.id', '=', 'pp.program_id')
+            ->where('p.sasaran', $sasaran)
+            ->whereNull('s.id')
+            ->orderBy('p.sasaran')
+            ->orderBy('pp.peserta');
 
         switch ($sasaran) {
             case '1':
                 $query->leftJoin('tweb_penduduk as s', 's.nik', '=', 'pp.peserta');
                 break;
+
             case '2':
                 $query->leftJoin('tweb_keluarga as s', 's.no_kk', '=', 'pp.peserta');
                 break;
+
             case '3':
                 $query->leftJoin('tweb_rtm as s', 's.no_kk', '=', 'pp.peserta');
                 break;
+
             case '4':
                 $query->leftJoin('kelompok as s', 's.kode', '=', 'pp.peserta');
                 break;
+
             default:
                 break;
         }
@@ -167,20 +171,20 @@ class Bantuan extends BaseModel
     public static function peserta_duplikat($program)
     {
         return DB::table('program_peserta as pp')
-        ->select('pp.peserta', DB::raw('COUNT(pp.peserta) as jumlah'), DB::raw('MAX(pp.id) as id'), DB::raw('MAX(p.nama) as nama'), DB::raw('MAX(p.sasaran) as sasaran'), DB::raw('MAX(pp.kartu_nama) as kartu_nama'))
-        ->join('program as p', 'pp.program_id', '=', 'p.id')
-        ->where('pp.program_id', $program['id'])
-        ->groupBy('pp.peserta')
-        ->havingRaw('COUNT(pp.peserta) > 1')
-        ->get()
-        ->toArray() ?? [];
+            ->select('pp.peserta', DB::raw('COUNT(pp.peserta) as jumlah'), DB::raw('MAX(pp.id) as id'), DB::raw('MAX(p.nama) as nama'), DB::raw('MAX(p.sasaran) as sasaran'), DB::raw('MAX(pp.kartu_nama) as kartu_nama'))
+            ->join('program as p', 'pp.program_id', '=', 'p.id')
+            ->where('pp.program_id', $program['id'])
+            ->groupBy('pp.peserta')
+            ->havingRaw('COUNT(pp.peserta) > 1')
+            ->get()
+            ->toArray() ?? [];
     }
 
     public static function impor_program($program_id = null, $data_program = [], $ganti_program = 0)
     {
-        $sekarang               = $data_program['sdate'] ?? date('Y m d');
-        $data_tambahan          = [
-            'status'    => ($data_program['edate'] < $sekarang) ? 0 : 1,
+        $sekarang      = $data_program['sdate'] ?? date('Y m d');
+        $data_tambahan = [
+            'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
             // 'config_id' => $this->config_id,
         ];
 
@@ -208,7 +212,7 @@ class Bantuan extends BaseModel
             case 1:
                 // Penduduk
                 $sasaran_peserta = 'NIK';
-                $data = PendudukHidup::select('id','nik')->where('nik', $peserta)->get()->toArray();
+                $data            = PendudukHidup::select('id', 'nik')->where('nik', $peserta)->get()->toArray();
                 // $data = PendudukHidup::with(['keluarga_aktif' => static function ($query): void {
                 //     $query->select('id', 'no_kk');
                 // }])->where('nik', $peserta)->get()->toArray();
@@ -221,10 +225,10 @@ class Bantuan extends BaseModel
                 $sasaran_peserta = 'No. KK';
 
                 $data = PendudukHidup::leftJoin('keluarga_aktif', 'penduduk_hidup.id_kk', '=', 'keluarga_aktif.id')
-                ->select('keluarga_aktif.id', 'penduduk_hidup.nik')
-                ->where('keluarga_aktif.no_kk', $peserta)
-                ->get()
-                ->toArray();
+                    ->select('keluarga_aktif.id', 'penduduk_hidup.nik')
+                    ->where('keluarga_aktif.no_kk', $peserta)
+                    ->get()
+                    ->toArray();
                 // dd($data);
                 break;
 
@@ -251,7 +255,7 @@ class Bantuan extends BaseModel
                     ->where('kelompok.kode', $peserta)
                     ->get()
                     ->toArray();
-                    
+
                 break;
 
             default:
