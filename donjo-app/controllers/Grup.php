@@ -242,8 +242,8 @@ class Grup extends Admin_Controller
         if ($grupAkses) {
             GrupAkses::insert($grupAkses);
         }
-        cache()->forget('akses_grup_' . $grupId);
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+        cache()->forget("akses_grup_{$grupId}");
+        cache()->forget("{$grupId}_admin_menu");
     }
 
     public function delete($id = null): void
