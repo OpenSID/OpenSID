@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8037](https://github.com/OpenSID/OpenSID/issues/8037) Perbaikan informasi arsipkan pesan masuk.
 9. [#8039](https://github.com/OpenSID/OpenSID/issues/8039) Perbaikan validasi panjang karakter jadi 20 pada isian kode alias (judul dan alias).
 10. [#8011](https://github.com/OpenSID/OpenSID/issues/8011) Perbaikan template surat biodata penduduk.
+11. [#8016](https://github.com/OpenSID/OpenSID/issues/8016) Perbaikan penulisan gelar pemerintah desa.
 
 
 #### TEKNIS
