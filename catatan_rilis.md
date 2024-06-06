@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#8032](https://github.com/OpenSID/OpenSID/issues/8032) Perbaikan validasi wilayah dusun/rw/rt.
 15. [#8070](https://github.com/OpenSID/OpenSID/issues/8070) Perbaikan link modul pengurus.
 16. [#8069](https://github.com/OpenSID/OpenSID/issues/8069) Perbaikan default order berdasarkan tanggal penerimaan surat masuk.
+17. [#8058](https://github.com/OpenSID/OpenSID/issues/8058) Perbaikan hak akses pada tombol dan cetang pada setiap modul.
 
 
 #### TEKNIS

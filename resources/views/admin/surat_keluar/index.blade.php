@@ -114,6 +114,10 @@
                 order: []
             });
 
+            if (hapus == 0) {
+                TableData.column(0).visible(false);
+            }
+
             $('#tahun').change(function() {
                 TableData.draw()
             })

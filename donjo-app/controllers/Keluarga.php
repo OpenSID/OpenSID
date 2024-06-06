@@ -112,11 +112,7 @@ class Keluarga extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of($this->sumberData())
-                ->addColumn('ceklist', static function ($row) use ($canDelete) {
-                    if ($canDelete) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
-                    }
-                })->addColumn('valid_kk', static function ($row) {
+                ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')->addColumn('valid_kk', static function ($row) {
                     $result = '';
                     if (strlen($row->no_kk) < 16) {
                         $result = 'warning';
