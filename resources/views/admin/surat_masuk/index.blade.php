@@ -68,6 +68,9 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
+                order: [
+                    [3, 'desc']
+                ],
                 ajax: {
                     url: "{{ ci_route('surat_masuk.datatables') }}",
                     data: function(req) {
@@ -117,7 +120,6 @@
                         orderable: false
                     },
                 ],
-                order: []
             });
 
             $('#tahun').change(function() {
