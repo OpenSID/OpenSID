@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#8016](https://github.com/OpenSID/OpenSID/issues/8016) Perbaikan penulisan gelar pemerintah desa.
 12. [#8064](https://github.com/OpenSID/OpenSID/issues/8064) Perbaikan urutan anggota keluarga pada surat pengantar pindah penduduk.
 13. [#8061](https://github.com/OpenSID/OpenSID/issues/8061) Perbaikan menu navigasi admin yang menggunakan cache.
+14. [#8032](https://github.com/OpenSID/OpenSID/issues/8032) Perbaikan validasi wilayah dusun/rw/rt.
 
 
 #### TEKNIS

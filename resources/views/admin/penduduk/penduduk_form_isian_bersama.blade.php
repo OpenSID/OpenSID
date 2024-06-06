@@ -583,7 +583,7 @@
                             {{ 'KK' }}
                         @endif
                     </label>
-                    <select id="rw" class="form-control input-sm select2 required">
+                    <select id="rw" name="rw" class="form-control input-sm select2 required">
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $keyDusun => $dusun)
                             <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}" @disabled($penduduk['wilayah']['dusun'] != $keyDusun)>
