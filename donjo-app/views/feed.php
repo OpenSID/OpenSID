@@ -24,7 +24,13 @@
                         <?php if (is_file(LOKASI_FOTO_ARTIKEL . "sedang_{$key->gambar}")): ?>
                             <img src="<?= base_url(LOKASI_FOTO_ARTIKEL . "sedang_{$key->gambar}") ?>" />
                         <?php endif; ?>
-                        <?= htmlentities(strip_tags(substr($key->isi, 0, max(strpos($key->isi, ' ', 260), 200))) . '[...]'); ?>
+                        <?php
+                            $position = strpos($key->isi, ' ', 260);
+                            if ($position === false) {
+                                $position = 200;
+                            }
+                            echo htmlentities(strip_tags(substr($key->isi, 0, max($position, 200))) . '[...]');
+                        ?>
                     ]]>
                 </description>
                 <content:encoded>
