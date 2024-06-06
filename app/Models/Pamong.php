@@ -159,9 +159,19 @@ class Pamong extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function kehadiran()
+    public function kehadiranPerangkat()
     {
         return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function kehadiranPengaduan()
+    {
+        return $this->hasMany(KehadiranPengaduan::class, 'id_pamong', 'id');
     }
 
     public function scopeSelectData($query)
