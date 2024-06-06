@@ -27,7 +27,7 @@
                                 <div class="jumbotron">
                                     <p>Widget {{ $pemerintah }} menampilkan foto staf {{ $pemerintah }}. Klik tombol berikut
                                         untuk mengubah data dan foto staf {{ $pemerintah }}</p>
-                                    <a class="btn btn-primary btn-large" href="{{ site_url('pengurus/clear') }}">{{ $pemerintah }}</a>
+                                    <a class="btn btn-primary btn-large" href="{{ site_url('pengurus') }}">{{ $pemerintah }}</a>
                                 </div>
                             </div>
                         </div>

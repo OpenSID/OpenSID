@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#8064](https://github.com/OpenSID/OpenSID/issues/8064) Perbaikan urutan anggota keluarga pada surat pengantar pindah penduduk.
 13. [#8061](https://github.com/OpenSID/OpenSID/issues/8061) Perbaikan menu navigasi admin yang menggunakan cache.
 14. [#8032](https://github.com/OpenSID/OpenSID/issues/8032) Perbaikan validasi wilayah dusun/rw/rt.
+15. [#8070](https://github.com/OpenSID/OpenSID/issues/8070) Perbaikan link modul pengurus.
 
 
 #### TEKNIS
