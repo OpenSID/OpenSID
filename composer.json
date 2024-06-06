@@ -32,7 +32,7 @@
         "illuminate/view": "^10.0",
         "karriere/pdf-merge": "^2.1",
         "laravel/helpers": "^1.7",
-        "league/flysystem": "^1.1",
+        "league/flysystem": "^3.8.0",
         "mike42/escpos-php": "^3.0",
         "opensid/router": "^2403",
         "openspout/openspout": "^4.24",
