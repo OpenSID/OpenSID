@@ -405,7 +405,7 @@ class MultiDB extends Admin_Controller
         $backupData = file_get_contents($backupFile); // Ambil data dari file backup
         $backupData = json_decode($backupData, true); // Decode data JSON
 
-        DB::beginTransaction();
+        // DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
         try {
@@ -443,6 +443,7 @@ class MultiDB extends Admin_Controller
             }
 
             foreach ($backupData['tabel'] as $tableName => $tableDetails) {
+                log_message('error', 'mulai restore table ' . $tableName);
                 $this->restoreTableData($tableName, $tableDetails);
             }
 
@@ -480,11 +481,11 @@ class MultiDB extends Admin_Controller
                 }
             }
 
-            DB::commit();
+            // DB::commit();
             hapus_cache('_cache_modul');
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
         } catch (Exception $e) {
-            DB::rollback();
+            // DB::rollback();
             log_message('error', 'gagal restore ' . $e->getMessage() );
             redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
         }
@@ -515,9 +516,17 @@ class MultiDB extends Admin_Controller
                     }
 
                 }
-                reset_auto_increment($tableName, $tableDetails['primary_key']);
-                DB::table($tableName)->insert($record);
-                log_message('notice', 'Restore data ' . $tableName . ' id ' . $record['id'] . ' berhasil.');
+                if ($tableDetails['primary_key']) {
+                    reset_auto_increment($tableName, $tableDetails['primary_key']);
+                }
+
+                try {
+                    DB::table($tableName)->insert($record);
+                    log_message('notice', 'Restore data ' . $tableName . ' id ' . $record[$tableDetails['primary_key']] . ' berhasil.');
+                } catch (\Exception $e) {
+                    log_message('error', 'Restore data ' . $tableName . ' gagal dengan data ' . json_encode($record));
+                    log_message('error', $e->getMessage());
+                }
             }
         }
     }
@@ -525,22 +534,28 @@ class MultiDB extends Admin_Controller
     private function reStrukturTableData($tableName, $tableDetails, $rand): void
     {
         $primary_key = $tableDetails['primary_key'];
-        // log_message('notice', 'reStrukturTableData  ' . $tableName . ' id ');
+        log_message('notice', 'reStrukturTableData  ' . $tableName . ' ' . $primary_key . ' nilai random ' . $rand);
         $idIni = DB::table('config')->where('app_key', get_app_key())->value('id');
         if ($primary_key !== null) {
             if ($tableName == 'config') {
                 // $id = DB::table($tableName)->where('id', '!=', $idIni)->orderBy('id', 'desc')->first()->id ?? 0;
                 // DB::table($tableName)->where('id', $idIni)->update(['id' => $id + 1]);
             } else {
-                $id = DB::table($tableName)->where('config_id', '!=', $idIni)->orderBy($primary_key, 'desc')->first()->{$primary_key} ?? 0;
-                $id -= $rand;
+                // ada potensi gagal
+                try {
+                    $id = DB::table($tableName)->where('config_id', '!=', $idIni)->orderBy($primary_key, 'desc')->first()->{$primary_key} ?? 0;
+                    $id -= $rand;
 
-                if (in_array($tableName, array_keys($this->tabelKhusus))) {
-                    $child = $this->tabelKhusus[$tableName][1];
-                    DB::table($tableName)->where('config_id', $idIni)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$id}")]);
+                    if (in_array($tableName, array_keys($this->tabelKhusus))) {
+                        $child = $this->tabelKhusus[$tableName][1];
+                        DB::table($tableName)->where('config_id', $idIni)->where($child, '!=', 0)->update([$child => DB::raw("`{$child}` + {$id}")]);
+                    }
+
+                    DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
+                } catch (\Exception $e) {
+                    log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
                 }
 
-                DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
             }
         }
     }
