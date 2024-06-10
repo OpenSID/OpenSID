@@ -208,21 +208,22 @@ class Surat extends Mandiri_Controller
 
         $post = $this->input->post();
         $data = [
+            'config_id'   => identitas('id'),
             'id_pemohon'  => bilangan($post['nik']),
-            'id_surat'    => (int) $post['id_surat'],
+            'id_surat'    => FormatSurat::where('url_surat', $post['url_surat'])->first()->id,
             'isian_form'  => json_encode($post, JSON_THROW_ON_ERROR),
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
             'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
             'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif']),
             'syarat'      => json_encode($data_permohonan['syarat'], JSON_THROW_ON_ERROR),
+            'updated_at'  => date('Y-m-d H:i:s'),
         ];
 
         if ($id) {
-            $data['updated_at'] = date('Y-m-d H:i:s');
             PermohonanSurat::whereId($id)->update($data);
         } else {
-            // pakai insert, karena di model ada setter untuk id_surat yang menjadikan malah bermasalah
-            $data['config_id'] = identitas('id');
+            $data['created_at'] = $data['updated_at'];
+
             PermohonanSurat::insert($data);
 
             if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
