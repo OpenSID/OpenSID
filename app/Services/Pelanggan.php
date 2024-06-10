@@ -34,12 +34,13 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+namespace App\Services;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use GuzzleHttp\Client;
 
-class Pelanggan_model extends MY_Model
+class Pelanggan
 {
     /**
      * @var Client HTTP Client
@@ -48,13 +49,12 @@ class Pelanggan_model extends MY_Model
 
     public function __construct()
     {
-        parent::__construct();
         $this->client = new Client();
     }
 
-    public function status_langganan()
+    public static function status_langganan()
     {
-        if (empty($response = $this->api_pelanggan_pemesanan()) || config_item('demo_mode')) {
+        if (empty($response = self::api_pelanggan_pemesanan()) || config_item('demo_mode')) {
             return null;
         }
 
@@ -95,15 +95,18 @@ class Pelanggan_model extends MY_Model
      *
      * @return mixed
      */
-    public function api_pelanggan_pemesanan()
+    public static function api_pelanggan_pemesanan()
     {
-        if (empty($this->setting->layanan_opendesa_token)) {
-            $this->session->set_userdata('error_status_langganan', 'Token Pelanggan Kosong.');
+        $ci = get_instance();
+        $ci->load->driver(['cache', 'session']);
+
+        if (empty(setting('layanan_opendesa_token'))) {
+            app('ci')->session->set_userdata('error_status_langganan', 'Token Pelanggan Kosong.');
 
             return null;
         }
 
-        if ($cache = $this->cache->file->get('status_langganan')) {
+        if ($cache = app('ci')->cache->file->get('status_langganan')) {
             $modul = collect($cache->body->pemesanan)->filter(static fn ($data): bool => $data->status_pemesanan === 'aktif')
                 ->map(static fn ($data) => collect($data->layanan)->filter(static fn ($data): bool => $data->nama_kategori === 'Modul')
                 // ->map(fn ($data) => collect($data->layanan)->filter(fn ($data) => $data->nama_kategori === "Tema") // untuk testing
@@ -115,7 +118,8 @@ class Pelanggan_model extends MY_Model
                 cache()->remember('modul_aktif', 60 * 60 * 24 * 365, static fn (): array => $modul);
             }
 
-            $this->session->set_userdata('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
+            // set_session('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
+            app('ci')->session->set_userdata('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
 
             return $cache;
         }

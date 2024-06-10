@@ -517,7 +517,7 @@ $config['global_xss_filtering'] = false;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection']   = true;
+$config['csrf_protection']   = false;
 $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 300;
@@ -637,7 +637,7 @@ $config['token_pantau']  = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCw
 | - Server layanan (Default)
 |
 */
-$config['server_layanan'] = 'https://layanan.opendesa.id';
+$config['server_layanan'] = 'https://devlayanan.opendesa.id';
 
 /*
 |--------------------------------------------------------------------------
