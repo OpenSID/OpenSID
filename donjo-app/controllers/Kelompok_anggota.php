@@ -284,7 +284,7 @@ class Kelompok_anggota extends Admin_Controller
         isCan('h');
 
         try {
-            KelompokAnggotaModel::whereIn('id_penduduk', $this->request['id_cb'])->delete();
+            KelompokAnggotaModel::destroy($this->request['id_cb']);
             redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', route($this->controller . '.detail', $id_kelompok));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
