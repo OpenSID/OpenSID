@@ -43,6 +43,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8044](https://github.com/OpenSID/OpenSID/issues/8044) Penyesuaian support php 8.1 dan hapus support php 7.4.
 6. [#8081](https://github.com/OpenSID/OpenSID/issues/8081) Penyesuaian monolog error logging dan queue schedule.
 7. [#7813](https://github.com/OpenSID/OpenSID/issues/7813) Penyesuaian modul layanan pelanggan desa menggunakan ORM dan Blade.
+8. [#8029](https://github.com/OpenSID/OpenSID/issues/8029) Penyesuaian unggah file .gif pada modul widget.
 
 
 #### KEAMANAN
