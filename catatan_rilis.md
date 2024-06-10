@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 20. [#8071](https://github.com/OpenSID/OpenSID/issues/8071) Perbaikan urutan album galeri yang ditampilkan sebagai slider.
 21. [#8059](https://github.com/OpenSID/OpenSID/issues/8059) Perbaikan tambah data pembangunan tanpa gambar.
 22. [#8062](https://github.com/OpenSID/OpenSID/issues/8062) Perbaikan hak akses pada modul wilayah.
+23. [#8068](https://github.com/OpenSID/OpenSID/issues/8068) Perbaikan format cetak laporan semua asset.
 
 
 #### TEKNIS
