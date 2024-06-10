@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#8058](https://github.com/OpenSID/OpenSID/issues/8058) Perbaikan hak akses pada tombol dan cetang pada setiap modul.
 18. [#8019](https://github.com/OpenSID/OpenSID/issues/8019) Perbaikan pemerintah desa yang ditampilkan pada halaman web layanan mandiri.
 19. [#8020](https://github.com/OpenSID/OpenSID/issues/8020) Perbaikan data saksi penduduk luar pada lampiran f-2.02 atau f2.29.
+20. [#8071](https://github.com/OpenSID/OpenSID/issues/8071) Perbaikan urutan album galeri yang ditampilkan sebagai slider.
 
 
 #### TEKNIS
