@@ -56,11 +56,11 @@ class KodeIsianPeristiwa
     public function kodeIsian(): array
     {
         $data = match (true) {
-            in_array(LogPenduduk::BARU_LAHIR, $this->statusDasar) => $this->getLahir($this->logPeristiwa),
-            in_array(LogPenduduk::MATI, $this->statusDasar) => $this->getKematian($this->logPeristiwa),
+            in_array(LogPenduduk::BARU_LAHIR, $this->statusDasar)    => $this->getLahir($this->logPeristiwa),
+            in_array(LogPenduduk::MATI, $this->statusDasar)          => $this->getKematian($this->logPeristiwa),
             in_array(LogPenduduk::PINDAH_KELUAR, $this->statusDasar) => $this->getPindah($this->logPeristiwa),
-            in_array(LogPenduduk::HILANG, $this->statusDasar) => $this->getHilang($this->logPeristiwa),
-            default => [],
+            in_array(LogPenduduk::HILANG, $this->statusDasar)        => $this->getHilang($this->logPeristiwa),
+            default                                                  => [],
         };
 
         $lainnya = $this->getLainnya($this->logPeristiwa);

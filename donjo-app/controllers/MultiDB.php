@@ -523,7 +523,7 @@ class MultiDB extends Admin_Controller
                 try {
                     DB::table($tableName)->insert($record);
                     log_message('notice', 'Restore data ' . $tableName . ' id ' . $record[$tableDetails['primary_key']] . ' berhasil.');
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     log_message('error', 'Restore data ' . $tableName . ' gagal dengan data ' . json_encode($record));
                     log_message('error', $e->getMessage());
                 }
@@ -552,7 +552,7 @@ class MultiDB extends Admin_Controller
                     }
 
                     DB::table($tableName)->where('config_id', $idIni)->update([$primary_key => DB::raw("`{$primary_key}` + {$id}")]);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     log_message('error', 'reStrukturTableData  ' . $tableName . ' gagal ' . $e->getMessage());
                 }
 

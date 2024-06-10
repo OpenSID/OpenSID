@@ -79,7 +79,7 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
 
@@ -132,7 +132,7 @@ $app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 */
 try {
     $app->boot();
-} catch (\Throwable $th) {
+} catch (Throwable $th) {
     $app?->make(ExceptionHandler::class)?->report($th);
 }
 

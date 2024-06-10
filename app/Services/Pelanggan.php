@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace App\Services;
 
 defined('BASEPATH') || exit('No direct script access allowed');

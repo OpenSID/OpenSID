@@ -72,7 +72,7 @@ class Pelanggan_Controller extends Admin_Controller
     public function index(): void
     {
         unset($this->header['perbaharui_langganan']);
-        
+
         $response        = Pelanggan::api_pelanggan_pemesanan();
         $notif_langganan = Pelanggan::status_langganan();
 
@@ -88,28 +88,28 @@ class Pelanggan_Controller extends Admin_Controller
             'title'           => 'Info Layanan Pelanggan',
             'response'        => $response,
             'notif_langganan' => $notif_langganan,
-            'server' => config_item('server_layanan'),
-            'token' => setting('layanan_opendesa_token')
+            'server'          => config_item('server_layanan'),
+            'token'           => setting('layanan_opendesa_token'),
         ]);
     }
 
     public function peringatan(): void
     {
         $error_premium = $this->session->error_premium;
-        $pesan = $this->session->error_premium_pesan;
+        $pesan         = $this->session->error_premium_pesan;
 
         // hapus auto perbarui
         unset($this->header['perbaharui_langganan']);
 
         $response        = Pelanggan::api_pelanggan_pemesanan();
         $notif_langganan = Pelanggan::status_langganan();
-        
+
         view('admin.pelanggan.index', [
             'title'           => 'Info Peringatan',
             'response'        => $response,
             'notif_langganan' => $notif_langganan,
             'error_premium'   => $error_premium,
-            'pesan'        => $pesan,
+            'pesan'           => $pesan,
         ]);
     }
 
@@ -125,11 +125,11 @@ class Pelanggan_Controller extends Admin_Controller
     public function perpanjang_layanan(): void
     {
         view('admin.pelanggan.perpanjang_layanan', [
-            'title'      => 'Layanan Pelanggan',
+            'title'        => 'Layanan Pelanggan',
             'pemesanan_id' => $_GET['pemesanan_id'],
-            'server'     => $_GET['server'],
-            'invoice'    => $_GET['invoice'],
-            'token'      => $_GET['token'],
+            'server'       => $_GET['server'],
+            'invoice'      => $_GET['invoice'],
+            'token'        => $_GET['token'],
         ]);
     }
 
@@ -218,6 +218,7 @@ class Pelanggan_Controller extends Admin_Controller
                     ->where('status', '0')
                     ->where('status_alasan', 'tidak berlangganan anjungan')
                     ->update(['status' => '1']);
+
                 return json([
                     'status'  => true,
                     'message' => 'Token berhasil tersimpan',

@@ -35,9 +35,6 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_beta extends MY_model
