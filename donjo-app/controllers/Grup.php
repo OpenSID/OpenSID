@@ -178,6 +178,10 @@ class Grup extends Admin_Controller
                 redirect_with('success', 'Grup pengguna berhasil disimpan');
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
+                if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                    redirect_with('error', 'Nama grup pengguna sudah ada');
+                }
+
                 redirect_with('error', 'Grup pengguna gagal disimpan');
             }
         }
