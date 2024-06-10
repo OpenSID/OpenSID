@@ -51,6 +51,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Log\LogManager;
 use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Queue\QueueServiceProvider;
 use Illuminate\Support\Composer;
@@ -58,6 +59,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class Laravel extends Container
 {
@@ -144,6 +146,8 @@ class Laravel extends Container
         'files'                                            => 'registerFilesBindings',
         'hash'                                             => 'registerHashBindings',
         \Illuminate\Contracts\Hashing\Hasher::class        => 'registerHashBindings',
+        'log'                                              => 'registerLogBindings',
+        \Psr\Log\LoggerInterface::class                    => 'registerLogBindings',
         'queue'                                            => 'registerQueueBindings',
         'queue.connection'                                 => 'registerQueueBindings',
         \Illuminate\Contracts\Queue\Factory::class         => 'registerQueueBindings',
@@ -184,6 +188,16 @@ class Laravel extends Container
         $this->instance('env', $this->environment());
 
         $this->registerContainerAliases();
+    }
+
+    /**
+     * Determine if the application is currently down for maintenance.
+     *
+     * @return bool
+     */
+    public function isDownForMaintenance()
+    {
+        return false;
     }
 
     /**
@@ -437,6 +451,20 @@ class Laravel extends Container
      *
      * @return void
      */
+    protected function registerLogBindings()
+    {
+        $this->singleton(LoggerInterface::class, function () {
+            $this->configure('logging');
+
+            return new LogManager($this);
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
     protected function registerQueueBindings()
     {
         $this->singleton('queue', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
@@ -662,6 +690,16 @@ class Laravel extends Container
     }
 
     /**
+     * Determine if we are running unit tests.
+     *
+     * @return bool
+     */
+    public function runningUnitTests()
+    {
+        return $this->environment() == 'testing';
+    }
+
+    /**
      * Prepare the application to execute a console command.
      *
      * @param bool $aliases
@@ -746,6 +784,7 @@ class Laravel extends Container
             \Illuminate\Contracts\Filesystem\Filesystem::class      => 'filesystem.disk',
             \Illuminate\Contracts\Filesystem\Cloud::class           => 'filesystem.cloud',
             \Illuminate\Contracts\Hashing\Hasher::class             => 'hash',
+            'log'                                                   => \Psr\Log\LoggerInterface::class,
             \Illuminate\Contracts\Queue\Factory::class              => 'queue',
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
             'request'                                               => Request::class,
