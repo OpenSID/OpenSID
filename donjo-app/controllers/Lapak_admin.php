@@ -71,7 +71,7 @@ class Lapak_admin extends Admin_Controller
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
-                ->when($status, static function ($query, $status): void {
+                ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('produk.status', $status);
                 })
                 ->when($id_pend, static function ($query, $id_pend): void {
