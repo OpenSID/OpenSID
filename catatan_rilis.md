@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 26. [#8067](https://github.com/OpenSID/OpenSID/issues/8067) Perbaikan tanggal kirim surat permohonan layanan mandiri web.
 27. [#8078](https://github.com/OpenSID/OpenSID/issues/8078) Perbaikan hapus data terpilih pada modul anggota kelompok/lembaga.
 28. [#8079](https://github.com/OpenSID/OpenSID/issues/8079) Perbaikan tambah/ubah inventaris tanah.
+29. [#8074](https://github.com/OpenSID/OpenSID/issues/8074) Perbaikan data yang ditampilkan pada halaman daftar pemilih tetap.
 
 
 #### TEKNIS
