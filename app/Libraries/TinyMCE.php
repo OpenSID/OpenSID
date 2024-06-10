@@ -663,8 +663,12 @@ class TinyMCE
         $lampiran = ob_get_clean();
 
         $data['isi_surat'] = $lampiran;
+        $lampiran          = $this->gantiKodeIsian($data, false);
 
-        $lampiran = $this->gantiKodeIsian($data, false);
+        // Replace Gambar menggunakan KodeIsianGambar
+        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat);
+        $lampiran       = $data_gambar['result'];
+        $surat->urls_id = $data_gambar['urls_id'];
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
