@@ -86,8 +86,10 @@ class Inventaris_tanah extends Admin_Controller
         $data['get_kode']  = $this->header['desa'];
         $data['kd_reg']    = $this->inventaris_tanah_model->list_inventaris_kd_register();
         $data['tip']       = 1;
+        $data['label']       = 'Ubah';
+        $data['aksi']       = 'update';
 
-        $this->render('inventaris/tanah/edit_inventaris', $data);
+        $this->render('inventaris/tanah/form', $data);
     }
 
     public function edit_mutasi($id): void
@@ -106,8 +108,10 @@ class Inventaris_tanah extends Admin_Controller
         $data['get_kode']  = $this->header['desa'];
         $data['aset']      = $this->aset_model->list_aset(2);
         $data['count_reg'] = $this->inventaris_tanah_model->count_reg();
+        $data['label']       = 'Isi';
+        $data['aksi']       = 'add';
 
-        $this->render('inventaris/tanah/form_tambah', $data);
+        $this->render('inventaris/tanah/form', $data);
     }
 
     public function form_mutasi($id): void

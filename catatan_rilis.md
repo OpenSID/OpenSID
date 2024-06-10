@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#8075](https://github.com/OpenSID/OpenSID/issues/8075) Perbaikan validasi tambah/ubah pada modul shortcut.
 26. [#8067](https://github.com/OpenSID/OpenSID/issues/8067) Perbaikan tanggal kirim surat permohonan layanan mandiri web.
 27. [#8078](https://github.com/OpenSID/OpenSID/issues/8078) Perbaikan hapus data terpilih pada modul anggota kelompok/lembaga.
+28. [#8079](https://github.com/OpenSID/OpenSID/issues/8079) Perbaikan tambah/ubah inventaris tanah.
 
 
 #### TEKNIS
