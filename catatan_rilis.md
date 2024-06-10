@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#8020](https://github.com/OpenSID/OpenSID/issues/8020) Perbaikan data saksi penduduk luar pada lampiran f-2.02 atau f2.29.
 20. [#8071](https://github.com/OpenSID/OpenSID/issues/8071) Perbaikan urutan album galeri yang ditampilkan sebagai slider.
 21. [#8059](https://github.com/OpenSID/OpenSID/issues/8059) Perbaikan tambah data pembangunan tanpa gambar.
+22. [#8062](https://github.com/OpenSID/OpenSID/issues/8062) Perbaikan hak akses pada modul wilayah.
 
 
 #### TEKNIS
