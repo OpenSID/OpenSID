@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#8062](https://github.com/OpenSID/OpenSID/issues/8062) Perbaikan hak akses pada modul wilayah.
 23. [#8068](https://github.com/OpenSID/OpenSID/issues/8068) Perbaikan format cetak laporan semua asset.
 24. [#8065](https://github.com/OpenSID/OpenSID/issues/8065) Perbaikan hasil kode isian qr_code pada lampiran.
+25. [#8075](https://github.com/OpenSID/OpenSID/issues/8075) Perbaikan validasi tambah/ubah pada modul shortcut.
 
 
 #### TEKNIS

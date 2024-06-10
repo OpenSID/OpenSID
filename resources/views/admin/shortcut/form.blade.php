@@ -45,7 +45,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Akses Modul</label>
-                                <select class="form-control select2" id="akses" name="akses" data-placeholder="Pilih Akses Modul">
+                                <select class="form-control select2 required" id="akses" name="akses" data-placeholder="Pilih Akses Modul">
                                     <option value=""></option>
                                     @foreach ($moduls as $kslug => $mdl)
                                         <option value="{{ $kslug }}" @selected($kslug === $shortcut->akses)>
@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <label>Warna</label>
                                 <div class="input-group my-colorpicker2">
-                                    <input type="text" class="form-control input-sm" name="warna" placeholder="Pilih Warna" value="{{ $shortcut->warna }}">
+                                    <input type="text" class="form-control input-sm required" name="warna" placeholder="Pilih Warna" value="{{ $shortcut->warna }}">
                                     <div class="input-group-addon input-sm"></div>
                                 </div>
                             </div>
@@ -108,7 +108,7 @@
                         <div class="col-md-8" id="query_otomatis" {!! in_array($shortcut->jenis_query, [1]) ? 'style="display: none;"' : '' !!}>
                             <div class="form-group">
                                 <label>Query Otomatis</label>
-                                <select class="form-control select2" name="query_otomatis" data-placeholder="Pilih Query">
+                                <select class="form-control select2 required" name="query_otomatis" data-placeholder="Pilih Query">
                                     <option value=""></option>
                                     @foreach ($querys as $key)
                                         <option value="{{ $key }}" @selected($key === $shortcut->raw_query)>Jumlah
