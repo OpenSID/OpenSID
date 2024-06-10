@@ -46,7 +46,7 @@
                         <select class="form-control input-sm select2" id="status" name="status">
                             <option value="">Pilih Status</option>
                             <option value="1">Aktif</option>
-                            <option value="2">Tidak Aktif</option>
+                            <option value="0">Tidak Aktif</option>
                         </select>
                     </div>
                 </div>
