@@ -59,8 +59,6 @@ class Lapak_kategori_admin extends Admin_Controller
             $status = $this->input->get('status');
             $status = $status === '0' ? '2' : $status;
 
-            log_message('error', 'status: ' . json_encode($status));
-
             $query = ProdukKategori::listKategori()
                 // TODO:: Gunakan 0 dan 1 sebagai status
                 ->when($status !== '', static function ($query) use ($status) {

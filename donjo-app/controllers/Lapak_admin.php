@@ -66,11 +66,13 @@ class Lapak_admin extends Admin_Controller
         }
 
         if ($this->input->is_ajax_request()) {
-            $status             = $this->input->get('status');
+            $status             = (string) $this->input->get('status');
+            $status             = $status === '0' ? '2' : $status;
             $id_pend            = $this->input->get('id_pend');
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
+                // TODO:: Gunakan 0 dan 1 sebagai status
                 ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('produk.status', $status);
                 })
