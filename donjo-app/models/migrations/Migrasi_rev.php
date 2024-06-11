@@ -35,8 +35,9 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,6 +54,7 @@ class Migrasi_rev extends MY_model
 
         $hasil = $hasil && $this->migrasi_2024051253($hasil);
         $hasil = $hasil && $this->migrasi_2024060152($hasil);
+        $hasil = $hasil && $this->migrasi_2024061151($hasil);
 
         return $hasil && true;
     }
@@ -81,5 +83,14 @@ class Migrasi_rev extends MY_model
             ['slug' => 'pengaturan-layanan-mandiri'],
             ['url' => 'setting_mandiri']
         );
+    }
+
+    protected function migrasi_2024061151($hasil)
+    {
+        DB::table('produk')->where('status', 2)->update(['status' => 0]);
+        DB::table('produk_kategori')->where('status', 2)->update(['status' => 0]);
+        DB::table('pelapak')->where('status', 2)->update(['status' => 0]);
+
+        return $hasil;
     }
 }

@@ -57,10 +57,8 @@ class Lapak_kategori_admin extends Admin_Controller
 
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status');
-            $status = $status === '0' ? '2' : $status;
 
             $query = ProdukKategori::listKategori()
-                // TODO:: Gunakan 0 dan 1 sebagai status
                 ->when($status !== '', static function ($query) use ($status) {
                     $query->where('status', $status);
                 });
@@ -128,14 +126,15 @@ class Lapak_kategori_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/kategori');
     }
 
-    public function kategori_status($id = 0, $status = 0): void
+    public function kategori_status($id = 0): void
     {
         isCan('u');
 
-        ProdukKategori::where('id', $id)
-            ->update(['status' => $status]);
+        if (ProdukKategori::gantiStatus($id)) {
+            redirect_with('success', 'Berhasil mengubah status', 'lapak_admin/kategori');
+        }
 
-        redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/kategori');
+        redirect_with('error', 'Gagal mengubah status', 'lapak_admin/kategori');
     }
 
     public function dialog($aksi = 'cetak'): void

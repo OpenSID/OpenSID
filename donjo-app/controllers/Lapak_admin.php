@@ -66,13 +66,11 @@ class Lapak_admin extends Admin_Controller
         }
 
         if ($this->input->is_ajax_request()) {
-            $status             = (string) $this->input->get('status');
-            $status             = $status === '0' ? '2' : $status;
+            $status             = $this->input->get('status');
             $id_pend            = $this->input->get('id_pend');
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
-                // TODO:: Gunakan 0 dan 1 sebagai status
                 ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('produk.status', $status);
                 })
@@ -170,11 +168,11 @@ class Lapak_admin extends Admin_Controller
         return view('admin.lapak.produk.detail', $data);
     }
 
-    public function produk_status($id = 0, $status = 0): void
+    public function produk_status($id = 0): void
     {
         isCan('u');
 
-        if (Produk::where('id', $id)->update(['status' => $status])) {
+        if (Produk::gantiStatus($id)) {
             redirect_with('success', 'Berhasil mengubah data', "{$this->controller}/produk");
         }
 
