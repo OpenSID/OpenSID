@@ -4,6 +4,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### FITUR
 1. [#7970](https://github.com/OpenSID/OpenSID/issues/7970) Penambahan status dan sebutan pejabat kepala desa.
+2. [#6854](https://github.com/OpenSID/OpenSID/issues/6854) Penambahan halaman peta tema lepas dari view sistem.
 
 
 #### BUG
