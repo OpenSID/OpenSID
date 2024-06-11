@@ -46,6 +46,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8081](https://github.com/OpenSID/OpenSID/issues/8081) Penyesuaian monolog error logging dan queue schedule.
 7. [#7813](https://github.com/OpenSID/OpenSID/issues/7813) Penyesuaian modul layanan pelanggan desa menggunakan ORM dan Blade.
 8. [#8029](https://github.com/OpenSID/OpenSID/issues/8029) Penyesuaian unggah file .gif pada modul widget.
+9. [#8084](https://github.com/OpenSID/OpenSID/issues/8084) Penyesuaian judul pada foto tambahan produk lapak.
 
 
 #### KEAMANAN

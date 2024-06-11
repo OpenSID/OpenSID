@@ -173,7 +173,7 @@
                         <center>
                             @php $foto = json_decode($main->foto, null); @endphp
                             @for ($i = 0; $i < $ci->setting->banyak_foto_tiap_produk; $i++)
-                                <b>Foto {{ $i == 0 ? 'Utama' : 'Tambahan' }}</b>
+                                <b>Foto {{ $i == 0 ? 'Utama' : 'Tambahan ' . $i }}</b>
                                 @php $ii = $i + 1; @endphp
                                 <div class="form-group">
                                     @if (is_file(LOKASI_PRODUK . $foto[$i]))
