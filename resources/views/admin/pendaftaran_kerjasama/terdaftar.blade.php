@@ -72,10 +72,9 @@
                             <tr>
                                 <td>{{ strtoupper(setting('sebutan_desa')) }}</td>
                                 <td> : </td>
-                                <td>{{ "Desa {$response->data->desa->nama_desa}, Kecamatan
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {$response->data->desa->nama_kec}, Kabupaten {$response->data->desa->nama_kab}, Provinsi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {$response->data->desa->nama_prov}" }}
-                                </td>
+                                {{-- prettier-ignore-start --}}
+                                <td>{{ "Desa {$response->data->desa->nama_desa}, Kecamatan {$response->data->desa->nama_kec}, Kabupaten {$response->data->desa->nama_kab}, Provinsi {$response->data->desa->nama_prov}" }}</td>
+                                {{-- prettier-ignore-end --}}
                             </tr>
                             <tr>
                                 <td>Domain Desa</td>
