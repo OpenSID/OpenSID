@@ -21,23 +21,21 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <div class="box-header with-border">
-                @includeIf('admin.layouts.components.buttons.tambah', [
-                    'modal' => true,
-                    'url' => "lapak_admin/kategori_form/{$main->id}",
-                ])
-                @includeIf('admin.layouts.components.buttons.hapus', [
-                    'url' => 'lapak_admin/kategori_delete_all',
-                ])
-                @includeIf('admin.layouts.components.buttons.cetak', [
-                    'modal' => true,
-                    'url' => 'lapak_admin/kategori/dialog/cetak',
-                ])
-                @includeIf('admin.layouts.components.buttons.unduh', [
-                    'modal' => true,
-                    'url' => 'lapak_admin/kategori/dialog/unduh',
-                ])
-            </div>
+            @includeIf('admin.layouts.components.buttons.tambah', [
+                'modal' => true,
+                'url' => "lapak_admin/kategori_form/{$main->id}",
+            ])
+            @includeIf('admin.layouts.components.buttons.hapus', [
+                'url' => 'lapak_admin/kategori_delete_all',
+            ])
+            @includeIf('admin.layouts.components.buttons.cetak', [
+                'modal' => true,
+                'url' => 'lapak_admin/kategori/dialog/cetak',
+            ])
+            @includeIf('admin.layouts.components.buttons.unduh', [
+                'modal' => true,
+                'url' => 'lapak_admin/kategori/dialog/unduh',
+            ])
         </div>
         <form id="mainform" name="mainform" method="post">
             <div class="box-body">
