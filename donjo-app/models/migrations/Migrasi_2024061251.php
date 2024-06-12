@@ -35,19 +35,56 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class Migrasi_2024061251 extends MY_model
 {
     public function up()
     {
         $hasil = true;
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        // }
+        $hasil = $hasil && $this->migrasi_2024051253($hasil);
+        $hasil = $hasil && $this->migrasi_2024060152($hasil);
+        $hasil = $hasil && $this->migrasi_2024061151($hasil);
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2024051253($hasil)
+    {
+        Schema::table('alias_kodeisian', static function (Blueprint $table) {
+            $table->string('judul', 20)->change();
+        });
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024060152($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-analisis'],
+            ['url' => 'setting_analisis']
+        );
+        $hasil = $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-web'],
+            ['url' => 'setting_web']
+        );
+
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'pengaturan-layanan-mandiri'],
+            ['url' => 'setting_mandiri']
+        );
+    }
+
+    protected function migrasi_2024061151($hasil)
+    {
+        DB::table('produk')->where('status', 2)->update(['status' => 0]);
+        DB::table('produk_kategori')->where('status', 2)->update(['status' => 0]);
+        DB::table('pelapak')->where('status', 2)->update(['status' => 0]);
+
+        return $hasil;
     }
 }
