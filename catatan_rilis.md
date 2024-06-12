@@ -34,6 +34,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 27. [#8078](https://github.com/OpenSID/OpenSID/issues/8078) Perbaikan hapus data terpilih pada modul anggota kelompok/lembaga.
 28. [#8079](https://github.com/OpenSID/OpenSID/issues/8079) Perbaikan tambah/ubah inventaris tanah.
 29. [#8074](https://github.com/OpenSID/OpenSID/issues/8074) Perbaikan data yang ditampilkan pada halaman daftar pemilih tetap.
+30. [#8085](https://github.com/OpenSID/OpenSID/issues/8085) Perbaikan validasi form modal saat sumbit dengan tombol enter.
 
 
 #### TEKNIS
