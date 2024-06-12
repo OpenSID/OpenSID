@@ -37,9 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\HubunganRTMEnum;
 use App\Models\Rtm;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use App\Enums\HubunganRTMEnum;
+use OpenSpout\Reader\XLSX\Reader;
 
 class Rtm_model extends MY_Model
 {
@@ -571,7 +571,7 @@ class Rtm_model extends MY_Model
 
         $this->upload->data();
 
-        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader = new Reader();
         $reader->open($_FILES['userfile']['tmp_name']);
 
         $outp = true;

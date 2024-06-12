@@ -39,10 +39,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\SHDKEnum;
 use App\Models\LogPenduduk;
-use App\Models\Penduduk;
 use App\Models\PendudukAsuransi;
+use OpenSpout\Reader\XLSX\Reader;
 use Illuminate\Support\Facades\DB;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Impor_model extends MY_Model
 {
@@ -775,8 +774,8 @@ class Impor_model extends MY_Model
                 return;
             }
 
-            $reader = ReaderEntityFactory::createXLSXReader();
-            $reader->setShouldPreserveEmptyRows(true);
+            $reader = new Reader();
+            // $reader->setShouldPreserveEmptyRows(true);
             $reader->open($_FILES['userfile']['tmp_name']);
 
             // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
