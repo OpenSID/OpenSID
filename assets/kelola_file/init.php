@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 define('ENVIRONMENT', 'production');
 
 $ds = DIRECTORY_SEPARATOR;
