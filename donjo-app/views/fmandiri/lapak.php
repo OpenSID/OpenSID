@@ -224,6 +224,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
 		var JENIS_PETA = '<?= setting('jenis_peta') ?>';
 
+		var options = {
+			maxZoom: <?= setting('max_zoom_peta') ?>,
+			minZoom: <?= setting('min_zoom_peta') ?>,
+			fullscreenControl: {
+			position: 'topright' // Menentukan posisi tombol fullscreen
+			}
+		};
 
 		$(document).on('shown.bs.modal', '#map-modal', function(event) {
 			let link = $(event.relatedTarget);
@@ -235,7 +242,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			let posisi = [link.data('lat'), link.data('lng')];
 			let zoom = link.data('zoom');
 			let logo = L.icon({
-				iconUrl: "<?= asset('images/gis/point/fastfood.png'); ?>",
+				iconUrl: "<?= setting('icon_lapak_peta') ?>",
 			});
 
 			$("#lat").val(link.data('lat'));

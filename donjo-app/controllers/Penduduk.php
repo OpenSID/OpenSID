@@ -62,7 +62,6 @@ use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
-use App\Models\Pendidikan;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
 use App\Models\RentangUmur;
@@ -73,7 +72,8 @@ use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -334,7 +334,7 @@ class Penduduk extends Admin_Controller
                                         $q->where('ktp_el', 3);
                                     } else {
                                         if ($val != TOTAL) {
-                                            $statusKTP = statusKTP::find($val);
+                                            $statusKTP = StatusKtp::find($val);
                                             $q->where('ktp_el', 3)->where('status_rekam', $statusKTP->status_rekam);
                                         }
                                     }
@@ -865,7 +865,7 @@ class Penduduk extends Admin_Controller
 
         $data['input_umur']           = true;
         $data['list_agama']           = AgamaEnum::all();
-        $data['list_pendidikan']      = Pendidikan::get()->toArray();
+        $data['list_pendidikan']      = PendidikanSedangEnum::all();
         $data['list_pendidikan_kk']   = PendidikanKKEnum::all();
         $data['list_pekerjaan']       = PekerjaanEnum::all();
         $data['list_status_kawin']    = StatusKawinEnum::all();
@@ -917,14 +917,23 @@ class Penduduk extends Admin_Controller
         return $data;
     }
 
-    public function ajax_penduduk_maps($id = null, $edit = 1): void
+    public function ajax_penduduk_maps($id = null, $edit = '1'): void
     {
         isCan('u');
+        $penduduk = PendudukModel::withOnly(['keluarga', 'rtm', 'map'])->findOrFail($id);
 
-        $data['id']          = $id;
-        $data['edit']        = $edit;
-        $penduduk            = PendudukModel::withOnly('map')->findOrFail($id);
-        $data['penduduk']    = $penduduk->map ? array_merge($penduduk->map->toArray(), ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar]) : ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
+        if ($penduduk->map === null && $edit !== '2') {
+            redirect(ci_route("penduduk.ajax_penduduk_maps.{$id}.2"));
+        }
+
+        $data['id']       = $id;
+        $data['edit']     = $edit;
+        $data['penduduk'] = ['nama' => $penduduk->nama, 'status_dasar' => $penduduk->status_dasar];
+        if ($penduduk->lokasi) {
+            $data['penduduk'] = array_merge($penduduk->lokasi->toArray(), $data['penduduk']);
+        } elseif ($penduduk->map) {
+            $data['penduduk'] = array_merge($penduduk->map->toArray(), $data['penduduk']);
+        }
         $data['desa']        = $this->header['desa'];
         $data['wil_atas']    = $this->header['desa'];
         $data['dusun_gis']   = Wilayah::dusun()->get()->toArray();
@@ -950,6 +959,8 @@ class Penduduk extends Admin_Controller
         $map->lat = $data['lat'];
         $map->lng = $data['lng'];
         $map->save();
+
+        set_session('success', 'Data berhasil disimpan');
 
         if ($edit == 1) {
             redirect(ci_route("penduduk.form.{$id}"));
@@ -1509,9 +1520,9 @@ class Penduduk extends Admin_Controller
         try {
             $daftar_kolom = $this->impor_model->daftar_kolom;
 
-            $writer = WriterEntityFactory::createXLSXWriter();
+            $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
-            $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
+            $writer->addRow(Row::fromValues($daftar_kolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
@@ -1529,7 +1540,7 @@ class Penduduk extends Admin_Controller
                 $row->tanggallahir_str     = $row->tanggallahir->format('Y-m-d');
                 $row->agama_id             = $huruf ? $row->agama->nama : $row->agama_id;
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
-                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan->nama : $row->pendidikan_sedang_id;
+                $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
                 $row->status_kawin         = $huruf ? StatusKawinEnum::valueOf($row->status_kawin) : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
@@ -1554,7 +1565,7 @@ class Penduduk extends Admin_Controller
                     $penduduk[] = $this->bersihkanData($row->{$kolom}, $kolom);
                 }
 
-                $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
+                $writer->addRow(Row::fromValues($penduduk));
             }
             $writer->close();
         } catch (Exception $e) {

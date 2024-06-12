@@ -159,9 +159,19 @@ class Pamong extends BaseModel
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function kehadiran()
+    public function kehadiranPerangkat()
     {
         return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
+    }
+
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function kehadiranPengaduan()
+    {
+        return $this->hasMany(KehadiranPengaduan::class, 'id_pamong', 'id');
     }
 
     public function scopeSelectData($query)
@@ -194,11 +204,10 @@ class Pamong extends BaseModel
      * Scope query untuk status pamong
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus($query, mixed $value = 1)
     {
         return $query->where('pamong_status', $value);
     }
@@ -207,7 +216,6 @@ class Pamong extends BaseModel
      * Scope query untuk kepala desa
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -222,7 +230,6 @@ class Pamong extends BaseModel
      * Scope query untuk sekretaris desa
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -241,7 +248,6 @@ class Pamong extends BaseModel
      * - u.b => untuk pamong selain kades dan sekretaris yang dipilih
      *
      * @param Builder    $query
-     * @param mixed      $value
      * @param mixed|null $jenis
      *
      * @return Builder
@@ -262,7 +268,6 @@ class Pamong extends BaseModel
      * Scope query untuk daftar penanda tangan
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
@@ -290,11 +295,10 @@ class Pamong extends BaseModel
      * Scope query untuk daftar kehadiran pamong
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeDaftar($query, $value = 1)
+    public function scopeDaftar($query, mixed $value = 1)
     {
         return $query->aktif()
             ->where('kehadiran', $value);
@@ -391,11 +395,10 @@ class Pamong extends BaseModel
      * Scope query untuk pamong kecuali yang sudah digunakan di user
      *
      * @param Builder $query
-     * @param mixed   $id
      *
      * @return Builder
      */
-    public function scopeBukanPengguna($query, $id = '')
+    public function scopeBukanPengguna($query, mixed $id = '')
     {
         return $query->whereNotIn('pamong_id', static function ($q) use ($id) {
             if ($id) {

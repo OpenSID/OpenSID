@@ -92,8 +92,8 @@
                         <label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh</label>
                         <select class="form-control input-sm select2" id="pendidikan_sedang_id" name="pendidikan_sedang_id">
                             <option value=""> -- </option>
-                            @foreach ($list_pendidikan as $data)
-                                <option value="{{ $data['id'] }}" @selected($pendidikan_sedang_id == $data['id'])>{{ $data['nama'] }}</option>
+                            @foreach ($list_pendidikan as $key => $item)
+                                <option value="{{ $key }}" @selected($pendidikan_sedang_id == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>

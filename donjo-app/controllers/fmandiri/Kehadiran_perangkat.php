@@ -45,23 +45,30 @@ class Kehadiran_perangkat extends Mandiri_Controller
 {
     public function index(): void
     {
-        $kehadiran = Pamong::kehadiranPamong()
-            ->daftar()
-            ->where(static function ($query): void {
-                $query->where('tanggal', DB::raw('curdate()'))
-                    ->orWhereNull('tanggal');
-            })
+        $kehadiran = Pamong::with([
+            'penduduk',
+            'jabatan',
+            'kehadiranPerangkat' => static function ($query) {
+                $query->where(static function ($query): void {
+                    $query->where('tanggal', DB::raw('curdate()'))
+                        ->orWhereNull('tanggal');
+                });
+            },
+            'kehadiranPengaduan',
+        ])
+            ->aktif()
+            ->where('kehadiran', 1)
             ->orderBy('urut')
-            ->get();
-        $perangkat = $kehadiran->each(function ($item) {
-            if ($item->id_penduduk != $this->session->is_login->id_pend) {
-                return $item->id_penduduk = 0;
-            }
+            ->get()
+            ->each(function ($item) {
+                if ($item->id_penduduk != $this->session->is_login->id_pend) {
+                    return $item->id_penduduk = 0;
+                }
 
-            return $item;
-        })->values()->all();
+                return $item;
+            });
 
-        $this->render('kehadiran', ['perangkat' => $perangkat]);
+        $this->render('kehadiran', ['perangkat' => $kehadiran]);
     }
 
     public function lapor($id): void

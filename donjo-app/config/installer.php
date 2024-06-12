@@ -249,8 +249,8 @@ $config = [
     'server' => [
         'php' => [
             'name'    => 'PHP Version',
-            'version' => '>= 7.4.0 | <= 8.2.0',
-            'check'   => static fn (): bool => version_compare(PHP_VERSION, '7.4', '>=') && version_compare(PHP_VERSION, '8.2', '<='),
+            'version' => '>= 8.1.0 | <= 8.2.0',
+            'check'   => static fn (): bool => version_compare(PHP_VERSION, '8.1', '>=') && version_compare(PHP_VERSION, '8.2', '<='),
         ],
         'pdo' => [
             'name'  => 'PDO',

@@ -48,21 +48,6 @@
                         </div>
                         <div class="col-input">
                             <div class="form-group">
-                                <label>No. Telp/HP</label>
-                                <input
-                                    type="text"
-                                    class="form-control bilangan telepon required"
-                                    name="telepon"
-                                    placeholder="Masukkan No. Telp./HP"
-                                    maxlength="20"
-                                    pattern="[0-9]+"
-                                    autocomplete="off"
-                                    required
-                                >
-                            </div>
-                        </div>
-                        <div class="col-input">
-                            <div class="form-group">
                                 <label>Asal Instansi</label>
                                 <input
                                     type="text"
@@ -78,7 +63,7 @@
                         <div class="col-input">
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-control form-select alamat required" data-bs-placeholder="Jenis Kelamin" required>
+                                <select name="jenis_kelamin" class="form-control form-select required" data-bs-placeholder="Jenis Kelamin" required>
                                     <option label="Pilih">Jenis Kelamin</option>
                                     @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -86,36 +71,58 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Alamat</label>
-                        <textarea class="form-control" name="alamat" placeholder="Alamat" maxlength="500"></textarea>
-                    </div>
-                    <div class="content-form-bottom" style="align-self: end;">
-                        <div class="grider mlr-min1vh">
-                            <div class="col-input">
-                                <div class="form-group">
-                                    <label>Bertemu</label>
-                                    <select class="form-control required" name="id_bidang" placeholder="Bertemu" required>
-                                        <option label="Pilih" value="">Pilih</option>
-                                        @foreach ($bertemu as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-input">
-                                <div class="form-group">
-                                    <label>Keperluan</label>
-                                    <select name="id_keperluan" class="form-control form-select" data-bs-placeholder="Keperluan" required>
-                                        <option label="Pilih" value="">Keperluan</option>
-                                        @foreach ($keperluan as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="col-input">
+                            <div class="form-group">
+                                <label>Bertemu</label>
+                                <select class="form-control required" name="id_bidang" placeholder="Bertemu" required>
+                                    <option label="Pilih" value="">Pilih</option>
+                                    @foreach ($bertemu as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
+                        <div class="col-input">
+                            <div class="form-group">
+                                <label>No. Telp/HP</label>
+                                <input
+                                    type="text"
+                                    class="form-control bilangan telepon required"
+                                    name="telepon"
+                                    placeholder="Masukkan No. Telp./HP"
+                                    maxlength="20"
+                                    pattern="[0-9]+"
+                                    autocomplete="off"
+                                    required
+                                >
+                            </div>
+                        </div>
+                        <div class="col-input">
+                            <div class="form-group">
+                                <label>Keperluan</label>
+                                <select name="keperluan" class="form-control form-select" data-bs-placeholder="Keperluan" required>
+                                    <option label="Pilih" value="">Keperluan</option>
+                                    @foreach ($keperluan as $key => $value)
+                                        <option value="{{ $value }}">{{ $value }}</option>
+                                    @endforeach
+                                    <option value="0">Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-input" id="alamat" style="width: 100%">
+                            <div class="form-group">
+                                <label>Alamat</label>
+                                <textarea class="form-control" name="alamat" placeholder="Alamat" maxlength="500"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-input" id="lainnya" style="display: none;">
+                            <div class="form-group">
+                                <label>Keperluan Lainnya</label>
+                                <textarea class="form-control" name="keperluan_lainnya" placeholder="Masukkan Keperluan Lainnya" maxlength="500"></textarea>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <!-- Batas Form Isian -->
@@ -225,4 +232,17 @@
             })
         </script>
     @endif
+    <script>
+        $('select[name="keperluan"]').change(function() {
+            if ($(this).val() === '0') {
+                $('#lainnya').show()
+                $('textarea[name="keperluan_lainnya"]').attr('required', 'required')
+                $('#alamat').attr('style', 'width: calc(50% - 2vh);')
+            } else {
+                $('#lainnya').hide()
+                $('textarea[name="keperluan_lainnya"]').removeAttr('required')
+                $('#alamat').attr('style', 'width: 100%;')
+            }
+        })
+    </script>
 @endpush

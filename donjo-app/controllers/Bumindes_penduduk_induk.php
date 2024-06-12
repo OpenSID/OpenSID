@@ -84,8 +84,8 @@ class Bumindes_penduduk_induk extends Admin_Controller
                 ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->warganegara_id)))
                 ->editColumn('kk_level', static fn ($row) => strtoupper(SHDKEnum::valueOf($row->kk_level)))
                 ->editColumn('alamat_wilayah', static fn ($row) => strtoupper($row->alamat_wilayah))
-                ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail.1.0', $row->id) . '">' . $row->nik . '</a>')
-                ->editColumn('kk', static fn ($row) => '<a href="' . ci_route('keluarga.kartu_keluarga.1.0', $row->id_kk) . '">' . $row->keluarga->no_kk . '</a>')
+                ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail', $row->id) . '">' . $row->nik . '</a>')
+                ->editColumn('kk', static fn ($row) => '<a href="' . ci_route('keluarga.kartu_keluarga', $row->id_kk) . '">' . $row->keluarga->no_kk . '</a>')
                 ->rawColumns(['nik', 'kk'])
                 ->make();
         }

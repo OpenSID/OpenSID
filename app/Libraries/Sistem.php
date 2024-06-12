@@ -41,29 +41,9 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// TODO : hapus constanta di model setting_model sebelumnya, saat ini belum dihapus karna masih digunakan di modul lain
-define('EKSTENSI_WAJIB', serialize([
-    'curl',
-    'fileinfo',
-    'gd',
-    'iconv',
-    'json',
-    'mbstring',
-    'mysqli',
-    'mysqlnd',
-    'tidy',
-    'zip',
-    'exif',
-]));
-define('minPhpVersion', '7.4.0');
-define('maxPhpVersion', '8.2.0');
-define('minMySqlVersion', '5.6.0');
-define('maxMySqlVersion', '8.0.0');
-define('minMariaDBVersion', '10.3.0');
-
 class Sistem
 {
-    public static function cekEkstensi()
+    public static function cekEkstensi(): array
     {
         $e = get_loaded_extensions();
         usort($e, 'strcasecmp');

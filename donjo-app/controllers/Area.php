@@ -271,7 +271,7 @@ class Area extends Admin_Controller
     {
         $data['nama']        = nomor_surat_keputusan($post['nama']);
         $data['ref_polygon'] = bilangan($post['ref_polygon']);
-        $data['desk']        = htmlentities($post['desk']);
+        $data['desk']        = htmlentities((string) $post['desk']);
         $data['enabled']     = bilangan($post['enabled']);
 
         $area_file = $_FILES['foto']['tmp_name'];

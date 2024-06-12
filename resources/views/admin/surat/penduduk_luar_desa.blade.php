@@ -1,4 +1,4 @@
-<div class="penduduk_luar_desa penduduk_luar_{{ $index }} {{ count($opsiSumberPenduduk) > 1 ? 'hide' : '' }}">
+<div class="penduduk_form penduduk_luar_desa penduduk_luar_{{ $index }} {{ count($opsiSumberPenduduk) > 1 ? 'hide' : '' }}">
     <div class="form-group">
         <label class="col-sm-3 control-label"><strong>Nama Lengkap / NIK KTP</strong></label>
         <div class="col-sm-5 col-lg-6">
@@ -49,8 +49,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[jenis_kelamin]">
                     <option value="">-- Pilih Jenis Kelamin --</option>
-                    @foreach (\App\Models\Sex::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\JenisKelaminEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -62,8 +62,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[agama]">
                     <option value="">-- Pilih Agama --</option>
-                    @foreach (\App\Models\Agama::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\AgamaEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -75,8 +75,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[pekerjaan]">
                     <option value="">-- Pilih Pekerjaan --</option>
-                    @foreach (\App\Models\Pekerjaan::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\PekerjaanEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -88,8 +88,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[warga_negara]">
                     <option value="">-- Pilih Warga Negara --</option>
-                    @foreach (\App\Models\WargaNegara::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\WargaNegaraEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -102,8 +102,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[pendidikan_kk]">
                     <option value="">-- Pilih Pendidikan Terakhir --</option>
-                    @foreach (\App\Models\PendidikanKK::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\PendidikanKKEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -162,8 +162,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[gol_darah]">
                     <option value="">-- Pilih Golongan Darah --</option>
-                    @foreach (\App\Models\GolonganDarah::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\GolonganDarahEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -176,8 +176,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[status_kawin]">
                     <option value="">-- Pilih Status Perkawinan --</option>
-                    @foreach (\App\Models\StatusKawin::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\StatusKawinEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>
@@ -204,8 +204,8 @@
             <div class="col-sm-3">
                 <select class="form-control input-sm select2" name="{{ $kategori }}[hubungan_kk]">
                     <option value="">-- Pilih Status Hubungan Dalam Keluarga --</option>
-                    @foreach (\App\Models\PendudukHubungan::get() as $data)
-                        <option value="{{ $data->nama }}">{{ $data->nama }}</option>
+                    @foreach (\App\Enums\SHDKEnum::all() as $key => $data)
+                        <option value="{{ $data }}">{{ $data }}</option>
                     @endforeach
                 </select>
             </div>

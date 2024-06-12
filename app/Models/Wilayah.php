@@ -40,7 +40,6 @@ namespace App\Models;
 use App\Casts\Path;
 use App\Casts\Zoom;
 use App\Enums\JenisKelaminEnum;
-use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -166,9 +165,7 @@ class Wilayah extends BaseModel
 
     public function keluargaAktif(): HasManyThrough
     {
-        return $this->hasManyThrough(PendudukHidup::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
-            ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
-            ->join('keluarga_aktif', 'keluarga_aktif.nik_kepala', '=', 'penduduk_hidup.id');
+        return $this->hasManyThrough(KeluargaAktif::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun');
     }
 
     public static function updateUrutan(): void
@@ -206,7 +203,7 @@ class Wilayah extends BaseModel
 
     public function bukanRT(): bool
     {
-        return in_array($this->attributes['rt'], ['0']);
+        return $this->attributes['rt'] == '0';
     }
 
     public static function tree()

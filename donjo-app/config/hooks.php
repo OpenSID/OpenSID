@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
@@ -77,7 +79,7 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
 
@@ -128,18 +130,11 @@ $app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 | and wonderful application we have prepared for them.
 |
 */
+try {
+    $app->boot();
+} catch (Throwable $th) {
+    $app?->make(ExceptionHandler::class)?->report($th);
+}
 
-$app->boot();
 $moduleLocations = $CFG->item('modules_locations');
 $hook            = getHooks(['modules_location' => $moduleLocations]);
-
-if (ENVIRONMENT === 'development') {
-    Illuminate\Support\Facades\DB::enableQueryLog();
-
-    /**
-     * Uncomment untuk listen semua query dari illuminate database.
-     */
-    Illuminate\Support\Facades\Event::listen(Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
-        log_message('error', array_reduce($query->bindings, static fn ($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql));
-    });
-}

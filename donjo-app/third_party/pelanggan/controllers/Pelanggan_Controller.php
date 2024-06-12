@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Anjungan;
+use App\Services\Pelanggan;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
@@ -71,40 +73,43 @@ class Pelanggan_Controller extends Admin_Controller
     {
         unset($this->header['perbaharui_langganan']);
 
-        $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
-        $notif_langganan = $this->pelanggan_model->status_langganan();
+        $response        = Pelanggan::api_pelanggan_pemesanan();
+        $notif_langganan = Pelanggan::status_langganan();
 
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
-        if ((null !== $response && $response->body->token !== $this->setting->layanan_opendesa_token) && empty(config_item('token_layanan'))) {
+        if ((null !== $response && $response->body->token !== setting('layanan_opendesa_token')) && empty(config_item('token_layanan'))) {
             $post['layanan_opendesa_token'] = $response->body->token;
             $this->setting_model->update_setting($post);
 
             redirect($this->controller);
         }
 
-        $this->render('pelanggan/index', [
+        view('admin.pelanggan.index', [
             'title'           => 'Info Layanan Pelanggan',
             'response'        => $response,
             'notif_langganan' => $notif_langganan,
+            'server'          => config_item('server_layanan'),
+            'token'           => setting('layanan_opendesa_token'),
         ]);
     }
 
     public function peringatan(): void
     {
+        $error_premium = $this->session->error_premium;
+        $pesan         = $this->session->error_premium_pesan;
+
         // hapus auto perbarui
         unset($this->header['perbaharui_langganan']);
 
-        $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
-        $notif_langganan = $this->pelanggan_model->status_langganan();
+        $response        = Pelanggan::api_pelanggan_pemesanan();
+        $notif_langganan = Pelanggan::status_langganan();
 
-        if (empty($this->session->error_premium)) {
-            redirect('beranda');
-        }
-
-        $this->render('pelanggan/index', [
+        view('admin.pelanggan.index', [
             'title'           => 'Info Peringatan',
             'response'        => $response,
             'notif_langganan' => $notif_langganan,
+            'error_premium'   => $error_premium,
+            'pesan'           => $pesan,
         ]);
     }
 
@@ -119,7 +124,13 @@ class Pelanggan_Controller extends Admin_Controller
 
     public function perpanjang_layanan(): void
     {
-        $this->render('pelanggan/perpanjang_layanan', ['pemesanan_id' => $_GET['pemesanan_id'], 'server' => $_GET['server'], 'invoice' => $_GET['invoice'], 'token' => $_GET['token']]);
+        view('admin.pelanggan.perpanjang_layanan', [
+            'title'        => 'Layanan Pelanggan',
+            'pemesanan_id' => $_GET['pemesanan_id'],
+            'server'       => $_GET['server'],
+            'invoice'      => $_GET['invoice'],
+            'token'        => $_GET['token'],
+        ]);
     }
 
     public function perpanjang()
@@ -144,6 +155,7 @@ class Pelanggan_Controller extends Admin_Controller
                 ->getBody();
         } catch (ClientException $cx) {
             log_message('error', $cx);
+            // set_session('errors', json_decode($cx->getResponse()->getBody(), null));
             $this->session->set_flashdata(['errors' => json_decode($cx->getResponse()->getBody(), null)]);
             session_error();
 
@@ -181,11 +193,10 @@ class Pelanggan_Controller extends Admin_Controller
                 hapus_cache('status_langganan');
                 cache()->forget('identitas_desa');
                 if ($this->request['body']['desa_id'] != kode_wilayah($this->header['desa']['kode_desa'])) {
-                    // $this->setting_model->update_setting(['layanan_opendesa_token' => null]);
 
                     return json([
                         'status'  => false,
-                        'message' => ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa',
+                        'message' => ucwords(setting('sebutan_desa') . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan') . ' atau Token yang di input tidak sesuai dengan kode desa',
                     ]);
                 }
 
@@ -203,14 +214,10 @@ class Pelanggan_Controller extends Admin_Controller
                 $this->cache->pakai_cache(fn () => // request ke api layanan.opendesa.id
                     json_decode(json_encode($this->request, JSON_THROW_ON_ERROR), false), 'status_langganan', 24 * 60 * 60);
 
-                // TODO: Sederhanakan query ini, pindahkan ke model
-                $this->db
-                    ->set(['status' => '1'])
-                    ->where('config_id', identitas('id'))
-                    ->where('tipe', '1')
+                Anjungan::where('tipe', '1')
                     ->where('status', '0')
                     ->where('status_alasan', 'tidak berlangganan anjungan')
-                    ->update('anjungan');
+                    ->update(['status' => '1']);
 
                 return json([
                     'status'  => true,

@@ -46,9 +46,9 @@ use App\Models\Paud;
 use App\Models\Penduduk;
 use App\Models\Posyandu;
 use App\Models\SasaranPaud;
-use App\Models\UserGrup;
 use Carbon\Carbon;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 
 class Stunting extends Admin_Controller
 {
@@ -580,9 +580,9 @@ class Stunting extends Admin_Controller
             'Jaminan Kesehatan',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('Laporan Bulanan Ibu Hamil') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $dataIbuHamil = IbuHamil::with(['kia', 'kia.ibu'])->filter($filters)->get();
 
@@ -603,7 +603,7 @@ class Stunting extends Admin_Controller
                 $row->kepemilikan_jamban == 1 ? 'v' : 'x',
                 $row->jaminan_kesehatan == 1 ? 'v' : 'x',
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }
@@ -812,9 +812,9 @@ class Stunting extends Admin_Controller
             'Pengasuhan PAUD',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('Laporan Bulanan Anak') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $dataAnak     = Anak::with(['kia', 'kia.anak'])->filter($filters)->get();
         $status_tikar = collect(Anak::STATUS_TIKAR_ANAK)->pluck('simbol', 'id');
@@ -851,7 +851,7 @@ class Stunting extends Admin_Controller
                 $row->jaminan_kesehatan == 1 ? 'v' : 'x',
                 $row->pengasuhan_paud == 1 ? 'v' : 'x',
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }
@@ -1033,9 +1033,9 @@ class Stunting extends Admin_Controller
             'Desember',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('Laporan Sasaran Paud') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $dataPaud = Paud::with(['kia', 'kia.ibu'])->filter($filters)->get();
 
@@ -1058,7 +1058,7 @@ class Stunting extends Admin_Controller
                 $row->november  = ($row->november == 1) ? '-' : (($row->november == 2) ? 'v' : 'x'),
                 $row->desember  = ($row->desember == 1) ? '-' : (($row->desember == 2) ? 'v' : 'x'),
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }
@@ -1140,6 +1140,13 @@ class Stunting extends Admin_Controller
 
     ///////////////////////////////////
     public function scorecard_konvergensi($kuartal = null, $tahun = null, $id = null)
+    {
+        $data = $this->sumber_data($kuartal, $tahun, $id);
+
+        return view('admin.stunting.scorcard-konvergensi-desa', $data);
+    }
+
+    private function sumber_data($kuartal = null, $tahun = null, $id = null)
     {
         if ($kuartal < 1 || $kuartal > 4) {
             $kuartal = null;
@@ -1266,15 +1273,6 @@ class Stunting extends Admin_Controller
         ];
 
         $anak2sd6 = SasaranPaud::query();
-
-        // if ($this->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
-        //     $anak2sd6->where('posyandu_id', $this->session->userdata('id'));
-        // } else {
-        //     if ($id != null) {
-        //         $anak2sd6->where('posyandu_id', $id);
-        //     }
-        // }
-
         $anak2sd6->whereYear('sasaran_paud.created_at', $tahun)->get();
 
         foreach ($anak2sd6 as $datax) {
@@ -1388,7 +1386,42 @@ class Stunting extends Admin_Controller
         $data['_tahun']                = $tahun;
         $data['aktif']                 = 'scorcard';
 
-        return view('admin.stunting.scorcard-konvergensi-desa', $data);
+        return $data;
+    }
+
+    public function dialog_sk($aksi = 'cetak'): void
+    {
+        $kuartal = $this->input->get('kuartal');
+        $tahun   = $this->input->get('tahun');
+        $id      = $this->input->get('id');
+
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("stunting/aksi_sk/{$aksi}?kuartal={$kuartal}&tahun={$tahun}&id={$id}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi_sk($aksi = 'cetak'): void
+    {
+        $this->load->model('pamong_model');
+
+        $kuartal = $this->input->get('kuartal');
+        $tahun   = $this->input->get('tahun');
+        $id      = $this->input->get('id');
+
+        $post                   = $this->input->post();
+        $data                   = $this->sumber_data($kuartal, $tahun, $id);
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['file']           = 'Data Scorecard Konvergensi';
+        $data['isi']            = 'admin.stunting.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+        $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper(get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     private function widget()

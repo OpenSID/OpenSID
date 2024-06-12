@@ -71,7 +71,7 @@ class Lapak_admin extends Admin_Controller
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
-                ->when($status, static function ($query, $status): void {
+                ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('produk.status', $status);
                 })
                 ->when($id_pend, static function ($query, $id_pend): void {
@@ -168,11 +168,11 @@ class Lapak_admin extends Admin_Controller
         return view('admin.lapak.produk.detail', $data);
     }
 
-    public function produk_status($id = 0, $status = 0): void
+    public function produk_status($id = 0): void
     {
         isCan('u');
 
-        if (Produk::where('id', $id)->update(['status' => $status])) {
+        if (Produk::gantiStatus($id)) {
             redirect_with('success', 'Berhasil mengubah data', "{$this->controller}/produk");
         }
 

@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Menu;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_Controller extends MY_Controller
@@ -135,5 +137,10 @@ class Web_Controller extends MY_Controller
         $data['nip_kepala_desa']  = $this->header['nip_kepala_desa'];
 
         return view('layouts.maintenance', $data);
+    }
+
+    public function menu_aktif($link)
+    {
+        return Menu::active()->whereLink($link)->first() ?? show_404();
     }
 }

@@ -205,6 +205,8 @@ class Kelompok_anggota extends Admin_Controller
             log_message('error', $e->getMessage());
             redirect_with('error', 'Anggota gagal disimpan', $redirect);
         }
+
+        return null;
     }
 
     public function update($id = 0, $id_a = 0): void
@@ -240,7 +242,7 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    private function validasi_anggota($post)
+    private function validasi_anggota(array $post)
     {
         if ($post['id_penduduk']) {
             $data['id_penduduk'] = bilangan($post['id_penduduk']);
@@ -282,7 +284,7 @@ class Kelompok_anggota extends Admin_Controller
         isCan('h');
 
         try {
-            KelompokAnggotaModel::whereIn('id_penduduk', $this->request['id_cb'])->delete();
+            KelompokAnggotaModel::destroy($this->request['id_cb']);
             redirect_with('success', 'Anggota ' . ucfirst($this->lembaga) . ' berhasil dihapus', route($this->controller . '.detail', $id_kelompok));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());

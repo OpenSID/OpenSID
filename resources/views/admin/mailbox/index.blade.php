@@ -31,7 +31,7 @@
                             class="btn btn-social btn-danger btn-sm
                         visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block
                         hapus-terpilih"
-                        ><i class='fa fa-trash-o'></i> Arsipkan</a>
+                        ><i class='fa fa-archive'></i> Arsipkan</a>
                     @endif
                 </div>
                 <div class="box-body">
@@ -176,7 +176,7 @@
 
                 $('#confirm-delete').on('shown.bs.modal', function(ev) {
                     $(this).find('.modal-body').text('Apakah Anda yakin ingin mengarsipkan data ini?')
-                    $(this).find('.modal-footer button:submit').html('<i class="fa fa-file-archive-o"></i> Arsipkan')
+                    $(this).find('.modal-footer #ok-delete').html('<i class="fa fa-archive"></i> Arsipkan')
                 })
             });
         </script>

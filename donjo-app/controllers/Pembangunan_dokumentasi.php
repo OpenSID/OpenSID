@@ -43,8 +43,9 @@ use App\Models\PembangunanDokumentasi;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-    public $modul_ini       = 'pembangunan';
-    public $aliasController = 'admin_pembangunan';
+    public $modul_ini           = 'pembangunan';
+    public $aliasController     = 'admin_pembangunan';
+    public $kategori_pengaturan = 'pembangunan';
 
     public function __construct()
     {

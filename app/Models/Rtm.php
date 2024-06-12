@@ -110,15 +110,10 @@ class Rtm extends BaseModel
         } elseif ($nomor == TOTAL) {
             $judul = ['nama' => ' TOTAL'];
         } else {
-            switch ($tipe) {
-                case 'penerima_bantuan':
-                    $judul = ['nama' => 'PESERTA'];
-                    break;
-
-                default:
-                    $judul = Rtm::where(['id' => $nomor])->first()->toArray();
-                    break;
-            }
+            $judul = match ($tipe) {
+                'penerima_bantuan' => ['nama' => 'PESERTA'],
+                default            => Rtm::where(['id' => $nomor])->first()->toArray(),
+            };
         }
 
         if ($sex == 1) {

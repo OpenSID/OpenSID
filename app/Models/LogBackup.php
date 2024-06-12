@@ -83,4 +83,15 @@ class LogBackup extends BaseModel
         'updated_at'    => 'datetime:Y-m-d H:i:s',
         'downloaded_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(static function ($model): void {
+            if (file_exists($model->path)) {
+                unlink($model->path);
+            }
+        });
+    }
 }

@@ -177,6 +177,8 @@ class Anjungan_menu extends Anjungan_Controller
 
     public function tukar()
     {
+        isCan('u');
+
         $menu = $this->input->post('data');
         Menu::setNewOrder($menu);
 

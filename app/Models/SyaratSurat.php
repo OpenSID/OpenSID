@@ -119,11 +119,10 @@ class SyaratSurat extends BaseModel
      * Scope Format surat exist.
      *
      * @param \Illuminate\Database\Query\Builder $query
-     * @param mixed                              $id
      *
      * @return \Illuminate\Database\Query\Builder
      */
-    public function scopeDeleteFormatSuratExist($query, $id)
+    public function scopeDeleteFormatSuratExist($query, mixed $id)
     {
         return $this->formatSuratExist()
             ->where('ref_syarat_surat.ref_syarat_id', $id)

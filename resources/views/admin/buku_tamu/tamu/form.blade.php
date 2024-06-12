@@ -9,7 +9,10 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ ci_route('buku_tamu') }}">Data Tamu</a></li>
+    <li class="breadcrumb-item">
+
+        <a href="{{ ci_route('buku_tamu') }}">Data Tamu</a>
+    </li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -84,17 +87,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Keperluan</label>
-                        <select class="form-control select2 required" name="id_keperluan">
-                            @foreach ($keperluan as $key => $value)
-                                <option value="{{ $key }}" @selected($key == $buku_tamu->keperluan)>{{ $value }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+            </div>
+            <div class="form-group">
+                <label>Keperluan</label>
+                <textarea name="keperluan" class="form-control input-sm required" placeholder="Isi Keperluan" rows="5">{{ $buku_tamu->keperluan }}</textarea>
             </div>
         </div>
         <div class="box-footer">

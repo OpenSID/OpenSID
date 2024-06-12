@@ -65,7 +65,7 @@ class CarbonServiceProvider extends ServiceProvider
             try {
                 $root = Date::getFacadeRoot();
                 $root->setLocale($locale);
-            } catch (Throwable $e) {
+            } catch (Throwable) {
                 // Non Carbon class in use in Date facade
             }
         }

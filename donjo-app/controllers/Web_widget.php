@@ -124,6 +124,7 @@ class Web_widget extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $widget = $this->input->post('data');
 
         Widget::setNewOrder($widget);
@@ -193,7 +194,7 @@ class Web_widget extends Admin_Controller
         $CI->load->library('MY_Upload', null, 'upload');
         $uploadConfig = [
             'upload_path'   => LOKASI_GAMBAR_WIDGET,
-            'allowed_types' => 'jpg|jpeg|png',
+            'allowed_types' => 'jpg|jpeg|png|gif',
             'max_size'      => 1024, // 1 MB
         ];
         $CI->upload->initialize($uploadConfig);

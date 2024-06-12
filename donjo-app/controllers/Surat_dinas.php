@@ -513,15 +513,16 @@ class Surat_dinas extends Admin_Controller
     public function pengaturan()
     {
         $this->set_hak_akses_rfm();
-        $data['font_option'] = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-        $data['tte_demo']    = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']       = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']      = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
-        $data['aksi']        = ci_route('surat_dinas.update');
-        $data['formAksi']    = ci_route('surat_dinas.edit_pengaturan');
-        $margin              = setting('surat_dinas_margin');
-        $data['margins']     = json_decode($margin, null) ?? SuratDinas::MARGINS;
-        $data['alias']       = AliasKodeIsian::get();
+        $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+        $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat_dinas')->first();
+        $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['aksi']            = ci_route('surat_dinas.update');
+        $data['formAksi']        = ci_route('surat_dinas.edit_pengaturan');
+        $margin                  = setting('surat_dinas_margin');
+        $data['margins']         = json_decode($margin, null) ?? SuratDinas::MARGINS;
+        $data['alias']           = AliasKodeIsian::get();
 
         return view('admin.surat_dinas.pengaturan.pengaturan', $data);
     }
@@ -561,6 +562,8 @@ class Surat_dinas extends Admin_Controller
             'verifikasi_kades'           => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
             'font_surat_dinas'           => alfanumerik_spasi($request['font_surat_dinas']),
             'format_nomor_surat_dinas'   => $request['format_nomor_surat_dinas'],
+            'penomoran_surat_dinas'      => $request['penomoran_surat_dinas'],
+            'panjang_nomor_surat_dinas'  => $request['panjang_nomor_surat_dinas'],
             'format_tanggal_surat_dinas' => $request['format_tanggal_surat_dinas'],
             'surat_dinas_margin'         => json_encode($request['surat_dinas_margin'], JSON_THROW_ON_ERROR),
             'kodeisian_alias'            => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,

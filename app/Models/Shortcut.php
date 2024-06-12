@@ -116,8 +116,8 @@ class Shortcut extends BaseModel
                 return static::querys()['jumlah'][$raw_query];
             }
 
-            if (preg_match('/^DB::table/i', $raw_query) && preg_match('/->count\(\)/i', $raw_query)) {
-                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', $raw_query)) {
+            if (preg_match('/^DB::table/i', (string) $raw_query) && preg_match('/->count\(\)/i', (string) $raw_query)) {
+                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', (string) $raw_query)) {
                     $raw_query = preg_replace('/^DB::table/i', 'DB::table', $raw_query);
                     $raw_query = preg_replace('/->count\(\)/i', "->where('config_id', {$config_id})->count()", $raw_query);
                 }
@@ -125,8 +125,8 @@ class Shortcut extends BaseModel
                 return eval("return {$raw_query};");
             }
 
-            if (preg_match('/^select/i', $raw_query)) {
-                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', $raw_query)) {
+            if (preg_match('/^select/i', (string) $raw_query)) {
+                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', (string) $raw_query)) {
                     $raw_query = preg_replace('/^select/i', 'select', $raw_query);
                     $raw_query = preg_replace('/from/i', 'from', $raw_query);
                     $raw_query = preg_replace('/where/i', "where config_id = {$config_id} and", $raw_query);
@@ -178,7 +178,7 @@ class Shortcut extends BaseModel
                 'Dokumen Penduduk'   => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup(),
 
                 // Keluarga
-                'Keluarga'        => Keluarga::status(),
+                'Keluarga'        => Keluarga::statusAktif(),
                 'Kepala Keluarga' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
                     $query->status()->kepalaKeluarga();
                 }),

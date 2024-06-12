@@ -78,9 +78,14 @@ class Pengurus extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status') ?? null;
+            $status    = $this->input->get('status') ?? null;
+            $kehadiran = $this->input->get('kehadiran') ?? null;
 
-            return datatables()->of(Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status)))
+            return datatables()->of(Pamong::urut())
+                ->filter(static function ($query) use ($status, $kehadiran) {
+                    $query->when($status, static fn ($q) => $q->where('pamong_status', $status));
+                    $query->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
+                })
                 ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
@@ -386,6 +391,8 @@ class Pengurus extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
+
         $pamong = $this->input->post('data');
         Pamong::setNewOrder($pamong);
         // model seperti diatas tidak bisa otomatis invalidated cache, jadi harus dihapus manual

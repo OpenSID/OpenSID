@@ -35,6 +35,8 @@
  *
  */
 
+use App\Services\Pelanggan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // Website Demo OpenSID
@@ -58,10 +60,7 @@ if (! function_exists('cek_anjungan')) {
             return true;
         }
 
-        $CI = &get_instance();
-        $CI->load->model('pelanggan_model');
-
-        $status = $CI->pelanggan_model->api_pelanggan_pemesanan();
+        $status = Pelanggan::api_pelanggan_pemesanan();
 
         return $status->body->tanggal_berlangganan->anjungan == 'aktif';
     }

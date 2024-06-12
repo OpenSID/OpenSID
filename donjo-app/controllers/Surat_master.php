@@ -564,17 +564,18 @@ class Surat_master extends Admin_Controller
     public function pengaturan()
     {
         $this->set_hak_akses_rfm();
-        $data['font_option']   = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
-        $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']        = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
-        $data['aksi']          = ci_route('surat_master.update');
-        $data['formAksi']      = ci_route('surat_master.edit_pengaturan');
-        $margin                = setting('surat_margin');
-        $data['margins']       = json_decode($margin, null) ?? FormatSurat::MARGINS;
-        $data['penduduk_luar'] = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
-        $data['alias']         = AliasKodeIsian::get();
-        $data['p_luar_map']    = KodeIsianPendudukLuar::getLabels();
+        $data['font_option']     = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+        $data['penomoran_surat'] = SettingAplikasi::where('key', '=', 'penomoran_surat')->first();
+        $data['tte_demo']        = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
+        $data['kades']           = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']          = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['aksi']            = ci_route('surat_master.update');
+        $data['formAksi']        = ci_route('surat_master.edit_pengaturan');
+        $margin                  = setting('surat_margin');
+        $data['margins']         = json_decode($margin, null) ?? FormatSurat::MARGINS;
+        $data['penduduk_luar']   = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
+        $data['alias']           = AliasKodeIsian::get();
+        $data['p_luar_map']      = KodeIsianPendudukLuar::getLabels();
 
         return view('admin.pengaturan_surat.pengaturan', $data);
     }
@@ -659,6 +660,8 @@ class Surat_master extends Admin_Controller
             'verifikasi_kades'     => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
             'tte'                  => (int) $request['tte'],
             'font_surat'           => alfanumerik_spasi($request['font_surat']),
+            'penomoran_surat'      => $request['penomoran_surat'],
+            'panjang_nomor_surat'  => $request['panjang_nomor_surat'],
             'visual_tte'           => (int) $request['visual_tte'],
             'visual_tte_weight'    => (int) $request['visual_tte_weight'],
             'visual_tte_height'    => (int) $request['visual_tte_height'],

@@ -136,8 +136,8 @@ class Buku_keperluan extends Anjungan_Controller
     private function validate(array $request = []): array
     {
         return [
-            'keperluan' => htmlentities($request['keperluan']),
-            'status'    => htmlentities($request['status']),
+            'keperluan' => htmlentities((string) $request['keperluan']),
+            'status'    => htmlentities((string) $request['status']),
         ];
     }
 }

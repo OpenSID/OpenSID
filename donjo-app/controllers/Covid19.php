@@ -124,7 +124,7 @@ class Covid19 extends Admin_Controller
                 'results' => collect($penduduk->items())
                     ->map(static fn ($item): array => [
                         'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                     ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),

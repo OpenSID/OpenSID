@@ -37,13 +37,18 @@ $(document).ready(function() {
     });
 
     $(function() {
+        var formModal = $(".modal form");
+
         $(document).on("keydown", ":input:not(textarea):not(:submit)", function(event) {
-            if (event.key === "Enter" && !$("#validasi").valid()) {
-                event.preventDefault();
-                return false;
+            if (event.key === "Enter") {
+                if ((formModal.is(":visible") && !formModal.valid()) || !$("#validasi").valid()) {
+                    event.preventDefault();
+                    return false;
+                }
             }
         });
     });
+
 
     // Tombol reset semua
     $("button[type='reset']").on("click", function() {

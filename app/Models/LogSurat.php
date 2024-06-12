@@ -139,17 +139,14 @@ class LogSurat extends BaseModel
     /**
      * Scope query untuk Status LogSurat
      *
-     * @param mixed $query
-     * @param mixed $value
-     *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus(mixed $query, mixed $value = 1)
     {
         return $query->where('status', $value);
     }
 
-    public function getFormatPenomoranSuratAttribute()
+    public function getFormatPenomoranSuratAttribute(): string|array
     {
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
@@ -282,12 +279,11 @@ class LogSurat extends BaseModel
      * Cari surat dengan nomor terakhir sesuai setting aplikasi
      *
      * @param		string 	nama tabel surat
-     * @param mixed      $type
      * @param mixed|null $url
      *
      * @return array surat terakhir
      */
-    public static function suratTerakhir($type, $url = null)
+    public static function suratTerakhir(mixed $type, $url = null)
     {
         $setting = setting('penomoran_surat');
 
@@ -319,6 +315,17 @@ class LogSurat extends BaseModel
                     $surat = LogSurat::whereNull('deleted_at')
                         ->whereYear('tanggal', $thn)
                         ->whereStatus(1)
+                        ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
+                        ->first();
+                } elseif ($setting == 4) {
+                    $surat = LogSurat::whereNull('deleted_at')
+                        ->whereYear('tanggal', $thn)
+                        ->rightJoin('tweb_surat_format', 'tweb_surat_format.id', '=', 'log_surat.id_format_surat')
+                        ->where('kode_surat', static function ($q) use ($url): void {
+                            $q->select('kode_surat')
+                                ->from('tweb_surat_format')
+                                ->where('url_surat', $url);
+                        })
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
                         ->first();
                 } else {
@@ -357,14 +364,18 @@ class LogSurat extends BaseModel
         $settingNomer = setting('penomoran_surat');
         $data         = self::suratTerakhir('log_surat', $url);
         if ($settingNomer == 2 && empty($data['nama'])) {
-            $surat        = FormatSurat::find($url);
-            $data['nama'] = $surat['nama'];
+            $data['nama'] = FormatSurat::where('url_surat', $url)->first()->nama;
+        } elseif ($settingNomer == 4) {
+            $data['kode_surat'] = FormatSurat::where('url_surat', $url)->first()->kode_surat;
         }
+
         $ket = [
             1 => 'Terakhir untuk semua surat layanan: ',
             2 => "Terakhir untuk jenis surat {$data['nama']}: ",
             3 => 'Terakhir untuk semua surat layanan, keluar dan masuk: ',
+            4 => "Terakhir untuk klasifikasi surat: {$data['kode_surat']}: ",
         ];
+
         $data['no_surat_berikutnya'] = $data['no_surat'] + 1;
         $data['no_surat_berikutnya'] = str_pad((string) $data['no_surat_berikutnya'], (int) setting('panjang_nomor_surat'), '0', STR_PAD_LEFT);
         $data['ket_nomor']           = $ket[$settingNomer];

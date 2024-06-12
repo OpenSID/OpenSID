@@ -54,7 +54,7 @@ class ViewServiceProvider extends ServiceProvider
         if (! $this->app['ci']->session->instalasi) {
             try {
                 $desa = identitas();
-            } catch (Exception $e) {
+            } catch (Exception) {
             }
         }
 

@@ -58,7 +58,7 @@ abstract class BaseEnum
     {
         try {
             return static::$items[static::class] ?? (static::$items[static::class] = (new ReflectionClass(static::class))->getConstants());
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return [];
         }
     }
@@ -89,10 +89,8 @@ abstract class BaseEnum
 
     /**
      * Check if the given value declared in the enum or not
-     *
-     * @param mixed $value
      */
-    public static function hasValue($value): bool
+    public static function hasValue(mixed $value): bool
     {
         return in_array($value, static::all());
     }
@@ -100,22 +98,17 @@ abstract class BaseEnum
     /**
      * Get value of the given key
      *
-     * @param mixed $key
-     * @param mixed $default
-     *
      * @return mixed|null
      */
-    public static function valueOf($key, $default = null)
+    public static function valueOf(mixed $key, mixed $default = null)
     {
         return static::all()[$key] ?? $default;
     }
 
     /**
      * Get related keys of the given value
-     *
-     * @param mixed $value
      */
-    public static function keysOf($value): array
+    public static function keysOf(mixed $value): array
     {
         $keys = [];
 
@@ -131,12 +124,9 @@ abstract class BaseEnum
     /**
      * Get only the first related key of the given value
      *
-     * @param mixed $value
-     * @param mixed $default
-     *
      * @return mixed|null
      */
-    public static function keyOf($value, $default = null)
+    public static function keyOf(mixed $value, mixed $default = null)
     {
         return static::keysOf($value)[0] ?? $default;
     }

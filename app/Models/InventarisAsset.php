@@ -58,4 +58,13 @@ class InventarisAsset extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
+    ];
 }

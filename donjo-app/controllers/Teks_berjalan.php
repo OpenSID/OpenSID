@@ -60,6 +60,7 @@ class Teks_berjalan extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $data = $this->input->post('data');
         TeksBerjalan::setNewOrder($data);
         cache()->flush();

@@ -164,6 +164,11 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
         Route::get('/{slug}', 'Pembangunan@detail')->name('fweb.pembangunan.detail');
     });
 
+    Route::group('inventaris', static function (): void {
+        Route::get('/', 'Inventaris@index')->name('fweb.inventaris.index');
+        Route::get('/{slug}', 'Inventaris@detail')->name('fweb.inventaris.detail');
+    });
+
     Route::group('pengaduan', static function (): void {
         Route::post('/kirim', 'Pengaduan@kirim')->name('fweb.pengaduan.kirim');
         Route::get('/{p?}', 'Pengaduan@index')->name('fweb.pengaduan.index');

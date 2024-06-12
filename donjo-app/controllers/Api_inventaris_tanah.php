@@ -101,7 +101,8 @@ class Api_inventaris_tanah extends Admin_Controller
     public function update($id): void
     {
         isCan('u');
-        $data = $this->inventaris_tanah_model->update($id, [
+        $tgl_sertifikat = $this->input->post('tanggal_sertifikat', true);
+        $data           = $this->inventaris_tanah_model->update($id, [
             'nama_barang'        => $this->input->post('nama_barang_save', true),
             'kode_barang'        => $this->input->post('kode_barang', true),
             'register'           => $this->input->post('register', true),
@@ -110,7 +111,7 @@ class Api_inventaris_tanah extends Admin_Controller
             'letak'              => $this->input->post('letak', true),
             'hak'                => $this->input->post('hak', true),
             'no_sertifikat'      => $this->input->post('no_sertifikat', true),
-            'tanggal_sertifikat' => $this->input->post('tanggal_sertifikat', true),
+            'tanggal_sertifikat' => $tgl_sertifikat != '' ? $tgl_sertifikat : null,
             'penggunaan'         => $this->input->post('penggunaan', true),
             'asal'               => $this->input->post('asal', true),
             'harga'              => bilangan($this->input->post('harga')),

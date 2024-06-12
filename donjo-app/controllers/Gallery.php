@@ -42,8 +42,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
-    public $modul_ini     = 'admin-web';
-    public $sub_modul_ini = 'galeri';
+    public $modul_ini           = 'admin-web';
+    public $sub_modul_ini       = 'galeri';
+    public $kategori_pengaturan = 'galeri';
 
     public function __construct()
     {
@@ -245,6 +246,7 @@ class Gallery extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $gallery = $this->input->post('data');
         Galery::setNewOrder($gallery);
 

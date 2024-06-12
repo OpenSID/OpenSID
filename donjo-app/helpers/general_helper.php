@@ -95,7 +95,7 @@ if (! function_exists('can')) {
 
         $grupId = auth()->id_grup;
 
-        $data = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId) {
+        $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
             $slugGrup = UserGrup::find($grupId)->slug;
             if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];

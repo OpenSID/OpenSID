@@ -58,7 +58,7 @@ class BantuanPeserta extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     /**
      * The relations to eager load on every query.

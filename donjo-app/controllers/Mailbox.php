@@ -96,7 +96,7 @@ class Mailbox extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
                     $aksi = '';
                     if ($canDelete && ! $row->isArchive()) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('mailbox.delete.' . $row->tipe, $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('mailbox.delete.' . $row->tipe, $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Arsipkan pesan" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a> ';
                     }
 
                     if ($canUpdate) {

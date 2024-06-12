@@ -16,7 +16,7 @@ namespace Ramsey\Collection\Tool;
 
 use DateTimeInterface;
 
-use function get_class;
+use function assert;
 use function get_resource_type;
 use function is_array;
 use function is_bool;
@@ -24,7 +24,6 @@ use function is_callable;
 use function is_object;
 use function is_resource;
 use function is_scalar;
-use function var_export;
 
 /**
  * Provides functionality to express a value as string
@@ -46,8 +45,7 @@ trait ValueToStringTrait
      *
      * @param mixed $value the value to return as a string.
      */
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-    protected function toolValueToString($value): string
+    protected function toolValueToString(mixed $value): string
     {
         // null
         if ($value === null) {
@@ -74,12 +72,8 @@ trait ValueToStringTrait
             return '(' . get_resource_type($value) . ' resource #' . (int) $value . ')';
         }
 
-        // If we don't know what it is, use var_export().
-        if (!is_object($value)) {
-            return '(' . var_export($value, true) . ')';
-        }
-
         // From here, $value should be an object.
+        assert(is_object($value));
 
         // __toString() is implemented
         if (is_callable([$value, '__toString'])) {
@@ -92,7 +86,6 @@ trait ValueToStringTrait
         }
 
         // unknown type
-        // phpcs:ignore SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall
-        return '(' . get_class($value) . ' Object)';
+        return '(' . $value::class . ' Object)';
     }
 }

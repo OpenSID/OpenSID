@@ -63,7 +63,7 @@ class Man_user extends Admin_Controller
             ['id' => '1', 'nama' => 'Aktif'],
             ['id' => '0', 'nama' => 'Tidak Aktif'],
         ];
-        $data['user_group'] = UserGrup::pluck('nama', 'id');
+        $data['user_group'] = UserGrup::status()->pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
             $input  = $this->input;
@@ -134,7 +134,7 @@ class Man_user extends Admin_Controller
         }
 
         $data['wilayah']             = Wilayah::tree();
-        $data['user_group']          = UserGrup::get(['id', 'nama']);
+        $data['user_group']          = UserGrup::status()->get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');

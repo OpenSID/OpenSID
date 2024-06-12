@@ -43,8 +43,8 @@ class Analisis_laporan extends Admin_Controller
 {
     public $modul_ini     = 'analisis';
     public $sub_modul_ini = 'master-analisis';
-    private $_set_page;
-    private $_list_session;
+    private array $_set_page;
+    private readonly array $_list_session;
 
     public function __construct()
     {
@@ -156,13 +156,13 @@ class Analisis_laporan extends Admin_Controller
     public function dialog_kuisioner($p = 1, $o = 0, $id = 0, $aksi = ''): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
+        $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("analisis_laporan/daftar/{$p}/{$o}/{$id}/{$aksi}");
 
         $this->load->view('global/ttd_pamong', $data);
     }
 
-    private function subjek_tipe()
+    private function subjek_tipe(): ?string
     {
         $subjek_tipe = $this->session->subjek_tipe;
 
@@ -216,7 +216,7 @@ class Analisis_laporan extends Admin_Controller
         $temp_cari = $this->session->cari;
         $this->session->unset_userdata('cari');
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
+        $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("analisis_laporan/cetak/{$o}/{$aksi}");
         $this->session->cari = $temp_cari;
 

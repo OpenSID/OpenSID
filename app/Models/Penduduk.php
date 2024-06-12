@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\AgamaEnum;
 use App\Enums\CaraKBEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
@@ -188,10 +189,12 @@ class Penduduk extends BaseModel
      * {@inheritDoc}
      */
     protected $appends = [
+        'pendidikan',
         'usia',
         'alamat_wilayah',
         'nama_asuransi',
         'jml_anak',
+        'lokasi',
     ];
 
     /**
@@ -200,7 +203,6 @@ class Penduduk extends BaseModel
     protected $with = [
         'jenisKelamin',
         'agama',
-        'pendidikan',
         'pendidikanKK',
         'pekerjaan',
         'wargaNegara',
@@ -227,11 +229,18 @@ class Penduduk extends BaseModel
      */
     protected $guarded = [];
 
+    private $wilayahColumn = 'id_cluster';
+
     protected static function boot()
     {
         parent::boot();
 
         static::addGlobalScope(new AccessWilayahScope());
+    }
+
+    public function getWilayahColumn()
+    {
+        return $this->wilayahColumn;
     }
 
     public function getJmlAnakAttribute(): string
@@ -289,14 +298,9 @@ class Penduduk extends BaseModel
         return $this->belongsTo(Agama::class, 'agama_id')->withDefault();
     }
 
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function pendidikan()
+    public function getPendidikanAttribute()
     {
-        return $this->belongsTo(Pendidikan::class, 'pendidikan_sedang_id')->withDefault();
+        return PendidikanSedangEnum::valueOf($this->pendidikan_sedang_id);
     }
 
     /**
@@ -410,6 +414,11 @@ class Penduduk extends BaseModel
                 WHEN tweb_penduduk.nik LIKE '0%' AND CHAR_LENGTH(tweb_penduduk.nik) = 16 THEN 2
                 ELSE 3
                 END"));
+    }
+
+    public function scopeOrderKeluarga($query)
+    {
+        return $query->orderBy('kk_level')->orderBy('tanggallahir');
     }
 
     public function scopeEksporData($query)
@@ -737,7 +746,7 @@ class Penduduk extends BaseModel
     public function formIndividu()
     {
         $individu                = $this->toArray();
-        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan']['nama'] ?? '');
+        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan'] ?? '');
         $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
         $individu['agama']       = $this->agama->nama ?? '';
         $individu['umur']        = $this->umur;
@@ -1316,6 +1325,19 @@ class Penduduk extends BaseModel
             $q->peristiwaSampaiDengan($akhirBulanKemarin)->whereIn('kode_peristiwa', $listKodePeristiwa);
         });
         // ->whereStatus(StatusPendudukEnum::TETAP)->get();
+    }
+
+    public function getLokasiAttribute()
+    {
+        if ($this->rtm != '[]' && $this->rtm != null) {
+            $id = $this->rtm->nik_kepala;
+        } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
+            $id = $this->keluarga->nik_kepala;
+        } else {
+            $id = $this->id;
+        }
+
+        return PendudukMap::find($id);
     }
 
     protected function scopeWajibKtp($query)

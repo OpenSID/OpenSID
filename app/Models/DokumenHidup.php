@@ -106,15 +106,14 @@ class DokumenHidup extends BaseModel
         }
     }
 
-    public function scopePeraturanDesa($query, $kat)
+    public function scopePeraturanDesa($query, $kat, $tahun = '')
     {
-        $data = $query->where('kategori', $kat);
-        if ($kat == 3 && ($jenis = session('jenis_peraturan'))) {
-            $attr = '"jenis_peraturan":"' . $jenis . '"';
-            $data->where('attr', 'like', '%' . $attr . '%');
+        $query->where('kategori', $kat);
+        if ($kat == 3 && $tahun != '') {
+            $query->whereRaw("JSON_EXTRACT(attr, '$.tgl_ditetapkan') LIKE ?", ["%{$tahun}%"]);
         }
 
-        return $data;
+        return $query;
     }
 
     public function isActive(): bool
@@ -179,7 +178,7 @@ class DokumenHidup extends BaseModel
         $data = $query->where('id', $id)->first()->toArray();
 
         if ($data) {
-            $data['attr'] = json_decode($data['attr'], true);
+            $data['attr'] = json_decode((string) $data['attr'], true);
 
             return array_filter($data);
         }

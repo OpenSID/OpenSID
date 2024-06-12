@@ -47,7 +47,9 @@ class PendidikanSedangEnum extends BaseEnum
     public const SEDANG_SD_SEDERAJAT                              = 4;
     public const TIDAK_TAMAT_SD_SEDERAJAT                         = 5;
     public const SEDANG_SLTP_SEDERAJAT                            = 6;
+    public const TIDAK_TAMAT_SLTP_SEDERAJAT                       = 19;
     public const SEDANG_SLTA_SEDERAJAT                            = 7;
+    public const TIDAK_TAMAT_SLTA_SEDERAJAT                       = 20;
     public const SEDANG_D_1_SEDERAJAT                             = 8;
     public const SEDANG_D_2_SEDERAJAT                             = 9;
     public const SEDANG_D_3_SEDERAJAT                             = 10;
@@ -72,7 +74,9 @@ class PendidikanSedangEnum extends BaseEnum
             self::SEDANG_SD_SEDERAJAT                              => 'SEDANG SD/SEDERAJAT',
             self::TIDAK_TAMAT_SD_SEDERAJAT                         => 'TIDAK TAMAT SD/SEDERAJAT',
             self::SEDANG_SLTP_SEDERAJAT                            => 'SEDANG SLTP/SEDERAJAT',
+            self::TIDAK_TAMAT_SLTP_SEDERAJAT                       => 'TIDAK TAMAT SLTP/SEDERAJAT',
             self::SEDANG_SLTA_SEDERAJAT                            => 'SEDANG SLTA/SEDERAJAT',
+            self::TIDAK_TAMAT_SLTA_SEDERAJAT                       => 'TIDAK TAMAT SLTA/SEDERAJAT',
             self::SEDANG_D_1_SEDERAJAT                             => 'SEDANG  D-1/SEDERAJAT',
             self::SEDANG_D_2_SEDERAJAT                             => 'SEDANG D-2/SEDERAJAT',
             self::SEDANG_D_3_SEDERAJAT                             => 'SEDANG D-3/SEDERAJAT',

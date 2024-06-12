@@ -60,8 +60,21 @@
                         @endforeach
                     </select>
                     {{-- prettier-ignore-end --}}
-                @elseif ($pengaturan->jenis == 'select-simbol')
-                    @include('admin.pengaturan.components.select-simbol', $pengaturan)
+                    {{-- New --}}
+                @elseif (in_array($pengaturan->jenis, ['input-number', 'select-simbol']))
+                    {{-- Rebuild structur setting --}}
+                    @php
+                        $value = [];
+                        $value['type'] = $pengaturan->jenis;
+                        $value['default'] = $pengaturan->value;
+                        $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';
+                        $value['class'] = \Illuminate\Support\Str::between($pengaturan->attribute, 'class="', '"');
+                        $value['attributes'] = $pengaturan->attribute;
+                        $value['key'] = $pengaturan->key;
+                        $value['option'] = $pengaturan->option;
+                    @endphp
+                    @includeIf("admin.pengaturan.components.{$value['type']}", ['value' => $value])
+                    {{-- End New --}}
                 @else
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" {{ strpos($pengaturan->attribute, 'type=') ? '' : 'type="text"' }} value="{{ $pengaturan->value }}" />
                 @endif

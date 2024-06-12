@@ -182,7 +182,7 @@ class Gawai_layanan extends Admin_Controller
             'printer_ip'    => bilangan_titik($request['printer_ip']),
             'printer_port'  => bilangan($request['printer_port']),
             'keyboard'      => bilangan($request['keyboard']),
-            'keterangan'    => htmlentities($request['keterangan']),
+            'keterangan'    => htmlentities((string) $request['keterangan']),
             'tipe'          => 2,
         ];
 

@@ -21,8 +21,8 @@ use Symfony\Component\Mime\Part\TextPart;
  */
 class Message extends RawMessage
 {
-    private $headers;
-    private $body;
+    private Headers $headers;
+    private ?AbstractPart $body;
 
     public function __construct(?Headers $headers = null, ?AbstractPart $body = null)
     {
@@ -42,8 +42,11 @@ class Message extends RawMessage
     /**
      * @return $this
      */
-    public function setBody(?AbstractPart $body = null)
+    public function setBody(?AbstractPart $body = null): static
     {
+        if (1 > \func_num_args()) {
+            trigger_deprecation('symfony/mime', '6.2', 'Calling "%s()" without any arguments is deprecated, pass null explicitly instead.', __METHOD__);
+        }
         $this->body = $body;
 
         return $this;
@@ -57,7 +60,7 @@ class Message extends RawMessage
     /**
      * @return $this
      */
-    public function setHeaders(Headers $headers)
+    public function setHeaders(Headers $headers): static
     {
         $this->headers = $headers;
 
@@ -122,13 +125,16 @@ class Message extends RawMessage
         yield from $body->toIterable();
     }
 
+    /**
+     * @return void
+     */
     public function ensureValidity()
     {
-        if (!$this->headers->has('To') && !$this->headers->has('Cc') && !$this->headers->has('Bcc')) {
+        if (!$this->headers->get('To')?->getBody() && !$this->headers->get('Cc')?->getBody() && !$this->headers->get('Bcc')?->getBody()) {
             throw new LogicException('An email must have a "To", "Cc", or "Bcc" header.');
         }
 
-        if (!$this->headers->has('From') && !$this->headers->has('Sender')) {
+        if (!$this->headers->get('From')?->getBody() && !$this->headers->get('Sender')?->getBody()) {
             throw new LogicException('An email must have a "From" or a "Sender" header.');
         }
 

@@ -200,6 +200,7 @@ class Kategori extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $kategori = $this->input->post('data');
         KategoriModel::setNewOrder($kategori);
 

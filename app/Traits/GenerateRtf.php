@@ -39,12 +39,12 @@ namespace App\Traits;
 
 trait GenerateRtf
 {
-    private function buat_berkas_kk($data = '')
+    private function buat_berkas_kk($data = ''): ?string
     {
         $path_arsip = LOKASI_ARSIP;
         $file       = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
         if (! is_file($file)) {
-            return;
+            return null;
         }
         $nama = '';
 

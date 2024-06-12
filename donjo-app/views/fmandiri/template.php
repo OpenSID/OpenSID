@@ -236,6 +236,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/profil') ?>" class="btn btn-block btn-social bg-blue">
 										<i class="fa fa-user-o"></i> Profil
 									</a>
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/produk') ?>" class="btn btn-block btn-social bg-blue">
+										<i class="fa fa-cart-plus"></i> Produk
+									</a>
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-biodata') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 										<i class="fa fa-print"></i> Cetak Biodata
 									</a>
@@ -351,7 +354,7 @@ endif;
 		$('document').ready(function() {
 
 			window.setTimeout(function() {
-				$(".callout").fadeTo(500, 0).slideUp(500, function() {
+				$("#notifikasi").fadeTo(500, 0).slideUp(500, function() {
 					$(this).remove();
 				});
 			}, 1000);

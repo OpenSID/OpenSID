@@ -204,6 +204,7 @@ class Wilayah extends Admin_Controller
 
     public function tukar()
     {
+        isCan('u');
         $wilayah = $this->input->post('data');
         if ($wilayah) {
             WilayahModel::setNewOrder($wilayah);
@@ -317,8 +318,8 @@ class Wilayah extends Admin_Controller
         }
 
         $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
-        $data['rw']    = nama_terbatas(trim($data['rw']));
-        $data['rt']    = nama_terbatas(trim($data['rt']));
+        $data['rw']    = nama_terbatas(trim($data['rw'])) ?: 0;
+        $data['rt']    = nama_terbatas(trim($data['rt'])) ?: 0;
 
         return $data;
     }

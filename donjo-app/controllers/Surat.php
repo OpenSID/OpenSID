@@ -270,7 +270,7 @@ class Surat extends Admin_Controller
             $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?: $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $setting_footer);
 
             if (isset($log_surat['input']['id_pengikut'])) {
-                $pengikut     = Penduduk::whereIn('id', $log_surat['input']['id_pengikut'])->get();
+                $pengikut     = Penduduk::whereIn('id', $log_surat['input']['id_pengikut'])->orderKeluarga()->get();
                 $keterangan[] = [];
 
                 foreach ($pengikut as $anak) {
@@ -281,7 +281,7 @@ class Surat extends Admin_Controller
             }
 
             if (isset($log_surat['input']['id_pengikut_kis'])) {
-                $pengikut = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_kis'])->get();
+                $pengikut = Penduduk::whereIn('id', $log_surat['input']['id_pengikut_kis'])->orderKeluarga()->get();
                 $kis      = [];
 
                 foreach ($pengikut as $anggota) {
@@ -293,7 +293,7 @@ class Surat extends Admin_Controller
             }
 
             if (isset($log_surat['input']['id_pengikut_pindah'])) {
-                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderBy('kk_level')->get();
+                $pengikut = Penduduk::with('pendudukHubungan')->whereIn('id', $log_surat['input']['id_pengikut_pindah'])->orderKeluarga()->get();
                 $pindah   = [];
 
                 foreach ($pengikut as $anggota) {
@@ -580,7 +580,7 @@ class Surat extends Admin_Controller
                 $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . identitas()->nama_desa);
             }
 
-            $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
+            $log_surat['no_surat'] = LogSurat::lastNomerSurat($surat->url_surat)['no_surat_berikutnya'];
             $log_surat['surat']    = $surat->formatSurat;
             $input                 = json_decode($surat->input, true);
             $log_surat['input']    = [
@@ -694,10 +694,10 @@ class Surat extends Admin_Controller
             }
         }
 
-        $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
+        $data['surat_terakhir']     = LogSurat::lastNomerSurat($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
-        $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
+        $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
 
         $penandatangan     = $this->tinymce->formPenandatangan();
         $data['pamong']    = $penandatangan['penandatangan'];
@@ -820,7 +820,7 @@ class Surat extends Admin_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->orderKeluarga()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
                 $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }
@@ -831,12 +831,12 @@ class Surat extends Admin_Controller
 
     private function pengikutSuratKIS(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->get();
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }
 
     private function pengikutPindah(array $data)
     {
-        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderBy('kk_level')->get();
+        return Penduduk::where(['id_kk' => $data['individu']['id_kk']])->orderKeluarga()->get();
     }
 
     private function groupByLabel($array)

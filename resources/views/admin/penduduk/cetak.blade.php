@@ -73,7 +73,7 @@
                             <td>{{ tgl_indo($data->tanggallahir) }}</td>
                             <td align="right">{{ $data->umur }}</td>
                             <td>{{ $data->agama->nama }}</td>
-                            <td>{{ $data->pendidikan->nama }}</td>
+                            <td>{{ $data->pendidikan }}</td>
                             <td>{{ $data->pekerjaan->nama }}</td>
                             <td>{{ $data->statusPerkawinan }}</td>
                             <td>{{ App\Enums\SHDKEnum::valueOf($data->kk_level) }}</td>

@@ -42,8 +42,6 @@ class ExampleEvent extends Event
     /**
      * Create a new event instance.
      *
-     * @param mixed $message
-     *
      * @return void
      */
     public function __construct()

@@ -520,8 +520,8 @@ $config['global_xss_filtering'] = false;
 $config['csrf_protection']   = true;
 $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
-$config['csrf_expire']       = 7200;
-$config['csrf_regenerate']   = true;
+$config['csrf_expire']       = 300;
+$config['csrf_regenerate']   = false;
 $config['csrf_exclude_uris'] = ['api.*+'];
 
 /*
@@ -637,7 +637,7 @@ $config['token_pantau']  = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCw
 | - Server layanan (Default)
 |
 */
-$config['server_layanan'] = 'https://layanan.opendesa.id';
+$config['server_layanan'] = 'https://devlayanan.opendesa.id';
 
 /*
 |--------------------------------------------------------------------------

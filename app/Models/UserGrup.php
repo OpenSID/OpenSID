@@ -71,6 +71,7 @@ class UserGrup extends BaseModel
         'nama',
         'jenis',
         'slug',
+        'status',
         'created_by',
         'updated_by',
     ];
@@ -133,6 +134,20 @@ class UserGrup extends BaseModel
                 '*' => 3,
             ],
         ];
+    }
+
+    /**
+     * Scope query untuk status pengguna
+     *
+     * @return Builder
+     */
+    public function scopeStatus(mixed $query, mixed $status = 1)
+    {
+        if ($status == '') {
+            return $query;
+        }
+
+        return $query->where('status', $status);
     }
 
     protected static function boot()
