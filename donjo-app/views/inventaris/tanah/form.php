@@ -43,10 +43,10 @@
 					<?php $this->load->view('inventaris/menu_kiri.php') ?>
 				</div>
 				<?php
-					$reg         = $count_reg->count + 1;
-					$jumlah_kata = strlen($reg);
-					$hasil       = sprintf('%06s', $reg);
-				?>
+                    $reg         = $count_reg->count + 1;
+                    $jumlah_kata = strlen($reg);
+                    $hasil       = sprintf('%06s', $reg);
+                ?>
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
@@ -59,7 +59,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="nama_barang">Nama Barang</label>
 										<div class="col-sm-8">
 											<input type="hidden" id="id" name="id" value="<?= $main->id; ?>">
-											<input type="hidden" name="nama_barang_save" id="nama_barang_save" <?php $main ? 'value="'.$main->nama_barang.'"' : ''; ?>">
+											<input type="hidden" name="nama_barang_save" id="nama_barang_save" <?php $main ? 'value="' . $main->nama_barang . '"' : ''; ?>">
 											<input type="hidden" name="kode_desa" id="kode_desa" value="<?= kode_wilayah($get_kode['kode_desa']) ?>">
 											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style="width:100%;" onchange="formAction('main')">
 												<option value="<?= $main->nama_barang; ?>" disabled><?= $main->nama_barang; ?></option>
@@ -197,7 +197,7 @@
 												<?php } ?>
 											</div>
 										</div>
-										<?php if(!$main) { ?>
+										<?php if(! $main) { ?>
 										<div class="col-sm-4">
 											<div class="input-group">
 												<input type="text" class="form-control input-sm required" id="output" name="output" placeholder="" disabled />
@@ -249,7 +249,7 @@
 			}
 		});
 
-		<?php if(!$main) { ?>
+		<?php if(! $main) { ?>
 			$("#tahun_pengadaan").change();
 			$("#penggunaan_barang").change();
 			$("#nama_barang").change();

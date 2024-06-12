@@ -37,33 +37,32 @@
 
 namespace App\Services;
 
-use Throwable;
-use Carbon\Carbon;
-use App\Models\KIA;
-use App\Models\Dtks;
-use App\Models\Bantuan;
-use App\Models\Penduduk;
-use App\Enums\SasaranEnum;
-use App\Models\Pendidikan;
-use App\Models\DtksAnggota;
-use Illuminate\Support\Str;
 use App\Enums\Dtks\DtksEnum;
-use App\Models\DtksLampiran;
-use App\Models\SakitMenahun;
-use Spipu\Html2Pdf\Html2Pdf;
+use App\Enums\Dtks\Regsosek2022kEnum;
+use App\Enums\SasaranEnum;
+use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
-use App\Models\SettingAplikasi;
+use App\Models\Dtks;
+use App\Models\DtksAnggota;
+use App\Models\DtksLampiran;
+use App\Models\DtksPengaturanProgram;
+use App\Models\KIA;
+use App\Models\Pendidikan;
+use App\Models\Penduduk;
 use App\Models\PendudukHubungan;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer;
+use App\Models\SakitMenahun;
+use App\Models\SettingAplikasi;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use App\Enums\Dtks\Regsosek2022kEnum;
-use App\Models\DtksPengaturanProgram;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use Spipu\Html2Pdf\Html2Pdf;
+use Throwable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

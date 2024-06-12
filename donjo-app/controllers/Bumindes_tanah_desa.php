@@ -235,6 +235,7 @@ class Bumindes_tanah_desa extends Admin_Controller
         if ($nilai == '0') {
             return false;
         }
+
         return null;
     }
 

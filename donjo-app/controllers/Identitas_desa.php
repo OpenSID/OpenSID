@@ -142,7 +142,7 @@ class Identitas_desa extends Admin_Controller
         $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['wilayah']      = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['breadcrumb']   = [
-            ['link' => ci_route('identitas_desa'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
+            ['link' => ci_route('identitas_desa'), 'judul' => 'Identitas ' . ucwords((string) setting('sebutan_desa'))],
         ];
 
         $data['form_action']     = ci_route('identitas_desa.update_maps', $tipe);
@@ -165,7 +165,7 @@ class Identitas_desa extends Admin_Controller
             $data['lat'] = koordinat($this->request['lat']);
             $data['lng'] = koordinat($this->request['lng']);
         } else {
-            $data['path']   = htmlentities($this->request['path']);
+            $data['path']   = htmlentities((string) $this->request['path']);
             $data['warna']  = warna($this->request['warna']);
             $data['border'] = warna($this->request['border']);
         }
@@ -203,20 +203,20 @@ class Identitas_desa extends Admin_Controller
             'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $old->logo,
             'kantor_desa'       => static::unggah('kantor_desa') ?? $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
-            'kode_desa'         => substr(bilangan($request['kode_desa']), 0, 10),
+            'kode_desa'         => substr((string) bilangan($request['kode_desa']), 0, 10),
             'kode_pos'          => bilangan($request['kode_pos']),
             'alamat_kantor'     => alamat($request['alamat_kantor']),
             'email_desa'        => email($request['email_desa']),
             'telepon'           => bilangan($request['telepon']),
             'website'           => alamat_web($request['website']),
             'nama_kecamatan'    => nama_desa($request['nama_kecamatan']),
-            'kode_kecamatan'    => substr(bilangan($request['kode_kecamatan']), 0, 6),
+            'kode_kecamatan'    => substr((string) bilangan($request['kode_kecamatan']), 0, 6),
             'nama_kepala_camat' => nama($request['nama_kepala_camat']),
             'nip_kepala_camat'  => nomor_surat_keputusan($request['nip_kepala_camat']),
             'nama_kabupaten'    => nama($request['nama_kabupaten']),
-            'kode_kabupaten'    => substr(bilangan($request['kode_kabupaten']), 0, 4),
+            'kode_kabupaten'    => substr((string) bilangan($request['kode_kabupaten']), 0, 4),
             'nama_propinsi'     => nama_terbatas($request['nama_propinsi']),
-            'kode_propinsi'     => substr(bilangan($request['kode_propinsi']), 0, 2),
+            'kode_propinsi'     => substr((string) bilangan($request['kode_propinsi']), 0, 2),
             'nomor_operator'    => bilangan($request['nomor_operator']),
         ];
     }
@@ -274,7 +274,7 @@ class Identitas_desa extends Admin_Controller
         return null;
     }
 
-    private function cek_kode_wilayah(array $request = [])
+    private function cek_kode_wilayah(array $request = []): array
     {
         $status = false;
         $config = new Config();

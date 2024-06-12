@@ -75,13 +75,13 @@ class Info_sistem extends Admin_Controller
     {
         isCan('h');
         $path = config_item('log_path');
-        $file = base64_decode($this->input->get('f'), true);
+        $file = base64_decode((string) $this->input->get('f'), true);
 
         if ($this->input->post()) {
             $files = $this->input->post('id_cb');
 
             foreach ($files as $file) {
-                $file = $path . basename($file);
+                $file = $path . basename((string) $file);
                 unlink($file);
             }
 

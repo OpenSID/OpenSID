@@ -35,12 +35,11 @@
  *
  */
 
-use App\Models\Pamong;
 use App\Models\Kehadiran;
+use App\Models\Pamong;
+use Illuminate\Support\Facades\DB;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
-use Illuminate\Support\Facades\DB;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -111,7 +110,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
             'Status Kehadiran',
         ];
 
-        $writer = new Writer;
+        $writer = new Writer();
         $writer->openToBrowser(namafile('kehadiran') . '.xlsx');
         $writer->addRow(Row::fromValues($judul));
 

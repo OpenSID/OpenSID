@@ -35,19 +35,19 @@
  *
  */
 
-use App\Models\Wilayah;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\ListSasaranEnum;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
-use App\Enums\ListSasaranEnum;
-use App\Enums\JenisKelaminEnum;
+use App\Models\Suplemen as ModelsSuplemen;
 use App\Models\SuplemenTerdata;
+use App\Models\Wilayah;
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\BorderPart;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Common\Entity\Style\Border;
-use App\Models\Suplemen as ModelsSuplemen;
-use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -640,7 +640,7 @@ class Suplemen extends Admin_Controller
         $data_suplemen['terdata']  = SuplemenTerdata::anggota($data_suplemen['suplemen']['sasaran'], $id)->get()->toArray();
 
         $file_name = namafile($data_suplemen['suplemen']['nama']) . '.xlsx';
-        $writer   = new Writer;
+        $writer    = new Writer();
         $writer->openToBrowser($file_name);
 
         // Ubah Nama Sheet

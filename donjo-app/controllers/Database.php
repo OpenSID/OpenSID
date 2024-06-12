@@ -116,6 +116,7 @@ class Database extends Admin_Controller
         }
 
         $this->ekspor_model->backup();
+
         return null;
     }
 

@@ -37,19 +37,19 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Bantuan;
 use App\Enums\AktifEnum;
+use App\Enums\SasaranEnum;
+use App\Imports\BantuanImports;
+use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
 use App\Models\Kelompok;
 use App\Models\Penduduk;
-use App\Enums\SasaranEnum;
-use Illuminate\Support\Str;
-use App\Models\BantuanPeserta;
-use App\Imports\BantuanImports;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer;
 
 class Program_bantuan extends Admin_Controller
 {
@@ -417,7 +417,7 @@ class Program_bantuan extends Admin_Controller
 
         //Nama File
         $fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
-        $writer   = new Writer;
+        $writer   = new Writer();
         $writer->openToBrowser($fileName);
 
         // Sheet Program
@@ -442,7 +442,7 @@ class Program_bantuan extends Admin_Controller
         // Sheet Peserta
         $writer->addNewSheetAndMakeItCurrent()->setName('Peserta');
         $judul_peserta = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
-        $style = (new Style())
+        $style         = (new Style())
             ->setFontBold()
             ->setFontSize(12)
             ->setBackgroundColor(Color::YELLOW);

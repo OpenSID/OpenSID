@@ -102,7 +102,7 @@ class Api_inventaris_tanah extends Admin_Controller
     {
         isCan('u');
         $tgl_sertifikat = $this->input->post('tanggal_sertifikat', true);
-        $data = $this->inventaris_tanah_model->update($id, [
+        $data           = $this->inventaris_tanah_model->update($id, [
             'nama_barang'        => $this->input->post('nama_barang_save', true),
             'kode_barang'        => $this->input->post('kode_barang', true),
             'register'           => $this->input->post('register', true),

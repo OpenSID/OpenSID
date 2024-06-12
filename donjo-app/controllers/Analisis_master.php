@@ -35,14 +35,13 @@
  *
  */
 
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Common\Entity\Cell;
-use OpenSpout\Writer\XLSX\Writer;
 use App\Enums\AnalisisRefSubjekEnum;
-use OpenSpout\Common\Entity\Style\Color;
-use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Common\Entity\Style\Color;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

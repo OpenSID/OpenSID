@@ -37,19 +37,18 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Carbon\Carbon;
-use App\Models\KIA;
-use App\Models\Anak;
-use App\Models\Paud;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
+use App\Models\Anak;
 use App\Models\IbuHamil;
+use App\Models\KIA;
+use App\Models\Paud;
 use App\Models\Penduduk;
 use App\Models\Posyandu;
 use App\Models\SasaranPaud;
-use App\Enums\JenisKelaminEnum;
+use Carbon\Carbon;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Stunting extends Admin_Controller
 {

@@ -79,10 +79,10 @@ class Gis extends Admin_Controller
         $data['list_dusun'] = Wilayah::select(['dusun'])->distinct('dusun')->whereIn('dusun', $aksesTerbatas->keys())->get()->toArray();
         if (isset($filterPenduduk['dusun'])) {
             $data['dusun']   = $filterPenduduk['dusun'];
-            $data['list_rw'] = Wilayah::select(['rw', 'dusun'])->distinct('rw')->where(['dusun' => urldecode($data['dusun'])])->get()->filter(static fn ($q) => $aksesTerbatas->get($q->dusun)->get($q->rw))->toArray();
+            $data['list_rw'] = Wilayah::select(['rw', 'dusun'])->distinct('rw')->where(['dusun' => urldecode((string) $data['dusun'])])->get()->filter(static fn ($q) => $aksesTerbatas->get($q->dusun)->get($q->rw))->toArray();
             if (isset($filterPenduduk['rw'])) {
                 $data['rw']      = $filterPenduduk['rw'];
-                $data['list_rt'] = Wilayah::where(['dusun' => urldecode($data['dusun']), 'rw' => urldecode($data['rw'])])->rt()->get()->filter(static function ($q) use ($aksesTerbatas) {
+                $data['list_rt'] = Wilayah::where(['dusun' => urldecode((string) $data['dusun']), 'rw' => urldecode((string) $data['rw'])])->rt()->get()->filter(static function ($q) use ($aksesTerbatas) {
                     $rw = $aksesTerbatas->get($q->dusun)->get($q->rw);
 
                     return $rw ? $rw->where('rt', $q->rt)->count() : null;
@@ -110,22 +110,22 @@ class Gis extends Admin_Controller
         $data['lokasi_pembangunan']   = Pembangunan::activePembangunanMap();
         $data['penduduk']             = Penduduk::activeMap($filterPenduduk);
         $data['dusun_gis']            = Wilayah::dusun()->whereIn('dusun', $aksesTerbatas->keys())->get()->toArray();
-        $data['rw_gis']               = Wilayah::rw()->get()->filter(static function ($q) use ($aksesTerbatas) {
+        $data['rw_gis']               = Wilayah::rw()->get()->filter(static function ($q) use ($aksesTerbatas): bool {
             $result = false;
             $dusun  = $aksesTerbatas->get($q->dusun);
             if ($dusun) {
-                $result = $dusun->get($q->rw) ? true : false;
+                return (bool) $dusun->get($q->rw);
             }
 
             return $result;
         })->toArray();
-        $data['rt_gis'] = Wilayah::rt()->get()->filter(static function ($q) use ($aksesTerbatas) {
+        $data['rt_gis'] = Wilayah::rt()->get()->filter(static function ($q) use ($aksesTerbatas): bool {
             $result = false;
             $dusun  = $aksesTerbatas->get($q->dusun);
             if ($dusun) {
                 $rw = $dusun->get($q->rw);
                 if ($rw) {
-                    $result = $rw->where('rt', $q->rt) ? true : false;
+                    $result = (bool) $rw->where('rt', $q->rt);
                 }
             }
 
@@ -184,7 +184,7 @@ class Gis extends Admin_Controller
         $this->index();
     }
 
-    private function validasi_pencarian($post)
+    private function validasi_pencarian(array $post)
     {
         $data['umur_min']             = bilangan($post['umur_min']);
         $data['umur_max']             = bilangan($post['umur_max']);

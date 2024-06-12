@@ -37,18 +37,17 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use GuzzleHttp\Psr7;
-use App\Services\DataEkspor;
-use App\Models\LogSinkronisasi;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\CSV\Writer;
-use App\Exports\PendudukOpendkExport;
-use App\Models\PembangunanDokumentasi;
+use App\Exports\DokumentasiPembangunanOpendkExport;
 use App\Exports\PembangunanOpendkExport;
+use App\Exports\PendudukOpendkExport;
 use App\Exports\PesertaBantuanOpendkExport;
 use App\Exports\ProgramBantuanOpendkExport;
-use App\Exports\DokumentasiPembangunanOpendkExport;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use App\Models\LogSinkronisasi;
+use App\Models\PembangunanDokumentasi;
+use App\Services\DataEkspor;
+use GuzzleHttp\Psr7;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Writer;
 
 class Sinkronisasi extends Admin_Controller
 {
@@ -181,7 +180,7 @@ class Sinkronisasi extends Admin_Controller
         $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
 
         $data_dokumentasi = LOKASI_SINKRONISASI_ZIP . namafile('dokumentasi pembangunan') . '_opendk.csv';
-        $writer = new Writer();
+        $writer           = new Writer();
         $writer->openToFile($data_dokumentasi);
 
         // Header Tabel

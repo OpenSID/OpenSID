@@ -105,11 +105,10 @@ class PendudukMandiri extends BaseModel
      * Scope query untuk aktif
      *
      * @param Builder $query
-     * @param mixed   $value
      *
      * @return Builder
      */
-    public function scopeStatus($query, $value = 1)
+    public function scopeStatus($query, mixed $value = 1)
     {
         return $query->where('aktif', $value);
     }
