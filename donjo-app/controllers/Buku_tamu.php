@@ -35,18 +35,19 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusEnum;
-use App\Models\BukuKeperluan;
-use App\Models\BukuKepuasan;
-use App\Models\BukuTamu;
-use App\Models\RefJabatan;
 use Carbon\Carbon;
-use OpenSpout\Common\Entity\Style\Border;
+use App\Models\BukuTamu;
+use App\Enums\StatusEnum;
+use App\Models\RefJabatan;
+use App\Models\BukuKepuasan;
+use App\Models\BukuKeperluan;
+use App\Enums\JenisKelaminEnum;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use OpenSpout\Common\Entity\Style\Color;
-use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\BorderPart;
 
 class Buku_tamu extends Anjungan_Controller
 {
@@ -181,49 +182,47 @@ class Buku_tamu extends Anjungan_Controller
     public function ekspor(): void
     {
         $tanggal = $this->input->get('tanggal');
-        $writer  = WriterEntityFactory::createXLSXWriter();
+        $writer  = new Writer();
         $writer->openToBrowser(namafile('Buku Tamu') . '.xlsx');
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('Data Tamu');
 
         // Deklarasi Style
-        $border = (new BorderBuilder())
-            ->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->build();
+        $border = new Border(
+            new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::BOTTOM, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::LEFT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::RIGHT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID)
+        );
 
-        $borderStyle = (new StyleBuilder())
-            ->setBorder($border)
-            ->build();
+        $borderStyle = (new Style())
+            ->setBorder($border);
 
-        $yellowBackgroundStyle = (new StyleBuilder())
+        $yellowBackgroundStyle = (new Style())
             ->setBackgroundColor(Color::YELLOW)
             ->setFontBold()
-            ->setBorder($border)
-            ->build();
+            ->setBorder($border);
 
         // Cetak Header Tabel
         $values        = ['NO', 'HARI / TANGGAL', 'NAMA', 'TELEPON', 'INSTANSI', 'JENIS KELAMIN', 'ALAMAT', 'BERTEMU', 'KEPERLUAN'];
-        $rowFromValues = WriterEntityFactory::createRowFromArray($values, $yellowBackgroundStyle);
+        $rowFromValues = Row::fromValues($values, $yellowBackgroundStyle);
         $writer->addRow($rowFromValues);
 
         // Cetak Data
         foreach ($this->data($tanggal) as $no => $data) {
             $cells = [
-                WriterEntityFactory::createCell($no + 1),
-                WriterEntityFactory::createCell(Carbon::parse($data->created_at)->dayName . ' / ' . tgl_indo($data->created_at) . ' - ' . Carbon::parse($data->created_at)->format('H:i:s')),
-                WriterEntityFactory::createCell($data->nama),
-                WriterEntityFactory::createCell($data->telepon),
-                WriterEntityFactory::createCell($data->instansi),
-                WriterEntityFactory::createCell(JenisKelaminEnum::all()[$data->jenis_kelamin]),
-                WriterEntityFactory::createCell($data->alamat),
-                WriterEntityFactory::createCell($data->bidang),
-                WriterEntityFactory::createCell($data->keperluan),
+                $no + 1,
+                Carbon::parse($data->created_at)->dayName . ' / ' . tgl_indo($data->created_at) . ' - ' . Carbon::parse($data->created_at)->format('H:i:s'),
+                $data->nama,
+                $data->telepon,
+                $data->instansi,
+                JenisKelaminEnum::all()[$data->jenis_kelamin],
+                $data->alamat,
+                $data->bidang,
+                $data->keperluan,
             ];
 
-            $singleRow = WriterEntityFactory::createRow($cells);
+            $singleRow = Row::fromValues($cells);
             $singleRow->setStyle($borderStyle);
             $writer->addRow($singleRow);
         }

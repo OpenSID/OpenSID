@@ -418,7 +418,7 @@ class Program_bantuan extends Admin_Controller
         //Nama File
         $fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
         $writer   = new Writer;
-        $writer->openToBrowser(sys_get_temp_dir() . '/' . $fileName);
+        $writer->openToBrowser($fileName);
 
         // Sheet Program
         $writer->getCurrentSheet()->setName('Program');
@@ -442,10 +442,10 @@ class Program_bantuan extends Admin_Controller
         // Sheet Peserta
         $writer->addNewSheetAndMakeItCurrent()->setName('Peserta');
         $judul_peserta = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
-        $style = new Style();
-        $style->setFontBold();
-        $style->setFontSize(12);
-        $style->setBackgroundColor(Color::YELLOW);
+        $style = (new Style())
+            ->setFontBold()
+            ->setFontSize(12)
+            ->setBackgroundColor(Color::YELLOW);
 
         $header = Row::fromValues($judul_peserta, $style);
         $writer->addRow($header);

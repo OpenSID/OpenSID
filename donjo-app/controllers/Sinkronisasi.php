@@ -37,15 +37,17 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Exports\DokumentasiPembangunanOpendkExport;
-use App\Exports\PembangunanOpendkExport;
+use GuzzleHttp\Psr7;
+use App\Services\DataEkspor;
+use App\Models\LogSinkronisasi;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Writer;
 use App\Exports\PendudukOpendkExport;
+use App\Models\PembangunanDokumentasi;
+use App\Exports\PembangunanOpendkExport;
 use App\Exports\PesertaBantuanOpendkExport;
 use App\Exports\ProgramBantuanOpendkExport;
-use App\Models\LogSinkronisasi;
-use App\Models\PembangunanDokumentasi;
-use App\Services\DataEkspor;
-use GuzzleHttp\Psr7;
+use App\Exports\DokumentasiPembangunanOpendkExport;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Sinkronisasi extends Admin_Controller
@@ -178,10 +180,8 @@ class Sinkronisasi extends Admin_Controller
         // cek tanggal akhir sinkronisasi
         $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
 
-        $writer = WriterEntityFactory::createCSVWriter();
-
-        // Membuat Data Dokumentasi Pembangunan
         $data_dokumentasi = LOKASI_SINKRONISASI_ZIP . namafile('dokumentasi pembangunan') . '_opendk.csv';
+        $writer = new Writer();
         $writer->openToFile($data_dokumentasi);
 
         // Header Tabel
@@ -195,7 +195,7 @@ class Sinkronisasi extends Admin_Controller
             'created_at',
             'updated_at',
         ];
-        $header = WriterEntityFactory::createRowFromArray($daftar_kolom_dokumentasi);
+        $header = Row::fromValues($daftar_kolom_dokumentasi);
         $writer->addRow($header);
         $get_dokumentasi = PembangunanDokumentasi::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
             ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))->get();
@@ -217,7 +217,7 @@ class Sinkronisasi extends Admin_Controller
                 $this->zip->read_file($file_foto);
             }
 
-            $rowFromValues = WriterEntityFactory::createRowFromArray($dokumentasi);
+            $rowFromValues = Row::fromValues($dokumentasi);
             $writer->addRow($rowFromValues);
         }
 

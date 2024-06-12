@@ -35,43 +35,45 @@
  *
  */
 
-use App\Enums\AgamaEnum;
-use App\Enums\AsuransiEnum;
-use App\Enums\BahasaEnum;
-use App\Enums\CacatEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\HamilEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\PindahEnum;
-use App\Enums\SakitMenahunEnum;
-use App\Enums\SasaranEnum;
+use Carbon\Carbon;
 use App\Enums\SHDKEnum;
-use App\Enums\StatusDasarEnum;
-use App\Enums\StatusEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\StatusKTPEnum;
-use App\Enums\StatusPendudukEnum;
 use App\Enums\SukuEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
-use App\Models\DokumenHidup;
+use App\Models\Wilayah;
+use App\Enums\AgamaEnum;
+use App\Enums\CacatEnum;
+use App\Enums\HamilEnum;
+use App\Models\UserGrup;
+use App\Enums\BahasaEnum;
+use App\Enums\CaraKBEnum;
+use App\Enums\PindahEnum;
+use App\Enums\StatusEnum;
+use App\Models\StatusKtp;
+use App\Enums\SasaranEnum;
+use App\Enums\AsuransiEnum;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
-use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
 use App\Models\RentangUmur;
-use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
-use App\Models\UserGrup;
-use App\Models\Wilayah;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Enums\PekerjaanEnum;
+use App\Enums\StatusKTPEnum;
+use App\Models\DokumenHidup;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\SakitMenahunEnum;
+use App\Enums\GolonganDarahEnum;
+use OpenSpout\Common\Entity\Row;
+use App\Enums\StatusPendudukEnum;
+use OpenSpout\Writer\XLSX\Writer;
+use Illuminate\Support\Facades\DB;
+use App\Enums\PendidikanSedangEnum;
+use App\Models\Penduduk as PendudukModel;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -1519,9 +1521,9 @@ class Penduduk extends Admin_Controller
         try {
             $daftar_kolom = $this->impor_model->daftar_kolom;
 
-            $writer = WriterEntityFactory::createXLSXWriter();
+            $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
-            $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
+            $writer->addRow(Row::fromValues($daftar_kolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);
             $_GET           = $paramDatatable;
@@ -1564,7 +1566,7 @@ class Penduduk extends Admin_Controller
                     $penduduk[] = $this->bersihkanData($row->{$kolom}, $kolom);
                 }
 
-                $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
+                $writer->addRow(Row::fromValues($penduduk));
             }
             $writer->close();
         } catch (Exception $e) {

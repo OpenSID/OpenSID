@@ -35,19 +35,19 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\ListSasaranEnum;
+use App\Models\Wilayah;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
-use App\Models\Suplemen as ModelsSuplemen;
+use App\Enums\ListSasaranEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Models\SuplemenTerdata;
-use App\Models\Wilayah;
-use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use OpenSpout\Common\Entity\Style\Color;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
-use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Common\Entity\Style\Border;
+use App\Models\Suplemen as ModelsSuplemen;
+use OpenSpout\Common\Entity\Style\BorderPart;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -639,8 +639,8 @@ class Suplemen extends Admin_Controller
         $data_suplemen['suplemen'] = ModelsSuplemen::findOrFail($id)->toArray();
         $data_suplemen['terdata']  = SuplemenTerdata::anggota($data_suplemen['suplemen']['sasaran'], $id)->get()->toArray();
 
-        $writer    = WriterEntityFactory::createXLSXWriter();
         $file_name = namafile($data_suplemen['suplemen']['nama']) . '.xlsx';
+        $writer   = new Writer;
         $writer->openToBrowser($file_name);
 
         // Ubah Nama Sheet
@@ -648,30 +648,24 @@ class Suplemen extends Admin_Controller
         $sheet->setName('Peserta');
 
         // Deklarasi Style
-        $border = (new BorderBuilder())
-            ->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
-            ->build();
+        $border = new Border(
+            new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::BOTTOM, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::LEFT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
+            new BorderPart(Border::RIGHT, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID)
+        );
 
-        $borderStyle = (new StyleBuilder())
+        $headerStyle = (new Style())
             ->setBorder($border)
-            ->build();
-
-        $yellowBackgroundStyle = (new StyleBuilder())
             ->setBackgroundColor(Color::YELLOW)
-            ->setFontBold()
-            ->setBorder($border)
-            ->build();
+            ->setFontBold();
 
-        $greenBackgroundStyle = (new StyleBuilder())
-            ->setBackgroundColor(Color::LIGHT_GREEN)
-            ->build();
+        $footerStyle = (new Style())
+            ->setBackgroundColor(Color::LIGHT_GREEN);
 
         // Cetak Header Tabel
         $values        = ['Peserta', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat', 'Keterangan'];
-        $rowFromValues = WriterEntityFactory::createRowFromArray($values, $yellowBackgroundStyle);
+        $rowFromValues = Row::fromValues($values, $headerStyle);
         $writer->addRow($rowFromValues);
 
         // Cetak Data Anggota Suplemen
@@ -679,23 +673,23 @@ class Suplemen extends Admin_Controller
 
         foreach ($data_anggota as $data) {
             $cells = [
-                WriterEntityFactory::createCell($data['nik']),
-                WriterEntityFactory::createCell(strtoupper($data['nama'])),
-                WriterEntityFactory::createCell($data['tempatlahir']),
-                WriterEntityFactory::createCell(tgl_indo_out($data['tanggallahir'])),
-                WriterEntityFactory::createCell(strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . $this->setting->sebutan_dusun . ' ' . $data['dusun'])),
-                WriterEntityFactory::createCell(empty($data['keterangan']) ? '-' : $data['keterangan']),
+                $data['nik'],
+                strtoupper($data['nama']),
+                $data['tempatlahir'],
+                tgl_indo_out($data['tanggallahir']),
+                strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']),
+                empty($data['keterangan']) ? '-' : $data['keterangan'],
             ];
 
-            $singleRow = WriterEntityFactory::createRow($cells);
-            $singleRow->setStyle($borderStyle);
+            $singleRow = Row::fromValues($cells);
+            // $singleRow->setStyle($borderStyle);
             $writer->addRow($singleRow);
         }
 
         $cells = [
             '###', '', '', '', '', '',
         ];
-        $singleRow = WriterEntityFactory::createRowFromArray($cells);
+        $singleRow = Row::fromValues($cells);
         $writer->addRow($singleRow);
 
         // Cetak Catatan
@@ -720,7 +714,7 @@ class Suplemen extends Admin_Controller
         $rows_catatan = [];
 
         foreach ($array_catatan as $catatan) {
-            $rows_catatan[] = WriterEntityFactory::createRowFromArray($catatan, $greenBackgroundStyle);
+            $rows_catatan[] = Row::fromValues($catatan, $footerStyle);
         }
         $writer->addRows($rows_catatan);
 

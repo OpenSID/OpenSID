@@ -37,16 +37,18 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\SHDKEnum;
-use App\Models\Anak;
-use App\Models\IbuHamil;
+use Carbon\Carbon;
 use App\Models\KIA;
+use App\Models\Anak;
 use App\Models\Paud;
+use App\Enums\SHDKEnum;
+use App\Models\IbuHamil;
 use App\Models\Penduduk;
 use App\Models\Posyandu;
 use App\Models\SasaranPaud;
-use Carbon\Carbon;
+use App\Enums\JenisKelaminEnum;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Stunting extends Admin_Controller
@@ -579,9 +581,9 @@ class Stunting extends Admin_Controller
             'Jaminan Kesehatan',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('Laporan Bulanan Ibu Hamil') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $dataIbuHamil = IbuHamil::with(['kia', 'kia.ibu'])->filter($filters)->get();
 
@@ -602,7 +604,7 @@ class Stunting extends Admin_Controller
                 $row->kepemilikan_jamban == 1 ? 'v' : 'x',
                 $row->jaminan_kesehatan == 1 ? 'v' : 'x',
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }
@@ -811,9 +813,9 @@ class Stunting extends Admin_Controller
             'Pengasuhan PAUD',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('Laporan Bulanan Anak') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $dataAnak     = Anak::with(['kia', 'kia.anak'])->filter($filters)->get();
         $status_tikar = collect(Anak::STATUS_TIKAR_ANAK)->pluck('simbol', 'id');
@@ -850,7 +852,7 @@ class Stunting extends Admin_Controller
                 $row->jaminan_kesehatan == 1 ? 'v' : 'x',
                 $row->pengasuhan_paud == 1 ? 'v' : 'x',
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }
@@ -1032,9 +1034,9 @@ class Stunting extends Admin_Controller
             'Desember',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('Laporan Sasaran Paud') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $dataPaud = Paud::with(['kia', 'kia.ibu'])->filter($filters)->get();
 
@@ -1057,7 +1059,7 @@ class Stunting extends Admin_Controller
                 $row->november  = ($row->november == 1) ? '-' : (($row->november == 2) ? 'v' : 'x'),
                 $row->desember  = ($row->desember == 1) ? '-' : (($row->desember == 2) ? 'v' : 'x'),
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }
