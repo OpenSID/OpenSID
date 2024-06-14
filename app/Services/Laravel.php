@@ -51,6 +51,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Hashing\HashServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Log\LogManager;
 use Illuminate\Pagination\PaginationServiceProvider;
 use Illuminate\Queue\QueueServiceProvider;
 use Illuminate\Support\Composer;
@@ -58,6 +59,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class Laravel extends Container
 {
@@ -67,13 +69,6 @@ class Laravel extends Container
      * @var bool
      */
     protected static $aliasesRegistered = false;
-
-    /**
-     * The base path of the application installation.
-     *
-     * @var string
-     */
-    protected $basePath;
 
     /**
      * All of the loaded configuration files.
@@ -144,6 +139,8 @@ class Laravel extends Container
         'files'                                            => 'registerFilesBindings',
         'hash'                                             => 'registerHashBindings',
         \Illuminate\Contracts\Hashing\Hasher::class        => 'registerHashBindings',
+        'log'                                              => 'registerLogBindings',
+        LoggerInterface::class                             => 'registerLogBindings',
         'queue'                                            => 'registerQueueBindings',
         'queue.connection'                                 => 'registerQueueBindings',
         \Illuminate\Contracts\Queue\Factory::class         => 'registerQueueBindings',
@@ -160,10 +157,11 @@ class Laravel extends Container
      *
      * @return void
      */
-    public function __construct($basePath = null)
+    public function __construct(/**
+     * The base path of the application installation.
+     */
+    protected $basePath = null)
     {
-        $this->basePath = $basePath;
-
         $this->bootstrapContainer();
     }
 
@@ -184,6 +182,14 @@ class Laravel extends Container
         $this->instance('env', $this->environment());
 
         $this->registerContainerAliases();
+    }
+
+    /**
+     * Determine if the application is currently down for maintenance.
+     */
+    public function isDownForMaintenance(): bool
+    {
+        return false;
     }
 
     /**
@@ -231,7 +237,7 @@ class Laravel extends Container
             $provider = new $provider($this);
         }
 
-        if (array_key_exists($providerName = get_class($provider), $this->loadedProviders)) {
+        if (array_key_exists($providerName = $provider::class, $this->loadedProviders)) {
             return;
         }
 
@@ -430,6 +436,20 @@ class Laravel extends Container
     protected function registerHashBindings()
     {
         $this->singleton('hash', fn () => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerLogBindings()
+    {
+        $this->singleton(LoggerInterface::class, function (): \Illuminate\Log\LogManager {
+            $this->configure('logging');
+
+            return new LogManager($this);
+        });
     }
 
     /**
@@ -662,6 +682,14 @@ class Laravel extends Container
     }
 
     /**
+     * Determine if we are running unit tests.
+     */
+    public function runningUnitTests(): bool
+    {
+        return $this->environment() == 'testing';
+    }
+
+    /**
      * Prepare the application to execute a console command.
      *
      * @param bool $aliases
@@ -746,6 +774,7 @@ class Laravel extends Container
             \Illuminate\Contracts\Filesystem\Filesystem::class      => 'filesystem.disk',
             \Illuminate\Contracts\Filesystem\Cloud::class           => 'filesystem.cloud',
             \Illuminate\Contracts\Hashing\Hasher::class             => 'hash',
+            'log'                                                   => LoggerInterface::class,
             \Illuminate\Contracts\Queue\Factory::class              => 'queue',
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
             'request'                                               => Request::class,

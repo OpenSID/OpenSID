@@ -58,7 +58,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 use Throwable;
@@ -557,7 +558,7 @@ class DTKSRegsosEk2022k
     {
         $file = namafile('Dtks Regsosek2022k') . '.xlsx';
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser($file);
 
         $dtks_v2 = Dtks::whereNotNull('id_rtm')->where('versi_kuisioner', DtksEnum::REGSOS_EK2022_K)->get();
@@ -663,8 +664,8 @@ class DTKSRegsosEk2022k
             ['VI. CATATAN', 'Catatan', 'catatan'],
         ];
         $writer->getCurrentSheet()->setName('Keluarga');
-        $writer->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 0)));
-        $writer->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 1)));
+        $writer->addRow(Row::fromValues(array_column($judul, 0)));
+        $writer->addRow(Row::fromValues(array_column($judul, 1)));
 
         // $writer->mergeCells([0,1] , [0,2]);     // updated_at
         // $writer->mergeCells([1,1] , [16,1]);    // bag 1
@@ -700,7 +701,7 @@ class DTKSRegsosEk2022k
                 $data[] = in_array($field, ['tanggal_pendataan', 'tanggal_pemeriksaan']) ? '' . $dtks->{$field} : $dtks->{$field};
             }
 
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
     }
 
@@ -768,9 +769,9 @@ class DTKSRegsosEk2022k
         ];
 
         $writer2->addNewSheetAndMakeItCurrent()->setName('Anggota Keluarga');
-        $writer2->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 0)));
-        $writer2->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 1)));
-        $writer2->addRow(WriterEntityFactory::createRowFromArray(array_column($judul, 2)));
+        $writer2->addRow(Row::fromValues(array_column($judul, 0)));
+        $writer2->addRow(Row::fromValues(array_column($judul, 1)));
+        $writer2->addRow(Row::fromValues(array_column($judul, 2)));
 
         // $writer2->mergeCells([0,1] ,  [7, 2]);     // Bag 1
         // $writer2->mergeCells([8, 1] ,  [56, 1]);     // Bag 4
@@ -814,7 +815,7 @@ class DTKSRegsosEk2022k
                     $data[] = $agt->{$field};
                 }
 
-                $writer2->addRow(WriterEntityFactory::createRowFromArray($data));
+                $writer2->addRow(Row::fromValues($data));
             }
         }
     }

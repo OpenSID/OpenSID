@@ -215,7 +215,7 @@ class Pamong_model extends MY_Model
                 ->where('tanggal', Carbon::now()->format('Y-m-d'))
                 ->orderBy('id', 'DESC')->first();
 
-            $nama = $item['id_pend'] ? $item['penduduk']['nama'] : $item['pamong_nama'];
+            $nama = $item['pamong_nama'];
             $sex  = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
 
             return [
@@ -228,7 +228,7 @@ class Pamong_model extends MY_Model
                 'media_sosial'     => json_encode($item['media_sosial']),
                 'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
                 'id_sex'           => $sex,
-                'nama'             => gelar($item['gelar_depan'], $nama, $item['gelar_belakang']),
+                'nama'             => $nama,
                 'status_kehadiran' => $kehadiran ? $kehadiran->status_kehadiran : null,
                 'tanggal'          => $kehadiran ? $kehadiran->tanggal : null,
             ];

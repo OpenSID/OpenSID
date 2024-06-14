@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +67,7 @@ class Produk extends BaseModel
 
     public function scopeListProduk($query)
     {
-        $kantor  = identitas('kantor');
+        $kantor  = identitas();
         $telepon = MediaSosial::where(['id' => 6, 'tipe' => 1, 'enabled' => 1])->first()->link;
 
         return $this->withoutGlobalScopes()
@@ -128,7 +129,8 @@ class Produk extends BaseModel
 
     public function produkInsert(array $post = [])
     {
-        $data = $this->produkValidasi($post);
+        $data           = $this->produkValidasi($post);
+        $data['status'] = StatusEnum::YA;
 
         return $this->create($data);
     }
@@ -181,7 +183,6 @@ class Produk extends BaseModel
             'deskripsi'          => ci()->security->xss_clean($post['deskripsi']),
             'foto'               => ($foto == []) ? null : json_encode($foto, JSON_THROW_ON_ERROR),
             'potongan'           => ($post['potongan'] == null) ? '0' : $post['potongan'],
-            'status'             => $post['status'] ?? 0,
         ];
 
         if ($post['tipe_potongan'] == 1 && ! empty($post['persen'])) {

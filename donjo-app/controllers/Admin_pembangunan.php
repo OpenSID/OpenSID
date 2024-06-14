@@ -201,7 +201,7 @@ class Admin_pembangunan extends Admin_Controller
         ];
     }
 
-    private function upload_gambar_pembangunan(string $jenis, string $old_foto = '')
+    private function upload_gambar_pembangunan(string $jenis, ?string $old_foto = null)
     {
         // Inisialisasi library 'upload'
         $this->load->library('MY_Upload', null, 'upload');
@@ -217,7 +217,7 @@ class Admin_pembangunan extends Admin_Controller
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
         if (! $adaBerkas) {
             // Jika hapus (ceklis)
-            if (isset($_POST['hapus_foto'])) {
+            if (isset($_POST['hapus_foto']) && $old_foto !== null) {
                 unlink(LOKASI_GALERI . $old_foto);
 
                 return null;

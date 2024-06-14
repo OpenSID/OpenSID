@@ -94,7 +94,7 @@ class Install extends CI_Controller
         ]);
     }
 
-    private function check_server()
+    private function check_server(): bool
     {
         foreach ($this->config->item('server') as $check) {
             if (! $check['check']()) {
@@ -124,7 +124,7 @@ class Install extends CI_Controller
         ]);
     }
 
-    private function check_folders()
+    private function check_folders(): bool
     {
         foreach ($this->config->item('folders') as $check) {
             if (! $check['check']()) {
@@ -202,7 +202,7 @@ class Install extends CI_Controller
         return redirect('install/migrations');
     }
 
-    private function config_database($request = [])
+    private function config_database(array $request = []): array
     {
         if (! $this->session->has_userdata('hostname') && isset($request['database_hostname'])) {
             $this->session->set_userdata([
@@ -381,7 +381,7 @@ class Install extends CI_Controller
 
     public function syarat_sandi($password)
     {
-        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $password)) {
+        if (! preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', (string) $password)) {
             $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
 
             return false;

@@ -239,8 +239,6 @@ class First_artikel_m extends MY_Model
                 $data[$i]['tgl'] = $tgl;
                 $data[$i]['isi'] = "<a href='" . site_url("artikel/{$id}") . "'>" . $data[$i]['judul'] . '</a>, <i class="fa fa-user"></i> ' . $data[$i]['owner'];
             }
-        } else {
-            $data = false;
         }
 
         return $data;
@@ -420,8 +418,6 @@ class First_artikel_m extends MY_Model
         if ($query->num_rows() > 0) {
             $data = $query->row_array();
             $this->sterilkan_artikel($data);
-        } else {
-            $data = false;
         }
 
         return $data;

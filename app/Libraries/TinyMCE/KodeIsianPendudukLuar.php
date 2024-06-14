@@ -72,6 +72,8 @@ class KodeIsianPendudukLuar
         // kode isian lama
         'form_nama_non_warga',
         'form_nik_non_warga',
+
+        // TODO: tambahkan no kk di kode isian penduduk luar
     ];
 
     public function __construct(private $suratMatser, private $inputForm)

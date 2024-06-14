@@ -178,6 +178,10 @@ class Grup extends Admin_Controller
                 redirect_with('success', 'Grup pengguna berhasil disimpan');
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
+                if (str_contains($e->getMessage(), 'Duplicate entry')) {
+                    redirect_with('error', 'Nama grup pengguna sudah ada');
+                }
+
                 redirect_with('error', 'Grup pengguna gagal disimpan');
             }
         }
@@ -193,7 +197,7 @@ class Grup extends Admin_Controller
 
     public function syarat_nama($str)
     {
-        return ! preg_match('/[^a-zA-Z0-9 \\-]/', $str);
+        return ! preg_match('/[^a-zA-Z0-9 \\-]/', (string) $str);
     }
 
     public function update($id): void
@@ -242,8 +246,8 @@ class Grup extends Admin_Controller
         if ($grupAkses) {
             GrupAkses::insert($grupAkses);
         }
-        cache()->forget('akses_grup_' . $grupId);
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+        cache()->forget("akses_grup_{$grupId}");
+        cache()->forget("{$grupId}_admin_menu");
     }
 
     public function delete($id = null): void
@@ -336,7 +340,7 @@ class Grup extends Admin_Controller
 
     private function formatImport($list_data = null)
     {
-        return collect(json_decode($list_data, true))
+        return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'config_id'  => identitas('id'),
                 'nama'       => $item['nama'],

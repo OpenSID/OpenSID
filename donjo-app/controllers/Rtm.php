@@ -49,7 +49,7 @@ use App\Models\Wilayah;
 use App\Traits\Upload;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
+use OpenSpout\Reader\XLSX\Reader;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -322,7 +322,7 @@ class Rtm extends Admin_Controller
 
         $this->upload('userfile', $config);
 
-        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader = new Reader();
         $reader->open($_FILES['userfile']['tmp_name']);
         $pesan = '';
 

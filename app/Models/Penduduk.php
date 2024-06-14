@@ -416,6 +416,11 @@ class Penduduk extends BaseModel
                 END"));
     }
 
+    public function scopeOrderKeluarga($query)
+    {
+        return $query->orderBy('kk_level')->orderBy('tanggallahir');
+    }
+
     public function scopeEksporData($query)
     {
         return $query->select([

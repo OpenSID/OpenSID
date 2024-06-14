@@ -41,7 +41,9 @@ use Illuminate\Cache\Console\CacheTableCommand;
 use Illuminate\Cache\Console\ClearCommand as CacheClearCommand;
 use Illuminate\Cache\Console\ForgetCommand as CacheForgetCommand;
 use Illuminate\Console\Scheduling\ScheduleFinishCommand;
+use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Console\Scheduling\ScheduleRunCommand;
+use Illuminate\Console\Scheduling\ScheduleWorkCommand;
 use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Database\Console\Migrations\FreshCommand as MigrateFreshCommand;
 use Illuminate\Database\Console\Migrations\InstallCommand as MigrateInstallCommand;
@@ -91,8 +93,10 @@ class ConsoleServiceProvider extends ServiceProvider
         'QueueWork'       => 'command.queue.work',
         'Seed'            => 'command.seed',
         'Wipe'            => 'command.wipe',
-        'ScheduleFinish'  => ScheduleFinishCommand::class,
-        'ScheduleRun'     => ScheduleRunCommand::class,
+        'ScheduleFinish'  => 'command.schedule.finish',
+        'ScheduleRun'     => 'command.schedule.run',
+        'ScheduleList'    => 'command.schedule.list',
+        'ScheduleWork'    => 'command.schedule.work',
         'SchemaDump'      => 'command.schema.dump',
     ];
 
@@ -391,7 +395,7 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerScheduleFinishCommand()
     {
-        $this->app->singleton(ScheduleFinishCommand::class);
+        $this->app->singleton('command.schedule.finish', static fn () => new ScheduleFinishCommand());
     }
 
     /**
@@ -401,7 +405,27 @@ class ConsoleServiceProvider extends ServiceProvider
      */
     protected function registerScheduleRunCommand()
     {
-        $this->app->singleton(ScheduleRunCommand::class);
+        $this->app->singleton('command.schedule.run', static fn () => new ScheduleRunCommand());
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerScheduleWorkCommand()
+    {
+        $this->app->singleton('command.schedule.work', static fn () => new ScheduleWorkCommand());
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerScheduleListCommand()
+    {
+        $this->app->singleton('command.schedule.list', static fn () => new ScheduleListCommand());
     }
 
     /**

@@ -61,7 +61,7 @@ class Bantuan extends Mandiri_Controller
         if ($aksi == 'tampil') {
             $this->load->view(MANDIRI . '/peserta_bantuan', $data);
         } else {
-            ambilBerkas($data['kartu_peserta'], MANDIRI . '/bantuan', null, LOKASI_DOKUMEN);
+            ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', null, LOKASI_DOKUMEN);
         }
     }
 }

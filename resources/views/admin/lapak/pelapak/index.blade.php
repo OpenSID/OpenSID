@@ -44,7 +44,7 @@
                         <select class="form-control input-sm select2" id="status" name="status">
                             <option value="">Pilih Status</option>
                             <option value="1" selected>Aktif</option>
-                            <option value="2">Tidak Aktif</option>
+                            <option value="0">Tidak Aktif</option>
                         </select>
                     </div>
                 </div>
@@ -118,10 +118,10 @@
                             let status;
                             if (data.status == 1) {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/pelapak_status/') }}${data.id}/2" class="btn bg-navy btn-sm" title="Non Aktifkan Pelapak"><i class="fa fa-unlock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/pelapak_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Pelapak"><i class="fa fa-unlock"></i></a>`
                             } else {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/pelapak_status/') }}${data.id}/1" class="btn bg-navy btn-sm" title="Aktifkan Pelapak"><i class="fa fa-lock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/pelapak_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Pelapak"><i class="fa fa-lock"></i></a>`
                             }
 
                             let hapus;

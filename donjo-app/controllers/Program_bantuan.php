@@ -46,9 +46,10 @@ use App\Models\Kelompok;
 use App\Models\Penduduk;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Color;
-use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Style\Style;
+use OpenSpout\Writer\XLSX\Writer;
 
 class Program_bantuan extends Admin_Controller
 {
@@ -415,8 +416,8 @@ class Program_bantuan extends Admin_Controller
         $tbl_peserta             = $data[1];
 
         //Nama File
-        $writer   = WriterEntityFactory::createXLSXWriter();
         $fileName = namafile('program_bantuan_' . $tbl_program['nama']) . '.xlsx';
+        $writer   = new Writer();
         $writer->openToBrowser($fileName);
 
         // Sheet Program
@@ -434,19 +435,19 @@ class Program_bantuan extends Admin_Controller
 
         foreach ($data_program as $row) {
             $expor_program = [$row[0], $row[1]];
-            $rowFromValues = WriterEntityFactory::createRowFromArray($expor_program);
+            $rowFromValues = Row::fromValues($expor_program);
             $writer->addRow($rowFromValues);
         }
 
         // Sheet Peserta
         $writer->addNewSheetAndMakeItCurrent()->setName('Peserta');
         $judul_peserta = ['Peserta', 'No. Peserta', 'NIK', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat'];
-        $style         = (new StyleBuilder())
+        $style         = (new Style())
             ->setFontBold()
             ->setFontSize(12)
-            ->setBackgroundColor(Color::YELLOW)
-            ->build();
-        $header = WriterEntityFactory::createRowFromArray($judul_peserta, $style);
+            ->setBackgroundColor(Color::YELLOW);
+
+        $header = Row::fromValues($judul_peserta, $style);
         $writer->addRow($header);
 
         //Isi Tabel
@@ -470,7 +471,7 @@ class Program_bantuan extends Admin_Controller
                 $row['kartu_tanggal_lahir'],
                 $row['kartu_alamat'],
             ];
-            $rowFromValues = WriterEntityFactory::createRowFromArray($data_peserta);
+            $rowFromValues = Row::fromValues($data_peserta);
             $writer->addRow($rowFromValues);
         }
         $writer->close();

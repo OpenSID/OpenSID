@@ -41,7 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // require_once('donjo-app/core/MY_Model.php');
 class Install_modul extends CI_Controller
 {
-    private $modulesDirectory;
+    private readonly int|string $modulesDirectory;
 
     public function __construct()
     {
@@ -113,20 +113,16 @@ class Install_modul extends CI_Controller
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
         if ($action === 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+            usort($migrations, static fn ($a, $b): int => strcmp((string) $a, (string) $b));
         }
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
 
-            switch($action) {
-                case 'down':
-                    $migrateFile->down();
-                    break;
-
-                default:
-                    $migrateFile->up();
-            }
+            match ($action) {
+                'down'  => $migrateFile->down(),
+                default => $migrateFile->up(),
+            };
         }
     }
 }

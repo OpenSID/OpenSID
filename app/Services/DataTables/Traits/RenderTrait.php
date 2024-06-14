@@ -47,7 +47,7 @@ trait RenderTrait
         parent::__construct($builder);
 
         if ($this->isDebugging()) {
-            $this->connection->enableQueryLog();
+            $this->getConnection()->enableQueryLog();
         }
     }
 

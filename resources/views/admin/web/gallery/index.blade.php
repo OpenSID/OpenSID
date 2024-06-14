@@ -133,9 +133,6 @@
                         visible: false
                     },
                 ],
-                order: [
-                    [7, 'asc']
-                ],
                 aaSorting: [],
                 createdRow: function(row, data, dataIndex) {
                     $(row).attr('data-id', data.id)

@@ -55,12 +55,12 @@ class KodeIsianPeristiwa
 
     public function kodeIsian(): array
     {
-        $data = match ($this->statusDasar) {
-            [LogPenduduk::BARU_LAHIR]    => $this->getLahir($this->logPeristiwa),
-            [LogPenduduk::MATI]          => $this->getKematian($this->logPeristiwa),
-            [LogPenduduk::PINDAH_KELUAR] => $this->getPindah($this->logPeristiwa),
-            [LogPenduduk::HILANG]        => $this->getHilang($this->logPeristiwa),
-            default                      => [],
+        $data = match (true) {
+            in_array(LogPenduduk::BARU_LAHIR, $this->statusDasar)    => $this->getLahir($this->logPeristiwa),
+            in_array(LogPenduduk::MATI, $this->statusDasar)          => $this->getKematian($this->logPeristiwa),
+            in_array(LogPenduduk::PINDAH_KELUAR, $this->statusDasar) => $this->getPindah($this->logPeristiwa),
+            in_array(LogPenduduk::HILANG, $this->statusDasar)        => $this->getHilang($this->logPeristiwa),
+            default                                                  => [],
         };
 
         $lainnya = $this->getLainnya($this->logPeristiwa);

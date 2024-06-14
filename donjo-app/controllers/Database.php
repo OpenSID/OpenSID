@@ -116,6 +116,8 @@ class Database extends Admin_Controller
         }
 
         $this->ekspor_model->backup();
+
+        return null;
     }
 
     public function desa_backup(): void
@@ -130,7 +132,7 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row) => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
+                ->addColumn('aksi', static fn ($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -222,7 +224,7 @@ class Database extends Admin_Controller
     {
         isCan('u');
         if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
-            return;
+            return null;
         }
 
         $this->load->model('acak_model');
@@ -423,7 +425,7 @@ class Database extends Admin_Controller
     {
         return User::where('id', '=', auth()->id)
             ->where('token_exp', '>', date('Y-m-d H:i:s'))
-            ->where('token', '=', hash('sha256', bilangan($otp)))
+            ->where('token', '=', hash('sha256', (string) bilangan($otp)))
             ->exists();
     }
 

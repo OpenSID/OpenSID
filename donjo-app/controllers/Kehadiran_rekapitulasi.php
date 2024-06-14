@@ -39,7 +39,8 @@ use App\Enums\StatusEnum;
 use App\Models\Kehadiran;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -111,9 +112,9 @@ class Kehadiran_rekapitulasi extends Admin_Controller
             'Status Kehadiran',
         ];
 
-        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer = new Writer();
         $writer->openToBrowser(namafile('kehadiran') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
+        $writer->addRow(Row::fromValues($judul));
 
         $data_kehadiran = Kehadiran::with(['pamong'])
             ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
@@ -130,7 +131,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 date('H:i', strtotime($row->total)),
                 ucwords($row->status_kehadiran),
             ];
-            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
+            $writer->addRow(Row::fromValues($data));
         }
         $writer->close();
     }

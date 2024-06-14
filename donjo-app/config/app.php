@@ -41,6 +41,8 @@ $key = file_exists(DESAPATH)
 
 return [
 
+    'timezone' => 'UTC',
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

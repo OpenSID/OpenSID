@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Contracts\Debug\ExceptionHandler;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
@@ -77,7 +79,7 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
 
@@ -128,7 +130,11 @@ $app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 | and wonderful application we have prepared for them.
 |
 */
+try {
+    $app->boot();
+} catch (Throwable $th) {
+    $app?->make(ExceptionHandler::class)?->report($th);
+}
 
-$app->boot();
 $moduleLocations = $CFG->item('modules_locations');
 $hook            = getHooks(['modules_location' => $moduleLocations]);

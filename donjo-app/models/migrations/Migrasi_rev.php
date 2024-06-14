@@ -35,9 +35,6 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
@@ -51,35 +48,6 @@ class Migrasi_rev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
-        $hasil = $hasil && $this->migrasi_2024051253($hasil);
-        $hasil = $hasil && $this->migrasi_2024060152($hasil);
-
         return $hasil && true;
-    }
-
-    protected function migrasi_2024051253($hasil)
-    {
-        Schema::table('alias_kodeisian', static function (Blueprint $table) {
-            $table->string('judul', 20)->change();
-        });
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024060152($hasil)
-    {
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'pengaturan-analisis'],
-            ['url' => 'setting_analisis']
-        );
-        $hasil = $hasil && $this->ubah_modul(
-            ['slug' => 'pengaturan-web'],
-            ['url' => 'setting_web']
-        );
-
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'pengaturan-layanan-mandiri'],
-            ['url' => 'setting_mandiri']
-        );
     }
 }
