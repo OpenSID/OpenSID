@@ -1354,7 +1354,7 @@ function idm($kode_desa, $tahun)
             'verify' => false,
         ]);
 
-        if ($response->getStatusCode() === 200) {
+        if ($response->getStatusCode() === 200 && ! empty($response->getBody()->getContents())) {
             $ci->cache->save($cache, json_decode($response->getBody()->getContents(), null)->mapData, YEAR);
 
             return $ci->cache->get($cache);
@@ -1402,7 +1402,7 @@ function sdgs()
             'verify' => false,
         ]);
 
-        if ($response->getStatusCode() === 200) {
+        if ($response->getStatusCode() === 200 && ! empty($response->getBody()->getContents())) {
             $data = (object) collect(json_decode($response->getBody()->getContents(), null))
                 ->map(static function ($item, $key) {
                     if ($key === 'data') {
