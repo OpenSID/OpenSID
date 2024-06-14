@@ -35,7 +35,10 @@
  *
  */
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,6 +53,7 @@ class Migrasi_beta extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024052271($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024061471($hasil, $id);
         }
 
         return $hasil && true;
@@ -78,5 +82,75 @@ class Migrasi_beta extends MY_model
             'attribute'  => null,
             'kategori'   => 'Pemerintah Desa',
         ], $id);
+    }
+
+    protected function migrasi_2024061471($hasil, $config_id)
+    {
+        $perbaris = 0;
+
+        if (!Schema::hasTable('sinergi_program')) {
+            Schema::create('sinergi_program', function (Blueprint $table) {
+                $table->uuid()->primary();
+                $table->integer('config_id')->nullable();
+                $table->string('judul', 100);
+                $table->string('gambar', 100)->nullable();
+                $table->string('tautan', 200);
+                $table->integer('urut')->default(1);
+                $table->tinyInteger('status')->default(0);
+                $table->timestamps();
+            });
+
+            $data_sinergi_program = DB::table('widget')->where('config_id', $config_id)->where('isi', 'sinergi_program.php')->first()->setting;
+            $setting = json_decode($data_sinergi_program, true);
+
+            if (count($setting) > 0) {
+                foreach ($setting as $key => $data) {
+                    if (! empty($data['kolom']) && $perbaris < $data['kolom']) {
+                        $perbaris = $data['kolom'];
+                    }
+
+                    $data = [
+                        'uuid' => Str::uuid(),
+                        'config_id' => $config_id,
+                        'judul' => $data['judul'],
+                        'gambar' => $data['gambar'],
+                        'tautan' => $data['tautan'],
+                        'urut' => $data['urut'] ?? $key + 1,
+                        'status' => $data['status'] ?? 1
+                    ];
+
+                    DB::table('sinergi_program')->insert($data);
+                }
+
+                DB::table('widget')->where('config_id', $config_id)->where('isi', 'sinergi_program.php')->update(['form_admin' => 'sinergi_program', 'setting' => null]);
+            }
+
+            $hasil = $hasil && $this->tambah_modul([
+                'config_id'  => $config_id,
+                'modul'      => 'Sinergi Program',
+                'slug'       => 'sinergi-program',
+                'url'        => 'sinergi_program',
+                'aktif'      => 1,
+                'ikon'       => 'fa-clone',
+                'urut'       => 3,
+                'level'      => 1,
+                'hidden'     => 0,
+                'ikon_kecil' => 'fa-clone',
+                'parent'     => $this->db->get_where('setting_modul', ['config_id' => $config_id, 'slug' => 'admin-web'])->row()->id,
+            ]);
+        }
+
+        $hasil = $hasil && $this->tambah_setting([
+            'judul'      => 'Jumlah Gambar Sinergi Program Dalam 1 Baris',
+            'key'        => 'gambar_sinergi_program_perbaris',
+            'value'      => $perbaris == 0 ? 3 : $perbaris,
+            'keterangan' => 'Jumlah gambar yang akan ditampilkan dalam 1 baris pada halaman Sinergi Program.',
+            'jenis'      => 'input',
+            'option'     => null,
+            'attribute'  => 'class="bilangan required" placeholder="3" min="1" max="12" type="number"',
+            'kategori'   => 'sinergi_program',
+        ], $config_id);
+
+        return $hasil;
     }
 }

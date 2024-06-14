@@ -2092,6 +2092,19 @@ Route::group('teks_berjalan', static function (): void {
     Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
+// Admin Web > Sinergi Program
+Route::group('sinergi_program', static function (): void {
+    Route::get('/', 'Sinergi_program@index')->name('sinergi-program.index');
+    Route::get('/datatables', 'Sinergi_program@datatables')->name('sinergi-program.datatables');
+    Route::get('/form/{id?}', 'Sinergi_program@form')->name('sinergi-program.form');
+    Route::post('/insert', 'Sinergi_program@insert')->name('sinergi-program.insert');
+    Route::post('/update/{id?}', 'Sinergi_program@update')->name('sinergi-program.update');
+    Route::get('/delete/{id?}', 'Sinergi_program@delete')->name('sinergi-program.delete');
+    Route::post('/delete', 'Sinergi_program@delete')->name('sinergi-program.delete-all');
+    Route::get('/lock/{id?}', 'Sinergi_program@lock')->name('sinergi-program.lock');
+    Route::post('/tukar', 'Sinergi_program@tukar')->name('sinergi-program..tukar');
+});
+
 // Admin Web > Pengunjung
 Route::group('pengunjung', static function (): void {
     Route::get('clear', static function (): void {

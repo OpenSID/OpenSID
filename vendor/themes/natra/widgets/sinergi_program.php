@@ -39,22 +39,38 @@
 	<h2 class="box-title"><i class="fa fa-external-link"></i>&ensp;<?= $judul_widget ?></h2>
 	<div id="sinergi_program" class="box-body">
 		<table>
-			<?php foreach($sinergi_program as $key => $program) :
-				$baris[$program['baris']][$program['kolom']] = $program;
-			endforeach; ?>
+			<?php
+				$sinergi_program = sinergi_program();
+				$perbaris        = (int) (setting('gambar_sinergi_program_perbaris') ?: 3);
 
-			<?php foreach($baris as $baris_program) : ?>
-				<tr>
-					<td >
-						<?php $width = 100/count($baris_program ?? [])-count($baris_program ?? [])?>
-						<?php foreach($baris_program as $key => $program) : ?>
-							<span style="display: inline-block; width: <?= $width.'%'?>">
-								<a href="<?= $program['tautan']?>" rel="noopener noreferrer" target="_blank"><img src="<?= base_url(LOKASI_GAMBAR_WIDGET . $program['gambar']) ?>" style="float:left; margin:0px 0px 0px 0px;" alt="<?= $program['judul']?>" /></a>
-							</span>
-						<?php endforeach; ?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-		</table>
+				// Calculate the total number of iterations needed
+				$totalIterations = count($sinergi_program) + ($perbaris - count($sinergi_program) % $perbaris) % $perbaris;
+
+				for ($key = 0; $key < $totalIterations; $key++) {
+					// Start a new row when necessary
+					if ($key % $perbaris === 0) {
+						echo "<tr>\n";
+					}
+
+					// Check if the current key is within the bounds of the actual data
+					if ($key < count($sinergi_program)) {
+						?>
+						<td>
+							<center>
+							<a href="<?= $sinergi_program[$key]['tautan'] ?>" target="_blank">
+								<img style="padding: 3px;" src="<?= $sinergi_program[$key]['gambar_url'] ?>" alt="Gambar <?= $sinergi_program[$key]['judul'] ?>">
+							</a>
+							</center>
+						</td>
+						<?php
+					}
+
+					// Close the row when reaching the desired number of columns or the last iteration
+					if ($key % $perbaris === $perbaris - 1 || $key === $totalIterations - 1) {
+						echo "</tr>\n";
+					}
+				}
+				?>
+			</table>
 	</div>
 </div>
