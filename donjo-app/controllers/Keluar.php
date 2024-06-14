@@ -58,7 +58,7 @@ class Keluar extends Admin_Controller
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'arsip-layanan';
     private $isAdmin;
-    private TinyMCE $tinymce;
+    private readonly TinyMCE $tinymce;
 
     public function __construct()
     {

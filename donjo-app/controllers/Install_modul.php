@@ -120,7 +120,7 @@ class Install_modul extends CI_Controller
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
 
             match ($action) {
-                'down' => $migrateFile->down(),
+                'down'  => $migrateFile->down(),
                 default => $migrateFile->up(),
             };
         }

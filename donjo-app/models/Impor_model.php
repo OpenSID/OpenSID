@@ -40,8 +40,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Enums\SHDKEnum;
 use App\Models\LogPenduduk;
 use App\Models\PendudukAsuransi;
-use OpenSpout\Reader\XLSX\Reader;
 use Illuminate\Support\Facades\DB;
+use OpenSpout\Reader\XLSX\Reader;
 
 class Impor_model extends MY_Model
 {

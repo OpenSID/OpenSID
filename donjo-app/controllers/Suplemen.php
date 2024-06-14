@@ -35,20 +35,20 @@
  *
  */
 
-use App\Models\Wilayah;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\ListSasaranEnum;
 use App\Models\Keluarga;
 use App\Models\Penduduk;
-use App\Enums\ListSasaranEnum;
-use App\Enums\JenisKelaminEnum;
+use App\Models\Suplemen as ModelsSuplemen;
 use App\Models\SuplemenTerdata;
+use App\Models\Wilayah;
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Reader\XLSX\Reader;
-use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\BorderPart;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Common\Entity\Style\Border;
-use App\Models\Suplemen as ModelsSuplemen;
-use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Reader\XLSX\Reader;
+use OpenSpout\Writer\XLSX\Writer;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -484,7 +484,7 @@ class Suplemen extends Admin_Controller
                 }
 
                 foreach ($sheet->getRowIterator() as $row) {
-                    $cells   = $row->getCells();
+                    $cells = $row->getCells();
 
                     $peserta = trim((string) $cells[0]->getValue()); // NIK atau No_kk sesuai sasaran
 

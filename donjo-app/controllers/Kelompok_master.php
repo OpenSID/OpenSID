@@ -155,7 +155,7 @@ class Kelompok_master extends Admin_Controller
         return [
             'config_id' => identitas('id'),
             'kelompok'  => nama_terbatas($request['kelompok']),
-            'deskripsi' => htmlentities($request['deskripsi']),
+            'deskripsi' => htmlentities((string) $request['deskripsi']),
             'tipe'      => $this->tipe,
         ];
     }

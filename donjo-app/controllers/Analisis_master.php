@@ -173,7 +173,7 @@ class Analisis_master extends Admin_Controller
         redirect($this->controller);
     }
 
-    private function style_judul()
+    private function style_judul(): \OpenSpout\Common\Entity\Style\Style
     {
         $border = new Border(
             new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
@@ -188,7 +188,7 @@ class Analisis_master extends Admin_Controller
             ->setBorder($border);
     }
 
-    private function style_baris()
+    private function style_baris(): \OpenSpout\Common\Entity\Style\Style
     {
         $border = new Border(
             new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
@@ -201,7 +201,7 @@ class Analisis_master extends Admin_Controller
             ->setBorder($border);
     }
 
-    private function ekspor_master($writer, array $master): void
+    private function ekspor_master(\OpenSpout\Writer\XLSX\Writer $writer, array $master): void
     {
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('master');
@@ -227,7 +227,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_pertanyaan($writer, array $master): void
+    private function ekspor_pertanyaan(\OpenSpout\Writer\XLSX\Writer $writer, array $master): void
     {
         $sheet = $writer->addNewSheetAndMakeItCurrent();
         $sheet->setName('pertanyaan');
@@ -253,7 +253,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_jawaban($writer, array $master): void
+    private function ekspor_jawaban(\OpenSpout\Writer\XLSX\Writer $writer, array $master): void
     {
         $jawaban = $writer->addNewSheetAndMakeItCurrent();
         $jawaban->setName('jawaban');
@@ -277,7 +277,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_klasifikasi($writer, array $master): void
+    private function ekspor_klasifikasi(\OpenSpout\Writer\XLSX\Writer $writer, array $master): void
     {
         $klasifikasi = $writer->addNewSheetAndMakeItCurrent();
         $klasifikasi->setName('klasifikasi');
