@@ -138,6 +138,7 @@ define('STAT_LAINNYA', serialize([
     'pemerintah'              => '[Pemerintah Desa]',
     'layanan-mandiri/beranda' => 'Layanan Mandiri',
     'inventaris'              => 'Inventaris',
+    'struktur-organisasi-dan-tata-kerja' => 'SOTK [Desa]',
 ]));
 
 // Jabatan Kelompok

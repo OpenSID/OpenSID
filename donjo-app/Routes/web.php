@@ -157,6 +157,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('/lapak/{p?}', 'Lapak@index')->name('fweb.lapak.index');
     Route::get('/data-lembaga/{slug?}', 'Lembaga@detail')->name('fweb.lembaga.detail');
     Route::get('/pemerintah', 'Pemerintah@index')->name('fweb.pemerintah.index');
+    Route::get('/struktur-organisasi-dan-tata-kerja', 'Sotk@index')->name('fweb.sotk.index');
 
     Route::group('pembangunan', static function (): void {
         Route::get('/', 'Pembangunan@index')->name('fweb.pembangunan.index');

@@ -1521,6 +1521,7 @@ function menu_slug($url)
         case 'pemerintah':
         case 'layanan-mandiri':
         case 'inventaris':
+        case 'struktur-organisasi-dan-tata-kerja':
             break;
 
         default:
