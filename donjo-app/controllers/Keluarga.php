@@ -575,7 +575,7 @@ class Keluarga extends Admin_Controller
         $keluarga            = KeluargaModel::with(['anggota' => static fn ($q) => $q->orderBy('kk_level'), 'kepalaKeluarga'])->find($id);
         $data['main']        = $keluarga->toArray();
         $data['desa']        = $this->header['desa'];
-        $data['kepala_kk']   = $keluarga->kepalaKeluarga? $keluarga->kepalaKeluarga->toArray() : null;
+        $data['kepala_kk']   = $keluarga->kepalaKeluarga ? $keluarga->kepalaKeluarga->toArray() : null;
         $data['form_action'] = ci_route('keluarga.print');
 
         view('admin.penduduk.keluarga.kartu_keluarga', $data);

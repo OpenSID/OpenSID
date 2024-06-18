@@ -46,7 +46,6 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
     public $sub_modul_ini = 'inventaris';
     public $akses_modul   = 'inventaris';
 
-
     public function __construct()
     {
         parent::__construct();
@@ -55,7 +54,7 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
 
     public function index(): void
     {
-        $data['tip']  = 2;
+        $data['tip'] = 2;
 
         view('admin.inventaris.peralatan.mutasi.index', $data);
     }
@@ -63,30 +62,28 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = InventarisPeralatan::with('mutasi')->visible()->whereHas('mutasi', static function ($query) {
+            $data = InventarisPeralatan::with('mutasi')->visible()->whereHas('mutasi', static function ($query): void {
                 $query->where('visible', 1);
             })->get();
 
             return datatables()->of($data)
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    $aksi .= '<a href="'. site_url('inventaris_peralatan_mutasi/form/' . $row->id . '/ubah/1') .'" title="Lihat Data" class="btn bg-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    $aksi .= '<a href="' . site_url('inventaris_peralatan_mutasi/form/' . $row->id . '/ubah/1') . '" title="Lihat Data" class="btn bg-info btn-sm"><i class="fa fa-eye"></i></a>';
 
                     if (can('u')) {
-                        $aksi .= '<a href="'. site_url('inventaris_peralatan_mutasi/form/' . $row->id . '/ubah') .'" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
+                        $aksi .= '<a href="' . site_url('inventaris_peralatan_mutasi/form/' . $row->id . '/ubah') . '" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="'.site_url('inventaris_peralatan_mutasi/delete/' . $row->mutasi->id).'" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        $aksi .= '<a href="#" data-href="' . site_url('inventaris_peralatan_mutasi/delete/' . $row->mutasi->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }
 
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static function ($row): string {
-                    return $row->kode_barang . '<br>' . $row->register;
-                })
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
                 ->editColumn('tanggal_mutasi', static function ($row) {
                     if ($row->mutasi) {
                         return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
@@ -122,13 +119,13 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
     public function validate($data, $mutasi = null)
     {
         $data = [
-            'status_mutasi'       => $this->input->post('status_mutasi'),
-            'jenis_mutasi'        => $this->input->post('mutasi'),
-            'tahun_mutasi'        => date('Y-m-d', strtotime($this->input->post('tahun_mutasi'))),
-            'harga_jual'          => $this->input->post('harga_jual') == '' ? null : $this->input->post('harga_jual'),
-            'sumbangkan'          => $this->input->post('sumbangkan'),
-            'keterangan'          => $this->input->post('keterangan'),
-            'visible'             => 1,
+            'status_mutasi' => $this->input->post('status_mutasi'),
+            'jenis_mutasi'  => $this->input->post('mutasi'),
+            'tahun_mutasi'  => date('Y-m-d', strtotime((string) $this->input->post('tahun_mutasi'))),
+            'harga_jual'    => $this->input->post('harga_jual') == '' ? null : $this->input->post('harga_jual'),
+            'sumbangkan'    => $this->input->post('sumbangkan'),
+            'keterangan'    => $this->input->post('keterangan'),
+            'visible'       => 1,
         ];
 
         if ($mutasi) {
@@ -151,10 +148,10 @@ class Inventaris_peralatan_mutasi extends Admin_Controller
             $data['form_action'] = ci_route('inventaris_peralatan_mutasi.create', $id);
             $data['view_mark']   = null;
         }
-        
-        $data['main']        = InventarisPeralatan::findOrFail($id);
-        $data['tip']         = 2;
-        $data['controller']  = str_replace_last('_mutasi', '', $this->controller);
+
+        $data['main']       = InventarisPeralatan::findOrFail($id);
+        $data['tip']        = 2;
+        $data['controller'] = str_replace_last('_mutasi', '', $this->controller);
 
         view('admin.inventaris.peralatan.mutasi.form', $data);
     }

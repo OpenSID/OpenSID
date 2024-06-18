@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keuangan_manual extends Admin_Controller
 {
-    public $modul_ini   = 'keuangan';
+    public $modul_ini = 'keuangan';
 
     public function __construct()
     {

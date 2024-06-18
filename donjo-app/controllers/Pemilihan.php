@@ -42,9 +42,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pemilihan extends Admin_Controller
 {
-    public $modul_ini       = 'kependudukan';
-    public $sub_modul_ini   = 'calon-pemilih';
-    public $akses_modul     = 'calon-pemilih';
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'calon-pemilih';
+    public $akses_modul   = 'calon-pemilih';
 
     public function __construct()
     {

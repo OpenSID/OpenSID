@@ -38,7 +38,6 @@
 use App\Models\Aset;
 use App\Models\InventarisJalan;
 use App\Models\MutasiInventarisJalan;
-use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -56,7 +55,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function index(): void
     {
-        $data['tip']    = 1;
+        $data['tip'] = 1;
 
         view('admin.inventaris.jalan.index', $data);
     }
@@ -68,39 +67,33 @@ class Inventaris_jalan extends Admin_Controller
 
             return datatables()->of($data)
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u') && !$row->mutasi) {
-                        $aksi .= '<a href="'. site_url('inventaris_jalan_mutasi/form/' . $row->id) .'" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a>';
+                    if (can('u') && ! $row->mutasi) {
+                        $aksi .= '<a href="' . site_url('inventaris_jalan_mutasi/form/' . $row->id) . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a>';
                     }
 
-                    $aksi .= '<a href="'. site_url('inventaris_jalan/form/' . $row->id . '/1') .'" title="Lihat Data" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    $aksi .= '<a href="' . site_url('inventaris_jalan/form/' . $row->id . '/1') . '" title="Lihat Data" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
 
                     if (can('u')) {
-                        $aksi .= '<a href="'. site_url('inventaris_jalan/form/' . $row->id) .'" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
+                        $aksi .= '<a href="' . site_url('inventaris_jalan/form/' . $row->id) . '" title="Edit Data" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="'.site_url('inventaris_jalan/delete/' . $row->id).'" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        $aksi .= '<a href="#" data-href="' . site_url('inventaris_jalan/delete/' . $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }
 
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static function ($row): string {
-                    return $row->kode_barang . '<br>' . $row->register;
-                })
-                ->editColumn('tanggal_dokument', static function ($row): string {
-                    return date('d M Y', strtotime($row->tanggal_dokument));
-                })
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->editColumn('tanggal_dokument', static fn ($row): string => date('d M Y', strtotime($row->tanggal_dokument)))
                 ->editColumn('tanggal_mutasi', static function ($row) {
                     if ($row->mutasi) {
                         return date('d M Y', strtotime($row->mutasi->tahun_mutasi));
                     }
                 })
-                ->editColumn('harga', static function ($row): string {
-                    return number_format($row->harga, 0, '.', '.');
-                })
+                ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, '.', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
         }
@@ -108,7 +101,7 @@ class Inventaris_jalan extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = '', $view = false)
+    public function form($id = '', $view = false): void
     {
         isCan('u');
 
@@ -124,14 +117,13 @@ class Inventaris_jalan extends Admin_Controller
             $data['view_mark']   = null;
         }
 
-        $data['tip'] = 1;
-        $data['aset'] = Aset::golongan(5)->get()->toArray();
-        $data['get_kode']  = $this->header['desa'];
-        $count_reg = InventarisJalan::reg();
-        
-        $reg = $count_reg + 1;
-        $jumlah_kata = strlen($reg);
-        $data['hasil']       = sprintf('%06s', $reg);
+        $data['tip']      = 1;
+        $data['aset']     = Aset::golongan(5)->get()->toArray();
+        $data['get_kode'] = $this->header['desa'];
+        $count_reg        = InventarisJalan::reg();
+
+        $reg           = $count_reg + 1;
+        $data['hasil'] = sprintf('%06s', $reg);
 
         view('admin.inventaris.jalan.form', $data);
     }
@@ -174,7 +166,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function validate($data)
     {
-        $data = [
+        return [
             'nama_barang'      => $this->input->post('nama_barang'),
             'kode_barang'      => $this->input->post('kode_barang'),
             'register'         => $this->input->post('register'),
@@ -185,16 +177,14 @@ class Inventaris_jalan extends Admin_Controller
             'luas'             => $this->input->post('luas'),
             'letak'            => $this->input->post('alamat'),
             'no_dokument'      => $this->input->post('no_bangunan'),
-            'tanggal_dokument' => date('Y-m-d', strtotime($this->input->post('tanggal_bangunan'))),
+            'tanggal_dokument' => date('Y-m-d', strtotime((string) $this->input->post('tanggal_bangunan'))),
             'status_tanah'     => $this->input->post('status_tanah'),
             'kode_tanah'       => $this->input->post('kode_tanah'),
             'asal'             => $this->input->post('asal'),
             'harga'            => $this->input->post('harga'),
             'keterangan'       => $this->input->post('keterangan'),
-            'visible'          => 1
+            'visible'          => 1,
         ];
-
-        return $data;
     }
 
     public function dialog($aksi = 'cetak')
@@ -208,16 +198,16 @@ class Inventaris_jalan extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data                  = $this->modal_penandatangan($this->input->post('pamong_ttd'));
-        $data['aksi']          = $aksi;
-        $data['tahun']         = $this->input->post('tahun');
-        $data['config']        = $this->header['desa'];
-        $data['isi']           = 'admin.inventaris.jalan.cetak';
-        $data['letak_ttd']     = ['1', '2', '12'];
-        $data['file']          = 'Jalan_Irigasi_Jaringan_';
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['tahun']     = $this->input->post('tahun');
+        $data['config']    = $this->header['desa'];
+        $data['isi']       = 'admin.inventaris.jalan.cetak';
+        $data['letak_ttd'] = ['1', '2', '12'];
+        $data['file']      = 'Jalan_Irigasi_Jaringan_';
 
-        $data['total']  = intval(InventarisJalan::aktif()->cetak($data['tahun'])->get()->sum('harga'));
-        $data['print']  = InventarisJalan::aktif()->cetak($data['tahun'])->get();
+        $data['total'] = (int) (InventarisJalan::aktif()->cetak($data['tahun'])->get()->sum('harga'));
+        $data['print'] = InventarisJalan::aktif()->cetak($data['tahun'])->get();
 
         return view('admin.layouts.components.format_cetak', $data);
     }

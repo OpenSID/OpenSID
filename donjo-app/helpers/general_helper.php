@@ -1148,9 +1148,8 @@ if (! function_exists('emptyData')) {
 }
 
 if (! function_exists('total_jumlah')) {
-    function total_jumlah($data, $column) {
-        return array_reduce($data->toArray(), function($carry, $item) use ($column) {
-            return $carry + $item[$column];
-        }, 0);
+    function total_jumlah($data, $column)
+    {
+        return array_reduce($data->toArray(), static fn ($carry, $item) => $carry + $item[$column], 0);
     }
 }

@@ -869,7 +869,6 @@ Route::group('inventaris_jalan', static function (): void {
     Route::post('/cetak/{aksi?}', 'Inventaris_jalan@cetak')->name('inventaris_jalan.cetak');
 });
 
-
 Route::group('inventaris_jalan_mutasi', static function (): void {
     Route::get('/', 'Inventaris_jalan_mutasi@index')->name('inventaris_jalan_mutasi.index');
     Route::post('/create/{id}', 'Inventaris_jalan_mutasi@create')->name('inventaris_jalan_mutasi.create');

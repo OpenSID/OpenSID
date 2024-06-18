@@ -90,7 +90,7 @@ class InventarisJalan extends BaseModel
     {
         return $this->aktif()->sum('harga');
     }
-    
+
     public static function listInventaris()
     {
         return DB::table('inventaris_jalan as u', 'm.id as mutasi')
@@ -101,9 +101,7 @@ class InventarisJalan extends BaseModel
 
     public function scopeCetak($query, $tahun = null)
     {
-        return $query->when(! empty($tahun), function ($query) use ($tahun) {
-            return $query->whereYear('tanggal_dokument', $tahun);
-        });
+        return $query->when(! empty($tahun), static fn ($query) => $query->whereYear('tanggal_dokument', $tahun));
     }
 
     // relasi ke mutasi_inventaris_jalan

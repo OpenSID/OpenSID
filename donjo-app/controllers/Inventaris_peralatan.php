@@ -36,8 +36,8 @@
  */
 
 use App\Models\Aset;
-use App\Models\Pamong;
 use App\Models\InventarisPeralatan;
+use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -67,12 +67,12 @@ class Inventaris_peralatan extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u') && !$row->mutasi) {
-                        $aksi .= '<a href="'. ci_route('inventaris_peralatan_mutasi.form/') . $row->id . '/tambah' . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a> ';
+                    if (can('u') && ! $row->mutasi) {
+                        $aksi .= '<a href="' . ci_route('inventaris_peralatan_mutasi.form/') . $row->id . '/tambah' . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a> ';
                     }
 
                     $aksi .= '<a href="' . ci_route('inventaris_peralatan.form') . '/' . $row->id . '/' . 1 . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
-                    
+
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('inventaris_peralatan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
@@ -83,12 +83,8 @@ class Inventaris_peralatan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('kode_barang_register', static function ($row): string {
-                    return $row->kode_barang . '<br>' . $row->register;
-                })
-                ->editColumn('harga', static function ($row): string {
-                    return number_format($row->harga, 0, ',', '.');
-                })
+                ->editColumn('kode_barang_register', static fn ($row): string => $row->kode_barang . '<br>' . $row->register)
+                ->editColumn('harga', static fn ($row): string => number_format($row->harga, 0, ',', '.'))
                 ->rawColumns(['aksi', 'kode_barang_register'])
                 ->make();
         }
@@ -156,7 +152,7 @@ class Inventaris_peralatan extends Admin_Controller
     public function delete($id): void
     {
         isCan('h');
-        
+
         if (InventarisPeralatan::findOrFail($id)->update(['visible' => 0])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
@@ -164,23 +160,23 @@ class Inventaris_peralatan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($data)
+    private function validate(array $data): array
     {
-        $data['nama_barang']     = strip_tags($data['nama_barang_save']);
-        $data['kode_barang']     = strip_tags($data['kode_barang']);
-        $data['register']        = strip_tags($data['register']);
-        $data['merk']            = strip_tags($data['merk']);
-        $data['ukuran']          = strip_tags($data['ukuran']);
-        $data['bahan']           = strip_tags($data['bahan']);
-        $data['tahun_pengadaan'] = strip_tags($data['tahun_pengadaan']);
-        $data['no_pabrik']       = strip_tags($data['no_pabrik']);
-        $data['no_rangka']       = strip_tags($data['no_rangka']);
-        $data['no_mesin']        = strip_tags($data['no_mesin']);
-        $data['no_polisi']       = strip_tags($data['no_polisi']);
-        $data['no_bpkb']         = strip_tags($data['no_bpkb']);
-        $data['asal']            = strip_tags($data['asal']);
+        $data['nama_barang']     = strip_tags((string) $data['nama_barang_save']);
+        $data['kode_barang']     = strip_tags((string) $data['kode_barang']);
+        $data['register']        = strip_tags((string) $data['register']);
+        $data['merk']            = strip_tags((string) $data['merk']);
+        $data['ukuran']          = strip_tags((string) $data['ukuran']);
+        $data['bahan']           = strip_tags((string) $data['bahan']);
+        $data['tahun_pengadaan'] = strip_tags((string) $data['tahun_pengadaan']);
+        $data['no_pabrik']       = strip_tags((string) $data['no_pabrik']);
+        $data['no_rangka']       = strip_tags((string) $data['no_rangka']);
+        $data['no_mesin']        = strip_tags((string) $data['no_mesin']);
+        $data['no_polisi']       = strip_tags((string) $data['no_polisi']);
+        $data['no_bpkb']         = strip_tags((string) $data['no_bpkb']);
+        $data['asal']            = strip_tags((string) $data['asal']);
         $data['harga']           = bilangan($data['harga']);
-        $data['keterangan']      = strip_tags($data['keterangan']);
+        $data['keterangan']      = strip_tags((string) $data['keterangan']);
         $data['visible']         = 1;
 
         return $data;
@@ -215,7 +211,7 @@ class Inventaris_peralatan extends Admin_Controller
             header('Pragma: no-cache');
             header('Expires: 0');
         }
-        
+
         return view('admin.inventaris.peralatan.cetak', $data);
     }
 }
