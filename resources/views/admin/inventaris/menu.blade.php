@@ -13,7 +13,7 @@
             @else
                 <li {{ jecho($tip, 1, 'class="active"') }}><a href="{{ site_url(str_replace('_mutasi', '', $controller)) }}"><i class="fa fa-list"></i> Daftar Asset</a></li>
                 @if ($controller != 'inventaris_kontruksi')
-                    <li {{ jecho($tip, 2, 'class="active"') }}><a href="{{ site_url(str_replace('_mutasi_mutasi', '_mutasi', $controller . '_mutasi')) }}"><i class="fa fa-list"></i> Daftar Mutasi</a></li>
+                    <li {{ jecho($tip, 2, 'class="active"') }}><a href="{{ site_url(str_replace('_mutasi_mutasi', '_mutasi', $controller . '_mutasi')) }}"><i class="fa fa-share"></i> Daftar Mutasi</a></li>
                 @endif
             @endif
         </ul>

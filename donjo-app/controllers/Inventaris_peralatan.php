@@ -35,7 +35,9 @@
  *
  */
 
+use App\Models\Aset;
 use App\Models\Pamong;
+use App\Models\InventarisPeralatan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,102 +50,172 @@ class Inventaris_peralatan extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['inventaris_peralatan_model', 'pamong_model', 'aset_model']);
     }
 
-    public function index(): void
+    public function index()
     {
-        $data['main']   = $this->inventaris_peralatan_model->list_inventaris();
-        $data['total']  = $this->inventaris_peralatan_model->sum_inventaris();
-        $data['pamong'] = Pamong::penandaTangan()->get();
-        $data['tip']    = 1;
+        $data['tip'] = 1;
 
-        $this->render('inventaris/peralatan/table', $data);
+        return view('admin.inventaris.peralatan.index', $data);
     }
 
-    public function view($id): void
+    public function datatables()
     {
-        $data['main'] = $this->inventaris_peralatan_model->view($id);
-        $data['tip']  = 1;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
 
-        $this->render('inventaris/peralatan/view_inventaris', $data);
+                    if (can('u') && !$row->mutasi) {
+                        $aksi .= '<a href="'. ci_route('inventaris_peralatan_mutasi.form/') . $row->id . '/tambah' . '" title="Mutasi Data" class="btn bg-olive btn-sm"><i class="fa fa-external-link-square"></i></a> ';
+                    }
+
+                    $aksi .= '<a href="' . ci_route('inventaris_peralatan.form') . '/' . $row->id . '/' . 1 . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
+                    
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('inventaris_peralatan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('inventaris_peralatan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('kode_barang_register', static function ($row): string {
+                    return $row->kode_barang . '<br>' . $row->register;
+                })
+                ->editColumn('harga', static function ($row): string {
+                    return number_format($row->harga, 0, ',', '.');
+                })
+                ->rawColumns(['aksi', 'kode_barang_register'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function view_mutasi($id): void
+    private function sumberData()
     {
-        $data['main'] = $this->inventaris_peralatan_model->view_mutasi($id);
-        $data['tip']  = 2;
-
-        $this->render('inventaris/peralatan/view_mutasi', $data);
+        return InventarisPeralatan::visible();
     }
 
-    public function edit($id): void
-    {
-        isCan('u');
-        $data['main']      = $this->inventaris_peralatan_model->view($id);
-        $data['get_kode']  = $this->header['desa'];
-        $data['aset']      = $this->aset_model->list_aset(3);
-        $data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
-        $data['kd_reg']    = $this->inventaris_peralatan_model->list_inventaris_kd_register();
-        $data['tip']       = 1;
-
-        $this->render('inventaris/peralatan/edit_inventaris', $data);
-    }
-
-    public function edit_mutasi($id): void
-    {
-        isCan('u');
-        $data['main'] = $this->inventaris_peralatan_model->edit_mutasi($id);
-        $data['tip']  = 2;
-
-        $this->render('inventaris/peralatan/edit_mutasi', $data);
-    }
-
-    public function form(): void
-    {
-        isCan('u');
-        $data['tip']       = 1;
-        $data['get_kode']  = $this->header['desa'];
-        $data['aset']      = $this->aset_model->list_aset(3);
-        $data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
-
-        $this->render('inventaris/peralatan/form_tambah', $data);
-    }
-
-    public function form_mutasi($id): void
+    public function form($id = '', $view = false)
     {
         isCan('u');
-        $data['main'] = $this->inventaris_peralatan_model->view($id);
-        $data['tip']  = 1;
 
-        $this->render('inventaris/peralatan/form_mutasi', $data);
+        if ($id) {
+            $data['action']      = $view ? 'Rincian' : 'Ubah';
+            $data['form_action'] = ci_route('inventaris_peralatan.update', $id);
+            $data['main']        = InventarisPeralatan::findOrFail($id);
+            $data['view_mark']   = $view ? 1 : 0;
+            $data['kd_reg']      = InventarisPeralatan::select('register')->get();
+        } else {
+            $data['action']      = 'Tambah';
+            $data['form_action'] = ci_route('inventaris_peralatan.create');
+            $data['main']        = null;
+            $data['view_mark']   = null;
+            $data['kd_reg']      = null;
+        }
+
+        $data['tip']      = 1;
+        $data['get_kode'] = $this->header['desa'];
+        $data['aset']     = Aset::golongan(3)->get()->toArray();
+        $data['hasil']    = sprintf('%06s', InventarisPeralatan::count() + 1);
+
+        return view('admin.inventaris.peralatan.form', $data);
     }
 
-    public function mutasi(): void
+    public function create(): void
     {
-        $data['main'] = $this->inventaris_peralatan_model->list_mutasi_inventaris();
-        $data['tip']  = 2;
+        isCan('u');
 
-        $this->render('inventaris/peralatan/table_mutasi', $data);
+        if (InventarisPeralatan::create($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function cetak($tahun, $penandatangan): void
+    public function update($id = ''): void
     {
-        $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_peralatan_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_peralatan_model->cetak($tahun);
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
+        isCan('u');
 
-        $this->load->view('inventaris/peralatan/inventaris_print', $data);
+        $update = InventarisPeralatan::findOrFail($id);
+
+        $data = $this->validate($this->request);
+
+        if ($update->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function download($tahun, $penandatangan): void
+    public function delete($id): void
     {
-        $data['header'] = $this->header['desa'];
-        $data['total']  = $this->inventaris_peralatan_model->sum_print($tahun);
-        $data['print']  = $this->inventaris_peralatan_model->cetak($tahun);
-        $data['pamong'] = $this->pamong_model->get_data($penandatangan);
+        isCan('h');
+        
+        if (InventarisPeralatan::findOrFail($id)->update(['visible' => 0])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
 
-        $this->load->view('inventaris/peralatan/inventaris_excel', $data);
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    private function validate($data)
+    {
+        $data['nama_barang']     = strip_tags($data['nama_barang_save']);
+        $data['kode_barang']     = strip_tags($data['kode_barang']);
+        $data['register']        = strip_tags($data['register']);
+        $data['merk']            = strip_tags($data['merk']);
+        $data['ukuran']          = strip_tags($data['ukuran']);
+        $data['bahan']           = strip_tags($data['bahan']);
+        $data['tahun_pengadaan'] = strip_tags($data['tahun_pengadaan']);
+        $data['no_pabrik']       = strip_tags($data['no_pabrik']);
+        $data['no_rangka']       = strip_tags($data['no_rangka']);
+        $data['no_mesin']        = strip_tags($data['no_mesin']);
+        $data['no_polisi']       = strip_tags($data['no_polisi']);
+        $data['no_bpkb']         = strip_tags($data['no_bpkb']);
+        $data['asal']            = strip_tags($data['asal']);
+        $data['harga']           = bilangan($data['harga']);
+        $data['keterangan']      = strip_tags($data['keterangan']);
+        $data['visible']         = 1;
+
+        return $data;
+    }
+
+    public function dialog($aksi = 'cetak')
+    {
+        $data               = $this->modal_penandatangan();
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('inventaris_peralatan.cetak', $aksi);
+
+        return view('admin.inventaris.dialog_cetak', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $query          = $this->sumberData();
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['main']   = $query->get();
+        $data['config'] = $this->header['desa'];
+        $data['pamong'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+        if ($tahun = $this->input->post('tahun')) {
+            $data['main'] = $query->where('tahun_pengadaan', $tahun)->get();
+        }
+
+        $data['total'] = total_jumlah($data['main'], 'harga');
+
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=inventaris_peralatan_' . date('Y-m-d') . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+        
+        return view('admin.inventaris.peralatan.cetak', $data);
     }
 }
