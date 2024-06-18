@@ -1511,7 +1511,6 @@ Route::group('program_bantuan', static function (): void {
     Route::match(['GET', 'POST'], '/edit/{id?}', 'Program_bantuan@edit')->name('program_bantuan.edit');
     Route::post('/update/{id}', 'Program_bantuan@update')->name('program_bantuan.update');
     Route::get('/hapus/{id}', 'Program_bantuan@hapus')->name('program_bantuan.hapus');
-    Route::post('/search/{program_id?}', 'Program_bantuan@search')->name('program_bantuan.search');
     Route::post('/impor', 'Program_bantuan@impor')->name('program_bantuan.impor');
     Route::get('/expor/{program_id?}', 'Program_bantuan@expor')->name('program_bantuan.expor');
     Route::get('/unduh_kartu_peserta/{id_peserta?}', 'Program_bantuan@unduh_kartu_peserta')->name('program_bantuan.unduh_kartu_peserta');
@@ -1533,6 +1532,7 @@ Route::group('peserta_bantuan', static function (): void {
     Route::post('/delete_all/{program_id?}', 'Peserta_bantuan@delete_all')->name('peserta_bantuan.delete_all');
     Route::get('/daftar/{program_id?}/{aksi?}', 'Peserta_bantuan@daftar')->name('peserta_bantuan.daftar');
     Route::get('/detail_clear/{program_id}', 'Peserta_bantuan@detail_clear')->name('peserta_bantuan.detail_clear');
+    Route::post('/search/{program_id?}', 'Peserta_bantuan@search')->name('peserta_bantuan.search');
 });
 
 // Pertanahan > Daftar Persil
