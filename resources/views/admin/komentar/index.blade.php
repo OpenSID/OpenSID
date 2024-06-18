@@ -49,13 +49,9 @@
                                                 <table class="table table-bordered table-hover" id="tabeldata">
                                                     <thead class="bg-gray disabled color-palette">
                                                         <tr>
-                                                            @if (can('h'))
-                                                                <th><input type="checkbox" id="checkall" /></th>
-                                                            @endif
+                                                            <th><input type="checkbox" id="checkall" /></th>
                                                             <th>No</th>
-                                                            @if (can('u'))
-                                                                <th>Aksi</th>
-                                                            @endif
+                                                            <th>Aksi</th>
                                                             <th>Pengirim</th>
                                                             <th>Isi Komentar</th>
                                                             <th>No. HP Pengirim</th>

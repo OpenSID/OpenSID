@@ -78,7 +78,11 @@ class Ekspedisi extends Admin_Controller
                         $aksi .= '<a href="' . route('buku-umum.ekspedisi.unduh_tanda_terima', ['id' => $row->id]) . '" class="btn btn-purple btn-sm bg-purple" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a> ';
                     }
 
-                    return $aksi . ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
+                    if (can('u')) {
+                        $aksi .= ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
+                    }
+
+                    return $aksi;
                 })
                 ->editColumn('tanggal_pengiriman', static fn ($row): string => tgl_indo($row->tanggal_pengiriman))
                 ->rawColumns(['aksi'])
@@ -284,6 +288,8 @@ class Ekspedisi extends Admin_Controller
 
     public function bukan_ekspedisi($id): void
     {
+        isCan('u');
+
         ModelsEkspedisi::UntukEkspedisi($id, $masuk = 0);
         redirect_with('success', 'Data berhasil dikeluarkan dari Buku Ekspedisi');
     }

@@ -92,9 +92,13 @@
                     <table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
                         <thead class="bg-gray disabled color-palette">
                             <tr>
+                                @if (can('h'))
                                 <th><input type="checkbox" id="checkall" /></th>
+                                @endif
                                 <th>No</th>
-                                <th>Aksi</th>
+                                @if (can ('u'))
+                                    <th>Aksi</th>
+                                @endif
                                 <th>NIK</th>
                                 <th>Nomor KK</th>
                                 <th width="25%">Nama</th>
@@ -107,8 +111,11 @@
                             @if ($main)
                                 @foreach ($main as $key => $data)
                                     <tr>
+                                        @if (can ('u'))
                                         <td class="padat"><input type="checkbox" name="id_cb[]" value="{{ $data['id'] }}" /></td>
+                                        @endif
                                         <td class="padat">{{ $key + 1 }}</td>
+                                        @if (can ('u'))
                                         <td class="aksi">
                                             @if (can('u'))
                                                 <a href="{{ ci_route("penduduk.form.1.{$kk}", $data['id']) }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
@@ -126,6 +133,7 @@
                                                 <a href="#" data-href="{{ ci_route("rtm.delete_anggota.{$kk}", $data['id']) }}" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                             @endif
                                         </td>
+                                        @endif
                                         <td>{{ $data['nik'] }}</td>
                                         <td>{{ $data['keluarga']['no_kk'] }}</td>
                                         <td nowrap>{{ strtoupper($data['nama']) }}</td>

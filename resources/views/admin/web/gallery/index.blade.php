@@ -78,6 +78,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var parent = '{{ $parent }}';
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -157,7 +158,10 @@
 
             if (ubah == 0) {
                 TableData.column(0).visible(false);
-                TableData.column(3).visible(false);
+
+                if (parent) {
+                    TableData.column(3).visible(false);
+                }
             }
 
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('gallery.tukar')])

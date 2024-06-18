@@ -80,6 +80,7 @@
     <script src="{{ asset('bootstrap/js/bootstrap-colorpicker.min.js') }}"></script>
     <script>
         $(document).ready(function() {
+            var parent = '{{ $parent_jenis }}';
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -136,7 +137,7 @@
                 TableData.column(0).visible(false);
             }
 
-            if (ubah == 0) {
+            if (ubah == 0 && parent) {
                 TableData.column(2).visible(false);
             }
 

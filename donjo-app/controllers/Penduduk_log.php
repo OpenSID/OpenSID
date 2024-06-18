@@ -93,17 +93,20 @@ class Penduduk_log extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $dataLengkap = data_lengkap();
             $pertanyaan  = $this->pertanyaan;
+            $ubah        = can('u');
 
             return datatables()->of($this->sumberData())
                 ->addColumn('ceklist', static fn ($row) => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->penduduk->foto, '', $row->penduduk->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use ($dataLengkap, $pertanyaan): string {
-                    $aksi = '<a href="' . ci_route("penduduk_log.edit.{$row->id}") . '" class="btn bg-orange btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>';
-                    if (! in_array($row->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK, LogPenduduk::TIDAK_TETAP_PERGI])) {
-                        if ($dataLengkap) {
-                            $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a>';
-                            if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
-                                $aksi .= ' <a href="' . ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}") . '" class="btn bg-purple btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>';
+                ->addColumn('aksi', static function ($row) use ($dataLengkap, $pertanyaan, $ubah) {
+                    if ($ubah) {
+                        $aksi = '<a href="' . ci_route("penduduk_log.edit.{$row->id}") . '" class="btn bg-orange btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>';
+                        if (! in_array($row->kode_peristiwa, [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK, LogPenduduk::TIDAK_TETAP_PERGI])) {
+                            if ($dataLengkap) {
+                                $aksi .= ' <a href="#" data-href="' . ci_route("penduduk_log.kembalikan_status.{$row->id}") . '" class="btn bg-olive btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-body="' . $pertanyaan . '" data-target="#confirm-status"><i class="fa fa-undo"></i></a>';
+                                if ($row->isKembaliDatang() && $row->isLogPergiTerakhir() && in_array($row->penduduk->status_dasar, [StatusDasarEnum::PINDAH, StatusDasarEnum::PERGI])) {
+                                    $aksi .= ' <a href="' . ci_route("penduduk_log.ajax_kembalikan_status_pergi.{$row->id}") . '" class="btn bg-purple btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>';
+                                }
                             }
                         }
                     }
@@ -112,34 +115,37 @@ class Penduduk_log extends Admin_Controller
                         $aksi .= ' <a target="_blank" href="' . ci_route("penduduk_log.dokumen.{$row->id}") . '" class="btn btn-info btn-sm" title="Lihat File Akta Kematian"><i class="fa fa-eye"></i></a>';
                     }
 
-                    switch($row->kode_peristiwa) {
-                        case LogPenduduk::BARU_LAHIR:
-                            $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
-                            break;
+                    if ($ubah) {
+                        switch($row->kode_peristiwa) {
+                            case LogPenduduk::BARU_LAHIR:
+                                $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
+                                break;
 
-                        case LogPenduduk::MATI:
-                            $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
-                            break;
+                            case LogPenduduk::MATI:
+                                $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
+                                break;
 
-                        case LogPenduduk::PINDAH_KELUAR:
-                            $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
-                            break;
+                            case LogPenduduk::PINDAH_KELUAR:
+                                $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
+                                break;
 
-                        case LogPenduduk::HILANG:
-                            $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
-                            break;
+                            case LogPenduduk::HILANG:
+                                $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
+                                break;
 
-                        case LogPenduduk::BARU_PINDAH_MASUK:
-                            $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
-                            break;
+                            case LogPenduduk::BARU_PINDAH_MASUK:
+                                $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
+                                break;
 
-                        case LogPenduduk::TIDAK_TETAP_PERGI:
-                            $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
-                            break;
-                    }
-                    if ($suratTerkait) {
-                        foreach ($suratTerkait as $item) {
-                            $aksi .= ' <a target="_blank" href="' . ci_route("surat.form.{$item}") . '#' . $row->penduduk->id . '#' . $row->penduduk->nik . '#' . $row->penduduk->nama . '" class="btn btn-social bg-purple btn-sm" title="' . str_replace('-', ' ', $item) . '"><i class="fa fa-file-word-o"></i>' . str_replace('-', ' ', $item) . '</a>';
+                            case LogPenduduk::TIDAK_TETAP_PERGI:
+                                $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
+                                break;
+                        }
+
+                        if ($suratTerkait) {
+                            foreach ($suratTerkait as $item) {
+                                $aksi .= ' <a target="_blank" href="' . ci_route("surat.form.{$item}") . '#' . $row->penduduk->id . '#' . $row->penduduk->nik . '#' . $row->penduduk->nama . '" class="btn btn-social bg-purple btn-sm" title="' . str_replace('-', ' ', $item) . '"><i class="fa fa-file-word-o"></i>' . str_replace('-', ' ', $item) . '</a>';
+                            }
                         }
                     }
 
