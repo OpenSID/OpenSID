@@ -109,6 +109,7 @@ class Inventaris_kontruksi extends Admin_Controller
             $data['main']        = null;
             $data['view_mark']   = null;
         }
+        $data['tip'] = 1;
 
         return view('admin.inventaris.kontruksi.form', $data);
     }
@@ -177,7 +178,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $data['aksi']       = $aksi;
         $data['formAction'] = ci_route('inventaris_kontruksi.cetak', $aksi);
 
-        return view('admin.inventaris.kontruksi.dialog', $data);
+        return view('admin.inventaris.dialog_cetak', $data);
     }
 
     public function cetak($aksi = '')

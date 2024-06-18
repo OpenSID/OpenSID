@@ -5,7 +5,9 @@
             <select class="form-control input-sm select2" name="tahun">>
                 <option value="">Semua</option>
                 @for ($i = date('Y'); $i >= date('Y') - 30; $i--)
-                    <option value="<?= $i ?>"><?= $i ?></option>
+                    <option value="<?= $i ?>">
+                        <?= $i ?>
+                    </option>
                 @endfor
             </select>
         </div>

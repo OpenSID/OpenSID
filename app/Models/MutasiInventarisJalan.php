@@ -35,10 +35,44 @@
  *
  */
 
-$tgl = date('d_m_Y');
-header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=Jalan_Irigasi_Jaringan_' . $tgl . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Models;
 
-include 'donjo-app/views/inventaris/jalan/inventaris_print.php';
+use App\Traits\Author;
+use App\Traits\ConfigId;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class MutasiInventarisJalan extends BaseModel
+{
+    use ConfigId;
+    use Author;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'mutasi_inventaris_jalan';
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
+    ];
+
+    // relasi ke inventaris jalan
+    public function inventaris_jalan()
+    {
+        return $this->belongsTo(InventarisJalan::class, 'id_inventaris_jalan');
+    }
+}

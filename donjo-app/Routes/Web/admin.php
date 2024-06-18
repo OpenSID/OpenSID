@@ -860,24 +860,23 @@ Route::group('api_inventaris_gedung', static function (): void {
 
 Route::group('inventaris_jalan', static function (): void {
     Route::get('/', 'Inventaris_jalan@index')->name('inventaris_jalan.index');
-    Route::get('/view/{id}', 'Inventaris_jalan@view')->name('inventaris_jalan.view');
-    Route::get('/view_mutasi/{id}', 'Inventaris_jalan@view_mutasi')->name('inventaris_jalan.view_mutasi');
-    Route::get('/edit/{id}', 'Inventaris_jalan@edit')->name('inventaris_jalan.edit');
-    Route::get('/edit_mutasi/{id}', 'Inventaris_jalan@edit_mutasi')->name('inventaris_jalan.edit_mutasi');
-    Route::get('/form', 'Inventaris_jalan@form')->name('inventaris_jalan.form');
-    Route::get('/form_mutasi/{id?}', 'Inventaris_jalan@form_mutasi')->name('inventaris_jalan.form_mutasi');
-    Route::get('/mutasi', 'Inventaris_jalan@mutasi')->name('inventaris_jalan.mutasi');
-    Route::get('/cetak/{tahun}/{penandatangan}', 'Inventaris_jalan@cetak')->name('inventaris_jalan.cetak');
-    Route::get('/download/{tahun}/{penandatangan}', 'Inventaris_jalan@download')->name('inventaris_jalan.download');
+    Route::get('/datatables', 'Inventaris_jalan@datatables')->name('inventaris_jalan.datatables');
+    Route::get('/form/{id?}/{view?}', 'Inventaris_jalan@form')->name('inventaris_jalan.form');
+    Route::post('/create', 'Inventaris_jalan@create')->name('inventaris_jalan.create');
+    Route::post('/update/{id}', 'Inventaris_jalan@update')->name('inventaris_jalan.update');
+    Route::get('/delete/{id}', 'Inventaris_jalan@delete')->name('inventaris_jalan.delete');
+    Route::get('/dialog/{aksi?}', 'Inventaris_jalan@dialog')->name('inventaris_jalan.dialog');
+    Route::post('/cetak/{aksi?}', 'Inventaris_jalan@cetak')->name('inventaris_jalan.cetak');
 });
 
-Route::group('api_inventaris_jalan', static function (): void {
-    Route::post('/add', 'Api_inventaris_jalan@add')->name('api_inventaris_jalan.add');
-    Route::post('/add_mutasi', 'Api_inventaris_jalan@add_mutasi')->name('api_inventaris_jalan.add_mutasi');
-    Route::post('/update/{id?}', 'Api_inventaris_jalan@update')->name('api_inventaris_jalan.update');
-    Route::post('/update_mutasi/{id?}', 'Api_inventaris_jalan@update_mutasi')->name('api_inventaris_jalan.update_mutasi');
-    Route::get('/delete/{id?}', 'Api_inventaris_jalan@delete')->name('api_inventaris_jalan.delete');
-    Route::get('/delete_mutasi/{id?}', 'Api_inventaris_jalan@delete_mutasi')->name('api_inventaris_jalan.delete_mutasi');
+
+Route::group('inventaris_jalan_mutasi', static function (): void {
+    Route::get('/', 'Inventaris_jalan_mutasi@index')->name('inventaris_jalan_mutasi.index');
+    Route::post('/create/{id}', 'Inventaris_jalan_mutasi@create')->name('inventaris_jalan_mutasi.create');
+    Route::post('/update/{id?}/{inventaris_id?}', 'Inventaris_jalan_mutasi@update')->name('inventaris_jalan_mutasi.update');
+    Route::get('/delete/{id?}', 'Inventaris_jalan_mutasi@delete')->name('inventaris_jalan_mutasi.delete');
+    Route::get('/form/{id?}/{view?}', 'Inventaris_jalan_mutasi@form')->name('inventaris_jalan_mutasi.form');
+    Route::get('/datatables', 'Inventaris_jalan_mutasi@datatables')->name('inventaris_jalan_mutasi.datatables');
 });
 
 Route::group('inventaris_kontruksi', static function (): void {

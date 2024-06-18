@@ -51,6 +51,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8029](https://github.com/OpenSID/OpenSID/issues/8029) Penyesuaian unggah file .gif pada modul widget.
 9. [#8084](https://github.com/OpenSID/OpenSID/issues/8084) Penyesuaian judul pada foto tambahan produk lapak.
 10. [#7820](https://github.com/OpenSID/OpenSID/issues/7820) Penyesuaian modul inventaris kontruksi menggunakan ORM dan Blade.
+11. [#7818](https://github.com/OpenSID/OpenSID/issues/7818) Penyesuaian modul inventaris jalan menggunakan ORM dan Blade.
 
 
 #### KEAMANAN

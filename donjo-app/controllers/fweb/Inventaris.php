@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\InventarisJalan;
+
 class Inventaris extends Web_Controller
 {
     public function __construct()
@@ -88,8 +90,8 @@ class Inventaris extends Web_Controller
             case 'jalan-irigasi-dan-jaringan':
                 $this->load->model('inventaris_jalan_model');
                 $data['judul']          = 'Inventaris Jalan, Irigasi dan Jaringan';
-                $data['main']           = $this->inventaris_jalan_model->list_inventaris();
-                $data['total']          = $this->inventaris_jalan_model->sum_inventaris();
+                $data['main']           = InventarisJalan::listInventaris();
+                $data['total']          = InventarisJalan::sumInventaris();
                 $data['halaman_statis'] = 'inventaris/jalan';
                 break;
 

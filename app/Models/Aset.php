@@ -37,23 +37,18 @@
 
 namespace App\Models;
 
-use App\Traits\Author;
-use App\Traits\ConfigId;
-use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class InventarisJalan extends BaseModel
+class Aset extends BaseModel
 {
-    use ConfigId;
-    use Author;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'inventaris_jalan';
+    protected $table = 'tweb_aset';
 
     /**
      * The guarded with the model.
@@ -68,47 +63,11 @@ class InventarisJalan extends BaseModel
      * @var array
      */
     protected $hidden = [
-        'config_id',
+        // 'config_id',
     ];
 
-    public function scopeAktif($query)
+    public function scopeGolongan($query, $golongan)
     {
-        return $query->where('visible', 1);
-    }
-
-    public function scopeReg($query)
-    {
-        return $query->count();
-    }
-
-    public function scopeListKdRegister()
-    {
-        return $this->select('register')->get();
-    }
-
-    public function scopeSumInventaris()
-    {
-        return $this->aktif()->sum('harga');
-    }
-    
-    public static function listInventaris()
-    {
-        return DB::table('inventaris_jalan as u', 'm.id as mutasi')
-            ->leftJoin('mutasi_inventaris_jalan as m', 'm.id_inventaris_jalan', '=', 'u.id')
-            ->where('u.visible', 1)
-            ->get();
-    }
-
-    public function scopeCetak($query, $tahun = null)
-    {
-        return $query->when(! empty($tahun), function ($query) use ($tahun) {
-            return $query->whereYear('tanggal_dokument', $tahun);
-        });
-    }
-
-    // relasi ke mutasi_inventaris_jalan
-    public function mutasi()
-    {
-        return $this->hasOne(MutasiInventarisJalan::class, 'id_inventaris_jalan');
+        return $query->where('golongan', $golongan);
     }
 }
