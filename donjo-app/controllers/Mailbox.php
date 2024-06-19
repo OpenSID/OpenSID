@@ -72,15 +72,10 @@ class Mailbox extends Admin_Controller
             return datatables()->of(PesanMandiri::with(['penduduk'])->whereTipe($tipe)
                 ->when($pendudukId, static fn ($q) => $q->wherePendudukId($pendudukId))
                 ->when($status, static function ($q) use ($status): void {
-                    switch($status) {
-                        case 1:
-                        case 2:
-                            $q->whereStatus($status);
-                            break;
-
-                        default:
-                            $q->where(['is_archived' => 1]);
-                    }
+                    match ($status) {
+                        1, 2 => $q->whereStatus($status),
+                        default => $q->where(['is_archived' => 1]),
+                    };
                 }))
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if (! $canDelete) {
@@ -159,13 +154,13 @@ class Mailbox extends Admin_Controller
     {
         isCan('u');
 
-        $pendudukId = trim($this->request['penduduk_id']);
+        $pendudukId = trim((string) $this->request['penduduk_id']);
         $owner      = Penduduk::find($pendudukId);
         PesanMandiri::create([
             'owner'       => strtoupper($owner->nama),
             'penduduk_id' => $owner->id,
-            'subjek'      => strip_tags($this->request['subjek']),
-            'komentar'    => strip_tags($this->request['komentar']),
+            'subjek'      => strip_tags((string) $this->request['subjek']),
+            'komentar'    => strip_tags((string) $this->request['komentar']),
             'status'      => PesanMandiri::UNREAD,
             'tipe'        => PesanMandiri::KELUAR,
         ]);

@@ -80,21 +80,27 @@ class Status_desa extends Admin_Controller
 
             // Cek server Kemendes sebelum hapus cache
             try {
-                $client = new GuzzleHttp\Client();
-                $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+                $client   = new GuzzleHttp\Client();
+                $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
                     'headers' => [
                         'X-Requested-With' => 'XMLHttpRequest',
                     ],
                     'verify' => false,
                 ]);
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
 
+                redirect_with('error', 'Tidak dapat mengambil data IDM.');
+            }
+
+            if ($response?->getStatusCode() === 200 && ! empty($response->getBody()->getContents())) {
                 $this->cache->file->delete($cache);
                 set_session('tahun', $tahun);
 
                 redirect_with('success', 'Berhasil Perbarui Data');
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
             }
+
+            redirect_with('error', 'Tidak dapat mengambil data IDM.');
         }
 
         redirect_with('error', 'Tidak dapat mengambil data IDM.');

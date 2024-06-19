@@ -37,8 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Rtm;
 use App\Enums\HubunganRTMEnum;
+use App\Models\Rtm;
 use OpenSpout\Reader\XLSX\Reader;
 
 class Rtm_model extends MY_Model

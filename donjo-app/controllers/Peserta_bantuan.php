@@ -212,4 +212,18 @@ class Peserta_bantuan extends Admin_Controller
 
         redirect("peserta_bantuan/detail/{$program_id}");
     }
+
+    // TODO:: Hapus ini setelah konversi program banntuan peserta
+    public function search($program_id = 0)
+    {
+        $cari = $this->input->post('cari');
+
+        if ($cari != '') {
+            $this->session->cari = $cari;
+        } else {
+            $this->session->unset_userdata('cari');
+        }
+
+        redirect("peserta_bantuan/detail/{$program_id}");
+    }
 }

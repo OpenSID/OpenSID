@@ -169,11 +169,6 @@
                 TableData.column(0).visible(false);
             }
 
-            if (ubah == 0) {
-                TableData.column(2).visible(false);
-                TableData.column(7).visible(false);
-            }
-
             $('#status_dasar').on('select2:select', function(e) {
                 TableData.draw();
             });

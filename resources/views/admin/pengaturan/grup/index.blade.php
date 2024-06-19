@@ -159,9 +159,9 @@
                 TableData.column(0).visible(false);
             }
 
-            if (ubah == 0) {
-                TableData.column(2).visible(false);
-            }
+            // if (ubah == 0) {
+            //     TableData.column(2).visible(false);
+            // }
 
             $('#jenis').change(function() {
                 TableData.column(4).search($(this).val()).draw()

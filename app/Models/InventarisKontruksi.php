@@ -37,12 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class InventarisKontruksi extends BaseModel
 {
+    use Author;
     use ConfigId;
 
     /**
@@ -57,7 +59,7 @@ class InventarisKontruksi extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     /**
      * The hidden with the model.
@@ -67,4 +69,9 @@ class InventarisKontruksi extends BaseModel
     protected $hidden = [
         'config_id',
     ];
+
+    public function scopeVisible($query, $value = 1)
+    {
+        return $query->where('visible', $value);
+    }
 }

@@ -81,10 +81,6 @@
             if (hapus == 0) {
                 TableData.column(0).visible(false);
             }
-
-            if (ubah == 0) {
-                TableData.column(2).visible(false);
-            }
         });
     </script>
 @endpush

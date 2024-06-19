@@ -35,10 +35,36 @@
  *
  */
 
-$tgl = date('d_m_Y');
-header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=Jalan_Irigasi_Jaringan_' . $tgl . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
-include 'donjo-app/views/inventaris/jalan/inventaris_print.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Migrasi_2024061951 extends MY_model
+{
+    public function up()
+    {
+        $hasil = true;
+
+        $hasil = $hasil && $this->migrasi_2024061951($hasil);
+
+        return $hasil && true;
+    }
+
+    protected function migrasi_2024061951($hasil)
+    {
+        if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
+            Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
+                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+            });
+        }
+
+        if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
+            Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
+                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+            });
+        }
+
+        return $hasil && true;
+    }
+}

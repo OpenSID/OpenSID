@@ -253,7 +253,9 @@ class Penduduk extends Admin_Controller
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        return PendudukModel::with(['log_latest'])->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
+        return PendudukModel::with(['log_latest'])
+            ->select('tweb_penduduk.*')
+            ->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
             ->when($statusDasar, static fn ($q) => $q->whereStatusDasar($statusDasar))
             ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))
             ->when($nikSementara, static fn ($q) => $q->where('nik', 'like', '0%'))

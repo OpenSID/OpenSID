@@ -130,7 +130,6 @@ class Cek
 
     public function validasi_versi($install = false): bool
     {
-
         if ($this->isPremiumDisabled() || $install || $this->isDemoMode()) {
             return true;
         }

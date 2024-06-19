@@ -53,7 +53,7 @@ class Pelanggan
         $this->client = new Client();
     }
 
-    public static function status_langganan()
+    public static function status_langganan(): ?array
     {
         if (empty($response = self::api_pelanggan_pemesanan()) || config_item('demo_mode')) {
             return null;
@@ -74,18 +74,11 @@ class Pelanggan
             $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
         }
 
-        switch (true) {
-            case $masa_berlaku > 30:
-                $status = ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'];
-                break;
-
-            case $masa_berlaku > 10:
-                $status = ['status' => 2, 'warna' => 'orange', 'ikon' => 'fa-battery-half'];
-                break;
-
-            default:
-                $status = ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'];
-        }
+        $status = match (true) {
+            $masa_berlaku > 30 => ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'],
+            $masa_berlaku > 10 => ['status' => 2, 'warna' => 'orange', 'ikon' => 'fa-battery-half'],
+            default            => ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'],
+        };
         $status['masa'] = $masa_berlaku;
 
         return $status;
@@ -124,5 +117,7 @@ class Pelanggan
 
             return $cache;
         }
+
+        return null;
     }
 }

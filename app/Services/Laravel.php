@@ -71,13 +71,6 @@ class Laravel extends Container
     protected static $aliasesRegistered = false;
 
     /**
-     * The base path of the application installation.
-     *
-     * @var string
-     */
-    protected $basePath;
-
-    /**
      * All of the loaded configuration files.
      *
      * @var array
@@ -164,10 +157,11 @@ class Laravel extends Container
      *
      * @return void
      */
-    public function __construct($basePath = null)
-    {
-        $this->basePath = $basePath;
-
+    public function __construct(/**
+     * The base path of the application installation.
+     */
+    protected $basePath = null
+    ) {
         $this->bootstrapContainer();
     }
 
@@ -192,10 +186,8 @@ class Laravel extends Container
 
     /**
      * Determine if the application is currently down for maintenance.
-     *
-     * @return bool
      */
-    public function isDownForMaintenance()
+    public function isDownForMaintenance(): bool
     {
         return false;
     }
@@ -245,7 +237,7 @@ class Laravel extends Container
             $provider = new $provider($this);
         }
 
-        if (array_key_exists($providerName = get_class($provider), $this->loadedProviders)) {
+        if (array_key_exists($providerName = $provider::class, $this->loadedProviders)) {
             return;
         }
 
@@ -453,7 +445,7 @@ class Laravel extends Container
      */
     protected function registerLogBindings()
     {
-        $this->singleton(LoggerInterface::class, function () {
+        $this->singleton(LoggerInterface::class, function (): LogManager {
             $this->configure('logging');
 
             return new LogManager($this);
@@ -691,10 +683,8 @@ class Laravel extends Container
 
     /**
      * Determine if we are running unit tests.
-     *
-     * @return bool
      */
-    public function runningUnitTests()
+    public function runningUnitTests(): bool
     {
         return $this->environment() == 'testing';
     }

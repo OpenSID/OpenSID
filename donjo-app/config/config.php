@@ -637,7 +637,7 @@ $config['token_pantau']  = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCw
 | - Server layanan (Default)
 |
 */
-$config['server_layanan'] = 'https://devlayanan.opendesa.id';
+$config['server_layanan'] = 'https://layanan.opendesa.id';
 
 /*
 |--------------------------------------------------------------------------

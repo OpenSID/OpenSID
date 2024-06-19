@@ -35,6 +35,9 @@
  *
  */
 
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
@@ -42,6 +45,7 @@ class Migrasi_rev extends MY_model
     public function up()
     {
         $hasil = true;
+
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
