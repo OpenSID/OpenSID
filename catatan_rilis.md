@@ -54,6 +54,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#7820](https://github.com/OpenSID/OpenSID/issues/7820) Penyesuaian modul inventaris kontruksi menggunakan ORM dan Blade.
 11. [#7818](https://github.com/OpenSID/OpenSID/issues/7818) Penyesuaian modul inventaris jalan menggunakan ORM dan Blade.
 12. [#7816](https://github.com/OpenSID/OpenSID/issues/7816) Penyesuaian modul inventaris peralatan menggunakan ORM dan Blade.
+13. [#8113](https://github.com/OpenSID/OpenSID/issues/8113) Penyesuaian bootstrap pisah dari hook.
 
 
 #### KEAMANAN
