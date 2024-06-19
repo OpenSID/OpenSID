@@ -22,7 +22,8 @@
             @endif
             @if (can('h'))
                 <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ site_url('sinergi_program/delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'></i> Hapus</a>
+                        class='fa fa-trash-o'
+                    ></i> Hapus</a>
             @endif
         </div>
         <div class="box-body">
@@ -58,8 +59,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ site_url('sinergi_program/datatables') }}",
-                columns: [
-                    {
+                columns: [{
                         data: 'drag-handle',
                         class: 'padat',
                         searchable: false,

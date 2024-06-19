@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#6854](https://github.com/OpenSID/OpenSID/issues/6854) Penambahan halaman peta tema pada website yang lepas dari view sistem.
 3. [#6858](https://github.com/OpenSID/OpenSID/issues/6858) Penambahan halaman stok desa pada website.
 4. [#5957](https://github.com/OpenSID/OpenSID/issues/5957) Penambahan modul sinergi program.
+5. [#8098](https://github.com/OpenSID/OpenSID/issues/8098) Penambahan detail informasi jika no_kk sudah digunakan.
 
 
 #### BUG

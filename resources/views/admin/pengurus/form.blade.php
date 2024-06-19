@@ -466,7 +466,7 @@
                 gelar();
             });
 
-            
+
             $('#jabatan').on('change', function() {
                 const kades = "{{ $kades_id }}";
                 if (this.value == 1) {
