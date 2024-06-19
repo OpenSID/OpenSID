@@ -56,11 +56,7 @@ class Anjungan extends Web_Controller
 
     public function index()
     {
-        $menu = AnjunganMenu::where('status', 1)->get()->map(static function ($item) {
-            $item->link = menu_slug($item->link);
-
-            return $item;
-        });
+        $menu = AnjunganMenu::where('status', 1)->get();
 
         $jumlah_artikel = setting('anjungan_layar') == 1 ? 4 : 6;
 
