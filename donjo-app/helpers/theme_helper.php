@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Models\MediaSosial;
+use App\Models\Theme;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -148,7 +149,7 @@ if (! function_exists('theme_asset')) {
      */
     function theme_asset(string $uri)
     {
-        $path = theme_active()->view_path . '/assets/' . $uri;
+        $path = theme_active()->asset_path . '/assets/' . $uri;
 
         return base_url($path);
     }
@@ -190,6 +191,7 @@ if (! function_exists('theme_view')) {
      */
     function theme_view(string $view, $data = [], $return = false)
     {
+
         return get_instance()->load->view(theme_view_path() . '/' . $view, $data, $return);
     }
 }
@@ -208,7 +210,12 @@ if (! function_exists('theme_scan')) {
             ->filter(static fn ($tema): bool => is_file(FCPATH . $tema . '/template.php'))
             ->map(static function (string $tema) {
                 $sistem = preg_match('/vendor/', $tema) ? 1 : 0;
-
+                if (! $sistem) {
+                    $configPath = get_instance()->config->item('theme_path') ?? '';
+                    if ($configPath) {
+                        $tema = $configPath . $tema;
+                    }
+                }
                 if (! is_file(FCPATH . $tema . '/composer.json')) {
                     $versi = VERSION;
                     $nama  = basename($tema);
@@ -236,6 +243,7 @@ if (! function_exists('theme_scan')) {
             ->toArray();
 
         DB::table('theme')->upsert($themeList, 'slug');
+        (new Theme())->flushQueryCache();
     }
 }
 
