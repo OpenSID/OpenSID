@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Support\Arr;
-
 require_once 'database.php';
 
 $connections = [];
@@ -44,20 +42,24 @@ $connections = [];
 $connections['default'] = $active_group;
 
 foreach ($db as $key => $options) {
-    $dbdriver = Arr::get($options, 'dbdriver');
-    $dbdriver = ($dbdriver === 'mysqli') ? 'mysql' : $dbdriver;
-
     $connections['connections'][$key] = [
-        'driver'    => $dbdriver,
-        'host'      => Arr::get($options, 'hostname'),
-        'port'      => Arr::get($options, 'port', 3306),
-        'database'  => Arr::get($options, 'database'),
-        'username'  => Arr::get($options, 'username'),
-        'password'  => Arr::get($options, 'password'),
-        'charset'   => Arr::get($options, 'char_set'),
-        'collation' => Arr::get($options, 'dbcollat'),
-        'prefix'    => Arr::get($options, 'swap_pre'),
-        'strict'    => Arr::get($options, 'stricton'),
+        'driver' => match ($options['dbdriver']) {
+            'mysql', 'mysqli' => 'mysql',
+            'postgre' => 'pgsql',
+            'sqlite'  => 'sqlite',
+            'sqlite3' => 'sqlite',
+            'sqlsrv'  => 'sqlsrv',
+            default   => 'mysql',
+        },
+        'host'      => $options['hostname'],
+        'port'      => $options['port'],
+        'database'  => $options['database'],
+        'username'  => $options['username'],
+        'password'  => $options['password'],
+        'charset'   => $options['char_set'],
+        'collation' => $options['dbcollat'],
+        'prefix'    => $options['swap_pre'],
+        'strict'    => $options['stricton'],
         'engine'    => null,
     ];
 }
