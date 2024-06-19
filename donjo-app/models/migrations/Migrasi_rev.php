@@ -35,6 +35,9 @@
  *
  */
 
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
@@ -42,11 +45,30 @@ class Migrasi_rev extends MY_model
     public function up()
     {
         $hasil = true;
+
+        $hasil = $hasil && $this->migrasi_2024061951($hasil);
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }
+
+        return $hasil && true;
+    }
+
+    protected function migrasi_2024061951($hasil)
+    {
+        if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
+            Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
+                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+            });
+        }
+
+        if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
+            Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
+                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+            });
+        }
 
         return $hasil && true;
     }
