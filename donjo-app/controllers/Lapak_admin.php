@@ -35,8 +35,9 @@
  *
  */
 
-use App\Models\Pelapak;
 use App\Models\Produk;
+use App\Models\Pelapak;
+use App\Enums\StatusEnum;
 use App\Models\ProdukKategori;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -118,8 +119,9 @@ class Lapak_admin extends Admin_Controller
     public function produk_insert(): void
     {
         isCan('u');
-
-        if ((new Produk())->produkInsert($this->input->post())) {
+        $post           = $this->input->post();
+        $post['status'] = StatusEnum::YA;
+        if ((new Produk())->produkInsert($post)) {
             redirect_with('success', 'Berhasil menambah data', "{$this->controller}/produk");
         }
 

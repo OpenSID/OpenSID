@@ -37,7 +37,6 @@
 
 namespace App\Models;
 
-use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
@@ -129,8 +128,7 @@ class Produk extends BaseModel
 
     public function produkInsert(array $post = [])
     {
-        $data           = $this->produkValidasi($post);
-        $data['status'] = StatusEnum::YA;
+        $data = $this->produkValidasi($post);
 
         return $this->create($data);
     }
@@ -191,6 +189,10 @@ class Produk extends BaseModel
 
         if ($post['tipe_potongan'] == 2 && ! empty($post['nominal'])) {
             $data['potongan'] = bilangan($post['nominal']);
+        }
+
+        if (isset($post['status'])) {
+            $data['status'] = $post['status'];
         }
 
         return $data;
