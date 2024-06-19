@@ -36,6 +36,7 @@
  */
 
 use App\Models\Pendapat;
+use App\Models\Penduduk;
 use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -49,14 +50,20 @@ class Beranda extends Mandiri_Controller
         $this->load->helper('download');
     }
 
-    public function index(): void
+    public function index()
     {
-        $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
-        if ($inbox) {
-            redirect('layanan-mandiri/pesan-masuk');
-        } else {
-            redirect('layanan-mandiri/permohonan-surat');
+        if ($this->cek_anjungan) {
+            $data['penduduk'] = Penduduk::find($this->is_login->id_pend);
+
+            return view('layanan_mandiri.anjungan.beranda.content', $data);
         }
+            $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
+            if ($inbox) {
+                redirect('layanan-mandiri/pesan-masuk');
+            } else {
+                redirect('layanan-mandiri/permohonan-surat');
+            }
+
     }
 
     public function profil(): void
