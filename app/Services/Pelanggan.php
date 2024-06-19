@@ -77,7 +77,7 @@ class Pelanggan
         $status = match (true) {
             $masa_berlaku > 30 => ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'],
             $masa_berlaku > 10 => ['status' => 2, 'warna' => 'orange', 'ikon' => 'fa-battery-half'],
-            default => ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'],
+            default            => ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'],
         };
         $status['masa'] = $masa_berlaku;
 
@@ -117,6 +117,7 @@ class Pelanggan
 
             return $cache;
         }
+
         return null;
     }
 }

@@ -46,9 +46,9 @@
 									<div class="col-sm-3">
 										<form id="mainform" name="mainform" method="post">
 											<div class="input-group input-group-sm pull-right with-border">
-												<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/{$detail['id']}")?>');$('#'+'mainform').submit();}">
+												<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("peserta_bantuan/search/{$detail['id']}")?>');$('#'+'mainform').submit();}">
 												<div class="input-group-btn">
-													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search/{$detail['id']}")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("peserta_bantuan/search/{$detail['id']}")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 												</div>
 											</div>
 										</form>

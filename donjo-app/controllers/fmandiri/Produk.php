@@ -78,8 +78,9 @@ class Produk extends Mandiri_Controller
                 ];
             }
         } else {
-            $produk        = ProdukModel::where('id_pelapak', $this->lapak->id)->whereDate('created_at', date('Y-m-d'))->count();
-            $data['batas'] = $produk >= setting('jumlah_pengajuan_produk');
+            $produk             = ProdukModel::where('id_pelapak', $this->lapak->id)->whereDate('created_at', date('Y-m-d'))->count();
+            $data['batas']      = $produk >= setting('jumlah_pengajuan_produk');
+            $data['verifikasi'] = true;
             if ($data['batas']) {
                 $data['notifikasi'] = [
                     'status' => 'warning',
@@ -225,10 +226,12 @@ class Produk extends Mandiri_Controller
         }
     }
 
-    public function verifikasi(): void
+    public function verifikasi()
     {
         if (! $this->lapak || $this->lapak->status !== StatusEnum::YA) {
             redirect('layanan-mandiri/produk/pengaturan');
         }
+
+        return true;
     }
 }

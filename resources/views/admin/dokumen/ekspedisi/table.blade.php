@@ -134,12 +134,8 @@
                 TableData.column(4).search($(this).val()).draw()
             })
 
-            if (hapus == 0) {
-                TableData.column(0).visible(false);
-            }
-
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(1).visible(false);
             }
         });
     </script>

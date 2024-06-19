@@ -235,6 +235,7 @@
                         var columnData = api.column(i, {
                             page: 'current'
                         }).data();
+                        console.log(columnData);
 
                         // Menghitung total untuk kolom saat ini
                         var total = columnData.reduce(function(a, b) {

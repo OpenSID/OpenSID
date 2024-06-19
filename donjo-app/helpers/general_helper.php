@@ -1146,3 +1146,10 @@ if (! function_exists('emptyData')) {
         return $data;
     }
 }
+
+if (! function_exists('total_jumlah')) {
+    function total_jumlah($data, $column)
+    {
+        return array_reduce($data->toArray(), static fn ($carry, $item) => $carry + $item[$column], 0);
+    }
+}

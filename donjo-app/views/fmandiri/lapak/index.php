@@ -10,6 +10,7 @@
 		<h4><b>DAFTAR PRODUK</b></h4>
 	</div>
 	<div class="box-body">
+		<?php $this->load->view('fmandiri/notifikasi') ?>
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-data datatable-polos">
 				<thead>

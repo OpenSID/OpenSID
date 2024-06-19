@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#8074](https://github.com/OpenSID/OpenSID/issues/8074) Perbaikan data yang ditampilkan pada halaman daftar pemilih tetap.
 30. [#8085](https://github.com/OpenSID/OpenSID/issues/8085) Perbaikan validasi form modal saat sumbit dengan tombol enter.
 31. [#8082](https://github.com/OpenSID/OpenSID/issues/8082) Perbaikan link penduduk detail setelah order no_kk.
+32. [#8066](https://github.com/OpenSID/OpenSID/issues/8066) Perbaikan tarik data dari IDM Kemendesa.
 
 
 #### TEKNIS
@@ -55,6 +56,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#7813](https://github.com/OpenSID/OpenSID/issues/7813) Penyesuaian modul layanan pelanggan desa menggunakan ORM dan Blade.
 8. [#8029](https://github.com/OpenSID/OpenSID/issues/8029) Penyesuaian unggah file .gif pada modul widget.
 9. [#8084](https://github.com/OpenSID/OpenSID/issues/8084) Penyesuaian judul pada foto tambahan produk lapak.
+10. [#7820](https://github.com/OpenSID/OpenSID/issues/7820) Penyesuaian modul inventaris kontruksi menggunakan ORM dan Blade.
+11. [#7818](https://github.com/OpenSID/OpenSID/issues/7818) Penyesuaian modul inventaris jalan menggunakan ORM dan Blade.
+12. [#7816](https://github.com/OpenSID/OpenSID/issues/7816) Penyesuaian modul inventaris peralatan menggunakan ORM dan Blade.
 
 
 #### KEAMANAN

@@ -160,8 +160,8 @@ class Laravel extends Container
     public function __construct(/**
      * The base path of the application installation.
      */
-    protected $basePath = null)
-    {
+    protected $basePath = null
+    ) {
         $this->bootstrapContainer();
     }
 
@@ -445,7 +445,7 @@ class Laravel extends Container
      */
     protected function registerLogBindings()
     {
-        $this->singleton(LoggerInterface::class, function (): \Illuminate\Log\LogManager {
+        $this->singleton(LoggerInterface::class, function (): LogManager {
             $this->configure('logging');
 
             return new LogManager($this);

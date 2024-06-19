@@ -83,10 +83,10 @@ class Gallery extends Admin_Controller
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgallery' : 'gallery';
                     $idEncrypt = encrypt($row->id);
+                    if ($parent == 0) {
+                        $aksi .= '<a href="' . ci_route('gallery.index') . '?parent=' . $idEncrypt . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
+                    }
                     if ($canUpdate) {
-                        if ($parent == 0) {
-                            $aksi .= '<a href="' . ci_route('gallery.index') . '?parent=' . $idEncrypt . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
-                        }
                         $aksi .= '<a href="' . ci_route('gallery.form', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-orange btn-sm" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
                         if ($row->isActive()) {
                             $aksi .= '<a href="' . ci_route('gallery.lock', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan Album"><i class="fa fa-unlock">&nbsp;</i></a> ';

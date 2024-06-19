@@ -385,10 +385,6 @@
                 TableData.column(0).visible(false);
             }
 
-            if (ubah == 0) {
-                TableData.column(2).visible(false);
-            }
-
             $('#status_dasar, #status_penduduk, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
                 if ($('#tabeldata').data('statistikfilter').length < 1) {
                     TableData.draw()
