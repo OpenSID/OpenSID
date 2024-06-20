@@ -7,7 +7,7 @@
 		const TANGGAL = "<?= date('Y-m-d') ?>";
 		const BESOK = "<?= date("Y-m-d", mktime(0,0,0,date("n"),date("j")+1,date("Y"))) ?>";
 	</script>
-	<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/widget.min.js") ?>"></script>
+	<script src="<?= theme_asset("js/widget.min.js") ?>"></script>
 
 	<div class="archive_style_1">
 		<div class="single_bottom_rightbar">

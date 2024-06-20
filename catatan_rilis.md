@@ -1,4 +1,4 @@
-Di rilis ini, versi 2406.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2406.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -45,6 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#8085](https://github.com/OpenSID/OpenSID/issues/8085) Perbaikan validasi form modal saat sumbit dengan tombol enter.
 31. [#8082](https://github.com/OpenSID/OpenSID/issues/8082) Perbaikan link penduduk detail setelah order no_kk.
 32. [#8066](https://github.com/OpenSID/OpenSID/issues/8066) Perbaikan tarik data dari IDM Kemendesa.
+33. [#8106](https://github.com/OpenSID/OpenSID/issues/8106) Perbaikan impor keuangan siskuedes v2.0 r2.0.0.
 
 
 #### TEKNIS
@@ -61,6 +62,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#7820](https://github.com/OpenSID/OpenSID/issues/7820) Penyesuaian modul inventaris kontruksi menggunakan ORM dan Blade.
 11. [#7818](https://github.com/OpenSID/OpenSID/issues/7818) Penyesuaian modul inventaris jalan menggunakan ORM dan Blade.
 12. [#7816](https://github.com/OpenSID/OpenSID/issues/7816) Penyesuaian modul inventaris peralatan menggunakan ORM dan Blade.
+13. [#8113](https://github.com/OpenSID/OpenSID/issues/8113) Penyesuaian bootstrap pisah dari hook.
 
 
 #### KEAMANAN

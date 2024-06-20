@@ -23,6 +23,6 @@
   </div>
 
   <?php $this->load->view($folder_themes .'/commons/footer') ?>
-  <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/script.min.js?" . THEME_VERSION) ?>"></script>
+  <script src="<?= theme_asset("js/script.min.js?" . THEME_VERSION) ?>"></script>
 </body>
 </html>

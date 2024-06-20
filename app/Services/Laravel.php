@@ -43,6 +43,7 @@ use Illuminate\Cache\CacheServiceProvider;
 use Illuminate\Config\Repository;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Database\DatabaseServiceProvider;
 use Illuminate\Database\MigrationServiceProvider;
 use Illuminate\Encryption\EncryptionServiceProvider;
@@ -60,6 +61,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Illuminate\View\ViewServiceProvider;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 class Laravel extends Container
 {
@@ -185,6 +187,16 @@ class Laravel extends Container
     }
 
     /**
+     * Get the version number of the application.
+     *
+     * @return string
+     */
+    public function version()
+    {
+        return sprintf('OpenSID (%s) (Illuminate Components ^10.0)', VERSION);
+    }
+
+    /**
      * Determine if the application is currently down for maintenance.
      */
     public function isDownForMaintenance(): bool
@@ -216,6 +228,26 @@ class Laravel extends Container
         }
 
         return $env;
+    }
+
+    /**
+     * Determine if the application is in the local environment.
+     *
+     * @return bool
+     */
+    public function isLocal()
+    {
+        return $this->environment() === 'local';
+    }
+
+    /**
+     * Determine if the application is in the production environment.
+     *
+     * @return bool
+     */
+    public function isProduction()
+    {
+        return $this->environment() === 'production';
     }
 
     /**
@@ -263,6 +295,29 @@ class Laravel extends Container
     }
 
     /**
+     * Run the application and send the response.
+     */
+    public function run(): void
+    {
+        $this->dispatch();
+        $this->terminate();
+    }
+
+    /**
+     * Dispatch the incoming request.
+     */
+    public function dispatch(): void
+    {
+        $this->instance(Request::class, Request::capture());
+
+        try {
+            $this->boot();
+        } catch (Throwable $th) {
+            $this->make(ExceptionHandler::class)->report($th);
+        }
+    }
+
+    /**
      * Boots the registered providers.
      */
     public function boot(): void
@@ -270,8 +325,6 @@ class Laravel extends Container
         if ($this->booted) {
             return;
         }
-
-        $this->instance(Request::class, Request::capture());
 
         foreach ($this->loadedProviders as $provider) {
             $this->bootProvider($provider);

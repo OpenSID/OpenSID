@@ -238,7 +238,7 @@ class Kernel implements KernelContract
     protected function getArtisan()
     {
         if (null === $this->artisan) {
-            $artisan = new Artisan($this->app, $this->app->make('events'), VERSION);
+            $artisan = new Artisan($this->app, $this->app->make('events'), $this->app->version());
             $artisan->setName('OpenSID');
             $artisan->resolveCommands($this->getCommands());
 

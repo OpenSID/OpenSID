@@ -35,35 +35,36 @@
  *
  */
 
-require_once 'database.php';
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
-$connections = [];
+defined('BASEPATH') || exit('No direct script access allowed');
 
-$connections['default'] = $active_group;
+class Migrasi_2024061951 extends MY_model
+{
+    public function up()
+    {
+        $hasil = true;
 
-foreach ($db as $key => $options) {
-    $connections['connections'][$key] = [
-        'driver' => match ($options['dbdriver']) {
-            'mysql', 'mysqli' => 'mysql',
-            'postgre' => 'pgsql',
-            'sqlite'  => 'sqlite',
-            'sqlite3' => 'sqlite',
-            'sqlsrv'  => 'sqlsrv',
-            default   => 'mysql',
-        },
-        'host'      => $options['hostname'],
-        'port'      => $options['port'],
-        'database'  => $options['database'],
-        'username'  => $options['username'],
-        'password'  => $options['password'],
-        'charset'   => $options['char_set'],
-        'collation' => $options['dbcollat'],
-        'prefix'    => $options['swap_pre'],
-        'strict'    => $options['stricton'],
-        'engine'    => null,
-    ];
+        $hasil = $hasil && $this->migrasi_2024061951($hasil);
+
+        return $hasil && true;
+    }
+
+    protected function migrasi_2024061951($hasil)
+    {
+        if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
+            Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
+                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+            });
+        }
+
+        if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
+            Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
+                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
+            });
+        }
+
+        return $hasil && true;
+    }
 }
-
-$connections['migrations'] = 'migrations';
-
-return $connections;
