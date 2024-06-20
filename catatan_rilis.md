@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 33. [#8106](https://github.com/OpenSID/OpenSID/issues/8106) Perbaikan impor keuangan siskuedes v2.0 r2.0.0.
 34. [#8097](https://github.com/OpenSID/OpenSID/issues/8097) Perbaikan ekspor dtks.
 35. [#8104](https://github.com/OpenSID/OpenSID/issues/8104) Perbaikan hapus data pada mdoul laporan penduduk.
+36. [#8110](https://github.com/OpenSID/OpenSID/issues/8110) Perbaikan dan seragamkan menampilkan data penduduk dan keluarga untuk nik dan kk sementara.
 
 
 #### TEKNIS

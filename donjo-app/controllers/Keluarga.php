@@ -179,6 +179,7 @@ class Keluarga extends Admin_Controller
         $rt              = $this->input->get('rt') ?? null;
         $kumpulanKK      = $this->input->get('kumpulanKK');
         $bantuan         = $this->input->get('bantuan');
+        $kkSementara     = $this->input->get('kk_sementara') ?? null;
         $kelasSosial     = $this->input->get('kelas_sosial') ?? null;
         $statistikFilter = $this->input->get('statistikfilter') ?? null;
 
@@ -214,14 +215,12 @@ class Keluarga extends Admin_Controller
 
                     case 3:
                         return $r->where(static fn ($s) => $s->whereNull('status_dasar')->orwhere('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA) );
-
-                    case 4:
-                        return $r->where('no_kk', 'like', '0%');
                 }
             }))->when($status == 3, static fn ($q) => $q->orWhereNull('nik_kepala'))
             ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
             ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
             ->when($kumpulanKK, static fn ($q) => $q->whereIn('no_kk', $kumpulanKK))
+            ->when($kkSementara, static fn ($q) => $q->where('no_kk', 'like', '0%'))
             ->when($kelasSosial, static function ($q) use ($kelasSosial) {
                 switch($kelasSosial) {
                     case JUMLAH:
