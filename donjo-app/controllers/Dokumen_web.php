@@ -43,10 +43,8 @@ class Dokumen_web extends Web_Controller
      * Unduh berkas berdasarkan kolom dokumen.id
      *
      * @param int $id_dokumen Id berkas pada koloam dokumen.id
-     *
-     * @return void
      */
-    public function unduh_berkas($id_dokumen)
+    public function unduh_berkas($id_dokumen): void
     {
         $this->load->model('web_dokumen_model');
 

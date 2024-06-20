@@ -3,7 +3,7 @@
 define('ENVIRONMENT', 'production');
 
 $ds = DIRECTORY_SEPARATOR;
-define('FMPATH', dirname(dirname(dirname(__FILE__))) . $ds);
+define('FMPATH', dirname(__FILE__, 3) . $ds);
 define('FCPATH', FMPATH . $ds);
 define('APPPATH', FMPATH . "donjo-app{$ds}");
 define('DESAPATH', FMPATH . "desa{$ds}");
@@ -25,27 +25,17 @@ if (empty($config['sess_save_path'])) {
     $config['sess_save_path'] = rtrim(ini_get('session.save_path'), '/\\');
 }
 
-$config = array(
-    'cookie_lifetime'   => $config['sess_expiration'],
-    'cookie_name'       => $config['sess_cookie_name'],
-    'cookie_path'       => $config['cookie_path'],
-    'cookie_domain'     => $config['cookie_domain'],
-    'cookie_secure'     => $config['cookie_secure'],
-    'expiration'        => $config['sess_expiration'],
-    'match_ip'          => $config['sess_match_ip'],
-    'save_path'         => $config['sess_save_path'],
-    '_sid_regexp'       => '[0-9a-v]{32}',
-);
+$config = ['cookie_lifetime'   => $config['sess_expiration'], 'cookie_name'       => $config['sess_cookie_name'], 'cookie_path'       => $config['cookie_path'], 'cookie_domain'     => $config['cookie_domain'], 'cookie_secure'     => $config['cookie_secure'], 'expiration'        => $config['sess_expiration'], 'match_ip'          => $config['sess_match_ip'], 'save_path'         => $config['sess_save_path'], '_sid_regexp'       => '[0-9a-v]{32}'];
 
 $class = new CI_Session_files_driver($config);
 
 session_set_save_handler(
-    array($class, 'open'),
-    array($class, 'close'),
-    array($class, 'read'),
-    array($class, 'write'),
-    array($class, 'destroy'),
-    array($class, 'gc')
+    [$class, 'open'],
+    [$class, 'close'],
+    [$class, 'read'],
+    [$class, 'write'],
+    [$class, 'destroy'],
+    [$class, 'gc']
 );
 register_shutdown_function('session_write_close');
 

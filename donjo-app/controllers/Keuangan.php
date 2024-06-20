@@ -48,17 +48,17 @@ class Keuangan extends Admin_Controller
         $this->load->model('keuangan_grafik_dd_model');
     }
 
-    public function setdata_laporan($tahun, $semester)
+    public function setdata_laporan($tahun, $semester): void
     {
         $sess = [
             'set_tahun'    => $tahun,
             'set_semester' => $semester,
         ];
         $this->session->set_userdata($sess);
-        echo json_encode(true);
+        echo json_encode(true, JSON_THROW_ON_ERROR);
     }
 
-    public function laporan()
+    public function laporan(): void
     {
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 
@@ -71,7 +71,7 @@ class Keuangan extends Admin_Controller
         }
     }
 
-    public function grafik($jenis)
+    public function grafik($jenis): void
     {
         $this->sub_modul_ini = 'laporan';
 
@@ -85,11 +85,12 @@ class Keuangan extends Admin_Controller
         $this->session->set_userdata($sess);
         $this->load->model('keuangan_grafik_model');
 
-        $smt = $this->session->userdata('set_semester');
+        $this->session->userdata('set_semester');
         $thn = $this->session->userdata('set_tahun');
 
         switch ($jenis) {
             case 'grafik-RP-APBD':
+            default:
                 $this->grafik_rp_apbd($thn);
                 break;
 
@@ -128,14 +129,10 @@ class Keuangan extends Admin_Controller
             case 'rincian_realisasi_smt1_bidang_dd':
                 $this->rincian_realisasi_dd($thn, 'Semester1 Bidang DD', $smt1 - 1);
                 break;
-
-            default:
-                $this->grafik_rp_apbd($thn);
-                break;
         }
     }
 
-    private function rincian_realisasi($thn, $judul, $smt1 = false)
+    private function rincian_realisasi($thn, string $judul, $smt1 = false): void
     {
         $data                   = $this->keuangan_grafik_model->lap_rp_apbd($thn, $smt1);
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
@@ -145,7 +142,7 @@ class Keuangan extends Admin_Controller
         $this->render('keuangan/rincian_realisasi', $data);
     }
 
-    private function rincian_realisasi_dd($thn, $judul, $smt1 = false)
+    private function rincian_realisasi_dd($thn, string $judul, $smt1 = false): void
     {
         $data                   = $this->keuangan_grafik_dd_model->lap_rp_apbd($thn, $smt1);
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
@@ -155,7 +152,7 @@ class Keuangan extends Admin_Controller
         $this->render('keuangan/rincian_realisasi_dd', $data);
     }
 
-    private function grafik_rp_apbd($thn)
+    private function grafik_rp_apbd($thn): void
     {
         $data                   = $this->keuangan_grafik_model->grafik_keuangan_tema($thn);
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
@@ -163,7 +160,7 @@ class Keuangan extends Admin_Controller
         $this->render('keuangan/grafik_rp_apbd', $data);
     }
 
-    private function grafik_rp_apbd_dd($thn)
+    private function grafik_rp_apbd_dd($thn): void
     {
         $data                   = $this->keuangan_grafik_dd_model->grafik_keuangan_tema($thn);
         $data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
@@ -171,7 +168,7 @@ class Keuangan extends Admin_Controller
         $this->render('keuangan/grafik_rp_apbd_dd', $data);
     }
 
-    public function impor_data()
+    public function impor_data(): void
     {
         $this->sub_modul_ini = 'impor-data';
 
@@ -181,7 +178,7 @@ class Keuangan extends Admin_Controller
         $this->render('keuangan/impor_data', $data);
     }
 
-    public function proses_impor()
+    public function proses_impor(): void
     {
         $this->redirect_hak_akses('u');
         if (empty($_FILES['keuangan']['name'])) {
@@ -197,27 +194,27 @@ class Keuangan extends Admin_Controller
         redirect('keuangan/impor_data');
     }
 
-    public function cek_versi_database()
+    public function cek_versi_database(): void
     {
         $nama       = $_FILES['keuangan'];
         $file_parts = pathinfo($nama['name']);
         if ($file_parts['extension'] === 'zip') {
             $cek = $this->keuangan_model->cek_keuangan_master($nama);
             if ($cek == -1) {
-                echo json_encode(2);
+                echo json_encode(2, JSON_THROW_ON_ERROR);
             } elseif ($cek) {
                 $output = ['id' => $cek->id, 'tahun_anggaran' => $cek->tahun_anggaran];
-                echo json_encode($output);
+                echo json_encode($output, JSON_THROW_ON_ERROR);
             } else {
-                echo json_encode(0);
+                echo json_encode(0, JSON_THROW_ON_ERROR);
             }
         } else {
-            echo json_encode(1);
+            echo json_encode(1, JSON_THROW_ON_ERROR);
         }
     }
 
     // data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor
-    public function cek_tahun()
+    public function cek_tahun(): void
     {
         $data       = $this->keuangan_model->list_tahun_anggaran();
         $list_tahun = [];
@@ -228,24 +225,24 @@ class Keuangan extends Admin_Controller
                 'value' => $tahun,
             ];
         }
-        echo json_encode($list_tahun);
+        echo json_encode($list_tahun, JSON_THROW_ON_ERROR);
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h', 'keuangan');
-        $outp = $this->keuangan_model->delete($id);
+        $this->keuangan_model->delete($id);
         redirect('keuangan/impor_data');
     }
 
-    public function pilih_desa($id_master)
+    public function pilih_desa($id_master): void
     {
         $data['desa_ganda'] = $this->keuangan_model->cek_desa($id_master);
         $data['id_master']  = $id_master;
         $this->load->view('keuangan/pilih_desa', $data);
     }
 
-    public function bersihkan_desa($id_master)
+    public function bersihkan_desa($id_master): void
     {
         $this->keuangan_model->bersihkan_desa($id_master, $this->input->post('kode_desa'));
         redirect('keuangan/impor_data');

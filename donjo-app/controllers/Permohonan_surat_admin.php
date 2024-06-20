@@ -63,7 +63,7 @@ class Permohonan_surat_admin extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(PermohonanSurat::status((string) $this->input->get('status')))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -92,12 +92,8 @@ class Permohonan_surat_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('no_antrian', static function ($row) {
-                    return get_antrian($row->no_antrian);
-                })
-                ->editColumn('created_at', static function ($row) {
-                    return tgl_indo2($row->created_at);
-                })
+                ->editColumn('no_antrian', static fn ($row) => get_antrian($row->no_antrian))
+                ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -105,7 +101,7 @@ class Permohonan_surat_admin extends Admin_Controller
         return show_404();
     }
 
-    public function periksa($id = '')
+    public function periksa($id = ''): void
     {
         // Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
         $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->find($id);
@@ -122,7 +118,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['individu']     = $this->surat_model->get_penduduk($periksa->id_pemohon);
 
         $this->get_data_untuk_form($url, $data);
-        $data['isian_form']        = json_encode($this->ambil_isi_form($data['periksa']['isian_form']));
+        $data['isian_form']        = json_encode($this->ambil_isi_form($data['periksa']['isian_form']), JSON_THROW_ON_ERROR);
         $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
         $data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
         $data['form_action']       = site_url("surat/periksa_doc/{$id}/{$url}");
@@ -139,10 +135,16 @@ class Permohonan_surat_admin extends Admin_Controller
             $data['form_surat']   = 'surat/form_surat_tinymce.php';
         }
 
+        $pesan   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses oleh operator';
+        $judul   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses';
+        $payload = '/layanan';
+        // kirim notifikasi fcm
+        $this->kirim_notifikasi_penduduk($periksa->id_pemohon, $pesan, $judul, $payload);
+
         $this->render('mandiri/periksa_surat', $data);
     }
 
-    public function proses($id = '', $status = '')
+    public function proses($id = '', $status = ''): void
     {
         $this->permohonan_surat_model->proses($id, $status);
 
@@ -150,7 +152,7 @@ class Permohonan_surat_admin extends Admin_Controller
     }
 
     // TODO:: Duplikasi dengan kode yang ada di donjo-app/controllers/Surat.php
-    private function get_data_untuk_form($url, &$data)
+    private function get_data_untuk_form($url, array &$data): void
     {
         // RTF
         if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
@@ -184,14 +186,14 @@ class Permohonan_surat_admin extends Admin_Controller
         return $isian_form;
     }
 
-    public function konfirmasi($id_permohonan = 0, $tipe = 0)
+    public function konfirmasi($id_permohonan = 0, $tipe = 0): void
     {
         $data['form_action'] = site_url("permohonan_surat_admin/kirim_pesan/{$id_permohonan}/{$tipe}");
 
         $this->load->view('surat/form/konfirmasi_permohonan', $data);
     }
 
-    public function kirim_pesan($id_permohonan = 0, $tipe = 0)
+    public function kirim_pesan($id_permohonan = 0, $tipe = 0): void
     {
         $periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id_permohonan, 'status' => 1]);
         $pemohon = $this->surat_model->get_penduduk($periksa['id_pemohon']);
@@ -213,7 +215,7 @@ class Permohonan_surat_admin extends Admin_Controller
         redirect('permohonan_surat_admin');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h', '', '', true);
 
@@ -226,7 +228,7 @@ class Permohonan_surat_admin extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function tampilkan($id_dokumen, $id_pend = 0)
+    public function tampilkan($id_dokumen, $id_pend = 0): void
     {
         $this->load->model('Web_dokumen_model');
         $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
@@ -249,17 +251,15 @@ class Permohonan_surat_admin extends Admin_Controller
      * @param int        $id_dokumen Id berkas pada koloam dokumen.id
      * @param mixed|null $id_pend
      * @param mixed      $tampil
-     *
-     * @return void
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false)
+    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false): void
     {
         // Ambil nama berkas dari database
         $data = $this->web_dokumen_model->get_dokumen($id_dokumen, $id_pend);
         ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
     }
 
-    public function tampilkan_berkas($id_dokumen, $id_pend = null)
+    public function tampilkan_berkas($id_dokumen, $id_pend = null): void
     {
         $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
     }

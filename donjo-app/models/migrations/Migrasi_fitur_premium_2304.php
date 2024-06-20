@@ -53,9 +53,8 @@ class Migrasi_fitur_premium_2304 extends MY_model
         $hasil = $hasil && $this->tambah_kolom_kecamatan($hasil);
         $hasil = $hasil && $this->suratPermohonanAktaLahir($hasil);
         $hasil = $hasil && $this->suratKeteranganBepergian($hasil);
-        $hasil = $hasil && $this->migrasi_2023032852($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2023032852($hasil);
     }
 
     protected function migrasi_2023030271($hasil)

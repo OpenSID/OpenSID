@@ -90,7 +90,7 @@ class Migrasi_fitur_premium_2303 extends MY_model
     {
         if (! $this->db->field_exists('slug', 'setting_modul')) {
             // Tambahkan kolom slug pada tabel setting_modul
-            $hasil = $hasil && $this->dbforge->add_column('setting_modul', [
+            return $hasil && $this->dbforge->add_column('setting_modul', [
                 'slug' => [
                     'type'       => 'VARCHAR',
                     'constraint' => '100',

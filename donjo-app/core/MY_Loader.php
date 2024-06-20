@@ -129,7 +129,7 @@ class MY_Loader extends CI_Loader
         // to become accessible from within the Controller and Model functions.
         $_ci_CI = &get_instance();
 
-        foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var) {
+        foreach (array_keys(get_object_vars($_ci_CI)) as $_ci_key) {
             if (! isset($this->{$_ci_key})) {
                 $this->{$_ci_key} = &$_ci_CI->{$_ci_key};
             }

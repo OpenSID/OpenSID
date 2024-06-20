@@ -68,7 +68,7 @@ class Grup_kontak extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -79,9 +79,7 @@ class Grup_kontak extends Admin_Controller
                         $aksi .= '<a href="#" data-href="' . route('grup_kontak.delete', $row->id_grup) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
-                    $aksi .= '<a href="' . route('grup_kontak.anggota', $row->id_grup) . '" class="btn bg-purple btn-sm"  title="Data Anggota"><i class="fa fa fa-list"></i></a> ';
-
-                    return $aksi;
+                    return $aksi . ('<a href="' . route('grup_kontak.anggota', $row->id_grup) . '" class="btn bg-purple btn-sm"  title="Data Anggota"><i class="fa fa fa-list"></i></a> ');
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -104,10 +102,10 @@ class Grup_kontak extends Admin_Controller
             $grupKontak = null;
         }
 
-        return view('admin.grup_kontak.form', compact('action', 'formAction', 'grupKontak'));
+        return view('admin.grup_kontak.form', ['action' => $action, 'formAction' => $formAction, 'grupKontak' => $grupKontak]);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -117,7 +115,7 @@ class Grup_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -129,7 +127,7 @@ class Grup_kontak extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -153,7 +151,7 @@ class Grup_kontak extends Admin_Controller
     {
         $grupKontak = GrupKontak::findOrFail($id);
 
-        return view('admin.grup_kontak.anggota.index', compact('grupKontak'));
+        return view('admin.grup_kontak.anggota.index', ['grupKontak' => $grupKontak]);
     }
 
     public function anggotaDatatables($id_grup = null)
@@ -171,9 +169,7 @@ class Grup_kontak extends Admin_Controller
                         return '<a href="#" data-href="' . route('grup_kontak.anggotadelete', $row->id_grup_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
                 })
-                ->addColumn('kontak', static function ($row) {
-                    return (null === $row->id_kontak) ? '<span class="label label-success">Penduduk</span>' : '<span class="label label-info">Eksternal</span>';
-                })
+                ->addColumn('kontak', static fn ($row): string => (null === $row->id_kontak) ? '<span class="label label-success">Penduduk</span>' : '<span class="label label-info">Eksternal</span>')
                 ->rawColumns(['ceklist', 'aksi', 'kontak'])
                 ->make();
         }
@@ -189,10 +185,10 @@ class Grup_kontak extends Admin_Controller
         $formAction = route('grup_kontak.anggotainsert');
         $grupKontak = GrupKontak::find($id_grup) ?? show_404();
 
-        return view('admin.grup_kontak.anggota.form', compact('action', 'formAction', 'grupKontak'));
+        return view('admin.grup_kontak.anggota.form', ['action' => $action, 'formAction' => $formAction, 'grupKontak' => $grupKontak]);
     }
 
-    public function anggotaInsert()
+    public function anggotaInsert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -205,7 +201,7 @@ class Grup_kontak extends Admin_Controller
         redirect("grup_kontak/anggota/{$this->request['id_grup']}");
     }
 
-    public function anggotaDelete($id = null)
+    public function anggotaDelete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -257,11 +253,9 @@ class Grup_kontak extends Admin_Controller
 
             $datatables = Penduduk::select(['id', 'nama', 'telepon', 'email', 'telegram', 'hubung_warga'])
                 ->whereNotIn('id', $id_penduduk)
-                ->where(static function ($query) {
-                    return $query->whereNotNull('telepon')
-                        ->orWhereNotNull('email')
-                        ->orWhereNotNull('telegram');
-                })
+                ->where(static fn ($query) => $query->whereNotNull('telepon')
+                    ->orWhereNotNull('email')
+                    ->orWhereNotNull('telegram'))
                 ->status();
 
             return datatables($datatables)
@@ -285,11 +279,9 @@ class Grup_kontak extends Admin_Controller
                 ->whereNotNull('id_kontak')
                 ->pluck('id_kontak');
 
-            $datatables = DaftarKontak::where(static function ($query) {
-                return $query->whereNotNull('telepon')
-                    ->orWhereNotNull('email')
-                    ->orWhereNotNull('telegram');
-            })
+            $datatables = DaftarKontak::where(static fn ($query) => $query->whereNotNull('telepon')
+                ->orWhereNotNull('email')
+                ->orWhereNotNull('telegram'))
                 ->whereNotIn('id_kontak', $id_kontak);
 
             return datatables($datatables)

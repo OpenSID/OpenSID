@@ -93,7 +93,7 @@
 
 	<script>
 		function start_countdown() {
-			var times = eval(<?= $this->session->flashdata('time_block') + config_item('lockout_time') ?>) - eval(<?= json_encode(time()) ?>);
+			var times = eval(<?= $this->session->flashdata('time_block') + config_item('lockout_time') ?>) - eval(<?= json_encode(time(), JSON_THROW_ON_ERROR) ?>);
 			var menit = Math.floor(times / 60);
 			var detik = times % 60;
 			timer = setInterval(function() {

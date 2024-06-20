@@ -85,7 +85,11 @@ class Laporan_bulanan_model extends MY_Model
 
         //	$data = null;
         //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
+        $counter = count($data);
+
+        //	$data = null;
+        //Formating Output
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']    = $i + 1;
             $data[$i]['tabel'] = $data[$i]['rt'];
         }
@@ -274,7 +278,7 @@ class Laporan_bulanan_model extends MY_Model
         return $this->db->get()->result_array();
     }
 
-    private function rincian_dasar($tipe)
+    private function rincian_dasar($tipe): void
     {
         switch ($tipe) {
             case 'wni_l': $this->db->where('sex = 1 AND warganegara_id <> 2');
@@ -289,18 +293,16 @@ class Laporan_bulanan_model extends MY_Model
             case 'wna_p': $this->db->where('sex = 2 AND warganegara_id = 2');
                 break;
 
-            case 'jml': break;
-
-            case 'jml_l': $this->db->where('sex = 1');
-                break;
-
-            case 'jml_p': $this->db->where('sex = 2');
-                break;
+            case 'jml':
 
             case 'kk': break;
 
+            case 'jml_l':
+
             case 'kk_l': $this->db->where('sex = 1');
                 break;
+
+            case 'jml_p':
 
             case 'kk_p': $this->db->where('sex = 2');
                 break;
@@ -405,7 +407,7 @@ class Laporan_bulanan_model extends MY_Model
     }
 
     // Perubahan penduduk pada bulan laporan
-    private function mutasi_pada_bln_thn($kode_peristiwa)
+    private function mutasi_pada_bln_thn(int $kode_peristiwa)
     {
         $bln = $this->session->bulanku;
         $thn = $this->session->tahunku;
@@ -438,7 +440,7 @@ class Laporan_bulanan_model extends MY_Model
      *
      * @param mixed $kode_peristiwa
      */
-    private function mutasi_keluarga_bln_thn($kode_peristiwa)
+    private function mutasi_keluarga_bln_thn(int $kode_peristiwa)
     {
         $bln = $this->session->bulanku;
         $thn = $this->session->tahunku;
@@ -464,7 +466,7 @@ class Laporan_bulanan_model extends MY_Model
         return $this->db->get_compiled_select();
     }
 
-    private function rincian_peristiwa($peristiwa, $tipe)
+    private function rincian_peristiwa(int $peristiwa, $tipe)
     {
         $penduduk = ['wni_l', 'wni_p', 'wna_l', 'wna_p', 'jml', 'jml_l', 'jml_p'];
         $keluarga = ['kk', 'kk_l', 'kk_p'];
@@ -516,7 +518,7 @@ class Laporan_bulanan_model extends MY_Model
         return $this->db->get()->result_array();
     }
 
-    private function mutasi_peristiwa($peristiwa, $rincian = null, $tipe = null)
+    private function mutasi_peristiwa(int $peristiwa, $rincian = null, $tipe = null)
     {
         // Jika rincian dan tipe di definisikan, maka akan masuk kedetil laporan
         if ($rincian && $tipe) {
@@ -655,7 +657,7 @@ class Laporan_bulanan_model extends MY_Model
         }
     }
 
-    public function rekapitulasi_data()
+    public function rekapitulasi_data(): void
     {
         $bln     = $this->session->filter_bulan;
         $thn     = $this->session->filter_tahun;
@@ -698,7 +700,7 @@ class Laporan_bulanan_model extends MY_Model
         $this->rekapitulasi_query_dasar();
     }
 
-    private function rekapitulasi_query_dasar()
+    private function rekapitulasi_query_dasar(): void
     {
         $this->config_id('l')
             ->from('log_penduduk l')

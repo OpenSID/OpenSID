@@ -67,7 +67,7 @@ class MY_Exceptions extends CI_Exceptions
      * @param mixed $filepath
      * @param mixed $line
      */
-    public function log_exception($severity, $message, $filepath, $line)
+    public function log_exception($severity, $message, $filepath, $line): void
     {
         parent::log_exception($severity, $message, $filepath, $line);
         if (preg_match('/\\[PERIKSA\\]/', $message)) {
@@ -99,7 +99,7 @@ class MY_Exceptions extends CI_Exceptions
         }
 
         $error = $error ?: $this->ci->db->error();
-        if (! empty($error) && in_array($error['code'], $this->db_error_codes)) {
+        if ($error !== [] && in_array($error['code'], $this->db_error_codes)) {
             $this->ci->session->db_error          = $error;
             $this->ci->session->message           = '<p>' . (is_array($error) ? implode('</p><p>', $error) : $error) . '</p>';
             $this->ci->session->heading           = $heading;
@@ -109,12 +109,11 @@ class MY_Exceptions extends CI_Exceptions
             | 1049 adalah kode koneksi database gagal. Dalam hal ini tampilkan halaman khusus
             | menjelaskan langkah yang dapat dilakukan untuk mengatasi.
             */
-            if ($error['code'] === 1049) {
-                redirect('koneksi-database');
-            }
+            redirect('koneksi-database');
 
-            redirect('periksa');
+            // redirect('periksa');
         }
+        log_message('error', json_encode($message));
 
         return parent::show_error($heading, $message, $template, $status_code);
     }

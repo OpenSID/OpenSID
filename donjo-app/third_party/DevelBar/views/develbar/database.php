@@ -1,13 +1,13 @@
 <img src="<?= $icon ?>" title="<?= lang('database') ?>"
-     alt="<?= lang('database') ?>"/> <?= count($dbs) ? lang('database') : 'N/A' ?>
-<?php if (count($dbs)): ?>
+     alt="<?= lang('database') ?>"/> <?= count($dbs) > 0 ? lang('database') : 'N/A' ?>
+<?php if (count($dbs) > 0): ?>
 <div class="detail database">
     <div class="scroll">
     <?php
     $global_execution_time = 0;
 
-         foreach ($dbs as $name => $db):
-             if (count($db['queries'])) {
+         foreach ($dbs as $db):
+             if (count($db['queries']) > 0) {
                  echo 'Host:' . $db['hostname'] . '/' . $db['database'] . '<br/>';
                  $total_execution_time = 0;
                  echo '<div class="scrolls">';

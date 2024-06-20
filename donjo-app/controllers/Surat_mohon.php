@@ -41,18 +41,17 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_mohon extends Admin_Controller
 {
-    private $viewPath = 'admin.syaratan_surat';
-
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini     = 'layanan-surat';
         $this->sub_modul_ini = 'daftar-persyaratan';
+        isCan('b');
     }
 
     public function index()
     {
-        return view("{$this->viewPath}.index");
+        return view('admin.syaratan_surat.index');
     }
 
     public function datatables()
@@ -67,14 +66,12 @@ class Surat_mohon extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
-                    $aksi = '';
-
+                ->addColumn('aksi', static function ($row): string {
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi = '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
-                    if (can('h') && $row->jumlah_format_surat == '0') {
+                    if (can('u') && $row->jumlah_format_surat == '0') {
                         $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
@@ -89,7 +86,7 @@ class Surat_mohon extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
@@ -102,12 +99,12 @@ class Surat_mohon extends Admin_Controller
             $ref_syarat_surat = null;
         }
 
-        return view("{$this->viewPath}.form", compact('action', 'form_action', 'ref_syarat_surat'));
+        return view('admin.syaratan_surat.form', ['action' => $action, 'form_action' => $form_action, 'ref_syarat_surat' => $ref_syarat_surat]);
     }
 
-    public function insert()
+    public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (SyaratSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -115,9 +112,9 @@ class Surat_mohon extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = SyaratSurat::findOrFail($id);
 
@@ -127,9 +124,9 @@ class Surat_mohon extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (SyaratSurat::deleteFormatSuratExist($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -137,9 +134,9 @@ class Surat_mohon extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
             if (! SyaratSurat::deleteFormatSuratExist($id)) {

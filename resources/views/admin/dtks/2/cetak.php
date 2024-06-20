@@ -201,7 +201,7 @@
 </style>
 
 <?php
-    function tentukanJumlahTerpilih($list_kode, $value){
+    function tentukanJumlahTerpilih(array $list_kode, $value){
         $index = 0;
         $kode_terpilih = [];
 
@@ -2799,7 +2799,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <br><?=str_repeat('&nbsp;', 8)?>(nama) ikut serta dalam Program
                 <br><?=str_repeat('&nbsp;', 8)?>Pra-Kerja? (isikan kode)
             </td>
-            <?php foreach($dtksAnggota as $key => $agt) : ?>
+            <?php foreach($dtksAnggota as $agt) : ?>
                 <td style="width: 15%;">
                     <?=str_repeat('&nbsp;', 20)?>
                     <div class="w-25 h-23 inline kotak tengah"><?=$agt->kd_ikut_prakerja?></div>
@@ -2818,7 +2818,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <br><?=str_repeat('&nbsp;', 8)?>(nama) ikut serta dalam Program Kredit
                 <br><?=str_repeat('&nbsp;', 8)?>Usaha Rakyat (KUR)? (isikan kode)
             </td>
-            <?php foreach($dtksAnggota as $key => $agt) : ?>
+            <?php foreach($dtksAnggota as $agt) : ?>
                 <td style="width: 15%;">
                     <?=str_repeat('&nbsp;', 20)?>
                     <div class="w-25 h-23 inline kotak tengah"><?=$agt->kd_ikut_kur?></div>
@@ -2837,7 +2837,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <br><?=str_repeat('&nbsp;', 8)?>ikut serta dalam Program Pembiayaan
                 <br><?=str_repeat('&nbsp;', 8)?>Ultra Mikro (UMI)? (isikan kode)
             </td>
-            <?php foreach($dtksAnggota as $key => $agt) : ?>
+            <?php foreach($dtksAnggota as $agt) : ?>
                 <td style="width: 15%;">
                     <?=str_repeat('&nbsp;', 20)?>
                     <div class="w-25 h-23 inline kotak tengah"><?=$agt->kd_ikut_umi?></div>
@@ -2861,7 +2861,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <br><?=str_repeat('&nbsp;', 8)?>ikut serta dalam Program Indonesia
                 <br><?=str_repeat('&nbsp;', 8)?>Pintar (PIP)? (isikan kode)
             </td>
-            <?php foreach($dtksAnggota as $key => $agt) : ?>
+            <?php foreach($dtksAnggota as $agt) : ?>
                 <td style="width: 15%;">
                     <?=str_repeat('&nbsp;', 20)?>
                     <div class="w-25 h-23 inline kotak tengah"><?=$agt->kd_ikut_pip?></div>
@@ -2893,7 +2893,7 @@ style="font-family: Arial, Helvetica, sans-serif; font-size: 8pt">
                 <br><?=str_repeat('&nbsp;', 8)?>memiliki Jaminan Ketenagakerjaan?
                 <br><?=str_repeat('&nbsp;', 8)?>(jumlahkan kode)
             </td>
-            <?php foreach($dtksAnggota as $key => $agt) : ?>
+            <?php foreach($dtksAnggota as $agt) : ?>
                 <td style="width: 15%;">
                 <?=str_repeat('&nbsp;', 15)?>
                     <?php if (strlen($agt->jumlah_jamket_kerja) == 1) : ?>

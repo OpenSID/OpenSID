@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'Select' => 'Seleccionar',
     'Deselect_All' => 'Deselect All',
     'Select_All' => 'Select All',
@@ -64,25 +64,31 @@ return array(
     'Copy' => 'Copiar',
     'Cut' => 'Tallar',
     'Paste' => 'Enganxar',
-    'CB' => 'CB', // clipboard
+    'CB' => 'CB',
+    // clipboard
     'Paste_Here' => 'Enganxar en aquest directori',
     'Paste_Confirm' => 'Esteu segur que voleu enganxar en aquest directori? Això sobreescriurà arxius/carpetes existents si es troba cap igual.',
     'Paste_Failed' => 'No s’ha pogut enganxar els fitxers.',
     'Clear_Clipboard' => 'Netejar portapapers',
     'Clear_Clipboard_Confirm' => 'Esteu segur que voleu esborrar el portapapers?',
     'Files_ON_Clipboard' => 'Hi ha arxius al Portapapers.',
-    'Copy_Cut_Size_Limit' => 'Els arxius/carpetes seleccionades són massa grans per %s. Limit: %d MB/operació', // %s = cut or copy
-    'Copy_Cut_Count_Limit' => 'Heu seleccionat massa fitxers/carpetes a %s. Limit: %d arxiu/operació', // %s = cut or copy
-    'Copy_Cut_Not_Allowed' => 'No te permisos per %s els arxius.', // %s(1) = cut or copy, %s(2) = files or folders
+    'Copy_Cut_Size_Limit' => 'Els arxius/carpetes seleccionades són massa grans per %s. Limit: %d MB/operació',
+    // %s = cut or copy
+    'Copy_Cut_Count_Limit' => 'Heu seleccionat massa fitxers/carpetes a %s. Limit: %d arxiu/operació',
+    // %s = cut or copy
+    'Copy_Cut_Not_Allowed' => 'No te permisos per %s els arxius.',
+    // %s(1) = cut or copy, %s(2) = files or folders
     'Image_Editor_No_Save' => 'No s’ha pogut desar la imatge.',
     'Image_Editor_Exit' => "Exit",
     'Image_Editor_Save' => "Save",
     'Zip_No_Extract' => 'No es pot extreure. L’Arxiu podria estar corrupte.',
     'Zip_Invalid' => 'Aquesta extensió no és suportada. Vàlid: zip, gz, tar.',
     'Dir_No_Write' => 'El directori seleccionat no te permisos d’escriptura.',
-    'Function_Disabled' => 'La funció de %s no esta disponible al servidor.', // %s = cut or copy
+    'Function_Disabled' => 'La funció de %s no esta disponible al servidor.',
+    // %s = cut or copy
     'File_Permission' => 'Permisos d’arxiu',
-    'File_Permission_Not_Allowed' => 'La modificació dels permisos de %s no es permès.', // %s = files or folders
+    'File_Permission_Not_Allowed' => 'La modificació dels permisos de %s no es permès.',
+    // %s = files or folders
     'File_Permission_Recursive' => 'Aplicar recursivament?',
     'File_Permission_Wrong_Mode' => "El mode de permís subministrat és incorrecte..",
     'User' => 'Usuari',
@@ -92,16 +98,17 @@ return array(
     'Lang_Not_Found' => 'No es pot trobar l\'idioma.',
     'Lang_Change' => 'Modificar idioma',
     'File_Not_Found' => 'No s\'ha pogut trobar l\'arxiu.',
-    'File_Open_Edit_Not_Allowed' => 'No tens permisos per obrir %s l\'arxiu.', // %s = open or edit
+    'File_Open_Edit_Not_Allowed' => 'No tens permisos per obrir %s l\'arxiu.',
+    // %s = open or edit
     'Edit' => 'Modificar',
     'Edit_File' => "Editar el contingut de l\'arxiu.",
     'File_Save_OK' => "Arxiu desat correctament.",
     'File_Save_Error' => "Hi ha hagut un error mentre es desava l\'arxiu.",
     'New_File' => 'Nou arxiu',
     'No_Extension' => 'Ha d\'afegir una extensió d\'arxiu.',
-    'Valid_Extensions' => 'Extensions valides: %s', // %s = txt,log etc.
+    'Valid_Extensions' => 'Extensions valides: %s',
+    // %s = txt,log etc.
     'Upload_message' => "Arrossega arxiu aquí per carregar.",
-
     'SERVER ERROR' => "SERVER ERROR",
     'forbidden' => "Forbiden",
     'wrong path' => "Wrong path",
@@ -116,11 +123,12 @@ return array(
     'no file' => "No file",
     'view type number missing' => "View type number missing",
     'Not enought Memory' => "Not enought Memory",
-    'max_size_reached' => "Your image folder has reach its maximale size of %d MB.", //%d = max overall size
+    'max_size_reached' => "Your image folder has reach its maximale size of %d MB.",
+    //%d = max overall size
     'B' => "B",
     'KB' => "KB",
     'MB' => "MB",
     'GB' => "GB",
     'TB' => "TB",
     'total size' => "Total size",
-);
+];

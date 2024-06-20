@@ -86,7 +86,7 @@ class Kelompok extends BaseModel
      */
     public function scopeStatus($query, $status = 1)
     {
-        return $query->whereHas('ketua', static function ($q) use ($status) {
+        return $query->whereHas('ketua', static function ($q) use ($status): void {
             $q->status($status);
         });
     }

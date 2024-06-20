@@ -49,7 +49,7 @@ class Regsosek2022kEnum
     /**
      * return ['dtks' => [...], 'dtks_anggota' => [....]]
      */
-    final public static function getUsedFields()
+    final public static function getUsedFields(): array
     {
         return [
             'dtks' => [
@@ -210,7 +210,7 @@ class Regsosek2022kEnum
         ];
     }
 
-    final public static function pilihanBagian1()
+    final public static function pilihanBagian1(): array
     {
         return ['115' => [
             '0' => '0. KK Sesuai',
@@ -219,7 +219,7 @@ class Regsosek2022kEnum
         ]];
     }
 
-    final public static function pilihanBagian2()
+    final public static function pilihanBagian2(): array
     {
         return [
             '205' => [
@@ -433,7 +433,7 @@ class Regsosek2022kEnum
                 '8' => '8 (Tamat & Lulus)',
             ],
         ];
-        $pilihan4 = $pilihan4 + [
+        $pilihan4 += [
             '415' => $pilihan4['413'] + [
                 '23' => '23. Tidak Punya Ijazah SD',
             ],
@@ -488,7 +488,7 @@ class Regsosek2022kEnum
             '420a' => self::YA_TIDAK,
             // '420b' => 'int(2)',
         ];
-        $pilihan4 = $pilihan4 + [
+        $pilihan4 += [
             '421' => $pilihan4['417'],
             // '422' => 'int(3)',
             // '423' => 'int(2)',
@@ -537,7 +537,7 @@ class Regsosek2022kEnum
                 '4' => '4. Tidak mengalami kesulitan',
             ],
         ];
-        $pilihan4 = $pilihan4 + [
+        $pilihan4 += [
             '428b' => $pilihan4['428a'],
             '428c' => $pilihan4['428a'],
             '428d' => $pilihan4['428a'],
@@ -608,7 +608,7 @@ class Regsosek2022kEnum
         ];
     }
 
-    final public static function pilihanBagian5()
+    final public static function pilihanBagian5(): array
     {
         return [
             'ya_tidak' => self::YA_TIDAK,

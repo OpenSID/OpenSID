@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sdgs extends Web_Controller
 {
-    public function index()
+    public function index(): void
     {
         if (! $this->web_menu_model->menu_aktif('status-sdgs')) {
             show_404();

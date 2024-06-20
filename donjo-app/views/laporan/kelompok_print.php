@@ -114,16 +114,16 @@
 								<td align="right"><?= $data['sakit_P']?></td>
 								<td align="right"><?= $data['hamil']?></td>
 								<?php
-		            $bayi = $bayi + $data['bayi'];
-						    $balita   = $balita + $data['balita'];
-						    $sd       = $sd + $data['sd'];
-						    $smp      = $smp + $data['smp'];
-						    $sma      = $sma + $data['sma'];
-						    $lansia   = $lansia + $data['lansia'];
-						    $cacat    = $cacat + $data['cacat'];
-						    $sakit_L  = $sakit_L + $data['sakit_L'];
-						    $sakit_P  = $sakit_P + $data['sakit_P'];
-						    $hamil    = $hamil + $data['hamil'];
+		            $bayi += $data['bayi'];
+						    $balita += $data['balita'];
+						    $sd += $data['sd'];
+						    $smp += $data['smp'];
+						    $sma += $data['sma'];
+						    $lansia += $data['lansia'];
+						    $cacat += $data['cacat'];
+						    $sakit_L += $data['sakit_L'];
+						    $sakit_P += $data['sakit_P'];
+						    $hamil += $data['hamil'];
 						    ?>
 							</tr>
 						<?php endforeach; ?>

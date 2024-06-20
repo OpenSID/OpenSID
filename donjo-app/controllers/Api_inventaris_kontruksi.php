@@ -50,7 +50,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
         $this->load->model('inventaris_kontruksi_model');
     }
 
-    public function add()
+    public function add(): void
     {
         $this->redirect_hak_akses('u');
         $data = $this->inventaris_kontruksi_model->add([
@@ -72,15 +72,11 @@ class Api_inventaris_kontruksi extends Admin_Controller
             'created_by'           => $this->session->user,
             'updated_by'           => $this->session->user,
         ]);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_kontruksi');
     }
 
-    public function update($id)
+    public function update($id): void
     {
         $this->redirect_hak_akses('u');
         $data = $this->inventaris_kontruksi_model->update($id, [
@@ -100,23 +96,15 @@ class Api_inventaris_kontruksi extends Admin_Controller
             'keterangan'           => $this->input->post('keterangan'),
             'updated_at'           => date('Y-m-d H:i:s'),
         ]);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_kontruksi');
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         $this->redirect_hak_akses('h', 'inventaris_kontruksi');
-        $data = $this->inventaris_kontruksi_model->delete($id);
-        if ($data) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $data                = $this->inventaris_kontruksi_model->delete($id);
+        $_SESSION['success'] = $data ? 1 : -1;
         redirect('inventaris_kontruksi');
     }
 }

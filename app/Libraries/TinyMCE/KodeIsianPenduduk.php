@@ -52,20 +52,21 @@ class KodeIsianPenduduk
         $this->prefixJudul = $prefixJudul;
     }
 
-    public static function get($idPenduduk = null, $prefix = '', $prefixJudul = false)
+    public static function get($idPenduduk = null, $prefix = '', $prefixJudul = false): array
     {
         return (new self($idPenduduk, $prefix, $prefixJudul))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
+        $config   = identitas();
         $ortu     = null;
         $penduduk = null;
 
         // Data Umum
         if (! empty($this->prefix)) {
             $ortu   = ' ' . ucwords($this->prefix);
-            $prefix = '_' . uclast($this->prefix);
+            $prefix = '_' . $this->prefix;
         }
 
         if (! $this->prefixJudul) {
@@ -85,63 +86,63 @@ class KodeIsianPenduduk
             ],
             [
                 'judul' => 'Nama' . $ortu,
-                'isian' => 'Nama' . $prefix,
+                'isian' => 'nama' . $prefix,
                 'data'  => $penduduk->nama,
             ],
             [
                 'judul' => 'Tanggal Lahir' . $ortu,
-                'isian' => 'Tanggallahir' . $prefix,
+                'isian' => 'tanggallahir' . $prefix,
                 'data'  => formatTanggal($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Lahir' . $ortu,
-                'isian' => 'Tempatlahir' . $prefix,
+                'isian' => 'tempatlahir' . $prefix,
                 'data'  => $penduduk->tempatlahir,
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir' . $ortu,
-                'isian' => 'Tempat_tgl_lahir' . $prefix,
+                'isian' => 'tempat_tgl_lahir' . $prefix,
                 'data'  => $penduduk->tempatlahir . '/' . formatTanggal($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Tempat Tanggal Lahir (TTL)' . $ortu,
-                'isian' => 'Ttl' . $prefix,
+                'isian' => 'ttl' . $prefix,
                 'data'  => $penduduk->tempatlahir . '/' . formatTanggal($penduduk->tanggallahir),
             ],
             [
                 'judul' => 'Usia' . $ortu,
-                'isian' => 'Usia' . $prefix,
+                'isian' => 'usia' . $prefix,
                 'data'  => $penduduk->usia,
             ],
             [
                 'judul' => 'Jenis Kelamin' . $ortu,
-                'isian' => 'Jenis_kelamin' . $prefix,
+                'isian' => 'jenis_kelamin' . $prefix,
                 'data'  => $penduduk->jenisKelamin->nama,
             ],
             [
                 'judul' => 'Agama' . $ortu,
-                'isian' => 'Agama' . $prefix,
+                'isian' => 'agama' . $prefix,
                 'data'  => $penduduk->agama->nama,
             ],
             [
                 'judul' => 'Pekerjaan' . $ortu,
-                'isian' => 'Pekerjaan' . $prefix,
+                'isian' => 'pekerjaan' . $prefix,
                 'data'  => $penduduk->pekerjaan->nama,
             ],
             [
                 'judul' => 'Warga Negara' . $ortu,
-                'isian' => 'Warga_negara' . $prefix,
+                'isian' => 'warga_negara' . $prefix,
                 'data'  => $penduduk->wargaNegara->nama,
             ],
             [
                 'judul' => 'Alamat' . $ortu,
-                'isian' => 'Alamat' . $prefix,
+                'isian' => 'alamat' . $prefix,
                 'data'  => $penduduk->alamat_wilayah,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'No KK' . $ortu,
-                'isian'         => 'No_kK' . $prefix,
+                'isian'         => 'no_kk' . $prefix,
                 'data'          => get_nokk($penduduk->keluarga->no_kk),
             ],
             [
@@ -151,13 +152,60 @@ class KodeIsianPenduduk
             ],
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,
-                'isian' => 'Pendidikan_sedanG' . $prefix,
+                'isian' => 'pendidikan_sedang' . $prefix,
                 'data'  => $penduduk->pendidikan->nama,
             ],
             [
                 'judul' => 'Pendidikan Dalam KK' . $ortu,
-                'isian' => 'Pendidikan_kK' . $prefix,
+                'isian' => 'pendidikan_kk' . $prefix,
                 'data'  => $penduduk->pendidikanKK->nama,
+            ],
+
+            // kebutuhan penduduk luar desa
+            [
+                'judul' => 'Alamat Jalan' . $ortu,
+                'isian' => 'alamat_jalan' . $prefix,
+                'data'  => $penduduk->keluarga->alamat, // alamat kk jika ada
+            ],
+            [
+                'judul' => 'Alamat Sebelumnya' . $ortu,
+                'isian' => 'alamat_sebelumnya' . $prefix,
+                'data'  => $penduduk->alamat_sebelumnya,
+            ],
+            [
+                'judul' => 'Dusun' . $ortu,
+                'isian' => 'nama_dusun' . $prefix,
+                'data'  => $penduduk->wilayah->dusun,
+            ],
+            [
+                'judul' => 'RW' . $ortu,
+                'isian' => 'nama_rw' . $prefix,
+                'data'  => $penduduk->wilayah->rw,
+            ],
+            [
+                'judul' => 'RT' . $ortu,
+                'isian' => 'nama_rt' . $prefix,
+                'data'  => $penduduk->wilayah->rt,
+            ],
+            [
+                'judul' => 'Desa' . $ortu,
+                'isian' => 'pend_desa' . $prefix,
+                'data'  => $config->pend_desa,
+            ],
+            [
+                'judul' => 'Kecamatan' . $ortu,
+                'isian' => 'pend_kecamatan' . $prefix,
+                'data'  => $config->pend_kecamatan,
+            ],
+            [
+                'judul' => 'Kabupaten' . $ortu,
+                'isian' => 'pend_kabupaten' . $prefix,
+                'data'  => $config->pend_kabupaten,
+            ],
+            [
+                'judul' => 'Provinsi' . $ortu,
+                'isian' => 'pend_provinsi' . $prefix,
+                'data'  => $config->pend_provinsi,
             ],
         ];
 
@@ -166,7 +214,7 @@ class KodeIsianPenduduk
                 [
                     'case_sentence' => true,
                     'judul'         => 'Foto',
-                    'isian'         => 'foto_penduduK',
+                    'isian'         => 'foto_penduduk',
                     'data'          => '[foto_penduduk]',
                 ],
                 [
@@ -176,97 +224,78 @@ class KodeIsianPenduduk
                     'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
-                    'judul' => 'Alamat Jalan',
-                    'isian' => 'Alamat_jalan',
-                    'data'  => $penduduk->keluarga->alamat, // alamat kk jika ada
-                ],
-                [
-                    'judul' => 'Alamat Sebelumnya',
-                    'isian' => 'Alamat_sebelumnya',
-                    'data'  => $penduduk->alamat_sebelumnya,
-                ],
-                [
-                    'judul' => 'Dusun',
-                    'isian' => 'Nama_dusuN',
-                    'data'  => $penduduk->wilayah->dusun,
-                ],
-                [
-                    'judul' => 'RW',
-                    'isian' => 'Nama_rW',
-                    'data'  => $penduduk->wilayah->rw,
-                ],
-                [
-                    'judul' => 'RT',
-                    'isian' => 'Nama_rT',
-                    'data'  => $penduduk->wilayah->rt,
+                    'case_sentence' => true,
+                    'judul'         => 'Foto Ukuran',
+                    'isian'         => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
+                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
                     'judul' => 'Akta Kelahiran',
-                    'isian' => 'Akta_lahiR',
+                    'isian' => 'akta_lahir',
                     'data'  => $penduduk->akta_lahir, // Cek ini
                 ],
                 [
                     'judul' => 'Akta Perceraian',
-                    'isian' => 'Akta_perceraiaN',
+                    'isian' => 'akta_perceraian',
                     'data'  => $penduduk->akta_perceraian, // Cek ini
                 ],
                 [
                     'judul' => 'Status Perkawinan',
-                    'isian' => 'Status_kawiN',
+                    'isian' => 'status_kawin',
                     'data'  => $penduduk->statusKawin->nama, // Cek ini
                 ],
                 [
                     'judul' => 'Akta Perkawinan',
-                    'isian' => 'Akta_perkawinaN',
+                    'isian' => 'akta_perkawinan',
                     'data'  => $penduduk->akta_perkawinan, // Cek ini
                 ],
                 [
                     'judul' => 'Tanggal Perkawinan',
-                    'isian' => 'TanggalperkawinaN',
+                    'isian' => 'tanggalperkawinan',
                     'data'  => formatTanggal($penduduk->tanggalperkawinan),
                 ],
                 [
                     'judul' => 'Tanggal Perceraian',
-                    'isian' => 'TanggalperceraiaN',
+                    'isian' => 'tanggalperceraian',
                     'data'  => formatTanggal($penduduk->tanggalperceraian),
                 ],
                 [
                     'judul' => 'Cacat',
-                    'isian' => 'CacaT',
+                    'isian' => 'cacat',
                     'data'  => $penduduk->cacat->nama,
                 ],
                 [
                     'judul' => 'Dokumen Pasport',
-                    'isian' => 'Dokumen_pasporT',
+                    'isian' => 'dokumen_pasport',
                     'data'  => $penduduk->dokumen_pasport,
                 ],
                 [
                     'judul' => 'Tanggal Akhir Paspor',
-                    'isian' => 'Tanggal_akhir_paspoR',
+                    'isian' => 'tanggal_akhir_paspor',
                     'data'  => formatTanggal($penduduk->tanggal_akhir_paspor),
                 ],
 
                 // Data KK
                 [
                     'judul' => 'Hubungan Dalam KK',
-                    'isian' => 'Hubungan_kK',
+                    'isian' => 'hubungan_kk',
                     'data'  => $penduduk->pendudukHubungan->nama,
                 ],
                 [
                     'case_sentence' => true,
                     'judul'         => 'No KK',
-                    'isian'         => 'No_kK',
+                    'isian'         => 'no_kk',
                     'data'          => get_nokk($penduduk->keluarga->no_kk),
                 ],
                 [
                     'judul' => 'Kepala KK',
-                    'isian' => 'Kepala_kK',
+                    'isian' => 'kepala_kk',
                     'data'  => $penduduk->keluarga->kepalaKeluarga->nama,
                 ],
                 [
                     'case_sentence' => true,
                     'judul'         => 'NIK KK',
-                    'isian'         => 'Nik_kepala_kK',
+                    'isian'         => 'nik_kepala_kk',
                     'data'          => get_nik($penduduk->keluarga->kepalaKeluarga->nik),
                 ],
 
@@ -274,13 +303,13 @@ class KodeIsianPenduduk
                 [
                     'case_sentence' => true,
                     'judul'         => 'ID BDT',
-                    'isian'         => 'Id_bdT',
+                    'isian'         => 'id_bdt',
                     'data'          => $penduduk->rtm->bdt,
                 ],
             ];
 
             // Data Umum
-            $data = array_merge($individu, $lainnya);
+            $data = [...$individu, ...$lainnya];
 
             // Data Orang Tua
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
@@ -288,7 +317,7 @@ class KodeIsianPenduduk
 
             if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
-                    ->where(static function ($query) {
+                    ->where(static function ($query): void {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                             ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
                     })
@@ -298,7 +327,7 @@ class KodeIsianPenduduk
 
             if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
-                    ->where(static function ($query) {
+                    ->where(static function ($query): void {
                         $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
                             ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
                     })

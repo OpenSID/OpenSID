@@ -70,7 +70,7 @@ class Status_desa extends Admin_Controller
         return view('admin.status_desa.idm', $data);
     }
 
-    public function perbarui_idm(int $tahun)
+    public function perbarui_idm(int $tahun): void
     {
         if (cek_koneksi_internet() && $tahun) {
             $kode_desa = $this->header['desa']['kode_desa'];
@@ -98,7 +98,7 @@ class Status_desa extends Admin_Controller
         redirect_with('error', 'Tidak dapat mengambil data IDM.');
     }
 
-    public function simpan(int $tahun)
+    public function simpan(int $tahun): void
     {
         SettingAplikasi::where('key', 'tahun_idm')->update(['value' => $tahun]);
         set_session('tahun', $tahun);
@@ -135,7 +135,7 @@ class Status_desa extends Admin_Controller
         ]);
     }
 
-    public function perbarui_sdgs()
+    public function perbarui_sdgs(): void
     {
         set_session('navigasi', 'sdgs');
 
@@ -164,7 +164,7 @@ class Status_desa extends Admin_Controller
         redirect_with('error', 'Tidak dapat mengambil data SDGS.');
     }
 
-    public function navigasi($navigasi = 'idm')
+    public function navigasi($navigasi = 'idm'): void
     {
         redirect_with('navigasi', $navigasi);
     }

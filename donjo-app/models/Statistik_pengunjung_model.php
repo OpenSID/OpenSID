@@ -57,12 +57,11 @@ class Statistik_pengunjung_model extends MY_Model
         $this->load->library('user_agent');
     }
 
+    // TODO:: Hapus ini, masih dipanggil di MY_Controller untuk menghitung pengunjung
     /**
      * Counter pengunjung visitor.
-     *
-     * @return void
      */
-    public function counter_visitor()
+    public function counter_visitor(): void
     {
         if (isset($this->session->pengunjungOnline) || null === identitas()) {
             return;
@@ -77,6 +76,7 @@ class Statistik_pengunjung_model extends MY_Model
         $this->session->set_userdata('pengunjungOnline', date('Y-m-d'));
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Sistem operasi pengunjung.
      *
@@ -87,6 +87,7 @@ class Statistik_pengunjung_model extends MY_Model
         return $this->agent->platform();
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * IP Address pengunjung.
      *
@@ -97,6 +98,7 @@ class Statistik_pengunjung_model extends MY_Model
         return $this->input->ip_address();
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Browser pengunjung.
      *
@@ -117,98 +119,7 @@ class Statistik_pengunjung_model extends MY_Model
         return $browser;
     }
 
-    /**
-     * Data mixed jumlah statitik pengunjung.
-     *
-     * @param int|null
-     * @param mixed $type
-     *
-     * @return mixed
-     */
-    public function get_pengunjung($type)
-    {
-        $tgl = date('Y-m-d');
-        $bln = date('m');
-        $thn = date('Y');
-
-        $this->config_id()->select_sum('Jumlah');
-
-        switch ($type) {
-            // Hari Ini
-            case 1:
-                $this->db->select('Tanggal');
-                $this->kondisi($type);
-                $this->db->group_by('Tanggal');
-
-                $data['lblx']  = 'Tanggal';
-                $data['judul'] = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
-                break;
-
-                // Kemarin
-            case 2:
-                $this->db->select('Tanggal');
-                $this->kondisi($type);
-                $this->db->group_by('Tanggal');
-
-                $data['lblx']  = 'Tanggal';
-                $data['judul'] = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
-                break;
-
-                // 7 Hari (Minggu Ini)
-            case 3:
-                $this->db->select('Tanggal');
-                $this->kondisi($type);
-                $this->db->group_by('Tanggal');
-
-                $data['lblx']  = 'Tanggal';
-                $data['judul'] = 'Dari Tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
-                break;
-
-                // 1 bulan(tgl 1 sampai akhir bulan)
-            case 4:
-                $this->db->select('Tanggal');
-                $this->kondisi($type);
-                $this->db->group_by('Tanggal');
-
-                $data['lblx']  = 'Tanggal';
-                $data['judul'] = 'Bulan ' . ucwords(getBulan($bln)) . ' ' . $thn;
-                break;
-
-                // 1 tahun / 12 Bulan
-            case 5:
-                $this->db->select('MONTH(`Tanggal`) AS Tanggal');
-                $this->kondisi($type);
-                $this->db->group_by('MONTH(`Tanggal`)');
-
-                $data['lblx']  = 'Bulan';
-                $data['judul'] = 'Tahun ' . $thn;
-                break;
-
-                // Semua Data
-            default:
-                $this->db->select('YEAR(`Tanggal`) AS Tanggal');
-                $this->db->group_by('YEAR(`Tanggal`)');
-
-                $data['lblx']  = 'Tahun';
-                $data['judul'] = 'Setiap Tahun';
-                break;
-        }
-
-        $this->db->order_by('Tanggal', 'asc');
-        $pengunjung         = $this->db->get($this->table)->result_array();
-        $data['pengunjung'] = $pengunjung;
-
-        $jml = 0;
-
-        foreach ($pengunjung as $total) {
-            $jml += $total['Jumlah'];
-        }
-
-        $data['Total'] = $jml;
-
-        return $data;
-    }
-
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Get pengungunjung hari ini.
      *
@@ -219,6 +130,7 @@ class Statistik_pengunjung_model extends MY_Model
         return $this->config_id_exist($this->table)->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Get pengunjung kemarin
      *
@@ -229,6 +141,7 @@ class Statistik_pengunjung_model extends MY_Model
         return $this->get_pengunjung_total(2);
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Total pengunjung total jumlah.
      *
@@ -266,26 +179,26 @@ class Statistik_pengunjung_model extends MY_Model
         return $this->db->insert($this->table, $insert);
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Increment visitor hari ini.
      *
      * @param int jumlah
      * @param json $lastIpAddress
-     *
-     * @return void
      */
-    public function increment_visitor(int $jumlah, $lastIpAddress)
+    public function increment_visitor(int $jumlah, $lastIpAddress): void
     {
         $ip_address = json_decode($lastIpAddress, true);
 
         $this->config_id_exist($this->table)
             ->where('Tanggal', date('Y-m-d'))
             ->update($this->table, [
-                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])]),
+                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])], JSON_THROW_ON_ERROR),
                 'Jumlah'    => $jumlah + 1,
             ]);
     }
 
+    // TODO:: Hapus ini, masih dipanggil di statistik pengunjung
     /**
      * Get statistik pengunjung.
      *
@@ -303,6 +216,7 @@ class Statistik_pengunjung_model extends MY_Model
         ];
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Where clause kondisi tanggal.
      *
@@ -354,6 +268,7 @@ class Statistik_pengunjung_model extends MY_Model
         }
     }
 
+    // TODO:: Hapus ini, masih dipanggil di modul ini
     /**
      * Rentang tanggal.
      *

@@ -158,7 +158,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         }
 
         if ($this->db->field_exists('id', 'sasaran_paud')) {
-            $hasil = $hasil && $this->dbforge->modify_column('sasaran_paud', [
+            return $hasil && $this->dbforge->modify_column('sasaran_paud', [
                 'id' => [
                     'name'           => 'id_sasaran_paud',
                     'type'           => 'INT',
@@ -180,7 +180,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             ->havingRaw('COUNT(id_kk) > 1')
             ->pluck('id_kk');
 
-        foreach ($cek_log as $key => $value) {
+        foreach ($cek_log as $value) {
             $log_keluarga = LogKeluarga::where('id_kk', $value)->where('id_peristiwa', 2)->orderBy('tgl_peristiwa', 'asc')->pluck('id')->toArray();
             unset($log_keluarga[0]);
 

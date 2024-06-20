@@ -1,7 +1,6 @@
 <?php
 
-return array(
-
+return [
     'Select' => 'Вибрати',
     'Deselect_All' => 'Deselect All',
     'Select_All' => 'Select All',
@@ -44,26 +43,7 @@ return array(
     'Upload_base_help' => "Drag & Drop files(modern browsers) or click in upper button to Add the file(s) and click on Start upload. When the upload is complete, click the 'Return to files list' button.",
     'Upload_add_files' => 'Add file(s)',
     'Upload_start' => 'Start upload',
-    'Upload_error_messages' =>array(
-        1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-        2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-        3 => 'The uploaded file was only partially uploaded',
-        4 => 'No file was uploaded',
-        6 => 'Missing a temporary folder',
-        7 => 'Failed to write file to disk',
-        8 => 'A PHP extension stopped the file upload',
-        'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini',
-        'max_file_size' => 'File is too big',
-        'min_file_size' => 'File is too small',
-        'accept_file_types' => 'Filetype not allowed',
-        'max_number_of_files' => 'Maximum number of files exceeded',
-        'max_width' => 'Image exceeds maximum width',
-        'min_width' => 'Image requires a minimum width',
-        'max_height' => 'Image exceeds maximum height',
-        'min_height' => 'Image requires a minimum height',
-        'abort' => 'File upload aborted',
-        'image_resize' => 'Failed to resize image'
-    ),
+    'Upload_error_messages' =>[1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini', 2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form', 3 => 'The uploaded file was only partially uploaded', 4 => 'No file was uploaded', 6 => 'Missing a temporary folder', 7 => 'Failed to write file to disk', 8 => 'A PHP extension stopped the file upload', 'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini', 'max_file_size' => 'File is too big', 'min_file_size' => 'File is too small', 'accept_file_types' => 'Filetype not allowed', 'max_number_of_files' => 'Maximum number of files exceeded', 'max_width' => 'Image exceeds maximum width', 'min_width' => 'Image requires a minimum width', 'max_height' => 'Image exceeds maximum height', 'min_height' => 'Image requires a minimum height', 'abort' => 'File upload aborted', 'image_resize' => 'Failed to resize image'],
     'Upload_url' => 'From url',
     'Type_dir' => 'Тека',
     'Type' => 'Тип',
@@ -85,25 +65,31 @@ return array(
     'Copy' => 'Копіювати',
     'Cut' => 'Вирізати',
     'Paste' => 'Вставити',
-    'CB' => 'БО', // clipboard
+    'CB' => 'БО',
+    // clipboard
     'Paste_Here' => 'Вставити в цю теку',
     'Paste_Confirm' => 'Ви впевнені, що хочете вставити в цю теку? Це перезапише всі файли/папки, якщо такі будуть.',
     'Paste_Failed' => 'Помилка вставки файлів',
     'Clear_Clipboard' => 'Очистити буфер обміну',
     'Clear_Clipboard_Confirm' => 'Ви впевнені, що хочете очистити буфер обміну?',
     'Files_ON_Clipboard' => 'Немає файлів у буфері обміну.',
-    'Copy_Cut_Size_Limit' => 'Вибрані файли/папки завеликі для %s. Обмеження: %d MB/операцію', // %s = cut or copy
-    'Copy_Cut_Count_Limit' => 'Ви вибрали забагато файлів/папок для %s. Обмеження: %d файлів/операцію', // %s = cut or copy
-    'Copy_Cut_Not_Allowed' => 'У вас немає прав доступу для %s файлів.', // %s(1) = cut or copy, %s(2) = files or folders
+    'Copy_Cut_Size_Limit' => 'Вибрані файли/папки завеликі для %s. Обмеження: %d MB/операцію',
+    // %s = cut or copy
+    'Copy_Cut_Count_Limit' => 'Ви вибрали забагато файлів/папок для %s. Обмеження: %d файлів/операцію',
+    // %s = cut or copy
+    'Copy_Cut_Not_Allowed' => 'У вас немає прав доступу для %s файлів.',
+    // %s(1) = cut or copy, %s(2) = files or folders
     'Image_Editor_No_Save' => 'Неможливо зберегти зображення',
     'Image_Editor_Exit' => "Exit",
     'Image_Editor_Save' => "Save",
     'Zip_No_Extract' => 'Неможливо видобути. Файл може бути пошкодженим',
     'Zip_Invalid' => 'Це розширення не підтримується. Можливі: zip, gz, tar.',
     'Dir_No_Write' => 'Обрана тека захищена від запису.',
-    'Function_Disabled' => 'Функція %s заборонена сервером.', // %s = cut or copy
+    'Function_Disabled' => 'Функція %s заборонена сервером.',
+    // %s = cut or copy
     'File_Permission' => 'Права доступу',
-    'File_Permission_Not_Allowed' => 'Зміна прав доступу для %s заборонена.', // %s = files or folders
+    'File_Permission_Not_Allowed' => 'Зміна прав доступу для %s заборонена.',
+    // %s = files or folders
     'File_Permission_Recursive' => 'Застосувати рекурсивно?',
     'File_Permission_Wrong_Mode' => "Наданы права доступу невірні.",
     'User' => 'Користувач',
@@ -113,16 +99,17 @@ return array(
     'Lang_Not_Found' => 'Не можу знайти мову.',
     'Lang_Change' => 'Зміна мови',
     'File_Not_Found' => 'Не можу знайти файл.',
-    'File_Open_Edit_Not_Allowed' => 'У вас немає прав для відкриття цього файлу %s.', // %s = open or edit
+    'File_Open_Edit_Not_Allowed' => 'У вас немає прав для відкриття цього файлу %s.',
+    // %s = open or edit
     'Edit' => 'Редагувати',
     'Edit_File' => "Редагувати вміст файлу",
     'File_Save_OK' => "Файл успішно збережено.",
     'File_Save_Error' => "Виникла помилка при збереженні файлу.",
     'New_File' => 'Новий файл',
     'No_Extension' => 'Вам необхідно додати розширення файлу.',
-    'Valid_Extensions' => 'Дозволені розширення: %s', // %s = txt,log etc.
+    'Valid_Extensions' => 'Дозволені розширення: %s',
+    // %s = txt,log etc.
     'Upload_message' => "Перетягніть сюди файл для завантаження",
-
     'SERVER ERROR' => "ПОМИЛКА СЕРВЕРА",
     'forbidden' => "Заборонено",
     'wrong path' => "Хибний шлях",
@@ -137,11 +124,12 @@ return array(
     'no file' => "Немає файлу",
     'view type number missing' => "Відсутній номер типу перегляду",
     'Not enough Memory' => "Недостатньо пам`яті",
-    'max_size_reached' => "Ваша тека досягла максимального ліміту у %d Мб.", //%d = max overall size
+    'max_size_reached' => "Ваша тека досягла максимального ліміту у %d Мб.",
+    //%d = max overall size
     'B' => "Б",
     'KB' => "Кб",
     'MB' => "Мб",
     'GB' => "Гб",
     'TB' => "Тб",
     'total size' => "Загальний розмір",
-);
+];

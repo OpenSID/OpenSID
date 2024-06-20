@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class ConfigIdObserver
 {
-    public function creating(Model $model)
+    public function creating(Model $model): void
     {
         $model->config_id = identitas('id');
     }

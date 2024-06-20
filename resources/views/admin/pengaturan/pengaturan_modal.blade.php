@@ -1,4 +1,4 @@
-@if ($kategori && can('u', $controller))
+@if ($kategori && can('u', $submodul_ini ?? $modul_ini))
     <div class="modal fade" id="pengaturan" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

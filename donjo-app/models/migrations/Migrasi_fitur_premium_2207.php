@@ -78,16 +78,14 @@ class Migrasi_fitur_premium_2207 extends MY_model
             ]);
         }
 
-        if ($sudahAda = LogKeluarga::pluck('id_kk')) {
-            if ($belumAdaLog = Keluarga::whereNotIn('id', $sudahAda)->get()) {
-                foreach ($belumAdaLog as $data) {
-                    $hasil = $hasil && LogKeluarga::insert([
-                        'id_kk'         => $data->id,
-                        'id_peristiwa'  => 1, // KK Baru
-                        'tgl_peristiwa' => $data->tgl_daftar,
-                        'updated_by'    => $this->session->user,
-                    ]);
-                }
+        if (($sudahAda = LogKeluarga::pluck('id_kk')) && ($belumAdaLog = Keluarga::whereNotIn('id', $sudahAda)->get())) {
+            foreach ($belumAdaLog as $data) {
+                $hasil = $hasil && LogKeluarga::insert([
+                    'id_kk'         => $data->id,
+                    'id_peristiwa'  => 1, // KK Baru
+                    'tgl_peristiwa' => $data->tgl_daftar,
+                    'updated_by'    => $this->session->user,
+                ]);
             }
         }
 
@@ -106,7 +104,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             foreach ($daftarBantuan as $program_id) {
                 $duplikat = BantuanPeserta::select('id')
                     ->where('program_id', $program_id)
-                    ->whereIn('kartu_id_pend', static function ($query) use ($program_id) {
+                    ->whereIn('kartu_id_pend', static function ($query) use ($program_id): void {
                         $query->select('kartu_id_pend')
                             ->from('program_peserta')
                             ->where('program_id', $program_id)
@@ -137,7 +135,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
         // Tambahkan index pada program_id dan kartu_id_pend
         if (! $this->cek_indeks('program_peserta', 'program_peserta_program_id_kartu_id_pend_unique')) {
-            Schema::table('program_peserta', static function (Blueprint $table) {
+            Schema::table('program_peserta', static function (Blueprint $table): void {
                 $table->unique(['program_id', 'kartu_id_pend']);
             });
         }
@@ -613,7 +611,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
         // Update status untuk surat format rtf menjadi cetak karena tidak menggunakan konsep
         try {
             if ($this->db->field_exists('status', $table)) {
-                LogSurat::whereIn('id_format_surat', static function ($query) {
+                LogSurat::whereIn('id_format_surat', static function ($query): void {
                     $query->select('id')
                         ->from('tweb_surat_format')
                         ->whereIn('jenis', FormatSurat::RTF);
@@ -636,7 +634,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             foreach ($surat_master as $surat) {
                 $cek = $this->db->select('ref_syarat_id')->get_where('syarat_surat', ['surat_format_id' => $surat['id']])->result_array();
                 if ($cek) {
-                    $hasil = $hasil && $this->db->where('id', $surat['id'])->update('tweb_surat_format', ['syarat_surat' => json_encode(array_column($cek, 'ref_syarat_id'))]);
+                    $hasil = $hasil && $this->db->where('id', $surat['id'])->update('tweb_surat_format', ['syarat_surat' => json_encode(array_column($cek, 'ref_syarat_id'), JSON_THROW_ON_ERROR)]);
                 }
             }
 

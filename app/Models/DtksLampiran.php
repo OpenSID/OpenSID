@@ -71,7 +71,7 @@ class DtksLampiran extends BaseModel
         'id_rtm',
     ];
 
-    public function getFotoKecilAttribute()
+    public function getFotoKecilAttribute(): string
     {
         $path = LOKASI_FOTO_DTKS . 'kecil_' . $this->attributes['foto'];
         if (! file_exists(FCPATH . $path)) {
@@ -83,6 +83,31 @@ class DtksLampiran extends BaseModel
 
     public function dtks()
     {
-        return $this->belongsToMany(Dtks::class, 'dtks_ref_lampiran', 'id_lampiran', 'id_dtks')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsToMany(Dtks::class, 'dtks_ref_lampiran', 'id_lampiran', 'id_dtks')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    public static function boot(): void
+    {
+        parent::boot();
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo       = LOKASI_FOTO_DTKS . $model->getOriginal($file);
+            $path_kecil = LOKASI_FOTO_DTKS . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+            if (file_exists($path_kecil)) {
+                unlink($path_kecil);
+            }
+        }
     }
 }

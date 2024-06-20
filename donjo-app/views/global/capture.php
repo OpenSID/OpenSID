@@ -65,6 +65,6 @@
 		</div>
 	</div>
 </div>
-<script src="<?= asset('js/webcam.min.js'); ?>"></script>
-<script src="<?= asset('js/cropper.min.js'); ?>"></script>
-<script src="<?= asset('js/main-camera.js'); ?>"></script>
+<script src="<?= asset('js/webcam.min.js') ?>"></script>
+<script src="<?= asset('js/cropper.min.js') ?>"></script>
+<script src="<?= asset('js/main-camera.js') ?>"></script>

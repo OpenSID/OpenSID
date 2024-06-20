@@ -47,7 +47,7 @@ class Statistik extends Web_Controller
         $this->load->model('laporan_penduduk_model');
     }
 
-    public function index($slug = null)
+    public function index($slug = null): void
     {
         $key = StatistikEnum::keyFromSlug($slug);
 

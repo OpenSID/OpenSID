@@ -166,8 +166,7 @@
 															<div class="table-responsive">
 																<?php if (null === $logs) : ?>
 																	<div>
-																		<br><br>
-																		<strong>File log lebig dari 500 Mb, silahkan unduh.</strong>
+																		<strong>File log kosong atau lebih dari 500 Mb, silahkan unduh.</strong>
 																	</div>
 																<?php else : ?>
 																	<div class="table-responsive">
@@ -274,21 +273,19 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="table-responsive">
-												<div class="table-responsive">
-													<table id="tabel-logs" class="table table-bordered dataTable table-striped table-hover tabel-daftar">
-														<tbody>
-															<?php foreach ($kebutuhan_sistem as $key => $val) : ?>
-																<tr>
-																	<td class="text"><?= "{$key} ({$val['v']})" ?></td>
-																	<td class="text"><?= $val[$key] ?></td>
-																	<td>
-																		<i class="fa fa-<?= $val['result'] ? 'check-circle-o' : 'times-circle-o' ?> fa-lg" style="color:<?= $val['result'] ? 'green' : 'red' ?>"></i>
-																	</td>
-																</tr>
-															<?php endforeach ?>
-														</tbody>
-													</table>
-												</div>
+												<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+													<tbody>
+														<?php foreach ($kebutuhan_sistem as $key => $val) : ?>
+															<tr>
+																<td class="text"><?= "{$key} ({$val['v']})" ?></td>
+																<td class="text"><?= $val[$key] ?></td>
+																<td>
+																	<i class="fa fa-<?= $val['result'] ? 'check-circle-o' : 'times-circle-o' ?> fa-lg" style="color:<?= $val['result'] ? 'green' : 'red' ?>"></i>
+																</td>
+															</tr>
+														<?php endforeach ?>
+													</tbody>
+												</table>
 											</div>
 										</div>
 									</div>
@@ -311,7 +308,7 @@
 
 			if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
 			    foreach ($matches as $match) :
-			        if (strlen($match[1])) :
+			        if ($match[1] !== '') :
 			            $phpinfo[$match[1]] = [];
 			        elseif (isset($match[3])) :
 			            $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
@@ -361,7 +358,7 @@
 											<div class="col-sm-6">
 												<h5><b>CACHE</b></h5>
 												<div class="input-group">
-													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('cache_path')) ?>*" readonly>
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config('cache.stores.file.path')) ?>" readonly>
 													<?php if (can('u')) : ?>
 														<span class="input-group-btn">
 															<a href="<?= site_url("{$this->controller}/cache_desa") ?>" class="btn btn-info btn-flat">Bersihkan</a>
@@ -370,7 +367,7 @@
 												</div>
 												<hr>
 												<div class="input-group">
-													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config_item('views_blade')) ?>*" readonly>
+													<input type="text" class="form-control" value="<?= str_replace('\\', '/', config('view.compiled')) ?>" readonly>
 													<?php if (can('u')) : ?>
 														<span class="input-group-btn">
 															<a href="<?= site_url("{$this->controller}/cache_blade") ?>" class="btn btn-info btn-flat">Bersihkan</a>

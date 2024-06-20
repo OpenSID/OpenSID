@@ -196,7 +196,7 @@ class Analisis_respon_model extends MY_Model
         }
     }
 
-    private function dusun_sql()
+    private function dusun_sql(): void
     {
         if (empty($this->session->dusun) || $this->subjek == 5) {
             return;
@@ -205,7 +205,7 @@ class Analisis_respon_model extends MY_Model
         $this->db->where('dusun', $this->session->dusun);
     }
 
-    private function rw_sql()
+    private function rw_sql(): void
     {
         if (empty($this->session->rw) || $this->subjek == 5) {
             return;
@@ -214,7 +214,7 @@ class Analisis_respon_model extends MY_Model
         $this->db->where('rw', $this->session->rw);
     }
 
-    private function rt_sql()
+    private function rt_sql(): void
     {
         if (empty($this->session->rt) || $this->subjek == 5) {
             return;
@@ -225,7 +225,7 @@ class Analisis_respon_model extends MY_Model
 
     // Pertanyaan telah diisi atau belum
     // $this->session->isi == 1 untuk pertanyaan yg telah diisi
-    private function isi_sql()
+    private function isi_sql(): void
     {
         if (empty($isi = $this->session->isi)) {
             return;
@@ -236,7 +236,7 @@ class Analisis_respon_model extends MY_Model
             ->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = {$this->per} AND config_id = '{$this->config_id}') = {$isi}");
     }
 
-    private function kelompok_sql($kf = 0)
+    private function kelompok_sql($kf = 0): void
     {
         $this->db->where('id_master', $kf);
     }
@@ -345,9 +345,6 @@ class Analisis_respon_model extends MY_Model
                 break;
 
             case 2:
-                $this->db
-                    ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
-                break;
 
             case 3:
                 $this->db
@@ -401,10 +398,11 @@ class Analisis_respon_model extends MY_Model
             $this->db->limit($limit, $offset);
         }
 
-        $data = $this->db->get()->result_array();
-        $j    = $offset;
+        $data    = $this->db->get()->result_array();
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']     = $j + 1;
             $data[$i]['set']    = '<img src="' . base_url('assets/images/icon/') . ($data[$i]['cek'] ? 'ok' : 'nok') . '.png">';
             $data[$i]['jk']     = ($data[$i]['sex'] == 1) ? 'L' : 'P';
@@ -454,7 +452,6 @@ class Analisis_respon_model extends MY_Model
 
             default:
                 return null;
-                break;
         }
 
         $this->list_data_sql();
@@ -475,9 +472,10 @@ class Analisis_respon_model extends MY_Model
             default:$this->db->order_by('u.id');
         }
 
-        $data = $this->db->get()->result_array();
+        $data    = $this->db->get()->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
             if ($p == 1) {
                 $par = $this->config_id('r')
@@ -500,7 +498,7 @@ class Analisis_respon_model extends MY_Model
         return $data;
     }
 
-    public function update_kuisioner($id = 0, $per = 0)
+    public function update_kuisioner($id = 0, $per = 0): void
     {
         $outp                     = true;
         $this->session->error_msg = '';
@@ -685,7 +683,7 @@ class Analisis_respon_model extends MY_Model
                 if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg') {
                     $_SESSION['sukses'] = -1;
                 } else {
-                    $nama_file = $_SESSION['analisis_master'] . '_' . $per . '_' . $id . '_' . mt_rand(10000, 99999) . '.jpg';
+                    $nama_file = $_SESSION['analisis_master'] . '_' . $per . '_' . $id . '_' . random_int(10000, 99999) . '.jpg';
                     UploadPengesahan($nama_file);
                     $bukti['pengesahan'] = $nama_file;
                     $bukti['id_master']  = $id_master;
@@ -722,9 +720,10 @@ class Analisis_respon_model extends MY_Model
                 ->get('analisis_parameter s');
         }
 
-        $data = $query->result_array();
+        $data    = $query->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
             if (isset($this->session->delik)) {
                 $data[$i]['cek'] = 0;
@@ -759,8 +758,9 @@ class Analisis_respon_model extends MY_Model
             ->order_by("LPAD(u.nomor, 10, ' ') ASC")
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
             if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
@@ -789,9 +789,10 @@ class Analisis_respon_model extends MY_Model
                 ->where('id_indikator', $in)
                 ->get('analisis_parameter s');
         }
-        $data = $query->result_array();
+        $data    = $query->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
             if (isset($this->session->delik)) {
                 $data[$i]['cek'] = 0;
@@ -836,8 +837,9 @@ class Analisis_respon_model extends MY_Model
             ->order_by('u.nomor')
             ->get('analisis_indikator u')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
             if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
@@ -865,9 +867,8 @@ class Analisis_respon_model extends MY_Model
             ->where('aktif', 1)
             ->get('analisis_periode')
             ->row_array();
-        $per = $per['id'];
 
-        return $per;
+        return $per['id'];
     }
     //---------------------------
 
@@ -1037,9 +1038,10 @@ class Analisis_respon_model extends MY_Model
             ->get()
             ->result_array();
 
-        $per = $this->analisis_master_model->get_aktif_periode();
+        $this->analisis_master_model->get_aktif_periode();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
             if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
@@ -1053,11 +1055,7 @@ class Analisis_respon_model extends MY_Model
             } else {
                 $data[$i]['par'] = null;
             }
-            if ($data[$i]['act_analisis'] == 1) {
-                $data[$i]['act_analisis'] = 'Ya';
-            } else {
-                $data[$i]['act_analisis'] = 'Tidak';
-            }
+            $data[$i]['act_analisis'] = $data[$i]['act_analisis'] == 1 ? 'Ya' : 'Tidak';
         }
 
         return $data;
@@ -1070,8 +1068,9 @@ class Analisis_respon_model extends MY_Model
             ->order_by('u.nomor')
             ->get('analisis_indikator u')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']  = $i + 1;
             $data[$i]['par'] = null;
             $data[$i]['par'] = $this->config_id()
@@ -1092,8 +1091,9 @@ class Analisis_respon_model extends MY_Model
             ->order_by('LPAD(u.nomor, 10, " ")')
             ->get('analisis_indikator u')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']  = $i + 1;
             $data[$i]['par'] = null;
 
@@ -1110,13 +1110,9 @@ class Analisis_respon_model extends MY_Model
         return $data;
     }
 
-    public function pre_update($pr = 0)
+    public function pre_update($pr = 0): void
     {
-        if ($pr == 0) {
-            $per = $this->analisis_master_model->get_aktif_periode();
-        } else {
-            $per = $pr;
-        }
+        $per = $pr == 0 ? $this->analisis_master_model->get_aktif_periode() : $pr;
 
         $sql   = 'SELECT DISTINCT(id_subjek) AS id FROM analisis_respon WHERE id_periode = ?  AND config_id=' . identitas('id');
         $query = $this->db->query($sql, $per);
@@ -1130,8 +1126,9 @@ class Analisis_respon_model extends MY_Model
 
         $sql = 'DELETE FROM analisis_respon_hasil WHERE id_periode = ? AND config_id=' . identitas('id');
         $this->db->query($sql, $per);
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? AND config_id=' . identitas('id');
             $query = $this->db->query($sql, [$data[$i]['id'], $per]);
             $dx    = $query->row_array();
@@ -1147,7 +1144,7 @@ class Analisis_respon_model extends MY_Model
         }
     }
 
-    public function update_hasil($id = 0)
+    public function update_hasil($id = 0): void
     {
         $per = $this->analisis_master_model->get_aktif_periode();
 
@@ -1168,7 +1165,7 @@ class Analisis_respon_model extends MY_Model
         $this->db->insert('analisis_respon_hasil', $upx);
     }
 
-    public function import_respon($op = 0)
+    public function import_respon($op = 0): void
     {
         $per = $this->analisis_master_model->get_aktif_periode();
 
@@ -1183,8 +1180,6 @@ class Analisis_respon_model extends MY_Model
             ->order_by('id')
             ->get('analisis_indikator')
             ->result_array();
-
-        $jml = count($indikator);
 
         $data  = new Spreadsheet_Excel_Reader($_FILES['respon']['tmp_name']);
         $s     = 0;
@@ -1267,12 +1262,10 @@ class Analisis_respon_model extends MY_Model
 
                             if ($param) {
                                 $in_param = $param['id'];
+                            } elseif ($isi == '') {
+                                $in_param = 0;
                             } else {
-                                if ($isi == '') {
-                                    $in_param = 0;
-                                } else {
-                                    $in_param = -1;
-                                }
+                                $in_param = -1;
                             }
 
                             $respon[] = [
@@ -1337,7 +1330,7 @@ class Analisis_respon_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon)
+    private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon): void
     {
         $list_isi = explode(',', $isi);
 
@@ -1402,7 +1395,7 @@ class Analisis_respon_model extends MY_Model
         return $result;
     }
 
-    public function perbaharui($id_subjek = 0)
+    public function perbaharui($id_subjek = 0): void
     {
         // Daftar indikator yg menggunakan referensi
         $id_indikator = $this->config_id()

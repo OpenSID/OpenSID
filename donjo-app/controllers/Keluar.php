@@ -36,6 +36,7 @@
  */
 
 use App\Enums\FirebaseEnum;
+use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\FcmToken;
 use App\Models\FormatSurat;
@@ -51,15 +52,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluar extends Admin_Controller
 {
-    private $list_session = ['cari', 'tahun', 'bulan', 'jenis', 'nik', 'masuk', 'ditolak'];
+    private array $list_session = ['cari', 'tahun', 'bulan', 'jenis', 'nik', 'masuk', 'ditolak'];
     public $isAdmin;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('keluar_model');
-        $this->load->model('surat_model');
-
+        $this->load->model(['keluar_model', 'surat_model']);
+        $this->tinymce = new TinyMCE();
         $this->load->helper('download');
         $this->load->model('pamong_model');
         $this->modul_ini     = 'layanan-surat';
@@ -68,7 +68,7 @@ class Keluar extends Admin_Controller
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }
 
-    public function clear($redirect = null)
+    public function clear($redirect = null): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->set_userdata('per_page', 20);
@@ -78,7 +78,7 @@ class Keluar extends Admin_Controller
         redirect('keluar');
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $this->tab_ini = 10;
         $data['p']     = $p;
@@ -101,7 +101,7 @@ class Keluar extends Admin_Controller
             $data['widgets']  = $this->widget();
         }
 
-        $data['user_admin']  = (config_item('user_admin') == auth()->id) ? true : false;
+        $data['user_admin']  = config_item('user_admin') == auth()->id;
         $data['title']       = 'Arsip Layanan Surat';
         $data['per_page']    = $this->session->per_pages;
         $data['paging']      = $this->keluar_model->paging($p, $o);
@@ -115,7 +115,7 @@ class Keluar extends Admin_Controller
         $this->render('surat/surat_keluar', $data);
     }
 
-    public function masuk($p = 1, $o = 0)
+    public function masuk($p = 1, $o = 0): void
     {
         $this->alihkan();
 
@@ -138,8 +138,8 @@ class Keluar extends Admin_Controller
 
         $data['per_page']   = $this->session->per_pages;
         $data['title']      = 'Permohonan Surat';
-        $data['operator']   = (in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes())) ? false : true;
-        $data['user_admin'] = (config_item('user_admin') == auth()->id) ? true : false;
+        $data['operator']   = ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes());
+        $data['user_admin'] = config_item('user_admin') == auth()->id;
         $ref_jabatan_kades  = setting('sebutan_kepala_desa');
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
@@ -147,14 +147,12 @@ class Keluar extends Admin_Controller
             $data['next'] = null;
         } elseif ($this->isAdmin->jabatan_id == sekdes()->id) {
             $data['next'] = setting('verifikasi_kades') ? $ref_jabatan_kades : null;
+        } elseif (setting('verifikasi_sekdes')) {
+            $data['next'] = $ref_jabatan_sekdes;
+        } elseif (setting('verifikasi_kades')) {
+            $data['next'] = $ref_jabatan_kades;
         } else {
-            if (setting('verifikasi_sekdes')) {
-                $data['next'] = $ref_jabatan_sekdes;
-            } elseif (setting('verifikasi_kades')) {
-                $data['next'] = $ref_jabatan_kades;
-            } else {
-                $data['next'] = null;
-            }
+            $data['next'] = null;
         }
 
         $data['paging']      = $this->keluar_model->paging($p, $o);
@@ -169,7 +167,7 @@ class Keluar extends Admin_Controller
         $this->render('surat/surat_keluar', $data);
     }
 
-    public function ditolak()
+    public function ditolak(): void
     {
         $this->alihkan();
 
@@ -215,7 +213,7 @@ class Keluar extends Admin_Controller
         $this->render('surat/surat_keluar', $data);
     }
 
-    public function verifikasi()
+    public function verifikasi(): void
     {
         $this->alihkan();
 
@@ -387,9 +385,7 @@ class Keluar extends Admin_Controller
 
             $jenis_surat = $log_surat->formatSurat->nama;
 
-            $kirim_telegram = User::whereHas('pamong', static function ($query) {
-                return $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0');
-            })
+            $kirim_telegram = User::whereHas('pamong', static fn ($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
                 ->where('notif_telegram', '=', '1')
                 ->get();
 
@@ -428,23 +424,19 @@ class Keluar extends Admin_Controller
             $payload = '/home/arsip';
 
             $allToken = FcmToken::doesntHave('user.pamong')
-                ->orWhereHas('user.pamong', static function ($query) {
-                    return $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes());
-                })
+                ->orWhereHas('user.pamong', static fn ($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
                 ->get();
-            $log_notification = $allToken->map(static function ($log) use ($kirimFCM, $judul, $payload) {
-                return [
-                    'id_user'    => $log->id_user,
-                    'judul'      => $judul,
-                    'isi'        => $kirimFCM,
-                    'token'      => $log->token,
-                    'device'     => $log->device,
-                    'payload'    => $payload,
-                    'read'       => 0,
-                    'config_id'  => $log->config_id,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ];
-            });
+            $log_notification = $allToken->map(static fn ($log): array => [
+                'id_user'    => $log->id_user,
+                'judul'      => $judul,
+                'isi'        => $kirimFCM,
+                'token'      => $log->token,
+                'device'     => $log->device,
+                'payload'    => $payload,
+                'read'       => 0,
+                'config_id'  => $log->config_id,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
 
             LogNotifikasiAdmin::insert($log_notification->toArray());
 
@@ -533,21 +525,19 @@ class Keluar extends Admin_Controller
             $next = null;
         } elseif ($this->isAdmin->jabatan_id == sekdes()->id) {
             $next = setting('verifikasi_kades') ? setting('sebutan_kepala_desa') : null;
+        } elseif (setting('verifikasi_sekdes')) {
+            $next = setting('sebutan_sekretaris_desa');
+        } elseif (setting('verifikasi_kades')) {
+            $next = setting('sebutan_kepala_desa');
         } else {
-            if (setting('verifikasi_sekdes')) {
-                $next = setting('sebutan_sekretaris_desa');
-            } elseif (setting('verifikasi_kades')) {
-                $next = setting('sebutan_kepala_desa');
-            } else {
-                $next = null;
-            }
+            $next = null;
         }
         $data['next'] = $next;
 
         return view('admin.surat.periksa', $data);
     }
 
-    public function edit_keterangan($id = 0)
+    public function edit_keterangan($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['main']        = $this->keluar_model->get_surat($id);
@@ -555,7 +545,7 @@ class Keluar extends Admin_Controller
         $this->load->view('surat/ajax_edit_keterangan', $data);
     }
 
-    public function update_keterangan($id = '')
+    public function update_keterangan($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data = ['keterangan' => $this->input->post('keterangan')];
@@ -565,7 +555,7 @@ class Keluar extends Admin_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h');
         session_error_clear();
@@ -574,7 +564,7 @@ class Keluar extends Admin_Controller
         redirect("keluar/clear/{$this->input->get('redirect')}");
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -584,14 +574,14 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function perorangan_clear()
+    public function perorangan_clear(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = 20;
         redirect('keluar/perorangan');
     }
 
-    public function perorangan($nik = '', $p = 1, $o = 0)
+    public function perorangan($nik = '', $p = 1, $o = 0): void
     {
         if ($this->input->post('nik')) {
             $id = $this->input->post('nik');
@@ -599,11 +589,7 @@ class Keluar extends Admin_Controller
             $id = $this->db->select('id')->get_where('penduduk_hidup', ['nik' => $nik, 'config_id' => identitas('id')])->row()->id;
         }
 
-        if ($id) {
-            $data['individu'] = $this->surat_model->get_penduduk($id);
-        } else {
-            $data['individu'] = null;
-        }
+        $data['individu'] = $id ? $this->surat_model->get_penduduk($id) : null;
 
         $data['p'] = $p;
         $data['o'] = $o;
@@ -619,14 +605,14 @@ class Keluar extends Admin_Controller
         $this->render('surat/surat_keluar_perorangan', $data);
     }
 
-    public function graph()
+    public function graph(): void
     {
         $data['stat'] = $this->keluar_model->grafik();
 
         $this->render('surat/surat_keluar_graph', $data);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($filter == 'tahun') {
@@ -644,7 +630,7 @@ class Keluar extends Admin_Controller
     {
         $berkas = $this->keluar_model->get_surat($id);
         if ($tipe == 'tinymce') {
-            redirect("surat/cetak/{$id}");
+            $this->tinymce->cetak_surat($id);
         } else {
             if ($tipe == 'pdf') {
                 $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';
@@ -653,7 +639,7 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function dialog_cetak($aksi = '')
+    public function dialog_cetak($aksi = ''): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
@@ -661,7 +647,7 @@ class Keluar extends Admin_Controller
         $this->load->view('global/ttd_pamong', $data);
     }
 
-    public function cetak($aksi = '')
+    public function cetak($aksi = ''): void
     {
         $data['aksi']           = $aksi;
         $data['input']          = $this->input->post();
@@ -679,7 +665,7 @@ class Keluar extends Admin_Controller
         $this->load->view('global/format_cetak', $data);
     }
 
-    public function qrcode($id = null)
+    public function qrcode($id = null): void
     {
         if ($id) {
             $data = $this->surat_model->getQrCode($id);
@@ -695,45 +681,23 @@ class Keluar extends Admin_Controller
         }
 
         return [
-            'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
-                return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where(static function ($r) {
-                        return $r->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
-                    });
-                })
-                    ->when(setting('tte') == 0, static function ($tte) {
-                        return $tte->where('verifikasi_kades', '=', '0');
-                    });
-            })
-                ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
-                    return $q->where('verifikasi_sekdes', '=', '0');
-                })
-                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
-                    return $q->where('verifikasi_operator', '=', '0');
-                })->count(),
-            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
-                return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where('verifikasi_kades', '=', '1');
-                })
-                    ->when(setting('tte') == 0, static function ($tte) {
-                        return $tte->where('verifikasi_kades', '=', '1');
-                    })
-                    ->orWhere(static function ($verifikasi) {
-                        $verifikasi->whereNull('verifikasi_operator');
-                    });
-            })
-                ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
-                    return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
-                })
-                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
-                    return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
-                })->count(),
+            'suratMasuk' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where(static fn ($r) => $r->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0)))
+                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '0')))
+                ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '0'))
+                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '0'))->count(),
+            'arsip' => LogSurat::whereNull('deleted_at')->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                ->orWhere(static function ($verifikasi): void {
+                    $verifikasi->whereNull('verifikasi_operator');
+                }))
+                ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+                ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count(),
             'tolak'     => LogSurat::whereNull('deleted_at')->where('verifikasi_operator', '=', '-1')->count(),
-            'kecamatan' => count($this->data_kecamatan()),
+            'kecamatan' => count($this->data_kecamatan() ?? []),
         ];
     }
 
-    private function alihkan()
+    private function alihkan(): void
     {
         if (null === $this->widget()) {
             redirect('keluar');
@@ -741,14 +705,14 @@ class Keluar extends Admin_Controller
     }
 
     // TODO: OpenKab - Cek ORM ini
-    public function perbaiki()
+    public function perbaiki(): void
     {
         LogSurat::where('config_id', identitas('id'))->update(['status' => LogSurat::CETAK, 'verifikasi_operator' => 1, 'verifikasi_sekdes' => 1, 'verifikasi_kades' => 1]);
 
         redirect('keluar');
     }
 
-    public function kecamatan()
+    public function kecamatan(): void
     {
         $this->tab_ini = 13;
 
@@ -790,7 +754,7 @@ class Keluar extends Admin_Controller
             return null;
         }
 
-        $surat = json_decode($response->getBody()->getContents());
+        $surat = json_decode($response->getBody()->getContents(), null);
 
         return $surat->data;
     }

@@ -41,9 +41,10 @@ class First_menu_m extends MY_Model
 {
     private function list_submenu($parrent = 0)
     {
-        $data = $this->config_id_exist('menu')->where(['parrent' => $parrent, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
+        $data    = $this->config_id_exist('menu')->where(['parrent' => $parrent, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             // 99 adalah link eksternal
             if ($data[$i]['link_tipe'] != 99) {
                 $data[$i]['link'] = menu_slug($data[$i]['link']);
@@ -55,9 +56,10 @@ class First_menu_m extends MY_Model
 
     public function list_menu_atas()
     {
-        $data = $this->config_id_exist('menu')->where(['parrent' => 0, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
+        $data    = $this->config_id_exist('menu')->where(['parrent' => 0, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             // 99 adalah link eksternal
             if ($data[$i]['link_tipe'] != 99) {
                 $data[$i]['link'] = menu_slug($data[$i]['link']);

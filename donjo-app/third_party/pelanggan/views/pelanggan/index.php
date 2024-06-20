@@ -20,7 +20,7 @@
             <div class="box box-danger">
                 <div class="box-header with-border">
                     <i class="icon fa fa-ban"></i>
-                    <h3 class="box-title"><?= (! cek_koneksi_internet()) ? 'Tidak Terhubung Dengan Jaringan' : $this->session->error_status_langganan ?></h3>
+                    <h3 class="box-title"><?= (cek_koneksi_internet()) ? $this->session->error_status_langganan : 'Tidak Terhubung Dengan Jaringan' ?></h3>
                 </div>
                 <div class="box-body">
                     <div class="callout callout-danger">
@@ -235,7 +235,7 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
+                                            <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                                 <?php if ($layanan->kategori_id == 4) : ?>
 
                                                     <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?><?= $layanan->number; ?></a><br>
@@ -310,7 +310,7 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
+                                            <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                                 <?php if ($layanan->kategori_id != 4) : ?>
 
                                                     <a href="#" data-parent="#layanan" data-target="<?= '#layanan' . $layanan->id ?>" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Klik untuk melihat ketentuan <?= $layanan->nama; ?>"><i class="fa fa-info"></i> <?= $layanan->nama; ?></a><br>
@@ -342,8 +342,8 @@
             </div>
 
             <div id="layanan">
-                <?php foreach ($response->body->pemesanan as $num1 => $pemesanan) : ?>
-                    <?php foreach ($pemesanan->layanan as $num2 => $layanan) : ?>
+                <?php foreach ($response->body->pemesanan as $pemesanan) : ?>
+                    <?php foreach ($pemesanan->layanan as $layanan) : ?>
                         <div class="modal fade" id="layanan<?= $layanan->id ?>" style="">
                             <div class="modal-dialog">
                                 <div class="modal-content">

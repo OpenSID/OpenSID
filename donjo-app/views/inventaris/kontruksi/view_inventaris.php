@@ -98,7 +98,7 @@
 										<label class="col-sm-3  control-label" style="text-align:left;" for="status_tanah">Status Tanah</label>
 										<div class="col-sm-4">
 											<select name="status_tanah" id="status_tanah" class="form-control input-sm" disabled>
-												<option value="<?= (! empty($main->status_tanah) ? $main->status_tanah : '-'); ?>"><?= (! empty($main->status_tanah) ? $main->status_tanah : '-'); ?></option>
+												<option value="<?= (empty($main->status_tanah) ? '-' : $main->status_tanah); ?>"><?= (empty($main->status_tanah) ? '-' : $main->status_tanah); ?></option>
 												<option value="Tanah milik Pemda">Tanah milik Pemda</option>
 												<option value="Tanah Negara">Tanah Negara (Tanah yang dikuasai langsung oleh Negara)</option>
 												<option value="Tanah Hak Ulayat">Tanah Hak Ulayat (Tanah masyarakat Hukum Adat)</option>
@@ -109,7 +109,7 @@
 									<div class="form-group">
 										<label class="col-sm-3  control-label" style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50"  value="<?= (! empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" class="form-control input-sm" name="kode_tanah" id="kode_tanah" type="text" disabled/>
+											<input maxlength="50"  value="<?= (empty($main->kode_tanah) ? '-' : $main->kode_tanah); ?>" class="form-control input-sm" name="kode_tanah" id="kode_tanah" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">

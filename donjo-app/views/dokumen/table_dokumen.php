@@ -131,7 +131,7 @@
 	                                      <?php endif ?>
 	                                    <?php endif; ?>
 																		    <?php if ($data['tipe'] == 1): ?>
-																				<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
+																				<a href='<?= site_url("dokumen/unduh_berkas/{$data['id']}") ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
 																			<?php else: ?>
 																				<a href='<?= $data['url'] ?>' class="btn bg-purple btn-flat btn-sm"  title="Unduh" target="_blank"><i class="fa fa-download"></i></a>
 																			<?php endif ?>

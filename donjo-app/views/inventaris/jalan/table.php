@@ -81,7 +81,7 @@
 																	<?= (empty($data->luas)) ? '-' : $data->luas ?>
 																</td>
 																<td>
-																	<?= (empty(date('d M Y', strtotime($data->tanggal_dokument)))) ? '-' : date('d M Y', strtotime($data->tanggal_dokument)) ?>
+																	<?= (date('d M Y', strtotime($data->tanggal_dokument)) === '') ? '-' : date('d M Y', strtotime($data->tanggal_dokument)) ?>
 																</td>
 																<td>
 																	<?= (empty($data->no_dokument)) ? '-' : $data->no_dokument ?>

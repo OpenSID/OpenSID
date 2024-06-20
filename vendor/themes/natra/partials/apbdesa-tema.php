@@ -23,6 +23,7 @@
 			<hr>
 			<div align="center"><h4>Realisasi | Anggaran</h4></div><hr>
 			<?php foreach ($subdatas as $key => $subdata): ?>
+				<?php if (! is_array($subdata)) continue; ?> 
 				<?php if($subdata['judul'] != NULL and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
 					<div class="progress-group">
 						<?=

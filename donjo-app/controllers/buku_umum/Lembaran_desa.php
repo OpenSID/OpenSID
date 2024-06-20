@@ -39,8 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lembaran_desa extends Admin_Controller
 {
-    private $_set_page;
-    private $_list_session;
+    private array $_set_page     = ['20', '50', '100'];
+    private array $_list_session = ['filter', 'cari', 'jenis_peraturan'];
 
     public function __construct()
     {
@@ -49,12 +49,10 @@ class Lembaran_desa extends Admin_Controller
         $this->load->model(['web_dokumen_model', 'pamong_model']);
         $this->modul_ini     = 'buku-administrasi-desa';
         $this->sub_modul_ini = 'administrasi-umum';
-        $this->_list_session = ['filter', 'cari', 'jenis_peraturan'];
-        $this->_set_page     = ['20', '50', '100'];
     }
 
     // Buku Lembaran Desa dan Berita Desa
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
@@ -91,14 +89,14 @@ class Lembaran_desa extends Admin_Controller
         $this->render('bumindes/umum/main', $data);
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
         redirect('lembaran_desa');
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -116,20 +114,20 @@ class Lembaran_desa extends Admin_Controller
         $this->render('dokumen/form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari                = $this->input->post('cari');
         $this->session->cari = $cari ?: null;
         redirect('lembaran_desa/index');
     }
 
-    public function filter($filter = 'filter')
+    public function filter($filter = 'filter'): void
     {
         $this->session->{$filter} = $this->input->post($filter);
         redirect('lembaran_desa/index');
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function update($id = '', $p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->session->success = 1;
@@ -138,14 +136,14 @@ class Lembaran_desa extends Admin_Controller
         redirect("lembaran_desa/index/{$p}/{$o}");
     }
 
-    public function lock($id, $val = 1)
+    public function lock($id, $val = 1): void
     {
         $this->redirect_hak_akses('u');
         $this->web_dokumen_model->dokumen_lock($id, $val);
         redirect('lembaran_desa');
     }
 
-    public function dialog_daftar($aksi = 'cetak', $o = 0)
+    public function dialog_daftar($aksi = 'cetak', $o = 0): void
     {
         $data['aksi']            = $aksi;
         $data['form_action']     = site_url("lembaran_desa/daftar/{$aksi}/{$o}");
@@ -155,7 +153,7 @@ class Lembaran_desa extends Admin_Controller
         $this->load->view('dokumen/dialog_cetak', $data);
     }
 
-    public function daftar($aksi = 'cetak', $o = 1)
+    public function daftar($aksi = 'cetak', $o = 1): void
     {
         $data     = $this->data_cetak($aksi);
         $template = $data['template'];
@@ -183,10 +181,8 @@ class Lembaran_desa extends Admin_Controller
      * Unduh berkas berdasarkan kolom dokumen.id
      *
      * @param int $id_dokumen Id berkas pada koloam dokumen.id
-     *
-     * @return void
      */
-    public function unduh_berkas($id_dokumen = 0)
+    public function unduh_berkas($id_dokumen = 0): void
     {
         // Ambil nama berkas dari database
         $data = $this->web_dokumen_model->get_dokumen($id_dokumen);

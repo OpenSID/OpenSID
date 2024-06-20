@@ -44,12 +44,12 @@ class Password extends Abstract_manager
     /**
      * {@inheritDoc}
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): string
     {
         return 'email';
     }
 
-    public function createEmailDriver()
+    public function createEmailDriver(): Email_repository
     {
         return new Email_repository(new Password_repository());
     }

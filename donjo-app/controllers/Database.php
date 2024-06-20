@@ -59,10 +59,9 @@ class Database extends Admin_Controller
         $this->sub_modul_ini = 'database';
     }
 
-    public function index()
+    public function index(): void
     {
         $data = [
-            'act_tab'      => 1,
             'content'      => 'database/backup',
             'form_action'  => site_url('database/restore'),
             'size_folder'  => byte_format(dirSize(DESAPATH)),
@@ -76,7 +75,7 @@ class Database extends Admin_Controller
         $this->load->view('database/database.tpl.php', $data);
     }
 
-    public function migrasi_cri()
+    public function migrasi_cri(): void
     {
         $data['form_action'] = site_url('database/migrasi_db_cri');
 
@@ -85,7 +84,7 @@ class Database extends Admin_Controller
         $this->load->view('database/database.tpl.php', $data);
     }
 
-    public function migrasi_db_cri()
+    public function migrasi_db_cri(): void
     {
         $this->redirect_hak_akses('u');
         session_error_clear();
@@ -111,7 +110,7 @@ class Database extends Admin_Controller
         $this->ekspor_model->backup();
     }
 
-    public function desa_backup()
+    public function desa_backup(): void
     {
         $za = new FlxZipArchive();
         $za->read_dir(DESAPATH);
@@ -154,7 +153,7 @@ class Database extends Admin_Controller
         ]);
     }
 
-    public function inkremental_download()
+    public function inkremental_download(): void
     {
         $file = LogBackup::latest()->first();
         $file->update(['downloaded_at' => Carbon::now(), 'status' => 2]);
@@ -163,7 +162,7 @@ class Database extends Admin_Controller
         $za->download('backup_inkremental' . $file->created_at->format('Y_m-d') . '.zip');
     }
 
-    public function restore()
+    public function restore(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -208,7 +207,7 @@ class Database extends Admin_Controller
     }
 
     // Digunakan untuk server yg hanya digunakan untuk web publik
-    public function mutakhirkan_data_server()
+    public function mutakhirkan_data_server(): void
     {
         $this->redirect_hak_akses('u');
         $this->session->error_msg = null;
@@ -218,7 +217,7 @@ class Database extends Admin_Controller
         $this->load->view('database/ajax_sinkronkan');
     }
 
-    public function proses_sinkronkan()
+    public function proses_sinkronkan(): void
     {
         $this->redirect_hak_akses('u');
         $this->load->model('sinkronisasi_model');
@@ -243,13 +242,13 @@ class Database extends Admin_Controller
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function batal_backup()
+    public function batal_backup(): void
     {
         $this->load->library('job_prosess');
         // ambil semua data pid yang masih dalam prosess
         $last_backup = LogBackup::where('status', '=', 0)->get();
 
-        foreach ($last_backup as $key => $value) {
+        foreach ($last_backup as $value) {
             $this->job_prosess->kill($value->pid_process);
             $value->status = 3;
             $value->save();
@@ -281,7 +280,7 @@ class Database extends Admin_Controller
         }
 
         try {
-            $token           = hash('sha256', $raw_token = mt_rand(100000, 999999));
+            $token           = hash('sha256', $raw_token = random_int(100000, 999999));
             $user->token     = $token;
             $user->token_exp = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes'));
             $user->save();
@@ -377,13 +376,13 @@ class Database extends Admin_Controller
         }
     }
 
-    public function batal_restore()
+    public function batal_restore(): void
     {
         $this->load->library('job_prosess');
         // ambil semua data pid yang masih dalam prosess
         $last_restore = LogRestoreDesa::where('status', '=', 0)->get();
 
-        foreach ($last_restore as $key => $value) {
+        foreach ($last_restore as $value) {
             $this->job_prosess->kill($value->pid_process);
             $value->status = 3;
             $value->save();

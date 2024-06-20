@@ -48,56 +48,56 @@ class KodeIsianSurat
         $this->dataSurat = $dataSurat;
     }
 
-    public static function get($dataSurat)
+    public static function get($dataSurat): array
     {
         return (new self($dataSurat))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $DateConv = new DateConv();
 
         return [
             [
                 'judul' => 'Format Nomor Surat',
-                'isian' => 'Format_nomor_suraT',
+                'isian' => 'format_nomor_surat',
                 'data'  => strtoupper(substitusiNomorSurat($this->dataSurat['no_surat'], ($this->dataSurat['surat']['format_nomor'] == '') ? setting('format_nomor_surat') : $this->dataSurat['surat']['format_nomor'])),
             ],
             [
                 'judul' => 'Kode',
-                'isian' => 'Kode_suraT',
+                'isian' => 'kode_surat',
                 'data'  => $this->dataSurat['surat']['kode_surat'],
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Nomer',
-                'isian'         => 'Nomer_suraT',
+                'isian'         => 'nomer_surat',
                 'data'          => $this->dataSurat['no_surat'],
             ],
             [
                 'judul' => 'Judul',
-                'isian' => 'Judul_suraT',
+                'isian' => 'judul_surat',
                 'data'  => $this->dataSurat['surat']['judul_surat'],
             ],
             [
                 'judul' => 'Tanggal',
-                'isian' => 'Tgl_suraT',
+                'isian' => 'tgl_surat',
                 'data'  => formatTanggal(date('Y-m-d')),
             ],
             [
                 'judul' => 'Tanggal Hijri',
-                'isian' => 'Tgl_surat_hijrI',
+                'isian' => 'tgl_surat_hijrI',
                 'data'  => $DateConv->HijriDateId('j F Y'),
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Tahun',
-                'isian'         => 'TahuN',
+                'isian'         => 'tahuN',
                 'data'          => $this->dataSurat['log_surat']['bulan'] ?? date('Y'),
             ],
             [
                 'judul' => 'Bulan Romawi',
-                'isian' => 'Bulan_romawI',
+                'isian' => 'bulan_romawi',
                 'data'  => bulan_romawi((int) ($this->dataSurat['log_surat']['bulan'] ?? date('m'))),
             ],
             [

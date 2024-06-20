@@ -69,7 +69,7 @@ function configFaker($key = null)
     return $config;
 }
 
-function truncateTable($daftarTabel)
+function truncateTable($daftarTabel): void
 {
     DB::statement('SET FOREIGN_KEY_CHECKS = 0');
     if (is_array($daftarTabel)) {
@@ -145,7 +145,7 @@ function buatDusun($configId, $urutDusun)
 }
 
 // Wilayah RW
-function buatRW($configId, $namaDusun, $urutDusun, $urutRW)
+function buatRW($configId, $namaDusun, string $urutDusun, string $urutRW)
 {
     $namaRW = $urutDusun . $urutRW;
 
@@ -179,7 +179,7 @@ function buatRW($configId, $namaDusun, $urutDusun, $urutRW)
 }
 
 // Wilayah RT
-function buatRT($configId, $namaDusun, $namaRW, $urutRT)
+function buatRT($configId, $namaDusun, string $namaRW, string $urutRT)
 {
     $namaRT = $namaRW . $urutRT;
 
@@ -194,7 +194,7 @@ function buatRT($configId, $namaDusun, $namaRW, $urutRT)
 }
 
 // Keluarga
-function buatKeluarga($configId, $kodeKecamatan)
+function buatKeluarga($configId, $kodeKecamatan): void
 {
     // $minAnggota        = configFaker('keluarga')['anggota']['min'];
     // $maxAnggota = configFaker('keluarga')['anggota']['max'];
@@ -218,7 +218,7 @@ function buatKeluarga($configId, $kodeKecamatan)
 }
 
 // Penduduk
-function buatIndividu($configId, $kodeKecamatan, $kkLevel, $statusKawin = null)
+function buatIndividu($configId, string $kodeKecamatan, $kkLevel, $statusKawin = null): array
 {
     // Buat data Penduduk
     if ($kkLevel === SHDKEnum::ISTRI) {
@@ -249,7 +249,7 @@ function buatIndividu($configId, $kodeKecamatan, $kkLevel, $statusKawin = null)
     // ambil 6 digit tanggal lahir, jika perempuan + 40
     $tglAwal = substr($tanggallahir, 8, 2);
     if ($sex === 2) {
-        $tglAwal = $tglAwal + 40;
+        $tglAwal += 40;
     }
     $tglLahir = $tglAwal . substr($tanggallahir, 5, 2) . substr($tanggallahir, 2, 2);
     $rand     = str_pad(faker()->numberBetween(1, 9999), 4, '0', STR_PAD_LEFT);
@@ -274,9 +274,9 @@ function buatIndividu($configId, $kodeKecamatan, $kkLevel, $statusKawin = null)
         'id_cluster'           => DB::table('tweb_wil_clusterdesa')->inRandomOrder()->first()->id,
         'warganegara_id'       => 1,
         'alamat_sekarang'      => faker()->address,
-        'ayah_nik'             => $kodeKecamatan . faker()->numberBetween(1000000000, 9999999999),
+        'ayah_nik'             => $kodeKecamatan . faker()->numberBetween(1_000_000_000, 9_999_999_999),
         'nama_ayah'            => faker()->name('male'),
-        'ibu_nik'              => $kodeKecamatan . faker()->numberBetween(1000000000, 9999999999),
+        'ibu_nik'              => $kodeKecamatan . faker()->numberBetween(1_000_000_000, 9_999_999_999),
         'nama_ibu'             => faker()->name('female'),
         'golongan_darah_id'    => faker()->numberBetween(1, GolonganDarah::count()),
         'status'               => 1,
@@ -302,7 +302,7 @@ function buatIndividu($configId, $kodeKecamatan, $kkLevel, $statusKawin = null)
     return $penduduk;
 }
 
-function buatAnggota($configId, $kodeKecamatan, $urut)
+function buatAnggota($configId, string $kodeKecamatan, $urut)
 {
     $jumlahPenduduk = 0;
 
@@ -395,7 +395,7 @@ function buatAnggota($configId, $kodeKecamatan, $urut)
 }
 
 // Rumah Tangga
-function buatRumahTangga($configId, $kodeDesa)
+function buatRumahTangga($configId, $kodeDesa): void
 {
     // ambil data dari penduduk dengan status kk_level 1 hanya data id, id_kk dan created_at
     $penduduk = DB::table('tweb_penduduk')
@@ -428,7 +428,7 @@ function buatRumahTangga($configId, $kodeDesa)
 }
 
 // Anggota Rumah Tangga
-function buatAnggotaRtm($configId, $kodeDesa, $urut, $nikKepala, $idKK, $tglDaftar)
+function buatAnggotaRtm($configId, string $kodeDesa, $urut, $nikKepala, $idKK, $tglDaftar): array
 {
     // no_rtm diambil dari kode desa + 4 digit urut, jika urut kurang dari 4 digit, tambahkan 0 di depan
     $noRtm = $kodeDesa . str_pad($urut, 4, '0', STR_PAD_LEFT);
@@ -436,7 +436,7 @@ function buatAnggotaRtm($configId, $kodeDesa, $urut, $nikKepala, $idKK, $tglDaft
     // apakah ada bdt? kemungkinan mengisi 80%
     if (faker()->randomElement([1, 1, 1, 1, 2, 1, 1, 1, 1, 2]) == 1) {
         // $bdt 16 digit random, jika kurang dari 16 digit, tambahkan 0 di depan
-        $bdt = str_pad(faker()->numberBetween(1, 9999999999999999), 16, '0', STR_PAD_LEFT);
+        $bdt = str_pad(faker()->numberBetween(1, 9_999_999_999_999_999), 16, '0', STR_PAD_LEFT);
     } else {
         $bdt = null;
     }
@@ -478,7 +478,7 @@ function buatAnggotaRtm($configId, $kodeDesa, $urut, $nikKepala, $idKK, $tglDaft
 }
 
 // Bantuan
-function buatBantuan($configId)
+function buatBantuan($configId): void
 {
     $minProgram    = configFaker('bantuan')['program']['min'];
     $maxProgram    = configFaker('bantuan')['program']['max'];
@@ -490,7 +490,7 @@ function buatBantuan($configId)
 }
 
 // Program Bantuan
-function buatProgram($configId)
+function buatProgram($configId): void
 {
     $sasaran = faker()->randomElement([1, 1, 1, 1, 2, 2, 2, 3, 3, 4]);
     if ($sasaran == 4 && DB::table('kelompok')->count() == 0) {
@@ -527,7 +527,7 @@ function buatProgram($configId)
 }
 
 // Peserta Bantuan
-function buatPeserta($configId, $idProgram, $sasaran, $kecuali)
+function buatPeserta($configId, string $idProgram, $sasaran, $kecuali)
 {
     switch ($sasaran) {
         case 1:
@@ -573,7 +573,7 @@ function buatPeserta($configId, $idProgram, $sasaran, $kecuali)
 
     if ($penduduk) {
         // no_id_kartu = program_id + random 10 digit, jika 10 digit satuan maka tambahkan 0 di depan
-        $noIdKartu = $idProgram . str_pad(faker()->numberBetween(1, 9999999999), 10, '0', STR_PAD_LEFT);
+        $noIdKartu = $idProgram . str_pad(faker()->numberBetween(1, 9_999_999_999), 10, '0', STR_PAD_LEFT);
 
         $data = [
             'config_id'           => $configId,
@@ -595,7 +595,7 @@ function buatPeserta($configId, $idProgram, $sasaran, $kecuali)
 }
 
 // Kelompok
-function buatKelompok($configId)
+function buatKelompok($configId): void
 {
     $minKelompokMaster = configFaker('kelompok')['master']['min'];
     $maxKelompokMaster = configFaker('kelompok')['master']['max'];

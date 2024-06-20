@@ -45,7 +45,7 @@ class Pembangunan extends Web_Controller
         $this->load->model(['pembangunan_model', 'pembangunan_dokumentasi_model']);
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         if (! $this->web_menu_model->menu_aktif('pembangunan')) {
             show_404();
@@ -69,7 +69,7 @@ class Pembangunan extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function detail($slug = null)
+    public function detail($slug = null): void
     {
         $data = $this->includes;
         $this->_get_common_data($data);

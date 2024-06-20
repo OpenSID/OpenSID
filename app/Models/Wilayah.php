@@ -38,7 +38,13 @@
 namespace App\Models;
 
 use App\Casts\Path;
+use App\Casts\Zoom;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -74,6 +80,7 @@ class Wilayah extends BaseModel
      */
     protected $casts = [
         'path' => Path::class,
+        'zoom' => Zoom::class,
     ];
 
     /**
@@ -114,11 +121,57 @@ class Wilayah extends BaseModel
 
     /**
      * Define a one-to-many relationship.
-     *
-     * @return HasMany
      */
-    public function kepala()
+    public function kepala(): HasOne
     {
         return $this->hasOne(Penduduk::class, 'id', 'id_kepala')->select('nik', 'nama', 'id');
+    }
+
+    /**
+     * Get all of the rw for the Wilayah
+     */
+    public function rws(): HasMany
+    {
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rw', '!=', '-')->where('rt', '=', '-');
+    }
+
+    public function rts(): HasMany
+    {
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '!=', '0')->where('rt', '!=', '-');
+    }
+
+    public function pendudukPria(): HasManyThrough
+    {
+        return $this->hasManyThrough(PendudukHidup::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')->where('sex', JenisKelaminEnum::LAKI_LAKI);
+    }
+
+    public function pendudukWanita(): HasManyThrough
+    {
+        return $this->hasManyThrough(PendudukHidup::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')->where('sex', JenisKelaminEnum::PEREMPUAN);
+    }
+
+    public function keluargaAktif(): HasManyThrough
+    {
+        return $this->hasManyThrough(PendudukHidup::class, Wilayah::class, 'dusun', 'id_cluster', 'dusun')
+            ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+            ->join('keluarga_aktif', 'keluarga_aktif.nik_kepala', '=', 'penduduk_hidup.id');
+    }
+
+    public static function updateUrutan(): void
+    {
+        $all  = Wilayah::dusun()->with(['rws' => static fn ($q) => $q->with('rts')])->orderBy('urut')->get();
+        $urut = 1;
+
+        foreach ($all as $dusun) {
+            $dusun->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+
+            foreach ($dusun->rws as $rw) {
+                $rw->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+
+                foreach ($rw->rts as $rt) {
+                    $rt->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+                }
+            }
+        }
     }
 }

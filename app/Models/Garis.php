@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,12 +46,17 @@ class Garis extends BaseModel
 {
     use ConfigId;
 
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'garis';
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -75,14 +81,40 @@ class Garis extends BaseModel
     protected $appends = [
         'foto_kecil',
         'foto_sedang',
+        'foto_garis',
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $fotoSedang = LOKASI_FOTO_GARIS . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil  = LOKASI_FOTO_GARIS . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($fotoSedang)) {
+                unlink($fotoSedang);
+            }
+            if (file_exists($fotoKecil)) {
+                unlink($fotoKecil);
+            }
+        }
+    }
 
     /**
      * Getter untuk foto kecil.
-     *
-     * @return string
      */
-    public function getFotoKecilAttribute()
+    public function getFotoKecilAttribute(): ?string
     {
         $foto = LOKASI_FOTO_GARIS . 'kecil_' . $this->attributes['foto'];
 
@@ -95,10 +127,8 @@ class Garis extends BaseModel
 
     /**
      * Getter untuk foto sedang.
-     *
-     * @return string
      */
-    public function getFotoSedangAttribute()
+    public function getFotoSedangAttribute(): ?string
     {
         $foto = LOKASI_FOTO_GARIS . 'sedang_' . $this->attributes['foto'];
 
@@ -107,5 +137,54 @@ class Garis extends BaseModel
         }
 
         return null;
+    }
+
+    /**
+     * Getter untuk foto sedang.
+     */
+    public function getFotoGarisAttribute(): ?string
+    {
+        if ($kecil = $this->getFotoKecilAttribute()) {
+            return to_base64($kecil);
+        }
+
+        if ($sedang = $this->getFotoSedangAttribute()) {
+            return to_base64($sedang);
+        }
+
+        return null;
+    }
+
+    protected function scopeActive($query)
+    {
+        return $query->whereEnabled(1);
+    }
+
+    public function isLock(): bool
+    {
+        return $this->enabled == self::LOCK;
+    }
+
+    /**
+     * Get the line associated with the Garis
+     */
+    public function line(): HasOne
+    {
+        return $this->hasOne(Line::class, 'id', 'ref_line');
+    }
+
+    public static function activeGarisMap()
+    {
+        return self::active()->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'simbol'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent', 'simbol'])]),
+        ])->get()->map(function ($item) {
+            $item->jenis       = $item->line->parent->nama ?? '';
+            $item->kategori    = $item->line->nama ?? '';
+            $item->simbol      = $item->line->simbol ?? '';
+            $item->color       = $item->line->color ?? '';
+            $item->tebal       = $item->line->tebal ?? '';
+            $item->jenis_garis = $item->line->jenis ?? '';
+
+            return $item;
+        })->toArray();
     }
 }

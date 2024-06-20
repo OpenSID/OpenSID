@@ -1,6 +1,6 @@
 <img src="<?= $icon ?>" title="<?= lang('libraries') ?>"
      alt="<?= lang('libraries') ?>"/> <?= lang('libraries') . ' (' . count($loaded_libraries) . ')' ?>
-<?php if (count($loaded_libraries)): ?>
+<?php if (count($loaded_libraries) > 0): ?>
 <div class="detail">
     <div class="scroll">
     <?php

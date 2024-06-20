@@ -61,7 +61,7 @@ class PeriksaLogPenduduk extends CI_Controller
         $statusDasar   = $penduduk['status_dasar'];
         $kodePeristiwa = $penduduk['kode_peristiwa'];
 
-        return view('periksa.log', compact('logs', 'kodePeristiwa', 'statusDasar', 'nik', 'nama'));
+        return view('periksa.log', ['logs' => $logs, 'kodePeristiwa' => $kodePeristiwa, 'statusDasar' => $statusDasar, 'nik' => $nik, 'nama' => $nama]);
     }
 
     public function hapusLog()
@@ -79,7 +79,7 @@ class PeriksaLogPenduduk extends CI_Controller
             ->set_content_type('application/json')
             ->set_output(json_encode([
                 'status' => $status,
-            ]));
+            ], JSON_THROW_ON_ERROR));
     }
 
     public function updateStatusDasar()
@@ -101,10 +101,10 @@ class PeriksaLogPenduduk extends CI_Controller
             ->set_content_type('application/json')
             ->set_output(json_encode([
                 'status' => $status,
-            ]));
+            ], JSON_THROW_ON_ERROR));
     }
 
-    private function cek_user()
+    private function cek_user(): void
     {
         if ($this->session->periksa_data != 1) {
             redirect('periksa/login');

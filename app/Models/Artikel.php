@@ -108,7 +108,7 @@ class Artikel extends BaseModel
      *
      * @return Builder
      */
-    public function scopeOnlyArticle($query)
+    public function scopeOnlyArticle($query): \Illuminate\Database\Query\Builder
     {
         return $query->whereNotIn('id_kategori', static::NOT_IN_ARTIKEL);
     }
@@ -146,7 +146,7 @@ class Artikel extends BaseModel
      */
     public function scopeArsip($query)
     {
-        $kategori = json_decode(preg_replace('/\\\\/', '', setting('anjungan_artikel')));
+        $kategori = json_decode(preg_replace('/\\\\/', '', setting('anjungan_artikel')), null);
 
         $artikel = $query->select(Artikel::raw('*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'))
             ->where([['enabled', 1], ['tgl_upload', '<', date('Y-m-d H:i:s')]]);
@@ -195,10 +195,8 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
-    public function getUrlGambarAttribute()
+    public function getUrlGambarAttribute(): void
     {
         // return $this->gambar
         //     ? config('filesystems.disks.ftp.url') . "/desa/upload/artikel/sedang_{$this->gambar}"
@@ -207,10 +205,8 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
-    public function getUrlGambar1Attribute()
+    public function getUrlGambar1Attribute(): void
     {
         // return $this->gambar1
         //     ? config('filesystems.disks.ftp.url') . "/desa/upload/artikel/sedang_{$this->gambar1}"
@@ -219,10 +215,8 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
-    public function getUrlGambar2Attribute()
+    public function getUrlGambar2Attribute(): void
     {
         // return $this->gambar2
         //     ? config('filesystems.disks.ftp.url') . "/desa/upload/artikel/sedang_{$this->gambar2}"
@@ -231,10 +225,8 @@ class Artikel extends BaseModel
 
     /**
      * Getter untuk menambahkan url gambar.
-     *
-     * @return string
      */
-    public function getUrlGambar3Attribute()
+    public function getUrlGambar3Attribute(): void
     {
         // return $this->gambar3
         //     ? config('filesystems.disks.ftp.url') . "/desa/upload/artikel/sedang_{$this->gambar3}"

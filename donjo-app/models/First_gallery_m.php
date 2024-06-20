@@ -71,7 +71,10 @@ class First_gallery_m extends MY_Model
             ->result_array();
 
         // Untuk album yang tidak ada gambar cover, cari gambar di sub-gallery
-        for ($i = 0; $i < count($data); $i++) {
+        $counter = count($data);
+
+        // Untuk album yang tidak ada gambar cover, cari gambar di sub-gallery
+        for ($i = 0; $i < $counter; $i++) {
             if ($data[$i]['gambar'] == '') {
                 $galeri = $data[$i]['id'];
                 $row    = $this->config_id()

@@ -46,23 +46,23 @@ class Keuangan_manual extends Admin_Controller
         $this->modul_ini = 'keuangan';
     }
 
-    public function index()
+    public function index(): void
     {
         redirect('keuangan_manual/manual_apbdes');
     }
 
     // Manual Input Anggaran dan Realisasi APBDes
-    public function setdata_laporan($tahun, $semester)
+    public function setdata_laporan($tahun, $semester): void
     {
         $sess_manual = [
             'set_tahun'    => $tahun,
             'set_semester' => $semester,
         ];
         $this->session->set_userdata($sess_manual);
-        echo json_encode(true);
+        echo json_encode(true, JSON_THROW_ON_ERROR);
     }
 
-    public function laporan_manual()
+    public function laporan_manual(): void
     {
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 
@@ -74,7 +74,7 @@ class Keuangan_manual extends Admin_Controller
         }
     }
 
-    public function grafik_manual($jenis)
+    public function grafik_manual($jenis): void
     {
         $this->sub_modul_ini = 'laporan-manual';
 
@@ -93,8 +93,6 @@ class Keuangan_manual extends Admin_Controller
                 break;
 
             case 'grafik-RP-APBD-manual':
-                $this->grafik_rp_apbd_manual($thn);
-                break;
 
             default:
                 $this->grafik_rp_apbd_manual($thn);
@@ -102,7 +100,7 @@ class Keuangan_manual extends Admin_Controller
         }
     }
 
-    private function rincian_realisasi_manual($thn, $judul)
+    private function rincian_realisasi_manual($thn, string $judul): void
     {
         $data                   = $this->keuangan_grafik_manual_model->lap_rp_apbd($thn);
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
@@ -111,7 +109,7 @@ class Keuangan_manual extends Admin_Controller
         $this->render('keuangan/rincian_realisasi_manual', $data);
     }
 
-    private function grafik_rp_apbd_manual($thn)
+    private function grafik_rp_apbd_manual($thn): void
     {
         $data                   = $this->keuangan_grafik_manual_model->grafik_keuangan_tema($thn);
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
@@ -119,54 +117,54 @@ class Keuangan_manual extends Admin_Controller
         $this->render('keuangan/grafik_rp_apbd_manual', $data);
     }
 
-    public function manual_apbdes()
+    public function manual_apbdes(): void
     {
-        $this->sub_modul_ini      = 'input-data';
-        $data['tahun_anggaran']   = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-        $default_tahun            = ! empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : null;
-        $this->session->set_tahun = $this->session->set_tahun ?? $default_tahun;
-        $this->session->set_jenis = $this->session->set_jenis ?? '4.PENDAPATAN';
-        $data['tahun']            = $this->session->set_tahun;
-        $data['jenis']            = $this->session->set_jenis;
-        $data['lpendapatan']      = $this->keuangan_manual_model->list_rek_pendapatan();
-        $data['lbelanja']         = $this->keuangan_manual_model->list_rek_belanja();
-        $data['lbiaya']           = $this->keuangan_manual_model->list_rek_biaya();
-        $data['lakun']            = $this->keuangan_manual_model->list_akun();
-        $data['main']             = $this->keuangan_manual_model->list_apbdes($data['tahun']);
+        $this->sub_modul_ini    = 'input-data';
+        $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
+        $default_tahun          = empty($data['tahun_anggaran']) ? null : $data['tahun_anggaran'][0];
+        $this->session->set_tahun ??= $default_tahun;
+        $this->session->set_jenis ??= '4.PENDAPATAN';
+        $data['tahun']       = $this->session->set_tahun;
+        $data['jenis']       = $this->session->set_jenis;
+        $data['lpendapatan'] = $this->keuangan_manual_model->list_rek_pendapatan();
+        $data['lbelanja']    = $this->keuangan_manual_model->list_rek_belanja();
+        $data['lbiaya']      = $this->keuangan_manual_model->list_rek_biaya();
+        $data['lakun']       = $this->keuangan_manual_model->list_akun();
+        $data['main']        = $this->keuangan_manual_model->list_apbdes($data['tahun']);
 
         $this->render('keuangan/manual_apbdes', $data);
     }
 
-    public function data_anggaran()
+    public function data_anggaran(): void
     {
         $data = $this->keuangan_manual_model->list_apbdes();
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function load_data()
+    public function load_data(): void
     {
         $data = $this->keuangan_manual_model->list_data_keuangan();
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function get_anggaran()
+    public function get_anggaran(): void
     {
         $id   = $this->input->get('id');
         $data = $this->keuangan_manual_model->get_anggaran($id);
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function simpan_anggaran()
+    public function simpan_anggaran(): void
     {
         $this->redirect_hak_akses('u');
         $insert = $this->validation($this->input->post());
         $data   = $this->keuangan_manual_model->simpan_anggaran($insert);
 
         status_sukses($data);
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function update_anggaran()
+    public function update_anggaran(): void
     {
         $this->redirect_hak_akses('u');
         $id     = $this->input->post('id');
@@ -174,17 +172,17 @@ class Keuangan_manual extends Admin_Controller
         $data   = $this->keuangan_manual_model->update_anggaran($id, $update);
 
         status_sukses($data);
-        echo json_encode($data);
+        echo json_encode($data, JSON_THROW_ON_ERROR);
     }
 
-    public function delete_input($id = '')
+    public function delete_input($id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->keuangan_manual_model->delete_input($id);
         redirect('keuangan_manual/manual_apbdes');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->keuangan_manual_model->delete_all();
         redirect('keuangan_manual/manual_apbdes');
@@ -204,7 +202,7 @@ class Keuangan_manual extends Admin_Controller
     }
 
     // data tahun anggaran untuk keperluan dropdown pada plugin keuangan di text editor
-    public function cek_tahun_manual()
+    public function cek_tahun_manual(): void
     {
         $data       = $this->keuangan_manual_model->list_tahun_anggaran_manual();
         $list_tahun = [];
@@ -215,14 +213,14 @@ class Keuangan_manual extends Admin_Controller
                 'value' => $tahun,
             ];
         }
-        echo json_encode($list_tahun);
+        echo json_encode($list_tahun, JSON_THROW_ON_ERROR);
     }
 
     /**
      * untuk menghindari double post browser
      * https://en.wikipedia.org/wiki/Post/Redirect/Get
      */
-    public function set_terpilih()
+    public function set_terpilih(): void
     {
         $post_tahun               = $this->input->post('tahun_anggaran');
         $post_jenis               = $this->input->post('jenis_anggaran');
@@ -231,7 +229,7 @@ class Keuangan_manual extends Admin_Controller
         redirect('keuangan_manual/manual_apbdes');
     }
 
-    private function validation($post = [])
+    private function validation($post = []): array
     {
         return [
             'Tahun'           => bilangan($post['Tahun']),

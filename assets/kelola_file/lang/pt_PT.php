@@ -1,7 +1,6 @@
 <?php
 
-return array(
-
+return [
     'Select' => 'Seleccionar',
     'Deselect_All' => 'Deselect All',
     'Select_All' => 'Select All',
@@ -44,26 +43,7 @@ return array(
     'Upload_base_help' => "Drag & Drop files(modern browsers) or click in upper button to Add the file(s) and click on Start upload. When the upload is complete, click the 'Return to files list' button.",
     'Upload_add_files' => 'Add file(s)',
     'Upload_start' => 'Start upload',
-    'Upload_error_messages' =>array(
-        1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-        2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-        3 => 'The uploaded file was only partially uploaded',
-        4 => 'No file was uploaded',
-        6 => 'Missing a temporary folder',
-        7 => 'Failed to write file to disk',
-        8 => 'A PHP extension stopped the file upload',
-        'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini',
-        'max_file_size' => 'File is too big',
-        'min_file_size' => 'File is too small',
-        'accept_file_types' => 'Filetype not allowed',
-        'max_number_of_files' => 'Maximum number of files exceeded',
-        'max_width' => 'Image exceeds maximum width',
-        'min_width' => 'Image requires a minimum width',
-        'max_height' => 'Image exceeds maximum height',
-        'min_height' => 'Image requires a minimum height',
-        'abort' => 'File upload aborted',
-        'image_resize' => 'Failed to resize image'
-    ),
+    'Upload_error_messages' =>[1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini', 2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form', 3 => 'The uploaded file was only partially uploaded', 4 => 'No file was uploaded', 6 => 'Missing a temporary folder', 7 => 'Failed to write file to disk', 8 => 'A PHP extension stopped the file upload', 'post_max_size' => 'The uploaded file exceeds the post_max_size directive in php.ini', 'max_file_size' => 'File is too big', 'min_file_size' => 'File is too small', 'accept_file_types' => 'Filetype not allowed', 'max_number_of_files' => 'Maximum number of files exceeded', 'max_width' => 'Image exceeds maximum width', 'min_width' => 'Image requires a minimum width', 'max_height' => 'Image exceeds maximum height', 'min_height' => 'Image requires a minimum height', 'abort' => 'File upload aborted', 'image_resize' => 'Failed to resize image'],
     'Upload_url' => 'From url',
     'Type_dir' => 'dir',
     'Type' => 'Tipo',
@@ -85,25 +65,31 @@ return array(
     'Copy' => 'Copiar',
     'Cut' => 'Cortar',
     'Paste' => 'Colar',
-    'CB' => 'AT', // clipboard
+    'CB' => 'AT',
+    // clipboard
     'Paste_Here' => 'Colar para esta directoria',
     'Paste_Confirm' => 'Você tem a certeza que deseja colar a este diretório? Isso substituirá os arquivos existentes ou pastas se existirem',
     'Paste_Failed' => 'Falha ao colar ficheiros(s)',
     'Clear_Clipboard' => 'Limpar área de transferência',
     'Clear_Clipboard_Confirm' => 'Você tem certeza que deseja limpar a área de transferência?',
     'Files_ON_Clipboard' => 'Há arquivos na área de transferência.',
-    'Copy_Cut_Size_Limit' => 'Os ficheiros/pastas são demasiado grandes para %s. Limite: %d MB/operação', // %s = cut or copy
-    'Copy_Cut_Count_Limit' => 'Você selecionou muitos arquivos / pastas para %s. Limit: %d ficheiros/operação', // %s = cut or copy
-    'Copy_Cut_Not_Allowed' => 'Não te permissão para %s ficheiros.', // %s(1) = cut or copy, %s(2) = files or folders
+    'Copy_Cut_Size_Limit' => 'Os ficheiros/pastas são demasiado grandes para %s. Limite: %d MB/operação',
+    // %s = cut or copy
+    'Copy_Cut_Count_Limit' => 'Você selecionou muitos arquivos / pastas para %s. Limit: %d ficheiros/operação',
+    // %s = cut or copy
+    'Copy_Cut_Not_Allowed' => 'Não te permissão para %s ficheiros.',
+    // %s(1) = cut or copy, %s(2) = files or folders
     'Image_Editor_No_Save' => 'Não foi possível gravar imagem',
     'Image_Editor_Exit' => "Saída",
     'Image_Editor_Save' => "Salve",
     'Zip_No_Extract' => 'Não foi possível extrair. O arquivo pode estar corrompido.',
     'Zip_Invalid' => 'Extensão não suportada. Válidas: zip, gz, tar.',
     'Dir_No_Write' => 'A pasta escolhida não tem permissões para escrever.',
-    'Function_Disabled' => 'A função %s foi desligada pelo servidor.', // %s = cut or copy
+    'Function_Disabled' => 'A função %s foi desligada pelo servidor.',
+    // %s = cut or copy
     'File_Permission' => 'Permissão do Ficheiro',
-    'File_Permission_Not_Allowed' => 'Mudar as permissões dos %s não é permitido.', // %s = files or folders
+    'File_Permission_Not_Allowed' => 'Mudar as permissões dos %s não é permitido.',
+    // %s = files or folders
     'File_Permission_Recursive' => 'AAplicar de forma recursiva?',
     'File_Permission_Wrong_Mode' => "O modo de permissão fornecido está incorreto.",
     'User' => 'Utilizador',
@@ -113,16 +99,17 @@ return array(
     'Lang_Not_Found' => 'Não foi possível encontrar o idioma.',
     'Lang_Change' => 'Alterar o idioma',
     'File_Not_Found' => 'Não foi possível encontrar o arquivo.',
-    'File_Open_Edit_Not_Allowed' => 'Não tem permissão para %s este ficheiro.', // %s = open or edit
+    'File_Open_Edit_Not_Allowed' => 'Não tem permissão para %s este ficheiro.',
+    // %s = open or edit
     'Edit' => 'Editar',
     'Edit_File' => "Editar conteúdo do ficheiro",
     'File_Save_OK' => "Ficheiro gravado com sucesso.",
     'File_Save_Error' => "Ocorreu um erro durante a gravação do ficheiro.",
     'New_File' => 'Novo ficheiro',
     'No_Extension' => 'Tem de adicionar uma extensão ao ficheiro.',
-    'Valid_Extensions' => 'Extensões válidas: %s', // %s = txt,log etc.
+    'Valid_Extensions' => 'Extensões válidas: %s',
+    // %s = txt,log etc.
     'Upload_message' => "Drop file here to upload",
-
     'SERVER ERROR' => "SERVER ERROR",
     'forbidden' => "Forbiden",
     'wrong path' => "Wrong path",
@@ -137,11 +124,12 @@ return array(
     'no file' => "No file",
     'view type number missing' => "View type number missing",
     'Not enough Memory' => "Not enough Memory",
-    'max_size_reached' => "Your image folder has reach its maximale size of %d MB.", //%d = max overall size
+    'max_size_reached' => "Your image folder has reach its maximale size of %d MB.",
+    //%d = max overall size
     'B' => "B",
     'KB' => "KB",
     'MB' => "MB",
     'GB' => "GB",
     'TB' => "TB",
     'total size' => "Total size",
-);
+];

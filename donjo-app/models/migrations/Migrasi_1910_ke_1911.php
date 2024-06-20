@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_1910_ke_1911 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         // WNI sebagai nilai default untuk kolom kewarganegaraan
         $this->dbforge->modify_column('tweb_penduduk', ['warganegara_id' => ['type' => 'TINYINT', 'constraint' => 4, 'null' => false, 'default' => 1]]);
@@ -139,7 +139,7 @@ class Migrasi_1910_ke_1911 extends CI_model
         $this->db->query($sql);
     }
 
-    private function jdih()
+    private function jdih(): void
     {
         // Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
         if ($this->db->table_exists('dokumen')) {

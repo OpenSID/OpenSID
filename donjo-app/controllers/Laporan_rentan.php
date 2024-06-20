@@ -47,7 +47,7 @@ class Laporan_rentan extends Admin_Controller
         $this->sub_modul_ini = 'laporan-kelompok-rentan';
     }
 
-    public function clear()
+    public function clear(): void
     {
         $session = ['cari', 'filter', 'dusun', 'rw', 'rt'];
         $this->session->unset_userdata($session);
@@ -57,7 +57,7 @@ class Laporan_rentan extends Admin_Controller
         redirect('laporan_rentan');
     }
 
-    public function index()
+    public function index(): void
     {
         $data['dusun']      = $this->session->dusun ?? '';
         $data['config']     = $this->header['desa'];
@@ -66,21 +66,21 @@ class Laporan_rentan extends Admin_Controller
         $this->render('laporan/kelompok', $data);
     }
 
-    public function cetak()
+    public function cetak(): void
     {
         $data['config'] = $this->header['desa'];
         $data['main']   = $this->laporan_bulanan_model->list_data();
         $this->load->view('laporan/kelompok_print', $data);
     }
 
-    public function excel()
+    public function excel(): void
     {
         $data['config'] = $this->header['desa'];
         $data['main']   = $this->laporan_bulanan_model->list_data();
         $this->load->view('laporan/kelompok_excel', $data);
     }
 
-    public function dusun()
+    public function dusun(): void
     {
         $dusun = $this->input->post('dusun');
         if ($dusun != '') {
