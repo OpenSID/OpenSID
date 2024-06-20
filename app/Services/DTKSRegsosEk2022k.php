@@ -250,7 +250,7 @@ class DTKSRegsosEk2022k
             },
             'rtm.anggota' => static function ($builder): void {
                 // override all items within the $with property in Penduduk
-                $builder->withOnly(['keluarga', 'pekerjaan', 'pendidikan', 'pendidikanKK']);
+                $builder->withOnly(['keluarga', 'pekerjaan', 'pendidikanKK']);
                 // hanya ambil data anggota yg masih hidup (tweb_penduduk)
                 $builder->where('status_dasar', 1);
             },
@@ -359,7 +359,6 @@ class DTKSRegsosEk2022k
                         $builder->without([
                             'jenisKelamin',
                             'agama',
-                            'pendidikan',
                             'pendidikanKK',
                             'pekerjaan',
                             'wargaNegara',
@@ -379,7 +378,6 @@ class DTKSRegsosEk2022k
                         $builder->without([
                             'jenisKelamin',
                             'agama',
-                            'pendidikan',
                             'pendidikanKK',
                             'pekerjaan',
                             'wargaNegara',
@@ -1944,7 +1942,7 @@ class DTKSRegsosEk2022k
             $dtks_anggota->kd_kelas_tertinggi = 8; // (tamat & lulus) // 414
         }
 
-        $nama_pendidikan = $daftar_pendidikan->where('id', $agt->pendidikan_sedang_id)->pluck('nama')->first();
+        $nama_pendidikan = $agt->pendidikan;
         // tidak/belum pernah sekolah
         if ($agt->pendidikan_sedang_id == 3) {
             $dtks_anggota->kd_partisipasi_sekolah = 1; // 413

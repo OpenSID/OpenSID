@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#8082](https://github.com/OpenSID/OpenSID/issues/8082) Perbaikan link penduduk detail setelah order no_kk.
 32. [#8066](https://github.com/OpenSID/OpenSID/issues/8066) Perbaikan tarik data dari IDM Kemendesa.
 33. [#8106](https://github.com/OpenSID/OpenSID/issues/8106) Perbaikan impor keuangan siskuedes v2.0 r2.0.0.
+34. [#8097](https://github.com/OpenSID/OpenSID/issues/8097) Perbaikan ekspor dtks.
 
 
 #### TEKNIS
