@@ -61,6 +61,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     Route::get('/pesan-keluar/{id?}', 'Pesan@index')->name('layanan-mandiri.pesan.keluar')->param('id', 1);
 
     Route::group('pesan', static function (): void {
+        Route::get('/datatables/{kat?}', 'Pesan@datatables')->name('layanan-mandiri.pesan.datatables')->param('id', 1);
         Route::post('/kirim/{kat?}', 'Pesan@kirim')->name('layanan-mandiri.pesan.kirim');
         Route::get('/baca/{kat}/{id?}', 'Pesan@baca')->name('layanan-mandiri.pesan.baca');
         Route::get('/tulis/{id?}', 'Pesan@tulis')->name('layanan-mandiri.pesan.tulis')->param('id', 1);
@@ -86,8 +87,8 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
         });
     });
 
-    Route::get('/permohonan-surat/{id?}', 'Surat@index')->name('layanan-mandiri.surat.index')->param('id', 1);
-    Route::get('/arsip-surat/{id?}', 'Surat@index')->name('layanan-mandiri.surat.index-arsip')->param('id', 2);
+    Route::get('/permohonan-surat', 'Surat@index')->name('layanan-mandiri.surat.index');
+    Route::get('/arsip-surat', 'Surat@arsip')->name('layanan-mandiri.surat.index-arsip');
 
     Route::group('surat', static function (): void {
         Route::get('/buat/{id?}', 'Surat@buat')->name('layanan-mandiri.surat.buat');
@@ -101,6 +102,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
 
     Route::group('bantuan', static function (): void {
         Route::get('/', 'Bantuan@index')->name('layanan-mandiri.bantuan.index');
+        Route::get('/datatables', 'Bantuan@datatables')->name('layanan-mandiri.bantuan.datatables');
         Route::get('/kartu_peserta/{aksi?}/{id_peserta?}', 'Bantuan@kartu_peserta')->name('layanan-mandiri.bantuan.kartu_peserta');
     });
 
@@ -114,6 +116,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     });
     Route::group('kehadiran', static function (): void {
         Route::get('/', 'Kehadiran_perangkat@index')->name('layanan-mandiri.kehadiran_perangkat.index');
+        Route::get('/datatables', 'Kehadiran_perangkat@datatables')->name('layanan-mandiri.kehadiran_perangkat.datatables');
         Route::match(['GET', 'POST'], '/lapor/{id}', 'Kehadiran_perangkat@lapor')->name('layanan-mandiri.kehadiran_perangkat.lapor');
     });
 

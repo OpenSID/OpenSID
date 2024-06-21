@@ -48,7 +48,7 @@ trait RenderTrait
     protected function render(array $data): JsonResponse
     {
         $output = $this->attachAppends([
-            'draw'            => (int) $this->request->input('draw'),
+            'draw'            => (int) $this->request->draw(),
             'recordsTotal'    => $this->totalRecords,
             'recordsFiltered' => $this->filteredRecords,
             'data'            => $data,
