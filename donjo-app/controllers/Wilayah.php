@@ -124,7 +124,7 @@ class Wilayah extends Admin_Controller
                     break;
 
                 default:
-                    $model           = WilayahModel::dusun()->with(['kepala'])->orderBy('urut')->withCount('rts', 'rws', 'keluargaAktif', 'pendudukPria', 'pendudukWanita');
+                    $model           = WilayahModel::dusun()->with(['kepala'])->orderBy('urut')->withCount(['rts', 'rws' => static fn ($q) => $q->where('rw', '!=', '-'), 'keluargaAktif', 'pendudukPria', 'pendudukWanita']);
                     $cek_lokasi_peta = cek_lokasi_peta(collect(identitas())->toArray());
                     $mapKantor       = 'ajax_kantor_dusun_maps';
                     $mapWilayah      = 'ajax_wilayah_dusun_maps';
@@ -238,7 +238,7 @@ class Wilayah extends Admin_Controller
             ])->withCount([
                 'rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_5.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_6.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_7.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_8.rw = tweb_wil_clusterdesa.rw')),
             ]),
-        ])->orderBy('urut')->withCount('rts', 'rws', 'keluargaAktif', 'pendudukPria', 'pendudukWanita')->get();
+        ])->orderBy('urut')->withCount(['rts', 'rws' => static fn ($q) => $q->where('rw', '!=', '-'), 'keluargaAktif', 'pendudukPria', 'pendudukWanita'])->get();
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');

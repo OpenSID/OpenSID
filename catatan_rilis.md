@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 35. [#8104](https://github.com/OpenSID/OpenSID/issues/8104) Perbaikan hapus data pada mdoul laporan penduduk.
 36. [#8110](https://github.com/OpenSID/OpenSID/issues/8110) Perbaikan dan seragamkan menampilkan data penduduk dan keluarga untuk nik dan kk sementara.
 37. [#8117](https://github.com/OpenSID/OpenSID/issues/8117) Perbaikan saring data pada modul pengguna.
+38. [#8031](https://github.com/OpenSID/OpenSID/issues/8031) Perbaikan hitung jumlah rw pada dusun.
 
 
 #### TEKNIS

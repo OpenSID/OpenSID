@@ -35,9 +35,9 @@
  *
  */
 
-use App\Models\Produk;
-use App\Models\Pelapak;
 use App\Enums\StatusEnum;
+use App\Models\Pelapak;
+use App\Models\Produk;
 use App\Models\ProdukKategori;
 
 defined('BASEPATH') || exit('No direct script access allowed');
