@@ -46,6 +46,11 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#8082](https://github.com/OpenSID/OpenSID/issues/8082) Perbaikan link penduduk detail setelah order no_kk.
 32. [#8066](https://github.com/OpenSID/OpenSID/issues/8066) Perbaikan tarik data dari IDM Kemendesa.
 33. [#8106](https://github.com/OpenSID/OpenSID/issues/8106) Perbaikan impor keuangan siskuedes v2.0 r2.0.0.
+34. [#8097](https://github.com/OpenSID/OpenSID/issues/8097) Perbaikan ekspor dtks.
+35. [#8104](https://github.com/OpenSID/OpenSID/issues/8104) Perbaikan hapus data pada mdoul laporan penduduk.
+36. [#8110](https://github.com/OpenSID/OpenSID/issues/8110) Perbaikan dan seragamkan menampilkan data penduduk dan keluarga untuk nik dan kk sementara.
+37. [#8117](https://github.com/OpenSID/OpenSID/issues/8117) Perbaikan saring data pada modul pengguna.
+38. [#8031](https://github.com/OpenSID/OpenSID/issues/8031) Perbaikan hitung jumlah rw pada dusun.
 
 
 #### TEKNIS
@@ -63,6 +68,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#7818](https://github.com/OpenSID/OpenSID/issues/7818) Penyesuaian modul inventaris jalan menggunakan ORM dan Blade.
 12. [#7816](https://github.com/OpenSID/OpenSID/issues/7816) Penyesuaian modul inventaris peralatan menggunakan ORM dan Blade.
 13. [#8113](https://github.com/OpenSID/OpenSID/issues/8113) Penyesuaian bootstrap pisah dari hook.
+14. [#8045](https://github.com/OpenSID/OpenSID/issues/8045) Penyesuaian modul arsip desa menggunakan ORM dan Blade.
 
 
 #### KEAMANAN

@@ -79,12 +79,14 @@ $(document).ready(function() {
 		'responsive': true,
 		'aoColumnDefs': [
 			{
-				"sClass": "padat", "aTargets": [0]
+				"sClass": "padat", "aTargets": [0],
+				"orderable": false, "aTargets": [0]
 			}
 		],
 		'language': {
 			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-		}
+		},
+		'aaSorting': []
 	});
 
 	function show_alert(type, title, content) {

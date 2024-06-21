@@ -775,7 +775,7 @@ class Keluarga_model extends MY_Model
         $kk['main']       = $this->keluarga_model->list_anggota($id);
         $kk['kepala_kk']  = $this->keluarga_model->get_kepala_kk($id);
         $kk['desa']       = identitas();
-        $data['all_kk'][] = $kk;
+        $data['all_kk'] = $kk;
 
         return $data;
     }

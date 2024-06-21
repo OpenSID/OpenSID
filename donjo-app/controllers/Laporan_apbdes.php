@@ -73,7 +73,7 @@ class Laporan_apbdes extends Admin_Controller
             return datatables()->of(LaporanSinkronisasi::whereTipe($this->tipe))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id_kontak . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
                 ->addIndexColumn()
@@ -145,7 +145,6 @@ class Laporan_apbdes extends Admin_Controller
     public function delete($id = null): void
     {
         isCan('h');
-
         if (LaporanSinkronisasi::destroy($id ?? $this->request['id_cb']) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
