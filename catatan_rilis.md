@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 34. [#8097](https://github.com/OpenSID/OpenSID/issues/8097) Perbaikan ekspor dtks.
 35. [#8104](https://github.com/OpenSID/OpenSID/issues/8104) Perbaikan hapus data pada mdoul laporan penduduk.
 36. [#8110](https://github.com/OpenSID/OpenSID/issues/8110) Perbaikan dan seragamkan menampilkan data penduduk dan keluarga untuk nik dan kk sementara.
+37. [#8117](https://github.com/OpenSID/OpenSID/issues/8117) Perbaikan saring data pada modul pengguna.
 
 
 #### TEKNIS
