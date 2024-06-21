@@ -85,7 +85,7 @@ class KodeIsianGambar
 
         // QR_Code Surat
         if ($this->surat) {
-            $qrCodeCondition = $this->request['qr_code'] && (setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || (setting('tte') == 0);
+            $qrCodeCondition = $this->request['qr_code'] && ((setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || (setting('tte') == 0));
             // TODO:: pindahkan fuction buatQrCode
             if ($qrCodeCondition) {
                 $cek = $this->surat_model->buatQrCode($this->surat->nama_surat);
@@ -109,6 +109,8 @@ class KodeIsianGambar
                 }
 
                 $this->urls_id = $cek['urls_id'];
+            } else {
+                $this->result = str_replace('[qr_code]', '', $this->result);
             }
         } else {
             $this->result = str_replace('[qr_code]', '', $this->result);
