@@ -1246,14 +1246,13 @@ Route::group('bumindes_kader', static function (): void {
 
 // - Arsip Desa
 Route::group('bumindes_arsip', static function (): void {
-    Route::get('/index', 'Bumindes_arsip@index')->name('bumindes_arsip.index-first');
-    Route::get('/index/{p?}/{o?}', 'Bumindes_arsip@index')->name('bumindes_arsip.index-page');
+    Route::get('/', 'Bumindes_arsip@index')->name('bumindes_arsip.index-page');
     Route::get('/tindakan_lihat/{kategori}/{id}/{tindakan}', 'Bumindes_arsip@tindakan_lihat')->name('bumindes_arsip.tindakan_lihat');
-    Route::get('/tindakan_ubah/{kategori}/{id}/{p}/{o}', 'Bumindes_arsip@tindakan_ubah')->name('bumindes_arsip.tindakan_ubah');
+    Route::get('/tindakan_ubah/{kategori}/{id}', 'Bumindes_arsip@tindakan_ubah')->name('bumindes_arsip.tindakan_ubah');
     Route::get('/tampilkan_berkas/{tabel}/{berkas}/{tampil?}', 'Bumindes_arsip@tampilkan_berkas')->name('bumindes_arsip.tampilkan_berkas');
     Route::get('/unduh_berkas/{tabel}/{berkas}', 'Bumindes_arsip@unduh_berkas')->name('bumindes_arsip.unduh_berkas');
-    Route::get('/modal_ubah_arsip/{tabel}/{id}/{p}/{o}', 'Bumindes_arsip@modal_ubah_arsip')->name('bumindes_arsip.modal_ubah_arsip');
-    Route::post('/ubah_dokumen/{tabel}/{id}/{p}/{o}', 'Bumindes_arsip@ubah_dokumen')->name('bumindes_arsip.ubah_dokumen');
+    Route::get('/modal_ubah_arsip/{tabel}/{id}', 'Bumindes_arsip@modal_ubah_arsip')->name('bumindes_arsip.modal_ubah_arsip');
+    Route::post('/ubah_dokumen/{tabel}/{id}', 'Bumindes_arsip@ubah_dokumen')->name('bumindes_arsip.ubah_dokumen');
     Route::get('/clear/{kategori?}', 'Bumindes_arsip@clear')->name('bumindes_arsip.clear');
     Route::match(['GET', 'POST'], '/', 'Bumindes_arsip@index');
     Route::match(['GET', 'POST'], '/{page_number}', 'Bumindes_arsip@index');
