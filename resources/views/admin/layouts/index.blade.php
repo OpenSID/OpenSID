@@ -86,6 +86,8 @@
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
+    <!-- jQuery Cookie -->
+    <script src="{{ asset('bootstrap/js/jquery.cookie.min.js') }}"></script>
 
     @include('admin.layouts.components.token')
 
@@ -122,6 +124,13 @@
             $('ul.sidebar-menu').on('expanded.tree', function(e) {
                 e.stopImmediatePropagation();
                 setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
+            });
+
+            $('form').submit(function() {
+                var csrf_cookie_val = $.cookie('sidcsrf');
+                $(this).find('input[type="hidden"]')
+                    .filter('[name="sidcsrf"]')
+                    .val(csrf_cookie_val);
             });
 
             function scrollTampil(elem) {

@@ -24,8 +24,21 @@ function csrf_semua_form()
 	})
 }
 
+function refreshFormCsrf() {
+	$.ajaxSetup({
+		data: {
+			'sidcsrf': $.cookie('sidcsrf'),
+		}
+	});
+	$('[name="sidcsrf"]').val($.cookie('sidcsrf'));
+}
+
 $('document').ready(function() {
 	csrf_semua_form();
+
+	$(document).ajaxComplete(function() {
+		refreshFormCsrf();
+	});
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
 		if (opts.crossDomain) {
