@@ -4,7 +4,7 @@
 
 @section('title')
     <h1>
-        Daftar Inventaris Peralatan Dan Mesin
+        Daftar Inventaris Gedung Dan Bangunan
     </h1>
 @endsection
 
@@ -17,7 +17,7 @@
 @endpush
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Peralatan Dan Mesin</li>
+    <li class="active">Daftar Inventaris Gedung Dan Bangunan</li>
 @endsection
 
 @section('content')
@@ -40,7 +40,7 @@
                                     <th class="text-center">Kode Barang / Nomor Registrasi</th>
                                     <th class="text-center">Tahun Pengadaan</th>
                                     <th class="text-center">Tanggal Mutasi</th>
-                                    <th class="text-center">Status Peralatan</th>
+                                    <th class="text-center">Status Gedung dan Bangunan</th>
                                     <th class="text-center">Jenis Mutasi</th>
                                     <th class="text-center" width="300px">Keterangan</th>
                                 </tr>
@@ -65,7 +65,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('inventaris_peralatan_mutasi.datatables') }}",
+                    url: "{{ ci_route('inventaris_gedung_mutasi.datatables') }}",
                     data: function(req) {}
                 },
                 columns: [{
@@ -93,8 +93,8 @@
                         orderable: true
                     },
                     {
-                        data: 'tahun_pengadaan',
-                        name: 'tahun_pengadaan',
+                        data: 'tanggal_dokument',
+                        name: 'tanggal_dokument',
                         empty: '-',
                         searchable: true,
                         orderable: true
