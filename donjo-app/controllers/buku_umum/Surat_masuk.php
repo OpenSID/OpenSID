@@ -57,7 +57,7 @@ class Surat_masuk extends Admin_Controller
         $this->tab_ini       = 2;
     }
 
-    public function clear($id = 0)
+    public function clear($id = 0): void
     {
         $_SESSION['per_page'] = 20;
         $_SESSION['surat']    = $id;
@@ -66,22 +66,14 @@ class Surat_masuk extends Admin_Controller
         redirect('surat_masuk');
     }
 
-    public function index($p = 1, $o = 2)
+    public function index($p = 1, $o = 2): void
     {
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
+        $data['filter'] = $_SESSION['filter'] ?? '';
 
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
@@ -100,7 +92,7 @@ class Surat_masuk extends Admin_Controller
         $this->render('bumindes/umum/main', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['pengirim']    = $this->surat_masuk_model->autocomplete();
@@ -119,8 +111,7 @@ class Surat_masuk extends Admin_Controller
             $data['disposisi_surat_masuk']     = null;
         }
 
-        $non_aktif             = RefJabatan::nonAktif()->pluck('id', 'id');
-        $data['ref_disposisi'] = RefJabatan::with('pamongs')->urut()->latest()->pluck('nama', 'id')->except(kades()->id)->except($non_aktif);
+        $data['ref_disposisi'] = $this->ref_disposisi();
 
         // Buang unique id pada link nama file
         $berkas                             = explode('__sid__', $data['surat_masuk']['berkas_scan']);
@@ -132,14 +123,21 @@ class Surat_masuk extends Admin_Controller
         $this->render('surat_masuk/form', $data);
     }
 
-    public function form_upload($p = 1, $o = 0, $url = '')
+    private function ref_disposisi()
+    {
+        $non_aktif = RefJabatan::nonAktif()->pluck('id', 'id');
+
+        return RefJabatan::with('pamongs')->urut()->latest()->pluck('nama', 'id')->except(kades()->id)->except($non_aktif)->toArray();
+    }
+
+    public function form_upload($p = 1, $o = 0, $url = ''): void
     {
         $this->redirect_hak_akses('u');
         $data['form_action'] = site_url("surat_masuk/upload/{$p}/{$o}/{$url}");
         $this->load->view('surat_masuk/ajax-upload', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -150,7 +148,7 @@ class Surat_masuk extends Admin_Controller
         redirect('surat_masuk');
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -161,42 +159,42 @@ class Surat_masuk extends Admin_Controller
         redirect('surat_masuk');
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->surat_masuk_model->insert();
         redirect('surat_masuk');
     }
 
-    public function update($p = 1, $o = 0, $id = '')
+    public function update($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->surat_masuk_model->update($id);
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
-    public function upload($p = 1, $o = 0, $url = '')
+    public function upload($p = 1, $o = 0, $url = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->surat_masuk_model->upload($url);
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->surat_masuk_model->delete($id);
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->surat_masuk_model->delete_all();
         redirect("surat_masuk/index/{$p}/{$o}");
     }
 
-    public function dialog_disposisi($o, $id)
+    public function dialog_disposisi($o, $id): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = 'Cetak';
@@ -205,7 +203,7 @@ class Surat_masuk extends Admin_Controller
     }
 
     // TODO: Satukan dialog cetak dan unduh
-    public function dialog_cetak($o = 0)
+    public function dialog_cetak($o = 0): void
     {
         $data['aksi']        = 'Cetak';
         $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
@@ -214,7 +212,7 @@ class Surat_masuk extends Admin_Controller
     }
 
     // TODO: Satukan dialog cetak dan unduh
-    public function dialog_unduh($o = 0)
+    public function dialog_unduh($o = 0): void
     {
         $data['aksi']        = 'Unduh';
         $data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
@@ -222,7 +220,7 @@ class Surat_masuk extends Admin_Controller
         $this->load->view('surat_masuk/ajax_cetak', $data);
     }
 
-    public function dialog($aksi = 'unduh', $o = 0)
+    public function dialog($aksi = 'unduh', $o = 0): void
     {
         // TODO :: gunakan view global penandatangan
         $ttd                    = $this->modal_penandatangan();
@@ -240,13 +238,13 @@ class Surat_masuk extends Admin_Controller
         }
     }
 
-    public function disposisi($id)
+    public function disposisi($id): void
     {
         $data['input']                 = $_POST;
         $data['desa']                  = $this->header['desa'];
         $data['pamong_ttd']            = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui']        = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['ref_disposisi']         = RefJabatan::select(['id', 'nama'])->urut()->latest()->get()->except(kades()->id);
+        $data['ref_disposisi']         = $this->ref_disposisi();
         $data['disposisi_surat_masuk'] = DisposisiSuratmasuk::where('id_surat_masuk', $id)->pluck('disposisi_ke')->toArray();
         $data['surat']                 = $this->surat_masuk_model->get_surat_masuk($id);
         $this->load->view('surat_masuk/disposisi', $data);
@@ -257,17 +255,15 @@ class Surat_masuk extends Admin_Controller
      *
      * @param int $idSuratMasuk Id berkas scan pada koloam surat_masuk.id
      * @param int $tipe
-     *
-     * @return void
      */
-    public function berkas($idSuratMasuk = 0, $tipe = 0)
+    public function berkas($idSuratMasuk = 0, $tipe = 0): void
     {
         // Ambil nama berkas dari database
         $berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
-        ambilBerkas($berkas, 'surat_masuk', '__sid__', LOKASI_ARSIP, ($tipe == 1) ? true : false);
+        ambilBerkas($berkas, 'surat_masuk', '__sid__', LOKASI_ARSIP, $tipe == 1);
     }
 
-    public function nomor_surat_duplikat()
+    public function nomor_surat_duplikat(): void
     {
         if ($_POST['nomor_urut'] == $_POST['nomor_urut_lama']) {
             $hasil = false;

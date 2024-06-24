@@ -136,7 +136,7 @@ class LogPenduduk extends BaseModel
         return static::PENYEBAB_KEMATIAN[$this->sebab] ?? '';
     }
 
-    public static function kodePeristiwaAll($index)
+    public static function kodePeristiwaAll($index): string
     {
         $result = [
             self::BARU_LAHIR        => 'Baru Lahir',

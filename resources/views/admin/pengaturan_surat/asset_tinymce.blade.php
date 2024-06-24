@@ -89,6 +89,7 @@
                 plugins: plugins_tambahan,
                 content_style: `body { font-family: ${default_font}; }`,
                 toolbar1: "removeformat | bold italic underline subscript superscript | bullist numlist outdent indent lineheight | alignleft aligncenter alignright alignjustify | blocks fontfamily fontsizeinput",
+                // toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak | kotakrapat | kotak" : ""),
                 toolbar2: "responsivefilemanager | salintemplate | kodeisian " + (!pratinjau ? " | insertpagebreak" : ""),
                 // toolbar: [{ name: 'blocks', items: [ 'p', 'h', 'menjorok' ] },],
                 image_advtab: true,
@@ -116,26 +117,26 @@
                             ed.execCommand('removeFormat')
                         }
                     });
-                    ed.ui.registry.addButton('kotak', {
-                        text: 'Kotak',
-                        onAction: function(_) {
-                            var selectedText = ed.selection.getContent({
-                                format: 'text'
-                            })
-                            var replacedText = `[#[${selectedText.replace(/^\[*/,'').replace(/\]*$/,'')}]#]`
-                            ed.selection.setContent(replacedText)
-                        }
-                    });
-                    ed.ui.registry.addButton('kotakrapat', {
-                        text: 'Kotak Rapat',
-                        onAction: function(_) {
-                            var selectedText = ed.selection.getContent({
-                                format: 'text'
-                            })
-                            var replacedText = `[##[${selectedText.replace(/^\[*/,'').replace(/\]*$/,'')}]##]`
-                            ed.selection.setContent(replacedText)
-                        }
-                    });
+                    // ed.ui.registry.addButton('kotak', {
+                    //     text: 'Kotak',
+                    //     onAction: function(_) {
+                    //         var selectedText = ed.selection.getContent({
+                    //             format: 'text'
+                    //         })
+                    //         var replacedText = `[#[${selectedText.replace(/^\[*/,'').replace(/\]*$/,'')}]#]`
+                    //         ed.selection.setContent(replacedText)
+                    //     }
+                    // });
+                    // ed.ui.registry.addButton('kotakrapat', {
+                    //     text: 'Kotak Rapat',
+                    //     onAction: function(_) {
+                    //         var selectedText = ed.selection.getContent({
+                    //             format: 'text'
+                    //         })
+                    //         var replacedText = `[##[${selectedText.replace(/^\[*/,'').replace(/\]*$/,'')}]##]`
+                    //         ed.selection.setContent(replacedText)
+                    //     }
+                    // });
                     ed.on('init', function(e) {
                         ed.execCommand("fontName", false, "${default_font}");
                         ed.execCommand("fontSize", false, "14pt");

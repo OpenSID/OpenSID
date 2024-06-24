@@ -93,7 +93,25 @@ class LogKeluarga extends BaseModel
 
     public function Keluarga()
     {
-        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsTo(Keluarga::class, 'id_kk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+    }
+
+    public static function kodePeristiwaAll($index): string
+    {
+        $result = [
+            self::KELUARGA_BARU                 => 'Baru Lahir',
+            self::KEPALA_KELUARGA_MATI          => 'Kepala Keluarga Mati',
+            self::KEPALA_KELUARGA_PINDAH        => 'Kepala Keluarga Pindah',
+            self::KEPALA_KELUARGA_HILANG        => 'Kepala Keluarga Hilang',
+            self::KELUARGA_BARU_DATANG          => 'Keluarga Baru Datang',
+            self::KEPALA_KELUARGA_PERGI         => 'Kepala Keluarga Pergi',
+            self::KEPALA_KELUARGA_TIDAK_VALID   => 'Kepala Keluarga Tidak Valid',
+            self::ANGGOTA_KELUARGA_PECAH        => 'Anggota Keluarga Pecah',
+            self::KELUARGA_HAPUS                => 'Keluarga Hapus',
+            self::KEPALA_KELUARGA_KEMBALI_HIDUP => 'Kepala Keluarga Kembali Hidup',
+        ];
+
+        return $result[$index] ?? '-';
     }
 
     public static function kodePeristiwaAll($index)

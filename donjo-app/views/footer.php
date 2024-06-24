@@ -43,6 +43,7 @@
 				<script src="<?= asset('js/numeral.min.js') ?>"></script>
 				<!-- Script-->
 				<script src="<?= asset('js/script.js') ?>"></script>
+				<script src="<?= asset('js/admin.js') ?>"></script>
 				<script src="<?= asset('js/custom-select2.js') ?>"></script>
 				<script src="<?= asset('js/custom-datetimepicker.js') ?>"></script>
 

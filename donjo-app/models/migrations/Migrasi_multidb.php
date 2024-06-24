@@ -140,9 +140,7 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->dtks($hasil);
         $hasil = $hasil && $this->password_reset($hasil);
 
-        $hasil = $hasil && $this->jalankan_migrasi('data_awal');
-
-        return $hasil && true;
+        return $hasil && $this->jalankan_migrasi('data_awal');
     }
 
     // OpenKAB - Identitas Desa
@@ -193,14 +191,14 @@ class Migrasi_multidb extends MY_model
 
         // Unique kolom app_key pada tabel config
         if (! $this->cek_indeks($tabel, 'app_key')) {
-            Schema::table($tabel, static function (Blueprint $table) {
+            Schema::table($tabel, static function (Blueprint $table): void {
                 $table->unique(['app_key'], 'app_key');
             });
         }
 
         // Unique kolom kode_desa pada tabel config
         if (! $this->cek_indeks($tabel, 'kode_desa')) {
-            Schema::table($tabel, static function (Blueprint $table) {
+            Schema::table($tabel, static function (Blueprint $table): void {
                 $table->unique(['kode_desa'], 'kode_desa');
             });
         }
@@ -232,9 +230,7 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tambah_config_id($table);
 
         // Sesuaikan ulang index key pada tabel setting_aplikasi
-        $hasil = $hasil && $this->buat_ulang_index($table, 'key', '(`config_id`, `key`)');
-
-        return $hasil && true;
+        return $hasil && $this->buat_ulang_index($table, 'key', '(`config_id`, `key`)');
     }
 
     // OpenKAB - Teks Berjalan
@@ -296,12 +292,12 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tambah_config_id($tabel);
 
         if (! $this->cek_indeks($tabel, 'media_sosial_config')) {
-            Schema::table($tabel, static function (Blueprint $table) {
+            Schema::table($tabel, static function (Blueprint $table): void {
                 $table->unique(['config_id', 'nama'], 'media_sosial_config');
             });
         }
 
-        return $hasil && true;
+        return $hasil;
     }
 
     // OpenKAB - Kehadiran Jam Kerja
@@ -312,12 +308,12 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tambah_config_id($tabel);
 
         if (! $this->cek_indeks($tabel, 'jam_kerja_config')) {
-            Schema::table($tabel, static function (Blueprint $table) {
+            Schema::table($tabel, static function (Blueprint $table): void {
                 $table->unique(['config_id', 'nama_hari'], 'jam_kerja_config');
             });
         }
 
-        return $hasil && true;
+        return $hasil;
     }
 
     // OpenKAB - Kehadiran Alasan Keluar
@@ -448,7 +444,6 @@ class Migrasi_multidb extends MY_model
     protected function anjungan_menu($hasil)
     {
         $tabel = 'anjungan_menu';
-        $hasil = $hasil && $this->tambah_config_id($tabel);
 
         // if (! $this->cek_indeks($tabel, 'anjungan_menu_config')) {
         //     Schema::table($tabel, static function (Blueprint $table) {
@@ -456,7 +451,7 @@ class Migrasi_multidb extends MY_model
         //     });
         // }
 
-        return $hasil && true;
+        return $hasil && $this->tambah_config_id($tabel);
     }
 
     protected function peta_lokasi($hasil)
@@ -935,7 +930,7 @@ class Migrasi_multidb extends MY_model
         $hasil = $hasil && $this->tambah_config_id($tabel);
 
         if (! $this->cek_indeks($tabel, 'nama_grup_config')) {
-            Schema::table($tabel, static function (Blueprint $table) {
+            Schema::table($tabel, static function (Blueprint $table): void {
                 $table->unique(['config_id', 'nama'], 'nama_grup_config');
             });
         }
@@ -1127,7 +1122,6 @@ class Migrasi_multidb extends MY_model
 
     protected function password_reset($hasil)
     {
-        $tabel = 'password_resets';
         $this->db->query('ALTER TABLE password_resets MODIFY COLUMN created_at timestamp DEFAULT current_timestamp() NOT NULL');
 
         return $hasil;
@@ -1135,17 +1129,11 @@ class Migrasi_multidb extends MY_model
 
     protected function cek_data_kelompok($hasil)
     {
-        Kelompok::whereNotIn('id_master', static function ($q) {
-            return $q->select('id')->from('kelompok_master');
-        })->delete();
+        Kelompok::whereNotIn('id_master', static fn ($q) => $q->select('id')->from('kelompok_master'))->delete();
 
-        KelompokAnggota::whereNotIn('id_kelompok', static function ($q) {
-            return $q->select('id')->from('kelompok');
-        })->delete();
+        KelompokAnggota::whereNotIn('id_kelompok', static fn ($q) => $q->select('id')->from('kelompok'))->delete();
 
-        KelompokAnggota::whereNotIn('id_penduduk', static function ($q) {
-            return $q->select('id')->from('tweb_penduduk');
-        })->delete();
+        KelompokAnggota::whereNotIn('id_penduduk', static fn ($q) => $q->select('id')->from('tweb_penduduk'))->delete();
 
         return $hasil;
     }

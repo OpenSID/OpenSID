@@ -53,52 +53,47 @@ class Analisis_indikator_model extends MY_Model
     private function search_sql()
     {
         if (isset($_SESSION['cari'])) {
-            $cari       = $_SESSION['cari'];
-            $kw         = $this->db->escape_like_str($cari);
-            $kw         = '%' . $kw . '%';
-            $search_sql = " AND (u.pertanyaan LIKE '{$kw}' OR u.pertanyaan LIKE '{$kw}')";
+            $cari = $_SESSION['cari'];
+            $kw   = $this->db->escape_like_str($cari);
+            $kw   = '%' . $kw . '%';
 
-            return $search_sql;
+            return " AND (u.pertanyaan LIKE '{$kw}' OR u.pertanyaan LIKE '{$kw}')";
         }
     }
 
     private function filter_sql()
     {
         if (isset($_SESSION['filter'])) {
-            $kf         = $_SESSION['filter'];
-            $filter_sql = " AND u.act_analisis = {$kf}";
+            $kf = $_SESSION['filter'];
 
-            return $filter_sql;
+            return " AND u.act_analisis = {$kf}";
         }
     }
 
     private function master_sql()
     {
         if (isset($_SESSION['analisis_master'])) {
-            $kf         = $_SESSION['analisis_master'];
-            $filter_sql = " AND u.id_master = {$kf}";
+            $kf = $_SESSION['analisis_master'];
 
-            return $filter_sql;
+            return " AND u.id_master = {$kf}";
         }
     }
 
     private function tipe_sql()
     {
         if (isset($_SESSION['tipe'])) {
-            $kf         = $_SESSION['tipe'];
-            $filter_sql = " AND u.id_tipe = {$kf}";
+            $kf = $_SESSION['tipe'];
 
-            return $filter_sql;
+            return " AND u.id_tipe = {$kf}";
         }
     }
 
     private function kategori_sql()
     {
         if (isset($_SESSION['kategori'])) {
-            $kf         = $_SESSION['kategori'];
-            $filter_sql = " AND u.id_kategori = {$kf}";
+            $kf = $_SESSION['kategori'];
 
-            return $filter_sql;
+            return " AND u.id_kategori = {$kf}";
         }
     }
 
@@ -161,15 +156,12 @@ class Analisis_indikator_model extends MY_Model
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['no'] = $j + 1;
-            if ($data[$i]['act_analisis'] == 1) {
-                $data[$i]['act_analisis'] = 'Ya';
-            } else {
-                $data[$i]['act_analisis'] = 'Tidak';
-            }
+        for ($i = 0; $i < $counter; $i++) {
+            $data[$i]['no']           = $j + 1;
+            $data[$i]['act_analisis'] = $data[$i]['act_analisis'] == 1 ? 'Ya' : 'Tidak';
             $j++;
         }
 
@@ -197,7 +189,7 @@ class Analisis_indikator_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         // Analisis sistem tidak boleh diubah
         if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) {
@@ -227,7 +219,7 @@ class Analisis_indikator_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    private function update_indikator_sistem($id)
+    private function update_indikator_sistem($id): void
     {
         // Hanya kolom yang boleh diubah untuk analisis sistem
         $data['is_publik'] = $_POST['is_publik'];
@@ -235,7 +227,7 @@ class Analisis_indikator_model extends MY_Model
         $this->session->success = 1;
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) {
             $this->update_indikator_sistem($id);
@@ -250,7 +242,7 @@ class Analisis_indikator_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = 0, $semua = false)
+    public function delete($id = 0, $semua = false): void
     {
         // Analisis sistem tidak boleh dihapus
         if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) {
@@ -268,7 +260,7 @@ class Analisis_indikator_model extends MY_Model
         status_sukses($outp, true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -288,7 +280,7 @@ class Analisis_indikator_model extends MY_Model
         ];
     }
 
-    public function p_insert($in = 0, $data_referensi = null)
+    public function p_insert($in = 0, $data_referensi = null): void
     {
         // Analisis sistem tidak boleh diubah
         if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) {
@@ -303,7 +295,7 @@ class Analisis_indikator_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function p_update($id = 0)
+    public function p_update($id = 0): void
     {
         $data = $this->validasi_parameter($this->input->post());
         // Analisis sistem hanya kolom tertentu boleh diubah
@@ -314,7 +306,7 @@ class Analisis_indikator_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function p_delete($id = 0)
+    public function p_delete($id = 0): void
     {
         $this->session->success = 1;
         // Analisis sistem tidak boleh dihapus
@@ -327,7 +319,7 @@ class Analisis_indikator_model extends MY_Model
         status_sukses($outp, true); //Tampilkan Pesan
     }
 
-    public function p_delete_all()
+    public function p_delete_all(): void
     {
         $id_cb = $_POST['id_cb'];
 
@@ -387,7 +379,6 @@ class Analisis_indikator_model extends MY_Model
 
     public function get_analisis_indikator_by_id_master($id = 0)
     {
-        $result         = [];
         $list_indikator = [];
         $list_parameter = [];
 

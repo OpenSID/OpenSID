@@ -64,7 +64,7 @@ class Kontak extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -98,10 +98,10 @@ class Kontak extends Admin_Controller
             $kontak      = null;
         }
 
-        return view('admin.kontak.form', compact('action', 'form_action', 'kontak'));
+        return view('admin.kontak.form', ['action' => $action, 'form_action' => $form_action, 'kontak' => $kontak]);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -111,7 +111,7 @@ class Kontak extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -123,7 +123,7 @@ class Kontak extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h');
 
@@ -133,7 +133,7 @@ class Kontak extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function deleteAll()
+    public function deleteAll(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -144,7 +144,7 @@ class Kontak extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validate($request = [])
+    protected static function validate($request = []): array
     {
         return [
             'nama'         => nama_terbatas($request['nama']),

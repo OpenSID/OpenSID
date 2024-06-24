@@ -44,7 +44,7 @@ class Pelanggan_model extends MY_Model
     /**
      * @var Client HTTP Client
      */
-    protected $client;
+    protected Client $client;
 
     public function __construct()
     {

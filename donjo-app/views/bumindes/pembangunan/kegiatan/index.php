@@ -95,7 +95,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <?php $this->load->view('global/confirm_delete'); ?>
 <script>
 	$(document).ready(function() {
-		var satuan_waktu = JSON.parse('<?= json_encode($satuan_waktu) ?>');
+		var satuan_waktu = JSON.parse('<?= json_encode($satuan_waktu, JSON_THROW_ON_ERROR) ?>');
 		let tabelPembangunan = $('#tabel-pembangunan').DataTable({
 			'processing': true,
 			'serverSide': true,

@@ -86,7 +86,7 @@
                                             </thead>
                                             <tbody>
                                                 <?php $nomer = 0; ?>
-                                                <?php foreach ($mutasi as $key => $item): $nomer++; ?>
+                                                <?php foreach ($mutasi as $item): $nomer++; ?>
                                                     <tr>
                                                         <td class="text-center"><?= $nomer?></td>
                                                         <td><a href="<?= site_url('cdesa/rincian/' . $item['id_cdesa_masuk'])?>"><?= $item['cdesa_masuk']?></a></td>

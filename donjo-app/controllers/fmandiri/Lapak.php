@@ -45,7 +45,7 @@ class Lapak extends Mandiri_Controller
         $this->load->model('lapak_model');
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         $data['id_kategori'] = $this->input->get('id_kategori', true);
         $data['keyword']     = $this->input->get('keyword', true);

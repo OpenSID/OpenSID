@@ -133,7 +133,7 @@ class Migrasi_fitur_premium_2203 extends MY_model
             ->where('value', 'klasik')
             ->update('setting_aplikasi');
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function migrasi_2022021671($hasil)
@@ -209,7 +209,7 @@ class Migrasi_fitur_premium_2203 extends MY_model
         }
 
         if ($fields) {
-            $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_spj', $fields);
+            return $hasil && $this->dbforge->modify_column('keuangan_ta_spj', $fields);
         }
 
         return $hasil;
@@ -236,7 +236,7 @@ class Migrasi_fitur_premium_2203 extends MY_model
         }
 
         if ($fields) {
-            $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_kegiatan', $fields);
+            return $hasil && $this->dbforge->modify_column('keuangan_ta_kegiatan', $fields);
         }
 
         return $hasil;

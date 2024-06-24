@@ -71,7 +71,7 @@ class Vaksin_covid_model extends MY_Model
         return array_values(array_filter($jenis_vaksin));
     }
 
-    public function dusun_sql()
+    public function dusun_sql(): void
     {
         $kf = $this->session->dusun;
         if (isset($kf)) {
@@ -79,7 +79,7 @@ class Vaksin_covid_model extends MY_Model
         }
     }
 
-    public function vaksin_sql()
+    public function vaksin_sql(): void
     {
         $kf = $this->session->vaksin;
 
@@ -102,7 +102,7 @@ class Vaksin_covid_model extends MY_Model
         }
     }
 
-    public function jenis_vaksin_sql()
+    public function jenis_vaksin_sql(): void
     {
         $kf = $this->session->jenis_vaksin;
 
@@ -115,7 +115,7 @@ class Vaksin_covid_model extends MY_Model
         }
     }
 
-    public function tanggal_vaksin_sql()
+    public function tanggal_vaksin_sql(): void
     {
         $kf = $this->session->tanggal_vaksin;
 
@@ -129,16 +129,20 @@ class Vaksin_covid_model extends MY_Model
         }
     }
 
-    public function umur_sql($umur)
+    public function umur_sql($umur): void
     {
         $umur = explode('-', $umur);
         $this->db->where("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(p.tanggallahir)),'%Y') + 0) >= " . (int) $umur[0]);
-        if (isset($umur[1]) && $umur[1] > $umur[0]) {
-            $this->db->where("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(p.tanggallahir)),'%Y') + 0) <=  " . (int) $umur[1]);
+        if (! isset($umur[1])) {
+            return;
         }
+        if ($umur[1] <= $umur[0]) {
+            return;
+        }
+        $this->db->where("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(p.tanggallahir)),'%Y') + 0) <=  " . (int) $umur[1]);
     }
 
-    public function cari($value = '')
+    public function cari($value = ''): void
     {
         $kf = $this->session->cari;
         if (isset($kf)) {
@@ -162,7 +166,7 @@ class Vaksin_covid_model extends MY_Model
         return $this->db->get()->row();
     }
 
-    public function penduduk_sql()
+    public function penduduk_sql(): void
     {
         $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
         $this->db
@@ -232,7 +236,7 @@ class Vaksin_covid_model extends MY_Model
         return $this->db->get("{$this->tabel_penduduk} as p")->row();
     }
 
-    public function update_vaksin()
+    public function update_vaksin(): void
     {
         unset($this->session->validation_error, $this->session->success);
         $data           = $this->input->post();
@@ -278,7 +282,7 @@ class Vaksin_covid_model extends MY_Model
         status_sukses($hasil);
     }
 
-    public function upload_sertifikat(&$data)
+    public function upload_sertifikat(&$data): void
     {
         for ($i = 1; $i <= 3; $i++) {
             $file = "vaksin_{$i}";
@@ -328,7 +332,7 @@ class Vaksin_covid_model extends MY_Model
         }
     }
 
-    public function upload_surat(&$data)
+    public function upload_surat(&$data): void
     {
         if ($_FILES['surat_dokter']['size'] != 0 && $data['tunda'] == 1) {
             $file                 = 'surat_dokter';
@@ -354,12 +358,10 @@ class Vaksin_covid_model extends MY_Model
         $data['tgl_vaksin_3']   = (! isset($data['tgl_vaksin_3']) || $data['tgl_vaksin_3'] == '') ? null : rev_tgl($data['tgl_vaksin_3']);
         $data['jenis_vaksin_3'] = (isset($data['jenis_vaksin_3']) || $data['jenis_vaksin_3'] != '') ? alfanumerik_spasi($data['jenis_vaksin_3']) : null;
         $data['tunda']          = (int) ($data['tunda']);
-        $data['surat_dokter']   = $data['surat_dokter'] ?? null;
-        $data['keterangan']     = alfanumerik_spasi($data['keterangan']);
+        $data['surat_dokter'] ??= null;
+        $data['keterangan'] = alfanumerik_spasi($data['keterangan']);
 
-        if (! empty($valid)) {
-            $this->session->success = -1;
-        }
+        $this->session->success = -1;
 
         return $valid;
     }
@@ -424,7 +426,7 @@ class Vaksin_covid_model extends MY_Model
             return session_error($this->upload->display_errors());
         }
 
-        $upload = $this->upload->data();
+        $this->upload->data();
 
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($_FILES['userfile']['tmp_name']);
@@ -451,7 +453,7 @@ class Vaksin_covid_model extends MY_Model
 
                     $nik = (string) $cells[0];
 
-                    if (empty($nik)) {
+                    if ($nik === '') {
                         $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kolom NIK Tidak Boleh Kosong.</br>";
                         $gagal++;
                         $outp = false;
@@ -462,7 +464,7 @@ class Vaksin_covid_model extends MY_Model
                     if ($penduduk = $this->cekPenduduk($nik)) {
                         $id_penduduk = $penduduk['id'];
 
-                        if (empty((string) $cells[7])) {
+                        if ((string) $cells[7] === '') {
                             $tunda      = 0;
                             $keterangan = null;
                             if (! empty($tgl_vaksin_1 = $this->cekTgl((string) $cells[1]))) {
@@ -562,7 +564,7 @@ class Vaksin_covid_model extends MY_Model
         return status_sukses($outp, false, 'Terjadi kesalahan impor data Penerima Vaksin');
     }
 
-    private function cekPenduduk($nik = '')
+    private function cekPenduduk(string $nik = '')
     {
         return $this->config_id()
             ->select('id', 'nama')
@@ -578,7 +580,7 @@ class Vaksin_covid_model extends MY_Model
 
     protected function jenisVaksin(string $cells = '', $default = '')
     {
-        if (empty($cells)) {
+        if ($cells === '') {
             $this->load->model('referensi_model');
 
             if (! $default) {

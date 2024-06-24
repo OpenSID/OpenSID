@@ -218,7 +218,7 @@ class Migrasi_fitur_premium_2309 extends MY_model
             'bumindes-hasil-pembangunan',
         ];
 
-        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, array_merge($modul, $hidden), 'buku-administrasi-desa', $hidden, $hasil);
+        return $hasil && $this->update_parent_sub_modul($hasil, $config_id, [...$modul, ...$hidden], 'buku-administrasi-desa', $hidden);
     }
 
     protected function migrasi_23082353($hasil, $config_id)

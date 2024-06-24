@@ -74,7 +74,7 @@ class Seeder extends CI_Model
         }
     }
 
-    public function run()
+    public function run(): void
     {
         $this->load->helper('directory');
 
@@ -111,7 +111,7 @@ class Seeder extends CI_Model
     }
 
     // Kalau belum diisi, buat identitas desa jika kode_desa ada di file desa/config/config.php
-    private function isi_config()
+    private function isi_config(): void
     {
         if (! Schema::hasTable('config') || identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
             return;

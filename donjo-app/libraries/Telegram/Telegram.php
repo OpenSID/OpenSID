@@ -55,19 +55,19 @@ class Telegram
     /**
      * @var HttpClient HTTP Client
      */
-    protected $http;
+    protected HttpClient $http;
 
     /**
      * @var string|null Telegram Bot API Token.
      */
-    protected $token;
+    protected string $token;
 
     private $active;
 
     /**
      * @var string Telegram Bot API Base URI
      */
-    protected $apiBaseUri = 'https://api.telegram.org';
+    protected string $apiBaseUri = 'https://api.telegram.org';
 
     /**
      * @param string|null     $token
@@ -78,7 +78,7 @@ class Telegram
     {
         $this->ci = get_instance();
 
-        $this->token  = $this->ci->setting->telegram_token;
+        $this->token  = $this->ci->setting->telegram_token ?? '';
         $this->active = $this->ci->setting->telegram_notifikasi;
         $this->http   = new HttpClient();
     }
@@ -164,10 +164,8 @@ class Telegram
      */
     public function sendMessage(array $params): ?ResponseInterface
     {
-        if (isset($params['chat_id'])) {
-            if (strlen($params['chat_id']) >= 6) {
-                return $this->active ? $this->sendRequest('sendMessage', $params) : null;
-            }
+        if (isset($params['chat_id']) && strlen($params['chat_id']) >= 6) {
+            return $this->active ? $this->sendRequest('sendMessage', $params) : null;
         }
 
         return null;
@@ -200,7 +198,7 @@ class Telegram
      */
     protected function sendRequest(string $endpoint, array $params, bool $multipart = false): ?ResponseInterface
     {
-        if (empty($this->token)) {
+        if ($this->token === '') {
             throw CouldNotSendNotification::telegramBotTokenNotProvided('You must provide your telegram bot token to make any API requests.');
         }
 
@@ -221,10 +219,8 @@ class Telegram
      * Convert a value to studly caps case.
      *
      * @param string $value
-     *
-     * @return string
      */
-    protected static function strStudly($value)
+    protected static function strStudly($value): string
     {
         $value = ucwords(str_replace(['-', '_'], ' ', $value));
 

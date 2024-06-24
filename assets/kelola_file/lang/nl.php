@@ -1,7 +1,6 @@
 <?php
 
-return array(
-
+return [
     'Select' => 'Selecteren',
     'Deselect_All' => 'Deselect All',
     'Select_All' => 'Select All',
@@ -45,26 +44,7 @@ return array(
     'Upload_base_help' => "Drag & Drop bestanden (moderne browsers) of klik op de bovenste knop om het bestand (en) toe te voegen en klik op Begin uploaden. Wanneer het uploaden is voltooid, klikt u op de knop 'Terug naar bestanden'.",
     'Upload_add_files' => 'Voeg bestanden toe',
     'Upload_start' => 'Begin uploaden',
-    'Upload_error_messages' =>array(
-        1 => 'Bestandsgrootte is te groot.',
-        2 => 'Bestandsgrootte is te groot.',
-        3 => 'Bestand is slechts gedeeltelijk geupload.',
-        4 => 'Het bestand is niet uploaded.',
-        6 => 'Er ontbreekt een folder.',
-        7 => 'Kan bestand niet wegschrijven.',
-        8 => 'Een extentie heeft het uploaden gestopt.',
-        'post_max_size' => 'Bestandsgrootte is te groot.',
-        'max_file_size' => 'Bestandsgrootte is te groot.',
-        'min_file_size' => 'Bestandsgrootte is te klein.',
-        'accept_file_types' => 'Bestandstype niet ondersteund.',
-        'max_number_of_files' => 'Maximum aantal bestanden bereikt.',
-        'max_width' => 'Afbeelding te breed.',
-        'min_width' => 'Afbeelding niet breed genoeg.',
-        'max_height' => 'Afbeelding te hoog.',
-        'min_height' => 'Afbeelding niet hoog genoeg.',
-        'abort' => 'Uploaden onderbroken.',
-        'image_resize' => 'Resizen is mislukt.'
-    ),
+    'Upload_error_messages' =>[1 => 'Bestandsgrootte is te groot.', 2 => 'Bestandsgrootte is te groot.', 3 => 'Bestand is slechts gedeeltelijk geupload.', 4 => 'Het bestand is niet uploaded.', 6 => 'Er ontbreekt een folder.', 7 => 'Kan bestand niet wegschrijven.', 8 => 'Een extentie heeft het uploaden gestopt.', 'post_max_size' => 'Bestandsgrootte is te groot.', 'max_file_size' => 'Bestandsgrootte is te groot.', 'min_file_size' => 'Bestandsgrootte is te klein.', 'accept_file_types' => 'Bestandstype niet ondersteund.', 'max_number_of_files' => 'Maximum aantal bestanden bereikt.', 'max_width' => 'Afbeelding te breed.', 'min_width' => 'Afbeelding niet breed genoeg.', 'max_height' => 'Afbeelding te hoog.', 'min_height' => 'Afbeelding niet hoog genoeg.', 'abort' => 'Uploaden onderbroken.', 'image_resize' => 'Resizen is mislukt.'],
     'Upload_url' => 'Van url',
     'Type_dir' => 'map',
     'Type' => 'Type',
@@ -86,25 +66,31 @@ return array(
     'Copy' => 'Kopiëren',
     'Cut' => 'Knippen',
     'Paste' => 'Plakken',
-    'CB' => 'Klembord', // clipboard
+    'CB' => 'Klembord',
+    // clipboard
     'Paste_Here' => 'Hier plakken',
     'Paste_Confirm' => 'Weet u zeker dat u in deze map wilt plakken? Dit overschrijft mappen/bestanden met dezelfde naam indien deze voorkomen.',
     'Paste_Failed' => 'Niet gelukt de bestanden te plakken',
     'Clear_Clipboard' => 'Wis klembord',
     'Clear_Clipboard_Confirm' => 'Weet u zeker dat u het klembord wilt wissen?',
     'Files_ON_Clipboard' => 'Er staan bestanden op het klembord.',
-    'Copy_Cut_Size_Limit' => 'De geselecteerde mappen/bestanden zijn te groot om te %s. Maximaal: %d MB/operation', // %s = cut or copy
-    'Copy_Cut_Count_Limit' => 'er zijn teveel mappen/bestanden geselecteerd om te %s. Maximaal: %d files/operation', // %s = cut or copy
-    'Copy_Cut_Not_Allowed' => 'Het is niet toegestaan bestanden te %s.', // %s(1) = cut or copy, %s(2) = files or folders
+    'Copy_Cut_Size_Limit' => 'De geselecteerde mappen/bestanden zijn te groot om te %s. Maximaal: %d MB/operation',
+    // %s = cut or copy
+    'Copy_Cut_Count_Limit' => 'er zijn teveel mappen/bestanden geselecteerd om te %s. Maximaal: %d files/operation',
+    // %s = cut or copy
+    'Copy_Cut_Not_Allowed' => 'Het is niet toegestaan bestanden te %s.',
+    // %s(1) = cut or copy, %s(2) = files or folders
     'Image_Editor_No_Save' => 'Kan de afbeelding niet opslaan',
     'Image_Editor_Exit' => "Exit",
     'Image_Editor_Save' => "Save",
     'Zip_No_Extract' => 'Kan niet uitpakken. Bestand is wellicht beschadigt.',
     'Zip_Invalid' => 'Deze extensie is niet toegestaan. Valid: zip, gz, tar.',
     'Dir_No_Write' => 'De geselecteerde map is niet beschrijfbaar.',
-    'Function_Disabled' => 'De functie %s is uitgeschakeld door de server.', // %s = cut or copy
+    'Function_Disabled' => 'De functie %s is uitgeschakeld door de server.',
+    // %s = cut or copy
     'File_Permission' => 'Rechten',
-    'File_Permission_Not_Allowed' => 'Aanpassen van de rechten van %s is niet toegestaan.', // %s = files or folders
+    'File_Permission_Not_Allowed' => 'Aanpassen van de rechten van %s is niet toegestaan.',
+    // %s = files or folders
     'File_Permission_Recursive' => 'Toepassen voor alles binnen deze map?',
     'File_Permission_Wrong_Mode' => "De gewenste rechten zijn niet juist.",
     'User' => 'Gebruiker',
@@ -114,15 +100,16 @@ return array(
     'Lang_Not_Found' => 'Kan de taal niet vinden.',
     'Lang_Change' => 'Verander de taal',
     'File_Not_Found' => 'Kan het bestand niet vinden.',
-    'File_Open_Edit_Not_Allowed' => 'Je bent niet bevoegd dit bestand te %s.', // %s = open or edit
+    'File_Open_Edit_Not_Allowed' => 'Je bent niet bevoegd dit bestand te %s.',
+    // %s = open or edit
     'Edit' => 'Bewerken',
     'Edit_File' => "Bewerkt de inhoud van dit bestand",
     'File_Save_OK' => "Bestand is opgeslagen.",
     'File_Save_Error' => "Er is een fout opgetreden tijdens het opslaan van het bestand.",
     'No_Extension' => 'Je moet een bestands-extensie toevoegen.',
-    'Valid_Extensions' => 'Geldige extensies: %s', // %s = txt,log etc.
+    'Valid_Extensions' => 'Geldige extensies: %s',
+    // %s = txt,log etc.
     'Upload_message' => "Sleep hier bestanden om te uploaden",
-
     'SERVER ERROR' => "SERVER ERROR",
     'forbidden' => "Verboden",
     'wrong path' => "Wrong path",
@@ -137,11 +124,12 @@ return array(
     'no file' => "No file",
     'view type number missing' => "View type number missing",
     'Not enough Memory' => "Not enough Memory",
-    'max_size_reached' => "Your image folder has reach its maximale size of %d MB.", //%d = max overall size
+    'max_size_reached' => "Your image folder has reach its maximale size of %d MB.",
+    //%d = max overall size
     'B' => "B",
     'KB' => "KB",
     'MB' => "MB",
     'GB' => "GB",
     'TB' => "TB",
     'total size' => "Total size",
-);
+];

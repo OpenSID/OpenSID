@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -88,5 +89,18 @@ class Modul extends BaseModel
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('aktif', $value);
+    }
+
+    public function scopeRoot($query)
+    {
+        return $query->where('parent', 0);
+    }
+
+    /**
+     * Get all of the children for the Modul
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(Modul::class, 'parent', 'id');
     }
 }

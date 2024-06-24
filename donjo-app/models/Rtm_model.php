@@ -43,7 +43,7 @@ use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Rtm_model extends MY_Model
 {
-    public function insert()
+    public function insert(): void
     {
         $post = $this->input->post();
         $nik  = bilangan($post['nik']);
@@ -69,8 +69,8 @@ class Rtm_model extends MY_Model
         }
 
         $rtm['nik_kepala']     = $nik;
-        $rtm['bdt']            = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
-        $rtm['terdaftar_dtks'] = ! empty($post['terdaftar_dtks']) ? 1 : 0;
+        $rtm['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
+        $rtm['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
         $rtm['config_id']      = $this->config_id;
         $outp                  = $this->db->insert('tweb_rtm', $rtm);
 
@@ -90,7 +90,7 @@ class Rtm_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($no_kk = '', $semua = false)
+    public function delete($no_kk = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -111,7 +111,7 @@ class Rtm_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -148,7 +148,7 @@ class Rtm_model extends MY_Model
     }
 
     // id = id_penduduk pd tweb_penduduk, id = nik_kepala pd tweb_rtm
-    public function update_anggota($id, $id_rtm)
+    public function update_anggota($id, $id_rtm): void
     {
         // Krn penduduk_hidup menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
         $no_rtm = $this->db->get_where('tweb_rtm', ['id' => $id_rtm])->row();
@@ -175,7 +175,7 @@ class Rtm_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function rem_anggota($kk, $id)
+    public function rem_anggota($kk, $id): void
     {
         $temp['id_rtm']     = 0;
         $temp['rtm_level']  = 0;
@@ -195,7 +195,7 @@ class Rtm_model extends MY_Model
         }
     }
 
-    public function rem_all_anggota($kk)
+    public function rem_all_anggota($kk): void
     {
         $id_cb = $_POST['id_cb'];
 
@@ -235,9 +235,11 @@ class Rtm_model extends MY_Model
             ->result_array();
 
         $no = 0;
+        //Formating Output
+        $counter = count($data);
 
         //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $no++;
             $data[$i]['no']     = $no;
             $data[$i]['alamat'] = 'Alamat :' . $data[$i]['nama'];
@@ -266,9 +268,11 @@ class Rtm_model extends MY_Model
             ->order_by('rtm_level')
             ->get()
             ->result_array();
+        //Formating Output
+        $counter = count($data);
 
         //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']           = $i + 1;
             $data[$i]['alamat']       = 'Dusun ' . $data[$i]['dusun'] . ', RW ' . $data[$i]['rw'] . ', RT ' . $data[$i]['rt'];
             $data[$i]['tanggallahir'] = tgl_indo($data[$i]['tanggallahir']);
@@ -316,8 +320,8 @@ class Rtm_model extends MY_Model
     {
         $post                   = $this->input->post();
         $data['no_kk']          = bilangan($post['no_kk']);
-        $data['bdt']            = ! empty($post['bdt']) ? bilangan($post['bdt']) : null;
-        $data['terdaftar_dtks'] = ! empty($post['terdaftar_dtks']) ? 1 : 0;
+        $data['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
+        $data['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
 
         if ($data['no_kk']) {
             $ada_nokk = $this->config_id()
@@ -389,10 +393,11 @@ class Rtm_model extends MY_Model
         return $data;
     }
 
-    private function order_by_list($order_by)
+    private function order_by_list($order_by): void
     {
         switch ($order_by) {
-            case 1: $this->db->order_by('u.no_kk');
+            case 1:
+            default: $this->db->order_by('u.no_kk');
                 break;
 
             case 2: $this->db->order_by('u.no_kk', 'DESC');
@@ -409,13 +414,10 @@ class Rtm_model extends MY_Model
 
             case 6: $this->db->order_by('u.tgl_daftar', 'DESC');
                 break;
-
-            default: $this->db->order_by('u.no_kk');
-                break;
         }
     }
 
-    private function penerima_bantuan_sql()
+    private function penerima_bantuan_sql(): void
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
         $penerima_bantuan = $this->session->penerima_bantuan;
@@ -423,12 +425,10 @@ class Rtm_model extends MY_Model
             // Salin program_id
             $this->session->program_bantuan = $penerima_bantuan;
         }
-        if ($penerima_bantuan && $penerima_bantuan != BELUM_MENGISI) {
-            if ($penerima_bantuan != JUMLAH && $this->session->program_bantuan) {
-                $this->db
-                    ->join('program_peserta bt', 'bt.peserta = u.no_kk')
-                    ->join('program rcb', 'bt.program_id = rcb.id', 'left');
-            }
+        if ($penerima_bantuan && $penerima_bantuan != BELUM_MENGISI && ($penerima_bantuan != JUMLAH && $this->session->program_bantuan)) {
+            $this->db
+                ->join('program_peserta bt', 'bt.peserta = u.no_kk')
+                ->join('program rcb', 'bt.program_id = rcb.id', 'left');
         }
         // Untuk BUKAN PESERTA program bantuan tertentu
         if ($penerima_bantuan == BELUM_MENGISI) {
@@ -451,7 +451,7 @@ class Rtm_model extends MY_Model
         }
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('u')
             ->from('tweb_rtm u')
@@ -471,10 +471,8 @@ class Rtm_model extends MY_Model
             ['bdt', 'u.bdt'],
         ];
 
-        if ($this->session->penerima_bantuan && $this->session->penerima_bantuan != BELUM_MENGISI) {
-            if ($this->session->penerima_bantuan != JUMLAH && $this->session->program_bantuan) {
-                $kolom_kode[] = ['penerima_bantuan', 'rcb.id'];
-            }
+        if ($this->session->penerima_bantuan && $this->session->penerima_bantuan != BELUM_MENGISI && ($this->session->penerima_bantuan != JUMLAH && $this->session->program_bantuan)) {
+            $kolom_kode[] = ['penerima_bantuan', 'rcb.id'];
         }
 
         foreach ($kolom_kode as $kolom) {
@@ -484,7 +482,7 @@ class Rtm_model extends MY_Model
         $this->status_dasar_sql();
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if (empty($cari = $this->session->cari)) {
             return;
@@ -571,7 +569,7 @@ class Rtm_model extends MY_Model
             return session_error($this->upload->display_errors());
         }
 
-        $upload = $this->upload->data();
+        $this->upload->data();
 
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($_FILES['userfile']['tmp_name']);
@@ -615,7 +613,7 @@ class Rtm_model extends MY_Model
                     //Level
                     $rtm_level = (int) $rowData[2];
 
-                    if (empty($rtm_level)) {
+                    if ($rtm_level === 0) {
                         $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kode Hubungan Rumah Tangga Tidak Diketahui</br>";
                         $gagal++;
                         $outp = false;

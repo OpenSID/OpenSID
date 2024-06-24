@@ -119,7 +119,7 @@
 						</div>
 						<div class="box-body">
 							<center>
-								<?php $foto = json_decode($main->foto); ?>
+								<?php $foto = json_decode($main->foto, null); ?>
 								<?php for ($i = 0; $i < $this->setting->banyak_foto_tiap_produk; $i++) : ?>
 									<b>Foto <?= ($i == 0) ? 'Utama' : 'Tambahan'; ?></b>
 									<?php $ii = $i + 1; ?>

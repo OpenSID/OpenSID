@@ -50,7 +50,7 @@ class Kelompok extends Web_Controller
         $this->kelompok_model->set_tipe($this->tipe);
     }
 
-    public function detail($slug = null)
+    public function detail($slug = null): void
     {
         $id = KelompokModel::tipe()->where('slug', $slug)->first()->id;
 

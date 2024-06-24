@@ -17,7 +17,7 @@
                                                                     <p>Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di :</P>
                                                                     <ul>
                                                                         <li> <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a></li>
-                                                                        <li> <a href="https://www.facebook.com/groups/OpenSID/">https://www.facebook.com/groups/OpenSID/</a></li>
+                                                                        <li> <a href="<?= config_item('fb_opendesa') ?>"><?= config_item('fb_opendesa') ?></a></li>
                                                                     </ul>
                                                                     <table class="table table-bordered" >
                                                                         <tbody>

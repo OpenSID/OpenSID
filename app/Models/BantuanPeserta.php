@@ -75,10 +75,8 @@ class BantuanPeserta extends BaseModel
      * Scope query untuk peserta.
      *
      * @param Builder $query
-     *
-     * @return Builder
      */
-    public function scopePeserta($query)
+    public function scopePeserta($query): void
     {
         // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
     }

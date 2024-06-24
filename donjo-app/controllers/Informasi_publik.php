@@ -46,7 +46,7 @@ class Informasi_publik extends Admin_Controller
         $this->load->model('log_ekspor_model');
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         $data['form_action']   = site_url('informasi_publik/ekspor_csv');
         $data['log_semua']     = $this->log_ekspor_model->log_terakhir('informasi_publik', 1);
@@ -54,7 +54,7 @@ class Informasi_publik extends Admin_Controller
         $this->load->view('dokumen/dialog_ekspor', $data);
     }
 
-    public function ekspor_csv()
+    public function ekspor_csv(): void
     {
         $filename = 'informasi_publik_' . date('Ymd') . '.csv';
         // Gunakan file temporer

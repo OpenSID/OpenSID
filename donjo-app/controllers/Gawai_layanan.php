@@ -64,7 +64,7 @@ class Gawai_layanan extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -84,15 +84,9 @@ class Gawai_layanan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('ip_address_port_printer', static function ($row) {
-                    return $row->printer_ip ?: '-' . ':' . $row->printer_port ?: '-';
-                })
-                ->editColumn('keyboard', static function ($row) {
-                    return '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->keyboard) . '</span>';
-                })
-                ->editColumn('status', static function ($row) {
-                    return '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>';
-                })
+                ->editColumn('ip_address_port_printer', static fn ($row) => ($row->printer_ip ?: '-:' . $row->printer_port) ?: '-')
+                ->editColumn('keyboard', static fn ($row): string => '<span class="label label-' . ($row->keyboard ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->keyboard) . '</span>')
+                ->editColumn('status', static fn ($row): string => '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>')
                 ->rawColumns(['ceklist', 'aksi', 'keyboard', 'status'])
                 ->make();
         }
@@ -117,7 +111,7 @@ class Gawai_layanan extends Admin_Controller
         return view('admin.gawai_layanan.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -127,7 +121,7 @@ class Gawai_layanan extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    public function update($id = null)
+    public function update($id = null): void
     {
         $this->redirect_hak_akses('u');
 
@@ -139,7 +133,7 @@ class Gawai_layanan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
 
@@ -149,7 +143,7 @@ class Gawai_layanan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function kunci($id = null, $val = StatusEnum::TIDAK)
+    public function kunci($id = null, $val = StatusEnum::TIDAK): void
     {
         $this->redirect_hak_akses('u');
 
@@ -190,11 +184,7 @@ class Gawai_layanan extends Admin_Controller
             'tipe'          => 2,
         ];
 
-        if ($id) {
-            $validated['created_by'] = $validated['updated_by'] = auth()->id;
-        } else {
-            $validated['created_by'] = auth()->id;
-        }
+        $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;
 
         return $validated;
     }

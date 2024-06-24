@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -85,6 +86,7 @@ class Dokumen extends BaseModel
         'enabled',
         'tgl_upload',
         'id_pend',
+        'id_parent',
         'kategori',
         'id_syarat',
         'dok_warga',
@@ -96,6 +98,34 @@ class Dokumen extends BaseModel
     protected $with = [
         'kategoriDokumen',
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            if ($model->id_parent != null) {
+                return;
+            }
+            static::deleteFile($model, 'satuan');
+        });
+
+        static::deleting(static function ($model): void {
+            if ($model->id_parent == null) {
+                static::deleteFile($model, 'satuan', true);
+            }
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_DOKUMEN . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
+    }
 
     /**
      * Define an inverse one-to-one or many relationship.
@@ -111,20 +141,16 @@ class Dokumen extends BaseModel
      * Scope a query to only users.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopePengguna($query)
+    public function scopePengguna($query): void
     {
         // return $query->where('id_pend', auth('jwt')->id());
     }
 
     /**
      * Getter untuk menambahkan url file.
-     *
-     * @return string
      */
-    public function getUrlFileAttribute()
+    public function getUrlFileAttribute(): void
     {
         // try {
         //     return Storage::disk('ftp')->exists("desa/upload/dokumen/{$this->satuan}")
@@ -137,10 +163,8 @@ class Dokumen extends BaseModel
 
     /**
      * Getter untuk donwload file.
-     *
-     * @return string
      */
-    public function getDownloadDokumenAttribute()
+    public function getDownloadDokumenAttribute(): void
     {
         // try {
         //     return Storage::disk('ftp')->exists("desa/upload/dokumen/{$this->satuan}")
@@ -197,7 +221,7 @@ class Dokumen extends BaseModel
     public function scopeFilters($query, array $filters = [])
     {
         foreach ($filters as $key => $value) {
-            $query->when($value ?? false, static function ($query) use ($value, $key) {
+            $query->when($value ?? false, static function ($query) use ($value, $key): void {
                 $query->where($key, $value);
             });
         }
@@ -216,5 +240,72 @@ class Dokumen extends BaseModel
     public function scopeKategori($query, $value = 1)
     {
         return $query->where('kategori', $value);
+    }
+
+    /**
+     * Get all of the children for the Dokumen
+     */
+    public function children(): HasMany
+    {
+        return $this->hasMany(Dokumen::class, 'id_parent', 'id');
+    }
+
+    public static function validasi(array $post): array
+    {
+        $ci                           = &get_instance();
+        $data                         = [];
+        $data['nama']                 = nomor_surat_keputusan($post['nama']);
+        $data['kategori']             = (int) $post['kategori'] ?: 1;
+        $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
+        $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
+        $data['id_pend']              = (int) $post['id_pend'] ?: 0;
+        $data['tipe']                 = (int) $post['tipe'];
+        $data['url']                  = $ci->security->xss_clean($post['url']) ?: null;
+        $data['anggota_kk']           = (array) $post['anggota_kk'] ?? [];
+        $data['dok_warga']            = (int) $post['dok_warga'] ?? 0;
+
+        if ($data['tipe'] == 1) {
+            $data['url'] = null;
+        }
+
+        switch ($data['kategori']) {
+            case 1: //Informsi Publik
+                $data['tahun'] = $post['tahun'];
+                break;
+
+            case 2: //SK Kades
+                $data['tahun']                 = date('Y', strtotime($post['attr']['tgl_kep_kades']));
+                $data['kategori_info_publik']  = '3';
+                $data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
+                $data['attr']['uraian']        = $ci->security->xss_clean($post['attr']['uraian']);
+                $data['attr']['no_kep_kades']  = nomor_surat_keputusan($post['attr']['no_kep_kades']);
+                $data['attr']['no_lapor']      = nomor_surat_keputusan($post['attr']['no_lapor']);
+                $data['attr']['tgl_lapor']     = $post['attr']['tgl_lapor'];
+                $data['attr']['keterangan']    = $ci->security->xss_clean($post['attr']['keterangan']);
+                break;
+
+            case 3: //Perdes
+                $data['tahun']                     = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
+                $data['kategori_info_publik']      = '3';
+                $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
+                $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
+                $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
+                $data['attr']['uraian']            = $ci->security->xss_clean($post['attr']['uraian']);
+                $data['attr']['jenis_peraturan']   = htmlentities($post['attr']['jenis_peraturan']);
+                $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
+                $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
+                $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
+                $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
+                $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
+                $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
+                $data['attr']['keterangan']        = htmlentities($post['attr']['keterangan']);
+                break;
+
+            default:
+                $data['tahun'] = date('Y');
+                break;
+        }
+
+        return $data;
     }
 }

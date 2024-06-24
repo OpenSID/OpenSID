@@ -93,7 +93,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
     protected function migrasi_2021051002($hasil)
     {
         if (! $this->db->field_exists('permohonan', 'komentar')) {
-            $hasil = $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT', 'null' => true]]);
+            return $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT', 'null' => true]]);
         }
 
         return $hasil;
@@ -105,7 +105,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
         // Hapus kolem foto pada tabel kelompok_anggota yang tidak digunakan
         if ($this->db->field_exists('foto', 'kelompok_anggota')) {
-            $hasil = $hasil && $this->dbforge->drop_column('kelompok_anggota', 'foto');
+            return $hasil && $this->dbforge->drop_column('kelompok_anggota', 'foto');
         }
 
         return $hasil;
@@ -138,7 +138,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
     protected function migrasi_2021052501($hasil)
     {
-        return $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
+        return $hasil && $this->tambah_jenis_mutasi_inventaris();
     }
 
     protected function migrasi_2021052651($hasil)
@@ -174,7 +174,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
                 ->where_in('jenis_mutasi', $jenis_mutasi)
                 ->get($inv['mutasi'])
                 ->result_array();
-            if (count($bukan_hapus)) {
+            if (count($bukan_hapus) > 0) {
                 $hasil = $hasil && $this->db
                     ->where_in('id', array_column($bukan_hapus, 'key_inv'))
                     ->set('status', 0)

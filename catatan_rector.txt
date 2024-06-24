@@ -1,0 +1,323 @@
+/data/docker/opendesa/premium/donjo-app/controllers/Admin_pembangunan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_inventaris_jalan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_penduduk_induk.php
+/data/docker/opendesa/premium/donjo-app/controllers/Dokumen.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_inventaris_kontruksi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_inventaris_peralatan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_inventaris_tanah.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_penduduk_ktpkk.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_penduduk_mutasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_penduduk_rekapitulasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_penduduk_sementara.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_rencana_pembangunan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_indikator.php
+/data/docker/opendesa/premium/donjo-app/controllers/Dokumen_web.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_kategori.php
+/data/docker/opendesa/premium/donjo-app/controllers/Dpt.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_klasifikasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_laporan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Dtks.php
+/data/docker/opendesa/premium/donjo-app/controllers/Area.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_tanah_desa.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_tanah_kas_desa.php
+/data/docker/opendesa/premium/donjo-app/controllers/Cdesa.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_master.php
+No direct script access allowed/data/docker/opendesa/premium/donjo-app/controllers/Covid19.php
+/data/docker/opendesa/premium/donjo-app/controllers/Beranda.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_periode.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_respon.php
+/data/docker/opendesa/premium/donjo-app/controllers/Daftar_kontak.php
+/data/docker/opendesa/premium/donjo-app/controllers/Buku_keperluan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Buku_kepuasan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Buku_pertanyaan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Analisis_statistik_jawaban.php
+/data/docker/opendesa/premium/donjo-app/controllers/Buku_tamu.php
+/data/docker/opendesa/premium/donjo-app/controllers/Anjungan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_arsip.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_hasil_pembangunan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_inventaris_kekayaan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_kader.php
+/data/docker/opendesa/premium/donjo-app/controllers/DataSuratPenduduk.php
+/data/docker/opendesa/premium/donjo-app/controllers/Bumindes_kegiatan_pembangunan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Install.php
+/data/docker/opendesa/premium/donjo-app/controllers/Data_persil.php
+/data/docker/opendesa/premium/donjo-app/controllers/Inventaris_asset.php
+/data/docker/opendesa/premium/donjo-app/controllers/Inventaris_gedung.php
+/data/docker/opendesa/premium/donjo-app/controllers/Inventaris_jalan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Database.php
+/data/docker/opendesa/premium/donjo-app/controllers/Inventaris_kontruksi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Inventaris_peralatan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Inventaris_tanah.php
+/data/docker/opendesa/premium/donjo-app/controllers/Job.php
+/data/docker/opendesa/premium/donjo-app/controllers/Anjungan_menu.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kategori.php
+/data/docker/opendesa/premium/donjo-app/controllers/Dev.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kelompok_master.php
+/data/docker/opendesa/premium/donjo-app/controllers/Keluar.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kehadiran_hari_libur.php
+/data/docker/opendesa/premium/donjo-app/controllers/Anjungan_pengaturan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kehadiran_jam_kerja.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kehadiran_keluar.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_informasi_publik.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kehadiran_pengaduan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kehadiran_rekapitulasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kelompok.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_inventaris_asset.php
+/data/docker/opendesa/premium/donjo-app/controllers/Api_inventaris_gedung.php
+/data/docker/opendesa/premium/donjo-app/controllers/Laporan_rentan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Lembaga.php
+/data/docker/opendesa/premium/donjo-app/controllers/Lembaga_master.php
+/data/docker/opendesa/premium/donjo-app/controllers/Line.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pendaftaran_kerjasama.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pendapat.php
+/data/docker/opendesa/premium/donjo-app/controllers/Penduduk.php
+/data/docker/opendesa/premium/donjo-app/controllers/Mailbox.php
+/data/docker/opendesa/premium/donjo-app/controllers/Main.php
+/data/docker/opendesa/premium/donjo-app/controllers/Man_user.php
+/data/docker/opendesa/premium/donjo-app/controllers/Keluarga.php
+/data/docker/opendesa/premium/donjo-app/controllers/Mandiri.php
+/data/docker/opendesa/premium/donjo-app/controllers/Menu.php
+/data/docker/opendesa/premium/donjo-app/controllers/Modul.php
+/data/docker/opendesa/premium/donjo-app/controllers/Notif.php
+/data/docker/opendesa/premium/donjo-app/controllers/Notif_web.php
+/data/docker/opendesa/premium/donjo-app/controllers/Opendk_pesan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Optimasi_gambar.php
+/data/docker/opendesa/premium/donjo-app/controllers/Keuangan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pelanggan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Polygon.php
+/data/docker/opendesa/premium/donjo-app/controllers/Penduduk_log.php
+/data/docker/opendesa/premium/donjo-app/controllers/Program_bantuan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Keuangan_manual.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pengaduan_admin.php
+/data/docker/opendesa/premium/donjo-app/controllers/Klasifikasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pengaturan_lampiran.php
+/data/docker/opendesa/premium/donjo-app/controllers/Komentar.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pengguna.php
+/data/docker/opendesa/premium/donjo-app/controllers/Koneksi_database.php
+/data/docker/opendesa/premium/donjo-app/controllers/Kontak.php
+/data/docker/opendesa/premium/donjo-app/controllers/Qr_code.php
+/data/docker/opendesa/premium/donjo-app/controllers/Rtm.php
+/data/docker/opendesa/premium/donjo-app/controllers/Lampiran.php
+/data/docker/opendesa/premium/donjo-app/controllers/Pengunjung.php
+/data/docker/opendesa/premium/donjo-app/controllers/Periksa.php
+No direct script access allowed/data/docker/opendesa/premium/donjo-app/controllers/PeriksaLogKeluarga.php
+/data/docker/opendesa/premium/donjo-app/controllers/PeriksaLogPenduduk.php
+/data/docker/opendesa/premium/donjo-app/controllers/Securimage.php
+No direct script access allowed/data/docker/opendesa/premium/donjo-app/controllers/Setting.php
+/data/docker/opendesa/premium/donjo-app/controllers/Sinkronisasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/Siteman.php
+/data/docker/opendesa/premium/donjo-app/controllers/Sitemap.php
+/data/docker/opendesa/premium/donjo-app/controllers/Sms.php
+/data/docker/opendesa/premium/donjo-app/controllers/Sosmed.php
+/data/docker/opendesa/premium/donjo-app/controllers/Statistik.php
+/data/docker/opendesa/premium/donjo-app/controllers/Statistik_web.php
+/data/docker/opendesa/premium/donjo-app/controllers/Status_desa.php
+/data/docker/opendesa/premium/donjo-app/controllers/Stunting.php
+/data/docker/opendesa/premium/donjo-app/controllers/Suplemen.php
+/data/docker/opendesa/premium/donjo-app/controllers/Surat.php
+/data/docker/opendesa/premium/donjo-app/controllers/Surat_master.php
+/data/docker/opendesa/premium/donjo-app/controllers/Surat_mohon.php
+/data/docker/opendesa/premium/donjo-app/controllers/Teks_berjalan.php
+/data/docker/opendesa/premium/donjo-app/controllers/Token.php
+/data/docker/opendesa/premium/donjo-app/controllers/User_setting.php
+/data/docker/opendesa/premium/donjo-app/controllers/Vaksin_covid.php
+/data/docker/opendesa/premium/donjo-app/controllers/Web.php
+/data/docker/opendesa/premium/donjo-app/controllers/Web_widget.php
+/data/docker/opendesa/premium/donjo-app/controllers/Wilayah.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Bumindes_umum.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Dokumen_sekretariat.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Ekspedisi.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Lembaran_desa.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Pengurus.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Surat_keluar.php
+/data/docker/opendesa/premium/donjo-app/controllers/buku_umum/Surat_masuk.php
+/data/docker/opendesa/premium/donjo-app/controllers/external_api/Sign.php
+/data/docker/opendesa/premium/donjo-app/controllers/external_api/Surat_kecamatan.php
+/data/docker/opendesa/premium/donjo-app/controllers/external_api/Tte.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Anjungan.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Bantuan.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Beranda.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Daftar.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Daftar_verifikasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Dokumen.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Kehadiran_perangkat.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Lapak.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Masuk.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Masuk_ektp.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Pesan.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Surat.php
+/data/docker/opendesa/premium/donjo-app/controllers/fmandiri/Verifikasi.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Buku_tamu.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Galeri.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Idm.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Informasi_publik.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Kelompok.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Lapak.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Lembaga.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Pembangunan.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Pemerintah.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Pengaduan.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Peraturan.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Peta.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Sdgs.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Statistik.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Suplemen.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Vaksin.php
+/data/docker/opendesa/premium/donjo-app/controllers/fweb/Verifikasi_surat.php
+/data/docker/opendesa/premium/donjo-app/controllers/kehadiran/Perangkat.php
+/data/docker/opendesa/premium/donjo-app/core/MY_Controller.php
+/data/docker/opendesa/premium/donjo-app/core/MY_Exceptions.php
+/data/docker/opendesa/premium/donjo-app/core/MY_Loader.php
+/data/docker/opendesa/premium/donjo-app/core/MY_Log.php
+/data/docker/opendesa/premium/donjo-app/core/MY_Model.php
+/data/docker/opendesa/premium/donjo-app/core/MY_Security.php
+/data/docker/opendesa/premium/donjo-app/helpers/cek_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/database_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/donjolib_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/general_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/opensid_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/password_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/pict_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/surat_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/tglindo_helper.php
+/data/docker/opendesa/premium/donjo-app/helpers/web_helper.php
+/data/docker/opendesa/premium/donjo-app/models/Acak_model.php
+/data/docker/opendesa/premium/donjo-app/models/Agenda_model.php
+/data/docker/opendesa/premium/donjo-app/models/Analisis_import_model.php
+/data/docker/opendesa/premium/donjo-app/models/Analisis_indikator_model.php
+/data/docker/opendesa/premium/donjo-app/models/Analisis_kategori_model.php
+/data/docker/opendesa/premium/donjo-app/models/Analisis_klasifikasi_model.php
+/data/docker/opendesa/premium/donjo-app/models/Analisis_laporan_model.php
+
+6 files with changes
+====================
+
+1) donjo-app/controllers/Sinkronisasi.php:46
+
+    ---------- begin diff ----------
+@@ @@
+
+ class Sinkronisasi extends Admin_Controller
+ {
+-    protected $kode_desa;
++    protected string $kode_desa;
+
+     public function __construct()
+     {
+    ----------- end diff -----------
+
+Applied rules:
+ * CommonNotEqualRector (https://stackoverflow.com/a/4294663/1348344)
+ * TypedPropertyFromStrictConstructorRector
+
+
+2) donjo-app/controllers/Surat.php:94
+
+    ---------- begin diff ----------
+@@ @@
+
+                     return $aksi;
+                 })
+-                ->addColumn('jenis', static fn ($row) => jenis_surat($row->jenis))
+-                ->editColumn('lampiran', static fn ($row) => kode_format($row->lampiran))
++                ->addColumn('jenis', static fn ($row): string => jenis_surat($row->jenis))
++                ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
+                 ->rawColumns(['aksi', 'template_surat'])
+                 ->make();
+         }
+    ----------- end diff -----------
+
+Applied rules:
+ * CommonNotEqualRector (https://stackoverflow.com/a/4294663/1348344)
+ * AddArrowFunctionReturnTypeRector
+
+
+3) donjo-app/controllers/Surat_master.php:109
+
+    ---------- begin diff ----------
+@@ @@
+                     return $aksi;
+                 })
+                 ->addColumn('jenis', static fn ($row): string => in_array($row->jenis, FormatSurat::RTF) ? 'RTF' : 'TinyMCE')
+-                ->editColumn('lampiran', static fn ($row) => kode_format($row->lampiran))
++                ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
+                 ->rawColumns(['ceklist', 'aksi', 'template_surat'])
+                 ->make();
+         }
+    ----------- end diff -----------
+
+Applied rules:
+ * CommonNotEqualRector (https://stackoverflow.com/a/4294663/1348344)
+ * AddArrowFunctionReturnTypeRector
+
+
+4) donjo-app/controllers/external_api/Surat_kecamatan.php:48
+
+    ---------- begin diff ----------
+@@ @@
+      */
+     protected $client;
+
+-    /**
+-     * @var string
+-     */
+-    protected $kode_desa;
++    protected string $kode_desa;
+
+     public function __construct()
+     {
+    ----------- end diff -----------
+
+Applied rules:
+ * TypedPropertyFromStrictConstructorRector
+
+
+5) donjo-app/helpers/opensid_helper.php:176
+
+    ---------- begin diff ----------
+@@ @@
+     return 'base64:' . base64_encode(random_bytes(32));
+ }
+
+-function get_app_key()
++function get_app_key(): string
+ {
+     $app_key = file_get_contents(DESAPATH . 'app_key');
+
+@@ @@
+     {
+         $pola = '/\[#{1,2}\s*(.*?)\s*#{1,2}\]/';
+
+-        return preg_replace_callback($pola, static function (array $matches) use ($setting) {
++        return preg_replace_callback($pola, static function (array $matches) use ($setting): string {
+             $rapat = false;
+             if (substr($matches[0], 1, 2) == '##') {
+                 $rapat = true;
+    ----------- end diff -----------
+
+Applied rules:
+ * CommonNotEqualRector (https://stackoverflow.com/a/4294663/1348344)
+ * ReturnTypeFromStrictScalarReturnExprRector
+
+
+6) donjo-app/helpers/pict_helper.php:805
+
+    ---------- begin diff ----------
+@@ @@
+     return 'data:image/' . $type . ';base64,' . base64_encode($data);
+ }
+
+-function home_noimage()
++function home_noimage(): string
+ {
+     return to_base64(LOKASI_FILES_LOGO . 'home.png');
+ }
+    ----------- end diff -----------
+
+Applied rules:
+ * CommonNotEqualRector (https://stackoverflow.com/a/4294663/1348344)
+ * ReturnTypeFromStrictScalarReturnExprRector
+
+
+ [OK] 6 files have been changed by Rector                                                       
+

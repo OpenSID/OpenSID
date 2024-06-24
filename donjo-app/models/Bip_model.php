@@ -91,7 +91,7 @@ class Bip_model extends CI_Model
         return new BIP2012_Model();
     }
 
-    public function impor_bip()
+    public function impor_bip(): void
     {
         $this->format_bip->impor_data_bip($this->data);
     }

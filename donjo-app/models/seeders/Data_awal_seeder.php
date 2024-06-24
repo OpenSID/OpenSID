@@ -50,7 +50,7 @@ class Data_awal_seeder extends CI_Model
         set_time_limit(5400);
     }
 
-    public function run()
+    public function run(): void
     {
         $db = DB::getDatabaseName();
         // Error menggunakan Illuminate untuk alter database ini
@@ -86,9 +86,9 @@ class Data_awal_seeder extends CI_Model
         $this->buat_view();
     }
 
-    private function tabel_analisis()
+    private function tabel_analisis(): void
     {
-        Schema::create('analisis_indikator', static function (Blueprint $table) {
+        Schema::create('analisis_indikator', static function (Blueprint $table): void {
             $table->increments('id');
             $table->integer('id_master');
             $table
@@ -280,7 +280,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_mandiri()
+    private function tabel_mandiri(): void
     {
         DB::statement('
             CREATE TABLE `anjungan` (
@@ -329,7 +329,7 @@ class Data_awal_seeder extends CI_Model
         ");
     }
 
-    private function tabel_peta()
+    private function tabel_peta(): void
     {
         DB::statement('
             CREATE TABLE `area` (
@@ -1074,7 +1074,7 @@ class Data_awal_seeder extends CI_Model
         ');
     }
 
-    private function tabel_web()
+    private function tabel_web(): void
     {
         DB::statement('
             CREATE TABLE `artikel` (
@@ -1176,7 +1176,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'      => 1,
                 'gambar'  => 'fb.png',
-                'link'    => 'https://www.facebook.com/groups/OpenSID/',
+                'link'    => config_item('fb_opendesa'),
                 'nama'    => 'Facebook',
                 'tipe'    => 1,
                 'enabled' => 1,
@@ -1434,7 +1434,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_pertanahan()
+    private function tabel_pertanahan(): void
     {
         DB::statement('
             CREATE TABLE `cdesa` (
@@ -1635,7 +1635,7 @@ class Data_awal_seeder extends CI_Model
         ');
     }
 
-    private function tabel_desa()
+    private function tabel_desa(): void
     {
         DB::statement('
             CREATE TABLE `config` (
@@ -1690,7 +1690,7 @@ class Data_awal_seeder extends CI_Model
         ");
     }
 
-    private function tabel_covid19()
+    private function tabel_covid19(): void
     {
         DB::statement('
             CREATE TABLE `covid19_vaksin` (
@@ -1733,7 +1733,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_penduduk()
+    private function tabel_penduduk(): void
     {
         DB::statement("
             CREATE TABLE `kelompok` (
@@ -3390,7 +3390,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_dokumen()
+    private function tabel_dokumen(): void
     {
         DB::statement("
             CREATE TABLE `dokumen` (
@@ -3432,7 +3432,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_hubung_warga()
+    private function tabel_hubung_warga(): void
     {
         DB::statement("
             CREATE TABLE `inbox` (
@@ -3526,7 +3526,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_inventaris()
+    private function tabel_inventaris(): void
     {
         DB::statement('
             CREATE TABLE `inventaris_asset` (
@@ -41994,7 +41994,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_buku_admin()
+    private function tabel_buku_admin(): void
     {
         DB::statement('
         CREATE TABLE `kader_pemberdayaan_masyarakat` (
@@ -42008,7 +42008,7 @@ class Data_awal_seeder extends CI_Model
       ');
     }
 
-    private function tabel_keuangan()
+    private function tabel_keuangan(): void
     {
         DB::statement('
         CREATE TABLE `keuangan_manual_ref_bidang` (
@@ -43877,7 +43877,7 @@ class Data_awal_seeder extends CI_Model
       ');
     }
 
-    private function tabel_surat()
+    private function tabel_surat(): void
     {
         DB::statement('
         CREATE TABLE `klasifikasi_surat` (
@@ -50123,7 +50123,7 @@ class Data_awal_seeder extends CI_Model
             ],
             [
                 'id'      => 891,
-                'kode'    => '472.3',
+                'kode'    => '472.8',
                 'nama'    => 'Pengangkatan, Pengakuan, Dan Pengesahan Anak Serta Perubahan Dan Pembatalan Akta Dan Advokasi Pengangkatan Anak',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -50172,7 +50172,7 @@ class Data_awal_seeder extends CI_Model
             ],
             [
                 'id'      => 898,
-                'kode'    => '472.4',
+                'kode'    => '472.37',
                 'nama'    => 'Pencatatan Kewarganegaraan',
                 'uraian'  => '-',
                 'enabled' => 1,
@@ -55225,20 +55225,6 @@ class Data_awal_seeder extends CI_Model
                 'enabled' => 1,
             ],
             [
-                'id'      => 1620,
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
-                'id'      => 1621,
-                'kode'    => '623',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
                 'id'      => 1622,
                 'kode'    => '623',
                 'nama'    => '-',
@@ -59719,13 +59705,6 @@ class Data_awal_seeder extends CI_Model
                 'enabled' => 1,
             ],
             [
-                'id'      => 2262,
-                'kode'    => '907',
-                'nama'    => '-',
-                'uraian'  => '-',
-                'enabled' => 1,
-            ],
-            [
                 'id'      => 2263,
                 'kode'    => '908',
                 'nama'    => '-',
@@ -61026,7 +61005,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_sinkronisasi()
+    private function tabel_sinkronisasi(): void
     {
         DB::statement('
             CREATE TABLE `laporan_sinkronisasi` (
@@ -61098,7 +61077,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_dashboard()
+    private function tabel_dashboard(): void
     {
         DB::statement('
             CREATE TABLE `notifikasi` (
@@ -61151,7 +61130,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_pembangunan()
+    private function tabel_pembangunan(): void
     {
         DB::statement("
             CREATE TABLE `pembangunan` (
@@ -61202,7 +61181,7 @@ class Data_awal_seeder extends CI_Model
         ');
     }
 
-    private function tabel_lapak()
+    private function tabel_lapak(): void
     {
         DB::statement('
             CREATE TABLE `produk_kategori` (
@@ -61215,7 +61194,7 @@ class Data_awal_seeder extends CI_Model
         ');
     }
 
-    private function tabel_bantuan()
+    private function tabel_bantuan(): void
     {
         DB::statement('
             CREATE TABLE `program` (
@@ -61250,7 +61229,7 @@ class Data_awal_seeder extends CI_Model
         ");
     }
 
-    private function tabel_sistem()
+    private function tabel_sistem(): void
     {
         DB::statement('
             CREATE TABLE `setting_aplikasi` (
@@ -61456,7 +61435,7 @@ class Data_awal_seeder extends CI_Model
                 'value'      => 'skin-purple',
                 'keterangan' => 'Warna dasar tema komponen Admin',
                 'jenis'      => 'option-value',
-                'kategori'   => openkab,
+                'kategori'   => 'openkab',
             ],
             [
                 'id'         => 28,
@@ -61653,7 +61632,7 @@ class Data_awal_seeder extends CI_Model
             [
                 'id'         => 115,
                 'key'        => 'api_gform_redirect_uri',
-                'value'      => 'https://berputar.opensid.or.id/index.php/first/get_form_info',
+                'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
                 'keterangan' => 'Redirecet URI untuk Google API',
                 'jenis'      => null,
                 'kategori'   => 'setting_analisis',
@@ -63457,7 +63436,7 @@ class Data_awal_seeder extends CI_Model
         ');
     }
 
-    private function tabel_pamong()
+    private function tabel_pamong(): void
     {
         DB::statement("
             CREATE TABLE `tweb_desa_pamong` (
@@ -63495,7 +63474,7 @@ class Data_awal_seeder extends CI_Model
         ");
     }
 
-    private function tabel_keluarga()
+    private function tabel_keluarga(): void
     {
         DB::statement('
             CREATE TABLE `tweb_keluarga` (
@@ -63532,7 +63511,7 @@ class Data_awal_seeder extends CI_Model
         ]);
     }
 
-    private function tabel_pengguna()
+    private function tabel_pengguna(): void
     {
         DB::statement("
             CREATE TABLE `user` (
@@ -63637,7 +63616,7 @@ class Data_awal_seeder extends CI_Model
 
     // TODO: Pisahkan pembuatan tabel dengan pembuatan foreign key constraint
     // supaya pembuatan tabel bisa dilakukan di masing2 modul
-    private function tabel_ada_foreign_key()
+    private function tabel_ada_foreign_key(): void
     {
         DB::statement('
             CREATE TABLE `suplemen_terdata` (
@@ -65481,7 +65460,7 @@ class Data_awal_seeder extends CI_Model
         ');
     }
 
-    private function buat_view()
+    private function buat_view(): void
     {
         DB::statement('CREATE VIEW `daftar_grup` AS
             select `a`.*,

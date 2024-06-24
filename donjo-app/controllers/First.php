@@ -72,7 +72,7 @@ class First extends Web_Controller
         $this->load->model('analisis_import_model');
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         $data = $this->includes;
 
@@ -105,7 +105,7 @@ class First extends Web_Controller
         $data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 
         $cari = trim($this->input->get('cari', true));
-        if (! empty($cari)) {
+        if ($cari !== '') {
             // Judul artikel bisa digunakan untuk serangan XSS
             $data['judul_kategori'] = 'Hasil pencarian : ' . substr(e($cari), 0, 50);
         }
@@ -119,7 +119,7 @@ class First extends Web_Controller
     | Artikel bisa ditampilkan menggunakan parameter pertama sebagai id, dan semua parameter lainnya dikosongkan. url artikel/:id
     | Kalau menggunakan slug, dipanggil menggunakan url artikel/:thn/:bln/:hri/:slug
     */
-    public function artikel($thn = null, $bln = null, $hr = null, $url = null)
+    public function artikel($thn = null, $bln = null, $hr = null, $url = null): void
     {
         if ($url == null || $thn == null || $bln == null || $hr == null) {
             show_404();
@@ -148,14 +148,14 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function unduh_dokumen_artikel($id)
+    public function unduh_dokumen_artikel($id): void
     {
         // Ambil nama berkas dari database
         $dokumen = $this->first_artikel_m->get_dokumen_artikel($id);
         ambilBerkas($dokumen, $this->controller, null, LOKASI_DOKUMEN);
     }
 
-    public function arsip($p = 1)
+    public function arsip($p = 1): void
     {
         $data           = $this->includes;
         $data['p']      = $p;
@@ -168,7 +168,7 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function gallery($p = 1)
+    public function gallery($p = 1): void
     {
         if ($p > 1) {
             $index = '/index/' . $p;
@@ -177,7 +177,7 @@ class First extends Web_Controller
         redirect('galeri' . $index);
     }
 
-    public function sub_gallery($parent = 0, $p = 1)
+    public function sub_gallery($parent = 0, $p = 1): void
     {
         if ($parent) {
             $index = '/' . $parent;
@@ -191,7 +191,7 @@ class First extends Web_Controller
     }
 
     // redirect ke halaman data-statistik
-    public function statistik($stat = null, $tipe = 0)
+    public function statistik($stat = null, $tipe = 0): void
     {
         if ($slug = StatistikEnum::slugFromKey($stat)) {
             redirect('data-statistik/' . $slug);
@@ -217,17 +217,17 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function kelompok($slug = '')
+    public function kelompok($slug = ''): void
     {
         redirect('data-kelompok/' . $slug);
     }
 
-    public function suplemen($slug = '')
+    public function suplemen($slug = ''): void
     {
         redirect('data-suplemen/' . $slug);
     }
 
-    public function ajax_peserta_program_bantuan()
+    public function ajax_peserta_program_bantuan(): void
     {
         $peserta = $this->program_bantuan_model->get_peserta_bantuan();
         $data    = [];
@@ -248,11 +248,11 @@ class First extends Web_Controller
             'recordsFiltered' => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
             'data'            => $data,
         ];
-        echo json_encode($output);
+        echo json_encode($output, JSON_THROW_ON_ERROR);
     }
 
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
-    public function data_analisis()
+    public function data_analisis(): void
     {
         if (! $this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
@@ -271,7 +271,7 @@ class First extends Web_Controller
     }
 
     // TODO: OpenKAB - Sesuaikan jika Modul Admin sudah disesuaikan
-    public function jawaban_analisis($stat = '', $sb = 0, $per = 0)
+    public function jawaban_analisis($stat = '', $sb = 0, $per = 0): void
     {
         if (! $this->web_menu_model->menu_aktif('data_analisis')) {
             show_404();
@@ -285,7 +285,7 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function dpt()
+    public function dpt(): void
     {
         if (! $this->web_menu_model->menu_aktif('dpt')) {
             show_404();
@@ -305,7 +305,7 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function wilayah()
+    public function wilayah(): void
     {
         if (! $this->web_menu_model->menu_aktif('data-wilayah')) {
             show_404();
@@ -325,7 +325,7 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function kategori($id, $p = 1)
+    public function kategori($id, $p = 1): void
     {
         $data = $this->includes;
 
@@ -344,7 +344,7 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function add_comment($id = 0)
+    public function add_comment($id = 0): void
     {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('komentar', 'Komentar', 'required');
@@ -402,7 +402,7 @@ class First extends Web_Controller
         redirect($_SERVER['HTTP_REFERER'] . '#kolom-komentar');
     }
 
-    public function load_apbdes()
+    public function load_apbdes(): void
     {
         $data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
 
@@ -410,19 +410,20 @@ class First extends Web_Controller
         $this->load->view('gis/apbdes_web', $data);
     }
 
-    public function load_aparatur_desa()
+    public function load_aparatur_desa(): void
     {
         $this->_get_common_data($data);
         $this->load->view('gis/aparatur_desa_web', $data);
     }
 
-    public function load_aparatur_wilayah($id = '', $kd_jabatan = 0)
+    public function load_aparatur_wilayah($id = '', $kd_jabatan = 0): void
     {
         $data['penduduk'] = $this->penduduk_model->get_penduduk($id);
         $kepala_dusun     = 'Kepala ' . ucwords($this->setting->sebutan_dusun);
 
         switch ($kd_jabatan) {
             case '1':
+            default:
                 $data['jabatan'] = $kepala_dusun;
                 break;
 
@@ -433,16 +434,12 @@ class First extends Web_Controller
             case '3':
                 $data['jabatan'] = 'Ketua RT';
                 break;
-
-            default:
-                $data['jabatan'] = $kepala_dusun;
-                break;
         }
 
         $this->load->view('gis/aparatur_wilayah', $data);
     }
 
-    public function get_form_info()
+    public function get_form_info(): void
     {
         $redirect_link = $this->input->get('redirectLink', true);
 
@@ -454,7 +451,7 @@ class First extends Web_Controller
             $this->session->google_form_id = $this->input->get('formId', true);
             $result                        = $this->analisis_import_model->import_gform($redirect_link);
 
-            echo json_encode($result);
+            echo json_encode($result, JSON_THROW_ON_ERROR);
         } else {
             // Untuk kondisi SESAAT setelah Autentikasi
             $redirect_link = $this->session->inside_redirect_link;
@@ -465,7 +462,7 @@ class First extends Web_Controller
         }
     }
 
-    public function utama()
+    public function utama(): void
     {
         redirect('/');
     }

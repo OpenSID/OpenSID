@@ -45,7 +45,7 @@ class Pesan extends Mandiri_Controller
         $this->load->model(['mailbox_model', 'permohonan_surat_model']);
     }
 
-    public function index($kat = 1)
+    public function index($kat = 1): void
     {
         $data = [
             'kat'   => $kat,
@@ -58,7 +58,7 @@ class Pesan extends Mandiri_Controller
 
     // TODO: Pisahkan mailbox dari komentar
     // TODO: Ganti nik jadi id_pend
-    public function kirim($kat = 2)
+    public function kirim($kat = 2): void
     {
         $data = $this->input->post();
 
@@ -84,7 +84,7 @@ class Pesan extends Mandiri_Controller
         if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
             try {
                 $this->telegram->sendMessage([
-                    'text'       => sprintf('Warga RT. %s atas nama %s telah mengirim pesan melalui Layanan Mandiri pada tanggal %s', $this->is_login->rt, $this->is_login->nama, tgl_indo2(date('Y-m-d H:i:s'))),
+                    'text'       => sprintf('Warga RT. %s atas nama %s telah mengirim pesan melalui Layanan Mandiri pada tanggal %s. Link : %s', $this->is_login->rt, $this->is_login->nama, tgl_indo2(date('Y-m-d H:i:s')), APP_URL),
                     'parse_mode' => 'Markdown',
                     'chat_id'    => $this->setting->telegram_user_id,
                 ]);
@@ -100,7 +100,7 @@ class Pesan extends Mandiri_Controller
         redirect('layanan-mandiri/pesan-masuk');
     }
 
-    public function baca($kat = 2, $id = '')
+    public function baca($kat = 2, $id = ''): void
     {
         $nik = $this->is_login->nik;
         if ($kat == 2) {
@@ -119,7 +119,7 @@ class Pesan extends Mandiri_Controller
         $this->render('baca_pesan', $data);
     }
 
-    public function tulis($kat = 2)
+    public function tulis($kat = 2): void
     {
         $data = [
             'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',

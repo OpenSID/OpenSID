@@ -47,10 +47,7 @@ class OTP_telegram implements OTP_interface
      */
     protected $ci;
 
-    /**
-     * @var Telegram
-     */
-    protected $telegram;
+    protected Telegram $telegram;
 
     public function __construct()
     {
@@ -67,28 +64,24 @@ class OTP_telegram implements OTP_interface
             return true;
         }
 
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
-                    Kode Verifikasi OTP Anda: {$otp}
+        $this->telegram->sendMessage([
+            'chat_id' => $user,
+            'text'    => <<<EOD
+                Kode Verifikasi OTP Anda: {$otp}
 
-                    JANGAN BERIKAN KODE RAHASIA INI KEPADA SIAPA PUN,
-                    TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
+                JANGAN BERIKAN KODE RAHASIA INI KEPADA SIAPA PUN,
+                TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
 
-                    Terima kasih.
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (Exception $e) {
-            throw $e;
-        }
+                Terima kasih.
+                EOD,
+            'parse_mode' => 'Markdown',
+        ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_otp($otp, $user = null)
+    public function verifikasi_otp($otp, $user = null): bool
     {
         if ($this->cek_verifikasi_otp($user)) {
             return true;
@@ -123,7 +116,7 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function cek_verifikasi_otp($user)
+    public function cek_verifikasi_otp($user): bool
     {
         $token = $this->ci->db->from('tweb_penduduk')
             ->select('telegram_tgl_verifikasi')
@@ -131,89 +124,70 @@ class OTP_telegram implements OTP_interface
             ->get()
             ->row();
 
-        return (bool) ($token->telegram_tgl_verifikasi != null);
+        return $token->telegram_tgl_verifikasi != null;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_berhasil($user, $nama)
+    public function verifikasi_berhasil($user, $nama): void
     {
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
-                    HALO {$nama},
+        $this->telegram->sendMessage([
+            'chat_id' => $user,
+            'text'    => <<<EOD
+                HALO {$nama},
 
-                    SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
+                SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
 
-                    Terima kasih.
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (Exception $e) {
-            throw $e;
-        }
+                Terima kasih.
+                EOD,
+            'parse_mode' => 'Markdown',
+        ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function kirim_pin_baru($user, $pin, $nama)
+    public function kirim_pin_baru($user, $pin, $nama): void
     {
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
-                    HALO {$nama},
+        $pesanTelegram = [
+            '[nama]'    => $nama,
+            '[website]' => APP_URL,
+            '[pin]'     => $pin,
+        ];
 
-                    BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
-                    KODE PIN INI SANGAT RAHASIA
-                    JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,
-                    TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
-
-                    KODE PIN: {$pin}
-
-                    JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT
-                    SILAHKAN LAPORKAN KEPADA OPERATOR DESA
-
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $kirimPesan = setting('notifikasi_reset_pin');
+        $kirimPesan = str_replace(array_keys($pesanTelegram), array_values($pesanTelegram), $kirimPesan);
+        $this->telegram->sendMessage([
+            'chat_id'    => $user,
+            'text'       => $kirimPesan,
+            'parse_mode' => 'Markdown',
+        ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function cek_akun_terdaftar($user)
+    public function cek_akun_terdaftar($user): bool
     {
-        return isset($this->ci->db)
-            ? ($this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
-            : false;
+        return isset($this->ci->db) && $this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function kirim_pesan($data = [])
+    public function kirim_pesan(array $data = []): void
     {
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $data['tujuan'],
-                'text'    => <<<EOD
-                    SUBJEK :
-                    {$data['subjek']}
+        $this->telegram->sendMessage([
+            'chat_id' => $data['tujuan'],
+            'text'    => <<<EOD
+                SUBJEK :
+                {$data['subjek']}
 
-                    ISI :
-                    {$data['isi']}
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (Exception $e) {
-            throw $e;
-        }
+                ISI :
+                {$data['isi']}
+                EOD,
+            'parse_mode' => 'Markdown',
+        ]);
     }
 }

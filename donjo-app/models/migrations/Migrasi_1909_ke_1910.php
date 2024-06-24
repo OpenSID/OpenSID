@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_1909_ke_1910 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         // Tambah modul Keuangan
         $this->modul_keuangan();
@@ -204,7 +204,7 @@ class Migrasi_1909_ke_1910 extends CI_model
         }
     }
 
-    private function modul_keuangan()
+    private function modul_keuangan(): void
     {
         // Penambahan widget keuangan
         $widget = $this->db->select('id, isi')->where('isi', 'keuangan.php')->get('widget')->row();
@@ -228,7 +228,7 @@ class Migrasi_1909_ke_1910 extends CI_model
         $this->data_siskeudes_2018();
     }
 
-    private function data_siskeudes_2018()
+    private function data_siskeudes_2018(): void
     {
         if ($this->db->field_exists('Alamat_Pemilik', 'keuangan_ref_bank_desa')) {
             return;
@@ -244,7 +244,7 @@ class Migrasi_1909_ke_1910 extends CI_model
         $this->dbforge->add_column('keuangan_ref_bank_desa', $fields);
     }
 
-    private function data_siskeudes()
+    private function data_siskeudes(): void
     {
         //insert tabel2 untuk keuangan
         if (! $this->db->table_exists('keuangan_master')) {

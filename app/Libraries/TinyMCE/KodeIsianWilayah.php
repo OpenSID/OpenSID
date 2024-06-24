@@ -50,12 +50,15 @@ class KodeIsianWilayah
         $this->sebutanDusun = setting('sebutan_dusun');
     }
 
-    public static function get()
+    public static function get(): array
     {
         return (new self())->kodeIsian();
     }
 
-    public function kodeIsian()
+    /**
+     * @return array<mixed, array<'data'|'isian'|'judul', mixed>>
+     */
+    public function kodeIsian(): array
     {
         $data = [];
 

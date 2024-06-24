@@ -45,7 +45,7 @@ class Lapak extends Web_Controller
         $this->load->model('lapak_model');
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         if (! $this->web_menu_model->menu_aktif('lapak')) {
             show_404();

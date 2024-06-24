@@ -97,7 +97,7 @@
 									<td> : </td>
 									<td>
 										<?php foreach ($individu['program']['programkerja'] as $item): ?>
-											<?php if ($item[status] == '1'): ?>
+											<?php if ($item[\STATUS] == '1'): ?>
 												<?= anchor("program_bantuan/data_peserta/{$item['peserta_id']}", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
 											<?php endif; ?>
 										<?php endforeach; ?>

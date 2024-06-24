@@ -42,7 +42,7 @@ class MY_Security extends CI_Security
     /**
      * {@inheritDoc}
      */
-    public function csrf_show_error()
+    public function csrf_show_error(): void
     {
         // ==== Uncomment berikut untuk debugging masalah CSRF
         // print("<pre>".print_r(getallheaders(),true)."</pre>");

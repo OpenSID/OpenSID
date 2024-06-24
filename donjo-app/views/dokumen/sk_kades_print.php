@@ -51,7 +51,7 @@
 					</tr>
 					<tr>
 						<td colspan="6" align="center" style="font-size: 13.5pt;">
-							<strong><?= ! empty($tahun) ? 'TAHUN ' . $tahun : ''?></strong>
+							<strong><?= empty($tahun) ? '' : 'TAHUN ' . $tahun?></strong>
 						</td>
 					</tr>
 					<tr><td colspan="6">&nbsp;</td></tr>

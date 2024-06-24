@@ -68,9 +68,7 @@ class Token extends CI_Controller
 
         if ($token) {
             DB::table('setting_aplikasi')
-                ->when(Schema::hasColumn('setting_aplikasi', 'config_id'), static function ($query) {
-                    return $query->where('config_id', Config::appKey()->first()->id);
-                })
+                ->when(Schema::hasColumn('setting_aplikasi', 'config_id'), static fn ($query) => $query->where('config_id', Config::appKey()->first()->id))
                 ->where('key', 'layanan_opendesa_token')
                 ->update(['value' => $token]);
 
@@ -96,7 +94,7 @@ class Token extends CI_Controller
 
         $tokenPayload = base64_decode($tokenParts[1], true);
 
-        return json_decode($tokenPayload);
+        return json_decode($tokenPayload, null);
     }
 
     private function isPremiumVersionExpired($berakhir)

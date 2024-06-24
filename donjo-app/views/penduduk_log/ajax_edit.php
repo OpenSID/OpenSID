@@ -1,12 +1,8 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
 <?php $this->load->view('global/validasi_form'); ?>
 <?php
-    if ($log_status_dasar['tgl_peristiwa'] != ''):
-        $sekarang = $log_status_dasar['tgl_peristiwa'];
-    else:
-        $sekarang = date('d-m-Y');
-    endif;
-?>
+    $sekarang = $log_status_dasar['tgl_peristiwa'] != '' ? $log_status_dasar['tgl_peristiwa'] : date('d-m-Y');
+    ?>
 	<form action="<?= $form_action ?>" method="post" id="validasi" class="tgl_lapor_peristiwa">
 		<div class='modal-body'>
 			<div class="box box-danger">

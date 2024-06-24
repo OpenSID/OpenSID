@@ -50,14 +50,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Track_model extends CI_Model
 {
-    public function track_desa($dari)
+    public function track_desa($dari): void
     {
         if ($this->setting->enable_track == false || null === identitas()) {
             return;
         }
         // Track web dan admin masing2 maksimum sekali sehari
-        $sudahKirimHariIni = $this->cache->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
-        if ($sudahKirimHariIni) {
+        $sudahKirimHariIni = cache()->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
+        if ($sudahKirimHariIni !== 0) {
             return;
         }
 
@@ -65,7 +65,7 @@ class Track_model extends CI_Model
         $this->kirim_data();
     }
 
-    public function kirim_data()
+    public function kirim_data(): void
     {
         /**
          * Jangan kirim data ke pantau jika versi demo
@@ -134,14 +134,14 @@ class Track_model extends CI_Model
 
         $trackSID_output = httpPost($tracker . '/api/track/desa?token=' . config_item('token_pantau'), $desa); // kirim ke tracksid.
         if (! empty($trackSID_output)) {
-            $this->cache->save('tracksid_admin_web', date('Y m d'), DAY);
+            cache()->put('tracksid_admin_web', date('Y m d'), DAY);
             $this->cek_notifikasi_TrackSID($trackSID_output);
         }
     }
 
-    private function cek_notifikasi_TrackSID($trackSID_output)
+    private function cek_notifikasi_TrackSID(string $trackSID_output): void
     {
-        if (! empty($trackSID_output)) {
+        if ($trackSID_output !== '' && $trackSID_output !== '0') {
             $array_output = json_decode($trackSID_output, true);
             $this->load->model('notif_model');
 

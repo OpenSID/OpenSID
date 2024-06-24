@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 ?>
 
 <script type="text/javascript">
-	const rawData_<?=$lap?> = Object.values(<?= json_encode($stat) ?>);
+	const rawData_<?=$lap?> = Object.values(<?= json_encode($stat, JSON_THROW_ON_ERROR) ?>);
 	const type_<?=$lap?> = '<?= $tipe == 1 ? 'column' : 'pie' ?>';
 	const legend_<?=$lap?> = Boolean(!<?= ($tipe) ?>);
 	let categories_<?=$lap?> = [];
@@ -262,7 +262,9 @@ $jm          = count($stat); ?>
 							<?php endif; ?>
 						</td>
 						<td><?=$data['nama']?></td>
-						<td class="angka <?php ($jm1 <= $jm - 2) && ($data['jumlah'] == 0) && print 'nol'?>"><?=$data['jumlah']?></td>
+						<td class="angka <?php if (($jm1 <= $jm - 2) && ($data['jumlah'] == 0)) {
+						    echo 'nol';
+						} ?>"><?=$data['jumlah']?></td>
 						<td class="angka"><?=$data['persen']?></td>
 						<td class="angka"><?=$data['laki']?></td>
 						<td class="angka"><?=$data['persen1']?></td>

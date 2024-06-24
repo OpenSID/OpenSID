@@ -41,14 +41,7 @@
             <li class="header">MENU UTAMA</li>
 
             <?php foreach ($modul as $mod): ?>
-            <?php if (count($mod['submodul']) == 0): ?>
-            <li class="<?= jecho($modul_ini, $mod['slug'], 'active') ?>">
-                <a href="<?= route($mod['url']) ?>">
-                    <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
-                    <span class="pull-right-container"></span>
-                </a>
-            </li>
-            <?php else: ?>
+            <?php if (is_array($mod['submodul']) && count($mod['submodul']) > 0): ?>
             <li class="treeview <?= jecho($modul_ini, $mod['slug'], 'active') ?>">
                 <a href="<?= route($mod['url']) ?>">
                     <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
@@ -66,6 +59,13 @@
                     <?php endforeach ?>
 
                 </ul>
+            </li>
+            <?php else: ?>
+            <li class="<?= jecho($modul_ini, $mod['slug'], 'active') ?>">
+                <a href="<?= route($mod['url']) ?>">
+                    <i class="fa <?= $mod['ikon'] ?> <?= jecho($modul_ini, $mod['slug'], 'text-aqua') ?>"></i><span><?= $mod['modul'] ?></span>
+                    <span class="pull-right-container"></span>
+                </a>
             </li>
             <?php endif ?>
             <?php endforeach ?>

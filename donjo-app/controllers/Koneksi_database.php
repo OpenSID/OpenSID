@@ -55,7 +55,7 @@ class Koneksi_database extends CI_Controller
         return view('periksa.config', $this->cekConfig());
     }
 
-    public function updateKey()
+    public function updateKey(): void
     {
         $this->cekConfig();
 
@@ -66,7 +66,7 @@ class Koneksi_database extends CI_Controller
         redirect(site_url());
     }
 
-    public function desaBaru()
+    public function desaBaru(): void
     {
         $this->load->database();
 
@@ -103,7 +103,7 @@ class Koneksi_database extends CI_Controller
         if (! $this->session->cek_app_key) {
             redirect(site_url());
         }
-
+        $this->load->database();
         $appKey   = get_app_key();
         $appKeyDb = Config::first();
 

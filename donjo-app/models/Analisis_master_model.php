@@ -55,7 +55,7 @@ class Analisis_master_model extends MY_Model
         return $this->autocomplete_str('nama', 'analisis_master');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if (empty($cari = $this->session->cari)) {
             return;
@@ -65,7 +65,7 @@ class Analisis_master_model extends MY_Model
             ->like('u.nama', $cari);
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if (empty($kf = $this->session->filter)) {
             return;
@@ -75,7 +75,7 @@ class Analisis_master_model extends MY_Model
             ->where('u.subjek_tipe', $kf);
     }
 
-    private function state_sql()
+    private function state_sql(): void
     {
         if (empty($kf = $this->session->state)) {
             return;
@@ -103,7 +103,7 @@ class Analisis_master_model extends MY_Model
         return $this->paging;
     }
 
-    private function list_data_query()
+    private function list_data_query(): void
     {
         $this->config_id('u')
             ->from('analisis_master u')
@@ -148,9 +148,10 @@ class Analisis_master_model extends MY_Model
 
         $data = $this->db->get()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             if ($data[$i]['lock'] == 1) {
                 $data[$i]['lock'] = '<img src="' . base_url('assets/images/icon/unlock.png') . '">';
@@ -165,20 +166,10 @@ class Analisis_master_model extends MY_Model
 
     private function sterilkan_data($post)
     {
-        $data                 = [];
-        $data['nama']         = alfanumerik_spasi($post['nama']);
-        $data['subjek_tipe']  = $post['subjek_tipe'];
-        $data['id_kelompok']  = $post['id_kelompok'] ?: null;
-        $data['lock']         = $post['lock'] ?: null;
-        $data['format_impor'] = $post['format_impor'] ?: null;
-        $data['pembagi']      = bilangan_titik($post['pembagi']);
-        $data['id_child']     = $post['id_child'] ?: null;
-        $data['deskripsi']    = htmlentities($post['deskripsi']);
-
-        return $data;
+        return ['nama' => alfanumerik_spasi($post['nama']), 'subjek_tipe' => $post['subjek_tipe'], 'id_kelompok' => $post['id_kelompok'] ?: null, 'lock' => $post['lock'] ?: null, 'format_impor' => $post['format_impor'] ?: null, 'pembagi' => bilangan_titik($post['pembagi']), 'id_child' => $post['id_child'] ?: null, 'deskripsi' => htmlentities($post['deskripsi'])];
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->sterilkan_data($this->input->post());
         $data['config_id'] = $this->config_id;
@@ -186,7 +177,7 @@ class Analisis_master_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data = $this->sterilkan_data($this->input->post());
         // Kolom yang tidak boleh diubah untuk analisis sistem
@@ -209,7 +200,7 @@ class Analisis_master_model extends MY_Model
         return $jenis == 1;
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if ($this->is_analisis_sistem($id)) {
             return;
@@ -225,7 +216,7 @@ class Analisis_master_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -237,7 +228,7 @@ class Analisis_master_model extends MY_Model
     }
 
     // TODO: OpenKAB - tambahkan migrasi relational constraint supaya data analisis terhapus secara otomatis oleh DB
-    private function sub_delete($id = '')
+    private function sub_delete($id = ''): void
     {
         $this->config_id()
             ->where("id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = {$id} AND config_id = {$this->config_id})")

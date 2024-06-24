@@ -138,7 +138,7 @@
 							<td><?= $data->kondisi; ?></td>
 							<td><?= $data->keterangan; ?></td>
 						</tr>
-						<?php $i = $i + 1 ?>
+						<?php ++$i ?>
 					<?php endforeach; ?>
 				</tbody>
 				<tfooot>

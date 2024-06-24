@@ -53,4 +53,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<input class="form-control input-sm pull-right required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y'); ?>">
 		</div>
 	</div>
+	<div class="form-group">
+		<label for="tgl_cetak">Tampilkan Jumlah</label>
+		<select class="form-control input-sm select2 required" id="tampil_jumlah" name="tampil_jumlah">
+			<option value="1">Ya</option>
+			<option value="0">Tidak</option>
+		</select>
+	</div>
 </div>

@@ -84,7 +84,7 @@ class Url_shortener_model extends MY_Model
 
     public function random_code($length)
     {
-        return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
+        return substr(base_convert(sha1(uniqid(random_int(0, mt_getrandmax()))), 16, 36), 0, $length);
     }
 
     public function encode_id($plainText)
@@ -103,6 +103,6 @@ class Url_shortener_model extends MY_Model
         $base64    = base64_decode($base64url, true);
         $exp       = explode(',', $base64);
 
-        return ($exp[1] != $exp[3]) ? $plainText : $exp[1];
+        return ($exp[1] !== $exp[3]) ? $plainText : $exp[1];
     }
 }

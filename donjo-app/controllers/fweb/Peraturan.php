@@ -40,7 +40,7 @@ use App\Models\RefDokumen;
 
 class Peraturan extends Web_Controller
 {
-    public function index()
+    public function index(): void
     {
         if (! $this->web_menu_model->menu_aktif('peraturan-desa')) {
             show_404();
@@ -87,9 +87,7 @@ class Peraturan extends Web_Controller
             return datatables()
                 ->of($query)
                 ->addIndexColumn()
-                ->addColumn('kategori_dokumen', static function ($row) {
-                    return $row['attr']['jenis_peraturan'] ?? $row->kategoriDokumen->nama;
-                })
+                ->addColumn('kategori_dokumen', static fn ($row) => $row['attr']['jenis_peraturan'] ?? $row->kategoriDokumen->nama)
                 ->make();
         }
 

@@ -57,7 +57,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         $pamong    = Pamong::daftar()->get();
         $kehadiran = Kehadiran::get();
 
-        return view('admin.rekapitulasi.index', compact('pamong', 'kehadiran'));
+        return view('admin.rekapitulasi.index', ['pamong' => $pamong, 'kehadiran' => $kehadiran]);
     }
 
     public function datatables()
@@ -73,19 +73,11 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 ->select('*', DB::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
                 ->filter($filters))
                 ->addIndexColumn()
-                ->editColumn('tanggal', static function ($row) {
-                    return tgl_indo($row->tanggal);
-                })
-                ->editColumn('jam_masuk', static function ($row) {
-                    return date('H:i', strtotime($row->jam_masuk));
-                })
-                ->editColumn('jam_keluar', static function ($row) {
-                    return $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar));
-                })
-                ->editColumn('total', static function ($row) {
-                    return date('H:i', strtotime($row->total));
-                })
-                ->editColumn('status_kehadiran', static function ($row) {
+                ->editColumn('tanggal', static fn ($row) => tgl_indo($row->tanggal))
+                ->editColumn('jam_masuk', static fn ($row): string => date('H:i', strtotime($row->jam_masuk)))
+                ->editColumn('jam_keluar', static fn ($row): string => $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)))
+                ->editColumn('total', static fn ($row): string => date('H:i', strtotime($row->total)))
+                ->editColumn('status_kehadiran', static function ($row): string {
                     $tipe = ($row->status_kehadiran == 'hadir') ? 'success' : (($row->status_kehadiran == 'tidak berada di kantor') ? 'danger' : 'warning');
 
                     return '<span class="label label-' . $tipe . '">' . ucwords($row->status_kehadiran) . ' </span>';
@@ -97,7 +89,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         return show_404();
     }
 
-    public function ekspor()
+    public function ekspor(): void
     {
         $filters = [
             'tanggal' => $this->input->get('daterange'),

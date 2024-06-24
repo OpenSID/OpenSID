@@ -41,19 +41,6 @@
                         <p class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
                     @endif
                 </div>
-            @elseif ($pengaturan->jenis == 'password')
-                <div class="col-sm-12 col-md-4">
-                    <div class="input-group">
-                        <input {!! $pengaturan->attribute
-                            ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute)
-                            : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}"
-                            type="password" data-password="{{ $pengaturan->value ? 1 : 0 }}" value="" />
-                        <span class="input-group-addon input-sm show-hide-password"><i class="fa fa-eye-slash"></i></span>
-                    </div>
-                    @if($pengaturan->value)
-                        <p class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
-                    @endif
-                </div>
             @else
                 <div class="col-sm-12 col-md-4">
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" type="text" value="{{ $pengaturan->value }}" />

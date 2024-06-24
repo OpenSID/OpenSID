@@ -50,24 +50,23 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Program_bantuan extends Admin_Controller
 {
-    private $_set_page;
+    private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['program_bantuan_model']);
         $this->modul_ini = 'bantuan';
-        $this->_set_page = ['20', '50', '100'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->per_page = $this->_set_page[0];
         $this->session->unset_userdata('sasaran');
         redirect('program_bantuan');
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {
@@ -78,7 +77,7 @@ class Program_bantuan extends Admin_Controller
         redirect('program_bantuan');
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         $this->session->unset_userdata('cari');
         $per_page = $this->input->post('per_page');
@@ -130,8 +129,8 @@ class Program_bantuan extends Admin_Controller
     private function get_pilihan_penduduk($cari, $peserta)
     {
         $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
-            ->when($cari, static function ($query) use ($cari) {
-                $query->where(static function ($q) use ($cari) {
+            ->when($cari, static function ($query) use ($cari): void {
+                $query->where(static function ($q) use ($cari): void {
                     $q->where('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
@@ -141,12 +140,10 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static function ($item) {
-                    return [
-                        'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
-                    ];
-                }),
+                ->map(static fn ($item): array => [
+                    'id'   => $item->id,
+                    'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
@@ -157,14 +154,14 @@ class Program_bantuan extends Admin_Controller
     {
         $penduduk = Penduduk::with('pendudukHubungan')
             ->select(['tweb_penduduk.id', 'tweb_penduduk.nik', 'keluarga_aktif.no_kk', 'tweb_penduduk.kk_level', 'tweb_penduduk.nama', 'tweb_penduduk.id_cluster'])
-            ->leftJoin('tweb_penduduk_hubungan', static function ($join) {
+            ->leftJoin('tweb_penduduk_hubungan', static function ($join): void {
                 $join->on('tweb_penduduk.kk_level', '=', 'tweb_penduduk_hubungan.id');
             })
-            ->leftJoin('keluarga_aktif', static function ($join) {
+            ->leftJoin('keluarga_aktif', static function ($join): void {
                 $join->on('tweb_penduduk.id_kk', '=', 'keluarga_aktif.id');
             })
-            ->when($cari, static function ($query) use ($cari) {
-                $query->where(static function ($q) use ($cari) {
+            ->when($cari, static function ($query) use ($cari): void {
+                $query->where(static function ($q) use ($cari): void {
                     $q->where('tweb_penduduk.nik', 'like', "%{$cari}%")
                         ->orWhere('keluarga_aktif.no_kk', 'like', "%{$cari}%")
                         ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
@@ -177,12 +174,10 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static function ($item) {
-                    return [
-                        'id'   => $item->id,
-                        'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
-                    ];
-                }),
+                ->map(static fn ($item): array => [
+                    'id'   => $item->id,
+                    'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
@@ -192,26 +187,24 @@ class Program_bantuan extends Admin_Controller
     private function get_pilihan_rtm($cari, $peserta)
     {
         $penduduk = Penduduk::select(['id', 'id_rtm', 'nama', 'id_cluster'])
-            ->when($cari, static function ($query) use ($cari) {
-                $query->where(static function ($q) use ($cari) {
+            ->when($cari, static function ($query) use ($cari): void {
+                $query->where(static function ($q) use ($cari): void {
                     $q->where('nik', 'like', "%{$cari}%")
                         ->orWhere('nama', 'like', "%{$cari}%")
                         ->orWhere('id_rtm', 'like', "%{$cari}%");
                 });
             })
-            ->whereHas('rtm', static function ($query) use ($peserta) {
+            ->whereHas('rtm', static function ($query) use ($peserta): void {
                 $query->whereNotIn('no_kk', $peserta);
             })
             ->paginate(10);
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static function ($item) {
-                    return [
-                        'id'   => $item->rtm->no_kk,
-                        'text' => 'No. RT : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
-                    ];
-                }),
+                ->map(static fn ($item): array => [
+                    'id'   => $item->rtm->no_kk,
+                    'text' => 'No. RT : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
@@ -221,11 +214,11 @@ class Program_bantuan extends Admin_Controller
     private function get_pilihan_kelompok($cari, $peserta)
     {
         $penduduk = Kelompok::select(['kelompok.id', 'tweb_penduduk.nik', 'tweb_penduduk.nama as nama_penduduk', 'kelompok.nama as nama_kelompok', 'tweb_penduduk.id_cluster'])
-            ->leftJoin('tweb_penduduk', static function ($join) {
+            ->leftJoin('tweb_penduduk', static function ($join): void {
                 $join->on('kelompok.id_ketua', '=', 'tweb_penduduk.id');
             })
-            ->when($cari, static function ($query) use ($cari) {
-                $query->where(static function ($q) use ($cari) {
+            ->when($cari, static function ($query) use ($cari): void {
+                $query->where(static function ($q) use ($cari): void {
                     $q->where('kelompok.nama', 'like', "%{$cari}%")
                         ->orWhere('tweb_penduduk.nama', 'like', "%{$cari}%");
                 });
@@ -235,24 +228,22 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static function ($item) {
-                    return [
-                        'id'   => $item->id,
-                        'text' => $item->nama_penduduk . ' [' . $item->nama_kelompok . ']' . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
-                    ];
-                }),
+                ->map(static fn ($item): array => [
+                    'id'   => $item->id,
+                    'text' => $item->nama_penduduk . ' [' . $item->nama_kelompok . ']' . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
             ],
         ]);
     }
 
-    public function panduan()
+    public function panduan(): void
     {
         $this->render('program_bantuan/panduan');
     }
 
-    public function create()
+    public function create(): void
     {
         $this->redirect_hak_akses('u');
         $this->load->helper('form');
@@ -275,7 +266,7 @@ class Program_bantuan extends Admin_Controller
     }
 
     // $id = program.id
-    public function edit($id = 0)
+    public function edit($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->load->helper('form');
@@ -302,7 +293,7 @@ class Program_bantuan extends Admin_Controller
     }
 
     // $id = program.id
-    public function update($id)
+    public function update($id): void
     {
         $this->redirect_hak_akses('u');
         $this->program_bantuan_model->update_program($id);
@@ -310,14 +301,14 @@ class Program_bantuan extends Admin_Controller
     }
 
     // $id = program.id
-    public function hapus($id)
+    public function hapus($id): void
     {
         $this->redirect_hak_akses('h');
         $this->program_bantuan_model->hapus_program($id);
         redirect('program_bantuan');
     }
 
-    public function search($program_id = 0)
+    public function search($program_id = 0): void
     {
         $cari = $this->input->post('cari');
 
@@ -331,7 +322,7 @@ class Program_bantuan extends Admin_Controller
     }
 
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
-    public function impor()
+    public function impor(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -346,7 +337,7 @@ class Program_bantuan extends Admin_Controller
             $program_id = '';
             // Data Program Bantuan
             $temp                    = $this->session->per_page;
-            $this->session->per_page = 1000000000;
+            $this->session->per_page = 1_000_000_000;
             $ganti_program           = $this->input->post('ganti_program');
             $kosongkan_peserta       = $this->input->post('kosongkan_peserta');
             $ganti_peserta           = $this->input->post('ganti_peserta');
@@ -421,7 +412,7 @@ class Program_bantuan extends Admin_Controller
                 // Sheet Peserta
                 else {
                     $pesan_peserta = '';
-                    $ambil_peserta = Bantuan::select('id', 'sasaran')->with(['peserta' => static function ($query) {
+                    $ambil_peserta = Bantuan::select('id', 'sasaran')->with(['peserta' => static function ($query): void {
                         $query->select('program_id', 'peserta');
                     }])->find($program_id);
                     $sasaran           = (int) $ambil_peserta->sasaran;
@@ -488,13 +479,11 @@ class Program_bantuan extends Admin_Controller
                         $kartu_alamat        = (string) $cells[6];
                         if (empty($kartu_tanggal_lahir)) {
                             $kartu_tanggal_lahir = $cek_penduduk['tanggallahir'];
-                        } else {
-                            if (! validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
-                                $no_gagal++;
-                                $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah<br>';
+                        } elseif (! validate_date($kartu_tanggal_lahir, 'Y-m-d')) {
+                            $no_gagal++;
+                            $pesan_peserta .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> berisi tanggal yang salah<br>';
 
-                                continue;
-                            }
+                            continue;
                         }
 
                         // Random no. kartu peserta
@@ -554,7 +543,7 @@ class Program_bantuan extends Admin_Controller
     }
 
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
-    public function expor($program_id = '')
+    public function expor($program_id = ''): void
     {
         if ($this->program_bantuan_model->jml_peserta_program($program_id) == 0) {
             $this->session->success = -1;
@@ -563,7 +552,7 @@ class Program_bantuan extends Admin_Controller
 
         // Data Program Bantuan
         $temp                    = $this->session->per_page;
-        $this->session->per_page = 1000000000;
+        $this->session->per_page = 1_000_000_000;
         $data                    = $this->program_bantuan_model->get_program(1, $program_id);
         $tbl_program             = $data[0];
         $tbl_peserta             = $data[1];
@@ -636,10 +625,8 @@ class Program_bantuan extends Admin_Controller
      * Unduh kartu peserta berdasarkan kolom program_peserta.kartu_peserta
      *
      * @param int $id_peserta Id peserta program bantuan
-     *
-     * @return void
      */
-    public function unduh_kartu_peserta($id_peserta = 0)
+    public function unduh_kartu_peserta($id_peserta = 0): void
     {
         // Ambil nama berkas dari database
         $kartu_peserta = $this->db
@@ -654,7 +641,7 @@ class Program_bantuan extends Admin_Controller
 
     // Hapus peserta bantuan yg sudah dihapus
     // TODO: ubah peserta menggunakan id untuk semua sasaran dan gunakan relasi database delete cascade
-    public function bersihkan_data()
+    public function bersihkan_data(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -678,7 +665,7 @@ class Program_bantuan extends Admin_Controller
         $this->render('program_bantuan/hasil_pembersihan', $data);
     }
 
-    public function bersihkan_data_peserta()
+    public function bersihkan_data_peserta(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -694,12 +681,6 @@ class Program_bantuan extends Admin_Controller
 
     protected function cek_is_date($cells)
     {
-        if ($cells->isDate()) {
-            $value = $cells->getValue()->format('Y-m-d');
-        } else {
-            $value = (string) $cells;
-        }
-
-        return $value;
+        return $cells->isDate() ? $cells->getValue()->format('Y-m-d') : (string) $cells;
     }
 }

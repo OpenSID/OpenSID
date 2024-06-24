@@ -28,7 +28,7 @@
                 <p><?= sprintf(lang('default_language'), ucfirst(config_item('language'))) ?></p>
             </div>
         </li>
-        <?php if (count($views)): ?>
+        <?php if (count($views) > 0): ?>
             <?php foreach ($views as $view): ?>
                 <li onmouseover="HideDevelBarSection()"><?= $view ?></li>
             <?php endforeach ?>

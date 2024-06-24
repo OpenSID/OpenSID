@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<div id="foto-produk" class="carousel slide" data-ride="carousel">
 					<div class="carousel-inner">
-						<?php $foto = json_decode($main->foto); ?>
+						<?php $foto = json_decode($main->foto, null); ?>
 						<?php for ($i = 0; $i < $this->setting->banyak_foto_tiap_produk; $i++): ?>
 							<?php if ($foto[$i]): ?>
 								<div class="item <?= jecho($i, 0, 'active'); ?>">

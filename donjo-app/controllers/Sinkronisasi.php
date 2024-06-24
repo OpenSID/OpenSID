@@ -47,7 +47,7 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Sinkronisasi extends Admin_Controller
 {
-    protected $kode_desa;
+    protected string $kode_desa;
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class Sinkronisasi extends Admin_Controller
         $this->sterilkan();
     }
 
-    public function index()
+    public function index(): void
     {
         $modul = [
             'Program Bantuan' => [
@@ -101,7 +101,7 @@ class Sinkronisasi extends Admin_Controller
         $this->render("{$this->controller}/index", $data);
     }
 
-    public function sterilkan()
+    public function sterilkan(): void
     {
         foreach (glob(LOKASI_SINKRONISASI_ZIP . '*_opendk.*') as $file) {
             if (file_exists($file)) {
@@ -110,7 +110,7 @@ class Sinkronisasi extends Admin_Controller
         }
     }
 
-    public function kirim($modul)
+    public function kirim($modul): void
     {
         $this->redirect_hak_akses('u');
 
@@ -148,7 +148,7 @@ class Sinkronisasi extends Admin_Controller
         redirect_with('notif', $notif);
     }
 
-    public function unduh($modul)
+    public function unduh($modul): void
     {
         switch ($modul) {
             case 'penduduk':
@@ -321,7 +321,7 @@ class Sinkronisasi extends Admin_Controller
             ],
         ]);
 
-        $response  = json_decode(curl_exec($curl));
+        $response  = json_decode(curl_exec($curl), null);
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
@@ -339,7 +339,7 @@ class Sinkronisasi extends Admin_Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => json_encode($this->ekspor_model->hapus_penduduk_sinkronasi_opendk()),
+            CURLOPT_POSTFIELDS     => json_encode($this->ekspor_model->hapus_penduduk_sinkronasi_opendk(), JSON_THROW_ON_ERROR),
             CURLOPT_HTTPHEADER     => [
                 'Accept: application/json',
                 'Content-Type: application/json',
@@ -347,7 +347,7 @@ class Sinkronisasi extends Admin_Controller
             ],
         ]);
 
-        $response  = json_decode(curl_exec($curl));
+        $response  = json_decode(curl_exec($curl), null);
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if (curl_errno($curl) || $http_code === 422) {
@@ -637,12 +637,8 @@ class Sinkronisasi extends Admin_Controller
         ];
         $header = WriterEntityFactory::createRowFromArray($judul);
         $writer->addRow($header);
-        $get = Pembangunan::when($tgl_sinkronisasi != null, static function ($q) use ($tgl_sinkronisasi) {
-            return $q->where('updated_at', '>', $tgl_sinkronisasi);
-        })
-            ->when($tgl_sinkronisasi == null, static function ($q) use ($limit, $p) {
-                return $q->skip($p * $limit)->take($limit);
-            })
+        $get = Pembangunan::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
+            ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))
             ->with(['PembangunanDokumentasi', 'wilayah'])->get();
 
         foreach ($get as $row) {
@@ -744,12 +740,8 @@ class Sinkronisasi extends Admin_Controller
         ];
         $header = WriterEntityFactory::createRowFromArray($daftar_kolom_dokumentasi);
         $writer->addRow($header);
-        $get_dokumentasi = PembangunanDokumentasi::when($tgl_sinkronisasi != null, static function ($q) use ($tgl_sinkronisasi) {
-            return $q->where('updated_at', '>', $tgl_sinkronisasi);
-        })
-            ->when($tgl_sinkronisasi == null, static function ($q) use ($limit, $p) {
-                return $q->skip($p * $limit)->take($limit);
-            })->get();
+        $get_dokumentasi = PembangunanDokumentasi::when($tgl_sinkronisasi != null, static fn ($q) => $q->where('updated_at', '>', $tgl_sinkronisasi))
+            ->when($tgl_sinkronisasi == null, static fn ($q) => $q->skip($p * $limit)->take($limit))->get();
 
         foreach ($get_dokumentasi as $row) {
             $dokumentasi = [

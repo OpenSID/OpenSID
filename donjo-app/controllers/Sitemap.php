@@ -48,7 +48,7 @@ class Sitemap extends CI_Controller
         $this->load->database();
     }
 
-    public function index()
+    public function index(): void
     {
         $data['artikel'] = $this->db
             ->select('a.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')

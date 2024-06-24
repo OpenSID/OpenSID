@@ -47,7 +47,7 @@ while ($cycle && $i < $max_cycles) {
     $path = fix_dirname($path) . "/";
 }
 
-function returnPaths($_path, $_name, $config)
+function returnPaths(string $_path, $_name, array $config)
 {
     global $ftp;
     $path = $config['current_path'] . $_path;
@@ -64,11 +64,11 @@ function returnPaths($_path, $_name, $config)
             exit;
         }
     }
-    return array($path, $path_thumb, $name);
+    return [$path, $path_thumb, $name];
 }
 
 if(isset($_POST['paths'])){
-	$paths = $paths_thumb = $names = array();
+	$paths = $paths_thumb = $names = [];
 	foreach ($_POST['paths'] as $key => $path) {
 		if (!checkRelativePath($path))
 		{
@@ -79,7 +79,7 @@ if(isset($_POST['paths'])){
 		if(isset($_POST['names'][$key])){
 			$name = $_POST['names'][$key];
 		}
-		list($path,$path_thumb,$name) = returnPaths($path,$name,$config);
+		[$path, $path_thumb, $name] = returnPaths($path,$name,$config);
 		$paths[] = $path;
 		$paths_thumb[] = $path_thumb;
 		$names = $name;
@@ -89,7 +89,7 @@ if(isset($_POST['paths'])){
 	if(isset($_POST['name'])){
 		$name = $_POST['name'];
 	}
-	list($path,$path_thumb,$name) = returnPaths($_POST['path'],$name,$config);
+	[$path, $path_thumb, $name] = returnPaths($_POST['path'],$name,$config);
 
 }
 
@@ -132,11 +132,15 @@ if (isset($_GET['action'])) {
 						deleteDir($path,NULL,$config);
 						if ($config['fixed_image_creation'])
 						{
-							foreach($config['fixed_path_from_filemanager'] as $k=>$paths){
-								if ($paths!="" && $paths[strlen($paths)-1] != "/") $paths.="/";
+							foreach($config['fixed_path_from_filemanager'] as $paths){
+								if ($paths != "" && $paths[strlen($paths)-1] != "/") {
+            $paths.="/";
+        }
 
 								$base_dir=$paths.substr_replace($path, '', 0, strlen($config['current_path']));
-								if (is_dir($base_dir)) deleteDir($base_dir,NULL,$config);
+								if (is_dir($base_dir)) {
+            deleteDir($base_dir,NULL,$config);
+        }
 							}
 						}
 					}
@@ -172,7 +176,7 @@ if (isset($_GET['action'])) {
                     }
                     rename_folder($path_thumb, $name, $ftp, $config);
                     if (!$ftp && $config['fixed_image_creation']) {
-                        foreach ($config['fixed_path_from_filemanager'] as $k => $paths) {
+                        foreach ($config['fixed_path_from_filemanager'] as $paths) {
                             if ($paths != "" && $paths[strlen($paths) - 1] != "/") {
                                 $paths .= "/";
                             }
@@ -195,7 +199,7 @@ if (isset($_GET['action'])) {
             }
 
             if (!isset($config['editable_text_file_exts']) || !is_array($config['editable_text_file_exts'])) {
-                $config['editable_text_file_exts'] = array();
+                $config['editable_text_file_exts'] = [];
             }
 
             // check if user supplied extension
@@ -207,7 +211,7 @@ if (isset($_GET['action'])) {
             // correct name
             $old_name = $name;
             $name = fix_filename($name, $config);
-            if (empty($name)) {
+            if ($name === '') {
                 response(trans('Empty_name') . AddErrorLocation())->send();
                 exit;
             }
@@ -241,13 +245,12 @@ if (isset($_GET['action'])) {
                 if (@file_put_contents($path . $name, $content) === false) {
                     response(trans('File_Save_Error') . AddErrorLocation())->send();
                     exit;
-                } else {
-                    if (is_function_callable('chmod') !== false) {
-                        chmod($path . $name, 0644);
-                    }
-                    response(trans('File_Save_OK'))->send();
-                    exit;
                 }
+                if (is_function_callable('chmod')) {
+                    chmod($path . $name, 0644);
+                }
+                response(trans('File_Save_OK'))->send();
+                exit;
             }
 
             break;
@@ -255,7 +258,7 @@ if (isset($_GET['action'])) {
         case 'rename_file':
             if ($config['rename_files']) {
                 $name = fix_filename($name, $config);
-                if (!empty($name)) {
+                if ($name !== '') {
                     if (!rename_file($path, $name, $ftp, $config)) {
                         response(trans('Rename_existing_file') . AddErrorLocation())->send();
                         exit;
@@ -287,7 +290,7 @@ if (isset($_GET['action'])) {
         case 'duplicate_file':
             if ($config['duplicate_files']) {
                 $name = fix_filename($name, $config);
-                if (!empty($name)) {
+                if ($name !== '') {
                     if (!$ftp && !checkresultingsize(filesize($path))) {
                         response(sprintf(trans('max_size_reached'), $config['MaxSizeTotal']) . AddErrorLocation())->send();
                         exit;
@@ -397,7 +400,7 @@ if (isset($_GET['action'])) {
                     exit;
                 }
                 if ($action == 'copy') {
-                    list($sizeFolderToCopy, $fileNum, $foldersCount) = folder_info($path, false);
+                    [$sizeFolderToCopy, $fileNum, $foldersCount] = folder_info($path, false);
                     if (!checkresultingsize($sizeFolderToCopy)) {
                         response(sprintf(trans('max_size_reached'), $config['MaxSizeTotal']) . AddErrorLocation())->send();
                         exit;
@@ -409,7 +412,7 @@ if (isset($_GET['action'])) {
                     rrename($data['path_thumb'], $path_thumb);
 
 					// cleanup
-					if (is_dir($data['path']) === TRUE){
+					if (is_dir($data['path'])){
 						rrename_after_cleaner($data['path']);
 						rrename_after_cleaner($data['path_thumb']);
 					}
@@ -425,7 +428,7 @@ if (isset($_GET['action'])) {
         case 'chmod':
             $mode = $_POST['new_mode'];
             $rec_option = $_POST['is_recursive'];
-            $valid_options = array('none', 'files', 'folders', 'both');
+            $valid_options = ['none', 'files', 'folders', 'both'];
             $chmod_perm = ($_POST['folder'] ? $config['chmod_dirs'] : $config['chmod_files']);
 
             // check perm
@@ -490,10 +493,9 @@ if (isset($_GET['action'])) {
                 if (@file_put_contents($path, $content) === false) {
                     response(trans('File_Save_Error') . AddErrorLocation())->send();
                     exit;
-                } else {
-                    response(trans('File_Save_OK'))->send();
-                    exit;
                 }
+                response(trans('File_Save_OK'))->send();
+                exit;
             }
 
             break;

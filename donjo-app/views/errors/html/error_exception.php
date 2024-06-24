@@ -11,12 +11,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <p>Filename: <?= $exception->getFile(); ?></p>
 <p>Line Number: <?= $exception->getLine(); ?></p>
 
-<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true): ?>
+<?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE): ?>
 
 	<p>Backtrace:</p>
 	<?php foreach ($exception->getTrace() as $error): ?>
 
-		<?php if (isset($error['file']) && strpos($error['file'], realpath(BASEPATH)) !== 0): ?>
+		<?php if (isset($error['file']) && strpos($error['file'], (string) realpath(BASEPATH)) !== 0): ?>
 
 			<p style="margin-left:10px">
 			File: <?= $error['file']; ?><br />

@@ -60,17 +60,15 @@ class Tanah_desa_model extends MY_Model
             ->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
             ->where('td.visible', 1);
 
-        if (empty($search)) {
-            $search = $builder;
-        } else {
-            $search = $builder
-                ->group_start()
-                ->like('td.nama_pemilik_asal', $search)
-                ->or_like('p.nama', $search)
-                ->group_end();
+        if ($search === '') {
+            return $builder;
         }
 
-        return $search;
+        return $builder
+            ->group_start()
+            ->like('td.nama_pemilik_asal', $search)
+            ->or_like('p.nama', $search)
+            ->group_end();
     }
 
     public function view_tanah_desa_by_id($id)
@@ -84,7 +82,7 @@ class Tanah_desa_model extends MY_Model
             ->row();
     }
 
-    public function add_tanah_desa()
+    public function add_tanah_desa(): void
     {
         unset($this->session->validation_error, $this->session->success);
 
@@ -142,13 +140,13 @@ class Tanah_desa_model extends MY_Model
         status_sukses($hasil);
     }
 
-    public function delete_tanah_desa($id)
+    public function delete_tanah_desa($id): void
     {
         $hasil = $this->config_id()->update($this->table, ['visible' => 0], ['id' => $id]);
         status_sukses($hasil);
     }
 
-    public function update_tanah_desa()
+    public function update_tanah_desa(): void
     {
         unset($this->session->validation_error, $this->session->success);
 
@@ -207,7 +205,7 @@ class Tanah_desa_model extends MY_Model
         status_sukses($hasil);
     }
 
-    private function periksa_nik(&$valid, $data, $id)
+    private function periksa_nik(&$valid, $data, $id): void
     {
         if (empty($data['penduduk']) && ! isset($data['nik'])) {
             $valid[] = 'NIK Kosong';
@@ -284,7 +282,7 @@ class Tanah_desa_model extends MY_Model
         return $valid;
     }
 
-    private function nik_error($nilai, $judul)
+    private function nik_error($nilai, string $judul)
     {
         if (empty($nilai)) {
             return false;
@@ -292,11 +290,14 @@ class Tanah_desa_model extends MY_Model
         if (! ctype_digit($nilai)) {
             return $judul . ' hanya berisi angka';
         }
-        if (strlen($nilai) != 16 && $nilai != '0') {
-            return $judul . ' panjangnya harus 16 atau bernilai 0';
+        if (strlen($nilai) == 16) {
+            return false;
+        }
+        if ($nilai == '0') {
+            return false;
         }
 
-        return false;
+        return $judul . ' panjangnya harus 16 atau bernilai 0';
     }
 
     public function cetak_tanah_desa()

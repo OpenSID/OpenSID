@@ -50,7 +50,7 @@ class Masuk_ektp extends Web_Controller
         }
     }
 
-    public function index()
+    public function index(): void
     {
         $mac_address = $this->input->get('mac_address', true);
         $token       = $this->input->get('token_layanan', true);
@@ -79,7 +79,7 @@ class Masuk_ektp extends Web_Controller
         $this->load->view(MANDIRI . '/masuk', $data);
     }
 
-    public function cek_ektp()
+    public function cek_ektp(): void
     {
         $this->mandiri_model->siteman_ektp();
         redirect('layanan-mandiri/beranda');

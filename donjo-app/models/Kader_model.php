@@ -143,7 +143,7 @@ class Kader_model extends MY_Model
             }
         }
 
-        return array_unique(array_merge($kursus, $new));
+        return array_unique([...$kursus, ...$new]);
     }
 
     public function get_bidang($nama = null)
@@ -177,10 +177,10 @@ class Kader_model extends MY_Model
             }
         }
 
-        return array_unique(array_merge($bidang, $new));
+        return array_unique([...$bidang, ...$new]);
     }
 
-    public function tambah()
+    public function tambah(): void
     {
         $data = $this->validasi();
 
@@ -191,7 +191,7 @@ class Kader_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function ubah($id = 0)
+    public function ubah($id = 0): void
     {
         $data = $this->validasi();
 
@@ -200,14 +200,14 @@ class Kader_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function hapus($id = 0)
+    public function hapus($id = 0): void
     {
         $outp = $this->config_id()->delete($this->table, ['id' => $id]);
 
         status_sukses($outp);
     }
 
-    public function hapus_semua()
+    public function hapus_semua(): void
     {
         $id   = $this->input->post('id_cb');
         $outp = $this->config_id()->where_in('id', $id)->delete($this->table);

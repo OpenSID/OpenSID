@@ -2788,17 +2788,31 @@ class imageLib {
 	{
 
 		// *** Perform a check or two.
-		if ( ! is_resource($this->imageResized))
-		{
-			if ($this->debug)
+		if (version_compare(PHP_VERSION, '8.0.0', '<')){			
+			if ( ! is_resource($this->imageResized))
 			{
-				throw new Exception('saveImage: This is not a resource.');
+				if ($this->debug)
+				{
+					throw new Exception('saveImage: This is not a resource.');
+				}
+				else
+				{
+					throw new Exception();
+				}
 			}
-			else
-			{
-				throw new Exception();
+		}else {
+			if (! $this->imageResized instanceof \GdImage){
+				if ($this->debug)
+				{
+					throw new Exception('saveImage: This is not a resource.');
+				}
+				else
+				{
+					throw new Exception();
+				}
 			}
 		}
+		
 		$fileInfoArray = pathInfo($savePath);
 		clearstatcache();
 		if ( ! is_writable($fileInfoArray['dirname']))
@@ -2897,17 +2911,29 @@ class imageLib {
 		# Reference:
 		# Notes:
 		#
-	{
-
-		if ( ! is_resource($this->imageResized))
-		{
-			if ($this->debug)
+	{		
+		if (version_compare(PHP_VERSION, '8.0.0', '<')){			
+			if ( ! is_resource($this->imageResized))
 			{
-				throw new Exception('saveImage: This is not a resource.');
+				if ($this->debug)
+				{
+					throw new Exception('saveImage: This is not a resource.');
+				}
+				else
+				{
+					throw new Exception();
+				}
 			}
-			else
-			{
-				throw new Exception();
+		}else {
+			if (! $this->imageResized instanceof \GdImage){
+				if ($this->debug)
+				{
+					throw new Exception('saveImage: This is not a resource.');
+				}
+				else
+				{
+					throw new Exception();
+				}
 			}
 		}
 
@@ -3469,10 +3495,16 @@ class imageLib {
 		# Notes:
 		#
 	{
-		if ( ! is_resource($img))
-		{
-			return false;
-		}
+		if (version_compare(PHP_VERSION, '8.0.0', '<')){			
+			if ( ! is_resource($img))
+			{
+				return false;
+			}
+		}else {
+			if (! $img instanceof \GdImage){
+				return false;
+			}
+		}		
 
 		return @ImageColorsForIndex($img, @ImageColorAt($img, $x, $y));
 	}
@@ -3718,10 +3750,18 @@ class imageLib {
 
 	public function __destruct()
 	{
-		if (is_resource($this->imageResized))
-		{
-			imagedestroy($this->imageResized);
+		if (version_compare(PHP_VERSION, '8.0.0', '<')){			
+			if (is_resource($this->imageResized))
+			{
+				imagedestroy($this->imageResized);
+			}
+		}else {
+			if ($this->imageResized instanceof \GdImage)
+			{
+				imagedestroy($this->imageResized);
+			}			
 		}
+		
 	}
 
 ## --------------------------------------------------------
