@@ -101,7 +101,7 @@ class Theme extends BaseModel
 
     public function getViewPathAttribute(): string
     {
-        return ( Str::contains($this->path, '..') ? '../' : '../../' ) . $this->getFullPathAttribute();
+        return '../../' . $this->getFullPathAttribute();
     }
 
     public function getAssetPathAttribute(): string

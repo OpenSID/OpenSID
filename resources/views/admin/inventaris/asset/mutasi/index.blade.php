@@ -4,7 +4,7 @@
 
 @section('title')
     <h1>
-        Daftar Inventaris Peralatan Dan Mesin
+        Daftar Inventaris Jalan
     </h1>
 @endsection
 
@@ -17,7 +17,7 @@
 @endpush
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Peralatan Dan Mesin</li>
+    <li class="active">Daftar Inventaris Jalan</li>
 @endsection
 
 @section('content')
@@ -34,13 +34,13 @@
                         <table id="tabel-data" class="table table-bordered dataTable table-hover">
                             <thead class="bg-gray">
                                 <tr>
-                                    <th class="text-center">No</th>
-                                    <th class="text-center">Aksi</th>
+                                    <th class="padat">No</th>
+                                    <th class="padat">Aksi</th>
                                     <th class="text-center">Nama Barang</th>
                                     <th class="text-center">Kode Barang / Nomor Registrasi</th>
                                     <th class="text-center">Tahun Pengadaan</th>
                                     <th class="text-center">Tanggal Mutasi</th>
-                                    <th class="text-center">Status Peralatan</th>
+                                    <th class="text-center">Status Jalan</th>
                                     <th class="text-center">Jenis Mutasi</th>
                                     <th class="text-center" width="300px">Keterangan</th>
                                 </tr>
@@ -65,7 +65,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('inventaris_peralatan_mutasi.datatables') }}",
+                    url: "{{ ci_route('inventaris_asset_mutasi.datatables') }}",
                     data: function(req) {}
                 },
                 columns: [{
@@ -93,8 +93,8 @@
                         orderable: true
                     },
                     {
-                        data: 'tahun_pengadaan',
-                        name: 'tahun_pengadaan',
+                        data: 'tanggal_dokument',
+                        name: 'tanggal_dokument',
                         empty: '-',
                         searchable: true,
                         orderable: true
@@ -135,12 +135,15 @@
                     $(row).attr('data-id', data.id)
                 }
             });
+
             if (hapus == 0) {
                 TableData.column(1).visible(false);
             }
+
             if (ubah == 0) {
                 TableData.column(1).visible(false);
             }
+
         });
     </script>
 @endpush

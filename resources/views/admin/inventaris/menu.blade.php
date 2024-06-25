@@ -31,9 +31,9 @@
             <li {!! in_array($controller, ['laporan_inventaris', 'laporan_inventaris_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_tanah') }}"><i class="fa fa-tags"></i> Laporan Semua Asset</a></li>
             <li {!! in_array($controller, ['inventaris_tanah', 'inventaris_tanah_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_tanah') }}"><i class="fa fa-tags"></i> Tanah</a></li>
             <li {!! in_array($controller, ['inventaris_peralatan', 'inventaris_peralatan_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_peralatan') }}"><i class="fa fa-tags"></i> Peralatan Dan Mesin</a></li>
-            <li {!! in_array($controller, ['inventaris_gedung', 'inventaris_gedung_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_kontruksi') }}"><i class="fa fa-tags"></i> Gedung dan Bangunan</a></li>
+            <li {!! in_array($controller, ['inventaris_gedung', 'inventaris_gedung_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_gedung') }}"><i class="fa fa-tags"></i> Gedung dan Bangunan</a></li>
             <li {!! in_array($controller, ['inventaris_jalan', 'inventaris_jalan_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_jalan') }}"><i class="fa fa-tags"></i> Jalan, Irigasi, dan Jaringan</a></li>
-            <li {!! in_array($controller, ['inventaris_aset_tetap', 'inventaris_aset_tetap_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_aset_tetap') }}"><i class="fa fa-tags"></i> Aset Tetap Lainnya</a></li>
+            <li {!! in_array($controller, ['inventaris_asset', 'inventaris_asset_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_asset') }}"><i class="fa fa-tags"></i> Aset Tetap Lainnya</a></li>
             <li {!! in_array($controller, ['inventaris_kontruksi', 'inventaris_kontruksi_mutasi']) ? 'class="active"' : '' !!}><a href="{{ site_url('inventaris_kontruksi') }}"><i class="fa fa-tags"></i> Konstruksi dalam pengerjaan</a></li>
         </ul>
     </div>

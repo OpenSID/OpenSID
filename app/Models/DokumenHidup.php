@@ -229,8 +229,10 @@ class DokumenHidup extends BaseModel
 
     /**
      * Scope daftar arsip fisik dokumen desa.
-     * 
-     * @var \Illuminate\Database\Eloquent\Builder $query 
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     *
+     * @param mixed $query
      */
     public function scopeArsipFisikDokumenDesa($query)
     {
@@ -246,7 +248,7 @@ class DokumenHidup extends BaseModel
                 DB::raw("IF(kategori=3, 'dokumen_sekretariat/perdes/3', IF(kategori=2, 'dokumen_sekretariat/perdes/2', '')) as modul_asli"),
                 'tahun',
                 DB::raw("'dokumen_desa' as kategori"),
-                DB::raw('NULL as lampiran')
+                DB::raw('NULL as lampiran'),
             ])
             ->where('id_pend', 0)
             ->whereNotNull('satuan');
@@ -254,8 +256,10 @@ class DokumenHidup extends BaseModel
 
     /**
      * Scope daftar arsip fisik kependudukan.
-     * 
-     * @var \Illuminate\Database\Eloquent\Builder $query 
+     *
+     * @var \Illuminate\Database\Eloquent\Builder
+     *
+     * @param mixed $query
      */
     public function scopeArsipFisikKependudukan($query)
     {
@@ -271,7 +275,7 @@ class DokumenHidup extends BaseModel
                 DB::raw("CONCAT('penduduk/dokumen/', dokumen_hidup.id_pend) as modul_asli"),
                 DB::raw('EXTRACT(YEAR FROM dokumen_hidup.updated_at) as tahun'),
                 DB::raw("'kependudukan' as kategori"),
-                DB::raw('NULL as lampiran')
+                DB::raw('NULL as lampiran'),
             ])
             ->join('tweb_penduduk', 'dokumen_hidup.id_pend', '=', 'tweb_penduduk.id')
             ->join('ref_syarat_surat', 'dokumen_hidup.id_syarat', '=', 'ref_syarat_surat.ref_syarat_id')

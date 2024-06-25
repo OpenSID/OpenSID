@@ -35,10 +35,44 @@
  *
  */
 
-$tgl = date('d_m_Y');
-header('Content-type: application/octet-stream');
-header('Content-Disposition: attachment; filename=Inventaris_Asset_Lainnya_' . $tgl . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Models;
 
-include 'donjo-app/views/inventaris/asset/inventaris_print.php';
+use App\Traits\Author;
+use App\Traits\ConfigId;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class MutasiInventarisGedung extends BaseModel
+{
+    use Author;
+    use ConfigId;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'mutasi_inventaris_gedung';
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * The hidden with the model.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'config_id',
+    ];
+
+    // relasi ke inventaris jalan
+    public function inventaris_gedung()
+    {
+        return $this->belongsTo(InventarisGedung::class, 'id_inventaris_gedung');
+    }
+}

@@ -4,12 +4,12 @@
 
 @section('title')
     <h1>
-        Daftar Inventaris Peralatan Dan Mesin
+        Daftar Inventaris Gedung Dan Bangunan
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Peralatan Dan Mesin</li>
+    <li class="active">Daftar Inventaris Gedung Dan Bangunan</li>
 @endsection
 
 @push('css')
@@ -31,10 +31,10 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ ci_route('inventaris_peralatan.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ ci_route('inventaris_gedung.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     <a
-                        href="{{ ci_route('inventaris_peralatan/dialog/cetak') }}"
+                        href="{{ ci_route('inventaris_gedung/dialog/cetak') }}"
                         class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         title="Cetak Konstruksi Dalam Pengerjaan"
                         data-remote="false"
@@ -43,7 +43,7 @@
                         data-title="Cetak Konstruksi Dalam Pengerjaan"
                     ><i class="fa fa-print "></i> Cetak</a>
                     <a
-                        href="{{ ci_route('inventaris_peralatan/dialog/unduh') }}"
+                        href="{{ ci_route('inventaris_gedung/dialog/unduh') }}"
                         class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                         title="Unduh Konstruksi Dalam Pengerjaan"
                         data-remote="false"
@@ -65,21 +65,22 @@
                                                     <th class="text-center" rowspan="2">Aksi</th>
                                                     <th class="text-center" rowspan="2">Nama Barang</th>
                                                     <th class="text-center" rowspan="2">Kode Barang / Nomor Registrasi</th>
-                                                    <th class="text-center" rowspan="2">Merk/Type</th>
-                                                    <th class="text-center" rowspan="2">Tahun Pembelian</th>
-                                                    <th class="text-center" colspan="2">Nomor</th>
+                                                    <th class="text-center" rowspan="2">Kondisi Bangunan (B, KB, RB)</th>
+                                                    <th class="text-center" rowspan="2">Letak/Lokasi</th>
+                                                    <th class="text-center" colspan="2">Dokumen Gedung</th>
+                                                    <th class="text-center" rowspan="2">Status Tanah</th>
                                                     <th class="text-center" rowspan="2">Asal Usul</th>
                                                     <th class="text-center" rowspan="2">Harga (Rp)</th>
                                                 </tr>
                                                 <tr>
-                                                    <th class="text-center" rowspan="1">Polisi</th>
-                                                    <th class="text-center" rowspan="1">BPKB</th>
+                                                    <th class="text-center" style="text-align:center;" rowspan="1">Tanggal</th>
+                                                    <th class="text-center" style="text-align:center;" rowspan="1">Nomor</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th colspan="9" style="text-align:right">Total</th>
+                                                    <th colspan="10" style="text-align:right">Total</th>
                                                     <th></th>
                                                 </tr>
                                             </tfoot>
@@ -104,7 +105,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ ci_route('inventaris_peralatan.datatables') }}"
+                    url: "{{ ci_route('inventaris_gedung.datatables') }}"
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -127,39 +128,54 @@
                         name: 'kode_barang'
                     },
                     {
-                        data: 'merk',
-                        name: 'merk'
+                        data: 'kondisi_bangunan',
+                        name: 'kondisi_bangunan',
+                        searchable: true,
+                        orderable: true
                     },
                     {
-                        data: 'tahun_pengadaan',
-                        name: 'tahun_pengadaan'
+                        data: 'letak',
+                        name: 'letak',
+                        searchable: true,
+                        orderable: true
                     },
                     {
-                        data: function(data) {
-                            return data.no_polisi ?? '-'
-                        },
-                        name: 'no_polisi'
+                        data: 'tanggal_dokument',
+                        name: 'tanggal_dokument',
+                        empty: '-',
+                        searchable: true,
+                        orderable: true
                     },
                     {
-                        data: function(data) {
-                            return data.no_bpkb ?? '-'
-                        },
-                        name: 'no_bpkb'
+                        data: 'no_dokument',
+                        name: 'no_dokument',
+                        empty: '-',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'status_tanah',
+                        name: 'status_tanah',
+                        searchable: true,
+                        orderable: true
                     },
                     {
                         data: 'asal',
-                        name: 'asal'
+                        name: 'asal',
+                        searchable: true,
+                        orderable: true
                     },
                     {
                         data: 'harga',
                         name: 'harga',
-                        class: 'text-right',
+                        searchable: true,
+                        orderable: true
                     },
                 ],
                 order: [],
                 footerCallback: function(row, data, start, end, display) {
                     var api = this.api();
-                    for (var i = 9; i < api.columns().count(); i++) {
+                    for (var i = 10; i < api.columns().count(); i++) {
                         var columnData = api.column(i, {
                             page: 'current'
                         }).data();

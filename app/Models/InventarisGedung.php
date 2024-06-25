@@ -37,12 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\Author;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class InventarisGedung extends BaseModel
 {
+    use Author;
     use ConfigId;
 
     /**
@@ -57,7 +59,7 @@ class InventarisGedung extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     /**
      * The hidden with the model.
@@ -67,4 +69,13 @@ class InventarisGedung extends BaseModel
     protected $hidden = [
         'config_id',
     ];
+    public function scopeVisible($query, $value = 1)
+    {
+        return $query->where('visible', $value);
+    }
+
+    public function mutasi()
+    {
+        return $this->hasOne(MutasiInventarisGedung::class, 'id_inventaris_gedung');
+    }
 }
