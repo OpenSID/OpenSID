@@ -36,7 +36,8 @@
                                         @endif
                                         <select class="form-control input-sm select2" id="nama_barang" name="nama_barang" @disabled($view_mark) onchange="formAction('main')">
                                             @foreach ($aset as $data)
-                                                <option value="{{ $data['nama'] }}" @selected($main->nama_barang == $data['nama'])>Kode Reg : {{ $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . ' - ' . $data['nama'] }}</option>
+                                                <option value="{{ $data['nama'] . '_' . $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . '.' . $hasil }}" @selected($main->nama_barang == $data['nama'])>Kode Reg :
+                                                    {{ $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . ' - ' . $data['nama'] }}</option>
                                             @endforeach
                                         </select>
                                     </div>

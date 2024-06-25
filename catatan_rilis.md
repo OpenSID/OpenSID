@@ -60,10 +60,11 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8084](https://github.com/OpenSID/OpenSID/issues/8084) Penyesuaian judul pada foto tambahan produk lapak.
 10. [#7820](https://github.com/OpenSID/OpenSID/issues/7820) Penyesuaian modul inventaris kontruksi menggunakan ORM dan Blade.
 11. [#7818](https://github.com/OpenSID/OpenSID/issues/7818) Penyesuaian modul inventaris jalan menggunakan ORM dan Blade.
-12. [#7816](https://github.com/OpenSID/OpenSID/issues/7816) Penyesuaian modul inventaris peralatan menggunakan ORM dan Blade.
+12. [#7819](https://github.com/OpenSID/OpenSID/issues/7816) Penyesuaian modul inventaris peralatan menggunakan ORM dan Blade.
 13. [#8113](https://github.com/OpenSID/OpenSID/issues/8113) Penyesuaian bootstrap pisah dari hook.
 14. [#8045](https://github.com/OpenSID/OpenSID/issues/8045) Penyesuaian modul arsip desa menggunakan ORM dan Blade.
 15. [#7816](https://github.com/OpenSID/OpenSID/issues/7817) Penyesuaian modul inventaris gedung menggunakan ORM dan Blade.
+16. [#7819](https://github.com/OpenSID/OpenSID/issues/7819) Penyesuaian modul inventaris asset menggunakan ORM dan Blade.
 
 
 #### KEAMANAN
