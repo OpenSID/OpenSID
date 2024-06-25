@@ -25,12 +25,10 @@ function csrf_semua_form()
 }
 
 function refreshFormCsrf() {
-	$.ajaxSetup({
-		data: {
-			'sidcsrf': $.cookie('sidcsrf'),
-		}
-	});
-	$('[name="sidcsrf"]').val($.cookie('sidcsrf'));
+	$('form')
+		.find('input[type="hidden"]')
+		.filter(`[name="${csrfParam}"]`)
+		.val($.cookie(csrfParam));
 }
 
 $('document').ready(function() {
@@ -41,15 +39,14 @@ $('document').ready(function() {
 	});
 
 	$.ajaxPrefilter((opts, origOpts, xhr) => {
-		if (opts.crossDomain) {
-			return
-		}
-		if (opts.type !== 'GET' && opts.type !== 'PUT') {
+		if (!opts.crossDomain && !['HEAD', 'GET', 'OPTIONS'].includes(opts.type)) {
+			const csrfToken = $.cookie(csrfParam);
+
 			if (opts.data instanceof FormData) {
-				opts.data.append(csrfParam, getCsrfToken())
+				opts.data.append(csrfParam, csrfToken);
 			} else {
-				opts.data = `${opts.data||''}&${csrfParam}=${getCsrfToken()}`
+				opts.data = `${opts.data || ''}&${csrfParam}=${csrfToken}`;
 			}
 		}
-	})	
+	})
 })

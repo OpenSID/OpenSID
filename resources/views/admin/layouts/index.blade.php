@@ -126,13 +126,6 @@
                 setTimeout(scrollTampil($('li.treeview.menu-open')[0]), 500);
             });
 
-            $('form').submit(function() {
-                var csrf_cookie_val = $.cookie('sidcsrf');
-                $(this).find('input[type="hidden"]')
-                    .filter('[name="sidcsrf"]')
-                    .val(csrf_cookie_val);
-            });
-
             function scrollTampil(elem) {
                 elem.scrollIntoView({
                     behavior: 'smooth'
