@@ -49,7 +49,7 @@ Route::group('anjungan-mandiri', ['namespace' => 'fmandiri/anjungan'], static fu
 
 Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function (): void {
     Route::get('/', static function (): void {
-        redirect('anjungan');
+        redirect(route('anjungan.index'));
     });
     Route::get('/masuk', 'Masuk@index')->name('layanan-mandiri.masuk.index');
     Route::post('/cek', 'Masuk@cek')->name('layanan-mandiri.masuk.cek');
