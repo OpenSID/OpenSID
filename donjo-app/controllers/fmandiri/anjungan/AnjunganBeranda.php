@@ -35,16 +35,7 @@
  *
  */
 
-use App\Models\KelompokAnggota;
-use App\Models\Pendapat;
-use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
-use App\Models\PesanMandiri;
-use App\Models\Keluarga;
-use Illuminate\Http\Request;
-
 defined('BASEPATH') || exit('No direct script access allowed');
-
 
 require_once APPPATH . 'controllers/fmandiri/Beranda.php';
 
@@ -60,6 +51,8 @@ class AnjunganBeranda extends Mandiri_Controller
 
     public function index()
     {
-        return view('layanan_mandiri.anjungan.beranda.content');
+        $data['beranda'] = true;
+
+        return view('layanan_mandiri.anjungan.beranda.content', $data);
     }
 }

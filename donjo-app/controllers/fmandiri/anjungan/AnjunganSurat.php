@@ -42,10 +42,10 @@ use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
 class AnjunganSurat extends Mandiri_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -65,6 +65,7 @@ class AnjunganSurat extends Mandiri_Controller
             if (! $obj) {
                 redirect(route('anjungan.surat.buat'));
             }
+
             $permohonan  = $obj->toArray();
             $form_action = route('anjungan.surat.form', $id);
         } else {
@@ -83,22 +84,20 @@ class AnjunganSurat extends Mandiri_Controller
 
     public function form($id = '')
     {
-        $id_pend = $this->is_login->id_pend;
+        $id_pend      = $this->is_login->id_pend;
         $surat        = FormatSurat::find($id);
         $syarat_surat = $this->getSyarat($surat->syarat_surat);
         $penduduk     = Penduduk::find($id_pend) ?? show_404();
         $individu     = $penduduk->formIndividu();
         $data         = [];
         $data         = array_merge($data, [
-            'penduduk_login' => $penduduk,
-            'syarat_surat'   => $syarat_surat,
-            'url'            => $surat->url_surat,
-            'individu'       => $individu,
-            'anggota'        => $penduduk?->keluarga?->anggota?->toArray(),
-            'surat_url'      => rtrim($_SERVER['REQUEST_URI'], '/clear'),
-            'form_action'    => ci_route("surat/cetak/{$surat->url_surat}"),
-            'anjungan'       => true,
-            'kembali' => 'Layanan Surat'
+            'syarat_surat' => $syarat_surat,
+            'url'          => $surat->url_surat,
+            'individu'     => $individu,
+            'anggota'      => $penduduk?->keluarga?->anggota?->toArray(),
+            'surat_url'    => rtrim($_SERVER['REQUEST_URI'], '/clear'),
+            'form_action'  => ci_route("surat/cetak/{$surat->url_surat}"),
+            'anjungan'     => true,
         ]);
         $this->get_data_untuk_form($surat->url_surat, $data);
 
@@ -135,6 +134,80 @@ class AnjunganSurat extends Mandiri_Controller
         $data['format_nomor_surat'] = FormatSurat::format_penomoran_surat($data);
     }
 
+    public function permohonan()
+    {
+        if ($this->input->is_ajax_request()) {
+            $printer = $this->print_connector();
+
+            return datatables(PermohonanSurat::with(['logSurat', 'surat'])->where('id_pemohon', $this->is_login->id_pend)->orWhereHas('logSurat', function ($q) {
+                $q->where('id_pend', $this->is_login->id_pend)
+                    ->where('deleted_at', null);
+            }))
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($item) use ($printer) {
+                    $aksi = '';
+
+                    if ($item->status == 0) {
+                        $url = site_url("layanan-mandiri/surat/buat/{$item->id}");
+                        $aksi .= "<a href='{$url}' class='btn btn-social bg-navy btn-sm' title='Lengkapi Surat' style='width: 170px'><i class='fa fa-info-circle'></i>Lengkapi Surat</a> ";
+                    } elseif ($item->status == 1) {
+                        $aksi .= "<a class='btn btn-social btn-info btn-sm btn-proses' title='Surat {$item->statusPermohonan}' style='width: 170px'><i class='fa fa-spinner'></i>{$item->statusPermohonan}</a> ";
+                    } elseif ($item->status == 2) {
+                        $aksi .= "<a class='btn btn-social bg-purple btn-sm btn-proses' title='Surat {$item->statusPermohonan}' style='width: 170px'><i class='fa fa-edit'></i>{$item->statusPermohonan}</a> ";
+                    } elseif ($item->status == 3) {
+                        $aksi .= "<a class='btn btn-social bg-orange btn-sm btn-proses' title='Surat {$item->statusPermohonan}' style='width: 170px'><i class='fa fa-thumbs-o-up'></i>{$item->statusPermohonan}</a> ";
+                    } elseif ($item->status == 4) {
+                        $aksi .= "<a class='btn btn-social btn-success btn-sm btn-proses' title='Surat {$item->statusPermohonan}' style='width: 170px'><i class='fa fa-check'></i>{$item->statusPermohonan}</a> ";
+                    } else {
+                        $aksi .= "
+                            <a class='btn btn-social btn-danger btn-sm btn-proses' title='Surat {$item->statusPermohonan}' style='width: 170px'><i class='fa fa-times'></i>{$item->statusPermohonan}</a>
+                            <button title='Keterangan' class='btn bg-orange btn-sm keterangan' data-toggle='popover' data-trigger='focus' data-content='{$item->alasan}'><i class='fa fa-info-circle'></i></button>
+                        ";
+                    }
+
+                    if (in_array($item->status, ['0', '1'])) {
+                        $url = site_url(MANDIRI . "/surat/proses/{$item->id}");
+                        $aksi .= "<a href='{$url}' title='Batalkan Surat' class='btn bg-maroon btn-sm'><i class='fa fa-times'></i></a> ";
+                    }
+
+                    if ($item->no_antrian && $this->cek_anjungan && $printer) {
+                        $url = site_url(MANDIRI . "/surat/cetak_no_antrian/{$item->no_antrian}");
+                        $aksi .= "<a href='{$url}' class='btn btn-social btn-sm bg-navy' title='Cetak No. Antrean'><i class='fa fa-print'></i>No. Antrean</a> ";
+                    }
+
+                    if ($item->status == 3 && $item->logSurat?->last()?->tte != null) {
+                        $url = site_url("layanan-mandiri/surat/cetak/{$item->logSurat?->last()?->id}");
+                        $aksi .= "<a href='{$url}' class='btn bg-fuchsia btn-sm' title='Cetak Surat PDF' target='_blank'><i class='fa fa-file-pdf-o'></i></a>";
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('no_antrian', static fn ($item) => get_antrian($item->no_antrian))
+                ->editColumn('created_at', static fn ($item) => tgl_indo2($item->created_at))
+                ->rawColumns(['aksi'])
+                ->make();
+        }
+
+        return view('layanan_mandiri.anjungan.surat.permohonan');
+    }
+
+    protected function print_connector()
+    {
+        if (null === ($anjungan = $this->cek_anjungan)) {
+            return;
+        }
+
+        try {
+            $connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port'], 5);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return false;
+        }
+
+        return $connector;
+    }
+
     public function kirim($id = ''): void
     {
         $this->load->library('Telegram/telegram');
@@ -143,7 +216,7 @@ class AnjunganSurat extends Mandiri_Controller
         $surat = FormatSurat::where('url_surat', $post['url_surat'])->first();
 
         $syrat = collect(json_decode($surat->syarat_surat, true))
-            ->mapWithKeys(fn($item, $key) => [(string)($key + 1) => $item])
+            ->mapWithKeys(static fn ($item, $key) => [(string) ($key + 1) => $item])
             ->all();
 
         $data = [
@@ -192,10 +265,5 @@ class AnjunganSurat extends Mandiri_Controller
         $this->session->unset_userdata('data_permohonan');
 
         redirect(route('anjungan.permohonan'));
-    }
-
-    public function permohonan()
-    {
-        dd('permohonan');
     }
 }

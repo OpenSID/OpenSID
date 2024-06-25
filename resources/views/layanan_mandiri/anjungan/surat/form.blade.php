@@ -7,7 +7,7 @@
             /* font-size: 18px; */
             font-weight: bold;
             /* margin-left: 14px;
-                            margin-bottom: 14px; */
+                                        margin-bottom: 14px; */
             margin: 0px 0px 14px 14px;
         }
 
@@ -100,7 +100,7 @@
                                         id="no_hp_aktif"
                                         placeholder="Ketik No. HP"
                                         maxlength="14"
-                                        value="{{ $penduduk_login->telepon }}"
+                                        value="{{ auth_mandiri()->telepon }}"
                                     >
                                 </div>
                             </div>

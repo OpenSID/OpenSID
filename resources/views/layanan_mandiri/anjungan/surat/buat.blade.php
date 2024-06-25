@@ -21,7 +21,7 @@
         .text-wrap {
             display: inline-block;
             /* word-wrap: break-word;
-                            word-break: break-all; */
+                                        word-break: break-all; */
             white-space: normal;
             max-width: 100%;
         }
@@ -31,15 +31,16 @@
             justify-content: center;
             align-items: center;
             height: 100%;
+        }
 
-            .icon-label {
-                display: grid;
-                margin: 13px auto;
-            }
+        .icon-label {
+            display: grid;
+            margin: 13px auto;
+        }
 
-            .icon-label i {
-                font-size: large;
-            }
+        .icon-label i {
+            font-size: large;
+        }
     </style>
 @endpush
 @section('content')
@@ -55,7 +56,8 @@
                         <div class="list-surat">
                             @foreach ($menu_surat_mandiri as $item)
                                 <a href="{{ route('anjungan.surat.form', $item['id']) }}" class="btn btn-app">
-                                    {{-- <a href="{{ ci_route('layanan-mandiri.surat_anjungan.form', $item['id']) }}" class="btn btn-app"> --}}
+                                    {{-- <a href="{{ ci_route('layanan-mandiri.surat_anjungan.form', $item['id']) }}"
+                                class="btn btn-app"> --}}
                                     <div class="icon-label">
                                         <i class="fa fa-file-text-o"></i><span class="text-wrap" style="margin-top: 10px;">{{ truncateText($item['nama'], 30) }}</span>
                                     </div>

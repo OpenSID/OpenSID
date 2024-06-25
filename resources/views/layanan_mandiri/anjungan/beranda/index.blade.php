@@ -99,6 +99,14 @@
         .content-header {
             padding-top: 0;
         }
+
+        .side-menu-wrapper {
+            height: 62%;
+            display: flex;
+            align-content: space-around;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 
     @stack('css')
@@ -168,13 +176,15 @@
                                         <td>{{ auth_mandiri()->alamat_wilayah }}</td>
                                     </tr>
                                 </table>
-                                @isset($kembali)
-                                    <div class="form-group text-center" style="padding-top: 10px;">
-                                        <a href="#" onclick="history.back()" class="btn bg-aqua btn-social">
-                                            <i class="fa fa-arrow-circle-left"></i>Kembali ke {{ $kembali }}
-                                        </a>
+                                @if (!$beranda)
+                                    <div class="side-menu-wrapper">
+                                        <div class="form-group text-center">
+                                            <a href="{{ route('anjungan.beranda.index') }}" class="btn bg-aqua btn-social">
+                                                <i class="fa fa-arrow-circle-left"></i>Kembali
+                                            </a>
+                                        </div>
                                     </div>
-                                @endisset
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -188,14 +198,7 @@
     </div>
 
 </body>
-{{-- <script src="{{ asset('js/adminlte.min.js') }}"></script>
-<script src="{{ asset('buku_tamu/js/plugins.bundle.js') }}"></script>
 
-<script src="{{ asset('bootstrap/js/select2.full.min.js') }}"></script>
-<script src="{{ asset('front/js/mandiri.js') }}"></script>
-
-@include('admin.layouts.components.validasi_form') --}}
-<!-- Jquery UI -->
 <script src="{{ asset('bootstrap/js/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('bootstrap/js/jquery.ui.autocomplete.scroll.min.js') }}"></script>
 
@@ -228,15 +231,16 @@
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
 <script src="{{ asset('front/js/jquery.overlay.min.js') }}"></script>
 <script src="{{ asset('front/js/jquery-confirm.min.js') }}"></script>
+
+<!-- Sweetalert JS -->
+<script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
+
 <!-- Validasi js -->
 @include('admin.layouts.components.validasi_form')
 <!-- Numeral js -->
 <script src="{{ asset('js/numeral.min.js') }}"></script>
 <!-- Khusus modul layanan mandiri -->
 <script src="{{ asset('front/js/mandiri.js') }}"></script>
-
-<!-- Sweetalert JS -->
-<script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
 @if ($cek_anjungan)
     <!-- keyboard widget script -->

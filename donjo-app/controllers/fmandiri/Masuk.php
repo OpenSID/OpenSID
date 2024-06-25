@@ -86,11 +86,10 @@ class Masuk extends Web_Controller
     public function cek(): void
     {
         $this->mandiri_model->siteman($this->cek_anjungan);
-        
+
         if ($this->session->is_anjungan) {
             redirect(route('anjungan.beranda.index'));
         }
-
         redirect(route('layanan-mandiri.beranda.index'));
     }
 
