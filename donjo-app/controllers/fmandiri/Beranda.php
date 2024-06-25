@@ -56,18 +56,12 @@ class Beranda extends Mandiri_Controller
 
     public function index()
     {
-        if ($this->cek_anjungan) {
-            $data['penduduk'] = Penduduk::find($this->is_login->id_pend);
-
-            return view('layanan_mandiri.anjungan.beranda.content', $data);
+        $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
+        if ($inbox) {
+            redirect('layanan-mandiri/pesan-masuk');
+        } else {
+            redirect('layanan-mandiri/permohonan-surat');
         }
-            $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
-            if ($inbox) {
-                redirect('layanan-mandiri/pesan-masuk');
-            } else {
-                redirect('layanan-mandiri/permohonan-surat');
-            }
-
     }
 
     public function profil()

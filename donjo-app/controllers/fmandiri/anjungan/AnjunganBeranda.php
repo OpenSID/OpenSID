@@ -35,53 +35,31 @@
  *
  */
 
+use App\Models\KelompokAnggota;
+use App\Models\Pendapat;
+use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
+use App\Models\PesanMandiri;
+use App\Models\Keluarga;
+use Illuminate\Http\Request;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Masuk_ektp extends Web_Controller
+
+require_once APPPATH . 'controllers/fmandiri/Beranda.php';
+
+class AnjunganBeranda extends Mandiri_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        mandiri_timeout();
-        $this->session->login_ektp = true;
-        $this->load->model(['mandiri_model', 'theme_model']);
-        if ($this->setting->layanan_mandiri == 0) {
-            show_404();
+        if (! $this->session->is_anjungan) {
+            redirect(route('layanan-mandiri.beranda.index'));
         }
     }
 
-    public function index(): void
+    public function index()
     {
-        $mac_address = $this->input->get('mac_address', true);
-        $token       = $this->input->get('token_layanan', true);
-        if (($mac_address && $token == $this->setting->layanan_opendesa_token) || $this->session->mandiri == 1) {
-            $this->session->mac_address = $mac_address;
-            redirect('layanan-mandiri/beranda');
-        }
-
-        //Initialize Session ------------
-        $this->session->unset_userdata('balik_ke');
-        if (! isset($this->session->mandiri)) {
-            // Belum ada session variable
-            $this->session->mandiri      = 0;
-            $this->session->mandiri_try  = 4;
-            $this->session->mandiri_wait = 0;
-            $this->session->login_ektp   = true;
-        }
-
-        $data = [
-            'header'              => $this->header,
-            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
-            'cek_anjungan'        => $this->cek_anjungan,
-            'form_action'         => site_url('layanan-mandiri/cek-ektp'),
-        ];
-
-        $this->load->view(MANDIRI . '/masuk', $data);
-    }
-
-    public function cek_ektp(): void
-    {
-        $this->mandiri_model->siteman_ektp($this->cek_anjungan);
-        redirect('layanan-mandiri/beranda');
+        return view('layanan_mandiri.anjungan.beranda.content');
     }
 }

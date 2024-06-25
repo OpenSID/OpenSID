@@ -49,22 +49,22 @@
             <section class="content-header middle-content">
                 <div class="row hidden-xs">
                     <div class="col-lg-12 btn-position">
-                        <a href="{{ site_url('layanan-mandiri/buat-surat') }}">
+                        <a href="{{ route('anjungan.surat') }}">
                             <div class="col-xs-12">
                                 <div class="info-box bg-green">
                                     <span class="info-box-icon"><i class="fa fa-file-word-o"></i></span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text-widget">Buat Surat</span>
+                                        <span class="info-box-text-widget">Surat</span>
                                     </div>
                                 </div>
                             </div>
                         </a>
-                        <a href="{{ site_url('layanan-mandiri/permohonan-surat') }}">
+                        <a href="{{ route('anjungan.permohonan') }}">
                             <div class="col-xs-12">
                                 <div class="info-box bg-yellow">
                                     <span class="info-box-icon"><i class="fa fa-print"></i></span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text-widget">Cetak Surat</span>
+                                        <span class="info-box-text-widget">Permohonan</span>
                                     </div>
                                 </div>
                             </div>

@@ -38,8 +38,19 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 // SITEMAN
+Route::group('anjungan-mandiri', ['namespace' => 'fmandiri/anjungan'], static function (): void {
+    Route::get('/', 'Anjungan@index')->name('anjungan.index');
+    Route::get('/beranda', 'AnjunganBeranda@index')->name('anjungan.beranda.index');
+    Route::get('/surat/{id?}', 'AnjunganSurat@buat')->name('anjungan.surat');
+    Route::get('/surat/form/{id?}', 'AnjunganSurat@form')->name('anjungan.surat.form');
+    Route::post('/surat/kirim', 'AnjunganSurat@kirim')->name('anjungan.surat.kirim');
+    Route::get('/permohonan', 'AnjunganSurat@permohonan')->name('anjungan.permohonan');
+});
+
 Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function (): void {
-    Route::get('/', 'Anjungan@index')->name('layanan-mandiri.anjungan.index');
+    Route::get('/', static function (): void {
+        redirect('anjungan');
+    });
     Route::get('/masuk', 'Masuk@index')->name('layanan-mandiri.masuk.index');
     Route::post('/cek', 'Masuk@cek')->name('layanan-mandiri.masuk.cek');
     Route::get('/lupa-pin', 'Masuk@lupa_pin')->name('layanan-mandiri.masuk.lupa_pin');
@@ -93,7 +104,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     Route::group('surat', static function (): void {
         Route::get('/buat/{id?}', 'Surat@buat')->name('layanan-mandiri.surat.buat');
         Route::post('/cek_syarat', 'Surat@cek_syarat')->name('layanan-mandiri.surat.cek_syarat');
-        Route::post('/form/{id?}', 'Surat@form')->name('layanan-mandiri.surat.form');
+        Route::get('/form/{id?}', 'Surat@form')->name('layanan-mandiri.surat.form');
         Route::post('/kirim', 'Surat@kirim')->name('layanan-mandiri.surat.kirim');
         Route::get('/proses/{id?}', 'Surat@proses')->name('layanan-mandiri.surat.proses');
         Route::get('/cetak_no_antrian/{no_antrian}', 'Surat@cetak_no_antrian')->name('layanan-mandiri.surat.cetak_no_antrian');

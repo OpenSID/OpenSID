@@ -22,7 +22,8 @@
                         <select class="form-control select2 required" name="id_surat" id="id_surat">
                             <option value=""> -- Pilih Jenis Surat -- </option>
                             @foreach ($menu_surat_mandiri as $data)
-                                <option value="{{ $data['id'] }}" {{ $data['id'] == $permohonan['id_surat'] ? 'selected' : '' }}>{{ $data['nama'] }}</option>
+                                <option value="{{ $data['id'] }}" {{ $data['id'] == $permohonan['id_surat'] ? 'selected' : '' }}>
+                                    {{ $data['nama'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -84,13 +85,15 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle"></i> &nbsp;Peringatan</h4>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-exclamation-triangle"></i> &nbsp;Peringatan
+                    </h4>
                 </div>
                 <div class="modal-body">
                     <p id="kata_peringatan"></p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                    <button class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i>
+                        Tutup</button>
                 </div>
             </div>
         </div>

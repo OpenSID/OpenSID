@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Penduduk;
+
 /*
  *
  * File ini bagian dari:
@@ -353,7 +355,7 @@ class Mandiri_model extends MY_Model
     }
 
     //Login Layanan Mandiri
-    public function siteman(): void
+    public function siteman($anjungan = false): void
     {
         session_error_clear();
 
@@ -384,9 +386,11 @@ class Mandiri_model extends MY_Model
             switch (true) {
                 case $data && $pin == $data->pin:
                     $session = [
-                        'mandiri'    => 1,
-                        'is_login'   => $data,
-                        'login_ektp' => false,
+                        'mandiri'      => 1,
+                        'is_anjungan'  => $anjungan,
+                        'is_login'     => $data,
+                        'auth_mandiri' => Penduduk::find($data->id_pend),
+                        'login_ektp'   => false,
                     ];
                     $this->session->set_userdata($session);
                     break;
@@ -408,7 +412,7 @@ class Mandiri_model extends MY_Model
     }
 
     //Login Layanan Mandiri E-KTP
-    public function siteman_ektp(): void
+    public function siteman_ektp($anjungan): void
     {
         session_error_clear();
 
@@ -439,9 +443,11 @@ class Mandiri_model extends MY_Model
 
                 case $data && ! $this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin:
                     $session = [
-                        'mandiri'    => 1,
-                        'is_login'   => $data,
-                        'login_ektp' => true,
+                        'mandiri'      => 1,
+                        'is_anjungan'  => $anjungan,
+                        'is_login'     => $data,
+                        'auth_mandiri' => Penduduk::find($data->id_pend),
+                        'login_ektp'   => true,
                     ];
                     $this->session->set_userdata($session);
                     break;
@@ -474,7 +480,7 @@ class Mandiri_model extends MY_Model
             $this->update_login($data);
         }
 
-        $this->session->unset_userdata(['mandiri', 'is_login', 'data_permohonan']);
+        $this->session->unset_userdata(['mandiri', 'is_login', 'is_anjungan', 'data_permohonan']);
     }
 
     public function update_login(array $data = []): void
