@@ -65,6 +65,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#8045](https://github.com/OpenSID/OpenSID/issues/8045) Penyesuaian modul arsip desa menggunakan ORM dan Blade.
 15. [#7816](https://github.com/OpenSID/OpenSID/issues/7817) Penyesuaian modul inventaris gedung menggunakan ORM dan Blade.
 16. [#7819](https://github.com/OpenSID/OpenSID/issues/7819) Penyesuaian modul inventaris asset menggunakan ORM dan Blade.
+17. [#8028](https://github.com/OpenSID/OpenSID/issues/8028) Penyesuaian salin ulang font bawaan.
 
 
 #### KEAMANAN

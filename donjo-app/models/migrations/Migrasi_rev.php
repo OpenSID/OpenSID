@@ -35,8 +35,7 @@
  *
  */
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Filesystem\Filesystem;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,6 +50,7 @@ class Migrasi_rev extends MY_model
 
         // foreach ($config_id as $id) {
         // }
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
 
         return $hasil && true;
     }
