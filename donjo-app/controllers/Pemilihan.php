@@ -177,7 +177,7 @@ class Pemilihan extends Admin_Controller
     {
         return [
             'judul'      => nama_terbatas($request['judul']),
-            'tanggal'    => date('Y-m-d', strtotime($request['tanggal'])),
+            'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
             'keterangan' => $request['keterangan'],
             'status'     => $request['status'] ?? 0,
         ];

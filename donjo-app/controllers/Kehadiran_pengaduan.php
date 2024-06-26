@@ -99,10 +99,10 @@ class Kehadiran_pengaduan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = []): array
+    private function validate(array $request = []): array
     {
         return [
-            'keterangan' => strip_tags($request['keterangan']),
+            'keterangan' => strip_tags((string) $request['keterangan']),
         ];
     }
 }

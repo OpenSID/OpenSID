@@ -152,8 +152,8 @@ class Kehadiran_keluar extends Admin_Controller
     protected static function validated($request = [], $id = null): array
     {
         $validated = [
-            'alasan'     => strip_tags($request['alasan']),
-            'keterangan' => strip_tags($request['keterangan']),
+            'alasan'     => strip_tags((string) $request['alasan']),
+            'keterangan' => strip_tags((string) $request['keterangan']),
         ];
 
         $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;

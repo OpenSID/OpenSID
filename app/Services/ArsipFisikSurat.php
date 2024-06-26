@@ -66,11 +66,9 @@ class ArsipFisikSurat
     }
 
     /**
-     * @param mixed $kategori
-     *
      * @throws Exception
      */
-    public function totalData($kategori): int|null
+    public function totalData(mixed $kategori): int|null
     {
         return $this->dataJenis($kategori)?->count();
     }
@@ -85,8 +83,8 @@ class ArsipFisikSurat
             '3-1' => 'Surat Keluar',
         ];
 
-        $syaratItems = SyaratSurat::all()->mapWithKeys(static fn ($item) => ["4-{$item->ref_syarat_id}" => $item->ref_syarat_nama]);
-        $formatItems = FormatSurat::all()->mapWithKeys(static fn ($item) => ["5-{$item->id}" => $item->nama]);
+        $syaratItems = SyaratSurat::all()->mapWithKeys(static fn ($item): array => ["4-{$item->ref_syarat_id}" => $item->ref_syarat_nama]);
+        $formatItems = FormatSurat::all()->mapWithKeys(static fn ($item): array => ["5-{$item->id}" => $item->nama]);
 
         $jenis = [
             ...$jenis,
@@ -122,7 +120,7 @@ class ArsipFisikSurat
         return $model::where('id', $id)->value('lokasi_arsip');
     }
 
-    private function getModel($table)
+    private function getModel($table): string
     {
         return match ($table) {
             'surat_masuk'  => SuratMasuk::class,
@@ -133,7 +131,7 @@ class ArsipFisikSurat
         };
     }
 
-    private function getBerkasColumn($table, $lampiran)
+    private function getBerkasColumn($table, $lampiran): string
     {
         return match ($table) {
             'surat_masuk', 'surat_keluar' => 'berkas_scan',
@@ -144,11 +142,9 @@ class ArsipFisikSurat
     }
 
     /**
-     * @param mixed $kategori
-     *
      * @throws Exception
      */
-    private function dataJenis($kategori): \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
+    private function dataJenis(mixed $kategori): \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
     {
         return match ($kategori) {
             'dokumen_desa'  => DokumenHidup::where('id_pend', 0)->whereNotNull('satuan'),

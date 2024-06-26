@@ -231,10 +231,8 @@ class DokumenHidup extends BaseModel
      * Scope daftar arsip fisik dokumen desa.
      *
      * @var \Illuminate\Database\Eloquent\Builder
-     *
-     * @param mixed $query
      */
-    public function scopeArsipFisikDokumenDesa($query)
+    public function scopeArsipFisikDokumenDesa(mixed $query)
     {
         return $query
             ->select([
@@ -258,10 +256,8 @@ class DokumenHidup extends BaseModel
      * Scope daftar arsip fisik kependudukan.
      *
      * @var \Illuminate\Database\Eloquent\Builder
-     *
-     * @param mixed $query
      */
-    public function scopeArsipFisikKependudukan($query)
+    public function scopeArsipFisikKependudukan(mixed $query)
     {
         return $query
             ->select([

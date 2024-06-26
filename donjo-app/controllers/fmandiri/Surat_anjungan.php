@@ -45,7 +45,6 @@ use App\Models\SyaratSurat;
 
 class Surat_anjungan extends Mandiri_Controller
 {
-
     public function buat($id = '')
     {
         $id_pend    = $this->is_login->id_pend;
@@ -64,7 +63,7 @@ class Surat_anjungan extends Mandiri_Controller
         }
 
         $data = [
-            'penduduk_login'             => Penduduk::find($id_pend),
+            'penduduk_login'       => Penduduk::find($id_pend),
             'menu_surat_mandiri'   => FormatSurat::kunci(0)->mandiri()->get(),
             'menu_dokumen_mandiri' => SyaratSurat::get()->toArray(),
             'permohonan'           => $permohonan,
@@ -93,7 +92,7 @@ class Surat_anjungan extends Mandiri_Controller
             'form_action'    => ci_route("surat/cetak/{$surat->url_surat}"),
             'cek_anjungan'   => $this->cek_anjungan,
             'mandiri'        => 1,
-            'kembali' => 'Layanan Surat'
+            'kembali'        => 'Layanan Surat',
         ]);
         $this->get_data_untuk_form($surat->url_surat, $data);
 

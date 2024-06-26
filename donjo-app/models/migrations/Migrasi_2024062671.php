@@ -35,11 +35,11 @@
  *
  */
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -91,8 +91,8 @@ class Migrasi_2024062671 extends MY_model
     {
         $perbaris = 0;
 
-        if (!Schema::hasTable('sinergi_program')) {
-            Schema::create('sinergi_program', function (Blueprint $table) {
+        if (! Schema::hasTable('sinergi_program')) {
+            Schema::create('sinergi_program', static function (Blueprint $table) {
                 $table->uuid()->primary();
                 $table->integer('config_id')->nullable();
                 $table->string('judul', 100);
@@ -104,7 +104,7 @@ class Migrasi_2024062671 extends MY_model
             });
 
             $data_sinergi_program = DB::table('widget')->where('config_id', $config_id)->where('isi', 'sinergi_program.php')->first()->setting;
-            $setting = json_decode($data_sinergi_program, true);
+            $setting              = json_decode($data_sinergi_program, true);
 
             if (count($setting) > 0) {
                 foreach ($setting as $key => $data) {
@@ -113,13 +113,13 @@ class Migrasi_2024062671 extends MY_model
                     }
 
                     $data = [
-                        'uuid' => Str::uuid(),
+                        'uuid'      => Str::uuid(),
                         'config_id' => $config_id,
-                        'judul' => $data['judul'],
-                        'gambar' => $data['gambar'],
-                        'tautan' => $data['tautan'],
-                        'urut' => $data['urut'] ?? $key + 1,
-                        'status' => $data['status'] ?? 1
+                        'judul'     => $data['judul'],
+                        'gambar'    => $data['gambar'],
+                        'tautan'    => $data['tautan'],
+                        'urut'      => $data['urut'] ?? $key + 1,
+                        'status'    => $data['status'] ?? 1,
                     ];
 
                     DB::table('sinergi_program')->insert($data);
@@ -143,7 +143,7 @@ class Migrasi_2024062671 extends MY_model
             ]);
         }
 
-        $hasil = $hasil && $this->tambah_setting([
+        return $hasil && $this->tambah_setting([
             'judul'      => 'Jumlah Gambar Sinergi Program Dalam 1 Baris',
             'key'        => 'gambar_sinergi_program_perbaris',
             'value'      => $perbaris == 0 ? 3 : $perbaris,
@@ -153,7 +153,5 @@ class Migrasi_2024062671 extends MY_model
             'attribute'  => 'class="bilangan required" placeholder="3" min="1" max="12" type="number"',
             'kategori'   => 'sinergi_program',
         ], $config_id);
-
-        return $hasil;
     }
 }

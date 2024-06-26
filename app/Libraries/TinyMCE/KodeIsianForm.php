@@ -39,8 +39,6 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianForm
 {
-    private $inputForm;
-    private $kodeIsian;
     private array $statisForm = [
         [
             'nama' => 'Mulai Berlaku',
@@ -67,7 +65,6 @@ class KodeIsianForm
             'kode' => 'pengikut_pindah',
         ],
     ];
-    private $masaBerlaku;
 
     /**
      * KodeIsianForm constructor.
@@ -78,11 +75,8 @@ class KodeIsianForm
      *
      * @return void
      */
-    public function __construct($inputForm, $kodeIsian, $masaBerlaku = false)
+    public function __construct(private $inputForm, private $kodeIsian, private $masaBerlaku = false)
     {
-        $this->inputForm   = $inputForm;
-        $this->kodeIsian   = $kodeIsian;
-        $this->masaBerlaku = $masaBerlaku;
     }
 
     /**

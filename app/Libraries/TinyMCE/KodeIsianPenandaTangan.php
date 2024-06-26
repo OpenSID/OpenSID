@@ -69,7 +69,7 @@ class KodeIsianPenandaTangan
         $niap_pamong = $kades->pamong_niap;
 
         $sekdes = Pamong::ttd('a.n')->first();
-        if (preg_match('/a.n/i', $ttd)) {
+        if (preg_match('/a.n/i', (string) $ttd)) {
             $atas_nama   = 'a.n. ' . $kades->nama_jabatan . ' ' . $nama_desa . ' <br> ' . $sekdes->pamong_jabatan;
             $jabatan     = $sekdes->pamong_jabatan;
             $jabatan_an  = $jabatan;

@@ -148,11 +148,11 @@ class PendudukMandiri extends BaseModel
         return strrev(random_int(100000, 999999));
     }
 
-    public function gantiPin($id_pend, $nama, $data)
+    public function gantiPin($id_pend, $nama, $data): array
     {
         $ganti     = $data;
         $pin_lama  = hash_pin(bilangan($ganti['pin_lama']));
-        $pin_baru1 = hash_pin(bilangan($ganti['pin_baru1']));
+        hash_pin(bilangan($ganti['pin_baru1']));
         $pin_baru2 = hash_pin(bilangan($ganti['pin_baru2']));
 
         $pilihan_kirim = $ganti['pilihan_kirim'];
