@@ -100,7 +100,18 @@ $(document).ready(function() {
 		}
 	});
 
-	validate("#validasi");
+	$("#validasi").validate({
+		success: function() {
+			refreshFormCsrf();
+		},
+		invalidHandler: function () {
+			refreshFormCsrf();
+		},
+		submitHandler: function(form) {
+			refreshFormCsrf();
+			form.submit();
+		},
+	});
 
 	$("#validasi-proses").validate({
 		ignore: ".ignore",

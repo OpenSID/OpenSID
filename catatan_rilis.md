@@ -53,6 +53,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8031](https://github.com/OpenSID/OpenSID/issues/8031) Perbaikan hitung jumlah rw pada dusun.
 39. [#8119](https://github.com/OpenSID/OpenSID/issues/8119) Perbaikan menampilkan kodeisian qr_code sesuai pengaturan surat.
 40. [#8040](https://github.com/OpenSID/OpenSID/issues/8040) Perbaikan generate csrf token yang kedaluwarsa.
+41. [#8116](https://github.com/OpenSID/OpenSID/issues/8116) Perbaikan notifikasi jika gagal menampilkan dokumen.
+42. [#8120](https://github.com/OpenSID/OpenSID/issues/8120) Perbaikan template surat lahir mati.
+43. [#8116](https://github.com/OpenSID/OpenSID/issues/8116) Perbaikan link buku administrasi umum setelah simpan atau perbarui data.
 
 
 #### TEKNIS

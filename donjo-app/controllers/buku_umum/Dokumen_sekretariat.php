@@ -248,6 +248,12 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         isCan('u');
 
+        $redirect = $this->input->post('link_redirect');
+
+        if (empty($redirect)) {
+            $redirect = route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori'));
+        }
+
         try {
             $data    = $this->validasi($this->request);
             $dokumen = Dokumen::findOrFail($id);
@@ -258,10 +264,10 @@ class Dokumen_sekretariat extends Admin_Controller
 
             $dokumen->update($data);
 
-            redirect_with('success', 'Data berhasil disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            redirect_with('success', 'Data berhasil disimpan', $redirect);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            redirect_with('error', 'Data gagal disimpan', $redirect);
         }
 
     }
@@ -451,8 +457,9 @@ class Dokumen_sekretariat extends Admin_Controller
      * @param int $id_dokumen Id berkas pada koloam dokumen.id
      * @param int $kat
      * @param int $tipe
+     * @param int $popup
      */
-    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0): void
+    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0, $popup = 0): void
     {
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
@@ -463,7 +470,7 @@ class Dokumen_sekretariat extends Admin_Controller
             redirect($data['url']);
         }
 
-        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1);
+        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
     }
 
     private function _set_tab($kat): void

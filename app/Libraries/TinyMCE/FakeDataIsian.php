@@ -154,7 +154,16 @@ class FakeDataIsian
                     break;
 
                 case 'number':
-                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? random_int((int) Str::before(Str::after($value['atribut'], 'min="'), '"'), (int) Str::between($value['atribut'], 'max="', '"')) : random_int(1, 10);
+                    $min_value = (int) Str::between($value['atribut'], 'min="', '"');
+                    $max_value = (int) Str::between($value['atribut'], 'max="', '"', PHP_INT_MAX);
+
+                    if ($min_value > $max_value) {
+                        $temp = $min_value;
+                        $min_value = $max_value;
+                        $max_value = $temp;
+                    }
+
+                    $nilai_isian = random_int($min_value, $max_value);
                     break;
 
                 default:

@@ -65,6 +65,7 @@ class Lapak extends Mandiri_Controller
                         ->orWhere('produk.deskripsi', 'like', "%{$keyword}%");
                 });
             })
+            ->where('produk.status', 1)
             ->paginate();
 
         return view('layanan_mandiri.lapak.index', compact('id_kategori', 'keyword', 'kategori', 'produk'));

@@ -86,8 +86,6 @@
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
-    <!-- jQuery Cookie -->
-    <script src="{{ asset('bootstrap/js/jquery.cookie.min.js') }}"></script>
 
     @include('admin.layouts.components.token')
 
