@@ -47,42 +47,39 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Produk extends Mandiri_Controller
 {
     public function index()
-    {   
+    {
         $this->verifikasi();
 
         return view('layanan_mandiri.produk.index');
     }
 
-    public function datatables() {
+    public function datatables()
+    {
         if ($this->input->is_ajax_request()) {
             $query = ProdukModel::with(['kategori', 'pelapak'])
-                ->whereHas('pelapak', function($query) {
+                ->whereHas('pelapak', function ($query) {
                     $query->where('id_pend', $this->is_login->id_pend);
                 })->get();
 
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('aksi', function($item) {
-                    $aksi = '';
+                ->addColumn('aksi', static function ($item) {
+                    $aksi    = '';
                     $editUrl = ci_route('layanan-mandiri.produk.form', ['id' => $item->id]);
-                    $aksi .= '<a href="'.$editUrl.'" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
+                    $aksi .= '<a href="' . $editUrl . '" class="btn btn-warning btn-sm" title="Ubah"><i class="fa fa-edit"></i></a> ';
+
                     return $aksi;
                 })
-                ->editColumn('id_produk_kategori', function ($item) {
-                    return $item->kategori['kategori'];
-                })
-                ->editColumn('harga', function ($item) {
-                    return rupiah($item->harga);
-                })
-                ->editColumn('potongan', function ($item) {
-                    return $item->tipe_potongan == 1 ? $item->potongan . '%' : rupiah($item->potongan);
-                })
-                ->editColumn('status', function ($item) {
-                    if($item->status == '1') {
+                ->editColumn('id_produk_kategori', static fn ($item) => $item->kategori['kategori'])
+                ->editColumn('harga', static fn ($item) => rupiah($item->harga))
+                ->editColumn('potongan', static fn ($item) => $item->tipe_potongan == 1 ? $item->potongan . '%' : rupiah($item->potongan))
+                ->editColumn('status', static function ($item) {
+                    if ($item->status == '1') {
                         return '<label class="label label-success">Aktif</label>';
-                    } else {
+                    }
+
                         return '<label class="label label-danger" title="Sedang Diverifikasi" >Tidak Aktif</label>';
-                    } 
+
                 })
                 ->rawColumns(['aksi', 'status'])
                 ->make();
@@ -131,11 +128,11 @@ class Produk extends Mandiri_Controller
     {
         $this->verifikasi();
         $lapak = Pelapak::with('produk', 'produk.kategori')->where('id_pend', $this->is_login->id_pend)->first();
-        
+
         $post               = $this->input->post();
         $post['id_pelapak'] = $lapak->id;
         $post['status']     = StatusEnum::TIDAK;
-        
+
         if ((new ProdukModel())->produkInsert($post)) {
             redirect_with('success', 'Berhasil menambah data', 'layanan-mandiri/produk');
         }
@@ -151,7 +148,7 @@ class Produk extends Mandiri_Controller
         $post               = $this->input->post();
         $post['id_pelapak'] = $lapak->id;
         $post['status']     = StatusEnum::TIDAK;
-        
+
         ProdukModel::where('id_pelapak', $lapak->id)->findOrFail($id);
 
         if ((new ProdukModel())->produkUpdate($id, $post)) {
@@ -246,7 +243,7 @@ class Produk extends Mandiri_Controller
         $lapak = Pelapak::with('produk', 'produk.kategori')->where('id_pend', $this->is_login->id_pend)->first();
         if (! $lapak) {
             $pelapak['status'] = StatusEnum::TIDAK;
-            $newPelapak = new Pelapak($pelapak);
+            $newPelapak        = new Pelapak($pelapak);
             if ($newPelapak::save()) {
 
                 redirect_with('success', 'Berhasil melakukan pendaftaran', 'layanan-mandiri/produk/pengaturan');
@@ -268,7 +265,7 @@ class Produk extends Mandiri_Controller
     public function verifikasi()
     {
         $lapak = Pelapak::with('produk', 'produk.kategori')->where('id_pend', $this->is_login->id_pend)->first();
-        
+
         if (! $lapak || $lapak->status !== StatusEnum::YA) {
             redirect('layanan-mandiri/produk/pengaturan');
         }

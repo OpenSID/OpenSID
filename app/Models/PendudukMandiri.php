@@ -150,11 +150,11 @@ class PendudukMandiri extends BaseModel
 
     public function gantiPin($id_pend, $nama, $data)
     {
-        $ganti = $data;
-        $pin_lama = hash_pin(bilangan($ganti['pin_lama']));
+        $ganti     = $data;
+        $pin_lama  = hash_pin(bilangan($ganti['pin_lama']));
         $pin_baru1 = hash_pin(bilangan($ganti['pin_baru1']));
         $pin_baru2 = hash_pin(bilangan($ganti['pin_baru2']));
-        
+
         $pilihan_kirim = $ganti['pilihan_kirim'];
 
         // Ganti password
@@ -229,8 +229,9 @@ class PendudukMandiri extends BaseModel
                 ];
                 break;
         }
-        
+
         set_session('notif', $respon);
-        return $respon; 
+
+        return $respon;
     }
 }

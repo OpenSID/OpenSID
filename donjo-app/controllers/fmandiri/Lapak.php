@@ -45,16 +45,16 @@ class Lapak extends Mandiri_Controller
     public function index($p = 1)
     {
         $keyword     = $this->input->get('keyword', true);
-        $id_kategori =  $this->input->get('id_kategori', true);
+        $id_kategori = $this->input->get('id_kategori', true);
 
         $kategori = ProdukKategori::get();
 
         $produk = Produk::listProduk()
-            ->when($id_kategori, function ($query, $kategori) {
+            ->when($id_kategori, static function ($query, $kategori) {
                 $query->where('id_produk_kategori', $kategori);
             })
-            ->when($keyword, function ($query, $keyword) {
-                $query->where(function ($query) use ($keyword) {
+            ->when($keyword, static function ($query, $keyword) {
+                $query->where(static function ($query) use ($keyword) {
                     $query
                         ->where('p.nama', 'like', "%{$keyword}%")
                         ->orWhere('produk.nama', 'like', "%{$keyword}%")

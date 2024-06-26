@@ -44,8 +44,8 @@ class Setting_aplikasi extends CI_Controller
 {
     public function updateKey(string $key, string $value): void
     {
-        $setting = SettingAplikasi::where(['key' => $key])->first();
-        $setting->value = $value;        
+        $setting        = SettingAplikasi::where(['key' => $key])->first();
+        $setting->value = $value;
         $setting->save();
     }
 }

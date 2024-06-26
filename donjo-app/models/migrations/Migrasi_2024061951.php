@@ -35,8 +35,8 @@
  *
  */
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,7 +51,7 @@ class Migrasi_2024061951 extends MY_model
         return $hasil && true;
     }
 
-    protected function migrasi_2024061951($hasil)
+    protected function __construct($hasil)
     {
         if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
             Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {

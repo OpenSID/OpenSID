@@ -147,9 +147,9 @@ class Inventaris_asset_mutasi extends Admin_Controller
             $data['main']        = InventarisAsset::findOrFail($id);
             $data['view_mark']   = $view ? 1 : 0;
         } else {
-            $data['action']      = 'Tambah';
-            $data['main']        = null;
-            $data['view_mark']   = null;
+            $data['action']    = 'Tambah';
+            $data['main']      = null;
+            $data['view_mark'] = null;
         }
 
         $data['tip']        = 2;

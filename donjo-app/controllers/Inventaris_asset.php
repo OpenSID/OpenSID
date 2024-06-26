@@ -104,7 +104,7 @@ class Inventaris_asset extends Admin_Controller
             $data['form_action'] = ci_route('inventaris_asset.update', $id);
             $data['main']        = InventarisAsset::findOrFail($id);
             // dd($data['main']);
-            $data['view_mark']   = $view ? 1 : 0;
+            $data['view_mark'] = $view ? 1 : 0;
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = ci_route('inventaris_asset.create');
@@ -117,8 +117,8 @@ class Inventaris_asset extends Admin_Controller
         $data['get_kode'] = $this->header['desa'];
         $count_reg        = InventarisAsset::reg();
 
-        $reg           = $count_reg + 1;
-        $data['hasil'] = sprintf('%06s', $reg);
+        $reg            = $count_reg + 1;
+        $data['hasil']  = sprintf('%06s', $reg);
         $data['kd_reg'] = InventarisAsset::ListKdRegister();
 
         view('admin.inventaris.asset.form', $data);
@@ -162,7 +162,8 @@ class Inventaris_asset extends Admin_Controller
 
     public function validate($data)
     {
-        $nama_barang = explode("_", $this->input->post('nama_barang'))[0];
+        $nama_barang = explode('_', $this->input->post('nama_barang'))[0];
+
         return [
             // nama barang perlu diambil nama nya saja tanpa kode barang etc
             // next : cek bagian edit dan detail, setelah itu cek bagian cetak

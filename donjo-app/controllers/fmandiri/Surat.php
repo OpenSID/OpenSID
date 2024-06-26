@@ -93,12 +93,8 @@ class Surat extends Mandiri_Controller
 
                     return $aksi;
                 })
-                ->editColumn('no_antrian', function ($item) {
-                    return get_antrian($item->no_antrian);
-                })
-                ->editColumn('created_at', function ($item) {
-                    return tgl_indo2($item->created_at);
-                })
+                ->editColumn('no_antrian', static fn ($item) => get_antrian($item->no_antrian))
+                ->editColumn('created_at', static fn ($item) => tgl_indo2($item->created_at))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -113,21 +109,19 @@ class Surat extends Mandiri_Controller
                 LogSurat::with(['formatSurat', 'pamong'])
                     ->whereNull('deleted_at')
                     ->whereIdPend($this->is_login->id_pend)
-                )
+            )
                 ->addIndexColumn()
-                ->addColumn('aksi', function ($item) {
+                ->addColumn('aksi', static function ($item) {
                     $aksi = '';
 
                     if ($item->tte) {
                         $url = site_url("layanan-mandiri/surat/cetak/{$item->id}");
-                        $aksi .= "<a href='{{ $url }}' class='btn btn-flat bg-fuchsia btn-sm' title='Cetak Surat PDF' target='_blank'><i class='fa fa-file-pdf-o'></i></a>";
+                        $aksi .= "<a href='{{ {$url} }}' class='btn btn-flat bg-fuchsia btn-sm' title='Cetak Surat PDF' target='_blank'><i class='fa fa-file-pdf-o'></i></a>";
                     }
 
                     return $aksi;
                 })
-                ->editColumn('tanggal', function ($item) {
-                    return tgl_indo2($item->tanggal);
-                })
+                ->editColumn('tanggal', static fn ($item) => tgl_indo2($item->tanggal))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -143,7 +137,7 @@ class Surat extends Mandiri_Controller
         if ($id) {
             $obj = PermohonanSurat::where(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0])->first();
 
-            if (!$obj) {
+            if (! $obj) {
                 redirect('layanan-mandiri/surat/buat');
             }
             $permohonan  = $obj->toArray();
@@ -184,7 +178,7 @@ class Surat extends Mandiri_Controller
                         'dokumen'           => $dokumen,
                         'syarat_permohonan' => json_decode($syaratPermohonan, true),
                         'syarat_id'         => $baris->ref_syarat_id,
-                        'cek_anjungan'      => $this->cek_anjungan
+                        'cek_anjungan'      => $this->cek_anjungan,
                     ],
                     returnView: true
                 )->render();
@@ -192,7 +186,7 @@ class Surat extends Mandiri_Controller
                 $data[] = [
                     $no++,
                     $baris->ref_syarat_nama,
-                    $pilihanDokumen
+                    $pilihanDokumen,
                 ];
             }
         }
@@ -204,31 +198,30 @@ class Surat extends Mandiri_Controller
         ]);
     }
 
-
     public function form($id = '')
     {
-        $id_pend = $this->is_login->id_pend;
-        $post    = $this->input->post() ?: $this->session->data_permohonan;
+        $id_pend                        = $this->is_login->id_pend;
+        $post                           = $this->input->post() ?: $this->session->data_permohonan;
         $this->session->data_permohonan = $post;
 
         if ($id) {
             $permohonan = PermohonanSurat::where(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0])->first();
-            if (!$permohonan || !$post) {
+            if (! $permohonan || ! $post) {
                 return redirect('layanan-mandiri/surat/buat');
             }
             $data = [
                 'permohonan' => $permohonan->toArray(),
                 'isian_form' => json_encode($permohonan->isian_form, JSON_THROW_ON_ERROR),
-                'id_surat'   => $permohonan->id_surat
+                'id_surat'   => $permohonan->id_surat,
             ];
         } else {
-            if (!$post) {
+            if (! $post) {
                 return redirect('layanan-mandiri/surat/buat');
             }
             $data = [
                 'permohonan' => null,
                 'isian_form' => null,
-                'id_surat'   => $post['id_surat']
+                'id_surat'   => $post['id_surat'],
             ];
         }
 
@@ -243,7 +236,7 @@ class Surat extends Mandiri_Controller
             'surat_url'    => rtrim($_SERVER['REQUEST_URI'], '/clear'),
             'form_action'  => ci_route("surat/cetak/{$surat->url_surat}"),
             'cek_anjungan' => $this->cek_anjungan,
-            'mandiri'      => 1
+            'mandiri'      => 1,
         ]);
 
         $this->get_data_untuk_form($surat->url_surat, $data);

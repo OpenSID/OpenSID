@@ -69,6 +69,7 @@ class InventarisGedung extends BaseModel
     protected $hidden = [
         'config_id',
     ];
+
     public function scopeVisible($query, $value = 1)
     {
         return $query->where('visible', $value);
