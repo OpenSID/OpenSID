@@ -35,21 +35,17 @@
  *
  */
 
-Route::group('job', static function (): void {
-    Route::cli('/restore/{database?}', 'Job@restore');
-    Route::cli('/backup_inkremental/{lokasi}', 'Job@backup_inkremental');
-    Route::cli('/restore_desa/{id}', 'Job@restore_desa');
-});
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Http;
 
-Route::group('modul', static function (): void {
-    Route::cli('pasang/{namaModule}', 'Install_modul@pasang');
-    Route::cli('hapus/{namaModule}', 'Install_modul@hapus');
-});
+defined('BASEPATH') || exit('No direct script access allowed');
 
-Route::group('koneksi_database', static function (): void {
-    Route::cli('desaBaru', 'Koneksi_database@desaBaru');
-});
-
-Route::cli('setting/{key}/{value}', 'Setting_aplikasi@updateKey');
-
-Route::cli('artisan/{any1?}/{any2?}/{any3?}/{any4?}/{any5?}/{any6?}/{any7?}/{any8?}/{any9?}/{any10?}', 'Artisan@index');
+class Setting_aplikasi extends CI_Controller
+{
+    public function updateKey(string $key, string $value): void
+    {
+        $setting = SettingAplikasi::where(['key' => $key])->first();
+        $setting->value = $value;        
+        $setting->save();
+    }
+}
