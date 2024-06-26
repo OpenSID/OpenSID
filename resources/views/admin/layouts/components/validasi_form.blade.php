@@ -1,3 +1,4 @@
+@include('admin.layouts.components.token')
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/validasi.js') }}"></script>
 <script src="{{ asset('js/localization/messages_id.js') }}"></script>

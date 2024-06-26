@@ -1,3 +1,4 @@
+@include('admin.layouts.components.token')
 <script>
     $(document).ready(function() {
         // Select2 dengan fitur pencarian

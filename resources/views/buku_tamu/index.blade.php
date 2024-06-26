@@ -22,6 +22,8 @@
     <script src="{{ asset('js/flickity.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
 
+    @include('admin.layouts.components.token')
+
 </head>
 
 <body>
