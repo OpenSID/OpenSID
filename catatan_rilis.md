@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 40. [#8040](https://github.com/OpenSID/OpenSID/issues/8040) Perbaikan generate csrf token yang kedaluwarsa.
 41. [#8116](https://github.com/OpenSID/OpenSID/issues/8116) Perbaikan notifikasi jika gagal menampilkan dokumen.
 42. [#8120](https://github.com/OpenSID/OpenSID/issues/8120) Perbaikan template surat lahir mati.
+43. [#8116](https://github.com/OpenSID/OpenSID/issues/8116) Perbaikan link buku administrasi umum setelah simpan atau perbarui data.
 
 
 #### TEKNIS

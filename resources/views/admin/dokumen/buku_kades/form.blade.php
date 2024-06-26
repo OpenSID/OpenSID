@@ -29,6 +29,7 @@
                 {{ ucwords(setting('sebutan_desa')) }}
             </a>
         </div>
+        <input type="hidden" name="link_redirect" id="link_redirect">
         <div class="box-body">
             <div class="form-group">
                 <label class="control-label col-sm-4" for="nama">Judul Dokumen</label>
@@ -96,6 +97,7 @@
 @push('scripts')
     <script src="{{ asset('js/custom-select2.js') }}"></script>
     <script>
+        document.getElementById('link_redirect').value = document.referrer;
         $('#tipe').on('change', function() {
             if (this.value == 1) {
                 $('#d-dokumen').show();

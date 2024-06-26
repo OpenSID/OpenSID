@@ -248,6 +248,12 @@ class Dokumen_sekretariat extends Admin_Controller
     {
         isCan('u');
 
+        $redirect = $this->input->post('link_redirect');
+
+        if (empty($redirect)) {
+            $redirect = route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori'));
+        }
+
         try {
             $data    = $this->validasi($this->request);
             $dokumen = Dokumen::findOrFail($id);
@@ -258,10 +264,10 @@ class Dokumen_sekretariat extends Admin_Controller
 
             $dokumen->update($data);
 
-            redirect_with('success', 'Data berhasil disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            redirect_with('success', 'Data berhasil disimpan', $redirect);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Data gagal disimpan', route('buku-umum.dokumen_sekretariat.perdes', $this->input->post('kategori')));
+            redirect_with('error', 'Data gagal disimpan', $redirect);
         }
 
     }
