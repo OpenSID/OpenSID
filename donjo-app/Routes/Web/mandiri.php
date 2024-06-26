@@ -122,6 +122,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
 
     Route::group('produk', static function (): void {
         Route::get('/', 'Produk@index')->name('layanan-mandiri.produk.index');
+        Route::get('/datatables/{kat?}', 'Produk@datatables')->name('layanan-mandiri.produk.datatables');
         Route::get('/form/{id?}', 'Produk@form')->name('layanan-mandiri.produk.form');
         Route::post('/store', 'Produk@store')->name('layanan-mandiri.produk.store');
         Route::post('/update/{id}', 'Produk@update')->name('layanan-mandiri.produk.update');
