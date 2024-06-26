@@ -46,12 +46,12 @@ class Migrasi_2024061951 extends MY_model
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->migrasi_2024061951($hasil);
+        $hasil = $hasil && $this->migrasi_2024062051($hasil);
 
         return $hasil && true;
     }
 
-    protected function __construct($hasil)
+    protected function migrasi_2024062051($hasil)
     {
         if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
             Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
