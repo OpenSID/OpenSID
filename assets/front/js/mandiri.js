@@ -26,17 +26,14 @@ $(document).ready(function() {
 				"sClass": "padat", "aTargets": [0, 2]
 			}
 		],
-		'language': {
-			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-		},
 		'drawCallback': function () {
 			$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
-			processInfo(table.page.info());
+			processInfo(table?.page?.info());
 		}
 	});
 
 	function processInfo(info) {
-		if (info.recordsTotal <= 0) {
+		if (info?.recordsTotal <= 0) {
 			$('.ada_syarat').hide();
 		} else {
 			$('.ada_syarat').show();

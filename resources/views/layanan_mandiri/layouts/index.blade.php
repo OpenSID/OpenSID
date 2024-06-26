@@ -47,20 +47,11 @@
     <link rel="stylesheet" href="{{ asset('front/css/jquery-confirm.min.css') }}">
     <!-- Jquery UI -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/jquery-ui.min.css') }}">
-    <!-- jQuery 3 -->
-    <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
-    <!-- Diperlukan untuk global automatic base_url oleh external js file -->
-    <script type="text/javascript">
-        const BASE_URL = "{{ base_url() }}";
-        const SITE_URL = "{{ site_url() }}";
-    </script>
     @if ($cek_anjungan)
         <!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
         <link rel="stylesheet" href="{{ asset('css/keyboard.min.css') }}">
         <link rel="stylesheet" href="{{ asset('front/css/mandiri-keyboard.css') }}">
     @endif
-
-    @include('admin.layouts.components.token')
 
     @stack('css')
 </head>
@@ -248,7 +239,15 @@
             </div>
         </footer>
     </div>
+    <!-- Diperlukan untuk global automatic base_url oleh external js file -->
+    <script type="text/javascript">
+        const BASE_URL = "{{ base_url() }}";
+        const SITE_URL = "{{ site_url() }}";
+    </script>
+    <!-- jQuery 3 -->
+    <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
 
+    @include('admin.layouts.components.token')
     <!-- Jquery UI -->
     <script src="{{ asset('bootstrap/js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/jquery.ui.autocomplete.scroll.min.js') }}"></script>

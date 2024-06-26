@@ -101,7 +101,7 @@ class InventarisAsset extends BaseModel
 
     public function scopeCetak($query, $tahun = null)
     {
-        return $query->when(!empty($tahun), static fn ($query) => $query->whereYear('tahun_pengadaan', $tahun));
+        return $query->when(! empty($tahun), static fn ($query) => $query->whereYear('tahun_pengadaan', $tahun));
     }
 
     // relasi ke mutasi_inventaris_asset
