@@ -451,8 +451,9 @@ class Dokumen_sekretariat extends Admin_Controller
      * @param int $id_dokumen Id berkas pada koloam dokumen.id
      * @param int $kat
      * @param int $tipe
+     * @param int $popup
      */
-    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0): void
+    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0, $popup = 0): void
     {
         // Ambil nama berkas dari database
         $data = DokumenHidup::GetDokumen($id_dokumen);
@@ -463,7 +464,7 @@ class Dokumen_sekretariat extends Admin_Controller
             redirect($data['url']);
         }
 
-        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1);
+        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, $tipe == 1, $popup);
     }
 
     private function _set_tab($kat): void

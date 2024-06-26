@@ -589,19 +589,25 @@ function sql_in_list($list_array)
  * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
+ * popup  : true kalau berkas ditampilkan pada popup
  */
-function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
 
     if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
         $pesan = 'Nama berkas tidak valid';
-        session_error($pesan);
-        set_session('error', $pesan);
-
         if ($redirect_url) {
-            redirect($redirect_url);
+            if ($popup) {
+                echo $pesan;
+
+exit;
+            }
+                session_error($pesan);
+                set_session('error', $pesan);
+                redirect($redirect_url);
+
         } else {
             show_404();
         }
@@ -612,12 +618,18 @@ function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = nu
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
     if (! file_exists($pathBerkas)) {
-        $pesan                 = 'Berkas tidak ditemukan';
-        $_SESSION['success']   = -1;
-        $_SESSION['error_msg'] = $pesan;
-        set_session('error', $pesan);
+        $pesan = 'Berkas tidak ditemukan';
         if ($redirect_url) {
-            redirect($redirect_url);
+            if ($popup) {
+                echo $pesan;
+
+exit;
+            }
+                $_SESSION['success']   = -1;
+                $_SESSION['error_msg'] = $pesan;
+                set_session('error', $pesan);
+                redirect($redirect_url);
+
         } else {
             show_404();
         }

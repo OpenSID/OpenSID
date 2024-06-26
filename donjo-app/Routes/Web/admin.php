@@ -808,7 +808,7 @@ Route::group('dokumen', static function (): void {
     Route::get('dialog_cetak/{aksi}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
     Route::post('cetak/{aksi}', 'Dokumen@cetak')->name('dokumen.cetak');
     Route::get('unduh_berkas/{id_dokumen?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
-    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
+    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}/{popup?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
     Route::get('ekspor', 'Dokumen@ekspor')->name('dokumen.ekspor');
     Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');
 });
@@ -1014,7 +1014,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/delete_all/{kat?}', 'Dokumen_sekretariat@delete_all')->name('buku-umum.dokumen_sekretariat.delete_all');
         Route::get('/dialog_cetak/{kat?}/{aksi?}', 'Dokumen_sekretariat@dialog_cetak')->name('buku-umum.dokumen_sekretariat.dialog_cetak');
         Route::get('/dialog_excel/{kat?}', 'Dokumen_sekretariat@dialog_excel')->name('buku-umum.dokumen_sekretariat.dialog_excel');
-        Route::get('/berkas/{id_dokumen?}/{kat?}/{tipe?}', 'Dokumen_sekretariat@berkas')->name('buku-umum.dokumen_sekretariat.berkas');
+        Route::get('/berkas/{id_dokumen?}/{kat?}/{tipe?}/{popup?}', 'Dokumen_sekretariat@berkas')->name('buku-umum.dokumen_sekretariat.berkas');
     });
 
     Route::group('ekspedisi', static function (): void {
