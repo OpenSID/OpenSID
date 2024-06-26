@@ -8,5 +8,7 @@
             return csrfVal;
         }
     </script>
+    <!-- jQuery Cookie -->
+    <script src="{{ asset('bootstrap/js/jquery.cookie.min.js') }}"></script>
     <script src="{{ asset('js/anti-csrf.js') }}"></script>
 @endif
