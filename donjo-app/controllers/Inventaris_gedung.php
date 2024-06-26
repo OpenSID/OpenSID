@@ -36,8 +36,8 @@
  */
 
 use App\Models\Aset;
-use App\Models\Pamong;
 use App\Models\InventarisGedung;
+use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

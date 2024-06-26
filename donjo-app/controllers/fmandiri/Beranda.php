@@ -36,12 +36,11 @@
  */
 
 use App\Models\KelompokAnggota;
+use App\Models\Keluarga;
 use App\Models\Pendapat;
 use App\Models\Penduduk;
 use App\Models\PendudukMandiri;
 use App\Models\PesanMandiri;
-use App\Models\Keluarga;
-use Illuminate\Http\Request;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -104,12 +103,12 @@ class Beranda extends Mandiri_Controller
 
             redirect('layanan-mandiri/beranda');
         }
-        $getdata = Keluarga::with(['anggota', 'kepalaKeluarga'])->find($id);
+        $getdata          = Keluarga::with(['anggota', 'kepalaKeluarga'])->find($id);
         $kk['main']       = $getdata->anggota;
         $kk['desa']       = identitas();
         $kk['kepala_kk']  = $getdata->kepalaKeluarga;
         $data['all_kk'][] = $kk;
-        
+
         return view('layanan_mandiri.kependudukan.cetak_kk_all', $data);
     }
 
@@ -127,11 +126,11 @@ class Beranda extends Mandiri_Controller
 
     public function proses_ganti_pin()
     {
-        $id_pend = $this->is_login->id_pend;
-        $nama = $this->session->is_login->nama;
+        $id_pend         = $this->is_login->id_pend;
+        $nama            = $this->session->is_login->nama;
         $pendudukMandiri = new PendudukMandiri();
-        $respon = $pendudukMandiri->gantiPin($id_pend, $nama, $this->input->post());
-        
+        $respon          = $pendudukMandiri->gantiPin($id_pend, $nama, $this->input->post());
+
         redirect('layanan-mandiri/ganti-pin');
     }
 

@@ -158,7 +158,7 @@ class FakeDataIsian
                     $max_value = (int) Str::between($value['atribut'], 'max="', '"', PHP_INT_MAX);
 
                     if ($min_value > $max_value) {
-                        $temp = $min_value;
+                        $temp      = $min_value;
                         $min_value = $max_value;
                         $max_value = $temp;
                     }

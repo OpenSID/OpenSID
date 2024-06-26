@@ -41,10 +41,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_arsip extends Admin_controller
 {
-    public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'arsip-desa';
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'arsip-desa';
 
-    /** @var ArsipFisikSurat */
+    /**
+     * @var ArsipFisikSurat
+     */
     private $arsipFisik;
 
     public function __construct()
@@ -68,50 +70,48 @@ class Bumindes_arsip extends Admin_controller
 
         $filter = $this->arsipFisik->semuaFilter();
 
-        $data['list_tahun']   = $filter['tahun'];
-        $data['list_jenis']   = $filter['jenis'];
+        $data['list_tahun'] = $filter['tahun'];
+        $data['list_jenis'] = $filter['jenis'];
 
         if ($this->input->is_ajax_request()) {
-            return datatables($this->arsipFisik
-                ->arsipDesaQuery()
-                ->when($this->input->get('jenis'), function ($query, $jenis) {
-                    $query->where('jenis', $jenis);
-                })
-                ->when($this->input->get('tahun'), function ($query, $tahun) {
-                    $query->where('tahun', $tahun);
-                })
-                ->when($this->input->get('kategori'), function ($query, $kategori) {
-                    $query->where('kategori', $kategori);
-                }, function ($query) {
-                    $query->where('kategori', 'layanan_surat');
-                })
+            return datatables(
+                $this->arsipFisik
+                    ->arsipDesaQuery()
+                    ->when($this->input->get('jenis'), static function ($query, $jenis) {
+                        $query->where('jenis', $jenis);
+                    })
+                    ->when($this->input->get('tahun'), static function ($query, $tahun) {
+                        $query->where('tahun', $tahun);
+                    })
+                    ->when($this->input->get('kategori'), static function ($query, $kategori) {
+                        $query->where('kategori', $kategori);
+                    }, static function ($query) {
+                        $query->where('kategori', 'layanan_surat');
+                    })
             )
-            ->addColumn('aksi', static function ($row): string {
-                $aksi = '';
-                if (isset($row->lampiran)) {
-                    if ($row->lampiran != '') {
-                        $aksi .= '<a href="' . ci_route('keluar.unduh.lampiran', $row->id) . '" class="btn bg-blue btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip">&nbsp;</i></a> ';
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+                    if (isset($row->lampiran)) {
+                        if ($row->lampiran != '') {
+                            $aksi .= '<a href="' . ci_route('keluar.unduh.lampiran', $row->id) . '" class="btn bg-blue btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip">&nbsp;</i></a> ';
+                        }
+                        $aksi .= '<a href="' . ci_route('keluar.unduh.rtf', $row->id) . '" class="btn bg-black btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a> ';
+                    } else {
+                        $aksi .= '<a href="' . site_url("bumindes_arsip/tindakan_lihat/{$row->kategori}/{$row->id}/lihat") . '" target="_blank" class="btn bg-blue btn-sm" title="Lihat Berkas"><i class="fa fa-eye">&nbsp;</i></a> ';
+                        $aksi .= '<a href="' . site_url("bumindes_arsip/tindakan_lihat/{$row->kategori}/{$row->id}/unduh") . '" class="btn bg-black btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a> ';
                     }
-                    $aksi .= '<a href="' . ci_route('keluar.unduh.rtf', $row->id) .'" class="btn bg-black btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a> ';
-                } else {
-                    $aksi .= '<a href="' . site_url("bumindes_arsip/tindakan_lihat/{$row->kategori}/{$row->id}/lihat") . '" target="_blank" class="btn bg-blue btn-sm" title="Lihat Berkas"><i class="fa fa-eye">&nbsp;</i></a> ';
-                    $aksi .= '<a href="' . site_url("bumindes_arsip/tindakan_lihat/{$row->kategori}/{$row->id}/unduh") . '" class="btn bg-black btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a> ';
-                }
-                if (can('u')) {
-                    $aksi .= '<a href="' . site_url("bumindes_arsip/tindakan_ubah/{$row->kategori}/{$row->id}") . '" class="btn bg-yellow btn-sm" title="Ubah Lokasi Arsip" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Lokasi Arsip"><i class="fa fa-edit">&nbsp;</i></a> ';
-                }
-                $aksi .= '<a href="' . ci_route($row->modul_asli) . '" class="btn bg-green btn-sm" title="Tampilkan di modul aslinya"><i class="fa fa-list">&nbsp;</i></a> ';
-                return $aksi;
-            })
-            ->editColumn('tanggal_dokumen', function ($item) {
-                return tgl_indo2($item->tanggal_dokumen);
-            })
-            ->editColumn('nama_jenis', function ($item) {
-                return strtoupper(str_replace('_', ' ', $item->nama_jenis));
-            })
-            ->rawColumns(['aksi'])
-            ->addIndexColumn()
-            ->make();
+                    if (can('u')) {
+                        $aksi .= '<a href="' . site_url("bumindes_arsip/tindakan_ubah/{$row->kategori}/{$row->id}") . '" class="btn bg-yellow btn-sm" title="Ubah Lokasi Arsip" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Lokasi Arsip"><i class="fa fa-edit">&nbsp;</i></a> ';
+                    }
+                    $aksi .= '<a href="' . ci_route($row->modul_asli) . '" class="btn bg-green btn-sm" title="Tampilkan di modul aslinya"><i class="fa fa-list">&nbsp;</i></a> ';
+
+                    return $aksi;
+                })
+                ->editColumn('tanggal_dokumen', static fn ($item) => tgl_indo2($item->tanggal_dokumen))
+                ->editColumn('nama_jenis', static fn ($item) => strtoupper(str_replace('_', ' ', $item->nama_jenis)))
+                ->rawColumns(['aksi'])
+                ->addIndexColumn()
+                ->make();
         }
 
         return view('admin.bumindes.arsip.index', $data);

@@ -47,12 +47,12 @@ if (! function_exists('theme')) {
     /**
      * Ambil model tema
      *
-     * @return App\Models\Theme
+     * @return Theme
      */
     function theme()
     {
         if (Schema::hasTable('theme')) {
-            return new App\Models\Theme();
+            return new Theme();
         }
 
         return null;
@@ -82,7 +82,7 @@ if (! function_exists('theme_active')) {
     /**
      * Get active theme
      *
-     * @return App\Models\Theme
+     * @return Theme
      */
     function theme_active()
     {

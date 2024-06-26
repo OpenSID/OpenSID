@@ -46,25 +46,25 @@ class Bantuan extends Mandiri_Controller
         return view('layanan_mandiri.bantuan.index');
     }
 
-    public function datatables() {
+    public function datatables()
+    {
         if ($this->input->is_ajax_request()) {
             $query = BantuanPeserta::with('bantuan')
                 ->where('peserta', $this->is_login->nik);
 
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('waktu', function($item) {
-                    return fTampilTgl($item->bantuan->sdate, $item->bantuan->edate);
-                })
-                ->addColumn('aksi', function($item) {
+                ->addColumn('waktu', static fn ($item) => fTampilTgl($item->bantuan->sdate, $item->bantuan->edate))
+                ->addColumn('aksi', static function ($item) {
                     $aksi = '';
                     if ($item->no_id_kartu) {
                         $tampilUrl = ci_route('layanan-mandiri.bantuan.kartu_peserta', ['aksi' => 'tampil', 'id' => $item->id]);
-                        $unduhUrl = ci_route('layanan-mandiri.bantuan.kartu_peserta', ['aksi' => 'unduh', 'id' => $item->id]);
-        
-                        $aksi .= '<button type="button" target="data_peserta" title="Data Peserta" href="'.$tampilUrl.'" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button> ';
-                        $aksi .= '<a href="'.$unduhUrl.'" class="btn bg-black btn-sm" title="Kartu Peserta" '.(empty($item->kartu_peserta) ? 'disabled' : '').'><i class="fa fa-download"></i></a>';
+                        $unduhUrl  = ci_route('layanan-mandiri.bantuan.kartu_peserta', ['aksi' => 'unduh', 'id' => $item->id]);
+
+                        $aksi .= '<button type="button" target="data_peserta" title="Data Peserta" href="' . $tampilUrl . '" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></button> ';
+                        $aksi .= '<a href="' . $unduhUrl . '" class="btn bg-black btn-sm" title="Kartu Peserta" ' . (empty($item->kartu_peserta) ? 'disabled' : '') . '><i class="fa fa-download"></i></a>';
                     }
+
                     return $aksi;
                 })
                 ->rawColumns(['waktu', 'aksi'])
@@ -83,8 +83,8 @@ class Bantuan extends Mandiri_Controller
         // TO DO : Ganti parameter nik menjadi id
         if ($aksi == 'tampil') {
             return view('layanan_mandiri.bantuan.peserta', compact('data'));
-        } else {
-            ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', null, LOKASI_DOKUMEN);
         }
+            ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', null, LOKASI_DOKUMEN);
+
     }
 }

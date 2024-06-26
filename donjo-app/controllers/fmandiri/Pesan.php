@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\PesanMandiri;
 use App\Models\PermohonanSurat;
+use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -50,15 +50,16 @@ class Pesan extends Mandiri_Controller
         return view('layanan_mandiri.pesan.index', compact(['kat', 'judul']));
     }
 
-    public function datatables($kat = 1) {
+    public function datatables($kat = 1)
+    {
         if ($this->input->is_ajax_request()) {
             $query = PesanMandiri::where('tipe', $kat)->where('penduduk_id', $this->is_login->id_pend);
-    
+
             // Handle ordering
             if ($this->input->get('order')) {
                 $orderColumnIndex = $this->input->get('order')[0]['column'];
-                $orderDirection = $this->input->get('order')[0]['dir'];
-    
+                $orderDirection   = $this->input->get('order')[0]['dir'];
+
                 $columns = [
                     0 => 'DT_RowIndex',
                     1 => 'aksi',
@@ -66,30 +67,27 @@ class Pesan extends Mandiri_Controller
                     3 => 'status',
                     4 => 'tgl_upload',
                 ];
-    
+
                 $orderColumnName = $columns[$orderColumnIndex];
-                $query = $query->orderBy($orderColumnName, $orderDirection);
+                $query           = $query->orderBy($orderColumnName, $orderDirection);
             }
-    
+
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('aksi', function($item) use ($kat) {
-                    $url = ci_route('layanan-mandiri.pesan.baca', ['kat' => $kat, 'uuid' => $item->uuid]);
+                ->addColumn('aksi', static function ($item) use ($kat) {
+                    $url  = ci_route('layanan-mandiri.pesan.baca', ['kat' => $kat, 'uuid' => $item->uuid]);
                     $icon = $item->status == 2 ? 'fa-eye-slash' : 'fa-eye';
-                    return '<a href="'.$url.'" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa '.$icon.'">&nbsp;</i></a>';
+
+                    return '<a href="' . $url . '" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa ' . $icon . '">&nbsp;</i></a>';
                 })
-                ->addColumn('status_baca', function($item) {
-                    return $item->status == 1 ? 'Sudah Dibaca' : 'Belum Dibaca';
-                })
-                ->addColumn('tgl_upload', function($item) {
-                    return tgl_indo2($item->tgl_upload);
-                })
+                ->addColumn('status_baca', static fn ($item) => $item->status == 1 ? 'Sudah Dibaca' : 'Belum Dibaca')
+                ->addColumn('tgl_upload', static fn ($item) => tgl_indo2($item->tgl_upload))
                 ->rawColumns(['aksi'])
                 ->make(true);
         }
-    
+
         return show_404();
-    }    
+    }
 
     // TODO: Pisahkan mailbox dari komentar
     // TODO: Ganti nik jadi id_pend

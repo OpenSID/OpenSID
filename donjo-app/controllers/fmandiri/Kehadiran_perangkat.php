@@ -54,17 +54,17 @@ class Kehadiran_perangkat extends Mandiri_Controller
             $order = $this->input->get('order') ?? false;
 
             $query = Pamong::with([
-                    'penduduk',
-                    'jabatan',
-                    'kehadiranPerangkat' => static function ($query) {
-                        $query->where(static function ($query): void {
-                            $query->where('tanggal', DB::raw('curdate()'))
-                                ->orWhereNull('tanggal');
-                        });
-                    },
-                    'kehadiranPengaduan',
-                ])
-                ->when(! $order, function ($query) use ($order) {
+                'penduduk',
+                'jabatan',
+                'kehadiranPerangkat' => static function ($query) {
+                    $query->where(static function ($query): void {
+                        $query->where('tanggal', DB::raw('curdate()'))
+                            ->orWhereNull('tanggal');
+                    });
+                },
+                'kehadiranPengaduan',
+            ])
+                ->when(! $order, static function ($query) {
                     $query->urut();
                 })
                 ->aktif()
@@ -72,18 +72,16 @@ class Kehadiran_perangkat extends Mandiri_Controller
 
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('status_kehadiran', function ($item) {
-                    return $item?->kehadiranPerangkat?->last()?->status_kehadiran ?? '-';
-                })
+                ->addColumn('status_kehadiran', static fn ($item) => $item?->kehadiranPerangkat?->last()?->status_kehadiran ?? '-')
                 ->addColumn('aksi', function ($item) {
                     if ($item?->kehadiranPerangkat?->last()?->status_kehadiran == 'hadir' && setting('tampilkan_kehadiran') == '1') {
                         if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item?->kehadiranPengaduan?->last()?->waktu)) === date('Y-m-d')) {
                             return "<a class='btn btn-primary btn-sm btn-proses btn-social'><i class='fa fa-exclamation'></i> Telah dilaporkan</a> ";
-                        } else {
+                        }
                             $url = base_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}");
 
                             return "<a href='#' data-href='{$url}' class='btn btn-primary btn-sm btn-social' title='Laporkan perangkat desa' data-toggle='modal' data-target='#confirm-delete'><i class='fa fa-exclamation'></i> Laporkan</a>";
-                        }
+
                     }
                 })
                 ->rawColumns(['status_kehadiran', 'aksi'])

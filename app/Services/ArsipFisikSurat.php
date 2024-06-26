@@ -1,13 +1,49 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Services;
 
-use App\Models\LogSurat;
-use App\Models\SuratMasuk;
-use App\Models\FormatSurat;
-use App\Models\SuratKeluar;
-use App\Models\SyaratSurat;
 use App\Models\DokumenHidup;
+use App\Models\FormatSurat;
+use App\Models\LogSurat;
+use App\Models\SuratKeluar;
+use App\Models\SuratMasuk;
+use App\Models\SyaratSurat;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ArsipFisikSurat
@@ -30,7 +66,9 @@ class ArsipFisikSurat
     }
 
     /**
-     * @throws \Exception
+     * @param mixed $kategori
+     *
+     * @throws Exception
      */
     public function totalData($kategori): int|null
     {
@@ -44,12 +82,12 @@ class ArsipFisikSurat
             '1-2' => 'Surat Keputusan Kepala Desa',
             '1-3' => 'Peraturan Desa',
             '2-1' => 'Surat Masuk',
-            '3-1' => 'Surat Keluar'
+            '3-1' => 'Surat Keluar',
         ];
 
         $syaratItems = SyaratSurat::all()->mapWithKeys(static fn ($item) => ["4-{$item->ref_syarat_id}" => $item->ref_syarat_nama]);
         $formatItems = FormatSurat::all()->mapWithKeys(static fn ($item) => ["5-{$item->id}" => $item->nama]);
-        
+
         $jenis = [
             ...$jenis,
             ...$syaratItems->toArray(),
@@ -71,7 +109,7 @@ class ArsipFisikSurat
 
     public function getNamaBerkas($table, $id, $lampiran = false)
     {
-        $model = $this->getModel($table);
+        $model  = $this->getModel($table);
         $column = $this->getBerkasColumn($table, $lampiran);
 
         return $model::where('id', $id)->value($column);
@@ -87,11 +125,11 @@ class ArsipFisikSurat
     private function getModel($table)
     {
         return match ($table) {
-            'surat_masuk'                                   => SuratMasuk::class,
-            'surat_keluar'                                  => SuratKeluar::class,
+            'surat_masuk'  => SuratMasuk::class,
+            'surat_keluar' => SuratKeluar::class,
             'dokumen_hidup', 'dokumen_desa', 'kependudukan' => DokumenHidup::class,
-            'log_surat', 'layanan_surat'                    => LogSurat::class,
-            default                                         => throw new \Exception('Unknown table'),
+            'log_surat', 'layanan_surat' => LogSurat::class,
+            default => throw new Exception('Unknown table'),
         };
     }
 
@@ -101,12 +139,14 @@ class ArsipFisikSurat
             'surat_masuk', 'surat_keluar' => 'berkas_scan',
             'dokumen_hidup' => 'satuan',
             'log_surat'     => $lampiran ? 'lampiran' : 'nama_surat',
-            default         => throw new \Exception('Unknown berkas column'),
+            default         => throw new Exception('Unknown berkas column'),
         };
     }
 
     /**
-     * @throws \Exception
+     * @param mixed $kategori
+     *
+     * @throws Exception
      */
     private function dataJenis($kategori): \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder
     {
@@ -116,7 +156,7 @@ class ArsipFisikSurat
             'surat_keluar'  => SuratKeluar::whereNotNull('berkas_scan'),
             'kependudukan'  => DokumenHidup::where('id_pend', '!=', 0)->whereNotNull('satuan'),
             'layanan_surat' => LogSurat::query(),
-            default         => throw new \Exception('Unknown category'),
+            default         => throw new Exception('Unknown category'),
         };
     }
 }
