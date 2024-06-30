@@ -1,8 +1,8 @@
-Di rilis ini, versi 2406.1.0 berisi penambahan penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2407.0.0 berisi penambahan penambahan pengaturan penentuan pelapor dan pemohon pada pengaturan surat TinyMCE dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ariandii dan @arifpriadi telah ikut berkontribusi.
 
-#### Penambahan Fitur
+#### FITUR
 
 1. [#2260](https://github.com/OpenSID/premium/issues/2260) Penambahan alur masuk kembali setelah ganti password.
 2. [#7164](https://github.com/OpenSID/OpenSID/issues/7164) Penambahan kode isian foto yang bisa diatur sendiri ukurannya.
@@ -19,7 +19,7 @@ Terima kasih pada @ariandii dan @arifpriadi telah ikut berkontribusi.
 13. [#7427](https://github.com/OpenSID/OpenSID/issues/7427) Penambahan fungsi kirim notifikasi ke pemohon saat surat sedang diproses.
 
 
-#### Perbaikan Bug
+#### BUG
 
 1. [#3029](https://github.com/OpenSID/premium/issues/3029) Perbaikan pengaturan surat untuk ditampilkan dilayanan mandiri hanya untuk penduduk individu saja tanpa menampilkan data lain.
 2. [#2839](https://github.com/OpenSID/OpenSID/issues/2839) Perbaikan judul pada cetak/unduh embaga/kelompok anggota.
@@ -45,7 +45,7 @@ Terima kasih pada @ariandii dan @arifpriadi telah ikut berkontribusi.
 
 
 
-#### Penyesuaian Teknis
+#### TEKNIS
 
 1. [#6924](https://github.com/OpenSID/OpenSID/issues/6924) Penyesuaian cara menampilkan ubah data wilayah/lokasi pada identitas desa dan wilayah administratif.
 2. [#3060](https://github.com/OpenSID/premium/issues/3060) Penyesuaian reset input group button secara global.
@@ -65,7 +65,7 @@ Terima kasih pada @ariandii dan @arifpriadi telah ikut berkontribusi.
 16. [#7453](https://github.com/OpenSID/OpenSID/issues/7453) Penyesuaian penggunaan construct dan helper (site_url, base_url dan asset).
 
 
-#### Peningkatan Keamanan
+#### KEAMANAN
 
 1. [#7365](https://github.com/OpenSID/OpenSID/issues/7365) Penambahan notifikasi ke telegram jika terdapat gagal login sebanyak 3 kali.
 2. [#7364](https://github.com/OpenSID/OpenSID/issues/7364) Pencatatan aktifitas pengguna yang berhasil masuk.
