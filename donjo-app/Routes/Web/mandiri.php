@@ -92,7 +92,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
 
     Route::group('surat', static function (): void {
         Route::get('/buat/{id?}', 'Surat@buat')->name('layanan-mandiri.surat.buat');
-        Route::post('/cek_syarat', 'Surat@cek_syarat')->name('layanan-mandiri.surat.cek_syarat');
+        Route::get('/cek_syarat', 'Surat@cek_syarat')->name('layanan-mandiri.surat.cek_syarat');
         Route::post('/form/{id?}', 'Surat@form')->name('layanan-mandiri.surat.form');
         Route::post('/kirim', 'Surat@kirim')->name('layanan-mandiri.surat.kirim');
         Route::get('/proses/{id?}', 'Surat@proses')->name('layanan-mandiri.surat.proses');
