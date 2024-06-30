@@ -108,6 +108,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
 
     Route::group('dokumen', static function (): void {
         Route::get('/', 'Dokumen@index')->name('layanan-mandiri.dokumen.index');
+        Route::get('/datatables', 'Dokumen@datatables')->name('layanan-mandiri.dokumen.datatables');
         Route::get('/form/{id?}', 'Dokumen@form')->name('layanan-mandiri.dokumen.form');
         Route::post('/tambah', 'Dokumen@tambah')->name('layanan-mandiri.dokumen.tambah');
         Route::post('/ubah/{id?}', 'Dokumen@ubah')->name('layanan-mandiri.dokumen.ubah');

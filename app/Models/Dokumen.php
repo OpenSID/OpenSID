@@ -262,7 +262,7 @@ class Dokumen extends BaseModel
         return $this->hasMany(Dokumen::class, 'id_parent', 'id');
     }
 
-    public static function validasi(array $post): array
+    public static function validasi($post)
     {
         $ci                           = &get_instance();
         $data                         = [];
@@ -316,6 +316,55 @@ class Dokumen extends BaseModel
             default:
                 $data['tahun'] = date('Y');
                 break;
+        }
+
+        return $data;
+    }
+
+    public function getNamaBerkas($id, $id_pend = 0)
+    {
+        $query = $this->newQuery();
+
+        if ($id_pend) {
+            $query->where('id_pend', $id_pend);
+        }
+
+        return $query->select('satuan')
+            ->where('id', $id)
+            ->where('enabled', 1)
+            ->first()
+                     ->satuan ?? null;
+    }
+
+    public function getDokumen($id = 0, $id_pend = null)
+    {
+        $query = $this->newQuery();
+
+        if ($id_pend) {
+            $query->where('id_pend', $id_pend);
+        }
+
+        $data = $query->where('id', $id)->first();
+
+        if ($data) {
+            $data->attr = json_decode($data->attr, true);
+
+            return array_filter($data->toArray());
+        }
+
+        return null;
+    }
+
+    public function getDokumenDiAnggotaLain($id_dokumen = 0)
+    {
+        $data = $this->newQuery()
+            ->where('id_parent', $id_dokumen)
+            ->get()
+            ->toArray();
+
+        foreach ($data as $key => $value) {
+            $data[$key]['attr'] = json_decode($data[$key]['attr'], true);
+            $data[$key]         = array_filter($data[$key]);
         }
 
         return $data;
