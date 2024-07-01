@@ -57,7 +57,7 @@ define('VERSION', '2407.0.0');
  *
  * Versi OpenSID Premium
  */
-define('PREMIUM', true);
+define('PREMIUM', false);
 
 /**
  * VERSI_DATABASE
