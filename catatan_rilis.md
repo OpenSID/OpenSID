@@ -9,6 +9,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#5957](https://github.com/OpenSID/OpenSID/issues/5957) Penambahan modul sinergi program.
 5. [#8098](https://github.com/OpenSID/OpenSID/issues/8098) Penambahan detail informasi jika no_kk sudah digunakan.
 6. [#8017](https://github.com/OpenSID/OpenSID/issues/8017) Penambahan link eksternal pada menu anjungan.
+7. [#8043](https://github.com/OpenSID/OpenSID/issues/8043) Penambahan halaman cetak surat pada halaman anjungan.
+8. [#8043](https://github.com/OpenSID/OpenSID/issues/8042) Penambahan halaman arsip surat pada halaman anjungan.
 
 
 #### BUG
