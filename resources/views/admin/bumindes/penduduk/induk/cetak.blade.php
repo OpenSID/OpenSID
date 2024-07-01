@@ -82,7 +82,7 @@
                                 <td>{{ $data->tempatlahir }}</td>
                                 <td>{{ tgl_indo_out($data->tanggallahir) }}</td>
                                 <td>{{ $data->agama->nama }}</td>
-                                <td>{{ $data->pendidikan }}</td>
+                                <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}</td>
                                 <td>{{ $data->pekerjaan->nama }}</td>
                                 <td>{{ strtoupper($data->bahasa->nama) }}</td>
                                 <td>{{ $data->warganegara->nama }}</td>
