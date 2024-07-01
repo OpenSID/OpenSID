@@ -1,6 +1,6 @@
 Di rilis ini, versi 2407.0.0 berisi penambahan halaman arsip dan cetak surat pada anjungan dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @Arifpriadi telah ikut berkontribusi.
 
 #### FITUR
 1. [#7970](https://github.com/OpenSID/OpenSID/issues/7970) Penambahan status dan sebutan pejabat kepala desa.
