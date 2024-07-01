@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Enums\SHDKEnum;
+use App\Enums\StatusKawinEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wilayah;
@@ -401,10 +402,10 @@ class PendudukHidup extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != 2
+        return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
             ? $this->statusKawin->nama
             : (
-                empty($this->akta_perkawinan)
+                empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
                     ? 'KAWIN BELUM TERCATAT'
                     : 'KAWIN TERCATAT'
             );

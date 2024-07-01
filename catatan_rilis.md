@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### BUG
 
 1. [#8122](https://github.com/OpenSID/OpenSID/issues/8122) Perbaikan data pendidikan terakhir pada cetak/unduh data penduduk.
+2. [#8124](https://github.com/OpenSID/OpenSID/issues/8124) Perbaikan data status kawin pada cetak/unduh data penduduk.
 
 
 #### TEKNIS

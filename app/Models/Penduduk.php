@@ -195,6 +195,7 @@ class Penduduk extends BaseModel
         'nama_asuransi',
         'jml_anak',
         'lokasi',
+        'status_perkawinan',
     ];
 
     /**
@@ -581,12 +582,12 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != 2
+        return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
             ? $this->statusKawin->nama
             : (
-                empty($this->akta_perkawinan)
-                ? 'KAWIN BELUM TERCATAT'
-                : 'KAWIN TERCATAT'
+                empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
+                    ? 'KAWIN BELUM TERCATAT'
+                    : 'KAWIN TERCATAT'
             );
     }
 

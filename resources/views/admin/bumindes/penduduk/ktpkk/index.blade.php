@@ -175,8 +175,8 @@
                         orderable: false
                     },
                     {
-                        data: 'status_kawin',
-                        name: 'status_kawin',
+                        data: 'status_perkawinan',
+                        name: 'status_perkawinan',
                         className: 'text-left',
                         searchable: false,
                         orderable: false
