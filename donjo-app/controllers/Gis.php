@@ -39,6 +39,7 @@ use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\Area;
@@ -167,7 +168,7 @@ class Gis extends Admin_Controller
 
         $data['input_umur']           = true;
         $data['list_agama']           = AgamaEnum::all();
-        $data['list_pendidikan']      = Pendidikan::get()->toArray();
+        $data['list_pendidikan']      = PendidikanSedangEnum::all();
         $data['list_pendidikan_kk']   = PendidikanKKEnum::all();
         $data['list_pekerjaan']       = PekerjaanEnum::all();
         $data['list_status_kawin']    = StatusKawinEnum::all();
