@@ -127,7 +127,7 @@ Route::group('wilayah', static function (): void {
     Route::match(['GET', 'POST'], '/', 'Wilayah@index')->name('wilayah.index');
     Route::post('/insert/{level?}/{parent?}', 'Wilayah@insert')->name('wilayah.insert');
     Route::post('/update/{level?}/{id?}/{parent?}', 'Wilayah@update')->name('wilayah.update');
-    Route::get('/delete/{level?}/{id?}', 'Wilayah@delete')->name('wilayah.delete');
+    Route::get('/delete/{level?}/{id?}/{parent?}', 'Wilayah@delete')->name('wilayah.delete');
     Route::get('/cetak_rw/{id?}', 'Wilayah@cetak_rw')->name('wilayah.cetak_rw');
     Route::get('/unduh_rw/{id?}', 'Wilayah@unduh_rw')->name('wilayah.unduh_rw');
     Route::get('/cetak_rt/{id?}', 'Wilayah@cetak_rt')->name('wilayah.cetak_rt');

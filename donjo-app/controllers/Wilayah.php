@@ -148,21 +148,12 @@ class Wilayah extends Admin_Controller
                         }
                     }
                     if (can('h')) {
-                        $disabled = '';
-                        if (($row->penduduk_pria_count + $row->penduduk_wanita_count) > 0) {
-                            $disabled = 'disabled';
-                        }
-
-                        if ($row->keluarga_aktif_count > 0) {
-                            $disabled = 'disabled';
-                        }
-
                         if ($level == 'rw') {
                             if ($row->rw != '-') {
-                                $aksi .= '<a href="#" data-href="' . ci_route('wilayah.delete', "{$level}/{$row->id}") . '" class="btn bg-maroon btn-sm ' . $disabled . '" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                                $aksi .= '<a href="#" data-href="' . ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                             }
                         } else {
-                            $aksi .= '<a href="#" data-href="' . ci_route('wilayah.delete', "{$level}/{$row->id}") . '" class="btn bg-maroon btn-sm ' . $disabled . '" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                            $aksi .= '<a href="#" data-href="' . ci_route('wilayah.delete', "{$level}/{$row->id}/{$parent}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                         }
                     }
                     if ($level == 'dusun' && $row->dusun == '-') {
@@ -411,7 +402,7 @@ class Wilayah extends Admin_Controller
     }
 
     //Delete dusun/rw/rt tergantung tipe
-    public function delete(string $level, int $id): void
+    public function delete(string $level, int $id, ?int $parent = null): void
     {
         isCan('h');
         // Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
@@ -440,10 +431,24 @@ class Wilayah extends Admin_Controller
         $keluarga = Keluarga::whereIn('id_cluster', $id_cluster)->count();
 
         $this->session->dusun = $wilayah->dusun;
-        $url_penduduk         = ci_route('penduduk.index');
-        $url_keluarga         = ci_route('keluarga.index');
+
+        $url_penduduk = ci_route('penduduk', "?status_dasar=\"\"&dusun={$wilayah->dusun}");
+        $url_keluarga = ci_route('keluarga', "?dusun={$wilayah->dusun}");
+
         if ($penduduk + $keluarga != 0) {
-            redirect_with('error', $nama . ' tidak dapat dihapus karena hal berikut: <ol><li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid </li><li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li></ol>Silakan hapus data <a href="' . $url_penduduk . '" target="_blank">Penduduk</a> atau <a href="' . $url_keluarga . '" target="_blank">Keluarga</a> terlebih dahulu pada setiap status tersebut.', '', true);
+            redirect_with(
+                'error',
+                "
+                    {$nama} tidak dapat dihapus karena hal berikut:
+                    <ol>
+                        <li>Terdapat penduduk dengan status mati, pindah, hilang, pergi dan tidak valid</li>
+                        <li>Terdapat kelurga dengan status KK Hilang/Pindah/Mati dan KK Kosong</li>
+                    </ol>
+                    Silakan hapus data <a href='{$url_penduduk}' target='_blank'>Penduduk</a> atau <a href='{$url_keluarga}' target='_blank'>Keluarga</a> terlebih dahulu pada setiap status tersebut.
+                ",
+                ci_route('wilayah.index') . "?level={$level}&parent={$parent}",
+                true
+            );
         }
 
         WilayahModel::whereIn('id', $id_cluster)->delete();
