@@ -157,10 +157,8 @@
                         orderable: true
                     },
                     {
-                        data: function(data) {
-                            return (data.pamong.jabatan == null) ? '-' : data.pamong.jabatan.nama;
-                        },
-                        name: 'pamong.jabatan.nama',
+                        data: 'jabatan',
+                        name: 'jabatan',
                         searchable: true,
                         orderable: true
                     },

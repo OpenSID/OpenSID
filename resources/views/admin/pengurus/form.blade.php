@@ -303,13 +303,42 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="jabatan">Jabatan</label>
                         <div class="col-sm-7">
-                            <select class="form-control select2 input-sm required" name="jabatan_id">
+                            <select class="form-control select2 input-sm required" id="jabatan" name="jabatan_id">
                                 <option value="">Pilih Jabatan</option>
                                 @foreach ($jabatan as $key => $value)
                                     <option value="{{ $key }}" {{ selected($pamong['jabatan_id'], $key) }}>{{ $value }}
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="status_pejabat" style="display: none;">
+                        <label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status Pejabat</label>
+                        <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                            <label id="sx3" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @if ($pamong['status_pejabat'] == 1) active @endif">
+                                <input
+                                    id="group1"
+                                    type="radio"
+                                    name="status_pejabat"
+                                    class="form-check-input"
+                                    type="radio"
+                                    value="1"
+                                    @if ($pamong['status_pejabat'] == 1) checked @endif
+                                    autocomplete="off"
+                                > Aktif
+                            </label>
+                            <label id="sx4" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @if ($pamong['status_pejabat'] == 0) active @endif">
+                                <input
+                                    id="group2"
+                                    type="radio"
+                                    name="status_pejabat"
+                                    class="form-check-input"
+                                    type="radio"
+                                    value="0"
+                                    @if ($pamong['status_pejabat'] == 0) checked @endif
+                                    autocomplete="off"
+                                > Tidak Aktif
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -409,7 +438,6 @@
                     url: SITE_URL + 'pengurus/apidaftarpenduduk',
                     dataType: 'json',
                     data: function(params) {
-                        console.log(params.term);
                         return {
                             q: params.term || '',
                             page: params.page || 1,
@@ -437,6 +465,18 @@
             $(".input-gelar").keyup(function() {
                 gelar();
             });
+
+
+            $('#jabatan').on('change', function() {
+                const kades = "{{ $kades_id }}";
+                if (this.value == 1) {
+                    $('#status_pejabat').show();
+                } else {
+                    $('#status_pejabat').hide();
+                }
+            });
+
+            $('#jabatan').trigger('change');
         });
 
         function gelar() {

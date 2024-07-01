@@ -155,11 +155,15 @@ class Web_widget extends Admin_Controller
     {
         $data['form_action'] = site_url('web_widget/update_setting/' . $widget);
         $data['settings']    = Widget::getSetting($widget);
-        if ($widget == 'sinergi_program' || $widget == 'aparatur_desa') {
+        if ($widget == 'aparatur_desa') {
             $data['pemerintah'] = ucwords(setting('sebutan_pemerintah_desa'));
 
             return view('admin.web.widget.form_admin.admin_' . $widget, $data);
         }
+        if ($widget == 'sinergi_program') {
+            redirect($widget);
+        }
+
         $this->render('widgets/admin_' . $widget, $data);
     }
 

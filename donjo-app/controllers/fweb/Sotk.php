@@ -35,36 +35,28 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024061951 extends MY_model
+class Sotk extends Web_Controller
 {
-    public function up()
+    public function index(): void
     {
-        $hasil = true;
-
-        $hasil = $hasil && $this->migrasi_2024062051($hasil);
-
-        return $hasil && true;
-    }
-
-    protected function migrasi_2024062051($hasil)
-    {
-        if (! Schema::hasColumn('keuangan_ta_jurnal_umum_rinci', 'Kd_SubRinci')) {
-            Schema::table('keuangan_ta_jurnal_umum_rinci', static function (Blueprint $table) {
-                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
-            });
+        if (! $this->web_menu_model->menu_aktif('struktur-organisasi-dan-tata-kerja')) {
+            show_404();
         }
 
-        if (! Schema::hasColumn('keuangan_ta_mutasi', 'Kd_SubRinci')) {
-            Schema::table('keuangan_ta_mutasi', static function (Blueprint $table) {
-                $table->string('Kd_SubRinci', 10)->nullable()->after('Kd_Rincian');
-            });
-        }
+        $this->load->model('pamong_model');
 
-        return $hasil && true;
+        $data = $this->includes;
+        $this->_get_common_data($data);
+
+        $data['desa']    = identitas();
+        $data['bagan']   = $this->pamong_model->list_bagan();
+        $data['ada_bpd'] = true;
+
+        $data['halaman_statis'] = 'sotk/index';
+
+        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
+        theme_view($this->template, $data);
     }
 }

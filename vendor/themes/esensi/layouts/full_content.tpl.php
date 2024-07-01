@@ -44,7 +44,7 @@
       <a href="<?= site_url() ?>" class="inline-block" class="text-link hover:text-link">Kembali ke Beranda</a>
     </div>
     <br>
-    <?php $this->load->view($halaman_peta); ?>
+    <?php theme_view($halaman_peta); ?>
   </main>
   <?= view('admin.layouts.components.token') ?>
 </body>

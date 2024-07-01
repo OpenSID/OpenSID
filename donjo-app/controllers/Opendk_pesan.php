@@ -66,7 +66,7 @@ class Opendk_pesan extends Admin_Controller
     public function index()
     {
         if (! $this->cek()) {
-            return;
+            return null;
         }
 
         get_pesan_opendk();
@@ -207,7 +207,7 @@ class Opendk_pesan extends Admin_Controller
     {
         isCan('h');
 
-        $array = json_decode($this->request['array_id'], null);
+        $array = json_decode((string) $this->request['array_id'], null);
 
         Pesan::whereIn('id', $array)->update([
             'diarsipkan' => 1,

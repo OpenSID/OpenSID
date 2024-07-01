@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\AlasanKeluar;
 use App\Models\HariLibur;
 use App\Models\JamKerja;
@@ -138,7 +139,7 @@ class Perangkat extends Web_Controller
         $this->session->masuk = [
             'pamong_id'   => $user->pamong_id,
             'pamong_nama' => $user->pamong->penduduk->nama ?? $user->pamong->pamong_nama ?? $user->nama,
-            'jabatan'     => $user->pamong->jabatan,
+            'jabatan'     => $user->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $user->pamong->jabatan->nama : $user->pamong->jabatan->nama,
             'sex'         => $user->pamong->penduduk->sex ?? $user->pamong->pamong_sex,
             'foto'        => $user->pamong->penduduk->foto ?? $user->pamong->foto ?? $user->foto,
         ];

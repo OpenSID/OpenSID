@@ -185,6 +185,9 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            let kumpulanKK = urlParams.getAll('kumpulanKK[]');
+
             let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
@@ -198,7 +201,7 @@
                         req.dusun = $('#dusun').val();
                         req.rw = $('#rw').val();
                         req.rt = $('#rt').val();
-                        req.kumpulanKK = $('#tabeldata').data('kumpulanKK')
+                        req.kumpulanKK = $('#tabeldata').data('kumpulanKK') ?? kumpulanKK
                         req.kk_sementara = $('#tabeldata').data('kk_sementara')
                         req.bantuan = $('#tabeldata').data('bantuan')
                         req.statistikfilter = $('#tabeldata').data('statistikfilter')

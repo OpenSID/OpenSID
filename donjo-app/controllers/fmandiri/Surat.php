@@ -158,44 +158,39 @@ class Surat extends Mandiri_Controller
 
     public function cek_syarat()
     {
-        $idPermohonan = $this->input->post('id_permohonan');
-        $idSurat      = $this->input->post('id_surat');
+        if ($this->input->is_ajax_request()) {
+            $idPermohonan = $this->input->get('id_permohonan');
+            $idSurat      = $this->input->get('id_surat');
 
-        $syaratPermohonan = PermohonanSurat::find($idPermohonan)->syarat ?? '';
-        $suratMaster      = FormatSurat::find($idSurat)->syarat_surat ?? '';
-        $syaratSurat      = SyaratSurat::query()->get();
-        $dokumen          = DokumenHidup::where('id_pend', $this->is_login->id_pend)->get()->toArray();
+            $syaratPermohonan = PermohonanSurat::find($idPermohonan)->syarat ?? '';
+            $suratMaster      = FormatSurat::find($idSurat)->syarat_surat ?? '';
+            $syaratSuratList  = json_decode($suratMaster, true) ?? [];
+            $dokumen          = DokumenHidup::where('id_pend', $this->is_login->id_pend)->get()->toArray();
 
-        $data = [];
-        $no   = 1;
+            $syaratSurat = SyaratSurat::get()
+                ->filter(static fn ($val) => in_array($val['ref_syarat_id'], $syaratSuratList))
+                ->all();
 
-        foreach ($syaratSurat as $baris) {
-            $syaratSuratList = json_decode($suratMaster, true);
-            if (is_array($syaratSuratList) && in_array($baris->ref_syarat_id, $syaratSuratList)) {
-                $pilihanDokumen = view(
-                    view: 'layanan_mandiri.surat.pilihan_syarat',
-                    data: [
-                        'dokumen'           => $dokumen,
-                        'syarat_permohonan' => json_decode($syaratPermohonan, true),
-                        'syarat_id'         => $baris->ref_syarat_id,
-                        'cek_anjungan'      => $this->cek_anjungan,
-                    ],
-                    returnView: true
-                )->render();
-
-                $data[] = [
-                    $no++,
-                    $baris->ref_syarat_nama,
-                    $pilihanDokumen,
-                ];
-            }
+            return datatables($syaratSurat)
+                ->addColumn('pilihan_syarat', function ($item) use ($dokumen, $syaratPermohonan) {
+                    return view(
+                        view: 'layanan_mandiri.surat.pilihan_syarat',
+                        data: [
+                            'dokumen'           => $dokumen,
+                            'syarat_permohonan' => json_decode($syaratPermohonan, true) ?? [],
+                            'syarat_id'         => $item->ref_syarat_id,
+                            'cek_anjungan'      => $this->cek_anjungan,
+                        ],
+                        returnView: true
+                    );
+                })
+                ->rawColumns(['pilihan_syarat'])
+                ->addIndexColumn()
+                ->skipPaging()
+                ->make();
         }
 
-        return json([
-            'recordsTotal'    => 10,
-            'recordsFiltered' => 10,
-            'data'            => $data,
-        ]);
+        show_404();
     }
 
     public function form($id = '')
@@ -258,7 +253,7 @@ class Surat extends Mandiri_Controller
             'isian_form'  => json_encode($post, JSON_THROW_ON_ERROR),
             'status'      => 1, // Selalu 1 bagi penggun layanan mandiri
             'keterangan'  => $this->security->xss_clean($data_permohonan['keterangan']),
-            'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif']),
+            'no_hp_aktif' => bilangan($data_permohonan['no_hp_aktif'] ?? $post['no_hp_aktif']),
             'syarat'      => json_encode($data_permohonan['syarat'], JSON_THROW_ON_ERROR),
             'updated_at'  => date('Y-m-d H:i:s'),
         ];

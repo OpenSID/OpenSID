@@ -104,7 +104,6 @@ class Anjungan_menu extends Anjungan_Controller
     {
         isCan('u');
         $tipe_link = $this->referensi_model->list_ref(LINK_TIPE);
-        array_pop($tipe_link);
 
         $data['link_tipe']                  = $tipe_link;
         $data['artikel_statis']             = Artikel::statis()->get();

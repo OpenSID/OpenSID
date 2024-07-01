@@ -509,8 +509,10 @@ class Keluarga extends BaseModel
             if (strlen((string) $data['no_kk']) != 16 && $data['no_kk'] != '0') {
                 $invalid[] = 'Nomor KK panjangnya harus 16 atau 0';
             }
-            if (self::where(['no_kk' => $data['no_kk']])->exists()) {
-                $invalid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
+            if ($exists = self::where(['no_kk' => $data['no_kk']])->exists()) {
+                set_session('autodismiss', true);
+                $url       = base_url("keluarga?kumpulanKK[]={$data['no_kk']}");
+                $invalid[] = "Nomor KK <a href='{$url}'>{$data['no_kk']}</a> sudah digunakan";
             }
         }
 

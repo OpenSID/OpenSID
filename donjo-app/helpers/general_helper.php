@@ -1153,3 +1153,28 @@ if (! function_exists('total_jumlah')) {
         return array_reduce($data->toArray(), static fn ($carry, $item) => $carry + $item[$column], 0);
     }
 }
+
+if (! function_exists('truncateText')) {
+    function truncateText($text, $maxLength)
+    {
+        if (strlen($text) > $maxLength) {
+            return substr($text, 0, $maxLength) . '...';
+        }
+
+        return $text;
+    }
+}
+
+// auth_mandiri
+if (! function_exists('auth_mandiri')) {
+    function auth_mandiri($params = null)
+    {
+        $CI = &get_instance();
+
+        if (null !== $params) {
+            return $CI->session->auth_mandiri->{$params};
+        }
+
+        return $CI->session->auth_mandiri;
+    }
+}

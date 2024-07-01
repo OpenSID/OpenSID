@@ -1,6 +1,16 @@
-Di rilis ini, versi 2406.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2407.0.0 berisi penambahan halaman arsip dan cetak surat pada anjungan dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @Arifpriadi telah ikut berkontribusi.
+
+#### FITUR
+1. [#7970](https://github.com/OpenSID/OpenSID/issues/7970) Penambahan status dan sebutan pejabat kepala desa.
+2. [#6854](https://github.com/OpenSID/OpenSID/issues/6854) Penambahan halaman peta tema pada website yang lepas dari view sistem.
+3. [#6858](https://github.com/OpenSID/OpenSID/issues/6858) Penambahan halaman stok desa pada website.
+4. [#5957](https://github.com/OpenSID/OpenSID/issues/5957) Penambahan modul sinergi program.
+5. [#8098](https://github.com/OpenSID/OpenSID/issues/8098) Penambahan detail informasi jika no_kk sudah digunakan.
+6. [#8017](https://github.com/OpenSID/OpenSID/issues/8017) Penambahan link eksternal pada menu anjungan.
+7. [#8043](https://github.com/OpenSID/OpenSID/issues/8043) Penambahan halaman cetak surat pada halaman anjungan.
+8. [#8043](https://github.com/OpenSID/OpenSID/issues/8042) Penambahan halaman arsip surat pada halaman anjungan.
 
 
 #### BUG
@@ -69,8 +79,3 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#7816](https://github.com/OpenSID/OpenSID/issues/7817) Penyesuaian modul inventaris gedung menggunakan ORM dan Blade.
 16. [#7819](https://github.com/OpenSID/OpenSID/issues/7819) Penyesuaian modul inventaris asset menggunakan ORM dan Blade.
 17. [#8028](https://github.com/OpenSID/OpenSID/issues/8028) Penyesuaian salin ulang font bawaan.
-
-
-#### KEAMANAN
-
-1.

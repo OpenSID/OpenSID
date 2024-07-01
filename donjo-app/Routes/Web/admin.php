@@ -2081,6 +2081,19 @@ Route::group('teks_berjalan', static function (): void {
     Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
+// Admin Web > Sinergi Program
+Route::group('sinergi_program', static function (): void {
+    Route::get('/', 'Sinergi_program@index')->name('sinergi-program.index');
+    Route::get('/datatables', 'Sinergi_program@datatables')->name('sinergi-program.datatables');
+    Route::get('/form/{id?}', 'Sinergi_program@form')->name('sinergi-program.form');
+    Route::post('/insert', 'Sinergi_program@insert')->name('sinergi-program.insert');
+    Route::post('/update/{id?}', 'Sinergi_program@update')->name('sinergi-program.update');
+    Route::get('/delete/{id?}', 'Sinergi_program@delete')->name('sinergi-program.delete');
+    Route::post('/delete', 'Sinergi_program@delete')->name('sinergi-program.delete-all');
+    Route::get('/lock/{id?}', 'Sinergi_program@lock')->name('sinergi-program.lock');
+    Route::post('/tukar', 'Sinergi_program@tukar')->name('sinergi-program..tukar');
+});
+
 // Admin Web > Pengunjung
 Route::group('pengunjung', static function (): void {
     Route::get('clear', static function (): void {
@@ -2152,14 +2165,14 @@ Route::group('setting_mandiri', static function (): void {
 
 // Anjungan > Daftar Anjungan
 Route::group('anjungan', static function (): void {
-    Route::get('/', 'Anjungan@index')->name('anjungan.index');
-    Route::get('/datatables', 'Anjungan@datatables')->name('anjungan.datatables');
-    Route::get('/form/{id?}', 'Anjungan@form')->name('anjungan.form');
-    Route::post('/insert', 'Anjungan@insert')->name('anjungan.insert');
-    Route::post('/update/{id?}', 'Anjungan@update')->name('anjungan.update');
-    Route::get('/delete/{id?}', 'Anjungan@delete')->name('anjungan.delete');
-    Route::post('/delete', 'Anjungan@delete')->name('anjungan.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Anjungan@kunci')->name('anjungan.kunci');
+    Route::get('/', 'Anjungan@index')->name('admin.anjungan.index');
+    Route::get('/datatables', 'Anjungan@datatables')->name('admin.anjungan.datatables');
+    Route::get('/form/{id?}', 'Anjungan@form')->name('admin.anjungan.form');
+    Route::post('/insert', 'Anjungan@insert')->name('admin.anjungan.insert');
+    Route::post('/update/{id?}', 'Anjungan@update')->name('admin.anjungan.update');
+    Route::get('/delete/{id?}', 'Anjungan@delete')->name('admin.anjungan.delete');
+    Route::post('/delete', 'Anjungan@delete')->name('admin.anjungan.delete-all');
+    Route::get('/kunci/{id?}/{val?}', 'Anjungan@kunci')->name('admin.anjungan.kunci');
 });
 
 // Anjungan > Menu

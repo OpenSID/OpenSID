@@ -53,7 +53,7 @@ class Beranda extends Mandiri_Controller
         $this->load->helper('download');
     }
 
-    public function index(): void
+    public function index()
     {
         $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
         if ($inbox) {

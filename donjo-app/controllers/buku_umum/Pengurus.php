@@ -38,6 +38,7 @@
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\StatusEnum;
 use App\Models\Agama;
 use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
@@ -134,6 +135,7 @@ class Pengurus extends Admin_Controller
                 ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
                 ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
                 ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
+                ->editColumn('jabatan.nama', static fn ($row) => $row->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->jabatan->nama : $row->jabatan->nama)
                 ->filterColumn('identitas', static function ($query, $keyword): void {
                     $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
                         ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
@@ -179,6 +181,7 @@ class Pengurus extends Admin_Controller
         }
 
         $data['jabatan']       = $semua_jabatan;
+        $data['kades_id']      = kades()->id;
         $data['atasan']        = Pamong::listAtasan($id)->get();
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
         $data['agama']         = Agama::pluck('nama', 'id');
@@ -319,9 +322,11 @@ class Pengurus extends Admin_Controller
         $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
         $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
         $data['media_sosial']       = $post['media_sosial'];
+        $data['status_pejabat']     = 0;
 
         if ($data['jabatan_id'] == kades()->id) {
-            $data['urut'] = 1;
+            $data['urut']           = 1;
+            $data['status_pejabat'] = $post['status_pejabat'];
         } elseif ($data['jabatan_id'] == sekdes()->id) {
             $data['urut'] = 2;
         } elseif ($id == 0 || $id == null) {

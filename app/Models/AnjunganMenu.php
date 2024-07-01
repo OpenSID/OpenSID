@@ -82,6 +82,8 @@ class AnjunganMenu extends BaseModel
         // 'updatedBy',
     ];
 
+    protected $appends = ['link_url'];
+
     /**
      * {@inheritDoc}
      */
@@ -134,5 +136,10 @@ class AnjunganMenu extends BaseModel
                 unlink($logo);
             }
         }
+    }
+
+    public function getLinkUrlAttribute()
+    {
+        return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
     }
 }
