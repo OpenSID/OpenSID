@@ -12,3 +12,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### TEKNIS
 
 1. [#8004](https://github.com/OpenSID/OpenSID/issues/8004) Penyesuaian tombol dan perjelas notifikasi hapus wilayah.
+2. [#8127](https://github.com/OpenSID/OpenSID/issues/8127) Penyesuaian pencarian berdasarkan isi singkat pada arsip surat masuk dan arsip surat keluar.
