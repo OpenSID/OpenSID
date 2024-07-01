@@ -125,7 +125,14 @@ class Database_model extends MY_Model
         '23.09'   => ['migrate' => 'migrasi_2309_ke_2310', 'nextVersion' => '23.10'],
         '23.10'   => ['migrate' => 'migrasi_2310_ke_2311', 'nextVersion' => '23.11'],
         '23.11'   => ['migrate' => 'migrasi_2311_ke_2312', 'nextVersion' => '23.12'],
-        '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => null],
+        '23.12'   => ['migrate' => 'migrasi_2312_ke_2401', 'nextVersion' => '24.01'],
+        '24.01'   => ['migrate' => 'migrasi_2401_ke_2402', 'nextVersion' => '24.02'],
+        '24.02'   => ['migrate' => 'migrasi_2402_ke_2403', 'nextVersion' => '24.03'],
+        '24.03'   => ['migrate' => 'migrasi_2403_ke_2404', 'nextVersion' => '24.04'],
+        '24.04'   => ['migrate' => 'migrasi_2404_ke_2405', 'nextVersion' => '24.05'],
+        '24.05'   => ['migrate' => 'migrasi_2405_ke_2406', 'nextVersion' => '24.06'],
+        '24.06'   => ['migrate' => 'migrasi_2406_ke_2407', 'nextVersion' => '24.07'],
+        '24.07'   => ['migrate' => 'migrasi_2407_ke_2408', 'nextVersion' => null],
     ];
 
     // versi lain
@@ -275,11 +282,9 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = false): void
     {
-        $this->load->library('pelanggan/validasi', null, 'premium');
-
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
-        if (($this->premium->validasi_versi($install) || $install) && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+        if ($install && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri();
             // Kirim versi aplikasi ke layanan setelah migrasi selesai
             kirim_versi_opensid();
