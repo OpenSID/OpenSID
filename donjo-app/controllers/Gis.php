@@ -47,7 +47,6 @@ use App\Models\Bantuan;
 use App\Models\Garis;
 use App\Models\Lokasi;
 use App\Models\Pembangunan;
-use App\Models\Pendidikan;
 use App\Models\Penduduk;
 use App\Models\PendudukStatus;
 use App\Models\Persil;
@@ -145,7 +144,7 @@ class Gis extends Admin_Controller
             'cari', 'filter', 'sex',
             'dusun', 'rw', 'rt',
             'agama', 'umur_min', 'umur_max', 'pekerjaan_id',
-            'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk',
+            'status', 'status_kawin', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk',
             'layer_penduduk', 'layer_keluarga', 'layer_rtm', 'advance_search',
         ]);
         $this->index();
@@ -191,6 +190,7 @@ class Gis extends Admin_Controller
         $data['umur_max']             = bilangan($post['umur_max']);
         $data['pekerjaan_id']         = $post['pekerjaan_id'];
         $data['status']               = $post['status'];
+        $data['status_kawin']         = $post['status_kawin'];
         $data['agama']                = $post['agama'];
         $data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
         $data['pendidikan_kk_id']     = $post['pendidikan_kk_id'];

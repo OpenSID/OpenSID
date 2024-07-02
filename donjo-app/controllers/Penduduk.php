@@ -389,6 +389,7 @@ class Penduduk extends Admin_Controller
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status'               => 'status',
+                    'status_kawin'         => 'status_kawin',
                     'agama'                => 'agama_id',
                     'pendidikan_sedang_id' => 'pendidikan_sedang_id',
                     'pendidikan_kk_id'     => 'pendidikan_kk_id',
@@ -903,6 +904,7 @@ class Penduduk extends Admin_Controller
         $data['umur_max']             = bilangan($post['umur_max']);
         $data['pekerjaan_id']         = $post['pekerjaan_id'];
         $data['status']               = $post['status'];
+        $data['status_kawin']         = $post['status_kawin'];
         $data['agama']                = $post['agama'];
         $data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
         $data['pendidikan_kk_id']     = $post['pendidikan_kk_id'];

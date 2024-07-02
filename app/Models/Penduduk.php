@@ -893,6 +893,7 @@ class Penduduk extends BaseModel
         $agama          = $filter['agama'];
         $cari           = $filter['cari'];
         $statusPenduduk = $filter['status_penduduk'];
+        $statusKawin    = $filter['status_kawin'];
         $pekerjaan      = $filter['pekerjaan_id'];
         $pendidikan     = $filter['pendidikan_kk_id'];
         $umurMin        = $filter['umur_min'];
@@ -934,6 +935,7 @@ class Penduduk extends BaseModel
             ->when($pendidikan, static fn ($q) => $q->wherePendidikanKkId($pendidikan))
             ->when($pekerjaan, static fn ($q) => $q->wherePekerjaanId($pekerjaan))
             ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))
+            ->when($statusKawin, static fn ($q) => $q->whereStatusKawin($statusKawin))
             ->when($cari, static fn ($q) => $q->where(static function ($r) use ($cari) {
                 $r->where('nama', 'like', "%{$cari}%")->orWhere('nik', 'like', "%{$cari}%")->orWhere('tag_id_card', 'like', "%{$cari}%");
             }))

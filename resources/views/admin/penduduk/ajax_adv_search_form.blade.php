@@ -62,7 +62,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="status_dasar">Status Perkawinan</label>
-                        <select class="form-control input-sm select2" id="status" name="status">
+                        <select class="form-control input-sm select2" id="status_kawin" name="status_kawin">
                             <option value=""> -- </option>
                             @foreach ($list_status_kawin as $key => $item)
                                 <option value="{{ $key }}" @selected($status == $key)>{{ $item }}</option>
