@@ -41,20 +41,18 @@ use Illuminate\Support\Str;
 
 class Peserta_bantuan extends Admin_Controller
 {
-    private $_set_page;
+    private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->_set_page     = ['20', '50', '100'];
         $this->modul_ini     = 'bantuan';
         $this->sub_modul_ini = 'peserta-bantuan';
 
         $this->load->model(['program_bantuan_model']);
     }
 
-    public function detail($program_id = 0, $p = 1)
+    public function detail($program_id = 0, $p = 1): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -75,7 +73,7 @@ class Peserta_bantuan extends Admin_Controller
         $this->render('program_bantuan/detail', $data);
     }
 
-    public function form($program_id = 0)
+    public function form($program_id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata('cari');
@@ -97,7 +95,7 @@ class Peserta_bantuan extends Admin_Controller
     }
 
     // $id = program_peserta.id
-    public function peserta($cat = 0, $id = 0)
+    public function peserta($cat = 0, $id = 0): void
     {
         $data = $this->program_bantuan_model->get_peserta_program($cat, $id);
 
@@ -105,7 +103,7 @@ class Peserta_bantuan extends Admin_Controller
     }
 
     // $id = program_peserta.id
-    public function data_peserta($id = 0)
+    public function data_peserta($id = 0): void
     {
         $data['peserta'] = $this->program_bantuan_model->get_program_peserta_by_id($id);
 
@@ -127,7 +125,7 @@ class Peserta_bantuan extends Admin_Controller
         $this->render('program_bantuan/data_peserta', $data);
     }
 
-    public function add_peserta($program_id = 0)
+    public function add_peserta($program_id = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -147,7 +145,7 @@ class Peserta_bantuan extends Admin_Controller
     }
 
     // $id = program_peserta.id
-    public function edit_peserta($id = 0)
+    public function edit_peserta($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->program_bantuan_model->edit_peserta($id);
@@ -157,7 +155,7 @@ class Peserta_bantuan extends Admin_Controller
     }
 
     // $id = program_peserta.id
-    public function edit_peserta_form($id = 0)
+    public function edit_peserta_form($id = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -166,7 +164,7 @@ class Peserta_bantuan extends Admin_Controller
         $this->load->view('program_bantuan/edit_peserta', $data);
     }
 
-    public function hapus_peserta($program_id = 0, $peserta_id = '')
+    public function hapus_peserta($program_id = 0, $peserta_id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->program_bantuan_model->hapus_peserta($peserta_id);
@@ -174,7 +172,7 @@ class Peserta_bantuan extends Admin_Controller
         redirect("peserta_bantuan/detail/{$program_id}");
     }
 
-    public function aksi($aksi = '', $program_id = 0)
+    public function aksi($aksi = '', $program_id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->session->set_userdata('aksi', $aksi);
@@ -182,7 +180,7 @@ class Peserta_bantuan extends Admin_Controller
         redirect("peserta_bantuan/form/{$program_id}");
     }
 
-    public function delete_all($program_id = 0)
+    public function delete_all($program_id = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->program_bantuan_model->delete_all();
@@ -191,11 +189,11 @@ class Peserta_bantuan extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function daftar($program_id = 0, $aksi = '')
+    public function daftar($program_id = 0, $aksi = ''): void
     {
         if ($program_id > 0) {
             $temp                    = $this->session->per_page;
-            $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
+            $this->session->per_page = 1_000_000_000; // Angka besar supaya semua data terunduh
             $data['sasaran']         = unserialize(SASARAN);
 
             $data['config']          = $this->header['desa'];
@@ -207,7 +205,7 @@ class Peserta_bantuan extends Admin_Controller
         }
     }
 
-    public function detail_clear($program_id)
+    public function detail_clear($program_id): void
     {
         $this->session->per_page = $this->_set_page[0];
         $this->session->unset_userdata('cari');

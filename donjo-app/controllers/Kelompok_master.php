@@ -51,7 +51,7 @@ class Kelompok_master extends Admin_Controller
         $this->sub_modul_ini = 'kelompok';
     }
 
-    public function clear()
+    public function clear(): void
     {
         redirect($this->controller);
     }
@@ -63,10 +63,8 @@ class Kelompok_master extends Admin_Controller
 
             return datatables(KelompokMaster::tipe($this->tipe)->withCount('kelompok as jumlah'))
                 ->addIndexColumn()
-                ->addColumn('ceklist', static function ($row) {
-                    return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
-                })
-                ->addColumn('aksi', static function ($row) use ($controller) {
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -101,7 +99,7 @@ class Kelompok_master extends Admin_Controller
         return view('admin.kelompok_master.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -110,7 +108,7 @@ class Kelompok_master extends Admin_Controller
         redirect_with('success', 'Berhasil menambah data');
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -119,7 +117,7 @@ class Kelompok_master extends Admin_Controller
         redirect_with('success', 'Berhasil mengubah data');
     }
 
-    public function delete($id = 0)
+    public function delete($id = 0): void
     {
         $this->redirect_hak_akses('h');
 
@@ -128,7 +126,7 @@ class Kelompok_master extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Data');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -152,7 +150,7 @@ class Kelompok_master extends Admin_Controller
         $result->delete();
     }
 
-    protected function validate($request = [])
+    protected function validate($request = []): array
     {
         return [
             'config_id' => identitas('id'),

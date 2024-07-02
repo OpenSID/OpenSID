@@ -64,7 +64,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
             ->where('id', 304)
             ->update('setting_modul');
 
-        return $hasil && true;
+        return $hasil;
     }
 
     protected function migrasi_2022032171($hasil)
@@ -308,21 +308,18 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $hasil = $hasil && $this->dbforge->create_table('kehadiran_jam_kerja', true);
         }
 
-        if (Schema::hasTable('kehadiran_jam_kerja') && JamKerja::count() != 7 && identitas('id')) {
-            if (JamKerja::truncate()) {
-                // Tambahkan data kehadiran jam kerja
-                $hari = [
-                    ['nama_hari' => 'Senin', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                    ['nama_hari' => 'Selasa', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                    ['nama_hari' => 'Rabu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                    ['nama_hari' => 'Kamis', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                    ['nama_hari' => 'Jumat', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                    ['nama_hari' => 'Sabtu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
-                    ['nama_hari' => 'Minggu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
-                ];
-
-                $hasil = $hasil && JamKerja::insert($hari);
-            }
+        if (Schema::hasTable('kehadiran_jam_kerja') && JamKerja::count() != 7 && identitas('id') && JamKerja::truncate()) {
+            // Tambahkan data kehadiran jam kerja
+            $hari = [
+                ['nama_hari' => 'Senin', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Selasa', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Rabu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Kamis', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Jumat', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Sabtu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
+                ['nama_hari' => 'Minggu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
+            ];
+            $hasil = $hasil && JamKerja::insert($hari);
         }
 
         return $hasil && $this->tambah_modul([
@@ -462,6 +459,6 @@ class Migrasi_fitur_premium_2204 extends MY_model
             ->set('nama', '0 S/D 1 TAHUN')
             ->update('tweb_penduduk_umur');
 
-        return $hasil && true;
+        return $hasil;
     }
 }

@@ -51,7 +51,7 @@ class Siteman extends MY_Controller
         $this->header      = collect(identitas())->toArray();
     }
 
-    public function index()
+    public function index(): void
     {
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {
@@ -84,13 +84,13 @@ class Siteman extends MY_Controller
         $this->load->view('siteman', $data);
     }
 
-    public function auth()
+    public function auth(): void
     {
         if (setting('google_recaptcha')) {
             $status = google_recaptcha();
 
             if (! $status->success) {
-                set_session('notif', 'Mohon konfirmasi bahwa anda buka robot!');
+                set_session('notif', 'Mohon konfirmasi bahwa anda bukan robot!');
                 redirect('siteman');
             }
         }
@@ -107,7 +107,7 @@ class Siteman extends MY_Controller
             redirect('siteman');
         }
 
-        if (! $this->user_model->syarat_sandi() && ! (config_item('demo_mode') || ENVIRONMENT === 'development')) {
+        if (! $this->user_model->syarat_sandi() && (! config_item('demo_mode') && ENVIRONMENT !== 'development')) {
             // Password tidak memenuhi syarat kecuali di website demo
 
             $this->session->force_change_password = true;
@@ -127,14 +127,14 @@ class Siteman extends MY_Controller
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
         $this->user_model->logout();
 
         redirect('siteman');
     }
 
-    public function lupa_sandi()
+    public function lupa_sandi(): void
     {
         $data['header']      = $this->header;
         $data['latar_login'] = $this->latar_login;
@@ -142,7 +142,7 @@ class Siteman extends MY_Controller
         $this->load->view('lupa_sandi', $data);
     }
 
-    public function kirim_lupa_sandi()
+    public function kirim_lupa_sandi(): void
     {
         // Periksa isian captcha
         $captcha = new App\Libraries\Captcha();
@@ -169,7 +169,7 @@ class Siteman extends MY_Controller
         redirect('siteman/lupa_sandi');
     }
 
-    public function reset_kata_sandi($token = null)
+    public function reset_kata_sandi($token = null): void
     {
         if (! $token) {
             redirect('siteman');
@@ -183,7 +183,7 @@ class Siteman extends MY_Controller
         $this->load->view('reset_kata_sandi', $data);
     }
 
-    public function verifikasi_sandi()
+    public function verifikasi_sandi(): void
     {
         $request = (object) $this->input->post();
 
@@ -196,7 +196,7 @@ class Siteman extends MY_Controller
         try {
             $status = $this->password->driver('email')->reset(
                 ['email' => $request->email, 'token' => $request->token, 'password' => $request->password],
-                function ($user, $password) {
+                function ($user, $password): void {
                     // TODO: OpenKab - Perlu disesuaikan ulang setelah semua modul selesai
                     $this->db->where('id', $user->id)->update('user', ['password' => $this->generatePasswordHash($password)]);
                 }
@@ -226,7 +226,7 @@ class Siteman extends MY_Controller
         $pwHash = password_hash($string, PASSWORD_BCRYPT);
         // Cek kekuatan hash, regenerate jika masih lemah
         if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
-            $pwHash = password_hash($string, PASSWORD_BCRYPT);
+            return password_hash($string, PASSWORD_BCRYPT);
         }
 
         return $pwHash;

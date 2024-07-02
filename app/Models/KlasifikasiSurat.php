@@ -92,4 +92,13 @@ class KlasifikasiSurat extends BaseModel
     {
         return $query->where('enabled', $value);
     }
+
+    public function scopeFilter($query, $enabled)
+    {
+        if (! empty($enabled) || $enabled == '0') {
+            $query->where('enabled', $enabled);
+        }
+
+        return $query;
+    }
 }

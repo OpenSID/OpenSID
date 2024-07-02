@@ -228,8 +228,8 @@ class Migrasi_fitur_premium_2210 extends MY_model
         $daftar_surat = FormatSurat::jenis(FormatSurat::TINYMCE)->pluck('kode_isian', 'id');
 
         foreach ($daftar_surat as $id => $kode_isian) {
-            $kode_isian = str_replace('"tipe":"text"', '"tipe":"textarea"', json_encode($kode_isian));
-            FormatSurat::find($id)->update(['kode_isian' => json_decode($kode_isian)]);
+            $kode_isian = str_replace('"tipe":"text"', '"tipe":"textarea"', json_encode($kode_isian, JSON_THROW_ON_ERROR));
+            FormatSurat::find($id)->update(['kode_isian' => json_decode($kode_isian, null)]);
         }
 
         return $hasil;
@@ -261,7 +261,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
             ->result();
 
         if (! $result) {
-            $hasil = $hasil && $this->db
+            return $hasil && $this->db
                 ->where('key', 'footer_surat_tte')
                 ->update('setting_aplikasi', [
                     'value' => App\Libraries\TinyMCE::FOOTER_TTE,
@@ -274,7 +274,7 @@ class Migrasi_fitur_premium_2210 extends MY_model
     protected function migrasi_2022091470($hasil)
     {
         if (! $this->db->field_exists('gelar_depan', 'tweb_desa_pamong')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_desa_pamong', [
+            return $hasil && $this->dbforge->add_column('tweb_desa_pamong', [
                 'gelar_depan' => [
                     'type'       => 'VARCHAR',
                     'constraint' => 100,

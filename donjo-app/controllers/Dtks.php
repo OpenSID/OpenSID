@@ -94,10 +94,8 @@ class Dtks extends Admin_Controller
             $dtks_rtm = $semua_dtks->where('id_rtm', $item->id);
 
             if ($dtks_rtm->count() != 0) {
-                $jumlah_dtks_anggota = $dtks_rtm->reduce(static function ($carry, $item) {
-                    return $carry + $item->dtks_anggota_count;
-                });
-                $jumlah_anggota_rt = $semua_anggota->where('id_rtm', $item->no_kk)->count();
+                $jumlah_dtks_anggota = $dtks_rtm->reduce(static fn ($carry, $item) => $carry + $item->dtks_anggota_count);
+                $jumlah_anggota_rt   = $semua_anggota->where('id_rtm', $item->no_kk)->count();
 
                 if ($jumlah_anggota_rt != $jumlah_dtks_anggota) {
                     foreach ($dtks_rtm as $dtks) {
@@ -113,7 +111,7 @@ class Dtks extends Admin_Controller
     public function index()
     {
         $data['rtm'] = Rtm::with([
-            'kepalaKeluarga' => static function ($builder) {
+            'kepalaKeluarga' => static function ($builder): void {
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
                     'jenisKelamin',
@@ -170,13 +168,13 @@ class Dtks extends Admin_Controller
                 ->join($wilayah . ' AS wil_kk', 'kk.id_cluster', '=', 'wil_kk.id')
                 ->where('dtks.config_id', identitas('id'));
 
-            $case_sql = static function (&$query, $keyword, $fields = [DtksEnum::REGSOS_EK2022_K => ''], $operator = 'LIKE') {
+            $case_sql = static function (&$query, $keyword, array $fields = [DtksEnum::REGSOS_EK2022_K => ''], string $operator = 'LIKE') {
                 $sql     = '(versi_kuisioner = ' . DtksEnum::REGSOS_EK2022_K . ' AND ' . $fields[DtksEnum::REGSOS_EK2022_K] . ' ' . $operator . ' ?)';
                 $binding = ["%{$keyword}%"];
 
                 return $query->whereRaw($sql, $binding);
             };
-            $add_column = static function (&$row, $fields = [DtksEnum::REGSOS_EK2022_K => '']) {
+            $add_column = static function (&$row, array $fields = [DtksEnum::REGSOS_EK2022_K => '']) {
                 if ($row->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
                     return $row->{$fields[DtksEnum::REGSOS_EK2022_K]};
                 }
@@ -189,7 +187,7 @@ class Dtks extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     // $aksi .= '<a href=" '. route("dtks.detail.{$row->id}") . '" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>';
                     if (can('u')) {
@@ -199,34 +197,16 @@ class Dtks extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('dusun', static function ($row) use ($add_column) {
-                    return $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'dusun_krt']);
-                })
-                ->filterColumn('dusun', static function ($query, $keyword) use ($case_sql) {
-                    return $case_sql($query, $keyword, [DtksEnum::REGSOS_EK2022_K => 'wil_krt.dusun']);
-                })
-                ->addColumn('rt', static function ($row) use ($add_column) {
-                    return $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'rt_krt']);
-                })
-                ->filterColumn('rt', static function ($query, $keyword) use ($case_sql) {
-                    return $case_sql($query, $keyword, [DtksEnum::REGSOS_EK2022_K => 'wil_krt.rt']);
-                })
-                ->addColumn('rw', static function ($row) use ($add_column) {
-                    return $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'rw_krt']);
-                })
-                ->filterColumn('rw', static function ($query, $keyword) use ($case_sql) {
-                    return $case_sql($query, $keyword, [DtksEnum::REGSOS_EK2022_K => 'wil_krt.rw']);
-                })
-                ->addColumn('petugas', static function ($row) use ($add_column) {
-                    return $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'nama_ppl']);
-                })
-                ->addColumn('responden', static function ($row) {
-                    return $row->nama_responden;
-                })
-                ->addColumn('versi_kuisioner', static function ($row) {
-                    return DtksEnum::VERSION_LIST[$row->versi_kuisioner];
-                })
-                ->filterColumn('versi_kuisioner', static function ($query, $keyword) {
+                ->addColumn('dusun', static fn ($row) => $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'dusun_krt']))
+                ->filterColumn('dusun', static fn ($query, $keyword) => $case_sql($query, $keyword, [DtksEnum::REGSOS_EK2022_K => 'wil_krt.dusun']))
+                ->addColumn('rt', static fn ($row) => $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'rt_krt']))
+                ->filterColumn('rt', static fn ($query, $keyword) => $case_sql($query, $keyword, [DtksEnum::REGSOS_EK2022_K => 'wil_krt.rt']))
+                ->addColumn('rw', static fn ($row) => $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'rw_krt']))
+                ->filterColumn('rw', static fn ($query, $keyword) => $case_sql($query, $keyword, [DtksEnum::REGSOS_EK2022_K => 'wil_krt.rw']))
+                ->addColumn('petugas', static fn ($row) => $add_column($row, [DtksEnum::REGSOS_EK2022_K => 'nama_ppl']))
+                ->addColumn('responden', static fn ($row) => $row->nama_responden)
+                ->addColumn('versi_kuisioner', static fn ($row): string => DtksEnum::VERSION_LIST[$row->versi_kuisioner])
+                ->filterColumn('versi_kuisioner', static function ($query, $keyword): void {
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->toJson();
@@ -239,7 +219,7 @@ class Dtks extends Admin_Controller
     {
         $this->syncDtksRtm(Rtm::where('terdaftar_dtks', 1)->get());
         $data['anggota'] = DtksAnggota::with([
-            'penduduk' => static function ($builder) {
+            'penduduk' => static function ($builder): void {
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
                     'jenisKelamin',
@@ -266,9 +246,7 @@ class Dtks extends Admin_Controller
     public function loadRecentInfo()
     {
         try {
-            if (DtksEnum::VERSION_CODE == DtksEnum::REGSOS_EK2022_K) {
-                return (new DTKSRegsosEk2022k())->info();
-            }
+            return (new DTKSRegsosEk2022k())->info();
         } catch (Throwable $th) {
             echo 'File info tidak ditemukan';
         }
@@ -277,9 +255,7 @@ class Dtks extends Admin_Controller
     public function loadRecentImpor()
     {
         try {
-            if (DtksEnum::VERSION_CODE == DtksEnum::REGSOS_EK2022_K) {
-                return (new DTKSRegsosEk2022k())->impor();
-            }
+            return (new DTKSRegsosEk2022k())->impor();
         } catch (Throwable $th) {
             echo 'File info tidak ditemukan';
         }
@@ -330,15 +306,13 @@ class Dtks extends Admin_Controller
 
             foreach ($dtks as $versi_kuisioner => $item) {
                 if ($versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
-                    $paths     = (new DTKSRegsosEk2022k())->cetakZip($item);
-                    $list_path = $list_path + $paths;
+                    $paths = (new DTKSRegsosEk2022k())->cetakZip($item);
+                    $list_path += $paths;
                 }
             }
             // simpan
             $list_path_to_zip = collect($list_path);
-            $list_path        = collect($list_path)->transform(static function ($item, $key) {
-                return ['id' => $item['id'], 'status_file' => $item['status_file']];
-            });
+            $list_path        = collect($list_path)->transform(static fn ($item, $key): array => ['id' => $item['id'], 'status_file' => $item['status_file']]);
 
             $proses_belum_selesai = $list_path->where('status_file', 0);
 
@@ -360,7 +334,7 @@ class Dtks extends Admin_Controller
         }
     }
 
-    public function new($id_rtm = 'A')
+    public function new($id_rtm = 'A'): void
     {
         $id_rtm = ($id_rtm == 'A') ? bilangan($this->request['id_rtm']) : bilangan($id_rtm);
 
@@ -388,7 +362,7 @@ class Dtks extends Admin_Controller
         redirect("{$this->controller}/form/{$dtks->id}");
     }
 
-    public function latest($id_rtm)
+    public function latest($id_rtm): void
     {
         $dtks = ModelDtks::where(['id_rtm' => $id_rtm])
             ->orderBy('created_at', 'ASC')
@@ -502,7 +476,7 @@ class Dtks extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        $dtks = ModelDtks::find($id)->delete();
+        ModelDtks::find($id)->delete();
 
         return json(['message' => 'Berhasil'], 200);
     }

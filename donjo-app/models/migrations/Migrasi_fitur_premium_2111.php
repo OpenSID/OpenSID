@@ -94,7 +94,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
     {
         $hasil = $hasil && $this->hapus_indeks('log_keluarga', 'id_kk');
         if (! $this->cek_indeks('log_keluarga', 'id_kk')) {
-            $hasil = $hasil && $this->db->query('ALTER TABLE log_keluarga ADD UNIQUE id_kk (id_kk, id_peristiwa, tgl_peristiwa, id_pend)');
+            return $hasil && $this->db->query('ALTER TABLE log_keluarga ADD UNIQUE id_kk (id_kk, id_peristiwa, tgl_peristiwa, id_pend)');
         }
 
         return $hasil;

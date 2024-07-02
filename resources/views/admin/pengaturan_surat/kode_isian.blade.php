@@ -70,9 +70,9 @@
                         </td>
                         <td class="padat">
                             <div class="btn-group-vertical">
-                                <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
-                                <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
-                                <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                                <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode" title="Hapus Kode Isian"><i class='fa fa-trash-o'></i></button>
+                                <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode" title="Pindah Kode Isian"><i class='fa fa-exchange'></i></button>
+                                <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode" title="Kaitkan Kode Isian"><i class='fa fa-link'></i></button>
                                 <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="{{ $value->kaitkan_kode ?? '' }}" />
                             </div>
                         </td>
@@ -120,9 +120,9 @@
                     </td>
                     <td class="padat">
                         <div class="btn-group-vertical">
-                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
-                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode" title="Hapus Kode Isian"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode" title="Pindah Kode Isian"><i class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode" title="Kaitkan Kode Isian"><i class='fa fa-link'></i></button>
                             <input type="hidden" class="form-control input-sm kaitkan hide" name="kaitkan_kode[]" value="" />
                         </div>
                     </td>
@@ -130,7 +130,7 @@
             @endif
         </tbody>
     </table>
-    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="utama"><i class="fa fa-plus"></i></button>
+    <button type="button" class="btn btn-success btn-sm btn-block tambah-kode" data-type="utama" title="Tambah Kode Isian"><i class="fa fa-plus"></i></button>
 </div>
 @push('scripts')
     <script>

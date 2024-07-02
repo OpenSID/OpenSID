@@ -49,9 +49,8 @@ class Migrasi_dtks extends MY_model
         $hasil = $hasil && $this->createDTKSAnggotaTable($hasil);
         $hasil = $hasil && $this->createDTKSPengaturanProgramTable($hasil);
         $hasil = $hasil && $this->createLampiranFotoTable($hasil);
-        $hasil = $hasil && $this->addIDKeluargaInDTKSTable($hasil);
 
-        return $hasil && true;
+        return $hasil && $this->addIDKeluargaInDTKSTable($hasil);
     }
 
     protected function tambahMenuSatuDataDanSubMenuDTKSK($hasil)
@@ -285,8 +284,6 @@ class Migrasi_dtks extends MY_model
             CONSTRAINT FK_dtks_rtm FOREIGN KEY (id_rtm) REFERENCES tweb_rtm(id) ON UPDATE CASCADE ON DELETE SET NULL
         )
         ");
-
-        return $hasil;
     }
 
     protected function createDTKSAnggotaTable($hasil)

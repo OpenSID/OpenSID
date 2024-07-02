@@ -60,10 +60,10 @@
             @include('admin.surat.nomor_surat')
 
             @php
-                $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data;
+                $sumberDataPenduduk = !is_array($surat->form_isian->individu->data) ? [$surat->form_isian->individu->data] : $surat->form_isian->individu->data ?? [];
             @endphp
             @if ($judul_kategori['individu'] != '-')
-                <div class="form-group subtitle_head" data-json='{{ $sumberDataPenduduk }}'>
+                <div class="form-group subtitle_head" data-json='{!! json_encode($sumberDataPenduduk) !!}'>
                     <label class="col-sm-3 control-label" for="status">{{ str_replace('_', ' ', strtoupper($judul_kategori['individu'] ?? 'Keterangan Pemohon')) }}</label>
                     @includeWhen(count($sumberDataPenduduk) > 1, 'admin.surat.opsi_sumber_penduduk', ['opsiSumberPenduduk' => $surat->form_isian->individu->data, 'kategori' => 'individu', 'pendudukLuar' => $pendudukLuar])
                 </div>

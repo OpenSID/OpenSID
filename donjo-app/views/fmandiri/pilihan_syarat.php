@@ -46,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <div class="form-group form-horizontal">
 	<select class="form-control input-sm syarat required" name="syarat[<?= $syarat_id; ?>]" onchange="cek_perhatian($(this));">
 		<option value=""> -- Pilih dokumen yang melengkapi syarat -- </option>
-		<?php foreach ($dokumen as $key => $data): ?>
+		<?php foreach ($dokumen as $data): ?>
 			<?php if ($data['id_syarat'] == $syarat_id): ?>
 				<option value="<?= $data['id']?>" <?= selected($data['id'], $syarat_permohonan[$syarat_id]); ?>><?= $data['nama']?></option>
 			<?php endif; ?>

@@ -139,7 +139,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="no_bangunan">Nomor Bangunan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text" value="<?= (! empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" />
+											<input maxlength="50" class="form-control input-sm required" name="no_bangunan" id="no_bangunan" type="text" value="<?= (empty($main->no_dokument) ? '-' : $main->no_dokument); ?>" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -172,7 +172,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" value="<?= (! empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>" />
+											<input maxlength="50" class="form-control input-sm required" name="kode_tanah" id="kode_tanah" type="text" value="<?= (empty($main->kode_tanah) ? '-' : $main->kode_tanah); ?>" />
 										</div>
 									</div>
 									<div class="form-group">

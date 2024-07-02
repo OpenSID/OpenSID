@@ -35,135 +35,131 @@
  *
  */
 
+use App\Models\GrupAkses;
+use App\Models\Modul;
 use App\Models\UserGrup;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup extends Admin_Controller
 {
+    private int $tab_ini    = 11;
+    private bool $view_only = false;
+    private $ref_grup;
+
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('grup_model');
         $this->modul_ini     = 'pengaturan';
         $this->sub_modul_ini = 'pengguna';
-        $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['jenis', 'cari'];
     }
 
-    public function clear()
+    public function index()
     {
-        $this->session->unset_userdata($this->list_session);
-        $this->session->per_page = $this->set_page[0];
-        redirect($this->controller);
+        $data = [
+            'tab_ini' => $this->tab_ini,
+            'jenis'   => [UserGrup::SISTEM => 'System', UserGrup::DESA => 'Tambahan'],
+        ];
+
+        return view('admin.pengaturan.grup.index', $data);
     }
 
-    public function index($p = 1, $o = 0)
+    public function datatables()
     {
-        $this->tab_ini = 11;
-        $data['p']     = $p;
-        $data['o']     = $o;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(UserGrup::query()->withCount('users'))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return $row->jenis == UserGrup::DESA && $row->users_count <= 0 ? '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>' : '';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+                    if ($row->id == 1) {
+                        return $aksi;
+                    }
+                    $aksi .= '<a href="' . route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
 
-        foreach ($this->list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
+                    if (can('u')) {
+                        if ($row->jenis == UserGrup::DESA) {
+                            $aksi .= '<a href="' . route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        }
+                        $aksi .= '<a href="' . route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
+                    }
+                    if (can('h') && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
+                        $aksi .= '<a href="#" data-href="' . route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                    }
+
+                    return $aksi;
+                })
+                ->rawColumns(['aksi', 'ceklist'])
+                ->make();
         }
 
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']            = 'index';
-        $data['set_page']        = $this->set_page;
-        $data['per_page']        = $this->session->per_page;
-        $data['paging']          = $this->grup_model->paging($p, $o);
-        $data['main']            = $this->grup_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['list_jenis_grup'] = $this->grup_model->list_jenis_grup();
-        $data['keyword']         = $this->grup_model->autocomplete();
-
-        $this->render('grup/table', $data);
+        return show_404();
     }
 
-    public function filter($filter)
+    public function form($id = '')
     {
-        $this->session->{$filter} = $this->input->post($filter) ?: null;
-        redirect($this->controller);
-    }
-
-    public function form($p = 1, $o = 0, $id = '', $view = false)
-    {
-        if ($this->session->salin_id) {
-            $id = $this->session->salin_id;
-        } else {
-            if (! $view && in_array($id, UserGrup::getGrupSistem())) {
-                session_error('Grup Pengguna Tidak Dapat Diubah');
-                redirect($this->controller);
-            }
-
-            if (! $view) {
-                $this->redirect_hak_akses('u');
-            }
+        if (! $this->view_only) {
+            $this->redirect_hak_akses('u');
         }
 
-        $data['p']                   = $p;
-        $data['o']                   = $o;
-        $data['view']                = $view;
-        $data['list_akses_modul']    = $this->grup_model->grup_akses((int) $id);
-        $data['list_akses_submodul'] = $this->grup_model->akses_submodul((int) $id);
+        $data['form_action'] = route('grup.insert');
+        $data['view']        = $this->view_only;
+        $data['grup']        = [];
 
-        // Centang modul jika ada akses submodul
-        foreach ($data['list_akses_modul'] as $key => $akses_modul) {
-            foreach ($data['list_akses_submodul'][$akses_modul['id']] as $akses_submodul) {
-                if ($akses_submodul['ada_akses'] == 1) {
-                    $data['list_akses_modul'][$key]['ada_akses'] = 1;
-                }
-            }
-        }
-
-        if ($this->session->salin_id) {
-            $id = null;
-            $this->session->unset_userdata('salin_id');
-        }
+        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->status(1)->orderBy('urut')])->status(1)->root()->orderBy('urut')->get();
+        $idGrup             = $this->ref_grup ?? $id;
+        $data['grup_akses'] = $idGrup ? GrupAkses::select(['id_modul', 'akses'])->whereIdGrup($idGrup)->get()->keyBy('id_modul') : collect([]);
 
         if ($id) {
-            $data['grup']        = $this->grup_model->get_grup($id);
-            $data['form_action'] = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
-        } else {
-            $data['grup']        = null;
-            $data['form_action'] = site_url("{$this->controller}/insert");
+            $data['grup'] = UserGrup::findOrFail($id)->toArray();
+            if (! $this->ref_grup) {
+                if (! $this->view_only && $data['grup']['jenis'] == UserGrup::SISTEM) {
+                    redirect_with('error', 'Grup Pengguna Tidak Dapat Diubah');
+                }
+                $data['form_action'] = route('grup.update', $id);
+            }
         }
 
-        $this->render('grup/form', $data);
+        return view('admin.pengaturan.grup.form', $data);
     }
 
-    public function salin($p = 1, $o = 0, $id = '')
+    public function viewForm($id): void
     {
-        $this->session->salin_id = $id;
-        redirect("{$this->controller}/form/{$p}/{$o}");
+        $this->view_only = true;
+        $this->form($id);
     }
 
-    public function search()
+    public function salin($id): void
     {
-        $this->session->cari = $this->input->post('cari') ?: null;
-        redirect($this->controller);
+        $this->ref_grup = $id;
+        $this->form();
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
         if ($this->form_validation->run() !== true) {
-            $this->session->success   = -1;
-            $this->session->error_msg = trim(validation_errors());
-            redirect("{$this->controller}/form");
+            redirect_with('error', trim(validation_errors()));
         } else {
-            $this->grup_model->insert();
-            redirect($this->controller);
+            try {
+                $nama   = $this->input->post('nama');
+                $grup   = UserGrup::create(['nama' => $nama, unique_slug('user_grup', $nama), 'jenis' => UserGrup::DESA]);
+                $moduls = $this->input->post('modul');
+                $this->simpanAkses($grup->id, $moduls);
+                redirect_with('success', 'Grup pengguna berhasil disimpan');
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+                redirect_with('error', 'Grup pengguna gagal disimpan');
+            }
         }
     }
 
-    private function set_form_validation()
+    private function set_form_validation(): void
     {
         $this->load->helper('form');
         $this->load->library('form_validation');
@@ -178,32 +174,74 @@ class Grup extends Admin_Controller
         return ! preg_match('/[^a-zA-Z0-9 \\-]/', $str);
     }
 
-    public function update($p = 1, $o = 0, $id = '')
+    public function update($id): void
     {
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
 
         if ($this->form_validation->run() !== true) {
-            $this->session->success   = -1;
-            $this->session->error_msg = trim(validation_errors());
-            redirect("grup/form/{$p}/{$o}/{$id}");
+            redirect_with('error', trim(validation_errors()));
         } else {
-            $this->grup_model->update($id);
-            redirect("grup/index/{$p}/{$o}");
+            try {
+                $nama = $this->input->post('nama');
+                $grup = UserGrup::findOrFail($id);
+                if ($grup->jenis == UserGrup::SISTEM) {
+                    redirect_with('error', 'Grup pengguna dari sistem tidak boleh dirubah');
+                }
+                $grup->update(['nama' => $nama, unique_slug('user_grup', $nama)]);
+                $moduls = $this->input->post('modul');
+                $this->simpanAkses($grup->id, $moduls);
+                redirect_with('success', 'Grup pengguna berhasil disimpan');
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+                redirect_with('error', 'Grup pengguna gagal disimpan');
+            }
         }
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    private function simpanAkses($grupId, $moduls): void
     {
-        $this->redirect_hak_akses('h');
-        $this->grup_model->delete($id);
-        redirect("grup/index/{$p}/{$o}");
+        $grupAkses = [];
+        $configId  = identitas()->id;
+        GrupAkses::whereIdGrup($grupId)->delete();
+
+        foreach ($moduls['id'] as $mod) {
+            $baca  = $moduls['akses_baca'][$mod] ? 1 : 0;
+            $ubah  = $moduls['akses_ubah'][$mod] ? 2 : 0;
+            $hapus = $moduls['akses_hapus'][$mod] ? 4 : 0;
+
+            $akses       = $baca + $ubah + $hapus;
+            $grupAkses[] = ['config_id' => $configId, 'akses' => $akses, 'id_grup' => $grupId, 'id_modul' => $mod];
+        }
+        if ($grupAkses) {
+            GrupAkses::insert($grupAkses);
+        }
+        cache()->forget('akses_grup_' . $grupId);
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
-        $this->grup_model->delete_all();
-        redirect("grup/index/{$p}/{$o}");
+
+        try {
+            // cek apakah sudah ada user untuk grup tersebut
+            $adaUser = UserGrup::whereHas('users')->whereIn('id', $this->request['id_cb'] ?? [$id])->get();
+            if (! $adaUser->isEmpty()) {
+                redirect_with('error', 'Grup ' . $adaUser->implode('nama', ',') . ' sudah memiliki pengguna, tidak boleh dihapus');
+            }
+            $adaGrupSistem = UserGrup::where(['jenis' => UserGrup::SISTEM])->whereIn('id', $this->request['id_cb'] ?? [$id])->count();
+            if ($adaGrupSistem) {
+                redirect_with('error', 'Grup pengguna dari sistem tidak boleh dihapus');
+            }
+            GrupAkses::whereIn('id_grup', $this->request['id_cb'] ?? [$id])->delete();
+            UserGrup::destroy($this->request['id_cb'] ?? $id);
+            cache()->flush();
+            $this->cache->hapus_cache_untuk_semua('_cache_modul');
+            redirect_with('success', 'Grup pengguna berhasil dihapus');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('success', 'Grup pengguna gagal dihapus');
+        }
     }
 }

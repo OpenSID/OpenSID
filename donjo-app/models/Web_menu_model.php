@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Web_menu_model extends MY_Model
 {
     protected $table = 'menu';
-    private $urut_model;
+    private Urut_Model $urut_model;
 
     public function __construct()
     {
@@ -61,14 +61,14 @@ class Web_menu_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->like('nama', $cari);
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('enabled', $filter);
@@ -83,7 +83,7 @@ class Web_menu_model extends MY_Model
         return $this->paginasi($page_number, $jml_data);
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id()
             ->from($this->table)
@@ -124,9 +124,10 @@ class Web_menu_model extends MY_Model
             ->get()
             ->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             if ($data[$i]['link_tipe'] != 99) {
                 $data[$i]['link'] = menu_slug($data[$i]['link']);
@@ -138,7 +139,7 @@ class Web_menu_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['urut']      = $this->urut_model->urut_max(['parrent' => $this->session->parrent]) + 1;
@@ -149,7 +150,7 @@ class Web_menu_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data = $this->validasi($this->input->post());
         if ($data['link'] == '') {
@@ -163,7 +164,7 @@ class Web_menu_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -174,7 +175,7 @@ class Web_menu_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -185,7 +186,7 @@ class Web_menu_model extends MY_Model
         }
     }
 
-    public function menu_lock($id = '', $val = 1)
+    public function menu_lock($id = '', $val = 1): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -209,7 +210,7 @@ class Web_menu_model extends MY_Model
     // $arah:
     //		1 - turun
     // 		2 - naik
-    public function urut($id, $arah)
+    public function urut($id, $arah): void
     {
         $this->urut_model->urut($id, $arah, ['parrent' => $this->session->parrent]);
     }

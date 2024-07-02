@@ -76,7 +76,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 function buatConfig(?int $configId = null)
 {
-    $kodeDesa = configFaker('kecamatan')['kode'] . (configFaker('kecamatan')['awalan'] + mt_rand(1, configFaker('kecamatan')['desa']));
+    $kodeDesa = configFaker('kecamatan')['kode'] . (configFaker('kecamatan')['awalan'] + random_int(1, configFaker('kecamatan')['desa']));
 
     // Ambil data desa dari tracksid
     $ci = &get_instance();
@@ -98,7 +98,7 @@ function buatConfig(?int $configId = null)
             'nama_kecamatan'    => nama_terbatas($desa->nama_kec),
             'kode_kecamatan'    => bilangan($desa->kode_kec),
             'nama_kepala_camat' => faker()->name,
-            'nip_kepala_camat'  => faker()->numberBetween(1000000000000000, 9999999999999999),
+            'nip_kepala_camat'  => faker()->numberBetween(1_000_000_000_000_000, 9_999_999_999_999_999),
             'nama_kabupaten'    => nama_terbatas($desa->nama_kab),
             'kode_kabupaten'    => bilangan($desa->kode_kab),
             'nama_propinsi'     => nama_terbatas($desa->nama_prov),

@@ -599,22 +599,12 @@ $config['proxy_ips'] = '';
 | - Nama Lembaga
 | - Facebook OpenDesa
 | - Telegram OpenDesa
-| - Telegram Kontributor
-| - Github OpenSID
-| - Website OpenDesa
-| - Forum OpenDesa
-| - Youtube OpenDesa
 |
 */
-$config['nama_aplikasi']  = 'OpenSID';
-$config['nama_lembaga']   = 'OpenDesa';
-$config['fb_opendesa']    = 'https://www.facebook.com/groups/komunitasopendesa';
-$config['tg_opendesa']    = 'https://t.me/komunitasopensidstop';
-$config['tg_kontributor'] = 'https://t.me/+mi5ydVtVfmw0YWY1';
-$config['github']         = 'https://github.com/OpenSID/OpenSID';
-$config['website']        = 'https://opendesa.id';
-$config['forum']          = 'https://forum.opendesa.id';
-$config['youtube']        = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
+$config['nama_aplikasi'] = 'OpenSID';
+$config['nama_lembaga']  = 'OpenDesa';
+$config['fb_opendesa']   = 'https://www.facebook.com/groups/komunitasopendesa';
+$config['tg_opendesa']   = 'https://t.me/komunitasopensidstop';
 
 /*
 |--------------------------------------------------------------------------
@@ -644,7 +634,8 @@ $config['server_layanan'] = 'https://layanan.opendesa.id';
 |--------------------------------------------------------------------------
 |
 */
-$config['rilis_umum'] = 'https://api.github.com/repos/opensid/opensid/releases/latest';
+$config['rilis_umum']    = 'https://api.github.com/repos/opensid/opensid/releases/latest';
+$config['rilis_premium'] = 'https://api.github.com/repos/opensid/rilis-premium/releases/latest';
 
 /*
 |--------------------------------------------------------------------------
@@ -684,7 +675,9 @@ $config['api_google_recaptcha'] = 'https://google.com/recaptcha/api/';
 |--------------------------------------------------------------------------
 |
 */
-$config['views_blade'] = RESOURCESPATH . 'views/';
+$config['views_blade'] = [
+    RESOURCESPATH . 'views/',
+];
 
 /*
 |--------------------------------------------------------------------------

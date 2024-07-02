@@ -58,7 +58,7 @@ class Menu extends Admin_Controller
         $this->sub_modul_ini = 'menu';
     }
 
-    public function clear($parrent = 0)
+    public function clear($parrent = 0): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
@@ -67,7 +67,7 @@ class Menu extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         $data['p']   = $p;
         $data['o']   = $o;
@@ -93,7 +93,7 @@ class Menu extends Admin_Controller
         $this->render('menu/table', $data);
     }
 
-    public function ajax_menu($id = '')
+    public function ajax_menu($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -124,7 +124,7 @@ class Menu extends Admin_Controller
         $this->load->view('menu/ajax_menu_form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         if ($cari = $this->input->post('cari')) {
             $_SESSION['cari'] = $cari;
@@ -134,7 +134,7 @@ class Menu extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -145,49 +145,49 @@ class Menu extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->web_menu_model->insert();
         redirect($this->controller);
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->web_menu_model->update($id);
         redirect($this->controller);
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h');
         $this->web_menu_model->delete($id);
         redirect($this->controller);
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
         $this->web_menu_model->delete_all();
         redirect($this->controller);
     }
 
-    public function menu_lock($id = '')
+    public function menu_lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->web_menu_model->menu_lock($id, 0);
         redirect($this->controller);
     }
 
-    public function menu_unlock($id = '')
+    public function menu_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->web_menu_model->menu_lock($id, 1);
         redirect($this->controller);
     }
 
-    public function urut($id = 0, $arah = 0)
+    public function urut($id = 0, $arah = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->web_menu_model->urut($id, $arah);

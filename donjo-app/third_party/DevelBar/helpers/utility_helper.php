@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 // ------------------------------------------------------------------------
 
 if (! function_exists('image_base64_encode')) {
-    function image_base64_encode($image)
+    function image_base64_encode($image): string
     {
         $type = pathinfo($image, PATHINFO_EXTENSION);
         $data = file_get_contents($image);
@@ -61,12 +61,14 @@ if (! function_exists('check_ci_version')) {
         $ci_version = htmlentities($ci_version);
 
         preg_match("/CI_VERSION',\\s'(.*)'\\)/", $ci_version, $matches);
-
-        if (count($matches) && version_compare($matches[1], CI_VERSION, '>')) {
-            return $matches[1];
+        if (! count($matches)) {
+            return false;
+        }
+        if (! version_compare($matches[1], CI_VERSION, '>')) {
+            return false;
         }
 
-        return false;
+        return $matches[1];
     }
 }
 

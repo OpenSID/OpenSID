@@ -35,214 +35,204 @@
  *
  */
 
+use App\Models\Line as LineModel;
+use Illuminate\View\View;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Line extends Admin_Controller
 {
+    private int $tip    = 2;
+    private int $parent = 1;
+    private int $tipe   = 0;
+
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('plan_line_model');
         $this->modul_ini     = 'pemetaan';
         $this->sub_modul_ini = 'pengaturan-peta';
     }
 
-    public function clear()
+    public function index(): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        $data = ['tip' => $this->tip, 'tipe' => $this->input->get('tipe') ?? $this->tipe,  'parent' => $this->input->get('parent') ?? $this->parent, 'parent_jenis' => ''];
+        if ($data['tipe'] == '2') {
+            $data['parent_jenis'] = LineModel::find($data['parent'])->nama ?? '';
+        }
+        $data['status'] = [LineModel::LOCK => 'Aktif', LineModel::UNLOCK => 'Non Aktif'];
 
-        redirect($this->controller);
+        view('admin.peta.line.index', $data);
     }
 
-    public function index($p = 1, $o = 0)
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            $parent = $this->input->get('parent') ?? $this->parent;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
+            $tipe = $this->input->get('tipe') ?? $this->tipe;
+
+            return datatables()->of(LineModel::whereParrent($parent)->whereTipe($tipe))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if ($row->tipe == LineModel::ROOT) {
+                        $aksi .= '<a href="' . route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                    }
+
+                    if (can('u')) {
+                        if ($row->tipe == LineModel::ROOT) {
+                            $aksi .= '<a href="' . route('line.ajax_add_sub_line', $row->id) . '" class="btn bg-olive btn-sm"  title="Tambah Kategori  ' . $row->nama . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori ' . $row->nama . '"><i class="fa fa-plus"></i></a> ';
+                        }
+
+                        if ($row->enabled == LineModel::UNLOCK) {
+                            $aksi .= '<a href="' . route('line.lock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        }
+
+                        if ($row->enabled == LineModel::LOCK) {
+                            $aksi .= '<a href="' . route('line.unlock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . route('line.delete', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == LineModel::LOCK ? 'Ya' : 'Tidak')
+                ->editColumn('color', static fn ($row): string => '<hr style="vertical-align: middle; margin: 0; border-bottom: ' . $row->tebal . 'px ' . $row->jenis . '  ' . $row->color . '">')
+                ->rawColumns(['aksi', 'ceklist', 'color'])
+                ->make();
         }
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
-        }
-
-        $data['per_page'] = $_SESSION['per_page'];
-        $data['paging']   = $this->plan_line_model->paging($p, $o);
-        $data['main']     = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']  = $this->plan_line_model->autocomplete();
-        $data['tip']      = 2;
-
-        $this->render('line/table', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = '')
+    public function form($parent = 1, $id = ''): View
     {
         $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $this->parent = $parent;
+
+        $data['aksi']        = 'Tambah';
+        $data['line']        = null;
+        $data['form_action'] = route('line.insert', $this->parent);
 
         if ($id) {
-            $data['line']        = $this->plan_line_model->get_line($id) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update/{$id}/{$p}/{$o}");
-        } else {
-            $data['line']        = null;
-            $data['form_action'] = site_url("{$this->controller}/insert");
+            $data['aksi']        = 'Ubah';
+            $data['line']        = LineModel::find($id)->toArray();
+            $data['form_action'] = route('line.update', implode('/', [$this->parent, $id]));
         }
 
-        $data['tip'] = 2;
+        $data['tip'] = $this->tip;
 
-        $this->render('line/form', $data);
+        return view('admin.peta.line.form', $data);
     }
 
-    public function sub_line($line = 1)
+    public function ajax_add_sub_line(int $parent = 0)
     {
-        $data['subline'] = $this->plan_line_model->list_sub_line($line);
-        $data['line']    = $this->plan_line_model->get_line($line);
-        $data['tip']     = 2;
-        $this->render('line/sub_line_table', $data);
+        $data['form_action'] = route("line.insert.{$parent}");
+        $data['tipe']        = LineModel::CHILD;
+
+        return view('admin.peta.line.ajax_form', $data);
     }
 
-    public function ajax_add_sub_line($line = 0, $id = 0)
+    public function insert(int $parent): void
     {
         $this->redirect_hak_akses('u');
-        if ($id) {
-            $data['line']        = $this->plan_line_model->get_line($id) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update_sub_line/{$line}/{$id}");
-        } else {
-            $data['line']        = null;
-            $data['form_action'] = site_url("{$this->controller}/insert_sub_line/{$line}");
+        $dataInsert            = $this->validasi($this->input->post());
+        $dataInsert['parrent'] = $parent;
+        $tipe                  = $this->input->post('tipe') ?? $this->tipe($parent);
+        $dataInsert['tipe']    = $tipe;
+
+        try {
+            LineModel::create($dataInsert);
+            redirect_with('success', 'Tipe garis berhasil disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Tipe garis gagal disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
-
-        $this->load->view('line/ajax_add_sub_line_form', $data);
     }
 
-    public function search()
+    public function update($parent, $id): void
     {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
+        $this->redirect_hak_akses('u');
+        $dataUpdate            = $this->validasi($this->input->post());
+        $dataUpdate['parrent'] = $parent;
+        $tipe                  = $this->tipe($parent);
+        $dataUpdate['tipe']    = $tipe;
+
+        try {
+            LineModel::where(['id' => $id, 'parrent' => $parent])->update($dataUpdate);
+            redirect_with('success', 'Tipe garis berhasil disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Tipe garis gagal disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
-
-        redirect($this->controller);
     }
 
-    public function filter()
+    public function delete($parent, $id = null): void
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
+        $tipe = $this->tipe($parent);
+        $this->redirect_hak_akses('h', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+
+        try {
+            LineModel::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'Tipe garis berhasil dihapus', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Tipe garis gagal dihapus', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
-
-        redirect($this->controller);
     }
 
-    public function insert($tip = 1)
+    public function lock($parent, $id): void
     {
         $this->redirect_hak_akses('u');
-        $this->plan_line_model->insert($tip);
+        $tipe = $this->tipe($parent);
 
-        redirect("{$this->controller}/index/{$tip}");
+        try {
+            LineModel::where(['id' => $id])->update(['enabled' => LineModel::LOCK]);
+            redirect_with('success', 'Tipe garis berhasil dinonaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Tipe garis gagal dinonaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        }
     }
 
-    public function update($id = '', $p = 1, $o = 0)
+    public function unlock($parent, $id): void
     {
         $this->redirect_hak_akses('u');
-        $this->plan_line_model->update($id);
+        $tipe = $this->tipe($parent);
 
-        redirect("{$this->controller}/index/{$p}/{$o}");
+        try {
+            LineModel::where(['id' => $id])->update(['enabled' => LineModel::UNLOCK]);
+            redirect_with('success', 'Tipe garis berhasil diaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Tipe garis gagal diaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        }
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    private function validasi($post)
     {
-        $this->redirect_hak_akses('h');
-        $this->plan_line_model->delete($id);
-
-        redirect("{$this->controller}/index/{$p}/{$o}");
+        return [
+            'nama'  => nomor_surat_keputusan($post['nama']),
+            'jenis' => nomor_surat_keputusan($post['jenis']),
+            'tebal' => bilangan($post['tebal']),
+            'color' => warna($post['color']),
+        ];
     }
 
-    public function delete_all($p = 1, $o = 0)
+    private function tipe($parent)
     {
-        $this->redirect_hak_akses('h');
-        $this->plan_line_model->delete_all();
-
-        redirect("{$this->controller}/index/{$p}/{$o}");
-    }
-
-    public function line_lock($id = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_line_model->line_lock($id, 1);
-
-        redirect($this->controller);
-    }
-
-    public function line_unlock($id = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_line_model->line_lock($id, 2);
-
-        redirect($this->controller);
-    }
-
-    public function insert_sub_line($line = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_line_model->insert_sub_line($line);
-
-        redirect("{$this->controller}/sub_line/{$line}");
-    }
-
-    public function update_sub_line($line = '', $id = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_line_model->update_sub_line($id);
-
-        redirect("{$this->controller}/sub_line/{$line}");
-    }
-
-    public function delete_sub_line($line = '', $id = '')
-    {
-        $this->redirect_hak_akses('h');
-        $this->plan_line_model->delete_sub_line($id);
-
-        redirect("{$this->controller}/sub_line/{$line}");
-    }
-
-    public function delete_all_sub_line($line = '')
-    {
-        $this->redirect_hak_akses('h');
-        $this->plan_line_model->delete_all_sub_line();
-
-        redirect("{$this->controller}/sub_line/{$line}");
-    }
-
-    public function line_lock_sub_line($line = '', $id = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_line_model->line_lock($id, 1);
-
-        redirect("{$this->controller}/sub_line/{$line}");
-    }
-
-    public function line_unlock_sub_line($line = '', $id = '')
-    {
-        $this->redirect_hak_akses('u');
-        $this->plan_line_model->line_lock($id, 2);
-
-        redirect("{$this->controller}/sub_line/{$line}");
+        return ($parent == 1) ? LineModel::ROOT : LineModel::CHILD;
     }
 }

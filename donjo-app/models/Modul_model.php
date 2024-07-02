@@ -58,8 +58,9 @@ class Modul_model extends MY_Model
             ->order_by('urut')
             ->get('setting_modul')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']       = $i + 1;
             $data[$i]['submodul'] = $this->list_sub_modul($data[$i]['id']);
         }
@@ -80,8 +81,9 @@ class Modul_model extends MY_Model
             ->order_by('urut')
             ->get('setting_modul')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             if ($this->ada_sub_modul($data[$i]['id'])) {
                 $data[$i]['modul']    = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
                 $data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
@@ -89,12 +91,10 @@ class Modul_model extends MY_Model
                 if (! empty($data[$i]['submodul']) || ! empty($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b'))) {
                     $aktif[] = $data[$i];
                 }
-            } else {
+            } elseif ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b')) {
                 // Modul yang tidak boleh diakses tidak dimasukkan
-                if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b')) {
-                    $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
-                    $aktif[]           = $data[$i];
-                }
+                $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
+                $aktif[]           = $data[$i];
             }
         }
 
@@ -146,8 +146,9 @@ class Modul_model extends MY_Model
             ->order_by('urut')
             ->get('setting_modul')
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']    = $i + 1;
             $data[$i]['modul'] = str_replace('[Pemerintah Desa]', ucwords(setting('sebutan_pemerintah_desa')), SebutanDesa($data[$i]['modul']));
         }
@@ -174,7 +175,7 @@ class Modul_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->grup_start()
@@ -184,7 +185,7 @@ class Modul_model extends MY_Model
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($status = $this->session->status) {
             $this->db->where('aktif', $status);
@@ -196,7 +197,7 @@ class Modul_model extends MY_Model
         return $this->config_id()->get_where('setting_modul', ['id' => $id])->row_array();
     }
 
-    public function update($id)
+    public function update($id): void
     {
         $data          = $this->input->post();
         $data['modul'] = strip_tags($data['modul']);
@@ -209,13 +210,13 @@ class Modul_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    private function set_aktif_submodul($id, $aktif)
+    private function set_aktif_submodul(int $id, int $aktif)
     {
         $outp = true;
 
         $submodul      = $this->config_id()->select('id')->where('parent', $id)->get('setting_modul')->result_array();
         $list_submodul = array_column($submodul, 'id');
-        if (empty($list_submodul)) {
+        if ($list_submodul === []) {
             return;
         }
 
@@ -247,7 +248,7 @@ class Modul_model extends MY_Model
         1 - web hanya bisa diakses petugas web
         2 - web non-aktif sama sekali
     */
-    public function default_server()
+    public function default_server(): void
     {
         $outp = true;
 
@@ -311,7 +312,7 @@ class Modul_model extends MY_Model
      * @param $id  id
      * @param $val status : 1 = Unlock, 2 = Lock
      */
-    public function lock($id, $val)
+    public function lock($id, $val): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -332,7 +333,7 @@ class Modul_model extends MY_Model
             $list_icon = file_get_contents($file);
             $list_icon = explode('.', $list_icon);
 
-            return array_map(static function ($a) { return explode(':', $a)[0]; }, $list_icon);
+            return array_map(static fn ($a): string => explode(':', $a)[0], $list_icon);
         }
 
         return false;

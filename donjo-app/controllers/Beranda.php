@@ -55,15 +55,13 @@ class Beranda extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
-        $this->isAdmin = $this->session->isAdmin->pamong;
+        $this->modul_ini = 'beranda';
+        $this->isAdmin   = $this->session->isAdmin->pamong;
     }
 
     public function index()
     {
         get_pesan_opendk(); //ambil pesan baru di opendk
-
-        $this->modul_ini = 'beranda';
 
         $this->load->library('saas');
         $configId = identitas('id');
@@ -84,8 +82,10 @@ class Beranda extends Admin_Controller
         return view('admin.home.index', $data);
     }
 
-    private function getUpdate()
+    private function getUpdate(): array
     {
+        $info = [];
+
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
             $url_rilis = config_item('rilis_umum');
 
@@ -121,22 +121,12 @@ class Beranda extends Admin_Controller
     protected function logSurat()
     {
         return LogSurat::whereNull('deleted_at')
-            ->when($this->isAdmin->jabatan_id == kades()->id, static function ($q) {
-                return $q->when(setting('tte') == 1, static function ($tte) {
-                    return $tte->where('tte', '=', 1);
-                })
-                    ->when(setting('tte') == 0, static function ($tte) {
-                        return $tte->where('verifikasi_kades', '=', '1');
-                    })
-                    ->orWhere(static function ($verifikasi) {
-                        $verifikasi->whereNull('verifikasi_operator');
-                    });
-            })
-            ->when($this->isAdmin->jabatan_id == sekdes()->id, static function ($q) {
-                return $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator');
-            })
-            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static function ($q) {
-                return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
-            })->count();
+            ->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                ->orWhere(static function ($verifikasi): void {
+                    $verifikasi->whereNull('verifikasi_operator');
+                }))
+            ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count();
     }
 }

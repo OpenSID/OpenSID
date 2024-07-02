@@ -59,14 +59,14 @@ class Analisis_kategori extends Admin_Controller
         $this->list_session      = ['cari', 'filter', 'state'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata(['cari']);
 
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         unset($_SESSION['cari2']);
         $data['p'] = $p;
@@ -92,7 +92,7 @@ class Analisis_kategori extends Admin_Controller
         $this->render('analisis_kategori/table', $data);
     }
 
-    public function form($p = 1, $o = 0, $id = 0)
+    public function form($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['p'] = $p;
@@ -109,7 +109,7 @@ class Analisis_kategori extends Admin_Controller
         $this->load->view('analisis_kategori/ajax_form', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -121,7 +121,7 @@ class Analisis_kategori extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->analisis_kategori_model->insert();
@@ -129,7 +129,7 @@ class Analisis_kategori extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function update($p = 1, $o = 0, $id = 0)
+    public function update($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
         $this->analisis_kategori_model->update($id);
@@ -137,7 +137,7 @@ class Analisis_kategori extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete($p = 1, $o = 0, $id = 0)
+    public function delete($p = 1, $o = 0, $id = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->analisis_kategori_model->delete($id);
@@ -145,7 +145,7 @@ class Analisis_kategori extends Admin_Controller
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h');
         $this->analisis_kategori_model->delete_all();

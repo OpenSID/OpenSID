@@ -39,14 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_1912_ke_2001 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         $this->siskeudes_2019();
         // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
         $this->db->query('ALTER TABLE user MODIFY COLUMN last_login datetime NULL');
     }
 
-    private function siskeudes_2019()
+    private function siskeudes_2019(): void
     {
         // Ubah tabel keuangan untuk Siskeudes 2019
         if (! $this->db->field_exists('Kd_SubRinci', 'keuangan_ta_anggaran')) {

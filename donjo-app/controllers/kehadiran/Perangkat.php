@@ -45,18 +45,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Perangkat extends Web_Controller
 {
-    private $tgl;
-    private $jam;
+    private string $tgl;
+    private string $jam;
     private $ip;
     private $mac;
     private $pengunjung;
-    private $url;
+    private string $url;
 
     public function __construct()
     {
         parent::__construct();
         if (setting('tampilkan_kehadiran') == '0') {
-            return show_404();
+            show_404();
+
+            return;
         }
 
         $this->tgl        = date('Y-m-d');
@@ -87,7 +89,7 @@ class Perangkat extends Web_Controller
         return view('kehadiran.index', $data);
     }
 
-    public function cek($ektp = false)
+    public function cek($ektp = false): void
     {
         if (! $this->input->post()) {
             redirect($this->url);
@@ -98,25 +100,25 @@ class Perangkat extends Web_Controller
         $tag      = trim($this->request['tag']);
 
         $user = User::with(['pamong'])
-            ->whereHas('pamong', static function ($query) use ($username) {
+            ->whereHas('pamong', static function ($query) use ($username): void {
                 $query
                     ->status('1') // pamong aktif
-                    ->where(static function ($query) use ($username) {
+                    ->where(static function ($query) use ($username): void {
                         $query
                             ->orWhere('username', $username)
                             ->orWhere('pamong_nik', $username)
-                            ->orWhereHas('penduduk', static function ($query) use ($username) {
+                            ->orWhereHas('penduduk', static function ($query) use ($username): void {
                                 $query->where('nik', $username);
                             });
                     });
             })
-            ->orWhereHas('pamong', static function ($query) use ($tag) {
+            ->orWhereHas('pamong', static function ($query) use ($tag): void {
                 $query
                     ->status('1') // pamong aktif
-                    ->where(static function ($query) use ($tag) {
+                    ->where(static function ($query) use ($tag): void {
                         $query
                             ->orWhere('pamong_tag_id_card', $tag)
-                            ->orWhereHas('penduduk', static function ($query) use ($tag) {
+                            ->orWhereHas('penduduk', static function ($query) use ($tag): void {
                                 $query->where('tag_id_card', $tag);
                             });
                     });
@@ -128,11 +130,9 @@ class Perangkat extends Web_Controller
                 set_session('error', 'ID Card Salah. Coba Lagi');
                 redirect($this->url);
             }
-        } else {
-            if (password_verify($password, $user->password) === false) {
-                set_session('error', 'Username atau Password Salah');
-                redirect($this->url);
-            }
+        } elseif (password_verify($password, $user->password) === false) {
+            set_session('error', 'Username atau Password Salah');
+            redirect($this->url);
         }
 
         $this->session->masuk = [
@@ -146,12 +146,12 @@ class Perangkat extends Web_Controller
         redirect('kehadiran');
     }
 
-    public function masukEktp()
+    public function masukEktp(): void
     {
         $this->masuk(true);
     }
 
-    public function cekEktp()
+    public function cekEktp(): void
     {
         $this->url = 'kehadiran/masuk-ektp';
         $this->cek(true);
@@ -170,7 +170,7 @@ class Perangkat extends Web_Controller
         return view('kehadiran.masuk', $data);
     }
 
-    public function checkInOut()
+    public function checkInOut(): void
     {
         $this->cekLogin();
         $pamong_id        = $this->session->masuk['pamong_id'];
@@ -184,20 +184,20 @@ class Perangkat extends Web_Controller
                 'status_kehadiran' => $status_kehadiran,
             ]);
 
-            $this->session->kehadiran = $check_in ? true : false;
+            $this->session->kehadiran = (bool) $check_in;
         } else {
             $check_out = Kehadiran::where('tanggal', $this->tgl)->where('pamong_id', $pamong_id)->latest('jam_masuk')->take(1)->update([
                 'jam_keluar'       => $this->jam,
                 'status_kehadiran' => $status_kehadiran,
             ]);
 
-            $this->session->kehadiran = $check_out ? true : false;
+            $this->session->kehadiran = (bool) $check_out;
         }
 
         redirect('kehadiran');
     }
 
-    public function logout()
+    public function logout(): void
     {
         $this->session->unset_userdata(['masuk', 'kehadiran', 'mac_address']);
 
@@ -224,7 +224,7 @@ class Perangkat extends Web_Controller
         $cek_jam     = JamKerja::jamKerja()->first();
 
         return [
-            'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && $cek_gawai === true,
+            'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && $cek_gawai,
             'judul'  => 'Tidak bisa masuk!',
             'pesan'  => $this->getStatusPesan([
                 'cek_gawai'   => $cek_gawai,

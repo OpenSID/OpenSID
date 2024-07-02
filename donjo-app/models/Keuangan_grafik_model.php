@@ -1182,7 +1182,7 @@ class Keuangan_grafik_model extends MY_Model
         return $this->config_id('keuangan_ta_spp_rinci', 'keuangan_ta_spp_rinci')->get('keuangan_ta_spp_rinci')->result_array();
     }
 
-    private function data_widget_pendapatan($tahun, $opt = false)
+    private function data_widget_pendapatan($tahun, bool $opt = false)
     {
         if ($opt) {
             $raw_data       = $this->r_pd_widget($tahun, $opt = true);
@@ -1230,14 +1230,14 @@ class Keuangan_grafik_model extends MY_Model
             }
         }
 
-        foreach ($tmp_pendapatan as $key => $value) {
+        foreach ($tmp_pendapatan as $value) {
             $res_pendapatan[] = $value;
         }
 
         return $res_pendapatan;
     }
 
-    private function data_widget_belanja($tahun, $opt = false)
+    private function data_widget_belanja($tahun, bool $opt = false)
     {
         if ($opt) {
             $raw_data    = $this->r_bd_widget($tahun, $opt = true);
@@ -1309,14 +1309,14 @@ class Keuangan_grafik_model extends MY_Model
             }
         }
 
-        foreach ($tmp_belanja as $key => $value) {
+        foreach ($tmp_belanja as $value) {
             $res_belanja[] = $value;
         }
 
         return $res_belanja;
     }
 
-    private function data_widget_pelaksanaan($tahun, $opt = false)
+    private function data_widget_pelaksanaan($tahun, bool $opt = false)
     {
         if ($opt) {
             $raw_data        = $this->rp_apbd_widget($tahun, $opt = true);
@@ -1400,7 +1400,7 @@ class Keuangan_grafik_model extends MY_Model
             }
         }
 
-        foreach ($tmp_pelaksanaan as $key => $value) {
+        foreach ($tmp_pelaksanaan as $value) {
             $res_pelaksanaan[] = $value;
         }
 
@@ -1413,6 +1413,7 @@ class Keuangan_grafik_model extends MY_Model
             $tahun = date('Y');
         }
         $thn = $this->keuangan_model->list_tahun_anggaran();
+
         if (empty($thn)) {
             return null;
         }
@@ -1423,18 +1424,27 @@ class Keuangan_grafik_model extends MY_Model
 
         $raw_data = $this->data_keuangan_tema($tahun);
 
-        foreach ($raw_data as $keys => $raws) {
-            foreach ($raws as $raw) {
-                $data         = $this->raw_perhitungan($raw);
-                $data['nama'] = $raw['nama'];
+        $res = [];
 
-                $res[$tahun][$keys][] = $data;
+        if (is_array($raw_data)) {
+            foreach ($raw_data as $keys => $raws) {
+                if (is_array($raws)) {
+                    foreach ($raws as $raw) {
+                        if (is_array($raw) && isset($raw['nama'])) {
+                            $data                 = $this->raw_perhitungan($raw);
+                            $data['nama']         = $raw['nama'];
+                            $res[$tahun][$keys][] = $data;
+                        }
+                    }
+                }
             }
+        } else {
+            return null; // Tindakan jika $raw_data bukan array
         }
 
         return [
             //Encode ke JSON
-            'data'  => json_encode($res),
+            'data'  => json_encode($res, JSON_THROW_ON_ERROR),
             'tahun' => $this->keuangan_model->list_tahun_anggaran(),
             //Cari tahun anggaran terbaru (terbesar secara value)
             'tahun_terbaru' => $this->keuangan_model->list_tahun_anggaran()[0],
@@ -1489,6 +1499,9 @@ class Keuangan_grafik_model extends MY_Model
 
     public function raw_perhitungan($raw)
     {
+        if (! is_array($raw)) {
+            return;
+        }
         if ($raw['nama'] === 'PEMBIAYAAN') {
             $penerimaan_pembiayaan   = $raw['realisasi'] + $raw['realisasi_pendapatan'] + ($raw['realisasi_belanja'] - $raw['realisasi_belanja_um']) + $raw['realisasi_belanja_spj'] + $raw['realisasi_bunga'] + $raw['realisasi_jurnal'] + $raw['realisasi_biaya'];
             $pengeluaraan_pembiayaan = $raw['anggaran'] - $penerimaan_pembiayaan;

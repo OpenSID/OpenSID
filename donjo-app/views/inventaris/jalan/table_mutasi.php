@@ -92,7 +92,7 @@
 														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
 															<?php foreach ($pamong as $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-																	<?= (strpos(strtolower($data['jabatan']), 'Kepala Desa') !== false) ? 'selected' : '' ?>>
+																	<?= (stripos($data['jabatan'], 'Kepala Desa') !== false) ? 'selected' : '' ?>>
 																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 																</option>
 															<?php endforeach; ?>
@@ -135,7 +135,7 @@
 														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
 															<?php foreach ($pamong as $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-																	<?= (strpos(strtolower($data['jabatan']), 'Kepala Desa') !== false) ? 'selected' : '' ?>>
+																	<?= (stripos($data['jabatan'], 'Kepala Desa') !== false) ? 'selected' : '' ?>>
 																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 																</option>
 															<?php endforeach; ?>

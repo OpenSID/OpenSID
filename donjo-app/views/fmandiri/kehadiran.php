@@ -62,7 +62,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-					<?php foreach ($perangkat as $key => $item): ?>
+					<?php foreach ($perangkat as $item): ?>
 						<tr>
 							<td class="padat"></td>
 							<td><?= $item->pamong_nama ?></td>
@@ -70,7 +70,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<td class="padat"><?= empty($item->status_kehadiran) ? '-' : ucfirst($item->status_kehadiran); ?></td>
 							<td class="padat">
 								<?php if ($item->status_kehadiran == 'hadir' && setting('tampilkan_kehadiran') == '1'): ?>
-									<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) == date('Y-m-d')): ?>
+									<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) === date('Y-m-d')): ?>
 										<a class="btn btn-primary btn-sm btn-proses btn-social"><i class="fa fa-exclamation"></i> Telah dilaporkan</a>
 									<?php else: ?>
 										<a href="#" data-href="<?= site_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}"); ?>" class="btn btn-primary btn-sm btn-social" title="Laporkan perangkat desa" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-exclamation"></i> Laporkan</a>

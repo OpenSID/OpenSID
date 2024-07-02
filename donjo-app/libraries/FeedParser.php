@@ -46,26 +46,25 @@
  */
 class FeedParser
 {
-    private $xmlParser;
-    private $insideItem = [];                  // Keep track of current position in tag tree
+    private $xmlParser;  // List of tag names which have sub tags
+    private array $insideItem = [];                  // Keep track of current position in tag tree
     private $currentTag;                     // Last entered tag name
     private $currentAttr;                     // Attributes array of last entered tag
-    private $namespaces = [
+    private array $namespaces = [
         'http://purl.org/rss/1.0/'                 => 'RSS 1.0',
         'http://purl.org/rss/1.0/modules/content/' => 'RSS 2.0',
         'http://www.w3.org/2005/Atom'              => 'ATOM 1',
     ];
 
     // Namespaces to detact feed version
-    private $itemTags    = ['ITEM', 'ENTRY'];    // List of tag names which holds a feed item
-    private $channelTags = ['CHANNEL', 'FEED'];  // List of tag names which holds all channel elements
-    private $dateTags    = ['UPDATED', 'PUBDATE', 'DC:DATE'];
-    private $hasSubTags  = ['IMAGE', 'AUTHOR'];  // List of tag names which have sub tags
-    private $channels    = [];
-    private $items       = [];
-    private $itemIndex   = 0;
-    private $url;                     // The parsed url
-    private $version;                     // Detected feed version
+    private array $itemTags    = ['ITEM', 'ENTRY'];    // List of tag names which holds a feed item
+    private array $channelTags = ['CHANNEL', 'FEED'];  // List of tag names which holds all channel elements
+    private array $dateTags    = ['UPDATED', 'PUBDATE', 'DC:DATE'];
+    private array $hasSubTags  = ['IMAGE', 'AUTHOR'];  // List of tag names which have sub tags
+    private array $channels    = [];
+    private array $items       = [];
+    private string $url;                     // The parsed url
+    private string $version = '';                     // Detected feed version
 
     /**
      * Constructor - Initialize and set event handler functions to xmlParser
@@ -88,7 +87,7 @@ class FeedParser
      *
      * @return array - All chennels as associative array
      */
-    public function getChannels()
+    public function getChannels(): array
     {
         return $this->channels;
     }
@@ -98,7 +97,7 @@ class FeedParser
      *
      * @return array - All feed items as associative array
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }
@@ -108,7 +107,7 @@ class FeedParser
      *
      * @return number
      */
-    public function getTotalItems()
+    public function getTotalItems(): int
     {
         return count($this->items);
     }
@@ -128,8 +127,6 @@ class FeedParser
         }
 
         throw new Exception('Item index is learger then total items.');
-
-        return false;
     }
 
     /**
@@ -147,8 +144,6 @@ class FeedParser
         }
 
         throw new Exception("Channel tag {$tagName} not found.");
-
-        return false;
     }
 
     /**
@@ -160,8 +155,6 @@ class FeedParser
     {
         if (empty($this->url)) {
             throw new Exception('Feed URL is not set yet.');
-
-            return false;
         }
 
         return $this->url;
@@ -190,13 +183,13 @@ class FeedParser
         $this->url  = $url;
         $URLContent = $this->getUrlContent();
 
-        if ($URLContent) {
+        if ($URLContent !== '' && $URLContent !== '0') {
             $segments = str_split($URLContent, 4096);
 
             foreach ($segments as $index => $data) {
-                $lastPiese = ((count($segments) - 1) == $index) ? true : false;
+                $lastPiese = (count($segments) - 1) == $index;
                 $result    = xml_parse($this->xmlParser, $data, $lastPiese);
-                if (! $result) {
+                if ($result === 0) {
                     log_message('error', sprintf(
                         'XML error: %s at line %d',
                         xml_error_string(xml_get_error_code($this->xmlParser)),
@@ -235,8 +228,6 @@ class FeedParser
     {
         if (empty($this->url)) {
             throw new Exception('URL to parse is empty!.');
-
-            return false;
         }
 
         if ($content = @file_get_contents($this->url)) {
@@ -254,7 +245,7 @@ class FeedParser
 
         curl_close($ch);
 
-        if (empty($error)) {
+        if ($error === '') {
             return $content;
         }
 

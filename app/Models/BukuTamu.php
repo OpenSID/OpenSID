@@ -88,16 +88,10 @@ class BukuTamu extends BaseModel
         $lokasi = LOKASI_FOTO_BUKU_TAMU . $this->foto;
 
         if (null === $this->foto || ! file_exists(FCPATH . $lokasi)) {
-            if ($this->jenis_kelamin == JenisKelaminEnum::LAKI_LAKI) {
-                $lokasi = FOTO_DEFAULT_PRIA;
-            } else {
-                $lokasi = FOTO_DEFAULT_WANITA;
-            }
-        } else {
-            $lokasi = base_url($lokasi);
+            return $this->jenis_kelamin == JenisKelaminEnum::LAKI_LAKI ? FOTO_DEFAULT_PRIA : FOTO_DEFAULT_WANITA;
         }
 
-        return $lokasi;
+        return base_url($lokasi);
     }
 
     public function scopeFilters($query, array $filters)
@@ -115,7 +109,7 @@ class BukuTamu extends BaseModel
      *
      * @param mixed $value
      */
-    public function setBidangAttribute($value)
+    public function setBidangAttribute($value): void
     {
         $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
     }
@@ -125,7 +119,7 @@ class BukuTamu extends BaseModel
      *
      * @param mixed $value
      */
-    public function setKeperluanAttribute($value)
+    public function setKeperluanAttribute($value): void
     {
         $this->attributes['keperluan'] = BukuKeperluan::find($value)->keperluan ?? null;
     }

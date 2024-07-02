@@ -53,11 +53,11 @@ class Migrasi_2010_ke_2011 extends MY_model
         return $hasil;
     }
 
-    private function tambah_kolom_ket($hasil)
+    private function tambah_kolom_ket(bool $hasil)
     {
         //tambah kolom keterangan di tabel kelompok_anggota
         if (! $this->db->field_exists('keterangan', 'kelompok_anggota')) {
-            $hasil = $hasil && $this->dbforge->add_column('kelompok_anggota', [
+            return $hasil && $this->dbforge->add_column('kelompok_anggota', [
                 'keterangan' => [
                     'type' => 'text',
                     'null' => true,

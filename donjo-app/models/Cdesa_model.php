@@ -84,7 +84,7 @@ class Cdesa_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         $cari = $this->session->cari;
         if ($cari) {
@@ -97,7 +97,7 @@ class Cdesa_model extends MY_Model
         }
     }
 
-    private function main_sql_c_desa()
+    private function main_sql_c_desa(): void
     {
         $this->config_id('c')
             ->from('cdesa c')
@@ -151,9 +151,10 @@ class Cdesa_model extends MY_Model
         $data = $this->db
             ->get()
             ->result_array();
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']     = $j + 1;
             $luas_persil        = $this->jumlah_luas($data[$i]['id_cdesa']);
             $data[$i]['basah']  = $luas_persil['BASAH'];
@@ -295,14 +296,14 @@ class Cdesa_model extends MY_Model
         return $id_cdesa;
     }
 
-    private function hapus_pemilik($id_cdesa)
+    private function hapus_pemilik($id_cdesa): void
     {
         $this->config_id()
             ->where('id_cdesa', $id_cdesa)
             ->delete('cdesa_penduduk');
     }
 
-    private function simpan_pemilik($id_cdesa, $id_pend)
+    private function simpan_pemilik($id_cdesa, $id_pend): void
     {
         // Hapus pemilik lama
         $this->hapus_pemilik($id_cdesa);
@@ -347,7 +348,7 @@ class Cdesa_model extends MY_Model
         return $data;
     }
 
-    public function hapus_cdesa($id)
+    public function hapus_cdesa($id): void
     {
         $this->config_id()
             ->where('id', $id)
@@ -373,7 +374,7 @@ class Cdesa_model extends MY_Model
 
     public function get_list_mutasi($id_cdesa, $id_persil = '')
     {
-        $nomor_cdesa = $this->config_id()
+        $this->config_id()
             ->select('nomor')
             ->where('id', $id_cdesa)
             ->get('cdesa')
@@ -403,7 +404,7 @@ class Cdesa_model extends MY_Model
         return $this->db->get()->result_array();
     }
 
-    private function lokasi_persil_query()
+    private function lokasi_persil_query(): void
     {
         $this->db->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
             (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
@@ -434,14 +435,14 @@ class Cdesa_model extends MY_Model
     }
 
     // TODO: ganti ke impor cdesa
-    public function impor_persil()
+    public function impor_persil(): void
     {
         $this->load->library('Spreadsheet_Excel_Reader');
         $data = new Spreadsheet_Excel_Reader($_FILES['persil']['tmp_name']);
 
         $sheet = 0;
         $baris = $data->rowcount($sheet_index = $sheet);
-        $kolom = $data->colcount($sheet_index = $sheet);
+        $data->colcount($sheet_index = $sheet);
 
         // TODO: Cek apakah ini masih digunakan
         for ($i = 2; $i <= $baris; $i++) {
@@ -532,12 +533,11 @@ class Cdesa_model extends MY_Model
         $hasil  = "<p {$div}>";
         $hasil .= $mutasi['sebabmutasi'];
         $hasil .= $keluar ? ' ke C No ' . str_pad($mutasi['cdesa_keluar'], 4, '0', STR_PAD_LEFT) : ' dari C No ' . str_pad($mutasi['cdesa_masuk'], 4, '0', STR_PAD_LEFT);
-        $hasil .= ! empty($mutasi['luas']) ? ', Seluas ' . number_format($mutasi['luas']) . ' m<sup>2</sup>, ' : null;
-        $hasil .= ! empty($mutasi['tanggal_mutasi']) ? tgl_indo_out($mutasi['tanggal_mutasi']) . '<br />' : null;
-        $hasil .= ! empty($mutasi['keterangan']) ? $mutasi['keterangan'] : null;
-        $hasil .= '</p>';
+        $hasil .= empty($mutasi['luas']) ? null : ', Seluas ' . number_format($mutasi['luas']) . ' m<sup>2</sup>, ';
+        $hasil .= empty($mutasi['tanggal_mutasi']) ? null : tgl_indo_out($mutasi['tanggal_mutasi']) . '<br />';
+        $hasil .= empty($mutasi['keterangan']) ? null : $mutasi['keterangan'];
 
-        return $hasil;
+        return $hasil . '</p>';
     }
 
     // TODO: apakah bisa diambil dari penduduk_model?
@@ -572,9 +572,10 @@ class Cdesa_model extends MY_Model
         $data = $query->result_array();
 
         if ($query->num_rows() > 0) {
-            $j = 0;
+            $j       = 0;
+            $counter = count($data);
 
-            for ($i = 0; $i < count($data); $i++) {
+            for ($i = 0; $i < $counter; $i++) {
                 if ($data[$i]['nik'] != '') {
                     $data1[$j]['id']   = $data[$i]['nik'];
                     $data1[$j]['nik']  = $data[$i]['nik'];
@@ -583,11 +584,10 @@ class Cdesa_model extends MY_Model
                     $j++;
                 }
             }
-            $hasil2 = $data1;
-        } else {
-            $hasil2 = false;
+
+            return $data1;
         }
 
-        return $hasil2;
+        return false;
     }
 }

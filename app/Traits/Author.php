@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 trait Author
 {
-    public static function bootAuthor()
+    public static function bootAuthor(): void
     {
         static::observe(AuthorObserver::class);
     }

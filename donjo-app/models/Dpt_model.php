@@ -68,7 +68,7 @@ class Dpt_model extends Penduduk_model
      * 4. Umur >= 17 tahun pada tanggal pemilihan ATAU sudah/pernah kawin (status kawin = KAWIN, CERAI HIDUP atau CERAI MATI)
      * 5. Pekerjaan bukan TNI atau POLRI
      */
-    private function syarat_dpt_sql()
+    private function syarat_dpt_sql(): void
     {
         $tanggal_pemilihan = $this->tanggal_pemilihan();
         $this->db
@@ -77,7 +77,7 @@ class Dpt_model extends Penduduk_model
             ->where("u.pekerjaan_id NOT IN ('6', '7')");
     }
 
-    private function cacatx_sql()
+    private function cacatx_sql(): void
     {
         $kf = $this->session->cacatx;
         if (isset($kf)) {
@@ -85,7 +85,7 @@ class Dpt_model extends Penduduk_model
         }
     }
 
-    private function menahunx_sql()
+    private function menahunx_sql(): void
     {
         $kf = $this->session->menahunx;
         if (isset($_kf)) {
@@ -203,12 +203,10 @@ class Dpt_model extends Penduduk_model
         $this->order_by_list($o);
 
         //Paging SQL
-        if ($page > 0) {
-            if ($this->session->per_page > 0) {
-                $jumlah_pilahan = $this->db->count_all_results('', false);
-                $paging         = $this->paginasi($page, $jumlah_pilahan);
-                $this->db->limit($paging->per_page, $paging->offset);
-            }
+        if ($page > 0 && $this->session->per_page > 0) {
+            $jumlah_pilahan = $this->db->count_all_results('', false);
+            $paging         = $this->paginasi($page, $jumlah_pilahan);
+            $this->db->limit($paging->per_page, $paging->offset);
         }
         $query_dasar = $this->db->select('u.*')->get_compiled_select();
 
@@ -226,9 +224,10 @@ class Dpt_model extends Penduduk_model
         $data = $this->db->query($sql)->result_array();
 
         //Formating Output
-        $j = $paging->offset ?? $offset;
+        $j       = $paging->offset ?? $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             // Ubah alamat penduduk lepas
             if (! $data[$i]['id_kk'] || $data[$i]['id_kk'] == 0) {
                 $penduduk = $this->config_id('p')
@@ -290,9 +289,11 @@ class Dpt_model extends Penduduk_model
         $this->db->group_by(['dusun', 'rw']);
 
         $data = $this->db->get()->result_array();
+        //Formating Output
+        $counter = count($data);
 
         //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
 

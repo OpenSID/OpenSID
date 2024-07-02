@@ -50,8 +50,8 @@ class First_penduduk_m extends MY_Model
 		(SELECT COUNT(p.id) FROM tweb_keluarga k inner join tweb_penduduk p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.kk_level = 1 and status_dasar = 1) AS jumlah_kk
 		FROM tweb_wil_clusterdesa u LEFT JOIN tweb_penduduk a ON u.id_kepala = a.id WHERE u.rt = '0' AND u.rw = '0'  ";
 
-        $query = $this->db->query($sql);
-        $data  = $this->config_id()
+        $this->db->query($sql);
+        $data = $this->config_id()
             ->select("
                 u.*, a.nama AS nama_kadus, a.nik AS nik_kadus,
                 (SELECT COUNT(rw.id) FROM tweb_wil_clusterdesa rw WHERE rw.config_id = u.config_id AND dusun = u.dusun AND rw <> '-' AND rt = '-') AS jumlah_rw,
@@ -68,9 +68,11 @@ class First_penduduk_m extends MY_Model
             ->order_by('u.dusun')
             ->get()
             ->result_array();
+        //Formating Output
+        $counter = count($data);
 
         //Formating Output
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
 
@@ -113,8 +115,9 @@ class First_penduduk_m extends MY_Model
             ->order_by('LPAD(u.nomor, 10, " ")')
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
         }
 
@@ -141,8 +144,9 @@ class First_penduduk_m extends MY_Model
             ->order_by('kode_jawaban ASC')
             ->get()
             ->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             switch ($sb) {
                 case 1: $this->db->join('tweb_penduduk p', 'r.id_subjek = p.id', 'left')
                     ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left');

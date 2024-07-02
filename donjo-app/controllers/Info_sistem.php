@@ -47,7 +47,7 @@ class Info_sistem extends Admin_Controller
         $this->load->helper('directory');
     }
 
-    public function index()
+    public function index(): void
     {
         // Logs viewer
         $this->load->library('Log_Viewer');
@@ -67,7 +67,7 @@ class Info_sistem extends Admin_Controller
         $this->render('setting/info_sistem/index', $data);
     }
 
-    public function remove_log()
+    public function remove_log(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -86,27 +86,18 @@ class Info_sistem extends Admin_Controller
         redirect($this->controller);
     }
 
-    private function convertDisk($disk)
-    {
-        $si_prefix = ['B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB'];
-        $base      = 1024;
-        $class     = min((int) log($disk, $base), count($si_prefix) - 1);
-
-        return sprintf('%1.2f', $disk / $base ** $class) . ' ' . $si_prefix[$class] . '<br />';
-    }
-
-    public function cache_desa()
+    public function cache_desa(): void
     {
         $this->redirect_hak_akses('u');
 
-        kosongkanFolder(config_item('cache_path'));
+        cache()->flush();
 
         status_sukses(true);
 
         redirect($this->controller);
     }
 
-    public function cache_blade()
+    public function cache_blade(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -117,7 +108,7 @@ class Info_sistem extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function set_permission_desa()
+    public function set_permission_desa(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -131,7 +122,7 @@ class Info_sistem extends Admin_Controller
             }
         }
 
-        if (! empty($error)) {
+        if ($error !== []) {
             $result['status']  = 0;
             $result['message'] = implode('<br />', $error);
         }
@@ -139,6 +130,6 @@ class Info_sistem extends Admin_Controller
         status_sukses(true);
         $this->output
             ->set_content_type('application/json')
-            ->set_output(json_encode($result));
+            ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
     }
 }

@@ -61,7 +61,7 @@ class Pengguna extends Admin_Controller
         ]);
     }
 
-    public function update()
+    public function update(): void
     {
         $data    = User::findOrFail(auth()->id);
         $newData = $this->validate($this->request);
@@ -80,7 +80,7 @@ class Pengguna extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = []): array
     {
         return [
             'nama'           => nama($request['nama']),
@@ -91,7 +91,7 @@ class Pengguna extends Admin_Controller
         ];
     }
 
-    public function update_password()
+    public function update_password(): void
     {
         $user = $this->validate_password($this->request);
 
@@ -110,7 +110,7 @@ class Pengguna extends Admin_Controller
         $pass_lama  = $request['pass_lama'];
         $pass_baru  = $request['pass_baru'];
         $pass_baru1 = $request['pass_baru1'];
-        $pwMasihMD5 = (strlen(auth()->password) == 32) && (stripos(auth()->password, '$') === false) ? true : false;
+        $pwMasihMD5 = (strlen(auth()->password) == 32) && (stripos(auth()->password, '$') === false);
 
         switch (true) {
             case empty($pass_lama) || empty($pass_baru) || empty($pass_baru1):
@@ -128,13 +128,8 @@ class Pengguna extends Admin_Controller
                 break;
 
             case $pwMasihMD5 && (md5($pass_lama) != auth()->password):
-                $respon = [
-                    'status' => false,
-                    'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
-                ];
-                break;
 
-            case ! $pwMasihMD5 && (password_verify($pass_lama, auth()->password) === false):
+            case ! $pwMasihMD5 && (! password_verify($pass_lama, auth()->password)):
                 $respon = [
                     'status' => false,
                     'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
@@ -176,7 +171,7 @@ class Pengguna extends Admin_Controller
         return $respon;
     }
 
-    public function kirim_verifikasi()
+    public function kirim_verifikasi(): void
     {
         $user = $this->db->where('id', $this->session->user)->get('user')->row();
 
@@ -213,7 +208,7 @@ class Pengguna extends Admin_Controller
 
         try {
             $user  = User::find($this->session->user);
-            $token = hash('sha256', $raw_token = mt_rand(100000, 999999));
+            $token = hash('sha256', $raw_token = random_int(100000, 999999));
 
             $user->id_telegram = $id_telegram;
             $user->token       = $token;
@@ -270,7 +265,7 @@ class Pengguna extends Admin_Controller
         ]);
     }
 
-    public function verifikasi(string $hash)
+    public function verifikasi(string $hash): void
     {
         $user = $this->db->where('id', $this->session->user)->get('user')->row();
 

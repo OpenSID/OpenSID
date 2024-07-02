@@ -46,9 +46,9 @@ trait Uuid
         static::observe(UuidObserver::class);
     }
 
-    public static function bootUuidFillable()
+    public static function bootUuidFillable(): void
     {
-        static::creating(static function ($model) {
+        static::creating(static function ($model): void {
             if (! in_array('uuid', $model->getFillable())) {
                 $model->fillable[] = 'uuid';
             }
@@ -81,30 +81,24 @@ trait Uuid
 
     /**
      * Get the primary key for the model.
-     *
-     * @return string
      */
-    public function getKeyName()
+    public function getKeyName(): string
     {
         return 'uuid';
     }
 
     /**
      * Determine if the model uses auto-incrementing primary keys.
-     *
-     * @return bool
      */
-    public function getIncrementing()
+    public function getIncrementing(): bool
     {
         return false;
     }
 
     /**
      * Get the key type of the model.
-     *
-     * @return string
      */
-    public function getKeyType()
+    public function getKeyType(): string
     {
         return 'string';
     }

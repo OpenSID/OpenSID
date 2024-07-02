@@ -43,12 +43,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Database_model extends MY_Model
 {
-    private $user         = 1;
-    private $engine       = 'InnoDB';
-    private $showProgress = 0;
+    private $user             = 1;
+    private $engine           = 'InnoDB';
+    private int $showProgress = 0;
 
     // define versi opensid dan script migrasi yang harus dijalankan
-    private $versionMigrate = [
+    private array $versionMigrate = [
         '2.4'     => ['migrate' => 'migrasi_24_ke_25', 'nextVersion' => '2.5'],
         'pra-2.5' => ['migrate' => 'migrasi_24_ke_25', 'nextVersion' => '2.5'],
         '2.5'     => ['migrate' => 'migrasi_25_ke_26', 'nextVersion' => '2.6'],
@@ -131,11 +131,12 @@ class Database_model extends MY_Model
         '24.03'   => ['migrate' => 'migrasi_2403_ke_2404', 'nextVersion' => '24.04'],
         '24.04'   => ['migrate' => 'migrasi_2404_ke_2405', 'nextVersion' => '24.05'],
         '24.05'   => ['migrate' => 'migrasi_2405_ke_2406', 'nextVersion' => '24.06'],
-        '24.06'   => ['migrate' => 'migrasi_2406_ke_2407', 'nextVersion' => null],
+        '24.06'   => ['migrate' => 'migrasi_2406_ke_2407', 'nextVersion' => '24.07'],
+        '24.07'   => ['migrate' => 'migrasi_2407_ke_2408', 'nextVersion' => null],
     ];
 
     // versi lain
-    private $otherVersions = [
+    private array $otherVersions = [
         '3.04',
     ];
 
@@ -153,7 +154,7 @@ class Database_model extends MY_Model
         $this->user = $this->session_user ?: 1;
     }
 
-    private function cek_engine_db()
+    private function cek_engine_db(): void
     {
         $db_debug           = $this->db->db_debug;
         $this->db->db_debug = false; //disable debugging for queries
@@ -167,7 +168,7 @@ class Database_model extends MY_Model
         $this->db->db_debug = $db_debug; //restore setting
     }
 
-    private function reset_setting_aplikasi()
+    private function reset_setting_aplikasi(): void
     {
         SettingAplikasi::delete();
         $this->jalankan_migrasi('migrasi_multidb');
@@ -194,7 +195,7 @@ class Database_model extends MY_Model
         return $version;
     }
 
-    public function migrasi_db_cri()
+    public function migrasi_db_cri(): void
     {
         // Tunggu restore selesai sebelum migrasi
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
@@ -223,13 +224,13 @@ class Database_model extends MY_Model
 
                     if ($this->getShowProgress()) {
                         // sleep(1.5);
-                        echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0]);
+                        echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0], JSON_THROW_ON_ERROR);
                     }
                 }
             } catch (Exception $e) {
                 log_message('error', $e->getMessage());
                 if ($this->getShowProgress()) {
-                    echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
+                    echo json_encode(['message' => $e->getMessage(), 'status' => 0], JSON_THROW_ON_ERROR);
                 }
             }
         } else {
@@ -255,7 +256,7 @@ class Database_model extends MY_Model
             }
         }
 
-        SettingAplikasi::withoutGlobalScope('App\Scopes\ConfigIdScope')->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
+        SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
@@ -269,25 +270,29 @@ class Database_model extends MY_Model
             // sleep(1.5);
             echo json_encode(['message' => 'Versi database sudah terbaru', 'status' => 0]);
         }
+
+        // if (cek_koneksi_internet() || ! config_item('demo_mode') || empty(config_item('kode_desa'))) {
+        //     $index = file_get_contents('https://raw.githubusercontent.com/OpenSID/rilis-premium/master/index.php');
+        //     if (file_get_contents(FCPATH . 'index.php') != $index) {
+        //         file_put_contents(FCPATH . 'index.php', $index);
+        //     }
+        // }
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = true)
+    public function cek_migrasi($install = false): void
     {
-        if ($install) {
-            // Paksa menjalankan migrasi kalau belum
-            // Migrasi direkam di tabel migrasi
-            if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
-                $this->migrasi_db_cri();
-
-                // Kirim versi aplikasi ke layanan setelah migrasi selesai
-                kirim_versi_opensid();
-            }
+        // Paksa menjalankan migrasi kalau belum
+        // Migrasi direkam di tabel migrasi
+        if ($install && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+            $this->migrasi_db_cri();
+            // Kirim versi aplikasi ke layanan setelah migrasi selesai
+            kirim_versi_opensid();
         }
     }
 
     // Migrasi dengan fuction
-    private function _migrasi_db_cri()
+    private function _migrasi_db_cri(): void
     {
         $this->migrasi_cri_lama();
         $this->migrasi_03_ke_04();
@@ -337,7 +342,7 @@ class Database_model extends MY_Model
         $this->migrasi_1905_ke_1906();
     }
 
-    private function migrasi_1905_ke_1906()
+    private function migrasi_1905_ke_1906(): void
     {
         // null kan tanggal perkawinan jika tanggal 0000-00-00
         if ($this->db->field_exists('tanggalperkawinan', 'tweb_penduduk')) {
@@ -540,7 +545,7 @@ class Database_model extends MY_Model
         $this->dbforge->modify_column('tweb_penduduk', $fields);
     }
 
-    private function migrasi_1904_ke_1905()
+    private function migrasi_1904_ke_1905(): void
     {
         // Tambah kolom penduduk
         if (! $this->db->field_exists('tag_id_card', 'tweb_penduduk')) {
@@ -594,7 +599,7 @@ class Database_model extends MY_Model
         $this->db->query($sql);
     }
 
-    private function migrasi_1903_ke_1904()
+    private function migrasi_1903_ke_1904(): void
     {
         $this->db->where('id', 59)->update('setting_modul', ['url' => 'dokumen_sekretariat/clear/2', 'aktif' => '1']);
         $this->db->where('id', 60)->update('setting_modul', ['url' => 'dokumen_sekretariat/clear/3', 'aktif' => '1']);
@@ -635,7 +640,7 @@ class Database_model extends MY_Model
             $data = $this->db->select('id, tgl_agenda')->where('id_kategori', AGENDA)
                 ->get('artikel')
                 ->result_array();
-            if (count($data)) {
+            if (count($data) > 0) {
                 $artikel_agenda = [];
 
                 foreach ($data as $agenda) {
@@ -683,12 +688,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function nop()
-    {
-        // Migrasi kosong
-    }
-
-    private function migrasi_1901_ke_1902()
+    private function migrasi_1901_ke_1902(): void
     {
         // Ubah judul status hubungan dalam keluarga
         $this->db->where('id', 9)->update('tweb_penduduk_hubungan', ['nama' => 'FAMILI']);
@@ -742,7 +742,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_1812_ke_1901()
+    private function migrasi_1812_ke_1901(): void
     {
         // Tambah status dasar 'Tidak Valid'
         $data = [
@@ -806,7 +806,7 @@ class Database_model extends MY_Model
         $this->db->where('id', 48)->update('setting_modul', ['url' => 'web_widget/clear', 'aktif' => '1']);
     }
 
-    private function migrasi_1811_ke_1812()
+    private function migrasi_1811_ke_1812(): void
     {
         // Ubah struktur tabel tweb_desa_pamong
         if (! $this->db->field_exists('id_pend', 'tweb_desa_pamong')) {
@@ -951,7 +951,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_1810_ke_1811()
+    private function migrasi_1810_ke_1811(): void
     {
         // Ubah url untuk Admin Web > Artikel, Admin Web > Dokumen, Admin Web > Menu,
         // Admin Web > Komentar
@@ -1012,7 +1012,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_1809_ke_1810()
+    private function migrasi_1809_ke_1810(): void
     {
         // Tambah tabel surat_keluar
         //Perbaiki url untuk modul Surat Keluar
@@ -1147,7 +1147,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_1808_ke_1809()
+    private function migrasi_1808_ke_1809(): void
     {
         // Hapus tabel inventaris lama
         $query = 'DROP TABLE IF EXISTS mutasi_inventaris;';
@@ -1306,7 +1306,7 @@ class Database_model extends MY_Model
         $this->db->query('CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))');
     }
 
-    private function migrasi_1806_ke_1807()
+    private function migrasi_1806_ke_1807(): void
     {
         // Tambahkan perubahan database di sini
         // Tambah kolom di tabel data_persil
@@ -1653,7 +1653,7 @@ class Database_model extends MY_Model
         }
         $this->dbforge->add_column('data_persil', $fields);
         // Sesuaikan data pemilik luar desa yg sudah ada ke kolom baru
-        if (count($fields) > 0) {
+        if ($fields !== []) {
             $data = $this->db->get('data_persil')->result_array();
 
             foreach ($data as $persil) {
@@ -1678,19 +1678,17 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_211_ke_1806()
+    private function migrasi_211_ke_1806(): void
     {
         //ambil nilai path
         $config = $this->db->get('config')->row();
         if (! empty($config)) {
             //Cek apakah path kosong atau tidak
-            if (! empty($config->path)) {
-                //Cek pola path yang lama untuk diganti dengan yang baru
-                //Jika pola path masih yang lama, ganti dengan yang baru
-                if (preg_match('/((\([-+]?[0-9]{1,3}\.[0-9]*,(\s)?[-+]?[0-9]{1,3}\.[0-9]*\))\;)/', $config->path)) {
-                    $new_path = str_replace([');', '(', ']['], [']', '[', '],['], $config->path);
-                    $this->db->where('id', $config->id)->update('config', ['path' => "[[{$new_path}]]"]);
-                }
+            //Cek pola path yang lama untuk diganti dengan yang baru
+            //Jika pola path masih yang lama, ganti dengan yang baru
+            if (! empty($config->path) && preg_match('/((\([-+]?\d{1,3}\.\d*,(\s)?[-+]?\d{1,3}\.\d*\))\;)/', $config->path)) {
+                $new_path = str_replace([');', '(', ']['], [']', '[', '],['], $config->path);
+                $this->db->where('id', $config->id)->update('config', ['path' => "[[{$new_path}]]"]);
             }
             //Cek zoom agar tidak lebih dari 18 dan agar tidak kosong
             if (empty($config->zoom) || $config->zoom > 18 || $config->zoom == 0) {
@@ -1725,7 +1723,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_210_ke_211()
+    private function migrasi_210_ke_211(): void
     {
         // Tambah kolom jenis untuk analisis_master
         $fields = [];
@@ -1793,7 +1791,7 @@ class Database_model extends MY_Model
             ->update('analisis_indikator', ['is_teks' => 1]);
     }
 
-    private function migrasi_29_ke_210()
+    private function migrasi_29_ke_210(): void
     {
         // Tambah kolom untuk format impor respon untuk analisis_master
         $fields = [];
@@ -1903,7 +1901,7 @@ class Database_model extends MY_Model
         $this->db->where('url', 'program_bantuan')->update('setting_modul', ['url' => 'program_bantuan/clear']);
     }
 
-    private function migrasi_28_ke_29()
+    private function migrasi_28_ke_29(): void
     {
         // Tambah data kelahiran ke tweb_penduduk
         $fields = [];
@@ -2010,7 +2008,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_27_ke_28()
+    private function migrasi_27_ke_28(): void
     {
         if (! $this->db->table_exists('suplemen')) {
             $query = '
@@ -2064,7 +2062,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_26_ke_27()
+    private function migrasi_26_ke_27(): void
     {
         // Sesuaikan judul kelompok umur dengan SID 3.10 versi Okt 2017
         $this->db->truncate('tweb_penduduk_umur');
@@ -2153,7 +2151,7 @@ class Database_model extends MY_Model
         $this->db->query($sql);
     }
 
-    private function migrasi_25_ke_26()
+    private function migrasi_25_ke_26(): void
     {
         // Tambah tabel provinsi
         if (! $this->db->table_exists('provinsi')) {
@@ -2281,7 +2279,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_24_ke_25()
+    private function migrasi_24_ke_25(): void
     {
         // Tambah setting current_version untuk migrasi
         $setting = $this->db->where('key', 'current_version')->get('setting_aplikasi')->row()->id;
@@ -2368,7 +2366,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_23_ke_24()
+    private function migrasi_23_ke_24(): void
     {
         // Tambah surat keterangan beda identitas KIS
         $data = [
@@ -2391,7 +2389,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_22_ke_23()
+    private function migrasi_22_ke_23(): void
     {
         // Tambah widget menu_left untuk menampilkan menu kategori
         $widget = $this->db->select('id')->where('isi', 'menu_kategori.php')->get('widget')->row();
@@ -2432,7 +2430,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_21_ke_22()
+    private function migrasi_21_ke_22(): void
     {
         // Tambah lampiran untuk Surat Keterangan Kelahiran
         $this->db->where('url_surat', 'surat_ket_kelahiran')->update('tweb_surat_format', ['lampiran' => 'f-kelahiran.php']);
@@ -2453,7 +2451,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_20_ke_21()
+    private function migrasi_20_ke_21(): void
     {
         if (! $this->db->table_exists('widget')) {
             $query = '
@@ -2520,7 +2518,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_117_ke_20()
+    private function migrasi_117_ke_20(): void
     {
         if (! $this->db->table_exists('setting_aplikasi')) {
             $query = '
@@ -2561,7 +2559,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_116_ke_117()
+    private function migrasi_116_ke_117(): void
     {
         // Tambah kolom log_penduduk
         if (! $this->db->field_exists('no_kk', 'log_penduduk')) {
@@ -2598,7 +2596,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_115_ke_116()
+    private function migrasi_115_ke_116(): void
     {
         // Ubah surat N-1 menjadi surat gabungan N-1 s/d N-7
         $this->db->where('url_surat', 'surat_ket_nikah')->update('tweb_surat_format', ['nama' => 'Keterangan Untuk Nikah (N-1 s/d N-7)']);
@@ -2619,7 +2617,7 @@ class Database_model extends MY_Model
         $this->db->where('url_surat', 'surat_pindah_antar_kab_prov')->delete('tweb_surat_format');
     }
 
-    private function migrasi_114_ke_115()
+    private function migrasi_114_ke_115(): void
     {
         // Tambah kolom untuk peserta program
         if (! $this->db->field_exists('kartu_nik', 'program_peserta')) {
@@ -2644,7 +2642,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_113_ke_114()
+    private function migrasi_113_ke_114(): void
     {
         // Tambah kolom untuk slider
         if (! $this->db->field_exists('slider', 'gambar_gallery')) {
@@ -2653,7 +2651,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_112_ke_113()
+    private function migrasi_112_ke_113(): void
     {
         // Tambah data desa
         if (! $this->db->field_exists('nip_kepala_desa', 'config')) {
@@ -2677,7 +2675,7 @@ class Database_model extends MY_Model
     }
 
     // Berdasarkan analisa database yang dikirim oleh AdJie Reverb Impulse
-    private function migrasi_cri_lama()
+    private function migrasi_cri_lama(): void
     {
         if (! $this->db->field_exists('enabled', 'kategori')) {
             $query = 'ALTER TABLE kategori ADD enabled tinyint(4) DEFAULT 1';
@@ -2693,7 +2691,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_03_ke_04()
+    private function migrasi_03_ke_04(): void
     {
         $query = '
             CREATE TABLE IF NOT EXISTS `tweb_penduduk_mandiri` (
@@ -2771,7 +2769,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_08_ke_081()
+    private function migrasi_08_ke_081(): void
     {
         if (! $this->db->field_exists('nama_surat', 'log_surat')) {
             $query = 'ALTER TABLE `log_surat` ADD `nama_surat` varchar(100)';
@@ -2779,7 +2777,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_082_ke_09()
+    private function migrasi_082_ke_09(): void
     {
         if (! $this->db->field_exists('catatan', 'log_penduduk')) {
             $query = 'ALTER TABLE `log_penduduk` ADD `catatan` text';
@@ -2787,7 +2785,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_092_ke_010()
+    private function migrasi_092_ke_010(): void
     {
         // CREATE UNIQUE INDEX migrasi_0_10_url_surat ON tweb_surat_format (url_surat);
 
@@ -2878,7 +2876,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_010_ke_10()
+    private function migrasi_010_ke_10(): void
     {
         $query = "
             INSERT INTO tweb_penduduk_pekerjaan(id, nama) VALUES (89, 'LAINNYA')
@@ -2889,7 +2887,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_10_ke_11()
+    private function migrasi_10_ke_11(): void
     {
         if (! $this->db->field_exists('kk_lk', 'log_bulanan')) {
             $query = 'ALTER TABLE log_bulanan ADD kk_lk int(11)';
@@ -2965,7 +2963,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_111_ke_12()
+    private function migrasi_111_ke_12(): void
     {
         if (! $this->db->field_exists('alamat', 'tweb_keluarga')) {
             $query = 'ALTER TABLE tweb_keluarga ADD alamat varchar(200)';
@@ -2973,7 +2971,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_124_ke_13()
+    private function migrasi_124_ke_13(): void
     {
         if (! $this->db->field_exists('urut', 'menu')) {
             $query = 'ALTER TABLE menu ADD urut int(5)';
@@ -2981,7 +2979,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_13_ke_14()
+    private function migrasi_13_ke_14(): void
     {
         $query = "
             INSERT INTO user_grup (id, nama) VALUES (4, 'Kontributor')
@@ -3004,7 +3002,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_14_ke_15()
+    private function migrasi_14_ke_15(): void
     {
         // Tambah kolom di tabel tweb_penduduk
         if (! $this->db->field_exists('cara_kb_id', 'tweb_penduduk')) {
@@ -3049,7 +3047,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_15_ke_16()
+    private function migrasi_15_ke_16(): void
     {
         // Buat kk_sex boleh NULL
         $query = 'ALTER TABLE log_keluarga CHANGE kk_sex kk_sex tinyint(2) NULL DEFAULT NULL;';
@@ -3146,7 +3144,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_16_ke_17()
+    private function migrasi_16_ke_17(): void
     {
         // Tambahkan id_cluster ke tabel keluarga
         if (! $this->db->field_exists('id_cluster', 'tweb_keluarga')) {
@@ -3172,7 +3170,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_17_ke_18()
+    private function migrasi_17_ke_18(): void
     {
         // Tambah lampiran surat dgn template html2pdf
         if (! $this->db->field_exists('lampiran', 'log_surat')) {
@@ -3193,7 +3191,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_18_ke_19()
+    private function migrasi_18_ke_19(): void
     {
         // Hapus index unik untuk kode_surat kalau sempat dibuat sebelumnya
         $db    = $this->db->database;
@@ -3215,7 +3213,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_19_ke_110()
+    private function migrasi_19_ke_110(): void
     {
         // Tambah nomor id_kartu untuk peserta program bantuan
         if (! $this->db->field_exists('no_id_kartu', 'program_peserta')) {
@@ -3224,7 +3222,7 @@ class Database_model extends MY_Model
         }
     }
 
-    private function migrasi_110_ke_111()
+    private function migrasi_110_ke_111(): void
     {
         // Buat folder desa/upload/pengesahan apabila belum ada
         if (! file_exists(LOKASI_PENGESAHAN)) {
@@ -3434,7 +3432,7 @@ class Database_model extends MY_Model
         $this->db->query($query);
     }
 
-    private function migrasi_111_ke_112()
+    private function migrasi_111_ke_112(): void
     {
         // Ubah surat bio penduduk untuk menambah format lampiran
         $query = "
@@ -3542,7 +3540,7 @@ class Database_model extends MY_Model
         }
     }
 
-    public function impor_data_awal_analisis()
+    public function impor_data_awal_analisis(): void
     {
         $this->load->model('analisis_import_model');
 

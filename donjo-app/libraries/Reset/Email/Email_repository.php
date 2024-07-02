@@ -54,10 +54,7 @@ class Email_repository implements Password_interface
      */
     protected $ci;
 
-    /**
-     * @var Password_reset_interface
-     */
-    protected $tokens;
+    protected Password_reset_interface $tokens;
 
     public function __construct(Password_reset_interface $token)
     {
@@ -72,7 +69,7 @@ class Email_repository implements Password_interface
     /**
      * {@inheritDoc}
      */
-    public function sendResetLink(array $credentials, ?Closure $callback = null)
+    public function sendResetLink(array $credentials, ?Closure $callback = null): string
     {
         // First we will check to see if we found a user at the given credentials and
         // if we did not we will redirect back to this current URI with a piece of
@@ -89,7 +86,7 @@ class Email_repository implements Password_interface
 
         $token = $this->tokens->create($user);
 
-        if ($callback) {
+        if ($callback instanceof Closure) {
             $callback($user, $token);
         } else {
             // Once we have the reset token, we are ready to send the message out to this
@@ -117,7 +114,7 @@ class Email_repository implements Password_interface
     /**
      * {@inheritDoc}
      */
-    public function sendVerifyLink(array $credentials, ?Closure $callback = null)
+    public function sendVerifyLink(array $credentials, ?Closure $callback = null): string
     {
         // First we will check to see if we found a user at the given credentials and
         // if we did not we will redirect back to this current URI with a piece of
@@ -128,7 +125,7 @@ class Email_repository implements Password_interface
             return static::INVALID_USER;
         }
 
-        if ($callback) {
+        if ($callback instanceof Closure) {
             $callback($user);
         } else {
             // We are ready to send verify the message out to this user with a link
@@ -201,7 +198,7 @@ class Email_repository implements Password_interface
     /**
      * {@inheritDoc}
      */
-    public function deleteToken($user)
+    public function deleteToken($user): void
     {
         $this->tokens->destroy($user);
     }
@@ -217,7 +214,7 @@ class Email_repository implements Password_interface
     /**
      * {@inheritDoc}
      */
-    public function getRepository()
+    public function getRepository(): Password_reset_interface
     {
         return $this->tokens;
     }

@@ -49,7 +49,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $this->sub_modul_ini = 61;
     }
 
-    public function index()
+    public function index(): void
     {
         $data['main']   = $this->inventaris_kontruksi_model->list_inventaris();
         $data['total']  = $this->inventaris_kontruksi_model->sum_inventaris();
@@ -59,7 +59,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $this->render('inventaris/kontruksi/table', $data);
     }
 
-    public function view($id)
+    public function view($id): void
     {
         $data['main'] = $this->inventaris_kontruksi_model->view($id);
         $data['tip']  = 1;
@@ -67,7 +67,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $this->render('inventaris/kontruksi/view_inventaris', $data);
     }
 
-    public function edit($id)
+    public function edit($id): void
     {
         $this->redirect_hak_akses('u');
         $data['main'] = $this->inventaris_kontruksi_model->view($id);
@@ -76,7 +76,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $this->render('inventaris/kontruksi/edit_inventaris', $data);
     }
 
-    public function form()
+    public function form(): void
     {
         $this->redirect_hak_akses('u');
         $data['tip'] = 1;
@@ -84,7 +84,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $this->render('inventaris/kontruksi/form_tambah', $data);
     }
 
-    public function cetak($tahun, $penandatangan)
+    public function cetak($tahun, $penandatangan): void
     {
         $data['header'] = $this->header['desa'];
         $data['total']  = $this->inventaris_kontruksi_model->sum_print($tahun);
@@ -94,7 +94,7 @@ class Inventaris_kontruksi extends Admin_Controller
         $this->load->view('inventaris/kontruksi/inventaris_print', $data);
     }
 
-    public function download($tahun, $penandatangan)
+    public function download($tahun, $penandatangan): void
     {
         $data['header'] = $this->header['desa'];
         $data['total']  = $this->inventaris_kontruksi_model->sum_print($tahun);

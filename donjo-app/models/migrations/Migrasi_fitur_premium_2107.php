@@ -345,7 +345,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
         return $hasil && $this->dbforge->drop_table('provinsi', true);
     }
 
-    private function migrasi_2021061951($hasil)
+    private function migrasi_2021061951(bool $hasil)
     {
         // Tambah hak ases group operator dan redaksi
         $query = '

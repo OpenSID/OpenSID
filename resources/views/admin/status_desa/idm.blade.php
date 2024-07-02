@@ -175,7 +175,7 @@
                                             <td>{{ $data->KAB }}</td>
                                             <td>{{ $data->DESA }}</td>
                                             <td>{{ $data->CSR }}</td>
-                                            <td>{{ $data->SKOR[INDIKATOR['IKS 2020']] }}</td>
+                                            <td>{{ $data->LAINNYA }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

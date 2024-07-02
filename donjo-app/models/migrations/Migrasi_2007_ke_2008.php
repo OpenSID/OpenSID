@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2007_ke_2008 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         // Buat kolom nama dokumen lebih panjang
         $this->db->query('ALTER TABLE dokumen MODIFY COLUMN nama varchar(100) NOT NULL');
@@ -96,7 +96,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         $this->db->query('ALTER TABLE program MODIFY ndesc VARCHAR(500) DEFAULT NULL;');
     }
 
-    private function add_notifikasi()
+    private function add_notifikasi(): void
     {
         if (! $this->db->table_exists('notifikasi')) {
             $query = '
@@ -165,7 +165,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function ubah_data_persil()
+    private function ubah_data_persil(): void
     {
         // Buat tabel baru
         $this->buat_ref_persil_kelas();
@@ -181,7 +181,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         $this->hapus_data_lama();
     }
 
-    private function tambah_modul()
+    private function tambah_modul(): void
     {
         $this->db->where('id', 7)
             ->update('setting_modul', ['url' => 'cdesa/clear']);
@@ -206,7 +206,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    public function buat_ref_persil_kelas()
+    public function buat_ref_persil_kelas(): void
     {
         // Buat tabel jenis Kelas Persil
         if (! $this->db->table_exists('ref_persil_kelas')) {
@@ -250,7 +250,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         $this->db->insert_batch('ref_persil_kelas', $data);
     }
 
-    public function buat_ref_persil_mutasi()
+    public function buat_ref_persil_mutasi(): void
     {
         // Buat tabel ref Mutasi Persil
         if (! $this->db->table_exists('ref_persil_mutasi')) {
@@ -285,7 +285,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         $this->db->insert_batch('ref_persil_mutasi', $data);
     }
 
-    private function buat_cdesa()
+    private function buat_cdesa(): void
     {
         // Buat tabel C-DESA
         if (! $this->db->table_exists('cdesa')) {
@@ -334,7 +334,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function buat_cdesa_penduduk()
+    private function buat_cdesa_penduduk(): void
     {
         // Buat tabel C-DESA
         if (! $this->db->table_exists('cdesa_penduduk')) {
@@ -365,7 +365,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function buat_persil()
+    private function buat_persil(): void
     {
         //tambahkan kolom untuk beberapa data persil
         if (! $this->db->table_exists('persil')) {
@@ -421,7 +421,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function buat_mutasi_cdesa()
+    private function buat_mutasi_cdesa(): void
     {
         // Buat tabel mutasi Persil
         if (! $this->db->table_exists('mutasi_cdesa')) {
@@ -490,7 +490,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function pindah_data_lama()
+    private function pindah_data_lama(): void
     {
         if (! $this->db->table_exists('data_persil')) {
             return;
@@ -551,7 +551,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function hapus_data_lama()
+    private function hapus_data_lama(): void
     {
         if ($this->db->table_exists('data_persil')) {
             $this->dbforge->drop_table('data_persil');
@@ -564,7 +564,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         }
     }
 
-    private function tambah_simbol_lokasi()
+    private function tambah_simbol_lokasi(): void
     {
         //Tambah kolom id dan attribute unique di tabel gis_simbol
         if (! $this->db->field_exists('id', 'gis_simbol')) {
@@ -607,7 +607,7 @@ class Migrasi_2007_ke_2008 extends CI_model
         $this->db->query($query);
     }
 
-    private function buat_folder_simbol_lokasi()
+    private function buat_folder_simbol_lokasi(): void
     {
         // Tambah folder desa untuk menyimpan simbol lokasi
         $new_dir = LOKASI_SIMBOL_LOKASI;
@@ -619,7 +619,7 @@ class Migrasi_2007_ke_2008 extends CI_model
 
             if ($files) {
                 foreach ($files as $file) {
-                    if (! empty($file) && $file != '.' && $file != '..') {
+                    if ($file !== '' && $file != '.' && $file != '..') {
                         $source      = $dir . '/' . $file;
                         $destination = $new_dir . '/' . $file;
                         $outp        = $outp && copy($source, $destination);

@@ -113,10 +113,8 @@ class LogSurat extends BaseModel
      * Scope query untuk pengguna.
      *
      * @param Builder $query
-     *
-     * @return Builder
      */
-    public function scopePengguna($query)
+    public function scopePengguna($query): void
     {
         // return $query->where('id_pend', auth('jwt')->user()->penduduk->id);
     }

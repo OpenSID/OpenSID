@@ -62,7 +62,7 @@ class Analisis_laporan extends Admin_Controller
         $this->_list_session     = ['cari', 'klasifikasi', 'dusun', 'rw', 'rt', 'jawab'];
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
@@ -70,7 +70,7 @@ class Analisis_laporan extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         if (empty($this->analisis_master_model->get_aktif_periode())) {
             $this->session->success   = -1;
@@ -98,11 +98,7 @@ class Analisis_laporan extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                if (isset($rt)) {
-                    $data['rt'] = $rt;
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $rt ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -129,7 +125,7 @@ class Analisis_laporan extends Admin_Controller
         $this->render('analisis_laporan/table', $data);
     }
 
-    public function kuisioner($p = 1, $o = 0, $id = 0)
+    public function kuisioner($p = 1, $o = 0, $id = 0): void
     {
         $data['p']  = $p;
         $data['o']  = $o;
@@ -154,7 +150,7 @@ class Analisis_laporan extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function dialog_kuisioner($p = 1, $o = 0, $id = 0, $aksi = '')
+    public function dialog_kuisioner($p = 1, $o = 0, $id = 0, $aksi = ''): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = ucwords($aksi);
@@ -186,7 +182,7 @@ class Analisis_laporan extends Admin_Controller
         return $asubjek;
     }
 
-    public function daftar($p = 1, $o = 0, $id = 0, $aksi = '')
+    public function daftar($p = 1, $o = 0, $id = 0, $aksi = ''): void
     {
         $post      = $this->input->post();
         $data['p'] = $p;
@@ -211,7 +207,7 @@ class Analisis_laporan extends Admin_Controller
     }
 
     // $aksi = cetak/unduh
-    public function dialog($o = 0, $aksi = '')
+    public function dialog($o = 0, $aksi = ''): void
     {
         // Simpan session lama
         $temp_cari = $this->session->cari;
@@ -224,7 +220,7 @@ class Analisis_laporan extends Admin_Controller
         $this->load->view('global/ttd_pamong', $data);
     }
 
-    public function cetak($o = 0, $aksi = '')
+    public function cetak($o = 0, $aksi = ''): void
     {
         $post                    = $this->input->post();
         $data['pamong_ttd']      = $this->pamong_model->get_data($post['pamong_ttd']);
@@ -241,7 +237,7 @@ class Analisis_laporan extends Admin_Controller
         $this->load->view('global/format_cetak', $data);
     }
 
-    public function multi_jawab()
+    public function multi_jawab(): void
     {
         $data['form_action'] = site_url('analisis_laporan/multi_exec');
         $data['main']        = $this->analisis_laporan_model->multi_jawab(1, 1);
@@ -249,34 +245,30 @@ class Analisis_laporan extends Admin_Controller
         $this->load->view('analisis_laporan/ajax_multi', $data);
     }
 
-    public function multi_exec()
+    public function multi_exec(): void
     {
         $idcb = $_POST['id_cb'];
         print_r($idcb);
         //redirect($this->controller);
     }
 
-    public function ajax_multi_jawab()
+    public function ajax_multi_jawab(): void
     {
-        if (isset($_SESSION['jawab'])) {
-            $data['jawab'] = $_SESSION['jawab'];
-        } else {
-            $data['jawab'] = '';
-        }
+        $data['jawab']       = $_SESSION['jawab'] ?? '';
         $data['main']        = $this->analisis_laporan_model->multi_jawab(1, 1);
         $data['form_action'] = site_url('analisis_laporan/multi_jawab_proses');
 
         $this->load->view('analisis_laporan/ajax_multi', $data);
     }
 
-    public function multi_jawab_proses()
+    public function multi_jawab_proses(): void
     {
         if (isset($_POST['id_cb'])) {
             unset($_SESSION['jawab'], $_SESSION['jmkf']);
 
             $id_cb = $_POST['id_cb'];
             $cb    = '';
-            if (count($id_cb)) {
+            if (count($id_cb) > 0) {
                 foreach ($id_cb as $id) {
                     $cb .= $id . ',';
                 }
@@ -290,7 +282,7 @@ class Analisis_laporan extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function filter($filter)
+    public function filter($filter): void
     {
         if ($filter == 'dusun') {
             $this->session->unset_userdata(['rw', 'rt']);

@@ -179,9 +179,9 @@
                         <ol>
                             <li align="justify">Website Resmi OpenDesa, pengelola <?= config_item('nama_aplikasi') ?>:
                             </li>
-                            <a href="<?= config_item('website') ?>" target="_blank"><?= config_item('website') ?> </a>
+                            <a href="http://opendesa.id" target="_blank">http://opendesa.id</a>
                             <li align="justify">Website Resmi <?= config_item('nama_aplikasi') ?>: </li>
-                            <a href="<?= config_item('website') ?>/opensid" target="_blank">Website Resmi
+                            <a href="http://opensid.my.id" target="_blank">Website Resmi
                                 <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Grup Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
                             <a href="<?= config_item('fb_opendesa') ?>" target="_blank">Forum Pengguna dan
@@ -193,12 +193,12 @@
                             <li align="justify">Channel Youtube <?= config_item('nama_aplikasi') ?>: </li>
                             <a href="https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q" target="_blank">Kumpulan tutorial video <?= config_item('nama_aplikasi') ?></a>
                             <li align="justify">Forum OpenDesa:</li>
-                            <a href="<?= config_item('forum') ?> " target="_blank"><?= config_item('forum') ?> </a>
+                            <a href="https://forum.opendesa.id" target="_blank">https://forum.opendesa.id</a>
                             <li align="justify">Tempat mendaftarkan masalah dan usulan fitur:</li>
                             <a href="https://github.com/OpenSID/OpenSID/issues" target="_blank" sclass="text-green">https://github.com/OpenSID/OpenSID/issues</a>
                             <li align="justify">Forum diskusi teknis pengembangan <?= config_item('nama_aplikasi') ?>:
                             </li>
-                            <a href="<?= config_item('tg_kontributor') ?>" target="_blank">Kontributor Teknis OpenDesa</a>
+                            <a href="https://opensid.slack.com" target="_blank">https://opensid.slack.com</a>
                         </ol>
                     </div>
                 </div>
@@ -242,7 +242,7 @@
                             <p align="justify">
                                 Cara mengirimkan donasi dan informasi lebih lanjut ada di:
                             </p>
-                            <a href="https://www.opendesa.id/donasi" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Donasi Pengembangan <?= config_item('nama_aplikasi') ?>"><i class="fa fa-heart"></i> Donasi Pengembangan
+                            <a href="https://www.opendesa.id/donasi" class="btn btn-social btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-heart"></i> Donasi Pengembangan
                                 <?= config_item('nama_aplikasi') ?></a>
                         </div>
                     </div>

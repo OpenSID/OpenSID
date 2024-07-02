@@ -22,7 +22,7 @@
 			<div id="body">
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
-					<h3> DAFTAR <?= strtoupper($kategori) ?> <?= ! empty($tahun) ? 'TAHUN ' . $tahun : ''?></h3>
+					<h3> DAFTAR <?= strtoupper($kategori) ?> <?= empty($tahun) ? '' : 'TAHUN ' . $tahun?></h3>
 					<br>
 				</div>
 				<table class="border thick">

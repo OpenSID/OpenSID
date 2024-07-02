@@ -47,7 +47,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 trait ConfigId
 {
-    public static function bootConfigId()
+    public static function bootConfigId(): void
     {
         static::addGlobalScope(new ConfigIdScope());
 

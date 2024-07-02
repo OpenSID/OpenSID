@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_dev extends MY_model
@@ -50,7 +52,7 @@ class Migrasi_dev extends MY_model
 
     protected function migrasi_tabel($hasil)
     {
-        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
+        return $hasil;
     }
 
     // Migrasi perubahan data
@@ -64,6 +66,7 @@ class Migrasi_dev extends MY_model
         // }
 
         // Migrasi tanpa config_id
+
         return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 

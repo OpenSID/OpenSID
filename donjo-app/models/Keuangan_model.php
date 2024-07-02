@@ -41,7 +41,7 @@ class Keuangan_model extends MY_Model
 {
     private $zip_file = '';
     private $id_keuangan_master;
-    private $tabel_berdesa = [
+    private array $tabel_berdesa = [
         'keuangan_ref_bank_desa',
         'keuangan_ta_anggaran',
         'keuangan_ta_anggaran_log',
@@ -83,7 +83,7 @@ class Keuangan_model extends MY_Model
         'keuangan_ta_triwulan',
         'keuangan_ta_triwulan_rinci',
     ];
-    private $data_siskeudes = [
+    private array $data_siskeudes = [
         'keuangan_ref_bank_desa'        => 'Ref_Bank_Desa.csv',
         'keuangan_ref_bel_operasional'  => 'Ref_Bel_Operasional.csv',
         'keuangan_ref_bidang'           => 'Ref_Bidang.csv',
@@ -176,7 +176,7 @@ class Keuangan_model extends MY_Model
     private function get_versi_database()
     {
         $csv_versi = get_csv($this->zip_file, 'Ref_Version.csv');
-        if ($csv_versi) {
+        if ($csv_versi !== []) {
             return $csv_versi[0]['Versi'];
         }
 
@@ -186,14 +186,14 @@ class Keuangan_model extends MY_Model
     private function get_tahun_anggaran()
     {
         $csv_anggaran = get_csv($this->zip_file, 'Ta_RAB.csv');
-        if ($csv_anggaran) {
+        if ($csv_anggaran !== []) {
             return $csv_anggaran[0]['Tahun'];
         }
 
         return false;
     }
 
-    private function get_keuangan_master()
+    private function get_keuangan_master(): void
     {
         $this->zip_file = $_FILES['keuangan']['tmp_name'];
         if (! empty($this->id_keuangan_master)) {
@@ -211,7 +211,7 @@ class Keuangan_model extends MY_Model
         $this->id_keuangan_master = $this->db->insert_id();
     }
 
-    public function extract()
+    public function extract(): void
     {
         $_SESSION['success'] = 1;
         $this->get_keuangan_master();
@@ -230,7 +230,7 @@ class Keuangan_model extends MY_Model
         }
     }
 
-    public function extract_update()
+    public function extract_update(): void
     {
         $this->id_keuangan_master = (int) str_replace('"', '', $_POST['id_keuangan_master']);
         $tables                   = array_keys($this->data_siskeudes);
@@ -253,16 +253,16 @@ class Keuangan_model extends MY_Model
         }
         $this->db->where('versi_database', $this->get_versi_database());
         $this->db->where('tahun_anggaran', $this->get_tahun_anggaran());
-        $result = $this->config_id()->get('keuangan_master')->row();
 
-        return $result;
+        return $this->config_id()->get('keuangan_master')->row();
     }
 
     public function list_data()
     {
-        $data = $this->config_id()->order_by('tanggal_impor')->get('keuangan_master')->result_array();
+        $data    = $this->config_id()->order_by('tanggal_impor')->get('keuangan_master')->result_array();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']         = $i + 1;
             $data[$i]['desa_ganda'] = $this->cek_desa($data[$i]['id']);
         }
@@ -331,7 +331,7 @@ class Keuangan_model extends MY_Model
     }
 
     // Hapus data yg bukan untuk $desa
-    public function bersihkan_desa($id_master, $desa)
+    public function bersihkan_desa($id_master, $desa): void
     {
         foreach ($this->tabel_berdesa as $tabel) {
             $this->db->where('Kd_Desa <>', $desa)

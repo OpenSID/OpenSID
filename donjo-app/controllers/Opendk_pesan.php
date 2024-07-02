@@ -42,14 +42,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Opendk_pesan extends Admin_Controller
 {
-    protected $_list_session;
+    protected $_list_session = ['cari', 'status'];
 
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini     = 'opendk';
         $this->sub_modul_ini = 'pesan';
-        $this->_list_session = ['cari', 'status'];
     }
 
     public function cek()
@@ -58,7 +57,7 @@ class Opendk_pesan extends Admin_Controller
         if (empty($this->setting->api_opendk_key)) {
             $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
 
-            return view('admin.opendkpesan.error', compact('message'));
+            return view('admin.opendkpesan.error', ['message' => $message]);
         }
 
         return true;
@@ -83,11 +82,11 @@ class Opendk_pesan extends Admin_Controller
 
         if ($this->session->cari) {
             $cari = $this->session->cari;
-            $pesan->whereHas('detailPesan', static function ($q) use ($cari) {
+            $pesan->whereHas('detailPesan', static function ($q) use ($cari): void {
                 $q->where('text', 'LIKE', "%{$cari}%");
             });
             $pesan->orWhere('judul', 'LIKE', "%{$cari}%");
-            $pesan->with('detailPesan', static function ($q) use ($cari) {
+            $pesan->with('detailPesan', static function ($q) use ($cari): void {
                 $q->where('text', 'LIKE', "%{$cari}%");
             });
         } else {
@@ -97,17 +96,17 @@ class Opendk_pesan extends Admin_Controller
         $pesan->where('diarsipkan', '=', 0);
         $pesan = $pesan->paginate(25);
 
-        return view('admin.opendkpesan.index', compact('pesan', 'selected_nav', 'status', 'cari'));
+        return view('admin.opendkpesan.index', ['pesan' => $pesan, 'selected_nav' => $selected_nav, 'status' => $status, 'cari' => $cari]);
     }
 
-    public function clear($return = '')
+    public function clear($return = ''): void
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = 50;
         redirect($this->controller . "/{$return}");
     }
 
-    public function filter($filter, $return = '')
+    public function filter($filter, $return = ''): void
     {
         $value = $this->input->post($filter);
         if ($value != '') {
@@ -118,7 +117,7 @@ class Opendk_pesan extends Admin_Controller
         redirect($this->controller . "/{$return}");
     }
 
-    public function search($slash = '')
+    public function search($slash = ''): void
     {
         $cari  = alfanumerik_spasi($this->request['cari']);
         $slash = alfanumerik_spasi($slash);
@@ -143,18 +142,19 @@ class Opendk_pesan extends Admin_Controller
                 'sudah_dibaca' => 1,
             ]);
 
-        return view('admin.opendkpesan.show', compact('pesan', 'form_action'));
+        return view('admin.opendkpesan.show', ['pesan' => $pesan, 'form_action' => $form_action]);
     }
 
     public function form()
     {
         $this->redirect_hak_akses('u');
         $form_action = route('opendk_pesan.insert');
+        $action      = 'Tambah';
 
-        return view('admin.opendkpesan.form', compact('action', 'form_action'));
+        return view('admin.opendkpesan.form', ['action' => $action, 'form_action' => $form_action]);
     }
 
-    public function insert($id = null)
+    public function insert($id = null): void
     {
         $this->redirect_hak_akses('u');
         $request = static::validate($this->request);
@@ -189,7 +189,7 @@ class Opendk_pesan extends Admin_Controller
                 ],
                 'form_params' => $params,
             ])->getBody()->getContents();
-            $data_respon = json_decode($response);
+            $data_respon = json_decode($response, null);
 
             if ($data_respon->status == false) {
                 redirect_with('error', $data_respon->message);
@@ -207,14 +207,14 @@ class Opendk_pesan extends Admin_Controller
         $selected_nav = 'arsip';
         $pesan        = Pesan::where('diarsipkan', '=', '1')->with(['detailPesan'])->paginate(25);
 
-        return view('admin.opendkpesan.index', compact('pesan', 'selected_nav'));
+        return view('admin.opendkpesan.index', ['pesan' => $pesan, 'selected_nav' => $selected_nav]);
     }
 
-    public function arsipkan()
+    public function arsipkan(): void
     {
         $this->redirect_hak_akses('h');
 
-        $array = json_decode($this->request['array_id']);
+        $array = json_decode($this->request['array_id'], null);
 
         Pesan::whereIn('id', $array)->update([
             'diarsipkan' => 1,
@@ -223,7 +223,7 @@ class Opendk_pesan extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validate($request = [])
+    protected static function validate($request = []): array
     {
         return [
             'judul' => alfanumerik_spasi($request['judul']),

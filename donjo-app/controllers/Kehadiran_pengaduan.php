@@ -64,9 +64,7 @@ class Kehadiran_pengaduan extends Admin_Controller
                         return '<a href="' . route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
-                ->editColumn('waktu', static function ($row) {
-                    return tgl_indo2($row->waktu);
-                })
+                ->editColumn('waktu', static fn ($row) => tgl_indo2($row->waktu))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -83,10 +81,10 @@ class Kehadiran_pengaduan extends Admin_Controller
 
         $kehadiran_pengaduan = KehadiranPengaduan::findOrFail($id);
 
-        return view('admin.pengaduan.form', compact('action', 'form_action', 'kehadiran_pengaduan'));
+        return view('admin.pengaduan.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_pengaduan' => $kehadiran_pengaduan]);
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -99,7 +97,7 @@ class Kehadiran_pengaduan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = []): array
     {
         return [
             'keterangan' => strip_tags($request['keterangan']),

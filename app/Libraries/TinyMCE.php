@@ -41,20 +41,25 @@ use App\Libraries\TinyMCE\FakeDataIsian;
 use App\Libraries\TinyMCE\KodeIsianAnggotaKeluarga;
 use App\Libraries\TinyMCE\KodeIsianAritmatika;
 use App\Libraries\TinyMCE\KodeIsianForm;
+use App\Libraries\TinyMCE\KodeIsianGambar;
 use App\Libraries\TinyMCE\KodeIsianIdentitas;
 use App\Libraries\TinyMCE\KodeIsianPasangan;
 use App\Libraries\TinyMCE\KodeIsianPenandaTangan;
 use App\Libraries\TinyMCE\KodeIsianPenduduk;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
 use App\Libraries\TinyMCE\KodeIsianPeristiwa;
 use App\Libraries\TinyMCE\KodeIsianSurat;
 use App\Libraries\TinyMCE\KodeIsianWilayah;
-use App\Libraries\TinyMCE\ReplaceAlias;
 use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
+use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
+use App\Models\LogSurat;
 use App\Models\Pamong;
 use CI_Controller;
 use Karriere\PdfMerge\PdfMerge;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -176,7 +181,7 @@ class TinyMCE
     public function getTemplateSurat()
     {
         return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
-            ->map(static fn ($item, $key) => [
+            ->map(static fn ($item, $key): array => [
                 'nama'     => 'Surat ' . $item->nama,
                 'template' => [
                     'sistem' => $item->template,
@@ -185,24 +190,22 @@ class TinyMCE
             ]);
     }
 
-    public function getFormatedKodeIsian($data = [], $withData = false)
+    public function getFormatedKodeIsian(array $data = [], $withData = false)
     {
         $idPenduduk      = $data['id_pend'];
         $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
         $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
-        $daftarKategori  = collect($data['surat']->form_isian)->toArray();
+        $daftarKategori  = collect($data['surat']->form_isian)->map(static fn ($item): array => collect($item)->toArray())->toArray();
 
         $alias = AliasKodeIsian::get();
 
         $daftar_kode_isian = [
             // Kode Isian Alias
-            'Alias' => $alias->map(static function ($item) {
-                return [
-                    'judul' => $item->judul,
-                    'isian' => $item->alias,
-                    'data'  => $item->content,
-                ];
-            })->toArray(),
+            'Alias' => $alias->map(static fn ($item): array => [
+                'judul' => $item->judul,
+                'isian' => $item->alias,
+                'data'  => $item->content,
+            ])->toArray(),
 
             // Data Surat
             'Surat' => KodeIsianSurat::get($data),
@@ -236,34 +239,41 @@ class TinyMCE
             unset($daftar_kode_isian['Alias']);
         }
 
-        $peristiwa = $data['surat']->form_isian->individu->status_dasar;
+        $peristiwa = $data['surat']->form_isian->individu->status_dasar ?? [];
+        $peristiwa = is_array($peristiwa) ? $peristiwa : [$peristiwa];
         if (array_intersect($peristiwa, LogPenduduk::PERISTIWA)) {
             $daftar_kode_isian['Peristiwa'] = KodeIsianPeristiwa::get($idPenduduk, $peristiwa);
         }
 
         foreach ($daftarKategori as $key => $value) {
-            if ($value->sumber != 1) {
-                continue;
+            if (! $value['sumber']) {
+                $value['sumber'] = 1;
             }
 
-            if (! $value->sumber) {
-                $value->sumber = 1;
+            if (! $value['judul'] || ! $value['label']) {
+                $judul          = str_replace('_', ' ', ucwords($key));
+                $value['judul'] = $judul;
+                $value['label'] = $judul;
             }
 
-            if (! $value->judul || ! $value->label) {
-                $judul        = str_replace('_', ' ', ucwords($key));
-                $value->judul = $judul;
-                $value->label = $judul;
-            }
-
-            if ($value->sumber == 1 && $key != 'individu') {
-                if (array_intersect($value->data, [1])) {
-                    $daftar_kode_isian[$value->judul] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
+            $kodeIsianPendudukLuar = KodeIsianPendudukLuar::$kodeIsian;
+            if ($key == 'individu') {
+                if (! array_intersect($value['data'], [1])) {
+                    $daftar_kode_isian[$judulPenduduk] = collect($daftar_kode_isian[$judulPenduduk])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
-                $daftar_kode_isian["Form {$value->judul}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key] ?? []);
-            } elseif ($value->sumber == 1 && $key == 'individu') {
-                if (! array_intersect($value->data, [1])) {
-                    unset($daftar_kode_isian[$judulPenduduk]);
+
+                if (! (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0)) {
+                    unset($daftar_kode_isian["Form {$judulPenduduk}"]);
+                }
+            } else {
+                $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
+                $kodeIsianPendudukLuar              = array_map(static fn ($item): string => $item . "_{$key}", $kodeIsianPendudukLuar);
+                if (! array_intersect($value['data'], [1])) {
+                    $daftar_kode_isian[$value['judul']] = collect($daftar_kode_isian[$value['judul']])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
+                }
+
+                if (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0) {
+                    $daftar_kode_isian["Form {$value['judul']}"] = KodeIsianForm::get($data['input'], $daftarKodeIsian[$key] ?? []);
                 }
             }
         }
@@ -271,13 +281,11 @@ class TinyMCE
         // Penandatangan
         $daftar_kode_isian['Penandatangan'] = KodeIsianPenandaTangan::get($data['input']);
 
-        $daftar_kode_isian = collect($daftar_kode_isian)->map(static function ($item) {
-            return collect($item)->map(static function ($item) {
-                $item['isian'] = getFormatIsian($item['isian'], $item['case_sentence']);
+        $daftar_kode_isian = collect($daftar_kode_isian)->map(static fn ($item) => collect($item)->map(static function (array $item): array {
+            $item['isian'] = getFormatIsian($item['isian'], $item['case_sentence']);
 
-                return $item;
-            });
-        })->toArray();
+            return $item;
+        }))->toArray();
 
         if ($withData) {
             return collect($daftar_kode_isian)
@@ -294,8 +302,12 @@ class TinyMCE
         return $daftar_kode_isian;
     }
 
-    public function formatPdf($header, $footer, $isi)
+    public function formatPdf(string $header, string $footer, string $isi): string
     {
+        $isi = $this->generateMultiPage($isi);
+
+        $isi = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+
         // Pisahkan isian surat
         $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
@@ -344,14 +356,14 @@ class TinyMCE
     }
 
     /**
-     * Replace kode isian dengan data yang sesuai.
+     * Ganti kode isian dengan data yang sesuai.
      *
      * @param array $data
      * @param bool  $imageReplace
      *
      * @return string
      */
-    public function replceKodeIsian($data = [], $imageReplace = true)
+    public function gantiKodeIsian($data = [], $imageReplace = true)
     {
         $result = $data['isi_surat'];
 
@@ -359,24 +371,20 @@ class TinyMCE
         $newKodeIsian = collect($this->getFormatedKodeIsian($data, true))
             ->flatMap(static function ($value, $key) {
                 if (preg_match('/klg/i', $key)) {
-                    return collect(range(1, 10))->map(static function ($i) use ($key, $value) {
-                        return [
-                            'isian' => str_replace('x_', "{$i}_", $key),
-                            'data'  => $value[$i - 1] ?? '',
-                        ];
-                    });
-                } else {
-                    return [
-                        [
-                            'isian' => $key,
-                            'data'  => $value,
-                        ],
-                    ];
+                    return collect(range(1, 10))->map(static fn ($i): array => [
+                        'isian' => str_replace('x_', "{$i}_", $key),
+                        'data'  => $value[$i - 1] ?? '',
+                    ]);
                 }
+
+                return [
+                    [
+                        'isian' => $key,
+                        'data'  => $value,
+                    ],
+                ];
             })
-            ->mapWithKeys(static function ($item) {
-                return [$item['isian'] => $item['data']];
-            })
+            ->mapWithKeys(static fn ($item): array => [$item['isian'] => $item['data']])
             ->map(static function ($item) use ($gantiDengan) {
                 if (null === $item || $item == '/') {
                     return $gantiDengan;
@@ -391,7 +399,7 @@ class TinyMCE
         }
 
         // Kode isian yang berupa alias harus didahulukan
-        $alias = ReplaceAlias::get($data['surat'], $data['input']);
+        $alias = KodeIsianPendudukLuar::get($data['surat'], $data['input']);
 
         if ($alias) {
             $newKodeIsian = array_replace($newKodeIsian, $alias);
@@ -431,9 +439,11 @@ class TinyMCE
 
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
-
         $result = terjemahkanTerbilang($result);
 
+        // $settingKotak = setting('lampiran_kotak');
+
+        // $result = bungkusKotak($result, json_decode($settingKotak, 1) ?? LampiranSurat::KOTAK);
         if ($imageReplace) {
             foreach ($pisahkanFoto as $key => $value) {
                 $result = caseReplaceFoto($result, $key, $value);
@@ -607,7 +617,7 @@ class TinyMCE
 
         $data['isi_surat'] = $lampiran;
 
-        $lampiran = $this->replceKodeIsian($data, false);
+        $lampiran = $this->gantiKodeIsian($data, false);
 
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8'))
             ->setTestTdInOnePage(true)
@@ -628,33 +638,36 @@ class TinyMCE
         return $this->ci->{$method}(...$arguments);
     }
 
-    private function excludeLampiran($surat, $input, $lampiran)
+    private function excludeLampiran($surat, array $input, array $lampiran): array
     {
         $kodeIsian       = $surat->kode_isian;
         $includeLampiran = []; // tambahkan lampiran jika memenuhi syarat
         $excludeLampiran = []; // semua lampiran dengan syarat
 
         foreach ($kodeIsian as $isian) {
-            if ($isian->kaitkan_kode) {
-                if (! empty($isian->kaitkan_kode)) {
-                    foreach ((array) $isian->kaitkan_kode as $kaitkanItem) {
-                        $kaitkanArr = json_decode($kaitkanItem, true);
+            if (! $isian->kaitkan_kode) {
+                continue;
+            }
+            if (empty($isian->kaitkan_kode)) {
+                continue;
+            }
 
-                        foreach ($kaitkanArr as $kaitkan) {
-                            $namaElm = substr('[form_status_kawin_pria]', strlen('[form_'), -1);
+            foreach ((array) $isian->kaitkan_kode as $kaitkanItem) {
+                $kaitkanArr = json_decode($kaitkanItem, true);
 
-                            if ($kaitkan['lampiran_terkait']) {
-                                foreach ($kaitkan['lampiran_terkait'] as $key => $value) {
-                                    $excludeLampiran[] = strtolower($value);
-                                }
-                            }
+                foreach ($kaitkanArr as $kaitkan) {
+                    $namaElm = substr('[form_status_kawin_pria]', strlen('[form_'), -1);
 
-                            if (in_array($input[$namaElm], $kaitkan['nilai_isian'])) {
-                                if ($kaitkan['lampiran_terkait']) {
-                                    foreach ($kaitkan['lampiran_terkait'] as $key => $value) {
-                                        $includeLampiran[] = strtolower($value);
-                                    }
-                                }
+                    if ($kaitkan['lampiran_terkait']) {
+                        foreach ($kaitkan['lampiran_terkait'] as $value) {
+                            $excludeLampiran[] = strtolower($value);
+                        }
+                    }
+
+                    if (in_array($input[$namaElm], $kaitkan['nilai_isian'])) {
+                        if ($kaitkan['lampiran_terkait']) {
+                            foreach ($kaitkan['lampiran_terkait'] as $value) {
+                                $includeLampiran[] = strtolower($value);
                             }
                         }
                     }
@@ -671,7 +684,7 @@ class TinyMCE
         return FakeDataIsian::set($request);
     }
 
-    public function generateMultiPage(string $templateString)
+    public function generateMultiPage(?string $templateString)
     {
         if (empty($templateString)) {
             return [];
@@ -679,5 +692,39 @@ class TinyMCE
         $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
 
         return preg_split($pattern, $templateString);
+    }
+
+    public function cetak_surat($id)
+    {
+        $surat = LogSurat::find($id);
+
+        // Cek ada file
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
+
+        $isi_cetak      = $surat->isi_surat;
+        $nama_surat     = $surat->nama_surat;
+        $cetak['surat'] = $surat->formatSurat;
+
+        $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
+        $isi_cetak      = $data_gambar['result'];
+        $surat->urls_id = $data_gambar['urls_id'];
+
+        $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+        if ($cetak['surat']['margin_global'] == '1') {
+            $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
+        }
+
+        // convert in PDF
+        try {
+            $this->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm);
+            $this->generateLampiran($surat->id_pend, $cetak);
+
+            $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
+        } catch (Html2PdfException $e) {
+            $formatter = new ExceptionFormatter($e);
+            log_message('error', $formatter->getHtmlMessage());
+        }
     }
 }

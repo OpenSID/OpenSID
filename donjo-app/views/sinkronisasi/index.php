@@ -33,7 +33,7 @@
                                                 <?php $slug = url_title($data, 'dash', true); ?>
                                                 <?php if (in_array($slug, ['penduduk', 'identitas-desa', 'program-bantuan', 'pembangunan'])) : ?>
                                                     <?php if ($this->setting->api_opendk_key) : ?>
-                                                        <a href="#" data-href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block kirim_data" title="Kirim Data" data-modul='<?= (isset($modul[$data])) ? json_encode($modul[$data]) : '' ?>' data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?"><i class="fa fa-random"></i> Kirim Data</a>
+                                                        <a href="#" data-href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block kirim_data" title="Kirim Data" data-modul='<?= (isset($modul[$data])) ? json_encode($modul[$data], JSON_THROW_ON_ERROR) : '' ?>' data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?"><i class="fa fa-random"></i> Kirim Data</a>
                                                     <?php else : ?>
                                                         <a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Data</a>
                                                     <?php endif; ?>
@@ -115,7 +115,7 @@
                     <h4 class="modal-title">Proses Sinkronisasi</h4>
                 </div>
                 <div class="modal-body">
-                    Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirmkan.
+                    Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirimkan.
                     <div class='text-center'>
                         <img src="<?= asset('images/background/loading.gif') ?>">
                     </div>
@@ -451,7 +451,8 @@
                 title: 'Gagal terhubung ke server OpenDK',
                 html: $pesan,
                 icon: 'error',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                timer: 5000,
             })
         });
 
@@ -469,6 +470,7 @@
             icon: 'info',
             timer: 5000,
             showCancelButton: true,
+            cancelButtonText: 'Batal',
             didOpen: () => {
                 Swal.showLoading();
                 get_token();
@@ -476,10 +478,10 @@
         }).then((result) => {
             if (result.dismiss === Swal.DismissReason.timer) {
                 Swal.fire({
-                    title: 'Gagal terhubung ke server OpenDK',
-                    html: 'Pastikan <b>server</b>, <b>user</b> dan <b>password</b> sudah terisi dengan benar !!!',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
+                    title: 'Berhasil terhubung ke server OpenDK',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 5000,
                 })
             }
         });

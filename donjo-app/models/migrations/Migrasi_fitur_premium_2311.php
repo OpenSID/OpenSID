@@ -95,7 +95,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101353($hasil)
     {
         if (! Schema::hasTable('fcm_token')) {
-            Schema::create('fcm_token', static function (Blueprint $table) {
+            Schema::create('fcm_token', static function (Blueprint $table): void {
                 $table->mediumInteger('id_user');
                 $table->integer('config_id');
                 $table->string('device')->unique();
@@ -110,7 +110,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101354($hasil)
     {
         if (! Schema::hasTable('log_notifikasi_admin')) {
-            Schema::create('log_notifikasi_admin', static function (Blueprint $table) {
+            Schema::create('log_notifikasi_admin', static function (Blueprint $table): void {
                 $table->increments('id');
                 $table->mediumInteger('id_user');
                 $table->integer('config_id');
@@ -174,7 +174,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023101352($hasil)
     {
         if (! $this->cek_indeks('kelompok_anggota', 'no_anggota_config')) {
-            $hasil = $hasil && $this->db->query('ALTER TABLE `kelompok_anggota` ADD UNIQUE INDEX `no_anggota_config` (`config_id`, `id_kelompok`, `no_anggota`)');
+            return $hasil && $this->db->query('ALTER TABLE `kelompok_anggota` ADD UNIQUE INDEX `no_anggota_config` (`config_id`, `id_kelompok`, `no_anggota`)');
         }
 
         return $hasil;
@@ -190,10 +190,8 @@ class Migrasi_fitur_premium_2311 extends MY_model
 
         foreach ($config_id as $id) {
             $emailSetting = $defaultEmail;
-            if ($desaMigrasi) {
-                if ($desaMigrasi->id == $id) {
-                    $emailSetting = $configEmail;
-                }
+            if ($desaMigrasi && $desaMigrasi->id == $id) {
+                $emailSetting = $configEmail;
             }
             $hasil = $hasil && $this->migrasi_2023101255($hasil, $emailSetting, $id);
         }
@@ -283,7 +281,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
                 unset($data['data_pasangan']);
             }
             $data['individu'] = ['data' => $data_value] + $individu;
-            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($data)], ['id' => $row->id]);
+            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($data, JSON_THROW_ON_ERROR)], ['id' => $row->id]);
         }
         $this->db->trans_complete();
 
@@ -320,17 +318,15 @@ class Migrasi_fitur_premium_2311 extends MY_model
                     $nilaiBaru       = [];
                     if (! is_array($value['data'])) {
                         $nilaiBaru[] = $nilaiSebelumnya;
+                    } elseif (isNestedArray($nilaiSebelumnya)) {
+                        $nilaiBaru = $nilaiSebelumnya[0];
                     } else {
-                        if (isNestedArray($nilaiSebelumnya)) {
-                            $nilaiBaru = $nilaiSebelumnya[0];
-                        } else {
-                            $nilaiBaru = $nilaiSebelumnya;
-                        }
+                        $nilaiBaru = $nilaiSebelumnya;
                     }
                     $dataBaru[$key]['data'] = $nilaiBaru;
                 }
             }
-            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru)], ['id' => $row->id]);
+            $this->db->update('tweb_surat_format', ['form_isian' => json_encode($dataBaru, JSON_THROW_ON_ERROR)], ['id' => $row->id]);
         }
         $this->db->trans_complete();
 
@@ -358,7 +354,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
         }
 
         if ($this->db->field_exists('updated_at', 'tweb_penduduk')) {
-            $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+            return $hasil && $this->dbforge->modify_column('tweb_penduduk', [
                 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
             ]);
         }
@@ -369,7 +365,7 @@ class Migrasi_fitur_premium_2311 extends MY_model
     protected function migrasi_2023102651($hasil)
     {
         if (! $this->db->field_exists('sumber_penduduk_berulang', 'tweb_surat_format')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', [
+            return $hasil && $this->dbforge->add_column('tweb_surat_format', [
                 'sumber_penduduk_berulang' => [
                     'type'       => 'tinyint',
                     'constraint' => 1,

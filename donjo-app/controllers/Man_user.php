@@ -43,6 +43,8 @@ use App\Models\UserGrup;
 
 class Man_user extends Admin_Controller
 {
+    private int $tab_ini = 10;
+
     public function __construct()
     {
         parent::__construct();
@@ -55,7 +57,7 @@ class Man_user extends Admin_Controller
 
     public function index()
     {
-        $this->tab_ini = 10;
+        $data['tab_ini'] = $this->tab_ini;
 
         $data['status'] = [
             ['id' => '1', 'nama' => 'Aktif'],
@@ -68,12 +70,12 @@ class Man_user extends Admin_Controller
 
             return datatables(
                 User::with('pamong', 'userGrup')
-                    ->whereHas('userGrup', function ($query) {
+                    ->whereHas('userGrup', function ($query): void {
                         if ($group = $this->input->get('group')) {
                             $query->where('id', $group);
                         }
                     })
-            )->filter(static function ($query) use ($input) {
+            )->filter(static function ($query) use ($input): void {
                 $query->status($input->get('status'));
             })
                 ->addIndexColumn()
@@ -82,7 +84,7 @@ class Man_user extends Admin_Controller
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -103,17 +105,11 @@ class Man_user extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('pamong_status', static function ($row) {
-                    return $row->pamong->pamong_status == 1
-                        ? '<span class="label label-success">Staf</span>'
-                        : '<span class="label label-info">Bukan Staf</span>';
-                })
-                ->editColumn('last_login', static function ($row) {
-                    return tgl_indo($row->last_login);
-                })
-                ->editColumn('email_verified_at', static function ($row) {
-                    return tgl_indo($row->email_verified_at);
-                })
+                ->addColumn('pamong_status', static fn ($row): string => $row->pamong->pamong_status == 1
+                    ? '<span class="label label-success">Staf</span>'
+                    : '<span class="label label-info">Bukan Staf</span>')
+                ->editColumn('last_login', static fn ($row) => tgl_indo2($row->last_login))
+                ->editColumn('email_verified_at', static fn ($row) => tgl_indo2($row->email_verified_at))
                 ->rawColumns(['ceklist', 'aksi', 'pamong_status'])
                 ->make();
         }
@@ -136,14 +132,14 @@ class Man_user extends Admin_Controller
         }
 
         $data['user_group']          = UserGrup::get(['id', 'nama']);
-        $data['akses']               = UserGrup::getGrupSistem();
+        $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');
 
         return view('admin.pengaturan.pengguna.form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->set_form_validation();
@@ -171,19 +167,19 @@ class Man_user extends Admin_Controller
         }
     }
 
-    private function set_form_validation()
+    private function set_form_validation(): void
     {
         $this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
         $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
     }
 
     // Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
-    public function syarat_sandi($str)
+    public function syarat_sandi($str): bool
     {
         return (bool) (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str));
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         if ($this->input->post('password') != '') {
@@ -225,7 +221,7 @@ class Man_user extends Admin_Controller
         }
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h');
 
@@ -234,7 +230,7 @@ class Man_user extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Data');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
 
@@ -245,7 +241,7 @@ class Man_user extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Data');
     }
 
-    public function user_lock($id = '')
+    public function user_lock($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -254,7 +250,7 @@ class Man_user extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    public function user_unlock($id = '')
+    public function user_unlock($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -270,31 +266,31 @@ class Man_user extends Admin_Controller
         if ($user->foto != 'kuser.png') {
             // Ambil nama foto
             $foto = basename(AmbilFoto($user->foto));
-            // Cek penghapusan foto pengguna
-            if (! unlink(LOKASI_USER_PICT . $foto)) {
-                redirect_with('error', 'Gagal menghapus foto pengguna');
-            }
+            unlink(LOKASI_USER_PICT . $foto);
         }
 
         $user->delete();
     }
 
-    protected function validate($request = [], $id = '')
+    protected function validate($request = [], $id = ''): array
     {
         $data = [
             'active'         => (int) ($request['aktif'] ?? 0),
             'username'       => isset($request['username']) ? alfanumerik($request['username']) : null,
-            'password'       => isset($request['password']) ? generatePasswordHash($request['password']) : null,
             'nama'           => isset($request['nama']) ? strip_tags(nama($request['nama'])) : null,
-            'phone'          => isset($request['email']) ? htmlentities($request['phone']) : null,
-            'email'          => isset($request['email']) ? htmlentities($request['email']) : null,
+            'phone'          => isset($request['phone']) ? htmlentities($request['phone']) : null,
+            'email'          => empty($request['email']) ? null : htmlentities($request['email']),
             'id_grup'        => $request['id_grup'] ?? null,
-            'pamong_id'      => ! empty($request['pamong_id']) ? $request['pamong_id'] : null,
+            'pamong_id'      => empty($request['pamong_id']) ? null : $request['pamong_id'],
             'foto'           => isset($request['foto']) ? $this->user_model->urusFoto($id) : null,
             'notif_telegram' => (int) ($request['notif_telegram'] ?? 0),
             'id_telegram'    => (int) ($request['id_telegram'] ?? 0),
             'config_id'      => identitas('id'),
         ];
+
+        if (! empty($request['password'])) {
+            $data['password'] = generatePasswordHash($request['password']);
+        }
 
         if (empty($id)) {
             $data['session'] = md5(now());
