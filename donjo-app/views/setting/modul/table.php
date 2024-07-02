@@ -30,7 +30,9 @@
 									<option value="2" <?php selected($this->setting->penggunaan_server, '2')?>>
 										Online saja di hosting
 									</option>
-									<option value="3" <?php in_array($this->setting->penggunaan_server, ['3', '5', '6']) && print 'selected' ?>>
+									<option value="3" <?php if (in_array($this->setting->penggunaan_server, ['3', '5', '6'])) {
+									    echo 'selected';
+									}?> >
 										Offline di kantor desa dan online di hosting
 									</option>
 									<option value="4" <?php selected($this->setting->penggunaan_server, '4')?>>
@@ -39,7 +41,9 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="offline_online_hosting" style="<?php ! in_array($this->setting->penggunaan_server, ['3', '5', '6']) && print 'display: none;' ?>">
+						<div class="form-group" id="offline_online_hosting" style="<?php if (! in_array($this->setting->penggunaan_server, ['3', '5', '6'])) {
+						    echo 'display: none;';
+						} ?>">
 							<label class="col-sm-3 control-label">Server ini digunakan sebagai</label>
 							<div class="col-sm-9 col-lg-4">
 								<select class="form-control input-sm" name="server_mana" onchange="ubah_server($(this).val())">
@@ -53,32 +57,46 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="offline_ada_hosting" style="<?php ! in_array($this->setting->penggunaan_server, ['5']) && print 'display: none;' ?>">
+						<div class="form-group" id="offline_ada_hosting" style="<?php if ($this->setting->penggunaan_server != '5') {
+						    echo 'display: none;';
+						} ?>">
 							<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
 							<div class="col-sm-6 col-lg-4">
 								<select class="form-control input-sm" name="offline_mode">
 									<option value='' selected="selected">-- Pilih Akses Web --</option>
-									<option value="1" <?php ($this->setting->penggunaan_server == '5' && $this->setting->offline_mode == '1') && print 'selected'?>>
+									<option value="1" <?php if ($this->setting->penggunaan_server == '5' && $this->setting->offline_mode == '1') {
+									    echo 'selected';
+									}?> >
 										Web bisa diakses petugas web
 									</option>
-									<option value="2" <?php ($this->setting->penggunaan_server == '5' && $this->setting->offline_mode == '2') && print 'selected'?>>
+									<option value="2" <?php if ($this->setting->penggunaan_server == '5' && $this->setting->offline_mode == '2') {
+									    echo 'selected';
+									}?> >
 										Web non-aktif sama sekali
 									</option>
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="offline_saja" style="<?php ! in_array($this->setting->penggunaan_server, ['1']) && print 'display: none;' ?>">
+						<div class="form-group" id="offline_saja" style="<?php if ($this->setting->penggunaan_server != '1') {
+						    echo 'display: none;';
+						} ?>">
 							<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
 							<div class="col-sm-9 col-lg-4">
 								<select class="form-control input-sm" name="offline_mode_saja">
 									<option value='' selected="selected">-- Pilih Akses Web --</option>
-									<option value="0" <?php ($this->setting->penggunaan_server == '1' && $this->setting->offline_mode == '0') && print 'selected'?>>
+									<option value="0" <?php if ($this->setting->penggunaan_server == '1' && $this->setting->offline_mode == '0') {
+									    echo 'selected';
+									}?> >
 										Web bisa diakses publik
 									</option>
-									<option value="1" <?php ($this->setting->penggunaan_server == '1' && $this->setting->offline_mode == '1') && print 'selected'?>>
+									<option value="1" <?php if ($this->setting->penggunaan_server == '1' && $this->setting->offline_mode == '1') {
+									    echo 'selected';
+									}?> >
 										Web bisa diakses petugas web
 									</option>
-									<option value="2" <?php ($this->setting->penggunaan_server == '1' && $this->setting->offline_mode == '2') && print 'selected'?>>
+									<option value="2" <?php if ($this->setting->penggunaan_server == '1' && $this->setting->offline_mode == '2') {
+									    echo 'selected';
+									}?> >
 										Web non-aktif sama sekali
 									</option>
 								</select>
@@ -184,7 +202,7 @@
 														<a href="<?= site_url("modul/lock/{$data['id']}/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 													<?php endif ?>
 												<?php endif; ?>
-												<?php if (count($data['submodul']) > 0): ?>
+												<?php if (is_array($data['submodul']) && count($data['submodul']) > 0): ?>
 													<a href="<?=site_url("modul/sub_modul/{$data['id']}")?>" class="btn bg-olive btn-flat btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>
 												<?php endif; ?>
 											</td>

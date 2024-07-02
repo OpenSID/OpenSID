@@ -1,6 +1,6 @@
 <img src="<?= $icon ?>"
-     alt="<?= lang('session') ?>" title="<?= lang('session') ?>"/> <?= count($session) ? lang('session') : 'N/A' ?>
-<?php if (count($session)): ?>
+     alt="<?= lang('session') ?>" title="<?= lang('session') ?>"/> <?= count($session) > 0 ? lang('session') : 'N/A' ?>
+<?php if (count($session) > 0): ?>
     <div class="detail config">
         <div class="scroll">
             <?php

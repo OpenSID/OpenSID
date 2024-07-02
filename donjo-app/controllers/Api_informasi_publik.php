@@ -49,12 +49,12 @@ class Api_informasi_publik extends Api_Controller
         $this->load->model('web_dokumen_model');
     }
 
-    public function index()
+    public function index(): void
     {
         redirect('ppid');
     }
 
-    public function ppid()
+    public function ppid(): void
     {
         $this->log_request();
         $get      = $this->input->get();
@@ -77,6 +77,6 @@ class Api_informasi_publik extends Api_Controller
             ];
         }
         header('Content-Type: application/json');
-        echo json_encode($json_send);
+        echo json_encode($json_send, JSON_THROW_ON_ERROR);
     }
 }

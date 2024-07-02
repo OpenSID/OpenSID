@@ -181,7 +181,7 @@
 									<label class="control-label" for="dokumen">Dokumen Lampiran</label>
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control" id="file_path4">
-										<input type="file" class="hidden" id="file4" name="dokumen">
+										<input type="file" class="hidden" id="file4" name="dokumen" accept=".pdf">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-info btn-flat" id="file_browser4"><i class="fa fa-search"></i></button>
 											<button type='button' class='btn btn-info btn-flat btn-danger' id="hapus_file"><i class='fa fa-stop'></i></button>
@@ -193,7 +193,7 @@
 								</div>
 								<div class="form-group">
 									<label class="control-label" for="nama_dokumen">Nama Dokumen</label>
-									<input id="link_dokumen" name="link_dokumen" class="form-control input-sm" type="text" value="<?= $artikel['link_dokumen'] ?>"></input>
+									<input id="link_dokumen" name="link_dokumen" class="form-control input-sm strip_tags" type="text" value="<?= e($artikel['link_dokumen']) ?>"></input>
 									<span class="help-block"><code>(Nantinya akan menjadi link unduh/download)</code></span>
 								</div>
 								<div class="form-group">

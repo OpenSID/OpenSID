@@ -148,7 +148,7 @@
 		});
 
 		function start_countdown() {
-			var times = eval(<?= json_encode($this->session->mandiri_timeout) ?>) - eval(<?= json_encode(time()) ?>);
+			var times = eval(<?= json_encode($this->session->mandiri_timeout, JSON_THROW_ON_ERROR) ?>) - eval(<?= json_encode(time(), JSON_THROW_ON_ERROR) ?>);
 			var menit = Math.floor(times / 60);
 			var detik = times % 60;
 

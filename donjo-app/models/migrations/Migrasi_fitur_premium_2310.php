@@ -201,10 +201,10 @@ class Migrasi_fitur_premium_2310 extends MY_model
         foreach ($surat as $data_surat) {
             $cart = [];
 
-            foreach (json_decode($data_surat->syarat_surat) as $row) {
+            foreach (json_decode($data_surat->syarat_surat, null) as $row) {
                 $cart[] = $this->cek_syarat_surat($row, $data_surat->config_id);
             }
-            DB::table('tweb_surat_format')->where('id', $data_surat->id)->update(['syarat_surat' => json_encode($cart)]);
+            DB::table('tweb_surat_format')->where('id', $data_surat->id)->update(['syarat_surat' => json_encode($cart, JSON_THROW_ON_ERROR)]);
         }
 
         return $hasil;

@@ -72,7 +72,7 @@ class Keluarga_model extends MY_Model
         3 - tampilkan keluarga di mana KK tidak ada
         4 - tampilkan keluarga dengan nomor KK sementara
     */
-    private function status_dasar_sql()
+    private function status_dasar_sql(): void
     {
         if (empty($value = $this->session->status_dasar)) {
             return;
@@ -81,14 +81,14 @@ class Keluarga_model extends MY_Model
         if ($value == '1') {
             $this->db
                 ->where('t.status_dasar', 1)
-                ->where('t.kk_level', 1);
+                ->where('t.kk_level', SHDKEnum::KEPALA_KELUARGA);
         } elseif ($value == '2') {
             $this->db->where('t.status_dasar <>', 1);
         } elseif ($value == '3') {
             $this->db
                 ->group_start()
                 ->where('t.status_dasar IS NULL')
-                ->or_where(' t.kk_level <>', 1)
+                ->or_where(' t.kk_level <>', SHDKEnum::KEPALA_KELUARGA)
                 ->group_end();
         } elseif ($value == '4') {
             $this->db
@@ -96,7 +96,7 @@ class Keluarga_model extends MY_Model
         }
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if (empty($value = $this->session->cari)) {
             return;
@@ -110,7 +110,7 @@ class Keluarga_model extends MY_Model
             ->group_end();
     }
 
-    private function kumpulan_kk_sql()
+    private function kumpulan_kk_sql(): void
     {
         if (empty($this->session->kumpulan_kk)) {
             return;
@@ -123,7 +123,7 @@ class Keluarga_model extends MY_Model
         $this->db->where_in('u.no_kk ', $kumpulan_kk);
     }
 
-    private function filter_bantuan()
+    private function filter_bantuan(): void
     {
         $status = (string) $this->session->filter_global['status'];
         if ($status != '') {
@@ -140,7 +140,7 @@ class Keluarga_model extends MY_Model
         }
     }
 
-    private function bantuan_keluarga_sql()
+    private function bantuan_keluarga_sql(): void
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
         $bantuan_keluarga = $this->session->bantuan_keluarga;
@@ -148,14 +148,11 @@ class Keluarga_model extends MY_Model
             // Salin program_id
             $this->session->program_bantuan = $bantuan_keluarga;
         }
-        if ($bantuan_keluarga && $bantuan_keluarga != BELUM_MENGISI) {
-            if ($bantuan_keluarga != JUMLAH && $this->session->program_bantuan) {
-                $this->db
-                    ->join('program_peserta bt', 'bt.peserta = u.no_kk')
-                    ->join('program rcb', 'bt.program_id = rcb.id', 'left');
-
-                $this->filter_bantuan();
-            }
+        if ($bantuan_keluarga && $bantuan_keluarga != BELUM_MENGISI && ($bantuan_keluarga != JUMLAH && $this->session->program_bantuan)) {
+            $this->db
+                ->join('program_peserta bt', 'bt.peserta = u.no_kk')
+                ->join('program rcb', 'bt.program_id = rcb.id', 'left');
+            $this->filter_bantuan();
         }
         // Untuk BUKAN PESERTA program bantuan tertentu
         if ($bantuan_keluarga == BELUM_MENGISI) {
@@ -187,14 +184,14 @@ class Keluarga_model extends MY_Model
         }
     }
 
-    private function filter_id()
+    private function filter_id(): void
     {
         if ($id = $this->input->get('id_cb')) {
             $this->db->where_in('u.id', explode(',', $id));
         }
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('u')
             ->from('tweb_keluarga u')
@@ -219,10 +216,8 @@ class Keluarga_model extends MY_Model
             ['id_bos', 'id_bos'],
         ];
 
-        if ($this->session->bantuan_keluarga && $this->session->bantuan_keluarga != BELUM_MENGISI) {
-            if ($this->session->bantuan_keluarga != JUMLAH && $this->session->program_bantuan) {
-                $kolom_kode[] = ['bantuan_keluarga', 'rcb.id'];
-            }
+        if ($this->session->bantuan_keluarga && $this->session->bantuan_keluarga != BELUM_MENGISI && ($this->session->bantuan_keluarga != JUMLAH && $this->session->program_bantuan)) {
+            $kolom_kode[] = ['bantuan_keluarga', 'rcb.id'];
         }
 
         foreach ($kolom_kode as $kolom) {
@@ -258,7 +253,8 @@ class Keluarga_model extends MY_Model
     {
         $this->db
             ->distinct()
-            ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt');
+            ->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt')
+            ->select('(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota');
         $this->list_data_sql();
 
         $this->db->order_by("CASE
@@ -273,6 +269,7 @@ class Keluarga_model extends MY_Model
                 break;
 
             case 2:
+            default:
                 $this->db->order_by('u.no_kk DESC');
                 break;
 
@@ -300,28 +297,30 @@ class Keluarga_model extends MY_Model
                 $this->db->order_by('u.tgl_cetak_kk DESC');
                 break;
 
-            default:
-                $this->db->order_by('u.no_kk DESC');
+            case 9:
+                $this->db->order_by('jumlah_anggota');
+                break;
+
+            case 10:
+                $this->db->order_by('jumlah_anggota DESC');
                 break;
         }
         $query_dasar = $this->db->get_compiled_select();
 
         /** Lakukan pencarian jumlah anggota setelah data diperoleh supaya lebih cepat */
-        $this->db->select('u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1 AND config_id = u.config_id) AS jumlah_anggota')
-            ->from('(' . $query_dasar . ') u');
+        $this->db->from('(' . $query_dasar . ') u');
 
-        if (! $this->input->get('id_cb')) {
-            if ($this->session->per_page > 0) {
-                $jumlah_pilahan = $this->db->count_all_results('', false);
-                $paging         = $this->paginasi($page, $jumlah_pilahan);
-                $this->db->limit($paging->per_page, $paging->offset);
-            }
+        if (! $this->input->get('id_cb') && $this->session->per_page > 0) {
+            $jumlah_pilahan = $this->db->count_all_results('', false);
+            $paging         = $this->paginasi($page, $jumlah_pilahan);
+            $this->db->limit($paging->per_page, $paging->offset);
         }
         $data = $this->db->get()->result_array();
         //Formating Output
-        $j = $paging->offset ?: 0;
+        $j       = $paging->offset ?: 0;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
             if ($data[$i]['jumlah_anggota'] == 0) {
                 $data[$i]['jumlah_anggota'] = '-';
@@ -353,7 +352,7 @@ class Keluarga_model extends MY_Model
     }
 
     // Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
-    public function insert()
+    public function insert(): void
     {
         $this->session->unset_userdata('error_msg');
         $data = $_POST;
@@ -373,7 +372,7 @@ class Keluarga_model extends MY_Model
         $kk_id = $this->db->insert_id();
 
         $default['id_kk']      = $kk_id;
-        $default['kk_level']   = 1;
+        $default['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
         $default['status']     = 1; // statusnya menjadi tetap
         $default['updated_at'] = date('Y-m-d H:i:s');
         $default['updated_by'] = $this->session->user;
@@ -415,7 +414,7 @@ class Keluarga_model extends MY_Model
                 $valid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
             }
         }
-        if (! empty($valid)) {
+        if ($valid !== []) {
             $_SESSION['validation_error'] = true;
 
             foreach ($valid as $error) {
@@ -431,7 +430,7 @@ class Keluarga_model extends MY_Model
     }
 
     // Tambah KK dengan mengisi form penduduk kepala keluarga baru pindah datang
-    public function insert_new()
+    public function insert_new(): void
     {
         unset($_SESSION['validation_error'], $_SESSION['success'], $_SESSION['error_msg']);
 
@@ -486,7 +485,7 @@ class Keluarga_model extends MY_Model
         unset($data['alamat']);
 
         // Tulis penduduk baru sebagai kepala keluarga
-        $data['kk_level']   = 1;
+        $data['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
         $data['created_by'] = $this->session->user;
         $data['config_id']  = $this->config_id;
         $outp               = $this->db->insert('tweb_penduduk', $data);
@@ -578,7 +577,7 @@ class Keluarga_model extends MY_Model
             ->where('m.jenis', 2)
             ->count_all_results();
 
-        return ! ($analisis > 0);
+        return $analisis <= 0;
     }
 
     /* 	Hapus keluarga:
@@ -586,7 +585,7 @@ class Keluarga_model extends MY_Model
             (2) Hapus keluarga
             $id adalah id tweb_keluarga
     */
-    public function delete($id = 0, $semua = false)
+    public function delete($id = 0, $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -599,8 +598,7 @@ class Keluarga_model extends MY_Model
             return;
         }
 
-        $keluarga   = $this->config_id()->select('*')->where('id', $id)->get('tweb_keluarga')->row();
-        $nik_kepala = $keluarga->nik_kepala;
+        $keluarga = $this->config_id()->select('*')->where('id', $id)->get('tweb_keluarga')->row();
 
         $list_anggota = $this->config_id()->select('id')->where('id_kk', $id)->get('tweb_penduduk')->result_array();
 
@@ -618,7 +616,7 @@ class Keluarga_model extends MY_Model
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -629,7 +627,7 @@ class Keluarga_model extends MY_Model
         }
     }
 
-    public function log_keluarga($id = null, $id_peristiwa = 1, $id_pend = null, $id_log_penduduk = null)
+    public function log_keluarga($id = null, $id_peristiwa = 1, $id_pend = null, $id_log_penduduk = null): void
     {
         $log_keluarga = [
             'id_kk'           => $id,
@@ -645,7 +643,7 @@ class Keluarga_model extends MY_Model
         status_sukses($outp);
     }
 
-    public function add_anggota($id = 0)
+    public function add_anggota($id = 0): void
     {
         $data = $this->input->post();
         $this->update_kk_level($data['nik'], $id, $data['kk_level']);
@@ -664,14 +662,14 @@ class Keluarga_model extends MY_Model
     {
         $outp              = true;
         $nik['updated_by'] = auth()->id;
-        if ($kk_level == 1) {
+        if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
             // Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
             $lvl['kk_level']   = SHDKEnum::LAINNYA;
             $lvl['updated_at'] = Carbon::now();
             $lvl['updated_by'] = auth()->id;
             $this->config_id()
                 ->where('id_kk', $id_kk)
-                ->where('kk_level', 1)
+                ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
                 ->update('tweb_penduduk', $lvl);
 
             $nik['nik_kepala'] = $id;
@@ -681,7 +679,7 @@ class Keluarga_model extends MY_Model
         return $outp;
     }
 
-    public function update_anggota($id = 0)
+    public function update_anggota($id = 0): void
     {
         $data = $this->input->post();
 
@@ -700,7 +698,7 @@ class Keluarga_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function rem_anggota($kk = 0, $id = 0)
+    public function rem_anggota($kk = 0, $id = 0): void
     {
         $pend = $this->keluarga_model->get_anggota($id);
         $kel  = $this->config_id('k')
@@ -712,11 +710,11 @@ class Keluarga_model extends MY_Model
 
         $temp['no_kk_sebelumnya'] = $kk ? $kel->no_kk : null; // Tidak simpan no kk kalau keluar dari keluarga
         $temp['id_kk']            = null;
-        $temp['kk_level']         = 0;
+        $temp['kk_level']         = null;
         $temp['updated_at']       = date('Y-m-d H:i:s');
         $temp['updated_by']       = $this->session->user;
         $outp                     = $this->config_id()->where('id', $id)->update('tweb_penduduk', $temp);
-        if ($pend['kk_level'] == '1') {
+        if ($pend['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $temp2['updated_by'] = $this->session->user;
             $temp2['nik_kepala'] = 0;
             $outp                = $this->config_id()->where('id', $pend['id_kk'])->update('tweb_keluarga', $temp2);
@@ -728,10 +726,10 @@ class Keluarga_model extends MY_Model
         $this->log_keluarga($kel->id, LogKeluarga::ANGGOTA_KELUARGA_PECAH, $id);
     }
 
-    public function rem_all_anggota($kk)
+    public function rem_all_anggota($kk): void
     {
         $id_cb = $_POST['id_cb'];
-        if (count($id_cb)) {
+        if (count($id_cb) > 0) {
             foreach ($id_cb as $id) {
                 $this->rem_anggota($kk, $id);
             }
@@ -783,7 +781,7 @@ class Keluarga_model extends MY_Model
     {
         $data  = [];
         $id_cb = $this->input->post('id_cb');
-        if (count($id_cb)) {
+        if (count($id_cb) > 0) {
             foreach ($id_cb as $id) {
                 $kk               = $this->get_data_cetak_kk($id);
                 $data['all_kk'][] = $kk['all_kk'][0]; //Kumpulkan semua kk
@@ -868,7 +866,7 @@ class Keluarga_model extends MY_Model
             ->where(['status_dasar' => 1, 'id_kk' => $id]);
 
         if ($options['dengan_kk'] !== null && ! $options['dengan_kk']) {
-            $this->db->where('kk_level <> 1');
+            $this->db->where('kk_level !=', SHDKEnum::KEPALA_KELUARGA);
         }
 
         if (! empty($options['pilih'])) {
@@ -878,7 +876,9 @@ class Keluarga_model extends MY_Model
         $data = $this->db->order_by('kk_level, tanggallahir')->get()->result_array();
 
         if ($nik_sementara) {
-            for ($i = 0; $i < count($data); $i++) {
+            $counter = count($data);
+
+            for ($i = 0; $i < $counter; $i++) {
                 $data[$i]['nik'] = get_nik($data[$i]['nik']);
             }
         }
@@ -971,7 +971,7 @@ class Keluarga_model extends MY_Model
     }
 
     // Tambah anggota keluarga, penduduk baru
-    public function insert_a()
+    public function insert_a(): void
     {
         unset($_SESSION['validation_error']);
         $_SESSION['success'] = 1;
@@ -995,18 +995,14 @@ class Keluarga_model extends MY_Model
 
         unset($data['file_foto'], $data['old_foto'], $data['nik_lama']);
 
-        $tgl_lapor = rev_tgl($_POST['tgl_lapor']);
-        if ($_POST['tgl_peristiwa']) {
-            $tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
-        } else {
-            $tgl_peristiwa = rev_tgl($_POST['tanggallahir']);
-        }
+        $tgl_lapor     = rev_tgl($_POST['tgl_lapor']);
+        $tgl_peristiwa = $_POST['tgl_peristiwa'] ? rev_tgl($_POST['tgl_peristiwa']) : rev_tgl($_POST['tanggallahir']);
         unset($data['tgl_lapor'], $data['tgl_peristiwa']);
 
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
 
-        if ($data['kk_level'] == 1) {
+        if ($data['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $tambah_kk = true;
             $kel       = $this->get_raw_keluarga($data['id_kk']);
             if ($kel['nik_kepala']) {
@@ -1046,18 +1042,16 @@ class Keluarga_model extends MY_Model
 
             $id_pend = $this->db->insert_id();
 
-            if ($foto = upload_foto_penduduk(time() . '-' . $id_pend . '-' . mt_rand(10000, 999999))) {
+            if ($foto = upload_foto_penduduk(time() . '-' . $id_pend . '-' . random_int(10000, 999999))) {
                 $this->config_id()->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
             }
 
             // Jika anggota yang ditambah adalah kepala keluarga untuk kk kosong
-            if ($tambah_kk) {
-                $this->config_id()
-                    ->set('nik_kepala', $id_pend)
-                    ->set('updated_by', $this->session->user)
-                    ->where('id', $kel['id'])
-                    ->update('tweb_keluarga');
-            }
+            $this->config_id()
+                ->set('nik_kepala', $id_pend)
+                ->set('updated_by', $this->session->user)
+                ->where('id', $kel['id'])
+                ->update('tweb_keluarga');
 
             // Jenis peristiwa didapat dari form yang berbeda
             // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
@@ -1096,7 +1090,7 @@ class Keluarga_model extends MY_Model
             ->row_array()['no_kk'];
     }
 
-    public function update_nokk($id = 0)
+    public function update_nokk($id = 0): void
     {
         unset($_SESSION['error_msg']);
         $data = $_POST;
@@ -1109,16 +1103,9 @@ class Keluarga_model extends MY_Model
         if ($data['id_cluster'] != $data['id_cluster_lama']) {
             $this->keluarga_model->pindah_anggota_keluarga($id, $data['id_cluster']);
         }
-        unset($data['dusun'], $data['rw'], $data['id_cluster_lama']);
+        unset($data['dusun'], $data['rw'], $data['id_cluster_lama'], $data['id_program']);
 
-        $id_program = $data['id_program'];
-        unset($data['id_program']);
-
-        if (! empty($data['tgl_cetak_kk'])) {
-            $data['tgl_cetak_kk'] = date('Y-m-d H:i:s', strtotime($data['tgl_cetak_kk']));
-        } else {
-            $data['tgl_cetak_kk'] = null;
-        }
+        $data['tgl_cetak_kk'] = empty($data['tgl_cetak_kk']) ? null : date('Y-m-d H:i:s', strtotime($data['tgl_cetak_kk']));
         if (empty($data['kelas_sosial'])) {
             $data['kelas_sosial'] = null;
         }
@@ -1128,13 +1115,13 @@ class Keluarga_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function pindah_keluarga($id_kk, $id_cluster)
+    public function pindah_keluarga($id_kk, $id_cluster): void
     {
         $this->config_id()->where('id', $id_kk)->update('tweb_keluarga', ['id_cluster' => $id_cluster, 'updated_by' => $this->session->user]);
         $this->pindah_anggota_keluarga($id_kk, $id_cluster);
     }
 
-    private function pindah_anggota_keluarga($id_kk, $id_cluster)
+    private function pindah_anggota_keluarga($id_kk, $id_cluster): void
     {
         // Ubah dusun/rw/rt untuk semua anggota keluarga
         if (! empty($id_cluster)) {
@@ -1151,7 +1138,7 @@ class Keluarga_model extends MY_Model
                 ->result_array();
 
             foreach ($data2 as $datanya) {
-                $this->penduduk_model->tulis_log_penduduk($datanya[id], '6', date('m'), date('Y'));
+                $this->penduduk_model->tulis_log_penduduk($datanya[\ID], '6', date('m'), date('Y'));
             }
         }
     }
@@ -1211,16 +1198,10 @@ class Keluarga_model extends MY_Model
 
     public function get_data_unduh_kk($id)
     {
-        $data              = [];
-        $data['desa']      = identitas();
-        $data['id_kk']     = $id;
-        $data['main']      = $this->list_anggota($id);
-        $data['kepala_kk'] = $this->get_kepala_kk($id);
-
-        return $data;
+        return ['desa' => identitas(), 'id_kk' => $id, 'main' => $this->list_anggota($id), 'kepala_kk' => $this->get_kepala_kk($id)];
     }
 
-    public function unduh_kk($id = 0)
+    public function unduh_kk($id = 0): void
     {
         $id_cb = $_POST['id_cb'];
         if (empty($id) && count($id_cb) == 1) {
@@ -1230,7 +1211,7 @@ class Keluarga_model extends MY_Model
         if (empty($id)) {
             // Aksi borongan lebih dari satu KK
             $berkas_kk = [];
-            if (count($id_cb)) {
+            if (count($id_cb) > 0) {
                 foreach ($id_cb as $id) {
                     $data        = $this->get_data_unduh_kk($id);
                     $berkas_kk[] = $this->buat_berkas_kk($data);
@@ -1362,7 +1343,7 @@ class Keluarga_model extends MY_Model
         return '0' . identitas()->kode_desa . sprintf('%05d', $digit + 1);
     }
 
-    public function pecah_semua($id, $post)
+    public function pecah_semua($id, $post): void
     {
         $this->session->unset_userdata(['success', 'error_msg']);
         // Buat keluarga baru
@@ -1395,7 +1376,7 @@ class Keluarga_model extends MY_Model
                 'updated_by'       => $this->session->user,
             ];
             if ($anggota['id'] == $post['nik_kepala']) {
-                $data['kk_level'] = 1;
+                $data['kk_level'] = SHDKEnum::KEPALA_KELUARGA;
             }
             $hasil = $hasil && $this->config_id()
                 ->where('id', $anggota['id'])

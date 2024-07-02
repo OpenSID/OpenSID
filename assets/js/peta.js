@@ -36,11 +36,11 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa) {
 
         var marker_style = {
           stroke: true,
-          color: "white",
+          color: daftar[x].border ?? "#FFFFFF",
           opacity: 1,
           weight: 3,
-          fillColor: daftar[x].warna,
-          fillOpacity: 0.8,
+          fillColor: daftar[x].warna ?? "#FFFFFF",
+          fillOpacity: 1,
           dashArray: 4,
         };
 
@@ -106,11 +106,11 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
 
             var marker_style = {
               stroke: true,
-              color: "white",
+              color: daftar[x].border ?? "#FFFFFF",
               opacity: 1,
               weight: 3,
-              fillColor: daftar[x].warna,
-              fillOpacity: 0.8,
+              fillColor: daftar[x].warna ?? "#FFFFFF",
+              fillOpacity: 1,
               dashArray: 4,
             };
 
@@ -179,9 +179,7 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa) {
         turf.polygon(daerah_desa[x], { content: desa, style: style_polygon })
       );
     }
-  } else {
-    console.log(judul);
-    console.log(daerah_desa);
+  } else {    
     error_message += message(judul);
   }
 }
@@ -289,11 +287,11 @@ function set_marker_persil_content(
 
       var marker_style = {
         stroke: true,
-        color: "blue",
+        color: daftar[x].border ?? "#FFFFFF",
         opacity: 1,
         weight: 3,
-        fillColor: daftar[x].warna,
-        fillOpacity: 0.8,
+        fillColor: daftar[x].warna ?? "#FFFFFF",
+        fillOpacity: 1,
         dashArray: 4,
       };
       daftar[x].path[0].push(daftar[x].path[0][0]);
@@ -343,11 +341,11 @@ function set_marker_content(
 
       var marker_style = {
         stroke: true,
-        color: "white",
+        color: daftar[x].border ?? "#FFFFFF",
         opacity: 1,
         weight: 3,
-        fillColor: daftar[x].warna,
-        fillOpacity: 0.8,
+        fillColor: daftar[x].warna ?? "#FFFFFF",
+        fillOpacity: 1,
         dashArray: 4,
       };
 
@@ -409,11 +407,11 @@ function set_marker_multi_content(
 
           var marker_style = {
             stroke: true,
-            color: "white",
+            color: daftar[x].border ?? "#FFFFFF",
             opacity: 1,
             weight: 3,
-            fillColor: daftar[x].warna,
-            fillOpacity: 0.8,
+            fillColor: daftar[x].warna ?? "#FFFFFF",
+            fillOpacity: 1,
             dashArray: 4,
           };
 
@@ -676,10 +674,10 @@ function eximGpxRegion(layerpeta, multi = false) {
     'assets/images/gpx.png" alt="file icon"/>';
   L.Control.FileLayerLoad.TITLE = "Impor GPX/KML";
 
-  controlGpxPoly = L.Control.fileLayerLoad({
+  const controlGpxPoly = L.Control.fileLayerLoad({
     addToMap: true,
     formats: [".gpx", ".kml"],
-    fitBounds: true,
+    fitBounds: false,
     layerOptions: {
       pointToLayer: function (data, latlng) {
         return L.marker(latlng);
@@ -688,7 +686,7 @@ function eximGpxRegion(layerpeta, multi = false) {
   });
   controlGpxPoly.addTo(layerpeta);
 
-  controlGpxPoly.loader.on("data:loaded", function (e) {
+  controlGpxPoly.loader.on("data:loaded", function (e) {    
     var type = e.layerType;
     var layer = e.layer;
     var coords = [];
@@ -711,12 +709,20 @@ function eximGpxRegion(layerpeta, multi = false) {
     }
 
     var path = get_path_import(coords, multi);
-
+    
     if (multi == true) {
       coords = new Array(coords);
     }
 
-    document.getElementById("path").value = path;
+    const pathJson = JSON.parse(path)
+    if (isValidMultiPolygonPath(pathJson) || isValidPolygonPath(pathJson)){
+      document.getElementById("path").value = path;
+      controlGpxPoly.options.fitBounds = true;
+    } else {
+      controlGpxPoly.options.fitBounds = false;
+      document.getElementById("path").value = "";
+      _error('Peta tidak valid')
+    }
   });
 
   return controlGpxPoly;
@@ -807,7 +813,7 @@ function eximShp(layerpeta, multi = false) {
       }).addListener(input, "change", function () {
         var input = document.getElementById("file");
         if (!input.files[0]) {
-          alert("Pilih file shapefile dalam format .zip");
+          _error("Pilih file shapefile dalam format .zip");
         } else {
           file = input.files[0];
           fr = new FileReader();
@@ -848,9 +854,14 @@ function eximShp(layerpeta, multi = false) {
               coords = new Array(coords);
             }
 
-            document.getElementById("path").value = path;
-
-            layerpeta.fitBounds(shpfile.getBounds());
+            const pathJson = JSON.parse(path)
+            if (isValidMultiPolygonPath(pathJson) || isValidPolygonPath(pathJson)){
+              document.getElementById("path").value = path;
+              layerpeta.fitBounds(shpfile.getBounds());
+            }else {
+              document.getElementById("path").value = "";
+              _error('Peta tidak valid')
+            }
           });
         }
       });
@@ -1041,7 +1052,7 @@ function addPetaMultipoly(layerpeta) {
           try {
             _path.push(layerpeta._layers[i]._latlngs);
           } catch (e) {
-            alert("problem with " + e + layerpeta._layers[i]);
+            _error("problem with " + e + layerpeta._layers[i]);
           }
         }
       }
@@ -2098,10 +2109,10 @@ function luas(map, tampil_luas) {
   return map.hideMeasurements();
 }
 
-function isValidMultiPolygonPath(geojson) {
+function isValidMultiPolygonPath(geojson) {  
   try {
     const { type, coordinates } = turf.multiPolygon(geojson).geometry;
-
+    
     return (
       type === "MultiPolygon" &&
       Array.isArray(coordinates) &&
@@ -2114,7 +2125,7 @@ function isValidMultiPolygonPath(geojson) {
   }
 }
 
-function isValidPolygonPath(path) {
+function isValidPolygonPath(path) {  
   // Menambahkan titik awal sebagai titik akhir
   path[0].push(path[0][0]);
 

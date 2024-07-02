@@ -21,7 +21,9 @@
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_sosmed as $list) :?>
 									<?php $nama = str_replace(' ', '-', strtolower($list['nama']))?>
-									<li class="<?php ($media === $nama) && print 'active'?>"><a href="<?= site_url("sosmed/tab/{$nama}")?>"><i class="fa fa-<?= $nama?>"></i> <?= $list['nama']?></a></li>
+									<li class="<?php if ($media === $nama) {
+									    echo 'active';
+									} ?>"><a href="<?= site_url("sosmed/tab/{$nama}")?>"><i class="fa fa-<?= $nama?>"></i> <?= $list['nama']?></a></li>
 								<?php endforeach; ?>
 							</ul>
 						</div>

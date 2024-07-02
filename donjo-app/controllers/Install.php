@@ -63,6 +63,7 @@ class Install extends CI_Controller
 
         $this->load->config('installer');
         $this->load->library('form_validation');
+        $this->folder_lainnya();
     }
 
     /**
@@ -70,6 +71,8 @@ class Install extends CI_Controller
      */
     public function index()
     {
+        $this->session->instalasi = true;
+
         // disable install
         if (file_exists(DESAPATH)) {
             show_404();
@@ -372,7 +375,7 @@ class Install extends CI_Controller
     /**
      * Step 7
      */
-    public function finish()
+    public function finish(): void
     {
         $this->session->unset_userdata([
             'errors',
@@ -381,6 +384,7 @@ class Install extends CI_Controller
             'username',
             'password',
             'database',
+            'instalasi',
         ]);
 
         redirect('/');
@@ -395,5 +399,12 @@ class Install extends CI_Controller
         }
 
         return true;
+    }
+
+    public function folder_lainnya(): void
+    {
+        foreach (config_item('lainnya') as $folder => $lainnya) {
+            folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
+        }
     }
 }

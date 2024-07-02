@@ -1,6 +1,6 @@
 {
 	"name": "opendesa/opensid",
-	"description": "OpenSID adalah Sistem Informasi Desa (SID) yang sengaja dirancang supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. OpenSID awalnya dikembangkan menggunakan SID dari Combine Resource Institution (CRI). SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang diperoleh dari teman-teman di https://www.facebook.com/groups/OpenSID pada tanggal 15 Pebruari 2017.",
+	"description": "OpenSID adalah Sistem Informasi Desa (SID) yang sengaja dirancang supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. OpenSID awalnya dikembangkan menggunakan SID dari Combine Resource Institution (CRI). SID CRI terakhir yang telah digabung dengan OpenSID adalah SID 3.10 yang diperoleh dari teman-teman di https://www.facebook.com/groups/komunitasopendesa pada tanggal 15 Pebruari 2017.",
 	"license": "GPL-3.0-or-later",
 	"type": "project",
 	"keywords": [
@@ -8,7 +8,7 @@
 		"sistem-informasi-desa"
 	],
 	"require": {
-		"php": "^7.3",
+		"php": "^7.4 || ^8.0 || ^8.1",
 		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"codeigniter/framework": "^3.1",
 		"edwinhoksberg/php-fcm": "^1.2",
@@ -26,7 +26,9 @@
 		"symfony/var-dumper": "^5.4",
 		"themes/esensi": "dev-main",
 		"themes/natra": "dev-premium",
-		"voku/anti-xss": "^4.1"
+		"voku/anti-xss": "^4.1",
+		"illuminate/config": "^8.83",
+		"illuminate/cache": "^8.83"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",

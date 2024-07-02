@@ -61,7 +61,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->sub_modul_ini = 110;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata(['cari', 'dusun', 'rw', 'rt', 'filter', 'tipe', 'kategori']);
         $this->session->per_page = $this->_set_page[0];
@@ -69,7 +69,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0)
+    public function index($p = 1, $o = 0): void
     {
         if (empty($this->analisis_master_model->get_aktif_periode())) {
             $this->session->success   = -1;
@@ -80,27 +80,11 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $data['p'] = $p;
         $data['o'] = $o;
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
-        }
+        $data['cari'] = $_SESSION['cari'] ?? '';
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
-        }
-        if (isset($_SESSION['tipe'])) {
-            $data['tipe'] = $_SESSION['tipe'];
-        } else {
-            $data['tipe'] = '';
-        }
-        if (isset($_SESSION['kategori'])) {
-            $data['kategori'] = $_SESSION['kategori'];
-        } else {
-            $data['kategori'] = '';
-        }
+        $data['filter']   = $_SESSION['filter'] ?? '';
+        $data['tipe']     = $_SESSION['tipe'] ?? '';
+        $data['kategori'] = $_SESSION['kategori'] ?? '';
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
         }
@@ -114,11 +98,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
                 $data['rw']      = $_SESSION['rw'];
                 $data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 
-                if (isset($_SESSION['rt'])) {
-                    $data['rt'] = $_SESSION['rt'];
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt'] = $_SESSION['rt'] ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -141,7 +121,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->render('analisis_statistik_jawaban/table', $data);
     }
 
-    public function grafik_parameter($id = '')
+    public function grafik_parameter($id = ''): void
     {
         if (isset($_SESSION['dusun'])) {
             $data['dusun']   = $_SESSION['dusun'];
@@ -150,42 +130,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
             if (isset($_SESSION['rw'])) {
                 $data['rw']      = $_SESSION['rw'];
                 $data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
-                if (isset($_SESSION['rt'])) {
-                    $data['rt'] = $_SESSION['rt'];
-                } else {
-                    $data['rt'] = '';
-                }
-            } else {
-                $data['rw'] = '';
-            }
-        } else {
-            $data['dusun'] = '';
-            $data['rw']    = '';
-            $data['rt']    = '';
-        }
-        $data['list_dusun']                 = $this->wilayah_model->list_dusun();
-        $ai                                 = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-        $data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-        $data['analisis_master']            = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
-        $data['main']                       = $this->analisis_statistik_jawaban_model->list_indikator($id);
-
-        $this->render('analisis_statistik_jawaban/parameter/grafik_table', $data);
-    }
-
-    public function subjek_parameter($id = '', $par = '')
-    {
-        if (isset($_SESSION['dusun'])) {
-            $data['dusun']   = $_SESSION['dusun'];
-            $data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
-
-            if (isset($_SESSION['rw'])) {
-                $data['rw']      = $_SESSION['rw'];
-                $data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
-                if (isset($_SESSION['rt'])) {
-                    $data['rt'] = $_SESSION['rt'];
-                } else {
-                    $data['rt'] = '';
-                }
+                $data['rt']      = $_SESSION['rt'] ?? '';
             } else {
                 $data['rw'] = '';
             }
@@ -195,7 +140,34 @@ class Analisis_statistik_jawaban extends Admin_Controller
             $data['rt']    = '';
         }
         $data['list_dusun'] = $this->wilayah_model->list_dusun();
-        $ai                 = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
+        $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
+        $data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
+        $data['analisis_master']            = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
+        $data['main']                       = $this->analisis_statistik_jawaban_model->list_indikator($id);
+
+        $this->render('analisis_statistik_jawaban/parameter/grafik_table', $data);
+    }
+
+    public function subjek_parameter($id = '', $par = ''): void
+    {
+        if (isset($_SESSION['dusun'])) {
+            $data['dusun']   = $_SESSION['dusun'];
+            $data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
+
+            if (isset($_SESSION['rw'])) {
+                $data['rw']      = $_SESSION['rw'];
+                $data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
+                $data['rt']      = $_SESSION['rt'] ?? '';
+            } else {
+                $data['rw'] = '';
+            }
+        } else {
+            $data['dusun'] = '';
+            $data['rw']    = '';
+            $data['rt']    = '';
+        }
+        $data['list_dusun'] = $this->wilayah_model->list_dusun();
+        $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 
         $data['analisis_statistik_pertanyaan'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
         $data['analisis_statistik_jawaban']    = $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
@@ -205,19 +177,19 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->render('analisis_statistik_jawaban/parameter/subjek_table', $data);
     }
 
-    public function cetak($o = 0)
+    public function cetak($o = 0): void
     {
         $data['main'] = $this->analisis_statistik_jawaban_model->list_data($o, 0, 10000);
         $this->load->view('analisis_statistik_jawaban/table_print', $data);
     }
 
-    public function excel($o = 0)
+    public function excel($o = 0): void
     {
         $data['main'] = $this->analisis_statistik_jawaban_model->list_data($o, 0, 10000);
         $this->load->view('analisis_statistik_jawaban/table_excel', $data);
     }
 
-    public function cetak2($id = '', $par = '')
+    public function cetak2($id = '', $par = ''): void
     {
         $data['analisis_statistik_pertanyaan'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
         $data['analisis_statistik_jawaban']    = $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
@@ -225,7 +197,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->load->view('analisis_statistik_jawaban/parameter/table_print', $data);
     }
 
-    public function excel2($id = '', $par = '')
+    public function excel2($id = '', $par = ''): void
     {
         $data['analisis_statistik_pertanyaan'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
         $data['analisis_statistik_jawaban']    = $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
@@ -233,7 +205,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $this->load->view('analisis_statistik_jawaban/parameter/subjek_excel', $data);
     }
 
-    public function search()
+    public function search(): void
     {
         $cari = $this->input->post('cari');
         if ($cari != '') {
@@ -244,7 +216,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function filter()
+    public function filter(): void
     {
         $filter = $this->input->post('filter');
         if ($filter != 0) {
@@ -255,7 +227,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function tipe()
+    public function tipe(): void
     {
         $filter = $this->input->post('tipe');
         if ($filter != 0) {
@@ -266,7 +238,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function kategori()
+    public function kategori(): void
     {
         $filter = $this->input->post('kategori');
         if ($filter != 0) {
@@ -277,7 +249,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function dusun()
+    public function dusun(): void
     {
         unset($_SESSION['rw'], $_SESSION['rt']);
 
@@ -290,7 +262,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function rw()
+    public function rw(): void
     {
         unset($_SESSION['rt']);
         $rw = $this->input->post('rw');
@@ -302,7 +274,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function rt()
+    public function rt(): void
     {
         $rt = $this->input->post('rt');
         if ($rt != '') {
@@ -313,7 +285,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function dusun2($id = '', $par = '')
+    public function dusun2($id = '', $par = ''): void
     {
         unset($_SESSION['rw'], $_SESSION['rt']);
 
@@ -326,7 +298,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect("analisis_statistik_jawaban/subjek_parameter/{$id}/{$par}");
     }
 
-    public function rw2($id = '', $par = '')
+    public function rw2($id = '', $par = ''): void
     {
         unset($_SESSION['rt']);
         $rw = $this->input->post('rw');
@@ -338,7 +310,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect("analisis_statistik_jawaban/subjek_parameter/{$id}/{$par}");
     }
 
-    public function rt2($id = '', $par = '')
+    public function rt2($id = '', $par = ''): void
     {
         $rt = $this->input->post('rt');
         if ($rt != '') {
@@ -349,7 +321,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect("analisis_statistik_jawaban/subjek_parameter/{$id}/{$par}");
     }
 
-    public function dusun3($id = '')
+    public function dusun3($id = ''): void
     {
         unset($_SESSION['rw'], $_SESSION['rt']);
 
@@ -362,7 +334,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect("analisis_statistik_jawaban/grafik_parameter/{$id}");
     }
 
-    public function rw3($id = '')
+    public function rw3($id = ''): void
     {
         unset($_SESSION['rt']);
         $rw = $this->input->post('rw');
@@ -374,7 +346,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect("analisis_statistik_jawaban/grafik_parameter/{$id}");
     }
 
-    public function rt3($id = '')
+    public function rt3($id = ''): void
     {
         $rt = $this->input->post('rt');
         if ($rt != '') {
@@ -385,14 +357,14 @@ class Analisis_statistik_jawaban extends Admin_Controller
         redirect("analisis_statistik_jawaban/grafik_parameter/{$id}");
     }
 
-    public function delete($p = 1, $o = 0, $id = '')
+    public function delete($p = 1, $o = 0, $id = ''): void
     {
         $this->redirect_hak_akses('h', "analisis_statistik_jawaban/index/{$p}/{$o}");
         $this->analisis_statistik_jawaban_model->delete($id);
         redirect("analisis_statistik_jawaban/index/{$p}/{$o}");
     }
 
-    public function delete_all($p = 1, $o = 0)
+    public function delete_all($p = 1, $o = 0): void
     {
         $this->redirect_hak_akses('h', "analisis_statistik_jawaban/index/{$p}/{$o}");
         $this->analisis_statistik_jawaban_model->delete_all();

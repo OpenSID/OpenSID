@@ -135,10 +135,10 @@
       var mark_covid = [];
 
       // deklrasi variabel agar mudah di baca
-      var all_area = '<?= addslashes(json_encode($area)) ?>';
-      var all_garis = '<?= addslashes(json_encode($garis)) ?>';
-      var all_lokasi = '<?= addslashes(json_encode($lokasi)) ?>';
-      var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan)) ?>';
+      var all_area = '<?= addslashes(json_encode($area, JSON_THROW_ON_ERROR)) ?>';
+      var all_garis = '<?= addslashes(json_encode($garis, JSON_THROW_ON_ERROR)) ?>';
+      var all_lokasi = '<?= addslashes(json_encode($lokasi, JSON_THROW_ON_ERROR)) ?>';
+      var all_lokasi_pembangunan = '<?= addslashes(json_encode($lokasi_pembangunan, JSON_THROW_ON_ERROR)) ?>';
       var LOKASI_SIMBOL_LOKASI = '<?= base_url(LOKASI_SIMBOL_LOKASI) ?>';
       var favico_desa = '<?= favico_desa() ?>';
       var LOKASI_FOTO_AREA = '<?= base_url(LOKASI_FOTO_AREA) ?>';
@@ -146,27 +146,27 @@
       var LOKASI_FOTO_LOKASI = '<?= base_url(LOKASI_FOTO_LOKASI) ?>';
       var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
       var info_pembangunan = '<?= site_url('pembangunan') ?>';
-      var all_persil = '<?= addslashes(json_encode($persil)) ?>';
+      var all_persil = '<?= addslashes(json_encode($persil, JSON_THROW_ON_ERROR)) ?>';
       var TAMPIL_LUAS = <?= setting('tampil_luas_peta') ?>
 
       //OVERLAY WILAYAH DESA
       <?php if (! empty($desa['path'])) : ?>
-        set_marker_desa_content(marker_desa, <?= json_encode($desa) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>", '#isi_popup');
+        set_marker_desa_content(marker_desa, <?= json_encode($desa, JSON_THROW_ON_ERROR) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>", '#isi_popup');
       <?php endif; ?>
 
       //OVERLAY WILAYAH DUSUN
       <?php if (! empty($dusun_gis)) : ?>
-        set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
+        set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //OVERLAY WILAYAH RW
       <?php if (! empty($rw_gis)) : ?>
-        set_marker_content(marker_rw, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa() ?>');
+        set_marker_content(marker_rw, '<?= addslashes(json_encode($rw_gis, JSON_THROW_ON_ERROR)) ?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //OVERLAY WILAYAH RT
       <?php if (! empty($rt_gis)) : ?>
-        set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
+        set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis, JSON_THROW_ON_ERROR)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
       <?php endif; ?>
 
       //Menampilkan overlayLayers Peta Semua Wilayah
@@ -209,16 +209,16 @@
 
       mymap.on('overlayadd', function(eventLayer) {
         if (eventLayer.name === 'Peta Wilayah Desa') {
-          setlegendPetaDesa(legenda_desa, mymap, <?= json_encode($desa) ?>, '<?= ucwords($this->setting->sebutan_desa) ?>', '<?= $desa['nama_desa'] ?>');
+          setlegendPetaDesa(legenda_desa, mymap, <?= json_encode($desa, JSON_THROW_ON_ERROR) ?>, '<?= ucwords($this->setting->sebutan_desa) ?>', '<?= $desa['nama_desa'] ?>');
         }
         if (eventLayer.name === 'Peta Wilayah Dusun') {
-          setlegendPeta(legenda_dusun, mymap, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '', '');
+          setlegendPeta(legenda_dusun, mymap, '<?= addslashes(json_encode($dusun_gis, JSON_THROW_ON_ERROR)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '', '');
         }
         if (eventLayer.name === 'Peta Wilayah RW') {
-          setlegendPeta(legenda_rw, mymap, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '<?= ucwords($this->setting->sebutan_dusun) ?>');
+          setlegendPeta(legenda_rw, mymap, '<?= addslashes(json_encode($rw_gis, JSON_THROW_ON_ERROR)) ?>', 'RW', 'rw', '<?= ucwords($this->setting->sebutan_dusun) ?>');
         }
         if (eventLayer.name === 'Peta Wilayah RT') {
-          setlegendPeta(legenda_rt, mymap, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', 'RW');
+          setlegendPeta(legenda_rt, mymap, '<?= addslashes(json_encode($rt_gis, JSON_THROW_ON_ERROR)) ?>', 'RT', 'rt', 'RW');
         }
       });
 

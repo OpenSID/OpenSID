@@ -53,7 +53,7 @@
 											<td style="padding-top : 10px;padding-bottom : 10px;" >Warganegara / Agama</td>
 											<td> <?= $individu['warganegara']?> / <?= $individu['agama']?></td>
 										</tr>
-									<?php endif; ?>
+<?php endif; ?>
 								</tbody>
 							</table>
 						</div>

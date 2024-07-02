@@ -45,7 +45,7 @@ class Vaksin extends Web_Controller
         $this->load->model('vaksin_covid_model');
     }
 
-    public function index()
+    public function index(): void
     {
         if (! $this->web_menu_model->menu_aktif('data-vaksinasi')) {
             show_404();

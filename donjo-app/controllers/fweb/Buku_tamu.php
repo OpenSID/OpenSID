@@ -71,7 +71,7 @@ class Buku_tamu extends MY_Controller
         ]);
     }
 
-    public function registrasi()
+    public function registrasi(): void
     {
         if ($this->input->post()) {
             $post = $this->validate($this->request);
@@ -86,12 +86,10 @@ class Buku_tamu extends MY_Controller
 
             if ($cek_registrasi) {
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
+            } elseif (BukuTamu::create($post)) {
+                set_session('success', 'Registrasi Berhasil Disimpan');
             } else {
-                if (BukuTamu::create($post)) {
-                    set_session('success', 'Registrasi Berhasil Disimpan');
-                } else {
-                    set_session('error', 'Registrasi Gagal Disimpan');
-                }
+                set_session('error', 'Registrasi Gagal Disimpan');
             }
         } else {
             set_session('error', 'Akses Tidak Tersedia');
@@ -124,7 +122,7 @@ class Buku_tamu extends MY_Controller
         return view($view, $data);
     }
 
-    public function jawaban($id = null, $jawaban = null)
+    public function jawaban($id = null, $jawaban = null): void
     {
         $tamu = BukuTamu::find($id);
 
@@ -183,7 +181,7 @@ class Buku_tamu extends MY_Controller
         $nama_file = null;
 
         if ($base64) {
-            $nama_file = time() . mt_rand(10000, 999999) . '.jpg';
+            $nama_file = time() . random_int(10000, 999999) . '.jpg';
             $base64    = str_replace('data:image/png;base64,', '', $base64);
             $base64    = base64_decode($base64, true);
 

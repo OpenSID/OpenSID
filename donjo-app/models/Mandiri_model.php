@@ -62,7 +62,7 @@ class Mandiri_model extends MY_Model
         return autocomplete_data_ke_str($data);
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         $cari = $this->session->cari;
         if ($cari) {
@@ -74,7 +74,7 @@ class Mandiri_model extends MY_Model
         }
     }
 
-    private function list_data_sql()
+    private function list_data_sql(): void
     {
         $this->config_id('pm')
             ->from('tweb_penduduk_mandiri pm')
@@ -133,11 +133,11 @@ class Mandiri_model extends MY_Model
 
     private function generate_pin()
     {
-        return strrev(mt_rand(100000, 999999));
+        return strrev(random_int(100000, 999999));
     }
 
     // TODO : Digunakan dimana ?
-    private function list_data_ajax_sql($cari = '')
+    private function list_data_ajax_sql($cari = ''): void
     {
         $this->config_id('u')
             ->from('tweb_penduduk_mandiri u')
@@ -202,7 +202,7 @@ class Mandiri_model extends MY_Model
     }
 
     //Pendaftaran Layanan Mandiri oleh Masing-masing Penduduk secara mandiri
-    public function pendaftaran_mandiri($data)
+    public function pendaftaran_mandiri($data): void
     {
         //cek penduduk apakah sudah terdaftar di data kependudukan
         if (null !== ($penduduk = $this->cek_pendaftaran($data['nama'], $data['nik'], $data['tgl_lahir'], $data['kk']))) {
@@ -280,10 +280,10 @@ class Mandiri_model extends MY_Model
             ->get()
             ->row();
 
-        return (bool) ($cek != null);
+        return $cek != null;
     }
 
-    public function insert_daftar($data_penduduk, &$data)
+    public function insert_daftar($data_penduduk, &$data): void
     {
         $scan = [];
 
@@ -349,11 +349,11 @@ class Mandiri_model extends MY_Model
             session_error($this->upload->display_errors());
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return (empty($uploadData)) ? null : $uploadData['file_name'];
     }
 
     //Login Layanan Mandiri
-    public function siteman()
+    public function siteman(): void
     {
         session_error_clear();
 
@@ -392,8 +392,8 @@ class Mandiri_model extends MY_Model
                     break;
 
                 case $this->session->mandiri_try > 2:
-                    $this->session->mandiri_try = $this->session->mandiri_try - 1;
-                    $this->session->login_ektp  = false;
+                    --$this->session->mandiri_try;
+                    $this->session->login_ektp = false;
                     break;
 
                 default:
@@ -408,7 +408,7 @@ class Mandiri_model extends MY_Model
     }
 
     //Login Layanan Mandiri E-KTP
-    public function siteman_ektp()
+    public function siteman_ektp(): void
     {
         session_error_clear();
 
@@ -436,13 +436,6 @@ class Mandiri_model extends MY_Model
         if ($data->aktif == 1) {
             switch (true) {
                 case $data && $this->cek_anjungan && $tag == $data->tag_id_card:
-                    $session = [
-                        'mandiri'    => 1,
-                        'is_login'   => $data,
-                        'login_ektp' => true,
-                    ];
-                    $this->session->set_userdata($session);
-                    break;
 
                 case $data && ! $this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin:
                     $session = [
@@ -454,8 +447,8 @@ class Mandiri_model extends MY_Model
                     break;
 
                 case $this->session->mandiri_try > 2:
-                    $this->session->mandiri_try = $this->session->mandiri_try - 1;
-                    $this->session->login_ektp  = true;
+                    --$this->session->mandiri_try;
+                    $this->session->login_ektp = true;
                     break;
 
                 default:
@@ -470,7 +463,7 @@ class Mandiri_model extends MY_Model
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
         $data = [
             'id_pend'    => $this->is_login->id_pend,
@@ -484,18 +477,18 @@ class Mandiri_model extends MY_Model
         $this->session->unset_userdata(['mandiri', 'is_login', 'data_permohonan']);
     }
 
-    public function update_login(array $data = [])
+    public function update_login(array $data = []): void
     {
         $this->config_id()->where('id_pend', $data['id_pend'])->update('tweb_penduduk_mandiri', $data);
     }
 
-    public function ganti_pin()
+    public function ganti_pin(): void
     {
-        $id_pend   = $this->is_login->id_pend;
-        $nama      = $this->session->is_login->nama;
-        $ganti     = $this->input->post();
-        $pin_lama  = hash_pin(bilangan($ganti['pin_lama']));
-        $pin_baru1 = hash_pin(bilangan($ganti['pin_baru1']));
+        $id_pend  = $this->is_login->id_pend;
+        $nama     = $this->session->is_login->nama;
+        $ganti    = $this->input->post();
+        $pin_lama = hash_pin(bilangan($ganti['pin_lama']));
+        hash_pin(bilangan($ganti['pin_baru1']));
         $pin_baru2 = hash_pin(bilangan($ganti['pin_baru2']));
 
         $pilihan_kirim = $ganti['pilihan_kirim'];
@@ -592,7 +585,7 @@ class Mandiri_model extends MY_Model
         return 0;
     }
 
-    public function cek_verifikasi($nik = 0)
+    public function cek_verifikasi($nik = 0): void
     {
         // cek metode pengiriman pin melalui telegram atau email
         $metode = alfa_spasi($this->input->post('send'));
@@ -638,8 +631,8 @@ class Mandiri_model extends MY_Model
                 break;
 
             case $this->session->mandiri_try > 2:
-                $this->session->mandiri_try = $this->session->mandiri_try - 1;
-                $respon                     = [
+                --$this->session->mandiri_try;
+                $respon = [
                     'status' => -1, // Notif gagal
                     'pesan'  => 'Informasi reset PIN telah dikirim ke akun ' . (($metode == 'telegram') ? 'Telegram' : 'Email') . ' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun ' . (($metode == 'telegram') ? 'Telegram' : 'Email') . ' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
                 ];
@@ -711,22 +704,5 @@ class Mandiri_model extends MY_Model
         }
 
         return true;
-    }
-
-    private function getLogin($where = [])
-    {
-        if ($where) {
-            return $this->config_id('pm')
-                ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.sex, p.foto, p.kk_level, p.id_kk, p.telepon, k.no_kk, c.rt, c.rw, c.dusun')
-                ->from('tweb_penduduk_mandiri pm')
-                ->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
-                ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
-                ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-                ->where($where)
-                ->get()
-                ->row();
-        }
-
-        return null;
     }
 }

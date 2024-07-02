@@ -47,16 +47,16 @@ class Bip2012_model extends Impor_model
     /**
      * Cari baris pertama mulainya blok keluarga
      *
-     * @param sheet			data excel berisi bip
-     * @param int		jumlah baris di sheet
-     * @param int		cari dari baris ini
+     * @param		sheet			data excel berisi bip
+     * @param 	int		jumlah baris di sheet
+     * @param 	int		cari dari baris ini
      * @param mixed $data_sheet
      * @param mixed $baris
      * @param mixed $dari
      *
      * @return int baris pertama blok keluarga
      */
-    private function cari_bip_kk($data_sheet, $baris, $dari = 1)
+    private function cari_bip_kk($data_sheet, $baris, int $dari = 1)
     {
         if ($baris <= 1) {
             return 0;
@@ -78,14 +78,14 @@ class Bip2012_model extends Impor_model
     /**
      * Ambil data keluarga berikutnya
      *
-     * @param sheet		data excel berisi bip
-     * @param int	cari dari baris ini
+     * @param		sheet		data excel berisi bip
+     * @param 	int	cari dari baris ini
      * @param mixed $data_sheet
      * @param mixed $i
      *
      * @return array data keluarga
      */
-    private function get_bip_keluarga($data_sheet, $i)
+    private function get_bip_keluarga($data_sheet, int $i)
     {
         // Contoh alamat: "DUSUN KERANDANGAN, RT:001, RW:001, Kodepos:83355,-"
         // $i = baris judul data keluarga. Data keluarga ada di baris berikutnya
@@ -101,7 +101,7 @@ class Bip2012_model extends Impor_model
         }
         $pos_awal = strpos($alamat, 'RW:');
         if ($pos_awal !== false) {
-            $pos                 = $pos + 3;
+            $pos += 3;
             $data_keluarga['rw'] = substr($alamat, $pos, strpos($alamat, ',', $pos) - $pos);
             $alamat              = substr_replace($alamat, '', $pos_awal, strpos($alamat, ',', $pos) - $pos_awal);
         } else {
@@ -132,16 +132,16 @@ class Bip2012_model extends Impor_model
     /**
      * Ambil data anggota keluarga berikutnya
      *
-     * @param sheet		data excel berisi bip
-     * @param int	cari dari baris ini
-     * @param array		data keluarga untuk anggota yg dicari
+     * @param		sheet		data excel berisi bip
+     * @param 	int	cari dari baris ini
+     * @param 	array		data keluarga untuk anggota yg dicari
      * @param mixed $data_sheet
      * @param mixed $i
      * @param mixed $data_keluarga
      *
      * @return array data anggota keluarga
      */
-    private function get_bip_anggota_keluarga($data_sheet, $i, $data_keluarga)
+    private function get_bip_anggota_keluarga($data_sheet, int $i, $data_keluarga)
     {
         // $i = baris data anggota keluarga
         $data_anggota                     = $data_keluarga;
@@ -179,7 +179,7 @@ class Bip2012_model extends Impor_model
     /**
      * Proses impor data bip
      *
-     * @param sheet		data excel berisi bip
+     * @param		sheet		data excel berisi bip
      * @param mixed $data
      *
      * @return setting $_SESSION untuk info hasil impor
@@ -194,10 +194,13 @@ class Bip2012_model extends Impor_model
         $baris_gagal    = '';
         $total_keluarga = 0;
         $total_penduduk = 0;
+        // BIP bisa terdiri dari beberapa worksheet
+        // Proses sheet satu-per-satu
+        $counter = count($data->boundsheets);
 
         // BIP bisa terdiri dari beberapa worksheet
         // Proses sheet satu-per-satu
-        for ($sheet_index = 0; $sheet_index < count($data->boundsheets); $sheet_index++) {
+        for ($sheet_index = 0; $sheet_index < $counter; $sheet_index++) {
             // membaca jumlah baris di sheet ini
             $baris      = $data->rowcount($sheet_index);
             $data_sheet = $data->sheets[$sheet_index]['cells'];
@@ -218,7 +221,7 @@ class Bip2012_model extends Impor_model
                 $this->tulis_tweb_keluarga($data_keluarga);
                 $total_keluarga++;
                 // Pergi ke data anggota keluarga
-                $i = $i + 3;
+                $i += 3;
 
                 // Proses setiap anggota keluarga
                 while ($data_sheet[$i][2] != 'NO.KK' && $i <= $baris) {
@@ -233,7 +236,7 @@ class Bip2012_model extends Impor_model
                     }
                     $i++;
                 }
-                $i = $i - 1;
+                $i--;
             }
         }
 

@@ -115,7 +115,7 @@ class Migrasi_fitur_premium_2103 extends MY_model
 
         // Menambahkan column tanggal_cetak_ktp pada table tweb_penduduk, digunakan untuk define tanggal penerbitan KTP untuk penduduk yang sudah memiliki KTP-EL
         if (! $this->db->field_exists('tanggal_cetak_ktp', 'tweb_penduduk')) {
-            $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', [
+            return $hasil && $this->dbforge->add_column('tweb_penduduk', [
                 'tanggal_cetak_ktp' => [
                     'type' => 'DATE',
                     'null' => true,

@@ -88,7 +88,7 @@ class Admin_pembangunan extends Admin_Controller
         ]);
     }
 
-    public function form($id = '')
+    public function form($id = ''): void
     {
         $this->redirect_hak_akses('u');
         if ($id) {
@@ -107,35 +107,31 @@ class Admin_pembangunan extends Admin_Controller
         $this->render(ADMIN . '/pembangunan/form', $data);
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
         $this->pembangunan->insert();
         redirect($this->controller);
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->pembangunan->update($id);
         redirect($this->controller);
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         $this->redirect_hak_akses('h');
         $this->pembangunan->delete($id);
 
-        if ($this->db->affected_rows()) {
-            $this->session->success = 4;
-        } else {
-            $this->session->success = -4;
-        }
+        $this->session->success = $this->db->affected_rows() ? 4 : -4;
 
         redirect($this->controller);
     }
 
-    public function lokasi_maps($id)
+    public function lokasi_maps($id): void
     {
         $data = $this->pembangunan->find($id) ?? show_404();
 
@@ -163,7 +159,7 @@ class Admin_pembangunan extends Admin_Controller
         ]);
     }
 
-    public function dialog_daftar($id = 0, $aksi = '')
+    public function dialog_daftar($id = 0, $aksi = ''): void
     {
         $data                = $this->modal_penandatangan();
         $data['aksi']        = $aksi;
@@ -172,7 +168,7 @@ class Admin_pembangunan extends Admin_Controller
         $this->load->view('global/ttd_pamong', $data);
     }
 
-    public function daftar($id = 0, $aksi = '')
+    public function daftar($id = 0, $aksi = ''): void
     {
         $request = $this->input->post();
 
@@ -192,7 +188,7 @@ class Admin_pembangunan extends Admin_Controller
         $this->load->view('global/format_cetak', $data);
     }
 
-    public function unlock($id)
+    public function unlock($id): void
     {
         $this->pembangunan->unlock($id);
 
@@ -201,7 +197,7 @@ class Admin_pembangunan extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function lock($id)
+    public function lock($id): void
     {
         $this->redirect_hak_akses('u');
         $this->pembangunan->lock($id);
@@ -244,7 +240,7 @@ class Admin_pembangunan extends Admin_Controller
         ]);
     }
 
-    public function dokumentasi_form($id = '')
+    public function dokumentasi_form($id = ''): void
     {
         $this->redirect_hak_akses('u');
         $id_pembangunan = $this->session->id_pembangunan;
@@ -264,30 +260,26 @@ class Admin_pembangunan extends Admin_Controller
         $this->render(ADMIN . '/pembangunan/dokumentasi/form', $data);
     }
 
-    public function dokumentasi_insert($id_pembangunan = '')
+    public function dokumentasi_insert($id_pembangunan = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->dokumentasi->insert($id_pembangunan);
         redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
     }
 
-    public function dokumentasi_update($id = '', $id_pembangunan = '')
+    public function dokumentasi_update($id = '', $id_pembangunan = ''): void
     {
         $this->redirect_hak_akses('u');
         $this->dokumentasi->update($id, $id_pembangunan);
         redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
     }
 
-    public function dokumentasi_delete($id_pembangunan, $id)
+    public function dokumentasi_delete($id_pembangunan, $id): void
     {
         $this->redirect_hak_akses('h');
         $this->dokumentasi->delete($id);
 
-        if ($this->db->affected_rows()) {
-            $this->session->success = 4;
-        } else {
-            $this->session->success = -4;
-        }
+        $this->session->success = $this->db->affected_rows() ? 4 : -4;
 
         redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
     }

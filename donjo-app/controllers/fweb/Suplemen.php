@@ -50,7 +50,7 @@ class Suplemen extends Web_Controller
         $this->session->unset_userdata('per_page');
     }
 
-    public function detail($slug = null)
+    public function detail($slug = null): void
     {
         $id = SuplemenModel::where('slug', $slug)->first()->id;
 

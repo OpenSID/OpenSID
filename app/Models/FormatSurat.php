@@ -222,7 +222,7 @@ class FormatSurat extends BaseModel
         // 'margin'       => 'json',
     ];
 
-    private $nonAktifkanRTF = 0;
+    private int $nonAktifkanRTF = 0;
 
     /**
      * Define a many-to-many relationship.
@@ -266,36 +266,30 @@ class FormatSurat extends BaseModel
     public function getListSyaratSuratAttribute()
     {
         return $this->syaratSurat->map(
-            static function ($syarat) {
-                return [
-                    'label'      => $syarat->ref_syarat_nama,
-                    'value'      => $syarat->ref_syarat_id,
-                    'form_surat' => [
-                        [
-                            'type'     => 'select',
-                            'required' => true,
-                            'label'    => 'Dokumen Syarat',
-                            'name'     => 'dokumen',
-                            'multiple' => false,
-                            'values'   => $syarat->dokumen->map(static function ($dokumen) {
-                                return [
-                                    'label' => $dokumen->nama,
-                                    'value' => $dokumen->id,
-                                ];
-                            }),
-                        ],
+            static fn ($syarat): array => [
+                'label'      => $syarat->ref_syarat_nama,
+                'value'      => $syarat->ref_syarat_id,
+                'form_surat' => [
+                    [
+                        'type'     => 'select',
+                        'required' => true,
+                        'label'    => 'Dokumen Syarat',
+                        'name'     => 'dokumen',
+                        'multiple' => false,
+                        'values'   => $syarat->dokumen->map(static fn ($dokumen): array => [
+                            'label' => $dokumen->nama,
+                            'value' => $dokumen->id,
+                        ]),
                     ],
-                ];
-            }
+                ],
+            ]
         );
     }
 
     /**
      * Getter form surat attribute.
-     *
-     * @return mixed
      */
-    public function getFormSuratAttribute()
+    public function getFormSuratAttribute(): void
     {
         // try {
         //     return app('surat')->driver($this->url_surat)->form();
@@ -315,23 +309,18 @@ class FormatSurat extends BaseModel
     // {
     //     $this->attributes['url_surat'] = 'surat_' . strtolower(str_replace([' ', '-'], '_', $this->attributes['nama']));
     // }
-
     /**
      * Getter untuk lokasi_surat
-     *
-     * @return string
      */
-    public function getLokasiSuratAttribute()
+    public function getLokasiSuratAttribute(): string
     {
         return LOKASI_SURAT_DESA . $this->url_surat;
     }
 
     /**
      * Getter untuk judul_surat
-     *
-     * @return string
      */
-    public function getJudulSuratAttribute()
+    public function getJudulSuratAttribute(): string
     {
         return 'Surat ' . $this->nama;
     }
@@ -347,7 +336,7 @@ class FormatSurat extends BaseModel
             return kode_isian($this->url_surat);
         }
 
-        return json_decode($this->attributes['kode_isian']);
+        return json_decode($this->attributes['kode_isian'], null);
     }
 
     /**
@@ -361,7 +350,7 @@ class FormatSurat extends BaseModel
             return null;
         }
 
-        return json_decode($this->attributes['form_isian']);
+        return json_decode($this->attributes['form_isian'], null);
     }
 
     /**
@@ -369,9 +358,9 @@ class FormatSurat extends BaseModel
      *
      * @return string
      */
-    public function getMarginCmToMmAttribute()
+    public function getMarginCmToMmAttribute(): array
     {
-        $margin = json_decode($this->margin);
+        $margin = json_decode($this->margin, null);
 
         return [
             $margin->kiri * 10,
@@ -383,34 +372,34 @@ class FormatSurat extends BaseModel
 
     /**
      * Getter untuk url surat sistem
-     *
-     * @return string
      */
-    public function getUrlSuratSistemAttribute()
+    public function getUrlSuratSistemAttribute(): ?string
     {
         $surat_export_desa = LOKASI_SURAT_SISTEM . $this->url_surat . '/' . $this->url_surat . '.rtf';
-
-        if (in_array($this->jenis, ['1', '2']) && is_file($surat_export_desa)) {
-            return $surat_export_desa;
+        if (! in_array($this->jenis, ['1', '2'])) {
+            return null;
+        }
+        if (! is_file($surat_export_desa)) {
+            return null;
         }
 
-        return null;
+        return $surat_export_desa;
     }
 
     /**
      * Getter untuk url surat desa
-     *
-     * @return string
      */
-    public function getUrlSuratDesaAttribute()
+    public function getUrlSuratDesaAttribute(): ?string
     {
         $surat_export_desa = LOKASI_SURAT_DESA . $this->url_surat . '/' . $this->url_surat . '.rtf';
-
-        if (in_array($this->jenis, ['1', '2']) && is_file($surat_export_desa)) {
-            return $surat_export_desa;
+        if (! in_array($this->jenis, ['1', '2'])) {
+            return null;
+        }
+        if (! is_file($surat_export_desa)) {
+            return null;
         }
 
-        return null;
+        return $surat_export_desa;
     }
 
     /**
@@ -436,7 +425,7 @@ class FormatSurat extends BaseModel
      */
     public function scopeKunci($query, $value = self::KUNCI)
     {
-        if ($this->getNonAktifkanRTF()) {
+        if ($this->getNonAktifkanRTF() !== 0) {
             $query->whereNotIn('jenis', self::RTF);
         }
 
@@ -466,7 +455,7 @@ class FormatSurat extends BaseModel
      */
     public function scopeJenis($query, $value)
     {
-        if ($this->getNonAktifkanRTF()) {
+        if ($this->getNonAktifkanRTF() !== 0) {
             $query->whereNotIn('jenis', self::RTF);
         }
 
@@ -497,7 +486,7 @@ class FormatSurat extends BaseModel
     /**
      * Get the value of nonAktifkanRTF
      */
-    public function getNonAktifkanRTF()
+    public function getNonAktifkanRTF(): int
     {
         return $this->nonAktifkanRTF;
     }
@@ -506,10 +495,8 @@ class FormatSurat extends BaseModel
      * Set the value of nonAktifkanRTF
      *
      * @param mixed $nonAktifkanRTF
-     *
-     * @return self
      */
-    public function setNonAktifkanRTF($nonAktifkanRTF)
+    public function setNonAktifkanRTF(int $nonAktifkanRTF): self
     {
         $this->nonAktifkanRTF = $nonAktifkanRTF;
 

@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_1911_ke_1912 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         $this->load->model('migrations/migrasi_default_value');
         $this->migrasi_default_value->up();
@@ -137,7 +137,7 @@ class Migrasi_1911_ke_1912 extends CI_model
                     $kat  = $attr['kategori_publik'];
                     unset($attr['kategori_publik']);
                     $this->db->where('id', $dok['id'])
-                        ->update('dokumen', ['kategori_info_publik' => $kat, 'attr' => json_encode($attr)]);
+                        ->update('dokumen', ['kategori_info_publik' => $kat, 'attr' => json_encode($attr, JSON_THROW_ON_ERROR)]);
                 }
             }
         }

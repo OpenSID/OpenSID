@@ -105,7 +105,7 @@ class AnggotaGrup extends BaseModel
     {
         return $query
             ->leftJoin('kontak as k', 'anggota_grup_kontak.id_kontak', '=', 'k.id_kontak')
-            ->leftJoin('tweb_penduduk as p', static function ($penduduk) {
+            ->leftJoin('tweb_penduduk as p', static function ($penduduk): void {
                 $penduduk->on('anggota_grup_kontak.id_penduduk', '=', 'p.id')
                     ->where('p.status_dasar', '=', 1);
             })

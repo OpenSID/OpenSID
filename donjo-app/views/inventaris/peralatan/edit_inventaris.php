@@ -112,31 +112,31 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_pabrik">Nomor Pabrik</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_pabrik) ? $main->no_pabrik : '-'); ?>" class="form-control input-sm required" name="no_pabrik" id="no_pabrik" type="text" />
+											<input maxlength="50" value="<?= (empty($main->no_pabrik) ? '-' : $main->no_pabrik); ?>" class="form-control input-sm required" name="no_pabrik" id="no_pabrik" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_rangka">Nomor Rangka </label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_rangka) ? $main->no_rangka : '-'); ?>" class="form-control input-sm required" name="no_rangka" id="no_rangka" type="text" />
+											<input maxlength="50" value="<?= (empty($main->no_rangka) ? '-' : $main->no_rangka); ?>" class="form-control input-sm required" name="no_rangka" id="no_rangka" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_mesin">Nomor Mesin</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_mesin) ? $main->no_mesin : '-'); ?>" class="form-control input-sm required" name="no_mesin" id="no_mesin" type="text" />
+											<input maxlength="50" value="<?= (empty($main->no_mesin) ? '-' : $main->no_mesin); ?>" class="form-control input-sm required" name="no_mesin" id="no_mesin" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_polisi">Nomor Polisi </label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_polisi) ? $main->no_polisi : '-'); ?>" class="form-control input-sm required" name="no_polisi" id="no_polisi" type="text" />
+											<input maxlength="50" value="<?= (empty($main->no_polisi) ? '-' : $main->no_polisi); ?>" class="form-control input-sm required" name="no_polisi" id="no_polisi" type="text" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="bpkb">BPKB</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (! empty($main->no_bpkb) ? $main->no_bpkb : '-'); ?>" class="form-control input-sm required" name="no_bpkb" id="no_bpkb" type="text" />
+											<input maxlength="50" value="<?= (empty($main->no_bpkb) ? '-' : $main->no_bpkb); ?>" class="form-control input-sm required" name="no_bpkb" id="no_bpkb" type="text" />
 										</div>
 									</div>
 									<div class="form-group">

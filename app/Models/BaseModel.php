@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusEnum;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -74,5 +75,25 @@ class BaseModel extends Model
         }
 
         return show_404();
+    }
+
+    /**
+     * Fungsi untuk mengganti status
+     *
+     * @param int    $id      ID data
+     * @param string $kolom   Kolom yang akan diubah
+     * @param bool   $onlyOne Hanya satu data yang aktif
+     */
+    public static function gantiStatus($id, $kolom = 'status', $onlyOne = false): bool
+    {
+        $data = self::findOrFail($id);
+
+        $data->update([$kolom => ($data->{$kolom} == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
+
+        if ($onlyOne) {
+            self::where('id', '!=', $id)->update([$kolom => StatusEnum::TIDAK]);
+        }
+
+        return true;
     }
 }

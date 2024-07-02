@@ -1,6 +1,6 @@
 <img src="<?= $icon ?>" title="<?= lang('views') ?>"
      alt="<?= lang('views') ?>"/> <?= lang('views') . ' (' . count($views) . ')' ?>
-<?php if (count($views)): ?>
+<?php if (count($views) > 0): ?>
     <div class="detail views">
         <div class="scroll">
             <?php
@@ -20,7 +20,7 @@
                 echo '</p>';
 
                 echo '<div class="develbar-detail-vars" style="display:none">';
-                if (count($data)) {
+                if (count($data) > 0) {
                     if (is_array($data) || is_object($data)) {
                         $data = print_r($data, true);
                     }

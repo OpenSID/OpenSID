@@ -46,28 +46,28 @@ class Plan_area_model extends MY_Model
         return $this->autocomplete_str('nama', 'area');
     }
 
-    private function search_sql()
+    private function search_sql(): void
     {
         if ($cari = $this->session->cari) {
             $this->db->group_start()->like('l.nama', $cari)->group_end();
         }
     }
 
-    private function filter_sql()
+    private function filter_sql(): void
     {
         if ($filter = $this->session->filter) {
             $this->db->where('l.enabled', $filter);
         }
     }
 
-    private function polygon_sql()
+    private function polygon_sql(): void
     {
         if ($polygon = $this->session->polygon) {
             $this->db->where('p.id', $polygon);
         }
     }
 
-    private function subpolygon_sql()
+    private function subpolygon_sql(): void
     {
         if ($subpolygon = $this->session->subpolygon) {
             $this->db->where('m.id', $subpolygon);
@@ -126,16 +126,13 @@ class Plan_area_model extends MY_Model
 
         $data = $this->list_data_sql()->result_array();
 
-        $j = $offset;
+        $j       = $offset;
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $j + 1;
 
-            if ($data[$i]['enabled'] == 1) {
-                $data[$i]['aktif'] = 'Ya';
-            } else {
-                $data[$i]['aktif'] = 'Tidak';
-            }
+            $data[$i]['aktif'] = $data[$i]['enabled'] == 1 ? 'Ya' : 'Tidak';
 
             $j++;
         }
@@ -153,7 +150,7 @@ class Plan_area_model extends MY_Model
         return $data;
     }
 
-    public function insert()
+    public function insert(): void
     {
         $data              = $this->validasi($this->input->post());
         $data['config_id'] = identitas('id');
@@ -171,7 +168,7 @@ class Plan_area_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function update($id = 0)
+    public function update($id = 0): void
     {
         $data      = $this->validasi($this->input->post());
         $old_foto  = $this->input->post('old_foto');
@@ -189,7 +186,7 @@ class Plan_area_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function delete($id = '', $semua = false)
+    public function delete($id = '', $semua = false): void
     {
         if (! $semua) {
             $this->session->success = 1;
@@ -198,17 +195,15 @@ class Plan_area_model extends MY_Model
         $area = Area::findOrFail($id);
         $outp = $area->delete();
 
-        if ($outp) {
-            if ($area->foto_kecil || $area->foto_sedang) {
-                unlink(FCPATH . $area->foto_kecil);
-                unlink(FCPATH . $area->foto_sedang);
-            }
+        if ($outp && ($area->foto_kecil || $area->foto_sedang)) {
+            unlink(FCPATH . $area->foto_kecil);
+            unlink(FCPATH . $area->foto_sedang);
         }
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         $this->session->success = 1;
 
@@ -239,7 +234,7 @@ class Plan_area_model extends MY_Model
             ->result_array();
     }
 
-    public function area_lock($id = '', $val = 0)
+    public function area_lock($id = '', $val = 0): void
     {
         $outp = $this->config_id()
             ->where('id', $id)
@@ -256,15 +251,11 @@ class Plan_area_model extends MY_Model
             ->row_array();
     }
 
-    public function update_position($id = 0)
+    public function update_position($id = 0): void
     {
         $data = $this->input->post();
         $this->db->where('id', $id);
-        if ($data['path'] !== '[[]]') {
-            $outp = $this->config_id()->update('area', $data);
-        } else {
-            $outp = '';
-        }
+        $outp = $data['path'] !== '[[]]' ? $this->config_id()->update('area', $data) : '';
 
         status_sukses($outp, $gagal_saja = false, $msg = 'titik koordinat area harus diisi'); //Tampilkan Pesan
     }
@@ -288,7 +279,7 @@ class Plan_area_model extends MY_Model
             ->result_array();
     }
 
-    public function kosongkan_path($id)
+    public function kosongkan_path($id): void
     {
         $this->config_id()
             ->set('path', null)

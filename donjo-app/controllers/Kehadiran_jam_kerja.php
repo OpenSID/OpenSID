@@ -64,15 +64,9 @@ class Kehadiran_jam_kerja extends Admin_Controller
                         return '<a href="' . route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
-                ->editColumn('status', static function ($row) {
-                    return ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>';
-                })
-                ->editColumn('jam_masuk', static function ($row) {
-                    return date('H:i', strtotime($row->jam_masuk));
-                })
-                ->editColumn('jam_keluar', static function ($row) {
-                    return date('H:i', strtotime($row->jam_keluar));
-                })
+                ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>')
+                ->editColumn('jam_masuk', static fn ($row): string => date('H:i', strtotime($row->jam_masuk)))
+                ->editColumn('jam_keluar', static fn ($row): string => date('H:i', strtotime($row->jam_keluar)))
                 ->rawColumns(['aksi', 'status'])
                 ->make();
         }
@@ -89,10 +83,10 @@ class Kehadiran_jam_kerja extends Admin_Controller
 
         $kehadiran_jam_kerja = JamKerja::findOrFail($id);
 
-        return view('admin.jam_kerja.form', compact('action', 'form_action', 'kehadiran_jam_kerja'));
+        return view('admin.jam_kerja.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_jam_kerja' => $kehadiran_jam_kerja]);
     }
 
-    public function update($id = '')
+    public function update($id = ''): void
     {
         $this->redirect_hak_akses('u');
 
@@ -105,11 +99,11 @@ class Kehadiran_jam_kerja extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    private function validate($request = [])
+    private function validate($request = []): array
     {
         return [
-            'jam_masuk'  => (string) date('H:i:s', strtotime($request['jam_masuk'])),
-            'jam_keluar' => (string) date('H:i:s', strtotime($request['jam_keluar'])),
+            'jam_masuk'  => date('H:i:s', strtotime($request['jam_masuk'])),
+            'jam_keluar' => date('H:i:s', strtotime($request['jam_keluar'])),
             'status'     => (int) ($request['status']),
             'keterangan' => strip_tags($request['keterangan']),
         ];

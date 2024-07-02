@@ -65,7 +65,7 @@ class Mandiri extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of(PendudukMandiri::with('penduduk'))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
                         $aksi .= '<a href="' . route('mandiri.ajax_pin', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-primary btn-sm"><i class="fa fa-key"></i></a> ';
@@ -82,12 +82,8 @@ class Mandiri extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggal_buat', static function ($row) {
-                    return tgl_indo2($row->getRawOriginal('tanggal_buat'));
-                })
-                ->editColumn('last_login', static function ($row) {
-                    return tgl_indo2($row->getRawOriginal('last_login'));
-                })
+                ->editColumn('tanggal_buat', static fn ($row) => tgl_indo2($row->getRawOriginal('tanggal_buat')))
+                ->editColumn('last_login', static fn ($row) => tgl_indo2($row->getRawOriginal('last_login')))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -135,11 +131,11 @@ class Mandiri extends Admin_Controller
         return view('admin.layanan_mandiri.daftar.ajax_verifikasi_warga', $data);
     }
 
-    public function verifikasi_warga($id_pend)
+    public function verifikasi_warga($id_pend): void
     {
         $this->redirect_hak_akses('u');
 
-        $post          = $this->input->post();
+        $this->input->post();
         $pilihan_kirim = $this->request['pilihan_kirim'];
         // TODO: Sederhanakan query ini, pindahkan ke model
         $data = Penduduk::select(['telegram', 'email', 'nama'])->find($id_pend);
@@ -173,7 +169,7 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    protected function kirimTelegram($data)
+    protected function kirimTelegram($data): void
     {
         try {
             // TODO: Sederhanakan query ini, pindahkan ke model
@@ -213,7 +209,7 @@ class Mandiri extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function ubah_hp($id_pend)
+    public function ubah_hp($id_pend): void
     {
         $this->redirect_hak_akses('u');
 
@@ -226,7 +222,7 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    public function insert()
+    public function insert(): void
     {
         $this->redirect_hak_akses('u');
 
@@ -250,7 +246,7 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    public function update($id_pend)
+    public function update($id_pend): void
     {
         akun_demo($id_pend);
         $this->redirect_hak_akses('u');
@@ -293,14 +289,14 @@ class Mandiri extends Admin_Controller
         }
     }
 
-    public function delete($id = '')
+    public function delete($id = ''): void
     {
         $this->redirect_hak_akses('h');
         PendudukMandiri::where(['id_pend' => $id])->delete();
         redirect($this->controller);
     }
 
-    public function kirim($id_pend = '')
+    public function kirim($id_pend = ''): void
     {
         $this->redirect_hak_akses('u');
         $pin  = $this->input->post('pin');
@@ -316,7 +312,7 @@ class Mandiri extends Admin_Controller
         redirect($this->controller);
     }
 
-    private function kirimPinBaru($media, $pin, $penduduk)
+    private function kirimPinBaru(?string $media, $pin, $penduduk): void
     {
         switch($media) {
             case 'telegram':

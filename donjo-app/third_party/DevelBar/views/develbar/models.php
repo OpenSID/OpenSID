@@ -1,6 +1,6 @@
 <img src="<?= $icon ?>" title="<?= lang('models') ?>"
-     alt="<?= lang('models') ?>"/> <?= count($models) ? lang('models') . ' (' . count($models) . ')' : 'N/A' ?>
-<?php if (count($models)): ?>
+     alt="<?= lang('models') ?>"/> <?= count($models) > 0 ? lang('models') . ' (' . count($models) . ')' : 'N/A' ?>
+<?php if (count($models) > 0): ?>
 <div class="detail models">
     <div class="scroll">
     <?php

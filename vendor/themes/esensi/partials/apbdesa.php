@@ -13,6 +13,7 @@
       </h3>
       <div class="px-5 py-4 text-xs lg:text-sm space-y-3">
           <?php foreach($subdatas as $key => $subdata) : ?>
+            <?php if (! is_array($subdata)) continue; ?> 
             <?php if ($subdata['judul'] != null and $key != 'laporan' and $subdata['realisasi'] != 0 or $subdata['anggaran'] != 0): ?>
             <div class="space-y-1">
               <span class="text-sm font-bold">

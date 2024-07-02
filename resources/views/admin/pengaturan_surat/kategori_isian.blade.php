@@ -68,9 +68,9 @@
                     </td>
                     <td class="padat">
                         <div class="btn-group-vertical">
-                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class='fa fa-trash-o'></i></button>
-                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode"><i class='fa fa-exchange'></i></button>
-                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode" title="Hapus Kode Isian"><i class='fa fa-trash-o'></i></button>
+                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode" title="Pindah Kode Isian"><i class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode" title="Kaitkan Kode Isian"><i class='fa fa-link'></i></button>
                             <input type="hidden" class="form-control input-sm kaitkan hide" name="kategori_kaitkan_kode[{{ $value->kategori }}][]" value="{{ $value->kaitkan_kode ?? '' }}" />
                         </div>
                     </td>
@@ -109,9 +109,6 @@
                         <textarea class="form-control input-sm isian isian-pilihan  @display($value->tipe != 'select-manual')" name="kategori_atribut_kode[{{ $item }}][]" rows="5" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>{{ (string) $value->atribut }}
                         </textarea>
                         <select class="form-control input-sm isian select-manual @display($value->tipe == 'select-manual')" name="kategori_pilihan_kode[{{ $item }}][{{ $jumlah_isian }}][]" multiple placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
-                            {{-- @foreach (\App\Enums\ReferensiEnum::all() as $key => $value)
-                        <option value="{{ $value }}">{{ $key }}</option>
-                        @endforeach --}}
                         </select>
                         <select class="form-control input-sm isian isian-referensi @display($value->tipe == 'select-otomatis')" name="kategori_referensi_kode[{{ $item }}][]" placeholder="Masukkan Pilihan" @disabled($value->tipe == '')>
                             <option value="" selected>Pilihan Referensi</option>
@@ -122,9 +119,9 @@
                     </td>
                     <td class="padat">
                         <div class="btn-group-vertical">
-                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode"><i class="fa fa-trash-o"></i></button>
-                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode hide"><i class='fa fa-exchange'></i></button>
-                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode"><i class='fa fa-link'></i></button>
+                            <button type="button" class="btn btn-flat btn-danger btn-sm hapus-kode" title="Hapus Kode Isian"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-flat btn-warning btn-sm pindah-kode hide" title="Pindah Kode Isian"><i class='fa fa-exchange'></i></button>
+                            <button type="button" class="btn btn-flat btn-primary btn-sm kaitkan-kode" title="Kaitkan Kode Isian"><i class='fa fa-link'></i></button>
                             <input type="hidden" class="form-control input-sm kaitkan hide" name="kategori_kaitkan_kode[{{ $value->kategori }}][]" value="" />
                         </div>
                     </td>

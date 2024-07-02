@@ -101,7 +101,7 @@ class Siak_model extends Impor_model
         return $baris_pertama;
     }
 
-    private function get_isi_baris($data, $i)
+    private function get_isi_baris($data, int $i)
     {
         $kolom_impor         = unserialize(KOLOM_IMPOR_SIAK);
         $isi_baris['alamat'] = trim($data->val($i, $kolom_impor['alamat']));
@@ -248,7 +248,7 @@ class Siak_model extends Impor_model
         return set_session('success', 'Data penduduk berhasil diimpor');
     }
 
-    private function tulis_log_penduduk($data, $id)
+    private function tulis_log_penduduk($data, $id): void
     {
         // Tulis log_penduduk
         $log = [

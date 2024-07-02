@@ -111,7 +111,7 @@ class Surat_master_model extends MY_Model
         return $id;
     }
 
-    private function validasi_surat(&$data)
+    private function validasi_surat(&$data): void
     {
         $data['nama'] = nama_terbatas($data['nama']);
     }
@@ -131,7 +131,7 @@ class Surat_master_model extends MY_Model
         return $id;
     }
 
-    public function upload($url = '')
+    public function upload($url = ''): void
     {
         // Folder desa untuk surat ini
         $folder_surat = LOKASI_SURAT_DESA . $url . '/';
@@ -146,7 +146,7 @@ class Surat_master_model extends MY_Model
 
     // Lampiran surat perlu disalin ke folder surat di LOKASI_SURAT_DESA, karena
     // file lampiran surat dianggap ada di folder yang sama dengan tempat template surat RTF
-    private function salin_lampiran($url, $folder_surat)
+    private function salin_lampiran($url, string $folder_surat): void
     {
         $this->load->model('surat_model');
         $surat = $this->surat_model->get_surat($url);
@@ -174,7 +174,7 @@ class Surat_master_model extends MY_Model
         return $this->hapus_lampiran($url, $folder_surat);
     }
 
-    private function hapus_lampiran($url, $folder_surat)
+    private function hapus_lampiran($url, string $folder_surat)
     {
         $this->load->model('surat_model');
         $surat = $this->surat_model->get_surat($url);
@@ -233,7 +233,7 @@ class Surat_master_model extends MY_Model
      * @param mixed $redirect
      * @param mixed $nama_file
      */
-    private function uploadBerkas($allowed_types, $upload_path, $lokasi, $redirect, $nama_file)
+    private function uploadBerkas(string $allowed_types, string $upload_path, string $lokasi, string $redirect, string $nama_file)
     {
         // Untuk dapat menggunakan library upload
         $this->load->library('upload');
@@ -248,7 +248,7 @@ class Surat_master_model extends MY_Model
         ];
         // Adakah berkas yang disertakan?
         $ada_berkas = ! empty($_FILES[$lokasi]['name']);
-        if ($ada_berkas !== true) {
+        if (! $ada_berkas) {
             return null;
         }
         // Tes tidak berisi script PHP
@@ -270,6 +270,6 @@ class Surat_master_model extends MY_Model
             redirect_with('error', 'Gagal Unggah Data');
         }
 
-        return (! empty($upload_data)) ? $upload_data['file_name'] : null;
+        return (empty($upload_data)) ? null : $upload_data['file_name'];
     }
 }

@@ -69,7 +69,7 @@ class Analisis_import_model extends MY_Model
         return $upload['full_path'];
     }
 
-    public function impor_analisis($file = '', $kode = '00000', $jenis = 2)
+    public function impor_analisis($file = '', $kode = '00000', $jenis = 2): void
     {
         $this->session->success = 1;
 
@@ -294,7 +294,7 @@ class Analisis_import_model extends MY_Model
         }
     }
 
-    public function save_import_gform()
+    public function save_import_gform(): void
     {
         $list_error = [];
 
@@ -324,11 +324,13 @@ class Analisis_import_model extends MY_Model
 
         // Get Unique Value dari Kategori
         foreach ($list_kategori as $key => $val) {
-            if ($this->input->post('is_selected')[$key] == 'true') {
-                if (! in_array($val, $temp_unique_kategori)) {
-                    $temp_unique_kategori[] = $val;
-                }
+            if ($this->input->post('is_selected')[$key] != 'true') {
+                continue;
             }
+            if (in_array($val, $temp_unique_kategori)) {
+                continue;
+            }
+            $temp_unique_kategori[] = $val;
         }
 
         // Simpan Unique Value dari Kategori
@@ -600,7 +602,7 @@ class Analisis_import_model extends MY_Model
             }
         }
 
-        if (! empty($list_error)) {
+        if ($list_error !== []) {
             $this->session->list_error = $list_error;
             status_sukses(-1, true, 'Beberapa data gagal disimpan');
 
@@ -609,7 +611,7 @@ class Analisis_import_model extends MY_Model
 
         // Mencari nilai untuk pertanyaan-pertanyaan yang dimasukkan sebelumnya
         foreach ($existing_data['indikator'] as $key_indikator => $val_indikator) {
-            foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan) {
+            foreach ($variabel['pertanyaan'] as $val_pertanyaan) {
                 if ($val_indikator == $val_pertanyaan['title']) {
                     // Mengisi nilai
                     $list_pertanyaan[$key_indikator] = $val_pertanyaan;
@@ -626,7 +628,7 @@ class Analisis_import_model extends MY_Model
                     $new_parameter = [];
 
                     // Insert jawaban baru
-                    foreach ($val_pertanyaan['choices'] as $key_choice => $val_choice) {
+                    foreach ($val_pertanyaan['choices'] as $val_choice) {
                         // Jika nilai belum ada di database, maka tambahkan data parameter baru
                         if (! (array_search($val_choice, $existing_data['parameter'][$key_indikator], true))) {
                             $data_parameter = [
@@ -646,7 +648,7 @@ class Analisis_import_model extends MY_Model
                     }
 
                     // Update list parameter dengan operasi Union antara parameter yang sudah ada dengan parameter yang baru ditambahkan
-                    $existing_data['parameter'][$key_indikator] = $existing_data['parameter'][$key_indikator] + $new_parameter;
+                    $existing_data['parameter'][$key_indikator] += $new_parameter;
 
                     break;
                 }
@@ -654,7 +656,7 @@ class Analisis_import_model extends MY_Model
         }
 
         foreach ($existing_respon as $key_respon => $val_respon) {
-            if (array_search($key_respon, array_column($variabel['jawaban'], $id_column_nik_kk), true) === false) {
+            if (! in_array($key_respon, array_column($variabel['jawaban'], $id_column_nik_kk), true)) {
                 $deleted_responden[$key_respon] = $val_respon;
             }
         }
@@ -716,7 +718,7 @@ class Analisis_import_model extends MY_Model
         }
 
         // Hapus data responden yang tidak ada di response terkini
-        foreach ($deleted_responden as $key_responden => $val_responden) {
+        foreach (array_keys($deleted_responden) as $key_responden) {
             if ($master_data['subjek_tipe'] == 2) {
                 $id_subject = $this->keluarga_model->get_keluarga_by_no_kk($key_responden)['id'];
             } else {
@@ -736,10 +738,10 @@ class Analisis_import_model extends MY_Model
         ];
 
         $this->db->where('id', $id);
-        $outp = $this->db->update('analisis_master', $update_data);
+        $this->db->update('analisis_master', $update_data);
 
         $this->session->list_error = $list_error;
-        if (! empty($list_error)) {
+        if ($list_error !== []) {
             status_sukses(-1, false, 'Beberapa data gagal disimpan');
         } else {
             status_sukses(1);

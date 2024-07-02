@@ -116,7 +116,7 @@
 										<select class="form-control select2 input-sm" name="unique_date_select" id="unique_date_select" style="width: 100%;">
 											<option value="0">-- Pilih Tanggal --</option>
 											<?php foreach ($unique_date as $row): ?>
-												<option value="<?= $row[tanggal] ?>" > <?= $row[tanggal] ?></option>
+												<option value="<?= $row['tanggal'] ?>" > <?= $row['tanggal'] ?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
@@ -128,7 +128,7 @@
 										<select class="form-control select2 input-sm" name="unique_nik_select" id="unique_nik_select">
 											<option value="0">-- Pilih NIK/Nama --</option>
 											<?php foreach ($unique_nik as $row): ?>
-											<option value="<?= $row[id_pemudik] ?>" > <?= $row[nik] . ' - ' . $row[nama] ?></option>
+											<option value="<?= $row['id_pemudik'] ?>" > <?= $row['nik'] . ' - ' . $row['nama'] ?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
@@ -167,7 +167,7 @@
 													<?php
                                                     $nomer = $paging->offset;
 
-			foreach ($pantau_pemudik_array as $key => $item):
+			foreach ($pantau_pemudik_array as $item):
 			    $nomer++;
 			    ?>
 													<tr>

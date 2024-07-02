@@ -79,12 +79,12 @@ class DtksAnggota extends BaseModel
      */
     public function dtks()
     {
-        return $this->belongsTo(Dtks::class, 'id_dtks', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsTo(Dtks::class, 'id_dtks', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     public function penduduk()
     {
-        return $this->belongsTo(Penduduk::class, 'id_penduduk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsTo(Penduduk::class, 'id_penduduk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     public function getUmurAttribute()

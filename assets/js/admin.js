@@ -5,7 +5,7 @@ window.setTimeout(function () {
     .slideUp(500, function () {
       $(this).remove();
     });
-}, 1000);
+}, 5000);
 
 // Sidebar
 if (
@@ -17,7 +17,13 @@ if (
 
 // notifikasi swetalert
 function _error(pesan) {
-  Swal.fire("Gagal!", pesan, "error");
+  Swal.fire({
+    title: 'Gagal!',
+    html: pesan,
+    icon: 'error',
+    confirmButtonText: 'OK',
+    timer: 5000,
+  });
 }
 
 $(".sidebar-toggle").on("click", function () {
@@ -29,11 +35,6 @@ $(".sidebar-toggle").on("click", function () {
 
 // Select2 default
 $(".select2").select2();
-
-// Select2 dengan fitur pencarian dan boleh isi sendiri
-$(".select2-tags").select2({
-  tags: true,
-});
 
 //CheckBox All Selected
 checkAllHeader("id_cb[]");

@@ -66,7 +66,7 @@ class Mailbox_model extends MY_Model
         return $sub_menu[$kat];
     }
 
-    public function insert($post)
+    public function insert($post): void
     {
         $data               = [];
         $data['config_id']  = $this->config_id;

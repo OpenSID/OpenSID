@@ -56,16 +56,20 @@ class Ekspor_model extends MY_Model
      * @param mixed $str
      * @param mixed $key
      */
-    private function bersihkanData(&$str, $key)
+    private function bersihkanData(&$str, $key): void
     {
         if (strstr($str, '"')) {
             $str = '"' . str_replace('"', '""', $str) . '"';
         }
         // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
         $kecuali = ['nik', 'no_kk'];
-        if ($str == '0' && ! in_array($key, $kecuali)) {
-            $str = '';
+        if ($str != '0') {
+            return;
         }
+        if (in_array($key, $kecuali)) {
+            return;
+        }
+        $str = '';
     }
 
     // Expor data penduduk ke format Impor Excel
@@ -102,11 +106,12 @@ class Ekspor_model extends MY_Model
             $this->db->where('c.rt', $this->session->rt);
         }
 
-        $data = $filter->get()->result();
+        $data    = $filter->get()->result();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, [$this, 'bersihkanData']);
+            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
             if (! empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
@@ -150,7 +155,7 @@ class Ekspor_model extends MY_Model
 
         TODO: cari cara backup yang menghasilkan .sql seperti menu expor di phpmyadmin.
     */
-    public function backup()
+    public function backup(): void
     {
         if (setting('multi_desa')) {
             session_error('Backup database tidak diizinkan');
@@ -353,6 +358,14 @@ class Ekspor_model extends MY_Model
             'pesan',
             'analisis_klasifikasi',
             'analisis_parameter',
+            'alias_kodeisian',
+            'log_login',
+            'log_notifikasi_admin',
+            'log_notifikasi_mandiri',
+            'fcm_token_mandiri',
+            'log_login',
+            'fcm_token',
+
         ];
 
         $prefs = [
@@ -377,10 +390,8 @@ class Ekspor_model extends MY_Model
         }
 
         // Hapus tabel dgn foreign key
-        if ($ada_foreign_key) {
-            foreach (array_reverse($ada_foreign_key) as $table) {
-                $backup .= 'DROP TABLE IF EXISTS ' . $table . ";\n";
-            }
+        foreach (array_reverse($ada_foreign_key) as $table) {
+            $backup .= 'DROP TABLE IF EXISTS ' . $table . ";\n";
         }
 
         // Semua views dan tabel dgn foreign key di-backup terpisah
@@ -405,14 +416,10 @@ class Ekspor_model extends MY_Model
         $this->load->helper('download');
         force_download($db_name, $backup);
 
-        if ($backup) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
-        }
+        $_SESSION['success'] = $backup ? 1 : -1;
     }
 
-    private function drop_tables()
+    private function drop_tables(): void
     {
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
         $db    = $this->db->database;
@@ -427,7 +434,7 @@ class Ekspor_model extends MY_Model
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
     }
 
-    private function drop_views()
+    private function drop_views(): void
     {
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
         $db    = $this->db->database;
@@ -545,7 +552,7 @@ class Ekspor_model extends MY_Model
         return true;
     }
 
-    public function perbaiki_collation()
+    public function perbaiki_collation(): void
     {
         $list = $this->db
             ->select(
@@ -579,37 +586,6 @@ class Ekspor_model extends MY_Model
         $ketentuan = preg_replace('/ENGINE=MyISAM|ENGINE=MEMORY|ENGINE=CSV|ENGINE=ARCHIVE|ENGINE=MRG_MYISAM|ENGINE=BLACKHOLE|ENGINE=FEDERATED/', 'ENGINE=InnoDB', $ketentuan);
 
         return preg_replace("/COLLATE={$this->db->dbcollat}|COLLATE=cp850_general_ci|COLLATE=utf8mb4_general_ci|COLLATE=utf8mb4_unicode_ci|{$this->db->dbcollat};/", '', $ketentuan);
-    }
-
-    private function _build_schema($nama_tabel, $nama_tanda)
-    {
-        $return     = '';
-        $result     = $this->db->query("SELECT * FROM {$nama_tabel}");
-        $fields     = $this->db->field_data($nama_tabel);
-        $num_fields = count($fields);
-
-        $return .= "<{$nama_tanda}>\r\n";
-
-        foreach ($result->result() as $row) {
-            $j = 0;
-
-            foreach ($fields as $col) {
-                $name = $col->name;
-                if (isset($row->{$name})) {
-                    $return .= $row->{$name};
-                } else {
-                    $return .= '';
-                }
-                if ($j < ($num_fields - 1)) {
-                    $return .= '+';
-                }
-                $j++;
-            }
-            $return .= "\r\n";
-        }
-        $return .= "</{$nama_tanda}>\r\n";
-
-        return $return;
     }
 
     /**
@@ -646,10 +622,11 @@ class Ekspor_model extends MY_Model
             ->order_by('k.no_kk ASC', 'p.kk_level ASC')
             ->get()
             ->result();
+        $counter = count($data);
 
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, [$this, 'bersihkanData']);
+            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
             if (! empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }

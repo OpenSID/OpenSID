@@ -72,10 +72,10 @@ class DtksPengaturanProgram extends BaseModel
      */
     public function bantuan()
     {
-        return $this->belongsTo(Bantuan::class, 'id_bantuan', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsTo(Bantuan::class, 'id_bantuan', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
-    public function getVersiKuisionerNameAttribute()
+    public function getVersiKuisionerNameAttribute(): string
     {
         return DtksEnum::VERSION_LIST[$this->attributes['versi_kuisioner']];
     }

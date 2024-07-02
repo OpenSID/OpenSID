@@ -42,7 +42,7 @@ use App\Models\Pamong;
 class KodeIsianPenandaTangan
 {
     private $inputForm;
-    private $sebutanDesa;
+    private string $sebutanDesa;
 
     public function __construct($inputForm)
     {
@@ -50,12 +50,12 @@ class KodeIsianPenandaTangan
         $this->sebutanDesa = ucwords(setting('sebutan desa'));
     }
 
-    public static function get($inputForm)
+    public static function get($inputForm): array
     {
         return (new self($inputForm))->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $nama_desa = identitas('nama_desa');
 

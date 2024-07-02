@@ -53,7 +53,7 @@ class Laporan extends Admin_Controller
         $this->logpenduduk        = new LogPenduduk();
     }
 
-    public function clear()
+    public function clear(): void
     {
         session_error_clear();
         $this->session->unset_userdata(['cari']);
@@ -64,7 +64,7 @@ class Laporan extends Admin_Controller
         redirect('laporan');
     }
 
-    public function index()
+    public function index(): void
     {
         if (isset($this->session->bulanku)) {
             $data['bulanku'] = $this->session->bulanku;
@@ -117,7 +117,7 @@ class Laporan extends Admin_Controller
 
     // TODO: Gunakan view global ttd
     // TODO: Satukan dialog cetak dan unduh
-    public function dialog_cetak()
+    public function dialog_cetak(): void
     {
         $data['aksi']        = 'Cetak';
         $data['pamong']      = Pamong::penandaTangan()->get();
@@ -126,7 +126,7 @@ class Laporan extends Admin_Controller
     }
 
     // TODO: Satukan dialog cetak dan unduh
-    public function dialog_unduh()
+    public function dialog_unduh(): void
     {
         $data['aksi']        = 'Unduh';
         $data['pamong']      = Pamong::penandaTangan()->get();
@@ -135,14 +135,14 @@ class Laporan extends Admin_Controller
     }
 
     // TODO: Satukan aksi cetak dan unduh
-    public function cetak()
+    public function cetak(): void
     {
         $data = $this->data_cetak();
         $this->load->view('laporan/bulanan_print', $data);
     }
 
     // TODO: Satukan aksi cetak dan unduh
-    public function unduh()
+    public function unduh(): void
     {
         $data = $this->data_cetak();
         $this->load->view('laporan/bulanan_excel', $data);
@@ -168,7 +168,7 @@ class Laporan extends Admin_Controller
         return $data;
     }
 
-    public function bulan()
+    public function bulan(): void
     {
         $bulanku = $this->input->post('bulan');
         if ($bulanku != '') {
@@ -186,7 +186,7 @@ class Laporan extends Admin_Controller
         redirect('laporan');
     }
 
-    public function detail_penduduk($rincian, $tipe)
+    public function detail_penduduk($rincian, $tipe): void
     {
         $data         = [];
         $keluarga     = ['kk', 'kk_l', 'kk_p'];

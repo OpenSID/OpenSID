@@ -21,7 +21,7 @@
             maxlength="6"
             type="text"
             placeholder="PIN Warga"
-            <?= !$id_pend ? '' : 'disabled' ?>
+            <?= $id_pend ? 'disabled' : '' ?>
             style="margin-bottom: 15px;"
         />
         @if (!$id_pend)

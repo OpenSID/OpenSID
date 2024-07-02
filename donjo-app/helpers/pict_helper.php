@@ -91,10 +91,8 @@ define('EXT_ARSIP', serialize([
  * @param string      $namaFile  Nama file asli (beserta ekstensinya)
  * @param bool        $urlEncode Saring nama file dengan urlencode() ?
  * @param string|null $delimiter String pemisah nama asli dengan unique id
- *
- * @return string
  */
-function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter = null)
+function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter = null): string
 {
     $namaFile = preg_replace('/[^A-Za-z0-9\- .]/', '', $namaFile);
 
@@ -103,8 +101,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
 
     // Type check
     $namaFile           = is_string($namaFile) ? $namaFile : (string) $namaFile;
-    $urlEncode          = is_bool($urlEncode) ? $urlEncode : true;
-    $delimiterUniqueKey = (! is_string($delimiter) || empty($delimiter))
+    $delimiterUniqueKey = (! is_string($delimiter) || $delimiter === '')
         ? '__sid__' : $delimiter;
 
     // Pastikan nama file tidak mengandung string milik $this->delimiterUniqueKey
@@ -115,16 +112,18 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
     unset($namaFileUnik[count($namaFileUnik) - 1]);
     $namaFileUnik = implode('.', $namaFileUnik);
 
-    return urlencode($namaFileUnik) .
-        $delimiterUniqueKey . generator() . '.' . $ekstensiFile;
+    return urlencode($namaFileUnik) . $delimiterUniqueKey . generator() . '.' . $ekstensiFile;
     // Contoh return:
     // - nama asli = 'kitten.jpg'
     // - nama unik = 'kitten__sid__xUCc8KO.jpg'
 }
 
-function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
+/**
+ * Ambil foto profil berdasarkan parameter
+ */
+function AmbilFoto(?string $foto, string $ukuran = 'kecil_', ?string $sex = '1'): string
 {
-    $sex       = $sex ?: 1;
+    $sex       = $sex ?: '1';
     $file_foto = Foto_Default($foto, $sex);
 
     if ($foto == $file_foto) {
@@ -139,7 +138,10 @@ function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
     return $file_foto;
 }
 
-function Foto_Default($foto, $sex = 1)
+/**
+ * Ambil foto default berdasarkan parameter
+ */
+function Foto_Default(?string $foto, ?string $sex = '1'): string
 {
     if (! in_array($foto, ['kuser.png', 'wuser.png']) && ! empty($foto)) {
         return $foto;
@@ -152,7 +154,10 @@ function Foto_Default($foto, $sex = 1)
     }
 }
 
-function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar)
+/**
+ * Unggah gambar widget
+ */
+function UploadGambarWidget(string $nama_file, string $lokasi_file, ?string $old_gambar): void
 {
     $dir_upload = LOKASI_GAMBAR_WIDGET;
     if ($old_gambar) {
@@ -162,7 +167,10 @@ function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar)
     move_uploaded_file($lokasi_file, $file_upload);
 }
 
-function UploadFoto($fupload_name, $old_foto, $dimensi = '200x200')
+/**
+ * Unggah foto
+ */
+function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = '200x200'): bool
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_USER_PICT;
@@ -188,7 +196,7 @@ function UploadFoto($fupload_name, $old_foto, $dimensi = '200x200')
     return true;
 }
 
-function UploadGambar($fupload_name, $old_gambar)
+function UploadGambar(string $fupload_name, string $old_gambar): bool
 {
     $vdir_upload = 'assets/front/slide/';
     if ($old_gambar != '') {
@@ -227,13 +235,13 @@ function UploadGambar($fupload_name, $old_gambar)
     return true;
 }
 
-function AmbilGaleri($foto, $ukuran)
+function AmbilGaleri(string $foto, string $ukuran)
 {
     return base_url(LOKASI_GALERI . $ukuran . '_' . $foto);
 }
 
 // $file_upload = $_FILES['<lokasi>']
-function TipeFile($file_upload)
+function TipeFile(array $file_upload)
 {
     $lokasi_file = $file_upload['tmp_name'];
     if (empty($lokasi_file)) {
@@ -254,7 +262,7 @@ function TipeFile($file_upload)
 }
 
 // $file_upload = $_FILES['<lokasi>']
-function UploadError($file_upload)
+function UploadError(array $file_upload): bool
 {
     // error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
     // TODO: pakai cara upload yg disediakan Codeigniter
@@ -269,7 +277,7 @@ function UploadError($file_upload)
 }
 
 // $file_upload = $_FILES['<lokasi>']
-function CekGambar($file_upload, $tipe_file)
+function CekGambar(array $file_upload, string $tipe_file): bool
 {
     $lokasi_file = $file_upload['tmp_name'];
     if (empty($lokasi_file)) {
@@ -287,7 +295,7 @@ function CekGambar($file_upload, $tipe_file)
     return true;
 }
 
-function UploadGallery($fupload_name, $old_foto = '', $tipe_file = '')
+function UploadGallery(string $fupload_name, $old_foto = '', $tipe_file = ''): bool
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_GALERI;
@@ -307,7 +315,7 @@ function UploadGallery($fupload_name, $old_foto = '', $tipe_file = '')
     return true;
 }
 
-function UploadSimbolx($fupload_name, $old_gambar)
+function UploadSimbolx(string $fupload_name, string $old_gambar): bool
 {
     $vdir_upload = 'assets/gis/simbol';
     if ($old_gambar != '') {
@@ -345,12 +353,12 @@ function UploadSimbolx($fupload_name, $old_gambar)
     return true;
 }
 
-function AmbilFotoArtikel($foto, $ukuran)
+function AmbilFotoArtikel(string $foto, string $ukuran)
 {
     return base_url(LOKASI_FOTO_ARTIKEL . $ukuran . '_' . $foto);
 }
 
-function UploadArtikel($fupload_name, $gambar)
+function UploadArtikel(string $fupload_name, $gambar): bool
 {
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_FOTO_ARTIKEL;
@@ -372,7 +380,7 @@ function UploadArtikel($fupload_name, $gambar)
     return true;
 }
 
-function HapusArtikel($gambar)
+function HapusArtikel(?string $gambar): bool
 {
     $vdir_upload  = LOKASI_FOTO_ARTIKEL;
     $vfile_upload = $vdir_upload . 'sedang_' . $gambar;
@@ -383,7 +391,7 @@ function HapusArtikel($gambar)
     return true;
 }
 
-function UploadPeta($fupload_name, $lokasi, $old_foto = null)
+function UploadPeta(string $fupload_name, string $lokasi, $old_foto = null)
 {
     $ci = &get_instance();
     $ci->load->library('MY_Upload', null, 'upload');
@@ -413,7 +421,7 @@ function UploadPeta($fupload_name, $lokasi, $old_foto = null)
     }
 }
 
-function ResizeGambar($filename, $path, $dimensi)
+function ResizeGambar($filename, $path, array $dimensi)
 {
     $source_path = $filename;
     $target_path = $path;
@@ -462,7 +470,7 @@ function ResizeGambar($filename, $path, $dimensi)
 }
 
 // $dimensi = array("width"=>lebar, "height"=>tinggi)
-function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
+function resizeImage($filepath_in, string $tipe_file, array $dimensi, $filepath_out = ''): bool
 {
     // Hanya bisa resize jpeg atau png
     $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
@@ -534,7 +542,7 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
  * @param mixed $old_foto
  * @param mixed $tipe_file
  */
-function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nama_simpan, $old_foto, $tipe_file)
+function UploadResizeImage($lokasi, array $dimensi, $jenis_upload, string $fupload_name, string $nama_simpan, ?string $old_foto, string $tipe_file): bool
 {
     // Hanya bisa upload jpeg atau png
     $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
@@ -548,7 +556,7 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     }
 
     $vdir_upload = $lokasi;
-    if (! empty($old_foto)) {
+    if ($old_foto !== null && $old_foto !== '') {
         unlink($vdir_upload . $old_foto);
     }
     $filepath_in  = $vdir_upload . $fupload_name;
@@ -595,7 +603,7 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     return true;
 }
 
-function UploadSimbol($fupload_name)
+function UploadSimbol(string $fupload_name): void
 {
     $vdir_upload  = 'assets/images/gis/point/';
     $vfile_upload = $vdir_upload . $fupload_name;
@@ -604,21 +612,21 @@ function UploadSimbol($fupload_name)
 }
 
 // Upload umum. Parameter lokasi dan file di $_FILES
-function UploadKeLokasi($lokasi, $file, $fupload_name, $old_dokumen = '')
+function UploadKeLokasi(string $lokasi, $file, string $fupload_name, string $old_dokumen = ''): void
 {
     $vfile_upload = $lokasi . $fupload_name;
     move_uploaded_file($file, $vfile_upload);
     unlink($lokasi . $old_dokumen);
 }
 
-function UploadDocument($fupload_name, $old_dokumen = '')
+function UploadDocument(string $fupload_name, string $old_dokumen = ''): void
 {
     $vfile_upload = LOKASI_DOKUMEN . $fupload_name;
     move_uploaded_file($_FILES['satuan']['tmp_name'], $vfile_upload);
     unlink(LOKASI_DOKUMEN . $old_dokumen);
 }
 
-function UploadDocument2($fupload_name)
+function UploadDocument2(string $fupload_name): bool
 {
     $vdir_upload  = LOKASI_DOKUMEN;
     $vfile_upload = $vdir_upload . $fupload_name;
@@ -628,7 +636,7 @@ function UploadDocument2($fupload_name)
     return true;
 }
 
-function UploadPengesahan($fupload_name)
+function UploadPengesahan(string $fupload_name): void
 {
     $vdir_upload  = LOKASI_PENGESAHAN;
     $vfile_upload = $vdir_upload . $fupload_name;
@@ -658,7 +666,7 @@ function UploadPengesahan($fupload_name)
     Hasilkan nama file yg aman untuk digunakan di url
     source = https://stackoverflow.com/questions/2955251/php-function-to-make-slug-url-string
 */
-function bersihkan_namafile($nama)
+function bersihkan_namafile($nama): string
 {
     // Simpan extension
     $ext = get_extension($nama);
@@ -667,7 +675,7 @@ function bersihkan_namafile($nama)
     // transliterate
     $nama = iconv('utf-8', 'us-ascii//TRANSLIT', $nama);
     // remove unwanted characters
-    $nama = preg_replace('~[^-\w]+~', '', $nama);
+    $nama = preg_replace('~[^\-\w]+~', '', $nama);
     // trim
     $nama = trim($nama, '-');
     // remove duplicate -
@@ -677,7 +685,7 @@ function bersihkan_namafile($nama)
     return strtolower($nama . $ext);
 }
 
-function periksa_file($upload, $mime_types, $exts)
+function periksa_file($upload, $mime_types, $exts): string
 {
     if (empty($_FILES[$upload]['tmp_name']) || (int) $_FILES[$upload]['size'] > convertToBytes(max_upload() . 'MB')) {
         return ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
@@ -707,7 +715,7 @@ function periksa_file($upload, $mime_types, $exts)
     return '';
 }
 
-function qrcode_generate(array $qrcode = [], $base64 = false)
+function qrcode_generate(array $qrcode = [], $base64 = false): string
 {
     $sizeqr = $qrcode['sizeqr'];
     $foreqr = $qrcode['foreqr'];
@@ -751,7 +759,6 @@ function qrcode_generate(array $qrcode = [], $base64 = false)
     imagealphablending($logo, false);
     imagesavealpha($logo, true);
     $QR_width       = imagesx($QR);
-    $QR_height      = imagesy($QR);
     $logo_width     = imagesx($logo);
     $logo_height    = imagesy($logo);
     $logo_qr_width  = $QR_width / 4;
@@ -769,24 +776,24 @@ function qrcode_generate(array $qrcode = [], $base64 = false)
     return $filename;
 }
 
-function upload_foto_penduduk($nama_file = null, $dimensi = null)
+function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '')
 {
     $foto     = $_POST['foto'];
     $old_foto = $_POST['old_foto'];
 
-    if ($nama_file === null) {
-        $nama_file = time() . mt_rand(10000, 999999);
+    if ($nama_file) {
+        $nama_file = time() . random_int(10000, 999999);
     }
 
     if ($_FILES['foto']['tmp_name']) {
-        $nama_file = $nama_file . get_extension($_FILES['foto']['name']);
+        $nama_file .= get_extension($_FILES['foto']['name']);
         UploadFoto($nama_file, $old_foto, $dimensi);
     } elseif ($foto) {
-        $nama_file = $nama_file . '.png';
-        $foto      = str_replace('data:image/png;base64,', '', $foto);
-        $foto      = base64_decode($foto, true);
+        $nama_file .= '.png';
+        $foto = str_replace('data:image/png;base64,', '', $foto);
+        $foto = base64_decode($foto, true);
 
-        if ($old_foto != '') {
+        if (isset($old_foto)) {
             // Hapus old_foto
             unlink(LOKASI_USER_PICT . $old_foto);
             unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
@@ -801,7 +808,7 @@ function upload_foto_penduduk($nama_file = null, $dimensi = null)
     return $nama_file;
 }
 
-function to_base64($file)
+function to_base64($file): string
 {
     $type = pathinfo($file, PATHINFO_EXTENSION);
     $data = file_get_contents($file);
@@ -809,12 +816,12 @@ function to_base64($file)
     return 'data:image/' . $type . ';base64,' . base64_encode($data);
 }
 
-function home_noimage()
+function home_noimage(): string
 {
     return to_base64(LOKASI_FILES_LOGO . 'home.png');
 }
 
-function unggah_file($config = [], $old_file = null)
+function unggah_file(array $config = [], $old_file = null)
 {
     $ci = &get_instance();
     $ci->load->library('MY_Upload', null, 'upload');

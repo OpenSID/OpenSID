@@ -49,7 +49,7 @@ class FlxZipArchive extends ZipArchive
     public $tmp_file;
     public $waktu_backup_terakhir;
 
-    public function read_dir($backup_folder, $waktu_backup_terakhir = null, $archive = null)
+    public function read_dir(string $backup_folder, $waktu_backup_terakhir = null, $archive = null)
     {
         // Simpan di temp file
         if ($waktu_backup_terakhir != null) {
@@ -73,7 +73,7 @@ class FlxZipArchive extends ZipArchive
         echo 'Could not create a zip archive';
     }
 
-    public function download($nama_file)
+    public function download(string $nama_file): never
     {
         // Unduh berkas zip
         header('Content-Description: File Transfer');
@@ -85,29 +85,30 @@ class FlxZipArchive extends ZipArchive
         exit();
     }
 
-    public function addDir($location, $name)
+    public function addDir(string $location, string $name): void
     {
         $this->addEmptyDir($name);
         $this->addDirDo($location, $name);
     }
 
-    private function addDirDo($location, $name)
+    private function addDirDo(string $location, string $name): void
     {
         $name     .= '/';
         $location .= '/';
         $dir = opendir($location);
 
         while ($file = readdir($dir)) {
-            if ($file == '.' || $file == '..') {
+            if ($file == '.') {
+                continue;
+            }
+            if ($file == '..') {
                 continue;
             }
             $do        = (filetype($location . $file) == 'dir') ? 'addDir' : 'addFile';
             $file_info = get_file_info($location . $file);
 
-            if ($this->waktu_backup_terakhir != null) {
-                if ($do == 'addFile' && ! Carbon::createFromTimestamp($file_info['date'])->gt($this->waktu_backup_terakhir)) {
-                    continue;
-                }
+            if ($this->waktu_backup_terakhir != null && ($do == 'addFile' && ! Carbon::createFromTimestamp($file_info['date'])->gt($this->waktu_backup_terakhir))) {
+                continue;
             }
 
             $this->{$do}($location . $file, $name . $file);

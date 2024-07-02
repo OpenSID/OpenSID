@@ -1,0 +1,46 @@
+name: Refactor Rector
+
+on:
+    pull_request:
+      branches:
+        - 'rilis-dev'
+        - 'bug-fix'
+      paths:
+        - '.github/workflows/refactor-rector.yml'
+        - 'donjo-app/**'
+        - 'app/**'
+
+jobs:
+    rector:
+        runs-on: ubuntu-latest
+        
+        steps:          
+          - name: Checkout code
+            uses: actions/checkout@v4
+            with:
+              ref: ${{ github.head_ref }}              
+              fetch-depth: 0
+          - name: Setup PHP
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: 8.1
+                
+          -   run: composer global require rector/rector
+          - name: Rector Cache
+            uses: actions/cache@v3
+            with:
+              path: .cache-rector
+              key: ${{ runner.os }}-rector-${{ hashFiles('**/composer.lock') }}
+              restore-keys: ${{ runner.os }}-rector-          
+          #   proses file yang berubah saja, kalau satu folder masih belum sempurna
+          #   git diff --name-only $CI_COMMIT_SHA $CI_MERGE_REQUEST_TARGET_BRANCH_NAME, jika PR          
+          -   run: git diff --name-only origin/${{ github.head_ref }} origin/${{ github.base_ref }} | grep -E -v '^(vendor|resources|assets|composer)' | xargs  rector process --ansi --debug
+          #   untuk push
+          # -   run: git diff --name-only ${{ github.sha }} | xargs  rector process --ansi --debug
+          # -   run: rector process --dry-run --ansi --debug
+
+          # commit changes, see https://github.com/EndBug/add-and-commit
+          -
+              uses: stefanzweifel/git-auto-commit-action@v4
+              with:
+                  commit_message: '[code-refactor] Rector Refactor Code'

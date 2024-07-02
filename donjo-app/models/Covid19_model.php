@@ -44,9 +44,6 @@ define('TUJUAN_MUDIK', serialize([
 
 $h_plus_array                     = [];
 $h_plus_array['-- Semua Data --'] = '99';
-
-for ($i = 0; $i <= 31; $i++, $h_plus_array["H+{$i}"] = "{$i}") {
-}
 define('H_PLUS', serialize($h_plus_array));
 
 class Covid19_model extends MY_Model
@@ -90,7 +87,7 @@ class Covid19_model extends MY_Model
         $this->db->from('penduduk_hidup p');
         $this->db->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left');
 
-        if (! empty($not_in_pemudik)) {
+        if ($not_in_pemudik !== '') {
             $this->db->where("p.id NOT IN ({$not_in_pemudik})");
         }
 
@@ -139,7 +136,7 @@ class Covid19_model extends MY_Model
         return $data;
     }
 
-    private function get_pemudik($id = null, $is_wajib_pantau = null, $limit = null)
+    private function get_pemudik($id = null, $limit = null)
     {
         $this->config_id('s');
 
@@ -206,12 +203,12 @@ class Covid19_model extends MY_Model
             $limit['offset']   = $retval['paging']->offset;
         }
 
-        $query = $this->get_pemudik(null, null, null, $limit);
+        $query = $this->get_pemudik(null, null);
         if ($query->num_rows() > 0) {
-            $data = $query->result_array();
+            $data    = $query->result_array();
+            $counter = count($data);
 
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['id']            = $data[$i]['id'];
+            for ($i = 0; $i < $counter; $i++) {
                 $data[$i]['terdata_nama']  = $data[$i]['terdata_id'];
                 $data[$i]['terdata_info']  = $data[$i]['nama'];
                 $data[$i]['nama']          = strtoupper($data[$i]['nama']);
@@ -228,7 +225,7 @@ class Covid19_model extends MY_Model
 
     public function get_list_pemudik_wajib_pantau($is_wajib_pantau = null)
     {
-        return $this->get_pemudik(null, $is_wajib_pantau, null)->result_array();
+        return $this->get_pemudik(null, null)->result_array();
     }
 
     public function add_pemudik($post)
@@ -264,7 +261,7 @@ class Covid19_model extends MY_Model
         return $data;
     }
 
-    public function update_pemudik_by_id($post, $id)
+    public function update_pemudik_by_id($post, $id): void
     {
         $data = $this->sterilkan($post);
 
@@ -274,7 +271,7 @@ class Covid19_model extends MY_Model
         $this->db->update('covid19_pemudik', $data);
     }
 
-    public function delete_pemudik_by_id($id)
+    public function delete_pemudik_by_id($id): void
     {
         $this->config_id();
 
@@ -285,7 +282,7 @@ class Covid19_model extends MY_Model
     // TABEL PEMUDIK END
 
     // TABEL PEMANTAUAN
-    private function get_pantau_pemudik($filter_tgl = null, $filter_nik = null, $limit = null)
+    private function get_pantau_pemudik($filter_tgl = null, $filter_nik = null, ?array $limit = null)
     {
         $this->config_id('p');
 
@@ -301,16 +298,12 @@ class Covid19_model extends MY_Model
         $this->db->order_by('o.nik', 'ASC');
         $this->db->order_by('p.tanggal_jam', 'DESC');
 
-        if (isset($filter_tgl)) {
-            if ($filter_tgl != '0') {
-                $this->db->where('DATE(p.tanggal_jam)', $filter_tgl);
-            }
+        if (isset($filter_tgl) && $filter_tgl != '0') {
+            $this->db->where('DATE(p.tanggal_jam)', $filter_tgl);
         }
 
-        if (isset($filter_nik)) {
-            if ($filter_nik != '0') {
-                $this->db->where('p.id_pemudik', $filter_nik);
-            }
+        if (isset($filter_nik) && $filter_nik != '0') {
+            $this->db->where('p.id_pemudik', $filter_nik);
         }
 
         if (isset($limit)) {
@@ -394,7 +387,7 @@ class Covid19_model extends MY_Model
         return $this->db->insert('covid19_pantau', $data);
     }
 
-    public function delete_pantau_pemudik_by_id($id)
+    public function delete_pantau_pemudik_by_id($id): void
     {
         $this->config_id();
 

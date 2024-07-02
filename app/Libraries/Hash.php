@@ -51,10 +51,8 @@ class Hash
      *
      * @param string $password
      * @param int    $cost
-     *
-     * @return string
      */
-    public static function make($password, $cost = 10)
+    public static function make($password, $cost = 10): string
     {
         if (! is_int($cost) || $cost < 4 || $cost > 31) {
             throw new Exception('Cost parameter must be an integer between 4 to 31.');
@@ -81,7 +79,7 @@ class Hash
 
         $hash = crypt($password, sprintf('$2y$%02d$', $cost) . mb_substr($salt, 0, 22, '8bit'));
 
-        if (! is_string($hash) || 60 !== mb_strlen((string) $hash, '8bit')) {
+        if (! is_string($hash) || 60 !== mb_strlen($hash, '8bit')) {
             throw new Exception('Malformatted password hash result.');
         }
 
@@ -94,10 +92,8 @@ class Hash
      *
      * @param string $password
      * @param string $hash
-     *
-     * @return bool
      */
-    public static function check($password, $hash)
+    public static function check($password, $hash): bool
     {
         if (! function_exists('crypt')) {
             throw new Exception('Crypt must be loaded to use the hashing library.');
@@ -129,10 +125,8 @@ class Hash
      *
      * @param string $hash
      * @param int    $cost
-     *
-     * @return bool
      */
-    public static function weak($hash, $cost = 10)
+    public static function weak($hash, $cost = 10): bool
     {
         $hash = (string) $hash;
 
@@ -173,15 +167,12 @@ class Hash
 
         $unix    = ('/' === DIRECTORY_SEPARATOR);
         $windows = ('\\' === DIRECTORY_SEPARATOR);
-        $bytes   = false;
 
         // Gunakan openssl.
         $bytes = openssl_random_pseudo_bytes($length, $strong);
 
-        if (false !== $strong && false !== $bytes) {
-            if ($length === mb_strlen((string) $bytes, '8bit')) {
-                return $bytes;
-            }
+        if (false !== $strong && false !== $bytes && $length === mb_strlen($bytes, '8bit')) {
+            return $bytes;
         }
 
         // Openssl gagal, coba /dev/urandom (unix)
@@ -189,8 +180,8 @@ class Hash
             $urandom = true;
             $basedir = ini_get('open_basedir');
 
-            if (! empty($basedir)) {
-                $paths   = explode(PATH_SEPARATOR, strtolower((string) $basedir));
+            if ($basedir !== '' && $basedir !== false) {
+                $paths   = explode(PATH_SEPARATOR, strtolower($basedir));
                 $urandom = ([] !== array_intersect(['/dev', '/dev/', '/dev/urandom'], $paths));
                 unset($paths);
             }
@@ -202,14 +193,14 @@ class Hash
 
                 while ($read < $length) {
                     $local .= fread($file, $length - $read);
-                    $read = mb_strlen((string) $local, '8bit');
+                    $read = mb_strlen($local, '8bit');
                 }
 
                 fclose($file);
                 $bytes = str_pad($bytes, $length, "\0") ^ str_pad($local, $length, "\0");
             }
 
-            if ($read >= $length && $length === mb_strlen((string) $bytes, '8bit')) {
+            if ($read >= $length && $length === mb_strlen($bytes, '8bit')) {
                 return $bytes;
             }
         }
@@ -229,9 +220,7 @@ class Hash
 
                     $count++;
                 } while ($count < $length);
-            } catch (Throwable $e) {
-                $bytes = false;
-            } catch (Exception $e) {
+            } catch (Throwable|Exception $e) {
                 $bytes = false;
             }
 

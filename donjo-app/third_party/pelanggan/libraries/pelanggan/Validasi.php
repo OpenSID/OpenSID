@@ -48,7 +48,7 @@ class Validasi
     protected $ci;
 
     protected $kecuali = [
-        'beranda', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
+        'beranda', 'identitas_desa', 'pelanggan', 'pengguna', 'pendaftaran_kerjasama', 'setting', 'notif', 'main', 'info_sistem',
     ];
 
     public function __construct()
@@ -56,7 +56,7 @@ class Validasi
         $this->ci = &get_instance();
     }
 
-    public function validasi()
+    public function validasi(): bool
     {
         if ($this->isExceptController() || $this->isDemoMode()) {
             return true;
@@ -71,7 +71,7 @@ class Validasi
         return true;
     }
 
-    public function validasi_akses()
+    public function validasi_akses(): bool
     {
         $this->ci->session->unset_userdata('error_premium');
 
@@ -120,7 +120,7 @@ class Validasi
         return true;
     }
 
-    public function validasi_versi($install = false)
+    public function validasi_versi($install = false): bool
     {
         if ($this->isPremiumDisabled() || $install || $this->isDemoMode()) {
             return true;
@@ -153,12 +153,12 @@ class Validasi
         return true;
     }
 
-    private function isExceptController()
+    private function isExceptController(): bool
     {
         return in_array($this->ci->router->class, $this->kecuali);
     }
 
-    private function isDemoMode()
+    private function isDemoMode(): bool
     {
         return config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO));
     }
@@ -168,15 +168,15 @@ class Validasi
         $tokenParts   = explode('.', $token);
         $tokenPayload = base64_decode($tokenParts[1], true);
 
-        return json_decode($tokenPayload);
+        return json_decode($tokenPayload, null);
     }
 
-    private function isDesaIdMismatch($jwtPayload)
+    private function isDesaIdMismatch($jwtPayload): bool
     {
         return version_compare($jwtPayload->desa_id, kode_wilayah($this->ci->header['desa']['kode_desa']), '!=');
     }
 
-    private function isPremiumVersionExpired($berakhir)
+    private function isPremiumVersionExpired($berakhir): bool
     {
         $date    = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
         $version = $date->format('Y-m-d');
@@ -190,22 +190,22 @@ class Validasi
         return false;
     }
 
-    private function isLocalIPAddress()
+    private function isLocalIPAddress(): bool
     {
         return isLocalIPAddress($_SERVER['REMOTE_ADDR']);
     }
 
-    private function isDomainMismatch($jwtPayload)
+    private function isDomainMismatch($jwtPayload): bool
     {
-        return get_domain($jwtPayload->domain) != get_domain(APP_URL);
+        return get_domain($jwtPayload->domain) !== get_domain(APP_URL);
     }
 
-    private function isPremiumDisabled()
+    private function isPremiumDisabled(): bool
     {
         return PREMIUM === false;
     }
 
-    private function daftarHitam()
+    private function daftarHitam(): void
     {
         if (! config_item('demo_mode')) {
             $this->ci->load->library('user_agent');

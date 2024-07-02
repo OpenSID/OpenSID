@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_1908_ke_1909 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         if (! $this->db->table_exists('keluarga_aktif')) {
             $sql = 'CREATE VIEW keluarga_aktif AS SELECT k.*

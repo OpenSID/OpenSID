@@ -81,7 +81,7 @@ class Keluarga extends BaseModel
      */
     public function kepalaKeluarga()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     /**
@@ -95,7 +95,7 @@ class Keluarga extends BaseModel
             ->status(1)
             ->orderBy('kk_level')
             ->orderBy('tanggallahir')
-            ->withoutGlobalScope('App\Scopes\ConfigIdScope');
+            ->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     /**
@@ -105,12 +105,12 @@ class Keluarga extends BaseModel
      */
     public function Wilayah()
     {
-        return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->belongsTo(Wilayah::class, 'id_cluster')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     public function LogKeluarga()
     {
-        return $this->hasMany(LogKeluarga::class, 'id_kk', 'id')->withoutGlobalScope('App\Scopes\ConfigIdScope');
+        return $this->hasMany(LogKeluarga::class, 'id_kk', 'id')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     /**
@@ -120,7 +120,7 @@ class Keluarga extends BaseModel
      */
     public function scopeStatus()
     {
-        return static::whereHas('kepalaKeluarga', static function ($query) {
+        return static::whereHas('kepalaKeluarga', static function ($query): void {
             $query->status()->where('kk_level', '1');
         });
     }
@@ -130,14 +130,14 @@ class Keluarga extends BaseModel
         $tgl    = date('Y-m-d', strtotime($tgl . ' + 1 day'));
         $sqlRaw = "select max(id) id from log_keluarga where id_kk IS NOT NULL and config_id = {$configId} and tgl_peristiwa < '{$tgl}'  group by id_kk";
 
-        return $query->join('log_keluarga', static function ($q) use ($configId) {
+        return $query->join('log_keluarga', static function ($q) use ($configId): void {
             $q->on('log_keluarga.id_kk', '=', 'tweb_keluarga.id')
                 ->where('log_keluarga.config_id', '=', $configId)
                 ->whereNotIn('log_keluarga.id_peristiwa', [2, 3, 4]);
         })->join(DB::raw("({$sqlRaw}) as log"), 'log.id', '=', 'log_keluarga.id');
     }
 
-    protected static function nomerKKSementara()
+    protected static function nomerKKSementara(): int
     {
         // buat jadi orm laravel
         $digit = self::selectRaw('RIGHT(no_kk, 5) as digit')

@@ -80,4 +80,13 @@ class Suplemen extends BaseModel
     {
         return $this->hasMany(SuplemenTerdata::class, 'id_suplemen');
     }
+
+    public function scopeFilter($query, $sasaran)
+    {
+        if (! empty($sasaran)) {
+            $query->where('sasaran', $sasaran);
+        }
+
+        return $query;
+    }
 }

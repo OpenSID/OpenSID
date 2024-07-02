@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Securimage extends CI_Controller
 {
-    public function show()
+    public function show(): void
     {
         App\Libraries\Captcha::make();
     }

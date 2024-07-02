@@ -37,10 +37,13 @@
 
 use App\Models\Config;
 use App\Models\FormatSurat;
+use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
+use App\Models\Modul;
 use App\Models\UserGrup;
 use Carbon\Carbon;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -71,31 +74,33 @@ if (! function_exists('view')) {
     {
         $CI = &get_instance();
 
-        $factory = new Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'));
+        $container = new Container();
+
+        if (! get_instance()->session->instalasi) {
+            $desa = identitas();
+            $container->instance('db', Container::getInstance()->get('db'));
+        }
+
+        // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
+        // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
+
+        $factory = new Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'), $container);
 
         if (func_num_args() === 0) {
             return $factory;
         }
 
-        $factory->directive('selected', static function ($condition) {
-            return "<?= ({$condition}) ? 'selected' : ''; ?>";
-        });
+        $factory->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
 
-        $factory->directive('checked', static function ($condition) {
-            return "<?= ({$condition}) ? 'checked' : ''; ?>";
-        });
+        $factory->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
 
-        $factory->directive('disabled', static function ($condition) {
-            return "<?= ({$condition}) ? 'disabled' : ''; ?>";
-        });
+        $factory->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
 
-        $factory->directive('active', static function ($condition) {
-            return "<?= ({$condition}) ? 'active' : ''; ?>";
-        });
+        $factory->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
 
-        $factory->directive('display', static function ($condition) {
-            return "<?= ({$condition}) ? 'show' : 'hide'; ?>";
-        });
+        $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+
+        $factory->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
 
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
@@ -105,7 +110,7 @@ if (! function_exists('view')) {
                 'ci'           => get_instance(),
                 'auth'         => $CI->session->isAdmin,
                 'controller'   => $CI->controller,
-                'desa'         => identitas(),
+                'desa'         => $desa ?? null,
                 'list_setting' => $CI->list_setting,
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
@@ -120,6 +125,7 @@ if (! function_exists('view')) {
                 ],
                 'kategori'             => $CI->header['kategori'],
                 'sub_modul_ini'        => $CI->sub_modul_ini,
+                'akses_modul'          => $CI->akses_modul,
                 'session'              => $CI->session,
                 'setting'              => $CI->setting,
                 'token'                => $CI->security->get_csrf_token_name(),
@@ -148,31 +154,127 @@ if (! function_exists('session')) {
 }
 
 if (! function_exists('can')) {
-    function can($akses, $controller = '', $admin_only = false)
+    /**
+     * Cek akses user
+     *
+     * @param string|null $akses
+     * @param string|null $slugModul
+     * @param bool        $adminOnly
+     *
+     * @return array|bool
+     */
+    function can($akses = null, $slugModul = null, $adminOnly = false)
     {
-        $CI = &get_instance();
-        $CI->load->model('user_model');
+        $idGrup   = auth()->id_grup;
+        $slugGrup = UserGrup::find($idGrup)->slug;
+        $data     = cache()->remember('akses_grup_' . $idGrup, 604800, static function () use ($idGrup, $slugGrup) {
+            if (in_array($idGrup, UserGrup::getGrupSistem())) {
+                $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
-        if (empty($controller)) {
-            $controller = $CI->controller;
+                if (count($grup) === 1 && array_keys($grup)[0] == '*') {
+                    $grupAkses = Modul::get();
+                    $rbac      = array_values($grup)[0];
+                } else {
+                    $grupAkses = Modul::whereIn('slug', array_keys($grup))->get();
+                }
+
+                return $grupAkses->mapWithKeys(static function ($item) use ($idGrup, $rbac, $grup) {
+                    $rbac ??= $grup[$item->slug];
+                    $rbac = $rbac === 0 ? 1 : $rbac;
+
+                    return [
+                        $item->slug => [
+                            'id_modul' => $item->id,
+                            'id_grup'  => $idGrup,
+                            'akses'    => $rbac,
+                            'baca'     => $rbac >= 1,
+                            'ubah'     => $rbac >= 3,
+                            'hapus'    => $rbac >= 7,
+                        ],
+                    ];
+                })->toArray();
+            }
+            $grupAkses = GrupAkses::leftJoin('setting_modul', 'grup_akses.id_modul', '=', 'setting_modul.id')
+                ->where('id_grup', $idGrup)
+                ->select('grup_akses.*')
+                ->selectRaw('setting_modul.slug as slug')
+                ->get();
+
+            return $grupAkses->mapWithKeys(static fn ($item) => [
+                $item->slug => [
+                    'id_modul' => $item->id_modul,
+                    'id_grup'  => $item->id_grup,
+                    'akses'    => $item->akses,
+                    'baca'     => $item->akses >= 1,
+                    'ubah'     => $item->akses >= 3,
+                    'hapus'    => $item->akses >= 7,
+                ],
+            ])->toArray();
+        });
+
+        if (null === $akses) {
+            return $data;
         }
 
-        if ($admin_only && $CI->grup != $CI->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
+        if (null === $slugModul) {
+            $slugModul = get_instance()->akses_modul ?? get_instance()->sub_modul_ini ?? get_instance()->modul_ini;
+        }
+
+        $alias = [
+            'b' => 'baca',
+            'u' => 'ubah',
+            'h' => 'hapus',
+        ];
+
+        if (! array_key_exists($akses, $alias)) {
             return false;
         }
 
-        return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
+        if ($adminOnly) {
+            return (bool) super_admin();
+        }
+
+        // dd($data);
+
+        return $data[$slugModul][$alias[$akses]];
+    }
+}
+
+if (! function_exists('isCan')) {
+    /**
+     * Cek akses user
+     *
+     * @param string|null $akses
+     * @param string|null $slugModul
+     * @param bool        $adminOnly
+     *
+     * @return array|bool
+     */
+    function isCan($akses = null, $slugModul = null, $adminOnly = false): void
+    {
+        $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
+        if (! can('b', $slugModul, $adminOnly)) {
+            set_session('error', $pesan);
+            session_error($pesan);
+
+            redirect('beranda');
+        } elseif (! can($akses, $slugModul, $adminOnly)) {
+            set_session('error', $pesan);
+            session_error($pesan);
+
+            redirect(get_instance()->controller);
+        }
     }
 }
 
 // response()->json(array_data);
 if (! function_exists('json')) {
-    function json($content = [], $header = 200)
+    function json($content = [], $header = 200): void
     {
         get_instance()->output
             ->set_status_header($header)
             ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($content))
+            ->set_output(json_encode($content, JSON_THROW_ON_ERROR))
             ->_display();
 
         exit();
@@ -181,9 +283,13 @@ if (! function_exists('json')) {
 
 // redirect()->route('example')->with('success', 'information');
 if (! function_exists('redirect_with')) {
-    function redirect_with($key = 'success', $value = '', $to = '')
+    function redirect_with($key = 'success', $value = '', $to = '', $autodismis = null)
     {
         set_session($key, $value);
+
+        if ($autodismis) {
+            set_session('autodismiss', true);
+        }
 
         if (empty($to)) {
             $to = get_instance()->controller;
@@ -238,20 +344,16 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $cache    = 'identitas_desa';
-        $instance = get_instance();
-
-        if (null === $instance->cache) {
-            return null;
-        }
-
-        $identitas = $instance->cache->pakai_cache(static function () {
-            if (Schema::hasColumn('config', 'app_key') && DB::table('config')->where('app_key', get_app_key())->exists()) {
-                return Config::appKey()->first();
+        $identitas = cache()->remember('identitas_desa', 604800, static function () {
+            if (! Schema::hasColumn('config', 'app_key')) {
+                return null;
+            }
+            if (! DB::table('config')->where('app_key', get_app_key())->exists()) {
+                return null;
             }
 
-            return null;
-        }, $cache, 24 * 60 * 60);
+            return Config::appKey()->first();
+        });
 
         if ($params) {
             return $identitas->{$params};
@@ -340,7 +442,7 @@ if (! function_exists('underscore')) {
      *
      * @return string string yang sudah dibuat spasi
      */
-    function underscore($str, $to_underscore = true, $lowercase = false)
+    function underscore($str, $to_underscore = true, $lowercase = false): string
     {
         // membersihkan string di akhir dan di awal
         $str = trim($str);
@@ -350,16 +452,8 @@ if (! function_exists('underscore')) {
             $str = MB_ENABLED ? mb_strtolower($str) : strtolower($str);
         }
 
-        if ($to_underscore) {
-            // mengganti spasi dengan underscore
-            $str = str_replace(' ', '_', $str);
-        } else {
-            // mengganti underscore dengan spasi
-            $str = str_replace('_', ' ', $str);
-        }
-
         // menyajikan hasil akhir
-        return $str;
+        return $to_underscore ? str_replace(' ', '_', $str) : str_replace('_', ' ', $str);
     }
 }
 
@@ -392,7 +486,7 @@ if (! function_exists('folder')) {
      * @param mixed|null $htaccess
      * @param array|null $extra
      */
-    function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = [])
+    function folder($folder = null, $permissions = 0755, $htaccess = null, array $extra = []): bool
     {
         $hasil = true;
 
@@ -411,13 +505,11 @@ if (! function_exists('folder')) {
             // File index.html
             write_file($folder . 'index.html', config_item('index_html'), 'x');
 
-            if ($extra) {
-                foreach ($extra as $value) {
-                    $file    = realpath($value);
-                    $newfile = realpath($folder) . DIRECTORY_SEPARATOR . basename($value);
+            foreach ($extra as $value) {
+                $file    = realpath($value);
+                $newfile = realpath($folder) . DIRECTORY_SEPARATOR . basename($value);
 
-                    copy($file, $newfile);
-                }
+                copy($file, $newfile);
             }
 
             return true;
@@ -431,7 +523,7 @@ if (! function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
-    function folder_desa()
+    function folder_desa(): bool
     {
         get_instance()->load->config('installer');
         $list_folder = array_merge(config_item('desa'), config_item('lainnya'));
@@ -441,12 +533,10 @@ if (! function_exists('folder_desa')) {
             folder($folder, $lainnya[0], $lainnya[1], $lainnya[2] ?? []);
         }
 
-        // Buat file offline_mode.php, config.php dan database.php awal
         write_file(LOKASI_CONFIG_DESA . 'config.php', config_item('config'), 'x');
         write_file(LOKASI_CONFIG_DESA . 'database.php', config_item('database'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman.css', config_item('siteman_css'), 'x');
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
-        write_file(DESAPATH . 'offline_mode.php', config_item('offline_mode'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
         return true;
@@ -482,7 +572,7 @@ if (! function_exists('cek_kehadiran')) {
     /**
      * Cek perangkat lupa absen
      */
-    function cek_kehadiran()
+    function cek_kehadiran(): void
     {
         if (Schema::hasTable('kehadiran_jam_kerja') && (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran'))) {
             $cek_libur = JamKerja::libur()->first();
@@ -511,10 +601,8 @@ if (! function_exists('cek_kehadiran')) {
 if (! function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
-        $replacer = static function ($matches) use ($ke) {
-            $matches = array_map(static function ($match) {
-                return preg_replace('/[\\[\\]]/', '', $match);
-            }, $matches);
+        $replacer = static function (array $matches) use ($ke) {
+            $matches = array_map(static fn ($match) => preg_replace('/[\\[\\]]/', '', $match), $matches);
 
             return caseWord($matches[0], $ke);
         };
@@ -534,7 +622,7 @@ if (! function_exists('case_replace')) {
 }
 
 if (! function_exists('kirim_versi_opensid')) {
-    function kirim_versi_opensid()
+    function kirim_versi_opensid(): void
     {
         if (! config_item('demo_mode')) {
             $ci = get_instance();
@@ -567,7 +655,7 @@ if (! function_exists('kirim_versi_opensid')) {
 }
 
 if (! function_exists('kotak')) {
-    function kotak($data_kolom, $max_kolom = 26)
+    function kotak(?string $data_kolom, int $max_kolom = 26): string
     {
         $view = '';
 
@@ -586,20 +674,19 @@ if (! function_exists('kotak')) {
 }
 
 if (! function_exists('checklist')) {
-    function checklist($kondisi_1, $kondisi_2)
+    function checklist($kondisi_1, $kondisi_2): string
     {
         $view = '<td class="kotak padat tengah">';
         if ($kondisi_1 == $kondisi_2) {
             $view .= '<img src="' . FCPATH . 'assets/images/check.png' . '" height="10" width="10"/>';
         }
-        $view .= '</td>';
 
-        return $view;
+        return $view . '</td>';
     }
 }
 
 if (! function_exists('create_tree_folder')) {
-    function create_tree_folder($arr, $baseDir)
+    function create_tree_folder($arr, string $baseDir)
     {
         if (! empty($arr)) {
             $tmp = '<ul class="tree-folder">';
@@ -607,22 +694,21 @@ if (! function_exists('create_tree_folder')) {
             foreach ($arr as $i => $val) {
                 if (is_array($val)) {
                     $permission     = decoct(fileperms($baseDir . DIRECTORY_SEPARATOR . $i) & 0777);
-                    $iconPermission = $permission == decoct(DESAPATHPERMISSION) ? '<i class="fa fa-check-circle-o fa-lg pull-right" style="color:green"></i>' : '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
-                    $liClass        = $permission == decoct(DESAPATHPERMISSION) ? 'text-green' : 'text-red';
+                    $iconPermission = $permission === decoct(DESAPATHPERMISSION) ? '<i class="fa fa-check-circle-o fa-lg pull-right" style="color:green"></i>' : '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
+                    $liClass        = $permission === decoct(DESAPATHPERMISSION) ? 'text-green' : 'text-red';
                     $tmp .= '<li class="' . $liClass . '"  data-path="' . preg_replace('/\/+/', '/', $baseDir . DIRECTORY_SEPARATOR . $i) . '">' . $i . '(' . $permission . ') ' . $iconPermission;
                     $tmp .= create_tree_folder($val, $baseDir . $i);
                     $tmp .= '</li>';
                 }
             }
-            $tmp .= '</ul>';
 
-            return $tmp;
+            return $tmp . '</ul>';
         }
     }
 }
 
 if (! function_exists('generatePengikut')) {
-    function generatePengikut($pengikut, $keterangan)
+    function generatePengikut($pengikut, $keterangan): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -651,7 +737,7 @@ if (! function_exists('generatePengikut')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($pengikut as $key => $data) {
+        foreach ($pengikut as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -665,17 +751,16 @@ if (! function_exists('generatePengikut')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
 
 if (! function_exists('generatePengikutSuratKIS')) {
-    function generatePengikutSuratKIS($pengikut)
+    function generatePengikutSuratKIS($pengikut): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -693,7 +778,7 @@ if (! function_exists('generatePengikutSuratKIS')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($pengikut as $key => $data) {
+        foreach ($pengikut as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -706,17 +791,16 @@ if (! function_exists('generatePengikutSuratKIS')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
 
 if (! function_exists('generatePengikutKartuKIS')) {
-    function generatePengikutKartuKIS($kis)
+    function generatePengikutKartuKIS($kis): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -734,7 +818,7 @@ if (! function_exists('generatePengikutKartuKIS')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($kis as $key => $data) {
+        foreach ($kis as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -747,17 +831,16 @@ if (! function_exists('generatePengikutKartuKIS')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
 
 if (! function_exists('generatePengikutPindah')) {
-    function generatePengikutPindah($pengikut)
+    function generatePengikutPindah($pengikut): string
     {
         $html = '
                 <table width="100%" border=1 style="font-size:8pt;text-align:center; border-collapse: collapse;">
@@ -773,7 +856,7 @@ if (! function_exists('generatePengikutPindah')) {
                     <tbody>';
         $no = 1;
 
-        foreach ($pengikut as $key => $data) {
+        foreach ($pengikut as $data) {
             $html .= '
                             <tr>
                                 <td style="border-color: #000000; border-style: solid; border-collapse: collapse; width:3%">' . $no++ . '</td>
@@ -784,15 +867,14 @@ if (! function_exists('generatePengikutPindah')) {
                             </tr>
                             ';
         }
-        $html .= '
+
+        return $html . '
                     </tbody>
                 </table>
             ';
-
-        return $html;
     }
 }
-function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
+function tidak_ada_data($col = 12, string $message = 'Data Tidak Tersedia'): void
 {
     $html = '
         <tr>
@@ -802,16 +884,16 @@ function tidak_ada_data($col = 12, $message = 'Data Tidak Tersedia')
 }
 
 if (! function_exists('data_lengkap')) {
-    function data_lengkap()
+    function data_lengkap(): bool
     {
         $CI = &get_instance();
 
-        return ($CI->setting->tgl_data_lengkap_aktif) ? true : false;
+        return (bool) $CI->setting->tgl_data_lengkap_aktif;
     }
 }
 
 if (! function_exists('buat_class')) {
-    function buat_class($class1 = '', $class2 = '', $required = false)
+    function buat_class($class1 = '', $class2 = '', $required = false): string
     {
         $onlyClass = '';
         preg_match('/class="([^"]+)"/', $class1, $match);
@@ -834,7 +916,7 @@ if (! function_exists('buat_class')) {
 }
 
 if (! function_exists('jenis_surat')) {
-    function jenis_surat($jenis)
+    function jenis_surat($jenis): string
     {
         if (in_array($jenis, FormatSurat::RTF)) {
             return 'RTF';
@@ -845,9 +927,13 @@ if (! function_exists('jenis_surat')) {
 }
 
 if (! function_exists('cek_lokasi_peta')) {
-    function cek_lokasi_peta($wilayah)
+    function cek_lokasi_peta(array $wilayah): bool
     {
-        return (bool) (! empty($wilayah['path'] && ! empty($wilayah['lat'] && ! empty($wilayah['lng']))));
+        if ($wilayah['dusun'] == '-') {
+            $wilayah = identitas();
+        }
+
+        return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
     }
 }
 
@@ -923,8 +1009,6 @@ if (! function_exists('geoip_info')) {
                         break;
 
                     case 'state':
-                        $output = @$ipdat->geoplugin_regionName;
-                        break;
 
                     case 'region':
                         $output = @$ipdat->geoplugin_regionName;
@@ -946,8 +1030,124 @@ if (! function_exists('geoip_info')) {
 }
 
 if (! function_exists('batal')) {
-    function batal()
+    function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
+    }
+}
+
+if (! function_exists('sensorEmail')) {
+    function sensorEmail($email): string
+    {
+        if (! $email || null === $email) {
+            return '';
+        }
+        $atPosition = strpos($email, '@');
+
+        $firstPart  = substr($email, 0, 2);
+        $secondPart = substr($email, 1, $atPosition - 2);
+        $lastPart   = substr($email, $atPosition);
+
+        return $firstPart . str_repeat('*', strlen($secondPart)) . $lastPart;
+    }
+}
+
+if (! function_exists('gis_simbols')) {
+    function gis_simbols()
+    {
+        $simbols = DB::table('gis_simbol')->get('simbol');
+
+        return $simbols->map(static fn ($item): array => (array) $item)->toArray();
+    }
+}
+
+if (! function_exists('config')) {
+    /**
+     * Get / set the specified configuration value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param array|string|null $key
+     * @param mixed             $default
+     *
+     * @return Illuminate\Config\Repository|mixed
+     */
+    function config($key = null, $default = null)
+    {
+        if (null === $key) {
+            return new Illuminate\Config\Repository();
+        }
+
+        if (is_array($key)) {
+            return (new Illuminate\Config\Repository())->set($key);
+        }
+
+        $file   = explode('.', $key)[0];
+        $config = require APPPATH . 'config/' . $file . '.php';
+
+        return (new Illuminate\Config\Repository([$file => $config]))->get($key, $default);
+    }
+}
+
+if (! function_exists('cache')) {
+    /**
+     * Get / set the specified cache value.
+     *
+     * If an array is passed, we'll assume you want to put to the cache.
+     *
+     * @param  dynamic  key|key,default|data,expiration|null
+     *
+     * @throws InvalidArgumentException
+     *
+     * @return Illuminate\Cache\CacheManager|mixed
+     */
+    function cache()
+    {
+        $container           = new Container();
+        $container['config'] = [
+            'cache.default'     => config('cache.default'),
+            'cache.stores.file' => config('cache.stores.file'),
+        ];
+        $container['files'] = new Illuminate\Filesystem\Filesystem();
+        $cacheManager       = new Illuminate\Cache\CacheManager($container);
+        $store              = $cacheManager->store();
+
+        if (empty($arguments)) {
+            return $store;
+        }
+
+        if (is_string($arguments[0])) {
+            return $store->get(...$arguments);
+        }
+
+        if (! is_array($arguments[0])) {
+            throw new InvalidArgumentException(
+                'When setting a value in the cache, you must pass an array of key / value pairs.'
+            );
+        }
+
+        [$key, $value, $minutes] = $arguments[0];
+
+        return $store->put($key, $value, $minutes ?? null);
+    }
+}
+
+if (! function_exists('resource_path')) {
+    /**
+     * Get the path to the resources folder.
+     */
+    function resource_path(string $path = ''): string
+    {
+        return RESOURCESPATH . $path;
+    }
+}
+
+if (! function_exists('storage_path')) {
+    /**
+     * Get the path to the storage folder.
+     */
+    function storage_path(string $path = ''): string
+    {
+        return STORAGEPATH . $path;
     }
 }

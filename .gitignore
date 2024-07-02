@@ -8,7 +8,6 @@ info.php
 **/.DS_Store
 sftp-config.json
 .php-cs-fixer.cache
-rector.php
 /.htaccess
 *.sql
 mitra
@@ -57,3 +56,5 @@ vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
 /node_modules
+.cache-rector/*
+!.cache-rector/.gitkeep

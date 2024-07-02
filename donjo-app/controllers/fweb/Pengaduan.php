@@ -48,7 +48,7 @@ class Pengaduan extends Web_Controller
         $this->load->library('MY_Upload', null, 'upload');
     }
 
-    public function index($p = 1)
+    public function index($p = 1): void
     {
         if (! $this->web_menu_model->menu_aktif('pengaduan')) {
             show_404();
@@ -78,7 +78,7 @@ class Pengaduan extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function kirim()
+    public function kirim(): void
     {
         $this->load->library('Telegram/telegram');
         $post = $this->input->post();
@@ -107,30 +107,28 @@ class Pengaduan extends Web_Controller
                     'status' => 'error',
                     'pesan'  => 'Pengaduan gagal dikirim. Anda hanya dapat mengirimkan satu pengaduan dalam satu hari.',
                 ];
-            } else {
-                if ($this->pengaduan_model->insert()) {
-                    if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-                        try {
-                            $this->telegram->sendMessage([
-                                'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
-                                'parse_mode' => 'Markdown',
-                                'chat_id'    => $this->setting->telegram_user_id,
-                            ]);
-                        } catch (Exception $e) {
-                            log_message('error', $e->getMessage());
-                        }
+            } elseif ($this->pengaduan_model->insert()) {
+                if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
+                    try {
+                        $this->telegram->sendMessage([
+                            'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
+                            'parse_mode' => 'Markdown',
+                            'chat_id'    => $this->setting->telegram_user_id,
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
                     }
-                    $notif = [
-                        'status' => 'success',
-                        'pesan'  => 'Pengaduan berhasil dikirim.',
-                    ];
-                } else {
-                    $notif = [
-                        'status' => 'error',
-                        'pesan'  => 'Pengaduan gagal dikirim.',
-                        'data'   => $post,
-                    ];
                 }
+                $notif = [
+                    'status' => 'success',
+                    'pesan'  => 'Pengaduan berhasil dikirim.',
+                ];
+            } else {
+                $notif = [
+                    'status' => 'error',
+                    'pesan'  => 'Pengaduan gagal dikirim.',
+                    'data'   => $post,
+                ];
             }
         }
 

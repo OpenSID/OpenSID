@@ -3,8 +3,8 @@ name: Fix styling
 on:
   pull_request:
     branches:
-      - bug-fix
-      - rilis-dev
+      - 'rilis-dev'
+      - 'bug-fix'
 
 jobs:
   php-cs-fixer:

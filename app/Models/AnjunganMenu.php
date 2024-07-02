@@ -99,4 +99,30 @@ class AnjunganMenu extends BaseModel
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
     }
+
+    /**
+     * The "booted" method of the model.
+     */
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'icon');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'icon', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_ICON_MENU_ANJUNGAN . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
+    }
 }

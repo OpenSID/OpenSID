@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_2005_ke_2006 extends CI_model
 {
-    public function up()
+    public function up(): void
     {
         $this->grup_akses_covid19();
         $this->load->model('migrations/migrasi_2004_ke_2005');
@@ -58,9 +58,10 @@ class Migrasi_2005_ke_2006 extends CI_model
         if ($list_widgets) {
             foreach ($list_widgets as $widgets) {
                 $ganti = str_replace('desa/widget', 'desa/widgets', $widgets['isi']); // Untuk versi 20.04-pasca ke atas
-                $cek   = explode('/', $ganti); // Untuk versi 20.04 ke bawah
-                if ($cek[0] !== 'desa' && $cek[1] === null) { // agar migrasi bisa dijalankan berulang kali
-                    $this->db->where('id', $widgets['id'])->update('widget', ['isi' => 'desa/widgets/' . $widgets['isi']]);
+                $cek   = explode('/', $ganti);
+                // Untuk versi 20.04 ke bawah
+                if ($cek[0] === 'desa') {
+                    continue;
                 }
             }
         }
@@ -92,7 +93,7 @@ class Migrasi_2005_ke_2006 extends CI_model
         }
     }
 
-    private function grup_akses_covid19()
+    private function grup_akses_covid19(): void
     {
         // Menambahkan menu 'Group / Hak Akses' covid19 table 'user_grup'
         $data[] = [

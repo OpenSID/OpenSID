@@ -39,16 +39,12 @@ namespace App\Libraries\TinyMCE;
 
 class KodeIsianIdentitas
 {
-    public function __construct()
-    {
-    }
-
-    public static function get()
+    public static function get(): array
     {
         return (new self())->kodeIsian();
     }
 
-    public function kodeIsian()
+    public function kodeIsian(): array
     {
         $config              = identitas();
         $sebutan_dusun       = setting('sebutan_dusun');
@@ -77,148 +73,148 @@ class KodeIsianIdentitas
         return [
             [
                 'judul' => 'Nama Desa',
-                'isian' => 'Nama_desA',
+                'isian' => 'nama_desa',
                 'data'  => $config->nama_desa,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Kode Desa',
-                'isian'         => 'Kode_desA',
+                'isian'         => 'kode_desa',
                 'data'          => $config->kode_desa,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Kode POS',
-                'isian'         => 'Kode_poS',
+                'isian'         => 'kode_pos',
                 'data'          => $config->kode_pos,
             ],
             [
                 'judul' => 'Sebutan Desa',
-                'isian' => 'Sebutan_desA',
+                'isian' => 'sebutan_desa',
                 'data'  => $sebutan_desa,
             ],
             [
                 'judul' => 'Sebutan Kepala Desa',
-                'isian' => 'Sebutan_kepala_desA',
+                'isian' => 'sebutan_kepala_desa',
                 'data'  => $sebutan_kepala_desa,
             ],
             [
                 'judul' => 'Nama Kepala Desa',
-                'isian' => 'Nama_kepala_desA',
+                'isian' => 'nama_kepala_desa',
                 'data'  => $config->pamong_nama,
             ],
             [
                 'judul' => 'Sebutan NIP Desa',
-                'isian' => 'Sebutan_nip_desA',
+                'isian' => 'sebutan_nip_desa',
                 'data'  => $sebutan_nip_desa,
             ],
             [
                 'judul' => 'NIP Kepala Desa',
-                'isian' => 'Nip_kepala_desA',
+                'isian' => 'nip_kepala_desa',
                 'data'  => $config->pamong_nip,
             ],
             [
                 'judul' => 'Nama Kecamatan',
-                'isian' => 'Nama_kecamataN',
+                'isian' => 'nama_kecamataN',
                 'data'  => $config->nama_kecamatan,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Kode Kecamatan',
-                'isian'         => 'Kode_kecamataN',
+                'isian'         => 'kode_kecamataN',
                 'data'          => $config->kode_kecamatan,
             ],
             [
                 'judul' => 'Sebutan Kecamatan',
-                'isian' => 'Sebutan_kecamataN',
+                'isian' => 'sebutan_kecamataN',
                 'data'  => $sebutan_kecamatan,
             ],
             [
                 'judul' => 'Sebutan Kecamatan (Singkat)',
-                'isian' => 'Sebutan_keC',
+                'isian' => 'sebutan_keC',
                 'data'  => $sebutan_kec,
             ],
             [
                 'judul' => 'Sebutan Camat',
-                'isian' => 'Sebutan_camaT',
+                'isian' => 'sebutan_camaT',
                 'data'  => $sebutan_camat,
             ],
             [
                 'judul' => 'Nama Kepala Camat',
-                'isian' => 'Nama_kepala_camaT',
+                'isian' => 'nama_kepala_camaT',
                 'data'  => $config->nama_kepala_camat,
             ],
             [
                 'judul' => 'NIP Kepala Camat',
-                'isian' => 'Nip_kepala_camaT',
+                'isian' => 'nip_kepala_camaT',
                 'data'  => $config->nip_kepala_camat,
             ],
             [
                 'judul' => 'Nama Kabupaten',
-                'isian' => 'Nama_kabupateN',
+                'isian' => 'nama_kabupateN',
                 'data'  => $config->nama_kabupaten,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Kode Kabupaten',
-                'isian'         => 'Kode_kabupateN',
+                'isian'         => 'kode_kabupateN',
                 'data'          => $config->kode_kabupaten,
             ],
             [
                 'judul' => 'Sebutan Kabupaten',
-                'isian' => 'Sebutan_kabupateN',
+                'isian' => 'sebutan_kabupateN',
                 'data'  => $sebutan_kabupaten,
             ],
             [
                 'judul' => 'Sebutan Kabupaten (Singkat)',
-                'isian' => 'Sebutan_kaB',
+                'isian' => 'sebutan_kaB',
                 'data'  => $sebutan_kab,
             ],
             [
                 'judul' => 'Nama Provinsi',
-                'isian' => 'Nama_provinsI',
+                'isian' => 'nama_provinsI',
                 'data'  => $config->nama_propinsi,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Kode Provinsi',
-                'isian'         => 'Kode_provinsI',
+                'isian'         => 'kode_provinsI',
                 'data'          => $config->kode_propinsi,
             ],
             [
                 'judul' => 'Alamat Desa',
-                'isian' => 'Alamat_desA',
+                'isian' => 'alamat_desa',
                 'data'  => $alamat_desa,
             ],
             [
                 'judul' => 'Alamat Surat Desa',
-                'isian' => 'Alamat_suraT',
+                'isian' => 'alamat_suraT',
                 'data'  => $alamat_surat,
             ],
             [
                 'judul' => 'Alamat Kantor Desa',
-                'isian' => 'Alamat_kantor',
+                'isian' => 'alamat_kantor',
                 'data'  => $config->alamat_kantor,
             ],
             [
                 'judul' => 'Email Desa',
-                'isian' => 'Email_desA',
+                'isian' => 'email_desa',
                 'data'  => $config->email_desa,
             ],
             [
                 'case_sentence' => true,
                 'judul'         => 'Telepon Desa',
-                'isian'         => 'Telepon_desA',
+                'isian'         => 'telepon_desa',
                 'data'          => $config->telepon,
             ],
             [
                 'judul' => 'Website Desa',
-                'isian' => 'Website_desA',
+                'isian' => 'website_desa',
                 'data'  => $config->website,
             ],
             [
                 'judul' => 'Sebutan Dusun',
-                'isian' => 'Sebutan_dusuN',
+                'isian' => 'sebutan_dusun',
                 'data'  => $sebutan_dusun,
             ],
         ];

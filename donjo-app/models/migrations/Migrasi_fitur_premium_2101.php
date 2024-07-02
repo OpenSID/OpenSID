@@ -94,7 +94,7 @@ class Migrasi_fitur_premium_2101 extends MY_model
         return $hasil && $this->dbforge->modify_column('setting_aplikasi', $field);
     }
 
-    private function log_hapus_penduduk()
+    private function log_hapus_penduduk(): void
     {
         //insert log_penduduk_hapus
         if (! $this->db->table_exists('log_hapus_penduduk')) {

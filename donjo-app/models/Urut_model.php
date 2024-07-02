@@ -66,7 +66,7 @@ class Urut_model extends MY_Model
             ->row()->urut;
     }
 
-    private function urut_semua($subset = ['1' => '1'])
+    private function urut_semua($subset = ['1' => '1']): void
     {
         $urut_duplikat = $this->config_id_exist($this->tabel)
             ->select('urut, COUNT(*) c')
@@ -92,8 +92,9 @@ class Urut_model extends MY_Model
                 ->get($this->tabel)
                 ->result_array();
         }
+        $counter = count($daftar);
 
-        for ($i = 0; $i < count($daftar); $i++) {
+        for ($i = 0; $i < $counter; $i++) {
             $data['urut'] = $i + 1;
             $this->config_id_exist($this->tabel)->where($this->kolom_id, $daftar[$i][$this->kolom_id])->update($this->tabel, $data);
         }
@@ -126,7 +127,9 @@ class Urut_model extends MY_Model
 
     private function urut_daftar($id, $arah, $daftar, $unsur1)
     {
-        for ($i = 0; $i < count($daftar); $i++) {
+        $counter = count($daftar);
+
+        for ($i = 0; $i < $counter; $i++) {
             if ($daftar[$i][$this->kolom_id] == $id) {
                 break;
             }

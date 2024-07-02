@@ -71,13 +71,13 @@
 																	<?= (empty($data->luas_bangunan)) ? '-' : $data->luas_bangunan ?>
 																</td>
 																<td>
-																	<?= (empty(date('d M Y', strtotime($data->tanggal_dokument)))) ? '-' : date('d M Y', strtotime($data->tanggal_dokument)) ?>
+																	<?= (date('d M Y', strtotime($data->tanggal_dokument)) === '') ? '-' : date('d M Y', strtotime($data->tanggal_dokument)) ?>
 																</td>
 																<td>
 																	<?= (empty($data->no_dokument)) ? '-' : $data->no_dokument ?>
 																</td>
 																<td nowrap>
-																	<?= (empty(date('d M Y', strtotime($data->tanggal)))) ? '-' : date('d M Y', strtotime($data->tanggal)) ?>
+																	<?= (date('d M Y', strtotime($data->tanggal)) === '') ? '-' : date('d M Y', strtotime($data->tanggal)) ?>
 																</td>
 																<td>
 																	<?= (empty($data->status_tanah)) ? '-' : $data->status_tanah ?>

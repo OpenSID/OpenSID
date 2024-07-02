@@ -42,11 +42,11 @@ class Qr_code extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul     = 'pengaturan';
-        $this->modul_ini = 'qr-code';
+        $this->modul_ini     = 'pengaturan';
+        $this->sub_modul_ini = 'qr-code';
     }
 
-    public function index()
+    public function index(): void
     {
         $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
         $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
@@ -55,14 +55,14 @@ class Qr_code extends Admin_Controller
         $this->render('qrcode/setting_qr', $data);
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->session->unset_userdata(['cari', 'filter', 'tipe', 'kategori']);
 
         redirect($this->controller);
     }
 
-    public function qrcode_generate()
+    public function qrcode_generate(): void
     {
         $this->redirect_hak_akses('u');
         $post     = $this->input->post();

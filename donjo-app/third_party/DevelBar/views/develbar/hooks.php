@@ -1,6 +1,6 @@
 <img src="<?= $icon ?>" title="<?= lang('hooks') ?>"
      alt="<?= lang('hooks') ?>"/> <?= $total_hooks > 0 ? lang('hooks') . ' (' . $total_hooks . ')' : 'N/A' ?>
-<?php if (count($loaded_hooks)): ?>
+<?php if (count($loaded_hooks) > 0): ?>
 <div class="detail hooks">
     <div class="scroll">
     <?php
@@ -18,7 +18,7 @@
             } else {
                 foreach ($hook as $key => $value) {
                     echo '<span class="left-col" style="width:30%">' . $key . ':</span>';
-                    echo '<span class="right-col" style="width:70%">' . (! is_array($value) ? $value : var_dump($value)) . '</span>';
+                    echo '<span class="right-col" style="width:70%">' . (is_array($value) ? var_dump($value) : $value) . '</span>';
                 }
             }
 

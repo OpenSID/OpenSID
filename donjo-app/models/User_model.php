@@ -63,11 +63,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 class User_model extends MY_Model
 {
-    private $_username;
-    private $_password;
+    private ?string $_username = null;
+    private ?string $_password = null;
 
     // Konfigurasi untuk library 'upload'
-    protected $uploadConfig  = [];
+    protected array $uploadConfig;
     protected $larangan_demo = [
         'database' => ['h'],
     ];
@@ -113,10 +113,7 @@ class User_model extends MY_Model
         $user = User::where('username', $username)->status()->first();
 
         // Cek hasil query ke db, ada atau tidak data user ybs.
-        $pwMasihMD5 = $user ?
-            (
-                (strlen($user->password) == 32) && (stripos($user->password, '$') === false)
-            ) : false;
+        $pwMasihMD5 = $user && ((strlen($user->password) == 32) && (stripos($user->password, '$') === false));
 
         $authLolos = $pwMasihMD5
             ? (md5($password) == $user->password)
@@ -155,7 +152,7 @@ class User_model extends MY_Model
         }
     }
 
-    private function setLogin($user)
+    private function setLogin($user): void
     {
         $this->session->siteman      = 1;
         $this->session->sesi         = $user->session;
@@ -210,7 +207,7 @@ class User_model extends MY_Model
     private function set_fm_key($key = null)
     {
         $fmHash = $key . date('Ymdhis');
-        $salt   = mt_rand(100000, 999999);
+        $salt   = random_int(100000, 999999);
         $salt   = strrev($salt);
 
         return md5($fmHash . 'OpenSID' . $salt);
@@ -248,7 +245,7 @@ class User_model extends MY_Model
             ->id;
     }
 
-    public function logout()
+    public function logout(): void
     {
         // Hapus session -- semua session variable akan terhapus
         $this->session->sess_destroy();
@@ -299,7 +296,7 @@ class User_model extends MY_Model
                 $this->session->error_msg .= ' -> Kata sandi baru tidak cocok<br />';
             }
 
-            if (! empty($this->session->error_msg)) {
+            if ($this->session->error_msg !== '') {
                 $this->session->success = -1;
             }
             // Cek input password lolos
@@ -319,10 +316,8 @@ class User_model extends MY_Model
      * Update user's settings
      *
      * @param int $id Id user di database
-     *
-     * @return void
      */
-    public function update_setting($id = 0)
+    public function update_setting($id = 0): void
     {
         $data = $this->periksa_input_password($id);
 
@@ -361,7 +356,7 @@ class User_model extends MY_Model
             $berkasLama = 'kuser.png';
         }
 
-        $nama_foto = $this->uploadFoto('gif|jpg|jpeg|png', LOKASI_USER_PICT, 'foto', 'man_user');
+        $nama_foto = $this->uploadFoto('foto', 'man_user');
 
         if (! empty($nama_foto)) {
             // Ada foto yang berhasil diunggah --> simpan ukuran 100 x 100
@@ -393,16 +388,14 @@ class User_model extends MY_Model
      * - success: nama berkas yang diunggah
      * - fail: NULL
      *
-     * @param mixed $allowed_types
-     * @param mixed $upload_path
      * @param mixed $lokasi
      * @param mixed $redirect
      */
-    private function uploadFoto($allowed_types, $upload_path, $lokasi, $redirect)
+    private function uploadFoto(string $lokasi, string $redirect)
     {
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$lokasi]['name']);
-        if ($adaBerkas !== true) {
+        if (! $adaBerkas) {
             return null;
         }
 
@@ -435,7 +428,7 @@ class User_model extends MY_Model
             $this->session->error_msg = $this->upload->display_errors(null, null);
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return (empty($uploadData)) ? null : $uploadData['file_name'];
     }
 
     // Hak akses setiap controller.
@@ -449,12 +442,10 @@ class User_model extends MY_Model
     {
         $controller = explode('/', $url_modul);
         // Demo tidak boleh mengakses menu tertentu
-        if (config_item('demo_mode')) {
-            if (in_array($akses, $this->larangan_demo[$controller[0]])) {
-                log_message('error', '==Akses Demo Terlarang: ' . print_r($_SERVER, true));
+        if (config_item('demo_mode') && is_array($this->larangan_demo[$controller[0]]) && in_array($akses, $this->larangan_demo[$controller[0]] ?? [])) {
+            log_message('error', '==Akses Demo Terlarang: ' . print_r($_SERVER, true));
 
-                return false;
-            }
+            return false;
         }
 
         // Group admin punya akses global
@@ -468,12 +459,10 @@ class User_model extends MY_Model
         }
 
         if ($pakai_url) {
-            $ada_akses = $this->grup_model->ada_akses_url($group, $url_modul, $akses);
-        } else {
-            $ada_akses = $this->grup_model->ada_akses($group, $controller[0], $akses);
+            return $this->grup_model->ada_akses_url($group, $url_modul, $akses);
         }
 
-        return $ada_akses;
+        return $this->grup_model->ada_akses($group, $controller[0], $akses);
     }
 
     /**
@@ -528,7 +517,7 @@ class User_model extends MY_Model
      *
      * @return bool
      */
-    public function increase_login_attempts($identity, $ip_address)
+    public function increase_login_attempts($identity, $ip_address): void
     {
         if ($this->db->table_exists('login_attempts')) {
             LoginAttempts::create([

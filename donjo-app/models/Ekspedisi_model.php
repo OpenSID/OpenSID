@@ -64,10 +64,8 @@ class Ekspedisi_model extends Surat_keluar_model
      * Update data di tabel surat_keluar untuk ekspedisi
      *
      * @param int $id Id surat_keluar untuk query ke database
-     *
-     * @return void
      */
-    public function update($id)
+    public function update($id): void
     {
         // Ambil semua data dari var. global $_POST
         $post = $this->input->post();
@@ -94,7 +92,7 @@ class Ekspedisi_model extends Surat_keluar_model
         $this->db->trans_start();
 
         // Ada lampiran file
-        if ($ada_berkas === true) {
+        if ($ada_berkas) {
             // Tes tidak berisi script PHP
             if (isPHP($_FILES['foto']['tmp_name'], $_FILES['tanda_terima']['name'])) {
                 $this->session->error_msg .= ' -> Jenis file ini tidak diperbolehkan ';

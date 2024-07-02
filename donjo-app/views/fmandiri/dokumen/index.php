@@ -68,7 +68,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<tbody>
 					<?php
                         if ($dokumen) :
-                            foreach ($dokumen as $key => $data) :
+                            foreach ($dokumen as $data) :
                                 ?>
 						<tr>
 							<td class="padat"></td>

@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access.');
 | This option allows you to enable the developer's Toolbar
 |
 */
-$config['enable_develbar'] = true;
+$config['enable_develbar'] = false;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +56,7 @@ $config['enable_develbar'] = true;
 | if this option is set to TRUE, it will slow down the page loading
 |
 */
-$config['check_update'] = true;
+$config['check_update'] = false;
 
 $config['profiler_key_expiration_time'] = 1800; // sec
 

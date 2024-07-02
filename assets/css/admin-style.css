@@ -59,6 +59,10 @@
     line-height: 1;
 }
 
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-radius: 3px;
+}
+
 .btn-social.btn-sm> :first-child {
     line-height: 21px;
     width: 28px;

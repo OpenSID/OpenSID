@@ -12,7 +12,7 @@
         <?php if (SuratExport($url) && function_exists('exec') && $this->setting->libreoffice_path) : ?>
             <button type="button" onclick="tambah_elemen_cetak('cetak_pdf');" class="btn btn-social btn-flat bg-fuchsia btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-pdf-o"></i> Cetak PDF</button>
         <?php endif; ?>
-        <?php if (SuratExport($url)): ?>
+        <?php if (SuratExport($url) !== '' && SuratExport($url) !== '0'): ?>
             <button type="button" onclick="tambah_elemen_cetak('cetak_rtf');" id="btn_cetak_rtf" class="btn btn-social btn-flat bg-purple btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-word-o"></i> Unduh RTF</button>
         <?php endif; ?>
         <?php if (in_array($surat['jenis'], [3, 4])): ?>

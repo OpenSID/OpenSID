@@ -52,7 +52,7 @@ class Pengaduan_model extends MY_Model
     {
         $this->pengaduan();
 
-        if ($search) {
+        if ($search !== '' && $search !== '0') {
             $this->db
                 ->group_start()
                 ->like('judul', $search)
@@ -74,7 +74,7 @@ class Pengaduan_model extends MY_Model
     {
         $this->pengaduan();
 
-        if ($search) {
+        if ($search !== '' && $search !== '0') {
             $this->db
                 ->group_start()
                 ->like('judul', $search)
