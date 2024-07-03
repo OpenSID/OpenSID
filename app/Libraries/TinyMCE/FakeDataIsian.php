@@ -48,7 +48,7 @@ use Illuminate\Support\Str;
 
 class FakeDataIsian
 {
-    private readonly \App\Libraries\TinyMCE $tinymce;
+    private readonly TinyMCE $tinymce;
     private $result;
     private array $data = [];
 

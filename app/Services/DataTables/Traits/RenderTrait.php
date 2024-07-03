@@ -75,7 +75,7 @@ trait RenderTrait
      *
      * @throws \Yajra\DataTables\Exceptions\Exception
      */
-    protected function errorResponse(Exception $exception)
+    protected function errorResponse(Exception $exception): \Symfony\Component\HttpFoundation\Response
     {
         $error = $this->config->get('datatables.error');
         $debug = $this->config->get('app.debug');
@@ -91,7 +91,7 @@ trait RenderTrait
             'recordsTotal'    => $this->totalRecords,
             'recordsFiltered' => 0,
             'data'            => [],
-            'error'           => $error ? $error : "Exception Message:\n\n" . $exception->getMessage(),
+            'error'           => $error ?: "Exception Message:\n\n" . $exception->getMessage(),
         ]))->send();
     }
 }

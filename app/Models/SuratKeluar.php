@@ -94,10 +94,8 @@ class SuratKeluar extends BaseModel
      * Scope daftar arsip fisik surat keluar.
      *
      * @var \Illuminate\Database\Eloquent\Builder
-     *
-     * @param mixed $query
      */
-    public function scopeArsipFisikSuratKeluar($query)
+    public function scopeArsipFisikSuratKeluar(mixed $query)
     {
         return $query->select('id', 'nomor_surat as nomor_dokumen', 'tanggal_surat as tanggal_dokumen', 'isi_singkat as nama_dokumen', DB::raw('\'3-1\' as jenis'), DB::raw('\'surat_keluar\' as nama_jenis'), 'lokasi_arsip', DB::raw('\'surat_keluar\' as modul_asli'), DB::raw('EXTRACT(YEAR FROM tanggal_surat) as tahun'), DB::raw('\'surat_keluar\' as kategori'), DB::raw('NULL as lampiran'))
             ->whereNotNull('berkas_scan');

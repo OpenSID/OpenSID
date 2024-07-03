@@ -96,10 +96,8 @@ class SuratMasuk extends BaseModel
      * Scope daftar arsip fisik surat masuk.
      *
      * @var \Illuminate\Database\Eloquent\Builder
-     *
-     * @param mixed $query
      */
-    public function scopeArsipFisikSuratMasuk($query)
+    public function scopeArsipFisikSuratMasuk(mixed $query)
     {
         return $query->select('id', 'nomor_surat as nomor_dokumen', 'tanggal_surat as tanggal_dokumen', 'isi_singkat as nama_dokumen', DB::raw('\'2-1\' as jenis'), DB::raw('\'surat_masuk\' as nama_jenis'), 'lokasi_arsip', DB::raw('\'surat_masuk\' as modul_asli'), DB::raw('EXTRACT(YEAR FROM tanggal_surat) as tahun'), DB::raw('\'surat_masuk\' as kategori'), DB::raw('NULL as lampiran'))
             ->whereNotNull('berkas_scan');

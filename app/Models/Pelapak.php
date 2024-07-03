@@ -89,7 +89,7 @@ class Pelapak extends BaseModel
             ->get();
     }
 
-    public function pelapakInsert()
+    public function pelapakInsert(): void
     {
         $data = $this->pelapakValidasi();
 
@@ -102,7 +102,7 @@ class Pelapak extends BaseModel
             ->update(['telepon' => $data['telepon']]);
     }
 
-    public function pelapakUpdate($id = 0)
+    public function pelapakUpdate($id = 0): void
     {
         $data = $this->pelapakValidasi();
 

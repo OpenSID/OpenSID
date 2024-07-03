@@ -262,7 +262,7 @@ class Dokumen extends BaseModel
         return $this->hasMany(Dokumen::class, 'id_parent', 'id');
     }
 
-    public static function validasi($post)
+    public static function validasi(array $post): array
     {
         $ci                           = &get_instance();
         $data                         = [];
@@ -336,7 +336,7 @@ class Dokumen extends BaseModel
                      ->satuan ?? null;
     }
 
-    public function getDokumen($id = 0, $id_pend = null)
+    public function getDokumen($id = 0, $id_pend = null): ?array
     {
         $query = $this->newQuery();
 
@@ -362,8 +362,8 @@ class Dokumen extends BaseModel
             ->get()
             ->toArray();
 
-        foreach ($data as $key => $value) {
-            $data[$key]['attr'] = json_decode($data[$key]['attr'], true);
+        foreach (array_keys($data) as $key) {
+            $data[$key]['attr'] = json_decode((string) $data[$key]['attr'], true);
             $data[$key]         = array_filter($data[$key]);
         }
 

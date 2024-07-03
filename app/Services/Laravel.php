@@ -188,10 +188,8 @@ class Laravel extends Container
 
     /**
      * Get the version number of the application.
-     *
-     * @return string
      */
-    public function version()
+    public function version(): string
     {
         return sprintf('OpenSID (%s) (Illuminate Components ^10.0)', VERSION);
     }
@@ -232,20 +230,16 @@ class Laravel extends Container
 
     /**
      * Determine if the application is in the local environment.
-     *
-     * @return bool
      */
-    public function isLocal()
+    public function isLocal(): bool
     {
         return $this->environment() === 'local';
     }
 
     /**
      * Determine if the application is in the production environment.
-     *
-     * @return bool
      */
-    public function isProduction()
+    public function isProduction(): bool
     {
         return $this->environment() === 'production';
     }
