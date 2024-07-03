@@ -107,7 +107,7 @@
                     },
                     {
                         data: 'kk',
-                        name: 'kk',
+                        name: 'keluarga.no_kk',
                         searchable: true,
                         orderable: false
                     },
@@ -124,7 +124,7 @@
                     {
                         data: 'nik',
                         name: 'nik',
-                        searchable: false,
+                        searchable: true,
                         orderable: false
                     },
                     {
@@ -183,7 +183,7 @@
                     },
                     {
                         data: 'tgl_keluar',
-                        name: 'tgl_keluar',
+                        name: 'tanggal_cetak_ktp',
                         searchable: false,
                         orderable: false
                     },
@@ -197,7 +197,7 @@
                     {
                         data: 'warganegara',
                         name: 'warganegara',
-                        searchable: true,
+                        searchable: false,
                         orderable: false
                     },
                     {
@@ -220,7 +220,7 @@
                     },
                     {
                         data: 'tgl_datang',
-                        name: 'tgl_datang',
+                        name: 'log_latest.tgl_lapor',
                         searchable: false,
                         orderable: false
                     },

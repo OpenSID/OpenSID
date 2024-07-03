@@ -77,8 +77,7 @@
                                                 <strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
                                             @else
                                                 <a href="{{ ci_route('permohonan_surat_admin.tampilkan', "{$syarat['id']}/{$syarat['id_pend']}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block syarat"
-                                                    title="Tampilkan"
-                                                ><i class="fa fa-eye"></i> Cek Dokumen</a>
+                                                    title="Tampilkan"><i class="fa fa-eye"></i> Cek Dokumen</a>
                                             @endif
                                         </td>
                                     </tr>

@@ -11,7 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8135](https://github.com/OpenSID/OpenSID/issues/8135) Perbaikan saring data status kawin pada data penduduk.
 5. [#8125](https://github.com/OpenSID/OpenSID/issues/8125) Perbaikan tampilan widget beranda untuk perangkat mobile.
 6. [#8030](https://github.com/OpenSID/OpenSID/issues/8030) Perbaikan cetak wilayah dusun/rw/rt.
-
+7. [#8136](https://github.com/OpenSID/OpenSID/issues/8136) Perbaikan pencarian data pada modul Buku KTP dan KK.
 
 
 #### TEKNIS
