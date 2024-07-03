@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#8124](https://github.com/OpenSID/OpenSID/issues/8124) Perbaikan data status kawin pada cetak/unduh data penduduk.
 3. [#8129](https://github.com/OpenSID/OpenSID/issues/8129) Perbaikan tambah/ubah data data tamu.
 4. [#8135](https://github.com/OpenSID/OpenSID/issues/8135) Perbaikan saring data status kawin pada data penduduk.
+5. [#8125](https://github.com/OpenSID/OpenSID/issues/8125) Perbaikan tampilan widget beranda untuk perangkat mobile.
 
 #### TEKNIS
 
