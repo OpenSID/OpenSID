@@ -676,7 +676,7 @@ Route::group('permohonan_surat_admin', static function (): void {
     Route::get('/periksa/{id?}', 'Permohonan_surat_admin@periksa')->name('permohonan_surat_admin.periksa');
     Route::get('/proses/{id?}/{status?}', 'Permohonan_surat_admin@proses')->name('permohonan_surat_admin.proses');
     Route::get('/konfirmasi/{id_permohonan?}/{tipe?}', 'Permohonan_surat_admin@konfirmasi')->name('permohonan_surat_admin.konfirmasi');
-    Route::get('/kirim_pesan/{id_permohonan?}/{tipe?}', 'Permohonan_surat_admin@kirim_pesan')->name('permohonan_surat_admin.kirim_pesan');
+    Route::match(['GET', 'POST'], '/kirim_pesan/{id_permohonan?}/{tipe?}', 'Permohonan_surat_admin@kirim_pesan')->name('permohonan_surat_admin.kirim_pesan');
     Route::get('/delete/{id?}', 'Permohonan_surat_admin@delete')->name('permohonan_surat_admin.delete');
     Route::get('/tampilkan/{id_dokumen?}/{id_pend?}', 'Permohonan_surat_admin@tampilkan')->name('permohonan_surat_admin.tampilkan');
     Route::get('/unduh_berkas/{id_dokumen?}/{id_pend?}/{tampil?}', 'Permohonan_surat_admin@unduh_berkas')->name('permohonan_surat_admin.unduh_berkas');
