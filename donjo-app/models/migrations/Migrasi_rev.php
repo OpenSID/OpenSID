@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
@@ -44,11 +46,37 @@ class Migrasi_rev extends MY_model
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024051253($hasil, $id);
+        }
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2024051253($hasil, $id)
+    {
+        $rws = DB::table('tweb_wil_clusterdesa')
+            ->where('config_id', $id)
+            ->whereNull('id_kepala')
+            ->whereNotIn('rw', ['0', '-'])
+            ->where('rt', '-')
+            ->get();
+
+        foreach ($rws as $value) {
+            $id_kepala = DB::table('tweb_wil_clusterdesa')
+                ->where('config_id', $id)
+                ->where('dusun', $value->dusun)
+                ->where('rw', $value->rw)
+                ->where('rt', '0')
+                ->value('id_kepala');
+
+            DB::table('tweb_wil_clusterdesa')
+                ->where('id', $value->id)
+                ->update(['id_kepala' => $id_kepala]);
+        }
+
+        return $hasil;
     }
 }

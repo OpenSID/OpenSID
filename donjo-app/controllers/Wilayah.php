@@ -230,6 +230,7 @@ class Wilayah extends Admin_Controller
                 'rts' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_5.rw = tweb_wil_clusterdesa.rw')), 'keluargaAktif' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_6.rw = tweb_wil_clusterdesa.rw')), 'pendudukPria' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_7.rw = tweb_wil_clusterdesa.rw')), 'pendudukWanita' => static fn ($q) => $q->whereRaw(DB::raw('laravel_reserved_8.rw = tweb_wil_clusterdesa.rw')),
             ]),
         ])->orderBy('urut')->withCount(['rts', 'rws' => static fn ($q) => $q->where('rw', '!=', '-'), 'keluargaAktif', 'pendudukPria', 'pendudukWanita'])->get();
+
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');
             header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');
@@ -378,6 +379,9 @@ class Wilayah extends Admin_Controller
                     unset($data['rt'], $data['rw']);
 
                     $obj->update($data);
+
+                    // update data id_kepala di dusun
+                    WilayahModel::whereDusun($obj->dusun)->whereRw('-')->update(['id_kepala' => $data['id_kepala']]);
                     break;
 
                 case 'rw':
@@ -386,6 +390,9 @@ class Wilayah extends Admin_Controller
                     unset($data['dusun'], $data['rt']);
 
                     $obj->update($data);
+
+                    // update data id_kepala di rw
+                    WilayahModel::whereDusun($obj->dusun)->whereRw($obj->rw)->whereRt('-')->update(['id_kepala' => $data['id_kepala']]);
                     break;
 
                 default:

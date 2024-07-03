@@ -21,7 +21,7 @@
         .text-wrap {
             display: inline-block;
             /* word-wrap: break-word;
-                                                                    word-break: break-all; */
+                                                                        word-break: break-all; */
             white-space: normal;
             max-width: 100%;
         }
