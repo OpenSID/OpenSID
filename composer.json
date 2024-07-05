@@ -31,6 +31,8 @@
         "illuminate/pagination": "^10.0",
         "illuminate/queue": "^10.0",
         "illuminate/support": "^10.0",
+        "illuminate/translation": "^10.0",
+        "illuminate/validation": "^10.0",
         "illuminate/view": "^10.0",
         "karriere/pdf-merge": "^2.1",
         "laravel/helpers": "^1.7",

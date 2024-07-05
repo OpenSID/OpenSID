@@ -59,6 +59,8 @@ use Illuminate\Support\Composer;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Translation\TranslationServiceProvider;
+use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
 use Psr\Log\LoggerInterface;
 use Throwable;
@@ -148,6 +150,9 @@ class Laravel extends Container
         \Illuminate\Contracts\Queue\Factory::class         => 'registerQueueBindings',
         \Illuminate\Contracts\Queue\Queue::class           => 'registerQueueBindings',
         \Illuminate\Contracts\Events\Dispatcher::class     => 'registerEventBindings',
+        'translator'                                       => 'registerTranslationBindings',
+        'validator'                                        => 'registerValidatorBindings',
+        \Illuminate\Contracts\Validation\Factory::class    => 'registerValidatorBindings',
         'view'                                             => 'registerViewBindings',
         \Illuminate\Contracts\View\Factory::class          => 'registerViewBindings',
     ];
@@ -159,10 +164,11 @@ class Laravel extends Container
      *
      * @return void
      */
-    public function __construct(/**
-     * The base path of the application installation.
-     */
-    protected $basePath = null
+    public function __construct(
+        /**
+         * The base path of the application installation.
+         */
+        protected $basePath = null
     ) {
         $this->bootstrapContainer();
     }
@@ -352,9 +358,11 @@ class Laravel extends Container
     {
         $abstract = $this->getAlias($abstract);
 
-        if (! $this->bound($abstract)
+        if (
+            ! $this->bound($abstract)
             && array_key_exists($abstract, $this->availableBindings)
-            && ! array_key_exists($this->availableBindings[$abstract], $this->ranServiceBinders)) {
+            && ! array_key_exists($this->availableBindings[$abstract], $this->ranServiceBinders)
+        ) {
             $this->{$method = $this->availableBindings[$abstract]}();
 
             $this->ranServiceBinders[$method] = true;
@@ -515,6 +523,52 @@ class Laravel extends Container
      *
      * @return void
      */
+    protected function registerTranslationBindings()
+    {
+        $this->singleton('translator', function () {
+            $this->configure('app');
+
+            $this->instance('path.lang', $this->getLanguagePath());
+
+            $this->register(TranslationServiceProvider::class);
+
+            return $this->make('translator');
+        });
+    }
+
+    /**
+     * Get the path to the application's language files.
+     *
+     * @return string
+     */
+    protected function getLanguagePath()
+    {
+        if (is_dir($langPath = $this->basePath() . '/resources/lang')) {
+            return $langPath;
+        }
+
+        return __DIR__ . '/../resources/lang';
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
+    protected function registerValidatorBindings()
+    {
+        $this->singleton('validator', function () {
+            $this->register(ValidationServiceProvider::class);
+
+            return $this->make('validator');
+        });
+    }
+
+    /**
+     * Register container bindings for the application.
+     *
+     * @return void
+     */
     protected function registerViewBindings()
     {
         $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class));
@@ -617,12 +671,13 @@ class Laravel extends Container
     public function withAliases($userAliases = []): void
     {
         $defaults = [
-            \Illuminate\Support\Facades\Cache::class   => 'Cache',
-            \Illuminate\Support\Facades\DB::class      => 'DB',
-            \Illuminate\Support\Facades\Event::class   => 'Event',
-            \Illuminate\Support\Facades\Queue::class   => 'Queue',
-            \Illuminate\Support\Facades\Schema::class  => 'Schema',
-            \Illuminate\Support\Facades\Storage::class => 'Storage',
+            \Illuminate\Support\Facades\Cache::class     => 'Cache',
+            \Illuminate\Support\Facades\DB::class        => 'DB',
+            \Illuminate\Support\Facades\Event::class     => 'Event',
+            \Illuminate\Support\Facades\Queue::class     => 'Queue',
+            \Illuminate\Support\Facades\Schema::class    => 'Schema',
+            \Illuminate\Support\Facades\Storage::class   => 'Storage',
+            \Illuminate\Support\Facades\Validator::class => 'Validator',
         ];
 
         if (! static::$aliasesRegistered) {
@@ -685,6 +740,18 @@ class Laravel extends Container
     }
 
     /**
+     * Get the path to the language files.
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function langPath($path = '')
+    {
+        return $this->getLanguagePath() . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
+    }
+
+    /**
      * Get the storage path for the application.
      *
      * @param string|null $path
@@ -718,6 +785,16 @@ class Laravel extends Container
     public function resourcePath($path = ''): string
     {
         return $this->basePath . DIRECTORY_SEPARATOR . 'resources' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+    }
+
+    /**
+     * Determine if the application events are cached.
+     *
+     * @return bool
+     */
+    public function eventsAreCached()
+    {
+        return false;
     }
 
     /**
@@ -768,6 +845,65 @@ class Laravel extends Container
         $this->afterResolvingCallbacks = [];
 
         static::$instance = null;
+    }
+
+    /**
+     * Get the current application locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this['config']->get('app.locale');
+    }
+
+    /**
+     * Get the current application fallback locale.
+     *
+     * @return string
+     */
+    public function getFallbackLocale()
+    {
+        return $this['config']->get('app.fallback_locale');
+    }
+
+    /**
+     * Set the current application locale.
+     *
+     * @param string $locale
+     *
+     * @return void
+     */
+    public function setLocale($locale)
+    {
+        $this['config']->set('app.locale', $locale);
+        $this['translator']->setLocale($locale);
+    }
+
+    /**
+     * Set the current application fallback locale.
+     *
+     * @param string $fallbackLocale
+     *
+     * @return void
+     */
+    public function setFallbackLocale($fallbackLocale)
+    {
+        $this['config']->set('app.fallback_locale', $fallbackLocale);
+
+        $this['translator']->setFallback($fallbackLocale);
+    }
+
+    /**
+     * Determine if application locale is the given locale.
+     *
+     * @param string $locale
+     *
+     * @return bool
+     */
+    public function isLocale($locale)
+    {
+        return $this->getLocale() == $locale;
     }
 
     /**
@@ -825,6 +961,8 @@ class Laravel extends Container
             \Illuminate\Contracts\Queue\Factory::class              => 'queue',
             \Illuminate\Contracts\Queue\Queue::class                => 'queue.connection',
             'request'                                               => Request::class,
+            \Illuminate\Contracts\Translation\Translator::class     => 'translator',
+            \Illuminate\Contracts\Validation\Factory::class         => 'validator',
             \Illuminate\Contracts\View\Factory::class               => 'view',
         ];
     }

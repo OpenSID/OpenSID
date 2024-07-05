@@ -107,9 +107,10 @@ class Surat_mohon extends Admin_Controller
     {
         isCan('u');
 
-        if (SyaratSurat::create(static::validate($this->request))) {
+        if (SyaratSurat::create(static::validate())) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
+
         redirect_with('error', 'Gagal Tambah Data');
     }
 
@@ -119,7 +120,7 @@ class Surat_mohon extends Admin_Controller
 
         $data = SyaratSurat::findOrFail($id);
 
-        if ($data->update(static::validate($this->request))) {
+        if ($data->update(static::validate())) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -148,11 +149,10 @@ class Surat_mohon extends Admin_Controller
         redirect_with('success', 'Berhasil Hapus Data');
     }
 
-    // Hanya filter inputan
-    protected static function validate($request = [])
+    protected function validate()
     {
-        return [
-            'ref_syarat_nama' => nama_terbatas($request['ref_syarat_nama']),
-        ];
+        return $this->validated(request(), [
+            'ref_syarat_nama' => 'required|min:3|max:255',
+        ]);
     }
 }
