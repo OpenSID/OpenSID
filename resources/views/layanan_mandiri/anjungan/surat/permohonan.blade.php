@@ -2,10 +2,6 @@
 
 @push('css')
     <style>
-        /* .test {
-                                                            height: 320px;
-                                                            overflow-y: scroll;
-                                                        } */
         .table-data>thead>tr>th {
             vertical-align: middle;
             white-space: nowrap;

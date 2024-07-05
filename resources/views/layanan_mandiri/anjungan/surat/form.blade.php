@@ -3,11 +3,7 @@
 @push('css')
     <style>
         .judul-surat {
-            /* margin: -10px; */
-            /* font-size: 18px; */
             font-weight: bold;
-            /* margin-left: 14px;
-                                                                                margin-bottom: 14px; */
             margin: 0px 0px 14px 14px;
         }
 
