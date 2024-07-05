@@ -2,6 +2,10 @@ Di rilis ini, versi 2407.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+#### FITUR
+
+1. [#8143](https://github.com/OpenSID/OpenSID/issues/8143) Penambahan surat pernyataan sebagai surat dinas bawaan sistem.
+
 
 #### BUG
 

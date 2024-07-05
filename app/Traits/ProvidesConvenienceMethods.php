@@ -1,17 +1,52 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 namespace App\Traits;
 
 use Closure as BaseClosure;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\MessageBag;
-use Illuminate\Support\ViewErrorBag;
-use Illuminate\Validation\Validator;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Support\MessageProvider;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
+use Illuminate\Support\ViewErrorBag;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Validator;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 
 trait ProvidesConvenienceMethods
@@ -19,21 +54,20 @@ trait ProvidesConvenienceMethods
     /**
      * The response builder callback.
      *
-     * @var \Closure
+     * @var BaseClosure
      */
     protected static $responseBuilder;
 
     /**
      * The error formatter callback.
      *
-     * @var \Closure
+     * @var BaseClosure
      */
     protected static $errorFormatter;
 
     /**
      * Set the response builder callback.
      *
-     * @param  \Closure  $callback
      * @return void
      */
     public static function buildResponseUsing(BaseClosure $callback)
@@ -44,7 +78,6 @@ trait ProvidesConvenienceMethods
     /**
      * Set the error formatter callback.
      *
-     * @param  \Closure  $callback
      * @return void
      */
     public static function formatErrorsUsing(BaseClosure $callback)
@@ -55,13 +88,9 @@ trait ProvidesConvenienceMethods
     /**
      * Validate the given request with the given rules.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $rules
-     * @param  array  $messages
-     * @param  array  $customAttributes
-     * @return array
-     *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return array
      */
     public function validated(Request $request, array $rules, array $messages = [], array $customAttributes = [])
     {
@@ -77,25 +106,21 @@ trait ProvidesConvenienceMethods
     /**
      * Get the request input based on the given validation rules.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $rules
      * @return array
      */
     protected function extractInputFromRules(Request $request, array $rules)
     {
-        return $request->only(collect($rules)->keys()->map(function ($rule) {
-            return Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule;
-        })->unique()->toArray());
+        return $request->only(collect($rules)->keys()->map(static fn ($rule) => Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule)->unique()->toArray());
     }
 
     /**
      * Throw the failed validation exception.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @return void
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return void
      */
     protected function throwValidationException(Request $request, $validator)
     {
@@ -119,9 +144,9 @@ trait ProvidesConvenienceMethods
     /**
      * Convert a validation exception into a response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Validation\ValidationException  $exception
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     protected function invalid($request, ValidationException $exception)
     {
@@ -134,20 +159,18 @@ trait ProvidesConvenienceMethods
     /**
      * Flash an array of input to the session.
      *
-     * @param  array|null  $input
      * @return $this
      */
-    protected function withInput(array $input = null)
+    protected function withInput(?array $input = null)
     {
         $this->session->set_flashdata('_old_input', $this->removeFilesFromInput(
-            ! is_null($input) ? $input : app('request')->input()
+            null !== $input ? $input : app('request')->input()
         ));
     }
 
     /**
      * Remove all uploaded files form the given input array.
      *
-     * @param  array  $input
      * @return array
      */
     protected function removeFilesFromInput(array $input)
@@ -168,18 +191,19 @@ trait ProvidesConvenienceMethods
     /**
      * Flash a container of errors to the session.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider|array|string  $provider
-     * @param  string  $key
+     * @param array|\Illuminate\Contracts\Support\MessageProvider|string $provider
+     * @param string                                                     $key
+     *
      * @return $this
      */
     protected function withErrors($provider, $key = 'default')
     {
         $value = $this->parseErrors($provider);
 
-        $errors = $this->session->errors ?: new ViewErrorBag;
+        $errors = $this->session->errors ?: new ViewErrorBag();
 
         if (! $errors instanceof ViewErrorBag) {
-            $errors = new ViewErrorBag;
+            $errors = new ViewErrorBag();
         }
 
         $this->session->set_flashdata('errors', $errors->put($key, $value));
@@ -188,7 +212,8 @@ trait ProvidesConvenienceMethods
     /**
      * Parse the given errors into an appropriate value.
      *
-     * @param  \Illuminate\Contracts\Support\MessageProvider|array|string  $provider
+     * @param array|\Illuminate\Contracts\Support\MessageProvider|string $provider
+     *
      * @return \Illuminate\Support\MessageBag
      */
     protected function parseErrors($provider)
@@ -203,23 +228,21 @@ trait ProvidesConvenienceMethods
     /**
      * Convert a validation exception into a JSON response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function invalidJson($request, ValidationException $exception)
     {
         return json([
             'message' => $exception->getMessage(),
-            'errors' => $exception->errors(),
+            'errors'  => $exception->errors(),
         ], $exception->status);
     }
 
     /**
      * Build a response based on the given errors.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $errors
      * @return \Illuminate\Http\JsonResponse|mixed
      */
     protected function buildFailedValidationResponse(Request $request, array $errors)
@@ -234,7 +257,6 @@ trait ProvidesConvenienceMethods
     /**
      * Format validation errors.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
      * @return array|mixed
      */
     protected function formatValidationErrors(Validator $validator)
@@ -249,7 +271,8 @@ trait ProvidesConvenienceMethods
     /**
      * Dispatch a job to its appropriate handler.
      *
-     * @param  mixed  $job
+     * @param mixed $job
+     *
      * @return mixed
      */
     public function dispatch($job)
@@ -260,8 +283,9 @@ trait ProvidesConvenienceMethods
     /**
      * Dispatch a command to its appropriate handler in the current process.
      *
-     * @param  mixed  $job
-     * @param  mixed  $handler
+     * @param mixed $job
+     * @param mixed $handler
+     *
      * @return mixed
      */
     public function dispatchNow($job, $handler = null)
