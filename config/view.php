@@ -34,36 +34,35 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+defined('BASEPATH') || exit('No direct script access allowed');
 
-require_once 'database.php';
+return [
 
-$connections = [];
+    /*
+    |--------------------------------------------------------------------------
+    | View Storage Paths
+    |--------------------------------------------------------------------------
+    |
+    | Most templating systems load templates from disk. Here you may specify
+    | an array of paths that should be checked for your views. Of course
+    | the usual Laravel view path has already been registered for you.
+    |
+    */
 
-$connections['default'] = $active_group;
+    'paths' => [
+        resource_path('views'),
+    ],
 
-foreach ($db as $key => $options) {
-    $connections['connections'][$key] = [
-        'driver' => match ($options['dbdriver']) {
-            'mysql', 'mysqli' => 'mysql',
-            'postgre' => 'pgsql',
-            'sqlite'  => 'sqlite',
-            'sqlite3' => 'sqlite',
-            'sqlsrv'  => 'sqlsrv',
-            default   => 'mysql',
-        },
-        'host'      => $options['hostname'],
-        'port'      => $options['port'],
-        'database'  => $options['database'],
-        'username'  => $options['username'],
-        'password'  => $options['password'],
-        'charset'   => $options['char_set'],
-        'collation' => $options['dbcollat'],
-        'prefix'    => $options['swap_pre'],
-        'strict'    => $options['stricton'],
-        'engine'    => null,
-    ];
-}
+    /*
+    |--------------------------------------------------------------------------
+    | Compiled View Path
+    |--------------------------------------------------------------------------
+    |
+    | This option determines where all the compiled Blade templates will be
+    | stored for your application. Typically, this is within the storage
+    | directory. However, as usual, you are free to change this value.
+    |
+    */
 
-$connections['migrations'] = 'migrations';
-
-return $connections;
+    'compiled' => realpath(storage_path('framework/views')),
+];

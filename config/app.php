@@ -34,8 +34,9 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+defined('BASEPATH') || exit('No direct script access allowed');
 
-$key = file_exists(DESAPATH)
+$key = file_exists(DESAPATH. 'app_key')
     ? file_get_contents(DESAPATH . 'app_key')
     : 'base64:rN3vXWFRHDKFP2sMySe9f4gna7WulisoXTqn7Yo4Ye8=';
 

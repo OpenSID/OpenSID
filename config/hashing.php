@@ -34,34 +34,55 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+defined('BASEPATH') || exit('No direct script access allowed');
 
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | View Storage Paths
+    | Default Hash Driver
     |--------------------------------------------------------------------------
     |
-    | Most templating systems load templates from disk. Here you may specify
-    | an array of paths that should be checked for your views. Of course
-    | the usual Laravel view path has already been registered for you.
+    | This option controls the default hash driver that will be used to hash
+    | passwords for your application. By default, the bcrypt algorithm is
+    | used; however, you remain free to modify this option if you wish.
+    |
+    | Supported: "bcrypt", "argon", "argon2id"
     |
     */
 
-    'paths' => [
-        resource_path('views'),
+    'driver' => 'bcrypt',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bcrypt Options
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the configuration options that should be used when
+    | passwords are hashed using the Bcrypt algorithm. This will allow you
+    | to control the amount of time it takes to hash the given password.
+    |
+    */
+
+    'bcrypt' => [
+        'rounds' => 10,
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Compiled View Path
+    | Argon Options
     |--------------------------------------------------------------------------
     |
-    | This option determines where all the compiled Blade templates will be
-    | stored for your application. Typically, this is within the storage
-    | directory. However, as usual, you are free to change this value.
+    | Here you may specify the configuration options that should be used when
+    | passwords are hashed using the Argon algorithm. These will allow you
+    | to control the amount of time it takes to hash the given password.
     |
     */
 
-    'compiled' => realpath(storage_path('framework/views')),
+    'argon' => [
+        'memory'  => 65536,
+        'threads' => 1,
+        'time'    => 4,
+    ],
+
 ];

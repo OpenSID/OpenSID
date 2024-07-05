@@ -34,54 +34,73 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+defined('BASEPATH') || exit('No direct script access allowed');
 
 return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Hash Driver
+    | Default Filesystem Disk
     |--------------------------------------------------------------------------
     |
-    | This option controls the default hash driver that will be used to hash
-    | passwords for your application. By default, the bcrypt algorithm is
-    | used; however, you remain free to modify this option if you wish.
-    |
-    | Supported: "bcrypt", "argon", "argon2id"
+    | Here you may specify the default filesystem disk that should be used
+    | by the framework. The "local" disk, as well as a variety of cloud
+    | based disks are available to your application. Just store away!
     |
     */
 
-    'driver' => 'bcrypt',
+    'default' => 'local',
 
     /*
     |--------------------------------------------------------------------------
-    | Bcrypt Options
+    | Default Cloud Filesystem Disk
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the configuration options that should be used when
-    | passwords are hashed using the Bcrypt algorithm. This will allow you
-    | to control the amount of time it takes to hash the given password.
+    | Many applications store files both locally and in the cloud. For this
+    | reason, you may specify a default "cloud" driver here. This driver
+    | will be bound as the Cloud disk implementation in the container.
     |
     */
 
-    'bcrypt' => [
-        'rounds' => 10,
-    ],
+    'cloud' => 's3',
 
     /*
     |--------------------------------------------------------------------------
-    | Argon Options
+    | Filesystem Disks
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the configuration options that should be used when
-    | passwords are hashed using the Argon algorithm. These will allow you
-    | to control the amount of time it takes to hash the given password.
+    | Here you may configure as many filesystem "disks" as you wish, and you
+    | may even configure multiple disks of the same driver. Defaults have
+    | been setup for each driver as an example of the required options.
+    |
+    | Supported Drivers: "local", "ftp", "sftp", "s3", "rackspace"
     |
     */
 
-    'argon' => [
-        'memory'  => 65536,
-        'threads' => 1,
-        'time'    => 4,
+    'disks' => [
+
+        'local' => [
+            'driver' => 'local',
+            'root'   => storage_path('app'),
+        ],
+
+        'public' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public'),
+            'url'        => '/storage',
+            'visibility' => 'public',
+        ],
+
+        's3' => [
+            'driver'   => 's3',
+            'key'      => 'AWS_ACCESS_KEY_ID',
+            'secret'   => 'AWS_SECRET_ACCESS_KEY',
+            'region'   => 'AWS_DEFAULT_REGION',
+            'bucket'   => 'AWS_BUCKET',
+            'url'      => 'AWS_URL',
+            'endpoint' => 'AWS_ENDPOINT',
+        ],
+
     ],
 
 ];

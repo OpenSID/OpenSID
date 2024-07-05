@@ -427,7 +427,7 @@ class Laravel extends Container
             $this->configure('app');
 
             if (file_exists($this->basePath('desa'))) {
-                $this->make('config')->set('database', require $this->configPath('eloquent.php'));
+                $this->configure('database');
             }
 
             $this->register(DatabaseServiceProvider::class);
@@ -626,21 +626,19 @@ class Laravel extends Container
     public function getConfigurationPath($name = null)
     {
         if (! $name) {
-            $appConfigDir = $this->basePath('donjo-app/config') . '/';
+            $appConfigDir = $this->basePath('config').'/';
+
             if (file_exists($appConfigDir)) {
                 return $appConfigDir;
-            }
-
-            if (file_exists($path = __DIR__ . '/../config/')) {
+            } elseif (file_exists($path = __DIR__.'/../config/')) {
                 return $path;
             }
         } else {
-            $appConfigPath = $this->basePath('donjo-app/config') . '/' . $name . '.php';
+            $appConfigPath = $this->basePath('config').'/'.$name.'.php';
+
             if (file_exists($appConfigPath)) {
                 return $appConfigPath;
-            }
-
-            if (file_exists($path = __DIR__ . '/../config/' . $name . '.php')) {
+            } elseif (file_exists($path = __DIR__.'/../config/'.$name.'.php')) {
                 return $path;
             }
         }
@@ -674,6 +672,7 @@ class Laravel extends Container
             \Illuminate\Support\Facades\Cache::class     => 'Cache',
             \Illuminate\Support\Facades\DB::class        => 'DB',
             \Illuminate\Support\Facades\Event::class     => 'Event',
+            \Illuminate\Support\Facades\Log::class       => 'Log',
             \Illuminate\Support\Facades\Queue::class     => 'Queue',
             \Illuminate\Support\Facades\Schema::class    => 'Schema',
             \Illuminate\Support\Facades\Storage::class   => 'Storage',
@@ -728,7 +727,7 @@ class Laravel extends Container
      */
     public function configPath(?string $path = ''): string
     {
-        return $this->basePath . DIRECTORY_SEPARATOR . 'donjo-app' . DIRECTORY_SEPARATOR . 'config' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
+        return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 
     /**

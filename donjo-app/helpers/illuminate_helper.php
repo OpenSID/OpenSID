@@ -45,7 +45,7 @@ if (! function_exists('app')) {
      *
      * @param string|null $abstract
      *
-     * @return Illuminate\Contracts\Foundation\Application|mixed
+     * @return \App\Services\Laravel
      */
     function app($abstract = null, array $parameters = [])
     {
