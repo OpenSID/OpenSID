@@ -626,19 +626,21 @@ class Laravel extends Container
     public function getConfigurationPath($name = null)
     {
         if (! $name) {
-            $appConfigDir = $this->basePath('config').'/';
+            $appConfigDir = $this->basePath('config') . '/';
 
             if (file_exists($appConfigDir)) {
                 return $appConfigDir;
-            } elseif (file_exists($path = __DIR__.'/../config/')) {
+            }
+            if (file_exists($path = __DIR__ . '/../config/')) {
                 return $path;
             }
         } else {
-            $appConfigPath = $this->basePath('config').'/'.$name.'.php';
+            $appConfigPath = $this->basePath('config') . '/' . $name . '.php';
 
             if (file_exists($appConfigPath)) {
                 return $appConfigPath;
-            } elseif (file_exists($path = __DIR__.'/../config/'.$name.'.php')) {
+            }
+            if (file_exists($path = __DIR__ . '/../config/' . $name . '.php')) {
                 return $path;
             }
         }
@@ -727,7 +729,7 @@ class Laravel extends Container
      */
     public function configPath(?string $path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath . DIRECTORY_SEPARATOR . 'config' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**

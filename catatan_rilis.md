@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8030](https://github.com/OpenSID/OpenSID/issues/8030) Perbaikan cetak wilayah dusun/rw/rt.
 7. [#8136](https://github.com/OpenSID/OpenSID/issues/8136) Perbaikan pencarian data pada modul Buku KTP dan KK.
 8. [#8153](https://github.com/OpenSID/OpenSID/issues/8153) Perbaikan data SHDK saat cetak/unduh buku induk penduduk.
+9. [#8154](https://github.com/OpenSID/OpenSID/issues/8154) Perbaikan icon acak data pada pengaturan modul.
 
 
 #### TEKNIS
