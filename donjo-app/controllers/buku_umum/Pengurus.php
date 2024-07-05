@@ -205,7 +205,7 @@ class Pengurus extends Admin_Controller
             redirect('pengurus/form');
         } else {
             $post = $this->input->post();
-            $data = $this->validated($post);
+            $data = $this->validate($post);
 
             $data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
@@ -235,7 +235,7 @@ class Pengurus extends Admin_Controller
             redirect("pengurus/form/{$id}");
         } else {
             $post = $this->input->post();
-            $data = $this->validated($post, $id);
+            $data = $this->validate($post, $id);
             RefJabatan::getKades()->id;
             RefJabatan::getSekdes()->id;
 
@@ -297,7 +297,7 @@ class Pengurus extends Admin_Controller
         return $kehadiranPerangkat || $kehadiranPengaduan || $kehadiranPengaduan;
     }
 
-    protected function validated($post, $id = null)
+    protected function validate($post, $id = null)
     {
         $data                       = [];
         $data['id_pend']            = $post['id_pend'];

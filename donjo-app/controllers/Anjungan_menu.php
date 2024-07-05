@@ -135,7 +135,7 @@ class Anjungan_menu extends Anjungan_Controller
     {
         isCan('u');
 
-        if (Menu::create(static::validated($this->request))) {
+        if (Menu::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -147,7 +147,7 @@ class Anjungan_menu extends Anjungan_Controller
 
         $data = Menu::findOrFail($id);
 
-        if ($data->update(static::validated($this->request, $id))) {
+        if ($data->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -184,7 +184,7 @@ class Anjungan_menu extends Anjungan_Controller
         return json(['status' => 1]);
     }
 
-    protected static function validated(array $request = [], $id = null): array
+    protected static function validate(array $request = [], $id = null): array
     {
         $urut = $id ? Menu::find($id)->urut : Menu::max('urut') + 1;
 

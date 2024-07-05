@@ -117,7 +117,7 @@ class Sinergi_program extends Admin_Controller
     {
         isCan('u');
 
-        if (SinergiProgramModel::create(static::validated($this->request))) {
+        if (SinergiProgramModel::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -129,7 +129,7 @@ class Sinergi_program extends Admin_Controller
 
         $data = SinergiProgramModel::findOrFail($id);
 
-        if ($data->update(static::validated($this->request, $id))) {
+        if ($data->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -165,7 +165,7 @@ class Sinergi_program extends Admin_Controller
         return json(['status' => 1]);
     }
 
-    protected static function validated(array $request = [], $id = null): array
+    protected static function validate(array $request = [], $id = null): array
     {
         $urut = $id ? SinergiProgramModel::find($id)->urut : SinergiProgramModel::max('urut') + 1;
 

@@ -148,7 +148,7 @@ class Teks_berjalan extends Admin_Controller
     {
         isCan('u');
 
-        if (TeksBerjalan::create($this->validated($this->request))) {
+        if (TeksBerjalan::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -158,7 +158,7 @@ class Teks_berjalan extends Admin_Controller
     public function update($id = ''): void
     {
         isCan('u');
-        if (TeksBerjalan::findOrFail($id)->update($this->validated($this->request, $id))) {
+        if (TeksBerjalan::findOrFail($id)->update($this->validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -184,7 +184,7 @@ class Teks_berjalan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Status');
     }
 
-    protected function validated($request = [], $id = null)
+    protected function validate($request = [], $id = null)
     {
         $data = [
             'teks'         => htmlentities($request['teks']),

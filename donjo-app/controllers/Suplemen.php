@@ -128,7 +128,7 @@ class Suplemen extends Admin_Controller
         isCan('u');
 
         try {
-            ModelsSuplemen::create(static::validated($this->request));
+            ModelsSuplemen::create(static::validate($this->request));
             redirect_with('success', 'Berhasil Tambah Data');
         } catch (Exception $e) {
             redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
@@ -142,7 +142,7 @@ class Suplemen extends Admin_Controller
         $update = ModelsSuplemen::findOrFail($id);
 
         try {
-            $data = static::validated($this->request);
+            $data = static::validate($this->request);
             $data['sasaran'] ??= $update->sasaran;
             $update->update($data);
             redirect_with('success', 'Berhasil Ubah Data');
@@ -167,7 +167,7 @@ class Suplemen extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    protected static function validated($request = [])
+    protected static function validate($request = [])
     {
         return [
             'sasaran'    => $request['sasaran'],
