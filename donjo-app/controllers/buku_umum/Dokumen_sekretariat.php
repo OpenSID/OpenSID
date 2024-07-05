@@ -220,7 +220,7 @@ class Dokumen_sekretariat extends Admin_Controller
         redirect("dokumen_sekretariat/index/{$kat}");
     }
 
-    public function insert()
+    public function insert(): void
     {
         isCan('u');
 
@@ -295,7 +295,7 @@ class Dokumen_sekretariat extends Admin_Controller
         return $this->upload->data()['file_name'];
     }
 
-    private function validasi($post)
+    private function validasi(array $post): array
     {
         $data                         = [];
         $data['nama']                 = nomor_surat_keputusan($post['nama']);
@@ -316,7 +316,7 @@ class Dokumen_sekretariat extends Admin_Controller
                 break;
 
             case 2: //SK Kades
-                $data['tahun']                 = date('Y', strtotime($post['attr']['tgl_kep_kades']));
+                $data['tahun']                 = date('Y', strtotime((string) $post['attr']['tgl_kep_kades']));
                 $data['kategori_info_publik']  = '3';
                 $data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
                 $data['attr']['uraian']        = $this->security->xss_clean($post['attr']['uraian']);
@@ -327,20 +327,20 @@ class Dokumen_sekretariat extends Admin_Controller
                 break;
 
             case 3: //Perdes
-                $data['tahun']                     = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
+                $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
                 $data['kategori_info_publik']      = '3';
                 $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
                 $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
                 $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
                 $data['attr']['uraian']            = $this->security->xss_clean($post['attr']['uraian']);
-                $data['attr']['jenis_peraturan']   = htmlentities($post['attr']['jenis_peraturan']);
+                $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
                 $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
                 $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
                 $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
                 $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
                 $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
                 $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
-                $data['attr']['keterangan']        = htmlentities($post['attr']['keterangan']);
+                $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
                 break;
 
             default:
@@ -420,6 +420,8 @@ class Dokumen_sekretariat extends Admin_Controller
 
             return view('admin.layouts.components.format_cetak', $data);
         }
+
+        return show_404();
     }
 
     private function data_cetak($kat)
@@ -475,16 +477,9 @@ class Dokumen_sekretariat extends Admin_Controller
 
     private function _set_tab($kat): void
     {
-        switch ($kat) {
-            case '2':
-
-            default:
-                $this->tab_ini = 59;
-                break;
-
-            case '3':
-                $this->tab_ini = 60;
-                break;
-        }
+        $this->tab_ini = match ($kat) {
+            '3' => 60,
+            default => 59,
+        };
     }
 }

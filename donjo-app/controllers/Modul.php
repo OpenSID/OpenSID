@@ -125,8 +125,8 @@ class Modul extends Admin_Controller
     {
         isCan('u');
         $data          = $this->input->post();
-        $data['modul'] = strip_tags($data['modul']);
-        $data['ikon']  = strip_tags($data['ikon']);
+        $data['modul'] = strip_tags((string) $data['modul']);
+        $data['ikon']  = strip_tags((string) $data['ikon']);
         $obj           = ModulModel::findOrFail($id);
         $parent        = $obj->parent;
 

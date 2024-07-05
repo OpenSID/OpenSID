@@ -214,7 +214,7 @@ class Peserta_bantuan extends Admin_Controller
     }
 
     // TODO:: Hapus ini setelah konversi program banntuan peserta
-    public function search($program_id = 0)
+    public function search($program_id = 0): void
     {
         $cari = $this->input->post('cari');
 

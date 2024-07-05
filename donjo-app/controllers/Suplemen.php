@@ -96,7 +96,7 @@ class Suplemen extends Admin_Controller
                     return $aksi;
                 })
                 ->editColumn('terdata', static fn ($row) => $row->terdata()->count())
-                ->editColumn('sasaran', static fn ($row) => unserialize(SASARAN)[$row->sasaran])
+                ->editColumn('sasaran', static fn ($row): mixed => unserialize(SASARAN)[$row->sasaran])
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -172,7 +172,7 @@ class Suplemen extends Admin_Controller
         return [
             'sasaran'    => $request['sasaran'],
             'nama'       => nomor_surat_keputusan($request['nama']),
-            'keterangan' => strip_tags($request['keterangan']),
+            'keterangan' => strip_tags((string) $request['keterangan']),
         ];
     }
 
@@ -198,7 +198,7 @@ class Suplemen extends Admin_Controller
             ];
             $user          = auth();
             $aksesWilayah  = [];
-            $batasiWilayah = $user->batasi_wilayah ? true : false;
+            $batasiWilayah = (bool) $user->batasi_wilayah;
             if ($batasiWilayah) {
                 $aksesWilayah = $user->akses_wilayah ?? [];
             }
@@ -274,7 +274,7 @@ class Suplemen extends Admin_Controller
 
         $update = SuplemenTerdata::where('id_suplemen', $this->request['id_suplemen'])->where('id_terdata', $id)->first();
 
-        if ($update->update(['keterangan' => substr(htmlentities($this->request['keterangan']), 0, 100)])) {
+        if ($update->update(['keterangan' => substr(htmlentities((string) $this->request['keterangan']), 0, 100)])) {
             redirect_with('success', 'Berhasil Ubah Data', 'suplemen/rincian/' . $this->request['id_suplemen']);
         }
 
@@ -285,7 +285,7 @@ class Suplemen extends Admin_Controller
     {
         isCan('h');
 
-        $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
+        $id_suplemen = substr((string) $_SERVER['HTTP_REFERER'], -1);
 
         if (SuplemenTerdata::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
@@ -298,7 +298,7 @@ class Suplemen extends Admin_Controller
     {
         isCan('h');
 
-        $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
+        $id_suplemen = substr((string) $_SERVER['HTTP_REFERER'], -1);
 
         if (SuplemenTerdata::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
@@ -313,7 +313,7 @@ class Suplemen extends Admin_Controller
             'id_suplemen' => $request['id_suplemen'],
             'id_terdata'  => $request['id_terdata'],
             'sasaran'     => $request['sasaran'],
-            'keterangan'  => substr(htmlentities($request['keterangan']), 0, 100),
+            'keterangan'  => substr(htmlentities((string) $request['keterangan']), 0, 100),
         ];
     }
 
@@ -355,7 +355,7 @@ class Suplemen extends Admin_Controller
             'results' => collect($penduduk->items())
                 ->map(static fn ($item): array => [
                     'id'   => $item->id,
-                    'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
@@ -390,7 +390,7 @@ class Suplemen extends Admin_Controller
             'results' => collect($penduduk->items())
                 ->map(static fn ($item): array => [
                     'id'   => $item->id,
-                    'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                    'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
             'pagination' => [
                 'more' => $penduduk->currentPage() < $penduduk->lastPage(),
@@ -427,6 +427,8 @@ class Suplemen extends Admin_Controller
 
             return view('admin.layouts.components.format_cetak', $data);
         }
+
+        return show_404();
     }
 
     public function impor_data($id)
@@ -472,7 +474,7 @@ class Suplemen extends Admin_Controller
             $field = ['id', 'nama', 'sasaran', 'keterangan'];
 
             // Sheet Program
-            if ($sheet->getName() == 'Peserta') {
+            if ($sheet->getName() === 'Peserta') {
                 $suplemen_record = $this->get_suplemen($suplemen_id);
                 $sasaran         = $suplemen_record['sasaran'];
                 $ambil_peserta   = SuplemenTerdata::where('id_suplemen', $suplemen_id)->pluck('id_terdata');
@@ -489,7 +491,7 @@ class Suplemen extends Admin_Controller
                     $peserta = trim((string) $cells[0]->getValue()); // NIK atau No_kk sesuai sasaran
 
                     // Data terakhir
-                    if ($peserta == '###') {
+                    if ($peserta === '###') {
                         break;
                     }
 
@@ -571,7 +573,7 @@ class Suplemen extends Admin_Controller
             ->toArray();
     }
 
-    private function cek_peserta(string $peserta = '', $sasaran = 1)
+    private function cek_peserta(string $peserta = '', $sasaran = 1): false|array
     {
         if (in_array($peserta, [null, '-', ' ', '0'])) {
             return false;
@@ -604,7 +606,7 @@ class Suplemen extends Admin_Controller
         ];
     }
 
-    private function cek_penduduk($sasaran, string $peserta)
+    private function cek_penduduk($sasaran, string $peserta): array
     {
         $terdata = [];
         if ($sasaran == '1') {
@@ -676,7 +678,7 @@ class Suplemen extends Admin_Controller
         foreach ($data_anggota as $data) {
             $cells = [
                 $data['nik'],
-                strtoupper($data['nama']),
+                strtoupper((string) $data['nama']),
                 $data['tempatlahir'],
                 tgl_indo_out($data['tanggallahir']),
                 strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']),

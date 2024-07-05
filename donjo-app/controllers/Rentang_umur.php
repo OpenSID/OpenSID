@@ -161,7 +161,7 @@ class Rentang_umur extends Statistik
         redirect_with('error', 'Gagal Hapus Data', site_url('statistik/rentang_umur'));
     }
 
-    private function validate_rentang($data = []): array
+    private function validate_rentang(array $data = []): array
     {
         $data['status'] = 1;
         if ($data['sampai'] != '99999') {

@@ -53,7 +53,7 @@ class Beranda extends Mandiri_Controller
         $this->load->helper('download');
     }
 
-    public function index()
+    public function index(): void
     {
         $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
         if ($inbox) {
@@ -124,12 +124,12 @@ class Beranda extends Mandiri_Controller
         return view('layanan_mandiri.pin.ganti_pin', $data);
     }
 
-    public function proses_ganti_pin()
+    public function proses_ganti_pin(): void
     {
         $id_pend         = $this->is_login->id_pend;
         $nama            = $this->session->is_login->nama;
         $pendudukMandiri = new PendudukMandiri();
-        $respon          = $pendudukMandiri->gantiPin($id_pend, $nama, $this->input->post());
+        $pendudukMandiri->gantiPin($id_pend, $nama, $this->input->post());
 
         redirect('layanan-mandiri/ganti-pin');
     }

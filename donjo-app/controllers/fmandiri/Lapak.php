@@ -50,11 +50,11 @@ class Lapak extends Mandiri_Controller
         $kategori = ProdukKategori::get();
 
         $produk = Produk::listProduk()
-            ->when($id_kategori, static function ($query, $kategori) {
+            ->when($id_kategori, static function ($query, $kategori): void {
                 $query->where('id_produk_kategori', $kategori);
             })
-            ->when($keyword, static function ($query, $keyword) {
-                $query->where(static function ($query) use ($keyword) {
+            ->when($keyword, static function ($query, $keyword): void {
+                $query->where(static function ($query) use ($keyword): void {
                     $query
                         ->where('p.nama', 'like', "%{$keyword}%")
                         ->orWhere('produk.nama', 'like', "%{$keyword}%")
@@ -68,6 +68,6 @@ class Lapak extends Mandiri_Controller
             ->where('produk.status', 1)
             ->paginate();
 
-        return view('layanan_mandiri.lapak.index', compact('id_kategori', 'keyword', 'kategori', 'produk'));
+        return view('layanan_mandiri.lapak.index', ['id_kategori' => $id_kategori, 'keyword' => $keyword, 'kategori' => $kategori, 'produk' => $produk]);
     }
 }

@@ -111,7 +111,7 @@ class Dpt extends Admin_Controller
         $umurFilter     = $advanceSearch['umur'];
         $filterKategori = [];
         $tagIdFilter    = null;
-        parse_str($advanceSearch['search'], $kategoriFilter);
+        parse_str((string) $advanceSearch['search'], $kategoriFilter);
 
         foreach ($kategoriFilter as $key => $val) {
             if (trim($val) !== '') {
@@ -127,7 +127,7 @@ class Dpt extends Admin_Controller
             $cluster = new Wilayah();
             $cluster = $cluster->whereDusun($dusun);
             if ($rw) {
-                [, $namaRw] = explode('__', $rw);
+                [, $namaRw] = explode('__', (string) $rw);
                 $cluster    = $cluster->whereRw($namaRw);
                 if ($rt) {
                     $cluster = $cluster->where('id', $rt);
@@ -146,7 +146,7 @@ class Dpt extends Admin_Controller
 
     public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
-        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
         $_GET           = $paramDatatable;
 
         $orderColumn = $paramDatatable['columns'][$paramDatatable['order'][0]['column']]['name'];

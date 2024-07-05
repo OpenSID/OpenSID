@@ -55,7 +55,7 @@ class Dokumen extends Mandiri_Controller
 
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($item) {
+                ->addColumn('aksi', static function ($item): string {
                     $aksi        = '';
                     $editUrl     = site_url("layanan-mandiri/dokumen/form/{$item->id}");
                     $deleteUrl   = site_url("layanan-mandiri/dokumen/hapus/{$item->id}");
@@ -63,9 +63,8 @@ class Dokumen extends Mandiri_Controller
 
                     $aksi .= '<a href="' . $editUrl . '" title="Ubah" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i></a> ';
                     $aksi .= '<a href="' . $deleteUrl . '" title="Hapus" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a> ';
-                    $aksi .= '<a href="' . $downloadUrl . '" title="Unduh" class="btn bg-navy btn-sm"><i class="fa fa-download"></i></a>';
 
-                    return $aksi;
+                    return $aksi . ('<a href="' . $downloadUrl . '" title="Unduh" class="btn bg-navy btn-sm"><i class="fa fa-download"></i></a>');
                 })
                 ->editColumn('id_syarat', static fn ($data) => SyaratSurat::where('ref_syarat_id', $data->id_syarat)->first()->ref_syarat_nama)
                 ->editColumn('tgl_upload', static fn ($data) => tgl_indo2($data->tgl_upload))
@@ -104,7 +103,7 @@ class Dokumen extends Mandiri_Controller
         return view('layanan_mandiri.dokumen.form', $data);
     }
 
-    public function tambah()
+    public function tambah(): void
     {
         try {
             $dataInsert               = DokumenModel::validasi($this->input->post());
@@ -126,7 +125,7 @@ class Dokumen extends Mandiri_Controller
                 'pesan'  => 'Berhasil tambah dokumen',
             ];
             redirect_with('notif', $respon, 'layanan-mandiri/dokumen');
-        } catch (Exception $e) {
+        } catch (Exception) {
             $respon = [
                 'status' => 'error',
                 'pesan'  => 'Gagal tambah dokumen -> ' . $this->session->error_msg,
@@ -135,7 +134,7 @@ class Dokumen extends Mandiri_Controller
         }
     }
 
-    public function ubah($id = '')
+    public function ubah($id = ''): void
     {
         try {
             $dataUpdate               = DokumenModel::validasi($this->input->post());
@@ -179,7 +178,7 @@ class Dokumen extends Mandiri_Controller
                 'pesan'  => 'Berhasil ubah dokumen',
             ];
             redirect_with('notif', $respon, 'layanan-mandiri/dokumen/form/' . $id);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $respon = [
                 'status' => 'error',
                 'pesan'  => 'Gagal ubah dokumen -> ' . $this->session->error_msg,
@@ -211,18 +210,18 @@ class Dokumen extends Mandiri_Controller
         return $this->upload->data()['file_name'];
     }
 
-    public function hapus($id = '')
+    public function hapus($id = ''): void
     {
         try {
             DokumenModel::whereIdPend($this->session->is_login->id_pend)->whereIn('id_parent', $this->request['id_cb'] ?? [$id])->delete();
             DokumenModel::destroy($this->request['id_cb'] ?? $id);
             redirect_with('success', 'Berhasil hapus dokumen', 'layanan-mandiri/dokumen');
-        } catch (Exception $e) {
+        } catch (Exception) {
             redirect_with('error', 'Gagal hapus dokumen', 'layanan-mandiri/dokumen');
         }
     }
 
-    public function unduh($id = '')
+    public function unduh($id = ''): void
     {
         $dokumen = new DokumenModel();
         // Ambil nama berkas dari database

@@ -88,7 +88,7 @@ trait ProvidesConvenienceMethods
     /**
      * Validate the given request with the given rules.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      *
      * @return array
      */
@@ -118,7 +118,7 @@ trait ProvidesConvenienceMethods
      *
      * @param \Illuminate\Contracts\Validation\Validator $validator
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      *
      * @return void
      */
@@ -144,9 +144,9 @@ trait ProvidesConvenienceMethods
     /**
      * Convert a validation exception into a response.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|JsonResponse
      */
     protected function invalid($request, ValidationException $exception)
     {
@@ -191,8 +191,8 @@ trait ProvidesConvenienceMethods
     /**
      * Flash a container of errors to the session.
      *
-     * @param array|\Illuminate\Contracts\Support\MessageProvider|string $provider
-     * @param string                                                     $key
+     * @param array|MessageProvider|string $provider
+     * @param string                       $key
      *
      * @return $this
      */
@@ -212,9 +212,9 @@ trait ProvidesConvenienceMethods
     /**
      * Parse the given errors into an appropriate value.
      *
-     * @param array|\Illuminate\Contracts\Support\MessageProvider|string $provider
+     * @param array|MessageProvider|string $provider
      *
-     * @return \Illuminate\Support\MessageBag
+     * @return MessageBag
      */
     protected function parseErrors($provider)
     {
@@ -228,9 +228,9 @@ trait ProvidesConvenienceMethods
     /**
      * Convert a validation exception into a JSON response.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function invalidJson($request, ValidationException $exception)
     {
@@ -243,7 +243,7 @@ trait ProvidesConvenienceMethods
     /**
      * Build a response based on the given errors.
      *
-     * @return \Illuminate\Http\JsonResponse|mixed
+     * @return JsonResponse|mixed
      */
     protected function buildFailedValidationResponse(Request $request, array $errors)
     {

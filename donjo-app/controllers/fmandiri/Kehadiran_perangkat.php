@@ -56,7 +56,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
             $query = Pamong::with([
                 'penduduk',
                 'jabatan',
-                'kehadiranPerangkat' => static function ($query) {
+                'kehadiranPerangkat' => static function ($query): void {
                     $query->where(static function ($query): void {
                         $query->where('tanggal', DB::raw('curdate()'))
                             ->orWhereNull('tanggal');
@@ -64,7 +64,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
                 },
                 'kehadiranPengaduan',
             ])
-                ->when(! $order, static function ($query) {
+                ->when(! $order, static function ($query): void {
                     $query->urut();
                 })
                 ->aktif()

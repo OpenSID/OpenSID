@@ -115,7 +115,7 @@ class Ekspedisi extends Admin_Controller
         }
 
         // Buang unique id pada link nama file
-        $berkas                               = explode('__sid__', $data['surat_keluar']['tanda_terima']);
+        $berkas                               = explode('__sid__', (string) $data['surat_keluar']['tanda_terima']);
         $namaFile                             = $berkas[0];
         $ekstensiFile                         = explode('.', end($berkas));
         $ekstensiFile                         = end($ekstensiFile);
@@ -166,7 +166,7 @@ class Ekspedisi extends Admin_Controller
             }
             // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
             // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-            if ((strlen($_FILES['tanda_terima']['name']) + 20) >= 100) {
+            if ((strlen((string) $_FILES['tanda_terima']['name']) + 20) >= 100) {
                 $this->session->success = -1;
                 $error_msg              = ' -> Nama berkas yang coba Anda unggah terlalu panjang, ' .
                     'batas maksimal yang diijinkan adalah 80 karakter';
@@ -222,10 +222,10 @@ class Ekspedisi extends Admin_Controller
         $this->session->success = null === $this->session->error_msg ? 1 : -1;
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['tanggal_pengiriman'] = tgl_indo_in($post['tanggal_pengiriman']);
-        $data['keterangan']         = htmlentities($post['keterangan']);
+        $data['keterangan']         = htmlentities((string) $post['keterangan']);
 
         return $data;
     }

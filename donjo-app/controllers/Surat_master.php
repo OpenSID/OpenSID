@@ -295,7 +295,7 @@ class Surat_master extends Admin_Controller
         $invalid_tags = invalid_tags();
 
         foreach ($invalid_tags as $invalid_tag) {
-            if (strpos($template_desa, (string) $invalid_tag) !== false) {
+            if (str_contains((string) $template_desa, (string) $invalid_tag)) {
                 redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
             }
         }
@@ -572,7 +572,7 @@ class Surat_master extends Admin_Controller
         $data['aksi']            = ci_route('surat_master.update');
         $data['formAksi']        = ci_route('surat_master.edit_pengaturan');
         $margin                  = setting('surat_margin');
-        $data['margins']         = json_decode($margin, null) ?? FormatSurat::MARGINS;
+        $data['margins']         = json_decode((string) $margin, null) ?? FormatSurat::MARGINS;
         $data['penduduk_luar']   = json_decode(SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first()->value, true);
         $data['alias']           = AliasKodeIsian::get();
         $data['p_luar_map']      = KodeIsianPendudukLuar::getLabels();
@@ -855,7 +855,7 @@ class Surat_master extends Admin_Controller
 
     private function formatImport($list_data = null)
     {
-        return collect(json_decode($list_data, true))
+        return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
                 'url_surat'           => $item['url_surat'],
@@ -869,7 +869,7 @@ class Surat_master extends Admin_Controller
                 'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
                 'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'logo_garuda'         => $item['logo_garuda'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                'syarat_surat'        => json_decode($item['syarat_surat'], true),
+                'syarat_surat'        => json_decode((string) $item['syarat_surat'], true),
                 'template'            => $item['template'],
                 'template_desa'       => $item['template_desa'],
                 'form_isian'          => json_encode($item['form_isian'], JSON_THROW_ON_ERROR),
