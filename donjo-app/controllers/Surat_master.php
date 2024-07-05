@@ -910,4 +910,16 @@ class Surat_master extends Admin_Controller
 
         return false;
     }
+
+    public function bawaan(): void
+    {
+        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+
+        $file_name = namafile('Template Surat Layanan') . '.json';
+
+        $this->output
+            ->set_header("Content-Disposition: attachment; filename={$file_name}")
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output($list_data);
+    }
 }
