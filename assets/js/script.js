@@ -483,6 +483,7 @@ function formAction(idForm, action, target = "") {
     if (target != "") {
         $("#" + idForm).attr("target", target);
     }
+    refreshFormCsrf();
     $("#" + idForm).attr("action", action);
     $("#" + idForm).submit();
 }

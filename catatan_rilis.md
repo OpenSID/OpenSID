@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8154](https://github.com/OpenSID/OpenSID/issues/8154) Perbaikan icon acak data pada pengaturan modul.
 10. [#8155](https://github.com/OpenSID/OpenSID/issues/8155) Perbaikan data isian pengikut surat.
 11. [#8158](https://github.com/OpenSID/OpenSID/issues/8158) Perbaikan terkait csrf token.
+12. [#8158](https://github.com/OpenSID/OpenSID/issues/8157) Perbaikan kode isian surat berdasarkan kategori prefix.
 
 
 #### TEKNIS

@@ -407,7 +407,7 @@ class Surat_master extends Admin_Controller
                     $kategori_isian = [
                         'kategori'     => $kategori,
                         'tipe'         => $request['kategori_tipe_kode'][$kategori][$i],
-                        'kode'         => form_kode_isian($request['kategori_nama_kode'][$kategori][$i]),
+                        'kode'         => form_kode_isian($request['kategori_nama_kode'][$kategori][$i], "_{$kategori}"),
                         'nama'         => $request['kategori_nama_kode'][$kategori][$i],
                         'deskripsi'    => $request['kategori_deskripsi_kode'][$kategori][$i],
                         'required'     => $request['kategori_required_kode'][$kategori][$i] ?? '0',

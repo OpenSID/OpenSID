@@ -1611,10 +1611,11 @@ if (! function_exists('form_kode_isian')) {
      * - Fungsi untuk bersihkan kode isian.
      *
      * @param string $str
+     * @param string $prefix
      */
-    function form_kode_isian($str): string
+    function form_kode_isian($str, $prefix = ''): string
     {
-        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . ']';
+        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . $prefix . ']';
     }
 }
 

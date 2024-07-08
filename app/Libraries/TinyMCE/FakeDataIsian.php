@@ -174,7 +174,7 @@ class FakeDataIsian
                     }
             }
 
-            $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
+            $this->data['input'][str_replace(['[form_', ']'], '', $value['kode'])] = $nilai_isian;
         }
     }
 
