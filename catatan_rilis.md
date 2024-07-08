@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8153](https://github.com/OpenSID/OpenSID/issues/8153) Perbaikan data SHDK saat cetak/unduh buku induk penduduk.
 9. [#8154](https://github.com/OpenSID/OpenSID/issues/8154) Perbaikan icon acak data pada pengaturan modul.
 10. [#8155](https://github.com/OpenSID/OpenSID/issues/8155) Perbaikan data isian pengikut surat.
+11. [#8158](https://github.com/OpenSID/OpenSID/issues/8158) Perbaikan terkait csrf token.
 
 
 #### TEKNIS
