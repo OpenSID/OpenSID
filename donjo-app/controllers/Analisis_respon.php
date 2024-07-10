@@ -308,7 +308,12 @@ class Analisis_respon extends Admin_Controller
     public function import_proses($op = 0): void
     {
         isCan('u');
-        $this->analisis_respon_model->import_respon($op);
+        $result = $this->analisis_respon_model->import_respon($op);
+        if ($result['success']) {
+            session_success($result['pesan']);
+        } else {
+            session_error($result['pesan']);
+        }
 
         redirect($this->controller);
     }
