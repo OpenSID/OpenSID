@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,6 +52,20 @@ class Migrasi_beta extends MY_model
         // foreach ($config_id as $id) {
         // }
 
+        $hasil = $hasil && $this->migrasi_2024040271($hasil);
+
         return $hasil && true;
+    }
+
+    protected function migrasi_2024040271($hasil)
+    {
+        $penduduk_luar = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->first();
+        if ($penduduk_luar) {
+            $value             = json_decode($penduduk_luar->value, true);
+            $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu,no_kk,kepala_kk';
+            $penduduk_luar->update(['value' => json_encode($value)]);
+        }
+
+        return $hasil;
     }
 }
