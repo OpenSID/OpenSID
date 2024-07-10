@@ -54,8 +54,8 @@ class Bantuan extends Mandiri_Controller
 
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('waktu', static fn ($item) => fTampilTgl($item->bantuan->sdate, $item->bantuan->edate))
-                ->addColumn('aksi', static function ($item) {
+                ->addColumn('waktu', static fn ($item): string => fTampilTgl($item->bantuan->sdate, $item->bantuan->edate))
+                ->addColumn('aksi', static function ($item): string {
                     $aksi = '';
                     if ($item->no_id_kartu) {
                         $tampilUrl = ci_route('layanan-mandiri.bantuan.kartu_peserta', ['aksi' => 'tampil', 'id' => $item->id]);
@@ -82,9 +82,9 @@ class Bantuan extends Mandiri_Controller
         // ** Bagi program sasaran pendududk **
         // TO DO : Ganti parameter nik menjadi id
         if ($aksi == 'tampil') {
-            return view('layanan_mandiri.bantuan.peserta', compact('data'));
+            return view('layanan_mandiri.bantuan.peserta', ['data' => $data]);
         }
-            ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', null, LOKASI_DOKUMEN);
 
+        ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', null, LOKASI_DOKUMEN);
     }
 }

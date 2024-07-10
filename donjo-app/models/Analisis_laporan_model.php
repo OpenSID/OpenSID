@@ -519,8 +519,9 @@ class Analisis_laporan_model extends My_Model
     private function list_jawab2($id = 0, $in = 0)
     {
         $per  = $this->analisis_master_model->periode->id;
-        $data = $this->config_id('r')
-            ->select('s.id as id_parameter,s.jawaban as jawaban,s.nilai')
+        $data = $this->db
+            ->select('s.id as id_parameter, s.jawaban as jawaban,s.nilai')
+            ->from('analisis_respon r')
             ->join('analisis_parameter s', 'r.id_parameter = s.id')
             ->where('r.id_subjek', $id)
             ->where('r.id_periode', $per)
@@ -710,7 +711,7 @@ class Analisis_laporan_model extends My_Model
                 ->result_array();
         }
 
-        return null;
+        return [];
     }
 
     public function list_klasifikasi()

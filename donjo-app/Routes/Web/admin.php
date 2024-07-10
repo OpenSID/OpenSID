@@ -1299,7 +1299,7 @@ Route::group('laporan_apbdes', static function (): void {
     Route::get('/form/{id?}', 'Laporan_apbdes@form')->name('laporan_apbdes.form');
     Route::post('/insert', 'Laporan_apbdes@insert')->name('laporan_apbdes.insert');
     Route::post('/update/{id}', 'Laporan_apbdes@update')->name('laporan_apbdes.update');
-    Route::match(['GET', 'POST'], '/delete', 'Laporan_apbdes@delete_all')->name('laporan_apbdes.delete');
+    Route::match(['GET', 'POST'], '/delete', 'Laporan_apbdes@delete')->name('laporan_apbdes.delete');
     Route::get('/unduh/{id?}', 'Laporan_apbdes@unduh')->name('laporan_apbdes.unduh');
     Route::post('/kirim', 'Laporan_apbdes@kirim')->name('laporan_apbdes.kirim');
 });
@@ -2219,7 +2219,7 @@ Route::group('buku_tamu', static function (): void {
     Route::get('/edit/{id}', 'Buku_tamu@edit')->name('buku_tamu.edit');
     Route::post('/update/{id}', 'Buku_tamu@update')->name('buku_tamu.update');
     Route::get('/delete/{id?}', 'Buku_tamu@delete')->name('buku_tamu.delete');
-    Route::post('/delete', 'Buku_tamu@delete')->name('buku_tamu.delete-all');
+    Route::post('/deleteAll', 'Buku_tamu@delete')->name('buku_tamu.delete-all');
     Route::get('/cetak', 'Buku_tamu@cetak')->name('buku_tamu.cetak');
     Route::get('/ekspor', 'Buku_tamu@ekspor')->name('buku_tamu.ekspor');
 });

@@ -1572,6 +1572,29 @@ function uclast($str): string
 
 function kasus_lain($kategori = null, $str = null)
 {
+    $pendidikan = [
+        'Tk',
+        'Sd',
+        'Sltp',
+        'Slta',
+        'Slb',
+        'Iii/s',
+        'Iii',
+        'Ii',
+        'Iv',
+    ];
+
+    $pekerjaan = [
+        '(pns)',
+        '(tni)',
+        '(polri)',
+        ' Ri ',
+        'Dpr-ri',
+        'Dpd',
+        'Bpk',
+        'Dprd',
+    ];
+
     $daftar_ganti = ${$kategori};
 
     if (null === $kategori || count($daftar_ganti ?? []) <= 0) {
@@ -1611,10 +1634,11 @@ if (! function_exists('form_kode_isian')) {
      * - Fungsi untuk bersihkan kode isian.
      *
      * @param string $str
+     * @param string $prefix
      */
-    function form_kode_isian($str): string
+    function form_kode_isian($str, $prefix = ''): string
     {
-        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . ']';
+        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . $prefix . ']';
     }
 }
 
@@ -2077,6 +2101,11 @@ if (! function_exists('caseWord')) {
             }
         }
 
+        // Ganti '/' dengan ---atau---
+        if (strpos($teks, '/') !== false) {
+            $teks = str_replace('/', ' ---atau--- ', $teks);
+        }
+
         // Normal
         if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
             $teks = set_words($teks);
@@ -2092,6 +2121,11 @@ if (! function_exists('caseWord')) {
         } elseif // Huruf besar di awal kalimat
         (ctype_upper($condition[0])) {
             $teks = set_words($teks, 'ucfirst');
+        }
+
+        // kembalikan '---atau---' menjadi '/'
+        if (strpos($teks, ' ---atau--- ') !== false) {
+            $teks = str_replace(' ---atau--- ', '/', $teks);
         }
 
         // Return teks asli jika tidak sesuai kondisi

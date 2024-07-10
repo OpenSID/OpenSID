@@ -157,7 +157,7 @@ class Surat_dinas extends Admin_Controller
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratDinas']->kode_surat)->first();
         }
 
-        $data['margins']              = json_decode($data['suratDinas']->margin, null) ?? json_decode(setting('surat_dinas_margin'), true);
+        $data['margins']              = json_decode($data['suratDinas']->margin, null) ?? json_decode((string) setting('surat_dinas_margin'), true);
         $data['margin_global']        = $data['suratDinas']->margin_global ?? StatusEnum::YA;
         $data['orientations']         = SuratDinas::ORIENTATAIONS;
         $data['sizes']                = SuratDinas::SIZES;
@@ -291,7 +291,7 @@ class Surat_dinas extends Admin_Controller
         $invalid_tags = invalid_tags();
 
         foreach ($invalid_tags as $invalid_tag) {
-            if (strpos($template_desa, (string) $invalid_tag) !== false) {
+            if (str_contains((string) $template_desa, (string) $invalid_tag)) {
                 redirect_with('error', 'Template surat Tidak Valid', 'surat_master/form/' . $id);
             }
         }
@@ -521,7 +521,7 @@ class Surat_dinas extends Admin_Controller
         $data['aksi']            = ci_route('surat_dinas.update');
         $data['formAksi']        = ci_route('surat_dinas.edit_pengaturan');
         $margin                  = setting('surat_dinas_margin');
-        $data['margins']         = json_decode($margin, null) ?? SuratDinas::MARGINS;
+        $data['margins']         = json_decode((string) $margin, null) ?? SuratDinas::MARGINS;
         $data['alias']           = AliasKodeIsian::get();
 
         return view('admin.surat_dinas.pengaturan.pengaturan', $data);
@@ -734,7 +734,7 @@ class Surat_dinas extends Admin_Controller
 
     private function formatImport($list_data = null)
     {
-        return collect(json_decode($list_data, true))
+        return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
                 'url_surat'           => $item['url_surat'],

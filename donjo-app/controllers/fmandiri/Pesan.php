@@ -44,10 +44,9 @@ class Pesan extends Mandiri_Controller
 {
     public function index($kat = 1)
     {
-        $kat   = $kat;
         $judul = ($kat == 1) ? 'Keluar' : 'Masuk';
 
-        return view('layanan_mandiri.pesan.index', compact(['kat', 'judul']));
+        return view('layanan_mandiri.pesan.index', ['kat' => $kat, 'judul' => $judul]);
     }
 
     public function datatables($kat = 1)
@@ -74,13 +73,13 @@ class Pesan extends Mandiri_Controller
 
             return datatables($query)
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($item) use ($kat) {
+                ->addColumn('aksi', static function ($item) use ($kat): string {
                     $url  = ci_route('layanan-mandiri.pesan.baca', ['kat' => $kat, 'uuid' => $item->uuid]);
                     $icon = $item->status == 2 ? 'fa-eye-slash' : 'fa-eye';
 
                     return '<a href="' . $url . '" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa ' . $icon . '">&nbsp;</i></a>';
                 })
-                ->addColumn('status_baca', static fn ($item) => $item->status == 1 ? 'Sudah Dibaca' : 'Belum Dibaca')
+                ->addColumn('status_baca', static fn ($item): string => $item->status == 1 ? 'Sudah Dibaca' : 'Belum Dibaca')
                 ->addColumn('tgl_upload', static fn ($item) => tgl_indo2($item->tgl_upload))
                 ->rawColumns(['aksi'])
                 ->make(true);
@@ -91,7 +90,7 @@ class Pesan extends Mandiri_Controller
 
     // TODO: Pisahkan mailbox dari komentar
     // TODO: Ganti nik jadi id_pend
-    public function kirim($kat = 2)
+    public function kirim($kat = 2): void
     {
         $data = $this->input->post();
 

@@ -45,7 +45,7 @@ if (! function_exists('app')) {
      *
      * @param string|null $abstract
      *
-     * @return \App\Services\Laravel
+     * @return App\Services\Laravel
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -363,7 +363,7 @@ if (! function_exists('request')) {
      * @param array|string|null $key
      * @param mixed             $default
      *
-     * @return array|\Illuminate\Http\Request|string
+     * @return array|Illuminate\Http\Request|string
      */
     function request($key = null, $default = null)
     {
@@ -435,7 +435,7 @@ if (! function_exists('trans')) {
      * @param array       $replace
      * @param string|null $locale
      *
-     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
+     * @return array|Illuminate\Contracts\Translation\Translator|string|null
      */
     function trans($id = null, $replace = [], $locale = null)
     {
@@ -467,9 +467,9 @@ if (! function_exists('trans_choice')) {
     /**
      * Translates the given message based on a count.
      *
-     * @param string               $id
-     * @param array|\Countable|int $number
-     * @param string|null          $locale
+     * @param string              $id
+     * @param array|Countable|int $number
+     * @param string|null         $locale
      *
      * @return string
      */
@@ -483,7 +483,7 @@ if (! function_exists('validator')) {
     /**
      * Create a new Validator instance.
      *
-     * @return \Illuminate\Validation\Validator
+     * @return Illuminate\Validation\Validator
      */
     function validator(array $data = [], array $rules = [], array $messages = [], array $customAttributes = [])
     {

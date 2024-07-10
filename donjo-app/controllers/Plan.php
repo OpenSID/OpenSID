@@ -255,11 +255,11 @@ class Plan extends Admin_Controller
         return $this->form_validation->run();
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['nama']      = nomor_surat_keputusan($post['nama']);
         $data['ref_point'] = bilangan($post['ref_point']);
-        $data['desk']      = htmlentities($post['desk']);
+        $data['desk']      = htmlentities((string) $post['desk']);
         $data['enabled']   = bilangan($post['enabled']);
 
         $lokasi_file = $_FILES['foto']['tmp_name'];

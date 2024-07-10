@@ -163,7 +163,7 @@ class Statistik extends Admin_Controller
                 $kategori = 'bantuan';
                 break;
 
-            case (int) $lap > 20 || "{$lap}" == 'kelas_sosial':
+            case (int) $lap > 20 || "{$lap}" === 'kelas_sosial':
                 // Kelurga
                 $kategori = 'keluarga';
 

@@ -81,7 +81,7 @@ class Wilayah extends Admin_Controller
         }
         $data = [
             'parent'       => $parent,
-            'wilayah'      => $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level),
+            'wilayah'      => $level == 'dusun' ? ucwords((string) setting('sebutan_dusun')) : strtoupper((string) $level),
             'jabatan'      => $level == 'dusun' ? 'Kepala' : 'Ketua',
             'level'        => $level,
             'title'        => $title,
@@ -160,7 +160,7 @@ class Wilayah extends Admin_Controller
                         $cek_lokasi_peta = false;
                     }
                     if ($cek_lokasi_peta && can('u')) {
-                        $wilayah = $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level);
+                        $wilayah = $level == 'dusun' ? ucwords((string) setting('sebutan_dusun')) : strtoupper($level);
                         if (! ($level == 'rw' && $row->rw == '-')) {
                             $aksi .= '<div class="btn-group">
                                 <button type="button" class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class="fa fa-arrow-circle-down"></i> Peta</button>
@@ -247,7 +247,7 @@ class Wilayah extends Admin_Controller
         $data   = [
             'wilayah'      => null,
             'form_action'  => ci_route("{$this->controller}.insert.{$level}.{$parent}"),
-            'wilayahLabel' => $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level),
+            'wilayahLabel' => $level === 'dusun' ? ucwords((string) setting('sebutan_dusun')) : strtoupper($level),
             'level'        => $level,
         ];
         if ($id) {
@@ -303,15 +303,15 @@ class Wilayah extends Admin_Controller
         return show_404();
     }
 
-    private function bersihkan_data($data)
+    private function bersihkan_data(array $data): array
     {
         if ((int) $data['id_kepala'] === 0) {
             unset($data['id_kepala']);
         }
 
         $data['dusun'] = nama_terbatas(trim(str_ireplace('DUSUN', '', $data['dusun'])));
-        $data['rw']    = nama_terbatas(trim($data['rw'])) ?: 0;
-        $data['rt']    = nama_terbatas(trim($data['rt'])) ?: 0;
+        $data['rw']    = nama_terbatas(trim((string) $data['rw'])) ?: 0;
+        $data['rt']    = nama_terbatas(trim((string) $data['rt'])) ?: 0;
 
         return $data;
     }
@@ -532,7 +532,7 @@ class Wilayah extends Admin_Controller
     {
         $data['wil_atas'] = $this->header['desa'];
         $data['desa']     = $this->header['desa'];
-        $sebutan_desa     = ucwords(setting('sebutan_desa'));
+        $sebutan_desa     = ucwords((string) setting('sebutan_desa'));
         $namadesa         = $data['wil_atas']['nama_desa'];
 
         $this->ubah_lokasi_peta($data['wil_atas'], 'index', "Lokasi Kantor {$sebutan_desa} {$namadesa} Belum Dilengkapi");
@@ -544,7 +544,7 @@ class Wilayah extends Admin_Controller
         $data['rw_gis']       = WilayahModel::rw()->get()->toArray();
         $data['rt_gis']       = WilayahModel::rt()->get()->toArray();
         $data['nama_wilayah'] = ucwords(setting('sebutan_dusun') . ' ' . $data['wil_ini']['dusun'] . ' ' . $sebutan_desa . ' ' . $data['wil_atas']['nama_desa']);
-        $data['wilayah']      = ucwords(setting('sebutan_dusun'));
+        $data['wilayah']      = ucwords((string) setting('sebutan_dusun'));
         $data['breadcrumb']   = [
             ['link' => ci_route('wilayah'), 'judul' => 'Daftar ' . $data['wilayah']],
         ];
@@ -558,7 +558,7 @@ class Wilayah extends Admin_Controller
     {
         $data['wil_atas'] = $this->header['desa'];
         $data['desa']     = $this->header['desa'];
-        $sebutan_desa     = ucwords(setting('sebutan_desa'));
+        $sebutan_desa     = ucwords((string) setting('sebutan_desa'));
         $namadesa         = $data['wil_atas']['nama_desa'];
         $this->ubah_lokasi_peta($data['wil_atas'], 'index', "Peta Wilayah {$sebutan_desa} {$namadesa} Belum Dilengkapi");
 
@@ -568,7 +568,7 @@ class Wilayah extends Admin_Controller
         $data['rw_gis']       = WilayahModel::rw()->get()->toArray();
         $data['rt_gis']       = WilayahModel::rt()->get()->toArray();
         $data['nama_wilayah'] = ucwords(setting('sebutan_dusun') . ' ' . $data['wil_ini']['dusun'] . ' ' . $sebutan_desa . ' ' . $data['wil_atas']['nama_desa']);
-        $data['wilayah']      = ucwords(setting('sebutan_dusun'));
+        $data['wilayah']      = ucwords((string) setting('sebutan_dusun'));
         $data['breadcrumb']   = [
             ['link' => ci_route('wilayah'), 'judul' => 'Daftar ' . $data['wilayah']],
         ];
@@ -582,7 +582,7 @@ class Wilayah extends Admin_Controller
     {
         $data['desa']     = $this->header['desa'];
         $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();
-        $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
+        $sebutan_dusun    = ucwords((string) setting('sebutan_dusun'));
         $dusun            = $data['wil_atas']['dusun'];
         $this->ubah_lokasi_peta($data['wil_atas'], "index?level=rw&parent={$id_dusun}", "Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
 
@@ -607,7 +607,7 @@ class Wilayah extends Admin_Controller
     {
         $data['desa']     = $this->header['desa'];
         $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();
-        $sebutan_dusun    = ucwords(setting('sebutan_dusun'));
+        $sebutan_dusun    = ucwords((string) setting('sebutan_dusun'));
         $dusun            = $data['wil_atas']['dusun'];
         $this->ubah_lokasi_peta($data['wil_atas'], "index?level=rw&parent={$id_dusun}", "Peta Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
 
@@ -637,7 +637,7 @@ class Wilayah extends Admin_Controller
         if ($dataRW['rw'] == '-') {
             $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();
         }
-        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $sebutan_dusun = ucwords((string) setting('sebutan_dusun'));
         $dusun         = $data['wil_atas']['dusun'];
         $this->ubah_lokasi_peta($data['wil_atas'], "index?level=rt&parent={$id_rw}", "Lokasi Kantor {$sebutan_dusun} {$dusun} Belum Dilengkapi");
 
@@ -668,7 +668,7 @@ class Wilayah extends Admin_Controller
             $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();
         }
 
-        $sebutan_dusun = ucwords(setting('sebutan_dusun'));
+        $sebutan_dusun = ucwords((string) setting('sebutan_dusun'));
         $dusun         = $data['wil_atas']['dusun'];
         $this->ubah_lokasi_peta($data['wil_atas'], "index?level=rt&parent={$id_rw}", "Peta Wilayah {$sebutan_dusun} {$dusun} Belum Dilengkapi");
 
@@ -727,7 +727,7 @@ class Wilayah extends Admin_Controller
 
     public function list_rw($dusun = ''): void
     {
-        $dusun   = urldecode($dusun);
+        $dusun   = urldecode((string) $dusun);
         $list_rw = WilayahModel::rw()
             ->when($dusun, static fn ($q) => $q->whereDusun($dusun))
             ->get()
@@ -738,7 +738,7 @@ class Wilayah extends Admin_Controller
 
     public function list_rt($dusun = '', $rw = '-'): void
     {
-        $dusun   = urldecode($dusun);
+        $dusun   = urldecode((string) $dusun);
         $list_rt = WilayahModel::rt()
             ->when($dusun, static fn ($q) => $q->whereDusun($dusun))
             ->when($rw, static fn ($q) => $q->whereRw($rw))
@@ -759,7 +759,7 @@ class Wilayah extends Admin_Controller
         }
     }
 
-    private function validasi_koordinat($post)
+    private function validasi_koordinat(array $post): array
     {
         return [
             'zoom'     => $post['zoom'] ?: null,
@@ -771,7 +771,7 @@ class Wilayah extends Admin_Controller
         ];
     }
 
-    private function validasi_wilayah($post)
+    private function validasi_wilayah(array $post): array
     {
         return [
             'path'   => $post['path'],

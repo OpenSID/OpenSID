@@ -538,10 +538,8 @@ class Laravel extends Container
 
     /**
      * Get the path to the application's language files.
-     *
-     * @return string
      */
-    protected function getLanguagePath()
+    protected function getLanguagePath(): string
     {
         if (is_dir($langPath = $this->basePath() . '/resources/lang')) {
             return $langPath;
@@ -626,19 +624,21 @@ class Laravel extends Container
     public function getConfigurationPath($name = null)
     {
         if (! $name) {
-            $appConfigDir = $this->basePath('config').'/';
+            $appConfigDir = $this->basePath('config') . '/';
 
             if (file_exists($appConfigDir)) {
                 return $appConfigDir;
-            } elseif (file_exists($path = __DIR__.'/../config/')) {
+            }
+            if (file_exists($path = __DIR__ . '/../config/')) {
                 return $path;
             }
         } else {
-            $appConfigPath = $this->basePath('config').'/'.$name.'.php';
+            $appConfigPath = $this->basePath('config') . '/' . $name . '.php';
 
             if (file_exists($appConfigPath)) {
                 return $appConfigPath;
-            } elseif (file_exists($path = __DIR__.'/../config/'.$name.'.php')) {
+            }
+            if (file_exists($path = __DIR__ . '/../config/' . $name . '.php')) {
                 return $path;
             }
         }
@@ -727,7 +727,7 @@ class Laravel extends Container
      */
     public function configPath(?string $path = ''): string
     {
-        return $this->basePath.DIRECTORY_SEPARATOR.'config'.($path ? DIRECTORY_SEPARATOR.$path : $path);
+        return $this->basePath . DIRECTORY_SEPARATOR . 'config' . ($path ? DIRECTORY_SEPARATOR . $path : $path);
     }
 
     /**
@@ -740,14 +740,10 @@ class Laravel extends Container
 
     /**
      * Get the path to the language files.
-     *
-     * @param string $path
-     *
-     * @return string
      */
-    public function langPath($path = '')
+    public function langPath(string $path = ''): string
     {
-        return $this->getLanguagePath() . ($path != '' ? DIRECTORY_SEPARATOR . $path : '');
+        return $this->getLanguagePath() . ($path !== '' ? DIRECTORY_SEPARATOR . $path : '');
     }
 
     /**
@@ -788,10 +784,8 @@ class Laravel extends Container
 
     /**
      * Determine if the application events are cached.
-     *
-     * @return bool
      */
-    public function eventsAreCached()
+    public function eventsAreCached(): bool
     {
         return false;
     }
@@ -870,10 +864,8 @@ class Laravel extends Container
      * Set the current application locale.
      *
      * @param string $locale
-     *
-     * @return void
      */
-    public function setLocale($locale)
+    public function setLocale($locale): void
     {
         $this['config']->set('app.locale', $locale);
         $this['translator']->setLocale($locale);
@@ -883,10 +875,8 @@ class Laravel extends Container
      * Set the current application fallback locale.
      *
      * @param string $fallbackLocale
-     *
-     * @return void
      */
-    public function setFallbackLocale($fallbackLocale)
+    public function setFallbackLocale($fallbackLocale): void
     {
         $this['config']->set('app.fallback_locale', $fallbackLocale);
 
@@ -897,10 +887,8 @@ class Laravel extends Container
      * Determine if application locale is the given locale.
      *
      * @param string $locale
-     *
-     * @return bool
      */
-    public function isLocale($locale)
+    public function isLocale($locale): bool
     {
         return $this->getLocale() == $locale;
     }

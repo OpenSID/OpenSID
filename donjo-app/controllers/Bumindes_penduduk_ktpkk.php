@@ -96,7 +96,6 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
                 ->editColumn('warganegara', static fn ($row): string => strtoupper((string) WargaNegaraEnum::valueOf($row->warganegara_id)))
                 ->editColumn('kk_level', static fn ($row): string => strtoupper((string) SHDKEnum::valueOf($row->kk_level)))
                 ->editColumn('golongan_darah', static fn ($row): string => strtoupper($row->golonganDarah->nama))
-                ->editColumn('alamat_wilayah', static fn ($row): string => strtoupper($row->alamat . ' RT ' . $row->rt . ' / RW ' . $row->rw . ' ' . setting('sebutan_dusun') . ' ' . $row->dusun))
                 ->editColumn('kk', static fn ($row) => $row->keluarga->no_kk)
                 ->editColumn('tgl_keluar', static fn ($row): string => $row->tempat_cetak_ktp ? strtoupper($row->tempat_cetak_ktp) . ', ' . tgl_indo_out($row->tanggal_cetak_ktp) : '-')
                 ->editColumn('tgl_datang', static fn ($row) => tgl_indo_out($row->log_latest->tgl_lapor))
@@ -140,7 +139,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $collected = collect($query->take($paramDatatable['length'])->get())->map(static function (array $row): array {
+        $collected = collect($query->take($paramDatatable['length'])->get())->map(static function ($row): array {
             $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row->sex), 0, 1));
             $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? StatusKawinEnum::valueOf($row->status_kawin) : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
             $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);

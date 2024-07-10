@@ -190,7 +190,7 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function kirim_pesan($id_permohonan = 0, $tipe = 0): void
     {
-        $tipe    = is_null($tipe) ? 0 : $tipe;
+        $tipe    = null === $tipe ? 0 : $tipe;
         $periksa = PermohonanSurat::with(['surat'])->where(['id' => $id_permohonan, 'status' => PermohonanSurat::SEDANG_DIPERIKSA])->first()->toArray();
         $pemohon = Penduduk::find($periksa['id_pemohon'])->toArray();
         $post    = $this->input->post();

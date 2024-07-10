@@ -16,6 +16,14 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8125](https://github.com/OpenSID/OpenSID/issues/8125) Perbaikan tampilan widget beranda untuk perangkat mobile.
 6. [#8030](https://github.com/OpenSID/OpenSID/issues/8030) Perbaikan cetak wilayah dusun/rw/rt.
 7. [#8136](https://github.com/OpenSID/OpenSID/issues/8136) Perbaikan pencarian data pada modul Buku KTP dan KK.
+8. [#8153](https://github.com/OpenSID/OpenSID/issues/8153) Perbaikan data SHDK saat cetak/unduh buku induk penduduk.
+9. [#8154](https://github.com/OpenSID/OpenSID/issues/8154) Perbaikan icon acak data pada pengaturan modul.
+10. [#8155](https://github.com/OpenSID/OpenSID/issues/8155) Perbaikan data isian pengikut surat.
+11. [#8158](https://github.com/OpenSID/OpenSID/issues/8158) Perbaikan terkait csrf token.
+12. [#8158](https://github.com/OpenSID/OpenSID/issues/8157) Perbaikan kode isian surat berdasarkan kategori prefix.
+13. [#8167](https://github.com/OpenSID/OpenSID/issues/8167) Perbaikan rincian laporan hasil klasifikasi.
+14. [#8171](https://github.com/OpenSID/OpenSID/issues/8171) Perbaikan penulisan pendidikan dan pekerjaan pada surat.
+15. [#8173](https://github.com/OpenSID/OpenSID/issues/8173) Perbaikan gagal impor data respon pada modul analisis,
 
 
 #### TEKNIS

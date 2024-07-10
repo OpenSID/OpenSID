@@ -25,7 +25,7 @@
 							<label for="file"  class="control-label">File Master Analisis :</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2">
-								<input type="file" class="hidden" id="file2" name="respon">
+								<input type="file" class="hidden" id="file2" name="respon" accept=".xls">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 								</span>

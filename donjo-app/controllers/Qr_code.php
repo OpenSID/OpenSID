@@ -72,7 +72,7 @@ class Qr_code extends Admin_Controller
             $logoqr = $post['logoqr'];
             // Ubah url (http) menjadi absolute path ke file di lokasi media
             $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
-            $file_logoqr  = preg_split('/' . $lokasi_media . '/', $logoqr)[1];
+            $file_logoqr  = preg_split('/' . $lokasi_media . '/', (string) $logoqr)[1];
             $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
         }
 

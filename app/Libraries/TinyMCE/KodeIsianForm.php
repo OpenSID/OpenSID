@@ -111,7 +111,7 @@ class KodeIsianForm
 
         return collect($kodeIsian)
             ->map(static function (array $item, $key) use ($input): array {
-                $input_data = $input[underscore($item['nama'], true, true)];
+                $input_data = $input[str_replace(['[form_', ']'], '', $item['kode'])];
                 if ($item['tipe'] == 'date') {
                     $data = formatTanggal($input_data);
                 } elseif ($item['tipe'] == 'hari-tanggal') {

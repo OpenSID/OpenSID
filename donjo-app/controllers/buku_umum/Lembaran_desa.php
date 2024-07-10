@@ -56,7 +56,7 @@ class Lembaran_desa extends Admin_Controller
     public function index(): void
     {
         $data['jenis_peraturan'] = JenisPeraturan::all();
-        $sebutan_desa            = ucwords(setting('sebutan_desa'));
+        $sebutan_desa            = ucwords((string) setting('sebutan_desa'));
         $data['main_content']    = 'admin.dokumen.lembaran_desa.index';
         $data['subtitle']        = "Buku Lembaran {$sebutan_desa} Dan Berita {$sebutan_desa}";
         $data['selected_nav']    = 'lembaran';
@@ -170,7 +170,7 @@ class Lembaran_desa extends Admin_Controller
         return $this->upload->data()['file_name'];
     }
 
-    private function validasi($post)
+    private function validasi(array $post): array
     {
         $data                         = [];
         $data['nama']                 = nomor_surat_keputusan($post['nama']);
@@ -185,20 +185,20 @@ class Lembaran_desa extends Admin_Controller
             $data['url'] = null;
         }
 
-        $data['tahun']                     = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
+        $data['tahun']                     = date('Y', strtotime((string) $post['attr']['tgl_ditetapkan']));
         $data['kategori_info_publik']      = '3';
         $data['attr']['tgl_ditetapkan']    = $post['attr']['tgl_ditetapkan'];
         $data['attr']['tgl_lapor']         = $post['attr']['tgl_lapor'];
         $data['attr']['tgl_kesepakatan']   = $post['attr']['tgl_kesepakatan'];
         $data['attr']['uraian']            = $this->security->xss_clean($post['attr']['uraian']);
-        $data['attr']['jenis_peraturan']   = htmlentities($post['attr']['jenis_peraturan']);
+        $data['attr']['jenis_peraturan']   = htmlentities((string) $post['attr']['jenis_peraturan']);
         $data['attr']['no_ditetapkan']     = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
         $data['attr']['no_lapor']          = nomor_surat_keputusan($post['attr']['no_lapor']);
         $data['attr']['no_lembaran_desa']  = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
         $data['attr']['no_berita_desa']    = nomor_surat_keputusan($post['attr']['no_berita_desa']);
         $data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
         $data['attr']['tgl_berita_desa']   = $post['attr']['tgl_berita_desa'];
-        $data['attr']['keterangan']        = htmlentities($post['attr']['keterangan']);
+        $data['attr']['keterangan']        = htmlentities((string) $post['attr']['keterangan']);
 
         return $data;
     }
@@ -234,7 +234,7 @@ class Lembaran_desa extends Admin_Controller
         $data['main'] = $laporan->map(static function ($document) {
                 $array = $document->toArray();
                 if (isset($array['attr'])) {
-                    $array['attr'] = json_decode($array['attr'], true);
+                    $array['attr'] = json_decode((string) $array['attr'], true);
                 }
 
                 return $array;

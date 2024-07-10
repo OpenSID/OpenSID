@@ -159,7 +159,7 @@ class Sosmed extends Admin_Controller
     {
         $data = [
             'link'    => $request['link'],
-            'nama'    => htmlentities($request['nama']),
+            'nama'    => htmlentities((string) $request['nama']),
             'tipe'    => 1,
             'enabled' => $request['enabled'] ?? 0,
         ];

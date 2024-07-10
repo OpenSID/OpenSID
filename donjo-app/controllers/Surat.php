@@ -63,8 +63,8 @@ class Surat extends Admin_Controller
 {
     public $modul_ini     = 'layanan-surat';
     public $sub_modul_ini = 'cetak-surat';
-    private TinyMCE $tinymce;
-    private LogPenduduk $logpenduduk;
+    private readonly TinyMCE $tinymce;
+    private readonly LogPenduduk $logpenduduk;
 
     public function __construct()
     {
@@ -147,7 +147,7 @@ class Surat extends Admin_Controller
         if ($data['surat']) {
             $data['url']       = $url;
             $data['anchor']    = $this->input->post('anchor');
-            $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
+            $data['surat_url'] = rtrim((string) $_SERVER['REQUEST_URI'], '/clear');
 
             // NIK => id
             if (! empty($nik)) {
@@ -424,7 +424,7 @@ class Surat extends Admin_Controller
                 }
             } catch (Html2PdfException $e) {
                 $formatter = new ExceptionFormatter($e);
-                log_message('error', trim(preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
+                log_message('error', trim((string) preg_replace('/\s\s+/', ' ', $formatter->getMessage())));
 
                 // Untuk surat yang sudah tersimpan sebagai draf, simpan isian suratnya yang belum jadi (hanya isian surat dari konversi template surat)
                 $surat->isi_surat = $isi[1];
@@ -614,14 +614,16 @@ class Surat extends Admin_Controller
 
             return view('admin.surat.konsep', ['aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'tolak' => $tolak]);
         }
+
+        return show_404();
     }
 
     private function ttd($ttd = '', $pamong_id = null)
     {
-        if (preg_match('/a.n/i', $ttd)) {
+        if (preg_match('/a.n/i', (string) $ttd)) {
             return Pamong::ttd('a.n')->first()->pamong_id;
         }
-        if (preg_match('/u.b/i', $ttd)) {
+        if (preg_match('/u.b/i', (string) $ttd)) {
             return $pamong_id;
         }
 

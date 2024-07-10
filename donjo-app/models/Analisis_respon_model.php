@@ -1159,7 +1159,7 @@ class Analisis_respon_model extends MY_Model
         $this->db->insert('analisis_respon_hasil', $upx);
     }
 
-    public function import_respon($op = 0): void
+    public function import_respon($op = 0)
     {
         $per = $this->analisis_master_model->get_aktif_periode();
 
@@ -1175,151 +1175,172 @@ class Analisis_respon_model extends MY_Model
             ->get('analisis_indikator')
             ->result_array();
 
-        $data  = new Spreadsheet_Excel_Reader($_FILES['respon']['tmp_name']);
-        $s     = 0;
-        $baris = $data->rowcount($s);
-        $kolom = $data->colcount($s);
+        try {
+            if ($_FILES['respon']['type'] != 'application/vnd.ms-excel') {
+                return [
+                    'success' => false,
+                    'message' => 'File yang diunggah harus berformat .xls',
+                ];
+            }
+            $data  = new Spreadsheet_Excel_Reader($_FILES['respon']['tmp_name']);
+            $s     = 0;
+            $baris = $data->rowcount($s);
+            $kolom = $data->colcount($s);
 
-        $ketemu = 0;
+            $ketemu = 0;
 
-        for ($b = 1; $b <= $baris; $b++) {
-            for ($k = 1; $k <= $kolom; $k++) {
-                $isi = $data->val($b, $k, $s);
-                // ketemu njuk stop
-                if ($isi == $key) {
-                    $br = $b + 1;
-                    $kl = $k + 1;
+            for ($b = 1; $b <= $baris; $b++) {
+                for ($k = 1; $k <= $kolom; $k++) {
+                    $isi = $data->val($b, $k, $s);
+                    // ketemu njuk stop
+                    if ($isi == $key) {
+                        $br = $b + 1;
+                        $kl = $k + 1;
 
-                    $b      = $baris + 1;
-                    $k      = $kolom + 1;
-                    $ketemu = 1;
+                        $b      = $baris + 1;
+                        $k      = $kolom + 1;
+                        $ketemu = 1;
+                    }
                 }
             }
-        }
-        if ($ketemu == 1) {
-            $dels = '';
-            $true = 0;
+            if ($ketemu == 1) {
+                $dels = '';
+                $true = 0;
 
-            for ($i = $br; $i <= $baris; $i++) {
-                $id_subjek = $data->val($i, $kl - 1, $s);
+                for ($i = $br; $i <= $baris; $i++) {
+                    $id_subjek = $data->val($i, $kl - 1, $s);
 
-                $j = $kl;
+                    $j = $kl;
 
-                foreach ($indikator as $indi) {
-                    $isi = $data->val($i, $j, $s);
-                    if ($isi != '') {
-                        $true = 1;
+                    foreach ($indikator as $indi) {
+                        $isi = $data->val($i, $j, $s);
+                        if ($isi != '') {
+                            $true = 1;
+                        }
+
+                        $j++;
+                    }
+                    if ($true == 1) {
+                        $dels .= $id_subjek . ',';
+                        $true = 0;
+                    }
+                }
+
+                $dels .= '9999999';
+                //cek ada row
+                $this->db->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
+                $dels = '';
+
+                for ($i = $br; $i <= $baris; $i++) {
+                    $id_subjek = $data->val($i, $kl - 1, $s);
+                    if (strlen($id_subjek) > 14 && $subjek == 1) {
+                        $isbj = $this->config_id()
+                            ->where('nik', $id_subjek)
+                            ->get('penduduk_hidup')
+                            ->row_array();
+                        $id_subjek = $isbj['id'];
+                    } elseif ($subject == 3) {
+                        // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
+                        $id_subjek = $this->db->select('id')
+                            ->where('id_rtm', $id_subjek)
+                            ->get('tweb_rtm')
+                            ->row()
+                            ->id;
                     }
 
-                    $j++;
-                }
-                if ($true == 1) {
-                    $dels .= $id_subjek . ',';
-                    $true = 0;
-                }
-            }
+                    $j   = $kl + $op;
+                    $all = '';
 
-            $dels .= '9999999';
-            //cek ada row
-            $this->db->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
-            $dels = '';
+                    foreach ($indikator as $indi) {
+                        $isi = $data->val($i, $j, $s);
+                        if ($isi != '') {
+                            if ($indi['id_tipe'] == 1) {
+                                $param = $this->config_id()
+                                    ->where('id_indikator', $indi['id'])
+                                    ->group_start()
+                                    ->where('kode_jawaban', $isi)
+                                    ->or_where('jawaban', $isi)
+                                    ->group_end()
+                                    ->get('analisis_parameter')
+                                    ->row_array();
 
-            for ($i = $br; $i <= $baris; $i++) {
-                $id_subjek = $data->val($i, $kl - 1, $s);
-                if (strlen($id_subjek) > 14 && $subjek == 1) {
-                    $isbj = $this->config_id()
-                        ->where('nik', $id_subjek)
-                        ->get('penduduk_hidup')
-                        ->row_array();
-                    $id_subjek = $isbj['id'];
-                } elseif ($subject == 3) {
-                    // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
-                    $id_subjek = $this->db->select('id')
-                        ->where('id_rtm', $id_subjek)
-                        ->get('tweb_rtm')
-                        ->row()
-                        ->id;
-                }
+                                if ($param) {
+                                    $in_param = $param['id'];
+                                } elseif ($isi == '') {
+                                    $in_param = 0;
+                                } else {
+                                    $in_param = -1;
+                                }
 
-                $j   = $kl + $op;
-                $all = '';
-
-                foreach ($indikator as $indi) {
-                    $isi = $data->val($i, $j, $s);
-                    if ($isi != '') {
-                        if ($indi['id_tipe'] == 1) {
-                            $param = $this->config_id()
-                                ->where('id_indikator', $indi['id'])
-                                ->where('kode_jawaban', $isi)
-                                ->get('analisis_parameter')
-                                ->row_array();
-
-                            if ($param) {
-                                $in_param = $param['id'];
-                            } elseif ($isi == '') {
-                                $in_param = 0;
+                                $respon[] = [
+                                    'id_parameter' => $in_param,
+                                    'id_indikator' => $indi['id'],
+                                    'id_subjek'    => $id_subjek,
+                                    'id_periode'   => $per,
+                                ];
+                            } elseif ($indi['id_tipe'] == 2) {
+                                $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
                             } else {
-                                $in_param = -1;
-                            }
-
-                            $respon[] = [
-                                'id_parameter' => $in_param,
-                                'id_indikator' => $indi['id'],
-                                'id_subjek'    => $id_subjek,
-                                'id_periode'   => $per,
-                            ];
-                        } elseif ($indi['id_tipe'] == 2) {
-                            $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
-                        } else {
-                            $param = $this->config_id()
-                                ->where('id_indikator', $indi['id'])
-                                ->where('jawaban', $isi)
-                                ->get('analisis_parameter')
-                                ->row_array();
-
-                            // apakah sdh ada jawaban yg sama
-                            if ($param) {
-                                $in_param = $param['id'];
-                            } else {
-                                $parameter['jawaban']      = $isi;
-                                $parameter['id_indikator'] = $indi['id'];
-                                $parameter['asign']        = 0;
-                                $parameter['config_id']    = $this->config_id;
-
-                                $this->db->insert('analisis_parameter', $parameter);
-
                                 $param = $this->config_id()
                                     ->where('id_indikator', $indi['id'])
                                     ->where('jawaban', $isi)
                                     ->get('analisis_parameter')
                                     ->row_array();
-                                $in_param = $param['id'];
+
+                                // apakah sdh ada jawaban yg sama
+                                if ($param) {
+                                    $in_param = $param['id'];
+                                } else {
+                                    $parameter['jawaban']      = $isi;
+                                    $parameter['id_indikator'] = $indi['id'];
+                                    $parameter['asign']        = 0;
+                                    $parameter['config_id']    = $this->config_id;
+
+                                    $this->db->insert('analisis_parameter', $parameter);
+
+                                    $param = $this->config_id()
+                                        ->where('id_indikator', $indi['id'])
+                                        ->where('jawaban', $isi)
+                                        ->get('analisis_parameter')
+                                        ->row_array();
+                                    $in_param = $param['id'];
+                                }
+
+                                $respon[] = [
+                                    'id_parameter' => $in_param,
+                                    'id_indikator' => $indi['id'],
+                                    'id_subjek'    => $id_subjek,
+                                    'id_periode'   => $per,
+                                ];
                             }
-
-                            $respon[] = [
-                                'id_parameter' => $in_param,
-                                'id_indikator' => $indi['id'],
-                                'id_subjek'    => $id_subjek,
-                                'id_periode'   => $per,
-                            ];
                         }
-                    }
 
-                    $j++;
+                        $j++;
+                    }
+                }
+
+                if (count($respon) > 0) {
+                    $outp = $this->db->insert_batch('analisis_respon', $respon);
+                } else {
+                    return [
+                        'success' => false,
+                        'message' => 'Tidak ada data yang diimpor',
+                    ];
                 }
             }
 
-            if (count($respon) > 0) {
-                $outp = $this->db->insert_batch('analisis_respon', $respon);
-            } else {
-                $outp                  = false;
-                $_SESSION['error_msg'] = 'Tidak ada data';
-            }
+            $this->pre_update();
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'pesan'   => $e->getMessage(),
+            ];
         }
 
-        $this->pre_update();
-
-        status_sukses($outp); //Tampilkan Pesan
+        return [
+            'success' => true,
+            'message' => 'Data berhasil diimpor',
+        ];
     }
 
     private function respon_checkbox($indi, $isi, $id_subjek, $per, &$respon): void
