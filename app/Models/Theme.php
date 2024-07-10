@@ -164,8 +164,13 @@ class Theme extends BaseModel
             $model->slug = Str::slug('desa-' . $model->nama);
         });
 
+        static::updating(static function ($model): void {
+            cache()->forget('theme_active');
+        });
+
         static::deleting(static function ($model): void {
             File::deleteDirectory($model->path);
+            cache()->forget('theme_active');
         });
     }
 }

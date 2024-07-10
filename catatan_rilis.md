@@ -32,3 +32,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#7815](https://github.com/OpenSID/OpenSID/issues/7815) Penyesuaian modul inventaris tanah menggunakan ORM dan Blade.
 4. [#7577](https://github.com/OpenSID/OpenSID/issues/7577) Penyesuaian validation menggunakan illuminate/validation.
 5. [#8152](https://github.com/OpenSID/OpenSID/issues/8152) Penyesuaian config mengikuti struktur laravel.
+6. [#8179](https://github.com/OpenSID/OpenSID/issues/8179) Penyesuaian dan optimasi load view tema.
