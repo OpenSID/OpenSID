@@ -44,7 +44,7 @@ class Plugin extends Admin_Controller
     public $modul_ini       = 'pengaturan';
     public $sub_modul_ini   = 'modul';
     public $aliasController = 'modul';
-    private $modulesDirectory;
+    private int|string $modulesDirectory;
 
     public function __construct()
     {
@@ -80,7 +80,10 @@ class Plugin extends Admin_Controller
         view('admin.plugin.index', $data);
     }
 
-    private function paketTerpasang()
+    /**
+     * @return mixed[]
+     */
+    private function paketTerpasang(): array
     {
         $terpasang         = [];
         $moduleDirectories = glob($this->modulesDirectory . '*', GLOB_ONLYDIR);
@@ -97,7 +100,7 @@ class Plugin extends Admin_Controller
 
     public function pasang(): void
     {
-        [$name, $url, $version] = explode('___', $this->request['pasang']);
+        [$name, $url, $version] = explode('___', (string) $this->request['pasang']);
         $pasangBaru             = true;
         if ($version !== '' && $version !== '0') {
             forceRemoveDir($this->modulesDirectory . $name);
@@ -174,26 +177,22 @@ class Plugin extends Admin_Controller
         redirect('plugin/installed');
     }
 
-    private function jalankanMigrasi($name, string $action = 'up'): void
+    private function jalankanMigrasi(string $name, string $action = 'up'): void
     {
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
-        if ($action == 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+        if ($action === 'up') {
+            usort($migrations, static fn ($a, $b): int => strcmp((string) $a, (string) $b));
         }
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
 
-            switch($action) {
-                case 'down':
-                    $migrateFile->down();
-                    break;
-
-                default:
-                    $migrateFile->up();
-            }
+            match ($action) {
+                'down' => $migrateFile->down(),
+                default => $migrateFile->up(),
+            };
         }
 
         cache()->flush();

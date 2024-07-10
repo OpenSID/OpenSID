@@ -174,7 +174,7 @@ class Point extends Admin_Controller
         }
     }
 
-    private function validasi($post, $parent = 0)
+    private function validasi(array $post, $parent = 0)
     {
         $data['nama']    = nomor_surat_keputusan($post['nama']);
         $data['simbol']  = $post['simbol'];

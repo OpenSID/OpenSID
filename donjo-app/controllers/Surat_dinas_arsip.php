@@ -57,7 +57,7 @@ class Surat_dinas_arsip extends Admin_Controller
     public $modul_ini     = 'surat-dinas';
     public $sub_modul_ini = 'arsip-surat-dinas';
     private $isAdmin;
-    private TinyMCE $tinymce;
+    private readonly TinyMCE $tinymce;
 
     public function __construct()
     {
@@ -114,7 +114,7 @@ class Surat_dinas_arsip extends Admin_Controller
         $this->show($data);
     }
 
-    private function show($dataView): void
+    private function show(array $dataView): void
     {
         if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
             $data['operator'] = ($this->isAdmin->jabatan_id == kades()->id || $this->isAdmin->jabatan_id == sekdes()->id) ? false : true;

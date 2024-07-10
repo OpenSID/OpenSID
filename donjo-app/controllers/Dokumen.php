@@ -231,8 +231,9 @@ class Dokumen extends Admin_Controller
      * @param int        $id_dokumen Id berkas pada koloam dokumen.id
      * @param mixed|null $id_pend
      * @param mixed      $tampil
+     * @param mixed      $popup
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false): void
+    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false, $popup = 0): void
     {
         // Ambil nama berkas dari database
         $data = DokumenHidup::getDokumen($id_dokumen);
@@ -241,12 +242,12 @@ class Dokumen extends Admin_Controller
             redirect($data['url']);
         }
 
-        ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil);
+        ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $tampil, $popup);
     }
 
-    public function tampilkan_berkas($id_dokumen, $id_pend = null): void
+    public function tampilkan_berkas($id_dokumen, $id_pend = 0 ? null : null, $popup = 0): void
     {
-        $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
+        $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true, $popup);
     }
 
     public function ekspor()

@@ -154,13 +154,13 @@ class JsonFormatter extends NormalizerFormatter
             return 'Over '.$this->maxNormalizeDepth.' levels deep, aborting normalization';
         }
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $normalized = [];
 
             $count = 1;
             foreach ($data as $key => $value) {
                 if ($count++ > $this->maxNormalizeItemCount) {
-                    $normalized['...'] = 'Over '.$this->maxNormalizeItemCount.' items ('.count($data).' total), aborting normalization';
+                    $normalized['...'] = 'Over '.$this->maxNormalizeItemCount.' items ('.\count($data).' total), aborting normalization';
                     break;
                 }
 
@@ -170,7 +170,7 @@ class JsonFormatter extends NormalizerFormatter
             return $normalized;
         }
 
-        if (is_object($data)) {
+        if (\is_object($data)) {
             if ($data instanceof \DateTimeInterface) {
                 return $this->formatDate($data);
             }
@@ -188,10 +188,14 @@ class JsonFormatter extends NormalizerFormatter
                 return $data->__toString();
             }
 
+            if (\get_class($data) === '__PHP_Incomplete_Class') {
+                return new \ArrayObject($data);
+            }
+
             return $data;
         }
 
-        if (is_resource($data)) {
+        if (\is_resource($data)) {
             return parent::normalize($data);
         }
 

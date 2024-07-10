@@ -96,7 +96,7 @@ class Simbol extends Admin_Controller
         $outp    = true;
 
         foreach ($files as $file) {
-            if ($file !== '' && $file != '.' && $file != '..') {
+            if ($file !== '' && $file !== '.' && $file !== '..') {
                 $source      = $dir . '/' . $file;
                 $destination = $new_dir . '/' . $file;
                 if (! file_exists($destination)) {
@@ -123,7 +123,7 @@ class Simbol extends Admin_Controller
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $this->load->library('MY_Upload', null, 'upload');
         $namaFile = $_FILES['simbol']['full_path'];
-        if (strlen($namaFile) > 27) {
+        if (strlen((string) $namaFile) > 27) {
             $config['file_name'] = 'simbol_' . time();   // maksimal 40 karakter di db
         }
         $this->upload->initialize($config);

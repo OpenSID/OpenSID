@@ -24,19 +24,19 @@
 </title>
 
 <link rel="shortcut icon" href="<?= favico_desa() ?>"/>
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/animate.css"); ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/slick.css"); ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.min.css"); ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.min.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/bootstrap.min.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/font-awesome.min.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/animate.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/slick.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/theme.min.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/style.min.css"); ?>">
 <link rel='stylesheet' href="<?= asset('css/font-awesome.min.css'); ?>"/>
 <link rel="stylesheet" href="<?= asset('css/leaflet.css'); ?>"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
 <link rel="stylesheet" href="<?= asset('css/mapbox-gl.css'); ?>"/>
 <link rel="stylesheet" href="<?= asset('css/peta.css'); ?>">
 <link rel="stylesheet" href="<?= asset('bootstrap/css/dataTables.bootstrap.min.css'); ?>">
-<link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css"); ?>">
+<link rel="stylesheet" href="<?= theme_asset("css/custom.css"); ?>">
 
 <?php if(isset($single_artikel)): ?>
 	<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]); ?>"/>
@@ -52,7 +52,7 @@
 <script language='javascript' src="<?= asset('front/js/jquery.min.js') ?>"></script>
 <script language='javascript' src="<?= asset('front/js/jquery.cycle2.min.js') ?>"></script>
 <script language='javascript' src="<?= asset('front/js/jquery.cycle2.carousel.js') ?>"></script>
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script>
+<script src="<?= theme_asset("js/bootstrap.min.js") ?>"></script>
 <script src="<?= asset('js/leaflet.js') ?>"></script>
 <script src="<?= asset('front/js/layout.js') ?>"></script>
 <script src="<?= asset('front/js/jquery.colorbox.js') ?>"></script>
@@ -114,7 +114,7 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
 
 <!-- lazy load images -->
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/yall/yall.min.js") ?>"></script>
+<script src="<?= theme_asset("js/yall/yall.min.js") ?>"></script>
 
 <style>
 	img.yall_loaded {
@@ -148,7 +148,7 @@
 
 
 <!--[if lt IE 9]>
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js") ?>"></script>
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js") ?>"></script>
+<script src="<?= theme_asset("js/html5shiv.min.js") ?>"></script>
+<script src="<?= theme_asset("js/respond.min.js") ?>"></script>
 <![endif]-->
 <?= view('admin.layouts.components.token') ?>

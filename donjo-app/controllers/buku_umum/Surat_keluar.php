@@ -137,7 +137,7 @@ class Surat_keluar extends Admin_Controller
         }
 
         // Buang unique id pada link nama file
-        $berkas                              = explode('__sid__', $data['surat_keluar']['berkas_scan']);
+        $berkas                              = explode('__sid__', (string) $data['surat_keluar']['berkas_scan']);
         $namaFile                            = $berkas[0];
         $ekstensiFile                        = explode('.', end($berkas));
         $ekstensiFile                        = end($ekstensiFile);
@@ -162,7 +162,7 @@ class Surat_keluar extends Admin_Controller
 
         // Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
         // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-        if ($adaLampiran && ((strlen($_FILES['satuan']['name']) + 20) >= 100)) {
+        if ($adaLampiran && ((strlen((string) $_FILES['satuan']['name']) + 20) >= 100)) {
             redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
         }
 
@@ -233,7 +233,7 @@ class Surat_keluar extends Admin_Controller
             }
             // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
             // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
-            if ((strlen($_FILES['satuan']['name']) + 20) >= 100) {
+            if ((strlen((string) $_FILES['satuan']['name']) + 20) >= 100) {
                 redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
             }
             // Inisialisasi library 'upload'
@@ -288,9 +288,9 @@ class Surat_keluar extends Admin_Controller
         // Normalkan tanggal
         $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
         // Bersihkan data
-        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags($data['nomor_surat']));
-        $data['tujuan']      = strip_tags($data['tujuan']);
-        $data['isi_singkat'] = strip_tags($data['isi_singkat']);
+        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags((string) $data['nomor_surat']));
+        $data['tujuan']      = strip_tags((string) $data['tujuan']);
+        $data['isi_singkat'] = strip_tags((string) $data['isi_singkat']);
     }
 
     public function delete($id): void

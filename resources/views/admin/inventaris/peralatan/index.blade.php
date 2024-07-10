@@ -124,7 +124,7 @@
                     },
                     {
                         data: 'kode_barang_register',
-                        name: 'kode_barang_register'
+                        name: 'kode_barang'
                     },
                     {
                         data: 'merk',

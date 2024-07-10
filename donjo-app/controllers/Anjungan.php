@@ -128,7 +128,7 @@ class Anjungan extends Admin_Controller
     {
         isCan('u');
 
-        if (AnjunganModel::create(static::validated($this->request))) {
+        if (AnjunganModel::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
         redirect_with('error', 'Gagal Tambah Data');
@@ -140,7 +140,7 @@ class Anjungan extends Admin_Controller
 
         $data = AnjunganModel::findOrFail($id);
 
-        if ($data->update(static::validated($this->request, $id))) {
+        if ($data->update(static::validate($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -171,7 +171,7 @@ class Anjungan extends Admin_Controller
     }
 
     // Hanya filter inputan
-    protected static function validated(array $request = [], $id = null): array
+    protected static function validate(array $request = [], $id = null): array
     {
         $anjungan      = AnjunganModel::find($id);
         $ip_address    = AnjunganModel::tipe(1)->where('ip_address', $request['ip_address'])->first();

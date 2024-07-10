@@ -100,66 +100,65 @@ if ($input['id_pend_saksi_i']) {
     $input['no_kk_saksi1']           = $saksi1['no_kk'];
     $input['kewarganegaraan_saksi1'] = $saksi1['warganegara'];
 } else {
-    $input["nik_saksi1"]           = get_nik($input['saksi_i']['nik']);
-    $input["nama_saksi1"]          = $input['saksi_i']['nama'];
-    $input["tanggal_lahir_saksi1"] = $input['saksi_i']['tanggallahir'];
-    $input["umur_saksi1"]          = str_pad(usia($input['saksi_i']['tanggallahir']), 3, '0', STR_PAD_LEFT);
-    $input["jksaksi11"]            = $input['saksi_i']['jenis_kelamin'];
-    $input["pekerjaanid_saksi1"]   = str_pad($input['saksi_i']['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
-    $input["pekerjaansaksi1"]      = $input['saksi_i']['pekerjaan'];
-    $input["alamat_saksi1"]        = trim($input['saksi_i']['alamat_jalan'] . ' ' . $input['saksi_i']['nama_dusun']);
-    $input["rt_saksi1"]            = $input['saksi_i']['nama_rt'];
-    $input["rw_saksi1"]            = $input['saksi_i']['nama_rw'];
-    $input["desasaksi1"]           = $input['saksi_i']['pend_desa'];
-    $input["kecsaksi1"]            = $input['saksi_i']['pend_kecamatan'];
-    $input["kabsaksi1"]            = $input['saksi_i']['pend_kabupaten'];
-    $input["provinsisaksi1"]       = $input['saksi_i']['pend_propinsi'];
+    $input['nik_saksi1']           = get_nik($input['saksi_i']['nik']);
+    $input['nama_saksi1']          = $input['saksi_i']['nama'];
+    $input['tanggal_lahir_saksi1'] = $input['saksi_i']['tanggallahir'];
+    $input['umur_saksi1']          = str_pad(usia($input['saksi_i']['tanggallahir']), 3, '0', STR_PAD_LEFT);
+    $input['jksaksi11']            = $input['saksi_i']['jenis_kelamin'];
+    $input['pekerjaanid_saksi1']   = str_pad($input['saksi_i']['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
+    $input['pekerjaansaksi1']      = $input['saksi_i']['pekerjaan'];
+    $input['alamat_saksi1']        = trim($input['saksi_i']['alamat_jalan'] . ' ' . $input['saksi_i']['nama_dusun']);
+    $input['rt_saksi1']            = $input['saksi_i']['nama_rt'];
+    $input['rw_saksi1']            = $input['saksi_i']['nama_rw'];
+    $input['desasaksi1']           = $input['saksi_i']['pend_desa'];
+    $input['kecsaksi1']            = $input['saksi_i']['pend_kecamatan'];
+    $input['kabsaksi1']            = $input['saksi_i']['pend_kabupaten'];
+    $input['provinsisaksi1']       = $input['saksi_i']['pend_propinsi'];
 
     // Tambahan
     // TODO: tambahkan no kk di kode isian penduduk luar
     // $input["no_kk_saksi{$i}"]           = '';
-    $input["kewarganegaraan_saksi1"] = $input['saksi_i']['warga_negara'];
+    $input['kewarganegaraan_saksi1'] = $input['saksi_i']['warga_negara'];
 }
 
 if ($input['id_pend_saksi_ii']) {
-    $saksi1                        = $this->surat_model->get_data_surat($input['id_pend_saksi_ii']);
-    $input['nik_saksi2']           = get_nik($saksi1['nik']);
-    $input['nama_saksi2']          = $saksi1['nama'];
-    $input['tanggal_lahir_saksi2'] = $saksi1['tanggallahir'];
-    $input['umur_saksi2']          = str_pad($saksi1['umur'], 3, '0', STR_PAD_LEFT);
-    $input['jksaksi2']             = $saksi1['sex_id'];
-    $input['pekerjaanid_saksi2']   = str_pad($saksi1['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
-    $input['pekerjaansaksi2']      = $saksi1['pekerjaan'];
-    $input['alamat_saksi2']        = trim($saksi1['alamat'] . ' ' . $saksi1['dusun']);
-    $input['rt_saksi2']            = $saksi1['rt'];
-    $input['rw_saksi2']            = $saksi1['rw'];
+    $saksi2                        = $this->surat_model->get_data_surat($input['id_pend_saksi_ii']);
+    $input['nik_saksi2']           = get_nik($saksi2['nik']);
+    $input['nama_saksi2']          = $saksi2['nama'];
+    $input['tanggal_lahir_saksi2'] = $saksi2['tanggallahir'];
+    $input['umur_saksi2']          = str_pad($saksi2['umur'], 3, '0', STR_PAD_LEFT);
+    $input['jksaksi2']             = $saksi2['sex_id'];
+    $input['pekerjaanid_saksi2']   = str_pad($saksi2['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
+    $input['pekerjaansaksi2']      = $saksi2['pekerjaan'];
+    $input['alamat_saksi2']        = trim($saksi2['alamat'] . ' ' . $saksi2['dusun']);
+    $input['rt_saksi2']            = $saksi2['rt'];
+    $input['rw_saksi2']            = $saksi2['rw'];
     $input['desasaksi2']           = $config['nama_desa'];
     $input['kecsaksi2']            = $config['nama_kecamatan'];
     $input['kabsaksi2']            = $config['nama_kabupaten'];
     $input['provinsisaksi2']       = $config['nama_propinsi'];
 
     // Tambahan
-    $input['no_kk_saksi2']           = $saksi1['no_kk'];
-    $input['kewarganegaraan_saksi2'] = $saksi1['warganegara'];
+    $input['no_kk_saksi2']           = $saksi2['no_kk'];
+    $input['kewarganegaraan_saksi2'] = $saksi2['warganegara'];
 } else {
-    $input["nik_saksi2"]           = get_nik($input['saksi_ii']['nik']);
-    $input["nama_saksi2"]          = $input['saksi_ii']['nama'];
-    $input["tanggal_lahir_saksi2"] = $input['saksi_ii']['tanggallahir'];
-    $input["umur_saksi2"]          = str_pad(usia($input['saksi_ii']['tanggallahir']), 3, '0', STR_PAD_LEFT);
-    $input["jksaksi12"]            = $input['saksi_ii']['jenis_kelamin'];
-    $input["pekerjaanid_saksi2"]   = str_pad($input['saksi_ii']['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
-    $input["pekerjaansaksi2"]      = $input['saksi_ii']['pekerjaan'];
-    $input["alamat_saksi2"]        = trim($input['saksi_ii']['alamat_jalan'] . ' ' . $input['saksi_ii']['nama_dusun']);
-    $input["rt_saksi2"]            = $input['saksi_ii']['nama_rt'];
-    $input["rw_saksi2"]            = $input['saksi_ii']['nama_rw'];
-    $input["desasaksi2"]           = $input['saksi_ii']['pend_desa'];
-    $input["kecsaksi2"]            = $input['saksi_ii']['pend_kecamatan'];
-    $input["kabsaksi2"]            = $input['saksi_ii']['pend_kabupaten'];
-    $input["provinsisaksi2"]       = $input['saksi_ii']['pend_propinsi'];
+    $input['nik_saksi2']           = get_nik($input['saksi_ii']['nik']);
+    $input['nama_saksi2']          = $input['saksi_ii']['nama'];
+    $input['tanggal_lahir_saksi2'] = $input['saksi_ii']['tanggallahir'];
+    $input['umur_saksi2']          = str_pad(usia($input['saksi_ii']['tanggallahir']), 3, '0', STR_PAD_LEFT);
+    $input['jksaksi12']            = $input['saksi_ii']['jenis_kelamin'];
+    $input['pekerjaanid_saksi2']   = str_pad($input['saksi_ii']['pekerjaan_id'], 2, '0', STR_PAD_LEFT);
+    $input['pekerjaansaksi2']      = $input['saksi_ii']['pekerjaan'];
+    $input['alamat_saksi2']        = trim($input['saksi_ii']['alamat_jalan'] . ' ' . $input['saksi_ii']['nama_dusun']);
+    $input['rt_saksi2']            = $input['saksi_ii']['nama_rt'];
+    $input['rw_saksi2']            = $input['saksi_ii']['nama_rw'];
+    $input['desasaksi2']           = $input['saksi_ii']['pend_desa'];
+    $input['kecsaksi2']            = $input['saksi_ii']['pend_kecamatan'];
+    $input['kabsaksi2']            = $input['saksi_ii']['pend_kabupaten'];
+    $input['provinsisaksi2']       = $input['saksi_ii']['pend_propinsi'];
 
     // Tambahan
     // TODO: tambahkan no kk di kode isian penduduk luar
     // $input["no_kk_saksi{$i}"]           = '';
-    $input["kewarganegaraan_saksi2"] = $input['saksi_ii']['warga_negara'];
+    $input['kewarganegaraan_saksi2'] = $input['saksi_ii']['warga_negara'];
 }
-

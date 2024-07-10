@@ -4,7 +4,7 @@
 
 @section('title')
     <h1>
-        Daftar Inventaris Jalan
+        Daftar Inventaris Peralatan Dan Mesin
     </h1>
 @endsection
 
@@ -17,7 +17,7 @@
 @endpush
 
 @section('breadcrumb')
-    <li class="active">Daftar Inventaris Jalan</li>
+    <li class="active">Daftar Inventaris Peralatan Dan Mesin</li>
 @endsection
 
 @section('content')

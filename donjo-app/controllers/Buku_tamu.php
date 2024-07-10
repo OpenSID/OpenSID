@@ -135,7 +135,7 @@ class Buku_tamu extends Anjungan_Controller
             'jenis_kelamin' => bilangan($request['jenis_kelamin']),
             'alamat'        => htmlentities((string) $request['alamat']),
             'bidang'        => bilangan($request['id_bidang']),
-            'keperluan'     => bilangan($request['id_keperluan']),
+            'keperluan'     => htmlentities((string) $request['keperluan']),
         ];
     }
 

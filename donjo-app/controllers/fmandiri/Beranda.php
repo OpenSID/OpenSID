@@ -35,7 +35,11 @@
  *
  */
 
+use App\Models\KelompokAnggota;
+use App\Models\Keluarga;
 use App\Models\Pendapat;
+use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
 use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -59,29 +63,37 @@ class Beranda extends Mandiri_Controller
         }
     }
 
-    public function profil(): void
+    public function profil()
     {
         $data = [
-            'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
-            'kelompok' => $this->penduduk_model->list_kelompok($this->is_login->id_pend),
+            'penduduk' => Penduduk::find($this->is_login->id_pend),
+            'kelompok' => KelompokAnggota::with([
+                'kelompok' => [
+                    'kelompokMaster',
+                ],
+                'anggota',
+            ])
+                ->where('id_penduduk', $this->is_login->id_pend)
+                ->get(),
         ];
 
-        $this->render('profil', $data);
+        return view('layanan_mandiri.profil.index', $data);
     }
 
-    public function cetak_biodata(): void
+    public function cetak_biodata()
     {
         $data = [
             'desa'     => $this->header,
-            'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
+            'penduduk' => Penduduk::find($this->is_login->id_pend),
         ];
 
-        $this->load->view('sid/kependudukan/cetak_biodata', $data);
+        return view('layanan_mandiri.kependudukan.cetak_biodata', $data);
     }
 
-    public function cetak_kk(): void
+    public function cetak_kk()
     {
-        if ($this->is_login->id_kk == null) {
+        $id = $this->is_login->id_kk;
+        if ($id == null) {
             // Jika diakses melalui URL
             $respon = [
                 'status' => 1,
@@ -91,13 +103,16 @@ class Beranda extends Mandiri_Controller
 
             redirect('layanan-mandiri/beranda');
         }
+        $getdata          = Keluarga::with(['anggota', 'kepalaKeluarga'])->find($id);
+        $kk['main']       = $getdata->anggota;
+        $kk['desa']       = identitas();
+        $kk['kepala_kk']  = $getdata->kepalaKeluarga;
+        $data['all_kk'][] = $kk;
 
-        $data = $this->keluarga_model->get_data_cetak_kk($this->is_login->id_kk);
-
-        $this->load->view('sid/kependudukan/cetak_kk_all', $data);
+        return view('layanan_mandiri.kependudukan.cetak_kk_all', $data);
     }
 
-    public function ganti_pin(): void
+    public function ganti_pin()
     {
         $data = [
             'tgl_verifikasi_telegram' => $this->otp_library->driver('telegram')->cek_verifikasi_otp($this->is_login->id_pend),
@@ -106,12 +121,16 @@ class Beranda extends Mandiri_Controller
             'form_action'             => site_url('layanan-mandiri/proses-ganti-pin'),
         ];
 
-        $this->render('ganti_pin', $data);
+        return view('layanan_mandiri.pin.ganti_pin', $data);
     }
 
     public function proses_ganti_pin(): void
     {
-        $this->mandiri_model->ganti_pin();
+        $id_pend         = $this->is_login->id_pend;
+        $nama            = $this->session->is_login->nama;
+        $pendudukMandiri = new PendudukMandiri();
+        $pendudukMandiri->gantiPin($id_pend, $nama, $this->input->post());
+
         redirect('layanan-mandiri/ganti-pin');
     }
 

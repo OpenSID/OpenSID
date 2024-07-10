@@ -93,6 +93,17 @@
                 <ul class="dropdown-menu" role="menu">
                     <li>
                         <a
+                            href="{{ ci_route('keluarga.program_bantuan') }}"
+                            class="btn btn-social btn-block btn-sm"
+                            title="Pencarian Program Bantuan"
+                            data-remote="false"
+                            data-toggle="modal"
+                            data-target="#modalBox"
+                            data-title="Pencarian Program Bantuan"
+                        ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                    <li>
+                    <li>
+                        <a
                             href="{{ ci_route('keluarga.search_kumpulan_kk') }}"
                             class="btn btn-social btn-block btn-sm"
                             title="Pilihan Kumpulan KK"
@@ -103,16 +114,9 @@
                         ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
                     </li>
                     <li>
-                        <a
-                            href="{{ ci_route('keluarga.program_bantuan') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Pencarian Program Bantuan"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Pencarian Program Bantuan"
-                        ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
-                    <li>
+                        <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara"><i class="fa fa-search"></i> No KK
+                            Sementara</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -181,6 +185,9 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            let kumpulanKK = urlParams.getAll('kumpulanKK[]');
+
             let filterColumn = {!! json_encode($filterColumn) !!}
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
@@ -194,7 +201,8 @@
                         req.dusun = $('#dusun').val();
                         req.rw = $('#rw').val();
                         req.rt = $('#rt').val();
-                        req.kumpulanKK = $('#tabeldata').data('kumpulanKK')
+                        req.kumpulanKK = $('#tabeldata').data('kumpulanKK') ?? kumpulanKK
+                        req.kk_sementara = $('#tabeldata').data('kk_sementara')
                         req.bantuan = $('#tabeldata').data('bantuan')
                         req.statistikfilter = $('#tabeldata').data('statistikfilter')
                     }

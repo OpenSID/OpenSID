@@ -59,7 +59,7 @@ class Statistik_web extends Web_Controller
             $data['kategori']       = 'bantuan';
         } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) {
             $data['kategori'] = 'bantuan';
-        } elseif ((int) $lap > 20 || "{$lap}" == 'kelas_sosial') {
+        } elseif ((int) $lap > 20 || "{$lap}" === 'kelas_sosial') {
             $data['kategori'] = 'keluarga';
         } else {
             $data['kategori'] = 'penduduk';
@@ -174,14 +174,14 @@ class Statistik_web extends Web_Controller
         $this->load->view('gis/kadus/', $data);
     }
 
-    private function cek_akses($lap)
+    private function cek_akses($lap): ?bool
     {
-        $pengaturan = json_decode(setting('tampilkan_tombol_peta'), true);
+        $pengaturan = json_decode((string) setting('tampilkan_tombol_peta'), true);
 
         if (((int) $lap > 50 || in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) && in_array('Statistik Bantuan', $pengaturan)) {
             return true;
         }
-        if (((int) $lap > 20 || "{$lap}" == 'kelas_sosial') && in_array('Statistik Keluarga', $pengaturan)) {
+        if (((int) $lap > 20 || "{$lap}" === 'kelas_sosial') && in_array('Statistik Keluarga', $pengaturan)) {
             return true;
         }
         if (((int) $lap < 20) && in_array('Statistik Penduduk', $pengaturan)) {

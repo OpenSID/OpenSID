@@ -38,6 +38,7 @@
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
+use App\Enums\StatusEnum;
 use App\Models\Agama;
 use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
@@ -66,7 +67,7 @@ class Pengurus extends Admin_Controller
     public function index(): void
     {
         $data['main_content']       = 'admin.pengurus.index';
-        $data['subtitle']           = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
+        $data['subtitle']           = 'Buku ' . ucwords((string) setting('sebutan_pemerintah_desa'));
         $data['selected_nav']       = 'pengurus';
         $data['jabatanSekdes']      = sekdes()->id;
         $data['jabatanKadesSekdes'] = RefJabatan::getKadesSekdes();
@@ -82,7 +83,7 @@ class Pengurus extends Admin_Controller
             $kehadiran = $this->input->get('kehadiran') ?? null;
 
             return datatables()->of(Pamong::urut())
-                ->filter(static function ($query) use ($status, $kehadiran) {
+                ->filter(static function ($query) use ($status, $kehadiran): void {
                     $query->when($status, static fn ($q) => $q->where('pamong_status', $status));
                     $query->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
                 })
@@ -134,6 +135,7 @@ class Pengurus extends Admin_Controller
                 ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
                 ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
                 ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
+                ->editColumn('jabatan.nama', static fn ($row) => $row->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->jabatan->nama : $row->jabatan->nama)
                 ->filterColumn('identitas', static function ($query, $keyword): void {
                     $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
                         ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
@@ -179,6 +181,7 @@ class Pengurus extends Admin_Controller
         }
 
         $data['jabatan']       = $semua_jabatan;
+        $data['kades_id']      = kades()->id;
         $data['atasan']        = Pamong::listAtasan($id)->get();
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
         $data['agama']         = Agama::pluck('nama', 'id');
@@ -202,7 +205,7 @@ class Pengurus extends Admin_Controller
             redirect('pengurus/form');
         } else {
             $post = $this->input->post();
-            $data = $this->validated($post);
+            $data = $this->validate($post);
 
             $data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
@@ -232,7 +235,7 @@ class Pengurus extends Admin_Controller
             redirect("pengurus/form/{$id}");
         } else {
             $post = $this->input->post();
-            $data = $this->validated($post, $id);
+            $data = $this->validate($post, $id);
             RefJabatan::getKades()->id;
             RefJabatan::getSekdes()->id;
 
@@ -294,34 +297,36 @@ class Pengurus extends Admin_Controller
         return $kehadiranPerangkat || $kehadiranPengaduan || $kehadiranPengaduan;
     }
 
-    protected function validated($post, $id = null)
+    protected function validate($post, $id = null)
     {
         $data                       = [];
         $data['id_pend']            = $post['id_pend'];
         $data['pamong_nama']        = null;
-        $data['pamong_nip']         = strip_tags($post['pamong_nip']);
-        $data['pamong_niap']        = strip_tags($post['pamong_niap']);
-        $data['pamong_tag_id_card'] = strip_tags($post['pamong_tag_id_card']) ?: null;
-        $data['pamong_pin']         = strip_tags($post['pamong_pin']);
+        $data['pamong_nip']         = strip_tags((string) $post['pamong_nip']);
+        $data['pamong_niap']        = strip_tags((string) $post['pamong_niap']);
+        $data['pamong_tag_id_card'] = strip_tags((string) $post['pamong_tag_id_card']) ?: null;
+        $data['pamong_pin']         = strip_tags((string) $post['pamong_pin']);
         $data['jabatan_id']         = bilangan($post['jabatan_id']);
-        $data['pamong_pangkat']     = strip_tags($post['pamong_pangkat']);
+        $data['pamong_pangkat']     = strip_tags((string) $post['pamong_pangkat']);
         $data['pamong_status']      = $post['pamong_status'];
-        $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
+        $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags((string) $post['pamong_nosk']);
         $data['pamong_tglsk']       = empty($post['pamong_tglsk']) ? null : tgl_indo_in($post['pamong_tglsk']);
-        $data['pamong_nohenti']     = empty($post['pamong_nohenti']) ? null : strip_tags($post['pamong_nohenti']);
+        $data['pamong_nohenti']     = empty($post['pamong_nohenti']) ? null : strip_tags((string) $post['pamong_nohenti']);
         $data['pamong_tglhenti']    = empty($post['pamong_tglhenti']) ? null : tgl_indo_in($post['pamong_tglhenti']);
-        $data['pamong_masajab']     = strip_tags($post['pamong_masajab']) ?: null;
+        $data['pamong_masajab']     = strip_tags((string) $post['pamong_masajab']) ?: null;
         $data['atasan']             = bilangan($post['atasan']) ?: null;
         $data['bagan_tingkat']      = bilangan($post['bagan_tingkat']) ?: null;
         $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
-        $data['bagan_layout']       = htmlentities($post['bagan_layout']);
+        $data['bagan_layout']       = htmlentities((string) $post['bagan_layout']);
         $data['bagan_warna']        = warna($post['bagan_warna']);
-        $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
-        $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
+        $data['gelar_depan']        = strip_tags((string) $post['gelar_depan']) ?: null;
+        $data['gelar_belakang']     = strip_tags((string) $post['gelar_belakang']) ?: null;
         $data['media_sosial']       = $post['media_sosial'];
+        $data['status_pejabat']     = 0;
 
         if ($data['jabatan_id'] == kades()->id) {
-            $data['urut'] = 1;
+            $data['urut']           = 1;
+            $data['status_pejabat'] = $post['status_pejabat'];
         } elseif ($data['jabatan_id'] == sekdes()->id) {
             $data['urut'] = 2;
         } elseif ($id == 0 || $id == null) {
@@ -330,9 +335,9 @@ class Pengurus extends Admin_Controller
 
         if (empty($data['id_pend'])) {
             $data['id_pend']             = null;
-            $data['pamong_nama']         = strip_tags($post['pamong_nama']);
-            $data['pamong_nik']          = strip_tags($post['pamong_nik']) ?: null;
-            $data['pamong_tempatlahir']  = strip_tags($post['pamong_tempatlahir']) ?: null;
+            $data['pamong_nama']         = strip_tags((string) $post['pamong_nama']);
+            $data['pamong_nik']          = strip_tags((string) $post['pamong_nik']) ?: null;
+            $data['pamong_tempatlahir']  = strip_tags((string) $post['pamong_tempatlahir']) ?: null;
             $data['pamong_tanggallahir'] = empty($post['pamong_tanggallahir']) ? null : tgl_indo_in($post['pamong_tanggallahir']);
             $data['pamong_sex']          = $post['pamong_sex'] ?: null;
             $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;

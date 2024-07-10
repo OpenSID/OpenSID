@@ -35,6 +35,43 @@
  *
  */
 
+use App\Models\Penduduk;
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mandiri_model extends MY_Model
@@ -353,7 +390,7 @@ class Mandiri_model extends MY_Model
     }
 
     //Login Layanan Mandiri
-    public function siteman(): void
+    public function siteman($anjungan = false): void
     {
         session_error_clear();
 
@@ -384,9 +421,11 @@ class Mandiri_model extends MY_Model
             switch (true) {
                 case $data && $pin == $data->pin:
                     $session = [
-                        'mandiri'    => 1,
-                        'is_login'   => $data,
-                        'login_ektp' => false,
+                        'mandiri'      => 1,
+                        'is_anjungan'  => $anjungan,
+                        'is_login'     => $data,
+                        'auth_mandiri' => Penduduk::find($data->id_pend),
+                        'login_ektp'   => false,
                     ];
                     $this->session->set_userdata($session);
                     break;
@@ -408,7 +447,7 @@ class Mandiri_model extends MY_Model
     }
 
     //Login Layanan Mandiri E-KTP
-    public function siteman_ektp(): void
+    public function siteman_ektp($anjungan): void
     {
         session_error_clear();
 
@@ -439,9 +478,11 @@ class Mandiri_model extends MY_Model
 
                 case $data && ! $this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin:
                     $session = [
-                        'mandiri'    => 1,
-                        'is_login'   => $data,
-                        'login_ektp' => true,
+                        'mandiri'      => 1,
+                        'is_anjungan'  => $anjungan,
+                        'is_login'     => $data,
+                        'auth_mandiri' => Penduduk::find($data->id_pend),
+                        'login_ektp'   => true,
                     ];
                     $this->session->set_userdata($session);
                     break;
@@ -474,7 +515,7 @@ class Mandiri_model extends MY_Model
             $this->update_login($data);
         }
 
-        $this->session->unset_userdata(['mandiri', 'is_login', 'data_permohonan']);
+        $this->session->unset_userdata(['mandiri', 'is_login', 'is_anjungan', 'data_permohonan']);
     }
 
     public function update_login(array $data = []): void

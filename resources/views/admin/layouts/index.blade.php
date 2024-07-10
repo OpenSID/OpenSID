@@ -87,8 +87,6 @@
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
 
-    @include('admin.layouts.components.token')
-
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <!-- Select2 -->
@@ -161,6 +159,8 @@
                 })
         </script>
     @endif
+    @include('admin.layouts.components.token')
+
 </body>
 
 </html>

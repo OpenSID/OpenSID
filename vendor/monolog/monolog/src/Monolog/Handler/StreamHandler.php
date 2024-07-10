@@ -48,7 +48,7 @@ class StreamHandler extends AbstractProcessingHandler
     {
         parent::__construct($level, $bubble);
 
-        if (($phpMemoryLimit = Utils::expandIniShorthandBytes(ini_get('memory_limit'))) !== false) {
+        if (($phpMemoryLimit = Utils::expandIniShorthandBytes(\ini_get('memory_limit'))) !== false) {
             if ($phpMemoryLimit > 0) {
                 // use max 10% of allowed memory for the chunk size, and at least 100KB
                 $this->streamChunkSize = min(static::MAX_CHUNK_SIZE, max((int) ($phpMemoryLimit / 10), 100 * 1024));
@@ -61,11 +61,11 @@ class StreamHandler extends AbstractProcessingHandler
             $this->streamChunkSize = static::DEFAULT_CHUNK_SIZE;
         }
 
-        if (is_resource($stream)) {
+        if (\is_resource($stream)) {
             $this->stream = $stream;
 
             stream_set_chunk_size($this->stream, $this->streamChunkSize);
-        } elseif (is_string($stream)) {
+        } elseif (\is_string($stream)) {
             $this->url = Utils::canonicalizePath($stream);
         } else {
             throw new \InvalidArgumentException('A stream must either be a resource or a string.');
@@ -80,7 +80,7 @@ class StreamHandler extends AbstractProcessingHandler
      */
     public function close(): void
     {
-        if (null !== $this->url && is_resource($this->stream)) {
+        if (null !== $this->url && \is_resource($this->stream)) {
             fclose($this->stream);
         }
         $this->stream = null;
@@ -115,14 +115,17 @@ class StreamHandler extends AbstractProcessingHandler
      */
     protected function write(LogRecord $record): void
     {
-        if (!is_resource($this->stream)) {
+        if (!\is_resource($this->stream)) {
             $url = $this->url;
             if (null === $url || '' === $url) {
                 throw new \LogicException('Missing stream url, the stream can not be opened. This may be caused by a premature call to close().' . Utils::getRecordMessageForException($record));
             }
             $this->createDir($url);
             $this->errorMessage = null;
-            set_error_handler([$this, 'customErrorHandler']);
+            set_error_handler(function (...$args) {
+                return $this->customErrorHandler(...$args);
+            });
+
             try {
                 $stream = fopen($url, 'a');
                 if ($this->filePermission !== null) {
@@ -131,7 +134,7 @@ class StreamHandler extends AbstractProcessingHandler
             } finally {
                 restore_error_handler();
             }
-            if (!is_resource($stream)) {
+            if (!\is_resource($stream)) {
                 $this->stream = null;
 
                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url) . Utils::getRecordMessageForException($record));
@@ -173,11 +176,11 @@ class StreamHandler extends AbstractProcessingHandler
     {
         $pos = strpos($stream, '://');
         if ($pos === false) {
-            return dirname($stream);
+            return \dirname($stream);
         }
 
         if ('file://' === substr($stream, 0, 7)) {
-            return dirname(substr($stream, 7));
+            return \dirname(substr($stream, 7));
         }
 
         return null;
@@ -193,7 +196,9 @@ class StreamHandler extends AbstractProcessingHandler
         $dir = $this->getDirFromStream($url);
         if (null !== $dir && !is_dir($dir)) {
             $this->errorMessage = null;
-            set_error_handler([$this, 'customErrorHandler']);
+            set_error_handler(function (...$args) {
+                return $this->customErrorHandler(...$args);
+            });
             $status = mkdir($dir, 0777, true);
             restore_error_handler();
             if (false === $status && !is_dir($dir) && strpos((string) $this->errorMessage, 'File exists') === false) {

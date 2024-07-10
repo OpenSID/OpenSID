@@ -62,7 +62,7 @@ class Lapak_pelapak_admin extends Admin_Controller
             log_message('error', json_encode($status));
 
             $query = Pelapak::listPelapak()
-                ->when($status !== '', static function ($query) use ($status) {
+                ->when($status !== '', static function ($query) use ($status): void {
                     $query->where('pelapak.status', $status);
                 });
 
@@ -206,7 +206,7 @@ class Lapak_pelapak_admin extends Admin_Controller
     public function dialog($aksi = 'cetak'): void
     {
         $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
+        $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = site_url("lapak_admin/pelapak/aksi/{$aksi}");
 
         view('admin.layouts.components.ttd_pamong', $data);

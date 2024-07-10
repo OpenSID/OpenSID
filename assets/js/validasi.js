@@ -44,9 +44,16 @@ $(document).ready(function() {
 				remote: "Nomor surat itu sudah digunakan",
 			},
 		},
-    success: function() {
-	    csrf_semua_form();
-    }
+		success: function() {
+			refreshFormCsrf();
+		},
+		invalidHandler: function () {
+			refreshFormCsrf();
+		},
+		submitHandler: function(form) {
+			refreshFormCsrf();
+			form.submit();
+		}
 	});
 
 	// Untuk form surat masuk/keluar memeriksa nomor urut secara remote/ajax
@@ -93,7 +100,7 @@ $(document).ready(function() {
 		}
 	});
 
-	validate("#validasi");
+	$("#validasi").validate();
 
 	$("#validasi-proses").validate({
 		ignore: ".ignore",

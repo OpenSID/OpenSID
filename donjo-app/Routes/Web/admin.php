@@ -127,7 +127,7 @@ Route::group('wilayah', static function (): void {
     Route::match(['GET', 'POST'], '/', 'Wilayah@index')->name('wilayah.index');
     Route::post('/insert/{level?}/{parent?}', 'Wilayah@insert')->name('wilayah.insert');
     Route::post('/update/{level?}/{id?}/{parent?}', 'Wilayah@update')->name('wilayah.update');
-    Route::get('/delete/{level?}/{id?}', 'Wilayah@delete')->name('wilayah.delete');
+    Route::get('/delete/{level?}/{id?}/{parent?}', 'Wilayah@delete')->name('wilayah.delete');
     Route::get('/cetak_rw/{id?}', 'Wilayah@cetak_rw')->name('wilayah.cetak_rw');
     Route::get('/unduh_rw/{id?}', 'Wilayah@unduh_rw')->name('wilayah.unduh_rw');
     Route::get('/cetak_rt/{id?}', 'Wilayah@cetak_rt')->name('wilayah.cetak_rt');
@@ -676,7 +676,7 @@ Route::group('permohonan_surat_admin', static function (): void {
     Route::get('/periksa/{id?}', 'Permohonan_surat_admin@periksa')->name('permohonan_surat_admin.periksa');
     Route::get('/proses/{id?}/{status?}', 'Permohonan_surat_admin@proses')->name('permohonan_surat_admin.proses');
     Route::get('/konfirmasi/{id_permohonan?}/{tipe?}', 'Permohonan_surat_admin@konfirmasi')->name('permohonan_surat_admin.konfirmasi');
-    Route::get('/kirim_pesan/{id_permohonan?}/{tipe?}', 'Permohonan_surat_admin@kirim_pesan')->name('permohonan_surat_admin.kirim_pesan');
+    Route::match(['GET', 'POST'], '/kirim_pesan/{id_permohonan?}/{tipe?}', 'Permohonan_surat_admin@kirim_pesan')->name('permohonan_surat_admin.kirim_pesan');
     Route::get('/delete/{id?}', 'Permohonan_surat_admin@delete')->name('permohonan_surat_admin.delete');
     Route::get('/tampilkan/{id_dokumen?}/{id_pend?}', 'Permohonan_surat_admin@tampilkan')->name('permohonan_surat_admin.tampilkan');
     Route::get('/unduh_berkas/{id_dokumen?}/{id_pend?}/{tampil?}', 'Permohonan_surat_admin@unduh_berkas')->name('permohonan_surat_admin.unduh_berkas');
@@ -808,54 +808,30 @@ Route::group('dokumen', static function (): void {
     Route::get('dialog_cetak/{aksi}', 'Dokumen@dialog_cetak')->name('dokumen.dialog_cetak');
     Route::post('cetak/{aksi}', 'Dokumen@cetak')->name('dokumen.cetak');
     Route::get('unduh_berkas/{id_dokumen?}', 'Dokumen@unduh_berkas')->name('dokumen.unduh_berkas');
-    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
+    Route::get('tampilkan_berkas/{id_dokumen?}/{id_pend?}/{popup?}', 'Dokumen@tampilkan_berkas')->name('dokumen.tampilkan_berkas');
     Route::get('ekspor', 'Dokumen@ekspor')->name('dokumen.ekspor');
     Route::post('ekspor_csv', 'Dokumen@ekspor_csv')->name('dokumen.ekspor_csv');
 });
 
-// Sekretariat > Inventaris
-Route::group('inventaris_asset', static function (): void {
-    Route::get('/', 'Inventaris_asset@index')->name('inventaris_asset.index');
-    Route::get('/view/{id?}', 'Inventaris_asset@view')->name('inventaris_asset.view');
-    Route::get('/view_mutasi/{id?}', 'Inventaris_asset@view_mutasi')->name('inventaris_asset.view_mutasi');
-    Route::get('/edit/{id?}', 'Inventaris_asset@edit')->name('inventaris_asset.edit');
-    Route::get('/edit_mutasi/{id?}', 'Inventaris_asset@edit_mutasi')->name('inventaris_asset.edit_mutasi');
-    Route::get('/form', 'Inventaris_asset@form')->name('inventaris_asset.form');
-    Route::get('/form_mutasi/{id?}', 'Inventaris_asset@form_mutasi')->name('inventaris_asset.form_mutasi');
-    Route::get('/mutasi', 'Inventaris_asset@mutasi')->name('inventaris_asset.mutasi');
-    Route::get('/cetak/{tahun}/{penandatangan}', 'Inventaris_asset@cetak')->name('inventaris_asset.cetak');
-    Route::get('/download/{tahun}/{penandatangan}', 'Inventaris_asset@download')->name('inventaris_asset.download');
-});
-
-Route::group('api_inventaris_asset', static function (): void {
-    Route::post('/add', 'Api_inventaris_asset@add')->name('api_inventaris_asset.add');
-    Route::post('/add_mutasi', 'Api_inventaris_asset@add_mutasi')->name('api_inventaris_asset.add_mutasi');
-    Route::post('/update/{id?}', 'Api_inventaris_asset@update')->name('api_inventaris_asset.update');
-    Route::post('/update_mutasi/{id?}', 'Api_inventaris_asset@update_mutasi')->name('api_inventaris_asset.update_mutasi');
-    Route::get('/delete/{id?}', 'Api_inventaris_asset@delete')->name('api_inventaris_asset.delete');
-    Route::get('/delete_mutasi/{id?}', 'Api_inventaris_asset@delete_mutasi')->name('api_inventaris_asset.delete_mutasi');
-});
-
 Route::group('inventaris_gedung', static function (): void {
     Route::get('/', 'Inventaris_gedung@index')->name('inventaris_gedung.index');
+    Route::get('/datatables', 'Inventaris_gedung@datatables')->name('inventaris_gedung.datatables');
+    Route::get('/form/{id?}/{view?}', 'Inventaris_gedung@form')->name('inventaris_gedung.form');
     Route::get('/view/{id?}', 'Inventaris_gedung@view')->name('inventaris_gedung.view');
-    Route::get('/view_mutasi/{id?}', 'Inventaris_gedung@view_mutasi')->name('inventaris_gedung.view_mutasi');
-    Route::get('/edit/{id?}', 'Inventaris_gedung@edit')->name('inventaris_gedung.edit');
-    Route::get('/edit_mutasi/{id?}', 'Inventaris_gedung@edit_mutasi')->name('inventaris_gedung.edit_mutasi');
-    Route::get('/form', 'Inventaris_gedung@form')->name('inventaris_gedung.form');
-    Route::get('/form_mutasi/{id?}', 'Inventaris_gedung@form_mutasi')->name('inventaris_gedung.form_mutasi');
-    Route::get('/mutasi', 'Inventaris_gedung@mutasi')->name('inventaris_gedung.mutasi');
-    Route::get('/cetak/{tahun}/{penandatangan}', 'Inventaris_gedung@cetak')->name('inventaris_gedung.cetak');
-    Route::get('/download/{tahun}/{penandatangan}', 'Inventaris_gedung@download')->name('inventaris_gedung.download');
+    Route::post('/create', 'Inventaris_gedung@create')->name('inventaris_gedung.create');
+    Route::post('/update/{id}', 'Inventaris_gedung@update')->name('inventaris_gedung.update');
+    Route::get('/delete/{id}', 'Inventaris_gedung@delete')->name('inventaris_gedung.delete');
+    Route::get('/dialog/{aksi?}', 'Inventaris_gedung@dialog')->name('inventaris_gedung.dialog');
+    Route::post('/cetak/{aksi?}', 'Inventaris_gedung@cetak')->name('inventaris_gedung.cetak');
 });
 
-Route::group('api_inventaris_gedung', static function (): void {
-    Route::post('/add', 'Api_inventaris_gedung@add')->name('api_inventaris_gedung.add');
-    Route::post('/add_mutasi', 'Api_inventaris_gedung@add_mutasi')->name('api_inventaris_gedung.add_mutasi');
-    Route::post('/update/{id?}', 'Api_inventaris_gedung@update')->name('api_inventaris_gedung.update');
-    Route::post('/update_mutasi/{id?}', 'Api_inventaris_gedung@update_mutasi')->name('api_inventaris_gedung.update_mutasi');
-    Route::get('/delete/{id?}', 'Api_inventaris_gedung@delete')->name('api_inventaris_gedung.delete');
-    Route::get('/delete_mutasi/{id?}', 'Api_inventaris_gedung@delete_mutasi')->name('api_inventaris_gedung.delete_mutasi');
+Route::group('inventaris_gedung_mutasi', static function (): void {
+    Route::get('/', 'Inventaris_gedung_mutasi@index')->name('inventaris_gedung_mutasi.index');
+    Route::get('/datatables', 'Inventaris_gedung_mutasi@datatables')->name('inventaris_gedung_mutasi.datatables');
+    Route::get('/form/{id?}/{action?}/{view?}', 'Inventaris_gedung_mutasi@form')->name('inventaris_gedung_mutasi.form');
+    Route::post('/create/{id}', 'Inventaris_gedung_mutasi@create')->name('inventaris_gedung_mutasi.create');
+    Route::post('/update/{id?}/{inventaris_id?}', 'Inventaris_gedung_mutasi@update')->name('inventaris_gedung_mutasi.update');
+    Route::get('/delete/{id?}', 'Inventaris_gedung_mutasi@delete')->name('inventaris_gedung_mutasi.delete');
 });
 
 Route::group('inventaris_jalan', static function (): void {
@@ -876,6 +852,26 @@ Route::group('inventaris_jalan_mutasi', static function (): void {
     Route::get('/delete/{id?}', 'Inventaris_jalan_mutasi@delete')->name('inventaris_jalan_mutasi.delete');
     Route::get('/form/{id?}/{view?}', 'Inventaris_jalan_mutasi@form')->name('inventaris_jalan_mutasi.form');
     Route::get('/datatables', 'Inventaris_jalan_mutasi@datatables')->name('inventaris_jalan_mutasi.datatables');
+});
+
+Route::group('inventaris_asset', static function (): void {
+    Route::get('/', 'Inventaris_asset@index')->name('inventaris_asset.index');
+    Route::get('/datatables', 'Inventaris_asset@datatables')->name('inventaris_asset.datatables');
+    Route::get('/form/{id?}/{view?}', 'Inventaris_asset@form')->name('inventaris_asset.form');
+    Route::post('/create', 'Inventaris_asset@create')->name('inventaris_asset.create');
+    Route::post('/update/{id}', 'Inventaris_asset@update')->name('inventaris_asset.update');
+    Route::get('/delete/{id}', 'Inventaris_asset@delete')->name('inventaris_asset.delete');
+    Route::get('/dialog/{aksi?}', 'Inventaris_asset@dialog')->name('inventaris_asset.dialog');
+    Route::post('/cetak/{aksi?}', 'Inventaris_asset@cetak')->name('inventaris_asset.cetak');
+});
+
+Route::group('inventaris_asset_mutasi', static function (): void {
+    Route::get('/', 'Inventaris_asset_mutasi@index')->name('inventaris_asset_mutasi.index');
+    Route::post('/create/{id}', 'Inventaris_asset_mutasi@create')->name('inventaris_asset_mutasi.create');
+    Route::post('/update/{id?}/{inventaris_id?}', 'Inventaris_asset_mutasi@update')->name('inventaris_asset_mutasi.update');
+    Route::get('/delete/{id?}', 'Inventaris_asset_mutasi@delete')->name('inventaris_asset_mutasi.delete');
+    Route::get('/form/{id?}/{view?}', 'Inventaris_asset_mutasi@form')->name('inventaris_asset_mutasi.form');
+    Route::get('/datatables', 'Inventaris_asset_mutasi@datatables')->name('inventaris_asset_mutasi.datatables');
 });
 
 Route::group('inventaris_kontruksi', static function (): void {
@@ -913,24 +909,23 @@ Route::group('inventaris_peralatan_mutasi', static function (): void {
 
 Route::group('inventaris_tanah', static function (): void {
     Route::get('/', 'Inventaris_tanah@index')->name('inventaris_tanah.index');
-    Route::get('/view/{id}', 'Inventaris_tanah@view')->name('inventaris_tanah.view');
-    Route::get('/view_mutasi/{id}', 'Inventaris_tanah@view_mutasi')->name('inventaris_tanah.view_mutasi');
-    Route::get('/edit/{id}', 'Inventaris_tanah@edit')->name('inventaris_tanah.edit');
-    Route::get('/edit_mutasi/{id}', 'Inventaris_tanah@edit_mutasi')->name('inventaris_tanah.edit_mutasi');
-    Route::get('/form', 'Inventaris_tanah@form')->name('inventaris_tanah.form');
-    Route::get('/form_mutasi/{id?}', 'Inventaris_tanah@form_mutasi')->name('inventaris_tanah.form_mutasi');
-    Route::get('/mutasi', 'Inventaris_tanah@mutasi')->name('inventaris_tanah.mutasi');
-    Route::get('/cetak/{tahun}/{penandatangan}', 'Inventaris_tanah@cetak')->name('inventaris_tanah.cetak');
-    Route::get('/download/{tahun}/{penandatangan}', 'Inventaris_tanah@download')->name('inventaris_tanah.download');
+    Route::get('/datatables', 'Inventaris_tanah@datatables')->name('inventaris_tanah.datatables');
+    Route::get('/form/{id?}/{view?}', 'Inventaris_tanah@form')->name('inventaris_tanah.form');
+    Route::get('/view/{id?}', 'Inventaris_tanah@view')->name('inventaris_tanah.view');
+    Route::post('/create', 'Inventaris_tanah@create')->name('inventaris_tanah.create');
+    Route::post('/update/{id}', 'Inventaris_tanah@update')->name('inventaris_tanah.update');
+    Route::get('/delete/{id}', 'Inventaris_tanah@delete')->name('inventaris_tanah.delete');
+    Route::get('/dialog/{aksi?}', 'Inventaris_tanah@dialog')->name('inventaris_tanah.dialog');
+    Route::post('/cetak/{aksi?}', 'Inventaris_tanah@cetak')->name('inventaris_tanah.cetak');
 });
 
-Route::group('api_inventaris_tanah', static function (): void {
-    Route::post('/add', 'Api_inventaris_tanah@add')->name('api_inventaris_tanah.add');
-    Route::post('/add_mutasi', 'Api_inventaris_tanah@add_mutasi')->name('api_inventaris_tanah.add_mutasi');
-    Route::post('/update/{id?}', 'Api_inventaris_tanah@update')->name('api_inventaris_tanah.update');
-    Route::post('/update_mutasi/{id?}', 'Api_inventaris_tanah@update_mutasi')->name('api_inventaris_tanah.update_mutasi');
-    Route::get('/delete/{id?}', 'Api_inventaris_tanah@delete')->name('api_inventaris_tanah.delete');
-    Route::get('/delete_mutasi/{id?}', 'Api_inventaris_tanah@delete_mutasi')->name('api_inventaris_tanah.delete_mutasi');
+Route::group('inventaris_tanah_mutasi', static function (): void {
+    Route::get('/', 'Inventaris_tanah_mutasi@index')->name('inventaris_tanah_mutasi.index');
+    Route::get('/datatables', 'Inventaris_tanah_mutasi@datatables')->name('inventaris_tanah_mutasi.datatables');
+    Route::get('/form/{id?}/{action?}/{view?}', 'Inventaris_tanah_mutasi@form')->name('inventaris_tanah_mutasi.form');
+    Route::post('/create/{id}', 'Inventaris_tanah_mutasi@create')->name('inventaris_tanah_mutasi.create');
+    Route::post('/update/{id?}/{inventaris_id?}', 'Inventaris_tanah_mutasi@update')->name('inventaris_tanah_mutasi.update');
+    Route::get('/delete/{id?}', 'Inventaris_tanah_mutasi@delete')->name('inventaris_tanah_mutasi.delete');
 });
 
 // Laporan inventaris
@@ -1018,7 +1013,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/delete_all/{kat?}', 'Dokumen_sekretariat@delete_all')->name('buku-umum.dokumen_sekretariat.delete_all');
         Route::get('/dialog_cetak/{kat?}/{aksi?}', 'Dokumen_sekretariat@dialog_cetak')->name('buku-umum.dokumen_sekretariat.dialog_cetak');
         Route::get('/dialog_excel/{kat?}', 'Dokumen_sekretariat@dialog_excel')->name('buku-umum.dokumen_sekretariat.dialog_excel');
-        Route::get('/berkas/{id_dokumen?}/{kat?}/{tipe?}', 'Dokumen_sekretariat@berkas')->name('buku-umum.dokumen_sekretariat.berkas');
+        Route::get('/berkas/{id_dokumen?}/{kat?}/{tipe?}/{popup?}', 'Dokumen_sekretariat@berkas')->name('buku-umum.dokumen_sekretariat.berkas');
     });
 
     Route::group('ekspedisi', static function (): void {
@@ -1246,14 +1241,13 @@ Route::group('bumindes_kader', static function (): void {
 
 // - Arsip Desa
 Route::group('bumindes_arsip', static function (): void {
-    Route::get('/index', 'Bumindes_arsip@index')->name('bumindes_arsip.index-first');
-    Route::get('/index/{p?}/{o?}', 'Bumindes_arsip@index')->name('bumindes_arsip.index-page');
+    Route::get('/', 'Bumindes_arsip@index')->name('bumindes_arsip.index-page');
     Route::get('/tindakan_lihat/{kategori}/{id}/{tindakan}', 'Bumindes_arsip@tindakan_lihat')->name('bumindes_arsip.tindakan_lihat');
-    Route::get('/tindakan_ubah/{kategori}/{id}/{p}/{o}', 'Bumindes_arsip@tindakan_ubah')->name('bumindes_arsip.tindakan_ubah');
+    Route::get('/tindakan_ubah/{kategori}/{id}', 'Bumindes_arsip@tindakan_ubah')->name('bumindes_arsip.tindakan_ubah');
     Route::get('/tampilkan_berkas/{tabel}/{berkas}/{tampil?}', 'Bumindes_arsip@tampilkan_berkas')->name('bumindes_arsip.tampilkan_berkas');
     Route::get('/unduh_berkas/{tabel}/{berkas}', 'Bumindes_arsip@unduh_berkas')->name('bumindes_arsip.unduh_berkas');
-    Route::get('/modal_ubah_arsip/{tabel}/{id}/{p}/{o}', 'Bumindes_arsip@modal_ubah_arsip')->name('bumindes_arsip.modal_ubah_arsip');
-    Route::post('/ubah_dokumen/{tabel}/{id}/{p}/{o}', 'Bumindes_arsip@ubah_dokumen')->name('bumindes_arsip.ubah_dokumen');
+    Route::get('/modal_ubah_arsip/{tabel}/{id}', 'Bumindes_arsip@modal_ubah_arsip')->name('bumindes_arsip.modal_ubah_arsip');
+    Route::post('/ubah_dokumen/{tabel}/{id}', 'Bumindes_arsip@ubah_dokumen')->name('bumindes_arsip.ubah_dokumen');
     Route::get('/clear/{kategori?}', 'Bumindes_arsip@clear')->name('bumindes_arsip.clear');
     Route::match(['GET', 'POST'], '/', 'Bumindes_arsip@index');
     Route::match(['GET', 'POST'], '/{page_number}', 'Bumindes_arsip@index');
@@ -1303,7 +1297,7 @@ Route::group('laporan_apbdes', static function (): void {
     Route::get('/form/{id?}', 'Laporan_apbdes@form')->name('laporan_apbdes.form');
     Route::post('/insert', 'Laporan_apbdes@insert')->name('laporan_apbdes.insert');
     Route::post('/update/{id}', 'Laporan_apbdes@update')->name('laporan_apbdes.update');
-    Route::match(['GET', 'POST'], '/delete', 'Laporan_apbdes@delete_all')->name('laporan_apbdes.delete');
+    Route::match(['GET', 'POST'], '/delete', 'Laporan_apbdes@delete')->name('laporan_apbdes.delete');
     Route::get('/unduh/{id?}', 'Laporan_apbdes@unduh')->name('laporan_apbdes.unduh');
     Route::post('/kirim', 'Laporan_apbdes@kirim')->name('laporan_apbdes.kirim');
 });
@@ -2086,6 +2080,19 @@ Route::group('teks_berjalan', static function (): void {
     Route::get('/lock/{id?}/{val?}', 'Teks_berjalan@lock')->name('teks_berjalan.lock');
 });
 
+// Admin Web > Sinergi Program
+Route::group('sinergi_program', static function (): void {
+    Route::get('/', 'Sinergi_program@index')->name('sinergi-program.index');
+    Route::get('/datatables', 'Sinergi_program@datatables')->name('sinergi-program.datatables');
+    Route::get('/form/{id?}', 'Sinergi_program@form')->name('sinergi-program.form');
+    Route::post('/insert', 'Sinergi_program@insert')->name('sinergi-program.insert');
+    Route::post('/update/{id?}', 'Sinergi_program@update')->name('sinergi-program.update');
+    Route::get('/delete/{id?}', 'Sinergi_program@delete')->name('sinergi-program.delete');
+    Route::post('/delete', 'Sinergi_program@delete')->name('sinergi-program.delete-all');
+    Route::get('/lock/{id?}', 'Sinergi_program@lock')->name('sinergi-program.lock');
+    Route::post('/tukar', 'Sinergi_program@tukar')->name('sinergi-program..tukar');
+});
+
 // Admin Web > Pengunjung
 Route::group('pengunjung', static function (): void {
     Route::get('clear', static function (): void {
@@ -2157,14 +2164,14 @@ Route::group('setting_mandiri', static function (): void {
 
 // Anjungan > Daftar Anjungan
 Route::group('anjungan', static function (): void {
-    Route::get('/', 'Anjungan@index')->name('anjungan.index');
-    Route::get('/datatables', 'Anjungan@datatables')->name('anjungan.datatables');
-    Route::get('/form/{id?}', 'Anjungan@form')->name('anjungan.form');
-    Route::post('/insert', 'Anjungan@insert')->name('anjungan.insert');
-    Route::post('/update/{id?}', 'Anjungan@update')->name('anjungan.update');
-    Route::get('/delete/{id?}', 'Anjungan@delete')->name('anjungan.delete');
-    Route::post('/delete', 'Anjungan@delete')->name('anjungan.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Anjungan@kunci')->name('anjungan.kunci');
+    Route::get('/', 'Anjungan@index')->name('admin.anjungan.index');
+    Route::get('/datatables', 'Anjungan@datatables')->name('admin.anjungan.datatables');
+    Route::get('/form/{id?}', 'Anjungan@form')->name('admin.anjungan.form');
+    Route::post('/insert', 'Anjungan@insert')->name('admin.anjungan.insert');
+    Route::post('/update/{id?}', 'Anjungan@update')->name('admin.anjungan.update');
+    Route::get('/delete/{id?}', 'Anjungan@delete')->name('admin.anjungan.delete');
+    Route::post('/delete', 'Anjungan@delete')->name('admin.anjungan.delete-all');
+    Route::get('/kunci/{id?}/{val?}', 'Anjungan@kunci')->name('admin.anjungan.kunci');
 });
 
 // Anjungan > Menu
@@ -2210,7 +2217,7 @@ Route::group('buku_tamu', static function (): void {
     Route::get('/edit/{id}', 'Buku_tamu@edit')->name('buku_tamu.edit');
     Route::post('/update/{id}', 'Buku_tamu@update')->name('buku_tamu.update');
     Route::get('/delete/{id?}', 'Buku_tamu@delete')->name('buku_tamu.delete');
-    Route::post('/delete', 'Buku_tamu@delete')->name('buku_tamu.delete-all');
+    Route::post('/deleteAll', 'Buku_tamu@delete')->name('buku_tamu.delete-all');
     Route::get('/cetak', 'Buku_tamu@cetak')->name('buku_tamu.cetak');
     Route::get('/ekspor', 'Buku_tamu@ekspor')->name('buku_tamu.ekspor');
 });

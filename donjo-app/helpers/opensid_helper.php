@@ -50,7 +50,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2406.0.2');
+define('VERSION', '2407.0.1');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024060171');
+define('VERSI_DATABASE', '2024070171');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -589,19 +589,25 @@ function sql_in_list($list_array)
  * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
+ * popup  : true kalau berkas ditampilkan pada popup
  */
-function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false, $popup = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
 
     if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
         $pesan = 'Nama berkas tidak valid';
-        session_error($pesan);
-        set_session('error', $pesan);
-
         if ($redirect_url) {
-            redirect($redirect_url);
+            if ($popup) {
+                echo $pesan;
+
+exit;
+            }
+                session_error($pesan);
+                set_session('error', $pesan);
+                redirect($redirect_url);
+
         } else {
             show_404();
         }
@@ -612,12 +618,18 @@ function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = nu
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
     if (! file_exists($pathBerkas)) {
-        $pesan                 = 'Berkas tidak ditemukan';
-        $_SESSION['success']   = -1;
-        $_SESSION['error_msg'] = $pesan;
-        set_session('error', $pesan);
+        $pesan = 'Berkas tidak ditemukan';
         if ($redirect_url) {
-            redirect($redirect_url);
+            if ($popup) {
+                echo $pesan;
+
+exit;
+            }
+                $_SESSION['success']   = -1;
+                $_SESSION['error_msg'] = $pesan;
+                set_session('error', $pesan);
+                redirect($redirect_url);
+
         } else {
             show_404();
         }
@@ -1521,6 +1533,7 @@ function menu_slug($url)
         case 'pemerintah':
         case 'layanan-mandiri':
         case 'inventaris':
+        case 'struktur-organisasi-dan-tata-kerja':
             break;
 
         default:
@@ -1559,6 +1572,29 @@ function uclast($str): string
 
 function kasus_lain($kategori = null, $str = null)
 {
+    $pendidikan = [
+        'Tk',
+        'Sd',
+        'Sltp',
+        'Slta',
+        'Slb',
+        'Iii/s',
+        'Iii',
+        'Ii',
+        'Iv',
+    ];
+
+    $pekerjaan = [
+        '(pns)',
+        '(tni)',
+        '(polri)',
+        ' Ri ',
+        'Dpr-ri',
+        'Dpd',
+        'Bpk',
+        'Dprd',
+    ];
+
     $daftar_ganti = ${$kategori};
 
     if (null === $kategori || count($daftar_ganti ?? []) <= 0) {
@@ -1598,10 +1634,11 @@ if (! function_exists('form_kode_isian')) {
      * - Fungsi untuk bersihkan kode isian.
      *
      * @param string $str
+     * @param string $prefix
      */
-    function form_kode_isian($str): string
+    function form_kode_isian($str, $prefix = ''): string
     {
-        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . ']';
+        return '[form_' . preg_replace('/\s+/', '_', preg_replace('/[^A-Za-z0-9& ]/', '', strtolower($str))) . $prefix . ']';
     }
 }
 
@@ -2064,6 +2101,11 @@ if (! function_exists('caseWord')) {
             }
         }
 
+        // Ganti '/' dengan ---atau---
+        if (strpos($teks, '/') !== false) {
+            $teks = str_replace('/', ' ---atau--- ', $teks);
+        }
+
         // Normal
         if (ctype_upper($condition[0]) && ctype_upper($condition[strlen($condition) - 1])) {
             $teks = set_words($teks);
@@ -2079,6 +2121,11 @@ if (! function_exists('caseWord')) {
         } elseif // Huruf besar di awal kalimat
         (ctype_upper($condition[0])) {
             $teks = set_words($teks, 'ucfirst');
+        }
+
+        // kembalikan '---atau---' menjadi '/'
+        if (strpos($teks, ' ---atau--- ') !== false) {
+            $teks = str_replace(' ---atau--- ', '/', $teks);
         }
 
         // Return teks asli jika tidak sesuai kondisi

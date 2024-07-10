@@ -153,7 +153,7 @@ class Sms extends Admin_Controller
         isCan('u');
 
         $post      = $this->input->post();
-        $isi_pesan = htmlentities($post['TextDecoded']);
+        $isi_pesan = htmlentities((string) $post['TextDecoded']);
 
         // Ambil daftar anggota grup kontak
         $daftarAnggota = AnggotaGrup::where('id_grup', bilangan($post['id_grup']))->dataAnggota()->get();
@@ -294,8 +294,8 @@ class Sms extends Admin_Controller
         return [
             'config_id'  => identitas('id'),
             'id_grup'    => bilangan($request['id_grup']),
-            'subjek'     => htmlentities($request['subjek']),
-            'isi'        => htmlentities($request['isi']),
+            'subjek'     => htmlentities((string) $request['subjek']),
+            'isi'        => htmlentities((string) $request['isi']),
             'created_by' => auth()->id,
             'updated_by' => auth()->id,
         ];

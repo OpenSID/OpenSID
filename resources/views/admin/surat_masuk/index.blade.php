@@ -116,7 +116,7 @@
                     {
                         data: 'isi_singkat',
                         name: 'isi_singkat',
-                        searchable: false,
+                        searchable: true,
                         orderable: false
                     },
                 ],

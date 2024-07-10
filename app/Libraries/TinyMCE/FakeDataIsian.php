@@ -48,15 +48,13 @@ use Illuminate\Support\Str;
 
 class FakeDataIsian
 {
-    private $request;
-    private $tinymce;
+    private readonly TinyMCE $tinymce;
     private $result;
     private array $data = [];
 
-    public function __construct($request)
+    public function __construct(private $request)
     {
         $this->tinymce = new TinyMCE();
-        $this->request = $request;
     }
 
     public static function set($request)
@@ -86,7 +84,7 @@ class FakeDataIsian
 
     private function sumberData(): void
     {
-        $form_isian = json_decode($this->request['form_isian'], true);
+        $form_isian = json_decode((string) $this->request['form_isian'], true);
 
         if ($form_isian) {
             $pendudukLuar = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
@@ -112,10 +110,10 @@ class FakeDataIsian
                     } else {
                         // tidak ada pilihan penduduk desa
                         $pendudukLuarTerpilih = $pendudukLuar[array_rand($pendudukLuar)];
-                        $formInputPenduduk    = explode(',', $pendudukLuarTerpilih['input']);
+                        $formInputPenduduk    = explode(',', (string) $pendudukLuarTerpilih['input']);
 
                         foreach ($formInputPenduduk as $input) {
-                            $input                             = $input == 'no_ktp' ? 'nik' : $input;
+                            $input                             = $input === 'no_ktp' ? 'nik' : $input;
                             $this->data['input'][$key][$input] = 'Masukkan ' . $input . ' ' . $key;
                         }
                         $this->data['input'][$key]['opsi_penduduk'] = 2;
@@ -131,7 +129,7 @@ class FakeDataIsian
 
     private function formDinamis(): void
     {
-        $kode_isian = json_decode($this->request['kode_isian'], true);
+        $kode_isian = json_decode((string) $this->request['kode_isian'], true);
 
         foreach ($kode_isian as $value) {
             $tanggal = date('d-m-Y');
@@ -154,20 +152,29 @@ class FakeDataIsian
                     break;
 
                 case 'number':
-                    $nilai_isian = Str::contains($value['atribut'], ['min', 'max']) ? random_int((int) Str::before(Str::after($value['atribut'], 'min="'), '"'), (int) Str::between($value['atribut'], 'max="', '"')) : random_int(1, 10);
+                    $min_value = (int) Str::between($value['atribut'], 'min="', '"');
+                    $max_value = (int) Str::between($value['atribut'], 'max="', '"');
+
+                    if ($min_value > $max_value) {
+                        $temp      = $min_value;
+                        $min_value = $max_value;
+                        $max_value = $temp;
+                    }
+
+                    $nilai_isian = random_int($min_value, $max_value);
                     break;
 
                 default:
-                    if (preg_match('/hari/i', $value['atribut'])) {
+                    if (preg_match('/hari/i', (string) $value['atribut'])) {
                         $nilai_isian = hari($tanggal);
-                    } elseif (preg_match('/rupiah/i', $value['atribut'])) {
+                    } elseif (preg_match('/rupiah/i', (string) $value['atribut'])) {
                         $nilai_isian = 'Rp. ' . number_format(random_int(100, 9999) . '000', 0, ',', '.');
                     } else {
                         $nilai_isian = $value['deskripsi'] ?? $value['nama'];
                     }
             }
 
-            $this->data['input'][underscore($value['nama'], true, true)] = $nilai_isian;
+            $this->data['input'][str_replace(['[form_', ']'], '', $value['kode'])] = $nilai_isian;
         }
     }
 
@@ -206,7 +213,7 @@ class FakeDataIsian
     private function formPengikut(): void
     {
         // Pengikut Pindah
-        if (preg_match('/pengikut_pindah/i', $this->request['template_desa'])) {
+        if (preg_match('/pengikut_pindah/i', (string) $this->request['template_desa'])) {
             $pengikutPindah                = Penduduk::with('pendudukHubungan')->orderBy(DB::raw('RAND()'))->take(3)->get();
             $this->data['pengikut_pindah'] = generatePengikutPindah($pengikutPindah);
         }

@@ -320,4 +320,53 @@ class Dokumen extends BaseModel
 
         return $data;
     }
+
+    public function getNamaBerkas($id, $id_pend = 0)
+    {
+        $query = $this->newQuery();
+
+        if ($id_pend) {
+            $query->where('id_pend', $id_pend);
+        }
+
+        return $query->select('satuan')
+            ->where('id', $id)
+            ->where('enabled', 1)
+            ->first()
+                     ->satuan ?? null;
+    }
+
+    public function getDokumen($id = 0, $id_pend = null): ?array
+    {
+        $query = $this->newQuery();
+
+        if ($id_pend) {
+            $query->where('id_pend', $id_pend);
+        }
+
+        $data = $query->where('id', $id)->first();
+
+        if ($data) {
+            $data->attr = json_decode($data->attr, true);
+
+            return array_filter($data->toArray());
+        }
+
+        return null;
+    }
+
+    public function getDokumenDiAnggotaLain($id_dokumen = 0)
+    {
+        $data = $this->newQuery()
+            ->where('id_parent', $id_dokumen)
+            ->get()
+            ->toArray();
+
+        foreach (array_keys($data) as $key) {
+            $data[$key]['attr'] = json_decode((string) $data[$key]['attr'], true);
+            $data[$key]         = array_filter($data[$key]);
+        }
+
+        return $data;
+    }
 }

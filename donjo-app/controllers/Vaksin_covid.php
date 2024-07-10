@@ -141,7 +141,7 @@ class Vaksin_covid extends Admin_Controller
                 'results' => collect($penduduk->items())
                     ->map(static fn ($item): array => [
                         'id'   => $item->id,
-                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
+                        'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                     ]),
                 'pagination' => [
                     'more' => $penduduk->currentPage() < $penduduk->lastPage(),
@@ -272,7 +272,7 @@ class Vaksin_covid extends Admin_Controller
         $data['main']         = $rekap;
         $data['sasaran']      = $rekap_sasaran;
         $data['tanggal']      = tgl_indo(date('Y-m-d'));
-        $data['umur_sasaran'] = explode('-', $umur);
+        $data['umur_sasaran'] = explode('-', (string) $umur);
 
         $this->load->view('global/format_cetak', $data);
     }
@@ -282,7 +282,7 @@ class Vaksin_covid extends Admin_Controller
         $rekap = ['total_v1' => 0, 'total_v2' => 0, 'total_v3' => 0, 'total_belum' => 0, 'detail' => []];
 
         foreach ($penduduk as $value) {
-            $value->dusun ??= 'Data ' . ucwords(setting('sebutan_dusun')) . ' Tidak Ada';
+            $value->dusun ??= 'Data ' . ucwords((string) setting('sebutan_dusun')) . ' Tidak Ada';
             if (! isset($rekap['detail'][$value->dusun])) {
                 $rekap['detail'][$value->dusun] = ['vaksin_1' => 0, 'vaksin_2' => 0, 'vaksin_3' => 0, 'belum' => 0];
             }

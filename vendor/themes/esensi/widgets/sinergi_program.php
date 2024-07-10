@@ -35,24 +35,39 @@
     <h3 class="box-title"><i class="fas fa-external-link-alt mr-1"></i><?= $judul_widget ?></h3>
   </div>
   <div id="sinergi_program" class="box-body">
-    <table>
-      <?php foreach($sinergi_program as $key => $program) : ?>
-      <?php $baris[$program['baris']][$program['kolom']] = $program; ?>
-      <?php endforeach; ?>
+    <table class="w-full text-sm">
+      <?php
+          $sinergi_program = sinergi_program();
+          $perbaris        = (int) (setting('gambar_sinergi_program_perbaris') ?: 3);
 
-      <?php foreach($baris as $baris_program) : ?>
-      <tr>
-        <td>
-          <?php $width = 100/count($baris_program ?? [])-count($baris_program ?? [])?>
-          <?php foreach($baris_program as $key => $program) : ?>
-          <span style="display: inline-block; width: <?= $width.'%'?>">
-            <a href="<?= $program['tautan'] ?>" target="_blank"><img
-                src="<?= base_url(LOKASI_GAMBAR_WIDGET.$program['gambar']) ?>" alt="<?= $program['judul'] ?>" /></a>
-          </span>
-          <?php endforeach; ?>
-        </td>
-      </tr>
-      <?php endforeach; ?>
+          // Calculate the total number of iterations needed
+          $totalIterations = count($sinergi_program) + ($perbaris - count($sinergi_program) % $perbaris) % $perbaris;
+
+          for ($key = 0; $key < $totalIterations; $key++) {
+              // Start a new row when necessary
+              if ($key % $perbaris === 0) {
+                  echo "<tr>\n";
+              }
+
+              // Check if the current key is within the bounds of the actual data
+              if ($key < count($sinergi_program)) {
+                  ?>
+                  <td>
+                    <center>
+                      <a href="<?= $sinergi_program[$key]['tautan'] ?>" target="_blank">
+                        <img style="padding: 3px;" src="<?= $sinergi_program[$key]['gambar_url'] ?>" alt="Gambar <?= $sinergi_program[$key]['judul'] ?>">
+                      </a>
+                    </center>
+                  </td>
+                  <?php
+              }
+
+              // Close the row when reaching the desired number of columns or the last iteration
+              if ($key % $perbaris === $perbaris - 1 || $key === $totalIterations - 1) {
+                  echo "</tr>\n";
+              }
+          }
+          ?>
     </table>
   </div>
 </div>

@@ -6,9 +6,14 @@
 
 				<!-- jQuery 3 -->
 				<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
+
+				<?= view('admin.layouts.components.token') ?>
+
 				<!-- Jquery UI -->
 				<script src="<?= asset('bootstrap/js/jquery-ui.min.js') ?>"></script>
 				<script src="<?= asset('bootstrap/js/jquery.ui.autocomplete.scroll.min.js') ?>"></script>
+
+				<?= view('admin.layouts.components.token') ?>
 
 				<script src="<?= asset('bootstrap/js/moment.min.js') ?>"></script>
 				<script src="<?= asset('bootstrap/js/moment-timezone.js') ?>"></script>

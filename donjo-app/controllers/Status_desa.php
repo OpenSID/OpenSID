@@ -93,7 +93,7 @@ class Status_desa extends Admin_Controller
                 redirect_with('error', 'Tidak dapat mengambil data IDM.');
             }
 
-            if ($response?->getStatusCode() === 200 && ! empty($response->getBody()->getContents())) {
+            if ($response?->getStatusCode() === 200 && ($response->getBody()->getContents() !== '' && $response->getBody()->getContents() !== '0')) {
                 $this->cache->file->delete($cache);
                 set_session('tahun', $tahun);
 

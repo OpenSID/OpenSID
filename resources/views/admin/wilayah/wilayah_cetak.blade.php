@@ -66,8 +66,13 @@
                                 <td></td>
                                 <td>{{ strtoupper($rw->rw) }}</td>
                                 <td></td>
-                                <td>{{ $rw->kepala->nik ?? '' }}</td>
-                                <td>{{ $rw->kepala->nama ?? '' }}</td>
+                                @if (!in_array($rw->rw, ['-', '']))
+                                    <td>{{ $rw->kepala->nik ?? '' }}</td>
+                                    <td>{{ $rw->kepala->nama ?? '' }}</td>
+                                @else
+                                    <td></td>
+                                    <td></td>
+                                @endif
                                 <td align="right"></td>
                                 <td align="right">{{ $rw->rts_count }}</td>
                                 <td align="right">{{ $rw->keluarga_aktif_count }}</td>

@@ -67,7 +67,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
     {
         isCan('u');
 
-        $data = static::validated($this->request);
+        $data = static::validate($this->request);
 
         foreach ($data as $key => $value) {
             SettingAplikasi::where('key', '=', $key)->update(['value' => $value]);
@@ -76,7 +76,7 @@ class Anjungan_pengaturan extends Anjungan_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    protected static function validated(array $request = []): array
+    protected static function validate(array $request = []): array
     {
         return [
             'sebutan_anjungan_mandiri' => strip_tags($request['sebutan_anjungan_mandiri']),

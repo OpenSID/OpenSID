@@ -35,6 +35,7 @@
  *
  */
 
+use App\Enums\StatusEnum;
 use App\Models\Kehadiran;
 use App\Models\Pamong;
 use Illuminate\Support\Facades\DB;
@@ -80,6 +81,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 ->editColumn('jam_masuk', static fn ($row): string => date('H:i', strtotime($row->jam_masuk)))
                 ->editColumn('jam_keluar', static fn ($row): string => $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)))
                 ->editColumn('total', static fn ($row): string => date('H:i', strtotime($row->total)))
+                ->editColumn('jabatan', static fn ($row) => $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama)
                 ->editColumn('status_kehadiran', static function ($row): string {
                     $tipe = ($row->status_kehadiran == 'hadir') ? 'success' : (($row->status_kehadiran == 'tidak berada di kantor') ? 'danger' : 'warning');
 
@@ -122,7 +124,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         foreach ($data_kehadiran as $row) {
             $data = [
                 $row->pamong->pamong_nama != null ? $row->pamong->pamong_nama : $row->pamong->penduduk->nama,
-                $row->pamong->jabatan->nama,
+                $row->pamong->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') . ' ' . $row->pamong->jabatan->nama : $row->pamong->jabatan->nama,
                 tgl_indo($row->tanggal),
                 date('H:i', strtotime($row->jam_masuk)),
                 $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)),

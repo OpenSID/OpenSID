@@ -107,7 +107,7 @@
                     },
                     {
                         data: 'kk',
-                        name: 'kk',
+                        name: 'keluarga.no_kk',
                         searchable: true,
                         orderable: false
                     },
@@ -124,7 +124,7 @@
                     {
                         data: 'nik',
                         name: 'nik',
-                        searchable: false,
+                        searchable: true,
                         orderable: false
                     },
                     {
@@ -175,15 +175,15 @@
                         orderable: false
                     },
                     {
-                        data: 'status_kawin',
-                        name: 'status_kawin',
+                        data: 'status_perkawinan',
+                        name: 'status_perkawinan',
                         className: 'text-left',
                         searchable: false,
                         orderable: false
                     },
                     {
                         data: 'tgl_keluar',
-                        name: 'tgl_keluar',
+                        name: 'tanggal_cetak_ktp',
                         searchable: false,
                         orderable: false
                     },
@@ -197,7 +197,7 @@
                     {
                         data: 'warganegara',
                         name: 'warganegara',
-                        searchable: true,
+                        searchable: false,
                         orderable: false
                     },
                     {
@@ -220,7 +220,7 @@
                     },
                     {
                         data: 'tgl_datang',
-                        name: 'tgl_datang',
+                        name: 'log_latest.tgl_lapor',
                         searchable: false,
                         orderable: false
                     },
