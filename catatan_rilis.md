@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#8155](https://github.com/OpenSID/OpenSID/issues/8155) Perbaikan data isian pengikut surat.
 11. [#8158](https://github.com/OpenSID/OpenSID/issues/8158) Perbaikan terkait csrf token.
 12. [#8158](https://github.com/OpenSID/OpenSID/issues/8157) Perbaikan kode isian surat berdasarkan kategori prefix.
+13. [#8167](https://github.com/OpenSID/OpenSID/issues/8167) Perbaikan rincian laporan hasil klasifikasi.
 
 
 #### TEKNIS
