@@ -73,7 +73,7 @@
             </div>
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
-                <button type="submit" class="btn btn-social btn-primary btn-sm pull-right" id="isi_form"><i class="fa fa-sign-in"></i>Isi Form</button>
+                <button type="submit" class="btn btn-social btn-primary btn-sm pull-right" id="isi_form"><i class="fa fa-file-text"></i>Isi Form</button>
             </div>
         </div>
     </form>
