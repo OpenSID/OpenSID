@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8173](https://github.com/OpenSID/OpenSID/issues/8173) Perbaikan gagal impor data respon pada modul analisis.
 16. [#8076](https://github.com/OpenSID/OpenSID/issues/8076) Perbaikan route permohonan surat.
 17. [#8156](https://github.com/OpenSID/OpenSID/issues/8156) Perbaikan qrcode cetak surat.
+18. [#8100](https://github.com/OpenSID/OpenSID/issues/8100) Perbaikan lampiran F2.12.
 
 
 #### TEKNIS
