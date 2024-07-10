@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8076](https://github.com/OpenSID/OpenSID/issues/8076) Perbaikan route permohonan surat.
 17. [#8156](https://github.com/OpenSID/OpenSID/issues/8156) Perbaikan qrcode cetak surat.
 18. [#8100](https://github.com/OpenSID/OpenSID/issues/8100) Perbaikan lampiran F2.12.
+19. [#8176](https://github.com/OpenSID/OpenSID/issues/8176) Perbaikan tambah gambar artikel dengan editor tinymce dengan ukuran yang besar.
 
 
 #### TEKNIS

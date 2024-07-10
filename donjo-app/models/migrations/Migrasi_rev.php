@@ -36,6 +36,7 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,6 +52,8 @@ class Migrasi_rev extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024051253($hasil, $id);
         }
+
+        $hasil = $hasil && $this->migrasi_2024071051($hasil);
 
         return $hasil && true;
     }
@@ -76,6 +79,15 @@ class Migrasi_rev extends MY_model
                 ->where('id', $value->id)
                 ->update(['id_kepala' => $id_kepala]);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024071051($hasil)
+    {
+        Schema::table('artikel', static function ($table) {
+            $table->longText('isi')->change();
+        });
 
         return $hasil;
     }
