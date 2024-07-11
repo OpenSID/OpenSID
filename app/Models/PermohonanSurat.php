@@ -174,22 +174,6 @@ class PermohonanSurat extends BaseModel
         return $query->where('status', $status);
     }
 
-    /**
-     * Scope query untuk status.
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, string $status = '')
-    {
-        if ($status == '') {
-            return $query;
-        }
-
-        return $query->where('status', $status);
-    }
-
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_pemohon');
