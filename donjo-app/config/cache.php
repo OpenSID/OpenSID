@@ -116,21 +116,5 @@ return [
     |
     */
 
-<<<<<<<< HEAD:donjo-app/models/migrations/Migrasi_jalan.php
-        // perbarui surat lama tanpa mengubah data desa
-        $config_id   = DB::table('config')->pluck('id')->toArray();
-        $uratTinyMCE = getSuratBawaanTinyMCE()->toArray();
-
-        foreach ($uratTinyMCE as $value) {
-            foreach ($config_id as $id) {
-                $hasil = $hasil && $this->tambah_surat_tinymce($value, $id);
-            }
-        }
-
-        return $hasil;
-    }
-}
-========
     'prefix' => Str::slug('opensid', '_') . '_cache_',
 ];
->>>>>>>> e20b8897c (gabungkan premium):donjo-app/config/cache.php
