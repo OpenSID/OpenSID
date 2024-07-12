@@ -39,7 +39,6 @@ namespace App\Models;
 
 use App\Casts\Path;
 use App\Traits\Author;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -87,12 +86,6 @@ class Config extends BaseModel
         'warna',
         'created_by',
         'updated_by',
-
-        // Field database lama
-        'nama_kepala_desa',
-        'nip_kepala_desa',
-        'g_analitic',
-        'pamong_id',
     ];
 
     /**
@@ -159,7 +152,7 @@ class Config extends BaseModel
     {
         $logo = LOKASI_LOGO_DESA . $this->attributes['logo'];
 
-        if (empty($this->attributes['logo']) || ! file_exists(FCPATH . $logo)) {
+        if (empty($this->attributes['logo']) || !file_exists(FCPATH . $logo)) {
             return 'assets/files/logo/opensid_logo.png';
         }
 
@@ -175,7 +168,7 @@ class Config extends BaseModel
     {
         $kantor_desa = LOKASI_LOGO_DESA . $this->attributes['kantor_desa'];
 
-        if (empty($this->attributes['kantor_desa']) || ! file_exists(FCPATH . $kantor_desa)) {
+        if (empty($this->attributes['kantor_desa']) || !file_exists(FCPATH . $kantor_desa)) {
             return 'assets/files/logo/opensid_kantor.jpg';
         }
 
@@ -184,11 +177,7 @@ class Config extends BaseModel
 
     public function scopeAppKey($query)
     {
-        if (Schema::hasColumn($this->table, 'app_key')) {
-            $query->where('app_key', get_app_key());
-        }
-
-        return $query;
+        return $query->where('app_key', get_app_key());
     }
 
     /**
@@ -196,6 +185,8 @@ class Config extends BaseModel
      */
     public static function boot(): void
     {
+        parent::boot();
+
         static::creating(static function ($model): void {
             $model->app_key = get_app_key();
         });

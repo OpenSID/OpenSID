@@ -38,6 +38,7 @@
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -50,7 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2407.0.0');
+define('VERSION', '2407.1.0');
 
 /**
  * PREMIUM
@@ -66,7 +67,12 @@ define('PREMIUM', false);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024070101');
+define('VERSI_DATABASE', '2024012451');
+
+/**
+ * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
+ */
+define('MINIMUM_VERSI', '2312');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -74,10 +80,10 @@ define('BELUM_MENGISI', 777);
 define('TOTAL', 888);
 
 // Kode laporan mandiri di tabel komentar
-define('LAPORAN_MANDIRI', 775);
+define('LAPORAN_MANDIRI', 'pesan-mandiri');
 
 // Kode artikel terkait agenda
-define('AGENDA', 1000);
+define('AGENDA', 'agenda');
 
 define('MAX_PINDAH', 7);
 define('MAX_ANGGOTA', 7);
@@ -224,20 +230,26 @@ function gambar_desa(?string $nama_file = null, $type = false, $file = false): s
 
 function session_error($pesan = ''): void
 {
-    $_SESSION['error_msg'] = $pesan;
-    $_SESSION['success']   = -1;
+    // $_SESSION['error_msg'] = $pesan;
+    // $_SESSION['success']   = -1;
+
+    get_instance()->session->set_flashdata([
+        'error_msg' => $pesan,
+        'success'   => -1,
+    ]);
 }
 
 function session_error_clear(): void
 {
-    $_SESSION['error_msg'] = '';
-    unset($_SESSION['success']);
+    get_instance()->session->unset_userdata(['error_msg', 'success']);
 }
 
 function session_success(): void
 {
-    $_SESSION['error_msg'] = '';
-    $_SESSION['success']   = 1;
+    get_instance()->session->set_flashdata([
+        'error_msg' => '',
+        'success'   => 1,
+    ]);
 }
 
 // Untuk mengirim data ke OpenSID tracker
@@ -303,7 +315,7 @@ function get_data_desa(string $kode_desa)
  */
 function cek_koneksi_internet(string $sCheckHost = 'www.google.com'): bool
 {
-    if (! setting('notifikasi_koneksi')) {
+    if (!setting('notifikasi_koneksi')) {
         return true;
     }
 
@@ -482,7 +494,7 @@ function getKodeDesaFromTrackSID()
 
     $trackSID_bps_code = getUrlContent($tracker . '/index.php/api/wilayah/kodedesa?kode=' . $config->kode_desa . '&token=' . config_item('token_pantau'));
 
-    if (! empty($trackSID_bps_code)) {
+    if (!empty($trackSID_bps_code)) {
         set_session(['trackSID_bps_code' => json_decode($trackSID_bps_code, true)]);
 
         return session('trackSID_bps_code');
@@ -509,14 +521,14 @@ function get_external_ip()
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
 function xcopy($src = '', $dest = '', $exclude = [], $only = []): void
 {
-    if (! file_exists($dest)) {
+    if (!file_exists($dest)) {
         mkdir($dest, 0755, true);
     }
 
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-        if (! is_readable($srcfile)) {
+        if (!is_readable($srcfile)) {
             continue;
         }
         if ($exclude && in_array($file, $exclude)) {
@@ -529,12 +541,12 @@ function xcopy($src = '', $dest = '', $exclude = [], $only = []): void
             continue;
         }
         if (is_dir($srcfile)) {
-            if (! file_exists($destfile)) {
+            if (!file_exists($destfile)) {
                 mkdir($destfile);
             }
             xcopy($srcfile, $destfile, $exclude, $only);
         } else {
-            if ($only && ! in_array($file, $only)) {
+            if ($only && !in_array($file, $only)) {
                 continue;
             }
 
@@ -569,12 +581,12 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
 
-    if (! preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
+    if (!preg_match('/^(?:[a-z0-9_-]|\.(?!\.))+$/iD', $nama_berkas)) {
         $pesan = 'Nama berkas tidak valid';
         session_error($pesan);
         set_session('error', $pesan);
@@ -590,9 +602,11 @@ function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = nu
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-    if (! file_exists($pathBerkas)) {
+    if (!file_exists($pathBerkas)) {
+        $pesan                 = 'Berkas tidak ditemukan';
         $_SESSION['success']   = -1;
-        $_SESSION['error_msg'] = 'Berkas tidak ditemukan';
+        $_SESSION['error_msg'] = $pesan;
+        set_session('error', $pesan);
         if ($redirect_url) {
             redirect($redirect_url);
         } else {
@@ -764,7 +778,7 @@ function readfile_chunked($filename, $retbytes = true)
         return false;
     }
 
-    while (! feof($handle)) {
+    while (!feof($handle)) {
         $buffer = fread($handle, $chunksize);
         echo $buffer;
         if ($retbytes) {
@@ -928,7 +942,7 @@ function alamat_web($str): ?string
 }
 
 // Format wanrna #803c3c dan rgba(131,127,127,1)
-if (! function_exists('warna')) {
+if (!function_exists('warna')) {
     function warna($str)
     {
         return preg_replace('/[^a-zA-Z0-9\\#\\,\\.\\(\\)]/', '', $str ?? '#000000');
@@ -992,7 +1006,7 @@ function status_sukses($outp, $gagal_saja = false, $msg = ''): void
         $CI->session->error_msg = $msg;
     }
     if ($gagal_saja) {
-        if (! $outp) {
+        if (!$outp) {
             $CI->session->success = -1;
         }
     } else {
@@ -1025,7 +1039,7 @@ function convertToBytes(string $from)
  * Disalin dari FeedParser.php
  * Load the whole contents of a web page
  *
- * @param    string
+ * @param string
  * @param mixed $url
  *
  * @return string
@@ -1035,7 +1049,7 @@ function getUrlContent($url)
     if (empty($url)) {
         throw new Exception('URL to parse is empty!.');
     }
-    if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
+    if (!in_array(explode(':', $url)[0], ['http', 'https'])) {
         throw new Exception('URL harus http atau https');
     }
     if ($content = @file_get_contents($url)) {
@@ -1106,7 +1120,7 @@ function format_telpon(string $no_telpon, string $kode_negara = '+62'): string
 // https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
 function strReplaceArrayRecursive($replacement = [], $strArray = false, $isReplaceKey = false)
 {
-    if (! is_array($strArray)) {
+    if (!is_array($strArray)) {
         return str_replace(array_keys($replacement), array_values($replacement), $strArray);
     }
 
@@ -1157,7 +1171,7 @@ function isLocalIPAddress($IPAddress): bool
         return true;
     }
 
-    return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+    return !filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
 function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', $separator = '-', $config_id = null)
@@ -1173,12 +1187,8 @@ function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', 
         while ($cek_slug) {
             if ($id) {
                 $CI->db->where('id !=', $id);
-
-                if ($CI->db->field_exists('config_id', $tabel)) {
-                    $CI->db->where('config_id', $config ?? identitas('id'));
-                }
             }
-            $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
+            $cek_slug = $CI->db->where('config_id', $config ?? identitas('id'))->get_where($tabel, [$field => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;
             }
@@ -1323,7 +1333,7 @@ function idm($kode_desa, $tahun)
     }
 
     // periksa koneksi
-    if (! cek_koneksi_internet()) {
+    if (!cek_koneksi_internet()) {
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
@@ -1372,7 +1382,7 @@ function sdgs()
     }
 
     // periksa koneksi
-    if (! cek_koneksi_internet()) {
+    if (!cek_koneksi_internet()) {
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
@@ -1415,7 +1425,7 @@ function google_recaptcha()
     $ci = &get_instance();
 
     // periksa koneksi
-    if (! cek_koneksi_internet()) {
+    if (!cek_koneksi_internet()) {
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
@@ -1458,9 +1468,10 @@ function menu_slug($url)
             break;
 
         case 'data-suplemen':
-            $CI->load->model('suplemen_model');
-            $data = $CI->suplemen_model->get_suplemen($cut[1]);
-            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
+            $data        = $suplemen ? $suplemen->toArray() : [];
+            $data['jml'] = $data['terdata_count'];
+            $url         = ($data) ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : ($url);
             break;
 
         case 'data-kelompok':
@@ -1549,57 +1560,32 @@ function kasus_lain($kategori = null, $str = null)
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
 
-if (! function_exists('encrypt')) {
-    /**
-     * - Fungsi untuk encrypt string.
-     *
-     * @param string $str
-     */
-    function encrypt($str = ''): string
+if (!function_exists('updateConfigFile')) {
+    function updateConfigFile(string $key, string $value): void
     {
-        $CI = &get_instance();
-        $CI->load->library('encryption');
+        log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
 
-        $result = $CI->encryption->encrypt($str);
+        if ($key === 'password') {
+            $file    = LOKASI_CONFIG_DESA . 'database.php';
+            $pattern = '/(\$db\[\'default\'\]\[\'password\'\]\s*=\s*\'.*\';)/';
+            $newKey  = "\$db['default']['password'] = '{$value}';";
+        }
+        $configContent = file_get_contents($file);
+        if (preg_match($pattern, $configContent)) {
+            $configContent = preg_replace(
+                $pattern,
+                $newKey,
+                $configContent
+            );
+        } else {
+            $configContent .= PHP_EOL . $newKey;
+        }
 
-        return strtr(
-            $result,
-            [
-                '+' => '.',
-                '=' => '-',
-                '/' => '~',
-            ]
-        );
+        file_put_contents($file, $configContent);
     }
 }
 
-if (! function_exists('decrypt')) {
-    /**
-     * - Fungsi untuk decrypt string.
-     *
-     * @param string $str
-     *
-     * @return string
-     */
-    function decrypt($str = '')
-    {
-        $CI = &get_instance();
-        $CI->load->library('encryption');
-
-        $str = strtr(
-            $str,
-            [
-                '.' => '+',
-                '-' => '=',
-                '~' => '/',
-            ]
-        );
-
-        return $CI->encryption->decrypt($str);
-    }
-}
-
-if (! function_exists('form_kode_isian')) {
+if (!function_exists('form_kode_isian')) {
     /**
      * - Fungsi untuk bersihkan kode isian.
      *
@@ -1611,7 +1597,7 @@ if (! function_exists('form_kode_isian')) {
     }
 }
 
-if (! function_exists('kades')) {
+if (!function_exists('kades')) {
     /**
      * - Fungsi untuk mengambil data jabatan kades.
      *
@@ -1623,7 +1609,7 @@ if (! function_exists('kades')) {
     }
 }
 
-if (! function_exists('sekdes')) {
+if (!function_exists('sekdes')) {
     /**
      * - Fungsi untuk mengambil data jabatan sekdes.
      *
@@ -1635,7 +1621,7 @@ if (! function_exists('sekdes')) {
     }
 }
 
-if (! function_exists('super_admin')) {
+if (!function_exists('super_admin')) {
     /**
      * - Fungsi untuk mengambil id dengan grup superadmin.
      *
@@ -1650,7 +1636,7 @@ if (! function_exists('super_admin')) {
     }
 }
 
-if (! function_exists('ref')) {
+if (!function_exists('ref')) {
     /**
      * - Fungsi untuk mengambil data tabel refrensi.
      *
@@ -1664,7 +1650,7 @@ if (! function_exists('ref')) {
     }
 }
 
-if (! function_exists('getFormatIsian')) {
+if (!function_exists('getFormatIsian')) {
     /**
      * - Fungsi untuk mengembalikan format kode isian.
      *
@@ -1675,7 +1661,7 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian, $case_sentence = false)
     {
-        $netral = str_replace(['[', ']'], '', $kode_isian);
+        $netral = str_replace([' ', '[', ']'], '', $kode_isian);
 
         if ($case_sentence) {
             // jika gambar maka langsung kembalikan tanpa [ ]
@@ -1711,9 +1697,9 @@ if (! function_exists('getFormatIsian')) {
 /**
  * Buat hash password (bcrypt) dari string sebuah password
  *
- * @param  [type]  $string  [description]
+ * @param [type]  $string  [description]
  *
- * @return  [type]  [description]
+ * @return [type]  [description]
  */
 function generatePasswordHash($string): string
 {
@@ -1729,7 +1715,7 @@ function generatePasswordHash($string): string
     return $pwHash;
 }
 
-if (! function_exists('resetCacheDesa')) {
+if (!function_exists('resetCacheDesa')) {
     function resetCacheDesa(): void
     {
         $CI = &get_instance();
@@ -1745,7 +1731,7 @@ if (! function_exists('resetCacheDesa')) {
     }
 }
 
-if (! function_exists('kosongkanFolder')) {
+if (!function_exists('kosongkanFolder')) {
     function kosongkanFolder($directory = null, $except = []): void
     {
         if (null === $directory) {
@@ -1758,21 +1744,21 @@ if (! function_exists('kosongkanFolder')) {
         $except = array_merge(['.htaccess', 'index.html', '.gitignore'], $except);
 
         foreach (directory_map($directory) as $file) {
-            if (! in_array($file, $except)) {
+            if (!in_array($file, $except)) {
                 unlink($directory . DIRECTORY_SEPARATOR . $file);
             }
         }
     }
 }
 
-if (! function_exists('updateAppKey')) {
+if (!function_exists('updateAppKey')) {
     function updateAppKey($app_key): void
     {
         file_put_contents(DESAPATH . 'app_key', $app_key);
     }
 }
 
-if (! function_exists('nextVersion')) {
+if (!function_exists('nextVersion')) {
     function nextVersion($version = null): string
     {
         $migrasi = str_replace('.', '', $version ?? currentVersion());
@@ -1794,7 +1780,7 @@ if (! function_exists('nextVersion')) {
     }
 }
 
-if (! function_exists('getVariableName')) {
+if (!function_exists('getVariableName')) {
     function getVariableName($class = null, $value = null)
     {
         if (null === $class || null === $value) {
@@ -1809,7 +1795,7 @@ if (! function_exists('getVariableName')) {
     }
 }
 
-if (! function_exists('checkWebsiteAccessibility')) {
+if (!function_exists('checkWebsiteAccessibility')) {
     function checkWebsiteAccessibility($url): bool
     {
         $options = [
@@ -1843,7 +1829,7 @@ if (! function_exists('checkWebsiteAccessibility')) {
  *
  * @return string
  */
-if (! function_exists('hapus_kab_kota')) {
+if (!function_exists('hapus_kab_kota')) {
     function hapus_kab_kota($str)
     {
         return preg_replace('/kab |kota /i', '', $str);
@@ -1863,7 +1849,7 @@ function artikel_get_id($id)
  *
  * @return string
  */
-if (! function_exists('bersihkan_xss')) {
+if (!function_exists('bersihkan_xss')) {
     function bersihkan_xss($str)
     {
         $antiXSS = new AntiXSS();
@@ -1907,7 +1893,7 @@ function updateIndex($data): array
 {
     $result = [];
     $index  = 2; // dimulai index 2 karena 1 untuk penduduk desa
-    if (! empty($data)) {
+    if (!empty($data)) {
         foreach ($data as $value) {
             $result[$index] = $value;
             $index++;
@@ -1922,7 +1908,7 @@ function updateIndex($data): array
  *
  * @return string
  */
-if (! function_exists('formatTanggal')) {
+if (!function_exists('formatTanggal')) {
     function formatTanggal($tanggal = null)
     {
         if (null === $tanggal) {
@@ -1933,7 +1919,7 @@ if (! function_exists('formatTanggal')) {
     }
 }
 
-if (! function_exists('daftar_statistik')) {
+if (!function_exists('daftar_statistik')) {
     function daftar_statistik()
     {
         $data = collect(StatistikEnum::allStatistik())->map(static fn ($items, $kategori) => collect($items)->map(static fn ($item): array => [
@@ -1982,7 +1968,7 @@ if (! function_exists('daftar_statistik')) {
     }
 }
 
-if (! function_exists('isNestedArray')) {
+if (!function_exists('isNestedArray')) {
     function isNestedArray($array, $json = false): bool
     {
         if (is_array($array)) {
@@ -2000,7 +1986,7 @@ if (! function_exists('isNestedArray')) {
     }
 }
 
-if (! function_exists('getSuratBawaanTinyMCE')) {
+if (!function_exists('getSuratBawaanTinyMCE')) {
     function getSuratBawaanTinyMCE($url_surat = null)
     {
         $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
@@ -2010,7 +1996,7 @@ if (! function_exists('getSuratBawaanTinyMCE')) {
     }
 }
 
-if (! function_exists('terjemahkanTerbilang')) {
+if (!function_exists('terjemahkanTerbilang')) {
     function terjemahkanTerbilang($teks)
     {
         $pola = '/\[(terbilang|TeRbilang|Terbilang|TerbilanG|TErbilang)]\[(.+?)]/';
@@ -2034,7 +2020,7 @@ if (! function_exists('terjemahkanTerbilang')) {
     }
 }
 
-if (! function_exists('caseWord')) {
+if (!function_exists('caseWord')) {
     /**
      * Mengubah teks sesuai dengan kondisi
      *
@@ -2075,7 +2061,7 @@ if (! function_exists('caseWord')) {
     }
 }
 
-if (! function_exists('caseHitung')) {
+if (!function_exists('caseHitung')) {
     function caseHitung($teks)
     {
         $pola = '/\[(hitung|HiTung|Hitung|HitunG|HItung)]\[(.+?)]/';
@@ -2097,7 +2083,7 @@ if (! function_exists('caseHitung')) {
     }
 }
 
-if (! function_exists('caseReplaceFoto')) {
+if (!function_exists('caseReplaceFoto')) {
     function caseReplaceFoto($teks, $isian_foto = null, $ganti_dengan = null)
     {
         $pola = '/(<img src=")(.*?)(">)/';
@@ -2119,7 +2105,7 @@ if (! function_exists('caseReplaceFoto')) {
     }
 }
 
-if (! function_exists('usia')) {
+if (!function_exists('usia')) {
     /**
      * Menghitung usia berdasarkan tanggal lahir
      *
@@ -2142,7 +2128,7 @@ if (! function_exists('usia')) {
     }
 }
 
-if (! function_exists('bungkusKotak')) {
+if (!function_exists('bungkusKotak')) {
     function bungkusKotak($teks, $setting = [])
     {
         $pola = '/\[#{1,2}\s*(.*?)\s*#{1,2}\]/';
@@ -2160,7 +2146,7 @@ if (! function_exists('bungkusKotak')) {
     }
 }
 
-if (! function_exists('tampilkanKotak')) {
+if (!function_exists('tampilkanKotak')) {
     function tampilkanKotak(array $teks, $rapat = false, $setting = []): string
     {
         $jarakAntarKolom = $setting['jarak'] ?? 2;
@@ -2182,7 +2168,7 @@ if (! function_exists('tampilkanKotak')) {
     }
 }
 
-if (! function_exists('grup_kode_isian')) {
+if (!function_exists('grup_kode_isian')) {
     /**
      * Membuat ulang kode isian berdasarkan masing-masing kategori
      *
@@ -2193,12 +2179,12 @@ if (! function_exists('grup_kode_isian')) {
      */
     function grup_kode_isian($kode_isian, $individu = true)
     {
-        return collect($kode_isian)->groupBy(static fn ($item) => $item->kategori ?? 'individu')->map(static fn ($items) => $items->map(static fn ($item): array => (array) $item))->when(! $individu, static fn ($collection) => $collection->filter(static fn ($item): bool => isset($item['kategori']) && $item['kategori'] !== 'individu'))
+        return collect($kode_isian)->groupBy(static fn ($item) => $item->kategori ?? 'individu')->map(static fn ($items) => $items->map(static fn ($item): array => (array) $item))->when(!$individu, static fn ($collection) => $collection->filter(static fn ($item): bool => isset($item['kategori']) && $item['kategori'] !== 'individu'))
             ->toArray();
     }
 }
 
-if (! function_exists('get_hari')) {
+if (!function_exists('get_hari')) {
     /**
      * Mengembalikan nama hari berdasarkan tanggal
      *

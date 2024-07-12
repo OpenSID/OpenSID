@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Penduduk;
+use App\Models\PesanMandiri;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mailbox extends Admin_Controller
@@ -42,165 +45,164 @@ class Mailbox extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('web_komentar_model');
-        $this->load->model('mandiri_model');
-        $this->load->model('mailbox_model');
         $this->modul_ini     = 'layanan-mandiri';
         $this->sub_modul_ini = 'kotak-pesan';
     }
 
-    public function clear($kat = 1, $p = 1, $o = 0): void
+    public function index(int $kategori): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter_status'], $_SESSION['filter_nik'], $_SESSION['filter_archived']);
-
-        redirect("mailbox/index/{$kat}/{$p}/{$o}");
+        $data['submenu']  = array_flip(unserialize(KATEGORI_MAILBOX));
+        $data['kategori'] = $kategori;
+        view('admin.mailbox.index', $data);
     }
 
-    public function index($kat = 1, $p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p']   = $p;
-        $data['o']   = $o;
-        $data['kat'] = $kat;
+        if ($this->input->is_ajax_request()) {
+            $tipe       = $this->input->get('tipe');
+            $status     = $this->input->get('status');
+            $pendudukId = $this->input->get('nik');
 
-        $list_session = ['cari', 'filter_status', 'filter_nik', 'filter_archived'];
+            $canDelete = can('h');
+            $canUpdate = can('u');
 
-        foreach ($list_session as $session) {
-            $data[$session] = $this->session->userdata($session) ?: '';
+            return datatables()->of(PesanMandiri::with(['penduduk'])->whereTipe($tipe)
+                ->when($pendudukId, static fn ($q) => $q->wherePendudukId($pendudukId))
+                ->when($status, static function ($q) use ($status) {
+                    switch ($status) {
+                        case 1:
+                        case 2:
+                            $q->whereStatus($status);
+                            break;
+
+                        default:
+                            $q->where(['is_archived' => 1]);
+                    }
+                }))
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete && !$row->isArchive()) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->uuid . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete) {
+                    $aksi = '';
+                    if ($canDelete && !$row->isArchive()) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('mailbox.delete.' . $row->tipe, $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a> ';
+                    }
+
+                    if ($canUpdate) {
+                        $aksi .= '<a href="' . ci_route('mailbox.detail.' . $row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm"  title="Lihat detail pesan"><i class="fa fa-list"></i></a> ';
+                        if ($row->tipe == 1) {
+                            if ($row->isRead()) {
+                                $aksi .= '<a href="' . ci_route('mailbox.read.' . $row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-envelope-open-o"></i></a> ';
+                            } else {
+                                $aksi .= '<a href="' . ci_route('mailbox.read.' . $row->tipe, $row->uuid) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-envelope-o"></i></a> ';
+                            }
+                        }
+                    }
+
+                    return $aksi;
+                })
+                ->addColumn('status', static fn ($row): string => $row->status == '1' ? 'Sudah Dibaca' : 'Belum Dibaca')
+                ->editColumn('tgl_upload', static fn ($row): string => tgl_indo2($row->tgl_upload))
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
         }
 
-        if ($nik = $this->session->userdata('filter_nik')) {
-            $data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
-        }
-
-        if ($per_page = $this->input->post('per_page')) {
-            $this->session->set_userdata('per_page', $per_page);
-        }
-
-        $data['per_page']    = $_SESSION['per_page'];
-        $data['paging']      = $this->web_komentar_model->paging($p, $o, $kat);
-        $data['main']        = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page, $kat);
-        $data['owner']       = $kat == 1 ? 'Pengirim' : 'Penerima';
-        $data['keyword']     = $this->web_komentar_model->autocomplete();
-        $data['submenu']     = $this->mailbox_model->list_menu();
-        $_SESSION['submenu'] = $kat;
-
-        $this->render('mailbox/table', $data);
+        return show_404();
     }
 
-    public function form(): void
+    public function detail($tipe, $id)
     {
-        $this->redirect_hak_akses('h');
+        $pesan = PesanMandiri::with(['penduduk'])->findOrFail($id);
+        $data  = [
+            'pesan'         => $pesan->toArray(),
+            'readonly'      => 1,
+            'labelPengirim' => $tipe == 1 ? 'Pengirim' : 'Penerima',
+            'form_action'   => ci_route('mailbox.form', $tipe),
+        ];
+        view('admin.mailbox.detail', $data);
+    }
 
-        if (! empty($nik = $this->input->post('nik'))) {
-            $data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
+    public function form($tipe): void
+    {
+        isCan('u');
+
+        $data['pesan'] = [
+            'subjek' => $this->request['subjek'] ?? '',
+        ];
+
+        $pendudukId       = $this->request['penduduk_id'] ?? '';
+        $data['individu'] = [];
+        if ($pendudukId) {
+            $pendudukTerpilih = Penduduk::withOnly(['Wilayah', 'keluarga'])->find($pendudukId);
+            if ($pendudukTerpilih) {
+                $data['individu'] = $pendudukTerpilih->toArray();
+            }
         }
 
-        if (! empty($subjek = $this->input->post('subjek'))) {
-            $data['subjek'] = $subjek;
-        }
+        $data['form_action'] = ci_route('mailbox.kirim_pesan');
 
-        $data['form_action'] = site_url('mailbox/kirim_pesan');
-
-        $this->render('mailbox/form', $data);
+        view('admin.mailbox.form', $data);
     }
 
     public function kirim_pesan(): void
     {
-        $this->redirect_hak_akses('u');
-        $post           = $this->input->post();
-        $post['tipe']   = 2;
-        $post['status'] = 2;
-        $this->mailbox_model->insert($post);
-        redirect('mailbox/index/' . $post['tipe']);
-    }
+        isCan('u');
 
-    public function baca_pesan($kat, $id): void
-    {
-        if ($kat == 1) {
-            $this->web_komentar_model->komentar_lock($id, 1);
-            unset($_SESSION['success']);
-        }
-
-        $data['kat']          = $kat;
-        $data['owner']        = $kat == 1 ? 'Pengirim' : 'Penerima';
-        $data['pesan']        = $this->web_komentar_model->get_komentar($id) ?? show_404();
-        $data['tipe_mailbox'] = $this->mailbox_model->get_kat_nama($kat);
-
-        $this->render('mailbox/detail', $data);
-    }
-
-    public function search($kat = 1): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $this->session->cari = $cari;
-        } else {
-            unset($this->session->cari);
-        }
-        redirect("mailbox/index/{$kat}");
-    }
-
-    public function filter_status($kat = 1): void
-    {
-        $status = $this->input->post('status');
-        if ($status != 0) {
-            if ($status == 3) {
-                $this->session->filter_archived = true;
-                unset($this->session->filter_status);
-            } else {
-                $this->session->filter_status = $status;
-                unset($this->session->filter_archived);
-            }
-        } else {
-            unset($_SESSION['filter_status'], $_SESSION['filter_archived']);
-        }
-        redirect("mailbox/index/{$kat}");
-    }
-
-    public function filter_nik($kat = 1): void
-    {
-        $nik = $this->input->post('nik');
-        if (! empty($nik) && $nik != 0) {
-            $this->session->filter_nik = $nik;
-        } else {
-            unset($this->session->filter_nik);
-        }
-        redirect("mailbox/index/{$kat}");
+        $pendudukId = trim($this->request['penduduk_id']);
+        $owner      = Penduduk::find($pendudukId);
+        PesanMandiri::create([
+            'owner'       => strtoupper($owner->nama),
+            'penduduk_id' => $owner->id,
+            'subjek'      => strip_tags($this->request['subjek']),
+            'komentar'    => strip_tags($this->request['komentar']),
+            'status'      => PesanMandiri::UNREAD,
+            'tipe'        => PesanMandiri::KELUAR,
+        ]);
+        redirect_with('success', 'Pesan berhasil dikirim', ci_route('mailbox', PesanMandiri::KELUAR));
     }
 
     public function list_pendaftar_mandiri_ajax(): void
     {
         $cari                   = $this->input->get('q');
-        $page                   = $this->input->get('page');
-        $list_pendaftar_mandiri = $this->mandiri_model->list_data_ajax($cari, $page);
-        echo json_encode($list_pendaftar_mandiri, JSON_THROW_ON_ERROR);
+        $page                   = 2; //$this->input->get('page');
+        $list_pendaftar_mandiri = Penduduk::whereHas('mandiri')->withOnly(['Wilayah', 'keluarga'])->where(static fn ($r) => $r->where('nama', 'like', '%' . $cari . '%')->orWhere('nik', 'like', '%' . $cari . '%'))->offset(($page - 1) * 15)->simplePaginate();
+        $data                   = $list_pendaftar_mandiri->items();
+        $result                 = [];
+        if ($data) {
+            foreach ($data as $q) {
+                $result[] = ['id' => $q->id, 'text' => $q->nik . ' - ' . $q->nama . PHP_EOL . $q->alamat_wilayah];
+            }
+        }
+
+        echo json_encode(['results' => $result, 'pagination' => ''], JSON_THROW_ON_ERROR);
     }
 
-    public function archive($kat = 1, $p = 1, $o = 0, $id = ''): void
+    public function delete($tipe, $id = null): void
     {
-        $this->redirect_hak_akses('h');
-        $this->web_komentar_model->archive($id);
-        redirect("mailbox/index/{$kat}/{$p}/{$o}");
+        isCan('h');
+        $listId = $id ? [$id] : $this->request['id_cb'];
+
+        if (PesanMandiri::whereIn('uuid', $listId)->update(['is_archived' => 1])) {
+            redirect_with('success', 'Berhasil Mengarsipkan Data', ci_route('mailbox', $tipe));
+        }
+        redirect_with('error', 'Gagal Mengarsipkan Data', ci_route('mailbox', $tipe));
     }
 
-    public function archive_all($kat = 1, $p = 1, $o = 0): void
+    public function read($tipe, $id): void
     {
-        $this->redirect_hak_akses('h');
-        $this->web_komentar_model->archive_all();
-        redirect("mailbox/index/{$kat}/{$p}/{$o}");
-    }
+        isCan('u');
 
-    public function pesan_read($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->web_komentar_model->komentar_lock($id, 1);
-        redirect('mailbox');
-    }
-
-    public function pesan_unread($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->web_komentar_model->komentar_lock($id, 2);
-        redirect('mailbox');
+        try {
+            $pesan         = PesanMandiri::findOrFail($id);
+            $nextStatus    = $pesan->isRead() ? PesanMandiri::UNREAD : PesanMandiri::READ;
+            $pesan->status = $nextStatus;
+            $pesan->save();
+            redirect_with('success', 'Berhasil ubah status', ci_route('mailbox', $tipe));
+        } catch (Exception $e) {
+            redirect_with('error', 'Gagal ubah status ' . $e->getMessage(), ci_route('mailbox', $tipe));
+        }
     }
 }

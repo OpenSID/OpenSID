@@ -48,6 +48,7 @@ class Qr_code extends Admin_Controller
 
     public function index(): void
     {
+        $this->set_hak_akses_rfm();
         $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
         $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
         $data['list_sizeqr']   = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];

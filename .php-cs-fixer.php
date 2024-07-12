@@ -82,8 +82,11 @@ $finder = Symfony\Component\Finder\Finder::create()
         __DIR__ . '/donjo-app',
     ])
     ->exclude([
+        __DIR__ . '/donjo-app/Modules',
         __DIR__ . '/donjo-app/views',
         __DIR__ . '/donjo-app/third_party/*/views',
+        __DIR__ . '/donjo-app/models/migrations',
+        __DIR__ . '/donjo-app/models/seeders',
     ])
     ->append([
         __DIR__ . '/index.php',
@@ -102,7 +105,7 @@ return (new PhpCsFixer\Config())
             'array_indentation'                        => true,
             'array_push'                               => true,
             'array_syntax'                             => ['syntax' => 'short'],
-            'assign_null_coalescing_to_coalesce_equal' => false, // requires 7.4+
+            'assign_null_coalescing_to_coalesce_equal' => true, // requires 7.4+
             'backtick_to_shell_exec'                   => true,
             'binary_operator_spaces'                   => [
                 'default'   => 'single_space',
@@ -135,12 +138,9 @@ return (new PhpCsFixer\Config())
                     'yield_from',
                 ],
             ],
-            'braces' => [
-                'allow_single_line_anonymous_class_with_empty_body' => true,
-                'allow_single_line_closure'                         => true,
-                'position_after_anonymous_constructs'               => 'same',
-                'position_after_control_structures'                 => 'same',
-                'position_after_functions_and_oop_constructs'       => 'next',
+            'braces_position' => [
+                'allow_single_line_anonymous_functions' => true,
+                'functions_opening_brace'               => 'next_line_unless_newline_at_signature_end',
             ],
             'cast_spaces'                 => ['space' => 'single'],
             'class_attributes_separation' => [
@@ -171,7 +171,7 @@ return (new PhpCsFixer\Config())
                     'phpstan-ignore-next-line',
                 ],
             ],
-            'compact_nullable_typehint'               => true,
+            'compact_nullable_type_declaration'       => true,
             'concat_space'                            => ['spacing' => 'one'],
             'constant_case'                           => ['case' => 'lower'],
             'control_structure_continuation_position' => ['position' => 'same_line'],
@@ -208,8 +208,8 @@ return (new PhpCsFixer\Config())
             'explicit_string_variable'   => true,
             'final_class'                => false,
             'final_internal_class'       => [
-                'annotation_exclude'                         => ['@no-final'],
-                'annotation_include'                         => ['@internal'],
+                'exclude'                                    => ['@no-final'],
+                'include'                                    => ['@internal'],
                 'consider_absent_docblock_as_internal_class' => false,
             ],
             'final_public_method_for_abstract_class' => false,
@@ -228,7 +228,7 @@ return (new PhpCsFixer\Config())
                     'pi',
                 ],
             ],
-            'function_typehint_space'          => true,
+            'type_declaration_spaces'          => true,
             'general_phpdoc_annotation_remove' => [
                 'annotations' => [
                     'author',
@@ -281,15 +281,15 @@ return (new PhpCsFixer\Config())
             'native_constant_invocation'                  => false,
             'native_function_casing'                      => true,
             'native_function_invocation'                  => false,
-            'native_function_type_declaration_casing'     => true,
-            'new_with_braces'                             => true,
+            'native_type_declaration_casing'              => true,
+            'new_with_parentheses'                        => true,
             'no_alias_functions'                          => ['sets' => ['@all']],
             'no_alias_language_construct_call'            => true,
             'no_alternative_syntax'                       => ['fix_non_monolithic_code' => false],
             'no_binary_string'                            => true,
             'no_blank_lines_after_class_opening'          => true,
             'no_blank_lines_after_phpdoc'                 => true,
-            'no_blank_lines_before_namespace'             => false, // conflicts with `single_blank_line_before_namespace`
+            'blank_lines_before_namespace'                => false, // conflicts with `single_blank_line_before_namespace`
             'no_break_comment'                            => ['comment_text' => 'no break'],
             'no_closing_tag'                              => true,
             'no_empty_comment'                            => true,
@@ -308,19 +308,18 @@ return (new PhpCsFixer\Config())
             'no_space_around_double_colon'                => true,
             'no_spaces_after_function_name'               => true,
             'no_spaces_around_offset'                     => ['positions' => ['inside', 'outside']],
-            'no_spaces_inside_parenthesis'                => true,
+            'spaces_inside_parentheses'                   => false,
             'no_superfluous_elseif'                       => true,
             'no_superfluous_phpdoc_tags'                  => [
                 'allow_mixed'         => true,
                 'allow_unused_params' => true,
                 'remove_inheritdoc'   => false,
             ],
-            'no_trailing_comma_in_list_call'        => true,
-            'no_trailing_comma_in_singleline_array' => true,
-            'no_trailing_whitespace'                => true,
-            'no_trailing_whitespace_in_comment'     => true,
-            'no_trailing_whitespace_in_string'      => true,
-            'no_unneeded_control_parentheses'       => [
+            'no_trailing_comma_in_singleline'   => true,
+            'no_trailing_whitespace'            => true,
+            'no_trailing_whitespace_in_comment' => true,
+            'no_trailing_whitespace_in_string'  => true,
+            'no_unneeded_control_parentheses'   => [
                 'statements' => [
                     'break',
                     'clone',
@@ -331,7 +330,7 @@ return (new PhpCsFixer\Config())
                     'yield',
                 ],
             ],
-            'no_unneeded_curly_braces'                         => ['namespaces' => true],
+            'no_unneeded_braces'                               => ['namespaces' => true],
             'no_unneeded_final_method'                         => ['private_methods' => true],
             'no_unreachable_default_argument_value'            => true,
             'no_unset_cast'                                    => true,
@@ -526,15 +525,14 @@ return (new PhpCsFixer\Config())
             'simplified_if_return'               => true,
             'simplified_null_return'             => false,
             'single_blank_line_at_eof'           => true,
-            'single_blank_line_before_namespace' => true,
             'single_class_element_per_statement' => ['elements' => ['const', 'property']],
             'single_import_per_statement'        => true,
             'single_line_after_imports'          => true,
             'single_line_comment_style'          => ['comment_types' => ['asterisk', 'hash']],
             'single_line_throw'                  => false,
             'single_quote'                       => ['strings_containing_single_quote_chars' => false],
-            'single_space_after_construct'       => [
-                'constructs' => [
+            'single_space_around_construct'      => [
+                'constructs_followed_by_a_single_space' => [
                     'abstract',
                     'as',
                     'attribute',
@@ -615,7 +613,7 @@ return (new PhpCsFixer\Config())
             'trim_array_spaces'               => true,
             'types_spaces'                    => ['space' => 'none'],
             'unary_operator_spaces'           => true,
-            'use_arrow_functions'             => false, // requires PHP7.4+
+            'use_arrow_functions'             => true, // requires PHP7.4+
             'visibility_required'             => ['elements' => ['const', 'method', 'property']],
             'void_return'                     => false, // changes method signature
             'whitespace_after_comma_in_array' => true,

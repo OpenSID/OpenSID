@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('anjungan_pengaturan') }}">Pengaturan Anjungan</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('anjungan_pengaturan') }}">Pengaturan Anjungan</a></li>
 @endsection
 
 @section('content')

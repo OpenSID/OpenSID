@@ -134,7 +134,7 @@ class First_gallery_m extends MY_Model
     // daftar album di widget
     public function gallery_widget()
     {
-        return $this->config_id_exist('gambar_gallery')
+        return $this->config_id()
             ->where('enabled', 1)
             ->where('parrent', 0)
             ->order_by('rand()')

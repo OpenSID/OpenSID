@@ -113,8 +113,8 @@ class Bumindes_arsip extends Admin_controller
         $data['per_page'] = $this->session->per_page;
         $data['paging']   = $this->arsip_fisik_model->paging($p);
         $data['main']     = $this->arsip_fisik_model->ambil_dokumen_per_page(true, $data['per_page'], $p, $o);
-        $data['page']     = $p;
-        $data['o']        = $o;
+        $data['page']     = $p ?? 1;
+        $data['o']        = $o ?? 4;
 
         $filter = $this->arsip_fisik_model->ambil_semua_filter();
 

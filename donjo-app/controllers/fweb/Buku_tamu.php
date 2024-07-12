@@ -64,7 +64,7 @@ class Buku_tamu extends MY_Controller
     public function index()
     {
         return view('buku_tamu.registrasi', [
-            'aksi'      => route('buku-tamu.registrasi'),
+            'aksi'      => ci_route('buku-tamu.registrasi'),
             'bertemu'   => RefJabatan::pluck('nama', 'id'),
             'keperluan' => BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id'),
             'kamera'    => $this->setting->buku_tamu_kamera,

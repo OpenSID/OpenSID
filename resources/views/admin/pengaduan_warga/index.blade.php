@@ -22,14 +22,14 @@
                 <div class="col-sm-2">
                     <select class="form-control input-sm select2" id="status" name="status">
                         <option value="">Semua Status</option>
-                        <option value="1">Menunggu Diproses</option>
-                        <option value="2">Sedang Diproses</option>
-                        <option value="3">Selesai Diproses</option>
+                        @foreach (\App\Enums\StatusPengaduanEnum::all() as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
                     </select>
                 </div>
                 @if (can('h'))
                     <div class="col-sm-1">
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('pengaduan_admin.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengaduan_admin.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     </div>
@@ -68,7 +68,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('pengaduan_admin.datatables') }}",
+                    url: "{{ ci_route('pengaduan_admin.datatables') }}",
                     data: function(req) {
                         console.log(req);
                         req.status = $('#status').val();

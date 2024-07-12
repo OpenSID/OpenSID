@@ -82,24 +82,24 @@ class Point extends Admin_Controller
 
                     if (can('u')) {
                         if ($root) {
-                            $aksi .= '<a href="' . route('point.form', $row->id) . '/' . $subpoint . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('point.form', $row->id) . '/' . $subpoint . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('point.ajax_add_sub_point', $subpoint) . '/' . $row->id . '" data-toggle="modal" data-target="#modalBox" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('point.ajax_add_sub_point', $subpoint) . '/' . $row->id . '" data-toggle="modal" data-target="#modalBox" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         }
 
                         if ($row->enabled == ModelsPoint::LOCK) {
-                            $aksi .= '<a href="' . route('point.lock') . '/' . $row->id . '/' . ModelsPoint::UNLOCK . '/' . $subpoint . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('point.lock') . '/' . $row->id . '/' . ModelsPoint::UNLOCK . '/' . $subpoint . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('point.lock') . '/' . $row->id . '/' . ModelsPoint::LOCK . '/' . $subpoint . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('point.lock') . '/' . $row->id . '/' . ModelsPoint::LOCK . '/' . $subpoint . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
 
                     if ($root) {
-                        $aksi .= '<a href="' . route('point.sub_point', $row->id) . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('point.sub_point', $row->id) . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('point.delete', $row->id) . '/' . $subpoint . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('point.delete', $row->id) . '/' . $subpoint . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -119,12 +119,12 @@ class Point extends Admin_Controller
 
         if ($id) {
             $data['point']       = ModelsPoint::findOrFail($id);
-            $data['form_action'] = route('point.update', $id) . '/' . $subpoint;
+            $data['form_action'] = ci_route('point.update', $id) . '/' . $subpoint;
             $data['aksi']        = 'Ubah';
         } else {
             $data['point']       = null;
             $data['aksi']        = 'Tambah';
-            $data['form_action'] = route('point.insert');
+            $data['form_action'] = ci_route('point.insert');
         }
 
         $data['simbol'] = gis_simbols();
@@ -146,10 +146,10 @@ class Point extends Admin_Controller
     {
         if ($id) {
             $data['point']       = ModelsPoint::findOrFail($id);
-            $data['form_action'] = route('point.update', $id) . '/' . $point;
+            $data['form_action'] = ci_route('point.update', $id) . '/' . $point;
         } else {
             $data['point']       = null;
-            $data['form_action'] = route('point.insert', $point);
+            $data['form_action'] = ci_route('point.insert', $point);
         }
 
         $data['simbol'] = gis_simbols();

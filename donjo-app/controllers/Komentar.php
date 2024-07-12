@@ -35,6 +35,10 @@
  *
  */
 
+use App\Enums\StatusEnum;
+use App\Models\Kategori;
+use App\Models\Komentar as ModelsKomentar;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Komentar extends Admin_Controller
@@ -43,119 +47,141 @@ class Komentar extends Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model('web_komentar_model');
         $this->modul_ini     = 'admin-web';
         $this->sub_modul_ini = 'komentar';
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter_status'], $_SESSION['filter_nik']);
-
-        redirect('komentar');
+        view('admin.komentar.index');
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(ModelsKomentar::with('artikel'))
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('komentar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        if ($row->status == StatusEnum::YA) {
+                            $aksi .= '<a href="' . ci_route('komentar.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('komentar.lock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
 
-        $data['filter_status'] = $_SESSION['filter_status'] ?? '';
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('komentar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    return $aksi;
+                })
+                ->addColumn('enabled', static fn ($row): string => $row->status == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('dimuat_pada', static fn ($row): string => tgl_indo2($row->tgl_upload))
+                ->editColumn('judul_artikel', static fn ($row): string => '<a href="' . $row->artikel->url_slug . '" target="_blank">' . $row->artikel->judul . '</a>')
+                ->rawColumns(['ceklist', 'enabled', 'aksi', 'dimuat_pada', 'judul_artikel'])
+                ->make();
         }
-        $data['per_page'] = $_SESSION['per_page'];
 
-        $data['paging']  = $this->web_komentar_model->paging($p, $o);
-        $data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->web_komentar_model->autocomplete();
-
-        $this->render('komentar/table', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    public function form($id = ''): void
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $data['p'] = $p;
-        $data['o'] = $o;
+        isCan('u');
 
         if ($id) {
-            $data['komentar']    = $this->web_komentar_model->get_komentar($id);
-            $data['form_action'] = site_url("komentar/update/{$id}/{$p}/{$o}");
+            $data['komentar']    = ModelsKomentar::findOrFail($id);
+            $data['form_action'] = ci_route('komentar.update', $id);
         } else {
             $data['komentar']    = null;
-            $data['form_action'] = site_url('komentar/insert');
+            $data['form_action'] = ci_route('komentar.insert');
         }
 
-        $data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
+        $data['list_kategori'] = Kategori::whereTipe(1)->get();
 
-        $this->render('komentar/form', $data);
+        view('admin.komentar.form', $data);
     }
 
-    public function search(): void
+    public function update($id = ''): void
     {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
+        isCan('u');
+
+        $data = $this->validasi($this->input->post());
+        $url  = site_url('komentar');
+
+        try {
+            ModelsKomentar::findOrFail($id)->update($data);
+            redirect_with('success', 'Komentar berhasil diubah', $url);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Komentar gagal diubah', $url);
         }
-        redirect('komentar');
     }
 
-    public function filter(): void
+    private function validasi($post)
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter_status'] = $filter;
-        } else {
-            unset($_SESSION['filter_status']);
+        $data['owner']    = htmlentities($post['owner']);
+        $data['no_hp']    = bilangan($post['no_hp']);
+        $data['email']    = email($post['email']);
+        $data['komentar'] = htmlentities($post['komentar']);
+        if (isset($post['status'])) {
+            $data['status'] = bilangan($post['status']);
         }
-        redirect('komentar');
+
+        return $data;
     }
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_komentar_model->insert();
+        isCan('u');
+        $data = $this->validasi($this->input->post());
+
+        try {
+            ModelsKomentar::create($data);
+            redirect_with('success', 'Komentar berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Komentar disimpan');
+        }
+
         redirect('komentar');
     }
 
-    public function update($id = '', $p = 1, $o = 0): void
+    public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_komentar_model->update($id);
-        redirect("komentar/index/{$p}/{$o}");
+        isCan('h');
+        if (ModelsKomentar::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function delete($p = 1, $o = 0, $id = ''): void
+    public function delete_all(): void
     {
-        $this->redirect_hak_akses('h', "komentar/index/{$p}/{$o}");
-        $this->web_komentar_model->delete($id);
-        redirect("komentar/index/{$p}/{$o}");
+        isCan('h');
+        if (ModelsKomentar::destroy($this->request['id_cb'])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function delete_all($p = 1, $o = 0): void
+    public function lock($id = 0): void
     {
-        $this->redirect_hak_akses('h', "komentar/index/{$p}/{$o}");
-        $this->web_komentar_model->delete_all();
-        redirect("komentar/index/{$p}/{$o}");
-    }
-
-    public function komentar_lock($id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_komentar_model->komentar_lock($id, 1);
-        redirect("komentar/index/{$p}/{$o}");
-    }
-
-    public function komentar_unlock($id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_komentar_model->komentar_lock($id, 2);
-        redirect("komentar/index/{$p}/{$o}");
+        isCan('u');
+        if (ModelsKomentar::gantiStatus($id, 'status')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+        redirect_with('error', 'Gagal Ubah Status');
     }
 }

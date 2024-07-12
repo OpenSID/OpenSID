@@ -45,10 +45,21 @@ class KeluargaAktif extends BaseModel
 {
     use ConfigId;
 
+<<<<<<<< HEAD:donjo-app/models/migrations/Migrasi_2101_ke_2102.php
+        // Migrasi fitur premium
+        // $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2010');
+        // Skip
+
+        status_sukses($hasil);
+
+        return $hasil;
+    }
+========
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'keluarga_aktif';
+>>>>>>>> e20b8897c (gabungkan premium):app/Models/KeluargaAktif.php
 }

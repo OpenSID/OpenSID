@@ -86,75 +86,71 @@
             </div>
         @endif
 
-        @if ($margins)
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
-                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
-                    <label id="lmg1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($margin_global)">
-                        <input
-                            id="img1"
-                            type="radio"
-                            name="margin_global"
-                            @checked($margin_global)
-                            class="form-check-input"
-                            type="radio"
-                            value="1"
-                            autocomplete="off"
-                        >Ya
-                    </label>
-                    <label id="lmg2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$margin_global)">
-                        <input
-                            id="img2"
-                            type="radio"
-                            name="margin_global"
-                            class="form-check-input"
-                            @checked(!$margin_global)
-                            type="radio"
-                            value="0"
-                            autocomplete="off"
-                        >Tidak
-                    </label>
-                </div>
-                <div id="manual_margin" style="display: none;">
-                    <div class="col-sm-7 col-sm-offset-3">
-                        <div class="row">
-                            @foreach ($margins as $key => $value)
-                                <div class="col-sm-6">
-                                    <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
-                                        <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
-                                        <input
-                                            type="number"
-                                            class="form-control input-sm required"
-                                            min="0"
-                                            name="{{ $key }}"
-                                            min="0"
-                                            max="10"
-                                            step="0.01"
-                                            style="text-align:right;"
-                                            value="{{ $value }}"
-                                        >
-                                        <span class="input-group-addon input-sm">cm</span>
-                                    </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Gunakan Margin Kertas Global</label>
+            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="margin: 0 0 5px 0">
+                <label id="lmg1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($margin_global)">
+                    <input
+                        id="img1"
+                        type="radio"
+                        name="margin_global"
+                        @checked($margin_global)
+                        class="form-check-input"
+                        type="radio"
+                        value="1"
+                        autocomplete="off"
+                    >Ya
+                </label>
+                <label id="lmg2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$margin_global)">
+                    <input
+                        id="img2"
+                        type="radio"
+                        name="margin_global"
+                        class="form-check-input"
+                        @checked(!$margin_global)
+                        type="radio"
+                        value="0"
+                        autocomplete="off"
+                    >Tidak
+                </label>
+            </div>
+            <div id="manual_margin" style="display: none;">
+                <div class="col-sm-7 col-sm-offset-3">
+                    <div class="row">
+                        @foreach ($margins as $key => $value)
+                            <div class="col-sm-6">
+                                <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                    <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
+                                    <input
+                                        type="number"
+                                        class="form-control input-sm required"
+                                        min="0"
+                                        name="{{ $key }}"
+                                        min="0"
+                                        max="10"
+                                        step="0.01"
+                                        style="text-align:right;"
+                                        value="{{ $value }}"
+                                    >
+                                    <span class="input-group-addon input-sm">cm</span>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
 
-        @if (!in_array($suratMaster->jenis, [1, 2]))
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Lampiran</label>
-                <div class="col-sm-7">
-                    <select class="form-control input-sm select2" name="lampiran[]" multiple="multiple" data-placeholder="Pilih Lampiran">
-                        @foreach ($daftar_lampiran as $value)
-                            <option value="{{ $value }}" @selected(in_array($value, explode(',', $suratMaster->lampiran)))>{{ $value }} </option>
-                        @endforeach
-                    </select>
-                </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Lampiran</label>
+            <div class="col-sm-7">
+                <select class="form-control input-sm select2" name="lampiran[]" multiple="multiple" data-placeholder="Pilih Lampiran">
+                    @foreach ($daftar_lampiran as $value)
+                        <option value="{{ $value }}" @selected(in_array($value, explode(',', $suratMaster->lampiran)))>{{ $value }} </option>
+                    @endforeach
+                </select>
             </div>
-        @endif
+        </div>
 
         @if (isset($format_nomor))
             <div class="form-group">
@@ -165,113 +161,107 @@
             </div>
         @endif
 
-        @if ($qrCode)
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Tampilkan QR Code</label>
-                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="lq1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratMaster->qr_code)">
-                        <input
-                            id="iq1"
-                            type="radio"
-                            name="qr_code"
-                            class="form-check-input"
-                            type="radio"
-                            value="1"
-                            @checked($suratMaster->qr_code)
-                            autocomplete="off"
-                        >Ya
-                    </label>
-                    <label id="lq2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$suratMaster->qr_code)">
-                        <input
-                            id="iq2"
-                            type="radio"
-                            name="qr_code"
-                            class="form-check-input"
-                            type="radio"
-                            value="0"
-                            @checked(!$suratMaster->qr_code)
-                            autocomplete="off"
-                        >Tidak
-                    </label>
-                </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Tampilkan QR Code</label>
+            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                <label id="lq1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($suratMaster->qr_code)">
+                    <input
+                        id="iq1"
+                        type="radio"
+                        name="qr_code"
+                        class="form-check-input"
+                        type="radio"
+                        value="1"
+                        @checked($suratMaster->qr_code)
+                        autocomplete="off"
+                    >Ya
+                </label>
+                <label id="lq2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$suratMaster->qr_code)">
+                    <input
+                        id="iq2"
+                        type="radio"
+                        name="qr_code"
+                        class="form-check-input"
+                        type="radio"
+                        value="0"
+                        @checked(!$suratMaster->qr_code)
+                        autocomplete="off"
+                    >Tidak
+                </label>
             </div>
-        @endif
+        </div>
 
-        @if (isset($header))
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Tampilkan Header</label>
-                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="lh1" for="ih1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 1)">
-                        <input
-                            id="ih1"
-                            type="radio"
-                            name="header"
-                            class="form-check-input"
-                            type="radio"
-                            value="1"
-                            @checked($header == 1)
-                            autocomplete="off"
-                        >Semua Halaman
-                    </label>
-                    <label id="lh2" for="lh2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 2)">
-                        <input
-                            id="ih2"
-                            type="radio"
-                            name="header"
-                            class="form-check-input"
-                            type="radio"
-                            value="2"
-                            @checked($header == 2)
-                            autocomplete="off"
-                        >Hanya Halaman Awal
-                    </label>
-                    <label id="lh3" for="lh3" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 0)">
-                        <input
-                            id="ih3"
-                            type="radio"
-                            name="header"
-                            class="form-check-input"
-                            type="radio"
-                            value="0"
-                            @checked($header == 0)
-                            autocomplete="off"
-                        >Tidak
-                    </label>
-                </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Tampilkan Header</label>
+            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                <label id="lh1" for="ih1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 1)">
+                    <input
+                        id="ih1"
+                        type="radio"
+                        name="header"
+                        class="form-check-input"
+                        type="radio"
+                        value="1"
+                        @checked($header == 1)
+                        autocomplete="off"
+                    >Semua Halaman
+                </label>
+                <label id="lh2" for="lh2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 2)">
+                    <input
+                        id="ih2"
+                        type="radio"
+                        name="header"
+                        class="form-check-input"
+                        type="radio"
+                        value="2"
+                        @checked($header == 2)
+                        autocomplete="off"
+                    >Hanya Halaman Awal
+                </label>
+                <label id="lh3" for="lh3" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($header == 0)">
+                    <input
+                        id="ih3"
+                        type="radio"
+                        name="header"
+                        class="form-check-input"
+                        type="radio"
+                        value="0"
+                        @checked($header == 0)
+                        autocomplete="off"
+                    >Tidak
+                </label>
             </div>
-        @endif
+        </div>
 
-        @if (isset($footer))
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Tampilkan Footer</label>
-                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                    <label id="lf1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($footer)">
-                        <input
-                            id="if1"
-                            type="radio"
-                            name="footer"
-                            class="form-check-input"
-                            type="radio"
-                            value="1"
-                            @checked($footer)
-                            autocomplete="off"
-                        >Ya
-                    </label>
-                    <label id="lf2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$footer)">
-                        <input
-                            id="if2"
-                            type="radio"
-                            name="footer"
-                            class="form-check-input"
-                            type="radio"
-                            value="0"
-                            @checked(!$footer)
-                            autocomplete="off"
-                        >Tidak
-                    </label>
-                </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Tampilkan Footer</label>
+            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                <label id="lf1" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active($footer)">
+                    <input
+                        id="if1"
+                        type="radio"
+                        name="footer"
+                        class="form-check-input"
+                        type="radio"
+                        value="1"
+                        @checked($footer)
+                        autocomplete="off"
+                    >Ya
+                </label>
+                <label id="lf2" class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label @active(!$footer)">
+                    <input
+                        id="if2"
+                        type="radio"
+                        name="footer"
+                        class="form-check-input"
+                        type="radio"
+                        value="0"
+                        @checked(!$footer)
+                        autocomplete="off"
+                    >Tidak
+                </label>
             </div>
-        @endif
+        </div>
 
         <div class="form-group">
             <label class="col-sm-3 control-label" for="logo_garuda">Logo Burung Garuda</label>
@@ -398,7 +388,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
                 <a class="btn-ok">
-                    <a href="{{ route('surat_master.restore_surat_bawaan', $suratMaster->url_surat) }}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Kembalikan</a>
+                    <a href="{{ ci_route('surat_master.restore_surat_bawaan', $suratMaster->url_surat) }}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Kembalikan</a>
                 </a>
             </div>
         </div>
@@ -470,7 +460,7 @@
             processing: true,
             serverSide: true,
             bPaginate: false,
-            ajax: "{{ route('surat_master.syaratsuratdatatables', $suratMaster->id) }}",
+            ajax: "{{ ci_route('surat_master.syaratSuratDatatables', $suratMaster->id) }}",
             columns: [{
                     data: 'ceklist',
                     class: 'padat',

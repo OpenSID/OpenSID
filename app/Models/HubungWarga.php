@@ -78,7 +78,7 @@ class HubungWarga extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'id_group',
+        'id_grup',
         'subjek',
         'isi',
         'pengirim',

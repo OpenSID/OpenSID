@@ -52,6 +52,15 @@ class Laporan_apbdes extends Admin_Controller
 
     public function index()
     {
+        $this->render('opendk/index', [
+            'judul' => ($this->tipe == 'laporan_apbdes') ? 'Laporan APBDes' : 'Laporan Penduduk',
+            'kolom' => ($this->tipe == 'laporan_apbdes') ? 'Semester' : 'Bulan',
+            'tahun' => $this->sinkronisasi->get_tahun(),
+        ]);
+    }
+
+    public function datatables()
+    {
         if ($this->input->is_ajax_request()) {
             $start  = $this->input->post('start');
             $length = $this->input->post('length');
@@ -68,14 +77,10 @@ class Laporan_apbdes extends Admin_Controller
             ]);
         }
 
-        $this->render('opendk/index', [
-            'judul' => ($this->tipe == 'laporan_apbdes') ? 'Laporan APBDes' : 'Laporan Penduduk',
-            'kolom' => ($this->tipe == 'laporan_apbdes') ? 'Semester' : 'Bulan',
-            'tahun' => $this->sinkronisasi->get_tahun(),
-        ]);
+        return show_404();
     }
 
-    public function form(int $id = 0): void
+    public function form(?int $id = 0): void
     {
         $this->redirect_hak_akses('u');
 
@@ -155,7 +160,7 @@ class Laporan_apbdes extends Admin_Controller
         $response  = json_decode(curl_exec($curl), null);
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-        if (! curl_errno($curl) && $http_code !== 422) {
+        if (!curl_errno($curl) && $http_code !== 422) {
             // Ubah tgl kirim
             $this->sinkronisasi->kirim($id);
         }

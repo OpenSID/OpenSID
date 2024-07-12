@@ -60,7 +60,7 @@ class Statistik_penduduk_model extends Laporan_penduduk_model
                 $statistik = new Keluarga_penerima_bantuan();
                 break;
 
-            case $lap > 50:
+            case (int) $lap > 50:
                 $program_id = preg_replace('/^50/', '', $lap);
                 $program    = $this->program_bantuan_model->get_sasaran($program_id);
 

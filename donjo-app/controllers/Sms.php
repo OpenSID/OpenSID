@@ -246,7 +246,7 @@ class Sms extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('h')) {
-                        return '<a href="#" data-href="' . route('sms.hubungdelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        return '<a href="#" data-href="' . ci_route('sms.hubungdelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
                 })
                 ->rawColumns(['ceklist', 'aksi'])
@@ -262,7 +262,7 @@ class Sms extends Admin_Controller
 
         return view('admin.sms.hubung_warga.form', [
             'grupKontak' => GrupKontak::withCount('anggota')->get(),
-            'formAction' => route('sms.proseskirim'),
+            'formAction' => ci_route('sms.proseskirim'),
             'navigasi'   => 'kirim',
         ]);
     }

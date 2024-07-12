@@ -51,7 +51,7 @@
                             } else {
                                 $ket = 'Belum Vaksin';
                             }
-			?>
+            ?>
 						<div class="form-group">
 							<label>Keterangan Vaksin</label>
 							<textarea class="form-control input-sm" rows="5" readonly><?= $ket ?></textarea>

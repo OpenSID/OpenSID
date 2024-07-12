@@ -4,12 +4,12 @@
 
 @section('title')
     <h1>
-        Pilih Surat TinyMCE Yang Akan Ditambah/Diganti
+        Pilih Surat Yang Akan Ditambah/Diganti
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Impor Surat TinyMCE</li>
+    <li class="active">Impor Surat</li>
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
-                    <a class="btn btn-social btn-sm bg-olive" title="Impor Surat TinyMCE" onclick="formAction('mainform', '{{ route('surat_master.impor_store') }}'); return false;"><i class="fa fa-upload"></i> Impor Surat TinyMCE</a>
+                    <a class="btn btn-social btn-sm bg-olive" title="Impor Surat" onclick="formAction('mainform', '{{ ci_route('surat_master.impor_store') }}'); return false;"><i class="fa fa-upload"></i> Impor Surat</a>
                 </div>
             @endif
         </div>

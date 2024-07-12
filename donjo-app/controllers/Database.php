@@ -62,8 +62,8 @@ class Database extends Admin_Controller
     public function index(): void
     {
         $data = [
-            'content'      => 'database/backup',
-            'form_action'  => site_url('database/restore'),
+            'content'      => 'admin.database.backup',
+            'form_action'  => setting('multi_desa') ? ci_route('multiDB.restore') : ci_route('database.restore'),
             'size_folder'  => byte_format(dirSize(DESAPATH)),
             'size_sql'     => byte_format(getSizeDB()->size),
             'act_tab'      => 1,
@@ -72,7 +72,7 @@ class Database extends Admin_Controller
             'memory_limit' => Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result'),
         ];
 
-        $this->load->view('database/database.tpl.php', $data);
+        view('admin.database.index', $data);
     }
 
     public function migrasi_cri(): void
@@ -80,8 +80,8 @@ class Database extends Admin_Controller
         $data['form_action'] = site_url('database/migrasi_db_cri');
 
         $data['act_tab'] = 2;
-        $data['content'] = 'database/migrasi_cri';
-        $this->load->view('database/database.tpl.php', $data);
+        $data['content'] = 'admin.database.migrasi_cri';
+        view('admin.database.index', $data);
     }
 
     public function migrasi_db_cri(): void
@@ -103,7 +103,7 @@ class Database extends Admin_Controller
 
     public function exec_backup()
     {
-        if (! Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result')) {
+        if (!Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result')) {
             return show_404();
         }
 
@@ -170,29 +170,38 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
-        $token = $this->setting->layanan_opendesa_token;
+        if (setting('multi_desa')) {
+            redirect_with('error', 'Restore database tidak diizinkan');
+        }
+
+        $token   = $this->setting->layanan_opendesa_token;
+        $pesan   = 'Proses restore database berhasil';
+        $success = false;
 
         try {
-            $this->session->success        = 1;
-            $this->session->error_msg      = '';
             $this->session->sedang_restore = 1;
-            $this->ekspor_model->restore();
+            $filename                      = $this->file_restore();
+            $success                       = $this->ekspor_model->proses_restore($filename);
         } catch (Exception $e) {
-            $this->session->success   = -1;
-            $this->session->error_msg = $e->getMessage();
+            $this->session->sedang_restore = 0;
+            $pesan                         = $e->getMessage();
         } finally {
             if ($this->input->post('hapus_token') == 'N') {
                 SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
             }
             $this->session->sedang_restore = 0;
-            redirect('database');
+            if ($success) {
+                redirect_with('success', $pesan);
+            } else {
+                redirect_with('error', $pesan);
+            }
         }
     }
 
     public function acak()
     {
         $this->redirect_hak_akses('u');
-        if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
+        if ($this->setting->penggunaan_server != 6 && !super_admin()) {
             return;
         }
 
@@ -230,7 +239,7 @@ class Database extends Admin_Controller
             'file_name'     => namafile('Sinkronisasi'),
         ]);
 
-        if (! $this->upload->do_upload('sinkronkan')) {
+        if (!$this->upload->do_upload('sinkronkan')) {
             status_sukses(false, false, $this->upload->display_errors());
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -261,7 +270,7 @@ class Database extends Admin_Controller
         $method                  = $this->input->post('method');
         $this->session->kode_otp = null;
 
-        if (! in_array($method, ['telegram', 'email'])) {
+        if (!in_array($method, ['telegram', 'email'])) {
             return json([
                 'status'  => false,
                 'message' => 'Metode tidak ditemukan',
@@ -326,7 +335,7 @@ class Database extends Admin_Controller
 
     public function upload_restore()
     {
-        if (! $this->cek_otp(bilangan($this->session->kode_otp))) {
+        if (!$this->cek_otp(bilangan($this->session->kode_otp))) {
             return json([
                 'status'  => false,
                 'message' => 'Kode OTP Salah',
@@ -345,7 +354,7 @@ class Database extends Admin_Controller
         $this->upload->initialize($config);
 
         try {
-            if (! $this->upload->do_upload('file')) {
+            if (!$this->upload->do_upload('file')) {
                 return json([
                     'status'  => false,
                     'message' => $this->upload->display_errors(null, null),
@@ -396,5 +405,27 @@ class Database extends Admin_Controller
             ->where('token_exp', '>', date('Y-m-d H:i:s'))
             ->where('token', '=', hash('sha256', bilangan($otp)))
             ->exists();
+    }
+
+    public function file_restore()
+    {
+        $this->load->library('MY_Upload', null, 'upload');
+        $uploadConfig = [
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+            'file_ext'      => 'sql',
+            'max_size'      => max_upload() * 1024,
+            'cek_script'    => false,
+        ];
+        $this->upload->initialize($uploadConfig);
+        // Upload sukses
+        if (!$this->upload->do_upload('userfile')) {
+            $pesan = $this->upload->display_errors(null, null);
+
+            throw new Exception($pesan);
+        }
+        $uploadData = $this->upload->data();
+
+        return $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
     }
 }

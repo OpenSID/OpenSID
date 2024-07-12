@@ -9,7 +9,7 @@
                 <table class="table table-bordered table-striped table-hover tabel-daftar">
                     <thead class="bg-gray disabled color-palette">
                         <tr>
-                            <th class="padat"><input type="checkbox" id="checkall" /></th>
+                            <th class="padat"><input type="checkbox" id="checkall" onclick="checkAll()" /></th>
                             <th class="padat">No</th>
                             <th class="padat">NIK</th>
                             <th>KTP Berlaku S/D</th>

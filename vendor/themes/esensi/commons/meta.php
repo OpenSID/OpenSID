@@ -3,8 +3,9 @@
 <?php $is_premium = TRUE; ?>
 <?php $nama_desa = ucwords($this->setting->sebutan_desa) .' '.ucwords($desa['nama_desa']) ?>
 
-<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2311.1.1') ?>
+<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2401.0.0') ?>
 <?php defined('IS_PREMIUM') or define('IS_PREMIUM', $is_premium) ?>
+<!-- ubah ke true -->
 <?php defined('NAMA_DESA') or define('NAMA_DESA', $nama_desa) ?>
 
 <?php $title = preg_replace("/[^A-Za-z0-9- ]/", '', trim(str_replace('-', ' ', get_dynamic_title_page_from_path())));

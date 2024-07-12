@@ -58,10 +58,10 @@ class Surat_keluar extends Admin_Controller
         redirect('surat_keluar');
     }
 
-    public function index($p = 1, $o = 2): void
+    public function index($p = 1, $o = 0): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['p'] = $p ?? 1;
+        $data['o'] = $o ?? 0;
 
         $data['cari'] = $this->session->has_userdata('cari') ? $this->session->cari : '';
 

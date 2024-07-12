@@ -38,12 +38,14 @@
 namespace App\Libraries\TinyMCE;
 
 use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusHubunganEnum;
+use App\Enums\SHDKEnum;
 use App\Models\Penduduk;
 
 class KodeIsianPenduduk
 {
     private $idPenduduk;
+    private $prefix;
+    private $prefixJudul;
 
     public function __construct($idPenduduk = null, $prefix = '', $prefixJudul = false)
     {
@@ -315,21 +317,21 @@ class KodeIsianPenduduk
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
-            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (! $id_ayah && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::SUAMI);
                     })
                     ->where('sex', JenisKelaminEnum::LAKI_LAKI)
                     ->first()->id;
             }
 
-            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (! $id_ibu && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::ISTRI);
                     })
                     ->where('sex', JenisKelaminEnum::PEREMPUAN)
                     ->first()->id;

@@ -67,11 +67,11 @@ class Teks_berjalan_model extends MY_Model
         $this->sql();
 
         if ($tipe) {
-            $this->db->where('tipe', $tipe);
+            $this->db->where('t.tipe', $tipe);
         }
 
         if ($web === true) {
-            $this->db->where('status', 1);
+            $this->db->where('t.status', 1);
         }
 
         $data    = $this->db->get()->result_array();
@@ -88,7 +88,7 @@ class Teks_berjalan_model extends MY_Model
 
     private function sql(): void
     {
-        $this->config_id_exist('teks_berjalan', 't')
+        $this->config_id('t')
             ->select('t.*, a.judul, a.tgl_upload')
             ->from('teks_berjalan t')
             ->join('artikel a', 't.tautan = a.id', 'left')

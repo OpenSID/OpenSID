@@ -52,7 +52,7 @@ class Suplemen_model extends MY_Model
             $this->db->where('s.sasaran', $sasaran);
         }
 
-        $this->config_id_exist('suplemen', 's')
+        $this->config_id('s')
             ->from('suplemen s')
             ->join('suplemen_terdata st', 's.id = st.id_suplemen', 'left');
 

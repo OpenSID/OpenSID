@@ -37,7 +37,7 @@
 							<tr>
 								<th class="padat">No</th>
 								<th nowrap>Jenis Kelompok</th>
-								<?php if ($lap < 20 || ($lap > 50)): ?>
+								<?php if ((int) $lap < 20 || (int) $lap > 50): ?>
 									<th nowrap colspan="2">Laki-Laki</th>
 									<th nowrap colspan="2">Perempuan</th>
 								<?php endif; ?>
@@ -49,12 +49,12 @@
 								<tr>
 									<td class="text-center"><?= $data['no']?></td>
 									<td class="text-left"><?= strtoupper($data['nama']); ?></td>
-									<?php if ($lap < 20 || ($lap > 50)): ?>
-										<?php if ($lap < 50 || ($lap > 50 && $program['sasaran'] == 1)) {
-										    $tautan_jumlah = site_url("penduduk/statistik/{$lap}/{$data['id']}");
-										} elseif ($lap > 50 && $program['sasaran'] == 2) {
-										    $tautan_jumlah = site_url("keluarga/statistik/{$lap}/{$data['id']}");
-										} ?>
+									<?php if ((int) $lap < 20 || (int) $lap > 50): ?>
+										<?php if ((int) $lap < 50 || ((int) $lap > 50 && (int) $program['sasaran'] == 1)) {
+                                            $tautan_jumlah = site_url("penduduk/statistik/{$lap}/{$data['id']}");
+                                        } elseif ((int) $lap > 50 && (int) $program['sasaran'] == 2) {
+                                            $tautan_jumlah = site_url("keluarga/statistik/{$lap}/{$data['id']}");
+                                        } ?>
 										<td class="text-right"><a href="<?= $tautan_jumlah?>/1"><?= $data['laki']?></a></td>
 										<td class="text-right"><?= $data['persen1']; ?></td>
 										<td class="text-right"><a href="<?= $tautan_jumlah?>/2"><?= $data['perempuan']?></a></td>
@@ -64,9 +64,9 @@
 										<?php if (in_array($lap, [21, 22, 23, 24, 25, 26, 27])): ?>
 											<a href="<?= site_url("keluarga/statistik/{$lap}/{$data['id']}")?>"><?= $data['jumlah']?></a>
 										<?php else: ?>
-											<?php if ($lap < 50) {
-											    $tautan_jumlah = site_url("penduduk/statistik/{$lap}/{$data['id']}");
-											} ?>
+											<?php if ((int) $lap < 50) {
+                                                $tautan_jumlah = site_url("penduduk/statistik/{$lap}/{$data['id']}");
+                                            } ?>
 											<a href="<?= $tautan_jumlah ?>/0"><?= $data['jumlah']?></a>
 										<?php endif; ?>
 									</td>

@@ -128,7 +128,11 @@ class Penduduk_model extends MY_Model
         } elseif ($kf == $this->session->status_dasar) {
             $this->db->where_in($kolom, $kf);
         } else {
-            $this->db->where($kolom, $kf);
+            if (is_array($kf)) {
+                $this->db->where_in($kolom, $kf);
+            } else {
+                $this->db->where($kolom, $kf);
+            }
         }
     }
 
@@ -722,7 +726,25 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
             ->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left');
 
-        $this->keluarga_sql();
+        if ($this->session->layer_keluarga == 1) {
+            $this->db
+                ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_kk = u.id_kk) AS jumlah_anggota')
+                ->group_start()
+                ->where('u.id_kk IS NOT NULL')
+                ->where('u.id_kk != 0')
+                ->where('u.kk_level', 1)
+                ->group_end();
+        } elseif ($this->session->layer_rtm == 1) {
+            $this->db
+                ->select('rtm.id as rtm_id')
+                ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_rtm = u.id_rtm) AS jumlah_anggota')
+                ->join('tweb_rtm rtm', 'u.id_rtm = rtm.no_kk', 'left')
+                ->group_start()
+                ->where('u.id_rtm IS NOT NULL')
+                ->where('u.id_rtm != 0')
+                ->where('u.rtm_level', 1)
+                ->group_end();
+        }
         $this->search_sql();
         $this->dusun_sql();
         $this->rw_sql();
@@ -1024,8 +1046,8 @@ class Penduduk_model extends MY_Model
         $this->tulis_log_penduduk_data($log);
 
         $log1['id_pend']    = $idku;
-        $log1['id_cluster'] = 1;
-        $log1['tanggal']    = date('d-m-y');
+        $log1['id_cluster'] = $data['id_cluster'];
+        $log1['tanggal']    = date('Y-m-d');
         $log1['config_id']  = $this->config_id;
 
         $outp = $this->db->insert('log_perubahan_penduduk', $log1);
@@ -1223,6 +1245,8 @@ class Penduduk_model extends MY_Model
             $id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
             $this->keluarga_model->log_keluarga($penduduk['id_kk'], $id_peristiwa, null, $id_log_penduduk);
         }
+
+        status_sukses($id_log_penduduk);
     }
 
     /**
@@ -1588,6 +1612,7 @@ class Penduduk_model extends MY_Model
                     break;
 
                 case 2:
+                case 'buku-nikah':
                     $table = 'tweb_penduduk_kawin';
                     break;
 

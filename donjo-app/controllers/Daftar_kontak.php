@@ -71,11 +71,11 @@ class Daftar_kontak extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('daftar_kontak.form', $row->id_kontak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('daftar_kontak.form', $row->id_kontak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('daftar_kontak.delete', $row->id_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('daftar_kontak.delete', $row->id_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -101,7 +101,7 @@ class Daftar_kontak extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . route('daftar_kontak.form_penduduk', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        return '<a href="' . ci_route('daftar_kontak.form_penduduk', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
                 ->rawColumns(['ceklist', 'aksi'])
@@ -119,11 +119,11 @@ class Daftar_kontak extends Admin_Controller
 
         if ($id) {
             $action       = 'Ubah';
-            $formAction   = route('daftar_kontak.update', $id);
+            $formAction   = ci_route('daftar_kontak.update', $id);
             $daftarKontak = DaftarKontak::findOrFail($id);
         } else {
             $action       = 'Tambah';
-            $formAction   = route('daftar_kontak.insert');
+            $formAction   = ci_route('daftar_kontak.insert');
             $daftarKontak = null;
         }
 
@@ -136,7 +136,7 @@ class Daftar_kontak extends Admin_Controller
 
         $navigasi     = 'Penduduk';
         $action       = 'Ubah';
-        $formAction   = route('daftar_kontak.update_penduduk', $id);
+        $formAction   = ci_route('daftar_kontak.update_penduduk', $id);
         $daftarKontak = Penduduk::findOrFail($id);
 
         return view('admin.daftar_kontak.form', ['navigasi' => $navigasi, 'action' => $action, 'formAction' => $formAction, 'daftarKontak' => $daftarKontak]);

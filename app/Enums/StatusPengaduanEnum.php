@@ -56,4 +56,16 @@ class StatusPengaduanEnum extends BaseEnum
             self::SELESAI_DIPROSES  => 'Selesai Diproses',
         ];
     }
+
+    /**
+     * Label untuk status pengaduan
+     */
+    public static function label(): array
+    {
+        return [
+            self::MENUNGGU_DIPROSES => 'label-warning',
+            self::SEDANG_DIPROSES   => 'label-info',
+            self::SELESAI_DIPROSES  => 'label-success',
+        ];
+    }
 }

@@ -90,6 +90,9 @@ class Dokumen extends BaseModel
         'kategori',
         'id_syarat',
         'dok_warga',
+        'tipe',
+        'url',
+        'attr',
     ];
 
     /**

@@ -39,6 +39,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_komentar_model extends MY_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function autocomplete()
     {
         return $this->autocomplete_str('komentar', 'komentar');
@@ -94,12 +99,10 @@ class Web_komentar_model extends MY_Model
             ->join('artikel a', 'k.id_artikel = a.id', 'left');
 
         if ($kat != 0) {
-            $this->db->where('id_artikel', 775)
-                ->where('tipe', $kat);
+            $this->db
+                ->where('k.tipe', $kat);
             $this->filter_nik_sql();
             $this->filter_archived_sql();
-        } else {
-            $this->db->where('id_artikel <>', 775);
         }
 
         $this->search_sql();

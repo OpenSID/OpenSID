@@ -59,8 +59,8 @@
 															<?php foreach ($program as $item) : ?>
 																<?php
                                                                 $nomer++;
-															    $openKab = null === $item['config_id'] ? 'disabled' : '';
-															    ?>
+                                                                $openKab = null === $item['config_id'] ? 'disabled' : '';
+                                                                ?>
 																<tr>
 																	<td class="padat"><?= $nomer ?></td>
 																	<td class="aksi">
@@ -88,7 +88,7 @@
 																</tr>
 															<?php endforeach; ?>
 														<?php else : tidak_ada_data(8);
-														endif; ?>
+                                                        endif; ?>
 													</tbody>
 												</table>
 											</div>

@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('kehadiran_keluar') }}">Daftar Alasan Keluar</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('kehadiran_keluar') }}">Daftar Alasan Keluar</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -17,7 +17,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('kehadiran_keluar') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Hari Libur</a>
+            <a href="{{ ci_route('kehadiran_keluar') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Hari Libur</a>
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">

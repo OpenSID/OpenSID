@@ -215,7 +215,7 @@ $config['composer_autoload'] = 'vendor/autoload.php';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-@\=';
 
 /*
 |--------------------------------------------------------------------------
@@ -393,6 +393,7 @@ $config['cache_query_string'] = false;
 |
 */
 $config['encryption_key'] = 'lumbungkomunitas';
+$config['cipher']         = 'AES-256-CBC';
 
 /*
 |--------------------------------------------------------------------------
@@ -599,12 +600,22 @@ $config['proxy_ips'] = '';
 | - Nama Lembaga
 | - Facebook OpenDesa
 | - Telegram OpenDesa
+| - Telegram Kontributor
+| - Github OpenSID
+| - Website OpenDesa
+| - Forum OpenDesa
+| - Youtube OpenDesa
 |
 */
-$config['nama_aplikasi'] = 'OpenSID';
-$config['nama_lembaga']  = 'OpenDesa';
-$config['fb_opendesa']   = 'https://www.facebook.com/groups/komunitasopendesa';
-$config['tg_opendesa']   = 'https://t.me/komunitasopensidstop';
+$config['nama_aplikasi']  = 'OpenSID';
+$config['nama_lembaga']   = 'OpenDesa';
+$config['fb_opendesa']    = 'https://www.facebook.com/groups/komunitasopendesa';
+$config['tg_opendesa']    = 'https://t.me/komunitasopensidstop';
+$config['tg_kontributor'] = 'https://t.me/+mi5ydVtVfmw0YWY1';
+$config['github']         = 'https://github.com/OpenSID/OpenSID';
+$config['website']        = 'https://opendesa.id';
+$config['forum']          = 'https://forum.opendesa.id';
+$config['youtube']        = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
 
 /*
 |--------------------------------------------------------------------------

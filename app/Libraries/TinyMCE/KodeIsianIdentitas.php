@@ -101,7 +101,7 @@ class KodeIsianIdentitas
             [
                 'judul' => 'Nama Kepala Desa',
                 'isian' => 'nama_kepala_desa',
-                'data'  => $config->pamong_nama,
+                'data'  => $config->nama_kepala_desa,
             ],
             [
                 'judul' => 'Sebutan NIP Desa',
@@ -111,7 +111,7 @@ class KodeIsianIdentitas
             [
                 'judul' => 'NIP Kepala Desa',
                 'isian' => 'nip_kepala_desa',
-                'data'  => $config->pamong_nip,
+                'data'  => $config->nip_kepala_desa,
             ],
             [
                 'judul' => 'Nama Kecamatan',
