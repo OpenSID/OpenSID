@@ -52,8 +52,6 @@ class Web_widget extends Admin_Controller
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
             redirect('beranda');
-
-            exit;
         }
 
         $this->load->model(['web_widget_model']);
@@ -67,7 +65,9 @@ class Web_widget extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Widget::orderBy('urut'))
+            $status = $this->input->get('status') ?? null;
+
+            return datatables()->of(Widget::orderBy('urut')->when($status, static fn ($q) => $q->where('enabled', $status)))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -78,20 +78,18 @@ class Web_widget extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a data-arah="bawah"  href="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a> ';
-                        $aksi .= '<a data-arah="atas" hhref="javascript:void(0)" class="btn bg-olive btn-sm pindahkan" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a> ';
                         if ($row->jenis_widget != 1) {
-                            $aksi .= '<a href="' . route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         }
                     }
                     if ($row->form_admin) {
-                        $aksi .= '<a href="' . route($row->form_admin) . '" class="btn btn-info btn-sm"  title="Form Admin"><i class="fa fa-sliders"></i></a> ';
+                        $aksi .= '<a href="' . ci_route($row->form_admin) . '" class="btn btn-info btn-sm"  title="Form Admin"><i class="fa fa-sliders"></i></a> ';
                     }
                     if (can('u')) {
                         if ($row->enabled == StatusEnum::YA) {
-                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('web_widget.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         }
                     }
                     if (can('h') && $row->jenis_widget != 1) {
@@ -108,7 +106,6 @@ class Web_widget extends Admin_Controller
 
                     return ['style' => $style];
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
                 ->editColumn('isi', static function ($row): string {
                     if ($row->jenis_widget == Widget::WIDGET_DINAMIS) {
                         return Str::limit($row->isi, 200, '...');
@@ -124,16 +121,13 @@ class Web_widget extends Admin_Controller
         return show_404();
     }
 
-    public function tukar(): void
+    public function tukar()
     {
         $widget = $this->input->post('data');
-        if ($widget) {
-            foreach ($widget as $w) {
-                Widget::findOrFail($w['id'])->update(['urut' => $w['urut']]);
-            }
-            Widget::updateUrutan();
-        }
-        $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 1], JSON_THROW_ON_ERROR));
+
+        Widget::setNewOrder($widget);
+
+        return json(['status' => 1]);
     }
 
     public function form($id = '')
@@ -143,11 +137,11 @@ class Web_widget extends Admin_Controller
         if ($id) {
             $data['aksi']        = 'Ubah';
             $data['widget']      = Widget::GetWidget($id);
-            $data['form_action'] = route('web_widget.update', $id);
+            $data['form_action'] = ci_route('web_widget.update', $id);
         } else {
             $data['aksi']        = 'Tambah';
             $data['widget']      = null;
-            $data['form_action'] = route('web_widget.insert');
+            $data['form_action'] = ci_route('web_widget.insert');
         }
 
         $data['list_widget'] = Widget::listWidgetBaru();
@@ -188,7 +182,6 @@ class Web_widget extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal Tambah Data');
-        redirect('web_widget');
     }
 
     private function upload_gambar(string $jenis)
@@ -205,8 +198,8 @@ class Web_widget extends Admin_Controller
 
         $uploadData = null;
         // Adakah berkas yang disertakan?
-        $adaBerkas = ! empty($_FILES[$jenis]['name']);
-        if (! $adaBerkas) {
+        $adaBerkas = !empty($_FILES[$jenis]['name']);
+        if (!$adaBerkas) {
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
                 unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
@@ -276,31 +269,25 @@ class Web_widget extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function urut($id = 0, $arah = 0): void
-    {
-        isCan('u');
-
-        Widget::nomorUrut($id, $arah);
-
-        redirect('web_widget');
-    }
-
     public function lock($id = 0): void
     {
         isCan('u');
 
+        if ($this->session->error_msg) {
+            redirect_with('error', $this->session->error_msg);
+        }
+
         if (Widget::gantiStatus($id, 'enabled')) {
             redirect_with('success', 'Berhasil Ubah Status');
         }
+
         redirect_with('error', 'Gagal Ubah Status');
     }
 
     private function cek_tidy(): void
     {
-        if (! in_array('tidy', get_loaded_extensions())) {
+        if (!in_array('tidy', get_loaded_extensions())) {
             $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . site_url('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
-
-            session_error($pesan);
 
             redirect_with('error', $pesan);
         }

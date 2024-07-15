@@ -35,6 +35,9 @@
  *
  */
 
+use App\Enums\StatusEnum;
+use App\Models\Galery;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
@@ -42,254 +45,236 @@ class Gallery extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('web_gallery_model');
         $this->modul_ini     = 'admin-web';
         $this->sub_modul_ini = 'galeri';
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
-
-        redirect('gallery');
+        $parent = $this->input->get('parent') ?? 0;
+        $data   = [
+            'status' => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Non Aktif'],
+            'parent' => strlen($parent) > 20 ? decrypt($parent) : $parent,
+        ];
+        $data['parentEncrypt'] = encrypt($data['parent']);
+        $data['subtitle']      = $data['parent'] > 0 ? strtoupper(Galery::find($data['parent'])->nama ?? '') : '';
+        view('admin.web.gallery.index', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            $parent    = (int) ($this->input->get('parent') ?? 0);
+            $canDelete = can('h');
+            $canUpdate = can('u');
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+            return datatables()->of(Galery::child($parent)->with(['parent']))
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
+                    $aksi      = '';
+                    $judul     = $parent > 0 ? 'Subgallery' : 'gallery';
+                    $idEncrypt = encrypt($row->id);
+                    if ($canUpdate) {
+                        if ($parent == 0) {
+                            $aksi .= '<a href="' . ci_route('gallery.index') . '?parent=' . $idEncrypt . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
+                        }
+                        $aksi .= '<a href="' . ci_route('gallery.form', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-orange btn-sm" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
+                        if ($row->isActive()) {
+                            $aksi .= '<a href="' . ci_route('gallery.lock', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan Album"><i class="fa fa-unlock">&nbsp;</i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('gallery.lock', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-navy btn-sm" title="Aktifkan Album"><i class="fa fa-lock"></i></a> ';
+                        }
+                        if ($parent == 0) {
+                            if ($row->isSlider()) {
+                                $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Keluarkan Dari Slider"><i class="fa fa-play">&nbsp;</i></a> ';
+                            } else {
+                                $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Tampilkan Di Slider"><i class="fa fa-eject"></i></a> ';
+                            }
+                        }
+                    }
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
+                    if ($canDelete) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('gallery.delete', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    return $aksi;
+                })->editColumn('nama', static function ($row) {
+                    $gambarSedang = ($row->jenis == 1 ? AmbilGaleri($row->gambar ?? '', 'sedang') : $row->gambar);
+                    $gambarKecil  = ($row->jenis == 1 ? AmbilGaleri($row->gambar ?? '', 'kecil') : $row->gambar);
+
+                    return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
+                })
+                ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
+                ->editColumn('enabled', static fn ($row) => $row->enabled ? 'Ya' : 'Tidak')
+                ->rawColumns(['aksi', 'ceklist', 'nama'])
+                ->make();
         }
-        $data['per_page'] = $_SESSION['per_page'];
 
-        $data['paging']  = $this->web_gallery_model->paging($p, $o);
-        $data['main']    = $this->web_gallery_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->web_gallery_model->autocomplete();
-
-        $this->render('gallery/table', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = null): void
+    public function form($parent, $id = ''): void
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $data['p'] = $p;
-        $data['o'] = $o;
-
-        if (null !== $id) {
+        isCan('u');
+        $data['file_path_required'] = true;
+        if ($id) {
+            $action              = ci_route("gallery.update.{$parent}.{$id}");
             $id                  = decrypt($id);
-            $data['gallery']     = $this->web_gallery_model->get_gallery($id);
-            $data['form_action'] = site_url("gallery/update/{$id}/{$p}/{$o}");
+            $gallery             = Galery::findOrFail($id)->toArray();
+            $data['gallery']     = $gallery;
+            $data['form_action'] = $action;
+            if ($gallery['jenis'] == 1 && $gallery['gambar']) {
+                $data['file_path_required'] = false;
+            }
         } else {
             $data['gallery']     = null;
-            $data['form_action'] = site_url('gallery/insert');
+            $data['form_action'] = ci_route("gallery.insert.{$parent}");
         }
-
-        $this->render('gallery/form', $data);
+        view('admin.web.gallery.form', $data);
     }
 
-    public function search($gallery = ''): void
+    public function insert($parent): void
     {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
+        isCan('u');
+        $data = $this->validasi($this->input->post());
+        if (!$data) {
+            redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
+        }
+        $rawParent       = decrypt($parent);
+        $data['parrent'] = $rawParent;
+        $data['enabled'] = 1;
+        if ($this->session->grup == 4) {
+            $data['enabled'] = 0;
+        }
+        $data['tipe'] = $rawParent == 0 ? 1 : 2;
+
+        try {
+            Galery::create($data);
+            redirect_with('success', 'gallery berhasil disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'gallery gagal disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function update($parent, $id): void
+    {
+        isCan('u');
+        $data = $this->validasi($this->input->post());
+        if (!$data) {
+            redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
+        }
+
+        try {
+            $id  = decrypt($id);
+            $obj = Galery::findOrFail($id);
+            // tipe file
+            if ($data['jenis'] == 1) {
+                if (empty($data['gambar'])) {
+                    $data['gambar'] = $obj->gambar;
+                }
+            }
+            $obj->update($data);
+            redirect_with('success', 'gallery berhasil disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'gallery gagal disimpan', ci_route('gallery.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function delete($parent, $id = null): void
+    {
+        isCan('h');
+        if ($id) {
+            $id = decrypt($id);
+        }
+        if (Galery::whereIn('id', $this->request['id_cb'] ?? [$id])->whereHas('children')->count()) {
+            redirect_with('error', 'gallery tidak dapat dihapus karena masih memiliki subgallery');
+        }
+
+        try {
+            Galery::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'gallery berhasil dihapus', ci_route('gallery.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'gallery gagal dihapus', ci_route('gallery.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function lock($parent, $id): void
+    {
+        isCan('h');
+
+        try {
+            $id      = decrypt($id);
+            $gallery = Galery::find($id);
+            if ($gallery->isSlider() && $gallery->isActive()) {
+                redirect_with('error', 'Album tidak bisa dinonaktifkan karena diset sebagai slider', ci_route('gallery.index') . '?parent=' . $parent);
+            }
+            Galery::gantiStatus($id, 'enabled');
+            redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function slider($parent, $id): void
+    {
+        isCan('h');
+
+        try {
+            $id = decrypt($id);
+            Galery::gantiStatus($id, 'slider', true);
+            Galery::where(['id' => $id])->update(['enabled' => StatusEnum::YA]);
+            redirect_with('success', 'Berhasil ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Gagal ubah status', ci_route('gallery.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function tukar()
+    {
+        $gallery = $this->input->post('data');
+        Galery::setNewOrder($gallery);
+
+        return json(['status' => 1]);
+    }
+
+    private function validasi($post)
+    {
+        $gambar = null;
+        if ($post['jenis'] == 2) {
+            $gambar = $post['url'];
         } else {
-            unset($_SESSION['cari']);
+            if (UploadError($_FILES['gambar'])) {
+                return false;
+            }
+
+            $lokasi_file = $_FILES['gambar']['tmp_name'];
+            $tipe_file   = TipeFile($_FILES['gambar']);
+            // Bolehkan album tidak ada gambar cover
+            if (!empty($lokasi_file)) {
+                if (!CekGambar($_FILES['gambar'], $tipe_file)) {
+                    return false;
+                }
+                $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
+                $nama_file = strtolower(str_replace(' ', '_', $nama_file));
+                UploadGallery($nama_file, '', $tipe_file);
+                $gambar = $nama_file;
+            }
         }
-        if ($gallery != '') {
-            redirect('gallery/sub_gallery/' . encrypt($gallery));
-        } else {
-            redirect('gallery');
-        }
-    }
 
-    public function filter($gallery = ''): void
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        if ($gallery != '') {
-            redirect('gallery/sub_gallery/' . encrypt($gallery));
-        } else {
-            redirect('gallery');
-        }
-    }
-
-    public function insert(): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->insert();
-        redirect('gallery');
-    }
-
-    public function update($id = '', $p = 1, $o = 0): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->update($id);
-        redirect("gallery/index/{$p}/{$o}");
-    }
-
-    public function delete($p = 1, $o = 0, $id = ''): void
-    {
-        $this->redirect_hak_akses('h', "gallery/index/{$p}/{$o}");
-        $this->web_gallery_model->delete_gallery(decrypt($id));
-        redirect("gallery/index/{$p}/{$o}");
-    }
-
-    public function delete_all($p = 1, $o = 0): void
-    {
-        $this->redirect_hak_akses('h', "gallery/index/{$p}/{$o}");
-        $_SESSION['success'] = 1;
-        $this->web_gallery_model->delete_all_gallery();
-        redirect("gallery/index/{$p}/{$o}");
-    }
-
-    public function gallery_lock($id = '', $gallery = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->gallery_lock(decrypt($id), 1);
-        if ($gallery != '') {
-            redirect("gallery/sub_gallery/{$gallery}/{$p}");
-        } else {
-            redirect("gallery/index/{$p}/{$o}");
-        }
-    }
-
-    public function gallery_unlock($id = '', $gallery = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->gallery_lock(decrypt($id), 2);
-        if ($gallery != '') {
-            redirect("gallery/sub_gallery/{$gallery}/{$p}");
-        } else {
-            redirect("gallery/index/{$p}/{$o}");
-        }
-    }
-
-    public function slider_on($id = '', $gallery = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->gallery_slider(decrypt($id), 1);
-        if ($gallery != '') {
-            redirect("gallery/sub_gallery/{$gallery}/{$p}");
-        } else {
-            redirect("gallery/index/{$p}/{$o}");
-        }
-    }
-
-    public function slider_off($id = '', $gallery = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->gallery_slider(decrypt($id), 0);
-        if ($gallery != '') {
-            redirect("gallery/sub_gallery/{$gallery}/{$p}");
-        } else {
-            redirect("gallery/index/{$p}/{$o}");
-        }
-    }
-
-    public function sub_gallery($gal = 0, $p = 1, $o = 0): void
-    {
-        $gal       = decrypt($gal);
-        $data['p'] = $p;
-        $data['o'] = $o;
-
-        $data['cari'] = $_SESSION['cari'] ?? '';
-
-        $data['filter'] = $_SESSION['filter'] ?? '';
-
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
-        }
-        $data['per_page'] = $_SESSION['per_page'];
-
-        $data['paging']      = $this->web_gallery_model->paging2($gal, $p);
-        $data['sub_gallery'] = $this->web_gallery_model->list_sub_gallery($gal, $o, $data['paging']->offset, $data['paging']->per_page);
-        $data['gallery']     = $gal;
-        $data['sub']         = $this->web_gallery_model->get_gallery($gal);
-        $data['keyword']     = $this->web_gallery_model->autocomplete();
-
-        $this->render('gallery/sub_gallery_table', $data);
-    }
-
-    public function form_sub_gallery($gallery = null, $id = null): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $gallery = decrypt($gallery);
-
-        if (null !== $id) {
-            $id                  = decrypt($id);
-            $data['gallery']     = $this->web_gallery_model->get_gallery($id);
-            $data['form_action'] = site_url("gallery/update_sub_gallery/{$gallery}/{$id}");
-        } else {
-            $data['gallery']     = null;
-            $data['form_action'] = site_url("gallery/insert_sub_gallery/{$gallery}");
-        }
-        $data['album'] = $gallery;
-
-        $this->render('gallery/form_sub_gallery', $data);
-    }
-
-    public function insert_sub_gallery($gallery = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->insert_sub_gallery($gallery);
-        redirect('gallery/sub_gallery/' . encrypt($gallery));
-    }
-
-    public function update_sub_gallery($gallery = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->update_sub_gallery($id);
-        redirect('gallery/sub_gallery/' . encrypt($gallery));
-    }
-
-    public function delete_sub_gallery($gallery = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('h', "gallery/sub_gallery/{$gallery}");
-        $this->web_gallery_model->delete(decrypt($id));
-        redirect("gallery/sub_gallery/{$gallery}");
-    }
-
-    public function delete_all_sub_gallery($gallery = ''): void
-    {
-        $this->redirect_hak_akses('h', "gallery/sub_gallery/{$gallery}");
-        $_SESSION['success'] = 1;
-        $this->web_gallery_model->delete_all();
-        redirect("gallery/sub_gallery/{$gallery}");
-    }
-
-    public function gallery_lock_sub_gallery($gallery = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->gallery_lock($id, 1);
-        redirect("gallery/sub_gallery/{$gallery}");
-    }
-
-    public function gallery_unlock_sub_gallery($gallery = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->gallery_lock($id, 2);
-        redirect("gallery/sub_gallery/{$gallery}");
-    }
-
-    public function urut($id, $arah = 0, $gallery = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_gallery_model->urut(decrypt($id), $arah, decrypt($gallery));
-        if ($gallery != '') {
-            redirect("gallery/sub_gallery/{$gallery}");
-        } else {
-            redirect('gallery/index');
-        }
+        return [
+            'nama'   => nomor_surat_keputusan($post['nama']),
+            'jenis'  => $post['jenis'],
+            'gambar' => $gambar,
+        ];
     }
 }

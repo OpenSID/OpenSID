@@ -83,8 +83,8 @@
 		<?php foreach ($main['detail'] as $key => $data) : ?>
 				<?php
                     $sasaran_vaksin = $sasaran['detail'][$key];
-		    $i++;
-		    ?>
+            $i++;
+            ?>
 				<tr>
 					<td class="padat"><?= $i ?></td>
 					<td><?= $key ?></td>

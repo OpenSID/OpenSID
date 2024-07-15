@@ -507,7 +507,6 @@ function buatProgram($configId): void
         'ndesc'     => faker()->paragraph(3),
         'sdate'     => faker()->dateTimeBetween('-2 years', 'now'),
         'edate'     => faker()->dateTimeBetween('now', '+2 years'),
-        'userid'    => 0,
         'status'    => 1,
         'asaldana'  => faker()->randomElement($asalDana),
     ];

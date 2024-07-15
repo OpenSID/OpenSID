@@ -160,6 +160,11 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/sertifkat', $data);
     }
 
+    public function berkas_vaksin($id_penduduk, $vaksin_ke)
+    {
+        $this->berkas($id_penduduk, $vaksin_ke, false, false);
+    }
+
     public function berkas($id_penduduk, $vaksin_ke, $form = false, $tampil = false): void
     {
         $data = $this->vaksin_covid_model->data_penduduk($id_penduduk);
@@ -180,7 +185,7 @@ class Vaksin_covid extends Admin_Controller
         }
     }
 
-    public function laporan_penduduk(int $p = 1): void
+    public function laporan_penduduk(?int $p = 1): void
     {
         $per_page = $this->input->post('per_page');
         if (isset($per_page)) {
@@ -277,7 +282,7 @@ class Vaksin_covid extends Admin_Controller
 
         foreach ($penduduk as $value) {
             $value->dusun ??= 'Data ' . ucwords(setting('sebutan_dusun')) . ' Tidak Ada';
-            if (! isset($rekap['detail'][$value->dusun])) {
+            if (!isset($rekap['detail'][$value->dusun])) {
                 $rekap['detail'][$value->dusun] = ['vaksin_1' => 0, 'vaksin_2' => 0, 'vaksin_3' => 0, 'belum' => 0];
             }
 

@@ -86,12 +86,12 @@ class Lampiran extends Admin_Controller
 
         $lampiran = $id ? LampiranSurat::findOrFail($id) : null;
         $margin   = LampiranSurat::MARGINS;
-        if ($lampiran && ! empty($lampiran->margin)) {
+        if ($lampiran && !empty($lampiran->margin)) {
             $margin = json_decode($lampiran->margin, null);
         }
 
         $data['action']               = $id ? 'Ubah' : 'Tambah';
-        $data['formAction']           = $id ? route('lampiran.update', $id) : route('lampiran.insert');
+        $data['formAction']           = $id ? ci_route('lampiran.update', $id) : ci_route('lampiran.insert');
         $data['lampiranSurat']        = $lampiran;
         $data['margins']              = $margin;
         $data['margin_global']        = $lampiran->margin_global ?? 1;
@@ -130,7 +130,7 @@ class Lampiran extends Admin_Controller
     public function delete($id = null): void
     {
         $this->redirect_hak_akses('h');
-        if (! is_array($id)) {
+        if (!is_array($id)) {
             $id = [$id];
         }
         if (LampiranSurat::jenis(LampiranSurat::LAMPIRAN_DESA)->whereIn('id', $id)->delete()) {

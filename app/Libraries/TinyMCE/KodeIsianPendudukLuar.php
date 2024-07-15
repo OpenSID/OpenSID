@@ -83,6 +83,11 @@ class KodeIsianPendudukLuar
     {
         $input = $this->inputForm[$kategori];
 
+        // filter hanya untuk nik dan nama yg tidak kosong
+        if (empty($input['nik']) && empty($input['nama'])) {
+            return [];
+        }
+
         $prefix = '_' . $kategori;
 
         if ($kategori == 'individu') {
@@ -107,12 +112,16 @@ class KodeIsianPendudukLuar
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
             }
 
+            if (!empty($input['tanggallahir'])) {
+                $tgl_lahir = $input['tanggallahir'];
+            }
+
             if ($item == 'ttl') {
-                $value = $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']);
+                $value = $input['tempatlahir'] . '/' . formatTanggal($tgl_lahir);
             }
 
             if ($item == 'usia') {
-                $value = usia($input['tanggallahir'], null, '%y tahun');
+                $value = usia($tgl_lahir, null, '%y tahun');
             }
 
             if ($item == 'alamat') {

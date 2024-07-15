@@ -68,11 +68,11 @@ class Kehadiran_keluar extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('kehadiran_keluar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('kehadiran_keluar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('kehadiran_keluar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('kehadiran_keluar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -90,11 +90,11 @@ class Kehadiran_keluar extends Admin_Controller
 
         if ($id) {
             $action           = 'Ubah';
-            $form_action      = route('kehadiran_keluar.update', $id);
+            $form_action      = ci_route('kehadiran_keluar.update', $id);
             $kehadiran_keluar = AlasanKeluar::findOrFail($id);
         } else {
             $action           = 'Tambah';
-            $form_action      = route('kehadiran_keluar.create');
+            $form_action      = ci_route('kehadiran_keluar.create');
             $kehadiran_keluar = null;
         }
 
@@ -125,11 +125,22 @@ class Kehadiran_keluar extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null): void
+    public function delete($id): void
     {
         $this->redirect_hak_akses('h');
 
-        if (AlasanKeluar::destroy($id ?? $this->request['id_cb'])) {
+        if (AlasanKeluar::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function delete_all(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        if (AlasanKeluar::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 

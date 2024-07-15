@@ -84,6 +84,33 @@ class User extends BaseModel
         'telegram_verified_at' => 'datetime',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $fotoSedang = LOKASI_USER_PICT . 'sedang_' . $model->getOriginal($file);
+            $fotoKecil  = LOKASI_USER_PICT . 'kecil_' . $model->getOriginal($file);
+            if (file_exists($fotoSedang)) {
+                unlink($fotoSedang);
+            }
+            if (file_exists($fotoKecil)) {
+                unlink($fotoKecil);
+            }
+        }
+    }
+
     public function getJWTIdentifier(): void
     {
         // return $this->getKey();

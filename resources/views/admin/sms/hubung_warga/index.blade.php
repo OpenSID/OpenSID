@@ -23,8 +23,9 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('sms.hubungdelete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'></i> Hapus</a>
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('sms.hubungdelete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                                class='fa fa-trash-o'
+                            ></i> Hapus</a>
                     @endif
                 </div>
                 <div class="box-body">
@@ -59,7 +60,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('sms.arsipdatatables') }}",
+                ajax: "{{ ci_route('sms.arsipdatatables') }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

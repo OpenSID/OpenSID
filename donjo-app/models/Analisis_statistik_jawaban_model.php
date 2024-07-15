@@ -212,7 +212,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
             $data[$i]['no']     = $j + 1;
             $data[$i]['jumlah'] = '-';
 
-            $sql1 = "SELECT COUNT(DISTINCT r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_indikator = ? AND r.id_periode = {$per} AND id_parameter > 0 AND r.config_id = " . identitas('id');
+            $sql1 = "SELECT COUNT(DISTINCT r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_indikator = ? AND r.id_periode = {$per} AND id_parameter > 0";
             $sql1 .= $this->dusun_sql();
             $sql1 .= $this->rw_sql();
             $sql1 .= $this->rt_sql();
@@ -225,7 +225,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
             $rw  = $this->rw_sql();
             $rt  = $this->rt_sql();
 
-            $sql2 = "SELECT i.id,i.kode_jawaban,i.jawaban,(SELECT COUNT(r.id_subjek) FROM analisis_respon r {$sbj} WHERE r.id_parameter = i.id AND r.id_periode = {$per} {$dus} {$rw} {$rt} AND r.config_id = " . identitas('id') . ') AS jml_p FROM analisis_parameter i WHERE i.id_indikator = ? ORDER BY i.kode_jawaban  AND i.config_id = ' . identitas('id');
+            $sql2 = "SELECT i.id,i.kode_jawaban,i.jawaban,(SELECT COUNT(r.id_subjek) FROM analisis_respon r {$sbj} WHERE r.id_parameter = i.id AND r.id_periode = {$per} {$dus} {$rw} {$rt}) AS jml_p FROM analisis_parameter i WHERE i.id_indikator = ? ORDER BY i.kode_jawaban  AND i.config_id = " . identitas('id');
 
             $query2          = $this->db->query($sql2, $data[$i]['id']);
             $respon2         = $query2->result_array();
@@ -273,7 +273,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
         for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
 
-            $sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_parameter = ? AND r.id_periode = {$per}  AND r.config_id = " . identitas('id');
+            $sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r {$sbj} WHERE r.id_parameter = ? AND r.id_periode = {$per}";
             $sql .= $this->dusun_sql();
             $sql .= $this->rw_sql();
             $sql .= $this->rt_sql();
@@ -306,7 +306,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
                 break;
         }
 
-        $sql = "SELECT p.id AS id_pend,r.id_subjek,p.nama,p.nik,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id AND config_id = " . identitas('id') . ") AS umur,p.sex,a.dusun,a.rw,a.rt FROM analisis_respon r {$sbj} WHERE r.id_parameter = ? AND r.id_periode = {$per} AND r.config_id = " . identitas('id');
+        $sql = "SELECT p.id AS id_pend,r.id_subjek,p.nama,p.nik,(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id AND config_id = " . identitas('id') . ") AS umur,p.sex,a.dusun,a.rw,a.rt FROM analisis_respon r {$sbj} WHERE r.id_parameter = ? AND r.id_periode = {$per}";
 
         $sql .= $this->dusun_sql();
         $sql .= $this->rw_sql();
@@ -357,7 +357,7 @@ class Analisis_statistik_jawaban_model extends MY_Model
     public function hapus_data_kosong()
     {
         // Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4
-        $hapus = $this->config_id_exist('analisis_respon', 'ar')
+        $hapus = $this->db
             ->select('ap.id')
             ->from('analisis_respon ar')
             ->join('analisis_parameter ap', 'ar.id_parameter = ap.id', 'right')

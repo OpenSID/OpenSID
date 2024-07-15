@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\AnalisisRefSubjekEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_respon extends Admin_Controller
@@ -117,7 +119,7 @@ class Analisis_respon extends Admin_Controller
 
     private function judul_subjek($subjek_tipe)
     {
-        $asubjek = $this->referensi_model->list_by_id('analisis_ref_subjek')[$subjek_tipe]['subjek'];
+        $asubjek = AnalisisRefSubjekEnum::all()[$subjek_tipe];
 
         switch ($subjek_tipe) {
             case 1:

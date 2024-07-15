@@ -35,7 +35,13 @@
  *
  */
 
+use App\Enums\AgamaEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
 use App\Models\Agama;
+use App\Models\Kehadiran;
+use App\Models\KehadiranPengaduan;
+use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\PendidikanKK;
 use App\Models\Penduduk;
@@ -46,61 +52,101 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengurus extends Admin_Controller
 {
-    private array $_set_page     = ['20', '50', '100'];
-    private array $_list_session = ['status', 'cari'];
-
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
         $this->modul_ini          = 'buku-administrasi-desa';
         $this->sub_modul_ini      = 'administrasi-umum';
         $this->header['kategori'] = 'Pemerintah Desa';
+        isCan('b');
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
-        $this->session->status   = 1;
-        redirect('pengurus');
-    }
-
-    public function index($p = 1): void
-    {
-        foreach ($this->_list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
-        }
-
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']               = 'index';
-        $data['set_page']           = $this->_set_page;
-        $data['per_page']           = $this->session->per_page;
-        $data['paging']             = $this->pamong_model->paging($p);
-        $data['main']               = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']            = $this->pamong_model->autocomplete();
-        $data['main_content']       = 'home/pengurus';
+        $data['main_content']       = 'admin.pengurus.index';
         $data['subtitle']           = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
         $data['selected_nav']       = 'aparat';
         $data['jabatanSekdes']      = sekdes()->id;
         $data['jabatanKadesSekdes'] = RefJabatan::getKadesSekdes();
+        $data['status']             = [Pamong::LOCK => 'Aktif', Pamong::UNLOCK => 'Non Aktif'];
 
-        $this->render('bumindes/umum/main', $data);
+        view('admin.bumindes.index', $data);
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            $status = $this->input->get('status') ?? null;
+
+            return datatables()->of(Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status)))
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('pengurus.form', $row->pamong_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        if ($row->pamong_status == 1) {
+                            $aksi .= '<a href="' . ci_route('pengurus.lock', "{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('pengurus.lock', "{$row->pamong_id}/1") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        }
+                        if ($row->kehadiran == 1) {
+                            $aksi .= '<a href="' . ci_route('pengurus.kehadiran', "{$row->pamong_id}/0") . '" class="btn bg-aqua btn-sm" title="Non Aktifkan Kehadiran Perangkat"><i class="fa fa-check"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('pengurus.kehadiran', "{$row->pamong_id}/1") . '" class="btn bg-aqua btn-sm" title="Aktifkan Kehadiran Perangkat"><i class="fa fa-ban"></i></a> ';
+                        }
+                        if ($row->jabatan_id == sekdes()->id) {
+                            if ($row->pamong_ttd == 1) {
+                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Bukan TTD a.n">a.n</a> ';
+                            } else {
+                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/1") . '" class="btn bg-purple btn-sm" title="Jadikan TTD a.n">a.n</a> ';
+                            }
+                        }
+                        if (!in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
+                            if ($row->pamong_ub == 1) {
+                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Bukan TTD u.b">u.b</a> ';
+                            } else {
+                                $aksi .= '<a href="' . ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/1") . '" class="btn bg-purple btn-sm" title="Jadikan TTD u.b">u.b</a> ';
+                            }
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('pengurus.delete', $row->pamong_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('foto', static fn ($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto(($row->foto == null ? $row->penduduk->foto : $row->foto), '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
+                ->editColumn('identitas', static fn ($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
+                ->editColumn('ttl', static fn ($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
+                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
+                ->editColumn('agama', static fn ($row) => AgamaEnum::valueOf($row->pamong_agama ?? $row->penduduk->agama_id))
+                ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
+                ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
+                ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
+                ->filterColumn('identitas', static function ($query, $keyword): void {
+                    $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
+                        ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
+                })
+                ->rawColumns(['ceklist', 'aksi', 'foto', 'identitas'])
+                ->make();
+        }
+
+        return show_404();
     }
 
     public function form($id = 0)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $id_pend = $this->input->post('id_pend');
 
         if ($id) {
-            $data['aksi']   = 'Ubah';
-            $data['pamong'] = $this->pamong_model->get_data($id) ?? show_404();
-            if (! isset($id_pend)) {
+            $data['aksi']           = 'Ubah';
+            $data['pamong']         = Pamong::findOrFail($id);
+            $data['pamong']['nama'] = $data['pamong']->getRawOriginal('pamong_nama');
+            $data['pamong']         = $data['pamong']->toArray();
+            if (!isset($id_pend)) {
                 $id_pend = $data['pamong']['id_pend'];
             }
             $data['form_action'] = site_url("pengurus/update/{$id}");
@@ -124,30 +170,17 @@ class Pengurus extends Admin_Controller
         }
 
         $data['jabatan']       = $semua_jabatan;
-        $data['atasan']        = $this->pamong_model->list_atasan($id);
+        $data['atasan']        = Pamong::listAtasan($id)->get();
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
         $data['agama']         = Agama::pluck('nama', 'id');
-
-        $data['individu'] = empty($id_pend) ? null : $this->penduduk_model->get_penduduk($id_pend);
+        $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
 
         return view('admin.pengurus.form', $data);
     }
 
-    public function filter($filter): void
-    {
-        $this->redirect_hak_akses('u');
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-        redirect('pengurus');
-    }
-
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->set_validasi();
         $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]]');
 
@@ -155,24 +188,61 @@ class Pengurus extends Admin_Controller
             session_error(trim(validation_errors()));
             redirect('pengurus/form');
         } else {
-            $this->pamong_model->insert();
-            redirect('pengurus');
+            $post = $this->input->post();
+            $data = $this->validated($post);
+
+            $data['pamong_tgl_terdaftar'] = date('Y-m-d');
+
+            $pamong     = Pamong::create($data);
+            $post['id'] = $pamong->pamong_id;
+
+            $this->foto($post);
+
+            if ($data['jabatan_id'] == kades()->id) {
+                $this->ttd('pamong_ttd', $post['id'], 1);
+            } else {
+                $this->ttd('pamong_ub', $post['id'], 1);
+            }
+
+            redirect_with('success', 'Pamong berhasil disimpan');
         }
     }
 
     public function update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->set_validasi();
-
         $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', "is_unique[tweb_desa_pamong.pamong_tag_id_card,pamong_id,{$id}]");
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
             redirect("pengurus/form/{$id}");
         } else {
-            $this->pamong_model->update($id);
-            redirect('pengurus');
+            $post = $this->input->post();
+            $data = $this->validated($post, $id);
+            RefJabatan::getKades()->id;
+            RefJabatan::getSekdes()->id;
+
+            if (in_array($data['jabatan_id'], RefJabatan::getKadesSekdes())) {
+                $data['pamong_ub'] = 0;
+            }
+
+            if ($data['jabatan_id'] != RefJabatan::getSekdes()->id) {
+                $data['pamong_ttd'] = 0;
+            }
+
+            Pamong::findOrFail($id)->update($data);
+            $post['id'] = $id;
+
+            $this->foto($post);
+
+            if ($data['jabatan_id'] == kades()->id) {
+                $this->ttd('pamong_ttd', $post['id'], 1);
+            } else {
+                $this->ttd('pamong_ub', $post['id'], 1);
+            }
+
+            redirect_with('success', 'Pamong berhasil disimpan');
         }
     }
 
@@ -182,101 +252,241 @@ class Pengurus extends Admin_Controller
         $this->form_validation->set_error_delimiters('', '');
     }
 
-    public function delete($id = 0): void
+    public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
-        $this->pamong_model->delete($id);
-        redirect('pengurus');
+        isCan('h');
+
+        if (!$id) {
+            foreach ($this->request['id_cb'] as $id_cb) {
+                if ($this->boleh_hapus($id_cb)) {
+                    redirect_with('error', "ID : {$id_cb} tidak dapat dihapus, data sudah tersedia di kehadiran perangkatl, pengaduan kehadiran dan layanan Surat.");
+                }
+            }
+        } elseif ($this->boleh_hapus($id)) {
+            redirect_with('error', "ID : {$id} tidak dapat dihapus, data sudah tersedia di kehadiran perangkatl, pengaduan kehadiran dan layanan Surat.");
+        }
+
+        if (Pamong::destroy($id ?? $this->request['id_cb'])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function delete_all(): void
+    protected function boleh_hapus($id = null)
     {
-        $this->redirect_hak_akses('h');
-        $this->pamong_model->delete_all();
-        redirect('pengurus');
+        $kehadiranPerangkat = Kehadiran::where('pamong_id', $id)->exists();
+        $kehadiranPengaduan = KehadiranPengaduan::where('id_pamong', $id)->exists();
+        $kehadiranPengaduan = LogSurat::where('id_pamong', $id)->exists();
+
+        return $kehadiranPerangkat || $kehadiranPengaduan || $kehadiranPengaduan;
     }
 
-    public function ttd($id = 0, $val = 0): void
+    protected function validated($post, $id = null)
     {
-        $this->redirect_hak_akses('u');
-        $this->pamong_model->ttd('a.n', $id, $val);
-        redirect('pengurus');
+        $data                       = [];
+        $data['id_pend']            = $post['id_pend'];
+        $data['pamong_nama']        = null;
+        $data['pamong_nip']         = strip_tags($post['pamong_nip']);
+        $data['pamong_niap']        = strip_tags($post['pamong_niap']);
+        $data['pamong_tag_id_card'] = strip_tags($post['pamong_tag_id_card']) ?: null;
+        $data['pamong_pin']         = strip_tags($post['pamong_pin']);
+        $data['jabatan_id']         = bilangan($post['jabatan_id']);
+        $data['pamong_pangkat']     = strip_tags($post['pamong_pangkat']);
+        $data['pamong_status']      = $post['pamong_status'];
+        $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
+        $data['pamong_tglsk']       = empty($post['pamong_tglsk']) ? null : tgl_indo_in($post['pamong_tglsk']);
+        $data['pamong_nohenti']     = empty($post['pamong_nohenti']) ? null : strip_tags($post['pamong_nohenti']);
+        $data['pamong_tglhenti']    = empty($post['pamong_tglhenti']) ? null : tgl_indo_in($post['pamong_tglhenti']);
+        $data['pamong_masajab']     = strip_tags($post['pamong_masajab']) ?: null;
+        $data['atasan']             = bilangan($post['atasan']) ?: null;
+        $data['bagan_tingkat']      = bilangan($post['bagan_tingkat']) ?: null;
+        $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
+        $data['bagan_layout']       = htmlentities($post['bagan_layout']);
+        $data['bagan_warna']        = warna($post['bagan_warna']);
+        $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
+        $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
+
+        if ($data['jabatan_id'] == kades()->id) {
+            $data['urut'] = 1;
+        } elseif ($data['jabatan_id'] == sekdes()->id) {
+            $data['urut'] = 2;
+        } elseif ($id == 0 || $id == null) {
+            $data['urut'] = Pamong::select('urut')->max('urut') + 1;
+        }
+
+        if (empty($data['id_pend'])) {
+            $data['id_pend']             = null;
+            $data['pamong_nama']         = strip_tags($post['pamong_nama']);
+            $data['pamong_nik']          = strip_tags($post['pamong_nik']) ?: null;
+            $data['pamong_tempatlahir']  = strip_tags($post['pamong_tempatlahir']) ?: null;
+            $data['pamong_tanggallahir'] = empty($post['pamong_tanggallahir']) ? null : tgl_indo_in($post['pamong_tanggallahir']);
+            $data['pamong_sex']          = $post['pamong_sex'] ?: null;
+            $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;
+            $data['pamong_agama']        = $post['pamong_agama'] ?: null;
+        }
+
+        return $data;
     }
 
-    public function ub($id = 0, $val = 0): void
+    protected function foto($post)
     {
-        $this->redirect_hak_akses('u');
-        $this->pamong_model->ttd('u.b', $id, $val);
-        redirect('pengurus');
+        $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
+        if ($post['id_pend']) {
+            // Penduduk Dalam Desa
+            $foto = time() . '-' . $post['id_pend'] . '-' . random_int(10000, 999999);
+            if ($foto = upload_foto_penduduk($foto, $dimensi)) {
+                Penduduk::where('id', $post['id_pend'])->update(['foto' => $foto]);
+            }
+        } else {
+            // Penduduk Luar Desa
+            $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
+            if ($foto = upload_foto_penduduk($foto, $dimensi)) {
+                Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
+            }
+        }
     }
 
-    public function urut($p = 1, $id = 0, $arah = 0): void
+    public function ttd($jenis, $id, $val)
     {
-        $this->redirect_hak_akses('u');
-        $this->pamong_model->urut($id, $arah);
-        redirect("pengurus/index/{$p}");
+        $pamong = Pamong::find($id);
+        RefJabatan::getSekdes()->id;
+
+        if ($jenis == 'a.n') {
+            if ($pamong->jabatan_id == sekdes()->id) {
+                $output = Pamong::where('jabatan_id', sekdes()->id)->find($id)->update(['pamong_ttd' => $val]);
+
+                // Hanya 1 yang bisa jadi a.n dan harus sekretaris
+                if ($output) {
+                    Pamong::where('pamong_ttd', 1)->where('pamong_id', '!=', $id)->update(['pamong_ttd' => 0]);
+                    redirect_with('success', 'Penandatangan a.n berhasil disimpan');
+                }
+            } else {
+                $pesan = ', Penandatangan a.n harus ' . RefJabatan::whereJenis(RefJabatan::SEKDES)->first(['nama'])->nama;
+                redirect_with('error', $pesan);
+            }
+        }
+
+        if ($jenis == 'u.b') {
+            if (!in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
+                $output = Pamong::whereNotIn('jabatan_id', RefJabatan::getKadesSekdes())->find($id)->update(['pamong_ub' => $val]);
+                redirect_with('success', 'Penandatangan u.b berhasil disimpan');
+            } else {
+                $pesan = ', Penandatangan u.b harus pamong selain ' . RefJabatan::whereJenis(RefJabatan::KADES)->first(['nama'])->nama . ' dan ' . RefJabatan::whereJenis(RefJabatan::SEKDES)->first(['nama'])->nama;
+                redirect_with('error', $pesan);
+            }
+        }
+
+        return $output;
+    }
+
+    public function tukar()
+    {
+        $pamong = $this->input->post('data');
+        Pamong::setNewOrder($pamong);
+
+        return json(['status' => 1]);
     }
 
     public function lock($id = 0, $val = 1): void
     {
-        $this->redirect_hak_akses('u');
-        $this->pamong_model->lock($id, $val);
-        redirect('pengurus');
+        isCan('u');
+
+        $pamong        = Pamong::find($id) ?? show_404();
+        $jabatan_aktif = Pamong::whereJabatanId($pamong->jabatan_id)->wherePamongStatus(1)->exists();
+
+        // Cek untuk kades atau sekdes apakah sudah ada yang aktif saat mengaktifkan
+        if ($val == 1 && $jabatan_aktif && in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
+            redirect_with('error', 'Pamong ' . $pamong->jabatan->nama . ' sudah tersedia, silahakan non-aktifkan terlebih dahulu jika ingin menggantinya.');
+        }
+
+        $pamong->update(['pamong_status' => $val]);
+        redirect_with('success', 'Status Pamong berhasil disimpan');
     }
 
     public function kehadiran($id = 0, $val = 1): void
     {
-        $this->redirect_hak_akses('u');
-        $this->pamong_model->kehadiran($id, $val);
-        redirect('pengurus');
+        isCan('u');
+
+        $pamong = Pamong::find($id) ?? show_404();
+        $pamong->update(['kehadiran' => $val]);
+
+        redirect_with('success', 'Status Kehadiran Pamong berhasil disimpan');
     }
 
     public function daftar($aksi = 'cetak'): void
     {
-        // TODO :: gunakan view global penandatangan
         $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']->pamong_id])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()->toArray();
 
         $data['desa'] = $this->header['desa'];
-        $data['main'] = $this->pamong_model->list_data();
+        $data['main'] = Pamong::urut()->get();
 
-        $this->load->view('home/' . $aksi, $data);
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=wilayah_' . date('Y-m-d') . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+
+        view('admin.pengurus.cetak', $data);
     }
 
     public function bagan($ada_bpd = ''): void
     {
         $data['desa']    = $this->header['desa'];
-        $data['bagan']   = $this->pamong_model->list_bagan();
-        $data['ada_bpd'] = ! empty($ada_bpd);
-        $this->render('home/bagan', $data);
+        $data['ada_bpd'] = !empty($ada_bpd);
+
+        $atasan = Pamong::select('atasan', 'pamong_id')
+            ->where('atasan', '!=', null)->status()
+            ->get()->toArray();
+
+        $data['bagan']['struktur'] = [];
+
+        foreach ($atasan as $pamong) {
+            $data['bagan']['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
+        }
+
+        $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
+
+        view('admin.pengurus.bagan', $data);
     }
 
     public function atur_bagan(): void
     {
-        $this->redirect_hak_akses('u');
-        $data['atasan']      = $this->pamong_model->list_atasan();
-        $data['form_action'] = site_url('pengurus/update_bagan');
-        $this->load->view('home/ajax_atur_bagan', $data);
+        isCan('u');
+        $data['atasan']      = Pamong::listAtasan()->get()->toArray();
+        $data['form_action'] = ci_route('pengurus/update_bagan');
+
+        view('admin.pengurus.ajax_atur_bagan', $data);
     }
 
     public function update_bagan(): void
     {
-        $this->redirect_hak_akses('u');
-        $post = $this->input->post();
-        $this->pamong_model->update_bagan($post);
-        redirect('pengurus');
+        isCan('u');
+        $post    = $this->input->post();
+        $list_id = $post['list_id'];
+        if ($post['atasan']) {
+            $data['atasan'] = ($post['atasan'] <= 0) ? null : $post['atasan'];
+        }
+        if ($post['bagan_tingkat']) {
+            $data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? null : $post['bagan_tingkat'];
+        }
+        if ($post['bagan_warna']) {
+            $data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? null : warna($post['bagan_warna']);
+        }
+
+        Pamong::whereRaw("pamong_id in ({$list_id})")->update($data);
+
+        redirect_with('success', 'Data Berhasil Simpan');
     }
 
     public function atur_bagan_layout(): void
     {
-        $this->redirect_hak_akses('u');
-        $data = [
-            'judul'    => 'Atur Ukuran Bagan',
-            'kategori' => ['conf_bagan'],
-        ];
-
-        $this->load->view('global/modal_setting', $data);
+        isCan('u');
+        $data['kategori'] = 'conf_bagan';
+        view('admin.layouts.components.modal_pengaturan', $data);
     }
 
     // Jabatan
@@ -285,7 +495,7 @@ class Pengurus extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables()->of(RefJabatan::query()->urut()->latest())
                 ->addColumn('ceklist', static function ($row) {
-                    if (! can('h')) {
+                    if (!can('h')) {
                         return;
                     }
                     if (in_array($row->id, RefJabatan::getKadesSekdes())) {
@@ -299,11 +509,11 @@ class Pengurus extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('pengurus.jabatanform', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('pengurus.jabatanform', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
-                    if (can('h') && ! in_array($row->id, RefJabatan::getKadesSekdes())) {
-                        $aksi .= '<a href="#" data-href="' . route('pengurus.jabatandelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    if (can('h') && !in_array($row->id, RefJabatan::getKadesSekdes())) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('pengurus.jabatandelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -323,11 +533,11 @@ class Pengurus extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('pengurus.jabatanupdate', $id);
+            $form_action = ci_route('pengurus.jabatanupdate', $id);
             $jabatan     = RefJabatan::find($id) ?? show_404();
         } else {
             $action      = 'Tambah';
-            $form_action = route('pengurus.jabataninsert');
+            $form_action = ci_route('pengurus.jabataninsert');
             $jabatan     = null;
         }
 

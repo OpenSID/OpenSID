@@ -59,7 +59,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('permohonan_surat_admin.datatables') }}",
+                    url: "{{ ci_route('permohonan_surat_admin.datatables') }}",
                     data: function(req) {
                         req.status = $('#status').val();
                     }

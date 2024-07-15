@@ -46,7 +46,7 @@ class Keuangan_manual_model extends MY_Model
 
     public function list_tahun_anggaran_manual()
     {
-        $data = $this->config_id_exist($this->tabel)
+        $data = $this->config_id()
             ->select('Tahun')
             ->order_by('Tahun DESC')
             ->group_by('Tahun')

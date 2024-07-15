@@ -74,7 +74,7 @@ class DtksLampiran extends BaseModel
     public function getFotoKecilAttribute(): string
     {
         $path = LOKASI_FOTO_DTKS . 'kecil_' . $this->attributes['foto'];
-        if (! file_exists(FCPATH . $path)) {
+        if (!file_exists(FCPATH . $path)) {
             return '';
         }
 

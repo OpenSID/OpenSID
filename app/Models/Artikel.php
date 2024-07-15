@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -49,9 +50,9 @@ class Artikel extends BaseModel
 {
     use ConfigId;
 
-    public const ENABLE         = 1;
-    public const HEADLINE       = 1;
-    public const NOT_IN_ARTIKEL = [999, 1000, 1001];
+    public const ENABLE              = 1;
+    public const HEADLINE            = 1;
+    public const TIPE_NOT_IN_ARTIKEL = ['statis', 'agenda', 'keuangan'];
 
     /**
      * The table associated with the model.
@@ -102,6 +103,15 @@ class Artikel extends BaseModel
     ];
 
     /**
+     * The attributes that should be appended to model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'url_slug',
+    ];
+
+    /**
      * Scope a query to only include article.
      *
      * @param Builder $query
@@ -110,7 +120,7 @@ class Artikel extends BaseModel
      */
     public function scopeOnlyArticle($query): \Illuminate\Database\Query\Builder
     {
-        return $query->whereNotIn('id_kategori', static::NOT_IN_ARTIKEL);
+        return $query->whereNotIn('tipe', static::TIPE_NOT_IN_ARTIKEL);
     }
 
     /**
@@ -135,6 +145,16 @@ class Artikel extends BaseModel
     public function scopeHeadline($query)
     {
         return $query->where('headline', static::HEADLINE);
+    }
+
+    public function scopeStatis($query)
+    {
+        return $query->where('tipe', 'statis');
+    }
+
+    public function scopeKeuangan($query)
+    {
+        return $query->where('tipe', 'keuangan');
     }
 
     /**
@@ -231,5 +251,13 @@ class Artikel extends BaseModel
         // return $this->gambar3
         //     ? config('filesystems.disks.ftp.url') . "/desa/upload/artikel/sedang_{$this->gambar3}"
         //     : '';
+    }
+
+    /**
+     * Getter untuk menambahkan url slug.
+     */
+    public function getUrlSlugAttribute(): string
+    {
+        return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
     }
 }

@@ -81,7 +81,7 @@ class Program_bantuan_model extends MY_Model
         }
 
         return $this->config_id('p', true)
-            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status')
+            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status')
             ->get('program p')
             ->result_array();
     }
@@ -92,7 +92,7 @@ class Program_bantuan_model extends MY_Model
         $no_kk   = $this->keluarga_model->get_nokk($kk_id);
         $sasaran = 2;
         $strSQL  = "
-            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap, pp.peserta
+            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status, CONCAT('50',p.id) as lap, pp.peserta
             FROM program p
             LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '{$no_kk}'
             WHERE p.sasaran = {$sasaran} AND p.config_id = {$this->config_id}";
@@ -790,10 +790,10 @@ class Program_bantuan_model extends MY_Model
     public function set_program()
     {
         $data              = $this->validasi_bantuan($this->input->post());
-        $data['userid']    = auth()->id;
         $data['config_id'] = $this->config_id;
 
-        return $this->db->insert('program', $data);
+        $outp = $this->db->insert('program', $data);
+        status_sukses($outp);
     }
 
     private function validasi_bantuan($post)
@@ -1170,7 +1170,6 @@ class Program_bantuan_model extends MY_Model
         $this->session->success = 1;
         $sekarang               = $data_program['sdate'] ?? date('Y m d');
         $data_tambahan          = [
-            'userid'    => $this->session->user,
             'status'    => ($data_program['edate'] < $sekarang) ? 0 : 1,
             'config_id' => $this->config_id,
         ];

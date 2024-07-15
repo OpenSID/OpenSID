@@ -54,17 +54,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
     </div>
     <div class="box-body box-line">
         <div class="box-body permohonan-surat">
-            <?php
-                $nama_surat = $url;
-$form_surat                 = LOKASI_SURAT_DESA . $nama_surat . '/' . $nama_surat . '.php';
-if (is_file($form_surat)) {
-    include $form_surat;
-} elseif (is_file(LOKASI_SURAT_FORM_DESA . $nama_surat . '.php')) {
-    include LOKASI_SURAT_FORM_DESA . $nama_surat . '.php';
-} else {
-    include "template-surat/{$nama_surat}/{$nama_surat}.php";
-}
-?>
             <textarea id="isian_form" hidden="hidden"><?= $isian_form; ?></textarea>
         </div>
     </div>

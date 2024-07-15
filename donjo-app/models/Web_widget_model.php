@@ -36,7 +36,6 @@
  */
 
 use App\Models\JamKerja;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -98,7 +97,7 @@ class Web_widget_model extends MY_Model
             $this->db->where('isi !=', 'layanan_mandiri.php');
         }
 
-        $widget = $this->config_id_exist($this->tabel)
+        $widget = $this->config_id()
             ->where('enabled', 1)
             ->order_by('urut')
             ->get($this->tabel)
@@ -301,7 +300,7 @@ class Web_widget_model extends MY_Model
     public function get_setting($widget, $opsi = '')
     {
         // Data di kolom setting dalam format json
-        $setting = $this->config_id_exist($this->tabel)
+        $setting = $this->config_id()
             ->select('setting')
             ->where('isi', $widget . '.php')
             ->get($this->tabel)
@@ -418,23 +417,20 @@ class Web_widget_model extends MY_Model
     // pengambilan data yang akan ditampilkan di widget
     public function get_widget_data(&$data): void
     {
-        if ($this->db->field_exists('app_key', 'config')) {
-            $data['w_gal']           = $this->first_gallery_m->gallery_widget();
-            $data['hari_ini']        = $this->first_artikel_m->agenda_show('hari_ini');
-            $data['yad']             = $this->first_artikel_m->agenda_show('yad');
-            $data['lama']            = $this->first_artikel_m->agenda_show('lama');
-            $data['komen']           = $this->first_artikel_m->komentar_show();
-            $data['sosmed']          = $this->first_artikel_m->list_sosmed();
-            $data['arsip_terkini']   = $this->first_artikel_m->arsip_show('terkini');
-            $data['arsip_populer']   = $this->first_artikel_m->arsip_show('populer');
-            $data['arsip_acak']      = $this->first_artikel_m->arsip_show('acak');
-            $data['aparatur_desa']   = $this->pamong_model->list_aparatur_desa();
-            $data['stat_widget']     = $this->laporan_penduduk_model->list_data(4);
-            $data['sinergi_program'] = $this->get_setting('sinergi_program');
-            $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
-
-            $data['jam_kerja'] = Schema::hasTable('kehadiran_jam_kerja') ? JamKerja::get() : new stdClass();
-        }
+        $data['w_gal']           = $this->first_gallery_m->gallery_widget();
+        $data['hari_ini']        = $this->first_artikel_m->agenda_show('hari_ini');
+        $data['yad']             = $this->first_artikel_m->agenda_show('yad');
+        $data['lama']            = $this->first_artikel_m->agenda_show('lama');
+        $data['komen']           = $this->first_artikel_m->komentar_show();
+        $data['sosmed']          = $this->first_artikel_m->list_sosmed();
+        $data['arsip_terkini']   = $this->first_artikel_m->arsip_show('terkini');
+        $data['arsip_populer']   = $this->first_artikel_m->arsip_show('populer');
+        $data['arsip_acak']      = $this->first_artikel_m->arsip_show('acak');
+        $data['aparatur_desa']   = $this->pamong_model->list_aparatur_desa();
+        $data['stat_widget']     = $this->laporan_penduduk_model->list_data(4);
+        $data['sinergi_program'] = $this->get_setting('sinergi_program');
+        $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
+        $data['jam_kerja']       = JamKerja::get();
     }
 
     // widget statis di ambil dari folder desa/widget, vendor/themes/nama_tema/widgets dan desa/themes/nama_tema/widgets
@@ -487,7 +483,7 @@ class Web_widget_model extends MY_Model
 
     public function cekFileWidget(): void
     {
-        $data = $this->config_id_exist($this->tabel)
+        $data = $this->config_id()
             ->where('jenis_widget <>', 3)
             ->where('enabled', 1)
             ->get($this->tabel)

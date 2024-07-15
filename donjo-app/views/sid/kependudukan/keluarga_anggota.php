@@ -94,13 +94,13 @@
 							</tr>
 							<tr>
 								<td>
-									<?= ($program['programkerja']) ? anchor("program_bantuan/peserta/2/{$kepala_kk['no_kk']}", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
+									<?= ($program['programkerja']) ? anchor("peserta_bantuan/peserta/2/{$no_kk}", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
 								</td>
 								<td>:</td>
 								<td>
 									<?php if ($program['programkerja']): ?>
 										<?php foreach ($program['programkerja'] as $item): ?>
-											<?= anchor("program_bantuan/data_peserta/{$item['peserta_id']}", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
+											<?= anchor("peserta_bantuan/data_peserta/{$item['peserta_id']}", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
 										<?php endforeach; ?>
 									<?php else: ?>
 										-

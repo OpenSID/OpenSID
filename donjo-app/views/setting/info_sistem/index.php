@@ -237,7 +237,7 @@
 								<p>Update versi PHP supaya minimal <?= minPhpVersion ?> dan maksimal <?= maxPhpVersion ?>.</p>
 							</div>
 						<?php endif; ?>
-						<?php if (! $ekstensi['lengkap'] || ! $disable_functions['lengkap']) : ?>
+						<?php if (!$ekstensi['lengkap'] || !$disable_functions['lengkap']) : ?>
 							<div class="alert alert-danger" role="alert">
 								<p>Ada beberapa ekstensi dan fungsi PHP wajib yang tidak tersedia di sistem anda.
 									Karena itu, mungkin ada fungsi yang akan bermasalah.</p>
@@ -257,14 +257,16 @@
 									</div>
 								<?php endforeach; ?>
 							</div>
-							<div class="col-sm-6">
-								<h4>FUNGSI</h4>
-								<?php foreach ($disable_functions['functions'] as $func => $val) : ?>
-									<div class="form-group">
-										<h5><i class="fa fa-<?= $val ? 'check-circle-o' : 'times-circle-o' ?> fa-lg" style="color:<?= $val ? 'green' : 'red' ?>"></i>&nbsp;&nbsp;<?= $func ?></h5>
-									</div>
-								<?php endforeach; ?>
-							</div>
+							<?php if ($disable_functions['functions']) : ?>
+								<div class="col-sm-6">
+									<h4>FUNGSI</h4>
+									<?php foreach ($disable_functions['functions'] as $func => $val) : ?>
+										<div class="form-group">
+											<h5><i class="fa fa-<?= $val ? 'check-circle-o' : 'times-circle-o' ?> fa-lg" style="color:<?= $val ? 'green' : 'red' ?>"></i>&nbsp;&nbsp;<?= $func ?></h5>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							<?php endif ?>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">
@@ -297,26 +299,26 @@
 					<?php if (auth()->id == super_admin()) : ?>
 						<div id="info_sistem" class="tab-pane fade in">
 							<?php
-                            ob_start();
-					    if (ENVIRONMENT === 'production') :
-					        phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
-					    else :
-					        phpinfo();
-					    endif;
+							ob_start();
+							if (ENVIRONMENT === 'production') :
+								phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
+							else :
+								phpinfo();
+							endif;
 
-			$phpinfo = ['phpinfo' => []];
+							$phpinfo = ['phpinfo' => []];
 
-			if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
-			    foreach ($matches as $match) :
-			        if ($match[1] !== '') :
-			            $phpinfo[$match[1]] = [];
-			        elseif (isset($match[3])) :
-			            $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
-			        else :
-			            $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-			        endif;
-			    endforeach;
-			?>
+							if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
+								foreach ($matches as $match) :
+									if ($match[1] !== '') :
+										$phpinfo[$match[1]] = [];
+									elseif (isset($match[3])) :
+										$phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
+									else :
+										$phpinfo[end(array_keys($phpinfo))][] = $match[2];
+									endif;
+								endforeach;
+							?>
 								<?php $i = 0; ?>
 								<?php foreach ($phpinfo as $name => $section) : ?>
 									<?php $i++; ?>
@@ -397,9 +399,9 @@
 												<div class="box-body">
 													<div class="css-treeview">
 														<?php
-			                            $folders = directory_map(DESAPATH);
-			echo create_tree_folder($folders, DESAPATH);
-			?>
+														$folders = directory_map(DESAPATH);
+														echo create_tree_folder($folders, DESAPATH);
+														?>
 													</div>
 
 												</div>

@@ -79,16 +79,16 @@ class Grup extends Admin_Controller
                     if ($row->id == 1) {
                         return $aksi;
                     }
-                    $aksi .= '<a href="' . route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
+                    $aksi .= '<a href="' . ci_route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
 
                     if (can('u')) {
                         if ($row->jenis == UserGrup::DESA) {
-                            $aksi .= '<a href="' . route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                         }
-                        $aksi .= '<a href="' . route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
                     }
                     if (can('h') && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
-                        $aksi .= '<a href="#" data-href="' . route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        $aksi .= '<a href="#" data-href="' . ci_route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }
 
                     return $aksi;
@@ -102,11 +102,11 @@ class Grup extends Admin_Controller
 
     public function form($id = '')
     {
-        if (! $this->view_only) {
+        if (!$this->view_only) {
             $this->redirect_hak_akses('u');
         }
 
-        $data['form_action'] = route('grup.insert');
+        $data['form_action'] = ci_route('grup.insert');
         $data['view']        = $this->view_only;
         $data['grup']        = [];
 
@@ -116,11 +116,11 @@ class Grup extends Admin_Controller
 
         if ($id) {
             $data['grup'] = UserGrup::findOrFail($id)->toArray();
-            if (! $this->ref_grup) {
-                if (! $this->view_only && $data['grup']['jenis'] == UserGrup::SISTEM) {
+            if (!$this->ref_grup) {
+                if (!$this->view_only && $data['grup']['jenis'] == UserGrup::SISTEM) {
                     redirect_with('error', 'Grup Pengguna Tidak Dapat Diubah');
                 }
-                $data['form_action'] = route('grup.update', $id);
+                $data['form_action'] = ci_route('grup.update', $id);
             }
         }
 
@@ -171,7 +171,7 @@ class Grup extends Admin_Controller
 
     public function syarat_nama($str)
     {
-        return ! preg_match('/[^a-zA-Z0-9 \\-]/', $str);
+        return !preg_match('/[^a-zA-Z0-9 \\-]/', $str);
     }
 
     public function update($id): void
@@ -227,7 +227,7 @@ class Grup extends Admin_Controller
         try {
             // cek apakah sudah ada user untuk grup tersebut
             $adaUser = UserGrup::whereHas('users')->whereIn('id', $this->request['id_cb'] ?? [$id])->get();
-            if (! $adaUser->isEmpty()) {
+            if (!$adaUser->isEmpty()) {
                 redirect_with('error', 'Grup ' . $adaUser->implode('nama', ',') . ' sudah memiliki pengguna, tidak boleh dihapus');
             }
             $adaGrupSistem = UserGrup::where(['jenis' => UserGrup::SISTEM])->whereIn('id', $this->request['id_cb'] ?? [$id])->count();

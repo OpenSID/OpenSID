@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -120,5 +121,48 @@ class Pembangunan extends BaseModel
 
             return $item;
         })->toArray();
+    }
+
+    public function getMaxPersentaseAttribute()
+    {
+        if (count($this->pembangunanDokumentasi) <= 0) {
+            return 'belum ada progres';
+        }
+
+        $max = $this->pembangunanDokumentasi->max('persentase') + 0;
+
+        if (Str::endsWith($max, '%') == false) {
+            $max .= '%';
+        }
+
+        return $max;
+    }
+
+    public function scopeStatus($query, $value = 1)
+    {
+        return $query->where('status', $value);
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $gambar = LOKASI_GALERI . $model->getOriginal($file);
+            if (file_exists($gambar)) {
+                unlink($gambar);
+            }
+        }
     }
 }

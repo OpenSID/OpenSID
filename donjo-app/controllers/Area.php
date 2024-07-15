@@ -76,7 +76,8 @@ class Area extends Admin_Controller
             return datatables()->of(AreaModel::when($status, static fn ($q) => $q->whereEnabled($status))
                 ->when($polygon, static fn ($q) => $q->whereIn('ref_polygon', static fn ($q) => $q->select('id')->from('polygon')->whereParrent($polygon)))
                 ->when($subpolygon, static fn ($q) => $q->whereRefPolygon($subpolygon))
-                ->with(['polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ->with([
+                    'polygon' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -87,18 +88,18 @@ class Area extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('area.form', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('area.form', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
-                    $aksi .= '<a href="' . route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                    $aksi .= '<a href="' . ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
                     if (can('u')) {
                         if ($row->isLock()) {
-                            $aksi .= '<a href="' . route('area.unlock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('area.unlock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
                     }
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('area.delete', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('area.delete', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                     }
 
                     return $aksi;
@@ -117,13 +118,13 @@ class Area extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['area']        = null;
-        $data['form_action'] = route('area.insert', $parent);
+        $data['form_action'] = ci_route('area.insert', $parent);
         $data['foto_area']   = null;
         $data['parent']      = $parent;
 
         if ($id) {
             $data['area']        = AreaModel::find($id);
-            $data['form_action'] = route('area.update', implode('/', [$parent, $id]));
+            $data['form_action'] = ci_route('area.update', implode('/', [$parent, $id]));
         }
 
         $data['list_polygon'] = empty($parent) ? Polygon::subPolygon()->whereHas('parent')->get() : Polygon::child($parent)->whereHas('parent')->get();
@@ -134,7 +135,7 @@ class Area extends Admin_Controller
 
     public function ajax_area_maps($parent, int $id)
     {
-        $this->redirect_hak_akses('u', route('area.index', $parent));
+        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
 
         $data['area']                   = AreaModel::find($id)->toArray();
         $data['parent']                 = $parent;
@@ -147,39 +148,39 @@ class Area extends Admin_Controller
         $data['all_garis']              = Garis::activeGarisMap();
         $data['all_area']               = AreaModel::activeAreaMap();
         $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
-        $data['form_action']            = route('area.update_maps', implode('/', [$parent, $id]));
+        $data['form_action']            = ci_route('area.update_maps', implode('/', [$parent, $id]));
 
         return view('admin.peta.area.maps', $data);
     }
 
     public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u', route('area.index', $parent));
+        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
 
         try {
             $data = $this->input->post();
             if ($data['path'] !== '[[]]') {
                 AreaModel::whereId($id)->update($data);
-                redirect_with('success', 'Area berhasil disimpan', route('area.index', $parent));
+                redirect_with('success', 'Area berhasil disimpan', ci_route('area.index', $parent));
             } else {
-                redirect_with('error', 'Titik koordinat area harus diisi', route('area.index', $parent));
+                redirect_with('error', 'Titik koordinat area harus diisi', ci_route('area.index', $parent));
             }
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal disimpan', route('area.index', $parent));
+            redirect_with('error', 'Area gagal disimpan', ci_route('area.index', $parent));
         }
     }
 
     public function kosongkan($parent, $id): void
     {
-        $this->redirect_hak_akses('u', route('area.index', $parent));
+        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
 
         try {
             AreaModel::whereId($id)->update(['path' => null]);
-            redirect_with('success', 'Peta area berhasil dikosongkan', route('area.index', $parent));
+            redirect_with('success', 'Peta area berhasil dikosongkan', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Peta area gagal dikosongkan', route('area.index', $parent));
+            redirect_with('error', 'Peta area gagal dikosongkan', ci_route('area.index', $parent));
         }
     }
 
@@ -192,10 +193,10 @@ class Area extends Admin_Controller
 
         try {
             AreaModel::create($data);
-            redirect_with('success', 'Area berhasil disimpan', route('area.index', $parent));
+            redirect_with('success', 'Area berhasil disimpan', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal disimpan', route('area.index', $parent));
+            redirect_with('error', 'Area gagal disimpan', ci_route('area.index', $parent));
         }
     }
 
@@ -210,49 +211,49 @@ class Area extends Admin_Controller
         try {
             $obj = AreaModel::findOrFail($id);
             $obj->update($data);
-            redirect_with('success', 'Area berhasil disimpan', route('area.index', $parent));
+            redirect_with('success', 'Area berhasil disimpan', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal disimpan', route('area.index', $parent));
+            redirect_with('error', 'Area gagal disimpan', ci_route('area.index', $parent));
         }
     }
 
     public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('h', route('area.index', $parent));
+        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
 
         try {
             AreaModel::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Area berhasil dihapus', route('area.index', $parent));
+            redirect_with('success', 'Area berhasil dihapus', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal dihapus', route('area.index', $parent));
+            redirect_with('error', 'Area gagal dihapus', ci_route('area.index', $parent));
         }
     }
 
     public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', route('area.index', $parent));
+        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
 
         try {
             AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::LOCK]);
-            redirect_with('success', 'Area berhasil dinonaktifkan', route('area.index', $parent));
+            redirect_with('success', 'Area berhasil dinonaktifkan', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal dinonaktifkan', route('area.index', $parent));
+            redirect_with('error', 'Area gagal dinonaktifkan', ci_route('area.index', $parent));
         }
     }
 
     public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', route('area.index', $parent));
+        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
 
         try {
             AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::UNLOCK]);
-            redirect_with('success', 'Area berhasil dinonaktifkan', route('area.index', $parent));
+            redirect_with('success', 'Area berhasil dinonaktifkan', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal dinonaktifkan', route('area.index', $parent));
+            redirect_with('error', 'Area gagal dinonaktifkan', ci_route('area.index', $parent));
         }
     }
 
@@ -277,7 +278,7 @@ class Area extends Admin_Controller
         $area_file = $_FILES['foto']['tmp_name'];
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (! empty($area_file)) {
+        if (!empty($area_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA);
         } else {
             unset($data['foto']);

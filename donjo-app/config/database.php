@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Container\Container;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
@@ -135,4 +137,7 @@ $db['default']['save_queries'] = true;
 // Ganti pegaturan basisdata sesuai yg ada pada file desa/config/database.php
 include LOKASI_CONFIG_DESA . 'database.php';
 
-require_once 'eloquent.php';
+// diletakkan dibawah, karena encrypter diload dalam eloquent.php
+if (strlen($db['default']['password']) > 80) {
+    $db['default']['password'] = Container::getInstance()->make('encrypter')->decrypt($db['default']['password']);
+}

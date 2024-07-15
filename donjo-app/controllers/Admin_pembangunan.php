@@ -35,9 +35,15 @@
  *
  */
 
-use App\Enums\SatuanWaktuEnum;
-
 defined('BASEPATH') || exit('No direct script access allowed');
+
+use App\Enums\SatuanWaktuEnum;
+use App\Enums\StatusEnum;
+use App\Models\Area;
+use App\Models\Garis;
+use App\Models\Lokasi;
+use App\Models\Pembangunan;
+use App\Models\Wilayah;
 
 class Admin_pembangunan extends Admin_Controller
 {
@@ -45,242 +51,251 @@ class Admin_pembangunan extends Admin_Controller
     {
         parent::__construct();
         $this->modul_ini = 'pembangunan';
-        $this->load->library('zip');
-        $this->load->library('MY_Upload', null, 'upload');
-        $this->load->model('pembangunan_model', 'pembangunan');
-        $this->load->model('pembangunan_dokumentasi_model', 'dokumentasi');
-        $this->load->model('wilayah_model');
-        $this->load->model('pamong_model');
-        $this->load->model('plan_lokasi_model');
-        $this->load->model('plan_area_model');
-        $this->load->model('plan_garis_model');
+        isCan('b');
     }
 
     public function index()
     {
+        $data['tahun'] = Pembangunan::distinct()->get('tahun_anggaran');
+
+        return view('admin.pembangunan.index', $data);
+    }
+
+    public function datatables()
+    {
+        $tahun = $this->input->get('tahun') ?? null;
+
         if ($this->input->is_ajax_request()) {
-            $start  = $this->input->post('start');
-            $length = $this->input->post('length');
-            $search = $this->input->post('search[value]');
-            $order  = $this->pembangunan::ORDER_ABLE[$this->input->post('order[0][column]')];
-            $dir    = $this->input->post('order[0][dir]');
-            $tahun  = $this->input->post('tahun');
+            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
 
-            $this->pembangunan->set_tipe(''); // Ambil semua pembangunan
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('admin_pembangunan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
 
-            $data = $this->pembangunan->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result();
-            $data = collect($data)->map(static function ($item) {
-                $item->url_foto = to_base64(LOKASI_GALERI . $item->foto);
+                    $aksi .= '<a href="' . ci_route('admin_pembangunan.maps') . '/' . $row->id . '" class="btn bg-olive btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a> ';
+                    $aksi .= '<a href="' . ci_route('pembangunan_dokumentasi.dokumentasi') . '/' . $row->id . '" class="btn bg-purple btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-list-ol"></i></a> ';
 
-                return $item;
-            })->toArray();
+                    if (can('u')) {
+                        if ($row->status == StatusEnum::YA) {
+                            $aksi .= '<a href="' . ci_route('admin_pembangunan.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('admin_pembangunan.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
 
-            return json([
-                'draw'            => $this->input->post('draw'),
-                'recordsTotal'    => $this->pembangunan->get_data()->count_all_results(),
-                'recordsFiltered' => $this->pembangunan->get_data($search, $tahun)->count_all_results(),
-                'data'            => $data,
-            ]);
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('admin_pembangunan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi . ('<a href="' . ci_route('pembangunan') . '/' . $row->slug . '" target="_blank" class="btn bg-blue btn-sm" title="Lihat Summary"><i class="fa fa-eye"></i></a> ');
+                })
+                ->editColumn('foto', static function ($row): string {
+                    if ($row->foto) {
+                        $row->url_foto = to_base64(LOKASI_GALERI . $row->foto);
+
+                        return '<img class="penduduk_kecil" src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="Gambar Dokumentasi">';
+                    }
+
+                    return '';
+                })
+                ->editColumn('persentase', static fn ($row) => $row->max_persentase)
+                ->editColumn('alamat', static fn ($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
+                ->editColumn('anggaran', static fn ($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
+                ->rawColumns(['ceklist', 'aksi', 'foto'])
+                ->make();
         }
 
-        $this->render(ADMIN . '/pembangunan/index', [
-            'list_tahun' => $this->pembangunan->list_filter_tahun(),
-        ]);
+        return show_404();
     }
 
     public function form($id = ''): void
     {
-        $this->redirect_hak_akses('u');
-        if ($id) {
-            $data['main']        = $this->pembangunan->find($id) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update/{$id}");
-        } else {
-            $data['main'] = null;
+        isCan('u');
 
-            $data['form_action'] = site_url("{$this->controller}/insert");
+        if ($id) {
+            $data['action']      = 'Ubah';
+            $data['form_action'] = ci_route('admin_pembangunan.update', $id);
+            $data['main']        = Pembangunan::findOrFail($id);
+        } else {
+            $data['action']      = 'Tambah';
+            $data['form_action'] = ci_route('admin_pembangunan.create');
+            $data['main']        = null;
         }
 
-        $data['list_lokasi']  = $this->wilayah_model->list_semua_wilayah();
+        $data['list_lokasi']  = Wilayah::rt()->orderBy('dusun')->get()->toArray();
         $data['sumber_dana']  = $this->referensi_model->list_ref(SUMBER_DANA);
         $data['satuan_waktu'] = SatuanWaktuEnum::all();
 
-        $this->render(ADMIN . '/pembangunan/form', $data);
+        return view('admin.pembangunan.form', $data);
     }
 
-    public function insert(): void
+    public function create(): void
     {
-        $this->redirect_hak_akses('u');
-        $this->pembangunan->insert();
-        redirect($this->controller);
+        isCan('u');
+        $post               = $this->input->post();
+        $data               = $this->validasi($post);
+        $data['created_at'] = date('Y-m-d H:i:s');
+
+        if (Pembangunan::create($data)) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
     }
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
-        $this->pembangunan->update($id);
-        redirect($this->controller);
+        isCan('u');
+
+        $update = Pembangunan::findOrFail($id);
+        $post   = $this->input->post();
+        $data   = $this->validasi($post, $id, $update->foto);
+
+        if ($update->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h');
-        $this->pembangunan->delete($id);
+        isCan('h');
 
-        $this->session->success = $this->db->affected_rows() ? 4 : -4;
-
-        redirect($this->controller);
-    }
-
-    public function lokasi_maps($id): void
-    {
-        $data = $this->pembangunan->find($id) ?? show_404();
-
-        // Update lokasi maps
-        if ($request = $this->input->post()) {
-            $this->redirect_hak_akses('u');
-            $this->pembangunan->update_lokasi_maps($id, $request);
-
-            $this->session->success = 1;
-
-            redirect($this->controller);
+        if (Pembangunan::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
         }
 
-        $this->render(ADMIN . '/pembangunan/lokasi_maps', [
-            'data'                   => $data,
-            'desa'                   => $this->header['desa'],
-            'wil_atas'               => $this->header['desa'],
-            'dusun_gis'              => $this->wilayah_model->list_dusun(),
-            'rw_gis'                 => $this->wilayah_model->list_rw(),
-            'rt_gis'                 => $this->wilayah_model->list_rt(),
-            'all_lokasi'             => $this->plan_lokasi_model->list_lokasi(),
-            'all_garis'              => $this->plan_garis_model->list_garis(),
-            'all_area'               => $this->plan_area_model->list_area(),
-            'all_lokasi_pembangunan' => $this->pembangunan->list_lokasi_pembangunan(),
-        ]);
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function dialog_daftar($id = 0, $aksi = ''): void
+    private function validasi($post, $id = null, $old_foto = null)
     {
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = $aksi;
-        $data['form_action'] = site_url("{$this->controller}/daftar/{$id}/{$aksi}");
-
-        $this->load->view('global/ttd_pamong', $data);
+        return [
+            'sumber_dana'             => bersihkan_xss($post['sumber_dana']),
+            'judul'                   => judul($post['judul']),
+            'slug'                    => unique_slug('pembangunan', $post['judul'], $id),
+            'volume'                  => bersihkan_xss($post['volume']),
+            'waktu'                   => bilangan($post['waktu']),
+            'satuan_waktu'            => bilangan($post['satuan_waktu']),
+            'tahun_anggaran'          => bilangan($post['tahun_anggaran']),
+            'pelaksana_kegiatan'      => bersihkan_xss($post['pelaksana_kegiatan']),
+            'id_lokasi'               => $post['lokasi'] ? null : bilangan($post['id_lokasi']),
+            'lokasi'                  => $post['id_lokasi'] ? null : $this->security->xss_clean(bersihkan_xss($post['lokasi'])),
+            'keterangan'              => $this->security->xss_clean(bersihkan_xss($post['keterangan'])),
+            'foto'                    => $this->upload_gambar_pembangunan('foto', $old_foto),
+            'anggaran'                => bilangan($post['anggaran']),
+            'sumber_biaya_pemerintah' => bilangan($post['sumber_biaya_pemerintah']),
+            'sumber_biaya_provinsi'   => bilangan($post['sumber_biaya_provinsi']),
+            'sumber_biaya_kab_kota'   => bilangan($post['sumber_biaya_kab_kota']),
+            'sumber_biaya_swadaya'    => bilangan($post['sumber_biaya_swadaya']),
+            'sumber_biaya_jumlah'     => bilangan($post['sumber_biaya_pemerintah']) + bilangan($post['sumber_biaya_provinsi']) + bilangan($post['sumber_biaya_kab_kota']) + bilangan($post['sumber_biaya_swadaya']),
+            'manfaat'                 => $this->security->xss_clean(bersihkan_xss($post['manfaat'])),
+            'sifat_proyek'            => bersihkan_xss($post['sifat_proyek']),
+            'updated_at'              => date('Y-m-d H:i:s'),
+        ];
     }
 
-    public function daftar($id = 0, $aksi = ''): void
+    private function upload_gambar_pembangunan(string $jenis, $old_foto = '')
     {
-        $request = $this->input->post();
+        // Inisialisasi library 'upload'
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->uploadConfig = [
+            'upload_path'   => LOKASI_GALERI,
+            'allowed_types' => 'jpg|jpeg|png',
+            'max_size'      => 1024, // 1 MB
+        ];
+        $this->upload->initialize($this->uploadConfig);
 
-        $pembangunan = $this->pembangunan->find($id) ?? show_404();
-        $dokumentasi = $this->dokumentasi->find_dokumentasi($pembangunan->id);
+        $uploadData = null;
+        // Adakah berkas yang disertakan?
+        $adaBerkas = !empty($_FILES[$jenis]['name']);
+        if (!$adaBerkas) {
+            // Jika hapus (ceklis)
+            if (isset($_POST['hapus_foto'])) {
+                unlink(LOKASI_GALERI . $old_foto);
 
-        $data['pembangunan']    = $pembangunan;
-        $data['dokumentasi']    = $dokumentasi;
-        $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($request['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($request['pamong_ketahui']);
-        $data['aksi']           = $aksi;
-        $data['ekstensi']       = 'doc';
-        $data['file']           = 'Laporan Pembangunan';
-        $data['isi']            = ADMIN . '/pembangunan/cetak';
+                return null;
+            }
 
-        $this->load->view('global/format_cetak', $data);
-    }
-
-    public function unlock($id): void
-    {
-        $this->pembangunan->unlock($id);
-
-        $this->session->success = 1;
-
-        redirect($this->controller);
-    }
-
-    public function lock($id): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->pembangunan->lock($id);
-
-        $this->session->success = 1;
-
-        redirect($this->controller);
-    }
-
-    // Dokumentasi Pembangunan
-    public function dokumentasi($id = null)
-    {
-        $pembangunan                = $this->pembangunan->find($id) ?? show_404();
-        $_SESSION['id_pembangunan'] = $id;
-
-        if ($this->input->is_ajax_request()) {
-            $start  = $this->input->post('start');
-            $length = $this->input->post('length');
-            $search = $this->input->post('search[value]');
-            $order  = $this->dokumentasi::ORDER_ABLE[$this->input->post('order[0][column]')];
-            $dir    = $this->input->post('order[0][dir]');
-
-            $data = $this->dokumentasi->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result();
-            $data = collect($data)->map(static function ($item) {
-                $item->url_gambar = to_base64(LOKASI_GALERI . $item->gambar);
-
-                return $item;
-            })->toArray();
-
-            return json([
-                'draw'            => $this->input->post('draw'),
-                'recordsTotal'    => $this->dokumentasi->get_data($id)->count_all_results(),
-                'recordsFiltered' => $this->dokumentasi->get_data($id, $search)->count_all_results(),
-                'data'            => $data,
-            ]);
+            return $old_foto;
         }
 
-        $this->render(ADMIN . '/pembangunan/dokumentasi/index', [
-            'pembangunan' => $pembangunan,
-        ]);
-    }
-
-    public function dokumentasi_form($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $id_pembangunan = $this->session->id_pembangunan;
-
-        if ($id) {
-            $data['main']        = $this->dokumentasi->find($id) ?? show_404();
-            $data['perubahan']   = $this->pembangunan->find($id_pembangunan)->perubahan_anggaran ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/dokumentasi_update/{$id}/{$id_pembangunan}");
-        } else {
-            $data['main']        = null;
-            $data['form_action'] = site_url("{$this->controller}/dokumentasi_insert/{$id_pembangunan}");
+        // Upload sukses
+        if ($this->upload->do_upload($jenis)) {
+            $uploadData = $this->upload->data();
+            // Buat nama file unik agar url file susah ditebak dari browser
+            $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+            // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+            $fileRenamed = rename(
+                $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                $this->uploadConfig['upload_path'] . $namaFileUnik
+            );
+            // Ganti nama di array upload jika file berhasil di-rename --
+            // jika rename gagal, fallback ke nama asli
+            $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+        }
+        // Upload gagal
+        else {
+            redirect_with('error', $this->upload->display_errors(null, null));
         }
 
-        $data['id_pembangunan'] = $id_pembangunan;
-        $data['persentase']     = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
-
-        $this->render(ADMIN . '/pembangunan/dokumentasi/form', $data);
+        return (empty($uploadData)) ? null : $uploadData['file_name'];
     }
 
-    public function dokumentasi_insert($id_pembangunan = ''): void
+    public function maps($id): void
     {
-        $this->redirect_hak_akses('u');
-        $this->dokumentasi->insert($id_pembangunan);
-        redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
+        isCan('u');
+
+        $data['lokasi']                 = Pembangunan::findOrFail($id)->toArray();
+        $data['desa']                   = $this->header['desa'];
+        $data['wil_atas']               = $this->header['desa'];
+        $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']                 = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']                 = Wilayah::rt()->get()->toArray();
+        $data['all_lokasi']             = Lokasi::activeLocationMap();
+        $data['all_garis']              = Garis::activeGarisMap();
+        $data['all_area']               = Area::activeAreaMap();
+        $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
+
+        $data['form_action'] = ci_route('admin_pembangunan.update-maps', $id);
+
+        view('admin.pembangunan.maps', $data);
     }
 
-    public function dokumentasi_update($id = '', $id_pembangunan = ''): void
+    public function updateMaps($id): void
     {
-        $this->redirect_hak_akses('u');
-        $this->dokumentasi->update($id, $id_pembangunan);
-        redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
+        isCan('u');
+
+        try {
+            $data = $this->input->post();
+            if (!empty($data['lat']) && !empty($data['lng'])) {
+                Pembangunan::whereId($id)->update($data);
+                redirect_with('success', 'Lokasi berhasil disimpan');
+            } else {
+                redirect_with('error', 'Titik koordinat lokasi harus diisi');
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Lokasi gagal disimpan');
+        }
     }
 
-    public function dokumentasi_delete($id_pembangunan, $id): void
+    public function lock($id = 0): void
     {
-        $this->redirect_hak_akses('h');
-        $this->dokumentasi->delete($id);
+        isCan('u');
 
-        $this->session->success = $this->db->affected_rows() ? 4 : -4;
+        if ($this->session->error_msg) {
+            redirect_with('error', $this->session->error_msg);
+        }
 
-        redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
+        if (Pembangunan::gantiStatus($id, 'status')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+
+        redirect_with('error', 'Gagal Ubah Status');
     }
 }

@@ -38,12 +38,14 @@
 namespace App\Libraries\TinyMCE;
 
 use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusHubunganEnum;
+use App\Enums\SHDKEnum;
 use App\Models\Penduduk;
 
 class KodeIsianPenduduk
 {
     private $idPenduduk;
+    private $prefix;
+    private $prefixJudul;
 
     public function __construct($idPenduduk = null, $prefix = '', $prefixJudul = false)
     {
@@ -64,12 +66,12 @@ class KodeIsianPenduduk
         $penduduk = null;
 
         // Data Umum
-        if (! empty($this->prefix)) {
+        if (!empty($this->prefix)) {
             $ortu   = ' ' . ucwords($this->prefix);
             $prefix = '_' . $this->prefix;
         }
 
-        if (! $this->prefixJudul) {
+        if (!$this->prefixJudul) {
             $ortu = '';
         }
 
@@ -221,13 +223,13 @@ class KodeIsianPenduduk
                     'case_sentence' => true,
                     'judul'         => 'Foto Ukuran',
                     'isian'         => '<img src="' . base_url('assets/images/pengguna/kuser.png') . '" width="124" height="148">',
-                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+                    'data'          => empty($penduduk->foto) || !file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
                     'case_sentence' => true,
                     'judul'         => 'Foto Ukuran',
                     'isian'         => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
-                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+                    'data'          => empty($penduduk->foto) || !file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
                     'judul' => 'Akta Kelahiran',
@@ -315,21 +317,21 @@ class KodeIsianPenduduk
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
-            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (!$id_ayah && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::SUAMI);
                     })
                     ->where('sex', JenisKelaminEnum::LAKI_LAKI)
                     ->first()->id;
             }
 
-            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (!$id_ibu && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::ISTRI);
                     })
                     ->where('sex', JenisKelaminEnum::PEREMPUAN)
                     ->first()->id;
@@ -338,7 +340,7 @@ class KodeIsianPenduduk
             // Data Ayah
             $data = array_merge($data, self::get($id_ayah, 'ayah', true));
 
-            if (! $id_ayah && ! empty($penduduk)) {
+            if (!$id_ayah && !empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ayah',
@@ -358,7 +360,7 @@ class KodeIsianPenduduk
             // Data Ibu
             $data = array_merge($data, self::get($id_ibu, 'ibu', true));
 
-            if (! $id_ibu && ! empty($penduduk)) {
+            if (!$id_ibu && !empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ibu',

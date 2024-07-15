@@ -61,7 +61,7 @@ class Kehadiran_pengaduan extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        return '<a href="' . ci_route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
                 ->editColumn('waktu', static fn ($row) => tgl_indo2($row->waktu))
@@ -77,7 +77,7 @@ class Kehadiran_pengaduan extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $action      = 'Ubah';
-        $form_action = route('kehadiran_pengaduan.update', $id);
+        $form_action = ci_route('kehadiran_pengaduan.update', $id);
 
         $kehadiran_pengaduan = KehadiranPengaduan::findOrFail($id);
 

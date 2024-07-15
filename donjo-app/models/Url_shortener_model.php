@@ -79,7 +79,7 @@ class Url_shortener_model extends MY_Model
             ->get()
             ->row_object();
 
-        return (count($result) > 0) ? $result : false;
+        return ($result !== null) ? $result : false;
     }
 
     public function random_code($length)

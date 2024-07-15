@@ -24,8 +24,8 @@
   </div>
   <div class="box-body no-padding">
     <ul class="nav nav-pills nav-stacked">
-      <li <?= jecho($navigasi, 'kirim', 'class="active"') ?>><a href="<?= route('sms/kirim') ?>"><i class="fa fa-inbox"></i> Kirim Pesan Grup</a></li>
-      <li <?= jecho($navigasi, 'arsip', 'class="active"') ?>><a href="<?= route('sms/arsip') ?>"><i class="fa fa-file-archive-o"></i> Arsip Hubung Warga</a></li>
+      <li <?= jecho($navigasi, 'kirim', 'class="active"') ?>><a href="<?= ci_route('sms/kirim') ?>"><i class="fa fa-inbox"></i> Kirim Pesan Grup</a></li>
+      <li <?= jecho($navigasi, 'arsip', 'class="active"') ?>><a href="<?= ci_route('sms/arsip') ?>"><i class="fa fa-file-archive-o"></i> Arsip Hubung Warga</a></li>
     </ul>
   </div>
 </div>

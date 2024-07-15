@@ -7,6 +7,6 @@ Versi Formulir DTKS saat ini : <b id="versi">
 </div>
 <script>
     setTimeout(() => {
-        $('#info_versi_dtks').load("<?= route('dtks/loadRecentInfo') ?>");
+        $('#info_versi_dtks').load("<?= ci_route('dtks/loadRecentInfo') ?>");
     }, 500);
 </script>

@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('grup_kontak') }}">Grup Kontak</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('grup_kontak') }}">Grup Kontak</a></li>
     <li class="active">Anggota Grup {{ $grupKontak->nama_grup }}</li>
 @endsection
 
@@ -23,10 +23,10 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ route('grup_kontak.anggotaform', $grupKontak->id_grup) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ ci_route('grup_kontak.anggotaform', $grupKontak->id_grup) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('grup_kontak.anggotadelete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('grup_kontak.anggotadelete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     @endif
@@ -65,7 +65,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('grup_kontak.anggotadatatables', $grupKontak->id_grup) }}",
+                ajax: "{{ ci_route('grup_kontak.anggotadatatables', $grupKontak->id_grup) }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

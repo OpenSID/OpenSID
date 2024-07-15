@@ -36,7 +36,6 @@
  */
 
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,6 +53,10 @@ class Validasi
     public function __construct()
     {
         $this->ci = &get_instance();
+
+        if (! isset($this->ci->header['desa'])) {
+            $this->ci->header['desa'] = identitas()->toArray();
+        }
     }
 
     public function validasi(): bool
@@ -128,11 +131,6 @@ class Validasi
 
         $token = $this->ci->setting->layanan_opendesa_token;
         if (empty($token)) {
-            if (Schema::hasColumn('config', 'app_key')) {
-                log_message('notice', 'Token pelanggan kosong');
-
-                return false;
-            }
             $this->ci->session->token_kosong = true;
             redirect('token');
         }
@@ -155,7 +153,7 @@ class Validasi
 
     private function isExceptController(): bool
     {
-        return in_array($this->ci->router->class, $this->kecuali);
+        return in_array(strtolower($this->ci->router->class), $this->kecuali);
     }
 
     private function isDemoMode(): bool

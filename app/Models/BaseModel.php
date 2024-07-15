@@ -88,12 +88,14 @@ class BaseModel extends Model
     {
         $data = self::findOrFail($id);
 
-        $data->update([$kolom => ($data->{$kolom} == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA]);
+        if ($data->update([$kolom => ($data->{$kolom} == StatusEnum::YA) ? StatusEnum::TIDAK : StatusEnum::YA])) {
+            if ($onlyOne) {
+                self::where('id', '!=', $id)->update([$kolom => StatusEnum::TIDAK]);
+            }
 
-        if ($onlyOne) {
-            self::where('id', '!=', $id)->update([$kolom => StatusEnum::TIDAK]);
+            return true;
         }
 
-        return true;
+        return false;
     }
 }

@@ -54,20 +54,20 @@
 					<td <?= $w?>>
 						<?= $pt['no']?><br><?=$pt['pertanyaan']?>
 						<?php if ($pt['par']):
-						    foreach ($pt['par'] as $jb): ?>
+                            foreach ($pt['par'] as $jb): ?>
 								<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
 							<?php endforeach;
-						endif; ?>
+                        endif; ?>
 					</td>
 				<?php else:
-				    if ($pt['id_tipe'] == 2): ?>
+                    if ($pt['id_tipe'] == 2): ?>
 						<td <?= $w?> style='background-color:#aaaafe;'>
 							<?= $pt['no']?><br><?= $pt['pertanyaan']?>
 							<?php if ($pt['par']):
-							    foreach ($pt['par'] as $jb): ?>
+                                foreach ($pt['par'] as $jb): ?>
 									<br><?=$jb['kode_jawaban']?>&nbsp<?= $jb['jawaban']?>
 								<?php endforeach;
-							endif; ?>
+                            endif; ?>
 						</td>
 					<?php elseif ($pt['id_tipe'] == 3): ?>
 						<td style='background-color:#00fe00;'>
@@ -193,8 +193,8 @@
 					<?= $isi; ?>
 					</td <?=$bx?>>
 				<?php endforeach;
-		    endif;
-		    ?>
+            endif;
+            ?>
 		</tr>
 		<?php endforeach; ?>
 	</table>

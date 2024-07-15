@@ -45,12 +45,14 @@ use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Wilayah extends BaseModel
 {
     use ConfigId;
+    use SortableTrait;
 
     /**
      * The table associated with the model.
@@ -81,6 +83,11 @@ class Wilayah extends BaseModel
     protected $casts = [
         'path' => Path::class,
         'zoom' => Zoom::class,
+    ];
+
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => false,
     ];
 
     /**
@@ -173,5 +180,20 @@ class Wilayah extends BaseModel
                 }
             }
         }
+    }
+
+    public function isDusun()
+    {
+        return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
+    }
+
+    public function isRw()
+    {
+        return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';
+    }
+
+    public function isRt()
+    {
+        return $this->attributes['rt'] != '0';
     }
 }

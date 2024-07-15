@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('surat') }}">Daftar Cetak Surat</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">Daftar Cetak Surat</a></li>
     <li class="active"> Surat {{ ucwords($surat->nama) }}</li>
     <li class="active"> Konsep Surat {{ ucwords($surat->nama) }}</li>
 @endsection
@@ -76,7 +76,7 @@
                                             @if ($syarat['id'] == '-1')
                                                 <strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
                                             @else
-                                                <a href="{{ route('permohonan_surat_admin.tampilkan', "{$syarat['id']}/{$syarat['id_pend']}") }}" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block syarat"
+                                                <a href="{{ ci_route('permohonan_surat_admin.tampilkan', "{$syarat['id']}/{$syarat['id_pend']}") }}" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block syarat"
                                                     title="Tampilkan"
                                                 ><i class="fa fa-eye"></i> Cek Dokumen</a>
                                             @endif
@@ -165,13 +165,13 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ route('keluar.clear.masuk') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ ci_route('keluar.masuk') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Permohonan
             </a>
             @if (is_file($surat->filesurat . '.pdf'))
                 <button type="button" class="btn btn-social btn-primary btn-sm preview"><i class="fa fa-file-pdf-o"></i>Lihat PDF</button>
             @elseif(is_file($surat->filesurat . '.rtf'))
-                <a href="{{ route('keluar.unduh.rtf', $surat->id) }}" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i> Unduh File</a>
+                <a href="{{ ci_route('keluar.unduh.rtf', $surat->id) }}" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i> Unduh File</a>
             @endif
 
             <button type="button" class="btn btn-social btn-success btn-sm verifikasi" data-ulang="{{ $surat->verifikasi_operator == -1 ? 'true' : 'false' }}"><i class="fa fa-check-circle"></i>{{ $surat->verifikasi_operator == -1 ? 'Kirim Ulang' : 'Setujui' }}</button>
@@ -208,11 +208,11 @@
                 }
 
                 var ulr_ajax = {
-                    'confirm': `{{ route('keluar.verifikasi') }}`,
+                    'confirm': `{{ ci_route('keluar.verifikasi') }}`,
                 }
 
                 var redirect = {
-                    'confirm': `{{ route('keluar.clear.masuk') }}`,
+                    'confirm': `{{ ci_route('keluar.masuk') }}`,
                 }
                 var data = {
                     id: id
@@ -224,8 +224,8 @@
                 e.preventDefault();
                 console.log(e)
                 var id = $('#idsurat').val();
-                var ulr_ajax = `{{ route('keluar.tolak') }}`;
-                var redirect = `{{ route('keluar.masuk') }}`;
+                var ulr_ajax = `{{ ci_route('keluar.tolak') }}`;
+                var redirect = `{{ ci_route('keluar.masuk') }}`;
                 ditolak(id, ulr_ajax, redirect, 'Konfirmasi Pengembalian Surat', 'Pesan singkat alasan pengembalian', 'Pesan singkat alasan permohonan surat dikembalikan');
             });
 
@@ -233,8 +233,8 @@
                 e.preventDefault();
                 console.log(e)
                 var id = $('#idsurat').val();
-                var ulr_ajax = `{{ route('keluar.kembalikan') }}`;
-                var redirect = `{{ route('keluar.masuk') }}`;
+                var ulr_ajax = `{{ ci_route('keluar.kembalikan') }}`;
+                var redirect = `{{ ci_route('keluar.masuk') }}`;
                 ditolak(id, ulr_ajax, redirect, 'Konfirmasi Pengembalian Permohonan', 'Pesan singkat alasan permohonan surat dikembalikan', 'Pesan singkat alasan permohonan surat dikembalikan');
             });
 
@@ -246,7 +246,7 @@
                         popup: 'swal-lg',
                     },
                     title: 'Lihat',
-                    html: `<object data="{{ route('keluar.unduh/tinymce', $surat->id . '/true') }}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
+                    html: `<object data="{{ ci_route('keluar.unduh/tinymce', $surat->id . '/true') }}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
                     showCancelButton: true,
                     cancelButtonText: 'tutup',
                     showConfirmButton: false,
@@ -261,7 +261,7 @@
                         popup: 'swal-lg',
                     },
                     title: 'Lihat',
-                    html: `<object data="{{ route('keluar.unduh/lampiran', $surat->id . '/true') }}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
+                    html: `<object data="{{ ci_route('keluar.unduh/lampiran', $surat->id . '/true') }}" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
                     showCancelButton: true,
                     cancelButtonText: 'tutup',
                     showConfirmButton: false,

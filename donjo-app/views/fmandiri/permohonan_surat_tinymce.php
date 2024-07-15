@@ -10,10 +10,10 @@
         <h4 class="box-title">Surat</h4>
     </div>
     <div class="box-body box-line">
-        <h1 class="judul-surat"><?= $surat->nama ?></h1>
+        <h1 class="judul-surat">Surat <?= $surat['nama'] ?></h1>
         <div class="box-body permohonan-surat">
 
-            <form id="validasi" action="<?= $form_action?>" method="POST" target="_blank" class="form-surat form-horizontal">
+            <form id="validasi" action="<?= $form_action?>" method="POST" class="form-surat form-horizontal">
                 <input type="hidden" id="url_surat" name="url_surat" value="<?= $url ?>">
                 <input type="hidden" id="url_remote" name="url_remote" value="<?= site_url('surat/nomor_surat_duplikat')?>">
                 <div class="form-group cari_nik">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <?php if ($individu): ?>
-                    <?php $this->load->view('surat/form/konfirmasi_pemohon.php'); ?>
+                    <?php $this->load->view('surat/form/konfirmasi_pemohon'); ?>
                 <?php	endif; ?>
                 <div class="row jar_form">
                     <label for="nomor" class="col-sm-3"></label>
@@ -53,7 +53,6 @@
     $(document).ready(function() {
         // Di form surat ubah isian admin menjadi disabled
         $("#wrapper-mandiri .readonly-permohonan").attr('disabled', true);
-        $("#wrapper-mandiri form#validasi").removeAttr('target');
         $("#wrapper-mandiri .tdk-permohonan textarea").removeClass('required');
         $("#wrapper-mandiri .tdk-permohonan select").removeClass('required');
         $("#wrapper-mandiri .tdk-permohonan input").removeClass('required');

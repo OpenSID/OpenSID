@@ -53,9 +53,5 @@ return array(
     'TCPDI' => $vendorDir . '/karriere/pdf-merge/tcpi/tcpdi.php',
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
-    'simplehtmldom\\Debug' => $vendorDir . '/simplehtmldom/simplehtmldom/Debug.php',
-    'simplehtmldom\\HtmlDocument' => $vendorDir . '/simplehtmldom/simplehtmldom/HtmlDocument.php',
-    'simplehtmldom\\HtmlNode' => $vendorDir . '/simplehtmldom/simplehtmldom/HtmlNode.php',
-    'simplehtmldom\\HtmlWeb' => $vendorDir . '/simplehtmldom/simplehtmldom/HtmlWeb.php',
     'tcpdi_parser' => $vendorDir . '/karriere/pdf-merge/tcpi/tcpdi_parser.php',
 );

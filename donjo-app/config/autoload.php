@@ -76,7 +76,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 |
 */
 $autoload['packages'] = [
-    APPPATH . 'third_party/DevelBar',
     APPPATH . 'third_party/faker',
     APPPATH . 'third_party/pelanggan',
     APPPATH . 'third_party/pendaftaran_kerjasama',
@@ -132,7 +131,7 @@ $autoload['drivers'] = ['session'];
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = ['url', 'language', 'general', 'form', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat', 'cek'];
+$autoload['helper'] = ['url', 'language', 'general', 'form', 'donjolib', 'date', 'pict', 'opensid', 'database', 'surat', 'cek', 'illuminate'];
 
 /*
 | -------------------------------------------------------------------

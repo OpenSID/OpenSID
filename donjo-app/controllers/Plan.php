@@ -77,7 +77,8 @@ class Plan extends Admin_Controller
             return datatables()->of(Lokasi::when($status, static fn ($q) => $q->whereEnabled($status))
                 ->when($point, static fn ($q) => $q->whereIn('ref_point', static fn ($q) => $q->select('id')->from('point')->whereParrent($point)))
                 ->when($subpoint, static fn ($q) => $q->whereRefPoint($subpoint))
-                ->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ->with([
+                    'point' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -88,17 +89,17 @@ class Plan extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
-                        $aksi .= '<a href="' . route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('plan.form', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('plan.ajax_lokasi_maps', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
                         if ($row->isLock()) {
-                            $aksi .= '<a href="' . route('plan.unlock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('plan.unlock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('plan.lock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('plan.lock', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('plan.delete', implode('/', [$row->point->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -118,13 +119,13 @@ class Plan extends Admin_Controller
         isCan('u');
 
         $data['plan']        = null;
-        $data['form_action'] = route('plan.insert', $parent);
+        $data['form_action'] = ci_route('plan.insert', $parent);
         $data['foto_plan']   = null;
         $data['parent']      = $parent;
 
         if ($id) {
             $data['plan']        = Lokasi::findOrFail($id);
-            $data['form_action'] = route('plan.update', implode('/', [$parent, $id]));
+            $data['form_action'] = ci_route('plan.update', implode('/', [$parent, $id]));
         }
 
         $data['list_point'] = empty($parent) ? Point::subPoint()->whereHas('parent')->get() : Point::child($parent)->whereHas('parent')->get();
@@ -148,7 +149,7 @@ class Plan extends Admin_Controller
         $data['all_garis']              = Garis::activeGarisMap();
         $data['all_area']               = Area::activeAreaMap();
         $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
-        $data['form_action']            = route('plan.update_maps', implode('/', [$parent, $id]));
+        $data['form_action']            = ci_route('plan.update_maps', implode('/', [$parent, $id]));
 
         return view('admin.peta.lokasi.maps', $data);
     }
@@ -159,15 +160,15 @@ class Plan extends Admin_Controller
 
         try {
             $data = $this->input->post();
-            if (! empty($data['lat']) && ! empty($data['lng'])) {
+            if (!empty($data['lat']) && !empty($data['lng'])) {
                 Lokasi::whereId($id)->update($data);
-                redirect_with('success', 'Lokasi berhasil disimpan', route('plan.index', $parent));
+                redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
             } else {
-                redirect_with('error', 'Titik koordinat lokasi harus diisi', route('plan.index', $parent));
+                redirect_with('error', 'Titik koordinat lokasi harus diisi', ci_route('plan.index', $parent));
             }
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', route('plan.index', $parent));
+            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
         }
     }
 
@@ -181,10 +182,10 @@ class Plan extends Admin_Controller
 
         try {
             Lokasi::create($data);
-            redirect_with('success', 'Lokasi berhasil disimpan', route('plan.index', $parent));
+            redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', route('plan.index', $parent));
+            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
         }
     }
 
@@ -199,10 +200,10 @@ class Plan extends Admin_Controller
         try {
             $obj = Lokasi::findOrFail($id);
             $obj->update($data);
-            redirect_with('success', 'Lokasi berhasil disimpan', route('plan.index', $parent));
+            redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal disimpan', route('plan.index', $parent));
+            redirect_with('error', 'Lokasi gagal disimpan', ci_route('plan.index', $parent));
         }
     }
 
@@ -212,10 +213,10 @@ class Plan extends Admin_Controller
 
         try {
             Lokasi::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Lokasi berhasil dihapus', route('plan.index', $parent));
+            redirect_with('success', 'Lokasi berhasil dihapus', ci_route('plan.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal dihapus', route('plan.index', $parent));
+            redirect_with('error', 'Lokasi gagal dihapus', ci_route('plan.index', $parent));
         }
     }
 
@@ -225,10 +226,10 @@ class Plan extends Admin_Controller
 
         try {
             Lokasi::where(['id' => $id])->update(['enabled' => Lokasi::LOCK]);
-            redirect_with('success', 'Lokasi berhasil diaktifkan', route('plan.index', $parent));
+            redirect_with('success', 'Lokasi berhasil diaktifkan', ci_route('plan.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal diaktifkan', route('plan.index', $parent));
+            redirect_with('error', 'Lokasi gagal diaktifkan', ci_route('plan.index', $parent));
         }
     }
 
@@ -238,10 +239,10 @@ class Plan extends Admin_Controller
 
         try {
             Lokasi::where(['id' => $id])->update(['enabled' => Lokasi::UNLOCK]);
-            redirect_with('success', 'Lokasi berhasil dinonaktifkan', route('plan.index', $parent));
+            redirect_with('success', 'Lokasi berhasil dinonaktifkan', ci_route('plan.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Lokasi gagal dinonaktifkan', route('plan.index', $parent));
+            redirect_with('error', 'Lokasi gagal dinonaktifkan', ci_route('plan.index', $parent));
         }
     }
 
@@ -266,7 +267,7 @@ class Plan extends Admin_Controller
         $lokasi_file = $_FILES['foto']['tmp_name'];
         $nama_file   = $_FILES['foto']['name'];
         $nama_file   = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (! empty($lokasi_file)) {
+        if (!empty($lokasi_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
         } else {
             unset($data['foto']);

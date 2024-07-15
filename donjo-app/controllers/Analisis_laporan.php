@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\AnalisisRefSubjekEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_laporan extends Admin_Controller
@@ -143,7 +145,7 @@ class Analisis_laporan extends Admin_Controller
         if ($master['subjek_tipe'] == 5) {
             $data['asubjek'] = ucwords($this->setting->sebutan_desa);
         } else {
-            $data['asubjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
+            $data['asubjek'] = AnalisisRefSubjekEnum::all()[$master['subjek_tipe']];
         }
 
         $this->render('analisis_laporan/form', $data);
