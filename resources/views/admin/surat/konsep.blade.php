@@ -192,7 +192,6 @@
                                     `,
                                     showCancelButton: false,
                                     showConfirmButton: false,
-                                    cancelButtonText: 'Tutup',
                                     footer: '<button onclick="Swal.close()" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i> Tutup</button>&ensp;<button onclick="cetak_pdf()" class="btn btn-social btn-success btn-sm"><i class="fa fa-print"></i> Cetak</button>',
                                     allowOutsideClick: () => false
                                 });
