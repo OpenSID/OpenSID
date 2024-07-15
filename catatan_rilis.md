@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#8183](https://github.com/OpenSID/OpenSID/issues/8183) Perbaikan gelar pada penanda tangan.
 24. [#8185](https://github.com/OpenSID/OpenSID/issues/8185) Perbaikan preview dokumen halaman web.
 25. [#8188](https://github.com/OpenSID/OpenSID/issues/8188) Perbaikan gagal migrasi v2312.0.0 ke v2407.0.0.
+26. [#8184](https://github.com/OpenSID/OpenSID/issues/8184) Perbaikan maksud dan tujuan penduduk tidak tetap.
 
 
 #### TEKNIS

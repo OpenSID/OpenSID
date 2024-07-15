@@ -1198,15 +1198,15 @@ class Penduduk extends BaseModel
 
         // Jenis peristiwa didapat dari form yang berbeda
         // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
-        $x = [
+        $logPenduduk = [
+            'id_pend'                  => $penduduk->id,
             'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
             'kode_peristiwa'           => $data['jenis_peristiwa'],
             'tgl_lapor'                => $data['tgl_lapor'],
-            'created_by'               => auth()->id,
             'maksud_tujuan_kedatangan' => $maksud_tujuan,
         ];
 
-        $penduduk->log()->create($x);
+        LogPenduduk::create($logPenduduk);
 
         return $penduduk;
     }
@@ -1280,6 +1280,7 @@ class Penduduk extends BaseModel
         if ($data['tgl_lapor']) {
             $log['tgl_lapor'] = $tgl_lapor;
         }
+
         if ($data['tgl_peristiwa']) {
             if ($this->status_dasar == StatusDasarEnum::HIDUP) {
                 LogPenduduk::where('id_pend', $this->id)->whereIn('kode_peristiwa', [LogPenduduk::BARU_LAHIR, LogPenduduk::BARU_PINDAH_MASUK])->update($log);
