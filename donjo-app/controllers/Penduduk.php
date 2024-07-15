@@ -386,6 +386,8 @@ class Penduduk extends Admin_Controller
                 if ($umurMax !== null) {
                     $umurObj['max'] = $umurMax;
                 }
+
+                // maping field yang memiliki relasi dengan tabel lain
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status'               => 'status',
@@ -403,7 +405,6 @@ class Penduduk extends Admin_Controller
                     'golongan_darah'       => 'golongan_darah_id',
                     'menahun'              => 'sakit_menahun_id',
                     'cacat'                => 'cacat_id',
-                    'tag_id_card'          => 'tag_id_card',
                 ];
                 $resultMap = [];
 
@@ -414,8 +415,9 @@ class Penduduk extends Admin_Controller
                         }
                     }
                 }
-                if (isset($resultMap['tag_id_card'])) {
-                    if ($resultMap['tag_id_card']) {
+
+                if (in_array($advanceSearch['tag_id_card'], StatusEnum::keys())) {
+                    if ($advanceSearch['tag_id_card']) {
                         $q->whereNotNull('tag_id_card');
                     } else {
                         $q->whereNull('tag_id_card');
