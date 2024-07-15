@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#8100](https://github.com/OpenSID/OpenSID/issues/8100) Perbaikan lampiran F2.12.
 19. [#8176](https://github.com/OpenSID/OpenSID/issues/8176) Perbaikan tambah gambar artikel dengan editor tinymce dengan ukuran yang besar.
 20. [#8177](https://github.com/OpenSID/OpenSID/issues/8177) Perbaikan data pendidikan kk penduduk menggukan enum pada suplemen.
+21. [#8172](https://github.com/OpenSID/OpenSID/issues/8172) Perbaikan lampiran n1-n6 surat keterangan nikah.
 
 
 #### TEKNIS
