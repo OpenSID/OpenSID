@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 20. [#8177](https://github.com/OpenSID/OpenSID/issues/8177) Perbaikan data pendidikan kk penduduk menggukan enum pada suplemen.
 21. [#8172](https://github.com/OpenSID/OpenSID/issues/8172) Perbaikan lampiran n1-n6 surat keterangan nikah.
 22. [#8178](https://github.com/OpenSID/OpenSID/issues/8178) Perbaikan validasi yg memiliki span pada input.
+23. [#8183](https://github.com/OpenSID/OpenSID/issues/8183) Perbaikan gelar pada penanda tangan.
 
 
 #### TEKNIS
