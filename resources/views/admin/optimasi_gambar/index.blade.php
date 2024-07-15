@@ -66,21 +66,24 @@
         $(function() {
             $('.resize').click(function(event) {
                 Swal.fire({
-                    title: 'Ubah ukuran gambar di folder ' + $(this).data('dir'),
+                    title: 'Informasi',
+                    icon: 'question',
+                    text: 'Apakah anda yakin ingin mengubah ukuran gambar di folder ' + $(this).data('dir') + '?',
                     showCancelButton: true,
                     confirmButtonText: 'Ok',
                     cancelButtonText: 'Batal',
                 }).then((result) => {
                     if (result.isConfirmed) {
                         periksa($(this).data('dir'));
-
                     }
                 })
             });
 
             $('.resize-all').click(function(event) {
                 Swal.fire({
-                    title: 'Ubah ukuran gambar di folder upload',
+                    title: 'Informasi',
+                    icon: 'question',
+                    text: 'Apakah anda yakin ingin mengubah ukuran gambar di semua folder upload?',
                     showCancelButton: true,
                     confirmButtonText: 'Ok',
                     cancelButtonText: 'Batal',
@@ -93,7 +96,9 @@
 
             periksa = function(dir = '') {
                 Swal.fire({
-                    title: 'Sedang Memeriksa',
+                    title: 'Informasi',
+                    text: 'Sedang memeriksa gambar di folder ' + dir,
+                    icon: 'info',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
                     showConfirmButton: false,
@@ -106,45 +111,52 @@
                         dataType: 'json',
                     })
                     .done(function(files) {
-                        if (files.status == true) {
+                        if (files.status === true) {
+                            let totalFiles = files.data.length;
                             Swal.fire({
-                                title: 'Sedang mengoptimasi gambar',
-                                html: ` `,
+                                title: 'Informasi',
+                                icon: 'info',
+                                text: `Ditemukan ${totalFiles} gambar di folder ${dir}`,
+                                html: `Mengoptimasi 0 dari ${totalFiles} gambar`,
                                 didOpen: () => {
-                                    Swal.showLoading();
-                                    resize_gambar(files.data);
+                                    // Resize gambar dan update progress
+                                    resize_gambar(files.data, totalFiles);
                                 },
-                            })
+                            });
                         }
                     })
                     .fail(function(error) {
-                        Swal.fire(err.responseText, '', 'warning')
+                        Swal.fire('Peringatan', error.responseText, 'warning');
                     });
+            }
+
+            resize_gambar = async (files, totalFiles) => {
+                if (totalFiles === 0) {
+                    Swal.fire('Informasi', 'Tidak ada gambar yang dioptimasi', 'info');
+                    return;
+                }
+
+                for (let i = 1; i <= totalFiles; i++) {
+                    await $.ajax({
+                            url: '{{ ci_route('optimasi_gambar.resize') }}',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                'file': files[i - 1]
+                            },
+                        })
+                        .done(function() {
+                            $('#swal2-html-container').html(
+                                `<div class="progress-bar" role="progressbar" aria-valuenow="${(i/totalFiles)*100}" aria-valuemin="0" aria-valuemax="100" style="width: ${(i/totalFiles)*100}%;">${i}/${totalFiles}</div>`
+                            );
+                        })
+                        .fail(function(error) {
+                            Swal.fire(error.responseText, '', 'warning');
+                            return;
+                        });
+                }
+                Swal.fire('Informasi', 'Proses optimasi gambar selesai', 'success');
             }
         });
-
-        resize_gambar = async (files) => {
-            var length = files.length;
-            for (var i = 1; i < (length + 1); i++) {
-                await $.ajax({
-                        url: '{{ ci_route('optimasi_gambar.resize') }}',
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            'file': files[i - 1]
-                        },
-                    })
-                    .done(function() {
-                        $('#swal2-html-container').html(
-                            `<div class="progress-bar" role="progressbar" aria-valuenow="${(i/length)*100}" aria-valuemin="0" aria-valuemax="100" style="width: ${(i/length)*100}%;">${i}/${length}</div>`
-                        );
-                    })
-                    .fail(function(error) {
-                        Swal.fire(err.responseText, '', 'warning')
-                        return;
-                    });
-            }
-            Swal.fire('Optimasi gambar selesai', '', 'info')
-        }
     </script>
 @endpush
