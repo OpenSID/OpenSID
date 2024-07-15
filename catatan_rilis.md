@@ -32,7 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#8188](https://github.com/OpenSID/OpenSID/issues/8188) Perbaikan gagal migrasi v2312.0.0 ke v2407.0.0.
 26. [#8184](https://github.com/OpenSID/OpenSID/issues/8184) Perbaikan maksud dan tujuan penduduk tidak tetap.
 27. [#8192](https://github.com/OpenSID/OpenSID/issues/8192) Perbaikan pencarian spesifik tag id card pada penduduk.
-
+28. [#8191](https://github.com/OpenSID/OpenSID/issues/8191) Perbaikan alamat kosong pada lampiran F-1.01.
 
 #### TEKNIS
 
