@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 28. [#8191](https://github.com/OpenSID/OpenSID/issues/8191) Perbaikan alamat kosong pada lampiran F-1.01.
 29. [#46](https://github.com/OpenSID/tema-esensi/issues/46) Perbaikan paginasi artikel tema esensi.
 30. [#8190](https://github.com/OpenSID/OpenSID/issues/8190) Perbaikan format font size pt pada surat.
+31. [#8196](https://github.com/OpenSID/OpenSID/issues/8196) Perbaikan periksa permohonan surat.
 
 #### TEKNIS
 
