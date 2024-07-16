@@ -322,7 +322,7 @@ class TinyMCE
         return $daftar_kode_isian;
     }
 
-    public function formatPdf(string $header, string $footer, string $isi): string
+    public function formatPdf(string $header, string $footer, string $isi, $preview = false): string
     {
         $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
@@ -370,15 +370,21 @@ class TinyMCE
                 break;
         }
         $style = '
-        <style>
-        .special-symbol {
-            font-family: "DejaVuSans", sans-serif;
-        }
-        </style>
+            <style>
+            .special-symbol {
+                font-family: "DejaVuSans", sans-serif;
+            }
+            </style>
         ';
 
+        $backimg = '';
+
+        if ($preview) {
+            $backimg = base_url('assets/images/draft-watermark.png');
+        }
+
         return '
-            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            <page backimg="' . $backimg . '" backtop="' . $backtop . '" backbottom="' . $backbottom . '">
             ' . $style . '
             ' . $isi_header . '
             ' . $isi_footer . '
