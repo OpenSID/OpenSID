@@ -84,7 +84,7 @@ class Informasi_publik extends Web_Controller
             if ($baris['tipe'] == 1) {
                 $row[] = "<a href='" . site_url('informasi-publik/tampilkan/') . $baris['id'] . "' class='btn btn-primary btn-block pdf'>Lihat Dokumen </a>";
             } else {
-                $row[] = "<a href='" . $baris['url'] . "' class='btn btn-primary btn-block pdf'>Lihat Dokumen </a>";
+                $row[] = "<a href='" . $baris['url'] . "' class='btn btn-primary btn-block'>Lihat Dokumen </a>";
             }
             $data[] = $row;
         }

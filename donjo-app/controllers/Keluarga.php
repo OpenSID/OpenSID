@@ -154,7 +154,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if ($_POST === [] && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
+        if ($_POST === [] && (!isset($_SESSION['dari_internal']) || !$_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -221,7 +221,7 @@ class Keluarga extends Admin_Controller
         $kepala = $this->keluarga_model->get_kepala_a($id);
         $this->redirect_tidak_valid(empty($kepala['id']) || $kepala['status_dasar'] == 1);
 
-        if ($_POST === [] && ! $_SESSION['dari_internal']) {
+        if ($_POST === [] && !$_SESSION['dari_internal']) {
             unset($_SESSION['validation_error']);
         } else {
             unset($_SESSION['dari_internal']);
@@ -290,7 +290,7 @@ class Keluarga extends Admin_Controller
     }
 
     // Tambah KK dari penduduk yg ada
-    public function form_old($p = 1, $o = 0, $id = 0): void
+    public function form_old($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['penduduk']       = $this->keluarga_model->list_penduduk_lepas();
@@ -298,6 +298,27 @@ class Keluarga extends Admin_Controller
         $data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
         $data['form_action']    = site_url("{$this->controller}/insert/{$id}");
         $this->load->view('sid/kependudukan/ajax_add_keluarga', $data);
+    }
+
+    public function pindah_kolektif(): void
+    {
+        $this->redirect_hak_akses('u');
+        $data['id_kk']       = $this->input->get('id_cb');
+        $data['dusun']       = $this->wilayah_model->list_dusun();
+        $data['rw']          = $this->wilayah_model->list_rw();
+        $data['rt']          = $this->wilayah_model->list_rt();
+        $data['form_action'] = site_url("{$this->controller}/proses_pindah");
+        log_message('error', print_r($data['id_kk'], true));
+
+        $this->load->view('sid/kependudukan/ajax_pindah_wilayah', $data);
+    }
+
+    public function proses_pindah(): void
+    {
+        $this->redirect_hak_akses('u');
+        $this->keluarga_model->proses_pindah($this->input->post());
+
+        redirect($this->controller);
     }
 
     public function filter($filter): void
@@ -597,7 +618,7 @@ class Keluarga extends Admin_Controller
                 break;
 
             case $tipe == 'bantuan_keluarga':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_keluarga';
@@ -617,7 +638,7 @@ class Keluarga extends Admin_Controller
                     ->row()
                     ->nama;
 
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }

@@ -35,6 +35,43 @@
  *
  */
 
+use App\Enums\AnalisisRefSubjekEnum;
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_laporan_model extends My_Model
@@ -195,12 +232,12 @@ class Analisis_laporan_model extends My_Model
         $jmkf = $this->session->jmkf;
         $this->db
             ->where_in('x.id_parameter', $kf)
-            ->where('((SELECT COUNT(id_parameter) FROM analisis_respon WHERE id_subjek = u.id  AND config_id = ' . identitas('id') . " AND id_periode = {$per} AND id_parameter IN ({$kf})) = {$jmkf})");
+            ->where("((SELECT COUNT(id_parameter) FROM analisis_respon ar WHERE id_subjek = u.id AND id_periode = {$per} AND id_parameter IN ({$kf})) = {$jmkf})");
     }
 
     public function get_judul()
     {
-        $asubjek = $this->referensi_model->list_by_id('analisis_ref_subjek')[$this->subjek]['subjek'];
+        $asubjek = AnalisisRefSubjekEnum::all()[$this->subjek];
 
         switch ($this->subjek) {
             case 1:
@@ -629,13 +666,11 @@ class Analisis_laporan_model extends My_Model
 
         switch ($o) {
             case 1:
-
             case 3:
                 $order_sql = ' ORDER BY u.id';
                 break;
 
             case 2:
-
             case 4:
                 $order_sql = ' ORDER BY u.id DESC';
                 break;
@@ -667,13 +702,12 @@ class Analisis_laporan_model extends My_Model
     public function group_parameter()
     {
         if (isset($this->session->jawab)) {
-            $idcb = $this->session->jawab;
-            $sql  = "SELECT DISTINCT(id_indikator) AS id_jmkf
-                FROM analisis_parameter
-                WHERE id IN({$idcb}) AND config_id = " . identitas('id');
-            $query = $this->db->query($sql);
-
-            return $query->result_array();
+            return $this->config_id('ap')
+                ->select('DISTINCT(id_indikator) AS id_jmkf')
+                ->from('analisis_parameter ap')
+                ->where_in('ap.id', $this->session->jawab)
+                ->get()
+                ->result_array();
         }
 
         return null;
@@ -681,11 +715,11 @@ class Analisis_laporan_model extends My_Model
 
     public function list_klasifikasi()
     {
-        $sql = 'SELECT *
-            FROM analisis_klasifikasi
-            WHERE id_master=? AND config_id = ' . identitas('id');
-        $query = $this->db->query($sql, $this->session->analisis_master);
-
-        return $query->result_array();
+        return $this->config_id('u')
+            ->select('u.id, u.nama')
+            ->from('analisis_klasifikasi u')
+            ->where('u.id_master', $this->session->analisis_master)
+            ->get()
+            ->result_array();
     }
 }

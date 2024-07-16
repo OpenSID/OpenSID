@@ -35,203 +35,179 @@
  *
  */
 
+use App\Models\Kategori as KategoriModel;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kategori extends Admin_Controller
 {
+    private int $tip = 2;
+
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('web_kategori_model');
         $this->modul_ini     = 'admin-web';
         $this->sub_modul_ini = 'menu';
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
+        $parent = $this->input->get('parent') ?? 0;
+        $data   = [
+            'tip'      => $this->tip,
+            'status'   => [KategoriModel::UNLOCK => 'Aktif', KategoriModel::LOCK => 'Non Aktif'],
+            'subtitle' => $parent > 0 ? ' / ' . strtoupper(KategoriModel::find($parent)->nama ?? '') : '',
+            'parent'   => $parent,
+        ];
 
-        $_SESSION['per_page'] = 20;
-        redirect('kategori');
+        view('admin.web.kategori.index', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p']   = $p;
-        $data['o']   = $o;
-        $data['tip'] = 2;
+        if ($this->input->is_ajax_request()) {
+            $parent    = (int) ($this->input->get('parent') ?? 0);
+            $canDelete = can('h');
+            $canUpdate = can('u');
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
+            return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent'])->orderBy('urut', 'asc'))
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
+                    $aksi  = '';
+                    $judul = $parent > 0 ? 'Subkategori' : 'Kategori';
+                    if ($canUpdate) {
+                        if (!$parent) {
+                            $aksi .= '<a href="' . ci_route('kategori.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
+                        }
+                        $aksi .= '<a href="' . ci_route('kategori.ajax_form', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
 
-        $data['filter'] = $_SESSION['filter'] ?? '';
+                        if ($row->isActive()) {
+                            $aksi .= '<a href="' . ci_route('kategori.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('kategori.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
+                    if ($canDelete) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('kategori.delete', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })->rawColumns(['aksi', 'ceklist', 'link'])
+                ->make();
         }
-        $data['per_page'] = $_SESSION['per_page'];
 
-        $data['paging']  = $this->web_kategori_model->paging($p, $o);
-        $data['main']    = $this->web_kategori_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->web_kategori_model->autocomplete();
-
-        $this->render('kategori/table', $data);
+        return show_404();
     }
 
-    public function form($id = ''): void
+    public function ajax_form($parent, $id = ''): void
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $data['tip'] = 2;
+        isCan('u');
+
         if ($id) {
-            $data['kategori']    = $this->web_kategori_model->get_kategori($id) ?? show_404();
-            $data['form_action'] = site_url("kategori/update/{$id}");
+            $data['kategori']    = KategoriModel::find($id);
+            $data['form_action'] = ci_route("kategori.update.{$parent}.{$id}");
         } else {
             $data['kategori']    = null;
-            $data['form_action'] = site_url('kategori/insert');
+            $data['form_action'] = ci_route("kategori.insert.{$parent}");
+        }
+        view('admin.web.kategori.ajax_form', $data);
+    }
+
+    public function insert($parent): void
+    {
+        isCan('u');
+        $data            = $this->validasi($this->input->post());
+        $data['enabled'] = 1;
+        $data['parrent'] = $parent;
+        // periksa apakah sudah ada kategori yang sama
+        $sudahAda = KategoriModel::isUniqueKategori($data['kategori'], $data['config_id']);
+
+        if ($sudahAda) {
+            redirect_with('error', 'Kategori ' . $data['kategori'] . ' sudah ada', ci_route('kategori.index') . '?parent=' . $parent);
         }
 
-        $this->render('kategori/form', $data);
+        try {
+            KategoriModel::create($data);
+            redirect_with('success', 'Kategori berhasil disimpan', ci_route('kategori.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Kategori gagal disimpan', ci_route('kategori.index') . '?parent=' . $parent);
+        }
     }
 
-    public function sub_kategori($kategori = 1): void
+    public function update($parent, $id): void
     {
-        $data['subkategori'] = $this->web_kategori_model->list_sub_kategori($kategori) ?? show_404();
-        $data['kategori']    = $kategori;
+        isCan('u');
+        $data = $this->validasi($this->input->post());
+        // periksa apakah sudah ada kategori yang sama
+        $sudahAda = KategoriModel::isUniqueKategori($data['kategori'], $data['config_id'], $id);
 
-        $this->render('kategori/sub_kategori_table', $data);
-    }
-
-    public function ajax_add_sub_kategori($kategori = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $data['kategori'] = $kategori;
-        $data['link']     = $this->web_kategori_model->list_link();
-
-        if ($id) {
-            $data['subkategori'] = $this->web_kategori_model->get_kategori($id) ?? show_404();
-            $data['form_action'] = site_url("kategori/update_sub_kategori/{$kategori}/{$id}");
-        } else {
-            $data['subkategori'] = null;
-            $data['form_action'] = site_url("kategori/insert_sub_kategori/{$kategori}");
+        if ($sudahAda) {
+            redirect_with('error', 'Kategori ' . $data['kategori'] . ' sudah ada', ci_route('kategori.index') . '?parent=' . $parent);
         }
 
-        $this->load->view('kategori/ajax_add_sub_kategori_form', $data);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
+        try {
+            $obj = KategoriModel::findOrFail($id);
+            $obj->update($data);
+            redirect_with('success', 'Kategori berhasil disimpan', ci_route('kategori.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Kategori gagal disimpan', ci_route('kategori.index') . '?parent=' . $parent);
         }
-        redirect('kategori/index');
     }
 
-    public function filter(): void
+    public function delete($parent, $id = null): void
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
+        isCan('h');
+
+        if (KategoriModel::whereIn('id', $this->request['id_cb'] ?? [$id])->whereHas('children')->count()) {
+            redirect_with('error', 'Kategori tidak dapat dihapus karena masih memiliki subkategori');
         }
-        redirect('kategori');
-    }
 
-    public function insert(): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->insert($tip);
-        redirect('kategori/index');
-    }
-
-    public function update($id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->update($id);
-        redirect('kategori/index');
-    }
-
-    public function delete($id = ''): void
-    {
-        $this->redirect_hak_akses('h', 'kategori/index');
-        $this->web_kategori_model->delete($id);
-        redirect('kategori/index');
-    }
-
-    public function delete_all($p = 1, $o = 0): void
-    {
-        $this->redirect_hak_akses('h', "kategori/index/{$p}/{$o}");
-        $this->web_kategori_model->delete_all();
-        redirect("kategori/index/{$p}/{$o}");
-    }
-
-    public function kategori_lock($id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->kategori_lock($id, 1);
-        redirect("kategori/index/{$p}/{$o}");
-    }
-
-    public function kategori_unlock($id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->kategori_lock($id, 2);
-        redirect("kategori/index/{$p}/{$o}");
-    }
-
-    public function insert_sub_kategori($kategori = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->insert_sub_kategori($kategori);
-        redirect("kategori/sub_kategori/{$kategori}");
-    }
-
-    public function update_sub_kategori($kategori = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->update_sub_kategori($id);
-        redirect("kategori/sub_kategori/{$kategori}");
-    }
-
-    public function delete_sub_kategori($kategori = '', $id = 0): void
-    {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->delete_sub($id);
-        redirect("kategori/sub_kategori/{$kategori}");
-    }
-
-    public function delete_all_sub_kategori($kategori = ''): void
-    {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->delete_all();
-        redirect("kategori/sub_kategori/{$kategori}");
-    }
-
-    public function kategori_lock_sub_kategori($kategori = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->kategori_lock($id, 1);
-        redirect("kategori/sub_kategori/{$kategori}");
-    }
-
-    public function kategori_unlock_sub_kategori($kategori = '', $id = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->kategori_lock($id, 2);
-        redirect("kategori/sub_kategori/{$kategori}");
-    }
-
-    public function urut($id = 0, $arah = 0, $kategori = ''): void
-    {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $this->web_kategori_model->urut($id, $arah, $kategori);
-        if ($kategori != '') {
-            redirect("kategori/sub_kategori/{$kategori}");
-        } else {
-            redirect('kategori/index');
+        try {
+            KategoriModel::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'Kategori berhasil dihapus', ci_route('kategori.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Kategori gagal dihapus', ci_route('kategori.index') . '?parent=' . $parent);
         }
+    }
+
+    public function lock($parent, $id): void
+    {
+        isCan('h');
+
+        try {
+            KategoriModel::gantiStatus($id, 'enabled');
+            redirect_with('success', 'Berhasil ubah status', ci_route('kategori.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Gagal ubah status', ci_route('kategori.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function tukar()
+    {
+        $kategori = $this->input->post('data');
+        KategoriModel::setNewOrder($kategori);
+
+        return json(['status' => 1]);
+    }
+
+    private function validasi($post)
+    {
+        $kategori = htmlentities($post['kategori']);
+
+        return [
+            'config_id' => identitas('id'),
+            'kategori'  => $kategori,
+            'slug'      => url_title($kategori, '-', true),
+        ];
     }
 }

@@ -65,7 +65,7 @@ class Gis extends Admin_Controller
             'golongan_darah', 'dusun', 'rw', 'rt',
             'agama', 'umur_min', 'umur_max', 'pekerjaan_id',
             'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk',
-            'layer_penduduk', 'layer_keluarga', 'layer_wilayah', 'layer_lokasi', 'layer_area',
+            'layer_penduduk', 'layer_keluarga', 'layer_rtm', 'layer_wilayah', 'layer_lokasi', 'layer_area',
         ]);
 
         $this->session->set_userdata('layer_keluarga', 0);
@@ -96,7 +96,7 @@ class Gis extends Admin_Controller
             $data['rw']    = '';
             $data['rt']    = '';
         }
-        $variabel_sesi = ['layer_penduduk', 'layer_keluarga', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis'];
+        $variabel_sesi = ['layer_penduduk', 'layer_keluarga', 'layer_rtm', 'layer_desa', 'layer_wilayah', 'layer_lokasi', 'layer_area', 'layer_dusun', 'layer_rw', 'layer_rt', 'layer_garis'];
 
         foreach ($variabel_sesi as $variabel) {
             $data[$variabel] = $this->session->userdata($variabel) ?: 0;
@@ -127,7 +127,7 @@ class Gis extends Admin_Controller
         $cari = $this->input->post('cari');
         if ($cari != '') {
             $_SESSION['cari'] = $cari;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {
@@ -141,11 +141,24 @@ class Gis extends Admin_Controller
         $filter = $this->input->post('filter');
         if ($filter != '') {
             $_SESSION['filter'] = $filter;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {
             unset($_SESSION['filter']);
+        }
+        redirect('gis');
+    }
+
+    public function layer_rtm()
+    {
+        $layer_rtm = $this->input->post('layer_rtm');
+        if ($layer_rtm == '') {
+            $_SESSION['layer_rtm'] = 0;
+        } else {
+            $_SESSION['layer_penduduk'] = 0;
+            $_SESSION['layer_keluarga'] = 0;
+            $_SESSION['layer_rtm']      = 1;
         }
         redirect('gis');
     }
@@ -197,7 +210,7 @@ class Gis extends Admin_Controller
         $sex = $this->input->post('sex');
         if ($sex != '') {
             $_SESSION['sex'] = $sex;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {
@@ -225,7 +238,7 @@ class Gis extends Admin_Controller
         $rw = $this->input->post('rw');
         if ($rw != '') {
             $_SESSION['rw'] = $rw;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {
@@ -239,7 +252,7 @@ class Gis extends Admin_Controller
         $rt = $this->input->post('rt');
         if ($rt != '') {
             $_SESSION['rt'] = $rt;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {
@@ -253,7 +266,7 @@ class Gis extends Admin_Controller
         $agama = $this->input->post('agama');
         if ($agama != '') {
             $_SESSION['agama'] = $agama;
-            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga'])) {
+            if (empty($_SESSION['layer_penduduk']) && empty($_SESSION['layer_keluarga']) && empty($_SESSION['layer_rtm'])) {
                 $_SESSION['layer_penduduk'] = 1;
             }
         } else {

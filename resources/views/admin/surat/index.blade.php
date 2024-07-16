@@ -10,7 +10,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('surat') }}">Cetak Layanan Surat</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">Cetak Layanan Surat</a></li>
 @endsection
 
 @section('content')
@@ -72,7 +72,7 @@
 
             var TableData = $('#tabeldata').DataTable({
                 ajax: {
-                    url: "{{ route('surat.index') }}",
+                    url: "{{ ci_route('surat.datatables') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',

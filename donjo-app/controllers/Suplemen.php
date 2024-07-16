@@ -81,13 +81,13 @@ class Suplemen extends Admin_Controller
                     $disabled = $row->terdata()->count() > 0 ? 'disabled' : 'data-target="#confirm-delete"';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
-                        $aksi .= '<a href="' . route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
-                        $aksi .= '<a href="' . route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.impor_data', $row->id) . '" class="btn bg-navy btn-sm btn-import" title="Impor Data"><i class="fa fa-upload"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('suplemen.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Tanggapi Pengaduan"><i class="fa fa-pencil"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('suplemen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal"' . $disabled . '><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal"' . $disabled . '><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -103,15 +103,15 @@ class Suplemen extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('suplemen.update', $id);
+            $form_action = ci_route('suplemen.update', $id);
             $suplemen    = ModelsSuplemen::with('terdata')->findOrFail($id);
         } else {
             $action      = 'Tambah';
-            $form_action = route('suplemen.create');
+            $form_action = ci_route('suplemen.create');
             $suplemen    = null;
         }
 
@@ -122,31 +122,35 @@ class Suplemen extends Admin_Controller
 
     public function create(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        if (ModelsSuplemen::create(static::validated($this->request))) {
+        try {
+            ModelsSuplemen::create(static::validated($this->request));
             redirect_with('success', 'Berhasil Tambah Data');
+        } catch (Exception $e) {
+            redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
         }
-
-        redirect_with('error', 'Gagal Tambah Data');
     }
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = ModelsSuplemen::findOrFail($id);
 
-        if ($update->update(static::validated($this->request))) {
+        try {
+            $data = static::validated($this->request);
+            $data['sasaran'] ??= $update->sasaran;
+            $update->update($data);
             redirect_with('success', 'Berhasil Ubah Data');
+        } catch (Exception $e) {
+            redirect_with('error', 'Gagal Ubah Data ' . $e->getMessage());
         }
-
-        redirect_with('error', 'Gagal Ubah Data');
     }
 
     public function delete($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $suplemen = ModelsSuplemen::findOrFail($id);
         if ($suplemen->terdata()->count() > 0) {
@@ -165,7 +169,6 @@ class Suplemen extends Admin_Controller
         return [
             'sasaran'    => $request['sasaran'],
             'nama'       => nomor_surat_keputusan($request['nama']),
-            'slug'       => unique_slug($request['slug']),
             'keterangan' => strip_tags($request['keterangan']),
         ];
     }
@@ -206,7 +209,7 @@ class Suplemen extends Admin_Controller
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('suplemen.delete_terdata', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('suplemen.delete_terdata', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -223,7 +226,7 @@ class Suplemen extends Admin_Controller
 
     public function form_terdata($id_suplemen, $aksi = 1, $id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $suplemen      = ModelsSuplemen::findOrFail($id_suplemen);
         $sasaran       = unserialize(SASARAN);
@@ -232,11 +235,11 @@ class Suplemen extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('suplemen.update_terdata', $id);
+            $form_action = ci_route('suplemen.update_terdata', $id);
             $terdata     = SuplemenTerdata::anggota($suplemen->sasaran, $suplemen->id)->where('id_terdata', $id)->first();
         } else {
             $action      = 'Tambah';
-            $form_action = route('suplemen.create_terdata', $aksi);
+            $form_action = ci_route('suplemen.create_terdata', $aksi);
             $terdata     = null;
         }
 
@@ -245,7 +248,7 @@ class Suplemen extends Admin_Controller
 
     public function create_terdata($aksi): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (SuplemenTerdata::create(static::validated_terdata($this->request))) {
             if ($aksi == 2) {
                 redirect_with('success', 'Berhasil Tambah Data', 'suplemen/form_terdata/' . $this->request['id_suplemen'] . '/2');
@@ -258,7 +261,7 @@ class Suplemen extends Admin_Controller
 
     public function update_terdata($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = SuplemenTerdata::where('id_suplemen', $this->request['id_suplemen'])->where('id_terdata', $id)->first();
 
@@ -269,13 +272,26 @@ class Suplemen extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'suplemen/rincian/' . $this->request['id_suplemen']);
     }
 
-    public function delete_terdata($id = null): void
+    public function delete_terdata($id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
 
-        if (SuplemenTerdata::destroy($id ?? $this->request['id_cb'])) {
+        if (SuplemenTerdata::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
+        }
+
+        redirect_with('error', 'Gagal Hapus Data', 'suplemen/rincian/' . $id_suplemen);
+    }
+
+    public function delete_all_terdata(): void
+    {
+        isCan('h');
+
+        $id_suplemen = substr($_SERVER['HTTP_REFERER'], -1);
+
+        if (SuplemenTerdata::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data', 'suplemen/rincian/' . $id_suplemen);
         }
 
@@ -407,14 +423,14 @@ class Suplemen extends Admin_Controller
     public function impor_data($id)
     {
         $suplemen    = ModelsSuplemen::findOrFail($id);
-        $form_action = route('suplemen.impor');
+        $form_action = ci_route('suplemen.impor');
 
         return view('admin.suplemen.impor', ['suplemen' => $suplemen, 'form_action' => $form_action]);
     }
 
     public function impor()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $suplemen_id = $this->input->post('id_suplemen');
 
         $config = [
@@ -425,7 +441,7 @@ class Suplemen extends Admin_Controller
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
-        if (! $this->upload->do_upload('userfile')) {
+        if (!$this->upload->do_upload('userfile')) {
             return session_error($this->upload->display_errors(null, null));
         }
 
@@ -478,14 +494,14 @@ class Suplemen extends Admin_Controller
 
                     // Cek valid data peserta sesuai sasaran
                     $cek_peserta = $this->cek_peserta($peserta, $sasaran);
-                    if (! in_array($peserta, $cek_peserta['valid'])) {
+                    if (!in_array($peserta, $cek_peserta['valid'])) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
                         continue;
                     }
                     $penduduk_sasaran = $this->cek_penduduk($sasaran, $peserta);
-                    if (! $penduduk_sasaran['id_terdata']) {
+                    if (!$penduduk_sasaran['id_terdata']) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $penduduk_sasaran['id_sasaran'] . ' = ' . $peserta . '</b> yang terdaftar tidak ditemukan <br>';
 
@@ -540,12 +556,8 @@ class Suplemen extends Admin_Controller
 
     public function get_suplemen($id)
     {
-        return ModelsSuplemen::select('suplemen.*')
-            ->selectRaw('COUNT(suplemen_terdata.id) AS jml')
-            ->leftJoin('suplemen_terdata', 'suplemen_terdata.id_suplemen', '=', 'suplemen.id')
-            ->where('suplemen.id', $id)
-            ->groupBy('suplemen.id')
-            ->first()
+        return ModelsSuplemen::withCount('terdata as jml')
+            ->find($id)
             ->toArray();
     }
 

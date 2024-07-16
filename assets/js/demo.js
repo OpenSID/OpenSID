@@ -33,7 +33,7 @@ $(function () {
 
   wrapper.append(link);
 
-  $(".content-wrapper").prepend(wrapper);
+  $(".content-wrapper").first().prepend(wrapper);
 
   wrapper.hide(4).delay(500).slideDown();
 });

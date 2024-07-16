@@ -361,14 +361,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				</thead>
 				<tbody>
 					<?php if ($kelompok) :
-					    foreach ($kelompok as $key => $data) : ?>
+                        foreach ($kelompok as $key => $data) : ?>
 							<tr>
 								<td><?= ($key + 1); ?></td>
 								<td><?= $data['nama']; ?></td>
 								<td><?= $data['kategori']; ?></td>
 							</tr>
 						<?php endforeach;
-					else : ?>
+                    else : ?>
 						<tr>
 							<td class="text-center" colspan="3">Data tidak tersedia</td>
 						</tr>

@@ -14,7 +14,7 @@
                         @include('admin.layouts.components.notifikasi')
                     </div>
                     @if ($cek['status'])
-                        {!! form_open(route('kehadiran.cek'), 'class="form-horizontal" id="validasi"') !!}
+                        {!! form_open(ci_route('kehadiran.cek'), 'class="form-horizontal" id="validasi"') !!}
                         @if ($ektp)
                             <div class="form-group thumbnail">
                                 <img src="{{ asset('images/camera-scan.gif') }}" alt="scanner" class="center" style="width:30%">
@@ -27,11 +27,11 @@
                                     placeholder="Tempelkan e-KTP Pada Card Reader"
                                     class="form-control required number"
                                     type="password"
-                                    onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '{{ route('kehadiran.cek-ektp') }}');$('#'+'validasi').submit();}"
+                                    onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '{{ ci_route('kehadiran.cek-ektp') }}');$('#'+'validasi').submit();}"
                                 >
                             </div>
                             <div class="form-group">
-                                <a href="{{ route('kehadiran.masuk') }}" class="btn btn-success btn-block btn-flat">MASUK DENGAN USERNAME/NIK</a>
+                                <a href="{{ ci_route('kehadiran.masuk') }}" class="btn btn-success btn-block btn-flat">MASUK DENGAN USERNAME/NIK</a>
                             </div>
                         @else
                             <div class="form-group has-feedback">
@@ -60,7 +60,7 @@
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-success btn-block btn-flat">MASUK</button>
-                                <a href="{{ route('kehadiran.masuk-ektp') }}" class="btn btn-success btn-block btn-flat">MASUK DENGAN EKTP</a>
+                                <a href="{{ ci_route('kehadiran.masuk-ektp') }}" class="btn btn-success btn-block btn-flat">MASUK DENGAN EKTP</a>
                             </div>
                         @endif
                         </form>

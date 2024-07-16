@@ -1,7 +1,7 @@
 @foreach ($list_setting as $key => $pengaturan)
     @if ($pengaturan->jenis != 'upload' && in_array($pengaturan->kategori, $pengaturan_kategori))
         <div class="form-group" id="form_{{ $pengaturan->key }}">
-            <label class="col-sm-12 col-md-3" for="nama">{{ $pengaturan->judul }}</label>
+            <label class="col-sm-12 col-md-3" for="nama">{{ SebutanDesa($pengaturan->judul) }}</label>
             @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')
                 <div class="col-sm-12 col-md-4">
                     <select {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm select2 required ', $pengaturan->attribute) : 'class="form-control input-sm select2 required"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
@@ -29,7 +29,7 @@
                 </div>
             @elseif ($pengaturan->jenis == 'textarea')
                 <div class="col-sm-12 col-md-4">
-                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="7">{{ $pengaturan->value }} </textarea>
+                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ SebutanDesa($pengaturan->keterangan) }}" rows="7">{{ $pengaturan->value }} </textarea>
                 </div>
             @elseif ($pengaturan->jenis == 'password')
                 <div class="col-sm-12 col-md-4">
@@ -46,7 +46,7 @@
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" type="text" value="{{ $pengaturan->value }}" />
                 </div>
             @endif
-            <label class="col-sm-12 col-md-5 pull-left" for="nama">{!! $pengaturan->keterangan !!}</label>
+            <label class="col-sm-12 col-md-5 pull-left" for="nama">{!! SebutanDesa($pengaturan->keterangan) !!}</label>
         </div>
     @endif
 @endforeach

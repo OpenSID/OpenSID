@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('pengurus') }}"> Pengurus</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('pengurus') }}"> Pengurus</a></li>
     <li class="active">Daftar Jabatan Pengurus</li>
 @endsection
 
@@ -17,16 +17,16 @@
     @include('admin.layouts.components.notifikasi')
     <div class="row">
         <div id="umum-sidebar" class="col-sm-3">
-            @include('admin.jabatan.navigasi')
+            @include('admin.layouts.components.side_bukudesa')
         </div>
         <div id="umum-content" class="col-sm-9">
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ route('pengurus.jabatanform') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ ci_route('pengurus.jabatanform') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('pengurus.jabatandelete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('pengurus.jabatandelete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     @endif
@@ -60,7 +60,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('pengurus.jabatan') }}",
+                ajax: "{{ ci_route('pengurus.jabatan') }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

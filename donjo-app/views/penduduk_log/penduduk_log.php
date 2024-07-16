@@ -1,10 +1,9 @@
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Log Penduduk</h1>
+        <h1>Catatan Peristiwa</h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
-            <li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
-            <li class="active">Log Penduduk</li>
+            <li class="active">Catatan Peristiwa</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
@@ -18,7 +17,6 @@
                             <?php endif; ?>
                             <a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
                             <a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-                            <a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
                             <a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
                         </div>
                     </div>
@@ -162,9 +160,39 @@
                                                                 <?php endif ?>
                                                             <?php endif ?>
                                                         <?php endif ?>
-                                                        <?php if ($data['kode_peristiwa'] == 2) : ?>
-                                                            <a target="_blank" href="<?= site_url("surat/form/surat_ket_kematian/{$data['id']}") ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat Keterangan Kematian"><i class="fa fa-file-word-o"></i>Surat Keterangan Kematian</a>
-                                                        <?php endif ?>
+
+                                                            <?php
+                                                                switch($data['kode_peristiwa']) {
+                                                                    case 1:
+                                                                        $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 2:
+                                                                        $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 3:
+                                                                        $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 4:
+                                                                        $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 5:
+                                                                        $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 6:
+                                                                        $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
+                                                                        break;
+                                                                }
+                                                            ?>
+                                                            <?php if($suratTerkait): ?>
+                                                                <?php foreach($suratTerkait as $item): ?>
+                                                                    <a target="_blank" href="<?= site_url("surat/form/{$item}") ?>#<?= $data['id'] ?>#<?= $data['nik'] ?>#<?= $data['nama'] ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="<?=  str_replace('-', ' ', $item) ?>"><i class="fa fa-file-word-o"></i><?=  str_replace('-', ' ', $item) ?></a>
+                                                                <?php endforeach ?>
+                                                            <?php endif ?>
                                                     </td>
                                                     <td class="padat">
                                                         <img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>

@@ -30,7 +30,7 @@
         <?php $data['post'] = $post ?>
         <?php $this->load->view($folder_themes .'/partials/article_list', $data) ?>
       <?php endforeach ?>
-      <?php $data['paging_page'] = ($paging_page && IS_PREMIUM && $this->uri->segment(2) === 'kategori') ? $paging_page : 'first/'.$paging_page ?>
+      <?php $data['paging_page'] = $paging_page ?>
       <div class="pagination space-y-1 flex-wrap w-full">
         <?php $this->load->view($folder_themes .'/commons/paging', $data) ?>
       </div>

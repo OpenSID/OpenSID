@@ -58,8 +58,8 @@ class Dokumen extends Admin_Controller
 
     public function index($kat = 1, $p = 1, $o = 0): void
     {
-        $data['p']   = $p;
-        $data['o']   = $o;
+        $data['p']   = $p ?? 1;
+        $data['o']   = $o ?? 0;
         $data['kat'] = $kat;
 
         $data['cari'] = $_SESSION['cari'] ?? '';

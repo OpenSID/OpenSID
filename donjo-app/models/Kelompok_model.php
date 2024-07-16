@@ -55,11 +55,6 @@ class Kelompok_model extends MY_Model
         return $this;
     }
 
-    public function autocomplete()
-    {
-        return $this->autocomplete_str('nama', $this->table);
-    }
-
     private function search_sql()
     {
         if ($search = $this->session->cari) {
@@ -326,13 +321,16 @@ class Kelompok_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function validasi_anggota_terdaftar($validasi = null, $data = null, $id_kelompok = 0)
+    public function validasi_anggota_terdaftar($validasi = null, $data = null, $id_kelompok = null)
     {
+        if ($id_kelompok) {
+            $this->db->where('id_kelompok', $id_kelompok);
+        }
+
         return $this->config_id()
             ->select($validasi, 'id_kelompok')
             ->from('kelompok_anggota')
             ->where($validasi, $data)
-            ->where('id_kelompok', $id_kelompok)
             ->limit(1)
             ->get()
             ->row();
@@ -360,7 +358,7 @@ class Kelompok_model extends MY_Model
         $this->ubah_jabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
 
         if ($data['id_kelompok']) {
-            $validasi_anggota1 = $this->validasi_anggota_terdaftar('no_anggota', $data['no_anggota'], $data['id_kelompok']);
+            $validasi_anggota1 = $this->validasi_anggota_terdaftar('no_anggota', $data['no_anggota']);
         }
 
         if ($this->get_anggota($id, $id_a)['no_anggota'] != $data['no_anggota'] && $validasi_anggota1->no_anggota == $data['no_anggota']) {
@@ -443,7 +441,7 @@ class Kelompok_model extends MY_Model
             $this->db->where('k.id !=', $id);
         }
 
-        return $this->config_id_exist('kelompok', 'k')
+        return $this->config_id('k')
             ->select('k.*, km.kelompok AS kategori, tp.nama AS nama_ketua')
             ->from('kelompok k')
             ->join('kelompok_master km', 'k.id_master = km.id', 'left')
@@ -501,14 +499,6 @@ class Kelompok_model extends MY_Model
             ->where('id_penduduk', $id_a)
             ->get()
             ->row_array();
-    }
-
-    public function list_master()
-    {
-        return $this->config_id()
-            ->where('tipe', $this->tipe)
-            ->get('kelompok_master')
-            ->result_array();
     }
 
     private function in_list_anggota($kelompok, $id_pend)

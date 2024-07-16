@@ -35,15 +35,16 @@
  *
  */
 
+use App\Models\Kelompok as KelompokModel;
 use App\Models\KelompokAnggota;
+use App\Models\KelompokMaster;
 use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends Admin_Controller
 {
-    private array $_set_page     = ['20', '50', '100'];
-    private array $_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex', 'status_dasar'];
+    private array $_list_session = ['penerima_bantuan', 'sex', 'status_dasar'];
     protected $tipe              = 'kelompok';
 
     public function __construct()
@@ -58,82 +59,88 @@ class Kelompok extends Admin_Controller
     public function clear(): void
     {
         $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page     = $this->_set_page[0];
         $this->session->status_dasar = 1; // Rumah Tangga Aktif
 
         redirect($this->controller);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function index()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['list_master'] = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
-        foreach ($this->_list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
+        if ($this->input->is_ajax_request()) {
+            $controller = $this->controller;
+            $input      = $this->input;
+
+            $query = KelompokModel::with(['kelompokMaster', 'ketua'])
+                ->withCount('kelompokAnggota as jml_anggota')
+                ->tipe($this->tipe)
+                ->jenisKelaminKetua($this->session->sex)
+                ->penerimaBantuan()
+                ->whereHas('kelompokMaster', function ($query): void {
+                    if ($filter = $this->input->get('filter')) {
+                        $query->where('id_master', $filter);
+                    }
+                });
+
+            return datatables($query)
+                ->addIndexColumn()
+                ->filter(static function ($query) use ($input): void {
+                    $query->whereHas('ketua', static function ($query) use ($input): void {
+                        if ($status = $input->get('status_dasar')) {
+                            if ($status == 1) {
+                                $query->where('status_dasar', 1);
+                            } elseif ($status == 2) {
+                                $query->where('status_dasar', null);
+                            }
+                        }
+                    });
+                })
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('aksi', static function ($row) use ($controller): string {
+                    $aksi = '';
+
+                    $aksi .= '<a href="' . route($row->tipe . '_anggota.detail', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-list-ol"></i></a> ';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . site_url("{$controller}/form/{$row->id}") . '" class="btn bg-orange btn-sm" title="Ubah Kategori"><i class="fa fa-edit"></i></a> ';
+                    }
+                    if (can('h') && $row->jml_anggota <= 0) {
+                        $aksi .= '<a href="#" data-href="' . site_url("{$controller}/delete/{$row->id}") . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
         }
 
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']        = 'index';
-        $data['set_page']    = $this->_set_page;
-        $data['filter']      = $this->session->filter;
-        $list_data           = $this->kelompok_model->list_data($o, $p);
-        $data['paging']      = $list_data['paging'];
-        $data['main']        = $list_data['main'];
-        $data['keyword']     = $this->kelompok_model->autocomplete();
-        $data['list_master'] = $this->kelompok_model->list_master();
-
-        $this->render('kelompok/table', $data);
+        return view('admin.kelompok.index', $data);
     }
 
-    public function anggota($id = 0, $p = 1, $o = 0): void
-    {
-        $data['p'] = $p;
-        $data['o'] = $o;
-
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['set_page'] = $this->_set_page;
-        $data['paging']   = $this->kelompok_model->paging($p, $id);
-        $data['func']     = 'anggota/' . $id;
-        $data['kelompok'] = $this->kelompok_model->get_kelompok($id) ?? show_404();
-        $data['main']     = $this->kelompok_model->list_anggota($o, $data['paging']->offset, $data['paging']->per_page, $id);
-
-        $this->render('kelompok/anggota/table', $data);
-    }
-
-    public function form($p = 1, $o = 0, $id = 0): void
+    public function form($id = 0)
     {
         $this->redirect_hak_akses('u');
-        $data['p']   = $p;
-        $data['o']   = $o;
-        $list_master = $this->kelompok_model->list_master();
+        $list_master = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if (count($list_master) <= 0) {
-            $this->session->success   = -1;
-            $this->session->error_msg = "Kategori {$this->tipe} tidak tersedia, silakan tambah ketegori terlebih dahulu";
-
-            redirect($this->controller);
+            redirect_with('error', "Kategori {$this->tipe} tidak tersedia, silakan tambah ketegori terlebih dahulu");
         }
 
         if ($id) {
-            $data['kelompok']    = $this->kelompok_model->get_kelompok($id) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
+            $data['kelompok']    = KelompokModel::tipe($this->tipe)->with(['kelompokMaster', 'ketua'])->find($id) ?? show_404();
+            $data['form_action'] = site_url("{$this->controller}/update/{$id}");
+            $data['action']      = 'Ubah';
         } else {
             $data['kelompok']    = null;
             $data['form_action'] = site_url("{$this->controller}/insert");
+            $data['action']      = 'Tambah';
         }
 
         $data['list_master']   = $list_master;
-        $data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-        $this->render('kelompok/form', $data);
+        $data['list_penduduk'] = KelompokModel::listPenduduk();
+
+        return view('admin.kelompok.form', $data);
     }
 
     public function aksi($aksi = '', $id = 0): void
@@ -143,26 +150,6 @@ class Kelompok extends Admin_Controller
         redirect("{$this->controller}/form_anggota/{$id}");
     }
 
-    public function form_anggota($id = 0, $id_a = 0): void
-    {
-        KelompokAnggota::tipe()->where('id_kelompok', '=', 2)->pluck('id_penduduk');
-        $this->redirect_hak_akses('u');
-        $data['kelompok']      = $id;
-        $data['list_penduduk'] = $this->kelompok_model->list_penduduk($id, $id_a);
-        $data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
-        $data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
-
-        if ($id_a == 0) {
-            $data['pend']        = null;
-            $data['form_action'] = site_url("{$this->controller}/insert_a/{$id}");
-        } else {
-            $data['pend']        = $this->kelompok_model->get_anggota($id, $id_a) ?? show_404();
-            $data['form_action'] = site_url("{$this->controller}/update_a/{$id}/{$id_a}");
-        }
-
-        $this->render('kelompok/anggota/form', $data);
-    }
-
     public function apipendudukkelompok()
     {
         if ($this->input->is_ajax_request()) {
@@ -170,7 +157,6 @@ class Kelompok extends Admin_Controller
             $tipe     = $this->input->get('tipe');
             $kelompok = $this->input->get('kelompok');
             $anggota  = KelompokAnggota::tipe($tipe)->where('id_kelompok', '=', $kelompok)->pluck('id_penduduk');
-
             $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster'])
                 ->when($cari, static function ($query) use ($cari): void {
                     $query->orWhere('nik', 'like', "%{$cari}%")
@@ -201,7 +187,7 @@ class Kelompok extends Admin_Controller
         $data['aksi']        = ucwords($aksi);
         $data['form_action'] = site_url("{$this->controller}/daftar/{$aksi}");
 
-        $this->load->view('global/ttd_pamong', $data);
+        view('admin.layouts.components.ttd_pamong', $data);
     }
 
     public function daftar($aksi = 'cetak'): void
@@ -209,126 +195,103 @@ class Kelompok extends Admin_Controller
         $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['config']         = $this->header['desa'];
+        $data['tipe']           = ucwords($this->tipe);
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
         $data['main']           = $this->kelompok_model->list_data();
-        $data['file']           = "Data {$this->tipe}"; // nama file
-        $data['isi']            = 'kelompok/cetak';
+        $data['file']           = 'Data ' . $data['tipe']; // nama file
+        $data['isi']            = 'admin.kelompok.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
 
-        $this->load->view('global/format_cetak', $data);
-    }
-
-    // $aksi = cetak/unduh
-    public function dialog_anggota($aksi = 'cetak', $id = 0): void
-    {
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = ucwords($aksi);
-        $data['form_action'] = site_url("{$this->controller}/daftar_anggota/{$aksi}/{$id}");
-
-        $this->load->view('global/ttd_pamong', $data);
-    }
-
-    public function daftar_anggota($aksi = 'cetak', $id = 0): void
-    {
-        $post                   = $this->input->post();
-        $data['aksi']           = $aksi;
-        $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-        $data['main']           = $this->kelompok_model->list_anggota(0, 0, 0, $id);
-        $data['kelompok']       = $this->kelompok_model->get_kelompok($id) ?? show_404();
-        $data['file']           = "Laporan Data {$this->tipe} " . $data['kelompok']['nama']; // nama file
-        $data['isi']            = 'kelompok/anggota/cetak';
-        $data['letak_ttd']      = ['2', '3', '2'];
-
-        $this->load->view('global/format_cetak', $data);
-    }
-
-    public function filter($filter): void
-    {
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-
-        redirect($this->controller);
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     public function insert(): void
     {
         $this->redirect_hak_akses('u');
-        $this->kelompok_model->insert();
 
-        redirect($this->controller);
+        $data        = $this->validate($this->input->post());
+        $getKelompok = KelompokModel::where('kode', $data['kode'])->exists();
+
+        if ($getKelompok) {
+            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
+        }
+
+        // insert kelompok
+        $kelompok = (new KelompokModel($data));
+        $kelompok->save();
+
+        // insert ketua kelompok
+        (new KelompokAnggota([
+            'id_kelompok' => $kelompok->id,
+            'config_id'   => identitas('id'),
+            'id_penduduk' => $data['id_ketua'],
+            'no_anggota'  => 1,
+            'jabatan'     => 1,
+            'keterangan'  => "Ketua {$this->tipe}",
+            'tipe'        => $this->tipe,
+        ]))->save();
+
+        redirect_with('success', 'Berhasil Tambah Data');
     }
 
-    public function update($p = 1, $o = 0, $id = 0): void
+    public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
-        $this->kelompok_model->update($id);
 
-        redirect("{$this->controller}/index/{$p}/{$o}");
+        $data        = $this->validate($this->input->post());
+        $getKelompok = KelompokModel::where('id', '!=', $id)
+            ->where(static function ($query) use ($id, $data): void {
+                $query->where('id', $id)->orWhere('kode', $data['kode']);
+            })->exists();
+
+        if ($getKelompok) {
+            redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
+        }
+
+        KelompokModel::findOrFail($id)->update($data);
+
+        redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    protected function validate($request = [], $id = null)
+    {
+        if ($request['id_ketua']) {
+            $data['id_ketua'] = bilangan($request['id_ketua']);
+        }
+
+        $data['id_master']  = bilangan($request['id_master']);
+        $data['nama']       = nama_terbatas($request['nama']);
+        $data['keterangan'] = htmlentities($request['keterangan']);
+        $data['kode']       = nomor_surat_keputusan($request['kode']);
+        $data['tipe']       = $this->tipe;
+
+        if (null === $id) {
+            $data['slug']      = unique_slug('kelompok', $data['nama']);
+            $data['config_id'] = identitas('id');
+        }
+
+        return $data;
     }
 
     public function delete($id = 0): void
     {
         $this->redirect_hak_akses('h');
 
-        if ($this->kelompok_model->get_kelompok_having_anggota($id)) {
-            $this->kelompok_model->delete($id);
+        $this->delete_kelompok($id);
 
-            redirect($this->controller);
-        }
-
-        status_sukses(false, false, "Tidak bisa menghapus {$this->tipe} yang sudah memiliki anggota");
-
-        redirect($this->controller);
+        redirect_with('success', 'Berhasil hapus data');
     }
 
     public function delete_all(): void
     {
         $this->redirect_hak_akses('h');
-        $this->kelompok_model->delete_all();
 
-        redirect($this->controller);
-    }
+        foreach ($this->request['id_cb'] as $id) {
+            $this->delete_kelompok($id);
+        }
 
-    public function insert_a($id = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->kelompok_model->insert_a($id);
-        $redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "{$this->controller}/anggota/{$id}";
-
-        $this->session->unset_userdata('aksi');
-
-        redirect($redirect);
-    }
-
-    public function update_a($id = 0, $id_a = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->kelompok_model->update_a($id, $id_a);
-
-        redirect("{$this->controller}/anggota/{$id}");
-    }
-
-    public function delete_anggota($id = 0, $a = 0): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->kelompok_model->delete_anggota($a);
-
-        redirect("{$this->controller}/anggota/{$id}");
-    }
-
-    public function delete_anggota_all($id = 0): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->kelompok_model->delete_anggota_all();
-
-        redirect("{$this->controller}/anggota/{$id}");
+        redirect_with('success', 'Berhasil hapus data');
     }
 
     public function to_master($id = 0): void
@@ -369,7 +332,7 @@ class Kelompok extends Admin_Controller
                 ->get('program')
                 ->row()
                 ->nama;
-            if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+            if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                 $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                 $nomor                       = $program_id;
             }
@@ -388,5 +351,18 @@ class Kelompok extends Admin_Controller
         }
 
         redirect($this->controller);
+    }
+
+    protected function delete_kelompok($id = '')
+    {
+        $result = KelompokModel::tipe($this->tipe)
+            ->doesntHave('kelompokAnggota')
+            ->find($id);
+
+        if (!$result) {
+            redirect_with('error', "Tidak bisa menghapus {$this->tipe} yang sudah memiliki anggota");
+        }
+
+        $result->delete();
     }
 }

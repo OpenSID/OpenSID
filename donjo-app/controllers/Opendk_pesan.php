@@ -55,7 +55,7 @@ class Opendk_pesan extends Admin_Controller
     {
         // cek setting server ke opendk
         if (empty($this->setting->api_opendk_key)) {
-            $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
+            $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . ci_route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
 
             return view('admin.opendkpesan.error', ['message' => $message]);
         }
@@ -65,7 +65,7 @@ class Opendk_pesan extends Admin_Controller
 
     public function index()
     {
-        if (! $this->cek()) {
+        if (!$this->cek()) {
             return;
         }
 
@@ -136,7 +136,7 @@ class Opendk_pesan extends Admin_Controller
             ->where('id', '=', $id)
             ->first();
 
-        $form_action = route('opendk_pesan.insert.' . $id);
+        $form_action = ci_route('opendk_pesan.insert.' . $id);
         Pesan::where('id', '=', $id)
             ->update([
                 'sudah_dibaca' => 1,
@@ -148,7 +148,7 @@ class Opendk_pesan extends Admin_Controller
     public function form()
     {
         $this->redirect_hak_akses('u');
-        $form_action = route('opendk_pesan.insert');
+        $form_action = ci_route('opendk_pesan.insert');
         $action      = 'Tambah';
 
         return view('admin.opendkpesan.form', ['action' => $action, 'form_action' => $form_action]);

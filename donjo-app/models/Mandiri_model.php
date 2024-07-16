@@ -576,13 +576,9 @@ class Mandiri_model extends MY_Model
     //Permintaan Pendaftaran Layanan Mandiri
     public function jml_mandiri_non_aktif()
     {
-        if ($this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
-            $this->list_data_sql();
+        $this->list_data_sql();
 
-            return $this->db->where('pm.aktif', 0)->get()->num_rows();
-        }
-
-        return 0;
+        return $this->db->where('pm.aktif', 0)->get()->num_rows();
     }
 
     public function cek_verifikasi($nik = 0): void

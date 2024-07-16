@@ -47,7 +47,7 @@ class Notif_web extends Mandiri_Controller
 
     public function inbox(): void
     {
-        $j = $this->notif_model->inbox_baru($tipe = 2, $this->is_login->nik);
+        $j = $this->notif_model->inbox_baru($tipe = 2, $this->is_login->id_pend);
         if ($j > 0) {
             echo $j;
         }

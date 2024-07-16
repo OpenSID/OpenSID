@@ -1,0 +1,65 @@
+{
+    "name": "cviebrock/eloquent-sluggable",
+    "description": "Easy creation of slugs for your Eloquent models in Laravel",
+    "keywords": [
+        "eloquent-sluggable",
+        "eloquent",
+        "sluggable",
+        "laravel",
+        "lumen",
+        "slug"
+    ],
+    "homepage": "https://github.com/cviebrock/eloquent-sluggable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Colin Viebrock",
+            "email": "colin@viebrock.ca"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "cocur/slugify": "^4.0",
+        "illuminate/config": "^8.0",
+        "illuminate/database": "^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "limedeck/phpunit-detailed-printer": "^6.0",
+        "mockery/mockery": "^1.4.2",
+        "orchestra/database": "^6.0",
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cviebrock\\EloquentSluggable\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cviebrock\\EloquentSluggable\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "fresh": [
+            "rm -rf vendor composer.lock",
+            "composer install"
+        ],
+        "tests": [
+            "php vendor/bin/phpunit"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cviebrock\\EloquentSluggable\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}

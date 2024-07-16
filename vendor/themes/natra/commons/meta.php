@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
-<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2311.1.1') ?>
+<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2401.0.0') ?>
 <?php $desa_title =  ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] . ' '. ucwords($this->setting->sebutan_kecamatan) . ' '. $desa['nama_kecamatan'] . ' '. ucwords($this->setting->sebutan_kabupaten) . ' '. $desa['nama_kabupaten']; ?>
 
 <meta http-equiv="encoding" content="utf-8">
@@ -73,7 +73,7 @@
 <script type="text/javascript">
 	var BASE_URL   = '<?= base_url() ?>';
 </script>
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js') ?>"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
 	window.setTimeout("renderDate()",1);
 	days = new Array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");

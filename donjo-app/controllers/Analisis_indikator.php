@@ -161,7 +161,7 @@ class Analisis_indikator extends Admin_Controller
     public function filter(): void
     {
         $filter = $this->input->post('filter');
-        if ($filter != 0) {
+        if (! empty($filter)) {
             $_SESSION['filter'] = $filter;
         } else {
             unset($_SESSION['filter']);
@@ -173,7 +173,7 @@ class Analisis_indikator extends Admin_Controller
     public function tipe(): void
     {
         $filter = $this->input->post('tipe');
-        if ($filter != 0) {
+        if (! empty($filter)) {
             $_SESSION['tipe'] = $filter;
         } else {
             unset($_SESSION['tipe']);
@@ -185,7 +185,7 @@ class Analisis_indikator extends Admin_Controller
     public function kategori(): void
     {
         $filter = $this->input->post('kategori');
-        if ($filter != 0) {
+        if (! empty($filter)) {
             $_SESSION['kategori'] = $filter;
         } else {
             unset($_SESSION['kategori']);

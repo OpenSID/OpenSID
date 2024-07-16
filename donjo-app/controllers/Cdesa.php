@@ -35,6 +35,44 @@
  *
  */
 
+use App\Models\RefPersilKelas;
+use App\Models\RefPersilMutasi;
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Cdesa extends Admin_Controller
@@ -134,7 +172,7 @@ class Cdesa extends Admin_Controller
             switch ($post['jenis_pemilik']) {
                 case '1':
                     // Pemilik desa
-                    if (! empty($post['nik'])) {
+                    if (!empty($post['nik'])) {
                         $data['pemilik'] = $this->cdesa_model->get_penduduk($post['nik'], $nik = true);
                     }
                     break;
@@ -232,14 +270,15 @@ class Cdesa extends Admin_Controller
             $data['persil'] = $this->cdesa_model->get_persil($id_mutasi);
             $data['mutasi'] = $this->cdesa_model->get_mutasi($id_mutasi);
         }
-        $data['cdesa']      = $this->cdesa_model->get_cdesa($id_cdesa) ?? show_404();
+        $data['cdesa'] = $this->cdesa_model->get_cdesa($id_cdesa) ?? show_404();
+
         $data['list_cdesa'] = $this->cdesa_model->list_c_desa(0, 0, [$id_cdesa]);
         $data['pemilik']    = $this->cdesa_model->get_pemilik($id_cdesa);
 
         $data['list_persil']         = $this->data_persil_model->list_persil();
         $data['persil_lokasi']       = $this->wilayah_model->list_semua_wilayah();
-        $data['persil_kelas']        = $this->referensi_model->list_by_id('ref_persil_kelas');
-        $data['persil_sebab_mutasi'] = $this->referensi_model->list_by_id('ref_persil_mutasi');
+        $data['persil_kelas']        = RefPersilKelas::get()->toArray();
+        $data['persil_sebab_mutasi'] = RefPersilMutasi::get()->toArray();
         $data['peta']                = $this->plan_area_model->list_data();
 
         $this->render('data_persil/create_mutasi', $data);

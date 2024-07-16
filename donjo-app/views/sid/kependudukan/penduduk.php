@@ -72,9 +72,6 @@
 								<li>
 									<a href="<?= site_url("{$this->controller}/nik_sementara"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK Sementara</a>
 								</li>
-								<li>
-									<a href="<?= site_url('penduduk_log/clear'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Log Data Penduduk"><i class="fa fa-book"></i> Log Penduduk</a>
-								</li>
 							</ul>
 						</div>
 						<div class="btn-group-vertical">
@@ -82,16 +79,19 @@
 							<ul class="dropdown-menu" role="menu">
 								<?php if (! config_item('demo_mode') && auth()->id_grup == $akses && ! data_lengkap()): ?>
 									<li>
-										<a href="<?= route('penduduk.impor') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor Penduduk"><i class="fa fa-upload"></i> Impor Penduduk</a>
+										<a href="<?= ci_route('penduduk.impor') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor Penduduk"><i class="fa fa-upload"></i> Impor Penduduk</a>
 									</li>
 									<?php if (! setting('multi_desa')): ?>
 										<li>
-											<a href="<?= route('penduduk.impor_bip') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor BIP"><i class="fa fa-upload"></i> Impor BIP</a>
+											<a href="<?= ci_route('penduduk.impor_bip') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor BIP"><i class="fa fa-upload"></i> Impor BIP</a>
 										</li>
 									<?php endif ?>
 								<?php endif ?>
 								<li>
-									<a href="<?= route('penduduk.ekspor') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
+									<a href="<?= ci_route('penduduk.ekspor') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
+								</li>
+								<li>
+									<a href="<?= ci_route('penduduk.ekspor.1') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk Berupa Isian Lengkap (Huruf)"><i class="fa fa-download"></i> Ekspor Penduduk Huruf</a>
 								</li>
 							</ul>
 						</div>
