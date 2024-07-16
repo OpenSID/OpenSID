@@ -65,7 +65,7 @@ class Pengurus extends Admin_Controller
     {
         $data['main_content']       = 'admin.pengurus.index';
         $data['subtitle']           = 'Buku ' . ucwords(setting('sebutan_pemerintah_desa'));
-        $data['selected_nav']       = 'aparat';
+        $data['selected_nav']       = 'pengurus';
         $data['jabatanSekdes']      = sekdes()->id;
         $data['jabatanKadesSekdes'] = RefJabatan::getKadesSekdes();
         $data['status']             = [Pamong::LOCK => 'Aktif', Pamong::UNLOCK => 'Non Aktif'];

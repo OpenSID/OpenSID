@@ -219,7 +219,7 @@ class Dokumen_sekretariat extends Admin_Controller
         redirect("dokumen_sekretariat/index/{$kat}");
     }
 
-    public function insert(): void
+    public function insert()
     {
         isCan('u');
 
@@ -246,7 +246,7 @@ class Dokumen_sekretariat extends Admin_Controller
         }
     }
 
-    public function update($kat, $id = ''): void
+    public function update($kat, $id = '')
     {
         isCan('u');
 
