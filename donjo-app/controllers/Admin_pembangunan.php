@@ -37,13 +37,13 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Enums\SatuanWaktuEnum;
-use App\Enums\StatusEnum;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
-use App\Models\Pembangunan;
 use App\Models\Wilayah;
+use App\Enums\StatusEnum;
+use App\Models\Pembangunan;
+use App\Enums\SatuanWaktuEnum;
 
 class Admin_pembangunan extends Admin_Controller
 {
@@ -57,7 +57,7 @@ class Admin_pembangunan extends Admin_Controller
     public function index()
     {
         $data['tahun'] = Pembangunan::distinct()->get('tahun_anggaran');
-
+        
         return view('admin.pembangunan.index', $data);
     }
 
@@ -74,10 +74,10 @@ class Admin_pembangunan extends Admin_Controller
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('admin_pembangunan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
-
+                    
                     $aksi .= '<a href="' . ci_route('admin_pembangunan.maps') . '/' . $row->id . '" class="btn bg-olive btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a> ';
                     $aksi .= '<a href="' . ci_route('pembangunan_dokumentasi.dokumentasi') . '/' . $row->id . '" class="btn bg-purple btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-list-ol"></i></a> ';
-
+                    
                     if (can('u')) {
                         if ($row->status == StatusEnum::YA) {
                             $aksi .= '<a href="' . ci_route('admin_pembangunan.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
@@ -95,7 +95,6 @@ class Admin_pembangunan extends Admin_Controller
                 ->editColumn('foto', static function ($row): string {
                     if ($row->foto) {
                         $row->url_foto = to_base64(LOKASI_GALERI . $row->foto);
-
                         return '<img class="penduduk_kecil" src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="Gambar Dokumentasi">';
                     }
 
@@ -111,7 +110,7 @@ class Admin_pembangunan extends Admin_Controller
         return show_404();
     }
 
-    public function form($id = ''): void
+    public function form($id = '')
     {
         isCan('u');
 
@@ -135,7 +134,7 @@ class Admin_pembangunan extends Admin_Controller
     public function create(): void
     {
         isCan('u');
-        $post               = $this->input->post();
+        $post = $this->input->post();
         $data               = $this->validasi($post);
         $data['created_at'] = date('Y-m-d H:i:s');
 
@@ -151,8 +150,8 @@ class Admin_pembangunan extends Admin_Controller
         isCan('u');
 
         $update = Pembangunan::findOrFail($id);
-        $post   = $this->input->post();
-        $data   = $this->validasi($post, $id, $update->foto);
+        $post = $this->input->post();
+        $data = $this->validasi($post, $id, $update->foto);
 
         if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -209,11 +208,11 @@ class Admin_pembangunan extends Admin_Controller
             'max_size'      => 1024, // 1 MB
         ];
         $this->upload->initialize($this->uploadConfig);
-
+        
         $uploadData = null;
         // Adakah berkas yang disertakan?
-        $adaBerkas = !empty($_FILES[$jenis]['name']);
-        if (!$adaBerkas) {
+        $adaBerkas = ! empty($_FILES[$jenis]['name']);
+        if (! $adaBerkas) {
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
                 unlink(LOKASI_GALERI . $old_foto);
@@ -223,7 +222,7 @@ class Admin_pembangunan extends Admin_Controller
 
             return $old_foto;
         }
-
+        
         // Upload sukses
         if ($this->upload->do_upload($jenis)) {
             $uploadData = $this->upload->data();
@@ -272,7 +271,7 @@ class Admin_pembangunan extends Admin_Controller
 
         try {
             $data = $this->input->post();
-            if (!empty($data['lat']) && !empty($data['lng'])) {
+            if (! empty($data['lat']) && ! empty($data['lng'])) {
                 Pembangunan::whereId($id)->update($data);
                 redirect_with('success', 'Lokasi berhasil disimpan');
             } else {

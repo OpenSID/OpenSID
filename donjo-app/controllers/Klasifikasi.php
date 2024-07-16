@@ -43,7 +43,7 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Klasifikasi extends Admin_Controller
 {
-    public function index()
+    public function __construct()
     {
         parent::__construct();
         $this->modul_ini     = 'sekretariat';
