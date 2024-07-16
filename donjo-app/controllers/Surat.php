@@ -723,7 +723,7 @@ class Surat extends Admin_Controller
     */
     public function format_nomor_surat(): void
     {
-        $data['surat']          = FormatSurat::where('url_surat', $this->input->post('url'));
+        $data['surat']          = FormatSurat::where('url_surat', $this->input->post('url'))->first()?->toArray();
         $data['input']['nomor'] = $this->input->post('nomor');
         $format_nomor           = $this->penomoran_surat_model->format_penomoran_surat($data);
         echo json_encode($format_nomor, JSON_THROW_ON_ERROR);

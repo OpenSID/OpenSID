@@ -545,7 +545,7 @@ class Surat_dinas_cetak extends Admin_Controller
     */
     public function format_nomor_surat(): void
     {
-        $data['surat']          = SuratDinas::where('url_surat', $this->input->post('url'));
+        $data['surat']          = SuratDinas::where('url_surat', $this->input->post('url'))->first()?->toArray();
         $data['input']['nomor'] = $this->input->post('nomor');
         $format_nomor           = SuratDinas::format_penomoran_surat($data);
         echo json_encode($format_nomor, JSON_THROW_ON_ERROR);

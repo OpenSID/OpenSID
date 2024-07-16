@@ -37,6 +37,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#8190](https://github.com/OpenSID/OpenSID/issues/8190) Perbaikan format font size pt pada surat.
 31. [#8196](https://github.com/OpenSID/OpenSID/issues/8196) Perbaikan periksa permohonan surat.
 32. [#8195](https://github.com/OpenSID/OpenSID/issues/8195) Perbaikan kolom aksi arsip surat layanan mandiri.
+33. [#8201](https://github.com/OpenSID/OpenSID/issues/8201) Perbaikan preview nomor surat selanjutnya.
+
 
 #### TEKNIS
 
