@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 32. [#8195](https://github.com/OpenSID/OpenSID/issues/8195) Perbaikan kolom aksi arsip surat layanan mandiri.
 33. [#8201](https://github.com/OpenSID/OpenSID/issues/8201) Perbaikan preview nomor surat selanjutnya.
 34. [#8160](https://github.com/OpenSID/OpenSID/issues/8160) Perbaikan ubah password bawaan install baru.
+35. [#8095](https://github.com/OpenSID/OpenSID/issues/8095) Perbaikan template surat kelahiran.
 
 
 #### TEKNIS
