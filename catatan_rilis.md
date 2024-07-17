@@ -49,3 +49,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8152](https://github.com/OpenSID/OpenSID/issues/8152) Penyesuaian config mengikuti struktur laravel.
 6. [#8179](https://github.com/OpenSID/OpenSID/issues/8179) Penyesuaian dan optimasi load view tema.
 7. [#8187](https://github.com/OpenSID/OpenSID/issues/8187) Penyesuaian informasi optimasi gambar.
+8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.
