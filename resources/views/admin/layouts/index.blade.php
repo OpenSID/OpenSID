@@ -130,7 +130,7 @@
         });
     </script>
 
-    @if (isset($perbaharui_langganan) && !config_item('demo_mode'))
+    @if (isset($perbaharui_langganan) && $controller != 'pengguna' && !config_item('demo_mode'))
         <!-- cek status langganan -->
         <script type="text/javascript">
             var controller = '{{ $controller }}';
@@ -148,7 +148,7 @@
                     }
                     $.ajax({
                         url: `${SITE_URL}pelanggan/pemesanan`,
-                        type: 'Post',
+                        type: 'post',
                         dataType: 'json',
                         data: data,
                     }).done(function() {

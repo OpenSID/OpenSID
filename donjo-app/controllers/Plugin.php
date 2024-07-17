@@ -190,7 +190,7 @@ class Plugin extends Admin_Controller
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
 
             match ($action) {
-                'down' => $migrateFile->down(),
+                'down'  => $migrateFile->down(),
                 default => $migrateFile->up(),
             };
         }

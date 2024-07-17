@@ -43,6 +43,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            var isTte = "{{ setting('tte') }}";
             var tabelData = $('#tabeldata').DataTable({
                 'processing': true,
                 'serverSide': true,
@@ -92,6 +93,10 @@
             $('button.keterangan').click(function(event) {
                 $(this).popover('show');
             });
+
+            if (isTte == 0) {
+                tabelData.column(1).visible(false);
+            }
         });
     </script>
 @endpush

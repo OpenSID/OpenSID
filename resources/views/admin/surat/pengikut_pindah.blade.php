@@ -31,7 +31,7 @@
                                 <td nowrap>{{ $data->nama }}</td>
                                 <td nowrap>{{ $data->jenisKelamin->nama }}</td>
                                 <td nowrap>{{ $data->umur }}</td>
-                                <td nowrap>{{ $data->statusKawin->nama }}</td>
+                                <td nowrap>{{ $data->status_perkawinan }}</td>
                             </tr>
                         @endforeach
                     </tbody>

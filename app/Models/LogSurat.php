@@ -164,7 +164,7 @@ class LogSurat extends BaseModel
     {
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
-        $format_nomor_surat = ($this->formatSurat->format_nomor_global) ? setting('format_nomor_surat') : $this->formatSurat->format_nomor;
+        $format_nomor_surat = format_penomoran_surat($this->formatSurat->format_nomor_global, setting('format_nomor_surat'), $this->formatSurat->format_nomor);
 
         // $format_nomor_surat = str_replace('[nomor_surat]', "{$this->no_surat}", $format_nomor_surat);
         $format_nomor_surat = substitusiNomorSurat($this->no_surat, $format_nomor_surat);
@@ -327,12 +327,14 @@ class LogSurat extends BaseModel
             case 'log_surat':
                 if ($setting == 1) {
                     $surat = LogSurat::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->whereStatus(1)
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
                         ->first();
                 } elseif ($setting == 4) {
                     $surat = LogSurat::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->rightJoin('tweb_surat_format', 'tweb_surat_format.id', '=', 'log_surat.id_format_surat')
                         ->where('kode_surat', static function ($q) use ($url): void {
@@ -344,6 +346,7 @@ class LogSurat extends BaseModel
                         ->first();
                 } else {
                     $surat = LogSurat::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->rightJoin('tweb_surat_format', 'tweb_surat_format.id', '=', 'log_surat.id_format_surat')
                         ->where(static fn ($q) => $q->where('url_surat', $url)->orWhereRaw("url_surat = REPLACE(REPLACE('{$url}', 'erangan', ''), '-', '_')"))

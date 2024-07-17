@@ -352,11 +352,18 @@
                 $('#manual_margin').show()
             }
 
-            var format_nomor_global = $("[name='format_nomor_global']:checked").val()
-            if (format_nomor_global == 0) {
-                $('#manual_nomor_surat').show()
-            }
+            format_nomor_surat($("[name='format_nomor_global']:checked").val())
         })
+
+        function format_nomor_surat(params) {
+            if (params == 0) {
+                $('#manual_nomor_surat').show()
+                $('input[name="format_nomor"]').addClass('required')
+            } else {
+                $('#manual_nomor_surat').hide()
+                $('input[name="format_nomor"]').removeClass('required')
+            }
+        }
 
         $("[name='margin_global']").change(function() {
             var val = $(this).val()
@@ -368,12 +375,7 @@
         })
 
         $("[name='format_nomor_global']").change(function() {
-            var val = $(this).val()
-            if (val == 0) {
-                $('#manual_nomor_surat').show()
-            } else {
-                $('#manual_nomor_surat').hide()
-            }
+            format_nomor_surat($(this).val())
         })
 
         $('#kode_surat').select2({

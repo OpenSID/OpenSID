@@ -296,7 +296,7 @@ class KodeIsianPenduduk
                 [
                     'judul' => 'Status Perkawinan',
                     'isian' => 'status_kawin',
-                    'data'  => $penduduk->statusKawin->nama, // Cek ini
+                    'data'  => $penduduk->status_perkawinan, // Cek ini
                 ],
                 [
                     'judul' => 'Akta Perkawinan',

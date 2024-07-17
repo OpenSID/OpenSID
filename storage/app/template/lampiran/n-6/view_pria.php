@@ -64,84 +64,84 @@
             <td colspan="1">A. </td>
             <td colspan="20">1.  Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[NAma_dst]</strong></td>
+            <td colspan="27"><strong>[NAma_dit]</strong></td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_bin_suami_terdahulU]</td>
+            <td colspan="27">[form_binti_diT]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">3. Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[NiK_dst]</td>
+            <td colspan="27">[NiK_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">4. Tempat dan tanggal lahir</td>
             <td>: </td>
-            <td colspan="27">[TaNggallahir_dst]</td>
+            <td colspan="27">[TaNggallahir_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27">[TeMpatlahir_dst]</td>
+            <td colspan="27">[TeMpatlahir_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">5. Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WArga_negara_dst]</td>
+            <td colspan="27">[WArga_negara_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">6. Agama</td>
             <td>: </td>
-            <td colspan="27">[AgAma_dst]</td>
+            <td colspan="27">[AgAma_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">7. Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[PeKerjaan_dst]</td>
+            <td colspan="27">[PeKerjaan_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat_dst]</td>
+            <td colspan="27">[AlAmat_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Telah meninggal dunia pada tanggal</td>
             <td>: </td>
-            <td colspan="27">[Form_tanggal_meninggal_suami_terdahulU]</td>
+            <td colspan="27">[Form_tanggal_meninggal_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Di</td>
             <td>: </td>
-            <td colspan="27">[Form_tempat_meninggal_suami_terdahulU]</td>
+            <td colspan="27">[Form_tempat_meninggal_dit]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">&nbsp;</td>
             <td>&nbsp;</td>
-            <td colspan="27">[AlAmat_dst]</td>
+            <td colspan="27">[AlAmat_dit]</td>
         </tr>
 
         <tr>
@@ -159,7 +159,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Bin/Binti</td>
             <td>&nbsp;</td>
-            <td colspan="27">[Form_bin_priA]</td>
+            <td colspan="27">[Form_biN]</td>
         </tr>
 
 

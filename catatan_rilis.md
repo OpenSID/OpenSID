@@ -1,4 +1,4 @@
-Di rilis ini, versi 2407.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2407.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -24,7 +24,26 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#8156](https://github.com/OpenSID/OpenSID/issues/8156) Perbaikan qrcode cetak surat.
 18. [#8100](https://github.com/OpenSID/OpenSID/issues/8100) Perbaikan lampiran F2.12.
 19. [#8176](https://github.com/OpenSID/OpenSID/issues/8176) Perbaikan tambah gambar artikel dengan editor tinymce dengan ukuran yang besar.
-
+20. [#8177](https://github.com/OpenSID/OpenSID/issues/8177) Perbaikan data pendidikan kk penduduk menggukan enum pada suplemen.
+21. [#8172](https://github.com/OpenSID/OpenSID/issues/8172) Perbaikan lampiran n1-n6 surat keterangan nikah.
+22. [#8178](https://github.com/OpenSID/OpenSID/issues/8178) Perbaikan validasi yg memiliki span pada input.
+23. [#8183](https://github.com/OpenSID/OpenSID/issues/8183) Perbaikan gelar pada penanda tangan.
+24. [#8185](https://github.com/OpenSID/OpenSID/issues/8185) Perbaikan preview dokumen halaman web.
+25. [#8188](https://github.com/OpenSID/OpenSID/issues/8188) Perbaikan gagal migrasi v2312.0.0 ke v2407.0.0.
+26. [#8184](https://github.com/OpenSID/OpenSID/issues/8184) Perbaikan maksud dan tujuan penduduk tidak tetap.
+27. [#8192](https://github.com/OpenSID/OpenSID/issues/8192) Perbaikan pencarian spesifik tag id card pada penduduk.
+28. [#8191](https://github.com/OpenSID/OpenSID/issues/8191) Perbaikan alamat kosong pada lampiran F-1.01.
+29. [#46](https://github.com/OpenSID/tema-esensi/issues/46) Perbaikan paginasi artikel tema esensi.
+30. [#8190](https://github.com/OpenSID/OpenSID/issues/8190) Perbaikan format font size pt pada surat.
+31. [#8196](https://github.com/OpenSID/OpenSID/issues/8196) Perbaikan periksa permohonan surat.
+32. [#8195](https://github.com/OpenSID/OpenSID/issues/8195) Perbaikan kolom aksi arsip surat layanan mandiri.
+33. [#8201](https://github.com/OpenSID/OpenSID/issues/8201) Perbaikan preview nomor surat selanjutnya.
+34. [#8160](https://github.com/OpenSID/OpenSID/issues/8160) Perbaikan ubah password bawaan install baru.
+35. [#8095](https://github.com/OpenSID/OpenSID/issues/8095) Perbaikan template surat keterangan kelahiran.
+36. [#8210](https://github.com/OpenSID/OpenSID/issues/8210) Perbaikan redirect halaman jika terjadi error restore database .sid.
+37. [#8207](https://github.com/OpenSID/OpenSID/issues/8207) Perbaikan sesuaikan semua penerapan status kawin tercatat.
+38. [#8213](https://github.com/OpenSID/OpenSID/issues/8213) Perbaikan halaman feed.
+39. [#8211](https://github.com/OpenSID/OpenSID/issues/8211) Perbaikan halaman cetak/unduh buku KTP dan KK.
 
 #### TEKNIS
 
@@ -34,3 +53,5 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#7577](https://github.com/OpenSID/OpenSID/issues/7577) Penyesuaian validation menggunakan illuminate/validation.
 5. [#8152](https://github.com/OpenSID/OpenSID/issues/8152) Penyesuaian config mengikuti struktur laravel.
 6. [#8179](https://github.com/OpenSID/OpenSID/issues/8179) Penyesuaian dan optimasi load view tema.
+7. [#8187](https://github.com/OpenSID/OpenSID/issues/8187) Penyesuaian informasi optimasi gambar.
+8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.

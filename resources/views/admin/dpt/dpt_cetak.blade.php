@@ -72,7 +72,7 @@
                             <td>{{ $data->agama->nama }}</td>
                             <td>{{ strtoupper(\App\Enums\PendidikanKKEnum::valueOf($data->pendidikan_kk_id)) }}</td>
                             <td>{{ $data->pekerjaan->nama }}</td>
-                            <td>{{ $data->statusKawin->nama }}</td>
+                            <td>{{ $data->status_perkawinan }}</td>
                             <td>{{ App\Enums\SHDKEnum::all()[$data->kk_level] }}</td>
                             <td>{{ $data->nama_ayah }}</td>
                             <td>{{ $data->nama_ibu }}</td>

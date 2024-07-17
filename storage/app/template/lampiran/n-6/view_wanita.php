@@ -71,7 +71,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_bin_suami_terdahulU]</td>
+            <td colspan="27">[Form_bin_dsT]</td>
         </tr>
 
         <tr>
@@ -127,14 +127,14 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Telah meninggal dunia pada tanggal</td>
             <td>: </td>
-            <td colspan="27">[Form_tanggal_meninggal_suami_terdahulU]</td>
+            <td colspan="27">[Form_tanggal_meninggal_dsT]</td>
         </tr>
 
         <tr>
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Di</td>
             <td>: </td>
-            <td colspan="27">[Form_tempat_meninggal_suami_terdahulU]</td>
+            <td colspan="27">[Form_tempat_meninggal_dsT]</td>
         </tr>
 
         <tr>
@@ -159,7 +159,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">2. Bin/Binti</td>
             <td>&nbsp;</td>
-            <td colspan="27">[Nama_dapw]</td>
+            <td colspan="27">[Form_binti_dcpW]</td>
         </tr>
 
 

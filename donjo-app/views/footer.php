@@ -1,4 +1,4 @@
-				<?= view('admin.layouts.partials.footer') ?>
+<?= view('admin.layouts.partials.footer') ?>
 
 				<?= view('admin.layouts.partials.control_sidebar') ?>
 				</div>
@@ -120,8 +120,8 @@
 							cek_koneksi();
 						}
 
-						var success = `<?= addslashes($this->session->success) ?>`;
-						var message = `<?= addslashes($this->session->error_msg) ?>`;
+						var success = `<?= addslashes((string) $this->session->success) ?>`;
+						var message = `<?= addslashes((string) $this->session->error_msg) ?>`;
 
 						if (success == 1) {
 							notify = 'success';
@@ -241,7 +241,7 @@
 				</script>
 				<?php session_error_clear(); ?>
 
-				<?php if (isset($perbaharui_langganan) && ! config_item('demo_mode')) : ?>
+				<?php if (isset($perbaharui_langganan) && $this->controller != 'pengguna' && ! config_item('demo_mode')) : ?>
 					<!-- cek status langganan -->
 					<script type="text/javascript">
 						var controller = '<?= $this->controller ?>';
