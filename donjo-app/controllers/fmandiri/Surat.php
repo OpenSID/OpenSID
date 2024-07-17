@@ -105,16 +105,18 @@ class Surat extends Mandiri_Controller
     public function arsip()
     {
         if ($this->input->is_ajax_request()) {
+            $isTte = setting('tte');
+
             return datatables(
                 LogSurat::with(['formatSurat', 'pamong'])
                     ->whereNull('deleted_at')
                     ->whereIdPend($this->is_login->id_pend)
             )
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($item) {
+                ->addColumn('aksi', static function ($item) use ($isTte) {
                     $aksi = '';
 
-                    if ($item->tte) {
+                    if ($isTte && $isTte) {
                         $url = site_url("layanan-mandiri/surat/cetak/{$item->id}");
                         $aksi .= "<a href='{{ {$url} }}' class='btn btn-flat bg-fuchsia btn-sm' title='Cetak Surat PDF' target='_blank'><i class='fa fa-file-pdf-o'></i></a>";
                     }

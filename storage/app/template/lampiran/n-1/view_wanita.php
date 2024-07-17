@@ -122,7 +122,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">9. Bin/Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_binti_wanitA]</td>
+            <td colspan="27">[Form_binti_dcpW]</td>
 
         </tr>
         <tr>
@@ -151,7 +151,7 @@
                 </table>
             </td>
             <td>: </td>
-            <td colspan="27">[Form_status_kawin_wanitA]</td>
+            <td colspan="27">[Form_status_kawin_dcpW]</td>
 
         </tr>
         <tr>

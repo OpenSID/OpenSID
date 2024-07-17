@@ -1178,3 +1178,15 @@ if (! function_exists('auth_mandiri')) {
         return $CI->session->auth_mandiri;
     }
 }
+
+// format_penomoran_surat
+if (! function_exists('format_penomoran_surat')) {
+    function format_penomoran_surat($isGlobal = false, $formatGlobal = '', $formatLocal = '')
+    {
+        if ($isGlobal === false && ! empty($formatLocal)) {
+            return $formatLocal;
+        }
+
+        return $formatGlobal;
+    }
+}

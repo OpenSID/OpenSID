@@ -152,7 +152,7 @@ class LogSuratDinas extends BaseModel
     {
         $thn                = $this->tahun ?? date('Y');
         $bln                = $this->bulan ?? date('m');
-        $format_nomor_surat = ($this->suratDinas->format_nomor_global) ? setting('format_nomor_surat') : $this->suratDinas->format_nomor;
+        $format_nomor_surat = format_penomoran_surat($this->suratDinas->format_nomor_global, setting('format_nomor_surat'), $this->suratDinas->format_nomor);
 
         // $format_nomor_surat = str_replace('[nomor_surat]', "{$this->no_surat}", $format_nomor_surat);
         $format_nomor_surat = substitusiNomorSurat($this->no_surat, $format_nomor_surat);
@@ -302,12 +302,14 @@ class LogSuratDinas extends BaseModel
             case 'log_surat':
                 if ($setting == 1) {
                     $surat = LogSuratDinas::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->whereStatus(1)
                         ->orderBy(DB::raw('CAST(no_surat as unsigned)'), 'desc')
                         ->first();
                 } elseif ($setting == 4) {
                     $surat = LogSuratDinas::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->rightJoin('surat_dinas', 'surat_dinas.id', '=', 'log_surat_dinas.id_format_surat')
                         ->where('kode_surat', static function ($q) use ($url): void {
@@ -319,6 +321,7 @@ class LogSuratDinas extends BaseModel
                         ->first();
                 } else {
                     $surat = LogSuratDinas::whereNull('deleted_at')
+                        ->where('no_surat', '!=', '')
                         ->whereYear('tanggal', $thn)
                         ->rightJoin('surat_dinas', 'surat_dinas.id', '=', 'log_surat_dinas.id_format_surat')
                         ->where(static fn ($q) => $q->where('url_surat', $url))

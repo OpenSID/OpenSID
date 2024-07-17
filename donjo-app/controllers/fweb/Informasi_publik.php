@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\DokumenHidup;
+
 class Informasi_publik extends Web_Controller
 {
     public function __construct()
@@ -105,11 +107,24 @@ class Informasi_publik extends Web_Controller
             $data['link_berkas'] = null;
         } else {
             $data = [
-                'link_berkas' => site_url("dokumen/tampilkan_berkas/{$id_dokumen}/{$id_pend}"),
+                'link_berkas' => site_url("informasi-publik/aksi/lihat/{$id_dokumen}"),
                 'tipe'        => get_extension($berkas),
-                'link_unduh'  => site_url("dokumen/unduh_berkas/{$id_dokumen}/{$id_pend}"),
+                'link_unduh'  => site_url("informasi-publik/aksi/unduh/{$id_dokumen}"),
             ];
         }
+
         $this->load->view('global/tampilkan', $data);
+    }
+
+    public function aksi($aksi, $id_dokumen)
+    {
+        $data = DokumenHidup::getDokumen($id_dokumen);
+        $aksi = ($aksi == 'lihat');
+
+        if ($data['url'] != null) {
+            redirect($data['url']);
+        }
+
+        return ambilBerkas($data['satuan'], $this->controller, null, LOKASI_DOKUMEN, $aksi);
     }
 }

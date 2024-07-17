@@ -118,8 +118,9 @@ class Dpt extends Admin_Controller
                 $filterKategori[$key] = $val;
             }
         }
-        if (isset($filterKategori['tag_id_card'])) {
-            $tagIdFilter = $filterKategori['tag_id_card'];
+
+        if (in_array($filterKategori['tag_id_card'], StatusEnum::keys())) {
+            $tagIdFilter = (string) $filterKategori['tag_id_card'];
             unset($filterKategori['tag_id_card']);
         }
         $listCluster = [];
@@ -137,7 +138,13 @@ class Dpt extends Admin_Controller
         }
 
         return Penduduk::batasiUmur($tglPemilihan, $umurFilter)->dpt($tglPemilihan)
-            ->when($tagIdFilter, static fn ($q) => $tagIdFilter == '1' ? $q->whereNotNull('tag_id_card') : $q->whereNull('tag_id_card'))
+            ->when(in_array($tagIdFilter, StatusEnum::keys()), static function ($q) use ($tagIdFilter) {
+                if ($tagIdFilter) {
+                    return $q->whereNotNull('tag_id_card');
+                }
+
+                return $q->whereNull('tag_id_card');
+            })
             ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
             ->when($sex, static fn ($q) => $q->where('sex', $sex))
             ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))

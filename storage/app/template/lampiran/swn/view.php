@@ -80,7 +80,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">Bin</td>
             <td>: </td>
-            <td colspan="27">[Form_bin_wali_nikaH]</td>
+            <td colspan="27">[Form_bin_dwN]</td>
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
@@ -141,7 +141,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="10">Sebagai</td>
             <td>: </td>
-            <td colspan="27">[Form_hubungan_dengan_walI]</td>
+            <td colspan="27">[Form_hubungan_dwN]</td>
         </tr>
     </table>
 

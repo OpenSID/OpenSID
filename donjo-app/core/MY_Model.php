@@ -546,4 +546,21 @@ class MY_Model extends CI_Model
 
         return $hasil;
     }
+
+    public function cek_primary_key($tabel, $kolom = [])
+    {
+        $schemaManager = DB::connection()->getDoctrineSchemaManager();
+        $indexes       = $schemaManager->listTableIndexes($tabel);
+
+        $isPrimaryKey = false;
+
+        foreach ($indexes as $index) {
+            if ($index->isPrimary() && $index->getColumns() == $kolom) {
+                $isPrimaryKey = true;
+                break;
+            }
+        }
+
+        return $isPrimaryKey;
+    }
 }

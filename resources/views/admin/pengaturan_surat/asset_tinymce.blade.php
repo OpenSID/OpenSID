@@ -108,6 +108,8 @@
                 relative_urls: false,
                 remove_script_host: false,
                 entity_encoding: 'raw',
+                font_size_input_default_units: 'pt',
+                line_height_formats: '1 1.15 1.5 2 2.5 3',
                 // gak bisa pakai false
                 //forced_root_block: false, 
                 forced_root_block: ' ',
