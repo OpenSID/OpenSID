@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 34. [#8160](https://github.com/OpenSID/OpenSID/issues/8160) Perbaikan ubah password bawaan install baru.
 35. [#8095](https://github.com/OpenSID/OpenSID/issues/8095) Perbaikan template surat kelahiran.
 36. [#8210](https://github.com/OpenSID/OpenSID/issues/8210) Perbaikan redirect halaman jika terjadi error restore database .sid.
+37. [#8207](https://github.com/OpenSID/OpenSID/issues/8207) Perbaikan sesuaikan semua penerapan status kawin tercatat.
 
 
 #### TEKNIS

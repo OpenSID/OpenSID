@@ -40,7 +40,6 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
-use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Enums\WargaNegaraEnum;
 use App\Models\LogPenduduk;
@@ -88,7 +87,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             return datatables()->of($data)
                 ->addIndexColumn()
                 ->editColumn('sex', static fn ($row): string => strtoupper(substr((string) JenisKelaminEnum::valueOf($row->sex), 0, 1)))
-                ->editColumn('status_kawin', static fn ($row): string => strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? StatusKawinEnum::valueOf($row->status_kawin) : (($row->sex == 1) ? 'DUDA' : 'JANDA'))))
+                ->editColumn('status_kawin', static fn ($row): string => strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA'))))
                 ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->tempatlahir) . ', ' . tgl_indo_out($row->tanggallahir))
                 ->editColumn('agama', static fn ($row): string => strtoupper((string) AgamaEnum::valueOf($row->agama_id)))
                 ->editColumn('pendidikan', static fn ($row): string => strtoupper((string) PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
@@ -141,7 +140,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
 
         $collected = collect($query->take($paramDatatable['length'])->get())->map(static function ($row): array {
             $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row->sex), 0, 1));
-            $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? StatusKawinEnum::valueOf($row->status_kawin) : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
+            $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
             $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
             $row['agama']          = strtoupper((string) AgamaEnum::valueOf($row->agama_id));
             $row['pendidikan']     = strtoupper((string) PendidikanKKEnum::valueOf($row->pendidikan_kk_id));

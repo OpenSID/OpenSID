@@ -78,7 +78,7 @@
                                 <td align="center">{{ $key + 1 }}</td>
                                 <td>{{ $data->nama }}</td>
                                 <td>{{ $data->jenisKelamin->nama }}</td>
-                                <td>{{ strtoupper(in_array($data->status_kawin, [1, 2]) ? $data->statusKawin->nama : ($data->sex == 1 ? 'DUDA' : 'JANDA')) }}</td>
+                                <td>{{ strtoupper(in_array($data->status_kawin, [1, 2]) ? $data->status_perkawinan : ($data->sex == 1 ? 'DUDA' : 'JANDA')) }}</td>
                                 <td>{{ $data->tempatlahir }}</td>
                                 <td>{{ tgl_indo_out($data->tanggallahir) }}</td>
                                 <td>{{ $data->agama->nama }}</td>
