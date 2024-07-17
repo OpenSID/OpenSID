@@ -138,7 +138,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             $query->skip($paramDatatable['start']);
         }
 
-        $collected = collect($query->take($paramDatatable['length'])->get())->map(static function ($row): array {
+        $collected = collect($query->take($paramDatatable['length'])->get()->toArray())->map(static function ($row): array {
             $row['sex']            = strtoupper(substr((string) JenisKelaminEnum::valueOf($row->sex), 0, 1));
             $row['status_kawin']   = strtoupper((string) (in_array($row->status_kawin, [1, 2]) ? $row->status_perkawinan : (($row->sex == 1) ? 'DUDA' : 'JANDA')));
             $row['tanggallahir']   = tgl_indo_out($row['tanggallahir']);
@@ -154,7 +154,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
             $row['tgl_datang']     = tgl_indo_out($row->log_latest->tgl_lapor) ?? '-';
 
             return $row;
-        });
+        })->toArray();
 
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
