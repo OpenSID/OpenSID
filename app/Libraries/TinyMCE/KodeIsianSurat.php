@@ -52,9 +52,8 @@ class KodeIsianSurat
 
     public function kodeIsian(): array
     {
-        $DateConv = new DateConv();
 
-        return [
+        $surat = [
             [
                 'judul' => 'Format Nomor Surat',
                 'isian' => 'format_nomor_surat',
@@ -76,27 +75,35 @@ class KodeIsianSurat
                 'isian' => 'judul_surat',
                 'data'  => $this->dataSurat['surat']['judul_surat'],
             ],
+        ];
+
+        $DateConv    = new DateConv();
+        $tglTambahan = [
             [
-                'judul' => 'Tanggal',
-                'isian' => 'tgl_surat',
-                'data'  => formatTanggal(date('Y-m-d')),
-            ],
-            [
-                'judul' => 'Tanggal Hijri',
+                'judul' => 'Tanggal (Hijriah)',
                 'isian' => 'tgl_surat_hijrI',
                 'data'  => $DateConv->HijriDateId('j F Y'),
             ],
             [
+                'judul' => 'Bulan Romawi',
+                'isian' => 'bulan_romawi_surat',
+                'data'  => bulan_romawi((int) ($this->dataSurat['log_surat']['bulan'] ?? date('m'))),
+            ],
+            // kode isian tahun, bulan_romawi yang lama, harusnya ada prefix
+            [
                 'case_sentence' => true,
-                'judul'         => 'Tahun',
+                'judul'         => 'Tahun (Versi Lama)',
                 'isian'         => 'tahuN',
-                'data'          => $this->dataSurat['log_surat']['bulan'] ?? date('Y'),
+                'data'          => kodeIsianTanggal($this->dataSurat['log_surat']['tanggal'], 'tahun'),
             ],
             [
-                'judul' => 'Bulan Romawi',
+                'judul' => 'Bulan Romawi (Versi Lama)',
                 'isian' => 'bulan_romawi',
                 'data'  => bulan_romawi((int) ($this->dataSurat['log_surat']['bulan'] ?? date('m'))),
             ],
+        ];
+
+        $logo = [
             [
                 'case_sentence' => true,
                 'judul'         => 'Logo Surat',
@@ -122,5 +129,7 @@ class KodeIsianSurat
                 'data'          => '[logo_bsre]',
             ],
         ];
+
+        return array_merge($surat, tanggalLengkap($this->dataSurat['surat']['tanggal'], 'surat'), $tglTambahan, $logo);
     }
 }

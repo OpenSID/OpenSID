@@ -7,7 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8143](https://github.com/OpenSID/OpenSID/issues/8143) Penambahan surat pernyataan sebagai surat dinas bawaan sistem.
 2. [#8166](https://github.com/OpenSID/OpenSID/issues/8166) Penambahan kode isian penduduk luar berupa no_kk dan kepala_kk.
 3. [#8180](https://github.com/OpenSID/OpenSID/issues/8180) Penambahan filter penduduk yang belum memiliki no kk di menu penduduk.
-
+4. [#8202](https://github.com/OpenSID/OpenSID/issues/8202) Penambahan kode isian yang bisa menunjukkan "nama hari ini" sesuai kalender berjalan saat surat dibuat.
 
 #### BUG
 
