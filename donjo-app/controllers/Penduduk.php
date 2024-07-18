@@ -424,6 +424,14 @@ class Penduduk extends Admin_Controller
                     }
                 }
 
+                if (in_array($advanceSearch['id_kk'], StatusEnum::keys())) {
+                    if ($advanceSearch['id_kk']) {
+                        $q->whereNotNull('id_kk');
+                    } else {
+                        $q->whereNull('id_kk');
+                    }
+                }
+
                 return $q->batasiUmur(date('d-m-Y'), $umurObj)->where($resultMap);
             })
             ->when($bantuan, static function ($q) use ($bantuan) {
@@ -893,6 +901,7 @@ class Penduduk extends Admin_Controller
         $data['list_golongan_darah']  = GolonganDarahEnum::all();
         $data['list_sakit_menahun']   = SakitMenahunEnum::all();
         $data['list_tag_id_card']     = StatusEnum::all();
+        $data['list_id_kk']           = StatusEnum::all();
         $data['form_action']          = ci_route('penduduk.adv_search_proses');
 
         view('admin.penduduk.ajax_adv_search_form', $data);
@@ -927,6 +936,7 @@ class Penduduk extends Admin_Controller
         $data['menahun']              = $post['menahun'];
         $data['cacat']                = $post['cacat'];
         $data['tag_id_card']          = $post['tag_id_card'];
+        $data['id_kk']                = $post['id_kk'];
 
         return $data;
     }
