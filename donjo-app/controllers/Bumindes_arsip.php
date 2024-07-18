@@ -120,7 +120,7 @@ class Bumindes_arsip extends Admin_controller
     public function tindakan_lihat($kategori, $id, $tindakan): void
     {
         $tabel  = $this->get_table($kategori);
-        $berkas = $this->arsipFisik->getNamaBerkas($kategori, $id);
+        $berkas = $this->arsipFisik->getNamaBerkas($tabel, $id);
 
         switch ($tindakan) {
             case 'lihat':
