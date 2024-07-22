@@ -35,45 +35,46 @@
  *
  */
 
-use App\Enums\AgamaEnum;
-use App\Enums\AsuransiEnum;
-use App\Enums\BahasaEnum;
-use App\Enums\CacatEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\GolonganDarahEnum;
-use App\Enums\HamilEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PekerjaanEnum;
-use App\Enums\PendidikanKKEnum;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\PindahEnum;
-use App\Enums\SakitMenahunEnum;
-use App\Enums\SasaranEnum;
+use Carbon\Carbon;
 use App\Enums\SHDKEnum;
-use App\Enums\StatusDasarEnum;
-use App\Enums\StatusEnum;
-use App\Enums\StatusKawinEnum;
-use App\Enums\StatusKTPEnum;
-use App\Enums\StatusPendudukEnum;
 use App\Enums\SukuEnum;
-use App\Enums\WargaNegaraEnum;
 use App\Models\Bantuan;
 use App\Models\Dokumen;
-use App\Models\DokumenHidup;
+use App\Models\Wilayah;
+use App\Enums\AgamaEnum;
+use App\Enums\CacatEnum;
+use App\Enums\HamilEnum;
+use App\Models\UserGrup;
+use App\Enums\BahasaEnum;
+use App\Enums\CaraKBEnum;
+use App\Enums\PindahEnum;
+use App\Enums\StatusEnum;
+use App\Models\StatusKtp;
+use App\Enums\SasaranEnum;
+use App\Enums\AsuransiEnum;
 use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
-use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
 use App\Models\RentangUmur;
-use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
-use App\Models\UserGrup;
-use App\Models\Wilayah;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Enums\PekerjaanEnum;
+use App\Enums\StatusKTPEnum;
+use App\Models\DokumenHidup;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\SakitMenahunEnum;
+use App\Enums\GolonganDarahEnum;
 use OpenSpout\Common\Entity\Row;
+use App\Enums\StatusPendudukEnum;
 use OpenSpout\Writer\XLSX\Writer;
+use Illuminate\Support\Facades\DB;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\StatusKawinSpesifikEnum;
+use App\Models\Penduduk as PendudukModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -141,7 +142,7 @@ class Penduduk extends Admin_Controller
                     $result = '';
                     if (strlen($row->nik) < 16) {
                         $result = 'warning';
-                    } elseif ( get_nik($row->nik) == 0) {
+                    } elseif (get_nik($row->nik) == 0) {
                         $result = 'danger';
                     }
 
@@ -155,37 +156,37 @@ class Penduduk extends Admin_Controller
                             <li>
                                 <a href="' . ci_route('penduduk.detail', $row->id) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
                             </li>';
-                            if ($row->status_dasar == StatusDasarEnum::TIDAK_VALID && $canUpdate) {
-                                $aksi .= '<li>
+                    if ($row->status_dasar == StatusDasarEnum::TIDAK_VALID && $canUpdate) {
+                        $aksi .= '<li>
                                     <a href="#" data-href="' . ci_route('penduduk.kembalikan_status', $row->id) . '" class="btn btn-social btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan."><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
                                 </li>';
-                            }
-                            if ($row->status_dasar == StatusDasarEnum::HIDUP) {
-                                if ($canUpdate) {
-                                    $aksi .= '<li>
+                    }
+                    if ($row->status_dasar == StatusDasarEnum::HIDUP) {
+                        if ($canUpdate) {
+                            $aksi .= '<li>
                                         <a href="' . ci_route('penduduk.form', $row->id) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
                                     </li>
                                     <li>
                                         <a href="' . ci_route('penduduk.ajax_penduduk_maps.' . $row->id, 0) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-map-marker"></i> Lihat Lokasi Tempat Tinggal</a>
                                     </li>';
-                                    if (data_lengkap()) {
-                                        $aksi .= '<li>
+                            if (data_lengkap()) {
+                                $aksi .= '<li>
                                             <a href="' . ci_route('penduduk.edit_status_dasar', $row->id) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-block btn-sm"><i class="fa fa-sign-out"></i> Ubah Status Dasar</a>
                                         </li>';
-                                    }
-                                }
-                                $aksi .= '<li>
+                            }
+                        }
+                        $aksi .= '<li>
                                             <a href="' . ci_route('penduduk.dokumen', $row->id) . '" class="btn btn-social btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
                                         </li>
                                         <li>
                                             <a href="' . ci_route('penduduk.cetak_biodata', $row->id) . '" target="_blank" class="btn btn-social btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
                                         </li>';
-                                if ($canDelete && ! data_lengkap()) {
-                                    $aksi .= '<li>
+                        if ($canDelete && !data_lengkap()) {
+                            $aksi .= '<li>
                                         <a href="#" data-href="' . ci_route('penduduk.delete', $row->id) . '" class="btn btn-social btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
                                     </li>';
-                                }
-                            }
+                        }
+                    }
                     $aksi .= '
                         </ul>
                     </div>';
@@ -218,7 +219,7 @@ class Penduduk extends Admin_Controller
         $advanceSearch   = $this->input->get('advancesearch') ?? null;
 
         $idCluster = $rt ? [$rt] : [];
-        if (! empty($kumpulanNIK)) {
+        if (!empty($kumpulanNIK)) {
             $bantuan = $nikSementara = $rw = $dusun = $rt = $idCluster = $statusDasar = $statusPenduduk = $sex = $kelasSosial = null;
         }
 
@@ -242,17 +243,17 @@ class Penduduk extends Admin_Controller
             $rw    = $statistikFilter['rw'] ?? null;
             $rt    = $statistikFilter['rt'] ?? null;
             if ($rt) {
-                [$namaDusun,$namaRw] = explode('__', $rw);
+                [$namaDusun, $namaRw] = explode('__', $rw);
                 $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->whereRt($rt)->select(['id'])->get()->pluck('id')->toArray();
             }
         }
 
-        if (empty($idCluster) && ! empty($rw)) {
-            [$namaDusun,$namaRw] = explode('__', $rw);
+        if (empty($idCluster) && !empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
             $idCluster           = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
         }
 
-        if (empty($idCluster) && ! empty($dusun)) {
+        if (empty($idCluster) && !empty($dusun)) {
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
 
@@ -391,7 +392,6 @@ class Penduduk extends Admin_Controller
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status'               => 'status',
-                    'status_kawin'         => 'status_kawin',
                     'agama'                => 'agama_id',
                     'pendidikan_sedang_id' => 'pendidikan_sedang_id',
                     'pendidikan_kk_id'     => 'pendidikan_kk_id',
@@ -416,6 +416,21 @@ class Penduduk extends Admin_Controller
                     }
                 }
 
+                $statusKawin = $advanceSearch['status_kawin'];
+                if (in_array($statusKawin, StatusKawinSpesifikEnum::keys())) {
+                    if ($statusKawin == StatusKawinSpesifikEnum::KAWIN_TERCATAT) {
+                        $q->where('status_kawin', StatusKawinEnum::KAWIN)
+                            ->where('akta_perkawinan', '!=', '')
+                            ->whereNotNull('tanggalperkawinan');
+                    } elseif ($statusKawin == StatusKawinSpesifikEnum::KAWIN_BELUM_TERCATAT) {
+                        $q->where('status_kawin', StatusKawinEnum::KAWIN)
+                            ->where('akta_perkawinan', '')
+                            ->whereNull('tanggalperkawinan');
+                    } else {
+                        $q->where('status_kawin', $statusKawin);
+                    }
+                }
+
                 if (in_array($advanceSearch['tag_id_card'], StatusEnum::keys())) {
                     if ($advanceSearch['tag_id_card']) {
                         $q->whereNotNull('tag_id_card');
@@ -435,7 +450,7 @@ class Penduduk extends Admin_Controller
                 return $q->batasiUmur(date('d-m-Y'), $umurObj)->where($resultMap);
             })
             ->when($bantuan, static function ($q) use ($bantuan) {
-                switch($bantuan) {
+                switch ($bantuan) {
                     case BELUM_MENGISI:
                         return $q->whereDoesntHave('bantuan');
 
@@ -487,7 +502,7 @@ class Penduduk extends Admin_Controller
     {
         $foto = $this->input->get('foto');
         $sex  = $this->input->get('sex');
-        if (empty($foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
+        if (empty($foto) || !file_exists(FCPATH . LOKASI_USER_PICT . $foto)) {
             $foto = ($sex == 1) ? 'kuser.png' : 'wuser.png';
             ambilBerkas($foto, $this->controller, null, 'assets/images/pengguna/', $tampil = true);
         } else {
@@ -608,7 +623,7 @@ class Penduduk extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($idPend): string {
                     $aksi = '';
 
-                    if (! $row->hidden) {
+                    if (!$row->hidden) {
                         if (can('u')) {
                             $aksi .= '<a href="' . ci_route('penduduk.dokumen_form', "{$idPend}/{$row->id}") . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         }
@@ -768,7 +783,7 @@ class Penduduk extends Admin_Controller
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
-        if (! $this->upload->do_upload('satuan')) {
+        if (!$this->upload->do_upload('satuan')) {
             session_error($this->upload->display_errors(null, null));
 
             return false;
@@ -793,7 +808,7 @@ class Penduduk extends Admin_Controller
         $data['tgl_peristiwa']   = $data['tgl_peristiwa'] ? rev_tgl($data['tgl_peristiwa']) : rev_tgl($data['tanggallahir']);
         $data['jenis_peristiwa'] = $peristiwa;
         $validasiPenduduk        = PendudukModel::validasi($data);
-        if (! $validasiPenduduk['status']) {
+        if (!$validasiPenduduk['status']) {
             set_session('old_input', $originalInput);
             redirect_with('error', $validasiPenduduk['messages'], ci_route('penduduk.form_peristiwa', $data['jenis_peristiwa']));
         }
@@ -826,7 +841,7 @@ class Penduduk extends Admin_Controller
             set_session('old_input', $originalInput);
             redirect_with('error', 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!', ci_route('penduduk.form_peristiwa', $id));
         }
-        if (! $validasiPenduduk['status']) {
+        if (!$validasiPenduduk['status']) {
             set_session('old_input', $originalInput);
             redirect_with('error', $validasiPenduduk['messages'], ci_route('penduduk.form', $id));
         }
@@ -889,7 +904,7 @@ class Penduduk extends Admin_Controller
         $data['list_pendidikan']      = PendidikanSedangEnum::all();
         $data['list_pendidikan_kk']   = PendidikanKKEnum::all();
         $data['list_pekerjaan']       = PekerjaanEnum::all();
-        $data['list_status_kawin']    = StatusKawinEnum::all();
+        $data['list_status_kawin']    = StatusKawinSpesifikEnum::all();
         $data['list_status_penduduk'] = StatusPendudukEnum::all();
         $data['list_sex']             = JenisKelaminEnum::all();
         $data['list_status_dasar']    = StatusDasarEnum::all();
@@ -996,7 +1011,7 @@ class Penduduk extends Admin_Controller
     public function edit_status_dasar($id = 0): void
     {
         isCan('u');
-        if (! data_lengkap()) {
+        if (!data_lengkap()) {
             session_error('Data tidak dapat proses karena sudah dinyatakan lengkap');
 
             redirect(ci_route('penduduk'));
@@ -1010,7 +1025,7 @@ class Penduduk extends Admin_Controller
 
         //Pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
         $excludeStatus             = $data['nik']['status'] == 1 ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI] : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP];
-        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus ))->all();
+        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => !in_array($item, $excludeStatus))->all();
 
         view('admin.penduduk.ajax_edit_status_dasar', $data);
     }
@@ -1018,7 +1033,7 @@ class Penduduk extends Admin_Controller
     public function update_status_dasar($id = ''): void
     {
         isCan('u');
-        if (! data_lengkap()) {
+        if (!data_lengkap()) {
             redirect_with('error', 'Data tidak dapat proses karena sudah dinyatakan lengkap', ci_route('penduduk'));
         }
         akun_demo($id);
@@ -1046,7 +1061,7 @@ class Penduduk extends Admin_Controller
             'created_by'     => auth()->id,
         ];
 
-        if ($log['kode_peristiwa'] == 2 && ! empty($_FILES['nama_file']['name'])) {
+        if ($log['kode_peristiwa'] == 2 && !empty($_FILES['nama_file']['name'])) {
             $log['file_akta_mati'] = $this->upload_akta_mati($id);
         }
 
@@ -1087,7 +1102,7 @@ class Penduduk extends Admin_Controller
 
         $this->upload->initialize($config);
 
-        if (! $this->upload->do_upload('nama_file')) {
+        if (!$this->upload->do_upload('nama_file')) {
             session_error($this->upload->display_errors());
             redirect($this->controller);
         }
@@ -1160,16 +1175,16 @@ class Penduduk extends Admin_Controller
         $dusun                                 = $this->input->get('dusun') ?? null;
         $rw                                    = $this->input->get('rw') ?? null;
         $rt                                    = $this->input->get('rt') ?? null;
-        if (! empty($dusun)) {
+        if (!empty($dusun)) {
             $this->statistikFilter['dusun'] = $dusun;
         }
-        if (! empty($rw)) {
+        if (!empty($rw)) {
             $this->statistikFilter['rw'] = $dusun . '__' . $rw;
         }
-        if (! empty($rt)) {
+        if (!empty($rt)) {
             $this->statistikFilter['rt'] = $rt;
         }
-        if (! empty($sex)) {
+        if (!empty($sex)) {
             $this->statistikFilter['sex'] = $sex;
         }
 
@@ -1272,7 +1287,7 @@ class Penduduk extends Admin_Controller
                 break;
 
             case 'bantuan_penduduk':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->statistikFilter['status_dasar'] = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_penduduk';
@@ -1319,7 +1334,7 @@ class Penduduk extends Admin_Controller
 
                 // TODO: Sederhanakan query ini, pindahkan ke model
                 $nama = Bantuan::find($program_id)->nama ?? '-';
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $nomor = $program_id;
                 }
                 $kategori = $nama . ' : ';
