@@ -13,7 +13,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8165](https://github.com/OpenSID/OpenSID/issues/8165) Penambahan spesifikasi layout surat yg standar dan mudah disesuaikan saat cetak.
 8. [#8162](https://github.com/OpenSID/OpenSID/issues/8162) Penambahan ubah dan kunci surat.
 9. [#8174](https://github.com/OpenSID/OpenSID/issues/8174) Penambahan dan perubahan alur pratinjau sebelum dicetak.
-10. [#8229](https://github.com/OpenSID/OpenSID/issues/8229) Penambahan pengaturantema tipe unggah gambar.
+10. [#8229](https://github.com/OpenSID/OpenSID/issues/8229) Penambahan pengaturan tema tipe unggah gambar.
+11. [#7854](https://github.com/OpenSID/OpenSID/issues/7854) Penambahan gambar galeri menggunakan sumber dari filemanager.
 
 
 #### BUG
