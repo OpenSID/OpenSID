@@ -2,16 +2,29 @@
 
 @extends('admin.layouts.index')
 
+@php
+    $label = 'Konsep Surat';
+    $urlDaftar = ci_route('surat');
+    $cetak = 'Cetak';
+    @endphp
+@isset($ubah)
+@php
+    $label = 'Ubah Surat';
+    $urlDaftar = ci_route('keluar');
+    $cetak = 'Arsip Layanan';
+@endphp
+@endisset
+
 @section('title')
     <h1>
-        Konsep Surat {{ ucwords($surat->nama) }}
+        {{ $label }} {{ ucwords($surat->nama) }}
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ ci_route('surat') }}">Daftar Cetak Surat</a></li>
+    <li class="breadcrumb-item"><a href="{{ $urlDaftar }}">Daftar {{ $cetak }} Surat</a></li>
     <li class="active"> Surat {{ ucwords($surat->nama) }}</li>
-    <li class="active"> Konsep Surat {{ ucwords($surat->nama) }}</li>
+    <li class="active"> {{ $label }} {{ ucwords($surat->nama) }}</li>
 @endsection
 
 @section('content')
@@ -26,10 +39,10 @@
             </div>
         </div>
         <div class="box-footer text-center">
-            <a href="{{ ci_route('surat') }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-                <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
+            <a href="{{ $urlDaftar }}" id="back" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <i class="fa fa-arrow-circle-left"></i>Kembali ke {{ $cetak }} Surat
             </a>
-            @if ($tolak != '-1')
+            @if ($tolak != '-1' && !$ubah)
                 <a onclick="formAction('validasi', '{{ $aksi_konsep }}')" id="konsep" class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
                     Konsep</a>
             @endif
@@ -39,7 +52,7 @@
             </button>
             @if ($tolak != '-1')
                 <a href="{{ ci_route('keluar/masuk') }}" id="next" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hide">
-                    ke Permohonan Surat<i class="fa fa-arrow-circle-right"></i>
+                    ke Permohonan Surat <i class="fa fa-arrow-circle-right"></i>
                 @else
                     <a href="{{ ci_route('keluar/ditolak') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         Ke Daftar Surat Ditolak <i class="fa fa-arrow-circle-right"></i>

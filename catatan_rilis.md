@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#7967](https://github.com/OpenSID/OpenSID/issues/7967) Penambahan pengaturan global penggunaan data penduduk berulang.
 6. [#8161](https://github.com/OpenSID/OpenSID/issues/8161) Penambahan penanda (draf) pada surat pratinjau.
 7. [#8165](https://github.com/OpenSID/OpenSID/issues/8165) Penambahan spesifikasi layout surat yg standar dan mudah disesuaikan saat cetak.
+8. [#8162](https://github.com/OpenSID/OpenSID/issues/8162) Penambahan ubah dan kunci surat.
 
 
 #### BUG

@@ -388,8 +388,8 @@ class TinyMCE
             <page backimg="' . $backimg . '" backtop="' . $backtop . '" backbottom="' . $backbottom . '">
             ' . $style . '
             ' . $isi_header . '
-            ' . $isi_footer . '
             ' . $isi_surat . '
+            ' . $isi_footer . '
             </page>
         ';
     }

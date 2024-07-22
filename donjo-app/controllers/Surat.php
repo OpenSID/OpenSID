@@ -138,6 +138,7 @@ class Surat extends Admin_Controller
 
     public function form($url = '', $id = '')
     {
+        $this->session->unset_userdata('pengaturan_surat');
         $nik = $this->input->post('nik') ?? $id;
 
         $this->session->unset_userdata('log_surat');
