@@ -34,6 +34,9 @@
                     Konsep</a>
             @endif
             <button type="button" id="preview-pdf" class="btn btn-social btn-vk btn-success btn-sm"><i class="fa fa-eye"></i>Tinjau PDF</button>
+            <button type="button" id="pengaturan" title="Pengaturan PDF" data-toggle="modal" data-target="#modal-pengaturan" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <i class="fa fa-gear"></i> Pengaturan
+            </button>
             @if ($tolak != '-1')
                 <a href="{{ ci_route('keluar/masuk') }}" id="next" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hide">
                     ke Permohonan Surat<i class="fa fa-arrow-circle-right"></i>
@@ -45,6 +48,94 @@
             </a>
         </div>
         </form>
+    </div>
+
+    <div id="modal-pengaturan" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <form id="form-pengaturan">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Pengaturan</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Tinggi Header Surat</label>
+                            <div class="input-group">
+                                <input
+                                    type="number"
+                                    name="tinggi_header"
+                                    class="form-control input-sm required"
+                                    min="0"
+                                    max="100"
+                                    step="0.01"
+                                    value="{{ $ci->session->pengaturan_surat['tinggi_header'] ?? setting('tinggi_header') }}"
+                                />
+                                <span class="input-group-addon input-sm">cm</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tinggi Footer Surat</label>
+                            <div class="input-group">
+                                <input
+                                    type="number"
+                                    name="tinggi_footer"
+                                    class="form-control input-sm required"
+                                    min="0"
+                                    max="100"
+                                    step="0.01"
+                                    value="{{ $ci->session->pengaturan_surat['tinggi_footer'] ?? setting('tinggi_footer') }}"
+                                />
+                                <span class="input-group-addon input-sm">cm</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Jenis Font Bawaan </label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <select class="select2 form-control" name="font_surat">
+                                        @foreach ($font_option as $font)
+                                            <option value="{{ $font }}" @selected($font == ($ci->session->pengaturan_surat['font_surat'] ?? setting('font_surat')))>
+                                                {{ $font }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Margin</label>
+                            <div class="row">
+                                @foreach ($margins as $key => $value)
+                                    <div class="col-sm-6">
+                                        <div class="input-group" style="margin-top: 3px; margin-bottom: 3px">
+                                            <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
+                                            <input
+                                                type="number"
+                                                class="form-control input-sm required"
+                                                min="0"
+                                                name="surat_margin[{{ $key }}]"
+                                                min="0"
+                                                max="10"
+                                                step="0.01"
+                                                style="text-align:right;"
+                                                value="{{ json_decode($ci->session->pengaturan_surat['surat_margin'])->{$key} ?? $value }}"
+                                            >
+                                            <span class="input-group-addon input-sm">cm</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {!! batal() !!}
+                        <button type="submit" class="btn btn-social btn-info btn-sm confirm"><i class="fa fa-check"></i> Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -115,6 +206,7 @@
                 })
                 .done(function(response, textStatus, xhr) {
                     if (xhr.status == 200) {
+                        $('#pengaturan').remove();
                         $('#draft-pdf').hide();
                         $('#preview-pdf').hide();
                         $('#konsep').hide();
@@ -208,6 +300,35 @@
                         text: response.statusText,
                     })
                 })
+            });
+
+            $('#form-pengaturan').on('submit', function(e) {
+                e.preventDefault(); // Prevent the form from submitting via the browser
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ ci_route('surat_master.pengaturan_sementara') }}',
+                    data: $(this).serialize(), // Serialize form data
+                    success: function(response) {
+                        // Handle success response
+                        $('#modal-pengaturan').modal('hide'); // Hide the modal
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Berhasil mengubah data',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    },
+                    error: function(response, status, xhr) {
+                        // Handle error response
+                        Swal.fire({
+                            title: xhr.statusText,
+                            icon: 'error',
+                            text: response.statusText,
+                        });
+                    }
+                });
             });
         });
     </script>

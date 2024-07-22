@@ -1302,7 +1302,7 @@
         "orientasi": "Potrait",
         "ukuran": "F4",
         "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
-        "margin_global": 0,
+        "margin_global": 1,
         "footer": 1,
         "header": 1,
         "format_nomor": "",

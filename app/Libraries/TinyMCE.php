@@ -129,6 +129,8 @@ class TinyMCE
     public const TOP    = 3.5; // cm
     public const BOTTOM = 2; // cm
 
+    public const DEFAULT_FONT = 'Times New Roman';
+
     /**
      * @var CI_Controller
      */
@@ -345,7 +347,7 @@ class TinyMCE
                 break;
 
             case 1:
-                $backtop    = ((float) setting('tinggi_header')) * 10 . 'mm';
+                $backtop    = ((float) $this->ci->session->pengaturan_surat['tinggi_header'] ?? setting('tinggi_header')) * 10 . 'mm';
                 $isi_header = '<page_header>' . $isi[0] . '</page_header>';
                 $isi_surat  = $isi[1];
                 break;
@@ -365,7 +367,7 @@ class TinyMCE
                 break;
 
             default:
-                $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+                $backbottom = (((float) $this->ci->session->pengaturan_surat['tinggi_footer'] ?? setting('tinggi_footer')) * 10) . 'mm';
                 $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
                 break;
         }
@@ -802,7 +804,7 @@ class TinyMCE
 
     public function cetak_surat($id)
     {
-        $this->defaultFont = underscore(setting('font_surat'));
+        $this->defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
         $surat             = LogSurat::find($id);
         $this->cetak_surat_tinymce($surat);
     }
@@ -830,7 +832,15 @@ class TinyMCE
         $isi_cetak      = $data_gambar['result'];
         $surat->urls_id = $data_gambar['urls_id'];
 
-        $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+        $margin_cm_to_mm = $this->session->has_userdata('pengaturan_surat')
+            ? [
+                json_decode($this->session->pengaturan_surat['surat_margin'])->kiri * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->atas * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->kanan * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->bawah * 10,
+            ]
+            : $cetak['surat']['margin_cm_to_mm'];
+
         if ($cetak['surat']['margin_global'] == '1') {
             $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
         }

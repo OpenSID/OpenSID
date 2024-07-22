@@ -650,6 +650,20 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
+    public function pengaturan_sementara()
+    {
+        $data = [
+            'tinggi_header' => (float) $this->input->post('tinggi_header'),
+            'tinggi_footer' => (float) $this->input->post('tinggi_footer'),
+            'font_surat'    => alfanumerik_spasi($this->input->post('font_surat')),
+            'surat_margin'  => json_encode($this->input->post('surat_margin'), JSON_THROW_ON_ERROR),
+        ];
+
+        $this->session->set_userdata('pengaturan_surat', $data);
+
+        return json('Berhasil mengubah data');
+    }
+
     protected static function validasi_pengaturan($request)
     {
         $validasi = [

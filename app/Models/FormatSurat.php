@@ -93,10 +93,10 @@ class FormatSurat extends BaseModel
      * @var array
      */
     public const MARGINS = [
-        'kiri'  => 1.78,
-        'atas'  => 0.63,
-        'kanan' => 1.78,
-        'bawah' => 1.37,
+        'kiri'  => 3,
+        'atas'  => 2.5,
+        'kanan' => 2,
+        'bawah' => 2.5,
     ];
 
     /**

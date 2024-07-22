@@ -319,7 +319,18 @@ class Surat extends Admin_Controller
 
             $id_surat = $surat->id;
 
-            return view('admin.surat.konsep', ['content' => $content, 'aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat]);
+            $font_option = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+            $margins     = json_decode((string) setting('surat_margin'), null) ?? FormatSurat::MARGINS;
+
+            return view('admin.surat.konsep', [
+                'content'     => $content,
+                'aksi_konsep' => $aksi_konsep,
+                'aksi_cetak'  => $aksi_cetak,
+                'isi_surat'   => $isi_surat,
+                'id_surat'    => $id_surat,
+                'font_option' => $font_option,
+                'margins'     => $margins,
+            ]);
         }
 
         set_session('error', "Data Surat {$surat->nama} tidak ditemukan");
@@ -402,14 +413,22 @@ class Surat extends Admin_Controller
             $isi_cetak      = $data_gambar['result'];
             $surat->urls_id = $data_gambar['urls_id'];
 
-            $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
-            if ($cetak['surat']['margin_global'] == '1') {
+            $margin_cm_to_mm = $this->session->has_userdata('pengaturan_surat')
+                ? [
+                    json_decode($this->session->pengaturan_surat['surat_margin'])->kiri * 10,
+                    json_decode($this->session->pengaturan_surat['surat_margin'])->atas * 10,
+                    json_decode($this->session->pengaturan_surat['surat_margin'])->kanan * 10,
+                    json_decode($this->session->pengaturan_surat['surat_margin'])->bawah * 10,
+                ]
+                : $cetak['surat']['margin_cm_to_mm'];
+
+            if ($cetak['surat']['margin_global'] == '1' && !$this->session->has_userdata('pengaturan_surat')) {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
             }
 
             // convert in PDF
             try {
-                $defaultFont = underscore(setting('font_surat'));
+                $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
                 $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $defaultFont);
                 $this->tinymce->generateLampiran($surat->id_pend, $cetak, $cetak['input']);
 
