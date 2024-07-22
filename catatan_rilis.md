@@ -49,6 +49,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 42. [#8225](https://github.com/OpenSID/OpenSID/issues/8225) Perbaikan urutan pada data statistik penduduk kategori pendidikan sedang ditempuh.
 43. [#8223](https://github.com/OpenSID/OpenSID/issues/8223) Pebaikan csrf token terkait tambah/ubah suplemen anggota.
 44. [#8227](https://github.com/OpenSID/OpenSID/issues/8227) Perbaikan pencarian penduduk berdasarkan tag_id_card.
+45. [#8107](https://github.com/OpenSID/OpenSID/issues/8107) Perbaikan menampilkan gambar galeri berupa url.
 
 
 #### TEKNIS

@@ -7,11 +7,16 @@
 <div style="content_left">
 	<?php if ($gallery): ?>
 		<div class="row">
-			<?php foreach ($gallery as $data): ?>
-				<?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
+			<?php 
+				$jumlah = 0;
+				foreach ($gallery as $data): ?>
+				<?php if (file_exists(LOKASI_GALERI . "sedang_" . $data['gambar']) || $data['jenis'] == 2): 
+					$gambar = $data['jenis'] == 2 ? $data['gambar'] : AmbilGaleri($data['gambar'], 'kecil'); 
+					$jumlah++;
+					?>
 					<div class="col-sm-6">
 						<div class="card">
-							<img width="auto" class="img-fluid img-thumbnail" src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="<?= $data['nama']; ?>"/>
+							<img width="auto" class="img-fluid img-thumbnail" src="<?= $gambar ?>" alt="<?= $data['nama']; ?>"/>
 							<p align="center"><b><?= $data['nama']; ?></b></p>
 							<hr/>
 						</div>
@@ -20,9 +25,17 @@
 			<?php endforeach ?>
 		</div>
 
+		<?php if ($jumlah == 0): ?>
+			<div class="alert alert-danger" role="alert">
+				Data tidak tersedia
+			</div>
+		<?php endif ?>
+
 	<?php $this->load->view("$folder_themes/commons/page"); ?>
 
 	<?php else: ?>
-		<p>Data tidak tersedia</p>
+		<div class="alert alert-danger" role="alert">
+			Data tidak tersedia
+		</div>
 	<?php endif; ?>
 </div>

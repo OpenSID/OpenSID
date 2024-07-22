@@ -11,14 +11,21 @@
 
 <?php if(count($gallery ?? [])) : ?>
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-5 py-4">
-    <?php foreach($gallery as $album) : ?>
-      <?php if(is_file(LOKASI_GALERI . "kecil_" . $album['gambar'])) : ?>
-        <?php $link = AmbilGaleri($album['gambar'],'sedang') ?>
-        <a href="<?= $link ?>" data-fancybox="images" data-caption="<?= $album['nama'] ?>" class="h-44 w-full block bg-gray-300">
-          <img src="<?= AmbilGaleri($album['gambar'],'kecil') ?>" alt="<?= $album['nama'] ?>" class="h-44 w-full object-cover object-center" title="<?= $album['nama'] ?>">
+    <?php 
+        $jumlah = 0;
+        foreach ($gallery as $album): ?>
+        <?php if (file_exists(LOKASI_GALERI . "sedang_" . $album['gambar']) || $album['jenis'] == 2): 
+          $gambar = $album['jenis'] == 2 ? $album['gambar'] : AmbilGaleri($album['gambar'], 'kecil'); 
+          $jumlah++;
+        ?>
+        <a href="<?= $gambar ?>" data-fancybox="images" data-caption="<?= $album['nama'] ?>" class="h-44 w-full block bg-gray-300">
+          <img src="<?= $gambar ?>" alt="<?= $album['nama'] ?>" class="h-44 w-full object-cover object-center" title="<?= $album['nama'] ?>">
         </a>
       <?php endif ?>
     <?php endforeach ?>
+    <?php if ($jumlah == 0): ?>
+      <div class="alert text-primary-100">Maaf isi album galeri belum tersedia!</div>
+    <?php endif ?>
   </div>
   <?php else : ?>
     <div class="alert text-primary-100">Maaf isi album galeri belum tersedia!</div>
