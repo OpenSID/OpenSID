@@ -422,7 +422,7 @@ class Surat extends Admin_Controller
                 ]
                 : $cetak['surat']['margin_cm_to_mm'];
 
-            if ($cetak['surat']['margin_global'] == '1' && !$this->session->has_userdata('pengaturan_surat')) {
+            if ($cetak['surat']['margin_global'] == '1' && ! $this->session->has_userdata('pengaturan_surat')) {
                 $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
             }
 

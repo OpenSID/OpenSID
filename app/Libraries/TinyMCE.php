@@ -126,9 +126,8 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP    = 3.5; // cm
-    public const BOTTOM = 2; // cm
-
+    public const TOP          = 3.5; // cm
+    public const BOTTOM       = 2; // cm
     public const DEFAULT_FONT = 'Times New Roman';
 
     /**
