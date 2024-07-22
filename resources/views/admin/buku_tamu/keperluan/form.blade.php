@@ -37,7 +37,7 @@
                             @foreach (\App\Enums\StatusEnum::all() as $key => $value)
                                 <option value="{{ $key }}" @selected($key == $data_keperluan->status)>{{ $value }}
                                 </option>
-                            @endforeach; ?>
+                            @endforeach
                         </select>
                     </div>
                 </div>

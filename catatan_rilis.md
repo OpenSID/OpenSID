@@ -58,3 +58,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8179](https://github.com/OpenSID/OpenSID/issues/8179) Penyesuaian dan optimasi load view tema.
 7. [#8187](https://github.com/OpenSID/OpenSID/issues/8187) Penyesuaian informasi optimasi gambar.
 8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.
+9. [#8228](https://github.com/OpenSID/OpenSID/issues/8228) Penyesuaian penggunaan komponen blade.
