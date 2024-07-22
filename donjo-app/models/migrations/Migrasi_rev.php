@@ -60,7 +60,7 @@ class Migrasi_rev extends MY_model
 
     protected function migrasi_2024122271($hasil)
     {
-        if (!Schema::hasTable('log_perubahan_surat')) {
+        if (! Schema::hasTable('log_perubahan_surat')) {
             Schema::create('log_perubahan_surat', static function (Blueprint $table) {
                 $table->id();
                 $table->integer('config_id')->nullable();
@@ -73,7 +73,7 @@ class Migrasi_rev extends MY_model
             });
         }
 
-        if (!Schema::hasColumn('log_surat', 'lock')) {
+        if (! Schema::hasColumn('log_surat', 'lock')) {
             Schema::table('log_surat', static function (Blueprint $table) {
                 $table->integer('lock')->nullable();
             });

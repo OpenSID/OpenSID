@@ -37,7 +37,6 @@
 
 use App\Enums\FirebaseEnum;
 use App\Enums\StatusEnum;
-use App\Enums\StatusSuratKecamatanEnum;
 use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\FcmToken;
@@ -52,7 +51,6 @@ use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\Urls;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -212,11 +210,11 @@ class Keluar extends Admin_Controller
                                 $aksi .= '<a href="#" data-href="' . ci_route('keluar.delete', $row->id) . '?redirect=' . $redirectDelete . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                             }
                         }
-                        if(User::superAdmin() && !setting('tte') && $row->status != 0) {
+                        if (User::superAdmin() && ! setting('tte') && $row->status != 0) {
                             if ($row->lock !== StatusEnum::YA) {
                                 // redirect ke edit surat/pratinjau surat
                                 $aksi .= '<a href="' . ci_route('keluar.ajax_edit_surat', $row->id) . '" title="Ubah Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Alasan Ubah Surat" class="btn bg-info btn-sm"><i class="fa fa-edit"></i></a> ';
-                                $aksi .= '<a href="#" onclick="lockSurat('.$row->id.')" title="Konfirmasi Surat" class="lock-surat btn bg-purple btn-sm"><i class="fa fa-lock"></i></a> ';
+                                $aksi .= '<a href="#" onclick="lockSurat(' . $row->id . ')" title="Konfirmasi Surat" class="lock-surat btn bg-purple btn-sm"><i class="fa fa-lock"></i></a> ';
                             }
                         }
                     }
@@ -311,7 +309,7 @@ class Keluar extends Admin_Controller
                     }
 
                     // jika punya relasi ke log_perubahan_surat maka tambahkan status sudah diubah
-                    if ($row->logPerubahanSurat->count() > 0){
+                    if ($row->logPerubahanSurat->count() > 0) {
                         $status .= '<br><span class="label label-info">Sudah Diubah</span>';
                     }
 
@@ -339,20 +337,20 @@ class Keluar extends Admin_Controller
     public function editSurat($idLogSurat)
     {
         $this->set_hak_akses_rfm();
-        $log_surat = LogSurat::with(['logPerubahanSurat'])->find($idLogSurat)->toArray();
-        $log_surat['input']       = json_decode($log_surat['input'], 1);
-        $input = $log_surat['input'];
-        $surat     = FormatSurat::cetak($input['url_surat'])->first();
+        $log_surat          = LogSurat::with(['logPerubahanSurat'])->find($idLogSurat)->toArray();
+        $log_surat['input'] = json_decode($log_surat['input'], 1);
+        $input              = $log_surat['input'];
+        $surat              = FormatSurat::cetak($input['url_surat'])->first();
 
         if ($surat && $log_surat) {
-            $log_surat['surat']     = $surat;
+            $log_surat['surat'] = $surat;
 
             if (isset($input['id_pengikut'])) {
                 $pengikut     = Penduduk::whereIn('id', $input['id_pengikut'])->orderKeluarga()->get();
                 $keterangan[] = [];
 
                 foreach ($pengikut as $anak) {
-                    $keterangan[$anak->id] = $input['ket_'. $anak->id] ?? '';
+                    $keterangan[$anak->id] = $input['ket_' . $anak->id] ?? '';
                 }
 
                 $log_surat['pengikut_surat'] = generatePengikut($pengikut, $keterangan);
@@ -377,7 +375,7 @@ class Keluar extends Admin_Controller
                 $pindah   = [];
 
                 foreach ($pengikut as $anggota) {
-                    $pindah[$anggota->id] = $input['pindah['.$anggota->nik.']'];
+                    $pindah[$anggota->id] = $input['pindah[' . $anggota->nik . ']'];
                 }
 
                 $log_surat['pengikut_pindah'] = generatePengikutPindah($pengikut);
@@ -402,7 +400,7 @@ class Keluar extends Admin_Controller
 
             LogPerubahanSurat::create([
                 'log_surat_id' => $idLogSurat,
-                'keterangan' => $this->request['alasan']
+                'keterangan'   => $this->request['alasan'],
             ]);
 
             return view('admin.surat.konsep', ['content' => $content, 'aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'ubah' => true]);
