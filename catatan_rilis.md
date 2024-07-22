@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#8229](https://github.com/OpenSID/OpenSID/issues/8229) Penambahan pengaturan tema tipe unggah gambar.
 11. [#7854](https://github.com/OpenSID/OpenSID/issues/7854) Penambahan gambar galeri menggunakan sumber dari filemanager.
 12. [#5543](https://github.com/OpenSID/OpenSID/issues/5543) Penambahan pecarian spesifik terkait perkawinan tercatat dan belum tercatat.
+13. [#5422](https://github.com/OpenSID/OpenSID/issues/5422) Penambahan logo dan no sk pendirian kelompok/lembaga.
 
 
 #### BUG

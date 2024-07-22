@@ -35,15 +35,18 @@
  *
  */
 
-use App\Models\Kelompok as KelompokModel;
-use App\Models\KelompokAnggota;
-use App\Models\KelompokMaster;
+use App\Traits\Upload;
 use App\Models\Penduduk;
+use App\Models\KelompokMaster;
+use App\Models\KelompokAnggota;
+use App\Models\Kelompok as KelompokModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends Admin_Controller
 {
+    use Upload;
+
     public $modul_ini            = 'kependudukan';
     public $sub_modul_ini        = 'kelompok';
     private array $_list_session = ['penerima_bantuan', 'sex', 'status_dasar'];
@@ -259,11 +262,20 @@ class Kelompok extends Admin_Controller
         $data['nama']       = nama_terbatas($request['nama']);
         $data['keterangan'] = htmlentities((string) $request['keterangan']);
         $data['kode']       = nomor_surat_keputusan($request['kode']);
+        $data['no_sk_pendirian'] = nomor_surat_keputusan((string) $request['no_sk_pendirian']);
         $data['tipe']       = $this->tipe;
 
         if (null === $id) {
             $data['slug']      = unique_slug('kelompok', $data['nama']);
             $data['config_id'] = identitas('id');
+        }
+
+        if ($this->request['logo']) {
+            $config['upload_path']   = LOKASI_LOGO_DESA;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['file_name']     = namafile($data['slug'] . ' - ' . time());
+
+            $data['logo'] = $this->upload('logo', $config);
         }
 
         return $data;
@@ -327,7 +339,7 @@ class Kelompok extends Admin_Controller
                 ->get('program')
                 ->row()
                 ->nama;
-            if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+            if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                 $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                 $nomor                       = $program_id;
             }
@@ -354,7 +366,7 @@ class Kelompok extends Admin_Controller
             ->doesntHave('kelompokAnggota')
             ->find($id);
 
-        if (! $result) {
+        if (!$result) {
             redirect_with('error', "Tidak bisa menghapus {$this->tipe} yang sudah memiliki anggota");
         }
 

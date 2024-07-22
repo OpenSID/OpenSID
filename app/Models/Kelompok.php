@@ -66,7 +66,7 @@ class Kelompok extends BaseModel
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function ketua()
     {
@@ -235,8 +235,26 @@ class Kelompok extends BaseModel
         return $query->whereRaw('jabatan', 'REGEXP', '[a-zA-Z]+')->where('id_kelompok', $id_kelompok)->orderBy('jabatan')->get()->toArray();
     }
 
-    protected static function boot()
+    public static function boot(): void
     {
         parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'logo');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'logo', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $logo = LOKASI_LOGO_DESA . $model->getOriginal($file);
+            if (file_exists($logo)) {
+                unlink($logo);
+            }
+        }
     }
 }

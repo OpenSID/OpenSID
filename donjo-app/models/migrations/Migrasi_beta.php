@@ -37,6 +37,8 @@
 
 use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,6 +55,7 @@ class Migrasi_beta extends MY_model
         // }
 
         $hasil = $hasil && $this->migrasi_2024040271($hasil);
+        $hasil = $hasil && $this->migrasi_2024042171($hasil);
 
         return $hasil && true;
     }
@@ -65,6 +68,20 @@ class Migrasi_beta extends MY_model
             $value[3]['input'] = 'nama,no_ktp,tempat_lahir,tanggal_lahir,jenis_kelamin,agama,pendidikan_kk,pekerjaan,warga_negara,alamat,golongan_darah,status_perkawinan,tanggal_perkawinan,shdk,no_paspor,no_kitas,nama_ayah,nama_ibu,no_kk,kepala_kk';
             $penduduk_luar->update(['value' => json_encode($value)]);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024042171($hasil)
+    {
+        Schema::table('kelompok', function (Blueprint $table) {
+            if (!Schema::hasColumn('kelompok', 'logo')) {
+                $table->string('logo', 255)->nullable()->after('kode');
+            }
+            if (!Schema::hasColumn('kelompok', 'no_sk_pendirian')) {
+                $table->string('no_sk_pendirian', 255)->nullable()->after('logo');
+            }
+        });
 
         return $hasil;
     }
