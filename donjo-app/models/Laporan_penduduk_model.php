@@ -642,24 +642,32 @@ class Laporan_penduduk_model extends MY_Model
         $this->hitung_persentase($data, $semua);
 
         if ($lap == '14') {
-            $val  = collect($data);
-            $data = collect(PendidikanSedangEnum::all())->map(static function ($item, $key) use ($val) {
-                $val = $val->where('id', $key)->first();
+            $val = collect($data);
+            $pendidikanSedang = collect(PendidikanSedangEnum::all());
+
+            $data = $pendidikanSedang->map(static function ($item, $key) use ($val) {
+                $valItem = $val->where('id', $key)->first() ?? ['jumlah' => '0', 'laki' => '0', 'perempuan' => '0', 'persen' => '0%', 'persen1' => '0%', 'persen2' => '0%'];
 
                 return [
-                    'id'        => "{$key}",
-                    'nama'      => "{$item}",
-                    'jumlah'    => $val['jumlah'] ?? '0',
-                    'laki'      => $val['laki'] ?? '0',
-                    'perempuan' => $val['perempuan'] ?? '0',
+                    'id'        => (string) $key,
+                    'nama'      => $item,
+                    'jumlah'    => $valItem['jumlah'],
+                    'laki'      => $valItem['laki'],
+                    'perempuan' => $valItem['perempuan'],
                     'no'        => $key,
-                    'persen'    => $val['persen'] ?? '0%',
-                    'persen1'   => $val['persen1'] ?? '0%',
-                    'persen2'   => $val['persen2'] ?? '0%',
+                    'persen'    => $valItem['persen'],
+                    'persen1'   => $valItem['persen1'],
+                    'persen2'   => $valItem['persen2'],
                 ];
             })
-                ->merge($val->slice(-3))
-                ->toArray();
+            ->merge($val->slice(-3))
+            ->map(static function ($item, $key) {
+                $item['no'] = in_array($item['id'], [JUMLAH, BELUM_MENGISI, TOTAL]) ? '' : $key + 1;
+
+                return $item;
+            })
+            ->toArray();
+
         }
 
         return $data;
