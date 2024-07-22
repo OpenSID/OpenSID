@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 40. [#8214](https://github.com/OpenSID/OpenSID/issues/8214) Perbaikan lihat/unduh dokumen arsip desa kategori dokumen desa.
 41. [#8224](https://github.com/OpenSID/OpenSID/issues/8224) Perbaikan notifikasi validasi setelah diinput ulang.
 42. [#8225](https://github.com/OpenSID/OpenSID/issues/8225) Perbaikan urutan pada data statistik penduduk kategori pendidikan sedang ditempuh.
+43. [#8223](https://github.com/OpenSID/OpenSID/issues/8223) Pebaikan csrf token terkait tambah/ubah suplemen anggota.
 
 
 #### TEKNIS
