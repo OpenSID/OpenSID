@@ -95,7 +95,9 @@ class Theme extends Admin_Controller
 
         $tema = ThemeModel::findOrFail($id);
 
-        $tema->update(['opsi' => $this->input->post('opsi')]);
+        $opsi = $this->validateOpsi($this->input->post('opsi'), $tema);
+
+        $tema->update(['opsi' => $opsi]);
 
         redirect_with('success', 'Berhasil Ubah Data', "theme/pengaturan/{$id}");
     }
@@ -214,5 +216,46 @@ class Theme extends Admin_Controller
         theme_scan();
 
         redirect_with('success', 'Berhasil Memindai Tema');
+    }
+
+    protected function validateOpsi($opsi, $tema)
+    {
+        $unggah = $this->input->post();
+        unset ($unggah['opsi']);
+        
+        foreach ($unggah as $key => $value) {
+            $result = $this->imageUpload($tema->slug, $key);
+            if ($result !== null) {
+                $opsi[$key] = $result;
+            }
+        }
+
+        return $opsi;
+    }
+
+    public function imageUpload($namaTema, $key)
+    {
+        $this->load->library('Upload');
+
+        if (! is_dir(CONFIG_THEMES . $namaTema)) {
+            mkdir(CONFIG_THEMES . $namaTema, 0777, true);
+        }
+
+        $config['upload_path']   = CONFIG_THEMES . $namaTema;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 5 * 1024;
+        $config['file_name']    = $key;
+
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload($key)) {
+            $upload = $this->upload->data();
+            return $upload['file_name'];
+        }
+
+        // set_session('error', $this->upload->display_errors());
+        log_message('error', $this->upload->display_errors());
+
+        return null;
     }
 }

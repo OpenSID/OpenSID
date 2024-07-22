@@ -79,5 +79,14 @@
         },
         "options": null,
         "readonly":false
+    },
+    {
+        "judul":"Unggah",
+        "key":"unggah",
+        "value":null,
+        "type":"unggah",
+        "keterangan":"Contoh Input Unggah",
+        "options": null,
+        "readonly":false
     }
 ]
