@@ -634,6 +634,7 @@ Route::group('surat_master', static function (): void {
     Route::post('/restore_surat_bawaan_all', 'Surat_master@restore_surat_bawaan_all')->name('surat_master.restore_surat_bawaan_all');
     Route::get('/pengaturan', 'Surat_master@pengaturan')->name('surat_master.pengaturan');
     Route::post('/edit_pengaturan', 'Surat_master@edit_pengaturan')->name('surat_master.edit_pengaturan');
+    Route::post('/pengaturan_sementara', 'Surat_master@pengaturan_sementara')->name('surat_master.pengaturan_sementara');
     Route::match(['GET', 'POST'], '/kode_isian/{jenis?}/{id?}', 'Surat_master@kode_isian')->name('surat_master.kode_isian');
     Route::match(['GET', 'POST'], '/salin_template/{jenis?}', 'Surat_master@salin_template')->name('surat_master.salin_template');
     Route::get('salin/{id}', 'Surat_master@salin')->name('surat_master.salin');
@@ -686,6 +687,9 @@ Route::group('permohonan_surat_admin', static function (): void {
 
 // Layanan Surat > Arsip Layanan
 Route::group('keluar', static function (): void {
+    Route::get('/lock_surat/{id}', 'Keluar@lockSurat')->name('keluar.lock_surat');
+    Route::get('/ajax_edit_surat/{id}', 'Keluar@ajaxEditSurat')->name('keluar.ajax_edit_surat');
+    Route::post('/edit_surat/{id}', 'Keluar@editSurat')->name('keluar.edit_surat');
     Route::get('/', 'Keluar@index')->name('keluar.index');
     Route::get('/masuk', 'Keluar@masuk')->name('keluar.masuk');
     Route::get('/ditolak', 'Keluar@ditolak')->name('keluar.ditolak');

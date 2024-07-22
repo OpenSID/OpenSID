@@ -418,4 +418,10 @@ class LogSurat extends BaseModel
             }
         }
     }
+
+    // relasi ke log_perubahan_surat
+    public function logPerubahanSurat()
+    {
+        return $this->hasMany(LogPerubahanSurat::class, 'log_surat_id');
+    }
 }

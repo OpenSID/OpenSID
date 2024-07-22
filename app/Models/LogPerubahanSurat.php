@@ -35,52 +35,45 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
+
+use App\Traits\Author;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class LogPerubahanSurat extends BaseModel
 {
-    public function up()
-    {
-        $hasil = true;
+    use ConfigId;
+    use Author;
 
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'log_perubahan_surat';
 
-        // foreach ($config_id as $id) {
-        // }
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
-        $hasil = $hasil && $this->migrasi_2024122271($hasil);
+    // protected $casts = [
+    //     'tanggal' => 'datetime:Y-m-d H:i:s',
+    // ];
 
-        return $hasil && true;
-    }
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
 
-    protected function migrasi_2024122271($hasil)
-    {
-        if (! Schema::hasTable('log_perubahan_surat')) {
-            Schema::create('log_perubahan_surat', static function (Blueprint $table) {
-                $table->id();
-                $table->integer('config_id')->nullable();
-                $table->integer('log_surat_id')->nullable();
-                $table->text('keterangan')->nullable();
-                $table->timestamps();
-                $table->integer('created_by')->nullable();
-                $table->integer('updated_by')->nullable();
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
-            });
-        }
-
-        if (! Schema::hasColumn('log_surat', 'lock')) {
-            Schema::table('log_surat', static function (Blueprint $table) {
-                $table->integer('lock')->nullable();
-            });
-
-            DB::table('log_surat')->update(['lock' => 1]);
-        }
-
-        return $hasil;
-    }
+    // public function surat()
+    // {
+    //     return $this->hasOne(LogSurat::class, 'id', 'id_surat');
+    // }
 }
