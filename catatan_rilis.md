@@ -45,6 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8213](https://github.com/OpenSID/OpenSID/issues/8213) Perbaikan halaman feed.
 39. [#8211](https://github.com/OpenSID/OpenSID/issues/8211) Perbaikan halaman cetak/unduh buku KTP dan KK.
 40. [#8214](https://github.com/OpenSID/OpenSID/issues/8214) Perbaikan lihat/unduh dokumen arsip desa kategori dokumen desa.
+41. [#8224](https://github.com/OpenSID/OpenSID/issues/8224) Perbaikan notifikasi validasi setelah diinput ulang.
 
 
 #### TEKNIS
