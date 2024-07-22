@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Traits\Author;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Carbon\Carbon;
@@ -51,6 +52,7 @@ class LogPenduduk extends BaseModel
 {
     use ConfigId;
     use ShortcutCache;
+    use Author;
 
     /**
      * KETERANGAN kode_peristiwa di log_penduduk

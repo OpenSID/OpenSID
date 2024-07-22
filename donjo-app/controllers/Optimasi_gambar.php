@@ -84,12 +84,14 @@ class Optimasi_gambar extends Admin_Controller
         return json([
             'status' => true,
             'data'   => $files,
+            'count'  => $files->count(),
         ]);
     }
 
     public function get_folders($path)
     {
         return collect(array_diff(scandir($path), ['.', '..']))
+            ->filter(static fn ($dir) => $dir !== 'fonts')
             ->filter(static fn ($dir): bool => is_dir($path . DIRECTORY_SEPARATOR . $dir));
     }
 
@@ -111,6 +113,3 @@ class Optimasi_gambar extends Admin_Controller
         ]);
     }
 }
-
-// End of file Optimasi_gambar.php
-// Location: .//D/kerjoan/web/opendesa/premium/donjo-app/controllers/Optimasi_gambar.php

@@ -122,7 +122,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">9. Bin/Binti</td>
             <td>: </td>
-            <td colspan="27">[Form_bin_priA]</td>
+            <td colspan="27">[Form_biN]</td>
 
         </tr>
         <tr>
@@ -151,7 +151,7 @@
                 </table>
             </td>
             <td>: </td>
-            <td colspan="27">[Form_status_kawin_priA]</td>
+            <td colspan="27">[Form_status_kawiN]</td>
 
         </tr>
         <tr>
@@ -173,7 +173,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">12. Nama istri / suami terdahulu</td>
             <td>: </td>
-            <td colspan="27">[NAma_dst]</td>
+            <td colspan="27">[NAma_dit]</td>
 
         </tr>
     </table>

@@ -90,15 +90,7 @@
                     <td>Status Kawin</td>
                     <td>:</td>
                     <td>
-                        @if ($penduduk['status_kawin'] !== 2)
-                            {{ strtoupper($penduduk->statusKawin->nama) }}
-                        @else
-                            @if (($penduduk['akta_perkawinan'] === null || $penduduk['akta_perkawinan'] === '') && $penduduk['tanggalperkawinan'] === null)
-                                KAWIN BELUM TERCATAT
-                            @else
-                                KAWIN TERCATAT
-                            @endif
-                        @endif
+                        {{ strtoupper($penduduk->status_perkawinan) }}
                     </td>
                 </tr>
                 <tr>

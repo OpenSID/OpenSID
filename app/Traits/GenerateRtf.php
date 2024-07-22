@@ -64,7 +64,7 @@ trait GenerateRtf
             $agama             .= ($ranggota['agama']['nama'] ?? '') . '\\line ';
             $pendidikan        .= ($ranggota['pendidikanKK']['nama'] ?? '') . '\\line ';
             $pekerjaan         .= ($ranggota['pekerjaan']['nama'] ?? '') . '\\line ';
-            $status_kawin      .= ($ranggota['statusKawin']['nama'] ?? '') . '\\line ';
+            $status_kawin      .= ($ranggota['status_perkawinan'] ?? '') . '\\line ';
             $warganegara       .= ($ranggota['wargaNegara']['nama'] ?? '') . '\\line ';
             $dokumen_pasport   .= $ranggota['dokumen_pasport'] . '\\line ';
             $dokumen_kitas     .= $ranggota['dokumen_kitas'] . '\\line ';

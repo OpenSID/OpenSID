@@ -50,7 +50,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2407.0.1');
+define('VERSION', '2407.0.2');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024070171');
+define('VERSI_DATABASE', '2024071751');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -1969,6 +1969,84 @@ if (! function_exists('formatTanggal')) {
         }
 
         return Carbon::parse($tanggal)->translatedFormat(setting('format_tanggal_surat'));
+    }
+}
+
+/**
+ * Kode isian tanggal
+ *
+ * @param string|null $tanggal
+ * @param string      $format
+ *
+ * @return string
+ */
+if (! function_exists('kodeIsianTanggal')) {
+    function kodeIsianTanggal($tanggal = null, $format = '')
+    {
+        $tanggal = Carbon::parse($tanggal) ?? Carbon::now();
+
+        return match ($format) {
+            'hari'  => $tanggal->translatedFormat('l'),
+            'tgl'   => $tanggal->format('d'),
+            'bulan' => $tanggal->translatedFormat('F'),
+            'tahun' => $tanggal->format('Y'),
+            default => $tanggal->translatedFormat(setting('format_tanggal_surat')),
+        };
+    }
+}
+
+/**
+ * Menghasilkan kode isian tanggal dengan beberapa format
+ *
+ * @param string|null $tgl
+ * @param string      $prefix
+ *
+ * @return array
+ */
+if (! function_exists('tanggalLengkap')) {
+    function tanggalLengkap($tgl = null, $prefix = '')
+    {
+        $tgl = formatTanggal($tgl ?? Carbon::now());
+        if (! empty($prefix)) {
+            $prefix = '_' . $prefix;
+        }
+
+        return [
+            [
+                'judul' => 'Tanggal (Default)',
+                'isian' => 'tgl' . $prefix,
+                'data'  => $tgl,
+            ],
+            [
+                'judul' => 'Tanggal (Dengan Hari)',
+                'isian' => 'tgl_hari' . $prefix,
+                'data'  => kodeIsianTanggal($tgl, 'hari') . ', ' . $tgl,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Tanggal (Angka)',
+                'isian'         => 'tanggal' . $prefix,
+                'data'          => kodeIsianTanggal($tgl, 'tgl'),
+            ],
+            [
+                'case_sentence' => false,
+                'judul'         => 'Hari',
+                'isian'         => 'hari' . $prefix,
+                'data'          => kodeIsianTanggal($tgl, 'hari'),
+            ],
+            [
+                'case_sentence' => false,
+                'judul'         => 'Bulan',
+                'isian'         => 'bulan' . $prefix,
+                'data'          => kodeIsianTanggal($tgl, 'bulan'),
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Tahun',
+                'isian'         => 'tahun' . $prefix,
+                'data'          => kodeIsianTanggal($tgl, 'tahun'),
+            ],
+        ];
     }
 }
 

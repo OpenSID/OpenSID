@@ -127,7 +127,7 @@ class ArsipFisikSurat
             'surat_keluar' => SuratKeluar::class,
             'dokumen_hidup', 'dokumen_desa', 'kependudukan' => DokumenHidup::class,
             'log_surat', 'layanan_surat' => LogSurat::class,
-            default => throw new Exception('Unknown table'),
+            default => throw new Exception("Unknown table: {$table}"),
         };
     }
 
@@ -137,7 +137,7 @@ class ArsipFisikSurat
             'surat_masuk', 'surat_keluar' => 'berkas_scan',
             'dokumen_hidup' => 'satuan',
             'log_surat'     => $lampiran ? 'lampiran' : 'nama_surat',
-            default         => throw new Exception('Unknown berkas column'),
+            default         => throw new Exception("Unknown berkas column: {$table}"),
         };
     }
 
@@ -152,7 +152,7 @@ class ArsipFisikSurat
             'surat_keluar'  => SuratKeluar::whereNotNull('berkas_scan'),
             'kependudukan'  => DokumenHidup::where('id_pend', '!=', 0)->whereNotNull('satuan'),
             'layanan_surat' => LogSurat::query(),
-            default         => throw new Exception('Unknown category'),
+            default         => throw new Exception("Unknown category: {$kategori}"),
         };
     }
 }

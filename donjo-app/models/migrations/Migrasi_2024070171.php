@@ -52,6 +52,7 @@ class Migrasi_2024070171 extends MY_model
         $hasil = $hasil && $this->migrasi_2024060152($hasil);
         $hasil = $hasil && $this->migrasi_2024061151($hasil);
         $hasil = $hasil && $this->migrasi_2024062051($hasil);
+        $hasil = $hasil && $this->migrasi_2024062851($hasil);
 
         // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
@@ -209,5 +210,19 @@ class Migrasi_2024070171 extends MY_model
             'attribute'  => 'class="bilangan required" placeholder="3" min="1" max="12" type="number"',
             'kategori'   => 'sinergi_program',
         ], $config_id);
+    }
+
+    protected function migrasi_2024062851($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Sumber Penduduk Berulang Global',
+            'key'        => 'sumber_penduduk_berulang_surat',
+            'value'      => null,
+            'keterangan' => 'Sumber Penduduk Berulang Global untuk surat',
+            'jenis'      => 'text',
+            'option'     => null,
+            'attribute'  => null,
+            'kategori'   => 'format_surat',
+        ]);
     }
 }

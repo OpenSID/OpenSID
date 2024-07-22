@@ -151,6 +151,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
         Route::get('/', 'Informasi_publik@index')->name('fweb.informasi_publik.index');
         Route::post('/data', 'Informasi_publik@ajax_informasi_publik')->name('fweb.informasi_publik.ajax_informasi_publik');
         Route::get('/tampilkan/{id_dokumen?}/{id_pend?}', 'Informasi_publik@tampilkan')->name('fweb.informasi_publik.tampilkan');
+        Route::get('/aksi/{aksi}/{id_dokumen?}', 'Informasi_publik@aksi')->name('fweb.informasi_publik.aksi');
     });
 
     Route::get('/data-kelompok/{slug?}', 'Kelompok@detail')->name('fweb.kelompok.detail');

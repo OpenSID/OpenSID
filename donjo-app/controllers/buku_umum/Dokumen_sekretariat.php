@@ -478,7 +478,7 @@ class Dokumen_sekretariat extends Admin_Controller
     private function _set_tab($kat): void
     {
         $this->tab_ini = match ($kat) {
-            '3' => 60,
+            '3'     => 60,
             default => 59,
         };
     }

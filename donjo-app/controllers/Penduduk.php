@@ -386,6 +386,8 @@ class Penduduk extends Admin_Controller
                 if ($umurMax !== null) {
                     $umurObj['max'] = $umurMax;
                 }
+
+                // maping field yang memiliki relasi dengan tabel lain
                 $map = [
                     'pekerjaan_id'         => 'pekerjaan_id',
                     'status'               => 'status',
@@ -403,7 +405,6 @@ class Penduduk extends Admin_Controller
                     'golongan_darah'       => 'golongan_darah_id',
                     'menahun'              => 'sakit_menahun_id',
                     'cacat'                => 'cacat_id',
-                    'tag_id_card'          => 'tag_id_card',
                 ];
                 $resultMap = [];
 
@@ -414,11 +415,20 @@ class Penduduk extends Admin_Controller
                         }
                     }
                 }
-                if (isset($resultMap['tag_id_card'])) {
-                    if ($resultMap['tag_id_card']) {
+
+                if (in_array($advanceSearch['tag_id_card'], StatusEnum::keys())) {
+                    if ($advanceSearch['tag_id_card']) {
                         $q->whereNotNull('tag_id_card');
                     } else {
                         $q->whereNull('tag_id_card');
+                    }
+                }
+
+                if (in_array($advanceSearch['id_kk'], StatusEnum::keys())) {
+                    if ($advanceSearch['id_kk']) {
+                        $q->whereNotNull('id_kk');
+                    } else {
+                        $q->whereNull('id_kk');
                     }
                 }
 
@@ -498,7 +508,7 @@ class Penduduk extends Admin_Controller
         if ($id) {
             $data['id'] = $id;
             // Validasi dilakukan di penduduk_model sewaktu insert dan update
-            $penduduk                         = PendudukModel::findOrFail($id);
+            $penduduk                         = PendudukModel::with('log_latest')->findOrFail($id);
             $data['penduduk']                 = $penduduk->toArray();
             $data['penduduk']['no_kk']        = $penduduk->keluarga->no_kk;
             $data['penduduk']['alamat']       = $penduduk->keluarga->alamat ?? $penduduk->alamat;
@@ -510,6 +520,11 @@ class Penduduk extends Admin_Controller
             $wilayah                          = $penduduk->wilayah;
             $data['penduduk']['wilayah']      = ['dusun' => $wilayah->dusun, 'rw' => $wilayah->rw, 'rt' => $wilayah->rt];
             $data['form_action']              = ci_route('penduduk.update', $id);
+            if ($penduduk->log_latest->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK) {
+                $data['penduduk']['maksud_tujuan_kedatangan'] = $penduduk->log_latest->maksud_tujuan_kedatangan;
+            } else {
+                $data['penduduk']['maksud_tujuan_kedatangan'] = null;
+            }
         } else {
             // Validasi dilakukan di penduduk_model sewaktu insert
             $data['penduduk']    = $penduduk->toArray();
@@ -886,6 +901,7 @@ class Penduduk extends Admin_Controller
         $data['list_golongan_darah']  = GolonganDarahEnum::all();
         $data['list_sakit_menahun']   = SakitMenahunEnum::all();
         $data['list_tag_id_card']     = StatusEnum::all();
+        $data['list_id_kk']           = StatusEnum::all();
         $data['form_action']          = ci_route('penduduk.adv_search_proses');
 
         view('admin.penduduk.ajax_adv_search_form', $data);
@@ -920,6 +936,7 @@ class Penduduk extends Admin_Controller
         $data['menahun']              = $post['menahun'];
         $data['cacat']                = $post['cacat'];
         $data['tag_id_card']          = $post['tag_id_card'];
+        $data['id_kk']                = $post['id_kk'];
 
         return $data;
     }
@@ -1549,7 +1566,7 @@ class Penduduk extends Admin_Controller
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
-                $row->status_kawin         = $huruf ? StatusKawinEnum::valueOf($row->status_kawin) : $row->status_kawin;
+                $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
                 $row->warganegara_id       = $huruf ? $row->warganegara->nama : $row->warganegara_id;
                 $row->golongan_darah_id    = $huruf ? $row->golonganDarah->nama : $row->golongan_darah_id;

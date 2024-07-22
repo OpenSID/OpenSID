@@ -96,16 +96,7 @@
                 <tr class="data">
                     <td class="text-center" width="2">{{ $key + 1 }}</td>
                     <td>
-                        @if ($data['status_kawin'] === null)
-                        @elseif ($data['status_kawin'] !== 2)
-                            {{ strtoupper($data->statusKawin->nama) }}
-                        @else
-                            @if (($data['akta_perkawinan'] === null || $data['akta_perkawinan'] === '') && $data['tanggalPerkawinan'] === null)
-                                KAWIN BELUM TERCATAT
-                            @else
-                                KAWIN TERCATAT
-                            @endif
-                        @endif
+                        {{ strtoupper($data->status_perkawinan) }}
                     </td>
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperkawinan']) }}</td>
                     <td class="text-center">{{ tgl_indo_out($data['tanggalperceraian']) }}</td>

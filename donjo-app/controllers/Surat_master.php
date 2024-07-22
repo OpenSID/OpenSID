@@ -452,7 +452,7 @@ class Surat_master extends Admin_Controller
             'footer'                   => (int) $request['footer'],
             'format_nomor'             => $request['format_nomor'],
             'format_nomor_global'      => (int) $request['format_nomor_global'],
-            'sumber_penduduk_berulang' => $request['sumber_penduduk_berulang'],
+            'sumber_penduduk_berulang' => setting('sumber_penduduk_berulang_surat') != null ? setting('sumber_penduduk_berulang_surat') : $request['sumber_penduduk_berulang'],
         ];
 
         if (null === $id) {
@@ -653,24 +653,25 @@ class Surat_master extends Admin_Controller
     protected static function validasi_pengaturan($request)
     {
         $validasi = [
-            'tinggi_header'        => (float) $request['tinggi_header'],
-            'header_surat'         => $request['header_surat'],
-            'tinggi_footer'        => (float) $request['tinggi_footer'],
-            'verifikasi_sekdes'    => (int) $request['verifikasi_sekdes'],
-            'verifikasi_kades'     => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
-            'tte'                  => (int) $request['tte'],
-            'font_surat'           => alfanumerik_spasi($request['font_surat']),
-            'penomoran_surat'      => $request['penomoran_surat'],
-            'panjang_nomor_surat'  => $request['panjang_nomor_surat'],
-            'visual_tte'           => (int) $request['visual_tte'],
-            'visual_tte_weight'    => (int) $request['visual_tte_weight'],
-            'visual_tte_height'    => (int) $request['visual_tte_height'],
-            'format_nomor_surat'   => $request['format_nomor_surat'],
-            'ganti_data_kosong'    => $request['ganti_data_kosong'],
-            'format_tanggal_surat' => $request['format_tanggal_surat'],
-            'surat_margin'         => json_encode($request['surat_margin'], JSON_THROW_ON_ERROR),
-            'form_penduduk_luar'   => json_encode(updateIndex($request['penduduk_luar']), JSON_THROW_ON_ERROR),
-            'kodeisian_alias'      => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
+            'tinggi_header'                  => (float) $request['tinggi_header'],
+            'header_surat'                   => $request['header_surat'],
+            'tinggi_footer'                  => (float) $request['tinggi_footer'],
+            'verifikasi_sekdes'              => (int) $request['verifikasi_sekdes'],
+            'verifikasi_kades'               => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
+            'tte'                            => (int) $request['tte'],
+            'font_surat'                     => alfanumerik_spasi($request['font_surat']),
+            'penomoran_surat'                => $request['penomoran_surat'],
+            'panjang_nomor_surat'            => $request['panjang_nomor_surat'],
+            'visual_tte'                     => (int) $request['visual_tte'],
+            'visual_tte_weight'              => (int) $request['visual_tte_weight'],
+            'visual_tte_height'              => (int) $request['visual_tte_height'],
+            'format_nomor_surat'             => $request['format_nomor_surat'],
+            'ganti_data_kosong'              => $request['ganti_data_kosong'],
+            'format_tanggal_surat'           => $request['format_tanggal_surat'],
+            'surat_margin'                   => json_encode($request['surat_margin'], JSON_THROW_ON_ERROR),
+            'form_penduduk_luar'             => json_encode(updateIndex($request['penduduk_luar']), JSON_THROW_ON_ERROR),
+            'kodeisian_alias'                => $request['alias_kodeisian'] ? ['judul' => $request['judul_kodeisian'], 'alias' => $request['alias_kodeisian'], 'content' => $request['content_kodeisian']] : null,
+            'sumber_penduduk_berulang_surat' => $request['sumber_penduduk_berulang_surat'],
         ];
 
         if ($validasi['tte'] == StatusEnum::YA) {

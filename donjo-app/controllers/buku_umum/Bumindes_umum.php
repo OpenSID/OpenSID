@@ -82,7 +82,7 @@ class Bumindes_umum extends Admin_Controller
 
         return match (strtolower((string) $page)) {
             'berita' => array_merge($data, $this->load_berita_data_tables()),
-            default => array_merge($data, $this->load_ekspedisi_data_tables()),
+            default  => array_merge($data, $this->load_ekspedisi_data_tables()),
         };
     }
 
@@ -125,8 +125,8 @@ class Bumindes_umum extends Admin_Controller
 
         return match (strtolower((string) $page)) {
             'ekspedisi' => array_merge($data, $this->load_form_ekspedisi($page_number, $offset, $key)),
-            'berita' => array_merge($data, $this->load_form_berita($page_number, $offset, $key)),
-            default => array_merge($data, $this->load_form_peraturan($page_number, $offset, $key)),
+            'berita'    => array_merge($data, $this->load_form_berita($page_number, $offset, $key)),
+            default     => array_merge($data, $this->load_form_peraturan($page_number, $offset, $key)),
         };
     }
 
