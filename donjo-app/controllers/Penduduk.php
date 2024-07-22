@@ -1556,7 +1556,7 @@ class Penduduk extends Admin_Controller
                 $row->pendidikan_kk_id     = $huruf ? $row->pendidikanKK->nama : $row->pendidikan_kk_id;
                 $row->pendidikan_sedang_id = $huruf ? $row->pendidikan : $row->pendidikan_sedang_id;
                 $row->pekerjaan_id         = $huruf ? $row->pekerjaan->nama : $row->pekerjaan_id;
-                $row->status_kawin         = $huruf ? StatusKawinEnum::valueOf($row->status_kawin) : $row->status_kawin;
+                $row->status_kawin         = $huruf ? $row->status_perkawinan : $row->status_kawin;
                 $row->kk_level             = $huruf ? SHDKEnum::valueOf($row->kk_level) : $row->kk_level;
                 $row->warganegara_id       = $huruf ? $row->warganegara->nama : $row->warganegara_id;
                 $row->golongan_darah_id    = $huruf ? $row->golonganDarah->nama : $row->golongan_darah_id;

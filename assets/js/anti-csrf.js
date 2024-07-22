@@ -2,11 +2,16 @@
 
 function addCsrfField(form) {
 	if (form.method.toUpperCase() !== 'GET') {
-		const input = document.createElement('input')
-		input.type = 'hidden'
-		input.name = csrfParam
-		form[csrfParam] || form.append(input)
-		form[csrfParam].value = getCsrfToken()
+		// Check if the input with the name csrfParam already exists
+		let input = form.querySelector(`input[name="${csrfParam}"]`);
+		if (! input) {
+			input = document.createElement('input');
+			input.type = 'hidden';
+			input.name = csrfParam;
+			input.value = getCsrfToken();
+
+			form.append(input);
+		}
 	}
 }
 

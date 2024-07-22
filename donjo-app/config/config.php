@@ -522,7 +522,7 @@ $config['csrf_token_name']   = 'sidcsrf';
 $config['csrf_cookie_name']  = 'sidcsrf';
 $config['csrf_expire']       = 7200;
 $config['csrf_regenerate']   = true;
-$config['csrf_exclude_uris'] = ['api.*+'];
+$config['csrf_exclude_uris'] = ['api.*+', 'external_api.*+', 'internal_api.*+'];
 
 /*
 |--------------------------------------------------------------------------

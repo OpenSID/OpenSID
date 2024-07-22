@@ -1,4 +1,4 @@
-Di rilis ini, versi 2407.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2407.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -38,6 +38,13 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#8196](https://github.com/OpenSID/OpenSID/issues/8196) Perbaikan periksa permohonan surat.
 32. [#8195](https://github.com/OpenSID/OpenSID/issues/8195) Perbaikan kolom aksi arsip surat layanan mandiri.
 33. [#8201](https://github.com/OpenSID/OpenSID/issues/8201) Perbaikan preview nomor surat selanjutnya.
+34. [#8160](https://github.com/OpenSID/OpenSID/issues/8160) Perbaikan ubah password bawaan install baru.
+35. [#8095](https://github.com/OpenSID/OpenSID/issues/8095) Perbaikan template surat keterangan kelahiran.
+36. [#8210](https://github.com/OpenSID/OpenSID/issues/8210) Perbaikan redirect halaman jika terjadi error restore database .sid.
+37. [#8207](https://github.com/OpenSID/OpenSID/issues/8207) Perbaikan sesuaikan semua penerapan status kawin tercatat.
+38. [#8213](https://github.com/OpenSID/OpenSID/issues/8213) Perbaikan halaman feed.
+39. [#8211](https://github.com/OpenSID/OpenSID/issues/8211) Perbaikan halaman cetak/unduh buku KTP dan KK.
+40. [#8214](https://github.com/OpenSID/OpenSID/issues/8214) Perbaikan lihat/unduh dokumen arsip desa kategori dokumen desa.
 
 
 #### TEKNIS
@@ -49,3 +56,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8152](https://github.com/OpenSID/OpenSID/issues/8152) Penyesuaian config mengikuti struktur laravel.
 6. [#8179](https://github.com/OpenSID/OpenSID/issues/8179) Penyesuaian dan optimasi load view tema.
 7. [#8187](https://github.com/OpenSID/OpenSID/issues/8187) Penyesuaian informasi optimasi gambar.
+8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.
