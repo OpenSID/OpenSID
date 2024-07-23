@@ -51,6 +51,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 44. [#8227](https://github.com/OpenSID/OpenSID/issues/8227) Perbaikan pencarian penduduk berdasarkan tag_id_card.
 45. [#8107](https://github.com/OpenSID/OpenSID/issues/8107) Perbaikan menampilkan gambar galeri berupa url.
 46. [#8234](https://github.com/OpenSID/OpenSID/issues/8234) Perbaikan kode post dan rt/rw pada lampiran F-1.01. F-1.15, F-1.16.
+47. [#8239](https://github.com/OpenSID/OpenSID/issues/8239) Perbaikan alur ubah status penduduk dengan SHDK kepala keluarga yang masih memiliki anggota keluarga.
 
 
 #### TEKNIS
