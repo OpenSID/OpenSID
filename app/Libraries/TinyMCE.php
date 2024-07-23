@@ -336,6 +336,8 @@ class TinyMCE
         // Pisahkan isian surat
         $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
+        $tinggi_header = (float) ($this->ci->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
+        $tinggi_footer = (float) ($this->ci->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
 
         // Pengaturan Header
         switch ($header) {
@@ -346,7 +348,7 @@ class TinyMCE
                 break;
 
             case 1:
-                $backtop    = ((float) $this->ci->session->pengaturan_surat['tinggi_header'] ?? setting('tinggi_header')) * 10 . 'mm';
+                $backtop    = $tinggi_header;
                 $isi_header = '<page_header>' . $isi[0] . '</page_header>';
                 $isi_surat  = $isi[1];
                 break;
@@ -366,7 +368,7 @@ class TinyMCE
                 break;
 
             default:
-                $backbottom = (((float) $this->ci->session->pengaturan_surat['tinggi_footer'] ?? setting('tinggi_footer')) * 10) . 'mm';
+                $backbottom = $tinggi_footer;
                 $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
                 break;
         }
