@@ -50,6 +50,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 43. [#8223](https://github.com/OpenSID/OpenSID/issues/8223) Pebaikan csrf token terkait tambah/ubah suplemen anggota.
 44. [#8227](https://github.com/OpenSID/OpenSID/issues/8227) Perbaikan pencarian penduduk berdasarkan tag_id_card.
 45. [#8107](https://github.com/OpenSID/OpenSID/issues/8107) Perbaikan menampilkan gambar galeri berupa url.
+46.
 
 
 #### TEKNIS
@@ -63,3 +64,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8187](https://github.com/OpenSID/OpenSID/issues/8187) Penyesuaian informasi optimasi gambar.
 8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.
 9. [#8228](https://github.com/OpenSID/OpenSID/issues/8228) Penyesuaian penggunaan komponen blade.
+10. [#8235](https://github.com/OpenSID/OpenSID/issues/8235) Penyesuaian urutan pada modul arsip surat dinas.

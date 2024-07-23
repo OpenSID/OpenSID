@@ -642,7 +642,7 @@ class Laporan_penduduk_model extends MY_Model
         $this->hitung_persentase($data, $semua);
 
         if ($lap == '14') {
-            $val = collect($data);
+            $val              = collect($data);
             $pendidikanSedang = collect(PendidikanSedangEnum::all());
 
             $data = $pendidikanSedang->map(static function ($item, $key) use ($val) {
@@ -660,13 +660,13 @@ class Laporan_penduduk_model extends MY_Model
                     'persen2'   => $valItem['persen2'],
                 ];
             })
-            ->merge($val->slice(-3))
-            ->map(static function ($item, $key) {
-                $item['no'] = in_array($item['id'], [JUMLAH, BELUM_MENGISI, TOTAL]) ? '' : $key + 1;
+                ->merge($val->slice(-3))
+                ->map(static function ($item, $key) {
+                    $item['no'] = in_array($item['id'], [JUMLAH, BELUM_MENGISI, TOTAL]) ? '' : $key + 1;
 
-                return $item;
-            })
-            ->toArray();
+                    return $item;
+                })
+                ->toArray();
 
         }
 
