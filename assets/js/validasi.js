@@ -453,4 +453,8 @@ function validate(elementClassId) {
 			}
 		},
 	});
+
+	$(elementClassId).on('change', function() {
+		$(this).valid();
+	});
 }

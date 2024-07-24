@@ -1318,8 +1318,8 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.364.0",
-            "version_normalized": "0.364.0.0",
+            "version": "v0.365.0",
+            "version_normalized": "0.365.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -1359,7 +1359,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.364.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.365.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -1428,23 +1428,23 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.8.1",
-            "version_normalized": "7.8.1.0",
+            "version": "7.9.1",
+            "version_normalized": "7.9.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "41042bc7ab002487b876a0683fc8dce04ddce104"
+                "reference": "a629e5b69db96eb4939c1b34114130077dd4c6fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/41042bc7ab002487b876a0683fc8dce04ddce104",
-                "reference": "41042bc7ab002487b876a0683fc8dce04ddce104",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a629e5b69db96eb4939c1b34114130077dd4c6fc",
+                "reference": "a629e5b69db96eb4939c1b34114130077dd4c6fc",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/promises": "^1.5.3 || ^2.0.1",
-                "guzzlehttp/psr7": "^1.9.1 || ^2.5.1",
+                "guzzlehttp/promises": "^1.5.3 || ^2.0.3",
+                "guzzlehttp/psr7": "^2.7.0",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0",
                 "symfony/deprecation-contracts": "^2.2 || ^3.0"
@@ -1455,9 +1455,9 @@
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
-                "php-http/client-integration-tests": "dev-master#2c025848417c1135031fdf9c728ee53d0a7ceaee as 3.0.999",
+                "guzzle/client-integration-tests": "3.0.2",
                 "php-http/message-factory": "^1.1",
-                "phpunit/phpunit": "^8.5.36 || ^9.6.15",
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "suggest": {
@@ -1465,7 +1465,7 @@
                 "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
-            "time": "2023-12-03T20:35:24+00:00",
+            "time": "2024-07-19T16:19:57+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -1537,7 +1537,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.8.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.9.1"
             },
             "funding": [
                 {
@@ -1557,17 +1557,17 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.0.2",
-            "version_normalized": "2.0.2.0",
+            "version": "2.0.3",
+            "version_normalized": "2.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "bbff78d96034045e58e13dedd6ad91b5d1253223"
+                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/bbff78d96034045e58e13dedd6ad91b5d1253223",
-                "reference": "bbff78d96034045e58e13dedd6ad91b5d1253223",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
+                "reference": "6ea8dd08867a2a42619d65c3deb2c0fcbf81c8f8",
                 "shasum": ""
             },
             "require": {
@@ -1575,9 +1575,9 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.36 || ^9.6.15"
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20"
             },
-            "time": "2023-12-03T20:19:20+00:00",
+            "time": "2024-07-18T10:29:17+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -1623,7 +1623,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.0.2"
+                "source": "https://github.com/guzzle/promises/tree/2.0.3"
             },
             "funding": [
                 {
@@ -1643,17 +1643,17 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.6.2",
-            "version_normalized": "2.6.2.0",
+            "version": "2.7.0",
+            "version_normalized": "2.7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "45b30f99ac27b5ca93cb4831afe16285f57b8221"
+                "reference": "a70f5c95fb43bc83f07c9c948baa0dc1829bf201"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/45b30f99ac27b5ca93cb4831afe16285f57b8221",
-                "reference": "45b30f99ac27b5ca93cb4831afe16285f57b8221",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/a70f5c95fb43bc83f07c9c948baa0dc1829bf201",
+                "reference": "a70f5c95fb43bc83f07c9c948baa0dc1829bf201",
                 "shasum": ""
             },
             "require": {
@@ -1668,13 +1668,13 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "http-interop/http-factory-tests": "^0.9",
-                "phpunit/phpunit": "^8.5.36 || ^9.6.15"
+                "http-interop/http-factory-tests": "0.9.0",
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20"
             },
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
-            "time": "2023-12-03T20:05:35+00:00",
+            "time": "2024-07-18T11:15:46+00:00",
             "type": "library",
             "extra": {
                 "bamarni-bin": {
@@ -1742,7 +1742,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.6.2"
+                "source": "https://github.com/guzzle/psr7/tree/2.7.0"
             },
             "funding": [
                 {
@@ -1851,8 +1851,8 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -1907,8 +1907,8 @@
         },
         {
             "name": "illuminate/cache",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/cache.git",
@@ -1972,8 +1972,8 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -2030,8 +2030,8 @@
         },
         {
             "name": "illuminate/conditionable",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/conditionable.git",
@@ -2079,8 +2079,8 @@
         },
         {
             "name": "illuminate/config",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
@@ -2130,8 +2130,8 @@
         },
         {
             "name": "illuminate/console",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/console.git",
@@ -2198,8 +2198,8 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -2252,8 +2252,8 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -2303,17 +2303,17 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "ec00738a49e9fb0db4fc19b5d70310e214b32bff"
+                "reference": "1e3989b81798d48ed0511c646eefed4626fad36f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/ec00738a49e9fb0db4fc19b5d70310e214b32bff",
-                "reference": "ec00738a49e9fb0db4fc19b5d70310e214b32bff",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/1e3989b81798d48ed0511c646eefed4626fad36f",
+                "reference": "1e3989b81798d48ed0511c646eefed4626fad36f",
                 "shasum": ""
             },
             "require": {
@@ -2340,7 +2340,7 @@
                 "illuminate/pagination": "Required to paginate the result set (^10.0).",
                 "symfony/finder": "Required to use Eloquent model factories (^6.2)."
             },
-            "time": "2024-07-03T21:35:00+00:00",
+            "time": "2024-07-22T14:24:00+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2379,8 +2379,8 @@
         },
         {
             "name": "illuminate/encryption",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/encryption.git",
@@ -2433,8 +2433,8 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -2491,8 +2491,8 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
@@ -2561,8 +2561,8 @@
         },
         {
             "name": "illuminate/hashing",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/hashing.git",
@@ -2612,8 +2612,8 @@
         },
         {
             "name": "illuminate/http",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/http.git",
@@ -2675,8 +2675,8 @@
         },
         {
             "name": "illuminate/log",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/log.git",
@@ -2727,8 +2727,8 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -2776,8 +2776,8 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -2829,8 +2829,8 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -2880,8 +2880,8 @@
         },
         {
             "name": "illuminate/queue",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/queue.git",
@@ -2950,8 +2950,8 @@
         },
         {
             "name": "illuminate/session",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/session.git",
@@ -3010,8 +3010,8 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -3084,8 +3084,8 @@
         },
         {
             "name": "illuminate/translation",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/translation.git",
@@ -3138,8 +3138,8 @@
         },
         {
             "name": "illuminate/validation",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/validation.git",
@@ -3202,8 +3202,8 @@
         },
         {
             "name": "illuminate/view",
-            "version": "v10.48.16",
-            "version_normalized": "10.48.16.0",
+            "version": "v10.48.17",
+            "version_normalized": "10.48.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
@@ -3639,6 +3639,55 @@
             "install-path": "../league/flysystem-local"
         },
         {
+            "name": "league/flysystem-path-prefixing",
+            "version": "3.28.0",
+            "version_normalized": "3.28.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/flysystem-path-prefixing.git",
+                "reference": "fe187456d824b288672b89d1b32b2d78975bb934"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-path-prefixing/zipball/fe187456d824b288672b89d1b32b2d78975bb934",
+                "reference": "fe187456d824b288672b89d1b32b2d78975bb934",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^3.10.0",
+                "php": "^8.0.2"
+            },
+            "time": "2024-05-06T20:05:52+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "League\\Flysystem\\PathPrefixing\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frankdejonge.nl"
+                }
+            ],
+            "description": "Path prefixing filesystem adapter for Flysystem.",
+            "keywords": [
+                "Flysystem",
+                "filesystem",
+                "prefix",
+                "prefixing"
+            ],
+            "support": {
+                "source": "https://github.com/thephpleague/flysystem-path-prefixing/tree/3.28.0"
+            },
+            "install-path": "../league/flysystem-path-prefixing"
+        },
+        {
             "name": "league/mime-type-detection",
             "version": "1.15.0",
             "version_normalized": "1.15.0.0",
@@ -3696,6 +3745,90 @@
                 }
             ],
             "install-path": "../league/mime-type-detection"
+        },
+        {
+            "name": "maennchen/zipstream-php",
+            "version": "3.1.0",
+            "version_normalized": "3.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/maennchen/ZipStream-PHP.git",
+                "reference": "b8174494eda667f7d13876b4a7bfef0f62a7c0d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/maennchen/ZipStream-PHP/zipball/b8174494eda667f7d13876b4a7bfef0f62a7c0d1",
+                "reference": "b8174494eda667f7d13876b4a7bfef0f62a7c0d1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "ext-zlib": "*",
+                "php-64bit": "^8.1"
+            },
+            "require-dev": {
+                "ext-zip": "*",
+                "friendsofphp/php-cs-fixer": "^3.16",
+                "guzzlehttp/guzzle": "^7.5",
+                "mikey179/vfsstream": "^1.6",
+                "php-coveralls/php-coveralls": "^2.5",
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": "^5.0"
+            },
+            "suggest": {
+                "guzzlehttp/psr7": "^2.4",
+                "psr/http-message": "^2.0"
+            },
+            "time": "2023-06-21T14:59:35+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "ZipStream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Duncan",
+                    "email": "pabs@pablotron.org"
+                },
+                {
+                    "name": "Jonatan Männchen",
+                    "email": "jonatan@maennchen.ch"
+                },
+                {
+                    "name": "Jesse Donat",
+                    "email": "donatj@gmail.com"
+                },
+                {
+                    "name": "András Kolesár",
+                    "email": "kolesar@kolesar.hu"
+                }
+            ],
+            "description": "ZipStream is a library for dynamically streaming dynamic zip files from PHP without writing to the disk at all on the server.",
+            "keywords": [
+                "stream",
+                "zip"
+            ],
+            "support": {
+                "issues": "https://github.com/maennchen/ZipStream-PHP/issues",
+                "source": "https://github.com/maennchen/ZipStream-PHP/tree/3.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/maennchen",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/zipstream",
+                    "type": "open_collective"
+                }
+            ],
+            "install-path": "../maennchen/zipstream-php"
         },
         {
             "name": "mike42/escpos-php",
@@ -4183,17 +4316,17 @@
         },
         {
             "name": "openspout/openspout",
-            "version": "v4.24.3",
-            "version_normalized": "4.24.3.0",
+            "version": "v4.24.4",
+            "version_normalized": "4.24.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/openspout/openspout.git",
-                "reference": "27de0c4d4a5b97927ece3e4dcbb7b48cb12e8a34"
+                "reference": "e5f92c5c9e6cc44119918da66bb097a0ffc202b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/openspout/openspout/zipball/27de0c4d4a5b97927ece3e4dcbb7b48cb12e8a34",
-                "reference": "27de0c4d4a5b97927ece3e4dcbb7b48cb12e8a34",
+                "url": "https://api.github.com/repos/openspout/openspout/zipball/e5f92c5c9e6cc44119918da66bb097a0ffc202b2",
+                "reference": "e5f92c5c9e6cc44119918da66bb097a0ffc202b2",
                 "shasum": ""
             },
             "require": {
@@ -4219,7 +4352,7 @@
                 "ext-iconv": "To handle non UTF-8 CSV files (if \"php-mbstring\" is not already installed or is too limited)",
                 "ext-mbstring": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
             },
-            "time": "2024-07-12T12:32:17+00:00",
+            "time": "2024-07-22T09:30:54+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4263,7 +4396,7 @@
             ],
             "support": {
                 "issues": "https://github.com/openspout/openspout/issues",
-                "source": "https://github.com/openspout/openspout/tree/v4.24.3"
+                "source": "https://github.com/openspout/openspout/tree/v4.24.4"
             },
             "funding": [
                 {
@@ -5631,6 +5764,76 @@
                 "source": "https://github.com/spipu/html2pdf/tree/v5.2.8"
             },
             "install-path": "../spipu/html2pdf"
+        },
+        {
+            "name": "stechstudio/laravel-zipstream",
+            "version": "5.0.2",
+            "version_normalized": "5.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stechstudio/laravel-zipstream.git",
+                "reference": "a9a536b9edc4a05d0c5e34451d323086648bb194"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/a9a536b9edc4a05d0c5e34451d323086648bb194",
+                "reference": "a9a536b9edc4a05d0c5e34451d323086648bb194",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "guzzlehttp/psr7": "^2.6",
+                "illuminate/support": "^10.0|^11.0",
+                "league/flysystem-path-prefixing": "^3.28",
+                "maennchen/zipstream-php": "^v3.0",
+                "php": "^8.1",
+                "psr/http-message": "^2.0",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "league/flysystem-aws-s3-v3": "^3.28",
+                "orchestra/testbench": "^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.0"
+            },
+            "time": "2024-07-13T01:31:42+00:00",
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "STS\\ZipStream\\ZipStreamServiceProvider"
+                    ],
+                    "aliases": {
+                        "Zip": "STS\\ZipStream\\Facades\\Zip"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "STS\\ZipStream\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Szobody",
+                    "email": "joseph@stechstudio.com"
+                }
+            ],
+            "description": "A fast and simple streaming zip file downloader for Laravel.",
+            "homepage": "https://github.com/stechstudio/laravel-zipstream",
+            "keywords": [
+                "laravel-zipstream",
+                "stechstudio"
+            ],
+            "support": {
+                "issues": "https://github.com/stechstudio/laravel-zipstream/issues",
+                "source": "https://github.com/stechstudio/laravel-zipstream/tree/5.0.2"
+            },
+            "install-path": "../stechstudio/laravel-zipstream"
         },
         {
             "name": "symfony/console",

@@ -42,6 +42,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -188,6 +189,11 @@ class Artikel extends BaseModel
         }
 
         return $artikel;
+    }
+
+    public function scopeSitemap($query)
+    {
+        return $query->select(DB::raw('artikel.*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri'));
     }
 
     /**

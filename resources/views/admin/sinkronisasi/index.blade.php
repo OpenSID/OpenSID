@@ -157,7 +157,7 @@
                 </div>
             </div>
         </div>
-    @endif;
+    @endif
 @endsection
 
 @include('admin.layouts.components.konfirmasi_hapus')

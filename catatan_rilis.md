@@ -1,4 +1,4 @@
-Di rilis ini, versi 2407.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2407.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -61,6 +61,14 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8213](https://github.com/OpenSID/OpenSID/issues/8213) Perbaikan halaman feed.
 39. [#8211](https://github.com/OpenSID/OpenSID/issues/8211) Perbaikan halaman cetak/unduh buku KTP dan KK.
 40. [#8214](https://github.com/OpenSID/OpenSID/issues/8214) Perbaikan lihat/unduh dokumen arsip desa kategori dokumen desa.
+41. [#8224](https://github.com/OpenSID/OpenSID/issues/8224) Perbaikan notifikasi validasi setelah diinput ulang.
+42. [#8225](https://github.com/OpenSID/OpenSID/issues/8225) Perbaikan urutan pada data statistik penduduk kategori pendidikan sedang ditempuh.
+43. [#8223](https://github.com/OpenSID/OpenSID/issues/8223) Pebaikan csrf token terkait tambah/ubah suplemen anggota.
+44. [#8227](https://github.com/OpenSID/OpenSID/issues/8227) Perbaikan pencarian penduduk berdasarkan tag_id_card.
+45. [#8107](https://github.com/OpenSID/OpenSID/issues/8107) Perbaikan menampilkan gambar galeri berupa url.
+46. [#8234](https://github.com/OpenSID/OpenSID/issues/8234) Perbaikan kode post dan rt/rw pada lampiran F-1.01. F-1.15, F-1.16.
+47. [#8239](https://github.com/OpenSID/OpenSID/issues/8239) Perbaikan alur ubah status penduduk dengan SHDK kepala keluarga yang masih memiliki anggota keluarga.
+48. [#8197](https://github.com/OpenSID/OpenSID/issues/8197) Perbaikan backup folder desa.
 
 
 #### TEKNIS
@@ -73,3 +81,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8179](https://github.com/OpenSID/OpenSID/issues/8179) Penyesuaian dan optimasi load view tema.
 7. [#8187](https://github.com/OpenSID/OpenSID/issues/8187) Penyesuaian informasi optimasi gambar.
 8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.
+9. [#8228](https://github.com/OpenSID/OpenSID/issues/8228) Penyesuaian penggunaan komponen blade.
+10. [#8235](https://github.com/OpenSID/OpenSID/issues/8235) Penyesuaian urutan pada modul arsip surat dinas.
+11. [#8216](https://github.com/OpenSID/OpenSID/issues/8216) Penyesuaian modul halaman feed dan sitemap menggunakan ORM dan Blade.

@@ -69,15 +69,15 @@
             <td class="kanan"> : </td>
             <?php for ($i = 0; $i < 5; $i++): ?>
                 <td class="kotak padat tengah">
-                    <?= $config['kode_pos'][$i] ?: '&nbsp;' ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="2"></td>
             <td colspan="3" class="kanan">4. RT</td>
             <?php for ($i = 0; $i < 3; $i++): ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($kepala_keluarga['rt'][$i])): ?>
-                        <?= $kepala_keluarga['rt'][$i]; ?>
+                    <?php if (isset($kepala_keluarga['wilayah']['rt'][$i])): ?>
+                        <?= $kepala_keluarga['wilayah']['rt'][$i]; ?>
                     <?php else: ?>
                         &nbsp;
                     <?php endif; ?>
@@ -86,9 +86,9 @@
             <td colspan="4" class="kanan">5. RW</td>
             <?php for ($i = 0; $i < 3; $i++) : ?>
                 <td class="kotak satu">
-                    <?php if (isset($kepala_keluarga['rw'][$i])) : ?>
-                        <?= $kepala_keluarga['rw'][$i] ?>
-                    <?php else : ?>
+                    <?php if (isset($kepala_keluarga['wilayah']['rw'][$i])): ?>
+                        <?= $kepala_keluarga['wilayah']['rw'][$i]; ?>
+                    <?php else: ?>
                         &nbsp;
                     <?php endif; ?>
                 </td>

@@ -1017,15 +1017,24 @@ class Penduduk extends Admin_Controller
             redirect(ci_route('penduduk'));
         }
 
-        $data['nik']             = PendudukModel::findOrFail($id);
+        $data['nik']             = PendudukModel::with('keluarga.anggota')->findOrFail($id);
         $data['form_action']     = ci_route('penduduk.update_status_dasar', $id);
         $data['list_ref_pindah'] = PindahEnum::all();
         $data['sebab']           = unserialize(SEBAB);
         $data['penolong_mati']   = unserialize(PENOLONG_MATI);
 
-        //Pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
-        $excludeStatus             = $data['nik']['status'] == 1 ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI] : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP];
-        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => !in_array($item, $excludeStatus))->all();
+        // pengecualian kk level kepala keluarga
+        $excludeStatusMati = $data['nik']['kk_level'] == SHDKEnum::KEPALA_KELUARGA
+            && $data['nik']?->keluarga?->anggota?->count() > 1
+                ? StatusDasarEnum::MATI
+                : null;
+
+        // pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
+        $excludeStatus = $data['nik']['status'] == StatusPendudukEnum::TETAP
+            ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI, $excludeStatusMati]
+            : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, $excludeStatusMati];
+
+        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus ))->all();
 
         view('admin.penduduk.ajax_edit_status_dasar', $data);
     }

@@ -49,6 +49,10 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         array (
             'phpseclib3\\' => 11,
         ),
+        'Z' => 
+        array (
+            'ZipStream\\' => 10,
+        ),
         'Y' => 
         array (
             'Yajra\\DataTables\\' => 17,
@@ -90,6 +94,7 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
             'Spatie\\LaravelPackageTools\\' => 27,
             'Spatie\\EloquentSortable\\' => 24,
             'SlowProg\\CopyFile\\' => 18,
+            'STS\\ZipStream\\' => 14,
         ),
         'R' => 
         array (
@@ -124,6 +129,7 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         'L' => 
         array (
             'League\\MimeTypeDetection\\' => 25,
+            'League\\Flysystem\\PathPrefixing\\' => 31,
             'League\\Flysystem\\Local\\' => 23,
             'League\\Flysystem\\' => 17,
             'Laravel\\SerializableClosure\\' => 28,
@@ -217,6 +223,10 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         'phpseclib3\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
+        'ZipStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
         'Yajra\\DataTables\\' => 
         array (
@@ -338,6 +348,10 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         array (
             0 => __DIR__ . '/..' . '/slowprog/composer-copy-file',
         ),
+        'STS\\ZipStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stechstudio/laravel-zipstream/src',
+        ),
         'Rennokki\\QueryCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/rennokki/laravel-eloquent-query-cache/src',
@@ -416,6 +430,10 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         array (
             0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
         ),
+        'League\\Flysystem\\PathPrefixing\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/flysystem-path-prefixing',
+        ),
         'League\\Flysystem\\Local\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/flysystem-local',
@@ -450,9 +468,9 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/macroable',
+            0 => __DIR__ . '/..' . '/illuminate/collections',
             1 => __DIR__ . '/..' . '/illuminate/conditionable',
-            2 => __DIR__ . '/..' . '/illuminate/collections',
+            2 => __DIR__ . '/..' . '/illuminate/macroable',
             3 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Session\\' => 

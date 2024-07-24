@@ -194,7 +194,9 @@
                     },
 
                 ],
-                aaSorting: [],
+                order: [
+                    [7, 'desc']
+                ],
                 pageLength: 25,
                 createdRow: function(row, data, dataIndex) {
                     if (data.status == 0) {

@@ -35,27 +35,39 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Services;
 
-class Feed_model extends MY_Model
+use App\Models\LogHapusPenduduk;
+use Illuminate\Support\Facades\DB;
+
+class Feed
 {
     public const STATIS = 999;
     public const AGENDA = 1000;
     public const ENABLE = 1;
 
-    public function list_feeds()
+    public static function list_feeds()
     {
-        return $this->config_id('a')
-            ->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri')
-            ->from('artikel a')
-            ->join('user u', 'a.id_user = u.id', 'left')
-            ->join('kategori k', 'a.id_kategori = k.id', 'left')
+        $data = DB::table('artikel as a')
+            ->select([
+                'a.*',
+                'u.nama as owner',
+                'k.kategori',
+                'k.slug as kat_slug',
+                DB::raw('YEAR(tgl_upload) as thn'),
+                DB::raw('MONTH(tgl_upload) as bln'),
+                DB::raw('DAY(tgl_upload) as hri')
+            ])
+            ->leftJoin('user as u', 'a.id_user', '=', 'u.id')
+            ->leftJoin('kategori as k', 'a.id_kategori', '=', 'k.id')
             ->where('a.enabled', static::ENABLE)
-            ->where('tgl_upload < NOW()') // jangan tampilkan yg belum di-publish
-            ->where_not_in('a.id_kategori', [static::STATIS, static::AGENDA])
-            ->order_by('a.tgl_upload', 'DESC')
-            ->limit('50')
+            ->where('tgl_upload', '<', DB::raw('NOW()'))
+            ->whereNotIn('a.id_kategori', [static::STATIS, static::AGENDA])
+            ->orderBy('a.tgl_upload', 'DESC')
+            ->limit(50)
             ->get()
-            ->result();
+            ->toArray();
+
+        return $data;
     }
 }
