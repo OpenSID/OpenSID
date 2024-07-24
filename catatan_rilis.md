@@ -67,3 +67,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8204](https://github.com/OpenSID/OpenSID/issues/8204) Penyesuaian nama layanan saas menjadi siappakai.
 9. [#8228](https://github.com/OpenSID/OpenSID/issues/8228) Penyesuaian penggunaan komponen blade.
 10. [#8235](https://github.com/OpenSID/OpenSID/issues/8235) Penyesuaian urutan pada modul arsip surat dinas.
+11. [#8216](https://github.com/OpenSID/OpenSID/issues/8216) Penyesuaian modul halaman feed dan sitemap menggunakan ORM dan Blade.
