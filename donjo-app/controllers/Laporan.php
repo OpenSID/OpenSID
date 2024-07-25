@@ -422,7 +422,7 @@ class Laporan extends Admin_Controller
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['isi']            = 'admin.laporan.detail.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
-        $data['sensor_nik']     = $this->input->post('sensor_nik') ?? false;
+        $data['sensor_nik']     = $this->input->post('sensor_nik') == 'on' ? 1 : false;
 
         view('admin.layouts.components.format_cetak', array_merge($data, $sumberData));
     }
