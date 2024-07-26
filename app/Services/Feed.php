@@ -37,7 +37,6 @@
 
 namespace App\Services;
 
-use App\Models\LogHapusPenduduk;
 use Illuminate\Support\Facades\DB;
 
 class Feed
@@ -56,7 +55,7 @@ class Feed
                 'k.slug as kat_slug',
                 DB::raw('YEAR(tgl_upload) as thn'),
                 DB::raw('MONTH(tgl_upload) as bln'),
-                DB::raw('DAY(tgl_upload) as hri')
+                DB::raw('DAY(tgl_upload) as hri'),
             ])
             ->leftJoin('user as u', 'a.id_user', '=', 'u.id')
             ->leftJoin('kategori as k', 'a.id_kategori', '=', 'k.id')
