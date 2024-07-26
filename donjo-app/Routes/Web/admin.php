@@ -930,15 +930,13 @@ Route::group('inventaris_tanah_mutasi', static function (): void {
 
 // Laporan inventaris
 Route::group('laporan_inventaris', static function (): void {
+    Route::get('/dialog/{aksi?}/{mutasi?}', 'Laporan_inventaris@dialog')->name('laporan_inventaris.dialog');
+    Route::get('/datatables/{mutasi?}', 'Laporan_inventaris@datatables')->name('laporan_inventaris.datatables');
     Route::get('/', 'Laporan_inventaris@index')->name('laporan_inventaris.index');
-    Route::get('/cetak/{tahun}/{penandatangan}', 'Laporan_inventaris@cetak')->name('laporan_inventaris.cetak');
-    Route::get('/download/{tahun}/{penandatangan}', 'Laporan_inventaris@download')->name('laporan_inventaris.download');
+    Route::post('/cetak/{aksi?}/{mutasi?}', 'Laporan_inventaris@cetak')->name('laporan_inventaris.cetak');
     Route::get('/mutasi', 'Laporan_inventaris@mutasi')->name('laporan_inventaris.mutasi');
-    Route::get('/cetak_mutasi/{tahun}/{penandatangan}', 'Laporan_inventaris@cetak_mutasi')->name('laporan_inventaris.cetak_mutasi');
-    Route::get('/download_mutasi/{tahun}/{penandatangan}', 'Laporan_inventaris@download_mutasi')->name('laporan_inventaris.download_mutasi');
     Route::get('/permendagri_47/{asset}', 'Laporan_inventaris@permendagri_47')->name('laporan_inventaris.permendagri_47');
     Route::get('/permendagri_47_dialog/{aksi}/{asset?}', 'Laporan_inventaris@permendagri_47_dialog')->name('laporan_inventaris.permendagri_47_dialog');
-    Route::post('/filter/{filter}', 'Laporan_inventaris@filter')->name('laporan_inventaris.filter');
 });
 
 // Sekretariat > Klasifikasi Surat
