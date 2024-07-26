@@ -1509,15 +1509,17 @@ Route::group('program_bantuan', static function (): void {
     Route::post('/bersihkan_data_peserta', 'Program_bantuan@bersihkan_data_peserta')->name('program_bantuan.bersihkan_data_peserta');
 });
 
-// Peserta Bantuan > Peserta
+// Peserta Bantuan > Peserta hapus
 Route::group('peserta_bantuan', static function (): void {
+    Route::get('/datatable_peserta', 'Peserta_bantuan@datatable_peserta')->name('peserta_bantuan.datatable_peserta');
+    Route::get('/datatables/{id}', 'Peserta_bantuan@datatables')->name('peserta_bantuan.datatables');
     Route::match(['GET', 'POST'], '/detail/{program_id?}/{p?}', 'Peserta_bantuan@detail')->name('peserta_bantuan.detail');
     Route::match(['GET', 'POST'], '/form/{program_id?}', 'Peserta_bantuan@form')->name('peserta_bantuan.form');
     Route::get('/peserta/{cat?}/{id?}', 'Peserta_bantuan@peserta')->name('peserta_bantuan.peserta');
-    Route::get('/data_peserta/{id?}', 'Peserta_bantuan@data_peserta')->name('peserta_bantuan.data_peserta');
+    Route::get('/data_peserta/{id?}/{program_id?}', 'Peserta_bantuan@data_peserta')->name('peserta_bantuan.data_peserta');
     Route::match(['GET', 'POST'], '/add_peserta/{program_id?}', 'Peserta_bantuan@add_peserta')->name('peserta_bantuan.add_peserta');
     Route::post('/edit_peserta/{id?}', 'Peserta_bantuan@edit_peserta')->name('peserta_bantuan.edit_peserta');
-    Route::get('/edit_peserta_form/{id?}', 'Peserta_bantuan@edit_peserta_form')->name('peserta_bantuan.edit_peserta_form');
+    Route::get('/edit_peserta_form/{id?}/{program_id?}', 'Peserta_bantuan@edit_peserta_form')->name('peserta_bantuan.edit_peserta_form');
     Route::get('/hapus_peserta/{program_id?}/{peserta_id?}', 'Peserta_bantuan@hapus_peserta')->name('peserta_bantuan.hapus_peserta');
     Route::get('/aksi/{aksi?}/{program_id?}', 'Peserta_bantuan@aksi')->name('peserta_bantuan.aksi');
     Route::post('/delete_all/{program_id?}', 'Peserta_bantuan@delete_all')->name('peserta_bantuan.delete_all');

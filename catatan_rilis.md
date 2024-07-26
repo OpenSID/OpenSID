@@ -70,3 +70,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#8216](https://github.com/OpenSID/OpenSID/issues/8216) Penyesuaian modul halaman feed dan sitemap menggunakan ORM dan Blade.
 12. [#8249](https://github.com/OpenSID/OpenSID/issues/8249) Penyesuaian fungsi sensor nik/no_kk menggunakan checkbox.
 13. [#8248](https://github.com/OpenSID/OpenSID/issues/8248) Penyesuaian modal otomatis tertutup saat melakukan cetak.
+14. [#7905](https://github.com/OpenSID/OpenSID/issues/7905) Penyesuaian modul peserta bantuan menggunakan ORM dan Blade.
