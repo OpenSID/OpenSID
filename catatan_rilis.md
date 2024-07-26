@@ -54,6 +54,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 47. [#8239](https://github.com/OpenSID/OpenSID/issues/8239) Perbaikan alur ubah status penduduk dengan SHDK kepala keluarga yang masih memiliki anggota keluarga.
 48. [#8197](https://github.com/OpenSID/OpenSID/issues/8197) Perbaikan backup folder desa.
 49. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce pada tambah baru surat.
+50. [#8244](https://github.com/OpenSID/OpenSID/issues/8244) Perbaikan pencarian kumpulan KK pada modul Keluarga.
 
 
 #### TEKNIS

@@ -111,6 +111,7 @@
                             data-toggle="modal"
                             data-target="#modalBox"
                             data-title="Pilihan Kumpulan KK"
+                            onclick="$('#tabeldata').data('kk_sementara', null);$('#tabeldata').data('bantuan', null)"
                         ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
                     </li>
                     <li>

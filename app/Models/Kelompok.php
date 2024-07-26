@@ -259,7 +259,7 @@ class Kelompok extends BaseModel
                 's.nama as sex',
                 'wil.rt',
                 'wil.rw',
-                'wil.dusun'
+                'wil.dusun',
             ])
             ->leftJoin('tweb_penduduk as u', 'u.id', '=', 'k.id_ketua')
             ->leftJoin('tweb_penduduk_pendidikan_kk as d', 'u.pendidikan_kk_id', '=', 'd.id')
@@ -270,7 +270,7 @@ class Kelompok extends BaseModel
             ->where('k.id', $id)
             ->first()->toArray();
 
-            if($data) {
+            if ($data) {
                 $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($data['id']);
             }
 
