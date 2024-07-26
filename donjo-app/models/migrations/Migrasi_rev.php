@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,6 +52,16 @@ class Migrasi_rev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
-        return $hasil && true;
+        return $hasil && $this->migrasi_2024040271($hasil);
+    }
+
+    protected function migrasi_2024040271($hasil)
+    {
+        $peta    = SettingAplikasi::where('key', '=', 'max_zoom_peta')->first();
+        $oldAttr = $peta->attribute;
+        $newAttr = $oldAttr . ' max="30"';
+        $peta->update(['attribute' => $newAttr]);
+
+        return true;
     }
 }

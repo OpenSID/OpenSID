@@ -140,11 +140,11 @@ class BantuanPeserta extends BaseModel
         $data_program = false;
 
         $query = DB::table('program_peserta as o')
-        ->select('p.id as id', 'o.peserta as nik', 'o.id as peserta_id', 'p.nama as nama', 'p.sdate', 'p.edate', 'p.ndesc', 'p.status')
-        ->join('program as p', 'p.id', '=', 'o.program_id')
-        ->where('o.peserta', $id)
-        ->where('p.sasaran', $cat)
-        ->get();
+            ->select('p.id as id', 'o.peserta as nik', 'o.id as peserta_id', 'p.nama as nama', 'p.sdate', 'p.edate', 'p.ndesc', 'p.status')
+            ->join('program as p', 'p.id', '=', 'o.program_id')
+            ->where('o.peserta', $id)
+            ->where('p.sasaran', $cat)
+            ->get();
 
         if ($query) {
             $data_program = $query->toArray();
@@ -154,10 +154,10 @@ class BantuanPeserta extends BaseModel
             case 1:
                 // Rincian Penduduk
                 $query = DB::table('tweb_penduduk as o')
-                ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                ->where('o.nik', $id)
-                ->get();
+                    ->select('o.nama', 'o.foto', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                    ->where('o.nik', $id)
+                    ->get();
 
                 if ($query) {
                     $row         = $query->first();
@@ -174,11 +174,11 @@ class BantuanPeserta extends BaseModel
             case 2:
                 // KK
                 $query = DB::table('tweb_keluarga as o')
-                ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                ->where('o.no_kk', $id)
-                ->get();
+                    ->select('o.nik_kepala', 'o.no_kk', 'p.nama', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_penduduk as p', 'o.nik_kepala', '=', 'p.id')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                    ->where('o.no_kk', $id)
+                    ->get();
 
                 if ($query) {
                     $row         = $query->first();
@@ -194,11 +194,11 @@ class BantuanPeserta extends BaseModel
             case 3:
                 // RTM
                 $query = DB::table('tweb_rtm as r')
-                ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
-                ->where('r.no_kk', $id)
-                ->get();
+                    ->select('r.id', 'r.no_kk', 'o.nama', 'o.nik', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
+                    ->where('r.no_kk', $id)
+                    ->get();
 
                 if ($query) {
                     $row         = $query->first();
@@ -214,11 +214,11 @@ class BantuanPeserta extends BaseModel
             case 4:
                 // Kelompok
                 $query = DB::table('kelompok as k')
-                ->select('k.id as id', 'k.nama as nama', 'p.nama as ketua', 'p.nik as nik', 'w.rt', 'w.rw', 'w.dusun')
-                ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
-                ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
-                ->where('k.id', $id)
-                ->get();
+                    ->select('k.id as id', 'k.nama as nama', 'p.nama as ketua', 'p.nik as nik', 'w.rt', 'w.rw', 'w.dusun')
+                    ->join('tweb_penduduk as p', 'p.id', '=', 'k.id_ketua')
+                    ->join('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
+                    ->where('k.id', $id)
+                    ->get();
 
                 if ($query) {
                     $row         = $query->first();
@@ -233,7 +233,7 @@ class BantuanPeserta extends BaseModel
 
             default:
         }
-        
+
         if (! $data_program == false) {
             return ['programkerja' => $data_program, 'profil' => $data_profil];
         }

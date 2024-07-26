@@ -55,6 +55,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 48. [#8197](https://github.com/OpenSID/OpenSID/issues/8197) Perbaikan backup folder desa.
 49. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce pada tambah baru surat.
 50. [#8244](https://github.com/OpenSID/OpenSID/issues/8244) Perbaikan pencarian kumpulan KK pada modul Keluarga.
+51. [#8260](https://github.com/OpenSID/OpenSID/issues/8260) Perbaikan validasi pengaturan max_zoom peta.
 
 
 #### TEKNIS
