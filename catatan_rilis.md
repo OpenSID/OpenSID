@@ -58,6 +58,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 51. [#8260](https://github.com/OpenSID/OpenSID/issues/8260) Perbaikan validasi pengaturan max_zoom peta.
 52. [#8247](https://github.com/OpenSID/OpenSID/issues/8247) Perbaikan editor surat yang berstatus konsep.
 52. [#8262](https://github.com/OpenSID/OpenSID/issues/8262) Perbaikan menampilkan data halaman galeri web.
+53. [#8257](https://github.com/OpenSID/OpenSID/issues/8257) Perbaikan form isian template surat keterangan penghasilan ibu.
 
 
 #### TEKNIS

@@ -5120,7 +5120,7 @@
                 "tipe": "text",
                 "kode": "[form_jumlah_penghasilan_ibu]",
                 "nama": "Jumlah Penghasilan Ibu",
-                "deskripsi": "Isi Jumlah Penghasilan Ayah Perbulan",
+                "deskripsi": "Isi Jumlah Penghasilan Ibu Perbulan",
                 "required": "0",
                 "atribut": "class=\" rupiah\"",
                 "pilihan": null,
