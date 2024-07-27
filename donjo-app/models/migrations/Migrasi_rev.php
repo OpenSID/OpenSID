@@ -52,7 +52,7 @@ class Migrasi_rev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
-        return $hasil && $this->migrasi_2024040271($hasil);
+        return $hasil && $this->migrasi_2024040272($hasil);
     }
 
     protected function migrasi_2024040271($hasil)
@@ -63,5 +63,13 @@ class Migrasi_rev extends MY_model
         $peta->update(['attribute' => $newAttr]);
 
         return true;
+    }
+
+    protected function migrasi_2024040272($hasil)
+    {
+        return DB::table('gambar_gallery')
+            ->where('parrent', 0)
+            ->where('tipe', 0)
+            ->update(['tipe' => 1]);
     }
 }
