@@ -94,7 +94,7 @@ class LaporanInventaris
                 ['provinsi', 'inventaris_kontruksi', 'Bantuan Provinsi'],
                 ['kabupaten', 'inventaris_kontruksi', 'Bantuan Kabupaten'],
                 ['sumbangan', 'inventaris_kontruksi', 'Sumbangan'],
-            ]
+            ],
         ];
 
         $result = [];
@@ -104,59 +104,58 @@ class LaporanInventaris
         foreach ($laporan_inventaris as $key => $inventaris) {
             switch ($key) {
                 case 'inventaris_tanah':
-                    $dateColumn = 'tahun_pengadaan';
+                    $dateColumn            = 'tahun_pengadaan';
                     $result[$key]['jenis'] = 'Tanah Kas Desa';
-                    $result[$key]['ket'] = 'Informasi mengenai segala yang menyangkut dengan tanah (dalam hal ini tanah yang digunakan dalam instansi tersebut).';
-                    $result[$key]['name'] = $key;
+                    $result[$key]['ket']   = 'Informasi mengenai segala yang menyangkut dengan tanah (dalam hal ini tanah yang digunakan dalam instansi tersebut).';
+                    $result[$key]['name']  = $key;
                     break;
 
                 case 'inventaris_peralatan':
-                    $dateColumn = 'tahun_pengadaan';
+                    $dateColumn            = 'tahun_pengadaan';
                     $result[$key]['jenis'] = 'Peralatan dan Mesin';
-                    $result[$key]['ket'] = 'Informasi mengenai peralatan dan mesin';
-                    $result[$key]['name'] = $key;
+                    $result[$key]['ket']   = 'Informasi mengenai peralatan dan mesin';
+                    $result[$key]['name']  = $key;
                     break;
 
                 case 'inventaris_gedung':
-                    $dateColumn = 'tanggal_dokument';
+                    $dateColumn            = 'tanggal_dokument';
                     $result[$key]['jenis'] = 'Gedung dan Bangunan';
-                    $result[$key]['ket'] = 'Informasi mengenai gedung dan bangunan yang dimiliki.';
-                    $result[$key]['name'] = $key;
+                    $result[$key]['ket']   = 'Informasi mengenai gedung dan bangunan yang dimiliki.';
+                    $result[$key]['name']  = $key;
                     break;
 
                 case 'inventaris_jalan':
-                    $dateColumn = 'tanggal_dokument';
+                    $dateColumn            = 'tanggal_dokument';
                     $result[$key]['jenis'] = 'Jalan Irigasi dan Jaringan';
-                    $result[$key]['ket'] = 'Informasi mengenai jaringan, seperti listrik atau Internet.';
-                    $result[$key]['name'] = $key;
+                    $result[$key]['ket']   = 'Informasi mengenai jaringan, seperti listrik atau Internet.';
+                    $result[$key]['name']  = $key;
                     break;
 
                 case 'inventaris_asset':
-                    $dateColumn = 'tahun_pengadaan';
+                    $dateColumn            = 'tahun_pengadaan';
                     $result[$key]['jenis'] = 'Asset Tetap Lainnya';
-                    $result[$key]['ket'] = 'Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.';
-                    $result[$key]['name'] = $key;
+                    $result[$key]['ket']   = 'Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.';
+                    $result[$key]['name']  = $key;
                     break;
 
                 case 'inventaris_kontruksi':
-                    $dateColumn = 'tanggal_dokument';
+                    $dateColumn            = 'tanggal_dokument';
                     $result[$key]['jenis'] = 'Konstruksi Dalam Pengerjaan';
-                    $result[$key]['ket'] = 'Informasi mengenai bangunan yang masih dalam pengerjaan.';
-                    $result[$key]['name'] = $key;
+                    $result[$key]['ket']   = 'Informasi mengenai bangunan yang masih dalam pengerjaan.';
+                    $result[$key]['name']  = $key;
                     break;
-                
+
                 default:
                     break;
             }
+
             foreach ($inventaris as $inv) {
                 $hasil = DB::table($key)
                     ->select(DB::raw('count(' . $key . '.asal) as total'))
                     ->where($key . '.status', $status)
                     ->where($key . '.asal', $inv[2])
                     ->where($key . '.visible', 1)
-                    ->when($tahun, function ($query) use ($tahun, $dateColumn) {
-                        return $query->whereYear($dateColumn, $tahun);
-                    })
+                    ->when($tahun, static fn ($query) => $query->whereYear($dateColumn, $tahun))
                     ->first();
 
                 $result[$key][$inv[0]] = empty($hasil) ? 0 : $hasil->total;
@@ -169,6 +168,7 @@ class LaporanInventaris
             }
         }
         $result = array_values($result);
+
         return $result;
     }
 }
