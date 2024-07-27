@@ -432,14 +432,39 @@ class Pengurus extends Admin_Controller
         redirect_with('success', 'Status Kehadiran Pamong berhasil disimpan');
     }
 
+    public function dialog($aksi = 'cetak')
+    {
+        $data               = $this->modal_penandatangan();
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('pengurus.daftar', $aksi);
+
+        return view('admin.pengurus.dialog_cetak', $data);
+    }
+
     public function daftar($aksi = 'cetak'): void
     {
+        $status                 = $this->input->post('status') ?? null;
+        $kehadiran              = $this->input->post('kehadiran') ?? null;
         $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ttd']->pamong_id])->first()->toArray();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()->toArray();
 
         $data['desa'] = $this->header['desa'];
-        $data['main'] = Pamong::urut()->get();
+        $query        = Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status))->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
+
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $ids            = $this->input->post('id_cb') ?? null;
+
+        if ($ids) {
+            $query->whereIn('pamong_id', $ids);
+        }
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
+        $data = [
+            'main'  => $query->take($paramDatatable['length'])->get(),
+            'start' => $paramDatatable['start'],
+        ];
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

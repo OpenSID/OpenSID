@@ -1042,8 +1042,8 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::get('/unduh_berkas/{id_dokumen?}', 'Lembaran_desa@unduh_berkas')->name('buku-umum.lembaran_desa.unduh_berkas');
     });
 
-    // Perangkat/Pengurus Desa
     Route::group('pengurus', static function (): void {
+        Route::get('/dialog/{aksi?}', 'Pengurus@dialog')->name('buku-umum.pengurus.dialog');
         Route::get('/', 'Pengurus@index')->name('buku-umum.pengurus.index');
         Route::get('/datatables', 'Pengurus@datatables')->name('buku-umum.pengurus.datatables');
         Route::match(['GET', 'POST'], '/form/{id?}', 'Pengurus@form')->name('buku-umum.pengurus.form');
@@ -1054,7 +1054,7 @@ Route::group('', ['namespace' => 'buku_umum'], static function (): void {
         Route::post('/tukar', 'Pengurus@tukar')->name('buku-umum.pengurus.tukar');
         Route::get('/lock/{id?}/{val?}', 'Pengurus@lock')->name('buku-umum.pengurus.lock');
         Route::get('/kehadiran/{id?}/{val?}', 'Pengurus@kehadiran')->name('buku-umum.pengurus.kehadiran');
-        Route::get('/daftar/{aksi?}', 'Pengurus@daftar')->name('buku-umum.pengurus.daftar');
+        Route::post('/daftar/{aksi?}', 'Pengurus@daftar')->name('buku-umum.pengurus.daftar');
         Route::get('/bagan/{ada_bpd?}', 'Pengurus@bagan')->name('buku-umum.pengurus.bagan');
         Route::get('/atur_bagan', 'Pengurus@atur_bagan')->name('buku-umum.pengurus.atur_bagan');
         Route::post('/update_bagan', 'Pengurus@update_bagan')->name('buku-umum.pengurus.update_bagan');
