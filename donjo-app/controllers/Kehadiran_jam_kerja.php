@@ -43,7 +43,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'jam-kerja';
-    public $kategori_pengaturan = 'kehadiran';
+    public $kategori_pengaturan = 'Kehadiran';
 
     public function __construct()
     {

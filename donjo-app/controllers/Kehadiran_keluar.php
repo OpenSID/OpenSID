@@ -43,7 +43,7 @@ class Kehadiran_keluar extends Admin_Controller
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'alasan-keluar';
-    public $kategori_pengaturan = 'kehadiran';
+    public $kategori_pengaturan = 'Kehadiran';
 
     public function __construct()
     {

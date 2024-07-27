@@ -45,7 +45,7 @@ class Beranda extends Admin_Controller
 {
     public $isAdmin;
     public $modul_ini           = 'beranda';
-    public $kategori_pengaturan = 'beranda';
+    public $kategori_pengaturan = 'Beranda';
 
     public function __construct()
     {

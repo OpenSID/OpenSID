@@ -42,7 +42,7 @@ class Lapak_pelapak_admin extends Admin_Controller
 {
     public $modul_ini           = 'lapak';
     public $aliasController     = 'lapak_admin';
-    public $kategori_pengaturan = 'lapak';
+    public $kategori_pengaturan = 'Lapak';
 
     public function __construct()
     {

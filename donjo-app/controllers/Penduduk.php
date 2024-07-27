@@ -81,7 +81,7 @@ class Penduduk extends Admin_Controller
 {
     public $modul_ini           = 'kependudukan';
     public $sub_modul_ini       = 'penduduk';
-    public $kategori_pengaturan = 'data_lengkap';
+    public $kategori_pengaturan = 'Data Lengkap';
     private $judulStatistik;
     private $filterColumn    = [];
     private $advanceSearch   = [];

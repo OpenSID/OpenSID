@@ -45,7 +45,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 {
     public $modul_ini           = 'pembangunan';
     public $aliasController     = 'admin_pembangunan';
-    public $kategori_pengaturan = 'pembangunan';
+    public $kategori_pengaturan = 'Pembangunan';
 
     public function __construct()
     {

@@ -45,7 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Lapak_admin extends Admin_Controller
 {
     public $modul_ini           = 'lapak';
-    public $kategori_pengaturan = 'lapak';
+    public $kategori_pengaturan = 'Lapak';
 
     public function __construct()
     {

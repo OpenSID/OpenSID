@@ -74,7 +74,7 @@ class Keluarga extends Admin_Controller
 
     public $modul_ini           = 'kependudukan';
     public $sub_modul_ini       = 'keluarga';
-    public $kategori_pengaturan = 'data_lengkap';
+    public $kategori_pengaturan = 'Data Lengkap';
     private $judulStatistik;
     private $filterColumn    = [];
     private $defaultStatus   = StatusDasarKKEnum::AKTIF;

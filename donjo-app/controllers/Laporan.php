@@ -50,7 +50,7 @@ class Laporan extends Admin_Controller
 {
     public $modul_ini           = 'statistik';
     public $sub_modul_ini       = 'laporan-bulanan';
-    public $kategori_pengaturan = 'data_lengkap';
+    public $kategori_pengaturan = 'Data Lengkap';
 
     public function __construct()
     {
