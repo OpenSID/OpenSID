@@ -61,6 +61,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 53. [#8257](https://github.com/OpenSID/OpenSID/issues/8257) Perbaikan form isian template surat keterangan penghasilan ibu.
 54. [#8252](https://github.com/OpenSID/OpenSID/issues/8252) Perbaikan data pada cetak buku pemerintah desa.
 55. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran dan peta. 
+56. [#8267](https://github.com/OpenSID/OpenSID/issues/8267) Perbaikan perbarui captha.
 
 
 #### TEKNIS
