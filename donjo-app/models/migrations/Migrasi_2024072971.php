@@ -36,6 +36,7 @@
  */
 
 use App\Models\SettingAplikasi;
+use App\Imports\SuratDinasImports;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -55,16 +56,25 @@ class Migrasi_2024072971 extends MY_model
         $hasil = $hasil && $this->migrasi_2024072754($hasil);
         $hasil = $hasil && $this->migrasi_2024072755($hasil);
         $hasil = $hasil && $this->migrasi_2024072756($hasil);
+        $hasil = $hasil && $this->migrasi_2024072651($hasil);
 
-        return $hasil && $this->migrasi_2024072651($hasil);
+        // Migrasi berdasarkan config_id
+        $config_id = DB::table('config')->pluck('id')->toArray();
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024073071($hasil, $id);
+        }
+
+        return $hasil;
     }
 
     protected function migrasi_2024072651($hasil)
     {
-        return DB::table('gambar_gallery')
+        DB::table('gambar_gallery')
             ->where('parrent', 0)
             ->where('tipe', 0)
             ->update(['tipe' => 1]);
+
+        return $hasil;
     }
 
     protected function migrasi_2024072751($hasil)
@@ -437,6 +447,13 @@ class Migrasi_2024072971 extends MY_model
 
             DB::table('log_surat')->update(['lock' => 1]);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024073071($hasil, $id)
+    {
+        (new SuratDinasImports(null, ['config_id' => $id, 'url_surat' => 'surat-pernyataan']))->import();
 
         return $hasil;
     }

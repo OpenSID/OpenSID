@@ -496,7 +496,7 @@ class Surat_dinas extends Admin_Controller
         $ada_surat = $cek_surat->first() ?? show_404();
 
         if (super_admin() && $ada_surat) {
-            $list_data = file_get_contents('assets/import/template_surat_dinas_tinymce.json');
+            $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json');
             $list_data = collect(json_decode($list_data, true))
                 ->where('url_surat', $url_surat)
                 ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
@@ -716,13 +716,13 @@ class Surat_dinas extends Admin_Controller
 
     public function templateTinyMCE(): void
     {
-        $list_data = file_get_contents('assets/import/template_surat_dinas_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json');
 
         $proses = $this->prosesImport($this->formatImport($list_data));
 
         if ($proses) {
             $template = $this->getTemplate(SuratDinas::TINYMCE_SISTEM);
-            $result   = file_put_contents(FCPATH . 'assets/import/template_surat_dinas_tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
+            $result   = file_put_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json', json_encode($template, JSON_PRETTY_PRINT));
 
             if ($result) {
                 redirect_with('success', 'Berhasil Buat Ulang Template Surat TinyMCE Bawaan');
@@ -790,7 +790,7 @@ class Surat_dinas extends Admin_Controller
 
     public function bawaan(): void
     {
-        $list_data = file_get_contents('assets/import/template_surat_dinas_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json');
 
         $file_name = namafile('Template Surat Dinas') . '.json';
 
