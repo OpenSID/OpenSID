@@ -63,6 +63,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 55. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran dan peta. 
 56. [#8267](https://github.com/OpenSID/OpenSID/issues/8267) Perbaikan perbarui captha.
 57. [#8266](https://github.com/OpenSID/OpenSID/issues/8266) Perbaikan tanggal cetak surat yang tersimpan sebagai konsep.
+58. [#8258](https://github.com/OpenSID/OpenSID/issues/8258) Perbaikan notifikasi konfirmasi cookie.
 
 
 #### TEKNIS
