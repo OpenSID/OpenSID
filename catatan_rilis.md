@@ -69,6 +69,14 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 46. [#8234](https://github.com/OpenSID/OpenSID/issues/8234) Perbaikan kode post dan rt/rw pada lampiran F-1.01. F-1.15, F-1.16.
 47. [#8239](https://github.com/OpenSID/OpenSID/issues/8239) Perbaikan alur ubah status penduduk dengan SHDK kepala keluarga yang masih memiliki anggota keluarga.
 48. [#8197](https://github.com/OpenSID/OpenSID/issues/8197) Perbaikan backup folder desa.
+49. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce pada tambah baru surat.
+50. [#8244](https://github.com/OpenSID/OpenSID/issues/8244) Perbaikan pencarian kumpulan KK pada modul Keluarga.
+51. [#8260](https://github.com/OpenSID/OpenSID/issues/8260) Perbaikan validasi pengaturan max_zoom peta.
+52. [#8247](https://github.com/OpenSID/OpenSID/issues/8247) Perbaikan editor surat yang berstatus konsep.
+52. [#8262](https://github.com/OpenSID/OpenSID/issues/8262) Perbaikan menampilkan data halaman galeri web.
+53. [#8257](https://github.com/OpenSID/OpenSID/issues/8257) Perbaikan form isian template surat keterangan penghasilan ibu.
+54. [#8252](https://github.com/OpenSID/OpenSID/issues/8252) Perbaikan data pada cetak buku pemerintah desa.
+55. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran dan peta. 
 
 
 #### TEKNIS
@@ -84,3 +92,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8228](https://github.com/OpenSID/OpenSID/issues/8228) Penyesuaian penggunaan komponen blade.
 10. [#8235](https://github.com/OpenSID/OpenSID/issues/8235) Penyesuaian urutan pada modul arsip surat dinas.
 11. [#8216](https://github.com/OpenSID/OpenSID/issues/8216) Penyesuaian modul halaman feed dan sitemap menggunakan ORM dan Blade.
+12. [#8249](https://github.com/OpenSID/OpenSID/issues/8249) Penyesuaian fungsi sensor nik/no_kk menggunakan checkbox.
+13. [#8248](https://github.com/OpenSID/OpenSID/issues/8248) Penyesuaian modal otomatis tertutup saat melakukan cetak.
+14. [#7905](https://github.com/OpenSID/OpenSID/issues/7905) Penyesuaian modul peserta bantuan menggunakan ORM dan Blade.
+15. [#8217](https://github.com/OpenSID/OpenSID/issues/8217) Penyesuaian modul inventaris laporan semua asset menggunakan ORM dan Blade.

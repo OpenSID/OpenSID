@@ -616,7 +616,7 @@ class Surat extends Admin_Controller
             $log_surat['input'] = array_merge($log_surat['input'], $input);
 
             if ($surat->verifikasi_operator != '-1') {
-                $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->isi_surat) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', setting('footer_surat'));
+                $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . ($surat->isi_surat) . preg_replace('/\\\\/', '', setting('footer_surat'));
             } else {
                 $log_surat['isi_surat'] = preg_replace('/\\\\/', '', ($surat->isi_surat));
             }

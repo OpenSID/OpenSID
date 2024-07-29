@@ -1348,4 +1348,12 @@ class Penduduk extends BaseModel
     {
         return $query->batasiUmur(date('d-m-Y'), ['satuan' => 'tahun', 'min' => 17, 'max' => 9999])->orwhereIn('status_kawin', [StatusKawinEnum::KAWIN, StatusKawinEnum::CERAIHIDUP, StatusKawinEnum::CERAIMATI]);
     }
+
+    public static function get_alamat_wilayah($data)
+    {
+        $dusun          = (setting('sebutan_dusun') == '-') ? '' : ucwords(strtolower(setting('sebutan_dusun'))) . ' ' . ucwords(strtolower($data['dusun']));
+        $alamat_wilayah = "{$data['alamat']} RT {$data['rt']} / RW {$data['rw']} " . $dusun;
+
+        return trim($alamat_wilayah);
+    }
 }

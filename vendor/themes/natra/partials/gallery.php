@@ -5,8 +5,8 @@
 </div>
 
 <div style="content_left">
-	<?php if ($gallery): ?>
-		<div class="row">
+	<div class="row">
+		<?php if ($gallery): ?>
 			<?php 
 				$jumlah = 0;
 				foreach ($gallery as $data): ?>
@@ -25,13 +25,13 @@
 					</a>
 				<?php endif ?>
 			<?php endforeach ?>
-		</div>
-
+			
 		<?php if ($jumlah == 0): ?>
 			<div class="alert alert-danger" role="alert">
 				Data tidak tersedia
 			</div>
 		<?php endif ?>
+	</div>
 
 
 	<?php $this->load->view("$folder_themes/commons/page"); ?>

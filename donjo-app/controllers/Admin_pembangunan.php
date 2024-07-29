@@ -48,7 +48,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Admin_pembangunan extends Admin_Controller
 {
     public $modul_ini           = 'pembangunan';
-    public $kategori_pengaturan = 'pembangunan';
+    public $kategori_pengaturan = 'Pembangunan';
 
     public function __construct()
     {

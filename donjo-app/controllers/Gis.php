@@ -58,7 +58,7 @@ class Gis extends Admin_Controller
 {
     public $modul_ini           = 'pemetaan';
     public $sub_modul_ini       = 'peta';
-    public $kategori_pengaturan = 'peta';
+    public $kategori_pengaturan = 'Peta';
     private $filterSearch       = [];
     private $advanceSearch      = [];
 

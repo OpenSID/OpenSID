@@ -17,7 +17,7 @@
           $gambar = $album['jenis'] == 2 ? $album['gambar'] : AmbilGaleri($album['gambar'], 'kecil'); 
           $jumlah++;
         ?>
-        <a href="<?= site_url("galeri/{$data['id']}") ?>" class="w-full bg-gray-100 block relative">
+        <a href="<?= site_url("galeri/{$album['id']}") ?>" class="w-full bg-gray-100 block relative">
           <img src="<?= $gambar ?>" alt="<?= $album['nama'] ?>" class="h-44 w-full object-cover object-center" title="<?= $album['nama'] ?>">
           <p class="py-2 text-center block"><?= $album['nama'] ?></p>
         </a>
