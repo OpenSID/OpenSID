@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -75,10 +74,10 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'tampilkan_lapak_web')
             ->update([
-                'jenis' => 'select-boolean',
+                'jenis'     => 'select-boolean',
                 'attribute' => [
                     'class' => 'required',
-                ]
+                ],
             ]);
 
         DB::table('setting_aplikasi')
@@ -86,7 +85,7 @@ class Migrasi_rev extends MY_model
             ->update([
                 'attribute' => [
                     'class' => 'required',
-                ]
+                ],
             ]);
 
         DB::table('setting_aplikasi')
@@ -94,34 +93,34 @@ class Migrasi_rev extends MY_model
             ->update([
                 'attribute' => json_encode([
                     'class' => 'required',
-                    'min' => 1,
-                    'max' => 50,
-                    'step' => 1
-                ])
+                    'min'   => 1,
+                    'max'   => 50,
+                    'step'  => 1,
+                ]),
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'jumlah_produk_perhalaman')
             ->update([
-                'jenis' => 'input-number',
+                'jenis'     => 'input-number',
                 'attribute' => json_encode([
                     'class' => 'required',
-                    'min' => 1,
-                    'max' => 50,
-                    'step' => 1
-                ])
+                    'min'   => 1,
+                    'max'   => 50,
+                    'step'  => 1,
+                ]),
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'banyak_foto_tiap_produk')
             ->update([
-                'jenis' => 'input-number',
+                'jenis'     => 'input-number',
                 'attribute' => json_encode([
                     'class' => 'required',
-                    'min' => 1,
-                    'max' => 5,
-                    'step' => 1
-                ])
+                    'min'   => 1,
+                    'max'   => 5,
+                    'step'  => 1,
+                ]),
             ]);
 
         return $hasil;
@@ -132,29 +131,29 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'ukuran_lebar_bagan')
             ->update([
-                'jenis' => 'select-array',
+                'jenis'     => 'select-array',
                 'attribute' => [
                     'class' => 'required',
                 ],
                 'option' => json_encode([
-                    '800' => '800',
+                    '800'  => '800',
                     '1200' => '1200',
                     '1400' => '1400',
                 ]),
-                'keterangan' => 'Ukuran Lebar Bagan'
+                'keterangan' => 'Ukuran Lebar Bagan',
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'media_sosial_pemerintah_desa')
             ->update([
-                'jenis' => 'select-multiple-array',
+                'jenis'     => 'select-multiple-array',
                 'attribute' => null,
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'sebutan_pemerintah_desa')
             ->update([
-                'jenis' => 'input-text',
+                'jenis'     => 'input-text',
                 'attribute' => [
                     'class' => 'required',
                 ],
@@ -170,16 +169,16 @@ class Migrasi_rev extends MY_model
             ->update([
                 'attribute' => [
                     'class' => 'required',
-                    'min' => 1,
-                    'max' => 50,
-                    'step' => 1
+                    'min'   => 1,
+                    'max'   => 50,
+                    'step'  => 1,
                 ],
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'urutan_gambar_galeri')
             ->update([
-                'jenis' => 'select-array',
+                'jenis'     => 'select-array',
                 'attribute' => [
                     'class' => 'required',
                 ],
@@ -193,7 +192,7 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'tampilkan_kehadiran')
             ->update([
-                'jenis' => 'select-boolean',
+                'jenis'     => 'select-boolean',
                 'attribute' => [
                     'class' => 'required',
                 ],
@@ -202,9 +201,9 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'ip_adress_kehadiran')
             ->update([
-                'jenis' => 'input-text',
+                'jenis'     => 'input-text',
                 'attribute' => [
-                    'class' => 'ip_address',
+                    'class'       => 'ip_address',
                     'placeholder' => '127.0.0.1',
                 ],
             ]);
@@ -212,9 +211,9 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'mac_adress_kehadiran')
             ->update([
-                'jenis' => 'input-text',
+                'jenis'     => 'input-text',
                 'attribute' => [
-                    'class' => 'mac_address',
+                    'class'       => 'mac_address',
                     'placeholder' => '00:1B:44:11:3A:B7',
                 ],
             ]);
@@ -222,9 +221,9 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'id_pengunjung_kehadiran')
             ->update([
-                'jenis' => 'input-text',
+                'jenis'     => 'input-text',
                 'attribute' => [
-                    'class' => 'alfanumerik',
+                    'class'       => 'alfanumerik',
                     'placeholder' => 'ad02c373c2a8745d108aff863712fe92',
                 ],
             ]);
@@ -232,12 +231,12 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'rentang_waktu_kehadiran')
             ->update([
-                'jenis' => 'input-number',
+                'jenis'     => 'input-number',
                 'attribute' => [
-                    'class' => 'required',
-                    'min' => 0,
-                    'max' => 3600,
-                    'step' => 1,
+                    'class'       => 'required',
+                    'min'         => 0,
+                    'max'         => 3600,
+                    'step'        => 1,
                     'placeholder' => '10',
                 ],
             ]);
@@ -250,12 +249,12 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'rentang_waktu_notifikasi_rilis')
             ->update([
-                'jenis' => 'input-number',
+                'jenis'     => 'input-number',
                 'attribute' => [
-                    'class' => 'required',
-                    'min' => 0,
-                    'max' => 365,
-                    'step' => 1,
+                    'class'       => 'required',
+                    'min'         => 0,
+                    'max'         => 365,
+                    'step'        => 1,
                     'placeholder' => '7',
                 ],
             ]);
@@ -263,20 +262,20 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'kode_desa_bps')
             ->update([
-                'jenis' => 'input-text',
-                'kategori' => 'Status SDGs',
+                'jenis'     => 'input-text',
+                'kategori'  => 'Status SDGs',
                 'attribute' => [
-                    'class' => 'required',
-                    'max-length' => 15,
-                    'placeholder' => '3312110003'
+                    'class'       => 'required',
+                    'max-length'  => 15,
+                    'placeholder' => '3312110003',
                 ],
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'tgl_data_lengkap_aktif')
             ->update([
-                'jenis' => 'select-boolean',
-                'kategori' => 'Data Lengkap',
+                'jenis'     => 'select-boolean',
+                'kategori'  => 'Data Lengkap',
                 'attribute' => [
                     'class' => 'required',
                 ],
@@ -320,26 +319,26 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'mapbox_key')
             ->update([
-                'jenis' => 'input-text',
+                'jenis'     => 'input-text',
                 'attribute' => null,
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'mapbox_key')
             ->update([
-                'jenis' => 'input-text',
+                'jenis'     => 'input-text',
                 'attribute' => null,
             ]);
 
         DB::table('setting_aplikasi')
             ->where('key', 'min_zoom_peta')
             ->update([
-                'jenis' => 'input-number',
+                'jenis'     => 'input-number',
                 'attribute' => [
-                    'class' => 'required',
-                    'min' => 1,
-                    'max' => 50,
-                    'step' => 1,
+                    'class'       => 'required',
+                    'min'         => 1,
+                    'max'         => 50,
+                    'step'        => 1,
                     'placeholder' => '1',
                 ],
             ]);
@@ -347,12 +346,12 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'max_zoom_peta')
             ->update([
-                'jenis' => 'input-number',
+                'jenis'     => 'input-number',
                 'attribute' => [
-                    'class' => 'required',
-                    'min' => 1,
-                    'max' => 30,
-                    'step' => 1,
+                    'class'       => 'required',
+                    'min'         => 1,
+                    'max'         => 30,
+                    'step'        => 1,
                     'placeholder' => '30',
                 ],
             ]);
@@ -360,23 +359,23 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'tampilkan_tombol_peta')
             ->update([
-                'jenis' => 'select-multiple-array',
+                'jenis'     => 'select-multiple-array',
                 'attribute' => null,
-                'option' => json_encode([
+                'option'    => json_encode([
                     [
-                        'id' => 'Statistik Penduduk',
+                        'id'   => 'Statistik Penduduk',
                         'nama' => 'Statistik Penduduk',
                     ],
                     [
-                        'id' => 'Statistik Bantuan',
+                        'id'   => 'Statistik Bantuan',
                         'nama' => 'Statistik Bantuan',
                     ],
                     [
-                        'id' => 'Aparatur Desa',
+                        'id'   => 'Aparatur Desa',
                         'nama' => 'Aparatur Desa',
                     ],
                     [
-                        'id' => 'Kepala Wilayah',
+                        'id'   => 'Kepala Wilayah',
                         'nama' => 'Kepala Wilayah',
                     ],
                 ]),
@@ -385,16 +384,16 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'tampil_luas_peta')
             ->update([
-                'jenis' => 'select-boolean',
+                'jenis'     => 'select-boolean',
                 'attribute' => [
                     'class' => 'required',
                 ],
             ]);
-        
+
         DB::table('setting_aplikasi')
             ->where('key', 'jenis_peta')
             ->update([
-                'jenis' => 'select-array',
+                'jenis'     => 'select-array',
                 'attribute' => [
                     'class' => 'required',
                 ],
@@ -403,7 +402,7 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->whereIn('key', ['default_tampil_peta_wilayah', 'default_tampil_peta_infrastruktur'])
             ->update([
-                'jenis' => 'select-multiple-array',
+                'jenis'     => 'select-multiple-array',
                 'attribute' => null,
             ]);
 
