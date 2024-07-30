@@ -87,6 +87,7 @@
         "type":"unggah",
         "keterangan":"Contoh Input Unggah",
         "options": null,
+        "link": true,
         "readonly":false
     }
 ]

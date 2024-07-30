@@ -3,7 +3,7 @@
         <b>{{ $value['judul'] }}</b>
     </div>
     <div class="box-body box-profile text-center">
-        @php $default = CONFIG_THEMES . $tema->slug .'/' . $value['default']; @endphp
+        @php $default = $value['default']; @endphp
         @if ($default && file_exists(FCPATH . $default))
             <img id="preview-{{ $value['key'] }}" src="{{ base_url($default) }}" alt="{{ $value['judul'] }}" width="100%" />
         @else
@@ -17,6 +17,10 @@
                 <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser-{{ $value['key'] }}"><i
                         class="fa fa-search"></i>&nbsp;</button>
             </span>
+        </div>
+        <div class="form-group" style="margin-top: 10px;">
+            <input type="text" class="form-control input-sm" name="opsi[url_{{ $value['key'] }}]" value="{{ theme_config('url_' . $value['key']) }}"
+                placeholder="URL" />
         </div>
     </div>
 </div>

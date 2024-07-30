@@ -41,14 +41,14 @@
 														<!-- <?= jecho($pro->kategori, true, '<div class="textgambar hidden-xs">' . $pro->kategori . '</div>'); ?> -->
 													</div>
 												<?php else : ?>
-													<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk" />
+													<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= FOTO_TIDAK_TERSEDIA ?>" alt="Foto Produk" />
 												<?php endif; ?>
 											</div>
 										<?php endif; ?>
 									<?php endfor; ?>
 								</div>
 							<?php else : ?>
-								<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Produk" />
+								<img class="card-img-top" style="width: auto; max-height: 250px;" src="<?= FOTO_TIDAK_TERSEDIA ?>" alt="Foto Produk" />
 							<?php endif; ?>
 							<div class="card-body">
 								<!--

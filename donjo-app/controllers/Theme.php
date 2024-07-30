@@ -220,13 +220,17 @@ class Theme extends Admin_Controller
 
     protected function validateOpsi($opsi, $tema)
     {
-        $unggah = $this->input->post();
-        unset ($unggah['opsi']);
-        
-        foreach ($unggah as $key => $value) {
-            $result = $this->imageUpload($tema->slug, $key);
-            if ($result !== null) {
-                $opsi[$key] = $result;
+        $configPath = FCPATH . $tema->path . '/config.json';
+        $configTheme = json_decode(file_get_contents($configPath), true);
+        $opsi = [];
+
+        foreach ($configTheme as $config) {
+            $key = $config['key'];
+            if ($config['type'] == 'unggah') {
+                $opsi[$key] = $this->imageUpload($tema->slug, $key);
+                $opsi['url_' . $key] = $this->input->post()['opsi']['url_' . $key];
+            } else {
+                $opsi[$key] = $this->input->post()['opsi'][$key];
             }
         }
 
@@ -250,7 +254,15 @@ class Theme extends Admin_Controller
         $this->upload->initialize($config);
         if ($this->upload->do_upload($key)) {
             $upload = $this->upload->data();
-            return $upload['file_name'];
+
+            if ($upload) {
+                $files = FCPATH . theme_config($key);
+                if (! empty($_FILES[$key]['name']) && file_exists($files)) {
+                    unlink($files);
+                }
+
+                return CONFIG_THEMES . $namaTema . '/' . $upload['file_name'];
+            }
         }
 
         // set_session('error', $this->upload->display_errors());

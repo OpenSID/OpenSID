@@ -52,5 +52,15 @@
             "class":"select2"
         },
         "readonly":false
+    },
+    {
+        "judul":"Foto Tidak Tersedia",
+        "key":"foto_tidak_tersedia",
+        "value": null,
+        "type":"unggah",
+        "keterangan":"Tampilkan foto ketika foto tidak tersedia",
+        "options": null,
+        "readonly":false,
+        "link": true
     }
 ]
