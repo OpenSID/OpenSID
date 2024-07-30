@@ -3613,21 +3613,14 @@ class Database_model extends MY_Model
         $this->db->query("CREATE OR REPLACE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' AS asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_peralatan WHERE visible = 1");
     
         // penyebab gagal migrasi lainnya
-        // - sys_traffic tgl duplikat, ambil data tanggal terakhir dari yang sama, yang lain dihapus
-        // cara hapus, cek tanggal yang sama, ambil data yang kolom jumlah paling besar, yang lain dihapus
+        // - sys_traffic tgl duplikat
         $dataSama = $this->db->query('SELECT tanggal, COUNT(1) AS jumlah FROM sys_traffic GROUP BY tanggal HAVING jumlah > 1')->result_array();
         foreach ($dataSama as $data) {
             $tanggal = $data['tanggal'];
             $query   = "SELECT * FROM sys_traffic WHERE tanggal = '{$tanggal}' ORDER BY jumlah DESC";
             $data    = $this->db->query($query)->result_array();
-
-            // simpan data pertama dalam array
             $dataPertama = array_shift($data);
-
-            // hapus data lainnya berdasaarkan tanggal tsb
             $this->db->where('tanggal', $tanggal)->delete('sys_traffic');
-
-            // tambahkan data pertama
             $this->db->insert('sys_traffic', $dataPertama);
         }
 
