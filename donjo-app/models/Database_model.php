@@ -37,6 +37,7 @@
 
 use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -280,14 +281,14 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = false): void
+    public function cek_migrasi(): void
     {
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
-        if ($install && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+        if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+            // tambahkan primary key di tabel yang memiliki kolom id
+            $this->add_primary_key();
             $this->migrasi_db_cri();
-            // Kirim versi aplikasi ke layanan setelah migrasi selesai
-            kirim_versi_opensid();
         }
     }
 
@@ -3581,5 +3582,80 @@ class Database_model extends MY_Model
         $this->showProgress = $showProgress;
 
         return $this;
+    }
+
+    // tambah primary key pada tabel yg memiliki kolom id
+    private function add_primary_key()
+    {
+        $views = [
+            'dokumen_hidup',
+            'penduduk_hidup',
+            'keluarga_aktif',
+            'daftar_kontak',
+            'daftar_grup',
+            'daftar_anggota_grup',
+            'master_inventaris',
+            'rekap_mutasi_inventaris'
+        ];
+
+        foreach ($views as $view) {
+            $this->dbforge->drop_table($view, TRUE);
+        }
+
+        // tambahkan view yang hilang
+        $this->db->query('CREATE OR REPLACE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
+        $this->db->query('CREATE OR REPLACE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1');
+        $this->db->query('CREATE OR REPLACE VIEW keluarga_aktif AS SELECT k.* FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id WHERE p.status_dasar = 1');
+        $this->db->query("CREATE OR REPLACE VIEW `daftar_kontak` AS SELECT * FROM `kontak`");
+        $this->db->query("CREATE OR REPLACE VIEW `daftar_kontak` AS SELECT * FROM `kontak`");
+        $this->db->query("CREATE OR REPLACE VIEW `daftar_kontak` AS SELECT * FROM `kontak`");
+        $this->db->query("CREATE OR REPLACE VIEW `master_inventaris` AS SELECT 'inventaris_asset' AS asset, inventaris_asset.id, inventaris_asset.nama_barang, inventaris_asset.kode_barang, 'Baik' AS kondisi, inventaris_asset.keterangan, inventaris_asset.asal, inventaris_asset.tahun_pengadaan FROM inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung' AS asset, inventaris_gedung.id, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.kondisi_bangunan, inventaris_gedung.keterangan, inventaris_gedung.asal, YEAR( inventaris_gedung.tanggal_dokument) AS tahun_pengadaan FROM inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan' AS asset, inventaris_jalan.id, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.kondisi, inventaris_jalan.keterangan, inventaris_jalan.asal, YEAR ( inventaris_jalan.tanggal_dokument ) AS tahun_pengadaan FROM inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan' AS asset, inventaris_peralatan.id, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, 'Baik', inventaris_peralatan.keterangan, inventaris_peralatan.asal, inventaris_peralatan.tahun_pengadaan FROM inventaris_peralatan WHERE visible = 1");
+        $this->db->query("CREATE OR REPLACE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' AS asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_peralatan WHERE visible = 1");
+    
+        $skipTable = [
+            'captcha_codes'
+        ];
+
+        // ambil semuta tabel yang memiliki kolom id
+        $allTables = $this->db->list_tables();
+
+        $tables = [];
+        // cek dan tambah primary key pada tabel yang memiliki kolom id yang belum memiliki primary key
+        foreach ($allTables as $table) {
+            if (in_array($table, $skipTable)) {
+                continue;
+            }
+
+            $fields = $this->db->field_data($table);
+            $id     = false;
+            foreach ($fields as $field) {
+                if (in_array($field->name, ['id', 'ID'])) {
+                    $id = true;
+                    break;
+                }
+            }
+            if ($id) {
+                // hapus data yang memiliki id = 0
+                $this->db->where('id', '0')->delete($table);
+
+                $query = "SHOW INDEX FROM {$table} WHERE Key_name = 'PRIMARY'";
+                $index = $this->db->query($query)->row_array();
+                if (! $index) {
+                    $tables[] = $table;
+                    $query    = "ALTER TABLE {$table} ADD PRIMARY KEY (id)";
+                    $this->db->query($query);
+                }
+
+                // jika belem memiliki auto increment, tambahkan
+                $query = "SHOW COLUMNS FROM {$table} WHERE Extra = 'auto_increment'";
+                $auto  = $this->db->query($query)->row_array();
+                if (! $auto) {
+                    $query = "ALTER TABLE {$table} MODIFY id INT(11) NOT NULL AUTO_INCREMENT";
+                    $this->db->query($query);
+                }
+            }
+        }
+
+        // dd($tables);
     }
 }
