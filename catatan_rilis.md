@@ -64,6 +64,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 56. [#8267](https://github.com/OpenSID/OpenSID/issues/8267) Perbaikan perbarui captha.
 57. [#8266](https://github.com/OpenSID/OpenSID/issues/8266) Perbaikan tanggal cetak surat yang tersimpan sebagai konsep.
 58. [#8258](https://github.com/OpenSID/OpenSID/issues/8258) Perbaikan notifikasi konfirmasi cookie.
+59. [#8268](https://github.com/OpenSID/OpenSID/issues/8268) Perbaikan cetak surat dengan isian keterangan/keperluan yang panjang.
 
 
 #### TEKNIS

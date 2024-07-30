@@ -57,8 +57,9 @@ class Migrasi_rev extends MY_model
         $hasil = $hasil && $this->migrasi_2024072754($hasil);
         $hasil = $hasil && $this->migrasi_2024072755($hasil);
         $hasil = $hasil && $this->migrasi_2024072756($hasil);
+        $hasil = $hasil && $this->migrasi_2024072651($hasil);
 
-        return $hasil && $this->migrasi_2024072651($hasil);
+        return $hasil && $this->migrasi_2024072951($hasil);
     }
 
     protected function migrasi_2024072651($hasil)
@@ -415,5 +416,15 @@ class Migrasi_rev extends MY_model
             ]);
 
         return $hasil;
+    }
+
+    protected function migrasi_2024072951($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('log_surat', [
+            'keterangan' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+        ]);
     }
 }

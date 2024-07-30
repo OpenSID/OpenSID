@@ -418,4 +418,9 @@ class LogSurat extends BaseModel
             }
         }
     }
+
+    public function setKeteranganAttribute()
+    {
+        $this->attributes['keterangan'] = null;
+    }
 }
