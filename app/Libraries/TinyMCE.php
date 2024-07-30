@@ -434,7 +434,6 @@ class TinyMCE
                 return $item;
             })
             ->toArray();
-
         if ((int) $data['surat']['masa_berlaku'] == 0) {
             $result = str_ireplace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
         }
@@ -475,8 +474,16 @@ class TinyMCE
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             }
 
+            if (preg_match('/nip_pamong/i', $key)) {
+                if (empty($value) || $value == '-') {
+                    $result = str_replace(setting('sebutan_nip_desa') . ' : ', '', $result);
+                    $value  = '';
+                }
+            }
+
             $result = case_replace($key, $value, $result);
         }
+
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
         $result = terjemahkanTerbilang($result);

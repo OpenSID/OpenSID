@@ -305,10 +305,10 @@ class Bantuan extends BaseModel
                 // NIK bisa untuk anggota keluarga, belum tentu kepala KK
                 $data = self::get_penduduk($peserta_id);
                 // Data KK
-                $kk                     = self::get_kk($data['id_kk']);
-                $data['no_kk']          = $data['id_peserta'] = $kk['no_kk']; // No KK digunakan sebagai peserta
-                $data['nik_kk']         = $kk['nik_kk'];
-                $data['nama_kk']        = $kk['nama_kk'];
+                $kk              = self::get_kk($data['id_kk']);
+                $data['no_kk']   = $data['id_peserta'] = $kk['no_kk']; // No KK digunakan sebagai peserta
+                $data['nik_kk']  = $kk['nik_kk'];
+                $data['nama_kk'] = $kk['nama_kk'];
 
                 $data['alamat_wilayah'] = Penduduk::get_alamat_wilayah($kk);
                 $data['kartu_nik']      = $data['nik'];
@@ -364,7 +364,7 @@ class Bantuan extends BaseModel
                 'w.nama as warganegara',
                 'c.dusun',
                 'c.rw',
-                'c.rt'
+                'c.rt',
             ])
             ->leftJoin('tweb_penduduk_sex as x', 'x.id', '=', 'p.sex')
             ->leftJoin('tweb_penduduk_hubungan as h', 'h.id', '=', 'p.kk_level')
@@ -373,7 +373,7 @@ class Bantuan extends BaseModel
             ->leftJoin('tweb_penduduk_pekerjaan as j', 'j.id', '=', 'p.pekerjaan_id')
             ->leftJoin('tweb_penduduk_warganegara as w', 'w.id', '=', 'p.warganegara_id')
             ->leftJoin('tweb_wil_clusterdesa as c', 'c.id', '=', 'p.id_cluster')
-            ->where(function ($query) use ($peserta_id) {
+            ->where(static function ($query) use ($peserta_id) {
                 $query->where('p.nik', $peserta_id)
                     ->orWhere('p.id', $peserta_id);
             })
@@ -381,10 +381,9 @@ class Bantuan extends BaseModel
 
         if ($data) {
             // add umur with helper
-            $data = collect($data)->merge([
-                'umur' => umur($data->tanggallahir)
+            return collect($data)->merge([
+                'umur' => umur($data->tanggallahir),
             ])->toArray();
-            return $data;
         }
     }
 
@@ -396,22 +395,23 @@ class Bantuan extends BaseModel
                 'p.nik as nik_kk',
                 'p.nama as nama_kk',
                 'k.alamat',
-                'c.*'
+                'c.*',
             ])
             ->leftJoin('penduduk_hidup as p', 'p.id', '=', 'k.nik_kepala')
             ->leftJoin('tweb_wil_clusterdesa as c', 'c.id', '=', 'k.id_cluster')
-            ->where(function ($query) use ($id_kk) {
+            ->where(static function ($query) use ($id_kk) {
                 $query->where('k.no_kk', $id_kk)
                     ->orWhere('k.id', $id_kk);
             })
             ->first();
+
         return collect($data)->toArray();
     }
 
     public static function getProgramPeserta($slug)
     {
         // Untuk program bantuan, $slug berbentuk '50<program_id>'s
-        $slug   = preg_replace('/^50/', '', $slug);
+        $slug    = preg_replace('/^50/', '', $slug);
         $program = self::get_program_data($slug);
         $peserta = self::get_data_peserta($program, $slug);
 
@@ -451,7 +451,7 @@ class Bantuan extends BaseModel
                 'h.nama as kk_level',
                 'w.dusun',
                 'w.rw',
-                'w.rt'
+                'w.rt',
             ])
             ->leftJoin('tweb_penduduk_hubungan as h', 'h.id', '=', 'p.kk_level')
             ->leftJoin('keluarga_aktif as k', 'k.id', '=', 'p.id_kk')
@@ -462,9 +462,7 @@ class Bantuan extends BaseModel
             ->get();
 
         if ($data) {
-            $collected = collect($data)->filter(static function ($item) use ($filter) {
-                return !in_array($item->no_kk, $filter);
-            })->map(static function ($item) {
+            $collected = collect($data)->filter(static fn ($item) => ! in_array($item->no_kk, $filter))->map(static function ($item) {
                 return [
                     'id'   => $item->nik,
                     'nik'  => $item->nik,
@@ -487,16 +485,14 @@ class Bantuan extends BaseModel
                 'p.nama',
                 'w.rt',
                 'w.rw',
-                'w.dusun'
+                'w.dusun',
             ])
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_cluster')
             ->orderBy('p.nama')
             ->get();
 
         if ($data) {
-            $collected = collect($data)->filter(static function ($item) use ($filter) {
-                return !in_array($item->no_kk, $filter);
-            })->map(static function ($item) {
+            $collected = collect($data)->filter(static fn ($item) => ! in_array($item->no_kk, $filter))->map(static function ($item) {
                 return [
                     'id'   => $item->nik,
                     'nik'  => $item->nik,
@@ -520,16 +516,14 @@ class Bantuan extends BaseModel
                 'o.nama',
                 'w.rt',
                 'w.rw',
-                'w.dusun'
+                'w.dusun',
             ])
             ->leftJoin('tweb_penduduk as o', 'o.id', '=', 'r.nik_kepala')
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
             ->get();
 
         if ($data) {
-            $collected = collect($data)->filter(static function ($item) use ($filter) {
-                return !in_array($item->id, $filter);
-            })->map(static function ($item) {
+            $collected = collect($data)->filter(static fn ($item) => ! in_array($item->id, $filter))->map(static function ($item) {
                 return [
                     'id'   => $item->id,
                     'nik'  => $item->id,
@@ -554,16 +548,14 @@ class Bantuan extends BaseModel
                 'o.nama',
                 'w.rt',
                 'w.rw',
-                'w.dusun'
+                'w.dusun',
             ])
             ->leftJoin('tweb_penduduk as o', 'o.id', '=', 'k.id_ketua')
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'o.id_cluster')
             ->get();
 
         if ($data) {
-            $collected = collect($data)->filter(static function ($item) use ($filter) {
-                return !in_array($item->id, $filter);
-            })->map(static function ($item) {
+            $collected = collect($data)->filter(static fn ($item) => ! in_array($item->id, $filter))->map(static function ($item) {
                 return [
                     'id'   => $item->id,
                     'nik'  => $item->nama_kelompok,
@@ -577,7 +569,6 @@ class Bantuan extends BaseModel
 
         return [];
     }
-
 
     public static function get_program_data($slug)
     {
@@ -619,7 +610,8 @@ class Bantuan extends BaseModel
 
     public static function get_data_peserta(array $hasil0, $slug)
     {
-        $query     = self::get_peserta_sql($slug, $hasil0['sasaran']);
+        $query = self::get_peserta_sql($slug, $hasil0['sasaran']);
+
         switch ($hasil0['sasaran']) {
             case 1:
                 return self::get_data_peserta_penduduk($query);
@@ -638,10 +630,11 @@ class Bantuan extends BaseModel
     public static function get_peserta_sql(string $slug, $sasaran, bool $jumlah = false)
     {
         $query = DB::table('program_peserta as p');
+
         switch ($sasaran) {
             case 1:
                 // Data penduduk
-                if (!$jumlah) {
+                if (! $jumlah) {
                     $select_sql = [
                         'p.*',
                         'o.nama',
@@ -650,7 +643,7 @@ class Bantuan extends BaseModel
                         'w.rt',
                         'w.rw',
                         'w.dusun',
-                        'k.no_kk'
+                        'k.no_kk',
                     ];
                 }
 
@@ -664,7 +657,7 @@ class Bantuan extends BaseModel
 
             case 2:
                 // Data KK
-                if (!$jumlah) {
+                if (! $jumlah) {
                     $select_sql = [
                         'p.*',
                         'p.peserta as nama',
@@ -676,7 +669,7 @@ class Bantuan extends BaseModel
                         'w.rt',
                         'w.rw',
                         'w.dusun',
-                        's.nama as status_dasar'
+                        's.nama as status_dasar',
                     ];
                 }
 
@@ -691,7 +684,7 @@ class Bantuan extends BaseModel
 
             case 3:
                 // Data RTM
-                if (!$jumlah) {
+                if (! $jumlah) {
                     $select_sql = [
                         'p.*',
                         'o.nama',
@@ -701,7 +694,7 @@ class Bantuan extends BaseModel
                         'w.rt',
                         'w.rw',
                         'w.dusun',
-                        's.nama as status_dasar'
+                        's.nama as status_dasar',
                     ];
                 }
 
@@ -715,7 +708,7 @@ class Bantuan extends BaseModel
 
             case 4:
                 // Data Kelompok
-                if (!$jumlah) {
+                if (! $jumlah) {
                     $select_sql = [
                         'p.*',
                         'o.nama',
@@ -726,7 +719,7 @@ class Bantuan extends BaseModel
                         'w.rt',
                         'w.rw',
                         'w.dusun',
-                        's.nama as status_dasar'
+                        's.nama as status_dasar',
                     ];
                 }
 
@@ -743,21 +736,24 @@ class Bantuan extends BaseModel
                 break;
         }
         $query->where('p.program_id', $slug);
+
         return $query->get();
     }
 
     private static function get_data_peserta_penduduk($data)
     {
         if ($data) {
-            $collected = collect($data)->map(function ($item) {
-                $item->nik = $item->peserta;
+            $collected = collect($data)->map(static function ($item) {
+                $item->nik          = $item->peserta;
                 $item->peserta_plus = $item->no_kk ?? '-';
                 $item->peserta_nama = $item->peserta;
                 $item->peserta_info = $item->nama;
-                $item->nama = strtoupper($item->nama);
-                $item->info = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+                $item->nama         = strtoupper($item->nama);
+                $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+
                 return $item;
             })->toArray();
+
             return $collected;
         }
 
@@ -769,13 +765,14 @@ class Bantuan extends BaseModel
     {
         // Data KK
         if ($data) {
-            $collected = collect($data)->map(function ($item) {
-                $item->nik = $item->peserta;
+            $collected = collect($data)->map(static function ($item) {
+                $item->nik          = $item->peserta;
                 $item->peserta_plus = $item->nik_kk;
                 $item->peserta_nama = $item->no_kk;
                 $item->peserta_info = $item->nama_kk;
-                $item->nama = strtoupper($item->nama);
-                $item->info = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+                $item->nama         = strtoupper($item->nama);
+                $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+
                 return $item;
             })->toArray();
 
@@ -789,12 +786,13 @@ class Bantuan extends BaseModel
     {
         // Data RTM
         if ($data) {
-            $collected = collect($data)->map(function ($item) {
-                $item->nik = $item->peserta;
+            $collected = collect($data)->map(static function ($item) {
+                $item->nik          = $item->peserta;
                 $item->peserta_nama = $item->no_kk;
                 $item->peserta_info = $item->nama_kk;
-                $item->nama = strtoupper($item->nama) . ' [' . $item->nik . ' - ' . $item->no_kk . ']';
-                $item->info = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+                $item->nama         = strtoupper($item->nama) . ' [' . $item->nik . ' - ' . $item->no_kk . ']';
+                $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+
                 return $item;
             })->toArray();
 
@@ -808,17 +806,19 @@ class Bantuan extends BaseModel
     {
         // Data Kelompok
         if ($data) {
-            $collected = collect($data)->map(function ($item) {
-                $item->nik = $item->nama_kelompok;
+            $collected = collect($data)->map(static function ($item) {
+                $item->nik          = $item->nama_kelompok;
                 $item->peserta_nama = $item->nama_kelompok;
                 $item->peserta_info = $item->nama;
-                $item->nama = strtoupper($item->nama);
-                $item->info = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+                $item->nama         = strtoupper($item->nama);
+                $item->info         = 'RT/RW ' . $item->rt . '/' . $item->rw . '  ' . self::dusun($item->dusun);
+
                 return $item;
             })->toArray();
 
             return $collected;
         }
+
         return [];
     }
 

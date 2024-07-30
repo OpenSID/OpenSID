@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -55,5 +54,15 @@ class Migrasi_rev extends MY_model
         // }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024072951($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('log_surat', [
+            'keterangan' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
+        ]);
     }
 }

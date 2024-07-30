@@ -557,10 +557,6 @@ class Surat extends Admin_Controller
 
             $isi_surat = str_ireplace($format_surat, '[format_nomor_surat]', $isi_surat);
 
-            // Kembalikan kode isian [tgl_surat]
-            $tgl_surat = tgl_indo($log_surat['tanggal']);
-            $isi_surat = str_replace($tgl_surat, '[tgl_surat]', $isi_surat);
-
             // Hanya simpan isian surat
             $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
 

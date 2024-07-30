@@ -443,11 +443,9 @@ class Pengurus extends Admin_Controller
 
     public function daftar($aksi = 'cetak'): void
     {
-        $status                 = $this->input->post('status') ?? null;
-        $kehadiran              = $this->input->post('kehadiran') ?? null;
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()->toArray();
+        $status    = $this->input->post('status') ?? null;
+        $kehadiran = $this->input->post('kehadiran') ?? null;
+        $ttd       = $this->modal_penandatangan();
 
         $data['desa'] = $this->header['desa'];
         $query        = Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status))->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
@@ -465,6 +463,8 @@ class Pengurus extends Admin_Controller
             'main'  => $query->take($paramDatatable['length'])->get(),
             'start' => $paramDatatable['start'],
         ];
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $ttd['pamong_ketahui']->pamong_id])->first()->toArray();
 
         if ($aksi == 'unduh') {
             header('Content-type: application/octet-stream');

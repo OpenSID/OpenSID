@@ -76,7 +76,13 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 52. [#8262](https://github.com/OpenSID/OpenSID/issues/8262) Perbaikan menampilkan data halaman galeri web.
 53. [#8257](https://github.com/OpenSID/OpenSID/issues/8257) Perbaikan form isian template surat keterangan penghasilan ibu.
 54. [#8252](https://github.com/OpenSID/OpenSID/issues/8252) Perbaikan data pada cetak buku pemerintah desa.
-55. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran dan peta. 
+55. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran dan peta.
+56. [#8267](https://github.com/OpenSID/OpenSID/issues/8267) Perbaikan perbarui captha.
+57. [#8266](https://github.com/OpenSID/OpenSID/issues/8266) Perbaikan tanggal cetak surat yang tersimpan sebagai konsep.
+58. [#8258](https://github.com/OpenSID/OpenSID/issues/8258) Perbaikan notifikasi konfirmasi cookie.
+59. [#8268](https://github.com/OpenSID/OpenSID/issues/8268) Perbaikan cetak surat dengan isian keterangan/keperluan yang panjang.
+60. [#8237](https://github.com/OpenSID/OpenSID/issues/8237) Perbaikan hasil cetak surat untuk penandatangan yang tidak memiliki NIP atau sebutan NIPD lainnya.
+61. [#8241](https://github.com/OpenSID/OpenSID/issues/8241) Perbaikan penggunaan query manual pada modul shortcut.
 
 
 #### TEKNIS
@@ -96,3 +102,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#8248](https://github.com/OpenSID/OpenSID/issues/8248) Penyesuaian modal otomatis tertutup saat melakukan cetak.
 14. [#7905](https://github.com/OpenSID/OpenSID/issues/7905) Penyesuaian modul peserta bantuan menggunakan ORM dan Blade.
 15. [#8217](https://github.com/OpenSID/OpenSID/issues/8217) Penyesuaian modul inventaris laporan semua asset menggunakan ORM dan Blade.
+16. [#8250](https://github.com/OpenSID/OpenSID/issues/8250) Penghapusan tools yang ada pada pratinjau file surat.
