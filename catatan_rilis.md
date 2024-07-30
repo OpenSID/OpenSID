@@ -67,6 +67,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 59. [#8268](https://github.com/OpenSID/OpenSID/issues/8268) Perbaikan cetak surat dengan isian keterangan/keperluan yang panjang.
 60. [#8237](https://github.com/OpenSID/OpenSID/issues/8237) Perbaikan hasil cetak surat untuk penandatangan yang tidak memiliki NIP atau sebutan NIPD lainnya.
 61. [#8241](https://github.com/OpenSID/OpenSID/issues/8241) Perbaikan penggunaan query manual pada modul shortcut.
+62. [#8272](https://github.com/OpenSID/OpenSID/issues/8272) Perbaikan tampilan input form registrasi buku tamu.
 
 
 #### TEKNIS
