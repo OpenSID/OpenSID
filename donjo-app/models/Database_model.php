@@ -3612,6 +3612,26 @@ class Database_model extends MY_Model
         $this->db->query("CREATE OR REPLACE VIEW `master_inventaris` AS SELECT 'inventaris_asset' AS asset, inventaris_asset.id, inventaris_asset.nama_barang, inventaris_asset.kode_barang, 'Baik' AS kondisi, inventaris_asset.keterangan, inventaris_asset.asal, inventaris_asset.tahun_pengadaan FROM inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung' AS asset, inventaris_gedung.id, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.kondisi_bangunan, inventaris_gedung.keterangan, inventaris_gedung.asal, YEAR( inventaris_gedung.tanggal_dokument) AS tahun_pengadaan FROM inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan' AS asset, inventaris_jalan.id, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.kondisi, inventaris_jalan.keterangan, inventaris_jalan.asal, YEAR ( inventaris_jalan.tanggal_dokument ) AS tahun_pengadaan FROM inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan' AS asset, inventaris_peralatan.id, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, 'Baik', inventaris_peralatan.keterangan, inventaris_peralatan.asal, inventaris_peralatan.tahun_pengadaan FROM inventaris_peralatan WHERE visible = 1");
         $this->db->query("CREATE OR REPLACE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' AS asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_peralatan WHERE visible = 1");
     
+        // penyebab gagal migrasi lainnya
+        // - sys_traffic tgl duplikat, ambil data tanggal terakhir dari yang sama, yang lain dihapus
+        // cara hapus, cek tanggal yang sama, ambil data yang kolom jumlah paling besar, yang lain dihapus
+        $dataSama = $this->db->query('SELECT tanggal, COUNT(1) AS jumlah FROM sys_traffic GROUP BY tanggal HAVING jumlah > 1')->result_array();
+        foreach ($dataSama as $data) {
+            $tanggal = $data['tanggal'];
+            $query   = "SELECT * FROM sys_traffic WHERE tanggal = '{$tanggal}' ORDER BY jumlah DESC";
+            $data    = $this->db->query($query)->result_array();
+
+            // simpan data pertama dalam array
+            $dataPertama = array_shift($data);
+
+            // hapus data lainnya berdasaarkan tanggal tsb
+            $this->db->where('tanggal', $tanggal)->delete('sys_traffic');
+
+            // tambahkan data pertama
+            $this->db->insert('sys_traffic', $dataPertama);
+        }
+
+
         $skipTable = [
             'captcha_codes'
         ];
