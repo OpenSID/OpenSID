@@ -1183,7 +1183,7 @@ if (! function_exists('auth_mandiri')) {
 if (! function_exists('format_penomoran_surat')) {
     function format_penomoran_surat($isGlobal = false, $formatGlobal = '', $formatLocal = '')
     {
-        if ($isGlobal === false && ! empty($formatLocal)) {
+        if ($isGlobal == false && ! empty($formatLocal)) {
             return $formatLocal;
         }
 
