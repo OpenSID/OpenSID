@@ -103,12 +103,11 @@
             <label for="catatan">Catatan Peristiwa</label>
             <textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" rows="5"></textarea>
         </div>
-        <div class="alert alert-warning alert-dismissible">
+        <div class="alert alert-warning alert-dismissible" style="margin-bottom: -5px;">
             <h4><i class="icon fa fa-warning"></i> Catatan!</h4>
             <ul style="margin-left: -25px;">
                 <li>Jika kepala keluarga meninggal, harap melakukan pemecahan Kartu Keluarga (KK) terlebih dahulu.</li>
-                <li>Jika meninggal atau hilang, jelaskan penyebabnya.</li>
-                <li>Jika pindah, tuliskan alamat tujuan pindah.</li>
+                <li>Jika terdapat keterangan lain terkait perubahan status dasar, harap diisi pada kolom catatan peristiwa.</li>
             </ul>
         </div>
     </div>
