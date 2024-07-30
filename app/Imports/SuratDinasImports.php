@@ -72,7 +72,7 @@ class SuratDinasImports
                 }
 
                 $data->each(function ($line) use ($configId) {
-                    $dataUpdate = [
+                    $data = [
                         'config_id' => $configId,
                         'nama' => $line['nama'],
                         'url_surat' => $line['url_surat'],
@@ -100,14 +100,12 @@ class SuratDinasImports
                         'updated_by' => auth()->id,
                     ];
 
-                    $suratDinas = DB::table('surat_dinas')->where('config_id', $configId)
-                        ->where('kode_surat', $line['kode_surat'])
-                        ->first();
+                    $suratDinas = DB::table('surat_dinas')->where('config_id', $configId)->where('kode_surat', $line['kode_surat']);
 
-                    if ($suratDinas) {
-                        $suratDinas->update($dataUpdate);
+                    if ($suratDinas->exists()) {
+                        $suratDinas->update(['template' => $data['template']]);
                     } else {
-                        SuratDinas::create($dataUpdate);
+                        $suratDinas->insert($data);
                     }
                 });
             }
