@@ -68,21 +68,20 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8234](https://github.com/OpenSID/OpenSID/issues/8234) Perbaikan kode pos dan RT/RW pada lampiran F-1.01, F-1.15, F-1.16.
 46. [#8239](https://github.com/OpenSID/OpenSID/issues/8239) Perbaikan alur ubah status penduduk dengan SHDK kepala keluarga yang masih memiliki anggota keluarga.
 47. [#8197](https://github.com/OpenSID/OpenSID/issues/8197) Perbaikan cadangan folder desa.
-48. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor TinyMCE pada tambah baru surat.
-49. [#8244](https://github.com/OpenSID/OpenSID/issues/8244) Perbaikan pencarian kumpulan KK pada modul Keluarga.
-50. [#8260](https://github.com/OpenSID/OpenSID/issues/8260) Perbaikan validasi pengaturan max_zoom peta.
-51. [#8262](https://github.com/OpenSID/OpenSID/issues/8262) Perbaikan menampilkan data halaman galeri web.
-52. [#8257](https://github.com/OpenSID/OpenSID/issues/8257) Perbaikan form isian template surat keterangan penghasilan ibu.
-53. [#8252](https://github.com/OpenSID/OpenSID/issues/8252) Perbaikan data pada cetak buku pemerintah desa.
-54. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran, dan peta.
-55. [#8267](https://github.com/OpenSID/OpenSID/issues/8267) Perbaikan pembaruan CAPTCHA.
-56. [#8266](https://github.com/OpenSID/OpenSID/issues/8266) Perbaikan tanggal cetak surat yang tersimpan sebagai konsep.
-57. [#8258](https://github.com/OpenSID/OpenSID/issues/8258) Perbaikan notifikasi konfirmasi cookie.
-58. [#8268](https://github.com/OpenSID/OpenSID/issues/8268) Perbaikan cetak surat dengan isian keterangan/keperluan yang panjang.
-59. [#8237](https://github.com/OpenSID/OpenSID/issues/8237) Perbaikan hasil cetak surat untuk penandatangan yang tidak memiliki NIP atau sebutan NIPD lainnya.
-60. [#8241](https://github.com/OpenSID/OpenSID/issues/8241) Perbaikan penggunaan query manual pada modul shortcut.
-61. [#8272](https://github.com/OpenSID/OpenSID/issues/8272) Perbaikan tampilan input form registrasi buku tamu.
-62. [#8265](https://github.com/OpenSID/OpenSID/issues/8265) Perbaikan lokasi footer surat.
+48. [#8244](https://github.com/OpenSID/OpenSID/issues/8244) Perbaikan pencarian kumpulan KK pada modul Keluarga.
+49. [#8260](https://github.com/OpenSID/OpenSID/issues/8260) Perbaikan validasi pengaturan max_zoom peta.
+50. [#8262](https://github.com/OpenSID/OpenSID/issues/8262) Perbaikan menampilkan data halaman galeri web.
+51. [#8257](https://github.com/OpenSID/OpenSID/issues/8257) Perbaikan form isian template surat keterangan penghasilan ibu.
+52. [#8252](https://github.com/OpenSID/OpenSID/issues/8252) Perbaikan data pada cetak buku pemerintah desa.
+53. [#8226](https://github.com/OpenSID/OpenSID/issues/8226) Perbaikan validasi pengaturan lapak, pengurus, galeri, kehadiran, dan peta.
+54. [#8267](https://github.com/OpenSID/OpenSID/issues/8267) Perbaikan pembaruan CAPTCHA.
+55. [#8266](https://github.com/OpenSID/OpenSID/issues/8266) Perbaikan tanggal cetak surat yang tersimpan sebagai konsep.
+56. [#8258](https://github.com/OpenSID/OpenSID/issues/8258) Perbaikan notifikasi konfirmasi cookie.
+57. [#8268](https://github.com/OpenSID/OpenSID/issues/8268) Perbaikan cetak surat dengan isian keterangan/keperluan yang panjang.
+58. [#8237](https://github.com/OpenSID/OpenSID/issues/8237) Perbaikan hasil cetak surat untuk penandatangan yang tidak memiliki NIP atau sebutan NIPD lainnya.
+59. [#8241](https://github.com/OpenSID/OpenSID/issues/8241) Perbaikan penggunaan query manual pada modul shortcut.
+60. [#8272](https://github.com/OpenSID/OpenSID/issues/8272) Perbaikan tampilan input form registrasi buku tamu.
+61. [#8265](https://github.com/OpenSID/OpenSID/issues/8265) Perbaikan lokasi footer surat.
 
 #### TEKNIS
 
