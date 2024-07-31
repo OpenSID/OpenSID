@@ -333,8 +333,9 @@ class TinyMCE
         $font_surat   = array_map('strtolower', $font_surat);
         $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
         $isi          = str_replace($font_surat, $replace_font, $isi);
+
         // Pisahkan isian surat
-        $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
+        $isi = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
         $isi = explode('<!-- pagebreak -->', $isi);
         $tinggi_header = (float) ($this->ci->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
         $tinggi_footer = (float) ($this->ci->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
@@ -372,6 +373,7 @@ class TinyMCE
                 $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
                 break;
         }
+
         $style = '
             <style>
             .special-symbol {

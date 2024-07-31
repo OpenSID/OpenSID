@@ -36,8 +36,6 @@
  */
 
 use App\Models\Artikel;
-use App\Models\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 defined('BASEPATH') || exit('No direct script access allowed');
