@@ -37,17 +37,13 @@
 
 namespace App\Imports;
 
-use Exception;
 use Carbon\Carbon;
-use App\Models\SuratDinas;
-use App\Models\KlasifikasiSurat;
+use Exception;
 use Illuminate\Support\Facades\DB;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class SuratDinasImports
 {
     protected $path;
-
     protected $where;
 
     public function __construct($path = null, $where = null)
@@ -71,33 +67,33 @@ class SuratDinasImports
                     $data = $data->where('url_surat', $this->where['url_surat']);
                 }
 
-                $data->each(function ($line) use ($configId) {
+                $data->each(static function ($line) use ($configId) {
                     $data = [
-                        'config_id' => $configId,
-                        'nama' => $line['nama'],
-                        'url_surat' => $line['url_surat'],
-                        'kode_surat' => $line['kode_surat'],
-                        'lampiran' => $line['lampiran'],
-                        'jenis' => $line['jenis'],
-                        'masa_berlaku' => $line['masa_berlaku'],
+                        'config_id'           => $configId,
+                        'nama'                => $line['nama'],
+                        'url_surat'           => $line['url_surat'],
+                        'kode_surat'          => $line['kode_surat'],
+                        'lampiran'            => $line['lampiran'],
+                        'jenis'               => $line['jenis'],
+                        'masa_berlaku'        => $line['masa_berlaku'],
                         'satuan_masa_berlaku' => $line['satuan_masa_berlaku'],
-                        'qr_code' => $line['qr_code'],
-                        'logo_garuda' => $line['logo_garuda'],
-                        'template' => $line['template'],
-                        'form_isian' => $line['form_isian'],
-                        'kode_isian' => $line['kode_isian'],
-                        'orientasi' => $line['orientasi'],
-                        'ukuran' => $line['ukuran'],
-                        'margin' => $line['margin'],
-                        'margin_global' => $line['margin_global'],
-                        'footer' => $line['footer'],
-                        'header' => $line['header'],
-                        'format_nomor' => $line['format_nomor'],
+                        'qr_code'             => $line['qr_code'],
+                        'logo_garuda'         => $line['logo_garuda'],
+                        'template'            => $line['template'],
+                        'form_isian'          => $line['form_isian'],
+                        'kode_isian'          => $line['kode_isian'],
+                        'orientasi'           => $line['orientasi'],
+                        'ukuran'              => $line['ukuran'],
+                        'margin'              => $line['margin'],
+                        'margin_global'       => $line['margin_global'],
+                        'footer'              => $line['footer'],
+                        'header'              => $line['header'],
+                        'format_nomor'        => $line['format_nomor'],
                         'format_nomor_global' => $line['format_nomor_global'],
-                        'created_at' => Carbon::now(),
-                        'created_by' => auth()->id,
-                        'updated_at' => Carbon::now(),
-                        'updated_by' => auth()->id,
+                        'created_at'          => Carbon::now(),
+                        'created_by'          => auth()->id,
+                        'updated_at'          => Carbon::now(),
+                        'updated_by'          => auth()->id,
                     ];
 
                     $suratDinas = DB::table('surat_dinas')->where('config_id', $configId)->where('kode_surat', $line['kode_surat']);

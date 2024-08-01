@@ -36,8 +36,6 @@
  */
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,24 +43,12 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        $hasil = true;
+        return true;
 
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024072951($hasil)
-    {
-        return $hasil && $this->dbforge->modify_column('log_surat', [
-            'keterangan' => [
-                'type' => 'TEXT',
-                'null' => true,
-            ],
-        ]);
     }
 }

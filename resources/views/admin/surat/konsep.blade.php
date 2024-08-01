@@ -6,13 +6,13 @@
     $label = 'Konsep Surat';
     $urlDaftar = ci_route('surat');
     $cetak = 'Cetak';
-    @endphp
-@isset($ubah)
-@php
-    $label = 'Ubah Surat';
-    $urlDaftar = ci_route('keluar');
-    $cetak = 'Arsip Layanan';
 @endphp
+@isset($ubah)
+    @php
+        $label = 'Ubah Surat';
+        $urlDaftar = ci_route('keluar');
+        $cetak = 'Arsip Layanan';
+    @endphp
 @endisset
 
 @section('title')

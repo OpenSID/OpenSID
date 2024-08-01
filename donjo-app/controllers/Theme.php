@@ -220,14 +220,14 @@ class Theme extends Admin_Controller
 
     protected function validateOpsi($opsi, $tema)
     {
-        $configPath = FCPATH . $tema->path . '/config.json';
+        $configPath  = FCPATH . $tema->path . '/config.json';
         $configTheme = json_decode(file_get_contents($configPath), true);
-        $opsi = [];
+        $opsi        = [];
 
         foreach ($configTheme as $config) {
             $key = $config['key'];
             if ($config['type'] == 'unggah') {
-                $opsi[$key] = $this->imageUpload($tema->slug, $key);
+                $opsi[$key]          = $this->imageUpload($tema->slug, $key);
                 $opsi['url_' . $key] = $this->input->post()['opsi']['url_' . $key];
             } else {
                 $opsi[$key] = $this->input->post()['opsi'][$key];
@@ -249,7 +249,7 @@ class Theme extends Admin_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
         $config['overwrite']     = true;
         $config['max_size']      = max_upload() * 5 * 1024;
-        $config['file_name']    = $key;
+        $config['file_name']     = $key;
 
         $this->upload->initialize($config);
         if ($this->upload->do_upload($key)) {

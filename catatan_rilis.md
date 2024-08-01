@@ -1,6 +1,6 @@
-Di rilis ini, versi 2407.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2408.0.0 berisi penambahan surat pernyataan sebagai surat dinas bawaan sistem dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
 #### FITUR
 

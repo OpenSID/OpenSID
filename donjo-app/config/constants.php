@@ -237,7 +237,6 @@ define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');
 define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/latar_login_mandiri.jpg');
 define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bookman Old Style', 'Comic Sans MS', 'Courier New', 'Georgia', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana']);
 
-
 // Info Sistem
 define('EKSTENSI_WAJIB', serialize([
     'curl',

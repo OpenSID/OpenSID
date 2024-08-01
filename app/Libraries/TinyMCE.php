@@ -126,7 +126,7 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP          = 3.5; // cm
+    public const TOP          = 4; // cm
     public const BOTTOM       = 2; // cm
     public const DEFAULT_FONT = 'Times New Roman';
 
@@ -335,8 +335,8 @@ class TinyMCE
         $isi          = str_replace($font_surat, $replace_font, $isi);
 
         // Pisahkan isian surat
-        $isi = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
-        $isi = explode('<!-- pagebreak -->', $isi);
+        $isi           = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
+        $isi           = explode('<!-- pagebreak -->', $isi);
         $tinggi_header = (float) ($this->ci->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
         $tinggi_footer = (float) ($this->ci->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
 

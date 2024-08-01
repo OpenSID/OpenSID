@@ -27,12 +27,20 @@
     <div class="row">
         @php
             $daftarPengaturan = collect($tema->config);
-            $pengaturanUnggah = $daftarPengaturan->filter(function ($item) { return $item['type'] == 'unggah'; })->all();
-            $viewUnggah       = count($pengaturanUnggah) > 0;
-            $pengaturanInput = $daftarPengaturan->filter(function ($item) { return $item['type'] != 'unggah'; })->all();
+            $pengaturanUnggah = $daftarPengaturan
+                ->filter(function ($item) {
+                    return $item['type'] == 'unggah';
+                })
+                ->all();
+            $viewUnggah = count($pengaturanUnggah) > 0;
+            $pengaturanInput = $daftarPengaturan
+                ->filter(function ($item) {
+                    return $item['type'] != 'unggah';
+                })
+                ->all();
         @endphp
         @if (count($pengaturanInput) > 0)
-        {!! form_open_multipart($form_action, 'id="validasi"') !!}
+            {!! form_open_multipart($form_action, 'id="validasi"') !!}
             @php $col = 9 @endphp
             @if ($viewUnggah)
                 @foreach ($pengaturanUnggah as $key => $value)
@@ -43,7 +51,7 @@
                                 'key' => $value['key'],
                                 'default' => $tema->opsi[$value['key']] ?? $value['value'],
                                 'readonly' => $value['readonly'],
-                            ]
+                            ],
                         ])
                     </div>
                 @endforeach
@@ -100,7 +108,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+            </form>
         @else
             <div class="box-body">
                 <div class="alert alert-danger alert-dismissible">
