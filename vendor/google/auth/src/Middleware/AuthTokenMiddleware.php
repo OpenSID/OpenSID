@@ -126,15 +126,13 @@ class AuthTokenMiddleware
      */
     private function addAuthHeaders(RequestInterface $request)
     {
-        if (
-            !$this->fetcher instanceof UpdateMetadataInterface ||
+        if (!$this->fetcher instanceof UpdateMetadataInterface ||
             ($this->fetcher instanceof FetchAuthTokenCache &&
-                !$this->fetcher->getFetcher() instanceof UpdateMetadataInterface)
+             !$this->fetcher->getFetcher() instanceof UpdateMetadataInterface)
         ) {
             $token = $this->fetcher->fetchAuthToken();
             $request = $request->withHeader(
-                'authorization',
-                'Bearer ' . ($token['access_token'] ?? $token['id_token'] ?? '')
+                'authorization', 'Bearer ' . ($token['access_token'] ?? $token['id_token'] ?? '')
             );
         } else {
             $headers = $this->fetcher->updateMetadata($request->getHeaders(), null, $this->httpHandler);

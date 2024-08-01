@@ -356,7 +356,7 @@ class ServiceAccountCredentials extends CredentialsLoader implements
             if ($this->getUniverseDomain() !== self::DEFAULT_UNIVERSE_DOMAIN) {
                 throw new \LogicException(sprintf(
                     'Service Account subject is configured for the credential. Domain-wide ' .
-                        'delegation is not supported in universes other than %s.',
+                    'delegation is not supported in universes other than %s.',
                     self::DEFAULT_UNIVERSE_DOMAIN
                 ));
             }

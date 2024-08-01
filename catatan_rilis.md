@@ -1,4 +1,4 @@
-Di rilis ini, versi 2407.0.0 berisi penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2408.0.0 berisi penambahan fungsi pindah keluarga secara kolektif atar wilayah dusun/rw/rt dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @ariandi dan @arifpriadi telah ikut berkontribusi.
 
