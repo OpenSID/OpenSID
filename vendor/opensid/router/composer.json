@@ -1,36 +1,36 @@
 {
-    "name"       : "opensid/router",
-    "type"       : "library",
+    "name": "opensid/router",
     "description": "Improved routing, middleware support, authentication tools and more for CodeIgniter 3 framework",
-    "license"    : "MIT",
-    "homepage"   : "https://OpenSID.ingenia.me/ci/en/",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "codeigniter",
+        "routing",
+        "middleware",
+        "OpenSID"
+    ],
     "authors": [
         {
-            "name"    : "Anderson Salas",
-            "email"   : "anderson@ingenia.me",
+            "name": "Anderson Salas",
+            "email": "anderson@ingenia.me",
             "homepage": "https://ingenia.me",
-            "role"    : "Lead developer"
+            "role": "Lead developer"
         },
         {
-            "name"    : "OpenDesa",
-            "email"   : "info@opendesa.id",
+            "name": "OpenDesa",
+            "email": "info@opendesa.id",
             "homepage": "https://opendesa.id",
-            "role"    : "Maintainer"
+            "role": "Maintainer"
         }
     ],
-    "keywords": [
-        "codeigniter", "routing", "middleware", "OpenSID"
-    ],
-    "minimum-stability": "stable",
+    "homepage": "https://OpenSID.ingenia.me/ci/en/",
     "require": {
-        "php"              : ">=7.4"
+        "php": ">=7.4"
     },
     "require-dev": {
         "phpunit/phpunit": "7"
     },
-    "support": {
-        "email": "anderson@ingenia.me"
-    },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "OpenSID\\": "src/"
@@ -38,5 +38,10 @@
         "files": [
             "src/helpers.php"
         ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2403.x-dev"
+        }
     }
 }

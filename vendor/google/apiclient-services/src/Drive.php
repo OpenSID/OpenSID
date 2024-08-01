@@ -40,6 +40,9 @@ class Drive extends \Google\Service
   /** See, create, and delete its own configuration data in your Google Drive. */
   const DRIVE_APPDATA =
       "https://www.googleapis.com/auth/drive.appdata";
+  /** View your Google Drive apps. */
+  const DRIVE_APPS_READONLY =
+      "https://www.googleapis.com/auth/drive.apps.readonly";
   /** See, edit, create, and delete only the specific Google Drive files you use with this app. */
   const DRIVE_FILE =
       "https://www.googleapis.com/auth/drive.file";
@@ -60,6 +63,7 @@ class Drive extends \Google\Service
       "https://www.googleapis.com/auth/drive.scripts";
 
   public $about;
+  public $apps;
   public $changes;
   public $channels;
   public $comments;
@@ -69,6 +73,7 @@ class Drive extends \Google\Service
   public $replies;
   public $revisions;
   public $teamdrives;
+  public $rootUrlTemplate;
 
   /**
    * Constructs the internal representation of the Drive service.
@@ -81,6 +86,7 @@ class Drive extends \Google\Service
   {
     parent::__construct($clientOrConfig);
     $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
+    $this->rootUrlTemplate = $rootUrl ?: 'https://www.UNIVERSE_DOMAIN/';
     $this->servicePath = 'drive/v3/';
     $this->batchPath = 'batch/drive/v3';
     $this->version = 'v3';
@@ -96,6 +102,43 @@ class Drive extends \Google\Service
               'path' => 'about',
               'httpMethod' => 'GET',
               'parameters' => [],
+            ],
+          ]
+        ]
+    );
+    $this->apps = new Drive\Resource\Apps(
+        $this,
+        $this->serviceName,
+        'apps',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'apps/{appId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'appId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'apps',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'appFilterExtensions' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'appFilterMimeTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],
           ]
         ]

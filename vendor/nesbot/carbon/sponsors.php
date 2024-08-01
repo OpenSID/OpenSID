@@ -11,7 +11,7 @@
 
 use Carbon\CarbonImmutable;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__.'/vendor/autoload.php';
 
 function getMaxHistoryMonthsByAmount($amount): int
 {
@@ -24,6 +24,15 @@ function getMaxHistoryMonthsByAmount($amount): int
     }
 
     return 2;
+}
+
+function getHtmlAttribute($rawValue): string
+{
+    return str_replace(
+        ['​', "\r"],
+        '',
+        trim(htmlspecialchars((string) $rawValue), "  \n\r\t\v\0"),
+    );
 }
 
 function getOpenCollectiveSponsors(): string
@@ -44,8 +53,8 @@ function getOpenCollectiveSponsors(): string
             (
                 $member['totalAmountDonated'] > 100 ||
                 $member['lastTransactionAt'] > CarbonImmutable::now()
-                ->subMonthsNoOverflow(getMaxHistoryMonthsByAmount($member['lastTransactionAmount']))
-                ->format('Y-m-d h:i') ||
+                    ->subMonthsNoOverflow(getMaxHistoryMonthsByAmount($member['lastTransactionAmount']))
+                    ->format('Y-m-d h:i') ||
                 $member['isActive'] && $member['lastTransactionAmount'] >= 30
             );
     });
@@ -95,26 +104,26 @@ function getOpenCollectiveSponsors(): string
 
     return implode('', array_map(static function (array $member) use ($customSponsorImages): string {
         $href = htmlspecialchars($member['website'] ?? $member['profile']);
-        $src = $customSponsorImages[$member['MemberId'] ?? ''] ?? $member['image'] ?? (strtr($member['profile'], ['https://opencollective.com/' => 'https://images.opencollective.com/']) . '/avatar/256.png');
+        $src = $customSponsorImages[$member['MemberId'] ?? ''] ?? $member['image'] ?? (strtr($member['profile'], ['https://opencollective.com/' => 'https://images.opencollective.com/']).'/avatar/256.png');
         [$x, $y] = @getimagesize($src) ?: [0, 0];
         $validImage = ($x && $y);
         $src = $validImage ? htmlspecialchars($src) : 'https://opencollective.com/static/images/default-guest-logo.svg';
         $height = $member['status'] === 'sponsor' ? 64 : 42;
         $width = min($height * 2, $validImage ? round($x * $height / $y) : $height);
-        $href .= (strpos($href, '?') === false ? '?' : '&amp;') . 'utm_source=opencollective&amp;utm_medium=github&amp;utm_campaign=Carbon';
-        $title = htmlspecialchars(($member['description'] ?? null) ?: $member['name']);
-        $alt = htmlspecialchars($member['name']);
+        $href .= (strpos($href, '?') === false ? '?' : '&amp;').'utm_source=opencollective&amp;utm_medium=github&amp;utm_campaign=Carbon';
+        $title = getHtmlAttribute(($member['description'] ?? null) ?: $member['name']);
+        $alt = getHtmlAttribute($member['name']);
 
-        return "\n" . '<a title="' . $title . '" href="' . $href . '" target="_blank">' .
-            '<img alt="' . $alt . '" src="' . $src . '" width="' . $width . '" height="' . $height . '">' .
+        return "\n".'<a title="'.$title.'" href="'.$href.'" target="_blank">'.
+            '<img alt="'.$alt.'" src="'.$src.'" width="'.$width.'" height="'.$height.'">'.
             '</a>';
-    }, $list)) . "\n";
+    }, $list))."\n";
 }
 
 file_put_contents('readme.md', preg_replace_callback(
     '/(<!-- <open-collective-sponsors> -->)[\s\S]+(<!-- <\/open-collective-sponsors> -->)/',
     static function (array $match): string {
-        return $match[1] . getOpenCollectiveSponsors() . $match[2];
+        return $match[1].getOpenCollectiveSponsors().$match[2];
     },
     file_get_contents('readme.md')
 ));
