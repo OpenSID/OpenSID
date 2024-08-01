@@ -1,4 +1,5 @@
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 
 @extends('admin.layouts.index')
 
@@ -17,10 +18,10 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('anjungan_menu.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ ci_route('anjungan_menu.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('anjungan_menu.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('anjungan_menu.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'></i> Hapus</a>
             @endif
         </div>
@@ -34,9 +35,10 @@
                             <th class="padat">NO</th>
                             <th class="padat">AKSI</th>
                             <th>NAMA</th>
-                            <th>URUTAN</th>
                         </tr>
                     </thead>
+                    <tbody id="dragable">
+                    </tbody>
                 </table>
             </div>
             </form>
@@ -52,7 +54,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('anjungan_menu.datatables') }}",
+                ajax: "{{ ci_route('anjungan_menu.datatables') }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',
@@ -77,16 +79,12 @@
                         searchable: true,
                         orderable: true
                     },
-                    {
-                        data: 'urut',
-                        name: 'urut',
-                        searchable: false,
-                        orderable: true
-                    },
                 ],
-                order: [
-                    [4, 'asc']
-                ]
+                order: [],
+                createdRow: function(row, data, dataIndex) {
+                    $(row).attr('data-id', data.id)
+                    $(row).addClass('dragable-handle');
+                },
             });
 
             if (hapus == 0) {
@@ -96,6 +94,9 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+
+            // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
+            @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('anjungan_menu.tukar')])
         });
     </script>
 @endpush

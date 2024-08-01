@@ -263,7 +263,6 @@ class Keluar_model extends MY_Model
             ->limit($limit, $offset);
 
         $data = $this->list_data_sql()->result_array();
-
         //Formating Output
         $j       = $offset;
         $counter = count($data);

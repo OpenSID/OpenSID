@@ -190,7 +190,7 @@ class Surat_keluar_model extends MY_Model
         // Ada lampiran file
         if ($adaLampiran) {
             // Tes tidak berisi script PHP
-            if (isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])) {
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
                 $_SESSION['error_msg'] .= ' -> Jenis file ini tidak diperbolehkan ';
                 $_SESSION['success'] = -1;
                 redirect('man_user');

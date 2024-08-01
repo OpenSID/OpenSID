@@ -64,7 +64,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-if (! in_array(setting('font_surat'), FONT_SYSTEM_TINYMCE)) {
+if (!in_array(setting('font_surat'), FONT_SYSTEM_TINYMCE)) {
     define('K_PATH_MAIN', '');
     define('K_PATH_FONTS', LOKASI_FONT_DESA);
 }
@@ -246,11 +246,11 @@ class TinyMCE
         }
 
         foreach ($daftarKategori as $key => $value) {
-            if (! $value['sumber']) {
+            if (!$value['sumber']) {
                 $value['sumber'] = 1;
             }
 
-            if (! $value['judul'] || ! $value['label']) {
+            if (!$value['judul'] || !$value['label']) {
                 $judul          = str_replace('_', ' ', ucwords($key));
                 $value['judul'] = $judul;
                 $value['label'] = $judul;
@@ -258,17 +258,17 @@ class TinyMCE
 
             $kodeIsianPendudukLuar = KodeIsianPendudukLuar::$kodeIsian;
             if ($key == 'individu') {
-                if (! array_intersect($value['data'], [1])) {
+                if (!array_intersect($value['data'], [1])) {
                     $daftar_kode_isian[$judulPenduduk] = collect($daftar_kode_isian[$judulPenduduk])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
-                if (! (is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0)) {
+                if (!(is_array($daftarKodeIsian[$key]) && count($daftarKodeIsian[$key]) > 0)) {
                     unset($daftar_kode_isian["Form {$judulPenduduk}"]);
                 }
             } else {
                 $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
                 $kodeIsianPendudukLuar              = array_map(static fn ($item): string => $item . "_{$key}", $kodeIsianPendudukLuar);
-                if (! array_intersect($value['data'], [1])) {
+                if (!array_intersect($value['data'], [1])) {
                     $daftar_kode_isian[$value['judul']] = collect($daftar_kode_isian[$value['judul']])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
@@ -400,7 +400,6 @@ class TinyMCE
 
         // Kode isian yang berupa alias harus didahulukan
         $alias = KodeIsianPendudukLuar::get($data['surat'], $data['input']);
-
         if ($alias) {
             $newKodeIsian = array_replace($newKodeIsian, $alias);
         }
@@ -593,12 +592,12 @@ class TinyMCE
             // Cek lampiran desa
             $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
-            if (! file_exists($view_lampiran[$i])) {
+            if (!file_exists($view_lampiran[$i])) {
                 $view_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/view.php';
             }
 
             $data_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/data.php';
-            if (! file_exists($data_lampiran[$i])) {
+            if (!file_exists($data_lampiran[$i])) {
                 $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
             }
 
@@ -645,7 +644,7 @@ class TinyMCE
         $excludeLampiran = []; // semua lampiran dengan syarat
 
         foreach ($kodeIsian as $isian) {
-            if (! $isian->kaitkan_kode) {
+            if (!$isian->kaitkan_kode) {
                 continue;
             }
             if (empty($isian->kaitkan_kode)) {

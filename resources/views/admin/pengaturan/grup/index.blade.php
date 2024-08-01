@@ -3,78 +3,82 @@
 @extends('admin.layouts.index')
 
 @section('title')
-    <h1>
-        Manajemen Grup Pengguna
-    </h1>
+<h1>
+    Manajemen Grup Pengguna
+</h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">Manajemen Grup Pengguna</li>
+<li class="active">Manajemen Grup Pengguna</li>
 @endsection
 
 @section('content')
-    @include('admin.layouts.components.notifikasi')
-    @include('admin.layouts.components.konfirmasi_hapus')
-    <div class="row">
-        <div class="col-md-3">
-            @include('admin.pengaturan.pengguna.menu')
-        </div>
-        <div class="col-md-9">
-            <div class="box box-info">
-                <?php if (can('u')) : ?>
-                <div class="box-header with-border">
-                    @if (can('u'))
-                        <a href="{{ route('grup/form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
-                    @endif
-                    @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('grup/delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                                class='fa fa-trash-o'></i> Hapus</a>
-                    @endif
-                </div>
+@include('admin.layouts.components.notifikasi')
+@include('admin.layouts.components.konfirmasi_hapus')
+<div class="row">
+    <div class="col-md-3">
+        @include('admin.pengaturan.pengguna.menu')
+    </div>
+    <div class="col-md-9">
+        <div class="box box-info">
+            <?php if (can('u')) : ?>
+            <div class="box-header with-border">
+                @if (can('u'))
+                <a href="{{ ci_route('grup/form') }}"
+                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                        class="fa fa-plus"></i> Tambah</a>
                 @endif
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <select id="jenis" class="form-control input-sm select2" name="jenis">
-                                <option value="">Jenis Grup</option>
-                                @foreach ($jenis as $key => $item)
-                                    <option value="{{ $key }}">{{ $item }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                @if (can('h'))
+                <a href="#confirm-delete" title="Hapus Data"
+                    onclick="deleteAllBox('mainform','{{ ci_route('grup/delete') }}')"
+                    class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        class='fa fa-trash-o'></i> Hapus</a>
+                @endif
+            </div>
+            @endif
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <select id="jenis" class="form-control input-sm select2" name="jenis">
+                            <option value="">Jenis Grup</option>
+                            @foreach ($jenis as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                    <hr>
-                    {!! form_open(null, 'id="mainform" name="mainform"') !!}
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
-                            <thead class="bg-gray">
-                                <tr>
-                                    <th class="padat"><input type="checkbox" id="checkall" /></th>
-                                    <th class="padat">No</th>
-                                    <th class="padat">Aksi</th>
-                                    <th>Grup</th>
-                                    <th>Jenis</th>
-                                    <th>Jumlah Pengguna</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    </form>
                 </div>
+                <hr>
+                {!! form_open(null, 'id="mainform" name="mainform"') !!}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
+                        <thead class="bg-gray">
+                            <tr>
+                                <th class="padat"><input type="checkbox" id="checkall" /></th>
+                                <th class="padat">No</th>
+                                <th class="padat">Aksi</th>
+                                <th>Grup</th>
+                                <th>Jenis</th>
+                                <th>Jumlah Pengguna</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('grup.datatables') }}",
+                    url: "{{ ci_route('grup.datatables') }}",
                     data: function(req) {}
                 },
                 columns: [{
@@ -142,5 +146,5 @@
                 TableData.draw();
             });
         });
-    </script>
+</script>
 @endpush

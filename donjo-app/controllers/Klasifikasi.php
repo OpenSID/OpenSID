@@ -43,11 +43,18 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Klasifikasi extends Admin_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->modul_ini     = 'sekretariat';
+        $this->sub_modul_ini = 'klasifikasi-surat';
+    }
+
     public function index()
     {
         $data = [
-            'modul_ini'     => 'sekretariat',
-            'sub_modul_ini' => 'klasifikasi-surat',
+            'modul_ini'     => $this->modul_ini,
+            'sub_modul_ini' => $this->sub_modul_ini,
         ];
 
         return view('admin.klasifikasi.index', $data);
@@ -63,15 +70,15 @@ class Klasifikasi extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
+                        $aksi .= '<a href="' . ci_route('klasifikasi.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah" style="margin-right:4px;"><i class="fa fa-edit"></i></a>';
                         if ($row->enabled == '1') {
-                            $aksi .= '<a href="' . route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
+                            $aksi .= '<a href="' . ci_route('klasifikasi/lock', $row->id) . '" class="btn bg-navy btn-sm" title="Non Aktifkan" style="margin-right:4px;"><i class="fa fa-unlock">&nbsp;</i></a>';
                         } else {
-                            $aksi .= '<a href="' . route('klasifikasi/unlock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
+                            $aksi .= '<a href="' . ci_route('klasifikasi/unlock', $row->id) . '" class="btn bg-navy btn-sm" title="Aktifkan" style="margin-right:4px;"><i class="fa fa-lock"></i></a>';
                         }
 
                         if (can('h')) {
-                            $aksi .= '<a href="#" data-href="' . route('klasifikasi/delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                            $aksi .= '<a href="#" data-href="' . ci_route('klasifikasi/delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                         }
                     }
 
@@ -96,10 +103,10 @@ class Klasifikasi extends Admin_Controller
 
         if ($id) {
             $data['data']        = KlasifikasiSurat::where('id', (int) $id)->first();
-            $data['form_action'] = route('klasifikasi.update', $id);
+            $data['form_action'] = ci_route('klasifikasi.update', $id);
         } else {
             $data['data']        = null;
-            $data['form_action'] = route('klasifikasi.insert', $id);
+            $data['form_action'] = ci_route('klasifikasi.insert', $id);
         }
 
         return view('admin.klasifikasi.form', $data);
@@ -188,7 +195,7 @@ class Klasifikasi extends Admin_Controller
     public function impor()
     {
         $this->redirect_hak_akses('u');
-        $data['form_action'] = route('klasifikasi.proses_impor');
+        $data['form_action'] = ci_route('klasifikasi.proses_impor');
 
         return view('admin.klasifikasi.import', $data);
     }

@@ -234,8 +234,8 @@ class Analisis_master_model extends MY_Model
             ->where("id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = {$id} AND config_id = {$this->config_id})")
             ->delete('analisis_parameter');
 
-        $this->config_id()
-            ->where("id_periode IN(SELECT id FROM analisis_periode WHERE id_master = {$id} AND config_id = {$this->config_id})")
+        $this->db
+            ->where("id_periode IN(SELECT id FROM analisis_periode WHERE id_master = {$id})")
             ->delete('analisis_respon');
 
         $this->config_id()->where('id_master', $id)->delete('analisis_kategori_indikator');
@@ -253,7 +253,7 @@ class Analisis_master_model extends MY_Model
 
     public function get_analisis_master($id = 0)
     {
-        return $this->config_id_exist('analisis_master', 'u')
+        return $this->config_id('u')
             ->select('u.*, s.subjek as subjek_nama')
             ->from('analisis_master u')
             ->join('analisis_ref_subjek s', 'u.subjek_tipe = s.id', 'left')

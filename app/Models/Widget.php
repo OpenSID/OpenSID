@@ -39,12 +39,14 @@ namespace App\Models;
 
 use App\Casts\Sebutan;
 use App\Traits\ConfigId;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Widget extends BaseModel
 {
     use ConfigId;
+    use SortableTrait;
 
     public const WIDGET_SISTEM  = 1;
     public const WIDGET_STATIS  = 2;
@@ -78,6 +80,14 @@ class Widget extends BaseModel
      */
     protected $casts = [
         'judul' => Sebutan::class,
+    ];
+
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
     ];
 
     public function scopeGetWidget($query, $id)

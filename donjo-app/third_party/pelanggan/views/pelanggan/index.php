@@ -9,31 +9,43 @@
 </style>
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Info Layanan Pelanggan</h1>
+        <h1><?= $title ?></h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
-            <li class="active">Info Layanan Pelanggan</li>
+            <li class="active"><?= $title ?></li>
         </ol>
     </section>
     <section class="content" id="maincontent">
-        <?php if (null === $response) : ?>
+        <?php if ($this->session->error_premium) : ?>
             <div class="box box-danger">
                 <div class="box-header with-border">
                     <i class="icon fa fa-ban"></i>
-                    <h3 class="box-title"><?= (cek_koneksi_internet()) ? $this->session->error_status_langganan : 'Tidak Terhubung Dengan Jaringan' ?></h3>
+                    <?php if ($this->session->error_premium) : ?>
+                        <h3 class="box-title"><?= $this->session->error_premium ?></h3>
+                    <?php elseif (!cek_koneksi_internet()) : ?>
+                        <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
+                    <?php endif ?>
                 </div>
                 <div class="box-body">
-                    <div class="callout callout-danger">
-                        <h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
-                        <h5>Fitur ini khusus untuk pelanggan Layanan <?= config_item('nama_lembaga') ?> (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
-                        <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
-                        <li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
-                        <li>Token pelanggan tidak terontentikasi. Periksa [Layanan <?= config_item('nama_lembaga') ?> Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
-                        <li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
-                    </div>
+                    <?php if ($pesan = $this->session->error_premium_pesan) : ?>
+                        <div class="callout callout-warning">
+                            <h5><?= $pesan ?></h5>
+                        </div>
+                    <?php elseif (empty($response)) : ?>
+                        <div class="callout callout-danger">
+                            <h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
+                            <h5>Fitur ini khusus untuk pelanggan Layanan <?= config_item('nama_lembaga') ?> (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
+                            <li>Periksan koneksi anda, pastikan sudah terhubung dengan jaringan internet.</li>
+                            <li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
+                            <li>Token pelanggan tidak terontentikasi. Periksa [Layanan <?= config_item('nama_lembaga') ?> Token] di <a href="#" style="text-decoration:none;" class="atur-token"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
+                            <li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
-        <?php else : ?>
+        <?php endif ?>
+
+        <?php if ($response) : ?>
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="small-box bg-blue">
@@ -44,7 +56,7 @@
                                     <?php if ($pemesanan->status_pemesanan == 'aktif') : ?>
                                         <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                             <?php
-                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
+                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && !file_exists('mitra')) {
                                                 fopen('mitra', 'wb');
                                             }
                                             ?>
@@ -109,7 +121,6 @@
                 <?php endif; ?>
             </div>
 
-
             <?php if ($response->body->status_langganan === 'menunggu verifikasi email') : ?>
                 <div class="box box-info">
                     <div class="box-header with-border">
@@ -136,7 +147,7 @@
                 </div>
             <?php endif ?>
             <div class="box box-info">
-                <?php if (can('u')): ?>
+                <?php if (can('u')) : ?>
                     <div class="box-header with-border">
                         <b>Rincian Pelanggan <a href="javascript:;" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block perbarui"><i class="fa fa-refresh"></i> Perbarui</a></b>
                     </div>
@@ -174,7 +185,7 @@
                                         <?php endforeach ?>
                                     </td>
                                 </tr>
-                                <?php if (! config_item('demo_mode') && $response->body->token) : ?>
+                                <?php if (!config_item('demo_mode') && $response->body->token) : ?>
                                     <tr>
                                         <td>Token</td>
                                         <td> : </td>
@@ -225,8 +236,8 @@
                                         <td class="aksi">
                                             <?php
                                             $server = config_item('server_layanan');
-                                    $token          = $this->setting->layanan_opendesa_token;
-                                    ?>
+                                            $token  = $this->setting->layanan_opendesa_token;
+                                            ?>
                                             <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi') : ?>
                                                 <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                             <?php endif; ?>
@@ -249,9 +260,9 @@
                                         <td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
                                         <td class="padat">
                                             <?php
-                                    $a_date = $pemesanan->tgl_akhir;
-                                    echo tgl_indo(date('Y-m-t', strtotime($a_date)));
-                                    ?>
+                                            $a_date = $pemesanan->tgl_akhir;
+                                            echo tgl_indo(date('Y-m-t', strtotime($a_date)));
+                                            ?>
                                         </td>
                                         <td class="padat">
                                             <?php if ($notif_langganan['warna'] == 'orange') : ?>
@@ -299,9 +310,9 @@
                                         <td class="padat"><?= ($number + 1) ?></td>
                                         <td class="aksi">
                                             <?php
-                                    $server = config_item('server_layanan');
-                                    $token  = $this->setting->layanan_opendesa_token;
-                                    ?>
+                                            $server = config_item('server_layanan');
+                                            $token  = $this->setting->layanan_opendesa_token;
+                                            ?>
                                             <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi') : ?>
                                                 <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                             <?php endif; ?>
@@ -403,9 +414,9 @@
             preConfirm: (token) => {
                 //cek token
                 var parse_token = parseJwt(token);
-                var ambilversi = "<?=substr(str_replace('.', '', AmbilVersi()), 0, 4)?>";
-                var ambiltanggal = ((parse_token.tanggal_berlangganan.akhir).replace('-', '')).substr(2,4);
-                if (ambilversi != ambiltanggal){
+                var ambilversi = "<?= substr(str_replace('.', '', AmbilVersi()), 0, 4) ?>";
+                var ambiltanggal = ((parse_token.tanggal_berlangganan.akhir).replace('-', '')).substr(2, 4);
+                if (ambilversi != ambiltanggal) {
                     if (moment(parse_token.tanggal_berlangganan.akhir, 'YYYY-MM-DD').diff(moment()) < 0) { // jika perbedaanya minus
 
                         Swal.showValidationMessage(
@@ -516,7 +527,7 @@
                         if (result.status == false) {
                             Swal.fire({
                                 title: 'Token Gagal',
-                                text : result.message
+                                text: result.message
                             })
                             return
                         }

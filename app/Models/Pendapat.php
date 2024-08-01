@@ -54,17 +54,13 @@ class Pendapat extends BaseModel
         $kondisi = $this->kondisi($tipe);
         $data    = $query->selectRaw('COUNT(pilihan) AS jumlah, pilihan')
             ->whereRaw($kondisi['where'])
-            ->when($pilih, static function ($query) use ($pilih) {
-                return $query->where('pilihan', $pilih);
-            })
+            ->when($pilih, static fn ($query) => $query->where('pilihan', $pilih))
             ->groupBy('pilihan')
             ->orderBy('pilihan')
             ->get()
             ->toArray();
 
-        $total = collect($data)->map(static function ($item) {
-            return $item['jumlah'];
-        })->sum();
+        $total = collect($data)->map(static fn ($item) => $item['jumlah'])->sum();
 
         return [
             'lblx'     => $kondisi['lblx'],
@@ -83,7 +79,7 @@ class Pendapat extends BaseModel
         $lblx = 'TANGGAL';
 
         switch ($tipe) {
-            // Hari ini
+                // Hari ini
             case 1:
                 $judul = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
                 $where = 'DATE(`tanggal`) = "' . $tgl . '"';

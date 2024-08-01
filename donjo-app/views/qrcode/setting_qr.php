@@ -38,7 +38,7 @@
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<h3 class="box-title">Buat QR Code</h3>
-							<a href="<?= site_url('setting/qrcode/clear') ?>" class="btn btn-social btn-success btn-sm" style="float: right;" title="Baru"><i class="fa fa-plus"></i> Baru</a>
+							<a href="<?= site_url('qr_code/clear') ?>" class="btn btn-social btn-success btn-sm" style="float: right;" title="Baru"><i class="fa fa-plus"></i> Baru</a>
 						</div>
 						<form id="mainform" name="mainform" method="post">
 							<div class="box-body">

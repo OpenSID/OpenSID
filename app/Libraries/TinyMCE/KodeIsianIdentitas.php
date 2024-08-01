@@ -56,7 +56,7 @@ class KodeIsianIdentitas
         $sebutan_kepala_desa = setting('sebutan_kepala_desa');
         $sebutan_camat       = setting('sebutan_camat');
 
-        if (! empty($config->email_desa)) {
+        if (!empty($config->email_desa)) {
             $alamat_desa  = "{$config->alamat_kantor} Email: {$config->email_desa} Kode Pos: {$config->kode_pos}";
             $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos} <br> Website: {$config->website} Email: {$config->email_desa}";
         } else {
@@ -64,7 +64,7 @@ class KodeIsianIdentitas
             $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
         }
 
-        if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
+        if (null === $config->pamong()->pamong_nip && (!empty($config->pamong()->pamong_niap))) {
             $sebutan_nip_desa = setting('sebutan_nip_desa');
         } else {
             $sebutan_nip_desa = 'NIP';
@@ -101,7 +101,7 @@ class KodeIsianIdentitas
             [
                 'judul' => 'Nama Kepala Desa',
                 'isian' => 'nama_kepala_desa',
-                'data'  => $config->pamong_nama,
+                'data'  => $config->nama_kepala_desa,
             ],
             [
                 'judul' => 'Sebutan NIP Desa',
@@ -111,7 +111,7 @@ class KodeIsianIdentitas
             [
                 'judul' => 'NIP Kepala Desa',
                 'isian' => 'nip_kepala_desa',
-                'data'  => $config->pamong_nip,
+                'data'  => $config->nip_kepala_desa,
             ],
             [
                 'judul' => 'Nama Kecamatan',

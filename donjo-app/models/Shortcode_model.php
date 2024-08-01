@@ -304,7 +304,7 @@ class Shortcode_model extends MY_Model
         $ada_bpd = true;
 
         ob_start();
-        include 'donjo-app/views/home/bagan_sisip.php';
+        include APPPATH . 'views/bagan/bagan_sisip.php';
 
         return ob_get_clean();
     }
@@ -316,7 +316,7 @@ class Shortcode_model extends MY_Model
         $ada_bpd = false;
 
         ob_start();
-        include 'donjo-app/views/home/bagan_sisip.php';
+        include APPPATH . 'views/bagan/bagan_sisip.php';
 
         return ob_get_clean();
     }
@@ -329,7 +329,7 @@ class Shortcode_model extends MY_Model
         return preg_replace_callback($regex, function (array $matches) {
             $params_explode = explode(',', $matches[1]);
 
-            return $this->converted_sc_list($params_explode[0], $params_explode[1]);
+            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
         }, $str);
     }
 

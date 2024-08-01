@@ -1,5 +1,5 @@
 <div class="tab-pane" id="sandi">
-    {!! form_open_multipart(route('pengguna.update_password'), 'id="validate_password"') !!}
+    {!! form_open_multipart(ci_route('pengguna.update_password'), 'id="validate_password"') !!}
     <div class="box-body">
         <div class="form-group">
             <label for="pass_lama">Kata Sandi Lama</label>

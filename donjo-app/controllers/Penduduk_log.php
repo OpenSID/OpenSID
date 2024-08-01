@@ -45,9 +45,10 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'penduduk_log_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'penduduk';
+        $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
+        $this->modul_ini          = 'kependudukan';
+        $this->sub_modul_ini      = 'peristiwa';
+        $this->header['kategori'] = 'log_penduduk';
     }
 
     public function clear(): void
@@ -81,7 +82,7 @@ class Penduduk_log extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                $data['rt'] = $rt ?? '';
+                $data['rt'] = '';
             } else {
                 $data['rw'] = '';
             }
@@ -203,7 +204,7 @@ class Penduduk_log extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! data_lengkap()) {
+        if (!data_lengkap()) {
             show_404();
         }
 
@@ -226,7 +227,7 @@ class Penduduk_log extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! data_lengkap()) {
+        if (!data_lengkap()) {
             show_404();
         }
 
@@ -240,7 +241,7 @@ class Penduduk_log extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (! data_lengkap()) {
+        if (!data_lengkap()) {
             show_404();
         }
 

@@ -36,6 +36,7 @@
  */
 
 use App\Models\Pendapat;
+use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -44,13 +45,13 @@ class Beranda extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'mailbox_model']);
+        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
         $this->load->helper('download');
     }
 
     public function index(): void
     {
-        $inbox = $this->mailbox_model->count_inbox_pesan($this->is_login->nik);
+        $inbox = PesanMandiri::belumDibaca($this->is_login->id_pend)->count();
         if ($inbox) {
             redirect('layanan-mandiri/pesan-masuk');
         } else {

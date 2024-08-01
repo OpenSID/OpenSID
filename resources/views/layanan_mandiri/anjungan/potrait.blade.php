@@ -16,7 +16,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/ionicons.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/anjungan-potrait.css') }}" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css') ?>" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <!-- Link Swiper's CSS -->
     <link rel="stylesheet" href="{{ asset('css/swiper.min.css') }}" />
     <!-- bootstrap datepicker -->
@@ -96,7 +96,7 @@
                         <div class="col-md-3 box-berita">
                             <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
                                 @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
-                                    <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}" />
+                                    <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']) }}" />
                                 @else
                                     <img width="25%" class="img-berita" src="{{ base_url('assets/images/404-image-not-found.jpg') }}" />
                                 @endif
@@ -116,7 +116,7 @@
                         <div class="col-md-3 box-berita">
                             <a data-value="{{ site_url('artikel/' . buat_slug($arsip)) }}" class="popup">
                                 @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
-                                    <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}" />
+                                    <img width="25%" class="img-berita" src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']) }}" />
                                 @else
                                     <img width="25%" class="img-berita" src="{{ base_url('assets/images/404-image-not-found.jpg') }}" />
                                 @endif

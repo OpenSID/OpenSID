@@ -62,8 +62,11 @@ class Koneksi_database extends CI_Controller
         $appKeyDb = Config::first();
         resetCacheDesa();
         updateAppKey($appKeyDb->app_key);
+        // setelah appKey diganti, password terenkrip harus diganti juga
+        $password = (new Config())->getConnection()->getConfig('password');
+        updateConfigFile('password', $password);
 
-        redirect(site_url());
+        redirect(ci_route('koneksi_database.encryptPassword'));
     }
 
     public function desaBaru(): void
@@ -73,6 +76,7 @@ class Koneksi_database extends CI_Controller
         if ($this->session->cek_app_key) {
             // Tambahkan data sementara
             Config::create([
+                'app_key'           => get_app_key(),
                 'nama_desa'         => '',
                 'kode_desa'         => '',
                 'nama_kecamatan'    => '',
@@ -119,5 +123,13 @@ class Koneksi_database extends CI_Controller
             'appKey'   => $appKey,
             'appKeyDb' => $appKeyDb->app_key,
         ];
+    }
+
+    public function encryptPassword(): void
+    {
+        // setelah appKey diganti, password terenkrip harus diganti juga
+        $password = (new Config())->getConnection()->getConfig('password');
+        updateConfigFile('password', encrypt($password));
+        redirect(site_url());
     }
 }

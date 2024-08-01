@@ -127,7 +127,7 @@ class Statistik_pengunjung_model extends MY_Model
      */
     public function get_pengunjung_hari_ini()
     {
-        return $this->config_id_exist($this->table)->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
+        return $this->config_id()->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
     }
 
     // TODO:: Hapus ini, masih dipanggil di modul ini
@@ -155,7 +155,7 @@ class Statistik_pengunjung_model extends MY_Model
         $this->db->select_sum('Jumlah');
         $this->kondisi($type);
 
-        return $this->config_id_exist($this->table)->get($this->table)->row()->Jumlah;
+        return $this->config_id()->get($this->table)->row()->Jumlah;
     }
 
     /**
@@ -165,10 +165,6 @@ class Statistik_pengunjung_model extends MY_Model
      */
     public function insert_visitor()
     {
-        if (! $this->db->field_exists('config_id', $this->table)) {
-            return false;
-        }
-
         $insert = [
             'Tanggal'   => date('Y-m-d'),
             'ipAddress' => json_encode(['ip_address' => [$this->ip_address()]]),
@@ -190,10 +186,10 @@ class Statistik_pengunjung_model extends MY_Model
     {
         $ip_address = json_decode($lastIpAddress, true);
 
-        $this->config_id_exist($this->table)
+        $this->config_id()
             ->where('Tanggal', date('Y-m-d'))
             ->update($this->table, [
-                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])], JSON_THROW_ON_ERROR),
+                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'] ?? [])], JSON_THROW_ON_ERROR),
                 'Jumlah'    => $jumlah + 1,
             ]);
     }
@@ -231,7 +227,7 @@ class Statistik_pengunjung_model extends MY_Model
         $thn = date('Y');
 
         switch ($type) {
-            // Hari ini
+                // Hari ini
             case 1:
                 $this->db->where('Tanggal', $tgl);
                 break;

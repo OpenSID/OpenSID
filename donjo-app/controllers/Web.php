@@ -98,7 +98,7 @@ class Web extends Admin_Controller
         $this->render('web/artikel/table', $data);
     }
 
-    public function tab($cat = 0): void
+    public function tab(?string $cat = '0'): void
     {
         $this->session->kategori = $cat;
 
@@ -114,11 +114,11 @@ class Web extends Admin_Controller
         if (null !== $id) {
             $id       = decrypt($id);
             $cek_data = $this->web_artikel_model->get_artikel($id);
-            if (! $cek_data) {
+            if (!$cek_data) {
                 show_404();
             }
 
-            if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+            if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
                 redirect('web');
             }
 
@@ -160,9 +160,10 @@ class Web extends Admin_Controller
     public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
-        $cat = $this->session->kategori ?: 0;
+        $cat = Artikel::findOrFail($id);
+        $cat = $cat->id_kategori ?? $cat->tipe;
 
-        if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+        if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
 
@@ -191,7 +192,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function hapus(): void
     {
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('h');
         $cat = $this->session->kategori ?: 0;
 
         $this->redirect_hak_akses('h');
@@ -205,7 +206,7 @@ class Web extends Admin_Controller
     {
         $id = decrypt($id);
         $this->redirect_hak_akses('u');
-        if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+        if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
 
@@ -218,7 +219,7 @@ class Web extends Admin_Controller
     public function update_kategori($id = 0): void
     {
         $this->redirect_hak_akses('u');
-        if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
+        if (!$this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
         }
 

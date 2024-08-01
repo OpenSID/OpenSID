@@ -101,7 +101,7 @@ return [
     'stores' => [
         'file' => [
             'driver' => 'file',
-            'path'   => FCPATH . 'storage/framework/cache/data',
+            'path'   => storage_path('framework/cache/data'),
         ],
     ],
 

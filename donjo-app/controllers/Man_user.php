@@ -66,18 +66,20 @@ class Man_user extends Admin_Controller
         $data['user_group'] = UserGrup::pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
-            $input = $this->input;
+            $input  = $this->input;
+            $status = $input->get('status');
 
-            return datatables(
+            return datatables()->of(
                 User::with('pamong', 'userGrup')
+                    ->when($status != '', static function ($query) use ($status): void {
+                        $query->status($status);
+                    })
                     ->whereHas('userGrup', function ($query): void {
                         if ($group = $this->input->get('group')) {
                             $query->where('id', $group);
                         }
                     })
-            )->filter(static function ($query) use ($input): void {
-                $query->status($input->get('status'));
-            })
+            )
                 ->addIndexColumn()
                 ->addColumn('ceklist', static function ($row) {
                     if ($row->id != super_admin()) {
@@ -288,7 +290,7 @@ class Man_user extends Admin_Controller
             'config_id'      => identitas('id'),
         ];
 
-        if (! empty($request['password'])) {
+        if (!empty($request['password'])) {
             $data['password'] = generatePasswordHash($request['password']);
         }
 

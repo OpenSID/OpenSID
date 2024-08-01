@@ -46,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Garis extends Admin_Controller
 {
-    private $tip = 1;
+    private int $tip = 1;
 
     public function __construct()
     {
@@ -76,7 +76,8 @@ class Garis extends Admin_Controller
             return datatables()->of(GarisModel::when($status, static fn ($q) => $q->whereEnabled($status))
                 ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
                 ->when($subline, static fn ($q) => $q->whereRefLine($subline))
-                ->with(['line' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ->with([
+                    'line' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -87,23 +88,23 @@ class Garis extends Admin_Controller
                 ->addColumn('aksi', static function ($row) use ($parent): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('garis.form', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('garis.form', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
-                    $aksi .= '<a href="' . route('garis.ajax_garis_maps', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
+                    $aksi .= '<a href="' . ci_route('garis.ajax_garis_maps', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
                     if (can('u')) {
                         if ($row->isLock()) {
-                            $aksi .= '<a href="' . route('garis.unlock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('garis.unlock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('garis.lock', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
                     }
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('garis.delete', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('garis.delete', implode('/', [$row->line->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                     }
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row) => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
                 ->editColumn('ref_line', static fn ($row) => $row->line->parent->nama ?? '')
                 ->editColumn('kategori', static fn ($row) => $row->line->nama ?? '')
                 ->rawColumns(['aksi', 'ceklist'])
@@ -117,13 +118,13 @@ class Garis extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['garis']       = null;
-        $data['form_action'] = route('garis.insert', $parent);
+        $data['form_action'] = ci_route('garis.insert', $parent);
         $data['foto_garis']  = null;
         $data['parent']      = $parent;
 
         if ($id) {
             $data['garis']       = GarisModel::find($id);
-            $data['form_action'] = route('garis.update', implode('/', [$parent, $id]));
+            $data['form_action'] = ci_route('garis.update', implode('/', [$parent, $id]));
         }
 
         $data['list_line'] = empty($parent) ? Line::subline()->whereHas('parent')->get() : Line::child($parent)->whereHas('parent')->get();
@@ -146,39 +147,39 @@ class Garis extends Admin_Controller
         $data['all_garis']              = GarisModel::activeGarisMap();
         $data['all_area']               = Area::activeAreaMap();
         $data['all_lokasi_pembangunan'] = Pembangunan::activePembangunanMap();
-        $data['form_action']            = route('garis.update_maps', implode('/', [$parent, $id]));
+        $data['form_action']            = ci_route('garis.update_maps', implode('/', [$parent, $id]));
 
         return view('admin.peta.garis.maps', $data);
     }
 
     public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u', route('garis.index', $parent));
+        $this->redirect_hak_akses('u', ci_route('garis.index', $parent));
 
         try {
             $data = $this->input->post();
             if ($data['path'] !== '[[]]') {
                 GarisModel::whereId($id)->update($data);
-                redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
+                redirect_with('success', 'Pengaturan garis berhasil disimpan', ci_route('garis.index', $parent));
             } else {
-                redirect_with('error', 'Titik koordinat garis harus diisi', route('garis.index', $parent));
+                redirect_with('error', 'Titik koordinat garis harus diisi', ci_route('garis.index', $parent));
             }
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal disimpan', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal disimpan', ci_route('garis.index', $parent));
         }
     }
 
     public function kosongkan($parent, $id): void
     {
-        $this->redirect_hak_akses('u', route('garis.index', $parent));
+        $this->redirect_hak_akses('u', ci_route('garis.index', $parent));
 
         try {
             GarisModel::whereId($id)->update(['path' => null]);
-            redirect_with('success', 'Pengaturan garis berhasil dikosongkan', route('garis.index', $parent));
+            redirect_with('success', 'Pengaturan garis berhasil dikosongkan', ci_route('garis.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal dikosongkan', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal dikosongkan', ci_route('garis.index', $parent));
         }
     }
 
@@ -191,10 +192,10 @@ class Garis extends Admin_Controller
 
         try {
             GarisModel::create($data);
-            redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
+            redirect_with('success', 'Pengaturan garis berhasil disimpan', ci_route('garis.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal disimpan', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal disimpan', ci_route('garis.index', $parent));
         }
     }
 
@@ -209,49 +210,49 @@ class Garis extends Admin_Controller
         try {
             $obj = GarisModel::findOrFail($id);
             $obj->update($data);
-            redirect_with('success', 'Pengaturan garis berhasil disimpan', route('garis.index', $parent));
+            redirect_with('success', 'Pengaturan garis berhasil disimpan', ci_route('garis.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal disimpan', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal disimpan', ci_route('garis.index', $parent));
         }
     }
 
     public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('h', route('garis.index', $parent));
+        $this->redirect_hak_akses('h', ci_route('garis.index', $parent));
 
         try {
             GarisModel::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Pengaturan garis berhasil dihapus', route('garis.index', $parent));
+            redirect_with('success', 'Pengaturan garis berhasil dihapus', ci_route('garis.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal dihapus', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal dihapus', ci_route('garis.index', $parent));
         }
     }
 
     public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', route('garis.index', $parent));
+        $this->redirect_hak_akses('h', ci_route('garis.index', $parent));
 
         try {
             GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::LOCK]);
-            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', route('garis.index', $parent));
+            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', ci_route('garis.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', ci_route('garis.index', $parent));
         }
     }
 
     public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', route('garis.index', $parent));
+        $this->redirect_hak_akses('h', ci_route('garis.index', $parent));
 
         try {
             GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::UNLOCK]);
-            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', route('garis.index', $parent));
+            redirect_with('success', 'Pengaturan garis berhasil dinonaktifkan', ci_route('garis.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', route('garis.index', $parent));
+            redirect_with('error', 'Pengaturan garis gagal dinonaktifkan', ci_route('garis.index', $parent));
         }
     }
 
@@ -276,7 +277,7 @@ class Garis extends Admin_Controller
         $garis_file = $_FILES['foto']['tmp_name'];
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (! empty($garis_file)) {
+        if (!empty($garis_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
             unset($data['foto']);

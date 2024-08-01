@@ -3,9 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Impor Surat TinyMCE</h4>
+                <h4 class="modal-title">Impor Surat</h4>
             </div>
-            {!! form_open(route('surat_master.impor'), 'id="validasi" enctype="multipart/form-data"') !!}
+            {!! form_open(ci_route('surat_master.impor'), 'id="validasi" enctype="multipart/form-data"') !!}
             <div class="modal-body">
                 <div class="form-group">
                     <label for="file" class="control-label">File Impor : </label>

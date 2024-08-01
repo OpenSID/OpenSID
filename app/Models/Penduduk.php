@@ -41,6 +41,8 @@ use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\Author;
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -346,7 +348,7 @@ class Penduduk extends BaseModel
      */
     public function getWajibKTPAttribute(): string
     {
-        return (($this->tanggallahir->age > 16) || (! empty($this->status_kawin) && $this->status_kawin != 1))
+        return (($this->tanggallahir->age > 16) || (!empty($this->status_kawin) && $this->status_kawin != 1))
             ? 'WAJIB KTP'
             : 'BELUM';
     }
@@ -391,12 +393,12 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != 2
+        return !empty($this->status_kawin) && $this->status_kawin != 2
             ? $this->statusKawin->nama
             : (
                 empty($this->akta_perkawinan)
-                    ? 'KAWIN BELUM TERCATAT'
-                    : 'KAWIN TERCATAT'
+                ? 'KAWIN BELUM TERCATAT'
+                : 'KAWIN TERCATAT'
             );
     }
 
@@ -413,7 +415,7 @@ class Penduduk extends BaseModel
      */
     public function getNamaAsuransiAttribute(): string
     {
-        return ! empty($this->id_asuransi) && $this->id_asuransi != 1
+        return !empty($this->id_asuransi) && $this->id_asuransi != 1
             ? (($this->id_asuransi == 99)
                 ? "Nama/No Asuransi : {$this->no_asuransi}"
                 : "No Asuransi : {$this->no_asuransi}")
@@ -468,7 +470,7 @@ class Penduduk extends BaseModel
     public function scopefilters($query, array $filters = [], array $allowedFilters = ['sex', 'status_dasar', 'kk_level'])
     {
         foreach ($filters as $key => $value) {
-            if (! in_array($key, $allowedFilters)) {
+            if (!in_array($key, $allowedFilters)) {
                 continue;
             }
 
@@ -521,5 +523,47 @@ class Penduduk extends BaseModel
     public function isKepalaKeluarga()
     {
         return $this->attributes['kk_level'] == SHDKEnum::KEPALA_KELUARGA;
+    }
+
+    public function formIndividu()
+    {
+        $individu                = $this->toArray();
+        $individu['pendidikan']  = $individu['pendidikan_k_k']['nama'] ?? ($individu['pendidikan']['nama'] ?? '');
+        $individu['warganegara'] = $individu['warga_negara']['nama'] ?? '';
+        $individu['agama']       = $this->agama->nama ?? '';
+        $individu['umur']        = $this->umur;
+
+        return $individu;
+    }
+
+    protected function scopeDpt($query, $tglPemilihan = null)
+    {
+        $tglPemilihan ??= date('d-m-Y');
+
+        return $query->where(['status_dasar' => 1, 'status' => 1, 'warganegara_id' => 1])
+            ->where(static function ($q) use ($tglPemilihan) {
+                return $q->whereRaw(DB::raw("(DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 ) >= 17"))
+                    ->orWhereIn('status_kawin', [2, 3, 4]);
+            })->whereNotIn('pekerjaan_id', ['6', '7']);
+    }
+
+    protected function scopeBatasiUmur($query, $tglPemilihan, $umurObj = [])
+    {
+        if (empty($umurObj['max']) && empty($umurObj['min'])) {
+            return $query;
+        }
+        $satuan  = $umurObj['satuan'] == 'tahun' ? 'YEAR' : 'MONTH';
+        $umurMin = empty($umurObj['min']) ? 0 : $umurObj['min'];
+        $umurMax = empty($umurObj['max']) ? 1000 : $umurObj['max'];
+
+        return $query->whereRaw(DB::raw("TIMESTAMPDIFF({$satuan}, tanggallahir, STR_TO_DATE('{$tglPemilihan}','%d-%m-%Y')) between {$umurMin} and {$umurMax}"));
+    }
+
+    /**
+     * Get all of the pesan for the Penduduk
+     */
+    public function pesan(): HasMany
+    {
+        return $this->hasMany(PesanMandiri::class, 'identitas', 'nik');
     }
 }

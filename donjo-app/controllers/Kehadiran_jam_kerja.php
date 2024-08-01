@@ -61,7 +61,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        return '<a href="' . ci_route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
                 ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>')
@@ -79,7 +79,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $action      = 'Ubah';
-        $form_action = route('kehadiran_jam_kerja.update', $id);
+        $form_action = ci_route('kehadiran_jam_kerja.update', $id);
 
         $kehadiran_jam_kerja = JamKerja::findOrFail($id);
 

@@ -36,7 +36,6 @@
  */
 
 use App\Models\Config;
-use App\Models\FormatSurat;
 use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
@@ -45,9 +44,8 @@ use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
-if (! function_exists('asset')) {
+if (!function_exists('asset')) {
     function asset($uri = '', $default = true)
     {
         if ($default) {
@@ -59,101 +57,21 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('view')) {
-    /**
-     * Get the evaluated view contents for the given view.
-     *
-     * @param string|null                                  $view
-     * @param array|Illuminate\Contracts\Support\Arrayable $data
-     * @param array                                        $mergeData
-     * @param mixed                                        $returnView
-     *
-     * @return Illuminate\Contracts\View\Factory|Illuminate\Contracts\View\View
-     */
-    function view($view = null, $data = [], $mergeData = [], $returnView = false)
-    {
-        $CI = &get_instance();
-
-        $container = new Container();
-
-        if (! get_instance()->session->instalasi) {
-            $desa = identitas();
-            $container->instance('db', Container::getInstance()->get('db'));
-        }
-
-        // TODO:: sementara gunakan config yang ada di CI3 karena masalah instance laravel
-        // $factory = new \Jenssegers\Blade\Blade(config('view.paths'), config('view.compiled'), $container);
-
-        $factory = new Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'), $container);
-
-        if (func_num_args() === 0) {
-            return $factory;
-        }
-
-        $factory->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
-
-        $factory->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
-
-        $factory->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
-
-        $factory->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
-
-        $factory->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
-
-        $factory->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
-
-        if ($CI->session->db_error['code'] === 1049) {
-            $CI->session->error_db = null;
-            $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
-        } else {
-            $factory->share([
-                'ci'           => get_instance(),
-                'auth'         => $CI->session->isAdmin,
-                'controller'   => $CI->controller,
-                'desa'         => $desa ?? null,
-                'list_setting' => $CI->list_setting,
-                'modul'        => $CI->header['modul'],
-                'modul_ini'    => $CI->modul_ini,
-                'notif'        => [
-                    'surat'           => $CI->header['notif_permohonan_surat'],
-                    'opendkpesan'     => $CI->header['notif_pesan_opendk'],
-                    'inbox'           => $CI->header['notif_inbox'],
-                    'komentar'        => $CI->header['notif_komentar'],
-                    'langganan'       => $CI->header['notif_langganan'],
-                    'pengumuman'      => $CI->header['notif_pengumuman'],
-                    'permohonansurat' => $CI->header['notif_permohonan'],
-                ],
-                'kategori'             => $CI->header['kategori'],
-                'sub_modul_ini'        => $CI->sub_modul_ini,
-                'akses_modul'          => $CI->akses_modul,
-                'session'              => $CI->session,
-                'setting'              => $CI->setting,
-                'token'                => $CI->security->get_csrf_token_name(),
-                'perbaharui_langganan' => $CI->header['perbaharui_langganan'] ?? null,
-            ]);
-        }
-        if ($returnView) {
-            return $factory->render($view, $data, $mergeData);
-        }
-        echo $factory->render($view, $data, $mergeData);
-    }
-}
-
-if (! function_exists('set_session')) {
+if (!function_exists('set_session')) {
     function set_session($key = 'success', $value = '')
     {
         return get_instance()->session->set_flashdata($key, $value);
     }
 }
 
-if (! function_exists('session')) {
+if (!function_exists('session')) {
     function session($nama = '')
     {
         return get_instance()->session->flashdata($nama);
     }
 }
 
-if (! function_exists('can')) {
+if (!function_exists('can')) {
     /**
      * Cek akses user
      *
@@ -226,7 +144,7 @@ if (! function_exists('can')) {
             'h' => 'hapus',
         ];
 
-        if (! array_key_exists($akses, $alias)) {
+        if (!array_key_exists($akses, $alias)) {
             return false;
         }
 
@@ -240,25 +158,23 @@ if (! function_exists('can')) {
     }
 }
 
-if (! function_exists('isCan')) {
+if (!function_exists('isCan')) {
     /**
      * Cek akses user
      *
      * @param string|null $akses
      * @param string|null $slugModul
      * @param bool        $adminOnly
-     *
-     * @return array|bool
      */
     function isCan($akses = null, $slugModul = null, $adminOnly = false): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (! can('b', $slugModul, $adminOnly)) {
+        if (!can('b', $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
             redirect('beranda');
-        } elseif (! can($akses, $slugModul, $adminOnly)) {
+        } elseif (!can($akses, $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
@@ -268,7 +184,7 @@ if (! function_exists('isCan')) {
 }
 
 // response()->json(array_data);
-if (! function_exists('json')) {
+if (!function_exists('json')) {
     function json($content = [], $header = 200): void
     {
         get_instance()->output
@@ -282,7 +198,7 @@ if (! function_exists('json')) {
 }
 
 // redirect()->route('example')->with('success', 'information');
-if (! function_exists('redirect_with')) {
+if (!function_exists('redirect_with')) {
     function redirect_with($key = 'success', $value = '', $to = '', $autodismis = null)
     {
         set_session($key, $value);
@@ -299,9 +215,9 @@ if (! function_exists('redirect_with')) {
     }
 }
 
-// route('example');
-if (! function_exists('route')) {
-    function route($to = null, $params = null)
+// ci_route('example');
+if (!function_exists('ci_route')) {
+    function ci_route($to = null, $params = null)
     {
         if (in_array($to, [null, '', '/'])) {
             return site_url();
@@ -310,6 +226,9 @@ if (! function_exists('route')) {
         $to = str_replace('.', '/', $to);
 
         if (null !== $params) {
+            if (is_array($params)) {
+                $params = implode('/', $params);
+            }
             $to .= '/' . $params;
         }
 
@@ -318,12 +237,12 @@ if (! function_exists('route')) {
 }
 
 // setting('sebutan_desa');
-if (! function_exists('setting')) {
+if (!function_exists('setting')) {
     function setting($params = null)
     {
         $getSetting = get_instance()->setting;
 
-        if ($params && ! empty($getSetting)) {
+        if ($params && !empty($getSetting)) {
             if (property_exists($getSetting, $params)) {
                 return $getSetting->{$params};
             }
@@ -336,7 +255,7 @@ if (! function_exists('setting')) {
 }
 
 // identitas('nama_desa');
-if (! function_exists('identitas')) {
+if (!function_exists('identitas')) {
     /**
      * Get identitas desa.
      *
@@ -344,16 +263,7 @@ if (! function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $identitas = cache()->remember('identitas_desa', 604800, static function () {
-            if (! Schema::hasColumn('config', 'app_key')) {
-                return null;
-            }
-            if (! DB::table('config')->where('app_key', get_app_key())->exists()) {
-                return null;
-            }
-
-            return Config::appKey()->first();
-        });
+        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
 
         if ($params) {
             return $identitas->{$params};
@@ -364,7 +274,7 @@ if (! function_exists('identitas')) {
 }
 
 // hapus_cache('cache_id');
-if (! function_exists('hapus_cache')) {
+if (!function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
         if ($params) {
@@ -375,7 +285,7 @@ if (! function_exists('hapus_cache')) {
     }
 }
 
-if (! function_exists('calculate_days')) {
+if (!function_exists('calculate_days')) {
     /**
      * Calculate minute between 2 date.
      *
@@ -387,7 +297,7 @@ if (! function_exists('calculate_days')) {
     }
 }
 
-if (! function_exists('calculate_date_intervals')) {
+if (!function_exists('calculate_date_intervals')) {
     /**
      * Calculate list dates interval to minutes.
      *
@@ -407,10 +317,17 @@ if (! function_exists('calculate_date_intervals')) {
 }
 
 // Parsedown
-if (! function_exists('parsedown')) {
+if (!function_exists('parsedown')) {
+    /**
+     * Parsedown.
+     *
+     * @param string|null $params
+     *
+     * @return Parsedown|string
+     */
     function parsedown($params = null)
     {
-        $parsedown = new App\Libraries\Parsedown();
+        $parsedown = new Parsedown();
 
         if (null !== $params) {
             return $parsedown->text(file_get_contents(FCPATH . $params));
@@ -421,7 +338,7 @@ if (! function_exists('parsedown')) {
 }
 
 // SebutanDesa('Surat [Desa]');
-if (! function_exists('SebutanDesa')) {
+if (!function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
         return str_replace(
@@ -432,7 +349,7 @@ if (! function_exists('SebutanDesa')) {
     }
 }
 
-if (! function_exists('underscore')) {
+if (!function_exists('underscore')) {
     /**
      * Membuat spasi menjadi underscore atau sebaliknya
      *
@@ -457,7 +374,7 @@ if (! function_exists('underscore')) {
     }
 }
 
-if (! function_exists('akun_demo')) {
+if (!function_exists('akun_demo')) {
     /**
      * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
      *
@@ -477,7 +394,7 @@ if (! function_exists('akun_demo')) {
     }
 }
 
-if (! function_exists('folder')) {
+if (!function_exists('folder')) {
     /**
      * Membuat folder jika tidak tersedia
      *
@@ -519,7 +436,7 @@ if (! function_exists('folder')) {
     }
 }
 
-if (! function_exists('folder_desa')) {
+if (!function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
@@ -539,11 +456,16 @@ if (! function_exists('folder_desa')) {
         write_file(DESAPATH . 'pengaturan/siteman/siteman_mandiri.css', config_item('siteman_mandiri_css'), 'x');
         write_file(DESAPATH . 'app_key', set_app_key(), 'x');
 
+        config()->set('app.key', get_app_key());
+
+        // set config app.key untuk proses intall
+        config()->set('app.key', get_app_key());
+
         return true;
     }
 }
 
-if (! function_exists('auth')) {
+if (!function_exists('auth')) {
     /**
      * Ambil data user login
      *
@@ -561,20 +483,20 @@ if (! function_exists('auth')) {
     }
 }
 
-if (! function_exists('ci_db')) {
+if (!function_exists('ci_db')) {
     function ci_db()
     {
         return get_instance()->db;
     }
 }
 
-if (! function_exists('cek_kehadiran')) {
+if (!function_exists('cek_kehadiran')) {
     /**
      * Cek perangkat lupa absen
      */
     function cek_kehadiran(): void
     {
-        if (Schema::hasTable('kehadiran_jam_kerja') && (! empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran'))) {
+        if (!empty(setting('rentang_waktu_kehadiran')) || setting('rentang_waktu_kehadiran')) {
             $cek_libur = JamKerja::libur()->first();
             $cek_jam   = JamKerja::jamKerja()->first();
             $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
@@ -598,7 +520,7 @@ if (! function_exists('cek_kehadiran')) {
  *
  * @return void
  */
-if (! function_exists('case_replace')) {
+if (!function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function (array $matches) use ($ke) {
@@ -621,10 +543,10 @@ if (! function_exists('case_replace')) {
     }
 }
 
-if (! function_exists('kirim_versi_opensid')) {
+if (!function_exists('kirim_versi_opensid')) {
     function kirim_versi_opensid(): void
     {
-        if (! config_item('demo_mode')) {
+        if (!config_item('demo_mode')) {
             $ci = get_instance();
             if (empty($ci->header['desa']['kode_desa'])) {
                 return;
@@ -654,7 +576,7 @@ if (! function_exists('kirim_versi_opensid')) {
     }
 }
 
-if (! function_exists('kotak')) {
+if (!function_exists('kotak')) {
     function kotak(?string $data_kolom, int $max_kolom = 26): string
     {
         $view = '';
@@ -673,7 +595,7 @@ if (! function_exists('kotak')) {
     }
 }
 
-if (! function_exists('checklist')) {
+if (!function_exists('checklist')) {
     function checklist($kondisi_1, $kondisi_2): string
     {
         $view = '<td class="kotak padat tengah">';
@@ -685,10 +607,10 @@ if (! function_exists('checklist')) {
     }
 }
 
-if (! function_exists('create_tree_folder')) {
+if (!function_exists('create_tree_folder')) {
     function create_tree_folder($arr, string $baseDir)
     {
-        if (! empty($arr)) {
+        if (!empty($arr)) {
             $tmp = '<ul class="tree-folder">';
 
             foreach ($arr as $i => $val) {
@@ -707,7 +629,7 @@ if (! function_exists('create_tree_folder')) {
     }
 }
 
-if (! function_exists('generatePengikut')) {
+if (!function_exists('generatePengikut')) {
     function generatePengikut($pengikut, $keterangan): string
     {
         $html = '
@@ -759,7 +681,7 @@ if (! function_exists('generatePengikut')) {
     }
 }
 
-if (! function_exists('generatePengikutSuratKIS')) {
+if (!function_exists('generatePengikutSuratKIS')) {
     function generatePengikutSuratKIS($pengikut): string
     {
         $html = '
@@ -799,7 +721,7 @@ if (! function_exists('generatePengikutSuratKIS')) {
     }
 }
 
-if (! function_exists('generatePengikutKartuKIS')) {
+if (!function_exists('generatePengikutKartuKIS')) {
     function generatePengikutKartuKIS($kis): string
     {
         $html = '
@@ -839,7 +761,7 @@ if (! function_exists('generatePengikutKartuKIS')) {
     }
 }
 
-if (! function_exists('generatePengikutPindah')) {
+if (!function_exists('generatePengikutPindah')) {
     function generatePengikutPindah($pengikut): string
     {
         $html = '
@@ -883,7 +805,7 @@ function tidak_ada_data($col = 12, string $message = 'Data Tidak Tersedia'): voi
     echo $html;
 }
 
-if (! function_exists('data_lengkap')) {
+if (!function_exists('data_lengkap')) {
     function data_lengkap(): bool
     {
         $CI = &get_instance();
@@ -892,7 +814,7 @@ if (! function_exists('data_lengkap')) {
     }
 }
 
-if (! function_exists('buat_class')) {
+if (!function_exists('buat_class')) {
     function buat_class($class1 = '', $class2 = '', $required = false): string
     {
         $onlyClass = '';
@@ -915,29 +837,18 @@ if (! function_exists('buat_class')) {
     }
 }
 
-if (! function_exists('jenis_surat')) {
-    function jenis_surat($jenis): string
-    {
-        if (in_array($jenis, FormatSurat::RTF)) {
-            return 'RTF';
-        }
-
-        return 'TinyMCE';
-    }
-}
-
-if (! function_exists('cek_lokasi_peta')) {
+if (!function_exists('cek_lokasi_peta')) {
     function cek_lokasi_peta(array $wilayah): bool
     {
         if ($wilayah['dusun'] == '-') {
             $wilayah = identitas();
         }
 
-        return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
+        return $wilayah['path'] && ($wilayah['lat'] && !empty($wilayah['lng']));
     }
 }
 
-if (! function_exists('config_email')) {
+if (!function_exists('config_email')) {
     function config_email()
     {
         return [
@@ -952,7 +863,7 @@ if (! function_exists('config_email')) {
 }
 
 // source: https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
-if (! function_exists('geoip_info')) {
+if (!function_exists('geoip_info')) {
     function geoip_info($ip = null, $purpose = 'location', $deep_detect = true)
     {
         $output = null;
@@ -1029,17 +940,17 @@ if (! function_exists('geoip_info')) {
     }
 }
 
-if (! function_exists('batal')) {
+if (!function_exists('batal')) {
     function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
     }
 }
 
-if (! function_exists('sensorEmail')) {
+if (!function_exists('sensorEmail')) {
     function sensorEmail($email): string
     {
-        if (! $email || null === $email) {
+        if (!$email || null === $email) {
             return '';
         }
         $atPosition = strpos($email, '@');
@@ -1052,102 +963,11 @@ if (! function_exists('sensorEmail')) {
     }
 }
 
-if (! function_exists('gis_simbols')) {
+if (!function_exists('gis_simbols')) {
     function gis_simbols()
     {
         $simbols = DB::table('gis_simbol')->get('simbol');
 
         return $simbols->map(static fn ($item): array => (array) $item)->toArray();
-    }
-}
-
-if (! function_exists('config')) {
-    /**
-     * Get / set the specified configuration value.
-     *
-     * If an array is passed as the key, we will assume you want to set an array of values.
-     *
-     * @param array|string|null $key
-     * @param mixed             $default
-     *
-     * @return Illuminate\Config\Repository|mixed
-     */
-    function config($key = null, $default = null)
-    {
-        if (null === $key) {
-            return new Illuminate\Config\Repository();
-        }
-
-        if (is_array($key)) {
-            return (new Illuminate\Config\Repository())->set($key);
-        }
-
-        $file   = explode('.', $key)[0];
-        $config = require APPPATH . 'config/' . $file . '.php';
-
-        return (new Illuminate\Config\Repository([$file => $config]))->get($key, $default);
-    }
-}
-
-if (! function_exists('cache')) {
-    /**
-     * Get / set the specified cache value.
-     *
-     * If an array is passed, we'll assume you want to put to the cache.
-     *
-     * @param  dynamic  key|key,default|data,expiration|null
-     *
-     * @throws InvalidArgumentException
-     *
-     * @return Illuminate\Cache\CacheManager|mixed
-     */
-    function cache()
-    {
-        $container           = new Container();
-        $container['config'] = [
-            'cache.default'     => config('cache.default'),
-            'cache.stores.file' => config('cache.stores.file'),
-        ];
-        $container['files'] = new Illuminate\Filesystem\Filesystem();
-        $cacheManager       = new Illuminate\Cache\CacheManager($container);
-        $store              = $cacheManager->store();
-
-        if (empty($arguments)) {
-            return $store;
-        }
-
-        if (is_string($arguments[0])) {
-            return $store->get(...$arguments);
-        }
-
-        if (! is_array($arguments[0])) {
-            throw new InvalidArgumentException(
-                'When setting a value in the cache, you must pass an array of key / value pairs.'
-            );
-        }
-
-        [$key, $value, $minutes] = $arguments[0];
-
-        return $store->put($key, $value, $minutes ?? null);
-    }
-}
-
-if (! function_exists('resource_path')) {
-    /**
-     * Get the path to the resources folder.
-     */
-    function resource_path(string $path = ''): string
-    {
-        return RESOURCESPATH . $path;
-    }
-}
-
-if (! function_exists('storage_path')) {
-    /**
-     * Get the path to the storage folder.
-     */
-    function storage_path(string $path = ''): string
-    {
-        return STORAGEPATH . $path;
     }
 }

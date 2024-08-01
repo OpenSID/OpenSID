@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\Schema;
+
 class Notif_model extends MY_Model
 {
     public function permohonan_surat_baru()
@@ -47,7 +49,6 @@ class Notif_model extends MY_Model
     public function komentar_baru()
     {
         return $this->config_id()
-            ->where('id_artikel !=', LAPORAN_MANDIRI)
             ->where('status', 2)
             ->get('komentar')
             ->num_rows();
@@ -59,20 +60,23 @@ class Notif_model extends MY_Model
      *
      * @param mixed $tipe
      * @param mixed $nik
+     * @param mixed $penduduk_id
      */
     // TODO : Gunakan id penduduk
-    public function inbox_baru($tipe = 1, $nik = '')
+    public function inbox_baru($tipe = 1, $penduduk_id = '')
     {
-        if ($nik) {
-            $this->db->where('email', $nik);
+        if (! Schema::hasTable('pesan_mandiri')) {
+            return 0;
+        }
+        if ($penduduk_id) {
+            $this->db->where('penduduk_id', $penduduk_id);
         }
 
         return $this->config_id()
-            ->where('id_artikel', LAPORAN_MANDIRI)
             ->where('status', 2)
             ->where('tipe', $tipe)
             ->where('is_archived', 0)
-            ->get('komentar')
+            ->get('pesan_mandiri')
             ->num_rows();
     }
 

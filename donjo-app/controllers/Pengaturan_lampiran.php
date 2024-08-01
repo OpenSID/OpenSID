@@ -58,7 +58,7 @@ class Pengaturan_lampiran extends Admin_Controller
         $margin           = setting('lampiran_margin');
         $kotak            = setting('lampiran_kotak');
         $data['margins']  = json_decode($margin, null) ?? LampiranSurat::MARGINS;
-        $data['formAksi'] = route('pengaturan_lampiran.edit');
+        $data['formAksi'] = ci_route('pengaturan_lampiran.edit');
         $data['kotak']    = json_decode($kotak, 1) ?? LampiranSurat::KOTAK;
         // log_message('error', json_encode($data['kotak'], JSON_THROW_ON_ERROR));
 

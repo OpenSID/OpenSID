@@ -20,9 +20,9 @@
 						</div>
 						<?php
                             $reg = $count_reg->count + 1;
-			$jumlah_kata                  = strlen($reg);
-			$hasil                        = sprintf('%06s', $reg);
-			?>
+            $jumlah_kata         = strlen($reg);
+            $hasil               = sprintf('%06s', $reg);
+            ?>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-md-12">

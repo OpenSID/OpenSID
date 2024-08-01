@@ -68,11 +68,11 @@ class Surat_mohon extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     if (can('u')) {
-                        $aksi = '<a href="' . route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi = '<a href="' . ci_route('surat_mohon.form', $row->ref_syarat_id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('u') && $row->jumlah_format_surat == '0') {
-                        $aksi .= '<a href="#" data-href="' . route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('surat_mohon.delete', $row->ref_syarat_id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -90,12 +90,12 @@ class Surat_mohon extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('surat_mohon.update', $id);
+            $form_action = ci_route('surat_mohon.update', $id);
 
             $ref_syarat_surat = SyaratSurat::findOrFail($id);
         } else {
             $action           = 'Tambah';
-            $form_action      = route('surat_mohon.insert');
+            $form_action      = ci_route('surat_mohon.insert');
             $ref_syarat_surat = null;
         }
 
@@ -139,7 +139,7 @@ class Surat_mohon extends Admin_Controller
         isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
-            if (! SyaratSurat::deleteFormatSuratExist($id)) {
+            if (!SyaratSurat::deleteFormatSuratExist($id)) {
                 redirect_with('error', 'Gagal Hapus Data');
             }
         }

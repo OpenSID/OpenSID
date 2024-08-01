@@ -35,12 +35,13 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
+use App\Enums\AnalisisRefSubjekEnum;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_master extends Admin_Controller
 {
@@ -319,7 +320,7 @@ class Analisis_master extends Admin_Controller
         } elseif ($master['subjek_tipe'] == 6) {
             $data['subjek'] = ucwords($this->setting->sebutan_dusun);
         } else {
-            $data['subjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
+            $data['subjek'] = AnalisisRefSubjekEnum::all()[$master['subjek_tipe']];
         }
 
         // TODO: Periksa apakah perlu lakukan pre_update
