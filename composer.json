@@ -11,6 +11,7 @@
 		"php": "^7.4 || ^8.0 || ^8.1",
 		"codeigniter/framework": "^3.1",
 		"cviebrock/eloquent-sluggable": "^8.0",
+		"doctrine/dbal": "3.7.0",
 		"edwinhoksberg/php-fcm": "^1.2",
 		"erusev/parsedown": "^1.7",
 		"google/apiclient": "^2.11",
