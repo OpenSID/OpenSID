@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#8269](https://github.com/OpenSID/OpenSID/issues/8269) Perbaikan informasi lebar dan tinggi foto aparatur saat tambah/ubah data.
 2. [#8288](https://github.com/OpenSID/OpenSID/issues/8288) Perbaikan hasil cetak pada modul penduduk, keluarga dan peristiwa.
+3. [#8290](https://github.com/OpenSID/OpenSID/issues/8290) Perbaikan menu navigasi pada halaman admin.
 
 
 #### TEKNIS
