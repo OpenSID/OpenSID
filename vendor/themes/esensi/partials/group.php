@@ -19,7 +19,7 @@
           <td width="1%">:</td>
           <td><?= $detail['nama'] ?></td>
           <td width="20%" rowspan="5" style="text-align: center; vertical-align: middle;">
-            <img src="<?= gambar_desa($detail['foto']) ?>" alt="Foto <?= ucwords($detail['tipe']) ?>" class="w-full">
+            <img src="<?= gambar_desa($detail['logo']) ?>" alt="Logo <?= ucwords($detail['tipe']) ?>" class="w-full">
           </td>
         </tr>
         <tr>
