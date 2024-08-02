@@ -127,6 +127,7 @@ class Track_model extends CI_Model
             'jml_keluarga'        => Keluarga::status()->count(),
             'jml_surat_tte'       => $suratTTE, // jumlah surat terverifikasi secara tte
             'modul_tte'           => ($suratTTE > 0 && $settingTTE == 1) ? 1 : 0, // cek modul tte
+            'anjungan'            => cek_anjungan(),
         ];
 
         if ($this->abaikan($desa)) {
