@@ -24,6 +24,13 @@
                         class='fa fa-trash-o'></i>
                     Hapus</a>
             @endif
+            @if (super_admin())
+                <a href="#" title="Mengembalikan Surat Bawaan/Sistem" onclick="restore('mainform','{{ ci_route('surat_dinas/restore_surat_bawaan_all') }}')"
+                    class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"
+                >
+                    <i class="fa fa-refresh"></i>Mengembalikan Surat
+                </a>
+            @endif
             @if (can('u'))
                 <div class="btn-group-vertical radius-3">
                     <a class="btn btn-social btn-sm bg-navy" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i>

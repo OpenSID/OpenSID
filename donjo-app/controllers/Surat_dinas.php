@@ -510,6 +510,20 @@ class Surat_dinas extends Admin_Controller
         redirect_with('error', 'Gagal Mengembalikan Surat Bawaan/Sistem', ci_route('surat_dinas.form', $ada_surat->id));
     }
 
+    public function restore_surat_bawaan_all(): void
+    {
+        isCan('u');
+
+        foreach ($this->request['id_cb'] as $id) {
+            $url_surat = SuratDinas::where('jenis', SuratDinas::TINYMCE_SISTEM)->find($id)->url_surat;
+            if ($url_surat) {
+                $this->restore_surat_bawaan($url_surat, true);
+            }
+        }
+
+        redirect_with('success', 'Berhasil Mengembalikan Surat Bawaan/Sistem');
+    }
+
     public function pengaturan()
     {
         $this->set_hak_akses_rfm();
