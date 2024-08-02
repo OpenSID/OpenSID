@@ -238,7 +238,7 @@ class Surat_master extends Admin_Controller
         return show_404();
     }
 
-    public function insert(): void
+    public function insert()
     {
         isCan('u');
 
@@ -248,30 +248,41 @@ class Surat_master extends Admin_Controller
 
         $this->checkTags($this->request['template_desa']);
 
-        if (FormatSurat::create(static::validate($this->request))) {
-            redirect_with('success', 'Berhasil Tambah Data');
+        $validasi = static::validate($this->request);
+
+        if ($validasi['success'] === false) {
+            return json($validasi, 500);
         }
 
-        redirect_with('error', 'Gagal Tambah Data');
+        if (FormatSurat::create($validasi)) {
+            return json(['success' => true, 'message' => 'Berhasil Tambah Data'], 200);
+        }
+
+        return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
     }
 
-    public function simpan_sementara(): void
+    public function simpan_sementara()
     {
         isCan('u');
         $id = $this->request['id_surat'] ?: null;
         $this->checkTags($this->request['template_desa'], $id);
 
         $cek_surat = FormatSurat::find($id);
+        $validasi  = static::validate($this->request, $cek_surat->jenis ?? 4);
 
-        $surat = FormatSurat::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], static::validate($this->request, $cek_surat->jenis ?? 4, $id));
-        if ($surat) {
-            redirect_with('success', 'Berhasil Simpan Data Sementara', 'surat_master/form/' . $surat->id);
+        if ($validasi['success'] === false) {
+            return json(['success' => false, 'message' => $validasi['message']], 500);
         }
 
-        redirect_with('error', 'Gagal Simpan Data');
+        $surat = FormatSurat::updateOrCreate(['id' => $id, 'config_id' => identitas('id')], $validasi, $id);
+        if ($surat) {
+            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master/form/' . $surat->id)], 200);
+        }
+
+        return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
     }
 
-    public function update($id = null): void
+    public function update($id = null)
     {
         isCan('u');
 
@@ -281,13 +292,23 @@ class Surat_master extends Admin_Controller
 
         $this->checkTags($this->request['template_desa'], $id);
 
-        $data = FormatSurat::findOrFail($id);
+        $data = FormatSurat::find($id);
 
-        if ($data->update(static::validate($this->request, $data->jenis, $id))) {
-            redirect_with('success', 'Berhasil Ubah Data');
+        if (! $data) {
+            return json(['success' => false, 'message' => 'Data Tidak Ditemukan'], 404);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        $validasi = static::validate($this->request, $data->jenis, $id);
+
+        if ($validasi['success'] === false) {
+            return json(['success' => false, 'message' => $validasi['message']], 500);
+        }
+
+        if ($data->update($validasi)) {
+            return json(['success' => true, 'message' => 'Berhasil Tambah Data', 'redirect' => site_url('surat_master')], 200);
+        }
+
+        return json(['success' => false, 'message' => 'Gagal Tambah Data'], 500);
     }
 
     private function checkTags($template_desa, $id = null): void
@@ -430,14 +451,23 @@ class Surat_master extends Admin_Controller
             }
         }
 
+        $namaSurat = nama_surat($request['nama']);
+
+        if ((collect($formIsian)->where('sumber', '1')->count() > 1) && ($request['mandiri'] == 1)) {
+            return [
+                'success' => false,
+                'message' => "Surat {$data['nama']} tidak dapat disediakan melalui layanan mandiri memerlukan data dari penduduk lain.",
+            ];
+        }
+
         $data = [
             'config_id'                => identitas('id'),
-            'nama'                     => nama_surat($request['nama']),
+            'nama'                     => $namaSurat,
             'kode_surat'               => $request['kode_surat'],
             'masa_berlaku'             => $request['masa_berlaku'],
             'satuan_masa_berlaku'      => $request['satuan_masa_berlaku'],
             'jenis'                    => $jenis,
-            'mandiri'                  => (collect($formIsian)->where('sumber', '1')->count() == 1) && ($request['mandiri'] == 1),
+            'mandiri'                  => $request['mandiri'],
             'syarat_surat'             => $request['mandiri'] ? json_encode($request['id_cb']) : null,
             'qr_code'                  => $request['qr_code'],
             'logo_garuda'              => $request['logo_garuda'],

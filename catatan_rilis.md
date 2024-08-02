@@ -12,4 +12,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 #### TEKNIS
 
-1.
+1. [#8274](https://github.com/OpenSID/OpenSID/issues/8274) Penyesuaian notifikasi tambah/ubah surat layanan yang disediakan untuk layanan mandiri.
