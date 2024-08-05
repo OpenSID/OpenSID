@@ -68,6 +68,7 @@ class Migrasi_2024080171 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024051253($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024073071($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024072953($hasil, $id);
         }
 
         return $hasil && true;
@@ -532,5 +533,27 @@ class Migrasi_2024080171 extends MY_model
                 'null' => true,
             ],
         ]);
+    }
+
+    protected function migrasi_2024072953($hasil)
+    {
+        $tables = [
+            'keuangan_ta_spp',
+            'keuangan_ta_sppbukti',
+            'keuangan_ta_spp',
+            'keuangan_ta_jurnal_umum',
+            'keuangan_ta_mutasi',
+            'keuangan_ta_pajak',
+            'keuangan_ta_pencairan',
+            'keuangan_ta_spj',
+            'keuangan_ta_spj_bukti',
+            'keuangan_ta_spp',
+        ];
+
+        foreach ($tables as $table) {
+            Schema::table($table, static function (Blueprint $table) {
+                $table->text('Keterangan')->nullable()->change();
+            });
+        }
     }
 }
