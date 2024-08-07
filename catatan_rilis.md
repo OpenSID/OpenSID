@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8285](https://github.com/OpenSID/OpenSID/issues/8285) Perbaikan validasi url yang panjang.
 6. [#8313](https://github.com/OpenSID/OpenSID/issues/8313) Perbaikan mutasi aset tetap lainnya.
 7. [#8315](https://github.com/OpenSID/OpenSID/issues/8315) Perbaikan link detail laporan kelompok rentang > sakit menahun.
+8. [#8309](https://github.com/OpenSID/OpenSID/issues/8309) Perbaikan backup database gabungkan untuk modul inventaris dan suplemen.
 
 
 #### TEKNIS
