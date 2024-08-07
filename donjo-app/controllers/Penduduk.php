@@ -359,6 +359,12 @@ class Penduduk extends Admin_Controller
                                         $q->where($map[$key], $val);
                                     }
                                 }
+                            } elseif ($map[$key] == 'sakit_menahun_id') {
+                                if (is_array($val)) {
+                                    $q->whereIn($map[$key], $val);
+                                } else {
+                                    $q->where($map[$key], $val);
+                                }
                             } else {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
@@ -1428,13 +1434,13 @@ class Penduduk extends Admin_Controller
                 break;
 
             case 10:
-                $this->statistikFilter['menahun'] = '90';
+                $this->statistikFilter['menahun'] = array_diff(\App\Enums\SakitMenahunEnum::keys(), [\App\Enums\SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
                 $this->statistikFilter['sex']     = '1';
                 $pre                              = 'SAKIT MENAHUN LAKI-LAKI ';
                 break;
 
             case 11:
-                $this->statistikFilter['menahun'] = '90';
+                $this->statistikFilter['menahun'] = array_diff(\App\Enums\SakitMenahunEnum::keys(), [\App\Enums\SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
                 $this->statistikFilter['sex']     = '2';
                 $pre                              = 'SAKIT MENAHUN PEREMPUAN ';
                 break;

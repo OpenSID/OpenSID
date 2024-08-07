@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8301](https://github.com/OpenSID/OpenSID/issues/8301) Perbaikan impor keuangan dengan isian keterangan yang panjang.
 5. [#8285](https://github.com/OpenSID/OpenSID/issues/8285) Perbaikan validasi url yang panjang.
 6. [#8313](https://github.com/OpenSID/OpenSID/issues/8313) Perbaikan mutasi aset tetap lainnya.
+7. [#8315](https://github.com/OpenSID/OpenSID/issues/8315) Perbaikan link detail laporan kelompok rentang > sakit menahun.
 
 
 #### TEKNIS
