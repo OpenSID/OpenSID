@@ -35,7 +35,9 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+ use Illuminate\Database\Schema\Blueprint;
+ use Illuminate\Support\Facades\DB;
+ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -45,7 +47,9 @@ class Migrasi_2024080751 extends MY_model
     {
         $hasil = $this->migrasi_2024080851(true);
 
-        return $this->migrasi_2024080752($hasil);
+        $hasil = $this->migrasi_2024080752($hasil);
+
+        return $this->migrasi_2024080753($hasil);
     }
 
     protected function migrasi_2024080851($hasil)
@@ -71,5 +75,15 @@ class Migrasi_2024080751 extends MY_model
         $hasil = $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_fk', 'suplemen_terdata');
 
         return $hasil && $this->tambahForeignKey('suplemen_terdata_suplemen_fk', 'suplemen_terdata', 'id_suplemen', 'suplemen', 'id', true);
+    }
+
+    protected function migrasi_2024080753($hasil)
+    {
+        Schema::table('kelompok', static function (Blueprint $table) {
+            $table->dropIndex('slug_config');
+            $table->unique(['slug', 'config_id', 'tipe'], 'slug_config_tipe');
+        });
+
+        return $hasil;
     }
 }

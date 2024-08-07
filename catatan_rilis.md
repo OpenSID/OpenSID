@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8313](https://github.com/OpenSID/OpenSID/issues/8313) Perbaikan mutasi aset tetap lainnya.
 7. [#8315](https://github.com/OpenSID/OpenSID/issues/8315) Perbaikan link detail laporan kelompok rentang > sakit menahun.
 8. [#8309](https://github.com/OpenSID/OpenSID/issues/8309) Perbaikan backup database gabungkan untuk modul inventaris dan suplemen.
+9. [#8292](https://github.com/OpenSID/OpenSID/issues/8292) Perbaikan penanganan slug pada modul kelompok/lembaga saat memperbatui data.
 
 
 #### TEKNIS

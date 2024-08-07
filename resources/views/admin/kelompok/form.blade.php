@@ -83,7 +83,7 @@
                                     type="text"
                                     placeholder="No. SK Pendirian {{ $title }}"
                                     name="no_sk_pendirian"
-                                    value="{{ $kelompok['kode'] }}"
+                                    value="{{ $kelompok['no_sk_pendirian'] }}"
                                     maxlength="255"
                                 >
                             </div>
