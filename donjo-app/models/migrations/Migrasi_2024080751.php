@@ -43,12 +43,12 @@ class Migrasi_2024080751 extends MY_model
 {
     public function up()
     {
-        $hasil = $this->migrasi_2024080751(true);
+        $hasil = $this->migrasi_2024080851(true);
 
         return $this->migrasi_2024080752($hasil);
     }
 
-    protected function migrasi_2024080751($hasil)
+    protected function migrasi_2024080851($hasil)
     {
         // mutasi_inventaris_peralatan
         $hasil = $hasil && $this->hapus_foreign_key('inventaris_peralatan', 'FK_mutasi_inventaris_peralatan', 'mutasi_inventaris_peralatan');
