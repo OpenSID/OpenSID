@@ -37,4 +37,8 @@
     $(document).ready(function() {
         $('.modal:visible').find('form').validate()
     })
+
+    $('#validasi').submit(function() {
+        $('#modalBox').modal('hide')
+    })
 </script>

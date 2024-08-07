@@ -135,10 +135,9 @@ class KodeIsianPenduduk
                 'data'  => $penduduk->alamat_wilayah,
             ],
             [
-                'case_sentence' => true,
-                'judul'         => 'No KK' . $ortu,
-                'isian'         => 'no_kk' . $prefix,
-                'data'          => get_nokk($penduduk->keluarga->no_kk),
+                'judul' => 'Alamat Lengkap' . $ortu,
+                'isian' => 'alamat_lengkap' . $prefix,
+                'data'  => $penduduk->alamat_wilayah . ', ' . ucwords(setting('sebutan_desa') . ' ' . $config->nama_desa . ', ' . setting('sebutan_kecamatan') . ' ' . $config->nama_kecamatan . ', ' . setting('sebutan_kabupaten') . ' ' . $config->nama_kabupaten . ', Provinsi ' . $config->nama_propinsi),
             ],
             [
                 'judul' => 'Golongan Darah' . $ortu,
@@ -338,7 +337,7 @@ class KodeIsianPenduduk
                 [
                     'case_sentence' => true,
                     'judul'         => 'No KK',
-                    'isian'         => 'no_kk',
+                    'isian'         => 'No_kK',
                     'data'          => get_nokk($penduduk->keluarga->no_kk),
                 ],
                 [

@@ -46,6 +46,8 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
+use STS\ZipStream\Facades\Zip;
 use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
@@ -120,11 +122,16 @@ class Database extends Admin_Controller
         return null;
     }
 
-    public function desa_backup(): void
+    public function desa_backup()
     {
-        $za = new FlxZipArchive();
-        $za->read_dir(DESAPATH);
-        $za->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
+        return Zip::create(
+            name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
+            files: collect(Storage::disk('desa')->allFiles())
+                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
+                ->toArray()
+        )
+            ->response()
+            ->send();
     }
 
     public function desa_inkremental()

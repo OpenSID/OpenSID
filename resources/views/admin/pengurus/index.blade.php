@@ -30,10 +30,26 @@
             <a class="btn btn-social bg-purple btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="{{ ci_route('pengurus/daftar/cetak') }}" target="_blank" title="Cetak Data" class="btn btn-social btn-block btn-sm"><i class="fa fa-print "></i> Cetak</a>
+                    <a
+                        href="{{ ci_route('pengurus/dialog/cetak') }}"
+                        class="btn btn-social btn-block btn-sm"
+                        title="Cetak Buku Pemerintah Desa"
+                        data-remote="false"
+                        data-toggle="modal"
+                        data-target="#modalBox"
+                        data-title="Cetak Buku Pemerintah Desa"
+                    ><i class="fa fa-print "></i> Cetak</a>
                 </li>
                 <li>
-                    <a href="{{ ci_route('pengurus/daftar/unduh') }}" target="_blank" title="Unduh Data" class="btn btn-social btn-block btn-sm"><i class="fa fa-download"></i> Unduh</a>
+                    <a
+                        href="{{ ci_route('pengurus/dialog/unduh') }}"
+                        class="btn btn-social btn-block btn-sm"
+                        title="Unduh Buku Pemerintah Desa"
+                        data-remote="false"
+                        data-toggle="modal"
+                        data-target="#modalBox"
+                        data-title="Unduh Buku Pemerintah Desa"
+                    ><i class="fa fa-download"></i> Unduh</a>
                 </li>
             </ul>
         </div>

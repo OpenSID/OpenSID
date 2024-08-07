@@ -98,7 +98,7 @@ class KodeIsianForm
      */
     public function getKodeIsian()
     {
-        $input     = $this->inputForm;
+        $input     = is_array($this->inputForm) ? $this->inputForm : json_decode($this->inputForm, true);
         $kodeIsian = $this->kodeIsian;
 
         if (! is_array($kodeIsian)) {

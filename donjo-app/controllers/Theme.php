@@ -95,7 +95,9 @@ class Theme extends Admin_Controller
 
         $tema = ThemeModel::findOrFail($id);
 
-        $tema->update(['opsi' => $this->input->post('opsi')]);
+        $opsi = $this->validateOpsi($this->input->post('opsi'), $tema);
+
+        $tema->update(['opsi' => $opsi]);
 
         redirect_with('success', 'Berhasil Ubah Data', "theme/pengaturan/{$id}");
     }
@@ -214,5 +216,58 @@ class Theme extends Admin_Controller
         theme_scan();
 
         redirect_with('success', 'Berhasil Memindai Tema');
+    }
+
+    protected function validateOpsi($opsi, $tema)
+    {
+        $configPath  = FCPATH . $tema->path . '/config.json';
+        $configTheme = json_decode(file_get_contents($configPath), true);
+        $opsi        = [];
+
+        foreach ($configTheme as $config) {
+            $key = $config['key'];
+            if ($config['type'] == 'unggah') {
+                $opsi[$key]          = $this->imageUpload($tema->slug, $key);
+                $opsi['url_' . $key] = $this->input->post()['opsi']['url_' . $key];
+            } else {
+                $opsi[$key] = $this->input->post()['opsi'][$key];
+            }
+        }
+
+        return $opsi;
+    }
+
+    public function imageUpload($namaTema, $key)
+    {
+        $this->load->library('Upload');
+
+        if (! is_dir(CONFIG_THEMES . $namaTema)) {
+            mkdir(CONFIG_THEMES . $namaTema, 0777, true);
+        }
+
+        $config['upload_path']   = CONFIG_THEMES . $namaTema;
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['overwrite']     = true;
+        $config['max_size']      = max_upload() * 5 * 1024;
+        $config['file_name']     = $key;
+
+        $this->upload->initialize($config);
+        if ($this->upload->do_upload($key)) {
+            $upload = $this->upload->data();
+
+            if ($upload) {
+                $files = FCPATH . theme_config($key);
+                if (! empty($_FILES[$key]['name']) && file_exists($files)) {
+                    unlink($files);
+                }
+
+                return CONFIG_THEMES . $namaTema . '/' . $upload['file_name'];
+            }
+        }
+
+        // set_session('error', $this->upload->display_errors());
+        log_message('error', $this->upload->display_errors());
+
+        return null;
     }
 }

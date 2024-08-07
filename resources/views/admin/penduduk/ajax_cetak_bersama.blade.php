@@ -1,26 +1,27 @@
 @include('admin.layouts.components.form_modal_validasi')
 <script>
     $(function() {
-        let _objParams = $('#tabeldata').DataTable().ajax.params()
-        delete(_objParams.draw)
-        delete(_objParams.search)
-        $('input[name=params]').val(JSON.stringify(_objParams))
-        $('input[name=judul]').val($('#judul-statistik').text())
+        $('input[name=judul]').val($('#judul-statistik').text());
         // copy id_rb terpilih ke form ini
-        let _clone = $('#tabeldata').find('input[name="id_cb[]"]:checked').clone()
+        let _clone = $('#tabeldata').find('input[name="id_cb[]"]:checked').clone();
         $('#checkbox_div').append(_clone)
     })
 
     function cetak() {
-        const privasi_nik = $('#privasi_nik:checked').val();
-        if (privasi_nik == "on") {
-            $("#form-cetak").attr("action", "{{ $action }}/1");
-        } else {
-            $("#form-cetak").attr("action", "{{ $action }}/0");
-        }
+        // Retrieve DataTable parameters
+        let params = $('#tabeldata').DataTable().ajax.params();
+
+        // Convert params object to query string
+        let queryString = $.param(params);
+
+        // Get checkbox value
+        const privasi_nik = $('#privasi_nik').is(':checked') ? '1' : '0';
+
+        // Set form action with query parameters
+        $("#form-cetak").attr("action", `{{ $action }}/${privasi_nik}?${queryString}`);
+
+        // Hide modal
         $('#modalBox').modal('hide');
-
-
     }
 </script>
 <form target="_blank" action="" method="post" id="form-cetak">
@@ -31,7 +32,6 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <input type="hidden" name="params" value="">
                     <input type="hidden" name="judul" value="">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="privasi_nik">

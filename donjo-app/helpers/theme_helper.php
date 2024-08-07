@@ -172,7 +172,11 @@ if (! function_exists('theme_config')) {
 
         if ($key) {
             if ($default === null) {
-                $default = collect(json_decode(file_get_contents(theme_full_path() . '/config.json'), true))->where('key', $key)->first()['value'] ?? null;
+                $configPath = theme_full_path() . '/config.json';
+                $default    = optional(
+                    collect(json_decode(file_get_contents($configPath), true))
+                        ->firstWhere('key', $key)
+                )['value'];
             }
 
             return $tema[$key] ?? $default;

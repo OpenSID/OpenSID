@@ -42,7 +42,7 @@
                         </span>
                     </div>
                 @elseif ($pengaturan->jenis == 'textarea')
-                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="5">{{ $pengaturan->value }}</textarea>
+                    <textarea {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm required ', $pengaturan->attribute) : 'class="form-control input-sm required"' !!} name="{{ $pengaturan->key }}" placeholder="{{ $pengaturan->keterangan }}" rows="5">{{ $pengaturan->value }}</textarea>
                 @elseif ($pengaturan->jenis == 'referensi')
                     {{-- prettier-ignore-start --}}
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
@@ -61,15 +61,31 @@
                     </select>
                     {{-- prettier-ignore-end --}}
                     {{-- New --}}
-                @elseif (in_array($pengaturan->jenis, ['input-number', 'select-simbol']))
+                @elseif (in_array($pengaturan->jenis, ['input-text', 'input-number', 'select-simbol', 'select-boolean', 'select-array', 'select-multiple-array']))
                     {{-- Rebuild structur setting --}}
                     @php
                         $value = [];
+                        $attributes = json_decode($pengaturan->attribute, true);
+                        $attributes = is_array($attributes) ? $attributes : [];
+                        if (isset($attributes['class'])) {
+                            $value['class'] = $attributes['class'];
+                        
+                            unset($attributes['class']);
+                        }
+                        
                         $value['type'] = $pengaturan->jenis;
                         $value['default'] = $pengaturan->value;
                         $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';
-                        $value['class'] = \Illuminate\Support\Str::between($pengaturan->attribute, 'class="', '"');
-                        $value['attributes'] = $pengaturan->attribute;
+                        $value['attributes'] = implode(
+                            ' ',
+                            array_map(
+                                function ($key, $val) {
+                                    return $key . '="' . $val . '"';
+                                },
+                                array_keys($attributes),
+                                $attributes,
+                            ),
+                        );
                         $value['key'] = $pengaturan->key;
                         $value['option'] = $pengaturan->option;
                     @endphp

@@ -57,9 +57,8 @@ class Statistik extends Admin_Controller
         $data        = $this->get_cluster_session();
         $data['lap'] = $this->session->lap ?? '0';
 
-        $data['order_by'] = $this->session->order_by;
-        $data['main']     = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
-        // dd($data['main']);
+        $data['order_by']              = $this->session->order_by;
+        $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
         $data['tautan_data']           = $this->tautan_data($data['lap']);
         $data['list_dusun']            = $this->wilayah_model->list_dusun();
         $data['heading']               = $this->laporan_penduduk_model->judul_statistik($data['lap']);

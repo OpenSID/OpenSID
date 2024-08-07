@@ -120,15 +120,15 @@ class Bumindes_arsip extends Admin_controller
     public function tindakan_lihat($kategori, $id, $tindakan): void
     {
         $tabel  = $this->get_table($kategori);
-        $berkas = $this->arsipFisik->getNamaBerkas($kategori, $id);
+        $berkas = $this->arsipFisik->getNamaBerkas($tabel, $id);
 
         switch ($tindakan) {
             case 'lihat':
-                $this->tampilkan_berkas($tabel, $berkas);
+                $this->tampilkan_berkas($kategori, $tabel, $berkas);
                 break;
 
             case 'unduh':
-                $this->unduh_berkas($tabel, $berkas);
+                $this->unduh_berkas($kategori, $tabel, $berkas);
                 break;
         }
     }
@@ -138,7 +138,7 @@ class Bumindes_arsip extends Admin_controller
         return $this->modal_ubah_arsip($kategori, $id);
     }
 
-    public function tampilkan_berkas($tabel, ?string $berkas, $tampil = true): void
+    public function tampilkan_berkas($kategori, $tabel, ?string $berkas, $tampil = true): void
     {
         $lokasi = '';
         if ($tabel == 'dokumen_hidup') {
@@ -146,12 +146,15 @@ class Bumindes_arsip extends Admin_controller
         } elseif ($tabel == 'surat_masuk' || $tabel == 'surat_keluar') {
             $lokasi = LOKASI_ARSIP;
         }
-        ambilBerkas($berkas, $this->controller, null, $lokasi, $tampil ?? false);
+
+        $redirect = ! empty($lokasi) ? $this->controller . '?kategori=' . $kategori : $this->controller;
+
+        ambilBerkas($berkas, $redirect, null, $lokasi, $tampil ?? false);
     }
 
-    public function unduh_berkas($tabel, ?string $berkas): void
+    public function unduh_berkas($kategori, $tabel, ?string $berkas): void
     {
-        $this->tampilkan_berkas($tabel, $berkas, false);
+        $this->tampilkan_berkas($kategori, $tabel, $berkas, false);
     }
 
     public function modal_ubah_arsip($tabel, $id)

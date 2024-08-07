@@ -126,8 +126,9 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP    = 3.5; // cm
-    public const BOTTOM = 2; // cm
+    public const TOP          = 4; // cm
+    public const BOTTOM       = 2; // cm
+    public const DEFAULT_FONT = 'Times New Roman';
 
     /**
      * @var CI_Controller
@@ -322,7 +323,7 @@ class TinyMCE
         return $daftar_kode_isian;
     }
 
-    public function formatPdf(string $header, string $footer, string $isi): string
+    public function formatPdf(string $header, string $footer, string $isi, $preview = false): string
     {
         $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
@@ -332,9 +333,12 @@ class TinyMCE
         $font_surat   = array_map('strtolower', $font_surat);
         $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
         $isi          = str_replace($font_surat, $replace_font, $isi);
+
         // Pisahkan isian surat
-        $isi = str_replace('<p><!-- pagebreak --></p>', '', $isi);
-        $isi = explode('<!-- pagebreak -->', $isi);
+        $isi           = str_replace('<p><!-- pagebreak --></p>', '<!-- pagebreak -->', $isi);
+        $isi           = explode('<!-- pagebreak -->', $isi);
+        $tinggi_header = (float) ($this->ci->session->pengaturan_surat['tinggi_header'] ?: setting('tinggi_header')) * 10 . 'mm';
+        $tinggi_footer = (float) ($this->ci->session->pengaturan_surat['tinggi_footer'] ?: setting('tinggi_footer')) * 10 . 'mm';
 
         // Pengaturan Header
         switch ($header) {
@@ -345,7 +349,7 @@ class TinyMCE
                 break;
 
             case 1:
-                $backtop    = ((float) setting('tinggi_header')) * 10 . 'mm';
+                $backtop    = $tinggi_header;
                 $isi_header = '<page_header>' . $isi[0] . '</page_header>';
                 $isi_surat  = $isi[1];
                 break;
@@ -365,24 +369,31 @@ class TinyMCE
                 break;
 
             default:
-                $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+                $backbottom = $tinggi_footer;
                 $isi_footer = '<page_footer>' . $isi[2] . '</page_footer>';
                 break;
         }
+
         $style = '
-        <style>
-        .special-symbol {
-            font-family: "DejaVuSans", sans-serif;
-        }
-        </style>
+            <style>
+            .special-symbol {
+                font-family: "DejaVuSans", sans-serif;
+            }
+            </style>
         ';
 
+        $backimg = '';
+
+        if ($preview) {
+            $backimg = base_url('assets/images/draft-watermark.png');
+        }
+
         return '
-            <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
+            <page backimg="' . $backimg . '" backtop="' . $backtop . '" backbottom="' . $backbottom . '">
             ' . $style . '
             ' . $isi_header . '
-            ' . $isi_footer . '
             ' . $isi_surat . '
+            ' . $isi_footer . '
             </page>
         ';
     }
@@ -425,7 +436,6 @@ class TinyMCE
                 return $item;
             })
             ->toArray();
-
         if ((int) $data['surat']['masa_berlaku'] == 0) {
             $result = str_ireplace('[mulai_berlaku] s/d [berlaku_sampai]', $gantiDengan, $result);
         }
@@ -466,8 +476,16 @@ class TinyMCE
                 $result = str_replace($key, $data['pengikut_pindah'] ?? '', $result);
             }
 
+            if (preg_match('/nip_pamong/i', $key)) {
+                if (empty($value) || $value == '-') {
+                    $result = str_replace(setting('sebutan_nip_desa') . ' : ', '', $result);
+                    $value  = '';
+                }
+            }
+
             $result = case_replace($key, $value, $result);
         }
+
         // Kode isian berupa hitungan perlu didahulukan
         $result = caseHitung($result);
         $result = terjemahkanTerbilang($result);
@@ -796,7 +814,7 @@ class TinyMCE
 
     public function cetak_surat($id)
     {
-        $this->defaultFont = underscore(setting('font_surat'));
+        $this->defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
         $surat             = LogSurat::find($id);
         $this->cetak_surat_tinymce($surat);
     }
@@ -824,7 +842,15 @@ class TinyMCE
         $isi_cetak      = $data_gambar['result'];
         $surat->urls_id = $data_gambar['urls_id'];
 
-        $margin_cm_to_mm = $cetak['surat']['margin_cm_to_mm'];
+        $margin_cm_to_mm = $this->session->has_userdata('pengaturan_surat')
+            ? [
+                json_decode($this->session->pengaturan_surat['surat_margin'])->kiri * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->atas * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->kanan * 10,
+                json_decode($this->session->pengaturan_surat['surat_margin'])->bawah * 10,
+            ]
+            : $cetak['surat']['margin_cm_to_mm'];
+
         if ($cetak['surat']['margin_global'] == '1') {
             $margin_cm_to_mm = setting('surat_margin_cm_to_mm');
         }

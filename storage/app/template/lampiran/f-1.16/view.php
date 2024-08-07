@@ -246,11 +246,7 @@
 			<td colspan="7" class="left">Kode Pos</td>
 			<?php for ($i = 0; $i < 5; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($individu['kode_pos'][$i])): ?>
-						<?= $individu['kode_pos'][$i]; ?>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
+					<?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="7">&nbsp;</td>
@@ -297,6 +293,7 @@
 		<tr>
 			<td colspan="10" class="kotak">8. Alamat Keluarga Lama</td>
 			<td>:</td>
+			<?php info($individu) ?>
 			<td colspan="23" class="kotak"><?= $individu['alamat']?></td>
 			<td colspan="3" class="tengah">RT:</td>
 			<?php for ($i = 0; $i < 3; $i++): ?>
@@ -341,11 +338,7 @@
 			<td colspan="7" class="left">Kode Pos</td>
 			<?php for ($i = 0; $i < 5; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($individu['kode_pos'][$i])): ?>
-						<?= $individu['kode_pos'][$i]; ?>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
+					<?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan="7">&nbsp;</td>

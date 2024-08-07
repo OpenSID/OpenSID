@@ -15,6 +15,10 @@
                 <hr class="garis">
             </td>
         </tr>
+        <tr></tr>
+        <td align="center">
+            <img class="logo" src="{{ gambar_desa($kelompok['logo']) }}" alt="logo-{{ $kelompok['nama'] }}">
+        </td>
         <tr>
             <td align="center">
                 <h4><u>Daftar Anggota {{ ucwords($label . ' ' . $kelompok['nama']) }}</u></h4>

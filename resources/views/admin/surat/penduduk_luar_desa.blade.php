@@ -247,4 +247,22 @@
             </div>
         </div>
     @endif
+
+    @if (in_array('no_kk', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>No. KK</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm no_kk" type="text" name="{{ $kategori }}[no_kk]" placeholder="No. KK" />
+            </div>
+        </div>
+    @endif
+
+    @if (in_array('kepala_kk', $input))
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><strong>Kepala Keluarga</strong></label>
+            <div class="col-sm-5 col-lg-6">
+                <input class="form-control input-sm" type="text" name="{{ $kategori }}[kepala_kk]" placeholder="Kepala Keluarga" />
+            </div>
+        </div>
+    @endif
 </div>

@@ -43,7 +43,7 @@ class Status_desa extends Admin_Controller
 {
     public $modul_ini           = 'info-desa';
     public $sub_modul_ini       = 'status-desa';
-    public $kategori_pengaturan = 'status sdgs';
+    public $kategori_pengaturan = 'Status SDGs';
 
     public function __construct()
     {

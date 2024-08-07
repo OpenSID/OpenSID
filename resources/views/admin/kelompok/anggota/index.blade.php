@@ -82,6 +82,9 @@
                                     <td>
                                         {{ strtoupper($kelompok['kode']) }}
                                     </td>
+                                    <td class="padat" rowspan="5">
+                                        <img src="{{ base_url(LOKASI_LOGO_DESA . $kelompok['logo']) }}" class="img-thumbnail" alt="Logo {{ $tipe }}" style="max-width: 150px;">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Nama {{ $tipe }}

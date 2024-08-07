@@ -14,7 +14,7 @@
 							<?php if (is_file(LOKASI_GALERI . $data->foto)): ?>
 								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= base_url(LOKASI_GALERI . $data->foto) ?>" alt="Foto Pembangunan"/>
 							<?php else: ?>
-								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= asset('images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan"/>
+								<img width="auto" class="img-fluid img-thumbnail card-img-top" src="<?= FOTO_TIDAK_TERSEDIA ?>" alt="Foto Pembangunan"/>
 							<?php endif; ?>
 							<div class="card-body">
 								<table class="table">

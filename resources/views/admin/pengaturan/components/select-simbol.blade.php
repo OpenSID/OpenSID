@@ -1,5 +1,5 @@
 {{-- prettier-ignore-start --}}
-<select class="form-control input-sm select2-icon-img required" name="{{ $value['key'] }}" {{ $value['readonly'] }} {!! $value['attributes'] !!}
+<select class="form-control input-sm select2-icon-img {!! $value['class'] !!}" name="{{ $value['key'] }}" {{ $value['readonly'] }} {!! $value['attributes'] !!}
     @php
     $referensiData = (new $value['option']['model']())
         ->get()

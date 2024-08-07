@@ -267,6 +267,20 @@
                     </div>
                 </div>
             @endif
+
+            @if ($list_id_kk)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="id_kk">Kepemilikan Kartu Keluarga</label>
+                        <select class="form-control input-sm select2" id="id_kk" name="id_kk">
+                            <option value=""> -- </option>
+                            @foreach ($list_id_kk as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="modal-footer">

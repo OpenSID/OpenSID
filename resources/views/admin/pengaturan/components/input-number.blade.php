@@ -1,6 +1,6 @@
 <input
     type="number"
-    class="form-control input-sm"
+    class="form-control input-sm {!! $value['class'] !!}"
     id="input_{{ $value['key'] }}"
     name="{{ $value['key'] }}"
     value="{{ $value['default'] }}"

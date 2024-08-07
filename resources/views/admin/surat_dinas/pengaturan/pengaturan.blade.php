@@ -39,3 +39,45 @@
     </div>
     </form>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(function() {
+            $('#standar').click(function(event) {
+                Swal.fire({
+                    title: 'Informasi',
+                    icon: 'question',
+                    text: 'Apakah anda yakin ingin mengubah ke standar spesifikasi surat?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ok',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Informasi',
+                            text: 'Sedang menyesuaikan...',
+                            icon: 'info',
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            showConfirmButton: false,
+
+                            didOpen: () => {
+                                Swal.showLoading()
+                            }
+                        });
+
+                        $('input[name="tinggi_header_surat_dinas"]').val('{{ \App\Libraries\TinyMCE::TOP }}');
+                        $('input[name="tinggi_footer_surat_dinas"]').val('{{ \App\Libraries\TinyMCE::BOTTOM }}');
+                        $('select[name="font_surat_dinas"]').val('{{ \App\Libraries\TinyMCE::DEFAULT_FONT }}').trigger('change');
+                        $('input[name="surat_dinas_margin[kiri]"]').val('{{ \App\Models\SuratDinas::MARGINS['kiri'] }}');
+                        $('input[name="surat_dinas_margin[kanan]"]').val('{{ \App\Models\SuratDinas::MARGINS['kanan'] }}');
+                        $('input[name="surat_dinas_margin[atas]"]').val('{{ \App\Models\SuratDinas::MARGINS['atas'] }}');
+                        $('input[name="surat_dinas_margin[bawah]"]').val('{{ \App\Models\SuratDinas::MARGINS['bawah'] }}');
+
+                        $('#validasi').submit();
+                    }
+                })
+            });
+        });
+    </script>
+@endpush

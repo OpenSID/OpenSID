@@ -67,7 +67,7 @@ class First_gallery_m extends MY_Model
         // OPTIMIZE: benarkah butuh paging?
         $data = $this->config_id()
             ->where('enabled', 1)
-            ->where('tipe', 0)
+            ->where('parrent', 0)
             ->order_by('urut')
             ->get('gambar_gallery', $limit, $offset)
             ->result_array();

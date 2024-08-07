@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 return [
@@ -78,6 +79,12 @@ return [
     */
 
     'disks' => [
+
+        'desa' => [
+            'driver' => 'local',
+            'root'   => base_path('desa'),
+            'links'  => 'skip',
+        ],
 
         'local' => [
             'driver' => 'local',
