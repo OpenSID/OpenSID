@@ -43,12 +43,9 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return $this->migrasi_2024080751(true);
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $hasil = $this->migrasi_2024080751(true);
 
-        // foreach ($config_id as $id) {
-        // }
+        return $this->migrasi_2024080752($hasil);
     }
 
     protected function migrasi_2024080751($hasil)
@@ -66,5 +63,13 @@ class Migrasi_rev extends MY_model
         $hasil = $hasil && $this->hapus_foreign_key('inventaris_asset', 'FK_mutasi_inventaris_asset', 'mutasi_inventaris_asset');
 
         return $hasil && $this->tambahForeignKey('FK_mutasi_inventaris_asset', 'mutasi_inventaris_asset', 'id_inventaris_asset', 'inventaris_asset', 'id', true);
+    }
+
+    protected function migrasi_2024080752($hasil)
+    {
+        // sebenarnya constraint ini sudah ada, barangkali ada db yang gagal membuat constraint ini.
+        $hasil = $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_fk', 'suplemen_terdata');
+
+        return $hasil && $this->tambahForeignKey('suplemen_terdata_suplemen_fk', 'suplemen_terdata', 'id_suplemen', 'suplemen', 'id', true);
     }
 }
