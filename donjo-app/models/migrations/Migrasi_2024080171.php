@@ -68,7 +68,6 @@ class Migrasi_2024080171 extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024051253($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024073071($hasil, $id);
-            $hasil = $hasil && $this->migrasi_2024072953($hasil, $id);
         }
 
         return $hasil && true;
