@@ -543,7 +543,7 @@ class Surat_dinas extends Admin_Controller
 
             foreach ($data['kodeisian_alias']['alias'] as $index => $alias) {
                 // observer gak jalan ketika menggunakan upsert
-                AliasKodeIsian::upsert(['updated_by' => auth()->id, 'config_id' => identitas('id'), 'judul' => $judulAlias[$index], 'alias' => $alias, 'content' => $contentAlias[$index]], ['config_id', 'judul']);
+                AliasKodeIsian::upsert(['updated_by' => ci_auth()->id, 'config_id' => identitas('id'), 'judul' => $judulAlias[$index], 'alias' => $alias, 'content' => $contentAlias[$index]], ['config_id', 'judul']);
             }
         } else {
             AliasKodeIsian::whereConfigId(identitas('id'))->delete();
@@ -760,9 +760,9 @@ class Surat_dinas extends Admin_Controller
                 'footer'              => $item['footer'],
                 'header'              => $item['header'],
                 'created_at'          => date('Y-m-d H:i:s'),
-                'creted_by'           => auth()->id,
+                'creted_by'           => ci_auth()->id,
                 'updated_at'          => date('Y-m-d H:i:s'),
-                'updated_by'          => auth()->id,
+                'updated_by'          => ci_auth()->id,
             ])
             ->toArray();
     }

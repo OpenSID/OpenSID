@@ -1687,7 +1687,7 @@ if (! function_exists('is_super_admin')) {
      */
     function is_super_admin(): bool
     {
-        return (int) auth()->id === super_admin();
+        return (int) ci_auth()->id === super_admin();
     }
 }
 

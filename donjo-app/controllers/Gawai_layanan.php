@@ -186,7 +186,7 @@ class Gawai_layanan extends Admin_Controller
             'tipe'          => 2,
         ];
 
-        $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;
+        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
 
         return $validated;
     }

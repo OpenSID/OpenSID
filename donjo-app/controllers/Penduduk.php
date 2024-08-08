@@ -1072,7 +1072,7 @@ class Penduduk extends Admin_Controller
             'sebab'          => (int) ($this->input->post('sebab')),
             'penolong_mati'  => (int) ($this->input->post('penolong_mati')),
             'akta_mati'      => $this->input->post('akta_mati'),
-            'created_by'     => auth()->id,
+            'created_by'     => ci_auth()->id,
         ];
 
         if ($log['kode_peristiwa'] == 2 && ! empty($_FILES['nama_file']['name'])) {
@@ -1095,7 +1095,7 @@ class Penduduk extends Admin_Controller
                 'tgl_peristiwa'   => date('Y-m-d H:i:s'),
                 'id_pend'         => null,
                 'id_log_penduduk' => LogPenduduk::where(['kode_peristiwa' => $log['kode_peristiwa'], 'id_pend' => $penduduk->id, 'tgl_peristiwa' => $log['tgl_peristiwa']])->first()->id ?? null,
-                'updated_by'      => auth()->id,
+                'updated_by'      => ci_auth()->id,
             ];
             LogKeluarga::create($log_keluarga);
         }
@@ -1138,7 +1138,7 @@ class Penduduk extends Admin_Controller
             'tgl_peristiwa'  => Carbon::now(),
             'kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK,
             'tgl_lapor'      => Carbon::now(),
-            'created_by'     => auth()->id,
+            'created_by'     => ci_auth()->id,
         ];
 
         $penduduk->log()->create($x);

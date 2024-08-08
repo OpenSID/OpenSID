@@ -48,9 +48,26 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        // \App\Events\ExampleEvent::class => [
-        //     \App\Listeners\ExampleListener::class,
-        // ],
+        \Illuminate\Auth\Events\Registered::class    => [],
+        \Illuminate\Auth\Events\Attempting::class    => [],
+        \Illuminate\Auth\Events\Authenticated::class => [],
+        \Illuminate\Auth\Events\Login::class         => [
+            \App\Listeners\LoginAdminListener::class,
+        ],
+        \Illuminate\Auth\Events\Failed::class => [
+            \App\Listeners\FailedAdminListener::class,
+        ],
+        \Illuminate\Auth\Events\Validated::class => [],
+        \Illuminate\Auth\Events\Verified::class  => [],
+        \Illuminate\Auth\Events\Logout::class    => [
+            \App\Listeners\LogoutAdminListener::class,
+        ],
+        \Illuminate\Auth\Events\CurrentDeviceLogout::class => [],
+        \Illuminate\Auth\Events\OtherDeviceLogout::class   => [],
+        \Illuminate\Auth\Events\Lockout::class             => [
+            \App\Listeners\LockoutAdminListener::class,
+        ],
+        \Illuminate\Auth\Events\PasswordReset::class => [],
     ];
 
     /**

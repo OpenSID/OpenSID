@@ -164,7 +164,7 @@ class Periksa_model extends MY_Model
     {
         $jabatan = [];
 
-        $user = auth()->id ?? User::first()->id;
+        $user = ci_auth()->id ?? User::first()->id;
 
         // Cek jabatan kades
         if (! kades()) {
@@ -450,7 +450,7 @@ class Periksa_model extends MY_Model
     private function perbaiki_log_keluarga_bermasalah(): void
     {
         $configId = identitas('id');
-        $userId   = auth()->id;
+        $userId   = ci_auth()->id;
         $sql      = "
             INSERT INTO log_keluarga (config_id, id_kk, id_peristiwa, tgl_peristiwa, updated_by)
             SELECT

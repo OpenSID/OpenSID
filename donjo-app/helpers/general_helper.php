@@ -93,7 +93,7 @@ if (! function_exists('can')) {
             return true;
         }
 
-        $grupId = auth()->id_grup;
+        $grupId = ci_auth()->id_grup;
 
         $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
             $slugGrup = UserGrup::find($grupId)->slug;
@@ -164,7 +164,7 @@ if (! function_exists('can')) {
             return false;
         }
 
-        if ($adminOnly && auth()->id != super_admin()) {
+        if ($adminOnly && ci_auth()->id != super_admin()) {
             return false;
         }
 
@@ -478,13 +478,13 @@ if (! function_exists('folder_desa')) {
     }
 }
 
-if (! function_exists('auth')) {
+if (! function_exists('ci_auth')) {
     /**
      * Ambil data user login
      *
      * @param mixed|null $params
      */
-    function auth($params = null)
+    function ci_auth($params = null)
     {
         $CI = &get_instance();
 
@@ -993,7 +993,7 @@ if (! function_exists('admin_menu')) {
      */
     function admin_menu()
     {
-        $grupId = auth()->id_grup;
+        $grupId = ci_auth()->id_grup;
 
         return cache()->rememberForever("{$grupId}_admin_menu", static fn () => (new Modul())->tree($grupId)->toArray());
     }

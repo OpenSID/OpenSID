@@ -200,7 +200,7 @@ class Anjungan extends Admin_Controller
             'keterangan'    => htmlentities($request['keterangan']),
         ];
 
-        $validated['created_by'] = $id ? $validated['updated_by'] = auth()->id : auth()->id;
+        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
 
         return $validated;
     }

@@ -39,14 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 // SITEMAN
 Route::group('siteman', static function (): void {
-    Route::get('/', 'Siteman@index');
-    Route::post('/auth', 'Siteman@auth');
-    Route::get('/logout', 'Siteman@logout');
-    Route::get('/lupa_sandi', 'Siteman@lupa_sandi');
-    Route::post('/matikan_captcha', 'Siteman@matikan_captcha')->name('siteman.matikan_captcha');
-    Route::post('/kirim_lupa_sandi', 'Siteman@kirim_lupa_sandi');
-    Route::get('/reset_kata_sandi', 'Siteman@reset_kata_sandi');
-    Route::post('/verifikasi_sandi', 'Siteman@verifikasi_sandi');
+    Route::get('/', 'auth/AuthenticatedSessionController@create');
+    Route::post('/auth', 'auth/AuthenticatedSessionController@store');
+    Route::get('/logout', 'auth/AuthenticatedSessionController@destroy');
+    Route::get('/lupa_sandi', 'auth/PasswordResetLinkController@create');
+    Route::post('/kirim_lupa_sandi', 'auth/PasswordResetLinkController@store');
+    Route::get('/reset_kata_sandi/{token?}', 'auth/NewPasswordController@create');
+    Route::post('/verifikasi_sandi', 'auth/NewPasswordController@store');
 });
 
 // MAIN

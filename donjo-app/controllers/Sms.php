@@ -296,8 +296,8 @@ class Sms extends Admin_Controller
             'id_grup'    => bilangan($request['id_grup']),
             'subjek'     => htmlentities((string) $request['subjek']),
             'isi'        => htmlentities((string) $request['isi']),
-            'created_by' => auth()->id,
-            'updated_by' => auth()->id,
+            'created_by' => ci_auth()->id,
+            'updated_by' => ci_auth()->id,
         ];
     }
 

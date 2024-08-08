@@ -53,4 +53,20 @@ class Migrasi_rev extends MY_model
 
         return $hasil && true;
     }
+
+    protected function migrasi_2024072871($hasil)
+    {
+        if (! $this->db->field_exists('remember_token', 'user')) {
+            $hasil = $hasil && $this->dbforge->add_column('user', [
+                'remember_token' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                    'null'       => true,
+                    'after'      => 'password',
+                ],
+            ]);
+        }
+
+        return $hasil;
+    }
 }

@@ -196,7 +196,7 @@ class Suplemen extends Admin_Controller
                 'rw'    => $this->input->get('rw'),
                 'rt'    => $this->input->get('rt'),
             ];
-            $user          = auth();
+            $user          = ci_auth();
             $aksesWilayah  = [];
             $batasiWilayah = (bool) $user->batasi_wilayah;
             if ($batasiWilayah) {

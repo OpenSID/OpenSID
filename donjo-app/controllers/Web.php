@@ -209,14 +209,14 @@ class Web extends Admin_Controller
         }
         $data['id_kategori'] = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? null : $cat;
         $data['tipe']        = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? $cat : 'dinamis';
-        $data['id_user']     = auth()->id;
+        $data['id_user']     = ci_auth()->id;
         // set null id_kategori, artikel tanpa kategori
         if ($data['id_kategori'] == -1) {
             $data['id_kategori'] = null;
         }
 
         // Kontributor tidak dapat mengaktifkan artikel
-        if (auth()->id_grup == 4) {
+        if (ci_auth()->id_grup == 4) {
             $data['enabled'] = StatusEnum::TIDAK;
         }
 
@@ -290,7 +290,7 @@ class Web extends Admin_Controller
         if (! $artikel->bolehUbah()) {
             redirect_with('error', 'Pengguna tidak diijinkan mengubah artikel ini', ci_route('web', $cat));
         }
-        if (! in_array(auth()->id_grup, (new UserGrup())->getGrupSistem()) && $artikel->id_user != auth()->id) {
+        if (! in_array(ci_auth()->id_grup, (new UserGrup())->getGrupSistem()) && $artikel->id_user != ci_auth()->id) {
             redirect_with('error', 'Anda tidak memiliki hak akses untuk mengubah artikel ini', ci_route('web', $cat));
         }
         $data           = $_POST;

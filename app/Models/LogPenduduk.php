@@ -332,7 +332,7 @@ class LogPenduduk extends BaseModel
                             LogKeluarga::create([
                                 'id_kk'           => $pindah->id_kk,
                                 'id_peristiwa'    => 3,
-                                'updated_by'      => auth()->id,
+                                'updated_by'      => ci_auth()->id,
                                 'id_log_penduduk' => $pendudukPindah->id,
                             ]);
                         }
@@ -384,7 +384,7 @@ class LogPenduduk extends BaseModel
                 'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
                 'tgl_lapor'                => rev_tgl($data['tgl_lapor'], null),
                 'id_pend'                  => $this->id_pend,
-                'created_by'               => auth()->id,
+                'created_by'               => ci_auth()->id,
                 'maksud_tujuan_kedatangan' => $data['maksud_tujuan'],
                 'config_id'                => $this->config_id,
             ];
@@ -397,7 +397,7 @@ class LogPenduduk extends BaseModel
                     'id_kk'         => $penduduk->id_kk,
                     'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
                     'tgl_peristiwa' => rev_tgl($data['tgl_lapor'], null),
-                    'updated_by'    => auth()->id,
+                    'updated_by'    => ci_auth()->id,
                     'config_id'     => $this->config_id,
                 ];
                 LogKeluarga::upsert($logKeluarga, ['id_kk', ['id_peristiwa', 'tgl_peristiwa', 'config_id']]);

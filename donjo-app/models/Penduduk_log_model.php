@@ -213,7 +213,7 @@ class Penduduk_log_model extends MY_Model
                                 'id_kk'           => $pindah->id,
                                 'config_id'       => $pindah->config_id,
                                 'id_peristiwa'    => 3,
-                                'updated_by'      => auth()->id,
+                                'updated_by'      => ci_auth()->id,
                                 'id_log_penduduk' => $id_log,
                             ]);
                         }
@@ -282,7 +282,7 @@ class Penduduk_log_model extends MY_Model
                 'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
                 'tgl_lapor'                => rev_tgl($this->input->post('tgl_lapor'), null),
                 'id_pend'                  => $log->id_pend,
-                'created_by'               => auth()->id,
+                'created_by'               => ci_auth()->id,
                 'maksud_tujuan_kedatangan' => $this->input->post('maksud_tujuan'),
                 'config_id'                => $this->config_id,
             ];
@@ -297,7 +297,7 @@ class Penduduk_log_model extends MY_Model
                     'id_kk'         => $penduduk->id_kk,
                     'id_peristiwa'  => LogKeluarga::KELUARGA_BARU_DATANG,
                     'tgl_peristiwa' => rev_tgl($this->input->post('tgl_lapor'), null),
-                    'updated_by'    => auth()->id,
+                    'updated_by'    => ci_auth()->id,
                     'config_id'     => $this->config_id,
                 ];
 

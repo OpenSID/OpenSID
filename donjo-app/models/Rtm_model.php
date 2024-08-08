@@ -134,7 +134,7 @@ class Rtm_model extends MY_Model
         $temp['id_rtm']     = Rtm::findOrFail($id)->no_kk;
         $temp['rtm_level']  = HubunganRTMEnum::ANGGOTA;
         $temp['updated_at'] = date('Y-m-d H:i:s');
-        $temp['updated_by'] = auth()->id;
+        $temp['updated_by'] = ci_auth()->id;
 
         if ($data) {
             $this->db->where_in('id', $data);

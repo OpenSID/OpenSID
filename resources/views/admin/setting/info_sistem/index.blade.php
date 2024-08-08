@@ -125,7 +125,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#log_viewer">Logs</a></li>
                 <li><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
-                @if (auth()->id == super_admin())
+                @if (ci_auth()->id == super_admin())
                     <li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
                 @endif
                 <li><a data-toggle="tab" href="#optimasi">Optimasi</a></li>
@@ -319,7 +319,7 @@
                     </div>
                 </div>
                 {{-- prettier-ignore-start --}}
-                @if (auth()->id == super_admin())
+                @if (ci_auth()->id == super_admin())
                     <div id="info_sistem" class="tab-pane fade in">
                     @php
                         ob_start();
