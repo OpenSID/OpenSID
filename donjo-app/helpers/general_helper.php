@@ -309,6 +309,9 @@ if (!function_exists('calculate_date_intervals')) {
         $endTime   = clone $reference;
 
         foreach ($date as $dateInterval) {
+            if (empty($dateInterval)) {
+                continue;
+            }
             $endTime = $endTime->add(DateInterval::createFromDateString(calculate_days($dateInterval) . 'days'));
         }
 
