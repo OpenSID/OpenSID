@@ -11,7 +11,17 @@
 <meta name='designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:designer' content='Ariandi Ryan Kahfi, S.Pd.' />
 <meta name='theme:version' content='<?= THEME_VERSION ?>' />
-<meta name="keywords" content="<?= $this->setting->website_title . ' '.  $desa_title; ?>"/>
+
+<?php if ($single_artikel["meta_keywords"] == ""): ?>
+	<meta name="keywords" content="<?= $this->setting->website_title . ' '.  $desa_title; ?>"/>
+<?php else: ?>
+	<meta name="keywords" content="<?= $single_artikel["meta_keywords"]; ?>"/>
+<?php endif; ?>
+
+<?php if ($single_artikel["meta_description"] != ""): ?>
+	<meta name="description" content="<?= $single_artikel["meta_description"]; ?>"/>
+<?php endif; ?>
+
 <meta property="og:site_name" content="<?=  $desa_title;?>"/>
 <meta property="og:type" content="article"/>
 <meta property="fb:app_id" content="147912828718">

@@ -89,6 +89,8 @@ class Artikel extends BaseModel
         'slug',
         'hit',
         'slider',
+        'meta_description',
+        'meta_keywords',
     ];
 
     /**
