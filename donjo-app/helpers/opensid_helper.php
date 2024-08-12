@@ -861,7 +861,7 @@ function alfanumerik($str): ?string
 
 function alfanumerik_spasi($str): ?string
 {
-    return preg_replace('/[^a-zA-Z0-9\s]/', '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9\s\-]/', '', htmlentities($str));
 }
 
 function bilangan($str)

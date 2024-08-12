@@ -66,7 +66,7 @@
 
                             @yield('content')
 
-                            <hr style="margin-top: 5px; margin-bottom: 5px;"/>
+                            <hr style="margin-top: 5px; margin-bottom: 5px;" />
                             <div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> v{{ AmbilVersi() }}</div>
                         </div>
                     </div>

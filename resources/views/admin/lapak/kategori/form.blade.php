@@ -4,7 +4,7 @@
     <div class="modal-body">
         <div class="form-group">
             <label class="control-label" for="kategori">Kategori Produk</label>
-            <input class="form-control input-sm required" type="text" name="kategori" placeholder="Kategori Produk" value="{{ $main->kategori }}" />
+            <input class="form-control input-sm required nama_produk" type="text" name="kategori" placeholder="Kategori Produk" value="{{ $main->kategori }}" />
         </div>
     </div>
     <div class="modal-footer">
