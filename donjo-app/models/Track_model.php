@@ -128,6 +128,9 @@ class Track_model extends CI_Model
             'jml_surat_tte'       => $suratTTE, // jumlah surat terverifikasi secara tte
             'modul_tte'           => ($suratTTE > 0 && $settingTTE == 1) ? 1 : 0, // cek modul tte
             'anjungan'            => cek_anjungan(),
+            'nama_kontak'         => $config->nama_kontak,
+            'hp_kontak'           => $config->hp_kontak,
+            'jabatan_kontak'      => $config->jabatan_kontak,
         ];
 
         if ($this->abaikan($desa)) {

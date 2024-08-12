@@ -179,6 +179,24 @@
                             <td>:</td>
                             <td>{{ kode_wilayah($main['kode_propinsi']) }}</td>
                         </tr>
+                        <tr>
+                            <th colspan="3" class="subtitle_head"><strong>KONTAK PEMBERITAHUAN</strong></th>
+                        </tr>
+                        <tr>
+                            <td>Nama Perangkat Desa</td>
+                            <td>:</td>
+                            <td>{{ $main['nama_kontak'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>No. HP/WA</td>
+                            <td>:</td>
+                            <td>{{ $main['hp_kontak'] }}</td>
+                        </tr>
+                        <tr>
+                            <td>Jabatan</td>
+                            <td>:</td>
+                            <td>{{ $main['jabatan_kontak'] }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

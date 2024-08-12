@@ -218,6 +218,9 @@ class Identitas_desa extends Admin_Controller
             'nama_propinsi'     => nama_terbatas($request['nama_propinsi']),
             'kode_propinsi'     => substr((string) bilangan($request['kode_propinsi']), 0, 2),
             'nomor_operator'    => bilangan($request['nomor_operator']),
+            'nama_kontak'       => nama($request['nama_kontak']),
+            'hp_kontak'         => bilangan($request['hp_kontak']),
+            'jabatan_kontak'    => nama($request['jabatan_kontak']),
         ];
     }
 

@@ -100,6 +100,9 @@ class Config extends BaseModel
         'border',
         'created_by',
         'updated_by',
+        'nama_kontak',
+        'hp_kontak',
+        'jabatan_kontak',
     ];
 
     /**

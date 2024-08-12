@@ -35,7 +35,8 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -43,12 +44,22 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return true;
+        $hasil = true;
+        $hasil = $hasil && $this->migrasi_2024080651($hasil);
 
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        return $hasil && true;
+    }
 
-        // foreach ($config_id as $id) {
-        // }
+    protected function migrasi_2024080651($hasil)
+    {
+        if (! Schema::hasColumn('config', 'nama_kontak')) {
+            Schema::table('config', static function (Blueprint $table) {
+                $table->string('nama_kontak', 80)->nullable();
+                $table->string('hp_kontak', 20)->nullable();
+                $table->string('jabatan_kontak', 80)->nullable();
+            });
+        }
+
+        return $hasil;
     }
 }
