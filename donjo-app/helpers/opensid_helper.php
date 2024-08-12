@@ -39,6 +39,7 @@ use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\RefJabatan;
 use App\Models\Suplemen;
+use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -1701,7 +1702,16 @@ if (! function_exists('ref')) {
      */
     function ref($alias)
     {
-        return ci()->db->get($alias)->result();
+        return match ($alias) {
+            'tweb_wil_clusterdesa' => Wilayah::dusun()->get()->pluck('dusun', 'id')->map(static function ($item, $key) {
+                return (object) [
+                    'id'   => $key,
+                    'nama' => $item,
+                ];
+            })->values()->toArray(),
+
+            default => ci()->db->get($alias)->result(),
+        };
     }
 }
 
