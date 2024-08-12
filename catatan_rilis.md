@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8292](https://github.com/OpenSID/OpenSID/issues/8292) Perbaikan penanganan slug pada modul kelompok/lembaga saat memperbatui data.
 10. [#8320](https://github.com/OpenSID/OpenSID/issues/8320) Perbaikan validasi form kategori bisa menggunakan strip (-).
 11. [#8294](https://github.com/OpenSID/OpenSID/issues/8294) Perbaikan penanganan halaman yang belum didaftarkan dimenu.
+12. [#8278](https://github.com/OpenSID/OpenSID/issues/8278) Perbaikan pengaturan surat dinas.
 
 
 #### TEKNIS

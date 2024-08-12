@@ -554,9 +554,12 @@ class Surat_dinas extends Admin_Controller
 
     protected static function validasi_pengaturan($request)
     {
+        $footer = setting('tte') == '1' ? 'footer_surat_dinas_tte' : 'footer_surat_dinas';
+
         return [
             'tinggi_header_surat_dinas'  => (float) $request['tinggi_header_surat_dinas'],
             'header_surat_dinas'         => $request['header_surat_dinas'],
+            $footer                      => $request[$footer],
             'tinggi_footer_surat_dinas'  => (float) $request['tinggi_footer_surat_dinas'],
             'verifikasi_sekdes'          => (int) $request['verifikasi_sekdes'],
             'verifikasi_kades'           => ((int) $request['tte'] == StatusEnum::YA) ? StatusEnum::YA : (int) $request['verifikasi_kades'],
@@ -585,7 +588,7 @@ class Surat_dinas extends Admin_Controller
     public function salin_template($jenis = 'isi')
     {
         if ($this->input->is_ajax_request()) {
-            $template = $jenis == 'isi' ? $this->tinymce->getTemplateSuratDinas() : $this->tinymce->getTemplate();
+            $template = $jenis == 'isi' ? $this->tinymce->getTemplateSuratDinas() : $this->tinymce->getTemplateDinas();
 
             return json($template);
         }
@@ -599,7 +602,7 @@ class Surat_dinas extends Admin_Controller
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
 
-        $isi_cetak = $this->tinymce->getPreview($request);
+        $isi_cetak = $this->tinymce->getPreview($request, '_dinas');
 
         // Ubah jadi format pdf
         $pages = $this->tinymce->generateMultiPage($isi_cetak);
@@ -607,7 +610,7 @@ class Surat_dinas extends Admin_Controller
         $isi_cetak = $this->tinymce->formatPdf($this->request['header'], $this->request['footer'], implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $pages));
 
         if ($this->request['margin_global'] == 1) {
-            $margins = setting('surat_margin_cm_to_mm');
+            $margins = setting('surat_dinas_margin_cm_to_mm');
         } else {
             $margins = [
                 $this->request['kiri'] * 10,
