@@ -41,15 +41,14 @@ class Idm extends Web_Controller
 {
     public function index($tahun = null): void
     {
-        if (! $this->web_menu_model->menu_aktif('status-idm/' . $tahun) || null === $tahun) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('status-idm/' . $tahun);
 
         $data = $this->includes;
         $this->_get_common_data($data);
 
         $data['idm']            = idm(identitas('kode_desa'), $tahun);
         $data['halaman_statis'] = 'idm/index';
+        $data['tahun']          = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');

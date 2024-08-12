@@ -39,17 +39,17 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pembangunan extends Web_Controller
 {
+    private $cekMenu;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['pembangunan_model', 'pembangunan_dokumentasi_model']);
+        $this->cekMenu = $this->web_menu_model->menu_aktif('pembangunan');
     }
 
     public function index($p = 1): void
     {
-        if (! $this->web_menu_model->menu_aktif('pembangunan')) {
-            show_404();
-        }
 
         $this->pembangunan_model->set_tipe(''); // Ambil semua pembangunan
 
@@ -64,6 +64,7 @@ class Pembangunan extends Web_Controller
         $data['pages']          = range($data['start_paging'], $data['end_paging']);
         $data['pembangunan']    = $this->pembangunan_model->get_data('', 'semua')->where('p.status', '1')->limit($data['paging']->per_page, $data['paging']->offset)->order_by('p.tahun_anggaran', 'desc')->get()->result();
         $data['halaman_statis'] = $this->controller . '/index';
+        $data['tampil']         = $this->cekMenu;
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);
@@ -77,6 +78,7 @@ class Pembangunan extends Web_Controller
         $data['pembangunan']    = $this->pembangunan_model->slug($slug);
         $data['dokumentasi']    = $this->pembangunan_dokumentasi_model->find_dokumentasi($data['pembangunan']->id);
         $data['halaman_statis'] = $this->controller . '/detail';
+        $data['tampil']         = $this->cekMenu;
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);

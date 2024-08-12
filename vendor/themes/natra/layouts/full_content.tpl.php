@@ -18,7 +18,13 @@
 		<section>
 			<div class="content_bottom">
 				<div class="col-lg-12 col-md-12">
-					<?php theme_view($halaman_peta); ?>
+					<?php
+						if ($tampil) {
+							theme_view("partials/{$halaman_peta}");
+						} else {
+							theme_view("partials/not_found");
+						}
+					?>
 				</div>
 			</div>
 		</section>

@@ -41,20 +41,18 @@ class Sotk extends Web_Controller
 {
     public function index(): void
     {
-        if (! $this->web_menu_model->menu_aktif('struktur-organisasi-dan-tata-kerja')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('struktur-organisasi-dan-tata-kerja');
 
         $this->load->model('pamong_model');
 
         $data = $this->includes;
         $this->_get_common_data($data);
 
-        $data['desa']    = identitas();
-        $data['bagan']   = $this->pamong_model->list_bagan();
-        $data['ada_bpd'] = true;
-
+        $data['desa']           = identitas();
+        $data['bagan']          = $this->pamong_model->list_bagan();
+        $data['ada_bpd']        = true;
         $data['halaman_statis'] = 'sotk/index';
+        $data['tampil']         = $cekMenu;
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);

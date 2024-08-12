@@ -52,16 +52,14 @@ class Suplemen extends Web_Controller
 
     public function detail($slug = null): void
     {
-        $id = SuplemenModel::where('slug', $slug)->first()->id;
-
-        if (! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) {
-            show_404();
-        }
+        $id      = SuplemenModel::where('slug', $slug)->first()->id;
+        $cekMenu = $this->web_menu_model->menu_aktif('data-suplemen/' . $id);
 
         $data            = $this->includes;
         $data['main']    = $this->suplemen_model->get_rincian(0, $id);
         $data['title']   = 'Data Suplemen ' . $data['main']['suplemen']['nama'];
         $data['sasaran'] = SasaranEnum::all();
+        $data['tampil']  = $cekMenu;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/suplemen.tpl.php');

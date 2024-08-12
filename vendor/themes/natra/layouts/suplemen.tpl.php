@@ -20,7 +20,11 @@
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
 					<div class="content_left">
-					<?php $this->load->view("$folder_themes/partials/suplemen"); ?>
+					<?php if ($tampil) {
+						$this->load->view("$folder_themes/partials/suplemen");
+					} else {
+						theme_view("partials/not_found");
+					} ?>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3">

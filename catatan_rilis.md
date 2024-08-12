@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8309](https://github.com/OpenSID/OpenSID/issues/8309) Perbaikan backup database gabungkan untuk modul inventaris dan suplemen.
 9. [#8292](https://github.com/OpenSID/OpenSID/issues/8292) Perbaikan penanganan slug pada modul kelompok/lembaga saat memperbatui data.
 10. [#8320](https://github.com/OpenSID/OpenSID/issues/8320) Perbaikan validasi form kategori bisa menggunakan strip (-).
+11. [#8294](https://github.com/OpenSID/OpenSID/issues/8294) Perbaikan penanganan halaman yang belum didaftarkan dimenu.
 
 
 #### TEKNIS
