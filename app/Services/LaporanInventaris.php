@@ -41,7 +41,7 @@ use Illuminate\Support\Facades\DB;
 
 class LaporanInventaris
 {
-    public static function all($tahun = null, $mutasi = false)
+    public static function all($tahun = null, $mutasi = false): array
     {
         $status = 0;
         if ($mutasi) {
@@ -167,8 +167,7 @@ class LaporanInventaris
                 }
             }
         }
-        $result = array_values($result);
 
-        return $result;
+        return array_values($result);
     }
 }

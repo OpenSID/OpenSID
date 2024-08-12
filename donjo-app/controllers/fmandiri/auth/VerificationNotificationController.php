@@ -1,5 +1,40 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 class VerificationNotificationController extends Web_Controller
 {
     public function __construct()
@@ -8,11 +43,11 @@ class VerificationNotificationController extends Web_Controller
 
         $this->load->model(['mandiri_model', 'theme_model']);
 
-        if (!$this->setting->tampilkan_pendaftaran) {
+        if (! $this->setting->tampilkan_pendaftaran) {
             show_404();
         }
 
-        if (!auth('penduduk')->check()) {
+        if (! auth('penduduk')->check()) {
             redirect('layanan-mandiri/masuk');
         }
     }
@@ -26,7 +61,7 @@ class VerificationNotificationController extends Web_Controller
 
     public function sendNotificationTelegram()
     {
-        /** @var \App\Models\PendudukMandiri $user */
+        /** @var App\Models\PendudukMandiri $user */
         $user = auth('penduduk')->user();
 
         if ($user->hasVerifiedTelegram()) {
@@ -49,7 +84,7 @@ class VerificationNotificationController extends Web_Controller
 
     public function verifyTelegram($hash)
     {
-        /** @var \App\Models\PendudukMandiri $user */
+        /** @var App\Models\PendudukMandiri $user */
         $user = auth('penduduk')->user();
 
         if ($user->hasVerifiedTelegram()) {
@@ -57,14 +92,14 @@ class VerificationNotificationController extends Web_Controller
         }
 
         // Check if hash equal with current user email.
-        if (!hash_equals($hash, sha1($user->telegram))) {
+        if (! hash_equals($hash, sha1($user->telegram))) {
             redirect_with('notif', __('passwords.token'), 'layanan-mandiri/daftar/verifikasi/telegram');
         }
 
         $signature = hash_hmac('sha256', $user->telegram, config_item('encryption_key'));
 
         // Check signature key
-        if (!hash_equals($signature, $this->input->get('signature'))) {
+        if (! hash_equals($signature, $this->input->get('signature'))) {
             redirect_with('notif', __('passwords.token'), 'layanan-mandiri/daftar/verifikasi/telegram');
         }
 
@@ -100,7 +135,7 @@ class VerificationNotificationController extends Web_Controller
 
     public function sendNotificationEmail()
     {
-        /** @var \App\Models\PendudukMandiri $user */
+        /** @var App\Models\PendudukMandiri $user */
         $user = auth('penduduk')->user();
 
         if ($user->hasVerifiedEmail()) {
@@ -123,7 +158,7 @@ class VerificationNotificationController extends Web_Controller
 
     public function verifyEmail($hash)
     {
-        /** @var \App\Models\PendudukMandiri $user */
+        /** @var App\Models\PendudukMandiri $user */
         $user = auth('penduduk')->user();
 
         if ($user->hasVerifiedEmail()) {
@@ -131,14 +166,14 @@ class VerificationNotificationController extends Web_Controller
         }
 
         // Check if hash equal with current user email.
-        if (!hash_equals($hash, sha1($user->email))) {
+        if (! hash_equals($hash, sha1($user->email))) {
             redirect_with('notif', __('passwords.token'), 'layanan-mandiri/daftar/verifikasi/email');
         }
 
         $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
 
         // Check signature key
-        if (!hash_equals($signature, $this->input->get('signature'))) {
+        if (! hash_equals($signature, $this->input->get('signature'))) {
             redirect_with('notif', __('passwords.token'), 'layanan-mandiri/daftar/verifikasi/email');
         }
 

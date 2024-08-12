@@ -1,11 +1,46 @@
 <?php
 
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 use App\Models\PendudukMandiri;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Auth\Traits\LoginRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Web_Controller
@@ -83,10 +118,10 @@ class AuthenticatedSessionController extends Web_Controller
         if ($request->has('nik') || ($request->has('tag_id_card') && $request->has('password'))) {
             // Login menggunakan NIK atau E-KTP dan password
             $this->authenticate([
-                'query' => fn($q) => $q->when(
+                'query' => fn ($q) => $q->when(
                     $this->caseQueryExist($request),
-                    fn($q) => $q->status(0),
-                    fn($q) => $q->status(1)
+                    static fn ($q) => $q->status(0),
+                    static fn ($q) => $q->status(1)
                 ),
             ]);
         } elseif ($request->has('tag_id_card')) {
@@ -122,12 +157,12 @@ class AuthenticatedSessionController extends Web_Controller
             ->whereRelation('penduduk', 'tag_id_card', $request->tag_id_card)
             ->when(
                 $this->caseQueryExist($request),
-                fn($q) => $q->status(0),
-                fn($q) => $q->status(1)
+                static fn ($q) => $q->status(0),
+                static fn ($q) => $q->status(1)
             )
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             RateLimiter::hit($this->throttleKey(), config_item('lockout_time'));
 
             try {
@@ -153,8 +188,8 @@ class AuthenticatedSessionController extends Web_Controller
             // Validasi login menggunakan NIK
             $this->session->set_userdata('login_ektp', false);
             $credential = [
-                'nik'       => ['required', 'digits:16', 'regex:/^\d{16}$/'],
-                'password'  => 'required',
+                'nik'      => ['required', 'digits:16', 'regex:/^\d{16}$/'],
+                'password' => 'required',
             ];
         } elseif ($request->has('tag_id_card') && $request->has('password')) {
             // Validasi login menggunakan E-KTP dan password
@@ -194,13 +229,13 @@ class AuthenticatedSessionController extends Web_Controller
         return PendudukMandiri::query()
             ->when(
                 $request->nik,
-                fn($query) => $query->whereRelation('penduduk', 'nik', $request->nik),
-                fn($query) => $query->whereRelation('penduduk', 'tag_id_card', $request->tag_id_card)
+                static fn ($query) => $query->whereRelation('penduduk', 'nik', $request->nik),
+                static fn ($query) => $query->whereRelation('penduduk', 'tag_id_card', $request->tag_id_card)
             )
             ->whereNotNull('scan_ktp')
             ->whereNotNull('scan_kk')
             ->whereNotNull('foto_selfie')
-            ->whereHas('penduduk', function($query) {
+            ->whereHas('penduduk', static function ($query) {
                 $query->whereNull('email_tgl_verifikasi')
                     ->orWhereNull('telegram_tgl_verifikasi');
             })

@@ -1,8 +1,43 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Auth\Traits\LoginRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends MY_Controller
 {
@@ -65,9 +100,10 @@ class AuthenticatedSessionController extends MY_Controller
         $this->session->sess_regenerate();
 
         // Validate password conditions
-        if (!$this->syaratSandi($requestPassword) && !($isDemoMode || ENVIRONMENT === 'development')) {
+        if (! $this->syaratSandi($requestPassword) && ! ($isDemoMode || ENVIRONMENT === 'development')) {
             // Password doesn't meet the criteria except in demo mode or development environment
             $this->session->force_change_password = true;
+
             return redirect('pengguna#sandi');
         }
 
@@ -78,7 +114,6 @@ class AuthenticatedSessionController extends MY_Controller
 
         return redirect($this->session->intended ?? 'main');
     }
-
 
     /**
      * Destroy an authenticated session.
@@ -104,14 +139,14 @@ class AuthenticatedSessionController extends MY_Controller
 
         if ($this->setting->google_recaptcha) {
             $captcha = [
-                'g-recaptcha-response' => 'required|captcha'
+                'g-recaptcha-response' => 'required|captcha',
             ];
         }
-    
+
         return [
             'username' => ['required', 'string'],
             'password' => ['required', 'string'],
-            ...$captcha
+            ...$captcha,
         ];
     }
 }

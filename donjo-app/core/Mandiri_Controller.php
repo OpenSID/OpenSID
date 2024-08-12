@@ -64,10 +64,10 @@ class Mandiri_Controller extends MY_Controller
             return redirect($redirectUrl);
         }
 
-        /** @var \App\Models\PendudukMandiri $user */
+        /** @var App\Models\PendudukMandiri $user */
         $user = auth('penduduk')->user();
 
-        $isMustVerify         = $user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail;
+        $isMustVerify         = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail;
         $hasVerifiedEmail     = $isMustVerify && $user->hasVerifiedEmail();
         $hasVerifiedTelegram  = $isMustVerify && $user->hasVerifiedTelegram();
         $hasRequiredDocuments = $user->scan_ktp !== null && $user->scan_kk !== null && $user->foto_selfie !== null;

@@ -80,7 +80,7 @@ class Migrasi_2024080751 extends MY_model
     protected function migrasi_2024080753($hasil)
     {
         $cek = count(DB::select("SHOW INDEX FROM kelompok WHERE Key_name = 'slug_config'"));
-        
+
         if ($cek) {
             Schema::table('kelompok', static function (Blueprint $table) {
                 $table->dropIndex('slug_config');

@@ -126,7 +126,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['individu'] = $individu;
         $this->get_data_untuk_form($url, $data);
         $data['isian_form']        = json_encode($this->ambil_isi_form($periksa->isian_form), JSON_THROW_ON_ERROR);
-        $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
+        $data['surat_url']         = rtrim((string) $_SERVER['REQUEST_URI'], '/clear');
         $data['syarat_permohonan'] = $periksa->mapSyaratSurat();
         $data['list_dokumen']      = empty($_POST['nik']) ? null : DokumenHidup::whereIdPend($periksa->id_pemohon)->get()->toArray();
         $data['form_action']       = ci_route("surat/pratinjau/{$url}/{$id}");
@@ -170,7 +170,10 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
-    private function ambil_isi_form($isian_form)
+    /**
+     * @return mixed[]
+     */
+    private function ambil_isi_form(array $isian_form): array
     {
         $hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
 
@@ -190,7 +193,7 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function kirim_pesan($id_permohonan = 0, $tipe = 0): void
     {
-        $tipe    = null === $tipe ? 0 : $tipe;
+        $tipe ??= 0;
         $periksa = PermohonanSurat::with(['surat'])->where(['id' => $id_permohonan, 'status' => PermohonanSurat::SEDANG_DIPERIKSA])->first()->toArray();
         $pemohon = Penduduk::find($periksa['id_pemohon'])->toArray();
         $post    = $this->input->post();
@@ -248,9 +251,8 @@ class Permohonan_surat_admin extends Admin_Controller
      *
      * @param int        $id_dokumen Id berkas pada koloam dokumen.id
      * @param mixed|null $id_pend
-     * @param mixed      $tampil
      */
-    public function unduh_berkas($id_dokumen, $id_pend = null, $tampil = false): void
+    public function unduh_berkas($id_dokumen, $id_pend = null, mixed $tampil = false): void
     {
         // Ambil nama berkas dari database
         $data = Dokumen::find($id_dokumen);

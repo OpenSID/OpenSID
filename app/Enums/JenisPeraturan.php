@@ -51,9 +51,9 @@ class JenisPeraturan extends BaseEnum
     public static function all(): array
     {
         return [
-            self::PERATURAN_DESA                => 'Peraturan ' . ucwords(setting('sebutan_desa')),
-            self::PERATURAN_KEPALA_DESA         => 'Peraturan Kepala ' . ucwords(setting('sebutan_desa')),
-            self::PERATURAN_BERSAMA_KEPALA_DESA => 'Peraturan Bersama Kepala ' . ucwords(setting('sebutan_desa')),
+            self::PERATURAN_DESA                => 'Peraturan ' . ucwords((string) setting('sebutan_desa')),
+            self::PERATURAN_KEPALA_DESA         => 'Peraturan Kepala ' . ucwords((string) setting('sebutan_desa')),
+            self::PERATURAN_BERSAMA_KEPALA_DESA => 'Peraturan Bersama Kepala ' . ucwords((string) setting('sebutan_desa')),
         ];
     }
 }

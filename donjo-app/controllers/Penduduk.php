@@ -1434,13 +1434,13 @@ class Penduduk extends Admin_Controller
                 break;
 
             case 10:
-                $this->statistikFilter['menahun'] = array_diff(\App\Enums\SakitMenahunEnum::keys(), [\App\Enums\SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
+                $this->statistikFilter['menahun'] = array_diff(SakitMenahunEnum::keys(), [SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
                 $this->statistikFilter['sex']     = '1';
                 $pre                              = 'SAKIT MENAHUN LAKI-LAKI ';
                 break;
 
             case 11:
-                $this->statistikFilter['menahun'] = array_diff(\App\Enums\SakitMenahunEnum::keys(), [\App\Enums\SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
+                $this->statistikFilter['menahun'] = array_diff(SakitMenahunEnum::keys(), [SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
                 $this->statistikFilter['sex']     = '2';
                 $pre                              = 'SAKIT MENAHUN PEREMPUAN ';
                 break;

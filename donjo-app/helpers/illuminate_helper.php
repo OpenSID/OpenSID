@@ -96,7 +96,7 @@ if (! function_exists('auth')) {
      *
      * @param string|null $guard
      *
-     * @return \Illuminate\Contracts\Auth\Factory|\Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     * @return AuthFactory|Illuminate\Contracts\Auth\Guard|Illuminate\Contracts\Auth\StatefulGuard
      */
     function auth($guard = null)
     {
@@ -124,7 +124,7 @@ if (! function_exists('broadcast')) {
      *
      * @param mixed|null $event
      *
-     * @return \Illuminate\Broadcasting\PendingBroadcast
+     * @return Illuminate\Broadcasting\PendingBroadcast
      */
     function broadcast($event = null)
     {

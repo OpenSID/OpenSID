@@ -1,9 +1,44 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
 use App\Models\Penduduk;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Web_Controller
 {
@@ -13,7 +48,7 @@ class RegisteredUserController extends Web_Controller
 
         $this->load->model(['mandiri_model', 'theme_model']);
 
-        if (!$this->setting->tampilkan_pendaftaran) {
+        if (! $this->setting->tampilkan_pendaftaran) {
             show_404();
         }
 
@@ -37,7 +72,7 @@ class RegisteredUserController extends Web_Controller
     /**
      * Handle an incoming registration request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws Illuminate\Validation\ValidationException
      */
     public function store()
     {
@@ -75,7 +110,7 @@ class RegisteredUserController extends Web_Controller
         if (null === $penduduk->tgl_verifikasi_email) {
             $penduduk->email = $data['email'];
         }
-        if (null == $penduduk->tgl_verifikasi_telegram) {
+        if ($penduduk->tgl_verifikasi_telegram == null) {
             $penduduk->telegram = $data['telegram'];
         }
         $penduduk->save();
@@ -83,7 +118,7 @@ class RegisteredUserController extends Web_Controller
         // Check if the 'Penduduk' is already registered for 'Layanan Mandiri'
         if (null !== $mandiri = $penduduk->mandiri()->first()) {
             // Check if it is not already verified
-            if (!$mandiri->hasVerifiedEmail() || !$mandiri->hasVerifiedTelegram()) {
+            if (! $mandiri->hasVerifiedEmail() || ! $mandiri->hasVerifiedTelegram()) {
                 Auth::guard('penduduk')->login($mandiri);
                 event(new Registered($mandiri));
 

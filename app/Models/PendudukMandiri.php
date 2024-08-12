@@ -210,10 +210,8 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
 
     /**
      * Determine if the user has verified their telegram.
-     *
-     * @return bool
      */
-    public function hasVerifiedTelegram()
+    public function hasVerifiedTelegram(): bool
     {
         return null !== $this->penduduk->telegram_tgl_verifikasi;
     }
@@ -264,20 +262,16 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
 
     /**
      * Send the email verification notification.
-     *
-     * @return void
      */
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyNotification('mail'));
     }
 
     /**
      * Send the email verification notification.
-     *
-     * @return void
      */
-    public function sendTelegramVerificationNotification()
+    public function sendTelegramVerificationNotification(): void
     {
         $this->notify(new VerifyNotification('telegram'));
     }
@@ -287,10 +281,8 @@ class PendudukMandiri extends BaseModel implements AuthenticatableContract, Auth
      *
      * @param string $token
      * @param mixed  $via
-     *
-     * @return void
      */
-    public function sendPasswordResetNotification($token, $via = 'mail')
+    public function sendPasswordResetNotification($token, $via = 'mail'): void
     {
         $this->notify(new \App\Notifications\Penduduk\ResetPasswordNotification($token, $via));
     }
