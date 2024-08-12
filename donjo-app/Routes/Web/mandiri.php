@@ -51,13 +51,19 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     Route::get('/', static function (): void {
         redirect(route('anjungan.index'));
     });
-    Route::get('/masuk', 'Masuk@index')->name('layanan-mandiri.masuk.index');
-    Route::post('/cek', 'Masuk@cek')->name('layanan-mandiri.masuk.cek');
-    Route::get('/lupa-pin', 'Masuk@lupa_pin')->name('layanan-mandiri.masuk.lupa_pin');
-    Route::post('/cek-pin', 'Masuk@cek_pin')->name('layanan-mandiri.masuk.cek_pin');
+    Route::get('/masuk', 'auth/AuthenticatedSessionController@create')->name('layanan-mandiri.masuk.index');
+    Route::post('/cek', 'auth/AuthenticatedSessionController@store')->name('layanan-mandiri.masuk.cek');
+    // Route::get('/lupa-pin', 'Masuk@lupa_pin')->name('layanan-mandiri.masuk.lupa_pin');
+    // Route::post('/cek-pin', 'Masuk@cek_pin')->name('layanan-mandiri.masuk.cek_pin');
 
-    Route::get('/masuk-ektp', 'Masuk_ektp@index')->name('layanan-mandiri.masuk_ektp.index');
-    Route::post('/cek-ektp', 'Masuk_ektp@cek_ektp')->name('layanan-mandiri.masuk_ektp.cek_ektp');
+    Route::get('/lupa-pin', 'auth/PasswordResetLinkController@create')->name('layanan-mandiri.masuk.lupa_pin');
+    Route::post('/cek-pin', 'auth/PasswordResetLinkController@store')->name('layanan-mandiri.masuk.cek_pin');
+
+    Route::get('/masuk-ektp', 'auth/AuthenticatedSessionController@createEktp')->name('layanan-mandiri.masuk_ektp.index');
+    Route::post('/cek-ektp', 'auth/AuthenticatedSessionController@store')->name('layanan-mandiri.masuk_ektp.cek_ektp');
+
+    Route::get('reset-password/{token?}', 'auth/NewPasswordController@create')->name('password.reset');
+    Route::post('reset-password', 'auth/NewPasswordController@store')->name('password.store');
 
     Route::get('/beranda', 'Beranda@index')->name('layanan-mandiri.beranda.index');
     Route::get('/profil', 'Beranda@profil')->name('layanan-mandiri.beranda.profil');
@@ -65,7 +71,7 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
     Route::get('/cetak-kk', 'Beranda@cetak_kk')->name('layanan-mandiri.beranda.cetak_kk');
     Route::get('/ganti-pin', 'Beranda@ganti_pin')->name('layanan-mandiri.beranda.ganti_pin');
     Route::post('/proses-ganti-pin', 'Beranda@proses_ganti_pin')->name('layanan-mandiri.beranda.proses_ganti_pin');
-    Route::get('/keluar', 'Beranda@keluar')->name('layanan-mandiri.beranda.keluar');
+    Route::get('/keluar', 'auth/AuthenticatedSessionController@destroy')->name('layanan-mandiri.beranda.keluar');
     Route::get('/pendapat/{pilihan?}', 'Beranda@pendapat')->name('layanan-mandiri.beranda.pendapat');
 
     Route::get('/pesan-masuk/{id?}', 'Pesan@index')->name('layanan-mandiri.pesan.masuk')->param('id', 2);
@@ -79,21 +85,20 @@ Route::group('layanan-mandiri', ['namespace' => 'fmandiri'], static function ():
         Route::post('/balas/{id?}', 'Pesan@tulis')->name('layanan-mandiri.pesan.balas')->param('id', 2);
     });
 
-    Route::post('proses-daftar', 'Daftar@proses_daftar')->name('layanan-mandiri.daftar.proses_daftar');
+    Route::post('proses-daftar', 'auth/RegisteredUserController@store')->name('layanan-mandiri.daftar.proses_daftar');
     Route::group('daftar', static function (): void {
-        Route::get('/', 'Daftar@index')->name('layanan-mandiri.daftar.index');
+        Route::get('/', 'auth/RegisteredUserController@create')->name('layanan-mandiri.daftar.index');
 
         Route::group('verifikasi', static function (): void {
-            Route::get('/', 'Daftar_verifikasi@index')->name('layanan-mandiri.daftar_verifikasi.index');
             Route::group('telegram', static function (): void {
-                Route::get('/', 'Daftar_verifikasi@telegram')->name('layanan-mandiri.daftar_verifikasi.telegram');
-                Route::post('/kirim-userid', 'Daftar_verifikasi@kirim_otp_telegram')->name('layanan-mandiri.daftar_verifikasi.kirim_otp_telegram');
-                Route::post('/kirim-otp', 'Daftar_verifikasi@verifikasi_telegram')->name('layanan-mandiri.daftar_verifikasi.verifikasi_telegram');
+                Route::get('/', 'auth/VerificationNotificationController@telegram')->name('layanan-mandiri.daftar.verifikasi.telegram');
+                Route::post('/kirim', 'auth/VerificationNotificationController@sendNotificationTelegram')->name('layanan-mandiri.daftar.verifikasi.telegram.kirim');
+                Route::get('/verify/{hash}', 'auth/VerificationNotificationController@verifyTelegram')->name('layanan-mandiri.daftar.verifikasi.telegram.verify');
             });
             Route::group('email', static function (): void {
-                Route::get('/', 'Daftar_verifikasi@email')->name('layanan-mandiri.daftar_verifikasi.email');
-                Route::post('/kirim-email', 'Daftar_verifikasi@kirim_otp_email')->name('layanan-mandiri.daftar_verifikasi.kirim_otp_email');
-                Route::post('/kirim-otp', 'Daftar_verifikasi@verifikasi_email')->name('layanan-mandiri.daftar_verifikasi.verifikasi_email');
+                Route::get('/', 'auth/VerificationNotificationController@email')->name('layanan-mandiri.daftar.verifikasi.email');
+                Route::post('/kirim', 'auth/VerificationNotificationController@sendNotificationEmail')->name('layanan-mandiri.daftar.verifikasi.email.kirim');
+                Route::get('/verify/{hash}', 'auth/VerificationNotificationController@verifyEmail')->name('layanan-mandiri.daftar.verifikasi.email.verify');
             });
         });
     });

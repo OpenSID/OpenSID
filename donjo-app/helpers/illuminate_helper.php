@@ -75,6 +75,11 @@ if (! function_exists('app')) {
                 'sitekey' => $ci?->setting?->google_recaptcha_site_key,
                 'options' => [],
             ],
+            'services' => [
+                'telegram-bot-api' => [
+                    'token' => $ci?->setting?->telegram_token,
+                ],
+            ],
         ]);
 
         if (null === $abstract) {

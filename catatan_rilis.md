@@ -21,3 +21,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#8274](https://github.com/OpenSID/OpenSID/issues/8274) Penyesuaian notifikasi tambah/ubah surat layanan yang disediakan untuk layanan mandiri.
 2. [#8222](https://github.com/OpenSID/OpenSID/issues/8222) Penyesuaian halaman siteman menggunakan ORM dan Blade Laravel.
+3. [#8150](https://github.com/OpenSID/OpenSID/issues/8150) Penyesuaian halaman masuk layanan mandiri menggunakan ORM dan Blade Laravel.

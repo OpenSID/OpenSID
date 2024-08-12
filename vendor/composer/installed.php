@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => '2406.0.0.x-dev',
-        'version' => '2406.0.0.9999999-dev',
-        'reference' => '3019bce2f4128b18d30d348e1f3a8d3c8eafedd0',
+        'pretty_version' => '2405.0.3.x-dev',
+        'version' => '2405.0.3.9999999-dev',
+        'reference' => 'f0d41bbe2071ac66ec857274625240050ee28396',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -505,6 +505,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'laravel-notification-channels/telegram' => array(
+            'pretty_version' => '5.0.0',
+            'version' => '5.0.0.0',
+            'reference' => 'd647f0ab28c7717ef85c0c843e95f25b1c7dc498',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../laravel-notification-channels/telegram',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'laravel/helpers' => array(
             'pretty_version' => 'v1.7.0',
             'version' => '1.7.0.0',
@@ -665,9 +674,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => '2406.0.0.x-dev',
-            'version' => '2406.0.0.9999999-dev',
-            'reference' => '3019bce2f4128b18d30d348e1f3a8d3c8eafedd0',
+            'pretty_version' => '2405.0.3.x-dev',
+            'version' => '2405.0.3.9999999-dev',
+            'reference' => 'f0d41bbe2071ac66ec857274625240050ee28396',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

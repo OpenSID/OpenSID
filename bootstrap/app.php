@@ -104,6 +104,7 @@ $app->register(\App\Providers\CarbonServiceProvider::class);
 $app->register(\App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\DataTablesServiceProvider::class);
 $app->register(\App\Providers\NoCaptchaServiceProvider::class);
+$app->register(\App\Providers\TelegramNotificationServiceProvider::class);
 $app->register(\App\Providers\ZipStreamServiceProvider::class);
 
 $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
