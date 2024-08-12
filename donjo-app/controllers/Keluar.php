@@ -125,7 +125,7 @@ class Keluar extends Admin_Controller
             $data['widgets']  = $this->widget();
         }
 
-        $data['user_admin']  = config_item('user_admin') == auth()->id;
+        $data['user_admin']  = config_item('user_admin') == ci_auth()->id;
         $data['title']       = 'Arsip Layanan Surat';
         $data['tahun_surat'] = LogSurat::withOnly([])->selectRaw(DB::raw('YEAR(tanggal) as tahun'))->groupBy(DB::raw('YEAR(tanggal)'))->orderBy(DB::raw('YEAR(tanggal)'), 'desc')->get();
         $data['bulan_surat'] = [];

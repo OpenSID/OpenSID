@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -47,6 +48,7 @@ class Kelompok extends BaseModel
 {
     use ConfigId;
     use ShortcutCache;
+    use Sluggable;
 
     /**
      * The table associated with the model.
@@ -293,5 +295,23 @@ class Kelompok extends BaseModel
             }
 
         return $data ?? null;
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'nama',
+                'unique' => false,
+            ],
+        ];
+    }
+
+    public static function slugCheck($nama, $type)
+    {
+        return self::whereSlug($nama)->whereTipe($type)->exists();
     }
 }

@@ -359,6 +359,12 @@ class Penduduk extends Admin_Controller
                                         $q->where($map[$key], $val);
                                     }
                                 }
+                            } elseif ($map[$key] == 'sakit_menahun_id') {
+                                if (is_array($val)) {
+                                    $q->whereIn($map[$key], $val);
+                                } else {
+                                    $q->where($map[$key], $val);
+                                }
                             } else {
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
@@ -1066,7 +1072,7 @@ class Penduduk extends Admin_Controller
             'sebab'          => (int) ($this->input->post('sebab')),
             'penolong_mati'  => (int) ($this->input->post('penolong_mati')),
             'akta_mati'      => $this->input->post('akta_mati'),
-            'created_by'     => auth()->id,
+            'created_by'     => ci_auth()->id,
         ];
 
         if ($log['kode_peristiwa'] == 2 && ! empty($_FILES['nama_file']['name'])) {
@@ -1089,7 +1095,7 @@ class Penduduk extends Admin_Controller
                 'tgl_peristiwa'   => date('Y-m-d H:i:s'),
                 'id_pend'         => null,
                 'id_log_penduduk' => LogPenduduk::where(['kode_peristiwa' => $log['kode_peristiwa'], 'id_pend' => $penduduk->id, 'tgl_peristiwa' => $log['tgl_peristiwa']])->first()->id ?? null,
-                'updated_by'      => auth()->id,
+                'updated_by'      => ci_auth()->id,
             ];
             LogKeluarga::create($log_keluarga);
         }
@@ -1132,7 +1138,7 @@ class Penduduk extends Admin_Controller
             'tgl_peristiwa'  => Carbon::now(),
             'kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK,
             'tgl_lapor'      => Carbon::now(),
-            'created_by'     => auth()->id,
+            'created_by'     => ci_auth()->id,
         ];
 
         $penduduk->log()->create($x);
@@ -1428,13 +1434,13 @@ class Penduduk extends Admin_Controller
                 break;
 
             case 10:
-                $this->statistikFilter['menahun'] = '90';
+                $this->statistikFilter['menahun'] = array_diff(SakitMenahunEnum::keys(), [SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
                 $this->statistikFilter['sex']     = '1';
                 $pre                              = 'SAKIT MENAHUN LAKI-LAKI ';
                 break;
 
             case 11:
-                $this->statistikFilter['menahun'] = '90';
+                $this->statistikFilter['menahun'] = array_diff(SakitMenahunEnum::keys(), [SakitMenahunEnum::TIDAK_ADA_TIDAK_SAKIT]);
                 $this->statistikFilter['sex']     = '2';
                 $pre                              = 'SAKIT MENAHUN PEREMPUAN ';
                 break;

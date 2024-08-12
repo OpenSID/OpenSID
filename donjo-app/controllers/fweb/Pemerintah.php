@@ -43,9 +43,7 @@ class Pemerintah extends Web_Controller
 {
     public function index(): void
     {
-        if (! $this->web_menu_model->menu_aktif('pemerintah')) {
-            show_404();
-        }
+        $cekMenu = $this->web_menu_model->menu_aktif('pemerintah');
 
         $data = $this->includes;
         $this->_get_common_data($data);
@@ -56,6 +54,7 @@ class Pemerintah extends Web_Controller
         $data['media_sosial']   = collect($settings->option)
             ->filter(static fn ($item): bool => in_array($item['id'], json_decode($settings->value)))
             ->toArray();
+        $data['tampil'] = $cekMenu;
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);

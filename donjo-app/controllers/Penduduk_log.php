@@ -297,7 +297,7 @@ class Penduduk_log extends Admin_Controller
         $data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
         $data['tgl_lapor']     = rev_tgl($this->input->post('tgl_lapor'), null);
         $data['updated_at']    = date('Y-m-d H:i:s');
-        $data['updated_by']    = auth()->id;
+        $data['updated_by']    = ci_auth()->id;
 
         $log->update($data);
 

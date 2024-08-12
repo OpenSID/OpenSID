@@ -64,6 +64,8 @@
             });
 
             $('#validasi').on('submit', function(e) {
+                if (!$(this).valid()) return false;
+
                 e.preventDefault();
                 tinymce.triggerSave();
 
@@ -103,6 +105,9 @@
             });
 
             $('#preview').click(function(e) {
+                if (!$('#validasi').valid()) return false;
+
+
                 e.preventDefault();
                 tinymce.triggerSave();
 

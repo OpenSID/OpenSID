@@ -52,7 +52,7 @@ class Pengguna extends Admin_Controller
 
     public function index()
     {
-        $userData = User::findOrFail(auth()->id);
+        $userData = User::findOrFail(ci_auth()->id);
 
         return view('admin.pengguna.index', [
             'form_action'     => 'pengguna/update',
@@ -63,7 +63,7 @@ class Pengguna extends Admin_Controller
 
     public function update(): void
     {
-        $data    = User::findOrFail(auth()->id);
+        $data    = User::findOrFail(ci_auth()->id);
         $newData = $this->validate($this->request);
         if ($data->email != $newData['email']) {
             $newData['email_verified_at'] = null;
@@ -110,7 +110,7 @@ class Pengguna extends Admin_Controller
         $pass_lama  = $request['pass_lama'];
         $pass_baru  = $request['pass_baru'];
         $pass_baru1 = $request['pass_baru1'];
-        $pwMasihMD5 = (strlen(auth()->password) == 32) && (stripos(auth()->password, '$') === false);
+        $pwMasihMD5 = (strlen(ci_auth()->password) == 32) && (stripos(ci_auth()->password, '$') === false);
 
         switch (true) {
             case empty($pass_lama) || empty($pass_baru) || empty($pass_baru1):
@@ -127,9 +127,9 @@ class Pengguna extends Admin_Controller
                 ];
                 break;
 
-            case $pwMasihMD5 && (md5($pass_lama) != auth()->password):
+            case $pwMasihMD5 && (md5($pass_lama) != ci_auth()->password):
 
-            case ! $pwMasihMD5 && (! password_verify($pass_lama, auth()->password)):
+            case ! $pwMasihMD5 && (! password_verify($pass_lama, ci_auth()->password)):
                 $respon = [
                     'status' => false,
                     'pesan'  => 'Sandi gagal diganti, <b>Sandi Lama</b> yang anda masukkan tidak sesuai.',
@@ -151,7 +151,7 @@ class Pengguna extends Admin_Controller
                 break;
 
             default:
-                $user           = User::findOrFail(auth()->id);
+                $user           = User::findOrFail(ci_auth()->id);
                 $user->password = generatePasswordHash($pass_baru);
 
                 if ($user->update()) {

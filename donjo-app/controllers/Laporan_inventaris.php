@@ -66,9 +66,7 @@ class Laporan_inventaris extends Admin_Controller
 
             return datatables()->of($this->sumberData(null, $mutasi))
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    return '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>';
-                })
+                ->addColumn('aksi', static fn ($row): string => '<div class="btn-group" role="group" aria-label="..."><a href="' . ci_route($row['name']) . '" class="btn btn-default btn-sm"  title="Lihat Data" type="button"><i class="fa fa-eye"></i></a></div>')
                 ->rawColumns(['aksi'])
                 ->make();
         }

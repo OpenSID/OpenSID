@@ -25,11 +25,15 @@
 					<div class="col-lg-12 col-md-12">
 						<div id="contentwrapper" class="web">
 							<?php
-								if (preg_match("/halaman_statis/i", $halaman_statis)) {
-									$this->load->view($halaman_statis);
+								if ($tampil) {
+									if (preg_match("/halaman_statis/i", $halaman_statis)) {
+										$this->load->view($halaman_statis);
+									} else {
+										$halaman_statis = str_replace('home/idm', 'idm/index', $halaman_statis);
+										$this->load->view("{$folder_themes}/partials/{$halaman_statis}");
+									}
 								} else {
-									$halaman_statis = str_replace('home/idm', 'idm/index', $halaman_statis);
-									$this->load->view("{$folder_themes}/partials/{$halaman_statis}");
+									$this->load->view("{$folder_themes}/partials/not_found");
 								}
 							?>
 						</div>

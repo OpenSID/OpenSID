@@ -213,7 +213,7 @@ class Shortcut extends BaseModel
     {
         $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
 
-        return cache()->rememberForever('shortcut_' . auth()->id, static function () use ($isAdmin): array {
+        return cache()->rememberForever('shortcut_' . ci_auth()->id, static function () use ($isAdmin): array {
             $activeShortcut    = self::where('status', '=', '1')->orderBy('urut')->get();
             $querys            = [];
             $querys['data']    = $activeShortcut;

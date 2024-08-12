@@ -51,7 +51,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2408.0.0');
+define('VERSION', '2408.0.1');
 
 /**
  * PREMIUM
@@ -67,7 +67,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024080171');
+define('VERSI_DATABASE', '2024080751');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -862,7 +862,7 @@ function alfanumerik($str): ?string
 
 function alfanumerik_spasi($str): ?string
 {
-    return preg_replace('/[^a-zA-Z0-9\s]/', '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9\s\-]/', '', htmlentities($str));
 }
 
 function bilangan($str)
@@ -1688,7 +1688,7 @@ if (! function_exists('is_super_admin')) {
      */
     function is_super_admin(): bool
     {
-        return (int) auth()->id === super_admin();
+        return (int) ci_auth()->id === super_admin();
     }
 }
 

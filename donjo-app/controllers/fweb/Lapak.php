@@ -47,17 +47,13 @@ class Lapak extends Web_Controller
 
     public function index($p = 1): void
     {
-        if (! $this->web_menu_model->menu_aktif('lapak')) {
-            show_404();
-        }
-
-        if ($this->setting->tampilkan_lapak_web == 0) {
-            show_404();
-        }
+        $cekMenu  = $this->web_menu_model->menu_aktif('lapak');
+        $cekLapak = $this->setting->tampilkan_lapak_web == '0' ? false : true;
 
         $data = $this->includes;
-        $this->_get_common_data($data);
 
+        $this->_get_common_data($data);
+        $data['tampil']      = true;
         $data['id_kategori'] = $this->input->get('id_kategori', true);
         $data['keyword']     = $this->input->get('keyword', true);
 
@@ -82,6 +78,7 @@ class Lapak extends Web_Controller
         $data['produk']         = $data['produk']->limit($data['paging']->per_page, $data['keyword'] ? 0 : $data['paging']->offset)->get()->result();
         $data['kategori']       = $this->lapak_model->get_kategori()->get()->result();
         $data['halaman_statis'] = 'lapak/index';
+        $data['tampil']         = $cekMenu && $cekLapak;
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         theme_view($this->template, $data);

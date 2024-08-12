@@ -237,7 +237,7 @@ class Kelompok extends Admin_Controller
     {
         isCan('u');
 
-        $data        = $this->validate($this->input->post());
+        $data        = $this->validate($this->input->post(), $id);
         $getKelompok = KelompokModel::tipe($this->tipe)->where('id', '!=', $id)
             ->where(static function ($query) use ($id, $data): void {
                 $query->where('id', $id)->orWhere('kode', $data['kode']);
@@ -266,8 +266,12 @@ class Kelompok extends Admin_Controller
         $data['tipe']            = $this->tipe;
 
         if (null === $id) {
-            $data['slug']      = unique_slug('kelompok', $data['nama']);
             $data['config_id'] = identitas('id');
+
+            // slug hanya dibuat pertama kali saat insert, lakukan pengecekan jika nama/slug dengan tipe yang sama sudah ada maka error.
+            if (KelompokModel::slugCheck($request['nama'], $this->tipe)) {
+                redirect_with('error', 'Slug sudah ada, coba gunakan nama yang lain.', route($this->tipe . '.form'));
+            }
         }
 
         if ($this->request['logo']) {

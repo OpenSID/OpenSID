@@ -287,8 +287,8 @@ class MY_Model extends CI_Model
         $data['url_surat']    = 'surat-' . url_title($data['nama'], '-', true);
         $data['jenis']        = FormatSurat::TINYMCE_SISTEM;
         $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
-        $data['created_by']   = auth()->id;
-        $data['updated_by']   = auth()->id;
+        $data['created_by']   = ci_auth()->id;
+        $data['updated_by']   = ci_auth()->id;
         $data['config_id']    = $config_id;
         if (is_array($data['form_isian'])) {
             $data['form_isian'] = json_encode($data['form_isian'], JSON_THROW_ON_ERROR);

@@ -37,15 +37,30 @@
 
 namespace App\Models;
 
+use App\Notifications\Penduduk\VerifyNotification;
+use App\Services\Auth\Traits\Authorizable;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\MustVerifyEmail;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
+use Illuminate\Notifications\Notifiable;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class PendudukMandiri extends BaseModel
+class PendudukMandiri extends BaseModel implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, MustVerifyEmailContract
 {
     use ConfigId;
     use ShortcutCache;
+    use Authenticatable;
+    use Authorizable;
+    use CanResetPassword;
+    use MustVerifyEmail;
+    use Notifiable;
 
     /**
      * {@inheritDoc}
@@ -134,6 +149,16 @@ class PendudukMandiri extends BaseModel
     }
 
     /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->pin;
+    }
+
+    /**
      * Get email penduduk attribute.
      *
      * @return string
@@ -141,6 +166,125 @@ class PendudukMandiri extends BaseModel
     public function getEmailAttribute()
     {
         return $this->penduduk->email;
+    }
+
+    /**
+     * Get email penduduk attribute.
+     *
+     * @return string
+     */
+    public function getTelegramAttribute()
+    {
+        return $this->penduduk->telegram;
+    }
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get the telegram address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getTelegramForPasswordReset()
+    {
+        return $this->telegram;
+    }
+
+    /**
+     * Determine if the user has verified their email address.
+     *
+     * @return bool
+     */
+    public function hasVerifiedEmail()
+    {
+        return null !== $this->penduduk->email_tgl_verifikasi;
+    }
+
+    /**
+     * Determine if the user has verified their telegram.
+     */
+    public function hasVerifiedTelegram(): bool
+    {
+        return null !== $this->penduduk->telegram_tgl_verifikasi;
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function markEmailAsVerified()
+    {
+        return $this->penduduk()->update([
+            'email_tgl_verifikasi' => $this->freshTimestamp(),
+        ]);
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function markTelegramAsVerified()
+    {
+        return $this->penduduk()->update([
+            'telegram_tgl_verifikasi' => $this->freshTimestamp(),
+        ]);
+    }
+
+    /**
+     * Get the email address that should be used for verification.
+     *
+     * @return string
+     */
+    public function getEmailForVerification()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get the email address that should be used for verification.
+     *
+     * @return string
+     */
+    public function getTelegramForVerification()
+    {
+        return $this->telegram;
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyNotification('mail'));
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendTelegramVerificationNotification(): void
+    {
+        $this->notify(new VerifyNotification('telegram'));
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     * @param mixed  $via
+     */
+    public function sendPasswordResetNotification($token, $via = 'mail'): void
+    {
+        $this->notify(new \App\Notifications\Penduduk\ResetPasswordNotification($token, $via));
     }
 
     public function generate_pin(): string

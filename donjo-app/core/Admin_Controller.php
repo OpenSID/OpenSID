@@ -62,7 +62,10 @@ class Admin_Controller extends MY_Controller
         $this->CI = &get_instance();
         $this->load->library('cek', null, 'premium');
         $this->controller = strtolower($this->router->fetch_class());
-        if (! auth()) {
+        if (! auth('admin')->check()) {
+            // untuk kembali ke halaman sebelumnya setelah login.
+            $this->session->intended = current_url();
+
             redirect('siteman');
         }
 

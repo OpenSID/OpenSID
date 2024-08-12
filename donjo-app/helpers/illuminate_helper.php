@@ -36,6 +36,8 @@
  */
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Arr;
 
@@ -55,11 +57,54 @@ if (! function_exists('app')) {
 
         $container->singleton('ci', static fn () => $ci);
 
+        // Set config setelah instance ci
+        $container['config']->set('mail.default', $ci?->setting?->email_protocol);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.transport", $ci?->setting?->email_protocol);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.url", $ci?->setting?->email_smtp_url);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.host", $ci?->setting?->email_smtp_host);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.port", $ci?->setting?->email_smtp_port);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.encryption", $ci?->setting?->email_smtp_encryption ?? 'tls');
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.username", $ci?->setting?->email_smtp_user);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.password", $ci?->setting?->email_smtp_pass);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.timeout", $ci?->setting?->email_smtp_timeout);
+        $container['config']->set("mail.mailers.{$ci?->setting?->email_protocol}.local_domain", $ci?->setting?->email_smtp_domain);
+
+        $container['config']->set([
+            'captcha' => [
+                'secret'  => $ci?->setting?->google_recaptcha_secret_key,
+                'sitekey' => $ci?->setting?->google_recaptcha_site_key,
+                'options' => [],
+            ],
+            'services' => [
+                'telegram-bot-api' => [
+                    'token' => $ci?->setting?->telegram_token,
+                ],
+            ],
+        ]);
+
         if (null === $abstract) {
             return $container;
         }
 
         return $container->make($abstract, $parameters);
+    }
+}
+
+if (! function_exists('auth')) {
+    /**
+     * Get the available auth instance.
+     *
+     * @param string|null $guard
+     *
+     * @return AuthFactory|Illuminate\Contracts\Auth\Guard|Illuminate\Contracts\Auth\StatefulGuard
+     */
+    function auth($guard = null)
+    {
+        if (null === $guard) {
+            return app(AuthFactory::class);
+        }
+
+        return app(AuthFactory::class)->guard($guard);
     }
 }
 
@@ -70,6 +115,20 @@ if (! function_exists('base_path')) {
     function base_path(?string $path = ''): string
     {
         return app()->basePath() . ($path ? '/' . $path : $path);
+    }
+}
+
+if (! function_exists('broadcast')) {
+    /**
+     * Begin broadcasting an event.
+     *
+     * @param mixed|null $event
+     *
+     * @return Illuminate\Broadcasting\PendingBroadcast
+     */
+    function broadcast($event = null)
+    {
+        return app(BroadcastFactory::class)->event($event);
     }
 }
 

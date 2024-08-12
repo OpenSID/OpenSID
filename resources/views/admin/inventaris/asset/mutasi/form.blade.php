@@ -84,31 +84,28 @@
                                 </select>
                             </div>
                         </div>
-                        <select name="mutasi" id="mutasi" class="form-control input-sm" @disabled($view_mark)>
-                            <optgroup label="Penghapusan">
-                                <option value="Baik" @selected($main->mutasi->jenis_mutasi == 'Baik')>Status Baik</option>
-                                <option value="Rusak" @selected($main->mutasi->jenis_mutasi == 'Rusak')>Status Rusak</option>
-                                <option value="Diperbaiki" @selected($main->mutasi->jenis_mutasi == 'Diperbaiki')>Status Diperbaiki</option>
-                            </optgroup>
-                            <optgroup label="Disumbangkan">
-                                <option value="Masih Baik Disumbangkan" @selected(
-    $main->mutasi->jenis_mutasi ==
-        'Masih Baik
-                                    Disumbangkan',
-)>Masih Baik</option>
-                                <option value="Barang Rusak Disumbangkan" @selected(
-    $main->mutasi->jenis_mutasi ==
-        'Barang Rusak
-                                    Disumbangkan',
-)>Rusak</option>
-                            </optgroup>
-                            <optgroup label="Jual">
-                                <option value="Masih Baik Dijual" @selected($main->mutasi->jenis_mutasi == 'Masih Baik Dijual')>Masih Baik
-                                </option>
-                                <option value="Barang Rusak Dijual" @selected($main->mutasi->jenis_mutasi == 'Barang Rusak Dijual')>Rusak
-                                </option>
-                            </optgroup>
-                        </select>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
+                            <div class="col-sm-4">
+                                <select name="mutasi" id="mutasi" class="form-control input-sm" @disabled($view_mark)>
+                                    <optgroup label="Penghapusan">
+                                        <option value="Baik" @selected($main->mutasi->jenis_mutasi == 'Baik')>Status Baik</option>
+                                        <option value="Rusak" @selected($main->mutasi->jenis_mutasi == 'Rusak')>Status Rusak</option>
+                                        <option value="Diperbaiki" @selected($main->mutasi->jenis_mutasi == 'Diperbaiki')>Status Diperbaiki</option>
+                                    </optgroup>
+                                    <optgroup label="Disumbangkan">
+                                        <option value="Masih Baik Disumbangkan" @selected($main->mutasi->jenis_mutasi == 'Masih Baik Disumbangkan')>Masih Baik</option>
+                                        <option value="Barang Rusak Disumbangkan" @selected($main->mutasi->jenis_mutasi == 'Barang Rusak Disumbangkan')>Rusak</option>
+                                    </optgroup>
+                                    <optgroup label="Jual">
+                                        <option value="Masih Baik Dijual" @selected($main->mutasi->jenis_mutasi == 'Masih Baik Dijual')>Masih Baik
+                                        </option>
+                                        <option value="Barang Rusak Dijual" @selected($main->mutasi->jenis_mutasi == 'Barang Rusak Dijual')>Rusak
+                                        </option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group disumbangkan">
                             <label class="col-sm-3 control-label" style="text-align:left;" for="sumbangkan">Disumbangkan
                                 ke-</label>

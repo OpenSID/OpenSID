@@ -16,15 +16,15 @@
         <div class="box-body">
             <div class="form-group">
                 <label for="exampleInputEmail1">Scan KTP</label>
-                <img class="img-responsive" src="{{ ci_route('desa.upload.pendaftaran', $penduduk['scan_ktp']) }}" alt="Scan KTP" />
+                <img class="img-responsive" src="{{ base_url("desa/upload/pendaftaran/{$penduduk['scan_ktp']}") }}" alt="Scan KTP" />
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Scan KK</label>
-                <img class="img-responsive" src="{{ ci_route('desa.upload.pendaftaran', $penduduk['scan_kk']) }}" alt="Scan KK" />
+                <img class="img-responsive" src="{{ base_url("desa/upload/pendaftaran/{$penduduk['scan_kk']}") }}" alt="Scan KK" />
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Foto Selfie</label>
-                <img class="img-responsive" src="{{ ci_route('desa.upload.pendaftaran', $penduduk['foto_selfie']) }}" alt="Foto Selfie" />
+                <img class="img-responsive" src="{{ base_url("desa/upload/pendaftaran/{$penduduk['foto_selfie']}") }}" alt="Foto Selfie" />
             </div>
         </div>
     </div>

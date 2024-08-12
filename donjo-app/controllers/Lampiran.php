@@ -197,8 +197,8 @@ class Lampiran extends Admin_Controller
                 'template'      => $item['template'],
                 'template_desa' => $item['template_desa'],
                 'status'        => (int) $item['status'],
-                'created_by'    => auth()->id,
-                'updated_by'    => auth()->id,
+                'created_by'    => ci_auth()->id,
+                'updated_by'    => ci_auth()->id,
             ])
             ->toArray();
     }
