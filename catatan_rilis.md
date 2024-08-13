@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### FITUR
 1. [#8289](https://github.com/OpenSID/OpenSID/issues/8289) Penambahan mengembalikan surat dinas yang bisa dipilih.
 2. [#8273](https://github.com/OpenSID/OpenSID/issues/8273) Penambahan referensi dusun pada kodeisian otomatis.
+3. [#8159](https://github.com/OpenSID/OpenSID/issues/8159) Penambahan ekspor penduduk luar pada template surat.
 
 
 #### BUG
