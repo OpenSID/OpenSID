@@ -22,6 +22,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8299](https://github.com/OpenSID/OpenSID/issues/8299) Perbaikan notifikasi komentar dan pesan mandiri.
 16. [#7052](https://github.com/OpenSID/OpenSID/issues/7052) Perbaikan form pilihan status perkawinan anak dan cucu.
 17. [#8331](https://github.com/OpenSID/OpenSID/issues/8331) Perbaikan ketua kelompok dan lembaga.
+18. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce.
+
 
 #### TEKNIS
 
