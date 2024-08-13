@@ -51,8 +51,12 @@ class LoginAdminListener
 
     public function handle(Login $login)
     {
-        if ($login->guard !== 'admin') {
+        if (! in_array($login->guard, ['admin', 'admin_periksa'])) {
             return;
+        }
+
+        if ($login->guard === 'admin_periksa') {
+            $this->app['ci']->session->set_userdata('periksa_data', 1);
         }
 
         $this->app['ci']->session->set_userdata([

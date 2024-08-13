@@ -48,8 +48,12 @@ class LogoutAdminListener
 
     public function handle(Logout $logout)
     {
-        if ($logout->guard !== 'admin') {
+        if (! in_array($logout->guard, ['admin', 'admin_periksa'])) {
             return;
+        }
+
+        if ($logout->guard === 'admin_periksa') {
+            $this->app['ci']->session->unset_userdata('periksa_data');
         }
 
         $this->app['ci']->session->unset_userdata([
