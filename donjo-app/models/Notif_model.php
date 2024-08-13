@@ -46,14 +46,6 @@ class Notif_model extends MY_Model
             ->get('permohonan_surat')->num_rows();
     }
 
-    public function komentar_baru()
-    {
-        return $this->config_id()
-            ->where('status', 2)
-            ->get('komentar')
-            ->num_rows();
-    }
-
     /**
      * Tipe 1: Inbox untuk admin, Outbox untuk pengguna layanan mandiri
      * Tipe 2: Outbox untuk admin, Inbox untuk pengguna layanan mandiri

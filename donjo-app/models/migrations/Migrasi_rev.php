@@ -36,6 +36,7 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,10 +52,40 @@ class Migrasi_rev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
+        $hasil = $this->migrasi_2024081151($hasil);
+        $hasil = $this->migrasi_2024080851($hasil);
+
         return $hasil && true;
     }
 
-    protected function migrasi_2024072871($hasil)
+    public function migrasi_2024080851()
+    {
+        $daftarKomentar = DB::table('komentar')->whereNull('id_artikel')->get();
+
+        foreach ($daftarKomentar as $komentar) {
+            $penduduk_id = DB::table('tweb_penduduk')->where('nik', $komentar->email)->value('id');
+            if ($penduduk_id) {
+                DB::table('pesan_mandiri')->insert([
+                    'uuid'        => Str::uuid(),
+                    'config_id'   => $komentar->config_id,
+                    'owner'       => $komentar->owner,
+                    'penduduk_id' => $penduduk_id,
+                    'subjek'      => $komentar->subjek,
+                    'komentar'    => $komentar->komentar,
+                    'tgl_upload'  => $komentar->tgl_upload,
+                    'status'      => $komentar->status,
+                    'tipe'        => $komentar->tipe,
+                    'permohonan'  => $komentar->permohonan,
+                    'created_at'  => $komentar->tgl_upload ?? now(),
+                    'updated_at'  => $komentar->updated_at ?? now(),
+                    'is_archived' => $komentar->is_archived,
+                ]);
+            }
+            DB::table('komentar')->where('id', $komentar->id)->delete();
+        }
+    }
+
+    protected function migrasi_2024081151($hasil)
     {
         if (! $this->db->field_exists('remember_token', 'user')) {
             $hasil = $hasil && $this->dbforge->add_column('user', [

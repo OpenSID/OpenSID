@@ -39,10 +39,10 @@ use App\Libraries\TinyMCE;
 use App\Models\Dokumen;
 use App\Models\DokumenHidup;
 use App\Models\FormatSurat;
-use App\Models\Komentar;
 use App\Models\LogSurat;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
+use App\Models\PesanMandiri;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -199,16 +199,15 @@ class Permohonan_surat_admin extends Admin_Controller
         $post    = $this->input->post();
         $judul   = ($tipe == 0) ? 'Perlu Dilengkapi' : 'Dibatalkan';
         $data    = [
-            'subjek'     => 'Permohonan Surat ' . $periksa['surat']['nama'] . ' ' . $judul,
-            'komentar'   => $post['pesan'],
-            'owner'      => $pemohon['nama'], // TODO : Gunakan id_pend
-            'email'      => $pemohon['nik'], // TODO : Gunakan id_pend
-            'permohonan' => $id_permohonan, // Menyimpan id_permohonan untuk link
-            'tipe'       => 2,
-            'status'     => 2,
+            'owner'       => $pemohon['nama'], // TODO : Gunakan id_pend
+            'penduduk_id' => $periksa['id_pemohon'],
+            'subjek'      => 'Permohonan Surat ' . $periksa['surat']['nama'] . ' ' . $judul,
+            'komentar'    => $post['pesan'],
+            'status'      => 2,
+            'tipe'        => 2,
         ];
 
-        Komentar::create($data);
+        PesanMandiri::create($data);
         $this->proses($id_permohonan, $tipe);
 
         $this->kirim_notifikasi_penduduk($id_permohonan, $data['komentar'], $data['subjek'], '/layanan');
