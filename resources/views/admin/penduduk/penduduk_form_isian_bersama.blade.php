@@ -947,6 +947,8 @@
 
                 if (selected == 2 || selected == 3) {
                     $("#status_perkawinan").val("2").change();
+                } else if (selected == 4 || selected == 6) {
+                    $("#status_perkawinan").val("1").change();
                 } else {
                     $("#status_perkawinan").val("").change();
                 }

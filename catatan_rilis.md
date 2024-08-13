@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#8326](https://github.com/OpenSID/OpenSID/issues/8326) Perbaikan notifikasi gagal pada idm dan sdgs.
 14. [#8305](https://github.com/OpenSID/OpenSID/issues/8305) Perbaikan default peta wilayah tidak tampil di web.
 15. [#8299](https://github.com/OpenSID/OpenSID/issues/8299) Perbaikan notifikasi komentar dan pesan mandiri.
+16. [#7052](https://github.com/OpenSID/OpenSID/issues/7052) Perbaikan form pilihan status perkawinan anak dan cucu.
 
 #### TEKNIS
 
