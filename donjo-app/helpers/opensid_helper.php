@@ -1357,10 +1357,12 @@ function idm($kode_desa, $tahun)
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
+    $url = config_item('api_idm') . "/{$kode_desa}/{$tahun}";
+
     // ambil dari api idm
     try {
         $client   = new Client();
-        $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+        $response = $client->get($url, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
             ],
@@ -1376,7 +1378,10 @@ function idm($kode_desa, $tahun)
         log_message('error', $e->getMessage());
     }
 
-    return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
+    $pesan_error = 'Tidak dapat mengambil data IDM.<br>';
+    $pesan_error .= 'ID Desa ' . $kode_desa . ' pada tahun ' . $tahun . ' tidak dapat dimuat : <a href="' . $url . '" target="_blank">' . $url . '</a>';
+
+    return (object) ['error_msg' => $pesan_error];
 }
 
 function sdgs()
@@ -1406,17 +1411,20 @@ function sdgs()
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
+    $url = config_item('api_sdgs') . $kode_desa;
+
     try {
         $client   = new Client();
-        $response = $client->get(config_item('api_sdgs') . $kode_desa, [
+        $response = $client->get($url, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
             ],
             'verify' => false,
         ]);
 
-        if ($response->getStatusCode() === 200 && ! empty($response->getBody()->getContents())) {
-            $data = (object) collect(json_decode($response->getBody()->getContents(), null))
+        $dataBody = $response->getBody()->getContents();
+        if ($response->getStatusCode() === 200 && ! empty($dataBody)) {
+            $data = (object) collect(json_decode($dataBody, null))
                 ->map(static function ($item, $key) {
                     if ($key === 'data') {
                         return collect($item)->map(static function ($item) {
@@ -1427,7 +1435,8 @@ function sdgs()
                     }
 
                     return $item;
-                })->toArray();
+                })
+                ->toArray();
 
             $ci->cache->save($cache, $data, YEAR);
 
@@ -1437,7 +1446,10 @@ function sdgs()
         log_message('error', $e->getMessage());
     }
 
-    return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.<br>'];
+    $pesan_error = 'Tidak dapat mengambil data SDGS.<br>';
+    $pesan_error .= 'ID Desa ' . $kode_desa . ' tidak dapat dimuat : <a href="' . $url . '" target="_blank">' . $url . '</a>';
+
+    return (object) ['error_msg' => $pesan_error];
 }
 
 function google_recaptcha()

@@ -53,7 +53,7 @@ class ExampleEvent extends Event
     /**
      * {@inheritDoc}
      */
-    public function broadcastOn(): \Illuminate\Broadcasting\Channel
+    public function broadcastOn(): Channel
     {
         return new Channel('channel');
     }
