@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#8320](https://github.com/OpenSID/OpenSID/issues/8320) Perbaikan validasi form kategori bisa menggunakan strip (-).
 11. [#8294](https://github.com/OpenSID/OpenSID/issues/8294) Perbaikan penanganan halaman yang belum didaftarkan dimenu.
 12. [#8278](https://github.com/OpenSID/OpenSID/issues/8278) Perbaikan pengaturan surat dinas.
+13. [#8326](https://github.com/OpenSID/OpenSID/issues/8326) Perbaikan notifikasi gagal pada idm dan sdgs.
 
 
 #### TEKNIS
