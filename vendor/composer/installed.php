@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => '2405.0.3.x-dev',
-        'version' => '2405.0.3.9999999-dev',
-        'reference' => '49185634f1b03e5eb20924dc08b37cef0a06dcdb',
+        'pretty_version' => '2406.0.0.x-dev',
+        'version' => '2406.0.0.9999999-dev',
+        'reference' => 'e0708e457991ffc209c405139cf3f3fd2fa0afa4',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -674,9 +674,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => '2405.0.3.x-dev',
-            'version' => '2405.0.3.9999999-dev',
-            'reference' => '49185634f1b03e5eb20924dc08b37cef0a06dcdb',
+            'pretty_version' => '2406.0.0.x-dev',
+            'version' => '2406.0.0.9999999-dev',
+            'reference' => 'e0708e457991ffc209c405139cf3f3fd2fa0afa4',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
