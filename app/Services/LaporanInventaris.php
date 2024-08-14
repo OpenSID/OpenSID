@@ -170,4 +170,22 @@ class LaporanInventaris
 
         return array_values($result);
     }
+
+    public static function detail() 
+    {
+        $data = collect(self::all());
+
+        $result = $data->flatMap(function ($item) {
+            return [
+                "{$item['name']}_pribadi" => (object)["total" => $item['pribadi']],
+                "{$item['name']}_pemerintah" => (object)["total" => $item['pemerintah']],
+                "{$item['name']}_provinsi" => (object)["total" => $item['provinsi']],
+                "{$item['name']}_kabupaten" => (object)["total" => $item['kabupaten']],
+                "{$item['name']}_sumbangan" => (object)["total" => $item['sumbangan']],
+            ];
+        });
+
+        return $result->all();
+
+    }
 }
