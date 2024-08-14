@@ -483,7 +483,7 @@ class Keluarga extends Admin_Controller
             $data['kelas_sosial'] = null;
         }
         $data['updated_at'] = date('Y-m-d H:i:s');
-        $data['updated_by'] = auth()->id;
+        $data['updated_by'] = ci_auth()->id;
         $keluarga->update($data);
 
         redirect($this->controller);

@@ -213,7 +213,7 @@ class Wilayah extends BaseModel
 
     public static function treeAccess()
     {
-        $user = auth();
+        $user = ci_auth();
         if ($user->batasi_wilayah) {
             $aksesWilayah = $user->akses_wilayah ?? [];
 

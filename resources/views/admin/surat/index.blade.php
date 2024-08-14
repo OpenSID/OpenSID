@@ -29,7 +29,6 @@
                             <th class="padat">NO</th>
                             <th class="aksi">AKSI</th>
                             <th>NAMA SURAT</th>
-                            <th class="padat">JENIS</th>
                             <th class="padat">KODE / KLASIFIKASI</th>
                             <th class="padat">LAMPIRAN</th>
                         </tr>
@@ -93,13 +92,6 @@
                         orderable: true
                     },
                     {
-                        data: 'jenis',
-                        name: 'jenis',
-                        class: 'padat',
-                        searchable: false,
-                        orderable: false
-                    },
-                    {
                         data: 'kode_surat',
                         name: 'kode_surat',
                         class: 'padat',
@@ -127,7 +119,6 @@
 
             if (ubah == 0) {
                 TableData.column(1).visible(false);
-                TableData.column(4).visible(false);
             }
 
         });

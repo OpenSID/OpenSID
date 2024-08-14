@@ -11,6 +11,7 @@
   <?php $this->load->view($folder_themes . '/commons/loading_screen') ?>
   <?php $this->load->view($folder_themes . '/commons/header') ?>
   <div class="container mx-auto lg:px-5 px-3 flex flex-col lg:flex-row my-5 gap-3 lg:gap-5 justify-between text-gray-600">
+    <?php if ($tampil): ?>
     <main class="lg:w-2/3 w-full overflow-hidden space-y-1 bg-white rounded-lg px-4 py-2 lg:py-4 lg:px-5 shadow">
       <nav role="navigation" aria-label="navigation" class="breadcrumb">
         <ol>
@@ -95,6 +96,9 @@
         <?php endif; ?>
       <?php endif; ?>
     </main>
+    <?php else : ?>
+      <?php theme_view('partials/not_found'); ?>
+    <?php endif; ?>
     <div class="lg:w-1/3 w-full">
       <?php $this->load->view($folder_themes .'/partials/sidebar') ?>
     </div>

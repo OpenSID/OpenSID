@@ -79,10 +79,14 @@ class Migrasi_2024080751 extends MY_model
 
     protected function migrasi_2024080753($hasil)
     {
-        Schema::table('kelompok', static function (Blueprint $table) {
-            $table->dropIndex('slug_config');
-            $table->unique(['slug', 'config_id', 'tipe'], 'slug_config_tipe');
-        });
+        $cek = count(DB::select("SHOW INDEX FROM kelompok WHERE Key_name = 'slug_config'"));
+
+        if ($cek) {
+            Schema::table('kelompok', static function (Blueprint $table) {
+                $table->dropIndex('slug_config');
+                $table->unique(['slug', 'config_id'], 'slug_config_tipe');
+            });
+        }
 
         return $hasil;
     }

@@ -54,7 +54,7 @@
                 </section>
 
                 <section class="content">
-                    @if (auth()->id != super_admin())
+                    @if (ci_auth()->id != super_admin())
                         <div class="callout callout-warning">
                             <h4>Info!</h4>
                             <p>Periksa database hanya diperbolehkan untuk Super Admin.</p>

@@ -41,6 +41,7 @@ use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\Menu;
 use App\Models\Modul;
+use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
@@ -93,7 +94,7 @@ if (! function_exists('can')) {
             return true;
         }
 
-        $grupId = auth()->id_grup;
+        $grupId = ci_auth()->id_grup;
 
         $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
             $slugGrup = UserGrup::find($grupId)->slug;
@@ -164,7 +165,7 @@ if (! function_exists('can')) {
             return false;
         }
 
-        if ($adminOnly && auth()->id != super_admin()) {
+        if ($adminOnly && ci_auth()->id != super_admin()) {
             return false;
         }
 
@@ -324,6 +325,9 @@ if (! function_exists('calculate_date_intervals')) {
         $endTime   = clone $reference;
 
         foreach ($date as $dateInterval) {
+            if (empty($dateInterval)) {
+                continue;
+            }
             $endTime = $endTime->add(DateInterval::createFromDateString(calculate_days($dateInterval) . 'days'));
         }
 
@@ -356,9 +360,12 @@ if (! function_exists('parsedown')) {
 if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
+        // Tidak bisa gunakan helper setting karena value belum di load
+        $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun'])->pluck('value', 'key')->toArray();
+
         return str_replace(
             ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'],
-            [ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_desa')), ucwords(setting('sebutan_pemerintah_desa')), ucwords(setting('sebutan_dusun'))],
+            [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_pemerintah_desa']), ucwords($setting['sebutan_dusun'])],
             $params
         );
     }
@@ -478,13 +485,13 @@ if (! function_exists('folder_desa')) {
     }
 }
 
-if (! function_exists('auth')) {
+if (! function_exists('ci_auth')) {
     /**
      * Ambil data user login
      *
      * @param mixed|null $params
      */
-    function auth($params = null)
+    function ci_auth($params = null)
     {
         $CI = &get_instance();
 
@@ -993,7 +1000,7 @@ if (! function_exists('admin_menu')) {
      */
     function admin_menu()
     {
-        $grupId = auth()->id_grup;
+        $grupId = ci_auth()->id_grup;
 
         return cache()->rememberForever("{$grupId}_admin_menu", static fn () => (new Modul())->tree($grupId)->toArray());
     }

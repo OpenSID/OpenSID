@@ -50,7 +50,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2408.0.1');
+define('VERSION', '2408.0.2');
 
 /**
  * PREMIUM
@@ -66,7 +66,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024080751');
+define('VERSI_DATABASE', '2024081451');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -861,7 +861,7 @@ function alfanumerik($str): ?string
 
 function alfanumerik_spasi($str): ?string
 {
-    return preg_replace('/[^a-zA-Z0-9\s]/', '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9\s\-]/', '', htmlentities($str));
 }
 
 function bilangan($str)
@@ -1356,10 +1356,12 @@ function idm($kode_desa, $tahun)
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
+    $url = config_item('api_idm') . "/{$kode_desa}/{$tahun}";
+
     // ambil dari api idm
     try {
         $client   = new Client();
-        $response = $client->get(config_item('api_idm') . "/{$kode_desa}/{$tahun}", [
+        $response = $client->get($url, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
             ],
@@ -1375,7 +1377,10 @@ function idm($kode_desa, $tahun)
         log_message('error', $e->getMessage());
     }
 
-    return (object) ['error_msg' => 'Tidak dapat mengambil data IDM.'];
+    $pesan_error = 'Tidak dapat mengambil data IDM.<br>';
+    $pesan_error .= 'ID Desa ' . $kode_desa . ' pada tahun ' . $tahun . ' tidak dapat dimuat : <a href="' . $url . '" target="_blank">' . $url . '</a>';
+
+    return (object) ['error_msg' => $pesan_error];
 }
 
 function sdgs()
@@ -1405,17 +1410,20 @@ function sdgs()
         return (object) ['error_msg' => 'Periksa koneksi internet Anda.'];
     }
 
+    $url = config_item('api_sdgs') . $kode_desa;
+
     try {
         $client   = new Client();
-        $response = $client->get(config_item('api_sdgs') . $kode_desa, [
+        $response = $client->get($url, [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
             ],
             'verify' => false,
         ]);
 
-        if ($response->getStatusCode() === 200 && ! empty($response->getBody()->getContents())) {
-            $data = (object) collect(json_decode($response->getBody()->getContents(), null))
+        $dataBody = $response->getBody()->getContents();
+        if ($response->getStatusCode() === 200 && ! empty($dataBody)) {
+            $data = (object) collect(json_decode($dataBody, null))
                 ->map(static function ($item, $key) {
                     if ($key === 'data') {
                         return collect($item)->map(static function ($item) {
@@ -1426,7 +1434,8 @@ function sdgs()
                     }
 
                     return $item;
-                })->toArray();
+                })
+                ->toArray();
 
             $ci->cache->save($cache, $data, YEAR);
 
@@ -1436,7 +1445,10 @@ function sdgs()
         log_message('error', $e->getMessage());
     }
 
-    return (object) ['error_msg' => 'Tidak dapat mengambil data SDGS.<br>'];
+    $pesan_error = 'Tidak dapat mengambil data SDGS.<br>';
+    $pesan_error .= 'ID Desa ' . $kode_desa . ' tidak dapat dimuat : <a href="' . $url . '" target="_blank">' . $url . '</a>';
+
+    return (object) ['error_msg' => $pesan_error];
 }
 
 function google_recaptcha()
@@ -1687,7 +1699,7 @@ if (! function_exists('is_super_admin')) {
      */
     function is_super_admin(): bool
     {
-        return (int) auth()->id === super_admin();
+        return (int) ci_auth()->id === super_admin();
     }
 }
 

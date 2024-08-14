@@ -430,7 +430,7 @@ class Database extends Admin_Controller
 
     private function cek_otp($otp)
     {
-        return User::where('id', '=', auth()->id)
+        return User::where('id', '=', ci_auth()->id)
             ->where('token_exp', '>', date('Y-m-d H:i:s'))
             ->where('token', '=', hash('sha256', (string) bilangan($otp)))
             ->exists();

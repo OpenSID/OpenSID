@@ -50,11 +50,8 @@ class Statistik extends Web_Controller
 
     public function index($slug = null): void
     {
-        $key = StatistikEnum::keyFromSlug($slug);
-
-        if (! $this->web_menu_model->menu_aktif('statistik/' . $key)) {
-            show_404();
-        }
+        $key     = StatistikEnum::keyFromSlug($slug);
+        $cekMenu = $this->web_menu_model->menu_aktif('statistik/' . $key);
 
         $data = $this->includes;
 
@@ -63,6 +60,7 @@ class Statistik extends Web_Controller
         $data['tipe']        = 0;
         $data['slug_aktif']  = $slug;
         $data['last_update'] = Penduduk::latest()->first()->updated_at;
+        $data['tampil']      = $cekMenu;
 
         $this->_get_common_data($data);
 

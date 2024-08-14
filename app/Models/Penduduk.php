@@ -1229,7 +1229,7 @@ class Penduduk extends BaseModel
             // Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
             $lvl['kk_level']   = SHDKEnum::LAINNYA;
             $lvl['updated_at'] = Carbon::now();
-            $lvl['updated_by'] = auth()->id;
+            $lvl['updated_by'] = ci_auth()->id;
             Penduduk::where('id_kk', $this->id_kk)->where('id', '!=', $this->id)
                 ->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
                 ->update($lvl);
@@ -1309,7 +1309,7 @@ class Penduduk extends BaseModel
             'id_pend'    => $this->id,
             'nik'        => $this->nik,
             'foto'       => $this->foto,
-            'deleted_by' => auth()->id,
+            'deleted_by' => ci_auth()->id,
             'deleted_at' => date('Y-m-d H:i:s'),
         ];
         LogHapusPenduduk::create($log);

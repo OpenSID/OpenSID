@@ -102,10 +102,10 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="id_ketua">Ketua <?= $title ?></label>
                             <div class="col-sm-7">
-                                <select class="form-control input-sm select2 required" id="kelompok_penduduk" name="id_ketua">
+                                <select class="form-control input-sm select2" id="kelompok_penduduk" name="id_ketua" @disabled($kelompok !== null)>
                                     <option value="">-- Silakan Masukkan NIK / Nama--</option>
                                     @foreach ($list_penduduk as $data)
-                                        <option value="{{ $data['id'] }}" @selected($data['id'] == $kelompok['id_ketua']) }}>NIK :{{ $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat'] }}</option>
+                                        <option value="{{ $data['id'] }}" @selected($data['id'] == $kelompok['id_ketua'])>NIK :{{ $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat'] }}</option>
                                     @endforeach
                                 </select>
                             </div>

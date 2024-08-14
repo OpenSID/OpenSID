@@ -41,41 +41,40 @@ use App\Libraries\DateConv;
 
 class KodeIsianSurat
 {
-    public function __construct(private $dataSurat)
+    public function __construct(private $dataSurat, private $jenis = null)
     {
     }
 
-    public static function get($dataSurat): array
+    public static function get($dataSurat, $jenis): array
     {
-        return (new self($dataSurat))->kodeIsian();
+        return (new self($dataSurat, $jenis))->kodeIsian();
     }
 
     public function kodeIsian(): array
     {
-
-        $surat = [
-            [
-                'judul' => 'Format Nomor Surat',
-                'isian' => 'format_nomor_surat',
-                'data'  => strtoupper((string) substitusiNomorSurat($this->dataSurat['no_surat'], format_penomoran_surat($this->dataSurat['surat']['format_nomor_global'], setting('format_nomor_surat'), $this->dataSurat['surat']['format_nomor']))),
-            ],
-            [
-                'judul' => 'Kode',
-                'isian' => 'kode_surat',
-                'data'  => $this->dataSurat['surat']['kode_surat'],
-            ],
-            [
-                'case_sentence' => true,
-                'judul'         => 'Nomer',
-                'isian'         => 'nomer_surat',
-                'data'          => $this->dataSurat['no_surat'],
-            ],
-            [
-                'judul' => 'Judul',
-                'isian' => 'judul_surat',
-                'data'  => $this->dataSurat['surat']['judul_surat'],
-            ],
-        ];
+       $surat = [
+           [
+               'judul' => 'Format Nomor Surat',
+               'isian' => 'format_nomor_surat',
+               'data'  => strtoupper((string) substitusiNomorSurat($this->dataSurat['no_surat'], format_penomoran_surat($this->dataSurat['surat']['format_nomor_global'], setting("format_nomor_surat{$this->jenis}"), $this->dataSurat['surat']['format_nomor']))),
+           ],
+           [
+               'judul' => 'Kode',
+               'isian' => 'kode_surat',
+               'data'  => $this->dataSurat['surat']['kode_surat'],
+           ],
+           [
+               'case_sentence' => true,
+               'judul'         => 'Nomer',
+               'isian'         => 'nomer_surat',
+               'data'          => $this->dataSurat['no_surat'],
+           ],
+           [
+               'judul' => 'Judul',
+               'isian' => 'judul_surat',
+               'data'  => $this->dataSurat['surat']['judul_surat'],
+           ],
+       ];
 
         $DateConv    = new DateConv();
         $tglTambahan = [

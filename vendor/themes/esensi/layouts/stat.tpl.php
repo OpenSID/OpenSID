@@ -17,23 +17,26 @@
     </div>
     <main class="lg:w-3/4 w-full space-y-1 bg-white rounded-lg px-4 py-2 lg:py-4 lg:px-5 shadow">
       <?php
-        switch ($tipe) {
-          case null:
-          case '0':
-            $page = '/partials/statistics/default';
-            break;
-          case '3':
-            $page = '/partials/statistics/regions';
-            break;
-          case '4':
-            $page = '/partials/statistics/voters';
-            break;
-          default:
-            $page = '/commons/404';
-            break;
-        }
-        ?>
-      <?php $this->load->view($folder_themes . $page) ?>
+        if ($tampil) {
+          switch ($tipe) {
+            case null:
+            case '0':
+              $page = '/partials/statistics/default';
+              break;
+            case '3':
+              $page = '/partials/statistics/regions';
+              break;
+            case '4':
+              $page = '/partials/statistics/voters';
+              break;
+            default:
+              $page = '/commons/404';
+              break;
+          }
+          $this->load->view($folder_themes . $page);
+        } else {
+          theme_view('partials/not_found');
+        } ?>
       <script>
         const enable3d = <?=$this->setting->statistik_chart_3d ?> ? true : false;
       </script>

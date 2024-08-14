@@ -50,7 +50,7 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="penduduk" id="foto" src="{{ AmbilFoto(auth()->foto) }}" alt="Foto Penduduk">
+                    <img class="penduduk" id="foto" src="{{ AmbilFoto(ci_auth()->foto) }}" alt="Foto Penduduk">
                     <br>
                     <div class="input-group input-group-sm text-center">
                         <span class="input-group-btn">

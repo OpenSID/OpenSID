@@ -44,13 +44,10 @@ use Illuminate\Support\Facades\DB;
 class SuratDinasImports
 {
     protected $path;
-    protected $where;
 
-    public function __construct($path = null, $where = null)
+    public function __construct($path = null, protected $where = null)
     {
         $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'template_surat_dinas_tinymce.json';
-
-        $this->where = $where;
     }
 
     public function import(): bool
@@ -67,7 +64,7 @@ class SuratDinasImports
                     $data = $data->where('url_surat', $this->where['url_surat']);
                 }
 
-                $data->each(static function ($line) use ($configId) {
+                $data->each(static function (array $line) use ($configId): void {
                     $data = [
                         'config_id'           => $configId,
                         'nama'                => $line['nama'],

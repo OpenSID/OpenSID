@@ -255,7 +255,7 @@ class Keluarga extends BaseModel
         $pend = Penduduk::find($idPend);
 
         if ($pend->kk_level == SHDKEnum::KEPALA_KELUARGA) {
-            $temp2['updated_by'] = auth()->id;
+            $temp2['updated_by'] = ci_auth()->id;
             $temp2['nik_kepala'] = null;
             $this->update($temp2);
         }
@@ -264,7 +264,7 @@ class Keluarga extends BaseModel
         $pend->id_kk            = null;
         $pend->kk_level         = null;
         $pend->updated_at       = date('Y-m-d H:i:s');
-        $pend->updated_by       = auth()->id;
+        $pend->updated_by       = ci_auth()->id;
         $pend->save();
 
         // hapus dokumen bersama dengan kepala KK sebelumnya
@@ -276,7 +276,7 @@ class Keluarga extends BaseModel
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => $pend->id,
             'id_log_penduduk' => null,
-            'updated_by'      => auth()->id,
+            'updated_by'      => ci_auth()->id,
         ];
 
         LogKeluarga::create($log_keluarga);
@@ -290,7 +290,7 @@ class Keluarga extends BaseModel
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => $id_pend,
             'id_log_penduduk' => $id_log_penduduk,
-            'updated_by'      => auth()->id,
+            'updated_by'      => ci_auth()->id,
         ];
 
         LogKeluarga::create($log_keluarga);
@@ -303,7 +303,7 @@ class Keluarga extends BaseModel
         // Gunakan alamat penduduk sebagai alamat keluarga
         $data['alamat']     = $pend->alamat_sekarang;
         $data['id_cluster'] = $pend->id_cluster;
-        $data['updated_by'] = auth()->id;
+        $data['updated_by'] = ci_auth()->id;
 
         $keluarga = Keluarga::create($data);
 
@@ -323,7 +323,7 @@ class Keluarga extends BaseModel
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => null,
             'id_log_penduduk' => null,
-            'updated_by'      => auth()->id,
+            'updated_by'      => ci_auth()->id,
         ];
         // Untuk statistik perkembangan keluarga
         LogKeluarga::create($log_keluarga);
@@ -344,19 +344,19 @@ class Keluarga extends BaseModel
 
         // Tulis penduduk baru sebagai kepala keluarga
         $data['kk_level']   = SHDKEnum::KEPALA_KELUARGA;
-        $data['created_by'] = auth()->id;
+        $data['created_by'] = ci_auth()->id;
         $kepalaKeluarga     = Penduduk::create($data);
 
         // Tulis keluarga baru
         $data2['nik_kepala'] = $kepalaKeluarga->id;
         $data2['no_kk']      = $data['no_kk'];
         $data2['id_cluster'] = $data['id_cluster'];
-        $data2['updated_by'] = auth()->id;
+        $data2['updated_by'] = ci_auth()->id;
         $keluarga            = self::create($data2);
 
         // Update penduduk kaitkan dengan KK
         $default['updated_at'] = date('Y-m-d H:i:s');
-        $default['updated_by'] = auth()->id;
+        $default['updated_by'] = ci_auth()->id;
         $default['id_kk']      = $keluarga->id;
         $kepalaKeluarga->update($default);
 
@@ -366,7 +366,7 @@ class Keluarga extends BaseModel
             'tgl_peristiwa'            => $tgl_peristiwa,
             'kode_peristiwa'           => LogPenduduk::BARU_PINDAH_MASUK,
             'tgl_lapor'                => $tgl_lapor,
-            'created_by'               => auth()->id,
+            'created_by'               => ci_auth()->id,
             'maksud_tujuan_kedatangan' => $maksud_tujuan,
         ];
         $kepalaKeluarga->log()->create($x);
@@ -401,7 +401,7 @@ class Keluarga extends BaseModel
             'tgl_peristiwa'            => $data['tgl_peristiwa'] . ' 00:00:00',
             'kode_peristiwa'           => $data['jenis_peristiwa'],
             'tgl_lapor'                => $data['tgl_lapor'],
-            'created_by'               => auth()->id,
+            'created_by'               => ci_auth()->id,
             'maksud_tujuan_kedatangan' => $maksud_tujuan,
         ];
 
@@ -416,7 +416,7 @@ class Keluarga extends BaseModel
         $baru->nik_kepala = bilangan($data['nik_kepala']);
         $baru->no_kk      = bilangan($data['no_kk']);
         $baru->updated_at = date('Y-m-d H:i:s');
-        $baru->updated_by = auth()->id;
+        $baru->updated_by = ci_auth()->id;
         $baru->save();
 
         // Untuk statistik perkembangan keluarga
@@ -426,7 +426,7 @@ class Keluarga extends BaseModel
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => null,
             'id_log_penduduk' => null,
-            'updated_by'      => auth()->id,
+            'updated_by'      => ci_auth()->id,
         ];
         LogKeluarga::create($log_keluarga);
 
@@ -528,7 +528,7 @@ class Keluarga extends BaseModel
 
     public function pindah($idCluster): void
     {
-        $this->update(['id_cluster' => $idCluster, 'updated_by' => auth()->id]);
+        $this->update(['id_cluster' => $idCluster, 'updated_by' => ci_auth()->id]);
         $this->pindahAnggota($idCluster);
     }
 
@@ -538,7 +538,7 @@ class Keluarga extends BaseModel
         if (! empty($idCluster)) {
             $data['id_cluster'] = $idCluster;
             $data['updated_at'] = date('Y-m-d H:i:s');
-            $data['updated_by'] = auth()->id;
+            $data['updated_by'] = ci_auth()->id;
 
             foreach ($this->anggota as $anggota) {
                 $anggota->update($data);
