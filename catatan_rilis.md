@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#7052](https://github.com/OpenSID/OpenSID/issues/7052) Perbaikan form pilihan status perkawinan anak dan cucu.
 17. [#8331](https://github.com/OpenSID/OpenSID/issues/8331) Perbaikan ketua kelompok dan lembaga.
 18. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce.
+19. [#8327](https://github.com/OpenSID/OpenSID/issues/8327) Perbaikan isi surat setelah proses verifikasi oleh operator.
 
 
 #### TEKNIS
