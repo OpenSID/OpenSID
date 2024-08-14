@@ -44,7 +44,7 @@ class FailedAdminListener
 {
     public function handle(Failed $failed)
     {
-        if ($failed->guard !== 'admin') {
+        if (! in_array($failed->guard, ['admin', 'admin_periksa'])) {
             return;
         }
 

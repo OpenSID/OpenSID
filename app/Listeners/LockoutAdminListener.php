@@ -49,7 +49,7 @@ class LockoutAdminListener
 
     public function handle(Lockout $lockout)
     {
-        if ($this->app['auth']->getDefaultDriver() !== 'admin') {
+        if ($this->app['auth']->guard('admin')->name !== 'admin' || $this->app['auth']->guard('admin_periksa')->name !== 'admin_periksa') {
             return;
         }
 

@@ -77,6 +77,10 @@ return [
             'driver'   => 'session',
             'provider' => 'users',
         ],
+        'admin_periksa' => [
+            'driver'   => 'session',
+            'provider' => 'users',
+        ],
         'penduduk' => [
             'driver'   => 'session',
             'provider' => 'pendudukMandiri',

@@ -38,6 +38,7 @@
 use App\Models\User;
 use App\Services\Auth\Traits\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthenticatedSessionController extends MY_Controller
 {
@@ -62,10 +63,10 @@ class AuthenticatedSessionController extends MY_Controller
     public function create()
     {
         // Kalau sehabis periksa data, paksa harus login lagi
-        if ($this->session->userdata('periksa_data') == 1) {
-            return $this->destroy();
+        if (auth('admin_periksa')->check()) {
+            auth('admin')->logout();
+            auth('admin_periksa')->logout();
         }
-
         if (Auth::guard($this->guard)->check()) {
             redirect('main');
         }
@@ -90,6 +91,8 @@ class AuthenticatedSessionController extends MY_Controller
         $requestPassword = request('password');
 
         if ($isDemoMode && $requestUsername == $demoUser['username'] && $requestPassword == $demoUser['password']) {
+            $this->validated(request(), $this->rules());
+
             // Log in as the first admin user
             $user = User::superAdmin()->first();
             Auth::guard($this->guard)->login($user);
@@ -105,11 +108,6 @@ class AuthenticatedSessionController extends MY_Controller
             $this->session->force_change_password = true;
 
             return redirect('pengguna#sandi');
-        }
-
-        // Kalau sehabis periksa data, paksa harus login lagi
-        if ($this->session->userdata('periksa_data') == 1) {
-            return $this->destroy();
         }
 
         return redirect($this->session->intended ?? 'main');
@@ -148,5 +146,13 @@ class AuthenticatedSessionController extends MY_Controller
             'password' => ['required', 'string'],
             ...$captcha,
         ];
+    }
+
+    /**
+     * Get the rate limiting throttle key for the request.
+     */
+    protected function throttleKey()
+    {
+        return Str::transliterate(Str::lower(request('username')) . '|' . request()->ip());
     }
 }

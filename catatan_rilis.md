@@ -28,12 +28,15 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8299](https://github.com/OpenSID/OpenSID/issues/8299) Perbaikan notifikasi komentar dan pesan mandiri.
 16. [#7052](https://github.com/OpenSID/OpenSID/issues/7052) Perbaikan form pilihan status perkawinan anak dan cucu.
 17. [#8331](https://github.com/OpenSID/OpenSID/issues/8331) Perbaikan ketua kelompok dan lembaga.
+18. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce.
+
 
 #### TEKNIS
 
 1. [#8274](https://github.com/OpenSID/OpenSID/issues/8274) Penyesuaian notifikasi tambah/ubah surat layanan yang disediakan untuk layanan mandiri.
-2. [#8222](https://github.com/OpenSID/OpenSID/issues/8222) Penyesuaian halaman siteman menggunakan ORM dan Blade Laravel.
+2. [#8222](https://github.com/OpenSID/OpenSID/issues/8222) Penyesuaian halaman masuk siteman menggunakan ORM dan Blade Laravel.
 3. [#8150](https://github.com/OpenSID/OpenSID/issues/8150) Penyesuaian halaman masuk layanan mandiri menggunakan ORM dan Blade Laravel.
+4. [#8317](https://github.com/OpenSID/OpenSID/issues/8317) Penyesuaian halaman masuk periksa menggunakan ORM dan Blade Laravel.
 
 
 #### LAYANAN
