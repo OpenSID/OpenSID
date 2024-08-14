@@ -294,6 +294,10 @@ class Impor_model extends MY_Model
         }
 
         // Validasi data lain
+        if (! empty($isi_baris['tanggallahir'])) {
+            return 'Tanggal lahir tidak boleh kosong';
+        }
+
         if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'NIK salah';
         }

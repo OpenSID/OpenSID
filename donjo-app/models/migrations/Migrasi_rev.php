@@ -35,7 +35,9 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -52,6 +54,7 @@ class Migrasi_rev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
+        $hasil = $this->migrasi_2024081252($hasil);
         $hasil = $this->migrasi_2024081151($hasil);
         $hasil = $this->migrasi_2024080851($hasil);
 
@@ -97,6 +100,15 @@ class Migrasi_rev extends MY_model
                 ],
             ]);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024081252($hasil)
+    {
+        Schema::table('tweb_penduduk', static function (Blueprint $table) {
+            $table->date('tanggallahir')->nullable(false)->change();
+        });
 
         return $hasil;
     }
