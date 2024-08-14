@@ -32,3 +32,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#8222](https://github.com/OpenSID/OpenSID/issues/8222) Penyesuaian halaman masuk siteman menggunakan ORM dan Blade Laravel.
 3. [#8150](https://github.com/OpenSID/OpenSID/issues/8150) Penyesuaian halaman masuk layanan mandiri menggunakan ORM dan Blade Laravel.
 4. [#8317](https://github.com/OpenSID/OpenSID/issues/8317) Penyesuaian halaman masuk periksa menggunakan ORM dan Blade Laravel.
+5. [#8334](https://github.com/OpenSID/OpenSID/issues/8334) Penyesuaian datatables modul cetak surat layanan dan surat dinas.
