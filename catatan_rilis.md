@@ -26,7 +26,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#8327](https://github.com/OpenSID/OpenSID/issues/8327) Perbaikan isi surat setelah proses verifikasi oleh operator.
 20. [#8332](https://github.com/OpenSID/OpenSID/issues/8332) Perbaikan validasi tanggal lahir pada impor data penduduk.
 21. [#8337](https://github.com/OpenSID/OpenSID/issues/8337) Perbaikan lokasi pembangunan.
- 
+22. [#8340](https://github.com/OpenSID/OpenSID/issues/8340) Perbaikan unggah gambar pada pengaturan tema.
 
 #### TEKNIS
 
