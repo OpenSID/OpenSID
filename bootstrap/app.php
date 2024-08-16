@@ -98,7 +98,7 @@ $app->configure('mail');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
+$app->register(\App\Providers\AppServiceProvider::class);
 $app->register(\App\Providers\AuthServiceProvider::class);
 $app->register(\App\Providers\CarbonServiceProvider::class);
 $app->register(\App\Providers\EventServiceProvider::class);

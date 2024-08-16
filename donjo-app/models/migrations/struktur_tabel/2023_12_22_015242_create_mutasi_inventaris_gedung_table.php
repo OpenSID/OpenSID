@@ -56,12 +56,9 @@ return new class () extends Migration {
             $table->double('harga_jual')->nullable();
             $table->string('sumbangkan')->nullable();
             $table->text('keterangan');
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by');
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by');
             $table->integer('visible')->default(1);
             $table->string('status_mutasi', 50);
+            $table->timesWithUserstamps();
         });
     }
 

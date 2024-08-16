@@ -52,14 +52,11 @@ return new class () extends Migration {
             $table->integer('config_id')->nullable()->index('teks_berjalan_config_fk');
             $table->text('teks')->nullable();
             $table->integer('urut')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by');
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by')->nullable();
             $table->boolean('status')->default(false);
             $table->tinyInteger('tipe')->nullable()->default(1);
             $table->string('tautan', 150)->nullable();
             $table->string('judul_tautan', 150)->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

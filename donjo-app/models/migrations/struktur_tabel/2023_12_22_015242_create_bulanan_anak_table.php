@@ -69,10 +69,7 @@ return new class () extends Migration {
             $table->boolean('akta_lahir');
             $table->boolean('jaminan_kesehatan');
             $table->boolean('pengasuhan_paud');
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

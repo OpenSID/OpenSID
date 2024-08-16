@@ -51,10 +51,7 @@ return new class () extends Migration {
             $table->increments('id');
             $table->integer('config_id')->nullable();
             $table->string('modul', 50);
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'modul'], 'modul_config');
         });

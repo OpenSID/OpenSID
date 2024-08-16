@@ -52,10 +52,7 @@ return new class () extends Migration {
             $table->integer('config_id')->nullable()->index('kehadiran_alasan_keluar_config_fk');
             $table->string('alasan');
             $table->text('keterangan')->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

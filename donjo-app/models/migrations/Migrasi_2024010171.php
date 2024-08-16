@@ -96,9 +96,7 @@ class Migrasi_2024010171 extends MY_model
                 $table->date('tanggal');
                 $table->integer('status')->default(0);
                 $table->text('keterangan');
-                $table->timestamps();
-                $table->integer('created_by')->nullable();
-                $table->integer('updated_by')->nullable();
+                $table->timesWithUserstamps();
                 $table->unique(['uuid', 'config_id']);
                 $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
