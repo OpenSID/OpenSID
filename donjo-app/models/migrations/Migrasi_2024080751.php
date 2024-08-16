@@ -72,6 +72,7 @@ class Migrasi_2024080751 extends MY_model
     protected function migrasi_2024080752($hasil)
     {
         // sebenarnya constraint ini sudah ada, barangkali ada db yang gagal membuat constraint ini.
+        $hasil = $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_1', 'suplemen_terdata');
         $hasil = $hasil && $this->hapus_foreign_key('suplemen', 'suplemen_terdata_suplemen_fk', 'suplemen_terdata');
 
         return $hasil && $this->tambahForeignKey('suplemen_terdata_suplemen_fk', 'suplemen_terdata', 'id_suplemen', 'suplemen', 'id', true);
