@@ -53,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerMacrosUserStamps();
+        $this->registerMacrosConfigId();
     }
 
     protected function registerMacrosUserStamps()
@@ -62,6 +63,14 @@ class AppServiceProvider extends ServiceProvider
             $this->integer('created_by')->nullable();
             $this->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
             $this->integer('updated_by')->nullable();
+        });
+    }
+
+    protected function registerMacrosConfigId()
+    {
+        Blueprint::macro('configId', function () {
+            $this->integer('config_id');
+            $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

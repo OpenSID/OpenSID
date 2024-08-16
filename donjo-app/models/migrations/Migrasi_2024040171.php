@@ -471,7 +471,7 @@ class Migrasi_2024040171 extends MY_model
         if (! Schema::hasTable('shortcut')) {
             Schema::create('shortcut', static function (Blueprint $table) {
                 $table->id();
-                $table->integer('config_id');
+                $table->configId();
                 $table->string('judul', 50);
                 $table->string('link', 50)->nullable();
                 $table->string('akses', 100)->nullable();
@@ -482,7 +482,6 @@ class Migrasi_2024040171 extends MY_model
                 $table->integer('urut')->default(0);
                 $table->tinyInteger('status')->default(0);
                 $table->timestamps();
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
         }
 

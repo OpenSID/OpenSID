@@ -322,57 +322,6 @@ class MY_Model extends CI_Model
         return $this->paging;
     }
 
-    public function timestamps($table = '', $creator = false)
-    {
-        $hasil  = true;
-        $fields = [];
-
-        // Kolom created_at
-        if (! $this->db->field_exists('created_at', $table)) {
-            $fields[] = 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP';
-        }
-
-        // Kolom created_by
-        if ($creator && ! $this->db->field_exists('created_by', $table)) {
-            $fields['created_by'] = [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'null'       => true,
-            ];
-        }
-
-        // Kolom updated_at
-        if (! $this->db->field_exists('updated_at', $table)) {
-            $fields[] = 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
-        }
-
-        // Kolom updated_by
-        if ($creator && ! $this->db->field_exists('updated_by', $table)) {
-            $fields['updated_by'] = [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'null'       => true,
-            ];
-        }
-
-        if ($fields) {
-            $hasil = $hasil && $this->dbforge->add_column($table, $fields);
-        }
-
-        // Update created_by dan updated_by jika kosong
-        $user = User::select('id')->where('id_grup', 1)->first();
-
-        if ($this->db->field_exists('created_by', $table)) {
-            DB::table($table)->whereNull('created_by')->update(['created_by' => $user->id]);
-        }
-
-        if ($this->db->field_exists('created_by', $table)) {
-            DB::table($table)->whereNull('updated_by')->update(['updated_by' => $user->id]);
-        }
-
-        return $hasil;
-    }
-
     /**
      * Tambah kolom config_id di tabel.
      *

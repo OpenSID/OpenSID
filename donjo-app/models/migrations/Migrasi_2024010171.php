@@ -91,14 +91,13 @@ class Migrasi_2024010171 extends MY_model
         if (! Schema::hasTable('pemilihan')) {
             Schema::create('pemilihan', static function (Blueprint $table) {
                 $table->uuid('uuid')->primary();
-                $table->integer('config_id');
+                $table->configId();
                 $table->string('judul', 100);
                 $table->date('tanggal');
                 $table->integer('status')->default(0);
                 $table->text('keterangan');
                 $table->timesWithUserstamps();
                 $table->unique(['uuid', 'config_id']);
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
         }
 
