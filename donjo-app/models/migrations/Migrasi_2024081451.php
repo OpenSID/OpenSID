@@ -55,7 +55,7 @@ class Migrasi_2024081451 extends MY_model
         return $hasil && true;
     }
 
-    public function migrasi_2024080851()
+    public function migrasi_2024080851($hasil)
     {
         $daftarKomentar = DB::table('komentar')->whereNull('id_artikel')->get();
 
@@ -80,6 +80,8 @@ class Migrasi_2024081451 extends MY_model
             }
             DB::table('komentar')->where('id', $komentar->id)->delete();
         }
+
+        return $hasil;
     }
 
     protected function migrasi_2024081151($hasil)
@@ -127,5 +129,7 @@ class Migrasi_2024081451 extends MY_model
                 $table->text('Keterangan')->nullable()->change();
             });
         }
+
+        return $hasil;
     }
 }

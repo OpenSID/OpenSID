@@ -51,6 +51,6 @@ class Migrasi_beta extends MY_model
         // foreach ($config_id as $id) {
         // }
 
-        return $hasil && true;
+        return $hasil;
     }
 }
