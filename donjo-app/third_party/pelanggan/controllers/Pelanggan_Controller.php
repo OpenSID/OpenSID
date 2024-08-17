@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -43,6 +43,10 @@ use GuzzleHttp\Psr7;
 
 class Pelanggan_Controller extends Admin_Controller
 {
+    public $modul_ini           = 'info-desa';
+    public $sub_modul_ini       = 'layanan-pelanggan';
+    public $kategori_pengaturan = 'pelanggan';
+
     /**
      * @var Client HTTP Client
      */
@@ -59,16 +63,15 @@ class Pelanggan_Controller extends Admin_Controller
             show_404();
         }
 
-        $this->modul_ini          = 'info-desa';
-        $this->sub_modul_ini      = 'layanan-pelanggan';
-        $this->header['kategori'] = 'pelanggan';
-        $this->client             = new Client();
+        $this->client = new Client();
     }
 
     public function index(): void
     {
         unset($this->header['perbaharui_langganan']);
-        $response = $this->pelanggan_model->api_pelanggan_pemesanan();
+
+        $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
+        $notif_langganan = $this->pelanggan_model->status_langganan();
 
         kirim_versi_opensid();
         // Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
@@ -79,18 +82,30 @@ class Pelanggan_Controller extends Admin_Controller
             redirect($this->controller);
         }
 
-        $this->render('pelanggan/index', ['response' => $response]);
+        $this->render('pelanggan/index', [
+            'title'           => 'Info Layanan Pelanggan',
+            'response'        => $response,
+            'notif_langganan' => $notif_langganan,
+        ]);
     }
 
     public function peringatan(): void
     {
         // hapus auto perbarui
         unset($this->header['perbaharui_langganan']);
+
+        $response        = $this->pelanggan_model->api_pelanggan_pemesanan();
+        $notif_langganan = $this->pelanggan_model->status_langganan();
+
         if (empty($this->session->error_premium)) {
             redirect('beranda');
         }
 
-        $this->render('pelanggan/peringatan');
+        $this->render('pelanggan/index', [
+            'title'           => 'Info Peringatan',
+            'response'        => $response,
+            'notif_langganan' => $notif_langganan,
+        ]);
     }
 
     public function perbarui(): void

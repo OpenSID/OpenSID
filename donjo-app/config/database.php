@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use Illuminate\Container\Container;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -135,4 +137,7 @@ $db['default']['save_queries'] = true;
 // Ganti pegaturan basisdata sesuai yg ada pada file desa/config/database.php
 include LOKASI_CONFIG_DESA . 'database.php';
 
-require_once 'eloquent.php';
+// diletakkan dibawah, karena encrypter diload dalam eloquent.php
+if (strlen($db['default']['password']) > 80) {
+    $db['default']['password'] = Container::getInstance()->make('encrypter')->decrypt($db['default']['password']);
+}

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,17 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\Statistik\StatistikEnum;
+use App\Models\Pemilihan;
+use App\Models\Penduduk;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,11 +50,11 @@ class First extends Web_Controller
         parent::__construct();
         parent::clear_cluster_session();
 
-        $this->load->library('security/security_header', null, 'security_header');
-        $this->security_header->handle();
+        // $this->load->library('security/security_header', null, 'security_header');
+        // $this->security_header->handle();
 
-        $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
-        $this->security_trusted_host->handle();
+        // $this->load->library('security/security_trusted_host', null, 'security_trusted_host');
+        // $this->security_trusted_host->handle();
 
         $this->load->model('first_artikel_m');
         $this->load->model('first_penduduk_m');
@@ -203,14 +207,14 @@ class First extends Web_Controller
 
         $data = $this->includes;
 
-        $data['heading']    = $this->laporan_penduduk_model->judul_statistik($stat);
-        $data['title']      = 'Statistik ' . $data['heading'];
-        $data['stat']       = $this->laporan_penduduk_model->list_data($stat);
-        $data['tipe']       = $tipe;
-        $data['st']         = $stat;
-        $data['slug_aktif'] = $stat;
-
-        // dd($data);
+        $data['heading']     = $this->laporan_penduduk_model->judul_statistik($stat);
+        $data['title']       = 'Statistik ' . $data['heading'];
+        $data['stat']        = $this->laporan_penduduk_model->list_data($stat);
+        $data['tipe']        = $tipe;
+        $data['st']          = $stat;
+        $data['slug_aktif']  = $stat;
+        $data['bantuan']     = ((int) $stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
+        $data['last_update'] = Penduduk::latest()->first()->updated_at;
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
@@ -296,7 +300,7 @@ class First extends Web_Controller
         $data['title']             = 'Daftar Calon Pemilih Berdasarkan Wilayah';
         $data['main']              = $this->dpt_model->statistik_wilayah();
         $data['total']             = $this->dpt_model->statistik_total();
-        $data['tanggal_pemilihan'] = $this->dpt_model->tanggal_pemilihan();
+        $data['tanggal_pemilihan'] = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['tipe']              = 4;
         $data['slug_aktif']        = 'dpt';
 
@@ -346,7 +350,6 @@ class First extends Web_Controller
 
     public function add_comment($id = 0): void
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('komentar', 'Komentar', 'required');
         $this->form_validation->set_rules('owner', 'Nama', 'required|max_length[50]');
         $this->form_validation->set_rules('no_hp', 'No HP', 'numeric|required|max_length[15]');

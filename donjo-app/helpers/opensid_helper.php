@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,6 +38,7 @@
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Bantuan;
 use App\Models\RefJabatan;
+use App\Models\Suplemen;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -50,7 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2312.0.3');
+define('VERSION', '2402.0.0');
 
 /**
  * PREMIUM
@@ -66,7 +67,12 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2023121951');
+define('VERSI_DATABASE', '2024020171');
+
+/**
+ * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
+ */
+define('MINIMUM_VERSI', '2312');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -74,10 +80,10 @@ define('BELUM_MENGISI', 777);
 define('TOTAL', 888);
 
 // Kode laporan mandiri di tabel komentar
-define('LAPORAN_MANDIRI', 775);
+define('LAPORAN_MANDIRI', 'pesan-mandiri');
 
 // Kode artikel terkait agenda
-define('AGENDA', 1000);
+define('AGENDA', 'agenda');
 
 define('MAX_PINDAH', 7);
 define('MAX_ANGGOTA', 7);
@@ -224,20 +230,26 @@ function gambar_desa(?string $nama_file = null, $type = false, $file = false): s
 
 function session_error($pesan = ''): void
 {
-    $_SESSION['error_msg'] = $pesan;
-    $_SESSION['success']   = -1;
+    // $_SESSION['error_msg'] = $pesan;
+    // $_SESSION['success']   = -1;
+
+    get_instance()->session->set_userdata([
+        'error_msg' => $pesan,
+        'success'   => -1,
+    ]);
 }
 
 function session_error_clear(): void
 {
-    $_SESSION['error_msg'] = '';
-    unset($_SESSION['success']);
+    get_instance()->session->unset_userdata(['error_msg', 'success']);
 }
 
 function session_success(): void
 {
-    $_SESSION['error_msg'] = '';
-    $_SESSION['success']   = 1;
+    get_instance()->session->set_userdata([
+        'error_msg' => '',
+        'success'   => 1,
+    ]);
 }
 
 // Untuk mengirim data ke OpenSID tracker
@@ -569,7 +581,7 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
+function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = null, string $lokasi = LOKASI_ARSIP, $tampil = false)
 {
     $CI = &get_instance();
     $CI->load->helper('download');
@@ -591,8 +603,10 @@ function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = nu
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
     if (! file_exists($pathBerkas)) {
+        $pesan                 = 'Berkas tidak ditemukan';
         $_SESSION['success']   = -1;
-        $_SESSION['error_msg'] = 'Berkas tidak ditemukan';
+        $_SESSION['error_msg'] = $pesan;
+        set_session('error', $pesan);
         if ($redirect_url) {
             redirect($redirect_url);
         } else {
@@ -1025,7 +1039,7 @@ function convertToBytes(string $from)
  * Disalin dari FeedParser.php
  * Load the whole contents of a web page
  *
- * @param    string
+ * @param string
  * @param mixed $url
  *
  * @return string
@@ -1173,12 +1187,8 @@ function unique_slug($tabel = null, $judul = null, $id = null, $field = 'slug', 
         while ($cek_slug) {
             if ($id) {
                 $CI->db->where('id !=', $id);
-
-                if ($CI->db->field_exists('config_id', $tabel)) {
-                    $CI->db->where('config_id', $config ?? identitas('id'));
-                }
             }
-            $cek_slug = $CI->db->get_where($tabel, [$field => $slug_unik])->num_rows();
+            $cek_slug = $CI->db->where('config_id', $config ?? identitas('id'))->get_where($tabel, [$field => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;
             }
@@ -1458,9 +1468,10 @@ function menu_slug($url)
             break;
 
         case 'data-suplemen':
-            $CI->load->model('suplemen_model');
-            $data = $CI->suplemen_model->get_suplemen($cut[1]);
-            $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
+            $suplemen    = Suplemen::withCount('terdata')->find($cut[1]);
+            $data        = $suplemen ? $suplemen->toArray() : [];
+            $data['jml'] = $data['terdata_count'];
+            $url         = ($data) ? ($cut[0] . '/' . ($data['slug'] ?? $cut[1])) : ($url);
             break;
 
         case 'data-kelompok':
@@ -1549,53 +1560,28 @@ function kasus_lain($kategori = null, $str = null)
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
 
-if (! function_exists('encrypt')) {
-    /**
-     * - Fungsi untuk encrypt string.
-     *
-     * @param string $str
-     */
-    function encrypt($str = ''): string
+if (! function_exists('updateConfigFile')) {
+    function updateConfigFile(string $key, string $value): void
     {
-        $CI = &get_instance();
-        $CI->load->library('encryption');
+        log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
 
-        $result = $CI->encryption->encrypt($str);
+        if ($key === 'password') {
+            $file    = LOKASI_CONFIG_DESA . 'database.php';
+            $pattern = '/(\$db\[\'default\'\]\[\'password\'\]\s*=\s*\'.*\';)/';
+            $newKey  = "\$db['default']['password'] = '{$value}';";
+        }
+        $configContent = file_get_contents($file);
+        if (preg_match($pattern, $configContent)) {
+            $configContent = preg_replace(
+                $pattern,
+                $newKey,
+                $configContent
+            );
+        } else {
+            $configContent .= PHP_EOL . $newKey;
+        }
 
-        return strtr(
-            $result,
-            [
-                '+' => '.',
-                '=' => '-',
-                '/' => '~',
-            ]
-        );
-    }
-}
-
-if (! function_exists('decrypt')) {
-    /**
-     * - Fungsi untuk decrypt string.
-     *
-     * @param string $str
-     *
-     * @return string
-     */
-    function decrypt($str = '')
-    {
-        $CI = &get_instance();
-        $CI->load->library('encryption');
-
-        $str = strtr(
-            $str,
-            [
-                '.' => '+',
-                '-' => '=',
-                '~' => '/',
-            ]
-        );
-
-        return $CI->encryption->decrypt($str);
+        file_put_contents($file, $configContent);
     }
 }
 
@@ -1660,7 +1646,7 @@ if (! function_exists('ref')) {
      */
     function ref($alias)
     {
-        return get_instance()->db->get($alias)->result();
+        return ci()->db->get($alias)->result();
     }
 }
 
@@ -1675,7 +1661,7 @@ if (! function_exists('getFormatIsian')) {
      */
     function getFormatIsian($kode_isian, $case_sentence = false)
     {
-        $netral = str_replace(['[', ']'], '', $kode_isian);
+        $netral = str_replace([' ', '[', ']'], '', $kode_isian);
 
         if ($case_sentence) {
             // jika gambar maka langsung kembalikan tanpa [ ]
@@ -1711,9 +1697,9 @@ if (! function_exists('getFormatIsian')) {
 /**
  * Buat hash password (bcrypt) dari string sebuah password
  *
- * @param  [type]  $string  [description]
+ * @param [type]  $string  [description]
  *
- * @return  [type]  [description]
+ * @return [type]  [description]
  */
 function generatePasswordHash($string): string
 {
@@ -2211,5 +2197,101 @@ if (! function_exists('get_hari')) {
         $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
 
         return $hari->dayName;
+    }
+}
+
+if (! function_exists('akas')) {
+    /**
+     * Class registry
+     *
+     * This function acts as a singleton. If the requested class does not
+     * exist it is instantiated and set to a static variable. If it has
+     * previously been instantiated the variable is returned.
+     *
+     * @param string	the class name being requested
+     * @param string	the directory where the class should be found
+     * @param mixed	an optional argument to pass to the class constructor
+     * @param mixed      $class
+     * @param mixed      $directory
+     * @param mixed|null $param
+     *
+     * @return object
+     */
+    function akas($class, $directory = '', $param = null)
+    {
+        static $_classes = [];
+
+        // Does the class exist? If so, we're done...
+        if (isset($_classes[$class])) {
+            return $_classes[$class];
+        }
+
+        $name = false;
+
+        // Look for the class first in the local application/libraries folder
+        // then in the native system/libraries folder
+        foreach ([APPPATH, BASEPATH] as $path) {
+            if (file_exists($path . $directory . '/' . $class . '.php')) {
+                $name = 'CI_' . $class;
+
+                if (class_exists($name, false) === false) {
+                    require_once $path . $directory . '/' . $class . '.php';
+                }
+
+                break;
+            }
+        }
+
+        // Is the request a class extension? If so we load it too
+        if (file_exists(APPPATH . $directory . '/' . config_item('subclass_prefix') . $class . '.php')) {
+            $name = config_item('subclass_prefix') . $class;
+
+            if (class_exists($name, false) === false) {
+                require_once APPPATH . $directory . '/' . $name . '.php';
+            }
+        }
+
+        // Did we find the class?
+        if ($name === false) {
+            // Note: We use exit() rather than show_error() in order to avoid a
+            // self-referencing loop with the Exceptions class
+            set_status_header(503);
+            echo 'Unable to locate the specified class: ' . $class . '.php';
+
+            exit(5); // EXIT_UNK_CLASS
+        }
+
+        // Keep track of what we just loaded
+        is_loaded($class);
+
+        $_classes[$class] = isset($param)
+            ? new $name($param)
+            : new $name();
+
+        return $_classes[$class];
+    }
+}
+
+if (! function_exists('forceRemoveDir')) {
+    function forceRemoveDir($dir)
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+
+            foreach ($objects as $object) {
+                if ($object != '.' && $object != '..') {
+                    $item = $dir . '/' . $object;
+
+                    if (is_dir($item)) {
+                        forceRemoveDir($item);
+                    } else {
+                        unlink($item);
+                    }
+                }
+            }
+
+            reset($objects);
+            rmdir($dir);
+        }
     }
 }

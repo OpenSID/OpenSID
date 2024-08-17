@@ -1,4 +1,4 @@
-<?= form_open(route('setting.update'), 'class="form-group" id="main_setting"') ?>
+<?= form_open(ci_route('setting.update'), 'class="form-group" id="main_setting"') ?>
 	<div class="modal-body">
 		<?php $this->load->view('setting/modal_form.php') ?>
 	</div>

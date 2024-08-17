@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,18 +29,21 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
+use App\Enums\TampilanArtikelEnum;
 use App\Models\Artikel;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'artikel';
     private $_set_page;
 
     public function __construct()
@@ -55,9 +58,7 @@ class Web extends Admin_Controller
         }
 
         $this->load->model(['web_artikel_model', 'web_kategori_model']);
-        $this->_set_page     = ['20', '50', '100'];
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'artikel';
+        $this->_set_page = ['20', '50', '100'];
     }
 
     public function clear(): void
@@ -98,7 +99,7 @@ class Web extends Admin_Controller
         $this->render('web/artikel/table', $data);
     }
 
-    public function tab($cat = 0): void
+    public function tab(?string $cat = '0'): void
     {
         $this->session->kategori = $cat;
 
@@ -131,8 +132,9 @@ class Web extends Admin_Controller
             $data['form_action'] = site_url('web/insert');
         }
 
-        $data['cat']      = $cat;
-        $data['kategori'] = $this->web_artikel_model->get_kategori($cat);
+        $data['cat']           = $cat;
+        $data['kategori']      = $this->web_artikel_model->get_kategori($cat);
+        $data['list_tampilan'] = TampilanArtikelEnum::all();
 
         $this->render('web/artikel/form', $data);
     }
@@ -160,7 +162,8 @@ class Web extends Admin_Controller
     public function update($id = 0): void
     {
         $this->redirect_hak_akses('u');
-        $cat = $this->session->kategori ?: 0;
+        $cat = Artikel::findOrFail($id);
+        $cat = $cat->id_kategori ?? $cat->tipe;
 
         if (! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) {
             redirect('web');
@@ -191,7 +194,7 @@ class Web extends Admin_Controller
     // TODO: Pindahkan ke controller kategori
     public function hapus(): void
     {
-        $this->redirect_hak_akses('u');
+        $this->redirect_hak_akses('h');
         $cat = $this->session->kategori ?: 0;
 
         $this->redirect_hak_akses('h');

@@ -27,7 +27,7 @@
 				<div class="fb-like" data-href="<?= site_url('artikel/' . buat_slug($single_artikel)) ?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
 			</div>
 			<div class="single_page_content" style="margin-bottom:10px;">
-				<?php if ($single_artikel['id_kategori'] == 1000) : ?>
+				<?php if ($single_artikel['tipe'] == 'agenda') : ?>
 					<div class="row">
 						<div class="col-md-4 col-xs-12">
 							<div class="info-box bg-info">

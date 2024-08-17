@@ -50,10 +50,10 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<?php if ($this->CI->cek_hak_akses('u') && (string) $kepala_kk['status_dasar'] === '1'): ?>
+				<?php if (can('u') && (string) $kepala_kk['status_dasar'] === '1'): ?>
 					<a href="<?= site_url("rtm/ajax_add_anggota/{$kk}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
 				<?php endif; ?>
-				<?php if ($this->CI->cek_hak_akses('h')): ?>
+				<?php if (can('h')): ?>
 					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("rtm/delete_all_anggota/{$kk}")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 				<?php endif; ?>
 				<a href="<?= site_url("rtm/kartu_rtm/{$kk}")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-book"></i> Kartu Rumah Tangga</a>
@@ -88,13 +88,13 @@
 							</tr>
 							<tr>
 								<td>
-									<?= ($program['programkerja']) ? anchor("program_bantuan/peserta/3/{$kepala_kk['no_kk']}", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
+									<?= ($program['programkerja']) ? anchor("peserta_bantuan/peserta/3/{$kepala_kk['no_kk']}", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
 								</td>
 								<td>:</td>
 								<td>
 									<?php if ($program['programkerja']): ?>
 										<?php foreach ($program['programkerja'] as $item): ?>
-											<?= anchor("program_bantuan/data_peserta/{$item['peserta_id']}", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
+											<?= anchor("peserta_bantuan/data_peserta/{$item['peserta_id']}", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
 										<?php endforeach; ?>
 									<?php else: ?>
 										-
@@ -130,11 +130,11 @@
 											<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 											<td class="padat"><?= ($key + 1); ?></td>
 											<td class="aksi">
-												<?php if ($this->CI->cek_hak_akses('u')): ?>
+												<?php if (can('u')): ?>
 													<a href="<?= site_url("penduduk/form/{$p}/{$kk}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
 													<a href="<?= site_url("rtm/edit_anggota/{$kk}/{$data['id']}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Hubungan Rumah Tangga" title="Ubah Hubungan Rumah Tangga" class="btn bg-navy btn-flat btn-sm"><i class="fa fa-link"></i></a>
 												<?php endif; ?>
-												<?php if ($this->CI->cek_hak_akses('h')): ?>
+												<?php if (can('h')): ?>
 													<a href="#" data-href="<?= site_url("rtm/delete_anggota/{$kk}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												<?php endif ?>
 											</td>

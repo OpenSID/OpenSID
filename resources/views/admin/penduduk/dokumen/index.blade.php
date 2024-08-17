@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('penduduk') }}"> Daftar Penduduk</a></li>
+    <li><a href="{{ ci_route('penduduk') }}"> Daftar Penduduk</a></li>
     <li class="active">Dokumen / Kelengkapan Penduduk</li>
 @endsection
 
@@ -18,7 +18,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <a
-                    href="{{ route('penduduk.dokumen_form', $penduduk->id) }}"
+                    href="{{ ci_route('penduduk.dokumen_form', $penduduk->id) }}"
                     title="Tambah"
                     data-remote="false"
                     data-toggle="modal"
@@ -28,14 +28,14 @@
                 ><i class='fa fa-plus'></i>Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('penduduk.delete_dokumen', $penduduk->id) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('penduduk.delete_dokumen', $penduduk->id) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'
                     ></i> Hapus</a>
             @endif
-            <a href="{{ preg_match('/bumindes_arsip/i', $_SERVER['HTTP_REFERER']) ? route('bumindes_arsip.clear') : route('penduduk.detail', "1/0/{$penduduk->id}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+            <a href="{{ preg_match('/bumindes_arsip/i', $_SERVER['HTTP_REFERER']) ? ci_route('bumindes_arsip.clear') : ci_route('penduduk.detail', "1/0/{$penduduk->id}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                     class="fa fa-arrow-circle-left"
                 ></i> Kembali ke Halaman
-                {{ $_SERVER['HTTP_REFERER'] == route('bumindes_arsip') ? 'Bumindes Arsip' : 'Biodata Penduduk' }}</a>
+                {{ $_SERVER['HTTP_REFERER'] == ci_route('bumindes_arsip') ? 'Bumindes Arsip' : 'Biodata Penduduk' }}</a>
 
         </div>
         <div class="box-body">
@@ -91,7 +91,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('penduduk.dokumen_datatables') }}?id_pend={{ $penduduk->id }}",
+                ajax: "{{ ci_route('penduduk.dokumen_datatables') }}?id_pend={{ $penduduk->id }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

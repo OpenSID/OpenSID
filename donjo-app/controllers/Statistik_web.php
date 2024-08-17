@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -51,7 +51,7 @@ class Statistik_web extends Web_Controller
     {
         $data['stat']         = $this->laporan_penduduk_model->judul_statistik($lap);
         $data['list_bantuan'] = $this->program_bantuan_model->list_program(0);
-        if ($lap > 50) {
+        if ((int) $lap > 50) {
             // Untuk program bantuan, $lap berbentuk '50<program_id>'
             $program_id             = preg_replace('/^50/', '', $lap);
             $data['program']        = $this->program_bantuan_model->get_sasaran($program_id);
@@ -59,7 +59,7 @@ class Statistik_web extends Web_Controller
             $data['kategori']       = 'bantuan';
         } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) {
             $data['kategori'] = 'bantuan';
-        } elseif ($lap > 20 || "{$lap}" == 'kelas_sosial') {
+        } elseif ((int) $lap > 20 || "{$lap}" == 'kelas_sosial') {
             $data['kategori'] = 'keluarga';
         } else {
             $data['kategori'] = 'penduduk';
@@ -178,13 +178,13 @@ class Statistik_web extends Web_Controller
     {
         $pengaturan = setting('tampilkan_tombol_peta');
 
-        if (($lap > 50 || in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) && in_array('Statistik Bantuan', $pengaturan)) {
+        if (((int) $lap > 50 || in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) && in_array('Statistik Bantuan', $pengaturan)) {
             return true;
         }
-        if (($lap > 20 || "{$lap}" == 'kelas_sosial') && in_array('Statistik Keluarga', $pengaturan)) {
+        if (((int) $lap > 20 || "{$lap}" == 'kelas_sosial') && in_array('Statistik Keluarga', $pengaturan)) {
             return true;
         }
-        if (($lap < 20) && in_array('Statistik Penduduk', $pengaturan)) {
+        if (((int) $lap < 20) && in_array('Statistik Penduduk', $pengaturan)) {
             return true;
         }
 

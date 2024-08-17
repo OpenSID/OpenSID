@@ -5,11 +5,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Pengaturan Program Bantuan</h4>
             </div>
-            {!! form_open(route('setting.new_update'), 'id="main_bantuan"') !!}
+            {!! form_open(ci_route('setting.new_update'), 'id="main_bantuan"') !!}
             <div class="modal-body">
                 <div class="form-group">
                     <label>Program Bantuan Untuk Ditampilkan</label>
-                    <select name="dashboard_program_bantuan" class="form-control input-sm required select2">
+                    <select name="dashboard_program_bantuan" class="form-control input-sm select2">
                         <option value="">Semua Program Bantuan</option>
                         @foreach ($bantuan['program'] as $id => $nama)
                             <option value="{{ $id }}" {{ selected($id, $setting->dashboard_program_bantuan) }}>{{ $nama }}</option>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -125,10 +127,12 @@ class Penduduk_model extends MY_Model
             $this->db->where("{$kolom} IS NOT NULL");
         } elseif ($kf == BELUM_MENGISI) {
             $this->db->where("{$kolom} IS NULL");
-        } elseif ($kf == $this->session->status_dasar) {
-            $this->db->where_in($kolom, $kf);
         } else {
-            $this->db->where($kolom, $kf);
+            if (is_array($kf)) {
+                $this->db->where_in($kolom, $kf);
+            } else {
+                $this->db->where($kolom, $kf);
+            }
         }
     }
 
@@ -288,14 +292,41 @@ class Penduduk_model extends MY_Model
                 // TOTAL hanya yang wajib KTP
                 break;
 
-            case $kf != 0:
-                // Tidak bisa pakai query builder, supaya tidak menghapus query utama
-                $sql          = 'select * from tweb_status_ktp where id = ?';
-                $status_rekam = $this->db->query($sql, $kf)->row()->status_rekam;
-                $this->db->where('u.status_rekam', $status_rekam);
+            default:
+                $status_rekam = DB::table('tweb_status_ktp')->find($kf)->status_rekam;
+                $this->db->where('u.status_rekam', $status_rekam)->where('u.ktp_el !=', 3);
+                break;
+        }
+    }
+
+    protected function status_kia_sql()
+    {
+        if (! $this->session->kia) {
+            return;
+        }
+
+        // Filter berdasarkan data KIA
+        $this->db->where("((DATE_FORMAT( FROM_DAYS( TO_DAYS( NOW( ) ) - TO_DAYS( tanggallahir ) ) , '%Y' ) +0)<=17) ");
+
+        $kf = $this->session->kia;
+
+        switch (true) {
+            case $kf == BELUM_MENGISI:
+                $this->db->where("(u.status_rekam IS NULL OR u.status_rekam = '')");
+                break;
+
+            case $kf == JUMLAH:
+                $this->db->where("u.status_rekam IS NOT NULL AND u.status_rekam <> ''");
+                break;
+
+            case $kf == TOTAL:
+                // TOTAL hanya yang KIA
                 break;
 
             default:
+                $status_rekam = DB::table('tweb_status_ktp')->find($kf)->status_rekam;
+                $this->db->where('u.status_rekam', $status_rekam)->where('u.ktp_el', 3);
+                break;
         }
     }
 
@@ -443,6 +474,7 @@ class Penduduk_model extends MY_Model
         }
 
         $this->status_ktp_sql(); // Kode 18
+        $this->status_kia_sql(); // Kode 'kia'
         $this->umur_min_sql(); // Hanya u/ Pencarian Spesifik
         $this->umur_max_sql(); // Hanya u/ Pencarian Spesifik
         $this->umur_sql(); // Kode 13, 15
@@ -722,7 +754,25 @@ class Penduduk_model extends MY_Model
             ->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
             ->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left');
 
-        $this->keluarga_sql();
+        if ($this->session->layer_keluarga == 1) {
+            $this->db
+                ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_kk = u.id_kk) AS jumlah_anggota')
+                ->group_start()
+                ->where('u.id_kk IS NOT NULL')
+                ->where('u.id_kk != 0')
+                ->where('u.kk_level', 1)
+                ->group_end();
+        } elseif ($this->session->layer_rtm == 1) {
+            $this->db
+                ->select('rtm.id as rtm_id')
+                ->select('(SELECT COUNT(*) FROM tweb_penduduk WHERE id_rtm = u.id_rtm) AS jumlah_anggota')
+                ->join('tweb_rtm rtm', 'u.id_rtm = rtm.no_kk', 'left')
+                ->group_start()
+                ->where('u.id_rtm IS NOT NULL')
+                ->where('u.id_rtm != 0')
+                ->where('u.rtm_level', 1)
+                ->group_end();
+        }
         $this->search_sql();
         $this->dusun_sql();
         $this->rw_sql();
@@ -758,6 +808,7 @@ class Penduduk_model extends MY_Model
         }
 
         $this->status_ktp_sql(); // Kode 18
+        $this->status_kia_sql(); // Kode 'kia'
         $this->umur_min_sql(); // Kode 13, 15
         $this->umur_max_sql(); // Kode 13, 15
         $this->umur_sql(); // Kode 13, 15
@@ -1024,8 +1075,8 @@ class Penduduk_model extends MY_Model
         $this->tulis_log_penduduk_data($log);
 
         $log1['id_pend']    = $idku;
-        $log1['id_cluster'] = 1;
-        $log1['tanggal']    = date('d-m-y');
+        $log1['id_cluster'] = $data['id_cluster'];
+        $log1['tanggal']    = date('Y-m-d');
         $log1['config_id']  = $this->config_id;
 
         $outp = $this->db->insert('log_perubahan_penduduk', $log1);
@@ -1223,6 +1274,8 @@ class Penduduk_model extends MY_Model
             $id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
             $this->keluarga_model->log_keluarga($penduduk['id_kk'], $id_peristiwa, null, $id_log_penduduk);
         }
+
+        status_sukses($id_log_penduduk);
     }
 
     /**
@@ -1588,6 +1641,7 @@ class Penduduk_model extends MY_Model
                     break;
 
                 case 2:
+                case 'buku-nikah':
                     $table = 'tweb_penduduk_kawin';
                     break;
 
@@ -1629,12 +1683,14 @@ class Penduduk_model extends MY_Model
 
                 case 13: // = 17
                 case 15: // = 17
-                case 17:
+                case 17: // = 17
+                case 'akta-kematian': // = 17
                     $table = 'tweb_penduduk_umur';
                     $this->config_id();
                     break;
 
                 case 18:
+                case 'kia':
                     $table = 'tweb_status_ktp';
                     break;
 
@@ -1662,10 +1718,6 @@ class Penduduk_model extends MY_Model
 
                 case 'hamil':
                     $table = 'ref_penduduk_hamil';
-                    break;
-
-                case 'buku-nikah':
-                    $table = 'tweb_penduduk_kawin';
                     break;
             }
 

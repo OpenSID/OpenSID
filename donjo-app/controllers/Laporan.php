@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,15 +42,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan extends Admin_Controller
 {
+    public $modul_ini           = 'statistik';
+    public $sub_modul_ini       = 'laporan-bulanan';
+    public $kategori_pengaturan = 'data_lengkap';
+
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model(['laporan_bulanan_model', 'pamong_model']);
-        $this->modul_ini          = 'statistik';
-        $this->sub_modul_ini      = 'laporan-bulanan';
-        $this->header['kategori'] = 'data_lengkap';
-        $this->logpenduduk        = new LogPenduduk();
+        $this->logpenduduk = new LogPenduduk();
     }
 
     public function clear(): void

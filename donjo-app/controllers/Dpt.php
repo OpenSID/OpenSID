@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,160 +29,159 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
 use App\Enums\StatusEnum;
+use App\Models\Agama;
+use App\Models\Pekerjaan;
+use App\Models\Pemilihan;
+use App\Models\Pendidikan;
+use App\Models\PendidikanKK;
+use App\Models\Penduduk;
+use App\Models\PendudukStatus;
+use App\Models\Sex;
+use App\Models\StatusKawin;
+use App\Models\Wilayah;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dpt extends Admin_Controller
 {
-    private array $set_page     = ['50', '100', '200', [0, 'Semua']];
-    private array $list_session = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'calon-pemilih';
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'dpt_model', 'wilayah_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'calon-pemilih';
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        $this->session->unset_userdata($this->list_session);
-        $this->session->per_page = $this->set_page[0];
-
-        redirect($this->controller);
-    }
-
-    public function index($p = 1, $o = 0): void
-    {
-        $data['p'] = $p;
-        $data['o'] = $o;
-
-        foreach ($this->list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'])) {
-                ${$list} = $this->session->{$list};
-            } else {
-                $data[$list] = $this->session->{$list} ?: '';
-            }
-        }
-
-        if (isset($dusun)) {
-            $data['dusun']   = $dusun;
-            $data['list_rw'] = $this->wilayah_model->list_rw($dusun);
-
-            if (isset($rw)) {
-                $data['rw']      = $rw;
-                $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
-
-                $data['rt'] = $rt ?? '';
-            } else {
-                $data['rw'] = '';
-            }
-        } else {
-            $data['dusun'] = $data['rw'] = $data['rt'] = '';
-        }
-
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']               = 'index';
-        $data['set_page']           = $this->set_page;
-        $list_data                  = $this->dpt_model->list_data($o, $p);
-        $data['paging']             = $list_data['paging'];
-        $data['main']               = $list_data['main'];
-        $data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-        $data['list_dusun']         = $this->wilayah_model->list_dusun();
-        $data['keyword']            = $this->dpt_model->autocomplete();
-
-        $this->render('dpt/dpt', $data);
-    }
-
-    public function filter($filter): void
-    {
-        if ($filter == 'dusun') {
-            $this->session->unset_userdata(['rw', 'rt']);
-        }
-        if ($filter == 'rw') {
-            $this->session->unset_userdata('rt');
-        }
-
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-
-        redirect($this->controller);
-    }
-
-    public function ajax_adv_search(): void
-    {
-        foreach ($this->list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
-        }
-
+        isCan('b');
+        $data['jenis_kelamin']        = Sex::get();
+        $data['dusun']                = Wilayah::dusun()->get();
+        $data['tanggal_pemilihan']    = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
         $data['input_umur']           = true;
-        $data['list_agama']           = $this->referensi_model->list_data('tweb_penduduk_agama');
-        $data['list_pendidikan']      = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
-        $data['list_pendidikan_kk']   = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
-        $data['list_pekerjaan']       = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
-        $data['list_status_kawin']    = $this->referensi_model->list_data('tweb_penduduk_kawin');
-        $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+        $data['list_agama']           = Agama::get()->toArray();
+        $data['list_pendidikan']      = Pendidikan::get()->toArray();
+        $data['list_pendidikan_kk']   = PendidikanKK::get()->toArray();
+        $data['list_pekerjaan']       = Pekerjaan::get()->toArray();
+        $data['list_status_kawin']    = StatusKawin::get()->toArray();
+        $data['list_status_penduduk'] = PendudukStatus::get()->toArray();
         $data['list_tag_id_card']     = StatusEnum::all();
-        $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
-        $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
+        view('admin.dpt.index', $data);
     }
 
-    public function adv_search_proses(): void
+    public function datatables()
     {
-        $adv_search = $_POST;
-        $i          = 0;
+        if ($this->input->is_ajax_request()) {
+            $tglPemilihan = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
 
-        while ($i++ < count($adv_search)) {
-            $col[$i] = key($adv_search);
-            next($adv_search);
+            return datatables()->of(
+                $this->sumberData()
+            )
+                ->addIndexColumn()
+                ->editColumn('alamat_sekarang', static fn ($row) => $row->keluarga->alamat ?? $row->alamat_sekarang)
+                ->addColumn('dusun', static fn ($row): string => strtoupper($row->keluarga->wilayah->dusun ?? $row->wilayah->dusun))
+                ->addColumn('rw', static fn ($row) => $row->keluarga->wilayah->rw ?? $row->wilayah->rw)
+                ->addColumn('rt', static fn ($row) => $row->keluarga->wilayah->rt ?? $row->wilayah->rt)
+                ->addColumn('umur_pemilihan', static fn ($row): string => usia($row->tanggallahir, $tglPemilihan, '%y'))
+                ->make();
         }
-        $i = 0;
 
-        while ($i++ < count($col)) {
-            if ($adv_search[$col[$i]] == '') {
-                unset($adv_search[$col[$i]], $_SESSION[$col[$i]]);
-            } else {
-                $_SESSION[$col[$i]] = $adv_search[$col[$i]];
+        return show_404();
+    }
+
+    private function sumberData()
+    {
+        $tglPemilihan   = $this->input->get('tgl_pemilihan') ?? date('d-m-Y');
+        $sex            = $this->input->get('sex');
+        $dusun          = $this->input->get('dusun');
+        $rw             = $this->input->get('rw');
+        $rt             = $this->input->get('rt');
+        $advanceSearch  = $this->input->get('advanced');
+        $umurFilter     = $advanceSearch['umur'];
+        $filterKategori = [];
+        $tagIdFilter    = null;
+        parse_str($advanceSearch['search'], $kategoriFilter);
+
+        foreach ($kategoriFilter as $key => $val) {
+            if (trim($val) !== '') {
+                $filterKategori[$key] = $val;
             }
         }
+        if (isset($filterKategori['tag_id_card'])) {
+            $tagIdFilter = $filterKategori['tag_id_card'];
+            unset($filterKategori['tag_id_card']);
+        }
+        $listCluster = [];
+        if ($dusun) {
+            $cluster = new Wilayah();
+            $cluster = $cluster->whereDusun($dusun);
+            if ($rw) {
+                $cluster = $cluster->whereRw($rw);
+                if ($rt) {
+                    $cluster = $cluster->whereRt($rt);
+                }
+            }
+            $listCluster = $cluster->select(['id'])->get()->pluck('id', 'id')->toArray();
+        }
 
-        redirect($this->controller);
+        return Penduduk::batasiUmur($tglPemilihan, $umurFilter)->dpt($tglPemilihan)
+            ->when($tagIdFilter, static fn ($q) => $tagIdFilter == '1' ? $q->whereNotNull('tag_id_card') : $q->whereNull('tag_id_card'))
+            ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
+            ->when($sex, static fn ($q) => $q->where('sex', $sex))
+            ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))
+            ->withOnly(['jenisKelamin', 'keluarga', 'wilayah', 'pendidikanKK', 'pekerjaan', 'statusKawin']);
     }
 
-    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0): void
+    public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
-        $data['main'] = $this->dpt_model->list_data($o, $page)['main'];
-        $data['aksi'] = $aksi;
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+
+        $orderColumn = $paramDatatable['columns'][$paramDatatable['order'][0]['column']]['name'];
+        $orderDir    = $paramDatatable['order'][0]['dir'];
+        $query       = $this->sumberData();
+
+        if ($orderColumn == 'keluarga.no_kk') {
+            $query->selectRaw('tweb_penduduk.*, tweb_keluarga.no_kk as no_kk')->leftJoin('tweb_keluarga', 'tweb_keluarga.id', '=', 'tweb_penduduk.id_kk');
+            $orderColumn = 'no_kk';
+        }
+
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
+
+        $data = [
+            'tanggal_pemilihan' => $paramDatatable['tgl_pemilihan'],
+            'main'              => $query->take($paramDatatable['length'])->orderBy($orderColumn, $orderDir)->get(),
+            'start'             => $paramDatatable['start'],
+        ];
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }
-        $this->load->view("dpt/dpt_{$aksi}", $data);
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=DPT_' . $paramDatatable['tgl_pemilihan'] . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+        view('admin.dpt.dpt_cetak', $data);
     }
 
-    public function ajax_cetak($page = 1, $o = 0, $aksi = ''): void
+    public function ajax_cetak(string $aksi = 'cetak'): void
     {
-        $data['o']                   = $o;
-        $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$page}/{$o}/{$aksi}/1");
+        $data['aksi']   = $aksi;
+        $data['action'] = ci_route('dpt.cetak.' . $aksi);
 
-        $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
+        view('admin.dpt.ajax_cetak_bersama', $data);
     }
 }

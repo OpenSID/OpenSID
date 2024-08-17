@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -41,24 +41,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Statistik extends Admin_Controller
 {
+    public $modul_ini            = 'statistik';
+    public $sub_modul_ini        = 'statistik-kependudukan';
     private array $_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun', 'filter_global'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
-        $this->modul_ini     = 'statistik';
-        $this->sub_modul_ini = 'statistik-kependudukan';
     }
 
     public function index(): void
     {
         $data        = $this->get_cluster_session();
-        $data['lap'] = $this->session->lap;
+        $data['lap'] = $this->session->lap ?? '0';
 
         $data['order_by']              = $this->session->order_by;
         $data['main']                  = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
-        $data['tautan_data']           = $this->tautan_data($this->session->lap);
+        $data['tautan_data']           = $this->tautan_data($data['lap']);
         $data['list_dusun']            = $this->wilayah_model->list_dusun();
         $data['heading']               = $this->laporan_penduduk_model->judul_statistik($data['lap']);
         $data['stat_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
@@ -78,12 +78,13 @@ class Statistik extends Admin_Controller
         ];
 
         $data['judul_kelompok'] = 'Jenis Kelompok';
+        $data['bantuan']        = ((int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
         $this->get_data_stat($data, $data['lap']);
 
         $this->render('statistik/penduduk', $data);
     }
 
-    private function tautan_data($lap)
+    private function tautan_data(?string $lap = '0')
     {
         if ((int) $lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
@@ -102,19 +103,23 @@ class Statistik extends Admin_Controller
         }
 
         switch (true) {
-            case in_array((int) $lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && $sasaran == 2):
+            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ((int) $lap > 50 && (int) $sasaran == 2):
                 $tautan = site_url("keluarga/statistik/{$lap}/");
                 break;
 
-            case $lap == 'bdt' || ((int) $lap > 50 && $sasaran == 3):
+            case $lap == 'bdt' || ((int) $lap > 50 && (int) $sasaran == 3):
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
 
-            case (int) $lap < 50 || ((int) $lap > 50 && $sasaran == 1):
+            case $lap == 'akta-kematian':
+                $tautan = site_url("penduduk_log/statistik/{$lap}/");
+                break;
+
+            case (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && (int) $sasaran == 1):
                 $tautan = site_url("penduduk/statistik/{$lap}/");
                 break;
 
-            case (int) $lap > 50 && $sasaran == 4:
+            case (int) $lap > 50 && (int) $sasaran == 4:
                 $tautan = site_url("kelompok/statistik/{$lap}/");
                 break;
 
@@ -167,6 +172,7 @@ class Statistik extends Admin_Controller
                 $kategori = 'rtm';
                 break;
 
+            case $lap == null:
             default:
                 // Penduduk
                 $kategori = 'penduduk';

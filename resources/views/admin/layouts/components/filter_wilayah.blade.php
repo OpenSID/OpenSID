@@ -6,7 +6,7 @@
                     var dusun = $(this).val();
                     if (dusun) {
                         $.ajax({
-                            url: "{{ route('internal_api.wilayah.get_rw') }}",
+                            url: "{{ ci_route('internal_api.wilayah.get_rw') }}",
                             type: "GET",
                             data: {
                                 dusun: dusun,
@@ -46,7 +46,7 @@
                     var rw = $(this).val();
                     if (rw) {
                         $.ajax({
-                            url: "{{ route('internal_api.wilayah.get_rt') }}",
+                            url: "{{ ci_route('internal_api.wilayah.get_rt') }}",
                             type: "GET",
                             data: {
                                 dusun: dusun,

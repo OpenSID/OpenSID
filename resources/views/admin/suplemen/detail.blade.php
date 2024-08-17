@@ -18,7 +18,7 @@
         <div class="box-header with-border">
             @if (can('u'))
                 <div class="btn-group btn-group-vertical">
-                    <a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Data Warga</a>
+                    <a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah</a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a href="{{ site_url("suplemen/form_terdata/{$suplemen->id}/1") }}" class="btn btn-social btn-block btn-sm" title="Tambah Satu Data Warga"><i class="fa fa-plus"></i> Tambah Satu Data Warga</a>
@@ -38,37 +38,38 @@
                 ])
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('suplemen.delete_terdata') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('suplemen.delete_all_terdata') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'
                     ></i> Hapus</a>
             @endif
             @if (can('u'))
-                <a href="{{ route('suplemen') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Suplemen</a>
+                <a href="{{ ci_route('suplemen') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Suplemen</a>
             @endif
         </div>
         @include('admin.suplemen.rincian')
+        <hr style="margin-bottom: 5px;">
         <div class="box-body">
-            <div class="box-header with-border form-inline">
-                <div class="row">
-                    <select class="form-control input-sm" id="sex" name="sex">
-                        <option value="">Pilih Jenis Kelamin</option>
-                        <option value="1">Laki-laki</option>
-                        <option value="2">Perempuan</option>
-                    </select>
-                    <select class="form-control input-sm" id="dusun" name="dusun">
-                        <option value="">Pilih Dusun</option>
-                        @foreach ($dusun as $item)
-                            <option value="{{ $item }}">{{ $item }}</option>
-                        @endforeach
-                    </select>
-                    <select class="form-control input-sm hide" id="rw" name="rw">
-                        <option value="">Pilih RW</option>
-                    </select>
-                    <select class="form-control input-sm  hide" id="rt" name="rt">
-                        <option value="">Pilih RT</option>
-                    </select>
-                </div>
+            <h5><b>Daftar Terdata</b></h5>
+            <div class="form-inline">
+                <select class="form-control input-sm" id="sex" name="sex">
+                    <option value="">Pilih Jenis Kelamin</option>
+                    <option value="1">Laki-laki</option>
+                    <option value="2">Perempuan</option>
+                </select>
+                <select class="form-control input-sm" id="dusun" name="dusun">
+                    <option value="">Pilih Dusun</option>
+                    @foreach ($dusun as $item)
+                        <option value="{{ $item }}">{{ $item }}</option>
+                    @endforeach
+                </select>
+                <select class="form-control input-sm hide" id="rw" name="rw">
+                    <option value="">Pilih RW</option>
+                </select>
+                <select class="form-control input-sm  hide" id="rt" name="rt">
+                    <option value="">Pilih RT</option>
+                </select>
             </div>
+            <hr>
             {!! form_open(null, 'id="mainform" name="mainform"') !!}
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tabeldata">
@@ -106,7 +107,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('suplemen.datatables_terdata') }}",
+                    url: "{{ ci_route('suplemen.datatables_terdata') }}",
                     data: function(req) {
                         req.id = {{ $suplemen->id }};
                         req.sasaran = {{ $suplemen->sasaran }};
@@ -136,26 +137,22 @@
                     },
                     {
                         data: 'terdata_info',
-                        name: 'terdata_info',
-                        searchable: false,
+                        name: `{{ $suplemen->sasaran == '1' ? 'tweb_keluarga.no_kk' : 'tweb_penduduk.nik' }}`,
                         orderable: true
                     },
                     {
                         data: 'terdata_plus',
-                        name: 'terdata_plus',
-                        searchable: false,
+                        name: `{{ $suplemen->sasaran == '1' ? 'tweb_penduduk.nik' : 'tweb_keluarga.no_kk' }}`,
                         orderable: true
                     },
                     {
                         data: 'terdata_nama',
-                        name: 'terdata_nama',
-                        searchable: false,
+                        name: 'tweb_penduduk.nama',
                         orderable: true
                     },
                     {
                         data: 'tempatlahir',
-                        name: 'tempatlahir',
-                        searchable: false,
+                        name: 'tweb_penduduk.tempatlahir',
                         orderable: true
                     },
                     {
@@ -181,7 +178,6 @@
                     {
                         data: 'keterangan',
                         name: 'keterangan',
-                        searchable: false,
                         orderable: false,
                         class: 'padat'
                     },

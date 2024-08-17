@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -304,7 +304,7 @@ class Shortcode_model extends MY_Model
         $ada_bpd = true;
 
         ob_start();
-        include 'donjo-app/views/home/bagan_sisip.php';
+        include APPPATH . 'views/bagan/bagan_sisip.php';
 
         return ob_get_clean();
     }
@@ -316,7 +316,7 @@ class Shortcode_model extends MY_Model
         $ada_bpd = false;
 
         ob_start();
-        include 'donjo-app/views/home/bagan_sisip.php';
+        include APPPATH . 'views/bagan/bagan_sisip.php';
 
         return ob_get_clean();
     }
@@ -329,7 +329,7 @@ class Shortcode_model extends MY_Model
         return preg_replace_callback($regex, function (array $matches) {
             $params_explode = explode(',', $matches[1]);
 
-            return $this->converted_sc_list($params_explode[0], $params_explode[1]);
+            return $this->converted_sc_list($params_explode[0] ?? '', $params_explode[1] ?? '');
         }, $str);
     }
 

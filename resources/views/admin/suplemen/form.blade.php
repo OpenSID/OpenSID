@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('suplemen') }}">Daftar Data Suplemen</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('suplemen') }}">Daftar Data Suplemen</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -17,14 +17,14 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('suplemen') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Suplemen</a>
+            <a href="{{ ci_route('suplemen') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Suplemen</a>
         </div>
         {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="nama">Sasaran Data</label>
                 <div class="col-sm-9">
-                    <select class="form-control input-sm required" {{ $suplemen && $suplemen->terdata->count() > 0 ? 'disabled' : '' }} required name="sasaran">
+                    <select class="form-control input-sm required" {{ $suplemen->sasaran && $suplemen->terdata->count() > 0 ? 'disabled' : '' }} required name="sasaran">
                         <option value="">Pilih Sasaran</option>
                         @foreach ($list_sasaran as $key => $sasaran)
                             @if (in_array($key, ['1', '2']))

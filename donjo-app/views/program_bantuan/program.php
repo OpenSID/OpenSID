@@ -11,12 +11,12 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($this->CI->cek_hak_akses('u')) : ?>
+						<?php if (can('u')) : ?>
 							<a href="<?= site_url('program_bantuan/create') ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Program Bantuan"><i class="fa fa-plus"></i> Tambah</a>
 							<a href="<?= site_url('program_bantuan/impor') ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Program Bantuan" data-target="#impor" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> Impor</a>
 						<?php endif; ?>
 						<a href="<?= site_url('program_bantuan/panduan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Panduan"><i class="fa fa-question-circle"></i> Panduan</a>
-						<?php if ($this->CI->cek_hak_akses('h')) : ?>
+						<?php if (can('h')) : ?>
 							<a href="<?= site_url('program_bantuan/bersihkan_data') ?>" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Data Peserta Tidak Valid"><i class="fa fa-wrench"></i>Bersihkan Data Peserta Tidak Valid</a>
 						<?php endif; ?>
 						<?php if ($tampil != 0) : ?>
@@ -59,19 +59,19 @@
 															<?php foreach ($program as $item) : ?>
 																<?php
                                                                 $nomer++;
-															    $openKab = null === $item['config_id'] ? 'disabled' : '';
-															    ?>
+                                                                $openKab = null === $item['config_id'] ? 'disabled' : '';
+                                                                ?>
 																<tr>
 																	<td class="padat"><?= $nomer ?></td>
 																	<td class="aksi">
 																		<a href="<?= site_url("peserta_bantuan/detail_clear/{$item['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-list"></i></a>
-																		<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																		<?php if (can('u')) : ?>
 																			<a href="<?= site_url("program_bantuan/edit/{$item['id']}") ?>" class="btn bg-orange btn-flat btn-sm <?= $openKab ?>" title="Ubah"><i class="fa fa-edit"></i></a>
 																		<?php endif ?>
 																		<?php if ($item['jml_peserta'] != 0) : ?>
 																			<a href="<?= site_url("program_bantuan/expor/{$item['id']}"); ?>" class="btn bg-navy btn-flat btn-sm <?= $openKab ?>" title="Expor"><i class="fa fa-download"></i></a>
 																		<?php endif ?>
-																		<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																		<?php if (can('h')) : ?>
 																			<?php if ($item['jml_peserta'] != 0 || null === $item['config_id']) : ?>
 																				<a class="btn bg-maroon btn-flat btn-sm disabled" title="Hapus"><i class="fa fa-trash-o"></i></a>
 																			<?php else : ?>
@@ -88,7 +88,7 @@
 																</tr>
 															<?php endforeach; ?>
 														<?php else : tidak_ada_data(8);
-														endif; ?>
+                                                        endif; ?>
 													</tbody>
 												</table>
 											</div>

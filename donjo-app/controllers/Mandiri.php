@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -44,15 +44,16 @@ use App\Models\PendudukMandiri;
 
 class Mandiri extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'pendaftar-layanan-mandiri';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
         $this->load->library('email');
         $this->email->initialize(config_email());
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'pendaftar-layanan-mandiri';
-        $this->telegram      = new Telegram();
+        $this->telegram = new Telegram();
     }
 
     public function index()
@@ -68,16 +69,16 @@ class Mandiri extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('mandiri.ajax_pin', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-primary btn-sm"><i class="fa fa-key"></i></a> ';
-                        $aksi .= '<a href="' . route('mandiri.ajax_hp', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="' . ($row->telepon ? 'Ubah' : 'Tambah') . ' Telepon Warga" title="' . ($row->telepon ? 'Ubah' : 'Tambah') . ' Telepon" class="btn btn-sm ' . ($row->telepon ? 'bg-teal' : 'bg-green') . '"><i class="fa fa-phone"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('mandiri.ajax_pin', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-primary btn-sm"><i class="fa fa-key"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('mandiri.ajax_hp', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="' . ($row->telepon ? 'Ubah' : 'Tambah') . ' Telepon Warga" title="' . ($row->telepon ? 'Ubah' : 'Tambah') . ' Telepon" class="btn btn-sm ' . ($row->telepon ? 'bg-teal' : 'bg-green') . '"><i class="fa fa-phone"></i></a> ';
 
                         if (! $row->aktif) {
-                            $aksi .= '<a href="' . route('mandiri.ajax_verifikasi_warga', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Verifikasi Pendaftaran Warga" title="Verifikasi Pendaftaran Warga" class="btn bg-purple btn-sm"><i class="fa fa-eye"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('mandiri.ajax_verifikasi_warga', $row->id_pend) . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Verifikasi Pendaftaran Warga" title="Verifikasi Pendaftaran Warga" class="btn bg-purple btn-sm"><i class="fa fa-eye"></i></a> ';
                         }
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('mandiri.delete', $row->id_pend) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('mandiri.delete', $row->id_pend) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                     }
 
                     return $aksi;
@@ -99,10 +100,10 @@ class Mandiri extends Admin_Controller
         if ($id_pend) {
             $cek                 = PendudukHidup::find($id_pend)->toArray() ?? show_404();
             $data['id_pend']     = $cek['id'];
-            $data['form_action'] = route("{$this->controller}.update", $id_pend);
+            $data['form_action'] = ci_route("{$this->controller}.update", $id_pend);
         } else {
             $data['id_pend']     = null;
-            $data['form_action'] = route("{$this->controller}.insert");
+            $data['form_action'] = ci_route("{$this->controller}.insert");
         }
 
         $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
@@ -114,7 +115,7 @@ class Mandiri extends Admin_Controller
     public function ajax_hp($id_pend)
     {
         $this->redirect_hak_akses('u');
-        $data['form_action'] = route("{$this->controller}.ubah_hp", $id_pend);
+        $data['form_action'] = ci_route("{$this->controller}.ubah_hp", $id_pend);
         $data['penduduk']    = PendudukHidup::select(['id', 'nik', 'nama', 'telepon'])->find($id_pend)->toArray() ?? show_404();
 
         return view('admin.layanan_mandiri.daftar.ajax_hp', $data);
@@ -125,7 +126,7 @@ class Mandiri extends Admin_Controller
         $this->redirect_hak_akses('u');
         $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($id_pend);
         $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($id_pend);
-        $data['form_action']             = route("{$this->controller}.verifikasi_warga", $id_pend);
+        $data['form_action']             = ci_route("{$this->controller}.verifikasi_warga", $id_pend);
         $data['penduduk']                = PendudukMandiri::where(['id_pend' => $id_pend])->join('penduduk_hidup', 'penduduk_hidup.id', '=', 'tweb_penduduk_mandiri.id_pend')->first()->toArray();
 
         return view('admin.layanan_mandiri.daftar.ajax_verifikasi_warga', $data);

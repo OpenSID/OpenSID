@@ -1,10 +1,9 @@
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Log Penduduk</h1>
+        <h1>Catatan Peristiwa</h1>
         <ol class="breadcrumb">
             <li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
-            <li><a href="<?= site_url('penduduk/clear')?>"> Daftar Penduduk</a></li>
-            <li class="active">Log Penduduk</li>
+            <li class="active">Catatan Peristiwa</li>
         </ol>
     </section>
     <section class="content" id="maincontent">
@@ -18,7 +17,6 @@
                             <?php endif; ?>
                             <a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
                             <a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-                            <a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
                             <a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
                         </div>
                     </div>
@@ -48,26 +46,26 @@
                                     <?php endforeach; ?>
                                 </select>
                                 <select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
-                                    <option value="">Jenis Kelamin</option>
+                                    <option value="">Pilih Jenis Kelamin</option>
                                     <?php foreach ($list_sex as $data): ?>
                                         <option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/agama')?>')">
-                                    <option value="">Agama</option>
+                                    <option value="">Pilih Agama</option>
                                     <?php foreach ($list_agama as $data): ?>
                                         <option value="<?= $data['id']?>" <?php selected($agama, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
-                                    <option value=""><?= ucwords($this->setting->sebutan_dusun)?></option>
+                                    <option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
                                     <?php foreach ($list_dusun as $data): ?>
                                         <option value="<?= $data['dusun']?>" <?php selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <?php if ($dusun): ?>
                                     <select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/rw')?>')" >
-                                        <option value="">RW</option>
+                                        <option value="">Pilih RW</option>
                                         <?php foreach ($list_rw as $data): ?>
                                             <option value="<?= $data['rw']?>" <?php selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
                                         <?php endforeach; ?>
@@ -75,7 +73,7 @@
                                 <?php endif; ?>
                                 <?php if ($rw): ?>
                                     <select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
-                                        <option value="">RT</option>
+                                        <option value="">Pilih RT</option>
                                         <?php foreach ($list_rt as $data): ?>
                                             <option value="<?= $data['rt']?>" <?php selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
                                         <?php endforeach; ?>
@@ -94,6 +92,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="table-responsive">
+                                    <?php if ($judul_statistik) : ?>
+                                        <h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
+                                    <?php endif; ?>
                                     <table class="table table-bordered dataTable table-hover">
                                         <thead class="bg-gray disabled color-palette">
                                             <tr>
@@ -162,9 +163,39 @@
                                                                 <?php endif ?>
                                                             <?php endif ?>
                                                         <?php endif ?>
-                                                        <?php if ($data['kode_peristiwa'] == 2) : ?>
-                                                            <a target="_blank" href="<?= site_url("surat/form/surat_ket_kematian/{$data['id']}") ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat Keterangan Kematian"><i class="fa fa-file-word-o"></i>Surat Keterangan Kematian</a>
-                                                        <?php endif ?>
+
+                                                            <?php
+                                                                switch($data['kode_peristiwa']) {
+                                                                    case 1:
+                                                                        $suratTerkait = json_decode(setting('surat_kelahiran_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 2:
+                                                                        $suratTerkait = json_decode(setting('surat_kematian_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 3:
+                                                                        $suratTerkait = json_decode(setting('surat_pindah_keluar_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 4:
+                                                                        $suratTerkait = json_decode(setting('surat_hilang_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 5:
+                                                                        $suratTerkait = json_decode(setting('surat_pindah_masuk_terkait_penduduk'), 1);
+                                                                        break;
+
+                                                                    case 6:
+                                                                        $suratTerkait = json_decode(setting('surat_pergi_terkait_penduduk'), 1);
+                                                                        break;
+                                                                }
+                                                            ?>
+                                                            <?php if($suratTerkait): ?>
+                                                                <?php foreach($suratTerkait as $item): ?>
+                                                                    <a target="_blank" href="<?= site_url("surat/form/{$item}") ?>#<?= $data['id'] ?>#<?= $data['nik'] ?>#<?= $data['nama'] ?>" class="btn btn-social bg-purple btn-flat btn-sm" title="<?=  str_replace('-', ' ', $item) ?>"><i class="fa fa-file-word-o"></i><?=  str_replace('-', ' ', $item) ?></a>
+                                                                <?php endforeach ?>
+                                                            <?php endif ?>
                                                     </td>
                                                     <td class="padat">
                                                         <img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>

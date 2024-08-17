@@ -13,7 +13,7 @@
 											<div class="nav-tabs-custom">
 												<ul class="nav nav-tabs">
 													<li <?= jecho($act_tab, 1, 'class="active"') ?>><a href="<?= site_url('database'); ?>">Backup <?= jecho(config_item('demo_mode'), false, ' /Restore'); ?></a></li>
-													<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<?php if (can('u')): ?>
 														<li <?= jecho($act_tab, 2, 'class="active"') ?>><a href="<?= site_url('database/migrasi_cri'); ?>">Migrasi DB</a></li>
 													<?php endif; ?>
 												</ul>

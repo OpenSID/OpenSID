@@ -69,8 +69,8 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="lock" name="lock">
 												<option value="1" <?php if ($analisis_master['lock'] == '1' || $analisis_master['lock'] == '') {
-												    echo 'selected';
-												}?> >Tidak Terkunci</option>
+                                                    echo 'selected';
+                                                }?> >Tidak Terkunci</option>
 												<option value="2" <?php if ($analisis_master['lock'] == '2'): ?>selected<?php endif; ?>> Terkunci</option>
 											</select>
 										</div>

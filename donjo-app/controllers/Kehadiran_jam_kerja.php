@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -41,12 +41,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kehadiran_jam_kerja extends Admin_Controller
 {
+    public $modul_ini           = 'kehadiran';
+    public $sub_modul_ini       = 'jam-kerja';
+    public $kategori_pengaturan = 'kehadiran';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'kehadiran';
-        $this->sub_modul_ini      = 'jam-kerja';
-        $this->header['kategori'] = 'kehadiran';
     }
 
     public function index()
@@ -61,7 +62,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        return '<a href="' . ci_route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
                 ->editColumn('status', static fn ($row): string => ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>')
@@ -79,7 +80,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $action      = 'Ubah';
-        $form_action = route('kehadiran_jam_kerja.update', $id);
+        $form_action = ci_route('kehadiran_jam_kerja.update', $id);
 
         $kehadiran_jam_kerja = JamKerja::findOrFail($id);
 

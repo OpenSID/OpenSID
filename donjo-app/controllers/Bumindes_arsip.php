@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_arsip extends Admin_controller
 {
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'arsip-desa';
     private array $list_session = ['data_filter_tahun', 'data_filter_jenis', 'data_filter_cari', 'data_filter_kategori'];
     private array $_set_page    = ['50', '100', '200'];
 
@@ -46,8 +48,6 @@ class Bumindes_arsip extends Admin_controller
     {
         parent::__construct();
         $this->load->model('arsip_fisik_model');
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'arsip-desa';
     }
 
     public function index($p = 1, $o = 4): void
@@ -113,8 +113,8 @@ class Bumindes_arsip extends Admin_controller
         $data['per_page'] = $this->session->per_page;
         $data['paging']   = $this->arsip_fisik_model->paging($p);
         $data['main']     = $this->arsip_fisik_model->ambil_dokumen_per_page(true, $data['per_page'], $p, $o);
-        $data['page']     = $p;
-        $data['o']        = $o;
+        $data['page']     = $p ?? 1;
+        $data['o']        = $o ?? 4;
 
         $filter = $this->arsip_fisik_model->ambil_semua_filter();
 
@@ -147,7 +147,7 @@ class Bumindes_arsip extends Admin_controller
         $this->modal_ubah_arsip($tabel, $id, $p, $o);
     }
 
-    public function tampilkan_berkas($tabel, $berkas, $tampil = true): void
+    public function tampilkan_berkas($tabel, ?string $berkas, $tampil = true): void
     {
         $lokasi = '';
         if ($tabel == 'dokumen_hidup') {
@@ -158,7 +158,7 @@ class Bumindes_arsip extends Admin_controller
         ambilBerkas($berkas, $this->controller, null, $lokasi, $tampil ?? false);
     }
 
-    public function unduh_berkas($tabel, $berkas): void
+    public function unduh_berkas($tabel, ?string $berkas): void
     {
         $this->tampilkan_berkas($tabel, $berkas, false);
     }

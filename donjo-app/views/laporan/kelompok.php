@@ -84,19 +84,19 @@
 									<tbody>
 										<?php
                                             $bayi = 0;
-			$balita                                        = 0;
-			$sd                                            = 0;
-			$smp                                           = 0;
-			$sma                                           = 0;
-			$lansia                                        = 0;
-			$cacat                                         = 0;
-			$sakit_L                                       = 0;
-			$sakit_P                                       = 0;
-			$hamil                                         = 0;
-			$jenis_cacat                                   = ['cacat_fisik', 'cacat_netra', 'cacat_rungu', 'cacat_mental', 'cacat_fisik_mental', 'cacat_lainnya', 'tidak_cacat'];
-			$total_cacat                                   = [];
+            $balita                               = 0;
+            $sd                                   = 0;
+            $smp                                  = 0;
+            $sma                                  = 0;
+            $lansia                               = 0;
+            $cacat                                = 0;
+            $sakit_L                              = 0;
+            $sakit_P                              = 0;
+            $hamil                                = 0;
+            $jenis_cacat                          = ['cacat_fisik', 'cacat_netra', 'cacat_rungu', 'cacat_mental', 'cacat_fisik_mental', 'cacat_lainnya', 'tidak_cacat'];
+            $total_cacat                          = [];
 
-			foreach ($main as $data): $id_cluster = $data['id_cluster']; ?>
+            foreach ($main as $data): $id_cluster = $data['id_cluster']; ?>
 											<tr>
 												<td class="text-right"><?= $data['dusunnya'] ?></td>
 												<td class="text-right"><?= $data['rw'] ?></td>
@@ -117,21 +117,21 @@
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/11") ?>"><?= $data['sakit_P'] ?></a></td>
 												<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/12") ?>"><?= $data['hamil'] ?></a></td>
 												<?php
-			        $bayi += $data['bayi'];
-			    $balita += $data['balita'];
-			    $sd += $data['sd'];
-			    $smp += $data['smp'];
-			    $sma += $data['sma'];
-			    $lansia += $data['lansia'];
-			    $cacat += $data['cacat'];
-			    $sakit_L += $data['sakit_L'];
-			    $sakit_P += $data['sakit_P'];
-			    $hamil += $data['hamil'];
+                    $bayi += $data['bayi'];
+                $balita += $data['balita'];
+                $sd += $data['sd'];
+                $smp += $data['smp'];
+                $sma += $data['sma'];
+                $lansia += $data['lansia'];
+                $cacat += $data['cacat'];
+                $sakit_L += $data['sakit_L'];
+                $sakit_P += $data['sakit_P'];
+                $hamil += $data['hamil'];
 
-			    foreach ($jenis_cacat as $key => $val):
-			        $total_cacat[$key] += $data[$val];
-			    endforeach;
-			    ?>
+                foreach ($jenis_cacat as $key => $val):
+                    $total_cacat[$key] += $data[$val];
+                endforeach;
+                ?>
 											</tr>
 										<?php endforeach; ?>
 									</tbody>

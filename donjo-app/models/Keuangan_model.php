@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -272,13 +272,13 @@ class Keuangan_model extends MY_Model
 
     public function tahun_anggaran()
     {
-        return $this->config_id_exist('keuangan_master')->get('keuangan_master')->row()->tahun_anggaran;
+        return $this->config_id()->get('keuangan_master')->row()->tahun_anggaran;
     }
 
     // Daftar tahun anggaran tersimpan, diurut tahun terkini di atas
     public function list_tahun_anggaran()
     {
-        $data = $this->config_id_exist('keuangan_master')
+        $data = $this->config_id()
             ->select('tahun_anggaran')
             ->order_by('tahun_anggaran DESC')
             ->get('keuangan_master')
@@ -289,19 +289,19 @@ class Keuangan_model extends MY_Model
 
     public function data_id_keuangan_master()
     {
-        return $this->config_id_exist('keuangan_master')->order_by('tanggal_impor')->get('keuangan_master')->row()->id;
+        return $this->config_id()->order_by('tanggal_impor')->get('keuangan_master')->row()->id;
     }
 
     public function data_tahun_keuangan_master()
     {
-        return $this->config_id_exist('keuangan_master')->order_by('tanggal_impor')->get('keuangan_master')->row()->tahun_anggaran;
+        return $this->config_id()->order_by('tanggal_impor')->get('keuangan_master')->row()->tahun_anggaran;
     }
 
     public function artikel_statis_keuangan()
     {
         $this->db->select('id, judul');
         $this->db->where([
-            'id_kategori' => 1001,
+            'tipe' => 'keuangan',
         ]);
         $results = $this->config_id()->get('artikel')->result_array();
         $link    = [];

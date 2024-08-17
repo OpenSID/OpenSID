@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,9 +37,11 @@
 
 namespace App\Models;
 
+use App\Scopes\RemoveRtfScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,14 +56,12 @@ class FormatSurat extends BaseModel
     public const KUNCI_DISABLE         = 0;
     public const FAVORIT               = 1;
     public const FAVORIT_DISABLE       = 0;
-    public const RTF_SISTEM            = 1;
-    public const RTF_DESA              = 2;
     public const TINYMCE_SISTEM        = 3;
     public const TINYMCE_DESA          = 4;
     public const RTF                   = [1, 2];
     public const TINYMCE               = [3, 4];
-    public const SISTEM                = [1, 3];
-    public const DESA                  = [2, 4];
+    public const SISTEM                = [3];
+    public const DESA                  = [4];
     public const DEFAULT_ORIENTATAIONS = 'Potrait';
     public const DEFAULT_SIZES         = 'F4';
 
@@ -83,15 +83,8 @@ class FormatSurat extends BaseModel
      * @var array
      */
     public const JENIS_SURAT = [
-        self::RTF_SISTEM     => 'Surat Sistem RTF',
-        self::RTF_DESA       => 'Surat [Desa] RTF',
-        self::TINYMCE_SISTEM => 'Surat Sistem TinyMCE',
-        self::TINYMCE_DESA   => 'Surat [Desa] TinyMCE',
-    ];
-
-    public const JENIS_SURAT_TANPA_RTF = [
-        self::TINYMCE_SISTEM => 'Surat Sistem TinyMCE',
-        self::TINYMCE_DESA   => 'Surat [Desa] TinyMCE',
+        self::TINYMCE_SISTEM => 'Surat Sistem',
+        self::TINYMCE_DESA   => 'Surat [Desa]',
     ];
 
     /**
@@ -187,6 +180,7 @@ class FormatSurat extends BaseModel
         'header',
         'footer',
         'format_nomor',
+        'format_nomor_global',
         'sumber_penduduk_berulang',
         'created_by',
         'updated_by',
@@ -200,8 +194,6 @@ class FormatSurat extends BaseModel
     protected $appends = [
         'judul_surat',
         'margin_cm_to_mm',
-        'url_surat_sistem',
-        'url_surat_desa',
     ];
 
     /**
@@ -217,12 +209,11 @@ class FormatSurat extends BaseModel
         'qr_code'      => 'boolean',
         'logo_garuda'  => 'boolean',
         'header'       => 'integer',
+        'jenis'        => 'integer',
         // 'syarat_surat' => 'json',
         // 'kode_isian'   => 'json',
         // 'margin'       => 'json',
     ];
-
-    private int $nonAktifkanRTF = 0;
 
     /**
      * Define a many-to-many relationship.
@@ -301,23 +292,6 @@ class FormatSurat extends BaseModel
     }
 
     /**
-     * Setter untuk url_surat.
-     *
-     * @return void
-     */
-    // public function setUrlSuratAttribute()
-    // {
-    //     $this->attributes['url_surat'] = 'surat_' . strtolower(str_replace([' ', '-'], '_', $this->attributes['nama']));
-    // }
-    /**
-     * Getter untuk lokasi_surat
-     */
-    public function getLokasiSuratAttribute(): string
-    {
-        return LOKASI_SURAT_DESA . $this->url_surat;
-    }
-
-    /**
      * Getter untuk judul_surat
      */
     public function getJudulSuratAttribute(): string
@@ -332,10 +306,6 @@ class FormatSurat extends BaseModel
      */
     public function getKodeIsianAttribute()
     {
-        if (in_array($this->jenis, self::RTF)) {
-            return kode_isian($this->url_surat);
-        }
-
         return json_decode($this->attributes['kode_isian'], null);
     }
 
@@ -346,10 +316,6 @@ class FormatSurat extends BaseModel
      */
     public function getFormIsianAttribute()
     {
-        if (in_array($this->jenis, self::RTF)) {
-            return null;
-        }
-
         return json_decode($this->attributes['form_isian'], null);
     }
 
@@ -375,31 +341,7 @@ class FormatSurat extends BaseModel
      */
     public function getUrlSuratSistemAttribute(): ?string
     {
-        $surat_export_desa = LOKASI_SURAT_SISTEM . $this->url_surat . '/' . $this->url_surat . '.rtf';
-        if (! in_array($this->jenis, ['1', '2'])) {
-            return null;
-        }
-        if (! is_file($surat_export_desa)) {
-            return null;
-        }
-
-        return $surat_export_desa;
-    }
-
-    /**
-     * Getter untuk url surat desa
-     */
-    public function getUrlSuratDesaAttribute(): ?string
-    {
-        $surat_export_desa = LOKASI_SURAT_DESA . $this->url_surat . '/' . $this->url_surat . '.rtf';
-        if (! in_array($this->jenis, ['1', '2'])) {
-            return null;
-        }
-        if (! is_file($surat_export_desa)) {
-            return null;
-        }
-
-        return $surat_export_desa;
+        return null;
     }
 
     /**
@@ -425,10 +367,6 @@ class FormatSurat extends BaseModel
      */
     public function scopeKunci($query, $value = self::KUNCI)
     {
-        if ($this->getNonAktifkanRTF() !== 0) {
-            $query->whereNotIn('jenis', self::RTF);
-        }
-
         return $query->where('kunci', $value);
     }
 
@@ -455,10 +393,6 @@ class FormatSurat extends BaseModel
      */
     public function scopeJenis($query, $value)
     {
-        if ($this->getNonAktifkanRTF() !== 0) {
-            $query->whereNotIn('jenis', self::RTF);
-        }
-
         if (empty($value)) {
             return $query->whereNotNull('jenis');
         }
@@ -483,23 +417,55 @@ class FormatSurat extends BaseModel
         return $this->scopeKunci($query, self::KUNCI_DISABLE)->where('url_surat', $url);
     }
 
-    /**
-     * Get the value of nonAktifkanRTF
-     */
-    public function getNonAktifkanRTF(): int
+    protected static function boot()
     {
-        return $this->nonAktifkanRTF;
+        parent::boot();
+
+        static::addGlobalScope(new RemoveRtfScope());
+    }
+
+    public static function format_penomoran_surat(array $data)
+    {
+        $thn     = $data['surat']['cek_thn'] ?? date('Y');
+        $bln     = $data['surat']['cek_bln'] ?? date('m');
+        $setting = $data['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $data['surat']['format_nomor'];
+        self::substitusi_nomor_surat($data['input']['nomor'], $setting);
+        $array_replace = [
+            '[kode_surat]'   => $data['surat']['kode_surat'],
+            '[tahun]'        => $thn,
+            '[bulan_romawi]' => bulan_romawi((int) $bln),
+            '[kode_desa]'    => identitas()->kode_desa,
+        ];
+
+        return str_replace(array_keys($array_replace), array_values($array_replace), $setting);
+    }
+
+    public static function substitusi_nomor_surat($nomor, &$buffer): void
+    {
+        $buffer = str_replace('[nomor_surat]', "{$nomor}", $buffer);
+        if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $buffer, $matches)) {
+            foreach ($matches[0] as $match) {
+                $parts         = explode(',', $match);
+                $panjang       = (int) trim(rtrim($parts[1], ']'));
+                $nomor_panjang = str_pad("{$nomor}", $panjang, '0', STR_PAD_LEFT);
+                $buffer        = str_replace($match, $nomor_panjang, $buffer);
+            }
+        }
     }
 
     /**
-     * Set the value of nonAktifkanRTF
-     *
-     * @param mixed $nonAktifkanRTF
+     * Get the logSurat that owns the FormatSurat
      */
-    public function setNonAktifkanRTF(int $nonAktifkanRTF): self
+    public function logSurat(): BelongsTo
     {
-        $this->nonAktifkanRTF = $nonAktifkanRTF;
+        return $this->belongsTo(LogSurat::class, 'id', 'id_format_surat');
+    }
 
-        return $this;
+    /**
+     * Get the formatNomorSuratAttribute
+     */
+    public function getFormatNomorSuratAttribute()
+    {
+        return $this->format_nomor_global === false && empty($this->format_nomor) ? setting('format_nomor_surat') : $this->format_nomor;
     }
 }

@@ -78,7 +78,7 @@
                                 }
                             }, static fn (Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')))
                             ->title();
-					    ?></td>
+                        ?></td>
 						<td align='right'><?= rp($s['anggaran'][0]['pagu'])?></td>
 						<td align='right'><?= rp($s['realisasi'][0]['realisasi'] + $s['realisasi_bunga'][0]['realisasi'] + $s['realisasi_jurnal'][0]['realisasi'])?></td>
 						<td align='right'><?= rp($s['anggaran'][0]['pagu'] - ($s['realisasi'][0]['realisasi'] + $s['realisasi_bunga'][0]['realisasi'] + $s['realisasi_jurnal'][0]['realisasi'])) ?></td>
@@ -92,30 +92,30 @@
 								<td colspan='2'><?= $q['Jenis'] ?></td>
 								<td>
 								<?=
-					            \Illuminate\Support\Str::of($q['Nama_Jenis'])
-					                ->title()
-					                ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
-					                    if ($string != 'Dana Desa') {
-					                        return $string->replace('Desa', setting('sebutan_desa'));
-					                    }
-					                }, static function (Illuminate\Support\Stringable $string) {
-					                    if (! in_array($string, [
-					                        'Swadaya, Partisipasi dan Gotong Royong',
-					                        'Bagi Hasil Pajak Dan Retribusi',
-					                        'Bantuan Keuangan Provinsi',
-					                        'Bantuan Keuangan Kabupaten/Kota',
-					                        'Penerimaan Dari Hasil Kerjasama Dengan Pihak Ketiga',
-					                        'Koreksi Kesalahan Belanja Tahun-Tahun Sebelumnya',
-					                        'Bunga Bank',
-					                        'Hibah dan Sumbangan dari Pihak Ketiga',
-					                        'Lain-Lain Pendapatan Desa Yang Sah',
-					                        'Lain - Lain Pendapatan Asli Desa Yang Sah',
-					                    ])) {
-					                        return $string->append(' ' . setting('sebutan_desa'));
-					                    }
-					                })
-					                ->title();
-						    ?></td>
+                                \Illuminate\Support\Str::of($q['Nama_Jenis'])
+                                    ->title()
+                                    ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
+                                        if ($string != 'Dana Desa') {
+                                            return $string->replace('Desa', setting('sebutan_desa'));
+                                        }
+                                    }, static function (Illuminate\Support\Stringable $string) {
+                                        if (! in_array($string, [
+                                            'Swadaya, Partisipasi dan Gotong Royong',
+                                            'Bagi Hasil Pajak Dan Retribusi',
+                                            'Bantuan Keuangan Provinsi',
+                                            'Bantuan Keuangan Kabupaten/Kota',
+                                            'Penerimaan Dari Hasil Kerjasama Dengan Pihak Ketiga',
+                                            'Koreksi Kesalahan Belanja Tahun-Tahun Sebelumnya',
+                                            'Bunga Bank',
+                                            'Hibah dan Sumbangan dari Pihak Ketiga',
+                                            'Lain-Lain Pendapatan Desa Yang Sah',
+                                            'Lain - Lain Pendapatan Asli Desa Yang Sah',
+                                        ])) {
+                                            return $string->append(' ' . setting('sebutan_desa'));
+                                        }
+                                    })
+                                    ->title();
+                            ?></td>
 								<td align='right'><?= rp($q['anggaran'][0]['pagu']) ?></td>
 								<td align='right'><?= rp($q['realisasi'][0]['realisasi'] + $q['realisasi_bunga'][0]['realisasi'] + $q['realisasi_jurnal'][0]['realisasi']) ?></td>
 								<td align='right'><?= rp($q['anggaran'][0]['pagu'] - ($q['realisasi'][0]['realisasi'] + $q['realisasi_bunga'][0]['realisasi'] + $q['realisasi_jurnal'][0]['realisasi']))?></td>
@@ -177,15 +177,15 @@
 							<td><?= substr($b1['Kd_Bid'], 8) ?></td>
 							<td colspan='3'>
 							<?=
-						    \Illuminate\Support\Str::of($b1['Nama_Bidang'])
-						        ->title()
-						        ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
-						            if ($string != 'Dana Desa') {
-						                return $string->replace('Desa', setting('sebutan_desa'));
-						            }
-						        }, static fn (Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')))
-						        ->title();
-						    ?></td>
+                            \Illuminate\Support\Str::of($b1['Nama_Bidang'])
+                                ->title()
+                                ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
+                                    if ($string != 'Dana Desa') {
+                                        return $string->replace('Desa', setting('sebutan_desa'));
+                                    }
+                                }, static fn (Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')))
+                                ->title();
+                            ?></td>
 							<td align='right'><?= rp($b1['anggaran'][0]['pagu'])?></td>
 							<td align='right'><?= rp(($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi']) + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi'])?></td>
 							<td align='right'><?= rp(($b1['anggaran'][0]['pagu']) - (($b1['realisasi'][0]['realisasi'] - $b1['realisasi_um'][0]['realisasi']) + $b1['realisasi_spj'][0]['realisasi'] + $b1['realisasi_bunga'][0]['realisasi'] + $b1['realisasi_jurnal'][0]['realisasi'])) ?></td>
@@ -199,15 +199,15 @@
 									<td colspan='2'><?= substr($b2['Kd_Keg'], 8) ?></td>
 									<td>
 									<?=
-						            \Illuminate\Support\Str::of($b2['Nama_Kegiatan'])
-						                ->title()
-						                ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
-						                    if ($string != 'Dana Desa') {
-						                        return $string->replace('Desa', setting('sebutan_desa'));
-						                    }
-						                }, static fn (Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')))
-						                ->title();
-							    ?></td>
+                                    \Illuminate\Support\Str::of($b2['Nama_Kegiatan'])
+                                        ->title()
+                                        ->whenContains('Desa', static function (Illuminate\Support\Stringable $string) {
+                                            if ($string != 'Dana Desa') {
+                                                return $string->replace('Desa', setting('sebutan_desa'));
+                                            }
+                                        }, static fn (Illuminate\Support\Stringable $string) => $string->append(' ' . setting('sebutan_desa')))
+                                        ->title();
+                                ?></td>
 									<td align='right'><?= rp($b2['anggaran'][0]['pagu']) ?></td>
 									<td align='right'><?= rp(($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi']) + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']) ?></td>
 									<td align='right'><?= rp(($b2['anggaran'][0]['pagu']) - (($b2['realisasi'][0]['realisasi'] - $b2['realisasi_um'][0]['realisasi']) + $b2['realisasi_spj'][0]['realisasi'] + $b2['realisasi_bunga'][0]['realisasi'] + $b2['realisasi_jurnal'][0]['realisasi']))?></td>
@@ -237,8 +237,8 @@
 				<td align='right'><?= rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) - (($jumlah_real) - (($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi'])))?></td>
 				<td align='right'><?php
                     $pembagi = (($jumlah_real) - ($b['realisasi'][0]['realisasi'] - $b['realisasi_um'][0]['realisasi']) + $b['realisasi_spj'][0]['realisasi'] + $b['realisasi_bunga'][0]['realisasi'] + $b['realisasi_jurnal'][0]['realisasi']);
-			echo $pembagi > 0 ? rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) / $pembagi * 100) : '-';
-			?>
+            echo $pembagi > 0 ? rp((($l['anggaran'][0]['pagu']) - ($b['anggaran'][0]['pagu'])) / $pembagi * 100) : '-';
+            ?>
 				</td>
 			</tr>
 			<?php foreach ($pembiayaan as $p): ?>

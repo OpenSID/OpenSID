@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,20 +42,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Opendk_pesan extends Admin_Controller
 {
+    public $modul_ini        = 'opendk';
+    public $sub_modul_ini    = 'pesan';
     protected $_list_session = ['cari', 'status'];
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'opendk';
-        $this->sub_modul_ini = 'pesan';
     }
 
     public function cek()
     {
         // cek setting server ke opendk
         if (empty($this->setting->api_opendk_key)) {
-            $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
+            $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . ci_route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
 
             return view('admin.opendkpesan.error', ['message' => $message]);
         }
@@ -136,7 +136,7 @@ class Opendk_pesan extends Admin_Controller
             ->where('id', '=', $id)
             ->first();
 
-        $form_action = route('opendk_pesan.insert.' . $id);
+        $form_action = ci_route('opendk_pesan.insert.' . $id);
         Pesan::where('id', '=', $id)
             ->update([
                 'sudah_dibaca' => 1,
@@ -148,7 +148,7 @@ class Opendk_pesan extends Admin_Controller
     public function form()
     {
         $this->redirect_hak_akses('u');
-        $form_action = route('opendk_pesan.insert');
+        $form_action = ci_route('opendk_pesan.insert');
         $action      = 'Tambah';
 
         return view('admin.opendkpesan.form', ['action' => $action, 'form_action' => $form_action]);

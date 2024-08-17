@@ -198,8 +198,8 @@
                                                                     <div class="col-2">
                                                                         <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i]->toArray())) }}" class="popup">
                                                                             <div class="imagecrop-grid">
-                                                                                @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
-                                                                                    <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i][gambar]) }}">
+                                                                                @if (file_exists(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']))
+                                                                                    <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i]['gambar']) }}">
                                                                                 @else
                                                                                     <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
                                                                                 @endif
@@ -218,7 +218,7 @@
                                                                             <a data-value="{{ site_url('artikel/' . buat_slug($arsip_terkini[$i + 1]->toArray())) }}" class="popup">
                                                                                 <div class="imagecrop-grid">
                                                                                     @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1]['gambar']))
-                                                                                        <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1][gambar]) }}">
+                                                                                        <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip_terkini[$i + 1]['gambar']) }}">
                                                                                     @else
                                                                                         <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
                                                                                     @endif
@@ -264,7 +264,7 @@
                                                                         <div class="imagecrop-artikel">
                                                                             <img src="images/artikel/artikel5.jpg">
                                                                             @if (is_file(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']))
-                                                                                <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip[gambar]) }}">
+                                                                                <img src="{{ base_url(LOKASI_FOTO_ARTIKEL . 'sedang_' . $arsip['gambar']) }}">
                                                                             @else
                                                                                 <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
                                                                             @endif
@@ -299,7 +299,11 @@
                                 <div class="carousel-col">
                                     <a data-value="{{ $item->link }}" class="popup">
                                         <div class="icon-stat">
-                                            <img src="{{ icon_menu_anjungan($item->icon) }}">
+                                            @if ($item->icon)
+                                                <img src="{{ icon_menu_anjungan($item->icon) }}">
+                                            @else
+                                                <img src="{{ base_url('assets/images/404-image-not-found.jpg') }}">
+                                            @endif
                                             <div class="icon-stat-title difle-c">
                                                 <p>{{ $item->nama }}</p>
                                             </div>

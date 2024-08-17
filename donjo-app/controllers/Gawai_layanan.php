@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,11 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gawai_layanan extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'gawai-layanan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'gawai-layanan';
     }
 
     public function index()
@@ -68,7 +69,7 @@ class Gawai_layanan extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('gawai_layanan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('gawai_layanan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                         $url_kunci = site_url("gawai_layanan/kunci/{$row->id}");
 
                         if ($row->status) {
@@ -79,7 +80,7 @@ class Gawai_layanan extends Admin_Controller
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('gawai_layanan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('gawai_layanan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -100,11 +101,11 @@ class Gawai_layanan extends Admin_Controller
 
         if ($id) {
             $data['action']        = 'Ubah';
-            $data['form_action']   = route('gawai_layanan.update', $id);
+            $data['form_action']   = ci_route('gawai_layanan.update', $id);
             $data['gawai_layanan'] = AnjunganModel::findOrFail($id);
         } else {
             $data['action']        = 'Tambah';
-            $data['form_action']   = route('gawai_layanan.insert');
+            $data['form_action']   = ci_route('gawai_layanan.insert');
             $data['gawai_layanan'] = null;
         }
 

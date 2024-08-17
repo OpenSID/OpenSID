@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -49,21 +49,22 @@ use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'database';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'database';
     }
 
     public function index(): void
     {
         $data = [
-            'content'      => 'database/backup',
-            'form_action'  => site_url('database/restore'),
+            'content'      => 'admin.database.backup',
+            'form_action'  => setting('multi_desa') ? ci_route('multiDB.restore') : ci_route('database.restore'),
             'size_folder'  => byte_format(dirSize(DESAPATH)),
             'size_sql'     => byte_format(getSizeDB()->size),
             'act_tab'      => 1,
@@ -72,7 +73,7 @@ class Database extends Admin_Controller
             'memory_limit' => Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result'),
         ];
 
-        $this->load->view('database/database.tpl.php', $data);
+        view('admin.database.index', $data);
     }
 
     public function migrasi_cri(): void
@@ -80,8 +81,8 @@ class Database extends Admin_Controller
         $data['form_action'] = site_url('database/migrasi_db_cri');
 
         $data['act_tab'] = 2;
-        $data['content'] = 'database/migrasi_cri';
-        $this->load->view('database/database.tpl.php', $data);
+        $data['content'] = 'admin.database.migrasi_cri';
+        view('admin.database.index', $data);
     }
 
     public function migrasi_db_cri(): void
@@ -170,22 +171,31 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
-        $token = $this->setting->layanan_opendesa_token;
+        if (setting('multi_desa')) {
+            redirect_with('error', 'Restore database tidak diizinkan');
+        }
+
+        $token   = $this->setting->layanan_opendesa_token;
+        $pesan   = 'Proses restore database berhasil';
+        $success = false;
 
         try {
-            $this->session->success        = 1;
-            $this->session->error_msg      = '';
             $this->session->sedang_restore = 1;
-            $this->ekspor_model->restore();
+            $filename                      = $this->file_restore();
+            $success                       = $this->ekspor_model->proses_restore($filename);
         } catch (Exception $e) {
-            $this->session->success   = -1;
-            $this->session->error_msg = $e->getMessage();
+            $this->session->sedang_restore = 0;
+            $pesan                         = $e->getMessage();
         } finally {
             if ($this->input->post('hapus_token') == 'N') {
                 SettingAplikasi::where('key', 'layanan_opendesa_token')->update(['value' => $token]);
             }
             $this->session->sedang_restore = 0;
-            redirect('database');
+            if ($success) {
+                redirect_with('success', $pesan);
+            } else {
+                redirect_with('error', $pesan);
+            }
         }
     }
 
@@ -396,5 +406,27 @@ class Database extends Admin_Controller
             ->where('token_exp', '>', date('Y-m-d H:i:s'))
             ->where('token', '=', hash('sha256', bilangan($otp)))
             ->exists();
+    }
+
+    public function file_restore()
+    {
+        $this->load->library('MY_Upload', null, 'upload');
+        $uploadConfig = [
+            'upload_path'   => sys_get_temp_dir(),
+            'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+            'file_ext'      => 'sql',
+            'max_size'      => max_upload() * 1024,
+            'cek_script'    => false,
+        ];
+        $this->upload->initialize($uploadConfig);
+        // Upload sukses
+        if (! $this->upload->do_upload('userfile')) {
+            $pesan = $this->upload->display_errors(null, null);
+
+            throw new Exception($pesan);
+        }
+        $uploadData = $this->upload->data();
+
+        return $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
     }
 }

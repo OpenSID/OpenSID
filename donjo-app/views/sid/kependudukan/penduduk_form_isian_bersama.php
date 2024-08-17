@@ -292,8 +292,8 @@
 				<option value="">Pilih Pendidikan (Dalam KK) </option>
 				<?php foreach ($pendidikan_kk as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['pendidikan_kk_id'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-					    selected(1, $data['id']);
-					} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(1, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach ?>
 			</select>
 		</div>
@@ -305,8 +305,8 @@
 				<option value="">Pilih Pendidikan</option>
 				<?php foreach ($pendidikan_sedang as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['pendidikan_sedang_id'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-					    selected(18, $data['id']);
-					} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(18, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -318,8 +318,8 @@
 				<option value="">Pilih Pekerjaan</option>
 				<?php foreach ($pekerjaan as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['pekerjaan_id'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-					    selected(1, $data['id']);
-					} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(1, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -437,8 +437,8 @@
 			<div class="col-sm-12">
 				<div class='form-group col-sm-3'>
 					<label for="dusun"><?= ucwords($this->setting->sebutan_dusun) ?> <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
-					    echo 'KK';
-					} ?></label>
+                        echo 'KK';
+                    } ?></label>
 					<select id="dusun" name="dusun" class="form-control input-sm required">
 						<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun) ?></option>
 						<?php foreach ($dusun as $data) : ?>
@@ -448,8 +448,8 @@
 				</div>
 				<div id='isi_rw' class='form-group col-sm-2'>
 					<label for="rw">RW <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
-					    echo 'KK';
-					} ?></label>
+                        echo 'KK';
+                    } ?></label>
 					<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/') ?>" data-valueKey="rw" data-displayKey="rw">
 						<option class="placeholder" value="">Pilih RW</option>
 						<?php foreach ($rw as $data) : ?>
@@ -459,8 +459,8 @@
 				</div>
 				<div id='isi_rt' class='form-group col-sm-2'>
 					<label for="id_cluster">RT <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
-					    echo 'KK';
-					} ?></label>
+                        echo 'KK';
+                    } ?></label>
 					<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/') ?>" data-valueKey="id" data-displayKey="rt">
 						<option class="placeholder" value="">Pilih RT </option>
 						<?php foreach ($rt as $data) : ?>
@@ -510,10 +510,10 @@
 				<option value="">Pilih Cara Hubungi</option>
 				<?php foreach (['SMS', 'Email', 'Telegram'] as $value) : ?>
 					<?php
-					                        if ((bool) $this->setting->aktifkan_sms === false && $value === 'SMS') {
-					                            continue;
-					                        }
-				    ?>
+                                            if ((bool) $this->setting->aktifkan_sms === false && $value === 'SMS') {
+                                                continue;
+                                            }
+                    ?>
 					<option value="<?= $value ?>" <?= selected($penduduk['hubung_warga'], $value); ?>><?= $value ?></option>
 				<?php endforeach ?>
 			</select>
@@ -531,8 +531,8 @@
 				<option value="">Pilih Status Perkawinan</option>
 				<?php foreach ($kawin as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['status_kawin'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-					    selected(1, $data['id']);
-					} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(1, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>

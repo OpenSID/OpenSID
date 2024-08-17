@@ -6,7 +6,7 @@
     </h1>
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('lampiran') }}">Daftar Lampiran</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('lampiran') }}">Daftar Lampiran</a></li>
     <li class="active">{{ $action }} Pengaturan Lampiran</li>
 @endsection
 @section('content')

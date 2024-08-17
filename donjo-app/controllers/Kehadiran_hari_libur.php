@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -41,12 +41,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kehadiran_hari_libur extends Admin_Controller
 {
+    public $modul_ini           = 'kehadiran';
+    public $sub_modul_ini       = 'hari-libur';
+    public $kategori_pengaturan = 'kehadiran';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'kehadiran';
-        $this->sub_modul_ini      = 'hari-libur';
-        $this->header['kategori'] = 'kehadiran';
+        isCan('b');
     }
 
     public function index()
@@ -68,11 +70,11 @@ class Kehadiran_hari_libur extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('kehadiran_hari_libur.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('kehadiran_hari_libur.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('kehadiran_hari_libur.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('kehadiran_hari_libur.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -91,12 +93,12 @@ class Kehadiran_hari_libur extends Admin_Controller
 
         if ($id) {
             $action                        = 'Ubah';
-            $form_action                   = route('kehadiran_hari_libur.update', $id);
+            $form_action                   = ci_route('kehadiran_hari_libur.update', $id);
             $kehadiran_hari_libur          = HariLibur::findOrFail($id);
             $kehadiran_hari_libur->tanggal = date('d-m-Y', strtotime($kehadiran_hari_libur->tanggal));
         } else {
             $action               = 'Tambah';
-            $form_action          = route('kehadiran_hari_libur.create');
+            $form_action          = ci_route('kehadiran_hari_libur.create');
             $kehadiran_hari_libur = null;
         }
 
@@ -129,11 +131,22 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = null): void
+    public function delete($id): void
     {
         $this->redirect_hak_akses('h');
 
-        if (HariLibur::destroy($id ?? $this->request['id_cb'])) {
+        if (HariLibur::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function delete_all(): void
+    {
+        $this->redirect_hak_akses('h');
+
+        if (HariLibur::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -144,7 +157,6 @@ class Kehadiran_hari_libur extends Admin_Controller
     {
         $_POST['tanggal'] = date('Y-m-d', strtotime($request['tanggal']));
 
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
         $rules = empty($id)
             ? 'is_unique[kehadiran_hari_libur.tanggal]'
@@ -185,7 +197,7 @@ class Kehadiran_hari_libur extends Admin_Controller
 
         $batch = collect($tanggal)->map(static fn ($item, $key): array => [
             'config_id'  => identitas('id'),
-            'tanggal'    => date_format(date_create($key), 'Y-m-d'),
+            'tanggal'    => $key,
             'keterangan' => $item['summary'],
         ])->filter(static fn ($value, $key): bool => $value['tanggal'] > date('Y') . '-01-01')->slice(0, -2);
 

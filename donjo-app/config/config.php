@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -215,7 +215,7 @@ $config['composer_autoload'] = 'vendor/autoload.php';
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-@\=';
 
 /*
 |--------------------------------------------------------------------------
@@ -393,6 +393,7 @@ $config['cache_query_string'] = false;
 |
 */
 $config['encryption_key'] = 'lumbungkomunitas';
+$config['cipher']         = 'AES-256-CBC';
 
 /*
 |--------------------------------------------------------------------------
@@ -599,12 +600,22 @@ $config['proxy_ips'] = '';
 | - Nama Lembaga
 | - Facebook OpenDesa
 | - Telegram OpenDesa
+| - Telegram Kontributor
+| - Github OpenSID
+| - Website OpenDesa
+| - Forum OpenDesa
+| - Youtube OpenDesa
 |
 */
-$config['nama_aplikasi'] = 'OpenSID';
-$config['nama_lembaga']  = 'OpenDesa';
-$config['fb_opendesa']   = 'https://www.facebook.com/groups/komunitasopendesa';
-$config['tg_opendesa']   = 'https://t.me/komunitasopensidstop';
+$config['nama_aplikasi']  = 'OpenSID';
+$config['nama_lembaga']   = 'OpenDesa';
+$config['fb_opendesa']    = 'https://www.facebook.com/groups/komunitasopendesa';
+$config['tg_opendesa']    = 'https://t.me/komunitasopensidstop';
+$config['tg_kontributor'] = 'https://t.me/+mi5ydVtVfmw0YWY1';
+$config['github']         = 'https://github.com/OpenSID/OpenSID';
+$config['website']        = 'https://opendesa.id';
+$config['forum']          = 'https://forum.opendesa.id';
+$config['youtube']        = 'https://www.youtube.com/KomunitasOpenSID-OpenDesa';
 
 /*
 |--------------------------------------------------------------------------
@@ -695,3 +706,14 @@ $config['cache_blade'] = STORAGEPATH . 'framework/views/';
 */
 $config['maximum_login_attempts'] = 3;
 $config['lockout_time']           = 300;                 // The number of seconds to lockout an account due to exceeded attempts
+
+$config['modules_locations'] = [
+    FCPATH . 'Modules/' => '../../Modules/',
+];
+
+/*
+|--------------------------------------------------------------------------
+| URL marketplace plugin opensid
+|--------------------------------------------------------------------------
+|
+*/

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -67,11 +67,11 @@ class Teks_berjalan_model extends MY_Model
         $this->sql();
 
         if ($tipe) {
-            $this->db->where('tipe', $tipe);
+            $this->db->where('t.tipe', $tipe);
         }
 
         if ($web === true) {
-            $this->db->where('status', 1);
+            $this->db->where('t.status', 1);
         }
 
         $data    = $this->db->get()->result_array();
@@ -88,7 +88,7 @@ class Teks_berjalan_model extends MY_Model
 
     private function sql(): void
     {
-        $this->config_id_exist('teks_berjalan', 't')
+        $this->config_id('t')
             ->select('t.*, a.judul, a.tgl_upload')
             ->from('teks_berjalan t')
             ->join('artikel a', 't.tautan = a.id', 'left')

@@ -133,6 +133,10 @@
 										<input class="leaflet-control-layers-selector" type="checkbox" name="layer_keluarga" value="1" onchange="handle_kel(this);" <?= jecho($layer_keluarga, '1', 'checked') ?>>
 										<span> Keluarga</span>
 									</label>
+									<label>
+										<input class="leaflet-control-layers-selector" type="checkbox" name="layer_rtm" value="1" onchange="handle_rtm(this);" <?= jecho($layer_rtm, '1', 'checked') ?>>
+										<span> Rumah Tangga</span>
+									</label>
 								</div>
 							</div>
 						</div>
@@ -280,9 +284,11 @@
 			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil, TAMPIL_LUAS);
 
 			//PENDUDUK
-			<?php if (($layer_penduduk == 1 || $layer_keluarga == 1) && ! empty($penduduk)) : ?>
+			<?php if (! empty($penduduk)) : ?>
 
+				var layer_penduduk = '<?= $layer_penduduk ?>';
 				var layer_keluarga = '<?= $layer_keluarga ?>';
+				var layer_rtm = '<?= $layer_rtm ?>';
 
 				//Data penduduk
 				var penduduk = JSON.parse('<?= addslashes(json_encode($penduduk, JSON_THROW_ON_ERROR)) ?>');
@@ -301,6 +307,17 @@
 						foto = `<td style="text-align: center;"><img class="foto_pend" src="<?= site_url('penduduk/ambil_foto'); ?>?foto=${penduduk[x].foto}&sex=${penduduk[x].id_sex}" alt="Foto Penduduk"/></td>`;
 
 						if (layer_keluarga == 1) {
+							info_lain = '<br/>Anggota Keluarga : ' + penduduk[x].jumlah_anggota;
+							link_detail = SITE_URL + 'keluarga/anggota/1/0/' + penduduk[x].id_kk;
+						} else {
+							info_lain = '';
+							link_detail = SITE_URL + 'penduduk/detail/1/0/' + penduduk[x].id;
+						}
+
+						if (layer_rtm == 1) {
+							info_lain = '<br/>Anggota Rumah Tangga : ' + penduduk[x].jumlah_anggota;
+							link_detail = SITE_URL + 'rtm/anggota/' + penduduk[x].rtm_id;
+						} else if (layer_keluarga == 1) {
 							info_lain = '<br/>Anggota Keluarga : ' + penduduk[x].jumlah_anggota;
 							link_detail = SITE_URL + 'keluarga/anggota/1/0/' + penduduk[x].id_kk;
 						} else {
@@ -384,6 +401,10 @@
 
 	function handle_kel(cb) {
 		formAction('mainform_map', '<?= site_url('gis/layer_keluarga') ?>');
+	}
+
+	function handle_rtm(cb) {
+		formAction('mainform_map', '<?= site_url('gis/layer_rtm') ?>');
 	}
 
 	function AmbilFotoLokasi(foto, ukuran = "kecil_") {

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,12 +38,14 @@
 namespace App\Libraries\TinyMCE;
 
 use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusHubunganEnum;
+use App\Enums\SHDKEnum;
 use App\Models\Penduduk;
 
 class KodeIsianPenduduk
 {
     private $idPenduduk;
+    private $prefix;
+    private $prefixJudul;
 
     public function __construct($idPenduduk = null, $prefix = '', $prefixJudul = false)
     {
@@ -315,21 +317,21 @@ class KodeIsianPenduduk
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
-            if (! $id_ayah && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (! $id_ayah && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::SUAMI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::SUAMI);
                     })
                     ->where('sex', JenisKelaminEnum::LAKI_LAKI)
                     ->first()->id;
             }
 
-            if (! $id_ibu && $penduduk->kk_level == StatusHubunganEnum::ANAK) {
+            if (! $id_ibu && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
-                        $query->where('kk_level', StatusHubunganEnum::KEPALA_KELUARGA)
-                            ->orWhere('kk_level', StatusHubunganEnum::ISTRI);
+                        $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
+                            ->orWhere('kk_level', SHDKEnum::ISTRI);
                     })
                     ->where('sex', JenisKelaminEnum::PEREMPUAN)
                     ->first()->id;

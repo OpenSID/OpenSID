@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,6 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Rtm extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'rumah-tangga';
     private array $_set_page     = ['50', '100', '200'];
     private array $_list_session = ['status_dasar', 'cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan'];
 
@@ -49,8 +51,6 @@ class Rtm extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']); // Session id_bos
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'rumah-tangga';
     }
 
     public function clear(): void

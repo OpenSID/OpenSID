@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -40,6 +40,7 @@ namespace App\Libraries;
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use Exception;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 // Library ini berasal dari https://github.com/esyede/captcha
@@ -67,8 +68,8 @@ class Captcha
             Str::random(5)
         );
 
-        $characters                      = static::$case_sensitive ? static::$characters : strtolower(static::$characters);
-        get_instance()->session->captcha = Hash::make($characters);
+        $characters            = static::$case_sensitive ? static::$characters : strtolower(static::$characters);
+        ci()->session->captcha = Hash::make($characters);
 
         $bg   = static::background();
         $font = static::font();
@@ -131,7 +132,7 @@ class Captcha
     public static function check($value): bool
     {
         $value = trim((string) (static::$case_sensitive ? $value : strtolower($value)));
-        $hash  = get_instance()->session->captcha;
+        $hash  = ci()->session->captcha;
 
         return $value && $hash && Hash::check($value, $hash);
     }

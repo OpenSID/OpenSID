@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('surat_master') }}">Daftar Surat</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('surat_master') }}">Daftar Surat</a></li>
     <li class="active">Daftar Lampiran Surat</li>
 @endsection
 
@@ -18,10 +18,10 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('lampiran.form') }}" title="Tambah Lampiran Surat" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ ci_route('lampiran.form') }}" title="Tambah Lampiran Surat" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ route('lampiran/delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ ci_route('lampiran/delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                         class='fa fa-trash-o'></i> Hapus</a>
             @endif
             @if (can('u'))
@@ -31,7 +31,7 @@
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a
-                                href="{{ route('lampiran.impor') }}"
+                                href="{{ ci_route('lampiran.impor') }}"
                                 class="btn btn-social btn-block btn-sm"
                                 data-target="#impor-surat"
                                 data-remote="false"
@@ -41,15 +41,15 @@
                             ><i class="fa fa-upload"></i> Impor Lampiran Surat</a>
                         </li>
                         <li>
-                            <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Lampiran Surat" onclick="formAction('mainform', '{{ route('lampiran.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Lampiran Surat</a>
+                            <a target="_blank" class="btn btn-social btn-block btn-sm aksi-terpilih" title="Ekspor Lampiran Surat" onclick="formAction('mainform', '{{ ci_route('lampiran.ekspor') }}'); return false;"><i class="fa fa-download"></i> Ekspor Lampiran Surat</a>
                         </li>
                     </ul>
                 </div>
-                <a href="{{ route('pengaturan_lampiran') }}" title="Pengaturan" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                <a href="{{ ci_route('pengaturan_lampiran') }}" title="Pengaturan" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                     <i class="fa fa-gear"></i> Pengaturan
                 </a>
             @endif
-            <a href="{{ route('surat_master') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+            <a href="{{ ci_route('surat_master') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                 <i class="fa fa-arrow-circle-left"></i>Kembali ke Daftar Surat
             </a>
         </div>
@@ -94,7 +94,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('lampiran.index') }}",
+                    url: "{{ ci_route('lampiran.index') }}",
                     data: function(d) {
                         d.jenis = $('#jenis').val();
                     }

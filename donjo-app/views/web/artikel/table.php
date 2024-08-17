@@ -67,9 +67,9 @@
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<li class="<?= jecho($cat, 999, 'active'); ?>"><a href="<?= site_url('web/tab/999') ?>">Halaman Statis</a></li>
-								<li class="<?= jecho($cat, 1000, 'active'); ?>"><a href="<?= site_url('web/tab/1000') ?>">Agenda</a></li>
-								<li class="<?= jecho($cat, 1001, 'active'); ?>"><a href="<?= site_url('web/tab/1001') ?>">Keuangan</a></li>
+								<li class="<?= jecho($cat, 'statis', 'active'); ?>"><a href="<?= site_url('web/tab/statis') ?>">Halaman Statis</a></li>
+								<li class="<?= jecho($cat, 'agenda', 'active'); ?>"><a href="<?= site_url('web/tab/agenda') ?>">Agenda</a></li>
+								<li class="<?= jecho($cat, 'keuangan', 'active'); ?>"><a href="<?= site_url('web/tab/keuangan') ?>">Keuangan</a></li>
 							</ul>
 						</div>
 					</div>
@@ -77,27 +77,27 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u') && $cat > 0) : ?>
+							<?php if (can('u') && $cat != '-1') : ?>
 								<a href="<?= site_url('web/form') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 									<i class="fa fa-plus"></i>Tambah
 									<?php if ($kategori) : ?>
 										<?= $kategori['kategori']; ?>
-									<?php elseif ($cat == 1000) : ?>
+									<?php elseif ($cat == 'agenda') : ?>
 										Agenda
-									<?php elseif ($cat == 1001) : ?>
+									<?php elseif ($cat == 'keuangan') : ?>
 										Artikel Keuangan
 									<?php else : ?>
 										Artikel Statis
 									<?php endif; ?> Baru
 								</a>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('h')) : ?>
+							<?php if (can('h')) : ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url('web/delete_all') ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-								<?php if ($cat > 0 && $cat < 999) : ?>
+								<?php if ($cat != '-1') : ?>
 									<a href="#confirm-delete" title="Hapus Kategori <?= $kategori['kategori'] ?>" onclick="deleteAllBox('mainform', '<?= site_url('web/hapus') ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?= $kategori['kategori'] ?></a>
 								<?php endif; ?>
 							<?php endif; ?>
-							<?php if ($cat == 999) : ?>
+							<?php if ($cat == 'statis') : ?>
 								<a href="<?= site_url('web/reset') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
 							<?php endif; ?>
 						</div>
@@ -108,7 +108,7 @@
 										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/{$cat}") ?>')">
+													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url('web/filter/status') ?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
 														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
@@ -119,7 +119,7 @@
 														<div class="input-group input-group-sm pull-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= e($cari) ?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('web/filter/cari/$cat') ?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("web/filter/cari/{$cat}") ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url('web/filter/cari') ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -131,7 +131,7 @@
 														<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																	<?php if (can('h')) : ?>
 																		<th><input type="checkbox" id="checkall" /></th>
 																	<?php endif; ?>
 																	<th>No</th>
@@ -162,14 +162,14 @@
 															<tbody>
 																<?php foreach ($main as $data) : ?>
 																	<tr>
-																		<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																		<?php if (can('h')) : ?>
 																			<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" <?php $data['boleh_ubah'] || print 'disabled' ?> /></td>
 																		<?php endif; ?>
 																		<td class="padat"><?= $data['no'] ?></td>
 																		<td class="aksi">
-																			<?php if ($data['boleh_ubah'] && $this->CI->cek_hak_akses('u')) : ?>
+																			<?php if ($data['boleh_ubah'] && can('u')) : ?>
 																				<a href="<?= site_url('web/form/' . encrypt($data['id'])) ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
-																				<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																				<?php if (can('h')) : ?>
 																					<a href="#" data-href="<?= site_url('web/delete/' . encrypt($data['id'])) ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																				<a href="<?= site_url('web/ubah_kategori_form/' . encrypt($data['id'])) ?>" class="btn bg-purple btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori" title="Ubah Kategori"><i class="fa fa-folder-open"></i></a>

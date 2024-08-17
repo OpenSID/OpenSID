@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,16 +29,21 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Enums\AnalisisRefSubjekEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_respon extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
+
     public function __construct()
     {
         parent::__construct();
@@ -54,8 +59,6 @@ class Analisis_respon extends Admin_Controller
         $this->load->model(['analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
         $this->session->submenu  = 'Input Data';
         $this->session->asubmenu = "{$this->controller}";
-        $this->modul_ini         = 'analisis';
-        $this->sub_modul_ini     = 'master-analisis';
     }
 
     public function clear(): void
@@ -115,9 +118,9 @@ class Analisis_respon extends Admin_Controller
         $this->render('analisis_respon/table', $data);
     }
 
-    private function judul_subjek($subjek_tipe)
+    private function judul_subjek($subjek_tipe): ?array
     {
-        $asubjek = $this->referensi_model->list_by_id('analisis_ref_subjek')[$subjek_tipe]['subjek'];
+        $asubjek = AnalisisRefSubjekEnum::all()[$subjek_tipe];
 
         switch ($subjek_tipe) {
             case 1:

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -43,6 +43,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup extends Admin_Controller
 {
+    public $modul_ini       = 'pengaturan';
+    public $sub_modul_ini   = 'pengguna';
     private int $tab_ini    = 11;
     private bool $view_only = false;
     private $ref_grup;
@@ -50,8 +52,7 @@ class Grup extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'pengguna';
+        isCan('b');
     }
 
     public function index()
@@ -79,16 +80,16 @@ class Grup extends Admin_Controller
                     if ($row->id == 1) {
                         return $aksi;
                     }
-                    $aksi .= '<a href="' . route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
+                    $aksi .= '<a href="' . ci_route('grup.viewForm', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
 
                     if (can('u')) {
                         if ($row->jenis == UserGrup::DESA) {
-                            $aksi .= '<a href="' . route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('grup.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                         }
-                        $aksi .= '<a href="' . route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('grup.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
                     }
                     if (can('h') && $row->jenis == UserGrup::DESA && $row->users_count <= 0) {
-                        $aksi .= '<a href="#" data-href="' . route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        $aksi .= '<a href="#" data-href="' . ci_route('grup.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }
 
                     return $aksi;
@@ -106,7 +107,7 @@ class Grup extends Admin_Controller
             $this->redirect_hak_akses('u');
         }
 
-        $data['form_action'] = route('grup.insert');
+        $data['form_action'] = ci_route('grup.insert');
         $data['view']        = $this->view_only;
         $data['grup']        = [];
 
@@ -120,7 +121,7 @@ class Grup extends Admin_Controller
                 if (! $this->view_only && $data['grup']['jenis'] == UserGrup::SISTEM) {
                     redirect_with('error', 'Grup Pengguna Tidak Dapat Diubah');
                 }
-                $data['form_action'] = route('grup.update', $id);
+                $data['form_action'] = ci_route('grup.update', $id);
             }
         }
 
@@ -161,8 +162,6 @@ class Grup extends Admin_Controller
 
     private function set_form_validation(): void
     {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('nama', 'Nama Grup', 'required|callback_syarat_nama');
         $this->form_validation->set_message('nama', 'Hanya boleh berisi karakter alfanumerik, spasi dan strip');

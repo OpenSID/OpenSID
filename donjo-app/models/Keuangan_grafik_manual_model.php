@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -68,19 +68,19 @@ class Keuangan_grafik_manual_model extends MY_Model
         $this->db->where('Tahun', $thn);
         $this->db->group_by('jenis_pelaksanaan');
 
-        $data['anggaran'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['anggaran'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         $this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai_Realisasi) AS realisasi');
         $this->db->group_by('jenis_pelaksanaan');
         $this->db->where('Tahun', $thn);
-        $data['realisasi_pendapatan'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['realisasi_pendapatan'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         $this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai_Realisasi) AS realisasi');
         $this->db->where('keuangan_manual_rinci.Tahun', $thn);
         $this->db->group_by('jenis_pelaksanaan');
         $this->db->like('Kd_Rincian', '5.', 'after');
 
-        $data['realisasi_belanja'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['realisasi_belanja'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         return $data;
     }
@@ -109,14 +109,14 @@ class Keuangan_grafik_manual_model extends MY_Model
         $this->db->group_by('jenis_pendapatan');
         $this->db->where('Tahun', $thn);
 
-        $data['anggaran'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['anggaran'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         $this->db->select('LEFT(Kd_Rincian, 6) AS jenis_pendapatan, SUM(Nilai_Realisasi) AS realisasi');
         $this->db->like('Kd_Rincian', '4.', 'after');
         $this->db->group_by('jenis_pendapatan');
         $this->db->where('Tahun', $thn);
 
-        $data['realisasi_pendapatan'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['realisasi_pendapatan'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         return $data;
     }
@@ -146,14 +146,14 @@ class Keuangan_grafik_manual_model extends MY_Model
         $this->db->group_by('jenis_belanja');
         $this->db->where('Tahun', $thn);
 
-        $data['anggaran'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['anggaran'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         $this->db->select('LEFT(Kd_Keg, 10) AS jenis_belanja, SUM(Nilai_Realisasi) AS realisasi');
         $this->db->like('Kd_Rincian', '5.', 'after');
         $this->db->where('Tahun', $thn);
         $this->db->group_by('jenis_belanja');
 
-        $data['realisasi_belanja'] = $this->config_id_exist('keuangan_manual_rinci')->get('keuangan_manual_rinci')->result_array();
+        $data['realisasi_belanja'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         return $data;
     }

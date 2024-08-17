@@ -151,7 +151,7 @@
 									<div class="box-header with-border">
 										<?php if ($currentFile) : ?>
 											<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
-											<?php if ($this->CI->cek_hak_akses_url('u')) : ?>
+											<?php if (can('u')) : ?>
 												<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block " title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
 												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url($this->controller . '/remove_log?f=' . base64_encode($currentFile)) ?>')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 											<?php endif; ?>
@@ -257,6 +257,7 @@
 									</div>
 								<?php endforeach; ?>
 							</div>
+							<?php if ($disable_functions['functions']): ?>
 							<div class="col-sm-6">
 								<h4>FUNGSI</h4>
 								<?php foreach ($disable_functions['functions'] as $func => $val) : ?>
@@ -265,6 +266,7 @@
 									</div>
 								<?php endforeach; ?>
 							</div>
+							<?php endif ?>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">
@@ -298,25 +300,25 @@
 						<div id="info_sistem" class="tab-pane fade in">
 							<?php
                             ob_start();
-					    if (ENVIRONMENT === 'production') :
-					        phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
-					    else :
-					        phpinfo();
-					    endif;
+                        if (ENVIRONMENT === 'production') :
+                            phpinfo(INFO_ALL & ~INFO_GENERAL & ~INFO_MODULES & ~INFO_ENVIRONMENT & ~INFO_VARIABLES);
+                        else :
+                            phpinfo();
+                        endif;
 
-			$phpinfo = ['phpinfo' => []];
+            $phpinfo = ['phpinfo' => []];
 
-			if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
-			    foreach ($matches as $match) :
-			        if ($match[1] !== '') :
-			            $phpinfo[$match[1]] = [];
-			        elseif (isset($match[3])) :
-			            $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
-			        else :
-			            $phpinfo[end(array_keys($phpinfo))][] = $match[2];
-			        endif;
-			    endforeach;
-			?>
+            if (preg_match_all('#(?:<h2>(?:<a name=".*?">)?(.*?)(?:</a>)?</h2>)|(?:<tr(?: class=".*?")?><t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>(?:<t[hd](?: class=".*?")?>(.*?)\s*</t[hd]>)?)?</tr>)#s', ob_get_clean(), $matches, PREG_SET_ORDER)) :
+                foreach ($matches as $match) :
+                    if ($match[1] !== '') :
+                        $phpinfo[$match[1]] = [];
+                    elseif (isset($match[3])) :
+                        $phpinfo[end(array_keys($phpinfo))][$match[2]] = isset($match[4]) ? [$match[3], $match[4]] : $match[3];
+                    else :
+                        $phpinfo[end(array_keys($phpinfo))][] = $match[2];
+                    endif;
+                endforeach;
+            ?>
 								<?php $i = 0; ?>
 								<?php foreach ($phpinfo as $name => $section) : ?>
 									<?php $i++; ?>
@@ -397,9 +399,9 @@
 												<div class="box-body">
 													<div class="css-treeview">
 														<?php
-			                            $folders = directory_map(DESAPATH);
-			echo create_tree_folder($folders, DESAPATH);
-			?>
+                                        $folders = directory_map(DESAPATH);
+            echo create_tree_folder($folders, DESAPATH);
+            ?>
 													</div>
 
 												</div>

@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('wilayah.index') }}"> Wilayah Administratif {{ $wilayahLabel }}</a></li>
+    <li><a href="{{ ci_route('wilayah.index') }}"> Wilayah Administratif {{ $wilayahLabel }}</a></li>
     <li class="active">{{ $aksi ? 'Ubah' : 'Tambah' }} Data</li>
 @endsection
 

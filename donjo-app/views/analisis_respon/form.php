@@ -28,7 +28,7 @@
 									<i class="fa fa-search-plus"></i>Full Screen
 								</a>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('u')) : ?>
+							<?php if (can('u')) : ?>
 								<a href="<?= $perbaharui; ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perbaharui Data <?= $analisis_master['subjek_nama']; ?>"><i class="fa fa-refresh"></i> Pebaharui Data <?= $analisis_master['subjek_nama']; ?></a>
 							<?php endif; ?>
 							<a href="<?= site_url('analisis_respon'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
@@ -74,7 +74,7 @@
 													<tbody>
 														<?php $i = 1;
 
-										    foreach ($list_anggota as $ang) : $idc = $ang['id']; ?>
+                                            foreach ($list_anggota as $ang) : $idc = $ang['id']; ?>
 															<tr>
 																<td><?= $i ?></td>
 																<?php if ($analisis_master['id_child'] != 0) : ?>
@@ -88,7 +88,7 @@
 																<td><?php if ($ang['sex'] == 1) : ?>LAKI-LAKI<?php endif; ?><?php if ($ang['sex'] == 2) : ?> PEREMPUAN<?php endif; ?></td>
 															</tr>
 														<?php $i++;
-										    endforeach; ?>
+                                            endforeach; ?>
 													</tbody>
 												</table>
 											</div>
@@ -96,25 +96,25 @@
 										<div class="table-responsive">
 											<table class="table">
 												<?php
-										        $new = 1;
-		$last                = 0;
+                                                $new = 1;
+        $last                                        = 0;
 
-		foreach ($list_jawab as $data) :
-		    $data['no'] = '';
-		    ?>
+        foreach ($list_jawab as $data) :
+            $data['no'] = '';
+            ?>
 													<?php
-		        if ($data['id_kategori'] != $last || $last == 0) :
-		            $new = 1;
-		        endif;
-		    if ($new == 1) : ?>
+                if ($data['id_kategori'] != $last || $last == 0) :
+                    $new = 1;
+                endif;
+            if ($new == 1) : ?>
 														<tr>
 															<th colspan="2" class="bg-aqua"><strong><?= $data['kategori'] ?></strong></th>
 														</tr>
 													<?php
-		        $new  = 0;
-		        $last = $data['id_kategori'];
-		    endif;
-		    ?>
+                $new  = 0;
+                $last = $data['id_kategori'];
+            endif;
+            ?>
 													<tr>
 														<td colspan="2"><label><?= $data['nomor'] ?> ) <?= $data['pertanyaan'] ?></label></td>
 													</tr>
@@ -159,10 +159,10 @@
 																<td></td>
 																<td>
 																	<?php
-		                    if (preg_match('/tanggal/i', $data['referensi']) || preg_match('/tanggal/i', $data['referensi'])) {
-		                        $subjek[$data['referensi']] = tgl_indo_dari_str($subjek[$data['referensi']]);
-		                    }
-													    ?>
+                            if (preg_match('/tanggal/i', $data['referensi']) || preg_match('/tanggal/i', $data['referensi'])) {
+                                $subjek[$data['referensi']] = tgl_indo_dari_str($subjek[$data['referensi']]);
+                            }
+                                                        ?>
 																	<textarea <?= jecho($data['referensi'] && $subjek[$data['referensi']], true, 'readonly'); ?> id="it[<?= $data['id'] ?>]" name="it[<?= $data['id'] ?>]" class="form-control input-sm" style="width:100%" rows="5"><?= $data['parameter_respon']['jawaban'] ?? $subjek[$data['referensi']]; ?></textarea>
 																</td>
 															</tr>
@@ -203,7 +203,7 @@
 										</div>
 									</div>
 								</div>
-								<?php if ($this->CI->cek_hak_akses('u')) : ?>
+								<?php if (can('u')) : ?>
 									<div class="box-footer">
 										<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
 										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>

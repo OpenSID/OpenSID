@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,12 +39,17 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
+use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pamong extends BaseModel
 {
     use ConfigId;
+    use SortableTrait;
+
+    public const LOCK   = 1;
+    public const UNLOCK = 2;
 
     /**
      * The table associated with the model.
@@ -81,6 +86,23 @@ class Pamong extends BaseModel
      */
     protected $guarded = [];
 
+    /**
+     * {@inheritDoc}
+     */
+    public $sortable = [
+        'order_column_name'  => 'urut',
+        'sort_when_creating' => true,
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'media_sosial' => 'json',
+    ];
+
     // TODO: OpenKab - Sementara di disable dulu observer pada relasi ini
     public function penduduk()
     {
@@ -109,17 +131,28 @@ class Pamong extends BaseModel
 
     public function scopeSelectData($query)
     {
-        $new_query = $query->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.nama AS pamong_jabatan', 'ref_jabatan.jenis', 'pamong_nip', 'pamong_niap', 'pamong_ttd', 'pamong_ub', 'pamong_status', 'pamong_nik'])
+        return $query->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.nama AS pamong_jabatan', 'ref_jabatan.jenis', 'pamong_nip', 'pamong_niap', 'pamong_ttd', 'pamong_ub', 'pamong_status', 'pamong_nik'])
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nik, tweb_penduduk.nik) AS pamong_nik')
+            ->selectRaw('gelar_depan')
+            ->selectRaw('gelar_belakang')
             ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
             ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id');
+    }
 
-        if (ci_db()->field_exists('gelar_depan', 'tweb_desa_pamong')) {
-            return $new_query->selectRaw('gelar_depan')->selectRaw('gelar_belakang');
+    public function scopeListAtasan($query, $id = null)
+    {
+        if ($id) {
+            $atasan = $query->where('pamong_id', '<>', $id);
         }
 
-        return $new_query;
+        return $query->select(['pamong_id as id', 'ref_jabatan.nama AS jabatan', 'jabatan_id'])
+            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS nama')
+            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nik, tweb_penduduk.nik) AS nik')
+            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
+            ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id')
+            ->where('pamong_status', 1)
+            ->orderBy('nama');
     }
 
     /**
@@ -253,6 +286,56 @@ class Pamong extends BaseModel
     }
 
     /**
+     * Getter status pamong_sex attribute.
+     *
+     * @return string
+     */
+    public function getPamongSexAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->sex : $this->attributes['pamong_sex'];
+    }
+
+    /**
+     * Getter status pamong_tempatlahir attribute.
+     *
+     * @return string
+     */
+    public function getPamongTempatlahirAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->tempatlahir : $this->attributes['pamong_tempatlahir'];
+    }
+
+    /**
+     * Getter status pamong_tanggallahir attribute.
+     *
+     * @return string
+     */
+    public function getPamongTanggallahirAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->tanggallahir : $this->attributes['pamong_tanggallahir'];
+    }
+
+    /**
+     * Getter status pamong_agama attribute.
+     *
+     * @return string
+     */
+    public function getPamongAgamaAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->agama_id : $this->attributes['pamong_agama'];
+    }
+
+    /**
+     * Getter status pamong_pendidikan attribute.
+     *
+     * @return string
+     */
+    public function getPamongPendidikanAttribute()
+    {
+        return $this->attributes['id_pend'] != null ? $this->penduduk->pendidikan_kk_id : $this->attributes['pamong_pendidikan'];
+    }
+
+    /**
      * Scope query untuk pamong yang aktif
      *
      * @param Builder $query
@@ -261,7 +344,7 @@ class Pamong extends BaseModel
      */
     public function scopeAktif($query)
     {
-        return $query->where('pamong_status', StatusEnum::YA);
+        return $query->where('pamong_status', self::LOCK);
     }
 
     /**
@@ -281,5 +364,47 @@ class Pamong extends BaseModel
 
             return $q->select(['pamong_id'])->whereNotNull('pamong_id')->from('user');
         });
+    }
+
+    public function scopeUrut($query)
+    {
+        $kades  = kades()->id ?: 0;
+        $sekdes = sekdes()->id ?: 0;
+
+        return $query->orderByRaw(sprintf('
+            case
+                when jabatan_id=%s then 1
+                when jabatan_id=%s then 2
+                else 3
+            end
+            ', $kades, $sekdes))
+            ->orderBy('urut');
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'foto');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'foto', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $kecil  = LOKASI_USER_PICT . 'kecil_' . $model->getOriginal($file);
+            $sedang = LOKASI_USER_PICT . $model->getOriginal($file);
+            if (file_exists($kecil)) {
+                unlink($kecil);
+            }
+            if (file_exists($sedang)) {
+                unlink($sedang);
+            }
+        }
     }
 }

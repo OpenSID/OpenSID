@@ -153,8 +153,9 @@
                             dataType: 'json',
                         })
                         .done(function(response) {
+                            console.log(response);
                             $.ajax({
-                                    url: '{{ route('status_desa.perbarui_bps') }}',
+                                    url: '{{ ci_route('status_desa.perbarui_bps') }}',
                                     type: 'Post',
                                     dataType: 'json',
                                     data: {
@@ -163,7 +164,7 @@
                                 })
                                 .done(function(value) {
                                     if (value.status) {
-                                        location.replace('{{ route('status_desa.perbarui_sdgs') }}')
+                                        location.replace('{{ ci_route('status_desa.perbarui_sdgs') }}')
                                     } else {
                                         Swal.fire({
                                             icon: 'error',

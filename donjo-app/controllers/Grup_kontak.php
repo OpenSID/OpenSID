@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -45,12 +45,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup_kontak extends Admin_Controller
 {
+    public $modul_ini           = 'hubung-warga';
+    public $sub_modul_ini       = 'daftar-kontak';
+    public $kategori_pengaturan = 'hubung warga';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'hubung-warga';
-        $this->sub_modul_ini      = 'daftar-kontak';
-        $this->header['kategori'] = 'hubung warga';
     }
 
     public function index()
@@ -72,14 +73,14 @@ class Grup_kontak extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('grup_kontak.form', $row->id_grup) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('grup_kontak.form', $row->id_grup) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('grup_kontak.delete', $row->id_grup) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('grup_kontak.delete', $row->id_grup) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
-                    return $aksi . ('<a href="' . route('grup_kontak.anggota', $row->id_grup) . '" class="btn bg-purple btn-sm"  title="Data Anggota"><i class="fa fa fa-list"></i></a> ');
+                    return $aksi . ('<a href="' . ci_route('grup_kontak.anggota', $row->id_grup) . '" class="btn bg-purple btn-sm"  title="Data Anggota"><i class="fa fa fa-list"></i></a> ');
                 })
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -94,11 +95,11 @@ class Grup_kontak extends Admin_Controller
 
         if ($id) {
             $action     = 'Ubah';
-            $formAction = route('grup_kontak.update', $id);
+            $formAction = ci_route('grup_kontak.update', $id);
             $grupKontak = GrupKontak::findOrFail($id);
         } else {
             $action     = 'Tambah';
-            $formAction = route('grup_kontak.insert');
+            $formAction = ci_route('grup_kontak.insert');
             $grupKontak = null;
         }
 
@@ -166,7 +167,7 @@ class Grup_kontak extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('h')) {
-                        return '<a href="#" data-href="' . route('grup_kontak.anggotadelete', $row->id_grup_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        return '<a href="#" data-href="' . ci_route('grup_kontak.anggotadelete', $row->id_grup_kontak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
                 })
                 ->addColumn('kontak', static fn ($row): string => (null === $row->id_kontak) ? '<span class="label label-success">Penduduk</span>' : '<span class="label label-info">Eksternal</span>')
@@ -182,7 +183,7 @@ class Grup_kontak extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $action     = 'Tambah';
-        $formAction = route('grup_kontak.anggotainsert');
+        $formAction = ci_route('grup_kontak.anggotainsert');
         $grupKontak = GrupKontak::find($id_grup) ?? show_404();
 
         return view('admin.grup_kontak.anggota.form', ['action' => $action, 'formAction' => $formAction, 'grupKontak' => $grupKontak]);

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,7 +42,7 @@ class Penomoran_surat_model extends MY_Model
     /**
      * Cari surat dengan nomor terakhir sesuai setting aplikasi
      *
-     * @param		string 	nama tabel surat
+     * @param string 	nama tabel surat
      * @param mixed      $type
      * @param mixed|null $url
      *
@@ -133,9 +133,9 @@ class Penomoran_surat_model extends MY_Model
     /**
      * Periksa apakah nomor surat sudah digunakan sesuai setting aplikasi
      *
-     * @param		string 		nama tabel surat
-     * @param		int 	nomor urut atau nomor surat
-     * @param		string 		url surat untuk layanan surat
+     * @param string 		nama tabel surat
+     * @param int 	nomor urut atau nomor surat
+     * @param string 		url surat untuk layanan surat
      * @param mixed      $type
      * @param mixed      $nomor_surat
      * @param mixed|null $url

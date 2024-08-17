@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -186,7 +186,7 @@ class Surat_masuk_model extends MY_Model
         // Ada lampiran file
         if ($adaLampiran) {
             // Tes tidak berisi script PHP
-            if (isPHP($_FILES['foto']['tmp_name'], $_FILES['foto']['name'])) {
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
                 $_SESSION['error_msg'] .= ' -> Jenis file ini tidak diperbolehkan ';
                 $_SESSION['success'] = -1;
                 redirect('man_user');
@@ -294,7 +294,7 @@ class Surat_masuk_model extends MY_Model
         // Ada lampiran file
         if ($adaLampiran) {
             // Tes tidak berisi script PHP
-            if (isPHP($_FILES['foto']['tmp_name'], $_FILES['satuan']['name'])) {
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
                 $_SESSION['error_msg'] .= ' -> Jenis file ini tidak diperbolehkan ';
                 $_SESSION['success'] = -1;
                 redirect('man_user');

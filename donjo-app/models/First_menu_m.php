@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -41,7 +41,7 @@ class First_menu_m extends MY_Model
 {
     private function list_submenu($parrent = 0)
     {
-        $data    = $this->config_id_exist('menu')->where(['parrent' => $parrent, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
+        $data    = $this->config_id()->where(['parrent' => $parrent, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
@@ -56,7 +56,7 @@ class First_menu_m extends MY_Model
 
     public function list_menu_atas()
     {
-        $data    = $this->config_id_exist('menu')->where(['parrent' => 0, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
+        $data    = $this->config_id()->where(['parrent' => 0, 'enabled' => 1])->order_by('urut')->get('menu')->result_array();
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
@@ -73,9 +73,9 @@ class First_menu_m extends MY_Model
     private function list_kategori($parrent = 0)
     {
         if ($parrent == 0) {
-            $this->config_id_exist('kategori', null, true);
+            $this->config_id(null, true);
         } else {
-            $this->config_id_exist('kategori');
+            $this->config_id();
         }
 
         return $this->db

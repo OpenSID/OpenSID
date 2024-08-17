@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -46,6 +46,8 @@ class Modul extends BaseModel
 {
     use ConfigId;
 
+    public const LOCK         = 2;
+    public const UNLOCK       = 1;
     public const SELALU_AKTIF = ['beranda', 'notif', 'pengguna'];
 
     /**
@@ -78,6 +80,10 @@ class Modul extends BaseModel
         'aktif' => 'boolean',
     ];
 
+    protected $appends = [
+        'raw_aktif',
+    ];
+
     /**
      * Scope query untuk aktif
      *
@@ -96,11 +102,37 @@ class Modul extends BaseModel
         return $query->where('parent', 0);
     }
 
+    protected function getRawAktifAttribute($value)
+    {
+        return $this->attributes['aktif'];
+    }
+
     /**
      * Get all of the children for the Modul
      */
     public function children(): HasMany
     {
         return $this->hasMany(Modul::class, 'parent', 'id');
+    }
+
+    public static function listIcon()
+    {
+        $list_icon = [];
+
+        $file = FCPATH . 'assets/fonts/fontawesome.txt';
+
+        if (file_exists($file)) {
+            $list_icon = file_get_contents($file);
+            $list_icon = explode('.', $list_icon);
+
+            return array_map(static fn ($a): string => explode(':', $a)[0], $list_icon);
+        }
+
+        return false;
+    }
+
+    public function isLock(): bool
+    {
+        return $this->attributes['aktif'] == self::LOCK;
     }
 }

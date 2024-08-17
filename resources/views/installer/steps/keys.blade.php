@@ -36,7 +36,7 @@
     @endif
     <p class="pb-3 text-gray-800">The encryption keys of the application and the api connection must be generated.</p>
     <p class="pb-3 text-gray-800">The storage link will also be generated.</p>
-    <form method="post" action="{{ route('LaravelWizardInstaller::install.keys') }}">
+    <form method="post" action="{{ ci_route('LaravelWizardInstaller::install.keys') }}">
         @csrf
         <div class="flex justify-end">
             @if ($errors->any())

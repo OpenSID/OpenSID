@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -43,16 +43,15 @@ use App\Models\UserGrup;
 
 class Man_user extends Admin_Controller
 {
-    private int $tab_ini = 10;
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'pengguna';
+    private int $tab_ini  = 10;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('form_validation');
+        isCan('b');
         $this->form_validation->set_error_delimiters('', '');
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'pengguna';
     }
 
     public function index()
@@ -66,18 +65,20 @@ class Man_user extends Admin_Controller
         $data['user_group'] = UserGrup::pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
-            $input = $this->input;
+            $input  = $this->input;
+            $status = $input->get('status');
 
-            return datatables(
+            return datatables()->of(
                 User::with('pamong', 'userGrup')
+                    ->when($status != '', static function ($query) use ($status): void {
+                        $query->status($status);
+                    })
                     ->whereHas('userGrup', function ($query): void {
                         if ($group = $this->input->get('group')) {
                             $query->where('id', $group);
                         }
                     })
-            )->filter(static function ($query) use ($input): void {
-                $query->status($input->get('status'));
-            })
+            )
                 ->addIndexColumn()
                 ->addColumn('ceklist', static function ($row) {
                     if ($row->id != super_admin()) {

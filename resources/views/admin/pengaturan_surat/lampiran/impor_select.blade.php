@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('lampiran') }}">Daftar Lampiran</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('lampiran') }}">Daftar Lampiran</a></li>
     <li class="active">Impor Lampiran</li>
 @endsection
 
@@ -57,7 +57,7 @@
         $(document).ready(function() {
             $('#btn-impor').prop('disabled', 1)
             $('#btn-impor').click(function() {
-                formAction('mainform', '{{ route('lampiran.impor_store') }}');
+                formAction('mainform', '{{ ci_route('lampiran.impor_store') }}');
             })
             $('input[name="id_cb[]"]').change(function() {
                 if ($('input[name="id_cb[]"]:checked').length) {

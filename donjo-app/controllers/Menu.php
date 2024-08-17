@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,168 +29,197 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Models\Artikel;
+use App\Models\Bantuan;
+use App\Models\Kategori;
+use App\Models\Kelompok;
+use App\Models\Menu as MenuModel;
+use App\Models\Suplemen;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Menu extends Admin_Controller
 {
-    protected $list_session = ['cari', 'filter', 'parrent'];
-    protected $set_page     = ['10', '20', '50', '100'];
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'menu';
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('web_menu_model');
-        $this->load->model('web_artikel_model');
-        $this->load->model('web_kategori_model');
-        $this->load->model('kelompok_model');
-        $this->load->model('suplemen_model');
-        $this->load->model('program_bantuan_model');
-        $this->load->model('keuangan_model');
-        $this->load->model('kelompok_model');
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'menu';
     }
 
-    public function clear($parrent = 0): void
+    public function index(): void
     {
-        $this->session->unset_userdata($this->list_session);
-        $this->session->per_page = $this->set_page[0];
-        $this->session->parrent  = $parrent;
+        $parent = $this->input->get('parent') ?? 0;
+        $data   = [
+            'status'   => [MenuModel::UNLOCK => 'Aktif', MenuModel::LOCK => 'Non Aktif'],
+            'subtitle' => $parent > 0 ? '<a href="' . ci_route('menu.index') . '?parent=0">MENU UTAMA </a> / ' . MenuModel::find($parent)->getSelfParents()->reverse()->map(static fn ($item) => $parent == $item['id'] ? strtoupper($item['nama']) : '<a href="' . ci_route('menu.index') . '?parent=' . $item['id'] . '">' . strtoupper($item['nama']) . '</a>')->join(' / ') : '',
+            'parent'   => $parent,
+        ];
 
-        redirect($this->controller);
+        view('admin.web.menu.index', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p']   = $p;
-        $data['o']   = $o;
-        $data['tip'] = 1; // Hanya untuk Navigasi
+        if ($this->input->is_ajax_request()) {
+            $parent    = (int) ($this->input->get('parent') ?? 0);
+            $status    = $this->input->get('status') ?? null;
+            $canDelete = can('h');
+            $canUpdate = can('u');
 
-        foreach ($this->list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
+            return datatables()->of(MenuModel::child($parent)->with(['parent'])->orderBy('urut', 'asc')->when($status, static fn ($q) => $q->where('enabled', $status)))
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
+                    $aksi  = '';
+                    $judul = $parent > 0 ? 'Submenu' : 'Menu';
+                    if ($canUpdate) {
+
+                        $aksi .= '<a href="' . ci_route('menu.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
+
+                        $aksi .= '<a href="' . ci_route('menu.ajax_menu', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
+                        if ($row->isActive()) {
+                            $aksi .= '<a href="' . ci_route('menu.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('menu.lock', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
+
+                    if ($canDelete) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('menu.delete', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })->editColumn('link', static fn ($row) => '<a href="' . $row->linkUrl . '" target="_blank">' . $row->linkUrl . '</a>' )
+                ->rawColumns(['aksi', 'ceklist', 'link'])
+                ->make();
         }
 
-        $per_page = $this->input->post('per_page');
-
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['menu_utama'] = ($data['parrent'] != 0) ? $this->web_menu_model->get_menu($data['parrent']) : null; // Untuk dapatkan nama menu utama
-        $data['func']       = 'index';
-        $data['set_page']   = $this->set_page;
-        $data['per_page']   = $this->session->per_page;
-        $data['paging']     = $this->web_menu_model->paging($p);
-        $data['main']       = $this->web_menu_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']    = $this->web_menu_model->autocomplete($data['cari']);
-        $this->render('menu/table', $data);
+        return show_404();
     }
 
-    public function ajax_menu($id = ''): void
+    public function ajax_menu($parent, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
-
-        $parrent = $this->session->parrent;
-
-        $data['link_tipe']                  = $this->referensi_model->list_ref(LINK_TIPE);
-        $data['artikel_statis']             = $this->web_artikel_model->list_artikel_statis();
-        $data['kategori_artikel']           = $this->web_kategori_model->list_kategori();
-        $data['statistik_penduduk']         = $this->referensi_model->list_ref(STAT_PENDUDUK);
-        $data['statistik_keluarga']         = $this->referensi_model->list_ref(STAT_KELUARGA);
-        $data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-        $data['statistik_program_bantuan']  = $this->program_bantuan_model->list_program(0);
-        $data['kelompok']                   = $this->kelompok_model->set_tipe('kelompok')->list_data();
-        $data['lembaga']                    = $this->kelompok_model->set_tipe('lembaga')->list_data();
-        $data['suplemen']                   = $this->suplemen_model->list_data();
-        $data['statis_lainnya']             = $this->referensi_model->list_ref(STAT_LAINNYA);
-        $data['artikel_keuangan']           = $this->keuangan_model->artikel_statis_keuangan();
-        $data['menu_utama']                 = ($parrent != 0) ? $this->web_menu_model->get_menu($parrent) : null; // Untuk dapatkan nama menu utama
+        isCan('u');
+        $menu                               = new MenuModel();
+        $data['link_tipe']                  = unserialize(LINK_TIPE);
+        $data['artikel_statis']             = Artikel::select(['id', 'judul'])->statis()->get()->toArray();
+        $data['kategori_artikel']           = Kategori::select(['slug', 'kategori'])->orderBy('urut')->get()->toArray();
+        $data['statistik_penduduk']         = unserialize(STAT_PENDUDUK);
+        $data['statistik_keluarga']         = unserialize(STAT_KELUARGA);
+        $data['statistik_kategori_bantuan'] = unserialize(STAT_BANTUAN);
+        $data['statistik_program_bantuan']  = Bantuan::select(['id', 'nama', 'slug'])->get()->toArray();
+        $data['kelompok']                   = Kelompok::tipe('kelompok')->get()->toArray();
+        $data['lembaga']                    = Kelompok::tipe('lembaga')->get()->toArray();
+        $data['suplemen']                   = Suplemen::select(['id', 'nama', 'slug'])->get()->toArray();
+        $data['statis_lainnya']             = unserialize(STAT_LAINNYA);
+        $data['artikel_keuangan']           = Artikel::select(['id', 'judul'])->keuangan()->get()->toArray();
 
         if ($id) {
-            $data['menu']        = $this->web_menu_model->get_menu($id);
-            $data['form_action'] = site_url("{$this->controller}/update/{$id}");
+            $data['menu']        = MenuModel::findOrFail($id)->toArray();
+            $data['form_action'] = ci_route("menu.update.{$parent}.{$id}");
+            $data['menu_utama']  = $menu->buildArray($menu->tree());
         } else {
             $data['menu']        = null;
-            $data['form_action'] = site_url("{$this->controller}/insert");
+            $data['form_action'] = ci_route("menu.insert.{$parent}");
+        }
+        view('admin.web.menu.ajax_form', $data);
+    }
+
+    public function insert($parent): void
+    {
+        isCan('u');
+        $data            = $this->validasi($this->input->post());
+        $data['parrent'] = $parent;
+
+        try {
+            MenuModel::create($data);
+            cache()->flush();
+            redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Menu gagal disimpan', ci_route('menu.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function update($parent, $id): void
+    {
+        isCan('u');
+        $data = $this->validasi($this->input->post());
+
+        try {
+            $obj = MenuModel::findOrFail($id);
+            $obj->update($data);
+            cache()->flush();
+            redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Menu gagal disimpan', ci_route('menu.index') . '?parent=' . $parent);
+        }
+    }
+
+    public function delete($parent, $id = null): void
+    {
+        isCan('h');
+
+        if (MenuModel::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
+            redirect_with('error', 'Menu tidak dapat dihapus karena masih memiliki submenu');
         }
 
-        $this->load->view('menu/ajax_menu_form', $data);
-    }
-
-    public function search(): void
-    {
-        if ($cari = $this->input->post('cari')) {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
+        try {
+            MenuModel::destroy($this->request['id_cb'] ?? $id);
+            cache()->flush();
+            redirect_with('success', 'Menu berhasil dihapus', ci_route('menu.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Menu gagal dihapus', ci_route('menu.index') . '?parent=' . $parent);
         }
-        redirect($this->controller);
     }
 
-    public function filter(): void
+    public function lock($parent, $id): void
     {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
+        isCan('h');
+
+        try {
+            MenuModel::gantiStatus($id, 'enabled');
+            cache()->flush();
+            redirect_with('success', 'Berhasil ubah status', ci_route('menu.index') . '?parent=' . $parent);
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Gagal ubah status', ci_route('menu.index') . '?parent=' . $parent);
         }
-        redirect($this->controller);
     }
 
-    public function insert(): void
+    public function tukar()
     {
-        $this->redirect_hak_akses('u');
-        $this->web_menu_model->insert();
-        redirect($this->controller);
+        $menu = $this->input->post('data');
+        MenuModel::setNewOrder($menu);
+        cache()->flush();
+
+        return json(['status' => 1]);
     }
 
-    public function update($id = ''): void
+    private function validasi($post)
     {
-        $this->redirect_hak_akses('u');
-        $this->web_menu_model->update($id);
-        redirect($this->controller);
-    }
+        $parrent = bilangan($post['parrent'] ?? 0);
 
-    public function delete($id = ''): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->web_menu_model->delete($id);
-        redirect($this->controller);
-    }
-
-    public function delete_all(): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->web_menu_model->delete_all();
-        redirect($this->controller);
-    }
-
-    public function menu_lock($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->web_menu_model->menu_lock($id, 0);
-        redirect($this->controller);
-    }
-
-    public function menu_unlock($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->web_menu_model->menu_lock($id, 1);
-        redirect($this->controller);
-    }
-
-    public function urut($id = 0, $arah = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->web_menu_model->urut($id, $arah);
-        redirect($this->controller);
+        return [
+            'nama'      => htmlentities($post['nama']),
+            'link'      => $post['link'],
+            'parrent'   => $parrent,
+            'link_tipe' => $post['link_tipe'],
+            'enabled'   => 1,
+        ];
     }
 }

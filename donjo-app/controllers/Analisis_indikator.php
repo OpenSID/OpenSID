@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,6 +39,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_indikator extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
+
     public function __construct()
     {
         parent::__construct();
@@ -53,8 +56,6 @@ class Analisis_indikator extends Admin_Controller
         $this->load->model(['analisis_indikator_model', 'analisis_parameter_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Indikator';
         $this->session->asubmenu = 'analisis_indikator';
-        $this->modul_ini         = 'analisis';
-        $this->sub_modul_ini     = 'master-analisis';
     }
 
     public function clear(): void
@@ -161,7 +162,7 @@ class Analisis_indikator extends Admin_Controller
     public function filter(): void
     {
         $filter = $this->input->post('filter');
-        if ($filter != 0) {
+        if (! empty($filter)) {
             $_SESSION['filter'] = $filter;
         } else {
             unset($_SESSION['filter']);
@@ -173,7 +174,7 @@ class Analisis_indikator extends Admin_Controller
     public function tipe(): void
     {
         $filter = $this->input->post('tipe');
-        if ($filter != 0) {
+        if (! empty($filter)) {
             $_SESSION['tipe'] = $filter;
         } else {
             unset($_SESSION['tipe']);
@@ -185,7 +186,7 @@ class Analisis_indikator extends Admin_Controller
     public function kategori(): void
     {
         $filter = $this->input->post('kategori');
-        if ($filter != 0) {
+        if (! empty($filter)) {
             $_SESSION['kategori'] = $filter;
         } else {
             unset($_SESSION['kategori']);

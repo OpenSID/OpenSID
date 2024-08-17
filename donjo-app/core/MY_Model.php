@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -37,7 +37,6 @@
 
 use App\Models\Config;
 use App\Models\FormatSurat;
-use App\Models\Migrasi;
 use App\Models\SettingAplikasi;
 use App\Models\User;
 use App\Models\UserGrup;
@@ -86,7 +85,7 @@ class MY_Model extends CI_Model
             $this->db->where($where);
         }
 
-        $data = $this->config_id_exist($tabel)
+        $data = $this->config_id($tabel)
             ->distinct()
             ->select($kolom)
             ->order_by($kolom)
@@ -132,21 +131,12 @@ class MY_Model extends CI_Model
 
             [$kolom, $table, $where, $cari] = $kode;
 
-            $sql[] = "({$this->config_id_exist($table, $table)->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
+            $sql[] = "({$this->config_id($table)->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
         }
 
         $sql = implode('UNION', $sql);
 
         return $this->db->query($sql)->result_array();
-    }
-
-    public function hapus_indeks($tabel, $indeks)
-    {
-        if ($this->cek_indeks($tabel, $indeks)) {
-            return $this->db->query("DROP INDEX {$indeks} ON {$tabel}");
-        }
-
-        return true;
     }
 
     public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE', $multi = false)
@@ -286,7 +276,7 @@ class MY_Model extends CI_Model
             $hasil = $this->db->query($sql);
         }
 
-        hapus_cache('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         return true;
     }
@@ -299,6 +289,7 @@ class MY_Model extends CI_Model
         $data['syarat_surat'] = json_encode($data['syarat_surat'], JSON_THROW_ON_ERROR);
         $data['created_by']   = auth()->id;
         $data['updated_by']   = auth()->id;
+        $data['config_id']    = $config_id;
         if (is_array($data['form_isian'])) {
             $data['form_isian'] = json_encode($data['form_isian'], JSON_THROW_ON_ERROR);
         }
@@ -307,12 +298,7 @@ class MY_Model extends CI_Model
         }
 
         // Tambah data baru dan update (hanya kolom template) jika ada sudah ada
-        $cek_surat = DB::table('tweb_surat_format')->where('url_surat', $data['url_surat']);
-
-        if (Schema::hasColumn('tweb_surat_format', 'config_id')) {
-            $cek_surat->where('config_id', $config_id);
-            $data['config_id'] = $config_id;
-        }
+        $cek_surat = DB::table('tweb_surat_format')->where('config_id', $config_id)->where('url_surat', $data['url_surat']);
 
         if ($cek_surat->exists()) {
             $cek_surat->update(['template' => $data['template']]);
@@ -334,80 +320,6 @@ class MY_Model extends CI_Model
         $this->paging->init($cfg);
 
         return $this->paging;
-    }
-
-    // Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
-    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
-    {
-        $query = $this->db
-            ->where('CONSTRAINT_SCHEMA', $this->db->database)
-            ->where('TABLE_NAME', $di_tbl)
-            ->where('CONSTRAINT_NAME', $nama_constraint)
-            ->where('REFERENCED_TABLE_NAME', $ke_tbl)
-            ->get('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS');
-
-        $hasil = true;
-
-        //pastikan engine yang dipakai innoDB
-        $q_check = "SHOW TABLE STATUS WHERE Name in('{$di_tbl}', '{$ke_tbl}') and ENGINE != 'InnoDB'";
-
-        $cek_engine = $this->db->query($q_check)->result();
-        if ($cek_engine) {
-            foreach ($cek_engine as $table) {
-                $q_set_engine = 'ALTER TABLE ' . $table->Name . ' ENGINE = InnoDB'; //query untuk ubah ke innoDB;
-                $this->db->query($q_set_engine);
-            }
-        }
-
-        if ($query->num_rows() == 0) {
-            return $hasil && $this->dbforge->add_column($di_tbl, [
-                "CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE",
-            ]);
-        }
-
-        return $hasil;
-    }
-
-    // Hapus FOREIGN KEY $tabel, $nama_constraint
-    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
-    {
-        $query = $this->db
-            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
-            ->where('CONSTRAINT_SCHEMA', $this->db->database)
-            ->where('REFERENCED_TABLE_NAME', $tabel)
-            ->where('CONSTRAINT_NAME', $nama_constraint)
-            ->get();
-
-        $hasil = true;
-        if ($query->num_rows() > 0) {
-            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
-        }
-
-        return $hasil;
-    }
-
-    public function jalankan_migrasi($migrasi, $cek_app_key = true)
-    {
-        if ($cek_app_key && $this->db->field_exists('app_key', 'config')) {
-            return true;
-        }
-
-        if (is_array($this->session->daftar_migrasi) && in_array($migrasi, $this->session->daftar_migrasi)) {
-            return true;
-        }
-
-        $this->load->model('migrations/' . $migrasi);
-        if ($this->{$migrasi}->up()) {
-            log_message('notice', 'Berhasil Jalankan ' . $migrasi);
-
-            $_SESSION['daftar_migrasi'][] = $migrasi;
-
-            return true;
-        }
-
-        log_message('error', 'Gagal Jalankan ' . $migrasi);
-
-        return false;
     }
 
     public function timestamps($table = '', $creator = false)
@@ -505,20 +417,6 @@ class MY_Model extends CI_Model
         // ]);
     }
 
-    // Buat ulang indexes di tabel $tabel
-    public function buat_ulang_index($tabel, $unique_name, $unique_colom, $index = 'UNIQUE')
-    {
-        $hasil = true;
-
-        // Hapus index nik pada tabel tweb_penduduk
-        // Tambahkan unique index pada kolom config_id dan nik pada tabel tweb_penduduk
-        if ($this->cek_indeks($tabel, $unique_name) && ! $this->cek_indeks($tabel, $unique_name . '_config')) {
-            return $hasil && $this->db->query("ALTER TABLE `{$tabel}` DROP INDEX `{$unique_name}`, ADD {$index} INDEX `{$unique_name}_config` {$unique_colom}");
-        }
-
-        return $hasil;
-    }
-
     /**
      * Scope config_id berdasarkan desa.
      *
@@ -547,33 +445,10 @@ class MY_Model extends CI_Model
         return $this->db;
     }
 
-    /**
-     * Scope config_id exist
-     *
-     * @return CI_DB_query_builder
-     */
-    public function config_id_exist(string $table, ?string $alias = null, bool $boleh_null = false)
-    {
-        if ($this->db->field_exists('config_id', $table)) {
-            return $this->config_id($alias, $boleh_null);
-        }
-
-        return $this->db;
-    }
-
+    // TODO:: Cek variabel $berulang
     public function data_awal(?string $tabel = null, array $data = [], $berulang = false)
     {
         $config_id = $this->config_id;
-
-        // Cek apakah migrasi berulang dan sudah ada data sebelumnya
-        if ($berulang == false && DB::table($tabel)->where('config_id', $this->config_id)->count() > 0) {
-            return true;
-        }
-
-        // ubah config id jika masih kosong, akibat seeder awal
-        if (DB::table($tabel)->where('config_id', null)->exists()) {
-            DB::table($tabel)->update(['config_id' => $config_id]);
-        }
 
         if ($this->db->table_exists($tabel) && $data !== []) {
             collect($data)
@@ -588,10 +463,80 @@ class MY_Model extends CI_Model
                     // upsert agar tidak duplikat
                     DB::table($tabel)->upsert($chunk->all(), 'config_id');
                 });
+            log_message('notice', 'Berhasil memperbarui data awal tabel ' . $tabel);
 
             return true;
         }
 
         return false;
+    }
+
+    // Buat ulang yang hanya dibutuhkan
+    // Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
+    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom, $ubahNull = false)
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement("alter table `{$ke_tbl}` modify column `{$ke_kolom}` int(11) NOT NULL AUTO_INCREMENT");
+        DB::statement("alter table `{$di_tbl}` modify column `{$fk}` int(11) NULL");
+
+        $query = $this->db
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
+            ->where('TABLE_NAME', $di_tbl)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->where('REFERENCED_TABLE_NAME', $ke_tbl)
+            ->get('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS');
+
+        $hasil = true;
+
+        //pastikan engine yang dipakai innoDB
+        $q_check = "SHOW TABLE STATUS WHERE Name in('{$di_tbl}', '{$ke_tbl}') and ENGINE != 'InnoDB'";
+
+        $cek_engine = $this->db->query($q_check)->result();
+        if ($cek_engine) {
+            foreach ($cek_engine as $table) {
+                $q_set_engine = 'ALTER TABLE ' . $table->Name . ' ENGINE = InnoDB'; //query untuk ubah ke innoDB;
+                $this->db->query($q_set_engine);
+            }
+        }
+
+        if ($query->num_rows() == 0) {
+            // sebelum ditambahkan pastikan tidak ada data asing pada kolom yang dijadikan foreign key
+            $dataAsing = $this->db->query("SELECT * FROM `{$di_tbl}` WHERE `{$fk}` is not null and `{$fk}` NOT IN (SELECT `{$ke_kolom}` FROM `{$ke_tbl}`)")->num_rows();
+            if ($dataAsing <= 0) {
+                return $hasil && $this->dbforge->add_column($di_tbl, [
+                    "CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE",
+                ]);
+            }
+            if ($ubahNull) {
+                // update menjadi null foreign key asing
+                DB::table($di_tbl)->whereNotIn($fk, DB::table($ke_tbl)->pluck($ke_kolom))->orWhere($fk, 0)->update([$fk => null]);
+
+                return $hasil && $this->dbforge->add_column($di_tbl, ["CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE"]);
+            }
+            log_message('notice', 'Ada data pada kolom ' . $fk . ' tabel ' . $di_tbl . ' yang tidak ditemukan di tabel ' . $ke_tbl . ' kolom ' . $ke_kolom);
+            log_message('notice', 'cek dengan query "' . $this->db->last_query() . '"');
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
+        return $hasil;
+    }
+
+    // Hapus FOREIGN KEY $tabel, $nama_constraint
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    {
+        $query = $this->db
+            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->get();
+
+        $hasil = true;
+        if ($query->num_rows() > 0) {
+            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
+        }
+
+        return $hasil;
     }
 }

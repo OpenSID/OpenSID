@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="{{ route('/') }}" target="_blank" class="logo">
+    <a href="{{ ci_route('/') }}" target="_blank" class="logo">
         <span class="logo-mini"><b>SID</b></span>
         <span class="logo-lg"><b>OpenSID</b></span>
     </a>
@@ -19,7 +19,7 @@
                 @endif
                 @if ($notif['langganan'] && can('b', 'layanan-pelanggan'))
                     <li>
-                        <a href="{{ route('pelanggan') }}">
+                        <a href="{{ ci_route('pelanggan') }}">
                             <i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;
                             @if ($notif['langganan']['status'] > 2)
                                 <span class="badge" id="b_langganan"></span>
@@ -32,9 +32,9 @@
                 @endif
 
                 {{-- TODO:: Cek ini kenapa statis --}}
-                @if (in_array('343', array_column($modul, 'id')) && can('b', 'pesan'))
+                @if (in_array('343', array_column($modul ?? [], 'id')) && can('b', 'pesan'))
                     <li class="komunikasi-opendk">
-                        <a href="{{ route('opendk_pesan.clear') }}">
+                        <a href="{{ ci_route('opendk_pesan.clear') }}">
                             <i class="fa fa-university fa-lg" title="Komunikasi OpenDK"></i>&nbsp;
                             @if ($notif['opendkpesan'])
                                 <span class="badge" id="b_opendkpesan">{{ $notif['opendkpesan'] }}</span>
@@ -48,7 +48,7 @@
 
                 @if (can('b', 'permohonan-surat'))
                     <li>
-                        <a href="{{ route('permohonan_surat_admin') }}">
+                        <a href="{{ ci_route('permohonan_surat_admin') }}">
                             <i class="fa fa-print fa-lg" title="Cetak Surat"></i>&nbsp;
                             @if ($notif['surat'])
                                 <span class="badge" id="b_permohonan_surat">{{ $notif['surat'] }}</span>
@@ -62,7 +62,7 @@
 
                 @if (can('b', 'komentar'))
                     <li>
-                        <a href="{{ route('komentar') }}">
+                        <a href="{{ ci_route('komentar') }}">
                             <i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;
                             @if ($notif['komentar'])
                                 <span class="badge" id="b_komentar">{{ $notif['komentar'] }}</span>
@@ -76,7 +76,7 @@
 
                 @if (can('b', 'kotak-pesan'))
                     <li>
-                        <a href="{{ route('mailbox') }}">
+                        <a href="{{ ci_route('mailbox') }}">
                             <i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;
                             @if ($notif['inbox'])
                                 <span class="badge" id="b_inbox">{{ $notif['inbox'] }}</span>
@@ -90,7 +90,7 @@
 
                 @if (can('b', 'arsip-layanan') && (setting('verifikasi_kades') || setting('verifikasi_sekdes')))
                     <li>
-                        <a href="{{ route('keluar.clear.masuk') }}">
+                        <a href="{{ ci_route('keluar.masuk') }}">
                             <span><i class="fa fa-bell-o fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
                             @if ($notif['permohonansurat'])
                                 <span class="badge" id="permohonan">{{ $notif['permohonansurat'] }}</span>
@@ -126,14 +126,14 @@
                             <a href="<?= site_url('pengguna') ?>" class="btn bg-maroon btn-sm">Profil</a>
                         </div>
                         <div class="pull-right">
-                            <a href="{{ route('siteman.logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
+                            <a href="{{ ci_route('siteman.logout') }}" class="btn bg-maroon btn-sm">Keluar</a>
                         </div>
                     </li>
                 </ul>
             <li>
                 <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
             </li>
-            @if ($kategori && can('u', $akses_modul ?? ($modul_ini ?? $sub_modul_ini)))
+            @if ($kategori_pengaturan && can('u', $akses_modul ?? ($modul_ini ?? $sub_modul_ini)))
                 <li>
                     @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
                         <a href="#" class="atur-token">

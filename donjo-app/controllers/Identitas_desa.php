@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,47 +29,41 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
-use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Schema;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Identitas_desa extends Admin_Controller
 {
+    public $modul_ini     = 'info-desa';
+    public $sub_modul_ini = 'identitas-desa';
     private $cek_kades;
     protected $identitas_desa;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'info-desa';
-        $this->sub_modul_ini = 'identitas-desa';
         isCan('b');
-        if (Schema::hasTable('ref_jabatan')) {
-            $this->cek_kades = Pamong::kepalaDesa()->exists();
-            // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
-            $config               = Config::appKey()->first();
-            $this->identitas_desa = $config ? $config->toArray() : null;
-        }
+        $this->cek_kades = Pamong::kepalaDesa()->exists();
+        // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id
+        $config               = Config::appKey()->first();
+        $this->identitas_desa = $config ? $config->toArray() : null;
     }
 
     /**
      * View index identitas desa
-     *
-     * @return void
      */
-    public function index()
+    public function index(): void
     {
-        return view('admin.identitas_desa.index', [
+        view('admin.identitas_desa.index', [
             'main'      => $this->identitas_desa,
             'cek_kades' => $this->cek_kades,
         ]);
@@ -77,19 +71,16 @@ class Identitas_desa extends Admin_Controller
 
     /**
      * View form ubah identitas desa
-     *
-     * @return void
      */
-    public function form()
+    public function form(): void
     {
         isCan('u');
-        $data['main']           = $this->identitas_desa;
-        $data['cek_kades']      = $this->cek_kades;
-        $data['form_action']    = route('identitas_desa.update');
-        $data['nomor_operator'] = Schema::hasColumn('config', 'nomor_operator');
-        $data['status_pantau']  = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
+        $data['main']          = $this->identitas_desa;
+        $data['cek_kades']     = $this->cek_kades;
+        $data['form_action']   = ci_route('identitas_desa.update');
+        $data['status_pantau'] = checkWebsiteAccessibility(config_item('server_pantau')) ? 1 : 0;
 
-        return view('admin.identitas_desa.form', $data);
+        view('admin.identitas_desa.form', $data);
     }
 
     /**
@@ -151,12 +142,12 @@ class Identitas_desa extends Admin_Controller
         $data['nama_wilayah'] = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['wilayah']      = ucwords(setting('sebutan_desa') . ' ' . $data_desa->nama_desa);
         $data['breadcrumb']   = [
-            ['link' => route('identitas_desa'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
+            ['link' => ci_route('identitas_desa'), 'judul' => 'Identitas ' . ucwords(setting('sebutan_desa'))],
         ];
 
-        $data['form_action'] = route('identitas_desa.update_maps', $tipe);
-
-        $this->render('sid/wilayah/maps_' . $tipe, $data);
+        $data['form_action']     = ci_route('identitas_desa.update_maps', $tipe);
+        $data['route_kosongkan'] = ci_route('identitas_desa.kosongkan');
+        view('admin.wilayah.maps_' . $tipe, $data);
     }
 
     /**
@@ -207,7 +198,7 @@ class Identitas_desa extends Admin_Controller
             $request['ukuran'] = 100;
         }
 
-        $config = [
+        return [
             'logo'              => static::unggah('logo', true, bilangan($request['ukuran'])) ?? $old->logo,
             'kantor_desa'       => static::unggah('kantor_desa') ?? $old->kantor_desa,
             'nama_desa'         => nama_desa($request['nama_desa']),
@@ -225,29 +216,8 @@ class Identitas_desa extends Admin_Controller
             'kode_kabupaten'    => substr(bilangan($request['kode_kabupaten']), 0, 4),
             'nama_propinsi'     => nama_terbatas($request['nama_propinsi']),
             'kode_propinsi'     => substr(bilangan($request['kode_propinsi']), 0, 2),
+            'nomor_operator'    => bilangan($request['nomor_operator']),
         ];
-
-        if (Schema::hasColumn('config', 'nomor_operator')) {
-            $config['nomor_operator'] = bilangan($request['nomor_operator']);
-        }
-
-        if (Schema::hasColumn('config', 'nama_kepala_desa')) {
-            $config['nama_kepala_desa'] = '';
-        }
-
-        if (Schema::hasColumn('config', 'nip_kepala_desa')) {
-            $config['nip_kepala_desa'] = '';
-        }
-
-        if (Schema::hasColumn('config', 'g_analitic')) {
-            $config['g_analitic'] = '';
-        }
-
-        if (Schema::hasColumn('config', 'pamong_id')) {
-            $config['pamong_id'] = 0;
-        }
-
-        return $config;
     }
 
     // TODO : Ganti cara ini

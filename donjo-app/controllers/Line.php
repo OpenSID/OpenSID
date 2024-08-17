@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,15 +42,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Line extends Admin_Controller
 {
-    private int $tip    = 2;
-    private int $parent = 1;
-    private int $tipe   = 0;
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+    private int $tip      = 2;
+    private int $parent   = 1;
+    private int $tipe     = 0;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function index(): void
@@ -81,29 +81,29 @@ class Line extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('line.form', implode('/', [$row->parrent, $row->id])) . '" class="btn btn-warning btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if ($row->tipe == LineModel::ROOT) {
-                        $aksi .= '<a href="' . route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('line.index') . '?parent=' . $row->id . '&tipe=' . LineModel::CHILD . '" class="btn bg-purple btn-sm"  title="Rincian ' . $row->nama . '" data-title="Rincian ' . $row->nama . '"><i class="fa fa-bars"></i></a> ';
                     }
 
                     if (can('u')) {
                         if ($row->tipe == LineModel::ROOT) {
-                            $aksi .= '<a href="' . route('line.ajax_add_sub_line', $row->id) . '" class="btn bg-olive btn-sm"  title="Tambah Kategori  ' . $row->nama . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori ' . $row->nama . '"><i class="fa fa-plus"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('line.ajax_add_sub_line', $row->id) . '" class="btn bg-olive btn-sm"  title="Tambah Kategori  ' . $row->nama . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori ' . $row->nama . '"><i class="fa fa-plus"></i></a> ';
                         }
 
                         if ($row->enabled == LineModel::UNLOCK) {
-                            $aksi .= '<a href="' . route('line.lock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('line.lock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
 
                         if ($row->enabled == LineModel::LOCK) {
-                            $aksi .= '<a href="' . route('line.unlock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('line.unlock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
                         }
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('line.delete', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('line.delete', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-maroon btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                     }
 
                     return $aksi;
@@ -124,12 +124,12 @@ class Line extends Admin_Controller
 
         $data['aksi']        = 'Tambah';
         $data['line']        = null;
-        $data['form_action'] = route('line.insert', $this->parent);
+        $data['form_action'] = ci_route('line.insert', $this->parent);
 
         if ($id) {
             $data['aksi']        = 'Ubah';
             $data['line']        = LineModel::find($id)->toArray();
-            $data['form_action'] = route('line.update', implode('/', [$this->parent, $id]));
+            $data['form_action'] = ci_route('line.update', implode('/', [$this->parent, $id]));
         }
 
         $data['tip'] = $this->tip;
@@ -139,7 +139,7 @@ class Line extends Admin_Controller
 
     public function ajax_add_sub_line(int $parent = 0)
     {
-        $data['form_action'] = route("line.insert.{$parent}");
+        $data['form_action'] = ci_route("line.insert.{$parent}");
         $data['tipe']        = LineModel::CHILD;
 
         return view('admin.peta.line.ajax_form', $data);
@@ -155,10 +155,10 @@ class Line extends Admin_Controller
 
         try {
             LineModel::create($dataInsert);
-            redirect_with('success', 'Tipe garis berhasil disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('success', 'Tipe garis berhasil disimpan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe garis gagal disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('error', 'Tipe garis gagal disimpan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
     }
 
@@ -172,24 +172,24 @@ class Line extends Admin_Controller
 
         try {
             LineModel::where(['id' => $id, 'parrent' => $parent])->update($dataUpdate);
-            redirect_with('success', 'Tipe garis berhasil disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('success', 'Tipe garis berhasil disimpan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe garis gagal disimpan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('error', 'Tipe garis gagal disimpan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
     }
 
     public function delete($parent, $id = null): void
     {
         $tipe = $this->tipe($parent);
-        $this->redirect_hak_akses('h', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+        $this->redirect_hak_akses('h', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
 
         try {
             LineModel::destroy($this->request['id_cb'] ?? $id);
-            redirect_with('success', 'Tipe garis berhasil dihapus', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('success', 'Tipe garis berhasil dihapus', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe garis gagal dihapus', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('error', 'Tipe garis gagal dihapus', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
     }
 
@@ -200,10 +200,10 @@ class Line extends Admin_Controller
 
         try {
             LineModel::where(['id' => $id])->update(['enabled' => LineModel::LOCK]);
-            redirect_with('success', 'Tipe garis berhasil dinonaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('success', 'Tipe garis berhasil dinonaktifkan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe garis gagal dinonaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('error', 'Tipe garis gagal dinonaktifkan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
     }
 
@@ -214,10 +214,10 @@ class Line extends Admin_Controller
 
         try {
             LineModel::where(['id' => $id])->update(['enabled' => LineModel::UNLOCK]);
-            redirect_with('success', 'Tipe garis berhasil diaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('success', 'Tipe garis berhasil diaktifkan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Tipe garis gagal diaktifkan', route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
+            redirect_with('error', 'Tipe garis gagal diaktifkan', ci_route('line.index') . '?parent=' . $parent . '&tipe=' . $tipe);
         }
     }
 

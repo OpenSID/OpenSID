@@ -89,7 +89,7 @@
 												<tr>
 													<td><?=$data['no']?></td>
 													<td nowrap>
-														<?php if ($this->CI->cek_hak_akses('u')): ?>
+														<?php if (can('u')): ?>
 															<a href="<?= site_url("{$this->controller}/form/{$p}/{$o}/{$data['id']}")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 														<?php endif; ?>
 														<?php if ($data['enabled'] == '2'): ?>

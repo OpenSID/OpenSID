@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -51,12 +51,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Beranda extends Admin_Controller
 {
     public $isAdmin;
+    public $modul_ini = 'beranda';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'beranda';
-        $this->isAdmin   = $this->session->isAdmin->pamong;
+        $this->isAdmin = $this->session->isAdmin->pamong;
     }
 
     public function index()
@@ -111,6 +111,23 @@ class Beranda extends Admin_Controller
         return $info;
     }
 
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop): bool
+    {
+        $query = $this->db
+            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->get();
+
+        $hasil = true;
+        if ($query->num_rows() > 0) {
+            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
+        }
+
+        return $hasil;
+    }
+
     private function bantuan()
     {
         $program                = Bantuan::with('peserta')->whereId($this->setting->dashboard_program_bantuan)->first();
@@ -122,7 +139,7 @@ class Beranda extends Admin_Controller
         return $bantuan;
     }
 
-    protected function logSurat()
+    private function logSurat()
     {
         return LogSurat::whereNull('deleted_at')
             ->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))

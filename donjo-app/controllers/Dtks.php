@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -55,11 +55,12 @@ use Illuminate\Support\Facades\DB;
 
 class Dtks extends Admin_Controller
 {
+    public $modul_ini     = 'satu-data';
+    public $sub_modul_ini = 'dtks';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'satu-data';
-        $this->sub_modul_ini = 'dtks';
     }
 
     /**
@@ -189,9 +190,9 @@ class Dtks extends Admin_Controller
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
-                    // $aksi .= '<a href=" '. route("dtks.detail.{$row->id}") . '" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>';
+                    // $aksi .= '<a href=" '. ci_route("dtks.detail.{$row->id}") . '" class="btn bg-purple btn-flat btn-sm" title="Rincian Data"><i class="fa fa-list-ol"></i></a>';
                     if (can('u')) {
-                        $aksi .= '&nbsp;<a href="' . route("dtks.form.{$row->id}") . '" class="btn btn-warning btn-sm"  title="Lihat & Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '&nbsp;<a href="' . ci_route("dtks.form.{$row->id}") . '" class="btn btn-warning btn-sm"  title="Lihat & Ubah Data"><i class="fa fa-edit"></i></a> ';
                         $aksi .= '&nbsp;<a href="#" data-id="' . $row->id . '" class="btn-hapus btn btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#modal-confirm-delete-dtks" title="Hapus Data"><i class="fa fa-trash"></i></a> ';
                     }
 
@@ -265,11 +266,11 @@ class Dtks extends Admin_Controller
     {
         $versi_kuisioner = $this->input->get('versi');
         if ($versi_kuisioner == DtksEnum::REGSOS_EK2021_RT) {
-            redirect_with('error', 'Proses versi tidak ditemukan', route('dtks'));
+            redirect_with('error', 'Proses versi tidak ditemukan', ci_route('dtks'));
         } elseif ($versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {
             return (new DTKSRegsosEk2022k())->ekspor();
         } else {
-            redirect_with('error', 'Versi tidak ditemukan', route('dtks'));
+            redirect_with('error', 'Versi tidak ditemukan', ci_route('dtks'));
         }
     }
 
@@ -289,7 +290,7 @@ class Dtks extends Admin_Controller
         } elseif ($dtks->count() == 1) {
             // lempar ke halaman baru tanpa ajax, (dilakukan oleh js)
             if ($this->input->is_ajax_request()) {
-                return json(['message' => 'Mengunduh 1 data', 'href' => route('dtks/cetak2/' . $dtks->first()->id)], 200);
+                return json(['message' => 'Mengunduh 1 data', 'href' => ci_route('dtks/cetak2/' . $dtks->first()->id)], 200);
             }
         }
 
@@ -394,7 +395,7 @@ class Dtks extends Admin_Controller
 
         if (! $config) {
             session_error(' : Konfigurasi tidak ditemukan');
-            redirect_with('error', 'Konfigurasi tidak ditemukan', route('dtks'));
+            redirect_with('error', 'Konfigurasi tidak ditemukan', ci_route('dtks'));
         }
 
         if ($dtks->versi_kuisioner == DtksEnum::REGSOS_EK2022_K) {

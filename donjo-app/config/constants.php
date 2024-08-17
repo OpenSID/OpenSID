@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -162,6 +162,7 @@ define('DESAPATHPERMISSION', 0755);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
 define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
+define('VENDORPATH', 'vendor' . DIRECTORY_SEPARATOR);
 
 /**
  * Folder dan file pada folder sistem.
@@ -175,7 +176,7 @@ define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
 define('PENDAPAT', 'assets/images/layanan_mandiri/');
 define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/anjungan/images/');
 define('LOKASI_SURAT_SISTEM', 'template-surat/');
-define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'template-surat/lampiran/');
+define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'storage/app/template/lampiran/');
 define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
 
 // File
@@ -197,10 +198,7 @@ define('LOKASI_LOGO_DESA', 'desa/logo/');
 define('LOKASI_ARSIP', 'desa/arsip/');
 define('LOKASI_CACHE', 'desa/cache/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
-define('LOKASI_SURAT_DESA', 'desa/template-surat/');
 define('LOKASI_LAMPIRAN_SURAT_DESA', 'desa/template-surat/lampiran/');
-define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/'); // TODO:: Cek ini!!!
-define('LOKASI_SURAT_EXPORT_DESA', 'desa/template-surat/export/'); // TODO:: Cek ini!!!
 define('LOKASI_TEMA_DESA', 'desa/themes/');
 define('LOKASI_UPLOAD', 'desa/upload/');
 define('LOKASI_USER_PICT', 'desa/upload/user_pict/');

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -129,7 +129,7 @@ class Laporan_penduduk_model extends MY_Model
     public function judul_statistik($lap)
     {
         // Program bantuan berbentuk '50<program_id>'
-        if ($lap > 50) {
+        if ((int) $lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
 
             $program = $this->config_id(null, true)
@@ -238,7 +238,7 @@ class Laporan_penduduk_model extends MY_Model
             ->group_by('u.id');
     }
 
-    protected function data_jml_semua_penduduk()
+    protected function data_jml_semua_penduduk($status_dasar = '1')
     {
         $this->filter_wilayah();
 
@@ -246,8 +246,9 @@ class Laporan_penduduk_model extends MY_Model
             ->select('COUNT(b.id) AS jumlah')
             ->select('COUNT(CASE WHEN b.sex = 1 THEN b.id END) AS laki')
             ->select('COUNT(CASE WHEN b.sex = 2 THEN b.id END) AS perempuan')
-            ->from('penduduk_hidup b')
+            ->from('tweb_penduduk b')
             ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
+            ->where('b.status_dasar', $status_dasar)
             ->get()
             ->row_array();
     }
@@ -346,18 +347,18 @@ class Laporan_penduduk_model extends MY_Model
         }
     }
 
-    private function select_jml(string $where): void
+    private function select_jml(string $where, string $status_dasar = '1'): void
     {
-        $str_jml_penduduk  = $this->str_jml_penduduk($where);
-        $str_jml_laki      = $this->str_jml_penduduk($where, '1');
-        $str_jml_perempuan = $this->str_jml_penduduk($where, '2');
+        $str_jml_penduduk  = $this->str_jml_penduduk($where, '', $status_dasar);
+        $str_jml_laki      = $this->str_jml_penduduk($where, '1', $status_dasar);
+        $str_jml_perempuan = $this->str_jml_penduduk($where, '2', $status_dasar);
         $this->db
             ->select("({$str_jml_penduduk}) as jumlah")
             ->select("({$str_jml_laki}) as laki")
             ->select("({$str_jml_perempuan}) as perempuan");
     }
 
-    private function str_jml_penduduk(string $where, string $sex = '')
+    private function str_jml_penduduk(string $where, string $sex = '', $status_dasar = '1')
     {
         $this->filter_wilayah();
 
@@ -367,8 +368,10 @@ class Laporan_penduduk_model extends MY_Model
 
         return $this->config_id('b')
             ->select('COUNT(b.id)')
-            ->from('penduduk_hidup b')
+            ->from('tweb_penduduk b')
             ->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
+            ->join('log_penduduk l', 'l.id_pend = b.id', 'left')
+            ->where('b.status_dasar', $status_dasar)
             ->where($where)
             ->get_compiled_select();
     }
@@ -396,6 +399,16 @@ class Laporan_penduduk_model extends MY_Model
         ];
 
         switch ("{$lap}") {
+            case 'akta-kematian':
+                // Akta Kematian
+                $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";
+                $this->select_jml($where, '2');
+                $this->db
+                    ->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
+                    ->from('tweb_penduduk_umur u')
+                    ->where('u.status', '1');
+                break;
+
             // KELUARGA
             case 'kelas_sosial':
                 // Kelas Sosial
@@ -423,11 +436,12 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
                 // BANTUAN
-            case 'bantuan_penduduk': $sql = 'SELECT u.*,
-                (SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id AND config_id = u.config_id) AS jumlah,
-                (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id) AS laki,
-                (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id) AS perempuan
-                FROM program u WHERE (u.config_id = ' . $this->config_id . ' OR u.config_id IS NULL)';
+            case 'bantuan_penduduk':
+                $sql = 'SELECT u.*,
+                    (SELECT COUNT(kartu_nik) FROM program_peserta WHERE program_id = u.id AND config_id = u.config_id) AS jumlah,
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 1 AND config_id = u.config_id) AS laki,
+                    (SELECT COUNT(k.kartu_nik) FROM program_peserta k INNER JOIN tweb_penduduk p ON k.kartu_nik=p.nik WHERE program_id = u.id AND p.sex = 2 AND config_id = u.config_id) AS perempuan
+                    FROM program u WHERE (u.config_id = ' . $this->config_id . ' OR u.config_id IS NULL)';
                 break;
 
                 // PENDUDUK
@@ -438,9 +452,19 @@ class Laporan_penduduk_model extends MY_Model
                 break;
 
             case 'buku-nikah':
+                // kepemilikan buku nikah
                 $this->db->where('p.akta_perkawinan !=', null)->where('p.akta_perkawinan !=', '');
                 $this->db->where('p.status_kawin !=', 1);
                 $this->select_jml_penduduk_per_kategori('status_kawin', 'tweb_penduduk_kawin');
+                break;
+
+            case 'kia':
+                // Kepemilikan kia
+                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17) AND u.status_rekam = status_rekam AND b.ktp_el = '3'";
+                $this->select_jml($where);
+                $this->db
+                    ->select('u.*')
+                    ->from('tweb_status_ktp u');
                 break;
 
             case 'covid':
@@ -515,7 +539,7 @@ class Laporan_penduduk_model extends MY_Model
 
             case '18':
                 // Kepemilikan ktp
-                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam ";
+                $where = "((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1)) AND u.status_rekam = status_rekam AND b.ktp_el != '3'";
                 $this->select_jml($where);
                 $this->db
                     ->select('u.*')
@@ -531,10 +555,14 @@ class Laporan_penduduk_model extends MY_Model
 
     protected function get_data_jml()
     {
-        $lap = $this->lap;
+        $lap          = $this->lap;
+        $status_dasar = '1';
         //Siapkan data baris rekap
-        if ($lap == 18) {
+        if ((int) $lap == 18) {
             $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
+            $semua = $this->data_jml_semua_penduduk();
+        } elseif ($lap == 'kia') {
+            $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)<=17)");
             $semua = $this->data_jml_semua_penduduk();
         } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();
@@ -545,8 +573,10 @@ class Laporan_penduduk_model extends MY_Model
                 $this->db->where('b.sex', 2);
             } elseif ($lap == 'buku-nikah') {
                 $this->db->where('b.status_kawin !=', 1);
+            } elseif ($lap == 'akta-kematian') {
+                $status_dasar = '2';
             }
-            $semua = $this->data_jml_semua_penduduk();
+            $semua = $this->data_jml_semua_penduduk($status_dasar);
         }
 
         return $semua;

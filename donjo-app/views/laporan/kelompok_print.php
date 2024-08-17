@@ -86,16 +86,16 @@
 					<tbody>
 						<?php
                             $bayi = 0;
-		$balita                         = 0;
-		$sd                             = 0;
-		$smp                            = 0;
-		$sma                            = 0;
-		$lansia                         = 0;
-		$cacat                          = 0;
-		$sakit_L                        = 0;
-		$sakit_P                        = 0;
-		$hamil                          = 0;
-		?>
+        $balita                   = 0;
+        $sd                       = 0;
+        $smp                      = 0;
+        $sma                      = 0;
+        $lansia                   = 0;
+        $cacat                    = 0;
+        $sakit_L                  = 0;
+        $sakit_P                  = 0;
+        $hamil                    = 0;
+        ?>
 						<?php foreach ($main as $data): ?>
 							<tr>
 								<td align="right"><?= $data['dusunnya']?></td>
@@ -114,17 +114,17 @@
 								<td align="right"><?= $data['sakit_P']?></td>
 								<td align="right"><?= $data['hamil']?></td>
 								<?php
-		            $bayi += $data['bayi'];
-						    $balita += $data['balita'];
-						    $sd += $data['sd'];
-						    $smp += $data['smp'];
-						    $sma += $data['sma'];
-						    $lansia += $data['lansia'];
-						    $cacat += $data['cacat'];
-						    $sakit_L += $data['sakit_L'];
-						    $sakit_P += $data['sakit_P'];
-						    $hamil += $data['hamil'];
-						    ?>
+                    $bayi += $data['bayi'];
+                            $balita += $data['balita'];
+                            $sd += $data['sd'];
+                            $smp += $data['smp'];
+                            $sma += $data['sma'];
+                            $lansia += $data['lansia'];
+                            $cacat += $data['cacat'];
+                            $sakit_L += $data['sakit_L'];
+                            $sakit_P += $data['sakit_P'];
+                            $hamil += $data['hamil'];
+                            ?>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

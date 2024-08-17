@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -362,6 +362,7 @@ class Keluarga_model extends MY_Model
         }
 
         $pend = $this->config_id()->select('alamat_sekarang, id_cluster')->where('id', $data['nik_kepala'])->get('tweb_penduduk')->row_array();
+
         // Gunakan alamat penduduk sebagai alamat keluarga
         $data['alamat']     = $pend['alamat_sekarang'];
         $data['id_cluster'] = $pend['id_cluster'];
@@ -379,8 +380,8 @@ class Keluarga_model extends MY_Model
         $default['config_id']  = $this->config_id;
         $outp                  = $outp && $this->config_id()->where('id', $data['nik_kepala'])->update('tweb_penduduk', $default);
 
-        $log['id_pend']    = 1;
-        $log['id_cluster'] = 1;
+        $log['id_pend']    = $data['nik_kepala'];
+        $log['id_cluster'] = $pend['id_cluster'];
         $log['tanggal']    = date('Y-m-d H:i:s');
         $log['config_id']  = $this->config_id;
         $outp              = $outp && $this->db->insert('log_perubahan_penduduk', $log);
@@ -414,6 +415,7 @@ class Keluarga_model extends MY_Model
                 $valid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
             }
         }
+
         if ($valid !== []) {
             $_SESSION['validation_error'] = true;
 
@@ -569,7 +571,7 @@ class Keluarga_model extends MY_Model
         if ($suplemen > 0) {
             return false;
         }
-        $analisis = $this->config_id('r')
+        $analisis = $this->db
             ->from('analisis_respon r')
             ->join('analisis_indikator i', 'i.id = r.id_indikator')
             ->join('analisis_master m', 'm.id = i.id_master')
@@ -716,7 +718,7 @@ class Keluarga_model extends MY_Model
         $outp                     = $this->config_id()->where('id', $id)->update('tweb_penduduk', $temp);
         if ($pend['kk_level'] == SHDKEnum::KEPALA_KELUARGA) {
             $temp2['updated_by'] = $this->session->user;
-            $temp2['nik_kepala'] = 0;
+            $temp2['nik_kepala'] = null;
             $outp                = $this->config_id()->where('id', $pend['id_kk'])->update('tweb_keluarga', $temp2);
         }
 
@@ -1138,7 +1140,7 @@ class Keluarga_model extends MY_Model
                 ->result_array();
 
             foreach ($data2 as $datanya) {
-                $this->penduduk_model->tulis_log_penduduk($datanya[\ID], '6', date('m'), date('Y'));
+                $this->penduduk_model->tulis_log_penduduk($datanya['id'], '6', date('m'), date('Y'));
             }
         }
     }
@@ -1387,5 +1389,22 @@ class Keluarga_model extends MY_Model
         $hasil = $hasil && $this->web_dokumen_model->hard_delete_dokumen_bersama($id);
 
         status_sukses($hasil, true); //Tampilkan Pesan
+    }
+
+    public function proses_pindah($post)
+    {
+        $id_kk = explode(',', $post['id_kk']);
+
+        $data = ['id_cluster' => $post['id_cluster']];
+
+        $outp_keluarga = $this->db
+            ->where_in('id', $id_kk)
+            ->update('tweb_keluarga', $data);
+
+        $outp_penduduk = $this->db
+            ->where_in('id_kk', $id_kk)
+            ->update('tweb_penduduk', $data);
+
+        status_sukses($outp_keluarga && $outp_penduduk);
     }
 }

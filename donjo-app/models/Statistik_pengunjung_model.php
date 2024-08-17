@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -127,7 +127,7 @@ class Statistik_pengunjung_model extends MY_Model
      */
     public function get_pengunjung_hari_ini()
     {
-        return $this->config_id_exist($this->table)->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
+        return $this->config_id()->where('Tanggal', date('Y-m-d'))->get($this->table)->row();
     }
 
     // TODO:: Hapus ini, masih dipanggil di modul ini
@@ -155,7 +155,7 @@ class Statistik_pengunjung_model extends MY_Model
         $this->db->select_sum('Jumlah');
         $this->kondisi($type);
 
-        return $this->config_id_exist($this->table)->get($this->table)->row()->Jumlah;
+        return $this->config_id()->get($this->table)->row()->Jumlah;
     }
 
     /**
@@ -165,10 +165,6 @@ class Statistik_pengunjung_model extends MY_Model
      */
     public function insert_visitor()
     {
-        if (! $this->db->field_exists('config_id', $this->table)) {
-            return false;
-        }
-
         $insert = [
             'Tanggal'   => date('Y-m-d'),
             'ipAddress' => json_encode(['ip_address' => [$this->ip_address()]]),
@@ -190,10 +186,10 @@ class Statistik_pengunjung_model extends MY_Model
     {
         $ip_address = json_decode($lastIpAddress, true);
 
-        $this->config_id_exist($this->table)
+        $this->config_id()
             ->where('Tanggal', date('Y-m-d'))
             ->update($this->table, [
-                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'])], JSON_THROW_ON_ERROR),
+                'ipAddress' => json_encode(['ip_address' => array_merge([$this->ip_address()], $ip_address['ip_address'] ?? [])], JSON_THROW_ON_ERROR),
                 'Jumlah'    => $jumlah + 1,
             ]);
     }

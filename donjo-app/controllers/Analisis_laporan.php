@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,16 +29,20 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Enums\AnalisisRefSubjekEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_laporan extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
     private $_set_page;
     private $_list_session;
 
@@ -56,8 +60,6 @@ class Analisis_laporan extends Admin_Controller
         $this->load->model(['pamong_model', 'wilayah_model', 'analisis_laporan_model', 'analisis_respon_model', 'analisis_master_model']);
         $this->session->submenu  = 'Laporan Analisis';
         $this->session->asubmenu = 'analisis_laporan';
-        $this->modul_ini         = 'analisis';
-        $this->sub_modul_ini     = 'master-analisis';
         $this->_set_page         = ['50', '100', '200'];
         $this->_list_session     = ['cari', 'klasifikasi', 'dusun', 'rw', 'rt', 'jawab'];
     }
@@ -143,7 +145,7 @@ class Analisis_laporan extends Admin_Controller
         if ($master['subjek_tipe'] == 5) {
             $data['asubjek'] = ucwords($this->setting->sebutan_desa);
         } else {
-            $data['asubjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
+            $data['asubjek'] = AnalisisRefSubjekEnum::all()[$master['subjek_tipe']];
         }
 
         $this->render('analisis_laporan/form', $data);

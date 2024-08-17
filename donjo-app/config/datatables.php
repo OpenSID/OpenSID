@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-$config = [
+return [
     // DataTables search options.
     'search' => [
         /*
@@ -74,8 +74,10 @@ $config = [
      * This is where you can register your custom dataTables builder.
      */
     'engines' => [
-        'eloquent' => Fluent\DataTables\EloquentDataTable::class,
-        'query'    => Fluent\DataTables\QueryDataTable::class,
+        'eloquent'   => \App\Services\DataTables\EloquentDataTable::class,
+        'query'      => \App\Services\DataTables\QueryDataTable::class,
+        'collection' => \App\Services\DataTables\CollectionDataTable::class,
+        'resource'   => \App\Services\DataTables\ApiResourceDataTable::class,
     ],
 
     /*
@@ -100,7 +102,7 @@ $config = [
      * User friendly message to be displayed on user if error occurs.
      * Possible values:
      * null             - The exception message will be used on error response.
-     * 'throw'          - Throws a \Fluent\DataTables\Exceptions\Exception. Use your custom error handler if needed.
+     * 'throw'          - Throws a \Yajra\DataTables\Exceptions\Exception. Use your custom error handler if needed.
      * 'custom message' - Any friendly message to be displayed to the user. You can also use translation key.
      */
     'error' => null,
@@ -122,7 +124,7 @@ $config = [
          */
         'raw' => ['action'],
 
-        // List of columns are are forbidden from being searched/sorted.
+        // List of columns are forbidden from being searched/sorted.
         'blacklist' => ['password', 'remember_token'],
 
         /*

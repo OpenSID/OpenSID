@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ route('anjungan_menu') }}">Menu</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('anjungan_menu') }}">Menu</a></li>
     <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -18,7 +18,7 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('anjungan_menu') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Menu</a>
+            <a href="{{ ci_route('anjungan_menu') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Menu</a>
         </div>
         {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
         <div class="box-body">
@@ -32,7 +32,7 @@
                 <label class="col-sm-3 control-label" for="nama">Icon</label>
                 <div class="col-sm-9">
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="file_path" name="icon">
+                        <input type="text" class="form-control required" id="file_path" name="icon">
                         <input type="file" class="hidden" id="file" name="icon" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i>&nbsp;Browse</button>
@@ -95,8 +95,8 @@
                     </select>
                     <select id="artikel_keuangan" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 6, 'link') }}" style="{{ $menu['link_tipe'] != 6 && (print 'display:none;') }}">
                         <option value="">-- Pilih Artikel Keuangan --</option>
-                        @foreach ($artikel_keuangan as $id => $nama)
-                            <option value="{{ $id }}" {{ selected($menu['link'], $id) }}>{{ $nama }}</option>
+                        @foreach ($artikel_keuangan as $data)
+                            <option value="{{ $data['id'] }}" {{ selected($menu['link'], $data['id']) }}>{{ $data['judul'] }}</option>
                         @endforeach
                     </select>
                     <select id="kelompok" class="form-control input-sm jenis_link required" name="{{ jecho($menu['link_tipe'], 7, 'link') }}" style="{{ $menu['link_tipe'] != 7 && (print 'display:none;') }}">

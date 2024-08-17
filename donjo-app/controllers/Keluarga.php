@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -44,6 +44,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'keluarga';
+    public $kategori_pengaturan  = 'data_lengkap';
     private array $_set_page     = ['20', '50', '100', [0, 'Semua']];
     private array $_list_session = ['jenis_peristiwa', 'status_hanya_tetap', 'status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 
@@ -51,8 +54,6 @@ class Keluarga extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'keluarga';
     }
 
     public function clear_session(): void
@@ -102,14 +103,13 @@ class Keluarga extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['func']             = 'index';
-        $this->header['kategori'] = 'data_lengkap';
-        $data['set_page']         = $this->_set_page;
-        $list_data                = $this->keluarga_model->list_data($o, $p);
-        $data['paging']           = $list_data['paging'];
-        $data['main']             = $list_data['main'];
-        $data['list_sex']         = $this->referensi_model->list_data('tweb_penduduk_sex');
-        $data['list_dusun']       = $this->wilayah_model->list_dusun();
+        $data['func']       = 'index';
+        $data['set_page']   = $this->_set_page;
+        $list_data          = $this->keluarga_model->list_data($o, $p);
+        $data['paging']     = $list_data['paging'];
+        $data['main']       = $list_data['main'];
+        $data['list_sex']   = $this->referensi_model->list_data('tweb_penduduk_sex');
+        $data['list_dusun'] = $this->wilayah_model->list_dusun();
 
         $this->render('sid/kependudukan/keluarga', $data);
     }
@@ -290,7 +290,7 @@ class Keluarga extends Admin_Controller
     }
 
     // Tambah KK dari penduduk yg ada
-    public function form_old($p = 1, $o = 0, $id = 0): void
+    public function form_old($id = 0): void
     {
         $this->redirect_hak_akses('u');
         $data['penduduk']       = $this->keluarga_model->list_penduduk_lepas();
@@ -298,6 +298,27 @@ class Keluarga extends Admin_Controller
         $data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
         $data['form_action']    = site_url("{$this->controller}/insert/{$id}");
         $this->load->view('sid/kependudukan/ajax_add_keluarga', $data);
+    }
+
+    public function pindah_kolektif(): void
+    {
+        $this->redirect_hak_akses('u');
+        $data['id_kk']       = $this->input->get('id_cb');
+        $data['dusun']       = $this->wilayah_model->list_dusun();
+        $data['rw']          = $this->wilayah_model->list_rw();
+        $data['rt']          = $this->wilayah_model->list_rt();
+        $data['form_action'] = site_url("{$this->controller}/proses_pindah");
+        log_message('error', print_r($data['id_kk'], true));
+
+        $this->load->view('sid/kependudukan/ajax_pindah_wilayah', $data);
+    }
+
+    public function proses_pindah(): void
+    {
+        $this->redirect_hak_akses('u');
+        $this->keluarga_model->proses_pindah($this->input->post());
+
+        redirect($this->controller);
     }
 
     public function filter($filter): void

@@ -28,7 +28,7 @@
             <nav class="navbar navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="{{ route('/') }}" class="navbar-brand"><b>Open</b>SID</a>
+                        <a href="{{ ci_route('/') }}" class="navbar-brand"><b>Open</b>SID</a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>
@@ -60,7 +60,7 @@
                             <p>Periksa database hanya diperbolehkan untuk Super Admin.</p>
                         </div>
                         <div class="text-center">
-                            <a href="{{ route('siteman.logout') }}" class="btn btn-sm btn-social btn-danger" role="button" title="Kembali ke Dasbor"><i class="fa fa fa-sign-out"></i>Kembali</a>
+                            <a href="{{ ci_route('siteman.logout') }}" class="btn btn-sm btn-social btn-danger" role="button" title="Kembali ke Dasbor"><i class="fa fa fa-sign-out"></i>Kembali</a>
                         </div>
                     @else
                         @if ($session->db_error)
@@ -93,7 +93,7 @@
                                                 dibantu lebih lanjut. Harap periksa berkas logs dan laporkan juga isinya.
                                             </p>
                                             <p>Sementara bisa masuk kembali.</p>
-                                            <a href="{{ route('siteman') }}" class="btn btn-sm btn-info" role="button" title="Masuk ke admin">Masuk Lagi</a>
+                                            <a href="{{ ci_route('siteman') }}" class="btn btn-sm btn-info" role="button" title="Masuk ke admin">Masuk Lagi</a>
                                         </div>
                                     </div>
                                 @else
@@ -115,7 +115,7 @@
                                                     unik dengan menambahkan ID di akhir masing-masing kode. Untuk melihat
                                                     kode yang diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'kode_kelompok') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'kode_kelompok') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -134,7 +134,7 @@
                                                 <p>Klik tombol Perbaiki untuk mengembalikan isi tabel referensi tersebut.
                                                     <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'ref_inventaris_kosong') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'ref_inventaris_kosong') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -167,7 +167,7 @@
                                                     <strong>{{ $wilayah_pertama['wil'] }}</strong>. Untuk melihat keluarga
                                                     yang diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'id_cluster_null') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'id_cluster_null') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -201,7 +201,7 @@
                                                     ganda selain yang pertama menjadi NIK sementara. Untuk melihat NIK yang
                                                     diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'nik_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'nik_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -233,7 +233,7 @@
                                                     panjang menjadi KK sementara. Untuk melihat nomor KK yang diubah harap
                                                     periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'kk_panjang') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'kk_panjang') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -265,7 +265,7 @@
                                                     ke masing-masing no_kk. Untuk melihat no_kk yang diubah harap periksa
                                                     berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'no_kk_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'no_kk_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -299,7 +299,7 @@
                                                     username. Untuk melihat username yang diubah harap periksa berkas logs.
                                                     <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'username_user_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'username_user_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -332,7 +332,7 @@
                                                     email kosong menjadi null, dan (2) menambah id ke masing-masing email.
                                                     Untuk melihat email yang diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'email_user_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'email_user_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -364,7 +364,7 @@
                                                     email kosong menjadi null, dan (2) menambah id ke masing-masing email.
                                                     Untuk melihat email yang diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'email_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'email_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -396,7 +396,7 @@
                                                     yang unik saja yang tertinggal. Untuk melihat Tag ID yang diubah harap
                                                     periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'tag_id_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'tag_id_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -415,7 +415,7 @@
                                                     seharusnya ''</strong>
                                                 <p>Klik tombol Perbaiki untuk mengubah nilai null menjadi '' <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'kartu_alamat') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'kartu_alamat') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -434,7 +434,7 @@
                                                 <p>Klik tombol Perbaiki untuk mengembalikan autoincrement pada semua tabel
                                                     yang memerlukan <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'autoincrement') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'autoincrement') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -466,7 +466,7 @@
                                                 <p>Klik tombol Perbaiki untuk memperbaiki semua collation table yang tidak
                                                     sesuai menjadi collation <code>{{ $ci->db->dbcollat }}</code>.<br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'collation') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'collation') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -500,7 +500,7 @@
                                                     tidak sesuai <code>(0000-00-00 00:00:00)</code>.</code>Untuk melihat
                                                     data tanggal yang diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'zero_date_default_value') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'zero_date_default_value') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -531,7 +531,7 @@
                                                     tidak sesuai <code>(0000-00-00 00:00:00)</code>.</code>Untuk melihat
                                                     data tanggal yang diubah harap periksa berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'tabel_invalid_date') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'tabel_invalid_date') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -550,7 +550,7 @@
                                                 <p>Klik tombol Perbaiki untuk mengembalikan data jabatan yang diperlukan
                                                     tersebut. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'data_jabatan_tidak_ada') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'data_jabatan_tidak_ada') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -581,7 +581,7 @@
                                                 <p>Klik tombol Perbaiki Data untuk memperbaiki penduduk yang belum tercatat keluarganya. Untuk melihat no_kk_sementara yang diubah harap periksa
                                                     berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'penduduk_tanpa_keluarga') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'penduduk_tanpa_keluarga') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -652,7 +652,7 @@
                                                 </table>
                                                 <p>Klik tombol Perbaiki Data memperbaiki data, kode peristiwa akan diset default menjadi 5 (baru pindah masuk). <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'log_penduduk_null') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'log_penduduk_null') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -682,7 +682,7 @@
                                                 </table>
                                                 <p>Klik tombol Perbaiki Data memperbaiki data, log keluarga dengan id peristiwa 1 (keluarga baru) akan dibuat otomatis <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'log_keluarga_bermasalah') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'log_keluarga_bermasalah') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -752,7 +752,7 @@
                                                     ke masing-masing no_anggota. Untuk melihat no_anggota yang diubah harap periksa
                                                     berkas logs. <br><a
                                                         href="#"
-                                                        data-href="{{ route('periksa.perbaiki_sebagian', 'no_anggota_ganda') }}"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'no_anggota_ganda') }}"
                                                         class="btn btn-sm btn-social btn-danger"
                                                         role="button"
                                                         title="Perbaiki masalah data"
@@ -808,7 +808,7 @@
                                             {{ $migrasi_utk_diulang }}.</p>
                                         <br><a
                                             href="#"
-                                            data-href="{{ route('periksa.perbaiki') }}"
+                                            data-href="{{ ci_route('periksa.perbaiki') }}"
                                             class="btn btn-sm btn-social btn-danger"
                                             role="button"
                                             title="Perbaiki masalah data"

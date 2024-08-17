@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('klasifikasi') }}">Klasifikasi Surat </a></li>
+    <li><a href="{{ ci_route('klasifikasi') }}">Klasifikasi Surat </a></li>
     <li class="active">{{ empty($data) ? 'Tambah' : 'Ubah' }} Data</li>
 @endsection
 
@@ -17,7 +17,7 @@
     {!! form_open($form_action, 'id="validasi" class="form-horizontal"') !!}
     <div class="box box-info">
         <div class="box-header with-border">
-            <a href="{{ route('klasifikasi', $kat) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Klasifikasi">
+            <a href="{{ ci_route('klasifikasi', $kat) }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Klasifikasi">
                 <i class="fa fa-arrow-circle-left "></i>Kembali Ke Klasifikasi Surat
             </a>
         </div>

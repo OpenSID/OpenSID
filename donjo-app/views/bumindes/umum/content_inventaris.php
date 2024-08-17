@@ -16,7 +16,7 @@
 					<a href="<?= site_url('laporan_inventaris/permendagri_47_dialog/cetak') ?>" target="_blank" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Inventaris">
 						<i class="fa fa-print"></i>Cetak
 					</a>
-					<a href="<?= site_url('laporan_inventaris/permendagri_47_dialog/cetak') ?>" target="_blank" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
+					<a href="<?= site_url('laporan_inventaris/permendagri_47_dialog/unduh') ?>" target="_blank" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Inventaris">
 						<i class="fa fa-download"></i>Unduh
 					</a>
 				</div>
@@ -30,7 +30,7 @@
 									<tr>
 										<th class="text-center" rowspan="3">No</th>
 										<th class="text-center" rowspan="3">Jenis Barang/Bangunan</th>
-										<th class="text-center" rowspan="1" colspan="5">Asal Barang/Bangungan</th>
+										<th class="text-center" rowspan="1" colspan="5">Asal Barang/Bangunan</th>
 										<th class="text-center" rowspan="1" colspan="2">Keadaan Barang / Bangunan AWal Tahun</th>
 										<th class="text-center" rowspan="1" colspan="4">Penghapusan Barang Dan Bangunan</th>
 										<th class="text-center" rowspan="1" colspan="2">Keadaan Barang / Bangunan Akhir Tahun</th>
@@ -104,7 +104,7 @@
 											<?php $i++ ?>
 										<?php endforeach ?>
 									<?php else : tidak_ada_data(16);
-									endif; ?>
+                                    endif; ?>
 								</tbody>
 							</table>
 						</div>

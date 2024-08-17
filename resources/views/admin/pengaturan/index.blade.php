@@ -17,7 +17,7 @@
     @include('admin.layouts.components.notifikasi')
     <div class="row">
 
-        {!! form_open_multipart(route('setting.new_update'), 'id="validasi" class="form-horizontal"') !!}
+        {!! form_open_multipart(ci_route('setting.new_update'), 'id="validasi" class="form-horizontal"') !!}
         @if ($atur_latar)
             <div class="col-md-3">
                 @if (in_array('sistem', $pengaturan_kategori))

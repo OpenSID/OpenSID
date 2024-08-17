@@ -24,7 +24,7 @@
                     </select>
                     <hr>
                     <div class="table-responsive" id="tabel_ket_demografi">
-                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-demografi"') !!}
+                        {!! form_open(ci_route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-demografi"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_demografi'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -116,7 +116,7 @@
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_pendidikan">
-                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-pendidikan"') !!}
+                        {!! form_open(ci_route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-pendidikan"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_pendidikan'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -186,7 +186,7 @@
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_ketenagakerjaan">
-                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-ketenagakerjaan"') !!}
+                        {!! form_open(ci_route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-ketenagakerjaan"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_ketenagakerjaan'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -264,7 +264,7 @@
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_kepemilikan_usaha">
-                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-kepemilikan-usaha"') !!}
+                        {!! form_open(ci_route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-kepemilikan-usaha"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_kepemilikan_usaha'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -364,7 +364,7 @@
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_kesehatan">
-                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-kesehatan"') !!}
+                        {!! form_open(ci_route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-kesehatan"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_kesehatan'>
                         <input type="hidden" name='id_art' value=''>
                         <b>Sekali pilih untuk 428.a. sampai 428.i.</b>
@@ -530,7 +530,7 @@
                         </form>
                     </div>
                     <div class="table-responsive" id="tabel_program_perlindungan_sosial">
-                        {!! form_open(route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-program-perlindungan-sosial"') !!}
+                        {!! form_open(ci_route('dtks.save') . '/' . $dtks->id, 'class="form-4 form-validasi" id="form-4-program-perlindungan-sosial"') !!}
                         <input type="hidden" name='tipe_save' value='bagian4_program_perlindungan_sosial'>
                         <input type="hidden" name='id_art' value=''>
                         <table class="table table-bordered table-hover" style="margin-bottom: 0px;">
@@ -720,7 +720,7 @@
                     };
                     setJumlahTerisi(index_anggota);
                 };
-                ajax_save_dtks("{{ route('dtks.save') . '/' . $dtks->id }}", form, callback_success);
+                ajax_save_dtks("{{ ci_route('dtks.save') . '/' . $dtks->id }}", form, callback_success);
             });
         });
     </script>

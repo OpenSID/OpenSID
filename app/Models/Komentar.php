@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,15 +42,19 @@ use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+// TODO:: Pisahkan isi data komentar artikel dan pesan masuk layanan mandiri pada tabel yang berbeda
 class Komentar extends BaseModel
 {
     use ConfigId;
 
-    public const ACTIVE         = 1;
-    public const NONACTIVE      = 2;
-    public const TIPE_MASUK     = 2;
-    public const TIPE_KELUAR    = 1;
-    public const NOT_IN_ARTIKEL = 775;
+    public const ACTIVE      = 1;
+    public const NONACTIVE   = 2;
+    public const TIPE_MASUK  = 2;
+    public const TIPE_KELUAR = 1;
+    public const LOCK        = 1;
+    public const UNLOCK      = 2;
+    public const ROOT        = 0;
+    public const CHILD       = 2;
 
     /**
      * The name of the "created at" column.
@@ -72,15 +76,6 @@ class Komentar extends BaseModel
      * @var string
      */
     protected $table = 'komentar';
-
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'id_artikel' => self::NOT_IN_ARTIKEL,
-    ];
 
     /**
      * The attributes that are mass assignable.
@@ -118,13 +113,15 @@ class Komentar extends BaseModel
         return $query->where('tipe', $tipePesan);
     }
 
-    /**
-     * Scope query untuk tipe pesan masuk.
-     *
-     * @param Builder $query
-     */
-    public function scopePesanPengguna($query): void
+    // buat relasi ke table artikel
+    public function artikel()
     {
-        // return $query->where('email', auth('jwt')->user()->penduduk->nik);
+        return $this->belongsTo(Artikel::class, 'id_artikel');
+    }
+
+    // buat relasi ke table kategori
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'tipe');
     }
 }

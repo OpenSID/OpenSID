@@ -21,16 +21,16 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ route('line.form', $parent) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ ci_route('line.form', $parent) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
-                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('line.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+                        <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('line.delete', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                 class='fa fa-trash-o'
                             ></i>
                             Hapus</a>
                     @endif
                     @if ($parent_jenis)
-                        <a href="{{ route('line.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                        <a href="{{ ci_route('line.index') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                             <i class="fa fa-arrow-circle-left "></i>Kembali ke Tipe Garis
                         </a>
                     @endif
@@ -84,7 +84,7 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('line.datatables') }}?parent={{ $parent }}&tipe={{ $tipe }}",
+                ajax: "{{ ci_route('line.datatables') }}?parent={{ $parent }}&tipe={{ $tipe }}",
                 columns: [{
                         data: 'ceklist',
                         class: 'padat',

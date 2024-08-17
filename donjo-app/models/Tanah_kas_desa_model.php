@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -203,7 +203,7 @@ class Tanah_kas_desa_model extends MY_Model
         // add
         if ($id == 0) {
             $check_letterc_persil = $this->check_letterc_persil($data['letter_c_persil']);
-            if (count($check_letterc_persil) > 0) {
+            if (count($check_letterc_persil ?? []) > 0) {
                 $valid[] = "Letter C / Persil {$data['letter_c_persil']} sudah digunakan";
             }
         } else {
@@ -289,7 +289,7 @@ class Tanah_kas_desa_model extends MY_Model
 
     public function list_letter_c()
     {
-        return $this->config_id_exist('cdesa', 'c')
+        return $this->config_id('c')
             ->select('c.id, c.nomor, c.nama_kepemilikan')
             ->from('cdesa c')
             ->get()

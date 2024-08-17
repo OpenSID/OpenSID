@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,12 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Models\Artikel;
 use App\Models\UserGrup;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,17 +52,9 @@ class Web_artikel_model extends MY_Model
     {
         $this->group_akses();
 
-        if ($cari) {
-            $this->db->like($kolom, $cari);
-        }
+        $this->list_data_sql($cat);
 
-        $data = $this->config_id_exist('artikel', 'a')
-            ->distinct()
-            ->select('a.judul')
-            ->order_by('a.judul')
-            ->where('a.id_kategori', $cat)
-            ->get('artikel a')
-            ->result_array();
+        $data = $this->db->select('a.judul')->get()->result_array();
 
         return autocomplete_data_ke_str($data);
     }
@@ -71,7 +64,7 @@ class Web_artikel_model extends MY_Model
         $cari = $this->session->cari;
 
         if (isset($cari)) {
-            $this->db->like('judul', $cari, 'BOTH')->or_like('isi', $cari, 'BOTH');
+            $this->db->like('a.judul', $cari);
         }
     }
 
@@ -93,12 +86,12 @@ class Web_artikel_model extends MY_Model
         }
     }
 
-    public function paging($cat = 0, $p = 1, $o = 0)
+    public function paging($cat = -1, $p = 1, $o = 0)
     {
-        $this->db->select('COUNT(a.id)');
+        $this->db->select('COUNT(a.id) as jml');
         $this->list_data_sql($cat);
         $row      = $this->db->get()->row_array();
-        $jml_data = $row['id'];
+        $jml_data = $row['jml'];
 
         $this->load->library('paging');
         $cfg['page']     = $p;
@@ -114,21 +107,23 @@ class Web_artikel_model extends MY_Model
         $this->config_id('a')
             ->from('artikel a')
             ->join('kategori k', 'a.id_kategori = k.id', 'left');
-        if ($cat > 0) {
-            $this->db->where('id_kategori', $cat);
-        } elseif ($cat == -1) {
+        if ($cat == '-1') {
+            $this->db->where('a.tipe', 'dinamis');
+        } elseif (in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL)) {
+            $this->db->where('id_kategori')->where('a.tipe', $cat);
+        } elseif ($cat > 0) {
             // Semua artikel dinamis (tidak termasuk artikel statis)
-            $this->db->where_not_in('id_kategori', ['999', '1000', '1001']);
+            $this->db->where('a.tipe', 'dinamis')->where('k.id', $cat);
         } else {
             // Artikel dinamis tidak berkategori
-            $this->db->where_not_in('id_kategori', ['999', '1000', '1001'])->where('k.id', null);
+            $this->db->where('a.tipe', 'dinamis')->where('k.id', null);
         }
         $this->search_sql();
         $this->filter_sql();
         $this->grup_sql();
     }
 
-    public function list_data($cat = 0, $o = 0, $offset = 0, $limit = 500)
+    public function list_data($cat = -1, $o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
             case 1: $this->db->order_by('judul');
@@ -206,7 +201,7 @@ class Web_artikel_model extends MY_Model
     }
 
     // TODO: pindahkan dan gunakan web_kategori_model
-    public function get_kategori($cat = 0)
+    public function get_kategori($cat = -1)
     {
         return $this->config_id()
             ->select('kategori')
@@ -227,7 +222,8 @@ class Web_artikel_model extends MY_Model
         }
 
         // Batasi judul menggunakan teks polos
-        $data['judul'] = judul($data['judul']);
+        $data['judul']    = judul($data['judul']);
+        $data['tampilan'] = (int) $data['tampilan'];
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -245,7 +241,8 @@ class Web_artikel_model extends MY_Model
                 }
             }
         }
-        $data['id_kategori'] = $cat;
+        $data['id_kategori'] = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? null : $cat;
+        $data['tipe']        = in_array($cat, Artikel::TIPE_NOT_IN_ARTIKEL) ? $cat : 'dinamis';
         $data['id_user']     = $_SESSION['user'];
 
         // Kontributor tidak dapat mengaktifkan artikel
@@ -342,7 +339,8 @@ class Web_artikel_model extends MY_Model
         }
 
         // Batasi judul menggunakan teks polos
-        $data['judul'] = judul($data['judul']);
+        $data['judul']    = judul($data['judul']);
+        $data['tampilan'] = (int) $data['tampilan'];
 
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
@@ -418,7 +416,8 @@ class Web_artikel_model extends MY_Model
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);
         } else {
-            $outp = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
+            $outp                    = $this->config_id()->where('a.id', $id)->update('artikel a', $data);
+            $this->session->kategori = $cat;
         }
 
         if ($hapus_lampiran == 'true') {
@@ -442,6 +441,8 @@ class Web_artikel_model extends MY_Model
                 $this->agenda_model->update($id, $agenda);
             }
         }
+
+        $this->session->kategori = AGENDA;
 
         return $outp;
     }
@@ -657,7 +658,7 @@ class Web_artikel_model extends MY_Model
 
         return $this->config_id()
             ->select('a.id, judul')
-            ->where('a.id_kategori', '999')
+            ->where('a.tipe', 'statis')
             ->get('artikel a')
             ->result_array();
     }

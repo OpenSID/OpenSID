@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,23 +39,29 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Penduduk_log extends Admin_Controller
 {
+    public $modul_ini           = 'kependudukan';
+    public $sub_modul_ini       = 'peristiwa';
+    public $kategori_pengaturan = 'log_penduduk';
     private array $set_page     = ['20', '50', '100'];
-    private array $list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
+    private array $list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'judul_statistik', 'akta_kematian', 'umurx'];
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'penduduk_log_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'penduduk';
+        $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
     }
 
-    public function clear(): void
+    private function clear_session()
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->filter_bulan = date('n');
         $this->session->filter_tahun = date('Y');
         $this->session->per_page     = 20;
+    }
+
+    public function clear()
+    {
+        $this->clear_session();
 
         redirect($this->controller);
     }
@@ -81,7 +87,7 @@ class Penduduk_log extends Admin_Controller
                 $data['rw']      = $rw;
                 $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
-                $data['rt'] = $rt ?? '';
+                $data['rt'] = '';
             } else {
                 $data['rw'] = '';
             }
@@ -267,5 +273,32 @@ class Penduduk_log extends Admin_Controller
         $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
 
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
+    }
+
+    public function statistik($tipe = '0', $nomor = 0, $sex = null)
+    {
+        $this->clear_session();
+        $this->session->sex = ($sex == 0) ? null : $sex;
+
+        switch ((string) $tipe) {
+            case 'akta-kematian':
+                $session                       = 'akta_kematian';
+                $kategori                      = 'AKTA KEMATIAN : ';
+                $this->session->status_dasar   = 2;
+                $this->session->kode_peristiwa = 2;
+                $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
+                break;
+        }
+
+        $this->session->{$session} = rawurldecode($nomor);
+
+        $judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
+        if ($judul['nama']) {
+            $this->session->judul_statistik = $kategori . $judul['nama'];
+        } else {
+            $this->session->unset_userdata('judul_statistik');
+        }
+
+        redirect($this->controller);
     }
 }

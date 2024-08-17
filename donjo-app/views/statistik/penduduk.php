@@ -70,7 +70,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<a class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pieType" title="Pie Data" id="pieType" onclick="pieType();">
 								<i class="fa fa-pie-chart"></i>Pie Data
 							</a>
-							<?php if ($lap == '13'): ?>
+							<?php if ((int) $lap == 13): ?>
 								<a href="<?=site_url('statistik/rentang_umur'); ?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rentang Umur">
 									<i class="fa fa-arrows-h"></i>Rentang Umur
 								</a>
@@ -78,7 +78,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<a href="<?= site_url("{$this->controller}/clear/{$lap}") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 						</div>
 						<div class="box-body">
-							<?php if ($lap < 50): ?>
+							<?php if ((int) $lap < 50): ?>
 								<h4 class="box-title text-center"><b>Data Kependudukan Menurut <?= ($stat); ?></b></h4>
 							<?php else: ?>
 								<h4 class="box-title text-center"><b>Data Peserta Program <?= ($program['nama']); ?></b></h4>
@@ -167,9 +167,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										</thead>
 										<tbody>
 											<?php foreach ($main as $data): ?>
-												<?php if ($lap > 50) {
-												    $tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
-												} ?>
+												<?php if ((int) $lap > 50) {
+                                                    $tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
+                                                } ?>
 												<tr>
 													<td class="padat"><?= $data['no']; ?></td>
 													<td class="text-left"><?= strtoupper($data['nama']); ?></td>
@@ -197,7 +197,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									</p>
 									<br><br>
 								<?php endif; ?>
-								<?php if ($lap > 50): ?>
+								<?php if ((int) $lap > 50): ?>
 									<p class="text-muted text-justify text-red"><b>Catatan:</b>
 										<br>
 										1. Jumlah PESERTA termasuk peserta yang mungkin tidak aktif lagi.<br>
@@ -206,7 +206,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<?php endif; ?>
 							</div>
 
-							<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'])):?>
+							<?php if ($bantuan):?>
 								<?php $this->load->view('statistik/peserta_bantuan'); ?>
 							<?php endif; ?>
 

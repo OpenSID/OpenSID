@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,11 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
+use Illuminate\Support\Facades\Schema;
 
 class Notif_model extends MY_Model
 {
@@ -47,7 +49,6 @@ class Notif_model extends MY_Model
     public function komentar_baru()
     {
         return $this->config_id()
-            ->where('id_artikel !=', LAPORAN_MANDIRI)
             ->where('status', 2)
             ->get('komentar')
             ->num_rows();
@@ -59,20 +60,23 @@ class Notif_model extends MY_Model
      *
      * @param mixed $tipe
      * @param mixed $nik
+     * @param mixed $penduduk_id
      */
     // TODO : Gunakan id penduduk
-    public function inbox_baru($tipe = 1, $nik = '')
+    public function inbox_baru($tipe = 1, $penduduk_id = '')
     {
-        if ($nik) {
-            $this->db->where('email', $nik);
+        if (! Schema::hasTable('pesan_mandiri')) {
+            return 0;
+        }
+        if ($penduduk_id) {
+            $this->db->where('penduduk_id', $penduduk_id);
         }
 
         return $this->config_id()
-            ->where('id_artikel', LAPORAN_MANDIRI)
             ->where('status', 2)
             ->where('tipe', $tipe)
             ->where('is_archived', 0)
-            ->get('komentar')
+            ->get('pesan_mandiri')
             ->num_rows();
     }
 

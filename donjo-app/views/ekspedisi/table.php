@@ -69,7 +69,7 @@
 										<tr>
 											<td class="nostretch"><?= $indeks + 1?></td>
 											<td class="nostretch">
-												<?php if ($this->CI->cek_hak_akses('u')): ?>
+												<?php if (can('u')): ?>
 													<a href="<?= site_url("{$this->controller}/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 												<?php endif; ?>
 												<?php if ($data['tanda_terima']): ?>

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -335,7 +335,7 @@ class Analisis_respon_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         $this->db
-            ->select("(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = u.id AND a.config_id ={$this->config_id} AND a.id_periode = {$this->per} LIMIT 1) as cek")
+            ->select("(SELECT a.id_subjek FROM analisis_respon a WHERE a.id_subjek = u.id AND a.id_periode = {$this->per} LIMIT 1) as cek")
             ->select("(SELECT b.pengesahan FROM analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id AND b.config_id ={$this->config_id}) as bukti_pengesahan");
 
         switch ($this->subjek) {
@@ -478,7 +478,7 @@ class Analisis_respon_model extends MY_Model
         for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no'] = $i + 1;
             if ($p == 1) {
-                $par = $this->config_id('r')
+                $par = $this->db
                     ->select('kode_jawaban, asign, jawaban, r.id_indikator, r.id_parameter AS korek')
                     ->from('analisis_respon r')
                     ->join('analisis_parameter p', 'p.id = r.id_parameter', 'left')
@@ -553,7 +553,7 @@ class Analisis_respon_model extends MY_Model
 
         //CEK ada input
         if ($ir != 0 || $ic != 0 || $ia != 0 || $it != 0) {
-            $this->config_id()->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon');
+            $this->db->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon');
             if (! empty($_POST['rb'])) {
                 $id_rb = $_POST['rb'];
 
@@ -567,7 +567,6 @@ class Analisis_respon_model extends MY_Model
                     $data['id_periode']   = $per;
                     $data['id_indikator'] = $p[0];
                     $data['id_parameter'] = $p[1];
-                    $data['config_id']    = $this->config_id;
                     $outp &= $this->db->insert('analisis_respon', $data);
                 }
             }
@@ -581,7 +580,6 @@ class Analisis_respon_model extends MY_Model
                         $data['id_periode']   = $per;
                         $data['id_indikator'] = $p[0];
                         $data['id_parameter'] = $p[1];
-                        $data['config_id']    = $this->config_id;
                         $outp &= $this->db->insert('analisis_respon', $data);
                     }
                 }
@@ -610,7 +608,6 @@ class Analisis_respon_model extends MY_Model
                             $data['id_indikator'] = $indikator;
                             $data['id_subjek']    = $id;
                             $data['id_periode']   = $per;
-                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data);
                         } else {
                             unset($data);
@@ -618,7 +615,6 @@ class Analisis_respon_model extends MY_Model
                             $data['id_parameter'] = $dx['id'];
                             $data['id_subjek']    = $id;
                             $data['id_periode']   = $per;
-                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data);
                         }
                     }
@@ -648,7 +644,6 @@ class Analisis_respon_model extends MY_Model
                             $data2['id_indikator'] = $indikator;
                             $data2['id_subjek']    = $id;
                             $data2['id_periode']   = $per;
-                            $data2['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data2);
                         } else {
                             unset($data);
@@ -656,7 +651,6 @@ class Analisis_respon_model extends MY_Model
                             $data['id_parameter'] = $dx['id'];
                             $data['id_subjek']    = $id;
                             $data['id_periode']   = $per;
-                            $data['config_id']    = $this->config_id;
                             $outp &= $this->db->insert('analisis_respon', $data);
                         }
                     }
@@ -664,7 +658,7 @@ class Analisis_respon_model extends MY_Model
                 }
             }
 
-            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?  AND r.config_id=' . identitas('id');
+            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? ';
             $query = $this->db->query($sql, [$id, $per]);
             $dx    = $query->row_array();
 
@@ -714,7 +708,7 @@ class Analisis_respon_model extends MY_Model
         } else {
             $query = $this->config_id('s')
                 ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
-                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ' AND config_id=' . identitas('id') . ') as cek')
+                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ') as cek')
                 ->where('id_indikator', $in)
                 ->order_by('s.kode_jawaban', 'ASC')
                 ->get('analisis_parameter s');
@@ -735,7 +729,7 @@ class Analisis_respon_model extends MY_Model
 
     private function list_jawab3($id = 0, $in = 0, $per = 0)
     {
-        return $this->config_id('r')
+        return $this->db
             ->select('s.id as id_parameter,s.jawaban')
             ->from('analisis_respon r')
             ->join('analisis_parameter s', 'r.id_parameter = s.id', 'left')
@@ -785,7 +779,7 @@ class Analisis_respon_model extends MY_Model
         } else {
             $query = $this->config_id('s')
                 ->select('s.id as id_parameter,s.jawaban,s.kode_jawaban')
-                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ' AND config_id=' . identitas('id') . ') as cek')
+                ->select('(SELECT count(id_subjek) FROM analisis_respon WHERE id_parameter = s.id AND id_subjek =' . $id . ' AND id_periode=' . $per . ') as cek')
                 ->where('id_indikator', $in)
                 ->get('analisis_parameter s');
         }
@@ -804,7 +798,7 @@ class Analisis_respon_model extends MY_Model
 
     private function list_jawab5($id = 0, $in = 0, $per = 0)
     {
-        return $this->config_id('r')
+        return $this->db
             ->select('s.id as id_parameter,s.jawaban')
             ->from('analisis_respon r')
             ->join('analisis_parameter s', 'r.id_parameter = s.id', 'left')
@@ -1114,14 +1108,14 @@ class Analisis_respon_model extends MY_Model
     {
         $per = $pr == 0 ? $this->analisis_master_model->get_aktif_periode() : $pr;
 
-        $sql   = 'SELECT DISTINCT(id_subjek) AS id FROM analisis_respon WHERE id_periode = ?  AND config_id=' . identitas('id');
+        $sql   = 'SELECT DISTINCT(id_subjek) AS id FROM analisis_respon WHERE id_periode = ? ';
         $query = $this->db->query($sql, $per);
         $data  = $query->result_array();
 
         $sql = 'DELETE FROM analisis_respon_hasil WHERE id_subjek = 0  AND config_id=' . identitas('id');
         $this->db->query($sql);
 
-        $sql = 'DELETE FROM analisis_respon WHERE id_subjek = 0 AND config_id=' . identitas('id');
+        $sql = 'DELETE FROM analisis_respon WHERE id_subjek = 0';
         $this->db->query($sql);
 
         $sql = 'DELETE FROM analisis_respon_hasil WHERE id_periode = ? AND config_id=' . identitas('id');
@@ -1129,7 +1123,7 @@ class Analisis_respon_model extends MY_Model
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
-            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? AND config_id=' . identitas('id');
+            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?';
             $query = $this->db->query($sql, [$data[$i]['id'], $per]);
             $dx    = $query->row_array();
 
@@ -1148,7 +1142,7 @@ class Analisis_respon_model extends MY_Model
     {
         $per = $this->analisis_master_model->get_aktif_periode();
 
-        $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ?  AND r.config_id=' . identitas('id');
+        $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ? ';
         $query = $this->db->query($sql, [$id, $per]);
         $dx    = $query->row_array();
 
@@ -1227,7 +1221,7 @@ class Analisis_respon_model extends MY_Model
 
             $dels .= '9999999';
             //cek ada row
-            $this->config_id()->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
+            $this->db->where("id_subjek in({$dels})")->where('id_periode', $per)->delete('analisis_respon');
             $dels = '';
 
             for ($i = $br; $i <= $baris; $i++) {
@@ -1273,7 +1267,6 @@ class Analisis_respon_model extends MY_Model
                                 'id_indikator' => $indi['id'],
                                 'id_subjek'    => $id_subjek,
                                 'id_periode'   => $per,
-                                'config_id'    => $this->config_id,
                             ];
                         } elseif ($indi['id_tipe'] == 2) {
                             $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
@@ -1308,7 +1301,6 @@ class Analisis_respon_model extends MY_Model
                                 'id_indikator' => $indi['id'],
                                 'id_subjek'    => $id_subjek,
                                 'id_periode'   => $per,
-                                'config_id'    => $this->config_id,
                             ];
                         }
                     }
@@ -1367,7 +1359,7 @@ class Analisis_respon_model extends MY_Model
     {
         $result = [];
         if ($subjek == 1) { // Untuk Subjek Penduduk
-            $list_penduduk = $this->config_id('r')
+            $list_penduduk = $this->db
                 ->select('r.*, p.nik')
                 ->from('analisis_respon r')
                 ->join('tweb_penduduk p', 'r.id_subjek = p.id')
@@ -1379,7 +1371,7 @@ class Analisis_respon_model extends MY_Model
                 $result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
             }
         } else { // Untuk Subjek Keluarga
-            $list_keluarga = $this->config_id('r')
+            $list_keluarga = $this->db
                 ->select('r.*, k.no_kk')
                 ->from('analisis_respon r')
                 ->join('tweb_keluarga k', 'r.id_subjek = k.id')
@@ -1406,7 +1398,7 @@ class Analisis_respon_model extends MY_Model
         if ($id_indikator) {
             $id_indikator = array_column($id_indikator, 'id');
 
-            $outp = $this->config_id()
+            $outp = $this->db
                 ->where('id_subjek', $id_subjek)
                 ->where_in('id_indikator', $id_indikator)
                 ->delete('analisis_respon');

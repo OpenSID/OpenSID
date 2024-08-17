@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -38,7 +38,6 @@
 use App\Libraries\TinyMCE;
 use App\Models\Config;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -134,10 +133,10 @@ class Setting_model extends MY_Model
 
         // Sebutan kepala desa diambil dari tabel ref_jabatan dengan jenis = 1
         // Diperlukan karena masih banyak yang menggunakan variabel ini, hapus jika tidak digunakan lagi
-        $this->setting->sebutan_kepala_desa = Schema::hasTable('ref_jabatan') ? kades()->nama : null;
+        $this->setting->sebutan_kepala_desa = kades()->nama;
 
         // Sebutan sekretaris desa diambil dari tabel ref_jabatan dengan jenis = 2
-        $this->setting->sebutan_sekretaris_desa = Schema::hasTable('ref_jabatan') ? sekdes()->nama : null;
+        $this->setting->sebutan_sekretaris_desa = sekdes()->nama;
 
         // Setting Multi Database untuk OpenKab
         $this->setting->multi_desa = Config::count() > 1;
@@ -196,7 +195,7 @@ class Setting_model extends MY_Model
                     continue;
                 }
 
-                $value = strip_tags($value);
+                $value = is_array($value) ? $value : strip_tags($value);
                 // update password jika terisi saja
                 if ($key == 'email_smtp_pass' && $value === '') {
                     continue;
@@ -215,6 +214,9 @@ class Setting_model extends MY_Model
                 }
 
                 if (is_array($post = $this->input->post($key))) {
+                    if (in_array('-', $post)) {
+                        unset($post[0]);
+                    }
                     $value = json_encode($post, JSON_THROW_ON_ERROR);
                 }
 
@@ -299,7 +301,7 @@ class Setting_model extends MY_Model
 
         // Hapus Cache
         // $this->cache->hapus_cache_untuk_semua('status_langganan');
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         status_sukses($outp);
@@ -310,7 +312,7 @@ class Setting_model extends MY_Model
     public function aktifkan_tracking(): void
     {
         $outp = $this->config_id()->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         status_sukses($outp);
     }
@@ -319,8 +321,10 @@ class Setting_model extends MY_Model
     {
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
+        $this->setting->jumlah_gambar_slider = $this->input->post('jumlah_gambar_slider');
         $outp                                = $this->config_id()->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        $outp                                = $this->config_id()->where('key', 'jumlah_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('jumlah_gambar_slider')]);
+        cache()->forget('setting_aplikasi');
 
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -341,7 +345,7 @@ class Setting_model extends MY_Model
         $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
         $this->setting->penggunaan_server = $penggunaan_server;
         $out2                             = $this->config_id()->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        cache()->forget('setting_aplikasi');
 
         if (! $out1 || ! $out2) {
             $_SESSION['success'] = -1;
@@ -394,7 +398,7 @@ class Setting_model extends MY_Model
 
     public function disableFunctions()
     {
-        $wajib    = ['exec'];
+        $wajib    = [];
         $disabled = explode(',', ini_get('disable_functions'));
 
         $functions = [];

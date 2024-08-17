@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,6 +39,7 @@ namespace App\Models;
 
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -165,6 +166,50 @@ class PermohonanSurat extends BaseModel
 
     public function surat()
     {
-        return $this->belongsTo(FormatSurat::class, 'id_surat');
+        return $this->belongsTo(FormatSurat::class, 'id_surat')->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
+    }
+
+    public function scopeBelumDiambil($query)
+    {
+        return $query->where('status', '!=', self::SUDAH_DIAMBIL);
+    }
+
+    /**
+     * Get all of the logSurat for the PermohonanSurat
+     */
+    public function logSurat(): HasMany
+    {
+        return $this->hasMany(LogSurat::class, 'id_format_surat', 'id_surat')->withoutGlobalScope(\App\Scopes\RemoveRtfScope::class);
+    }
+
+    public function mapSyaratSurat()
+    {
+        return collect($this->syarat)->map(static function ($item, $key): array {
+            $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
+            $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);
+
+            return [
+                'ref_syarat_id'   => $key,
+                'ref_syarat_nama' => $syaratSurat->ref_syarat_nama,
+                'dok_id'          => $item,
+                'dok_nama'        => ($item == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dokumenKelengkapan->nama,
+            ];
+        })->values();
+    }
+
+    public function proses($status): void
+    {
+        if ($status == PermohonanSurat::BELUM_LENGKAP) {
+            // Belum Lengkap
+            $this->db->where('status', PermohonanSurat::SEDANG_DIPERIKSA);
+        } elseif ($status == PermohonanSurat::DIBATALKAN) {
+            // Batalkan hanya jika status = 0 (belum lengkap) atau 1 (sedang diproses)
+            $this->db->where_in('status', [PermohonanSurat::BELUM_LENGKAP, PermohonanSurat::SEDANG_DIPERIKSA]);
+        } else {
+            // Lainnya
+            $this->db->where('status', ($status - 1));
+        }
+
+        $this->update(['status' => $status]);
     }
 }

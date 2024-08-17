@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,12 +29,13 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
+use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -81,7 +82,7 @@ class Program_bantuan_model extends MY_Model
         }
 
         return $this->config_id('p', true)
-            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status')
+            ->select('p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status')
             ->get('program p')
             ->result_array();
     }
@@ -92,7 +93,7 @@ class Program_bantuan_model extends MY_Model
         $no_kk   = $this->keluarga_model->get_nokk($kk_id);
         $sasaran = 2;
         $strSQL  = "
-            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, CONCAT('50',p.id) as lap, pp.peserta
+            SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.status, CONCAT('50',p.id) as lap, pp.peserta
             FROM program p
             LEFT OUTER JOIN program_peserta pp ON p.id = pp.program_id AND pp.peserta = '{$no_kk}'
             WHERE p.sasaran = {$sasaran} AND p.config_id = {$this->config_id}";
@@ -790,10 +791,10 @@ class Program_bantuan_model extends MY_Model
     public function set_program()
     {
         $data              = $this->validasi_bantuan($this->input->post());
-        $data['userid']    = auth()->id;
         $data['config_id'] = $this->config_id;
 
-        return $this->db->insert('program', $data);
+        $outp = $this->db->insert('program', $data);
+        status_sukses($outp);
     }
 
     private function validasi_bantuan($post)
@@ -1014,20 +1015,50 @@ class Program_bantuan_model extends MY_Model
             ->from('program p')
             ->join('program_peserta pp', 'p.id = pp.program_id', 'left');
 
+        $tipe = $this->input->post('stat');
+        $this->jenis_sasaran($tipe);
+    }
+
+    private function jenis_sasaran($sasaran)
+    {
         // keluarga
-        if ($this->input->post('stat') == 'bantuan_keluarga') {
-            $this->db
-                ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
-                ->join('tweb_penduduk pd', 'k.nik_kepala = pd.id', 'left')
-                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
-                ->where('p.sasaran', '2');
+        if ($sasaran == 'bantuan_keluarga') {
+            $this->db->where('p.sasaran', 2);
         }
         // penduduk
-        else {
-            $this->db
-                ->join('tweb_penduduk pd', 'pp.peserta = pd.nik', 'left')
-                ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left')
-                ->where('p.sasaran', '1');
+        elseif ($sasaran == 'bantuan_penduduk') {
+            $this->db->where('p.sasaran', 1);
+        } else {
+            $id = substr($sasaran, 2);
+            $this->db->where('p.id', $id);
+            $sasaran = Bantuan::find($id)->sasaran;
+            log_message('error', 'sasaran: ' . $sasaran);
+        }
+
+        switch ($sasaran) {
+            case '1':
+                $this->db
+                    ->join('tweb_penduduk pd', 'pp.peserta = pd.nik', 'left')
+                    ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left');
+                break;
+
+            case '2':
+                $this->db
+                    ->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+                    ->join('tweb_penduduk pd', 'k.nik_kepala = pd.id', 'left')
+                    ->join('tweb_wil_clusterdesa a', 'pd.id_cluster = a.id', 'left');
+                break;
+
+            case '3':
+                $this->db->join('tweb_rtm s', 's.no_kk = pp.peserta', 'left');
+                break;
+
+            case '4':
+                $this->db->join('kelompok s', 's.kode = pp.peserta', 'left');
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -1170,7 +1201,6 @@ class Program_bantuan_model extends MY_Model
         $this->session->success = 1;
         $sekarang               = $data_program['sdate'] ?? date('Y m d');
         $data_tambahan          = [
-            'userid'    => $this->session->user,
             'status'    => ($data_program['edate'] < $sekarang) ? 0 : 1,
             'config_id' => $this->config_id,
         ];

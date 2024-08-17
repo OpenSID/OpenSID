@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,21 +29,25 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
+use App\Enums\AnalisisRefSubjekEnum;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Writer\Common\Creator\Style\BorderBuilder;
 use OpenSpout\Writer\Common\Creator\Style\StyleBuilder;
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Analisis_master extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
+
     public function __construct()
     {
         parent::__construct();
@@ -53,10 +57,8 @@ class Analisis_master extends Admin_Controller
         $this->load->model('analisis_parameter_model');
         $this->load->model('analisis_klasifikasi_model');
         $this->session->unset_userdata(['submenu', 'asubmenu']);
-        $this->modul_ini     = 'analisis';
-        $this->sub_modul_ini = 'master-analisis';
-        $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['cari', 'filter', 'state'];
+        $this->set_page     = ['20', '50', '100'];
+        $this->list_session = ['cari', 'filter', 'state'];
     }
 
     public function clear(): void
@@ -196,7 +198,7 @@ class Analisis_master extends Admin_Controller
             ->build();
     }
 
-    private function ekspor_master($writer, $master): void
+    private function ekspor_master($writer, array $master): void
     {
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('master');
@@ -222,7 +224,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_pertanyaan($writer, $master): void
+    private function ekspor_pertanyaan($writer, array $master): void
     {
         $sheet = $writer->addNewSheetAndMakeItCurrent();
         $sheet->setName('pertanyaan');
@@ -248,7 +250,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_jawaban($writer, $master): void
+    private function ekspor_jawaban($writer, array $master): void
     {
         $jawaban = $writer->addNewSheetAndMakeItCurrent();
         $jawaban->setName('jawaban');
@@ -272,7 +274,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_klasifikasi($writer, $master): void
+    private function ekspor_klasifikasi($writer, array $master): void
     {
         $klasifikasi = $writer->addNewSheetAndMakeItCurrent();
         $klasifikasi->setName('klasifikasi');
@@ -319,7 +321,7 @@ class Analisis_master extends Admin_Controller
         } elseif ($master['subjek_tipe'] == 6) {
             $data['subjek'] = ucwords($this->setting->sebutan_dusun);
         } else {
-            $data['subjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
+            $data['subjek'] = AnalisisRefSubjekEnum::all()[$master['subjek_tipe']];
         }
 
         // TODO: Periksa apakah perlu lakukan pre_update

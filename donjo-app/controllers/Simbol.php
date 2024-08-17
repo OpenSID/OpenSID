@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -41,12 +41,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Simbol extends Admin_Controller
 {
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+
     public function __construct()
     {
         parent::__construct();
-
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
         isCan('b');
     }
 
@@ -122,6 +122,10 @@ class Simbol extends Admin_Controller
         $config['upload_path']   = LOKASI_SIMBOL_LOKASI;
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $this->load->library('MY_Upload', null, 'upload');
+        $namaFile = $_FILES['simbol']['full_path'];
+        if (strlen($namaFile) > 27) {
+            $config['file_name'] = 'simbol_' . time();   // maksimal 40 karakter di db
+        }
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('simbol')) {
@@ -132,7 +136,6 @@ class Simbol extends Admin_Controller
 
         $uploadedImage = $this->upload->data();
         ResizeGambar($uploadedImage['full_path'], $uploadedImage['full_path'], ['width' => 32, 'height' => 32]); // ubah ukuran gambar
-
         $data['simbol'] = $uploadedImage['file_name'];
 
         try {

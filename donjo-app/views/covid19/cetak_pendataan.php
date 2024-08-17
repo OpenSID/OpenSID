@@ -69,7 +69,7 @@
 								<tbody>
 									<?php	$i = 1;
 
-		foreach ($pemudik_list as $item): ?>
+        foreach ($pemudik_list as $item): ?>
 										<tr>
 											<td><?= $i?></td>
 											<td class='textx'><?= $item['terdata_nama']?></td>

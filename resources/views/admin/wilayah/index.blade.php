@@ -1,6 +1,7 @@
 @extends('admin.layouts.index')
 
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.jquery_ui')
 @section('title')
     <h1>
         Wilayah Administratif {{ $wilayah }}
@@ -16,11 +17,11 @@
     <div class="box box-info">
         <div class="box-header with-border">
             @if (can('u'))
-                <a href="{{ route('wilayah.form_' . $level, $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                <a href="{{ ci_route('wilayah.form_' . $level, $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
             @endif
             @if ($level == 'dusun')
                 <a
-                    href="{{ route('wilayah.dialog.cetak') }}"
+                    href="{{ ci_route('wilayah.dialog.cetak') }}"
                     class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                     title="Cetak Data"
                     data-remote="false"
@@ -29,7 +30,7 @@
                     data-title="Cetak Data"
                 ><i class="fa fa-print "></i> Cetak</a>
                 <a
-                    href="{{ route('wilayah.dialog.unduh') }}"
+                    href="{{ ci_route('wilayah.dialog.unduh') }}"
                     title="Unduh Data"
                     class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                     title="Unduh Data"
@@ -39,8 +40,8 @@
                     data-title="Unduh Data"
                 ><i class="fa fa-download"></i> Unduh</a>
             @else
-                <a href='{{ route('wilayah.cetak_' . $level, $parent) }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-                <a href='{{ route('wilayah.unduh_' . $level, $parent) }}' title="Unduh Data" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+                <a href='{{ ci_route('wilayah.cetak_' . $level, $parent) }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+                <a href='{{ ci_route('wilayah.unduh_' . $level, $parent) }}' title="Unduh Data" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
             @endif
 
             @if ($parent)
@@ -69,6 +70,8 @@
                             <th style="width:5%">P</th>
                         </tr>
                     </thead>
+                    <tbody id="dragable">
+                    </tbody>
                     <tfoot>
                         <th colspan="5">Total</th>
                         <th></th>
@@ -95,7 +98,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('wilayah.datatables') }}?parent={{ $parent }}&level={{ $level }}",
+                    url: "{{ ci_route('wilayah.datatables') }}?parent={{ $parent }}&level={{ $level }}",
                     data: function(req) {}
                 },
                 columns: [{
@@ -114,7 +117,7 @@
                         data: '{{ $level }}',
                         name: '{{ $level }}',
                         searchable: true,
-                        orderable: true
+                        orderable: false
                     },
                     {
                         data: 'kepala',
@@ -134,7 +137,7 @@
                         defaultContent: '-',
                         searchable: false,
                         orderable: false,
-                        visible: {{ in_array($level, ['dusun']) ? 1 : 0 }}
+                        visible: "{{ in_array($level, ['dusun']) ? 1 : 0 }}"
                     },
                     {
                         data: 'rts_count',
@@ -142,7 +145,7 @@
                         defaultContent: '-',
                         searchable: false,
                         orderable: false,
-                        visible: {{ in_array($level, ['dusun', 'rw']) ? 1 : 0 }}
+                        visible: "{{ in_array($level, ['dusun', 'rw']) ? 1 : 0 }}"
                     },
                     {
                         data: 'keluarga_aktif_count',
@@ -169,9 +172,7 @@
                         orderable: false
                     },
                 ],
-                order: [
-                    [3, 'asc']
-                ],
+                aaSorting: [],
                 createdRow: function(row, data, dataIndex) {
                     if ('{{ $level }}' == 'rw') {
                         if (data.rw == '-') {
@@ -179,62 +180,9 @@
                             $(row).find('td').eq(4).remove()
                         }
                     }
-                    $(row).attr('data-urut', data.urut ?? 0)
+
                     $(row).attr('data-id', data.id)
-                },
-                drawCallback: function(settings) {
-                    if (ubah == 1) {
-
-                        var api = this.api();
-
-                        if (api.rows().count()) {
-                            var lastRowIndex = api.rows().count() - 1;
-
-                            api.row(lastRowIndex).node().querySelector('i.fa-arrow-down').parentNode.setAttribute("disabled", true)
-                            api.row(0).node().querySelector('i.fa-arrow-up').parentNode.setAttribute("disabled", true)
-
-                            $('a.pindahkan').click(function() {
-                                const _trAsal = $(this).closest('tr');
-                                const _arah = $(this).data('arah');
-                                let _urutAsal = _trAsal.attr('data-urut');
-                                let _trTujuan = (_arah == 'atas') ? _trAsal.prev() : _trAsal.next();
-                                let _urutTujuan = _trTujuan.attr('data-urut');
-
-                                if ((_arah == 'atas' && _urutAsal <= _urutTujuan) || (_arah == 'bawah' && _urutAsal >= _urutTujuan)) {
-                                    if (_urutTujuan == 0) {
-                                        _urutAsal = (_arah == 'atas') ? 1 : 2;
-                                        _urutTujuan = (_arah == 'atas') ? 2 : 1;
-                                    } else {
-                                        const _tmpUrut = _urutAsal;
-                                        _urutAsal = _urutTujuan;
-                                        _urutTujuan = _tmpUrut;
-                                    }
-                                } else {
-                                    const _tmpUrut = _urutAsal;
-                                    _urutAsal = _urutTujuan;
-                                    _urutTujuan = _tmpUrut;
-                                }
-
-                                const _dataKirim = {
-                                    data: [{
-                                        id: _trAsal.attr('data-id'),
-                                        urut: _urutAsal
-                                    }, {
-                                        id: _trTujuan.attr('data-id'),
-                                        urut: _urutTujuan
-                                    }]
-                                };
-
-                                $.post(SITE_URL + 'wilayah/tukar', _dataKirim, function(data) {
-                                    if (data.status) {
-                                        TableData.draw();
-                                    }
-                                }, 'json');
-                            });
-
-                        }
-                    }
-
+                    $(row).addClass('dragable-handle');
                 },
                 footerCallback: function(row, data, start, end, display) {
                     var api = this.api();
@@ -263,6 +211,8 @@
             if (ubah == 0) {
                 TableData.column(2).visible(false);
             }
+            // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
+            @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('wilayah.tukar')])
         });
     </script>
 @endpush

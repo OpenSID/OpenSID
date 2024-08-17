@@ -34,7 +34,7 @@
                 let form = $('#form-6').serializeArray();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('dtks.save') . '/' . $dtks->id }}",
+                    url: "{{ ci_route('dtks.save') . '/' . $dtks->id }}",
                     data: form,
                 });
 
@@ -49,7 +49,7 @@
                 ev.preventDefault();
 
                 let form = $('#form-6').serializeArray();
-                ajax_save_dtks("{{ route('dtks.save') . '/' . $dtks->id }}", form);
+                ajax_save_dtks("{{ ci_route('dtks.save') . '/' . $dtks->id }}", form);
             });
         });
     </script>

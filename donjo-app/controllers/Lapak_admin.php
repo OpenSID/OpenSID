@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,16 +39,17 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lapak_admin extends Admin_Controller
 {
+    public $modul_ini = 'lapak';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'lapak';
         $this->load->model(['lapak_model', 'penduduk_model']);
     }
 
     public function index(): void
     {
-        redirect("{$this->controller}/produk");
+        $this->produk();
     }
 
     // NAVIGASI
@@ -407,7 +408,7 @@ class Lapak_admin extends Admin_Controller
     public function pengaturan(): void
     {
         $this->redirect_hak_akses('u');
-        $data = ['kategori' => ['lapak']];
+        $data = ['kategori_pengaturan' => ['lapak']];
 
         $this->load->view('global/modal_setting', $data);
     }

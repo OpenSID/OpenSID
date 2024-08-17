@@ -23,6 +23,8 @@
     <title>{{ ucwords($file) }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="{{ base_url('assets/css/report.css') }}" rel="stylesheet">
+    @stack('css')
+    @stack('scripts')
 </head>
 
 <body>

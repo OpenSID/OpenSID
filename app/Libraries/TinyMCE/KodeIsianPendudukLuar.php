@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -83,6 +83,11 @@ class KodeIsianPendudukLuar
     {
         $input = $this->inputForm[$kategori];
 
+        // filter hanya untuk nik dan nama yg tidak kosong
+        if (empty($input['nik']) && empty($input['nama'])) {
+            return [];
+        }
+
         $prefix = '_' . $kategori;
 
         if ($kategori == 'individu') {
@@ -107,12 +112,16 @@ class KodeIsianPendudukLuar
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
             }
 
+            if (! empty($input['tanggallahir'])) {
+                $tgl_lahir = $input['tanggallahir'];
+            }
+
             if ($item == 'ttl') {
-                $value = $input['tempatlahir'] . '/' . formatTanggal($input['tanggallahir']);
+                $value = $input['tempatlahir'] . '/' . formatTanggal($tgl_lahir);
             }
 
             if ($item == 'usia') {
-                $value = usia($input['tanggallahir'], null, '%y tahun');
+                $value = usia($tgl_lahir, null, '%y tahun');
             }
 
             if ($item == 'alamat') {

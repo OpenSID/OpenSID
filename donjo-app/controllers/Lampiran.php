@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -42,12 +42,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Lampiran extends Admin_Controller
 {
+    public $modul_ini           = 'layanan-surat';
+    public $sub_modul_ini       = 'lampiran';
+    public $kategori_pengaturan = 'pengaturan-surat';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'layanan-surat';
-        $this->sub_modul_ini      = 'lampiran';
-        $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()
@@ -91,7 +92,7 @@ class Lampiran extends Admin_Controller
         }
 
         $data['action']               = $id ? 'Ubah' : 'Tambah';
-        $data['formAction']           = $id ? route('lampiran.update', $id) : route('lampiran.insert');
+        $data['formAction']           = $id ? ci_route('lampiran.update', $id) : ci_route('lampiran.insert');
         $data['lampiranSurat']        = $lampiran;
         $data['margins']              = $margin;
         $data['margin_global']        = $lampiran->margin_global ?? 1;

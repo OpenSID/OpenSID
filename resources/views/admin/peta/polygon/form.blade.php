@@ -8,7 +8,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ route('polygon.index') }}"> Tipe Area</a></li>
+    <li><a href="{{ ci_route('polygon.index') }}"> Tipe Area</a></li>
     <li class="active">{{ $aksi }} Data</li>
 @endsection
 

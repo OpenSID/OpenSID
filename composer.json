@@ -9,26 +9,40 @@
 	],
 	"require": {
 		"php": "^7.4 || ^8.0 || ^8.1",
-		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"codeigniter/framework": "^3.1",
+		"cviebrock/eloquent-sluggable": "^8.0",
 		"edwinhoksberg/php-fcm": "^1.2",
+		"erusev/parsedown": "^1.7",
 		"google/apiclient": "^2.11",
+		"illuminate/cache": "^8.83",
+		"illuminate/collections": "^8.83",
+		"illuminate/config": "^8.83",
+		"illuminate/console": "^8.83",
 		"illuminate/database": "^8.78",
-		"illuminate/pagination": "^8.79",
-		"jenssegers/blade": "^1.4",
+		"illuminate/encryption": "^8.83",
+		"illuminate/events": "^8.83",
+		"illuminate/filesystem": "^8.83",
+		"illuminate/hashing": "^8.83",
+		"illuminate/http": "^8.83",
+		"illuminate/macroable": "^8.83",
+		"illuminate/pagination": "^8.83",
+		"illuminate/queue": "^8.83",
+		"illuminate/support": "^8.83",
+		"illuminate/view": "^8.79",
 		"karriere/pdf-merge": "^2.1",
+		"league/flysystem": "^1.1",
 		"mike42/escpos-php": "^3.0",
+		"opensid/router": "dev-master",
 		"openspout/openspout": "^3.7",
 		"ramsey/uuid": "^4.2",
-		"simplehtmldom/simplehtmldom": "^2.0@RC",
+		"spatie/eloquent-sortable": "^3.11",
 		"spipu/html2pdf": "^5.2",
 		"symfony/process": "^5.4",
 		"symfony/var-dumper": "^5.4",
-		"themes/esensi": "dev-main",
-		"themes/natra": "dev-premium",
+		"themes/esensi": "^2402",
+		"themes/natra": "^2402",
 		"voku/anti-xss": "^4.1",
-		"illuminate/config": "^8.83",
-		"illuminate/cache": "^8.83"
+		"yajra/laravel-datatables-oracle": "^9.21"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*",
@@ -38,8 +52,12 @@
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
-			"App\\": "app/"
+			"App\\": "app/",
+			"Modules\\": "Modules/"
 		}
+	},
+	"config": {
+		"sort-packages": true
 	},
 	"extra": {
 		"google/apiclient-services": [
@@ -48,6 +66,73 @@
 		]
 	},
 	"scripts": {
-		"pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+		"pre-autoload-dump": "Google\\Task\\Composer::cleanup",
+		"post-update-cmd": [
+			"php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
+			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.ctg.z');\"",
+			"php -r \"copy('override/fonts/andale_mono.php', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.z');\"",
+			"php -r \"copy('override/fonts/times_new_roman.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/times_new_roman.ctg.z');\"",
+			"php -r \"copy('override/fonts/times_new_roman.php', 'vendor/tecnickcom/tcpdf/fonts/times_new_roman.php');\"",
+			"php -r \"copy('override/fonts/times_new_roman.z', 'vendor/tecnickcom/tcpdf/fonts/times_new_roman.z');\"",
+			"php -r \"copy('override/fonts/courier_new.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/courier_new.ctg.z');\"",
+			"php -r \"copy('override/fonts/courier_new.php', 'vendor/tecnickcom/tcpdf/fonts/courier_new.php');\"",
+			"php -r \"copy('override/fonts/courier_new.z', 'vendor/tecnickcom/tcpdf/fonts/courier_new.z');\"",
+			"php -r \"copy('override/fonts/tahoma.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/tahoma.ctg.z');\"",
+			"php -r \"copy('override/fonts/tahoma.php', 'vendor/tecnickcom/tcpdf/fonts/tahoma.php');\"",
+			"php -r \"copy('override/fonts/tahoma.z', 'vendor/tecnickcom/tcpdf/fonts/tahoma.z');\"",
+			"php -r \"copy('override/fonts/trebuchet_ms.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/trebuchet_ms.ctg.z');\"",
+			"php -r \"copy('override/fonts/trebuchet_ms.php', 'vendor/tecnickcom/tcpdf/fonts/trebuchet_ms.php');\"",
+			"php -r \"copy('override/fonts/trebuchet_ms.z', 'vendor/tecnickcom/tcpdf/fonts/trebuchet_ms.z');\"",
+			"php -r \"copy('override/fonts/verdana.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/verdana.ctg.z');\"",
+			"php -r \"copy('override/fonts/verdana.php', 'vendor/tecnickcom/tcpdf/fonts/verdana.php');\"",
+			"php -r \"copy('override/fonts/verdana.z', 'vendor/tecnickcom/tcpdf/fonts/verdana.z');\"",
+			"php -r \"copy('override/fonts/georgia.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/georgia.ctg.z');\"",
+			"php -r \"copy('override/fonts/georgia.php', 'vendor/tecnickcom/tcpdf/fonts/georgia.php');\"",
+			"php -r \"copy('override/fonts/georgia.z', 'vendor/tecnickcom/tcpdf/fonts/georgia.z');\"",
+			"php -r \"copy('override/fonts/comic_sans_ms.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/comic_sans_ms.ctg.z');\"",
+			"php -r \"copy('override/fonts/comic_sans_ms.php', 'vendor/tecnickcom/tcpdf/fonts/comic_sans_ms.php');\"",
+			"php -r \"copy('override/fonts/comic_sans_ms.z', 'vendor/tecnickcom/tcpdf/fonts/comic_sans_ms.z');\"",
+			"php -r \"copy('override/fonts/impact.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/impact.ctg.z');\"",
+			"php -r \"copy('override/fonts/impact.php', 'vendor/tecnickcom/tcpdf/fonts/impact.php');\"",
+			"php -r \"copy('override/fonts/impact.z', 'vendor/tecnickcom/tcpdf/fonts/impact.z');\""
+		],
+		"post-install-cmd": [
+			"php -r \"copy('override/Slugify.php', 'vendor/cocur/slugify/src/Slugify.php');\"",
+			"php -r \"copy('override/SlugifyInterface.php', 'vendor/cocur/slugify/src/SlugifyInterface.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.ctg.z');\"",
+			"php -r \"copy('override/fonts/andale_mono.php', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.php');\"",
+			"php -r \"copy('override/fonts/andale_mono.z', 'vendor/tecnickcom/tcpdf/fonts/andale_mono.z');\"",
+			"php -r \"copy('override/fonts/times_new_roman.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/times_new_roman.ctg.z');\"",
+			"php -r \"copy('override/fonts/times_new_roman.php', 'vendor/tecnickcom/tcpdf/fonts/times_new_roman.php');\"",
+			"php -r \"copy('override/fonts/times_new_roman.z', 'vendor/tecnickcom/tcpdf/fonts/times_new_roman.z');\"",
+			"php -r \"copy('override/fonts/courier_new.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/courier_new.ctg.z');\"",
+			"php -r \"copy('override/fonts/courier_new.php', 'vendor/tecnickcom/tcpdf/fonts/courier_new.php');\"",
+			"php -r \"copy('override/fonts/courier_new.z', 'vendor/tecnickcom/tcpdf/fonts/courier_new.z');\"",
+			"php -r \"copy('override/fonts/tahoma.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/tahoma.ctg.z');\"",
+			"php -r \"copy('override/fonts/tahoma.php', 'vendor/tecnickcom/tcpdf/fonts/tahoma.php');\"",
+			"php -r \"copy('override/fonts/tahoma.z', 'vendor/tecnickcom/tcpdf/fonts/tahoma.z');\"",
+			"php -r \"copy('override/fonts/trebuchet_ms.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/trebuchet_ms.ctg.z');\"",
+			"php -r \"copy('override/fonts/trebuchet_ms.php', 'vendor/tecnickcom/tcpdf/fonts/trebuchet_ms.php');\"",
+			"php -r \"copy('override/fonts/trebuchet_ms.z', 'vendor/tecnickcom/tcpdf/fonts/trebuchet_ms.z');\"",
+			"php -r \"copy('override/fonts/verdana.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/verdana.ctg.z');\"",
+			"php -r \"copy('override/fonts/verdana.php', 'vendor/tecnickcom/tcpdf/fonts/verdana.php');\"",
+			"php -r \"copy('override/fonts/verdana.z', 'vendor/tecnickcom/tcpdf/fonts/verdana.z');\"",
+			"php -r \"copy('override/fonts/georgia.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/georgia.ctg.z');\"",
+			"php -r \"copy('override/fonts/georgia.php', 'vendor/tecnickcom/tcpdf/fonts/georgia.php');\"",
+			"php -r \"copy('override/fonts/georgia.z', 'vendor/tecnickcom/tcpdf/fonts/georgia.z');\"",
+			"php -r \"copy('override/fonts/comic_sans_ms.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/comic_sans_ms.ctg.z');\"",
+			"php -r \"copy('override/fonts/comic_sans_ms.php', 'vendor/tecnickcom/tcpdf/fonts/comic_sans_ms.php');\"",
+			"php -r \"copy('override/fonts/comic_sans_ms.z', 'vendor/tecnickcom/tcpdf/fonts/comic_sans_ms.z');\"",
+			"php -r \"copy('override/fonts/impact.ctg.z', 'vendor/tecnickcom/tcpdf/fonts/impact.ctg.z');\"",
+			"php -r \"copy('override/fonts/impact.php', 'vendor/tecnickcom/tcpdf/fonts/impact.php');\"",
+			"php -r \"copy('override/fonts/impact.z', 'vendor/tecnickcom/tcpdf/fonts/impact.z');\""
+		],
+		"style-fix": [
+			"php-cs-fixer fix --allow-risky=yes",
+			"rector process --dry-run",
+			"npm run prettier-blade"
+		]
 	}
 }

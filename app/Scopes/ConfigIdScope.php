@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -40,7 +40,6 @@ namespace App\Scopes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
-use Illuminate\Support\Facades\Schema;
 
 class ConfigIdScope implements Scope
 {
@@ -51,11 +50,8 @@ class ConfigIdScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        if (Schema::hasColumn($model->getTable(), 'config_id')) {
-            return $builder->where($model->getTable() . '.config_id', identitas('id'));
-        }
-
-        return $builder;
+        // semua model yang menerapkan trait ConfigId dipastikan memiliki kolom config_id
+        return $builder->where($model->getTable() . '.config_id', identitas('id'));
     }
 
     /**
@@ -64,10 +60,6 @@ class ConfigIdScope implements Scope
     public function extend(Builder $builder): void
     {
         $builder->macro('withConfigId', static function (Builder $builder, $alias = null) {
-            if (! Schema::hasColumn($builder->getModel()->getTable(), 'config_id')) {
-                return $builder;
-            }
-
             if ($alias) {
                 return $builder->where("{$alias}.config_id", identitas('id'));
             }

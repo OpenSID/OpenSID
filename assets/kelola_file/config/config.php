@@ -243,7 +243,7 @@ if ($_SESSION['fm_key']) {
      //active or deactive the transliteration (mean convert all strange characters in A..Za..z0..9 characters)
      'transliteration'							=> false,
      //convert all spaces on files name and folders name with $replace_with variable
-     'convert_spaces'							=> false,
+     'convert_spaces'							=> true,
      //convert all spaces on files name and folders name this value
      'replace_with'								=> "_",
      //convert to lowercase the files and folders name
