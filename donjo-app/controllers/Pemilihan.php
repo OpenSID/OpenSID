@@ -42,14 +42,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pemilihan extends Admin_Controller
 {
-    protected $aliasController = 'dpt';
+    public $modul_ini       = 'kependudukan';
+    public $sub_modul_ini   = 'calon-pemilih';
+    public $akses_modul     = 'calon-pemilih';
+    public $aliasController = 'dpt';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'calon-pemilih';
-        $this->akses_modul   = 'calon-pemilih';
         isCan('u');
         if (! Schema::hasTable('pemilihan')) {
             session_error('Tabel Pemilihan tidak ditemukan, silahkan lakukan migrasi database terlebih dahulu.');
@@ -93,7 +93,7 @@ class Pemilihan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
+                ->editColumn('tanggal', static fn($row) => tgl_indo2($row->tanggal))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }

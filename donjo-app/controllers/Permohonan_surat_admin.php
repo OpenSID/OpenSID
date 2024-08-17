@@ -48,11 +48,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Permohonan_surat_admin extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'permohonan-surat';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'permohonan-surat';
     }
 
     public function index()
@@ -96,8 +97,8 @@ class Permohonan_surat_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('no_antrian', static fn ($row) => get_antrian($row->no_antrian))
-                ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
+                ->editColumn('no_antrian', static fn($row) => get_antrian($row->no_antrian))
+                ->editColumn('created_at', static fn($row) => tgl_indo2($row->created_at))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -128,12 +129,6 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['syarat_permohonan'] = $periksa->mapSyaratSurat();
         $data['list_dokumen']      = empty($_POST['nik']) ? null : DokumenHidup::whereIdPend($periksa->id_pemohon)->get()->toArray();
         $data['form_action']       = ci_route("surat/pratinjau/{$url}/{$id}");
-
-        $pesan   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses oleh operator';
-        $judul   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses';
-        $payload = '/layanan';
-        // kirim notifikasi fcm
-        $this->kirim_notifikasi_penduduk($periksa->id_pemohon, $pesan, $judul, $payload);
 
         $pesan   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses oleh operator';
         $judul   = 'Permohonan Surat - ' . $periksa->surat->nama . ' - sedang dalam proses';

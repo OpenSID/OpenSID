@@ -39,14 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_apbdes extends Admin_Controller
 {
-    protected $tipe = 'laporan_apbdes';
+    public $modul_ini     = 'keuangan';
+    public $sub_modul_ini = 'laporan-apbdes';
+    protected $tipe       = 'laporan_apbdes';
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Laporan_sinkronisasi_model', 'sinkronisasi');
-        $this->modul_ini     = 'keuangan';
-        $this->sub_modul_ini = 'laporan-apbdes';
         $this->sinkronisasi->set_tipe($this->tipe);
     }
 
@@ -84,7 +84,7 @@ class Laporan_apbdes extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if ($id !== 0) {
+        if ($id) {
             $data['main']        = $this->sinkronisasi->find($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/update/{$id}");
         } else {

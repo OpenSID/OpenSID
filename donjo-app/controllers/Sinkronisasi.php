@@ -47,14 +47,14 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Sinkronisasi extends Admin_Controller
 {
+    public $modul_ini     = 'opendk';
+    public $sub_modul_ini = 'sinkronisasi';
     protected string $kode_desa;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'opendk';
-        $this->sub_modul_ini = 'sinkronisasi';
-        $this->kode_desa     = kode_wilayah($this->header['desa']['kode_desa']);
+        $this->kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
         $this->load->library('zip');
         $this->load->model('ekspor_model');
         $this->sterilkan();

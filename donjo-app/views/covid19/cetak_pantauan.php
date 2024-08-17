@@ -83,15 +83,36 @@
 										<td><?= $item['keluhan_lain']; ?></td>
 										<td><?= $item['status_covid']; ?></td>
 									</tr>
-								<?php $i++;
-								endforeach; ?>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</body>
+								</thead>
+								<tbody>
+									<?php	$i = 1;
+
+        foreach ($query_array as $item): ?>
+										<tr>
+											<td><?= $i?></td>
+											<td><?= 'H+' . $item['date_diff'] ?></td>
+											<td><?= $item['tanggal_datang'] ?></td>
+											<td><?= $item['tanggal_jam']?></td>
+											<td><?= $item['nik'] ?></td>
+											<td class='textx'><?= $item['nama']?></td>
+											<td><?= $item['umur']?></td>
+											<td><?= ($item['sex'] === '1' ? 'Lk' : 'Pr'); ?></td>
+											<td><?= $item['suhu_tubuh']; ?></td>
+											<td><?= ($item['batuk'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											<td><?= ($item['flu'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											<td><?= ($item['sesak_nafas'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											<td><?= $item['keluhan_lain']; ?></td>
+											<td><?= $item['status_covid']; ?></td>
+										</tr>
+									<?php $i++; endforeach; ?>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>
 
 </html>

@@ -88,6 +88,24 @@
         </form>
     </div>
 </div>
+<div class="box-body">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
+            <thead class="bg-gray">
+                <tr>
+                    <th class="padat"><input type="checkbox" id="checkall" /></th>
+                    <th class="padat">NO</th>
+                    <th class="aksi">AKSI</th>
+                    <th>NAMA SURAT</th>
+                    <th class="padat">KODE / KLASIFIKASI</th>
+                    <th class="padat">LAMPIRAN</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    </form>
+</div>
+</div>
 
 @include('admin.layouts.components.konfirmasi_hapus')
 @include('admin.pengaturan_surat.impor')

@@ -195,7 +195,7 @@ class Laravel extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param ServiceProvider|string $provider
+     * @param \Illuminate\Support\ServiceProvider|string $provider
      */
     public function register($provider): void
     {
@@ -269,9 +269,11 @@ class Laravel extends Container
     {
         $abstract = $this->getAlias($abstract);
 
-        if (! $this->bound($abstract)
+        if (
+            ! $this->bound($abstract)
             && array_key_exists($abstract, $this->availableBindings)
-            && ! array_key_exists($this->availableBindings[$abstract], $this->ranServiceBinders)) {
+            && ! array_key_exists($this->availableBindings[$abstract], $this->ranServiceBinders)
+        ) {
             $this->{$method = $this->availableBindings[$abstract]}();
 
             $this->ranServiceBinders[$method] = true;
@@ -301,8 +303,8 @@ class Laravel extends Container
      */
     protected function registerCacheBindings()
     {
-        $this->singleton('cache', fn () => $this->loadComponent('cache', CacheServiceProvider::class));
-        $this->singleton('cache.store', fn () => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
+        $this->singleton('cache', fn() => $this->loadComponent('cache', CacheServiceProvider::class));
+        $this->singleton('cache.store', fn() => $this->loadComponent('cache', CacheServiceProvider::class, 'cache.store'));
     }
 
     /**
@@ -312,7 +314,7 @@ class Laravel extends Container
      */
     protected function registerComposerBindings()
     {
-        $this->singleton('composer', fn ($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
+        $this->singleton('composer', fn($app): \Illuminate\Support\Composer => new Composer($app->make('files'), $this->basePath()));
     }
 
     /**
@@ -322,7 +324,7 @@ class Laravel extends Container
      */
     protected function registerConfigBindings()
     {
-        $this->singleton('config', static fn (): \Illuminate\Config\Repository => new Repository());
+        $this->singleton('config', static fn(): \Illuminate\Config\Repository => new Repository());
     }
 
     /**
@@ -353,7 +355,7 @@ class Laravel extends Container
      */
     protected function registerEncrypterBindings()
     {
-        $this->singleton('encrypter', fn () => $this->loadComponent('app', EncryptionServiceProvider::class, 'encrypter'));
+        $this->singleton('encrypter', fn() => $this->loadComponent('app', EncryptionServiceProvider::class, 'encrypter'));
     }
 
     /**
@@ -377,7 +379,7 @@ class Laravel extends Container
      */
     protected function registerFilesBindings()
     {
-        $this->singleton('files', static fn (): \Illuminate\Filesystem\Filesystem => new Filesystem());
+        $this->singleton('files', static fn(): \Illuminate\Filesystem\Filesystem => new Filesystem());
     }
 
     /**
@@ -387,9 +389,9 @@ class Laravel extends Container
      */
     protected function registerFilesystemBindings()
     {
-        $this->singleton('filesystem', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
-        $this->singleton('filesystem.disk', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
-        $this->singleton('filesystem.cloud', fn () => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
+        $this->singleton('filesystem', fn() => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem'));
+        $this->singleton('filesystem.disk', fn() => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.disk'));
+        $this->singleton('filesystem.cloud', fn() => $this->loadComponent('filesystems', FilesystemServiceProvider::class, 'filesystem.cloud'));
     }
 
     /**
@@ -399,7 +401,7 @@ class Laravel extends Container
      */
     protected function registerHashBindings()
     {
-        $this->singleton('hash', fn () => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
+        $this->singleton('hash', fn() => $this->loadComponent('hashing', HashServiceProvider::class, 'hash'));
     }
 
     /**
@@ -409,8 +411,8 @@ class Laravel extends Container
      */
     protected function registerQueueBindings()
     {
-        $this->singleton('queue', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
-        $this->singleton('queue.connection', fn () => $this->loadComponent('queue', QueueServiceProvider::class, 'queue.connection'));
+        $this->singleton('queue', fn() => $this->loadComponent('queue', QueueServiceProvider::class, 'queue'));
+        $this->singleton('queue.connection', fn() => $this->loadComponent('queue', QueueServiceProvider::class, 'queue.connection'));
     }
 
     /**
@@ -420,7 +422,7 @@ class Laravel extends Container
      */
     protected function registerViewBindings()
     {
-        $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class));
+        $this->singleton('view', fn() => $this->loadComponent('view', ViewServiceProvider::class));
     }
 
     /**

@@ -9,7 +9,7 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<?php if ($this->CI->cek_hak_akses('u')) : ?>
+				<?php if (can('u')): ?>
 					<a href="<?= site_url('covid19/form_pemudik') ?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Pemudik</a>
 				<?php endif; ?>
 				<a href="<?= site_url('covid19/daftar/cetak') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
@@ -27,7 +27,7 @@
 										<thead class="bg-gray disabled color-palette">
 											<tr>
 												<th>No</th>
-												<?php if ($this->CI->cek_hak_akses('u')) : ?>
+												<?php if (can('u')): ?>
 													<th>Aksi</th>
 												<?php endif; ?>
 												<th>NIK</th>
@@ -49,17 +49,17 @@
 											<?php
 											$nomer = $paging->offset;
 
-											foreach ($pemudik_list as $item) :
+											foreach ($pemudik_list as $item):
 												$nomer++;
 											?>
 												<tr>
 													<td align="center" width="2"><?= $nomer; ?></td>
-													<?php if ($this->CI->cek_hak_akses('u')) : ?>
+													<?php if (can('u')): ?>
 														<td nowrap>
-															<?php if ($this->CI->cek_hak_akses('u')) : ?>
+															<?php if (can('u')): ?>
 																<a href="<?= site_url("covid19/edit_pemudik_form/{$item['id']}") ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 															<?php endif; ?>
-															<?php if ($this->CI->cek_hak_akses('h')) : ?>
+															<?php if (can('h')): ?>
 																<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/{$item['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															<?php endif; ?>
 														</td>

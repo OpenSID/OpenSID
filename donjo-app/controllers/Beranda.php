@@ -51,12 +51,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Beranda extends Admin_Controller
 {
     public $isAdmin;
+    public $modul_ini = 'beranda';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'beranda';
-        $this->isAdmin   = $this->session->isAdmin->pamong;
+        $this->isAdmin = $this->session->isAdmin->pamong;
     }
 
     public function index()
@@ -107,7 +107,7 @@ class Beranda extends Admin_Controller
         return $info;
     }
 
-    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop): bool
     {
         $query = $this->db
             ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
@@ -138,12 +138,12 @@ class Beranda extends Admin_Controller
     private function logSurat()
     {
         return LogSurat::whereNull('deleted_at')
-            ->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
-                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+            ->when($this->isAdmin->jabatan_id == kades()->id, static fn($q) => $q->when(setting('tte') == 1, static fn($tte) => $tte->where('tte', '=', 1))
+                ->when(setting('tte') == 0, static fn($tte) => $tte->where('verifikasi_kades', '=', '1'))
                 ->orWhere(static function ($verifikasi): void {
                     $verifikasi->whereNull('verifikasi_operator');
                 }))
-            ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count();
+            ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count();
     }
 }

@@ -32,98 +32,89 @@
 									</label>
 								</div>
 							</div>
-
-							<div id="warga_desa">
+							<?php if ($pemilik) : ?>
 								<div class="form-group">
-									<label class="col-sm-3 control-label">Cari Nama Pemilik</label>
+									<label for="nama" class="col-sm-3 control-label">Pemilik</label>
 									<div class="col-sm-8">
-										<select class="form-control input-sm select2" id="nik" name="nik" onchange="ubah_pemilik($('#jenis_pemilik').val());">
-											<option value="">-- Silakan Masukan NIK / Nama --</option>
-											<?php foreach ($penduduk as $item) : ?>
-												<option value="<?= $item['id'] ?>" <?php selected($pemilik['nik'], $item['id']) ?>>Nama : <?= $item['nama'] . ' Alamat : ' . $item['info'] ?></option>
-											<?php endforeach; ?>
-										</select>
-									</div>
-								</div>
-								<?php if ($pemilik) : ?>
-									<div class="form-group">
-										<label for="nama" class="col-sm-3 control-label">Pemilik</label>
-										<div class="col-sm-8">
-											<div class="form-group">
-												<label class="col-sm-3 control-label">Nama Penduduk</label>
-												<div class="col-sm-9">
-													<input class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= $pemilik['nama'] ?>" disabled>
-												</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">Nama Penduduk</label>
+											<div class="col-sm-9">
+												<input class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= $pemilik['nama'] ?>" disabled>
 											</div>
-											<div class="form-group">
-												<label class="col-sm-3 control-label">NIK Pemilik</label>
-												<div class="col-sm-9">
-													<input class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="<?= $pemilik['nik'] ?>" disabled>
-												</div>
+										</div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label">NIK Pemilik</label>
+											<div class="col-sm-9">
+												<input class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="<?= $pemilik['nik'] ?>" disabled>
 											</div>
-											<div class="form-group">
-												<label for="alamat" class="col-sm-3 control-label">Alamat Pemilik</label>
-												<div class="col-sm-9">
-													<textarea class="form-control input-sm" placeholder="Alamat Pemilik" rows="5" disabled><?= 'RT ' . $pemilik['rt'] . ' / RT ' . $pemilik['rw'] . ' - ' . strtoupper($pemilik['dusun']) ?></textarea>
-												</div>
+										</div>
+										<div class="form-group">
+											<label for="alamat" class="col-sm-3 control-label">Alamat Pemilik</label>
+											<div class="col-sm-9">
+												<textarea class="form-control input-sm" placeholder="Alamat Pemilik" rows="5" disabled><?= 'RT ' . $pemilik['rt'] . ' / RT ' . $pemilik['rw'] . ' - ' . strtoupper($pemilik['dusun']) ?></textarea>
 											</div>
 										</div>
 									</div>
-								<?php endif; ?>
-							</div>
-						</div>
-					</form>
-					<form name='mainform' action="<?= site_url('cdesa/simpan_cdesa') ?>" method="POST" id="validasi" class="form-horizontal">
-						<div class="box-body">
-							<input id="jenis_pemilik" name="jenis_pemilik" type="hidden" value="1">
-							<input type="hidden" name="nik_lama" value="<?= $pemilik['nik_lama'] ?>" />
-							<input type="hidden" name="nik" value="<?= $pemilik['nik'] ?>" />
-							<input type="hidden" name="id_pend" value="<?= $pemilik['id'] ?>" />
-							<?php if ($cdesa) : ?>
-								<input type="hidden" name="id" value="<?= $cdesa['id'] ?>" />
+								</div>
 							<?php endif; ?>
-							<input type="hidden" name="c_desa" value="<?= $cdesa['c_desa'] ?>" />
+						</div>
+				</div>
+				</form>
+				<form name='mainform' action="<?= site_url('cdesa/simpan_cdesa') ?>" method="POST" id="validasi" class="form-horizontal">
+					<div class="box-body">
+						<input id="jenis_pemilik" name="jenis_pemilik" type="hidden" value="1">
+						<input type="hidden" name="nik_lama" value="<?= $pemilik['nik_lama'] ?>" />
+						<input type="hidden" name="nik" value="<?= $pemilik['nik'] ?>" />
+						<input type="hidden" name="id_pend" value="<?= $pemilik['id'] ?>" />
+						<?php if ($cdesa) : ?>
+							<input type="hidden" name="id" value="<?= $cdesa['id'] ?>" />
+						<?php endif; ?>
+						<input type="hidden" name="c_desa" value="<?= $cdesa['c_desa'] ?>" />
 
-							<div id="warga_luar_desa">
-								<div class="form-group">
-									<label for="c_desa" class="col-sm-3 control-label">Nama Pemilik</label>
-									<div class="col-sm-8">
-										<input class="form-control input-sm required" type="text" placeholder="Nama Pemilik Luar" id="nama_pemilik_luar" name="nama_pemilik_luar" value="<?= ($cdesa['nama_pemilik_luar']) ?>" <?php $pemilik && print 'disabled' ?>>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="c_desa" class="col-sm-3 control-label">Alamat Pemilik</label>
-									<div class="col-sm-8">
-										<input class="form-control input-sm required" type="text" placeholder="Alamat Pemilik Luar" id="alamat_pemilik_luar" name="alamat_pemilik_luar" value="<?= ($cdesa['alamat_pemilik_luar']) ?>" <?php $pemilik && print 'disabled' ?>>
-									</div>
-								</div>
-							</div>
-
+						<div id="warga_luar_desa">
 							<div class="form-group">
-								<label for="c_desa" class="col-sm-3 control-label">Nomor C-DESA</label>
+								<label for="c_desa" class="col-sm-3 control-label">Nama Pemilik</label>
 								<div class="col-sm-8">
-									<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor']) ?>" <?php if (!$pemilik && $cdesa['jenis_pemilik'] != 2) {
+									<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor']) ?>" <?php if (! $pemilik && $cdesa['jenis_pemilik'] != 2) {
 																																														echo 'disabled';
 																																													} ?>>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="nama_kepemilikan" class="col-sm-3 control-label">Nama Pemilik Tertulis di C-Desa</label>
+								<label for="c_desa" class="col-sm-3 control-label">Alamat Pemilik</label>
 								<div class="col-sm-8">
-									<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik sebagaimana tertulis di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa['nama_kepemilikan']) ? sprintf('%04s', $cdesa['nama_kepemilikan']) : null ?>" <?php if (!$pemilik && $cdesa['jenis_pemilik'] != 2) {
+									<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik sebagaimana tertulis di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa['nama_kepemilikan']) ? sprintf('%04s', $cdesa['nama_kepemilikan']) : null ?>" <?php if (! $pemilik && $cdesa['jenis_pemilik'] != 2) {
 																																																																								echo 'disabled';
 																																																																							} ?>>
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
-							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+
+						<div class="form-group">
+							<label for="c_desa" class="col-sm-3 control-label">Nomor C-DESA</label>
+							<div class="col-sm-8">
+								<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor']) ?>" <?php if (!$pemilik && $cdesa['jenis_pemilik'] != 2) {
+																																													echo 'disabled';
+																																												} ?>>
+							</div>
 						</div>
-					</form>
-				</div>
+						<div class="form-group">
+							<label for="nama_kepemilikan" class="col-sm-3 control-label">Nama Pemilik Tertulis di C-Desa</label>
+							<div class="col-sm-8">
+								<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik sebagaimana tertulis di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa['nama_kepemilikan']) ? sprintf('%04s', $cdesa['nama_kepemilikan']) : null ?>" <?php if (!$pemilik && $cdesa['jenis_pemilik'] != 2) {
+																																																																							echo 'disabled';
+																																																																						} ?>>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
+						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+					</div>
+				</form>
 			</div>
 		</div>
+</div>
 </div>
 </section>
 </div>

@@ -35,12 +35,15 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
+use App\Enums\TampilanArtikelEnum;
 use App\Models\Artikel;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'artikel';
     private $_set_page;
 
     public function __construct()
@@ -55,9 +58,7 @@ class Web extends Admin_Controller
         }
 
         $this->load->model(['web_artikel_model', 'web_kategori_model']);
-        $this->_set_page     = ['20', '50', '100'];
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'artikel';
+        $this->_set_page = ['20', '50', '100'];
     }
 
     public function clear(): void
@@ -131,8 +132,9 @@ class Web extends Admin_Controller
             $data['form_action'] = site_url('web/insert');
         }
 
-        $data['cat']      = $cat;
-        $data['kategori'] = $this->web_artikel_model->get_kategori($cat);
+        $data['cat']           = $cat;
+        $data['kategori']      = $this->web_artikel_model->get_kategori($cat);
+        $data['list_tampilan'] = TampilanArtikelEnum::all();
 
         $this->render('web/artikel/form', $data);
     }

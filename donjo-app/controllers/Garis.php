@@ -46,21 +46,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Garis extends Admin_Controller
 {
-    private int $tip = 1;
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+    private int $tip      = 1;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function index($parent = 0): void
     {
         $data           = ['tip' => $this->tip, 'parent' => $parent];
         $data['status'] = [Line::LOCK => 'Aktif', Line::UNLOCK => 'Non Aktif'];
-        $data['line']   = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
+        $data['line']   = Line::root()->with(['children' => static fn($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.garis.index', $data);
     }
@@ -73,11 +72,11 @@ class Garis extends Admin_Controller
             $line    = $this->input->get('line') ?? null;
             $parent  = $this->input->get('parent') ?? 0;
 
-            return datatables()->of(GarisModel::when($status, static fn ($q) => $q->whereEnabled($status))
-                ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
-                ->when($subline, static fn ($q) => $q->whereRefLine($subline))
+            return datatables()->of(GarisModel::when($status, static fn($q) => $q->whereEnabled($status))
+                ->when($line, static fn($q) => $q->whereIn('ref_line', static fn($q) => $q->select('id')->from('line')->whereParrent($line)))
+                ->when($subline, static fn($q) => $q->whereRefLine($subline))
                 ->with([
-                    'line' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                    'line' => static fn($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -104,9 +103,9 @@ class Garis extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
-                ->editColumn('ref_line', static fn ($row) => $row->line->parent->nama ?? '')
-                ->editColumn('kategori', static fn ($row) => $row->line->nama ?? '')
+                ->editColumn('enabled', static fn($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('ref_line', static fn($row) => $row->line->parent->nama ?? '')
+                ->editColumn('kategori', static fn($row) => $row->line->nama ?? '')
                 ->rawColumns(['aksi', 'ceklist'])
                 ->make();
         }
@@ -258,7 +257,6 @@ class Garis extends Admin_Controller
 
     private function validation()
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('ref_line', 'Kategori', 'required');
         $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');

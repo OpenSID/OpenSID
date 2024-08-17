@@ -41,14 +41,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_inventaris extends Admin_Controller
 {
+    public $modul_ini           = 'sekretariat';
+    public $sub_modul_ini       = 61;
     private array $list_session = ['tahun'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['inventaris_laporan_model', 'pamong_model', 'surat_model']);
-        $this->modul_ini     = 'sekretariat';
-        $this->sub_modul_ini = 'inventaris';
     }
 
     public function index(): void

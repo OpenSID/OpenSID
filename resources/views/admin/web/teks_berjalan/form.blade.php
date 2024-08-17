@@ -67,12 +67,46 @@
             </div>
         </div>
     </div>
-    <div class='box-footer'>
-        <button type='reset' class='btn btn-social  btn-danger btn-sm'><i class='fa fa-times'></i>
-            Batal</button>
-        <button type='submit' class='btn btn-social  btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i>
-            Simpan</button>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label class="control-label">Tautan ke artikel</label>
+            <select class="form-control select2 " id="tautan" name="tautan">
+                <option value="">-- Cari Judul Artikel --</option>
+                @foreach ($list_artikel as $artikel)
+                <option value="{{ $artikel['id'] }}" @selected($artikel['id']==$teks['tautan'])>
+                    {{ tgl_indo($artikel['tgl_upload']) . ' | ' . $artikel['judul'] }}
+                </option>
+                @endforeach
+            </select>
+        </div>
     </div>
+    <div class="col-md-12" id="box_judul_tautan" style="display: {{ $teks['tautan'] ? '' : 'none' }}">
+        <div class="form-group">
+            <label class="control-label">Judul tautan</label>
+            <input {{ $teks['tautan'] ? '' : 'disabled' }} class="form-control input-sm required"
+                placeholder="Judul tautan ke artikel atau url" name="judul_tautan" id="input_judul_tautan"
+                value="{{ $teks['judul_tautan'] }}" maxlength="150" />
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <label class="control-label">Status</label>
+            <select class="form-control select2" id="status" name="status">
+                @foreach (\App\Enums\StatusEnum::all() as $key => $data)
+                <option value="{{ $key }}" @selected($key==$teks['status'])>
+                    {{ $data }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+<div class='box-footer'>
+    <button type='reset' class='btn btn-social  btn-danger btn-sm'><i class='fa fa-times'></i>
+        Batal</button>
+    <button type='submit' class='btn btn-social  btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i>
+        Simpan</button>
+</div>
 </div>
 </form>
 @endsection

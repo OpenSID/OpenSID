@@ -68,29 +68,269 @@ final class Idn
      * @var array<int, int>
      */
     private static $basicToDigit = [
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        26, 27, 28, 29, 30, 31, 32, 33, 34, 35, -1, -1, -1, -1, -1, -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-        15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14,
-        15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
 
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
     ];
 
     /**
@@ -164,7 +404,7 @@ final class Idn
             // Only convert labels to punycode that contain non-ASCII code points
             if (1 === preg_match('/[^\x00-\x7F]/', $label)) {
                 try {
-                    $label = 'xn--'.self::punycodeEncode($label);
+                    $label = 'xn--' . self::punycodeEncode($label);
                 } catch (\Exception $e) {
                     $info->errors |= self::ERROR_PUNYCODE;
                 }
@@ -227,7 +467,7 @@ final class Idn
     private static function isValidContextJ(array $codePoints, $label)
     {
         if (!isset(self::$virama)) {
-            self::$virama = require __DIR__.\DIRECTORY_SEPARATOR.'Resources'.\DIRECTORY_SEPARATOR.'unidata'.\DIRECTORY_SEPARATOR.'virama.php';
+            self::$virama = require __DIR__ . \DIRECTORY_SEPARATOR . 'Resources' . \DIRECTORY_SEPARATOR . 'unidata' . \DIRECTORY_SEPARATOR . 'virama.php';
         }
 
         $offset = 0;
@@ -280,6 +520,10 @@ final class Idn
 
             switch ($data['status']) {
                 case 'disallowed':
+                    $info->errors |= self::ERROR_DISALLOWED;
+
+                    // no break.
+
                 case 'valid':
                     $str .= mb_chr($codePoint, 'utf-8');
 
@@ -290,7 +534,7 @@ final class Idn
                     break;
 
                 case 'mapped':
-                    $str .= $transitional && 0x1E9E === $codePoint ? 'ss' : $data['mapping'];
+                    $str .= $data['mapping'];
 
                     break;
 
@@ -342,18 +586,6 @@ final class Idn
             $validationOptions = $options;
 
             if ('xn--' === substr($label, 0, 4)) {
-                // Step 4.1. If the label contains any non-ASCII code point (i.e., a code point greater than U+007F),
-                // record that there was an error, and continue with the next label.
-                if (preg_match('/[^\x00-\x7F]/', $label)) {
-                    $info->errors |= self::ERROR_PUNYCODE;
-
-                    continue;
-                }
-
-                // Step 4.2. Attempt to convert the rest of the label to Unicode according to Punycode [RFC3492]. If
-                // that conversion fails, record that there was an error, and continue
-                // with the next label. Otherwise replace the original label in the string by the results of the
-                // conversion.
                 try {
                     $label = self::punycodeDecode(substr($label, 4));
                 } catch (\Exception $e) {
@@ -524,8 +756,6 @@ final class Idn
             if ('-' === substr($label, -1, 1)) {
                 $info->errors |= self::ERROR_TRAILING_HYPHEN;
             }
-        } elseif ('xn--' === substr($label, 0, 4)) {
-            $info->errors |= self::ERROR_PUNYCODE;
         }
 
         // Step 4. The label must not contain a U+002E (.) FULL STOP.
@@ -888,12 +1118,12 @@ final class Idn
     {
         if (!self::$mappingTableLoaded) {
             self::$mappingTableLoaded = true;
-            self::$mapped = require __DIR__.'/Resources/unidata/mapped.php';
-            self::$ignored = require __DIR__.'/Resources/unidata/ignored.php';
-            self::$deviation = require __DIR__.'/Resources/unidata/deviation.php';
-            self::$disallowed = require __DIR__.'/Resources/unidata/disallowed.php';
-            self::$disallowed_STD3_mapped = require __DIR__.'/Resources/unidata/disallowed_STD3_mapped.php';
-            self::$disallowed_STD3_valid = require __DIR__.'/Resources/unidata/disallowed_STD3_valid.php';
+            self::$mapped = require __DIR__ . '/Resources/unidata/mapped.php';
+            self::$ignored = require __DIR__ . '/Resources/unidata/ignored.php';
+            self::$deviation = require __DIR__ . '/Resources/unidata/deviation.php';
+            self::$disallowed = require __DIR__ . '/Resources/unidata/disallowed.php';
+            self::$disallowed_STD3_mapped = require __DIR__ . '/Resources/unidata/disallowed_STD3_mapped.php';
+            self::$disallowed_STD3_valid = require __DIR__ . '/Resources/unidata/disallowed_STD3_valid.php';
         }
 
         if (isset(self::$mapped[$codePoint])) {

@@ -46,11 +46,26 @@
             </div>
         </div>
     </div>
-    <div class='box-footer'>
-        <button type='reset' class='btn btn-social btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
-        <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i>
-            Simpan</button>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="nama">Nama</label>
+        <div class="col-sm-6">
+            <input name="nama" class="form-control input-sm required" type="text" placeholder="Nama"
+                value="{{ $data['nama'] }}"></input>
+        </div>
     </div>
+    <div class="form-group">
+        <label class="control-label col-sm-4" for="uraian">Keterangan</label>
+        <div class="col-sm-6">
+            <textarea name="uraian" class="form-control input-sm required"
+                placeholder="Keterangan">{{ $data['uraian'] }}</textarea>
+        </div>
+    </div>
+</div>
+<div class='box-footer'>
+    <button type='reset' class='btn btn-social btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
+    <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i>
+        Simpan</button>
+</div>
 </div>
 </form>
 @endsection

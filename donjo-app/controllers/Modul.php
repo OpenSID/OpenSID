@@ -43,12 +43,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Modul extends Admin_Controller
 {
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'modul';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['modul_model']);
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'modul';
     }
 
     public function index(?int $parent = 0): void
@@ -56,7 +57,7 @@ class Modul extends Admin_Controller
         isCan('b');
 
         $data = [
-            'utama'      => !$parent,
+            'utama'      => ! $parent,
             'status'     => [ModulModel::UNLOCK => 'Aktif', ModulModel::LOCK => 'Tidak Aktif'],
             'parentName' => $parent ? ModulModel::findOrFail($parent)->modul ?? '' : null,
             'parent'     => $parent,
@@ -77,26 +78,26 @@ class Modul extends Admin_Controller
             }
 
             return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF)
-                ->when(!$order, static fn ($q) => $q->orderBy('urut', 'asc')))
+                ->when(! $order, static fn($q) => $q->orderBy('urut', 'asc')))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $lockParent): string {
                     $aksi = '';
                     if ($canUpdate) {
-                        $aksi .= '<a href="' . route('modul.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a> ';
-                        if (!$lockParent && $row->isLock()) {
-                            $aksi .= '<a href="' . route('modul.unlock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                        $aksi .= '<a href="' . ci_route('modul.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data" ><i class="fa fa-edit"></i></a> ';
+                        if (! $lockParent && $row->isLock()) {
+                            $aksi .= '<a href="' . ci_route('modul.unlock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
 
-                        if (!$row->isLock()) {
-                            $aksi .= '<a href="' . route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                        if (! $row->isLock()) {
+                            $aksi .= '<a href="' . ci_route('modul.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
                         }
                     }
-                    if (!$parent && $row->children->count()) {
-                        $aksi .= '<a href="' . route('modul.index', $row->id) . '" class="btn bg-olive btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>';
+                    if (! $parent && $row->children->count()) {
+                        $aksi .= '<a href="' . ci_route('modul.index', $row->id) . '" class="btn bg-olive btn-sm" title="Lihat Sub Modul" ><i class="fa fa-list"></i></a>';
                     }
 
                     return $aksi;
-                })->editColumn('modul', static fn ($row) => SebutanDesa($row->modul))
+                })->editColumn('modul', static fn($row) => SebutanDesa($row->modul))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -111,8 +112,8 @@ class Modul extends Admin_Controller
         $data['list_icon'] = ModulModel::listIcon();
 
         $data['item']        = $modul->toArray();
-        $data['utama']       = !(bool) $modul->parent;
-        $data['form_action'] = route('modul.update', $id);
+        $data['utama']       = ! (bool) $modul->parent;
+        $data['form_action'] = ci_route('modul.update', $id);
 
         view('admin.pengaturan.modul.form', $data);
     }
@@ -132,10 +133,10 @@ class Modul extends Admin_Controller
             // update juga children
             $obj->children()->update(['aktif' => $data['aktif']]);
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
-            redirect_with('success', 'Modul berhasil disimpan', route('modul.index', $parent));
+            redirect_with('success', 'Modul berhasil disimpan', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal disimpan', route('modul.index', $parent));
+            redirect_with('error', 'Modul gagal disimpan', ci_route('modul.index', $parent));
         }
     }
 
@@ -148,10 +149,10 @@ class Modul extends Admin_Controller
         try {
             ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::LOCK]);
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
-            redirect_with('success', 'Modul berhasil dinonaktifkan', route('modul.index', $parent));
+            redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal dinonaktifkan', route('modul.index', $parent));
+            redirect_with('error', 'Modul gagal dinonaktifkan', ci_route('modul.index', $parent));
         }
     }
 
@@ -164,10 +165,10 @@ class Modul extends Admin_Controller
         try {
             ModulModel::where(['id' => $id])->orWhere(['parent' => $id])->update(['aktif' => ModulModel::UNLOCK]);
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
-            redirect_with('success', 'Modul berhasil dinonaktifkan', route('modul.index', $parent));
+            redirect_with('success', 'Modul berhasil dinonaktifkan', ci_route('modul.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Modul gagal dinonaktifkan', route('modul.index', $parent));
+            redirect_with('error', 'Modul gagal dinonaktifkan', ci_route('modul.index', $parent));
         }
     }
 

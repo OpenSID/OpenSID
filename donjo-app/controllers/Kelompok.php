@@ -44,6 +44,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'kelompok';
     private array $_list_session = ['penerima_bantuan', 'sex', 'status_dasar'];
     protected $tipe              = 'kelompok';
 
@@ -51,8 +53,6 @@ class Kelompok extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['kelompok_model', 'pamong_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'kelompok';
         $this->kelompok_model->set_tipe($this->tipe);
     }
 
@@ -70,9 +70,8 @@ class Kelompok extends Admin_Controller
 
         if ($this->input->is_ajax_request()) {
             $controller = $this->controller;
-            $input      = $this->input;
-
-            $query = KelompokModel::with(['kelompokMaster', 'ketua'])
+            $status     = $this->input->get('status_dasar');
+            $query      = KelompokModel::with(['kelompokMaster', 'ketua'])
                 ->withCount('kelompokAnggota as jml_anggota')
                 ->tipe($this->tipe)
                 ->jenisKelaminKetua($this->session->sex)
@@ -81,22 +80,17 @@ class Kelompok extends Admin_Controller
                     if ($filter = $this->input->get('filter')) {
                         $query->where('id_master', $filter);
                     }
+                })->whereHas('ketua', static function ($query) use ($status): void {
+                    if ($status == 1) {
+                        $query->where('status_dasar', 1);
+                    } elseif ($status == 2) {
+                        $query->where('status_dasar', null);
+                    }
                 });
 
-            return datatables($query)
+            return datatables()->of($query)
                 ->addIndexColumn()
-                ->filter(static function ($query) use ($input): void {
-                    $query->whereHas('ketua', static function ($query) use ($input): void {
-                        if ($status = $input->get('status_dasar')) {
-                            if ($status == 1) {
-                                $query->where('status_dasar', 1);
-                            } elseif ($status == 2) {
-                                $query->where('status_dasar', null);
-                            }
-                        }
-                    });
-                })
-                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
@@ -167,7 +161,7 @@ class Kelompok extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->id,
                         'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
                     ]),
@@ -359,7 +353,7 @@ class Kelompok extends Admin_Controller
             ->doesntHave('kelompokAnggota')
             ->find($id);
 
-        if (!$result) {
+        if (! $result) {
             redirect_with('error', "Tidak bisa menghapus {$this->tipe} yang sudah memiliki anggota");
         }
 

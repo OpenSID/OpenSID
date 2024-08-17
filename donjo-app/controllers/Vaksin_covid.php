@@ -42,6 +42,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Vaksin_covid extends Admin_Controller
 {
+    public $modul_ini        = 'kesehatan';
+    public $sub_modul_ini    = 'vaksin';
     protected $_list_session = ['cari', 'dusun', 'vaksin', 'jenis_vaksin', 'tanggal_vaksin', 'umur'];
     protected $_set_page     = ['50', '100', '200'];
 
@@ -49,8 +51,6 @@ class Vaksin_covid extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['vaksin_covid_model', 'wilayah_model', 'pamong_model']);
-        $this->modul_ini     = 'kesehatan';
-        $this->sub_modul_ini = 'vaksin';
     }
 
     public function filter($filter, $return = ''): void
@@ -172,7 +172,7 @@ class Vaksin_covid extends Admin_Controller
         ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN, $tampil);
     }
 
-    public function update(): void
+    public function update()
     {
         $this->redirect_hak_akses('u');
         $this->vaksin_covid_model->update_vaksin();

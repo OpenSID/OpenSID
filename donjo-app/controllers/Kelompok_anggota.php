@@ -45,16 +45,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok_anggota extends Admin_Controller
 {
-    protected $tipe            = 'kelompok';
-    protected $aliasController = 'kelompok';
+    public $modul_ini       = 'kependudukan';
+    public $sub_modul_ini   = 'kelompok';
+    public $akses_modul     = 'kelompok';
+    public $tipe            = 'kelompok';
+    public $aliasController = 'kelompok';
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['kelompok_model', 'pamong_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'kelompok';
-        $this->akses_modul   = 'kelompok';
     }
 
     public function index()
@@ -106,8 +106,8 @@ class Kelompok_anggota extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('foto', static fn ($row): string => '<img src="' . AmbilFoto($row->anggota->foto, '', $row->anggota->sex) . '" alt="Foto Penduduk" class="img-circle" width="50px">')
-                ->editColumn('jk', static fn ($row): string => JenisKelaminEnum::valueOf($row->anggota->sex))
+                ->editColumn('foto', static fn($row): string => '<img src="' . AmbilFoto($row->anggota->foto, '', $row->anggota->sex) . '" alt="Foto Penduduk" class="img-circle" width="50px">')
+                ->editColumn('jk', static fn($row): string => JenisKelaminEnum::valueOf($row->anggota->sex))
                 ->editColumn('jabatan', static function ($row): string {
                     if ($row->jabatan != 90) {
                         return JabatanKelompokEnum::valueOf($row->jabatan) ?: strtoupper($row->jabatan);
@@ -115,8 +115,8 @@ class Kelompok_anggota extends Admin_Controller
 
                     return JabatanKelompokEnum::valueOf($row->jabatan);
                 })
-                ->editColumn('umur', static fn ($row): string => $row->anggota->umur)
-                ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper(tgl_indo($row->anggota->tanggallahir)))
+                ->editColumn('umur', static fn($row): string => $row->anggota->umur)
+                ->editColumn('tanggallahir', static fn($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper(tgl_indo($row->anggota->tanggallahir)))
                 ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur'])
                 ->make();
         }
@@ -218,7 +218,6 @@ class Kelompok_anggota extends Admin_Controller
             $validasi_anggota1 = KelompokAnggotaModel::where('id_penduduk', '!=', $data['id_penduduk'])->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
         }
         $anggota = KelompokAnggotaModel::whereIdKelompok($data['id_kelompok'])->whereIdPenduduk($id_a)->first();
-        // dd($anggota);
         if ($anggota->no_anggota != $data['no_anggota'] && $validasi_anggota1->no_anggota == $data['no_anggota']) {
             redirect_with('error', "Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silahkan gunakan nomor anggota yang lain!", route($this->controller . '.form', ['id_kelompok' => $id, 'id' => $id_a]));
         }
@@ -304,11 +303,10 @@ class Kelompok_anggota extends Admin_Controller
     {
         $post = $this->input->post();
 
-        $kelompok = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
-        // dd($kelompok);
+        $kelompok     = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
         $list_anggota = collect($kelompok)
             ->map(
-                static fn ($item) => collect($item)->merge(
+                static fn($item) => collect($item)->merge(
                     [
                         'nama'         => $item->anggota->nama,
                         'nik'          => $item->anggota->nik,

@@ -69,7 +69,7 @@
 												<option value="1" <?php if ($analisis_master['lock'] == '1' || $analisis_master['lock'] == '') {
 																		echo 'selected';
 																	} ?>>Tidak Terkunci</option>
-												<option value="2" <?php if ($analisis_master['lock'] == '2') : ?>selected<?php endif; ?>> Terkunci</option>
+												<option value="2" <?php if ($analisis_master['lock'] == '2'): ?>selected<?php endif; ?>> Terkunci</option>
 											</select>
 										</div>
 									</div>

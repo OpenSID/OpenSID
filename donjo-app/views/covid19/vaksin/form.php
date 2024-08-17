@@ -10,7 +10,7 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="box box-info">
-			<?php if ($this->CI->cek_hak_akses('u')): ?>
+			<?php if (can('u')): ?>
 				<div class="box-header with-border">
 					<a href="<?= site_url($this->controller)?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pemudik Saat Covid-19"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk Penerima Vaksin Covid 19</a>
 				</div>

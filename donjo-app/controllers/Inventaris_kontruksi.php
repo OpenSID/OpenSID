@@ -41,12 +41,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Inventaris_kontruksi extends Admin_Controller
 {
+    public $modul_ini     = 'sekretariat';
+    public $sub_modul_ini = 'inventaris';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['inventaris_kontruksi_model', 'pamong_model', 'aset_model']);
-        $this->modul_ini     = 'sekretariat';
-        $this->sub_modul_ini = 'inventaris';
     }
 
     public function index(): void

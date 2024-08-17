@@ -42,11 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gawai_layanan extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'gawai-layanan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'gawai-layanan';
     }
 
     public function index()

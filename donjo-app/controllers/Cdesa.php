@@ -77,6 +77,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Cdesa extends Admin_Controller
 {
+    public $modul_ini           = 'pertanahan';
+    public $sub_modul_ini       = 'c-desa';
     private array $set_page     = ['20', '50', '100'];
     private array $list_session = ['cari'];
 
@@ -86,8 +88,6 @@ class Cdesa extends Admin_Controller
         $this->load->model('data_persil_model');
         $this->load->model('cdesa_model');
         $this->load->model('wilayah_model');
-        $this->modul_ini     = 'pertanahan';
-        $this->sub_modul_ini = 'c-desa';
     }
 
     public function clear(): void
@@ -155,8 +155,6 @@ class Cdesa extends Admin_Controller
     public function create($mode = 0, $id = 0): void
     {
         $this->redirect_hak_akses('u');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
         $this->tab_ini = empty($mode) ? 10 : 12;
@@ -187,7 +185,7 @@ class Cdesa extends Admin_Controller
         $this->render('data_persil/create', $data);
     }
 
-    private function ubah_pemilik($id, array &$data, $post): void
+    private function ubah_pemilik($id, array &$data, array $post): void
     {
         $this->redirect_hak_akses('u');
         $jenis_pemilik_baru = $post['jenis_pemilik'] ?: 0;
@@ -219,8 +217,6 @@ class Cdesa extends Admin_Controller
     public function simpan_cdesa($page = 1): void
     {
         $this->redirect_hak_akses('u');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('c_desa', 'Nomor Surat C-DESA', 'required|trim|numeric');
         $this->form_validation->set_rules('c_desa', 'Username', 'callback_cek_nomor');
 
@@ -253,8 +249,6 @@ class Cdesa extends Admin_Controller
     public function create_mutasi($id_cdesa, $id_persil = '', $id_mutasi = ''): void
     {
         $this->redirect_hak_akses('u');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
         $this->load->model('plan_area_model');
         $this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
         $this->session->unset_userdata('cari'); // Area menggunakan session cari, jadi perlu dihapus terlebih dahulu
@@ -314,7 +308,7 @@ class Cdesa extends Admin_Controller
     }
 
     // TODO: gunakan pada waktu validasi C-Desa
-    public function cek_nomor($nomor)
+    public function cek_nomor($nomor): bool
     {
         $id_cdesa = $this->input->post('id');
         if ($id_cdesa) {
@@ -338,9 +332,6 @@ class Cdesa extends Admin_Controller
     // TODO: perbaiki
     public function panduan(): void
     {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
-
         $this->tab_ini = 15;
         $nav['act']    = 7;
         $this->render('data_persil/panduan');

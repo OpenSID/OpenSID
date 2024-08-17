@@ -35,27 +35,25 @@
  *
  */
 
+namespace App\Enums;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class MY_Security extends CI_Security
+class TampilanArtikelEnum extends BaseEnum
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function csrf_show_error(): void
-    {
-        // ==== Uncomment berikut untuk debugging masalah CSRF
-        // print("<pre>".print_r(getallheaders(),true)."</pre>");
-        // print("<pre>".print_r($_POST, true)."</pre>");
-        // die();
+    public const CONTENT_SIDEBAR_RIGHT = 1;
+    public const CONTENT_SIDEBAR_LEFT  = 2;
+    public const CONTENT_FULLWIDHT     = 3;
 
-        show_error(
-            "Verifikasi CSRF Gagal. <br><br>
-            Kembali ke halaman sebelumnya di <a href='{$_SERVER['HTTP_REFERER']}'>sini</a>, dan ulangi.<br><br>
-            Kalau masih error, coba clear cache dan cookies di browser anda, dan login kembali.<br><br>
-            Kalau masih bermasalah, silakan laporkan.",
-            403,
-            'Bad Request'
-        );
+    /**
+     * Override method all()
+     */
+    public static function all(): array
+    {
+        return [
+            self::CONTENT_SIDEBAR_RIGHT => 'Konten + Sidebar Kanan',
+            self::CONTENT_SIDEBAR_LEFT  => 'Konten + Sidebar Kiri',
+            self::CONTENT_FULLWIDHT     => 'Konten Lebar Penuh',
+        ];
     }
 }

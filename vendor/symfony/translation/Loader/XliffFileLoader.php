@@ -57,12 +57,12 @@ class XliffFileLoader implements LoaderInterface
             } else {
                 $dom = XmlUtils::loadFile($resource);
             }
-        } catch (\InvalidArgumentException|XmlParsingException|InvalidXmlException $e) {
-            throw new InvalidResourceException(sprintf('Unable to load "%s": ', $resource).$e->getMessage(), $e->getCode(), $e);
+        } catch (\InvalidArgumentException | XmlParsingException | InvalidXmlException $e) {
+            throw new InvalidResourceException(sprintf('Unable to load "%s": ', $resource) . $e->getMessage(), $e->getCode(), $e);
         }
 
         if ($errors = XliffUtils::validateSchema($dom)) {
-            throw new InvalidResourceException(sprintf('Invalid resource provided: "%s"; Errors: ', $resource).XliffUtils::getErrorsAsString($errors));
+            throw new InvalidResourceException(sprintf('Invalid resource provided: "%s"; Errors: ', $resource) . XliffUtils::getErrorsAsString($errors));
         }
 
         $catalogue = new MessageCatalogue($locale);
@@ -111,15 +111,11 @@ class XliffFileLoader implements LoaderInterface
                     continue;
                 }
 
-                $source = (string) (isset($attributes['resname']) && $attributes['resname'] ? $attributes['resname'] : $translation->source);
-
-                if (isset($translation->target)
-                    && 'needs-translation' === (string) $translation->target->attributes()['state']
-                    && \in_array((string) $translation->target, [$source, (string) $translation->source], true)
-                ) {
+                if (isset($translation->target) && 'needs-translation' === (string) $translation->target->attributes()['state']) {
                     continue;
                 }
 
+                $source = isset($attributes['resname']) && $attributes['resname'] ? $attributes['resname'] : $translation->source;
                 // If the xlf file has another encoding specified, try to convert it because
                 // simple_xml will always return utf-8 encoded values
                 $target = $this->utf8ToCharset((string) ($translation->target ?? $translation->source), $encoding);

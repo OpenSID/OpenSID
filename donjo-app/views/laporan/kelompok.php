@@ -96,7 +96,7 @@
 										$jenis_cacat                          = ['cacat_fisik', 'cacat_netra', 'cacat_rungu', 'cacat_mental', 'cacat_fisik_mental', 'cacat_lainnya', 'tidak_cacat'];
 										$total_cacat                          = [];
 
-										foreach ($main as $data) : $id_cluster = $data['id_cluster']; ?>
+										foreach ($main as $data): $id_cluster = $data['id_cluster']; ?>
 											<tr>
 												<td class="text-right"><?= $data['dusunnya'] ?></td>
 												<td class="text-right"><?= $data['rw'] ?></td>
@@ -128,7 +128,7 @@
 												$sakit_P += $data['sakit_P'];
 												$hamil += $data['hamil'];
 
-												foreach ($jenis_cacat as $key => $val) :
+												foreach ($jenis_cacat as $key => $val):
 													$total_cacat[$key] += $data[$val];
 												endforeach;
 												?>

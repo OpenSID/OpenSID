@@ -73,27 +73,51 @@
                     </div>
 
                 </div>
-                <hr>
-                {!! form_open(null, 'id="mainform" name="mainform"') !!}
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tabeldata">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" id="checkall" /></th>
-                                <th class="padat">No</th>
-                                <th class="padat">Aksi</th>
-                                <th>Garis</th>
-                                <th style="width:10%">Aktif</th>
-                                <th style="width:15%">Jenis</th>
-                                <th style="width:15%">Kategori</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <div class="col-sm-2">
+                    <select id="line" class="form-control input-sm select2">
+                        <option value="">Pilih Jenis</option>
+                        @foreach ($line as $item)
+                        <option data-children='{!! $item->children->toJson() !!}' value="{{ $item->id }}">{{
+                            $item->nama }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                </form>
+
+                <div class="col-sm-2">
+                    <select id="subline" class="form-control input-sm select2">
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($line as $item)
+                        <optgroup label="{{ $item->nama }}">
+                            @foreach ($item->children as $child)
+                            <option value="{{ $child->id }}">{{ $child->nama }}</option>
+                            @endforeach
+                        </optgroup>
+                        @endforeach
+                    </select>
+                </div>
+
             </div>
+            <hr>
+            {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tabeldata">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkall" /></th>
+                            <th class="padat">No</th>
+                            <th class="padat">Aksi</th>
+                            <th>Garis</th>
+                            <th style="width:10%">Aktif</th>
+                            <th style="width:15%">Jenis</th>
+                            <th style="width:15%">Kategori</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 @include('admin.layouts.components.konfirmasi_hapus')

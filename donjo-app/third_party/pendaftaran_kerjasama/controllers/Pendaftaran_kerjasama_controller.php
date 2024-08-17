@@ -44,6 +44,9 @@ use GuzzleHttp\Psr7;
 
 class Pendaftaran_kerjasama_controller extends Admin_Controller
 {
+    public $modul_ini     = 'info-desa';
+    public $sub_modul_ini = 'pendaftaran-kerjasama';
+
     /**
      * @var Client HTTP Client
      */
@@ -59,9 +62,6 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
         if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {
             show_404();
         }
-
-        $this->modul_ini     = 'info-desa';
-        $this->sub_modul_ini = 'pendaftaran-kerjasama';
 
         $this->load->model(['surat_model', 'pamong_model']);
         $this->client = new Client();

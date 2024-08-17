@@ -112,7 +112,6 @@
                 </div>
             </div>
         </div>
-        </form>
     </div>
     <!--MODAL TAMBAH SIMBOL-->
     <div class="modal fade" id="ModalSimbol" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -148,17 +147,18 @@
             </div>
         </div>
     </div>
-    <!--END MODAL TAMBAH SIMBOL-->
+</div>
+<!--END MODAL TAMBAH SIMBOL-->
 
-    @include('admin.layouts.components.konfirmasi_hapus')
-    @endsection
+@include('admin.layouts.components.konfirmasi_hapus')
+@endsection
 
-    @push('scripts')
-    <script>
-        $(document).ready(function() {
+@push('scripts')
+<script>
+    $(document).ready(function() {
                 $('#btn_ikon').on('click', function() {
                     $('#ModalSimbol').modal('show');
                 });
             });
-    </script>
-    @endpush
+</script>
+@endpush

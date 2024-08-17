@@ -43,13 +43,12 @@ use App\Models\PembangunanDokumentasi;
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-    protected $aliasController = 'admin_pembangunan';
+    public $modul_ini       = 'pembangunan';
+    public $aliasController = 'admin_pembangunan';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini   = 'pembangunan';
-        $this->akses_modul = 'pembangunan';
         isCan('b');
     }
 
@@ -87,11 +86,11 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn ($row) => $row->persentase . '%')
+                ->editColumn('persentase', static fn($row) => $row->persentase . '%')
                 ->orderColumn('persentase', static function ($query, $order) {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
-                ->editColumn('created_at', static fn ($row) => $row->created_at)
+                ->editColumn('created_at', static fn($row) => $row->created_at)
                 ->rawColumns(['ceklist', 'aksi', 'gambar'])
                 ->make();
         }

@@ -100,13 +100,13 @@ class Database_model extends MY_Model
         $versi        = (int) str_replace('.', '', $this->cekCurrentVersion());
         $minimumVersi = (int) str_replace('.', '', $this->minimumVersion);
 
-        if (!$install && $versi < $minimumVersi) {
+        if (! $install && $versi < $minimumVersi) {
             show_error('<h2>Silakan upgrade dulu ke OpenSID dengan minimal versi ' . $this->minimumVersion . '</h2>');
         }
 
         $migrations = directory_map('donjo-app/models/migrations', 1);
         // sort by name
-        usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+        usort($migrations, static fn($a, $b): int => strcmp($a, $b));
 
         try {
             foreach ($migrations as $migrate) {
@@ -114,7 +114,7 @@ class Database_model extends MY_Model
                 preg_match('/\d+/', $migrate, $matches);
                 if ($matches) {
                     $migrateName = $matches[0];
-                    if (!isset($migratedDatabase[$migrateName])) {
+                    if (! isset($migratedDatabase[$migrateName])) {
                         $this->jalankan_migrasi('Migrasi_' . $migrateName);
                         $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
                         $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
@@ -129,7 +129,7 @@ class Database_model extends MY_Model
             // untuk mencegah kesalahan nama file migrasi, tambahkan record berdasarkan VERSI_DATABASE saat ini
             $migrasiDb = Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
             $migrasiDb->update(['premium' => ['Migrasi_' . VERSI_DATABASE]]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
                 echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
@@ -144,7 +144,7 @@ class Database_model extends MY_Model
         kosongkanFolder(config_item('cache_blade'));
         cache()->flush();
 
-        SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
+        SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
 
@@ -162,16 +162,14 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi($install = false): void
+    public function cek_migrasi($install = true): void
     {
-        $this->load->library('pelanggan/validasi', null, 'premium');
-
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
-        if (($this->premium->validasi_versi($install) || $install) && Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
+        if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
             $this->migrasi_db_cri($install);
             // Kirim versi aplikasi ke layanan setelah migrasi selesai
-            kirim_versi_opensid();
+            // kirim_versi_opensid();
         }
     }
 

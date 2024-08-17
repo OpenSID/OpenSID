@@ -43,16 +43,15 @@ use App\Models\UserGrup;
 
 class Man_user extends Admin_Controller
 {
-    private int $tab_ini = 10;
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'pengguna';
+    private int $tab_ini  = 10;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('form_validation');
+        isCan('b');
         $this->form_validation->set_error_delimiters('', '');
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'pengguna';
     }
 
     public function index()

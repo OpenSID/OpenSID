@@ -957,7 +957,6 @@ class DTKSRegsosEk2022k
      */
     public function remove(Dtks $dtks, array $request): array
     {
-        // dd($request);
         $tipe = [
             'lampiran',
         ];

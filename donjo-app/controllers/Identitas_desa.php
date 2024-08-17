@@ -35,22 +35,22 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use App\Models\Config;
 use App\Models\Pamong;
 use App\Models\Wilayah;
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Identitas_desa extends Admin_Controller
 {
+    public $modul_ini     = 'info-desa';
+    public $sub_modul_ini = 'identitas-desa';
     private $cek_kades;
     protected $identitas_desa;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'info-desa';
-        $this->sub_modul_ini = 'identitas-desa';
         isCan('b');
         $this->cek_kades = Pamong::kepalaDesa()->exists();
         // TODO: Cek bagian ini selalu bermasalah jika model penduduk atau pamong aktifkan global observer config_id

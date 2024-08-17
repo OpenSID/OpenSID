@@ -39,13 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_tanah_kas_desa extends Admin_Controller
 {
+    public $modul_ini       = 'buku-administrasi-desa';
+    public $sub_modul_ini   = 'administrasi-umum';
+    public $aliasController = 'bumindes_tanah_kas_desa';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['tanah_kas_desa_model', 'pamong_model', 'data_persil_model']);
-        $this->controller    = 'bumindes_tanah_kas_desa';
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function index()

@@ -37,18 +37,37 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Header_model extends MY_Model
+class Mandiri_Controller extends MY_Controller
 {
-    public function get_data()
+    public $CI;
+    public $is_login;
+
+    public function __construct()
     {
-        $this->load->model('modul_model');
-        $outp['desa']  = collect(identitas())->toArray();
-        $outp['modul'] = $this->cache->pakai_cache(function () {
-            $this->load->model('modul_model');
+        // To inherit directly the attributes of the parent class.
+        parent::__construct();
+        $CI             = &get_instance();
+        $this->is_login = $this->session->is_login;
+        $this->header   = identitas();
 
-            return $this->modul_model->list_aktif();
-        }, "{$this->session->user}_cache_modul", 604800);
+        if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
+            show_404();
+        }
 
-        return $outp;
+        if ($this->session->mandiri != 1) {
+            if (! $this->session->login_ektp) {
+                redirect('layanan-mandiri/masuk');
+            } else {
+                redirect('layanan-mandiri/masuk-ektp');
+            }
+        }
+    }
+
+    public function render($view, ?array $data = null): void
+    {
+        $data['desa']         = $this->header;
+        $data['cek_anjungan'] = $this->cek_anjungan;
+        $data['konten']       = $view;
+        $this->load->view(MANDIRI . '/template', $data);
     }
 }

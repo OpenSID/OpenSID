@@ -43,6 +43,7 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MENU UTAMA</li>
 
+            <?php $modul = admin_menu(); ?>
             <?php foreach ($modul as $mod): ?>
             <?php if (is_array($mod['submodul']) && count($mod['submodul']) > 0): ?>
             <li class="treeview <?= jecho($modul_ini, $mod['slug'], 'active') ?>">

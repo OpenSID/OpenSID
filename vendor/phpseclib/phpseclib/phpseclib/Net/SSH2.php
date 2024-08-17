@@ -1195,17 +1195,23 @@ class SSH2
                 self::$channel_extended_data_type_codes,
                 [60 => 'NET_SSH2_MSG_USERAUTH_PASSWD_CHANGEREQ'],
                 [60 => 'NET_SSH2_MSG_USERAUTH_PK_OK'],
-                [60 => 'NET_SSH2_MSG_USERAUTH_INFO_REQUEST',
-                      61 => 'NET_SSH2_MSG_USERAUTH_INFO_RESPONSE'],
+                [
+                    60 => 'NET_SSH2_MSG_USERAUTH_INFO_REQUEST',
+                    61 => 'NET_SSH2_MSG_USERAUTH_INFO_RESPONSE'
+                ],
                 // RFC 4419 - diffie-hellman-group-exchange-sha{1,256}
-                [30 => 'NET_SSH2_MSG_KEXDH_GEX_REQUEST_OLD',
-                      31 => 'NET_SSH2_MSG_KEXDH_GEX_GROUP',
-                      32 => 'NET_SSH2_MSG_KEXDH_GEX_INIT',
-                      33 => 'NET_SSH2_MSG_KEXDH_GEX_REPLY',
-                      34 => 'NET_SSH2_MSG_KEXDH_GEX_REQUEST'],
+                [
+                    30 => 'NET_SSH2_MSG_KEXDH_GEX_REQUEST_OLD',
+                    31 => 'NET_SSH2_MSG_KEXDH_GEX_GROUP',
+                    32 => 'NET_SSH2_MSG_KEXDH_GEX_INIT',
+                    33 => 'NET_SSH2_MSG_KEXDH_GEX_REPLY',
+                    34 => 'NET_SSH2_MSG_KEXDH_GEX_REQUEST'
+                ],
                 // RFC 5656 - Elliptic Curves (for curve25519-sha256@libssh.org)
-                [30 => 'NET_SSH2_MSG_KEX_ECDH_INIT',
-                      31 => 'NET_SSH2_MSG_KEX_ECDH_REPLY']
+                [
+                    30 => 'NET_SSH2_MSG_KEX_ECDH_INIT',
+                    31 => 'NET_SSH2_MSG_KEX_ECDH_REPLY'
+                ]
             );
         }
 
@@ -1867,7 +1873,7 @@ class SSH2
         switch ($server_host_key_algorithm) {
             case 'rsa-sha2-256':
             case 'rsa-sha2-512':
-            //case 'ssh-rsa':
+                //case 'ssh-rsa':
                 $expected_key_format = 'ssh-rsa';
                 break;
             default:
@@ -2215,7 +2221,7 @@ class SSH2
      */
     public function login($username, ...$args)
     {
-        if (!$this->login_credentials_finalized) {
+        if (!$this->retry_connect) {
             $this->auth[] = func_get_args();
         }
 
@@ -2526,8 +2532,7 @@ class SSH2
         list($type) = Strings::unpackSSH2('C', $response);
         switch ($type) {
             case NET_SSH2_MSG_USERAUTH_INFO_REQUEST:
-                list(
-                    , // name; may be empty
+                list(, // name; may be empty
                     , // instruction; may be empty
                     , // language tag; may be empty
                     $num_prompts
@@ -2657,7 +2662,7 @@ class SSH2
                     $hash = 'sha256';
                     $signatureType = 'rsa-sha2-256';
                     break;
-                //case 'ssh-rsa':
+                    //case 'ssh-rsa':
                 default:
                     $hash = 'sha1';
                     $signatureType = 'ssh-rsa';
@@ -3528,7 +3533,7 @@ class SSH2
                 'plain' => '', // the packet in plain text, excluding packet_length header
                 'packet_length' => null, // the packet_length value pulled from the payload
                 'size' => $this->decrypt_block_size, // the total size of this packet to be read from the socket
-                                                     // initialize to read single block until packet_length is available
+                // initialize to read single block until packet_length is available
             ];
         }
         $packet = $this->binary_packet_buffer;
@@ -3580,7 +3585,7 @@ class SSH2
                 case 'aes256-gcm@openssh.com':
                     $this->decrypt->setNonce(
                         $this->decryptFixedPart .
-                        $this->decryptInvocationCounter
+                            $this->decryptInvocationCounter
                     );
                     Strings::increment_str($this->decryptInvocationCounter);
                     $this->decrypt->setAAD(Strings::shift($raw, $packet_length_header_size));
@@ -3693,7 +3698,7 @@ class SSH2
             $current = microtime(true);
             $message_number = isset(self::$message_numbers[ord($payload[0])]) ? self::$message_numbers[ord($payload[0])] : 'UNKNOWN (' . ord($payload[0]) . ')';
             $message_number = '<- ' . $message_number .
-                              ' (since last: ' . round($current - $this->last_packet, 4) . ', network: ' . round($elapsed, 4) . 's)';
+                ' (since last: ' . round($current - $this->last_packet, 4) . ', network: ' . round($elapsed, 4) . 's)';
             $this->append_log($message_number, $payload);
             $this->last_packet = $current;
         }
@@ -3783,7 +3788,7 @@ class SSH2
                 return false;
             case NET_SSH2_MSG_IGNORE:
                 $this->extra_packets++;
-                $payload = $this->get_binary_packet();
+                $payload = $this->get_binary_packet($skip_channel_filter);
                 break;
             case NET_SSH2_MSG_DEBUG:
                 $this->extra_packets++;
@@ -4049,8 +4054,8 @@ class SSH2
 
                 // resize the window, if appropriate
                 if ($this->window_size_server_to_client[$channel] < 0) {
-                // PuTTY does something more analogous to the following:
-                //if ($this->window_size_server_to_client[$channel] < 0x3FFFFFFF) {
+                    // PuTTY does something more analogous to the following:
+                    //if ($this->window_size_server_to_client[$channel] < 0x3FFFFFFF) {
                     $packet = pack('CNN', NET_SSH2_MSG_CHANNEL_WINDOW_ADJUST, $this->server_channels[$channel], $this->window_resize);
                     $this->send_binary_packet($packet);
                     $this->window_size_server_to_client[$channel] += $this->window_resize;
@@ -4082,10 +4087,8 @@ class SSH2
                         list($value) = Strings::unpackSSH2('s', $response);
                         switch ($value) {
                             case 'exit-signal':
-                                list(
-                                    , // FALSE
-                                    $signal_name,
-                                    , // core dumped
+                                list(, // FALSE
+                                    $signal_name,, // core dumped
                                     $error_message
                                 ) = Strings::unpackSSH2('bsbs', $response);
 
@@ -4295,7 +4298,7 @@ class SSH2
                 case 'aes256-gcm@openssh.com':
                     $this->encrypt->setNonce(
                         $this->encryptFixedPart .
-                        $this->encryptInvocationCounter
+                            $this->encryptInvocationCounter
                     );
                     Strings::increment_str($this->encryptInvocationCounter);
                     $this->encrypt->setAAD($temp = ($packet & "\xFF\xFF\xFF\xFF"));
@@ -4353,7 +4356,7 @@ class SSH2
             $current = microtime(true);
             $message_number = isset(self::$message_numbers[ord($logged[0])]) ? self::$message_numbers[ord($logged[0])] : 'UNKNOWN (' . ord($logged[0]) . ')';
             $message_number = '-> ' . $message_number .
-                              ' (since last: ' . round($current - $this->last_packet, 4) . ', network: ' . round($stop - $start, 4) . 's)';
+                ' (since last: ' . round($current - $this->last_packet, 4) . ', network: ' . round($stop - $start, 4) . 's)';
             $this->append_log($message_number, $logged);
             $this->last_packet = $current;
         }
@@ -4424,7 +4427,7 @@ class SSH2
         }
 
         switch ($constant) {
-            // useful for benchmarks
+                // useful for benchmarks
             case self::LOG_SIMPLE:
                 $message_number_log[] = $message_number;
                 break;
@@ -4434,7 +4437,7 @@ class SSH2
                 @flush();
                 @ob_flush();
                 break;
-            // the most useful log for SSH2
+                // the most useful log for SSH2
             case self::LOG_COMPLEX:
                 $message_number_log[] = $message_number;
                 $log_size += strlen($message);
@@ -4444,9 +4447,9 @@ class SSH2
                     array_shift($message_number_log);
                 }
                 break;
-            // dump the output out realtime; packets may be interspersed with non packets,
-            // passwords won't be filtered out and select other packets may not be correctly
-            // identified
+                // dump the output out realtime; packets may be interspersed with non packets,
+                // passwords won't be filtered out and select other packets may not be correctly
+                // identified
             case self::LOG_REALTIME:
                 switch (PHP_SAPI) {
                     case 'cli':
@@ -4460,10 +4463,10 @@ class SSH2
                 @flush();
                 @ob_flush();
                 break;
-            // basically the same thing as self::LOG_REALTIME with the caveat that NET_SSH2_LOG_REALTIME_FILENAME
-            // needs to be defined and that the resultant log file will be capped out at self::LOG_MAX_SIZE.
-            // the earliest part of the log file is denoted by the first <<< START >>> and is not going to necessarily
-            // at the beginning of the file
+                // basically the same thing as self::LOG_REALTIME with the caveat that NET_SSH2_LOG_REALTIME_FILENAME
+                // needs to be defined and that the resultant log file will be capped out at self::LOG_MAX_SIZE.
+                // the earliest part of the log file is denoted by the first <<< START >>> and is not going to necessarily
+                // at the beginning of the file
             case self::LOG_REALTIME_FILE:
                 if (!isset($realtime_log_file)) {
                     // PHP doesn't seem to like using constants in fopen()
@@ -4806,7 +4809,7 @@ class SSH2
             'ecdh-sha2-nistp384', // RFC 5656
             'ecdh-sha2-nistp521', // RFC 5656
 
-            'diffie-hellman-group-exchange-sha256',// RFC 4419
+            'diffie-hellman-group-exchange-sha256', // RFC 4419
             'diffie-hellman-group-exchange-sha1',  // RFC 4419
 
             // Diffie-Hellman Key Agreement (DH) using integer modulo prime
@@ -4888,7 +4891,7 @@ class SSH2
             'twofish192-cbc', // OPTIONAL          Twofish with a 192-bit key
             'twofish256-cbc',
             'twofish-cbc',    // OPTIONAL          alias for "twofish256-cbc"
-                              //                   (this is being retained for historical reasons)
+            //                   (this is being retained for historical reasons)
 
             'blowfish-ctr',   // OPTIONAL          Blowfish in SDCTR mode
 
@@ -4898,7 +4901,7 @@ class SSH2
 
             '3des-cbc',       // REQUIRED          three-key 3DES in CBC mode
 
-             //'none'           // OPTIONAL          no encryption; NOT RECOMMENDED
+            //'none'           // OPTIONAL          no encryption; NOT RECOMMENDED
         ];
 
         if (self::$crypto_engine) {
@@ -4923,26 +4926,26 @@ class SSH2
                     $obj->setKeyLength(preg_replace('#[^\d]#', '', $algo));
                 }
                 switch ($algo) {
-                    // Eval engines do not exist for ChaCha20 or RC4 because they would not benefit from one.
-                    // to benefit from an Eval engine they'd need to loop a variable amount of times, they'd
-                    // need to do table lookups (eg. sbox subsitutions). ChaCha20 doesn't do either because
-                    // it's a so-called ARX cipher, meaning that the only operations it does are add (A), rotate (R)
-                    // and XOR (X). RC4 does do table lookups but being a stream cipher it works differently than
-                    // block ciphers. with RC4 you XOR the plaintext against a keystream and the keystream changes
-                    // as you encrypt stuff. the only table lookups are made against this keystream and thus table
-                    // lookups are kinda unavoidable. with AES and DES, however, the table lookups that are done
-                    // are done against substitution boxes (sboxes), which are invariant.
+                        // Eval engines do not exist for ChaCha20 or RC4 because they would not benefit from one.
+                        // to benefit from an Eval engine they'd need to loop a variable amount of times, they'd
+                        // need to do table lookups (eg. sbox subsitutions). ChaCha20 doesn't do either because
+                        // it's a so-called ARX cipher, meaning that the only operations it does are add (A), rotate (R)
+                        // and XOR (X). RC4 does do table lookups but being a stream cipher it works differently than
+                        // block ciphers. with RC4 you XOR the plaintext against a keystream and the keystream changes
+                        // as you encrypt stuff. the only table lookups are made against this keystream and thus table
+                        // lookups are kinda unavoidable. with AES and DES, however, the table lookups that are done
+                        // are done against substitution boxes (sboxes), which are invariant.
 
-                    // OpenSSL can't be used as an engine, either, because OpenSSL doesn't support continuous buffers
-                    // as SSH2 uses and altho you can emulate a continuous buffer with block ciphers you can't do so
-                    // with stream ciphers. As for ChaCha20...  for the ChaCha20 part OpenSSL could prob be used but
-                    // the big slow down isn't with ChaCha20 - it's with Poly1305. SSH constructs the key for that
-                    // differently than how OpenSSL does it (OpenSSL does it as the RFC describes, SSH doesn't).
+                        // OpenSSL can't be used as an engine, either, because OpenSSL doesn't support continuous buffers
+                        // as SSH2 uses and altho you can emulate a continuous buffer with block ciphers you can't do so
+                        // with stream ciphers. As for ChaCha20...  for the ChaCha20 part OpenSSL could prob be used but
+                        // the big slow down isn't with ChaCha20 - it's with Poly1305. SSH constructs the key for that
+                        // differently than how OpenSSL does it (OpenSSL does it as the RFC describes, SSH doesn't).
 
-                    // libsodium can't be used because it doesn't support RC4 and it doesn't construct the Poly1305
-                    // keys in the same way that SSH does
+                        // libsodium can't be used because it doesn't support RC4 and it doesn't construct the Poly1305
+                        // keys in the same way that SSH does
 
-                    // mcrypt could prob be used for RC4 but mcrypt hasn't been included in PHP core for yearss
+                        // mcrypt could prob be used for RC4 but mcrypt hasn't been included in PHP core for yearss
                     case 'chacha20-poly1305@openssh.com':
                     case 'arcfour128':
                     case 'arcfour256':
@@ -4982,8 +4985,8 @@ class SSH2
             'hmac-sha1-etm@openssh.com',
 
             // from <http://www.ietf.org/rfc/rfc6668.txt>:
-            'hmac-sha2-256',// RECOMMENDED     HMAC-SHA256 (digest length = key length = 32)
-            'hmac-sha2-512',// OPTIONAL        HMAC-SHA512 (digest length = key length = 64)
+            'hmac-sha2-256', // RECOMMENDED     HMAC-SHA256 (digest length = key length = 32)
+            'hmac-sha2-512', // OPTIONAL        HMAC-SHA512 (digest length = key length = 64)
 
             // from <https://tools.ietf.org/html/draft-miller-secsh-umac-01>:
             'umac-64@openssh.com',
@@ -5231,7 +5234,7 @@ class SSH2
                     case 'rsa-sha2-256':
                         $hash = 'sha256';
                         break;
-                    //case 'ssh-rsa':
+                        //case 'ssh-rsa':
                     default:
                         $hash = 'sha1';
                 }

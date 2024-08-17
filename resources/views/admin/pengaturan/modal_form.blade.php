@@ -1,9 +1,9 @@
 {!! form_open_multipart(ci_route('setting.new_update'), 'class="form-group" id="main_setting"') !!}
 <div class="modal-body">
     @foreach ($list_setting as $key => $pengaturan)
-        @if ($pengaturan->jenis != 'upload' && $pengaturan->kategori == $kategori)
+        @if ($pengaturan->jenis != 'upload' && $pengaturan->kategori == $kategori_pengaturan)
             <div class="form-group" id="form_{{ $pengaturan->key }}">
-                <label>{{ $pengaturan->judul }}</label>
+                <label>{{ SebutanDesa($pengaturan->judul) }}</label>
                 @if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean')
                     <select {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm select2 required ', $pengaturan->attribute) : 'class="form-control input-sm select2 required"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}">
                         @foreach ($pengaturan->option as $key => $value)
@@ -15,6 +15,13 @@
                         @foreach ($pengaturan->option as $val)
                             <option value="{{ $val }}" {{ in_array($val, json_decode($pengaturan->value)) ? 'selected' : '' }}>
                                 {{ $val }}</option>
+                        @endforeach
+                    </select>
+                @elseif ($pengaturan->jenis == 'multiple-option-array')
+                    <input type="hidden" name="{{ $pengaturan->key }}" value="[]">
+                    <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
+                        @foreach ($pengaturan->option as $key => $val)
+                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value)) ? 'selected' : '' }}>{{ $val['nama'] }}</option>
                         @endforeach
                     </select>
                 @elseif ($pengaturan->jenis == 'datetime')
@@ -55,7 +62,7 @@
                 @else
                     <input {!! $pengaturan->attribute ? str_replace('class="', 'class="form-control input-sm ', $pengaturan->attribute) : 'class="form-control input-sm"' !!} id="{{ $pengaturan->key }}" name="{{ $pengaturan->key }}" {{ strpos($pengaturan->attribute, 'type=') ? '' : 'type="text"' }} value="{{ $pengaturan->value }}" />
                 @endif
-                <label><code>{!! $pengaturan->keterangan !!}</code></label>
+                <label><code>{!! SebutanDesa($pengaturan->keterangan) !!}</code></label>
             </div>
         @endif
     @endforeach

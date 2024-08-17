@@ -436,7 +436,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class='form-group col-sm-3'>
-					<label for="dusun"><?= ucwords($this->setting->sebutan_dusun) ?> <?php if (!(empty($penduduk['no_kk']) && empty($kk_baru))) {
+					<label for="dusun"><?= ucwords($this->setting->sebutan_dusun) ?> <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
 																							echo 'KK';
 																						} ?></label>
 					<select id="dusun" name="dusun" class="form-control input-sm required">
@@ -447,7 +447,7 @@
 					</select>
 				</div>
 				<div id='isi_rw' class='form-group col-sm-2'>
-					<label for="rw">RW <?php if (!(empty($penduduk['no_kk']) && empty($kk_baru))) {
+					<label for="rw">RW <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
 											echo 'KK';
 										} ?></label>
 					<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/') ?>" data-valueKey="rw" data-displayKey="rw">
@@ -458,7 +458,7 @@
 					</select>
 				</div>
 				<div id='isi_rt' class='form-group col-sm-2'>
-					<label for="id_cluster">RT <?php if (!(empty($penduduk['no_kk']) && empty($kk_baru))) {
+					<label for="id_cluster">RT <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
 													echo 'KK';
 												} ?></label>
 					<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/') ?>" data-valueKey="id" data-displayKey="rt">

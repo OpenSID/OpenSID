@@ -130,12 +130,6 @@ class Periksa_model extends MY_Model
             $this->periksa['klasifikasi_surat_ganda'] = $klasifikasi_surat_ganda->toArray();
         }
 
-        $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
-        if (!$klasifikasi_surat_ganda->isEmpty()) {
-            $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
-            $this->periksa['klasifikasi_surat_ganda'] = $klasifikasi_surat_ganda->toArray();
-        }
-
         return $calon;
     }
 
@@ -153,7 +147,7 @@ class Periksa_model extends MY_Model
         $user = auth()->id ?? User::first()->id;
 
         // Cek jabatan kades
-        if (!kades()) {
+        if (! kades()) {
             $jabatan[] = [
                 'config_id'  => identitas('id'),
                 'nama'       => 'Kepala ' . ucwords($this->getSetting('sebutan_desa')),
@@ -164,7 +158,7 @@ class Periksa_model extends MY_Model
         }
 
         // Cek jabatan sekdes
-        if (!sekdes()) {
+        if (! sekdes()) {
             $jabatan[] = [
                 'config_id'  => identitas('id'),
                 'nama'       => 'Sekretaris',
@@ -184,7 +178,7 @@ class Periksa_model extends MY_Model
         return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $config_id))
+            ->wheredoesntHave('keluarga', static fn($q) => $q->where('config_id', $config_id))
             ->get();
     }
 
@@ -235,14 +229,14 @@ class Periksa_model extends MY_Model
     {
         $config_id = identitas('id');
 
-        return Keluarga::whereIn('id', static fn ($query) => $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
+        return Keluarga::whereIn('id', static fn($query) => $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()
     {
         $config_id = identitas('id');
 
-        return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
+        return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
     }
 
     public function perbaiki(): void
@@ -361,7 +355,7 @@ class Periksa_model extends MY_Model
         $data_penduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $config_id))
+            ->wheredoesntHave('keluarga', static fn($q) => $q->where('config_id', $config_id))
             ->get();
         // nomer urut kk sementara
         $digit = Keluarga::nomerKKSementara();

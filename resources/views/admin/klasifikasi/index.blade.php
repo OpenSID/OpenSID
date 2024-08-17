@@ -56,37 +56,38 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped dataTable table-hover"
-                                                id="tabeldata">
-                                                <thead class="bg-gray disabled color-palette">
-                                                    <tr>
-                                                        <th>
-                                                            @if (can('u'))
-                                                            <input type="checkbox" id="checkall" />
-                                                            @endif
-                                                        </th>
-                                                        <th>No</th>
-                                                        <th>Aksi</th>
-                                                        <th class="nowrap"> Kode </th>
-                                                        <th> Nama </th>
-                                                        <th>Keterangan</th>
-                                                    </tr>
-                                                </thead>
-
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped dataTable table-hover"
+                                        id="tabeldata">
+                                        <thead class="bg-gray disabled color-palette">
+                                            <tr>
+                                                <th>
+                                                    @if (can('u'))
+                                                    <input type="checkbox" id="checkall" />
+                                                    @endif
+                                                </th>
+                                                <th>No</th>
+                                                <th>Aksi</th>
+                                                <th class="nowrap"> Kode </th>
+                                                <th> Nama </th>
+                                                <th>Keterangan</th>
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </form>
 @include('admin.layouts.components.konfirmasi_hapus')

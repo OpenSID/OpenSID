@@ -41,7 +41,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class MultiDB extends Admin_Controller
 {
-    protected $aliasController = 'database';
+    public $aliasController = 'database';
 
     // Tabel dengan kondisi khusus, memiliki child dan parent
     public $tabelKhusus = [
@@ -94,7 +94,7 @@ class MultiDB extends Admin_Controller
             'analisis_parameter', // skip dlu, terjadi error
         ];
 
-        $tableNames = $tableNames->filter(static fn ($tableName): bool => ! in_array($tableName, $kecuali));
+        $tableNames = $tableNames->filter(static fn($tableName): bool => ! in_array($tableName, $kecuali));
 
         // $rand       = mt_rand(100000, 999999);
         // ambil dari 6 digit terakhir kode desa
@@ -176,7 +176,7 @@ class MultiDB extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = $this->upload->display_errors(null, null);
 
-            redirect_with('error', 'Proses upload gagal ' . $this->session->error_msg, route('database'));
+            redirect_with('error', 'Proses upload gagal ' . $this->session->error_msg, ci_route('database'));
         }
         $uploadData = $this->upload->data();
         $backupFile = $uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
@@ -199,7 +199,7 @@ class MultiDB extends Admin_Controller
             $config_database = DB::table('config')->where('app_key', get_app_key())->first();
 
             if ($config_backup['kode_desa'] != $config_database->kode_desa) {
-                redirect_with('error', 'Proses restore dari backup gagal. <br>Data desa tidak sama dengan data yang ada di database.', route('database'));
+                redirect_with('error', 'Proses restore dari backup gagal. <br>Data desa tidak sama dengan data yang ada di database.', ci_route('database'));
 
                 return false;
             }
@@ -220,10 +220,10 @@ class MultiDB extends Admin_Controller
             DB::commit();
 
             hapus_cache('_cache_modul');
-            redirect_with('success', 'Proses restore dari backup berhasil.', route('database'));
-        } catch (Exception $e) {
+            redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
+        } catch (\Exception $e) {
             DB::rollback();
-            redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), route('database'));
+            redirect_with('error', 'Proses restore dari backup gagal. <br><br>' . $e->getMessage(), ci_route('database'));
         }
     }
 

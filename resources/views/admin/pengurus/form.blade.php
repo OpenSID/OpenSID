@@ -85,6 +85,21 @@
                 'foto' => $individu ? $individu['foto'] : $pamong['foto'],
                 'show_dimensi' => true,
             ])
+
+            @if (count($media_sosial) > 0)
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Media Sosial</h3>
+                    </div>
+
+                    <div class="box-body">
+                        @foreach ($media_sosial as $value)
+                            <strong><i class="fa fa-{{ $value['id'] }}"></i> {{ $value['nama'] }}</strong>
+                            <input class="form-control input-sm" type="text" name="media_sosial[{{ $value['id'] }}]" style="margin-bottom: 10px;" value="{{ $pamong['media_sosial'][$value['id']] }}" placeholder="{{ $value['url'] }}">
+                        @endforeach
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-md-9">
             <div class="box box-primary">

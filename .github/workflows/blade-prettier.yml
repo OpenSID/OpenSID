@@ -8,6 +8,7 @@ on:
     paths:
       - '.github/workflows/blade-prettier.yml'
       - 'resources/views/**'
+      - 'donjo-app/modules/*/views/**'
       - 'package.json'
       - 'package-lock.json'
 

@@ -39,10 +39,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_umum extends Admin_Controller
 {
+    public $modul_ini = 'buku-administrasi-desa';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'buku-administrasi-desa';
     }
 
     public function index(): void
@@ -69,9 +70,7 @@ class Bumindes_umum extends Admin_Controller
         // load data for displaying at tables
         $data = array_merge($data, $this->load_data_tables($page));
 
-        $header = $this->header_model->get_data();
-
-        $this->load->view('header', $header);
+        $this->load->view('header');
         $this->load->view('nav');
         $this->load->view('bumindes/umum/main', $data);
         $this->load->view('footer');
@@ -122,10 +121,8 @@ class Bumindes_umum extends Admin_Controller
         $data = [];
         $data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
 
-        $header = $this->header_model->get_data();
-
-        $this->load->view('header', $header);
-        $this->load->view('nav', $nav);
+        $this->load->view('header');
+        $this->load->view('nav');
         $this->load->view('bumindes/umum/main', $data);
         $this->load->view('footer');
     }

@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_sementara extends Admin_Controller
 {
+    public $modul_ini            = 'buku-administrasi-desa';
+    public $sub_modul_ini        = 'administrasi-penduduk';
     private array $_set_page     = ['10', '20', '50', '100'];
     private array $_list_session = ['filter_tahun', 'filter_bulan', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 
@@ -47,9 +49,6 @@ class Bumindes_penduduk_sementara extends Admin_Controller
         parent::__construct();
 
         $this->load->model(['pamong_model', 'penduduk_model']);
-
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-penduduk';
     }
 
     public function index($page_number = 1, $order_by = 0): void

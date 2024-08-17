@@ -64,6 +64,39 @@
     <input type="hidden" name="sasaran" value="{{ $suplemen->sasaran }}">
     @if ($action == 'Ubah')
     <div class="form-group">
+        <label class="col-sm-3 control-label">Warga Terdata</label>
+        <div class="col-sm-9">
+            <select class="form-control required input-sm select2 required" required onchange="formAction('main')"
+                id="terdata" name="id_terdata" style="width:100%;" data-suplemen="{{ $suplemen->id }}"
+                data-sasaran="{{ $suplemen->sasaran }}">
+                @if ($individu)
+                @if ($suplemen->sasaran == 1)
+                <option selected value="">{{ 'NIK : ' . $individu->nik . ' - ' . $individu->nama . ' RT-' .
+                    $individu->wilayah->rt . ', RW-' . $individu->wilayah->rw . ', ' .
+                    strtoupper(setting('sebutan_dusun')) . ' ' . $individu->wilayah->dusun }}</option>
+                @else
+                <option selected value="">
+                    {{ 'No KK : ' . $individu->keluarga->no_kk . ' - ' . $individu->pendudukHubungan->nama . '-
+                    NIK : ' . $individu->nik . ' - ' . $individu->nama . ' RT-' . $individu->wilayah->rt . ',
+                    RW-' . $individu->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' .
+                    $individu->wilayah->dusun }}
+                </option>
+                @endif
+                @endif
+                <option value="">-- Cari {{ $judul_sasaran }} --</option>
+            </select>
+        </div>
+    </div>
+    @endif
+    </form>
+    {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
+    @if ($individu)
+    @include('admin.suplemen.konfirmasi_terdata')
+    @endif
+    <input type="hidden" name="id_suplemen" value="{{ $suplemen->id }}">
+    <input type="hidden" name="sasaran" value="{{ $suplemen->sasaran }}">
+    @if ($action == 'Ubah')
+    <div class="form-group">
         <label class="col-sm-3 control-label" for="nama">{{ $suplemen->sasaran == 1 ? 'NIK' : 'No. KK' }}</label>
         <div class="col-sm-9">
             <input class="form-control input-sm" type="text" disabled value="{{ $terdata->terdata_plus }}">

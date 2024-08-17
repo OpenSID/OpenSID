@@ -42,15 +42,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaturan_lampiran extends Admin_Controller
 {
-    // digunakan untuk cek hak akses, mengikuti hak akses controller yang dialiaskan
-    protected $aliasController = 'lampiran';
+    public $modul_ini           = 'layanan-surat';
+    public $sub_modul_ini       = 'lampiran';
+    public $kategori_pengaturan = 'pengaturan-surat';
+    public $aliasController     = 'lampiran';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'layanan-surat';
-        $this->sub_modul_ini      = 'lampiran';
-        $this->header['kategori'] = 'pengaturan-surat';
     }
 
     public function index()
