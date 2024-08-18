@@ -294,7 +294,7 @@ class Impor_model extends MY_Model
         }
 
         // Validasi data lain
-        if (! empty($isi_baris['tanggallahir'])) {
+        if (empty($isi_baris['tanggallahir'])) {
             return 'Tanggal lahir tidak boleh kosong';
         }
 
