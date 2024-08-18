@@ -13,7 +13,7 @@
     <thead>
       <tr>
         <th>No</th>
-        <th>Nama Dusun</th>
+        <th><?= ucwords(setting('sebutan_dusun')) ?></th>
         <th>RW</th>
         <th>Jiwa</th>
         <th>Lk</th>

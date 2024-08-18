@@ -10,7 +10,7 @@
 		<thead>
 		<tr>
 			<th class="text-center">No</th>
-			<th class="text-center">Nama Dusun</th>
+			<th class="text-center"><?= ucwords(setting('sebutan_dusun')) ?></th>
 			<th class="text-center">RW</th>
 			<th class="text-center">Jiwa</th>
 			<th class="text-center">L</th>
