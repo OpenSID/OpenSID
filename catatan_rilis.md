@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#8295](https://github.com/OpenSID/OpenSID/issues/8295) Perbaikan restore database multi db.
 24. [#8255](https://github.com/OpenSID/OpenSID/issues/8255) Perbaikan penomoran arsip desa nomor dokumen.
 25. [#8345](https://github.com/OpenSID/OpenSID/issues/8345) Perbaikan sebutan dusun pada halaman web daftar pemilih tetap (DPT).
+26. [#8341](https://github.com/OpenSID/OpenSID/issues/8341) Perbaikan hak akses bawaan lainnya (kasi, kaur, dll).
 
 
 #### TEKNIS
