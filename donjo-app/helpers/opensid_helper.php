@@ -2196,8 +2196,8 @@ if (! function_exists('caseWord')) {
             }
         }
 
-        // Ganti '/' dengan ---atau---
-        if (strpos($teks, '/') !== false) {
+        // Ganti '/' dengan ---atau--- Hanya untuk pendidikan dan pekerjaan saja
+        if (preg_match('/\bpendidikan(?:_[^\s]*)?\b/i', strtolower($condition)) || preg_match('/\bpekerjaan(?:_[^\s]*)?\b/i', strtolower($condition))) {
             $teks = str_replace('/', ' ---atau--- ', $teks);
         }
 
@@ -2219,8 +2219,12 @@ if (! function_exists('caseWord')) {
         }
 
         // kembalikan '---atau---' menjadi '/'
-        if (strpos($teks, ' ---atau--- ') !== false) {
-            $teks = str_replace(' ---atau--- ', '/', $teks);
+        $teks = str_ireplace(' ---atau--- ', '/', $teks);
+
+        // Kasus lain
+        if (preg_match('/\bpendidikan(?:_[^\s]*)?\b/i', strtolower($condition)) || preg_match('/\bpekerjaan(?:_[^\s]*)?\b/i', strtolower($condition))) {
+            $teks = kasus_lain('pendidikan', $teks);
+            $teks = kasus_lain('pekerjaan', $teks);
         }
 
         // Return teks asli jika tidak sesuai kondisi

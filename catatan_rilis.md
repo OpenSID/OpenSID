@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 28. [#8348](https://github.com/OpenSID/OpenSID/issues/8348) Perbaikan form input pengaturan tampilan artikel.
 29. [#8063](https://github.com/OpenSID/OpenSID/issues/8063) Perbaikan jumlah arsip surat pada modul arsip desa > layanan surat.
 30. [#8355](https://github.com/OpenSID/OpenSID/issues/8355) Perbaikan cetak/unduh statistik penduduk.
+31. [#8318](https://github.com/OpenSID/OpenSID/issues/8318) Perbaikan template dan lampiran surat keterangan nikah.
 
 
 #### TEKNIS
