@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 26. [#8341](https://github.com/OpenSID/OpenSID/issues/8341) Perbaikan hak akses bawaan lainnya (kasi, kaur, dll).
 27. [#8343](https://github.com/OpenSID/OpenSID/issues/8343) Perbaikan form ubah tanggal perceraian penduduk.
 28. [#8348](https://github.com/OpenSID/OpenSID/issues/8348) Perbaikan form input pengaturan tampilan artikel.
+29. [#8063](https://github.com/OpenSID/OpenSID/issues/8063) Perbaikan jumlah arsip surat pada modul arsip desa > layanan surat.
 
 
 #### TEKNIS
