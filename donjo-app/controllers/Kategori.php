@@ -41,22 +41,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kategori extends Admin_Controller
 {
-    private int $tip = 2;
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'kategori';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'menu';
     }
 
     public function index(): void
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'tip'      => $this->tip,
             'status'   => [KategoriModel::UNLOCK => 'Aktif', KategoriModel::LOCK => 'Non Aktif'],
-            'subtitle' => $parent > 0 ? ' / ' . strtoupper(KategoriModel::find($parent)->nama ?? '') : '',
+            'subtitle' => $parent > 0 ? '<a href="' . ci_route('kategori.index') . '?parent=0">MENU UTAMA </a> / ' . strtoupper(KategoriModel::find($parent)->kategori ?? '') : '',
             'parent'   => $parent,
         ];
 
@@ -81,7 +79,7 @@ class Kategori extends Admin_Controller
                     $aksi  = '';
                     $judul = $parent > 0 ? 'Subkategori' : 'Kategori';
                     if ($canUpdate) {
-                        if (!$parent) {
+                        if (! $parent) {
                             $aksi .= '<a href="' . ci_route('kategori.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
                         }
                         $aksi .= '<a href="' . ci_route('kategori.ajax_form', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';

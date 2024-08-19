@@ -54,7 +54,7 @@ class Kernel implements KernelContract
     /**
      * The application implementation.
      */
-    protected Laravel $app;
+    protected \App\Services\Laravel $app;
 
     /**
      * The Artisan application instance.
@@ -166,10 +166,7 @@ class Kernel implements KernelContract
      *
      * @return void
      */
-    public function bootstrap()
-    {
-
-    }
+    public function bootstrap() {}
 
     /**
      * Terminate the application.
@@ -179,20 +176,14 @@ class Kernel implements KernelContract
      *
      * @return void
      */
-    public function terminate($input, $status)
-    {
-
-    }
+    public function terminate($input, $status) {}
 
     /**
      * Define the application's command schedule.
      *
      * @return void
      */
-    protected function schedule(Schedule $schedule)
-    {
-
-    }
+    protected function schedule(Schedule $schedule) {}
 
     /**
      * Run an Artisan console command by name.

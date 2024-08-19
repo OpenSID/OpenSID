@@ -44,11 +44,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Teks_berjalan extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'teks-berjalan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'teks-berjalan';
     }
 
     public function index()
@@ -92,7 +93,7 @@ class Teks_berjalan extends Admin_Controller
 
                     return $text . (' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>');
                 })
-                ->editColumn('tampilkan', static fn ($row) => SistemEnum::valueOf($row->tipe))
+                ->editColumn('tampilkan', static fn($row) => SistemEnum::valueOf($row->tipe))
                 ->addColumn('judul_tautan', static function ($row) {
                     if ($row->tautan) {
                         return '<a href="' . $row->tautan . '" target="_blank">' . tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul . '</a>';

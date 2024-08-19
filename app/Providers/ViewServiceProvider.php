@@ -46,7 +46,7 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->callAfterResolving('blade.compiler', fn (BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
+        $this->callAfterResolving('blade.compiler', fn(BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
     }
 
     public function boot(): void
@@ -79,7 +79,7 @@ class ViewServiceProvider extends ServiceProvider
                     'pengumuman'      => $this->app['ci']->header['notif_pengumuman'],
                     'permohonansurat' => $this->app['ci']->header['notif_permohonan'],
                 ],
-                'kategori'             => $this->app['ci']->header['kategori'],
+                'kategori_pengaturan'  => $this->app['ci']->kategori_pengaturan,
                 'sub_modul_ini'        => $this->app['ci']->sub_modul_ini,
                 'akses_modul'          => $this->app['ci']->akses_modul,
                 'session'              => $this->app['ci']->session,
@@ -92,16 +92,16 @@ class ViewServiceProvider extends ServiceProvider
 
     protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
     {
-        $bladeCompiler->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
+        $bladeCompiler->directive('selected', static fn($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
 
-        $bladeCompiler->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
+        $bladeCompiler->directive('checked', static fn($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
 
-        $bladeCompiler->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
+        $bladeCompiler->directive('disabled', static fn($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
 
-        $bladeCompiler->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
+        $bladeCompiler->directive('active', static fn($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
 
-        $bladeCompiler->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+        $bladeCompiler->directive('display', static fn($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
 
-        $bladeCompiler->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
+        $bladeCompiler->directive('can', static fn($condition): string => "<?= can({$condition}) ?>");
     }
 }

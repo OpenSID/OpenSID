@@ -224,7 +224,7 @@
         // Menambahkan zoom scale ke peta
         L.control.scale().addTo(peta_area);
 
-        <?php if ($this->CI->cek_hak_akses('u')): ?>
+        <?php if (can('u')): ?>
             // Export/Import Peta dari file GPX
             eximGpxRegion(peta_area);
 

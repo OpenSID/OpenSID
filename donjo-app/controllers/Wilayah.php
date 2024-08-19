@@ -45,15 +45,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Wilayah extends Admin_Controller
 {
+    public $modul_ini              = 'info-desa';
+    public $sub_modul_ini          = 'wilayah-administratif';
     private array $subordinatLevel = ['dusun' => 'rw', 'rw' => 'rt'];
     private int $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
-        $this->modul_ini     = 'info-desa';
-        $this->sub_modul_ini = 'wilayah-administratif';
     }
 
     public function index($parent = '', $level = 'dusun'): void
@@ -121,7 +120,7 @@ class Wilayah extends Admin_Controller
                 default:
                     $adaUrutKosong   = WilayahModel::dusun()->whereNull('urut')->get();
                     $model           = WilayahModel::dusun()->with(['kepala'])->orderBy('urut')->withCount('rts', 'rws', 'keluargaAktif', 'pendudukPria', 'pendudukWanita');
-                    $cek_lokasi_peta = cek_lokasi_peta($this->header['desa']);
+                    $cek_lokasi_peta = cek_lokasi_peta(collect(identitas())->toArray());
                     $mapKantor       = 'ajax_kantor_dusun_maps';
                     $mapWilayah      = 'ajax_wilayah_dusun_maps';
             }

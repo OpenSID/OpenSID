@@ -45,15 +45,15 @@ class Polygon extends Admin_Controller
     public const POLYGON     = 0;
     public const SUB_POLYGON = 2;
 
-    private $tip    = 5;
-    private $parent = 1;
-    private $tipe   = 0;
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+    private $tip          = 5;
+    private $parent       = 1;
+    private $tipe         = 0;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function index()

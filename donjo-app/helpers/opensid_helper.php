@@ -51,7 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2408.0.0');
+define('VERSION', '2408.1.0');
 
 /**
  * PREMIUM
@@ -67,12 +67,12 @@ define('PREMIUM', false);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024080101');
+define('VERSI_DATABASE', '2024082051');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
  */
-define('MINIMUM_VERSI', '2407');
+define('MINIMUM_VERSI', '2312');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -233,7 +233,7 @@ function session_error($pesan = ''): void
     // $_SESSION['error_msg'] = $pesan;
     // $_SESSION['success']   = -1;
 
-    get_instance()->session->set_flashdata([
+    get_instance()->session->set_userdata([
         'error_msg' => $pesan,
         'success'   => -1,
     ]);
@@ -246,7 +246,7 @@ function session_error_clear(): void
 
 function session_success(): void
 {
-    get_instance()->session->set_flashdata([
+    get_instance()->session->set_userdata([
         'error_msg' => '',
         'success'   => 1,
     ]);
@@ -602,7 +602,7 @@ function ambilBerkas(?string $nama_berkas, $redirect_url = null, $unique_id = nu
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-    if (!file_exists($pathBerkas)) {
+    if (! file_exists($pathBerkas)) {
         $pesan                 = 'Berkas tidak ditemukan';
         $_SESSION['success']   = -1;
         $_SESSION['error_msg'] = $pesan;
@@ -1560,7 +1560,7 @@ function kasus_lain($kategori = null, $str = null)
     return str_ireplace($daftar_ganti, array_map('strtoupper', $daftar_ganti), $str);
 }
 
-if (!function_exists('updateConfigFile')) {
+if (! function_exists('updateConfigFile')) {
     function updateConfigFile(string $key, string $value): void
     {
         log_message('error', 'updateConfigFile ' . $key . ' - ' . $value);
@@ -1585,7 +1585,7 @@ if (!function_exists('updateConfigFile')) {
     }
 }
 
-if (!function_exists('form_kode_isian')) {
+if (! function_exists('form_kode_isian')) {
     /**
      * - Fungsi untuk bersihkan kode isian.
      *
@@ -1646,7 +1646,7 @@ if (!function_exists('ref')) {
      */
     function ref($alias)
     {
-        return get_instance()->db->get($alias)->result();
+        return ci()->db->get($alias)->result();
     }
 }
 
@@ -1922,7 +1922,7 @@ if (!function_exists('formatTanggal')) {
 if (!function_exists('daftar_statistik')) {
     function daftar_statistik()
     {
-        $data = collect(StatistikEnum::allStatistik())->map(static fn ($items, $kategori) => collect($items)->map(static fn ($item): array => [
+        $data = collect(StatistikEnum::allStatistik())->map(static fn($items, $kategori) => collect($items)->map(static fn($item): array => [
             'key'   => $item['key'],
             'slug'  => $item['slug'],
             'label' => $item['label'],
@@ -1942,7 +1942,7 @@ if (!function_exists('daftar_statistik')) {
                 'url'   => 'first/statistik/bantuan_keluarga',
             ],
         ];
-        $setiap_bantuan = Bantuan::all()->map(static fn ($item): array => [
+        $setiap_bantuan = Bantuan::all()->map(static fn($item): array => [
             'key'   => "50{$item->id}",
             'slug'  => "50{$item->id}",
             'label' => $item->nama,
@@ -1992,7 +1992,7 @@ if (!function_exists('getSuratBawaanTinyMCE')) {
         $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
 
         return collect(json_decode($list_data, true))
-            ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray());
+            ->when($url_surat, static fn($collection) => $collection->where('url_surat', $url_surat))->map(static fn($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray());
     }
 }
 
@@ -2179,7 +2179,7 @@ if (!function_exists('grup_kode_isian')) {
      */
     function grup_kode_isian($kode_isian, $individu = true)
     {
-        return collect($kode_isian)->groupBy(static fn ($item) => $item->kategori ?? 'individu')->map(static fn ($items) => $items->map(static fn ($item): array => (array) $item))->when(!$individu, static fn ($collection) => $collection->filter(static fn ($item): bool => isset($item['kategori']) && $item['kategori'] !== 'individu'))
+        return collect($kode_isian)->groupBy(static fn($item) => $item->kategori ?? 'individu')->map(static fn($items) => $items->map(static fn($item): array => (array) $item))->when(!$individu, static fn($collection) => $collection->filter(static fn($item): bool => isset($item['kategori']) && $item['kategori'] !== 'individu'))
             ->toArray();
     }
 }
@@ -2197,5 +2197,101 @@ if (!function_exists('get_hari')) {
         $hari = Carbon::createFromFormat('d-m-Y', $tanggal)->locale('id');
 
         return $hari->dayName;
+    }
+}
+
+if (! function_exists('akas')) {
+    /**
+     * Class registry
+     *
+     * This function acts as a singleton. If the requested class does not
+     * exist it is instantiated and set to a static variable. If it has
+     * previously been instantiated the variable is returned.
+     *
+     * @param string	the class name being requested
+     * @param string	the directory where the class should be found
+     * @param mixed	an optional argument to pass to the class constructor
+     * @param mixed      $class
+     * @param mixed      $directory
+     * @param mixed|null $param
+     *
+     * @return object
+     */
+    function akas($class, $directory = '', $param = null)
+    {
+        static $_classes = [];
+
+        // Does the class exist? If so, we're done...
+        if (isset($_classes[$class])) {
+            return $_classes[$class];
+        }
+
+        $name = false;
+
+        // Look for the class first in the local application/libraries folder
+        // then in the native system/libraries folder
+        foreach ([APPPATH, BASEPATH] as $path) {
+            if (file_exists($path . $directory . '/' . $class . '.php')) {
+                $name = 'CI_' . $class;
+
+                if (class_exists($name, false) === false) {
+                    require_once $path . $directory . '/' . $class . '.php';
+                }
+
+                break;
+            }
+        }
+
+        // Is the request a class extension? If so we load it too
+        if (file_exists(APPPATH . $directory . '/' . config_item('subclass_prefix') . $class . '.php')) {
+            $name = config_item('subclass_prefix') . $class;
+
+            if (class_exists($name, false) === false) {
+                require_once APPPATH . $directory . '/' . $name . '.php';
+            }
+        }
+
+        // Did we find the class?
+        if ($name === false) {
+            // Note: We use exit() rather than show_error() in order to avoid a
+            // self-referencing loop with the Exceptions class
+            set_status_header(503);
+            echo 'Unable to locate the specified class: ' . $class . '.php';
+
+            exit(5); // EXIT_UNK_CLASS
+        }
+
+        // Keep track of what we just loaded
+        is_loaded($class);
+
+        $_classes[$class] = isset($param)
+            ? new $name($param)
+            : new $name();
+
+        return $_classes[$class];
+    }
+}
+
+if (! function_exists('forceRemoveDir')) {
+    function forceRemoveDir($dir)
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+
+            foreach ($objects as $object) {
+                if ($object != '.' && $object != '..') {
+                    $item = $dir . '/' . $object;
+
+                    if (is_dir($item)) {
+                        forceRemoveDir($item);
+                    } else {
+                        unlink($item);
+                    }
+                }
+            }
+
+            reset($objects);
+            rmdir($dir);
+        }
     }
 }

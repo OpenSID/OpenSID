@@ -180,6 +180,7 @@ class FormatSurat extends BaseModel
         'header',
         'footer',
         'format_nomor',
+        'format_nomor_global',
         'sumber_penduduk_berulang',
         'created_by',
         'updated_by',
@@ -256,7 +257,7 @@ class FormatSurat extends BaseModel
     public function getListSyaratSuratAttribute()
     {
         return $this->syaratSurat->map(
-            static fn ($syarat): array => [
+            static fn($syarat): array => [
                 'label'      => $syarat->ref_syarat_nama,
                 'value'      => $syarat->ref_syarat_id,
                 'form_surat' => [
@@ -266,7 +267,7 @@ class FormatSurat extends BaseModel
                         'label'    => 'Dokumen Syarat',
                         'name'     => 'dokumen',
                         'multiple' => false,
-                        'values'   => $syarat->dokumen->map(static fn ($dokumen): array => [
+                        'values'   => $syarat->dokumen->map(static fn($dokumen): array => [
                             'label' => $dokumen->nama,
                             'value' => $dokumen->id,
                         ]),
@@ -427,7 +428,7 @@ class FormatSurat extends BaseModel
     {
         $thn     = $data['surat']['cek_thn'] ?? date('Y');
         $bln     = $data['surat']['cek_bln'] ?? date('m');
-        $setting = ($data['surat']['format_nomor'] == '') ? setting('format_nomor_surat') : $data['surat']['format_nomor'];
+        $setting = $data['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $data['surat']['format_nomor'];
         self::substitusi_nomor_surat($data['input']['nomor'], $setting);
         $array_replace = [
             '[kode_surat]'   => $data['surat']['kode_surat'],
@@ -458,5 +459,13 @@ class FormatSurat extends BaseModel
     public function logSurat(): BelongsTo
     {
         return $this->belongsTo(LogSurat::class, 'id', 'id_format_surat');
+    }
+
+    /**
+     * Get the formatNomorSuratAttribute
+     */
+    public function getFormatNomorSuratAttribute()
+    {
+        return $this->format_nomor_global === false && empty($this->format_nomor) ? setting('format_nomor_surat') : $this->format_nomor;
     }
 }

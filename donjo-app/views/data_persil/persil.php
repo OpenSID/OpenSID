@@ -83,7 +83,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="box-header with-border">
-									<?php if ($this->CI->cek_hak_akses('u')): ?>
+									<?php if (can('u')): ?>
 										<a href="<?=site_url('data_persil/form/')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
 											<i class="fa fa-plus"></i>Tambah Persil
 										</a>
@@ -162,10 +162,10 @@
 																					<?php else: ?>
 																						<a class="btn bg-purple btn-flat btn-sm" disabled title="Rincian"><i class="fa fa-bars"></i></a>
 																					<?php endif ?>
-																					<?php if ($this->CI->cek_hak_akses('u')): ?>
+																					<?php if (can('u')): ?>
 																						<a href="<?= site_url('data_persil/form/' . $item['id'])?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																					<?php endif; ?>
-																					<?php if ($this->CI->cek_hak_akses('u')): ?>
+																					<?php if (can('u')): ?>
 																						<?php if ($item['jml_bidang'] == 0): ?>
 																							<a href="#" data-href="<?= site_url('data_persil/hapus/' . $item['id'])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																						<?php else: ?>

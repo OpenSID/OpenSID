@@ -39,12 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan_rentan extends Admin_Controller
 {
+    public $modul_ini     = 'statistik';
+    public $sub_modul_ini = 'laporan-kelompok-rentan';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['laporan_bulanan_model', 'wilayah_model']);
-        $this->modul_ini     = 'statistik';
-        $this->sub_modul_ini = 'laporan-kelompok-rentan';
     }
 
     public function clear(): void

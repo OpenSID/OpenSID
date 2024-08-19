@@ -1,4 +1,4 @@
-<?php if ($this->CI->cek_hak_akses('u')) : ?>
+<?php if (can('u')) : ?>
 	<?php $this->load->view('global/validasi_form'); ?>
 	<?php
     $sekarang = $log_status_dasar['tgl_peristiwa'] != '' ? $log_status_dasar['tgl_peristiwa'] : date('d-m-Y');

@@ -102,8 +102,61 @@
                     </table>
                 </div>
             </div>
+            @endforeach
         </div>
     </div>
+    <hr />
+    <strong>
+        <center>GRAFIK DAN TABEL</center>
+    </strong>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div id="chart"></div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-responsive">
+                <table class="table table-bordered dataTable table-striped table-hover tabel-daftar" id="tabel-data">
+                    <thead class="bg-gray disabled color-palette">
+                        <tr>
+                            <th>No</th>
+                            <th>Pengguna</th>
+                            <th>Tanggal</th>
+                            <th>Pendapat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($detail)
+                        @php $total = 0; @endphp
+                        @foreach ($detail as $key => $item)
+                        <tr>
+                            <td class="padat">
+                                {{ $key + 1 }}
+                            </td>
+                            <td class="padat">
+                                <a href="penduduk/detail/1/0/{{ $item['pengguna'] }}">
+                                    {{ $item['penduduk']['nama'] }}
+                                </a>
+                            </td>
+                            <td class="padat">
+                                {{ tgl_indo2($item['tanggal']) }}
+                            </td>
+                            <td class="padat">
+                                {{ $list_pendapat[$item['pilihan']] }}
+                            </td>
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                            <td class="text-center" colspan="4">Data Tidak Tersedia</td>
+                        </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 @endsection

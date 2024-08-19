@@ -224,14 +224,52 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</div>
 	<div class="box-body">
 		<div class="table-responsive">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th rowspan="2">No</th>
-						<th rowspan="2" style='text-align:left;'>Kelompok</th>
-						<th colspan="2">Jumlah</th>
-						<th colspan="2">Laki-laki</th>
-						<th colspan="2">Perempuan</th>
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th rowspan="2">No</th>
+				<th rowspan="2" style='text-align:left;'>Kelompok</th>
+				<th colspan="2">Jumlah</th>
+				<th colspan="2">Laki-laki</th>
+				<th colspan="2">Perempuan</th>
+			</tr>
+			<tr>
+				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+				<th style='text-align:right'>n</th><th style='text-align:right'>%</th>
+			</tr>
+			</thead>
+			<tbody>
+				<?php $i = 0;
+$l           = 0;
+$p           = 0;
+$hide        = '';
+$h           = 0;
+$jm1         = 1;
+$jm          = count($stat); ?>
+				<?php foreach ($stat as $data):?>
+					<?php $jm1++; ?>
+					<?php $h++; ?>
+					<?php if ($h > 12 && $jm > 10): ?>
+						<?php $hide = 'lebih'; ?>
+					<?php endif; ?>
+					<tr class="<?=$hide?>">
+						<td class="angka">
+							<?php if ($jm1 > $jm - 2):?>
+								<?=$data['no']?>
+							<?php else:?>
+								<?=$h?>
+							<?php endif; ?>
+						</td>
+						<td><?=$data['nama']?></td>
+						<td class="angka <?php if (($jm1 <= $jm - 2) && ($data['jumlah'] == 0)) {
+                            echo 'nol';
+                        } ?>"><?=$data['jumlah']?></td>
+						<td class="angka"><?=$data['persen']?></td>
+						<td class="angka"><?=$data['laki']?></td>
+						<td class="angka"><?=$data['persen1']?></td>
+						<td class="angka"><?=$data['perempuan']?></td>
+						<td class="angka"><?=$data['persen2']?></td>
 					</tr>
 					<tr>
 						<th style='text-align:right'>n</th>

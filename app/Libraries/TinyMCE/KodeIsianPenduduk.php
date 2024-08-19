@@ -317,7 +317,7 @@ class KodeIsianPenduduk
             $id_ayah = Penduduk::where('nik', $penduduk->ayah_nik)->first()->id;
             $id_ibu  = Penduduk::where('nik', $penduduk->ibu_nik)->first()->id;
 
-            if (!$id_ayah && $penduduk->kk_level == SHDKEnum::ANAK) {
+            if (! $id_ayah && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ayah = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
                         $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
@@ -327,7 +327,7 @@ class KodeIsianPenduduk
                     ->first()->id;
             }
 
-            if (!$id_ibu && $penduduk->kk_level == SHDKEnum::ANAK) {
+            if (! $id_ibu && $penduduk->kk_level == SHDKEnum::ANAK) {
                 $id_ibu = Penduduk::where('id_kk', $penduduk->id_kk)
                     ->where(static function ($query): void {
                         $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)

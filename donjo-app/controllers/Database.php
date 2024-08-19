@@ -49,14 +49,15 @@ use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'database';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'database';
     }
 
     public function index(): void
@@ -277,8 +278,8 @@ class Database extends Admin_Controller
             ], 400);
         }
 
-        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
-            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
+        $user = User::when($method == 'telegram', static fn($query) => $query->whereNotNull('telegram_verified_at'))
+            ->when($method == 'email', static fn($query) => $query->whereNotNull('email_verified_at'))
             ->first();
 
         if ($user == null) {
@@ -419,7 +420,7 @@ class Database extends Admin_Controller
         ];
         $this->upload->initialize($uploadConfig);
         // Upload sukses
-        if (!$this->upload->do_upload('userfile')) {
+        if (! $this->upload->do_upload('userfile')) {
             $pesan = $this->upload->display_errors(null, null);
 
             throw new Exception($pesan);

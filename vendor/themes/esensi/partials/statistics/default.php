@@ -65,6 +65,9 @@
                 <?php endforeach;?>
             </tbody>
         </table>
+        <p style="color: red">
+            Diperbarui pada : <?= tgl_indo($last_update); ?>
+        </p>
     </div>
     <div class="flex justify-between py-5">
         <?php if($hide == 'more') : ?>
@@ -73,7 +76,7 @@
         <button id="showZero" class="btn btn-secondary">Tampilkan Nol</button>
     </div>
 
-    <?php if ($this->setting->daftar_penerima_bantuan && in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+    <?php if ($this->setting->daftar_penerima_bantuan && $bantuan) : ?>
         <script>
         const bantuanUrl = '<?= site_url('first/ajax_peserta_program_bantuan')?>';
         </script>

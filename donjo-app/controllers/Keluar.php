@@ -55,6 +55,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluar extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'arsip-layanan';
     private $isAdmin;
     private TinyMCE $tinymce;
 
@@ -63,9 +65,7 @@ class Keluar extends Admin_Controller
         parent::__construct();
         $this->tinymce = new TinyMCE();
         $this->load->helper('download');
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'arsip-layanan';
-        $this->isAdmin       = $this->session->isAdmin->pamong;
+        $this->isAdmin = $this->session->isAdmin->pamong;
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }
 
@@ -161,17 +161,17 @@ class Keluar extends Admin_Controller
                 }
             }
             if (setting('verifikasi_kades') || setting('verifikasi_sekdes')) {
-                $operator = !in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
+                $operator = ! in_array($jabatanId, [$idJabatanKades, $idJabatanKades]);
             }
 
             return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak'])->selectRaw('*')
-                ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
-                ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
-                ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
-                ->when(($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1), static fn ($q) => $q->selectRaw('verifikasi_kades as verifikasi'))
+                ->when($tahun, static fn($q) => $q->whereYear('tanggal', $tahun))
+                ->when($bulan, static fn($q) => $q->whereMonth('tanggal', $bulan))
+                ->when($jenis, static fn($q) => $q->where('id_format_surat', $jenis))
+                ->when(($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1), static fn($q) => $q->selectRaw('verifikasi_kades as verifikasi'))
                 // ->when(($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1 ), static fn ($q) => $q->selectRaw('verifikasi_sekdes as verifikasi')->where(static fn($r) => $q->whereIn('verifikasi_sekdes', [1,0])->orWhereNull('verifikasi_operator')))
-                ->when(($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1), static fn ($q) => $q->selectRaw('verifikasi_sekdes as verifikasi'))
-                ->when(!in_array($jabatanId, [$idJabatanKades, $idJabatanSekdes]), static fn ($q) => $q->selectRaw('verifikasi_operator as verifikasi'))
+                ->when(($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1), static fn($q) => $q->selectRaw('verifikasi_sekdes as verifikasi'))
+                ->when(! in_array($jabatanId, [$idJabatanKades, $idJabatanSekdes]), static fn($q) => $q->selectRaw('verifikasi_operator as verifikasi'))
                 ->when($state == 'arsip', static function ($q) use ($isAdmin, $jabatanId, $idJabatanKades, $idJabatanSekdes) {
                     $listJabatan = [
                         'jabatan_id'        => $jabatanId,
@@ -190,7 +190,7 @@ class Keluar extends Admin_Controller
 
                     return $q->masuk($isAdmin, $listJabatan);
                 })
-                ->when($state == 'tolak', static fn ($q) => $q->ditolak())
+                ->when($state == 'tolak', static fn($q) => $q->ditolak())
                 ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
@@ -200,7 +200,7 @@ class Keluar extends Admin_Controller
                         if (in_array($row->formatSuratArsip->jenis, FormatSurat::RTF)) {
                             $aksi .= '<a href="' . ci_route('keluar.edit_keterangan', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a> ';
                         }
-                        if (!in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $row->status == 0) {
+                        if (! in_array($row->formatSuratArsip->jenis, FormatSurat::RTF) && $row->status == 0) {
                             $aksi .= '<a href="' . ci_route('surat.cetak', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a> ';
                             // hapus surat draft
                             if ($canDelete) {
@@ -262,12 +262,12 @@ class Keluar extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('kode_surat', static fn ($row) => $row->formatSuratArsip->kode_surat ?? '')
-                ->editColumn('id_format_surat', static fn ($row) => $row->formatSuratArsip->nama ?? '')
-                ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
-                ->editColumn('keterangan', static fn ($row) => $row->keterangan ?? '-')
-                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
-                ->editColumn('penduduk_non_warga', static fn ($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
+                ->addColumn('kode_surat', static fn($row) => $row->formatSuratArsip->kode_surat ?? '')
+                ->editColumn('id_format_surat', static fn($row) => $row->formatSuratArsip->nama ?? '')
+                ->editColumn('id_user', static fn($row) => $row->user->nama ?? '')
+                ->editColumn('keterangan', static fn($row) => $row->keterangan ?? '-')
+                ->editColumn('tanggal', static fn($row) => tgl_indo2($row->tanggal))
+                ->editColumn('penduduk_non_warga', static fn($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
                 ->addColumn('pemohon', static function ($row) {
                     if ($row->pemohon) {
                         return json_decode($row->pemohon)->nama ?? '<strong>Non-warga: </strong>' . ((json_decode($row->pemohon))->nama_non_warga ?? '') . '<br><strong>NIK: </strong>' . ((json_decode($row->pemohon))->nik_non_warga ?? '');
@@ -479,7 +479,7 @@ class Keluar extends Admin_Controller
 
             $jenis_surat = $log_surat->formatSurat->nama;
 
-            $kirim_telegram = User::whereHas('pamong', static fn ($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
+            $kirim_telegram = User::whereHas('pamong', static fn($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
                 ->where('notif_telegram', '=', '1')
                 ->get();
 
@@ -518,9 +518,9 @@ class Keluar extends Admin_Controller
             $payload = '/home/arsip';
 
             $allToken = FcmToken::doesntHave('user.pamong')
-                ->orWhereHas('user.pamong', static fn ($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
+                ->orWhereHas('user.pamong', static fn($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
                 ->get();
-            $log_notification = $allToken->map(static fn ($log): array => [
+            $log_notification = $allToken->map(static fn($log): array => [
                 'id_user'    => $log->id_user,
                 'judul'      => $judul,
                 'isi'        => $kirimFCM,
@@ -717,11 +717,11 @@ class Keluar extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('kode_surat', static fn ($row) => $row->formatSurat->kode_surat ?? '')
-                ->editColumn('id_format_surat', static fn ($row) => $row->formatSurat->nama ?? '')
-                ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
-                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
-                ->editColumn('id_pend', static fn ($row) => $row->penduduk->nama ?? '')
+                ->addColumn('kode_surat', static fn($row) => $row->formatSurat->kode_surat ?? '')
+                ->editColumn('id_format_surat', static fn($row) => $row->formatSurat->nama ?? '')
+                ->editColumn('id_user', static fn($row) => $row->user->nama ?? '')
+                ->editColumn('tanggal', static fn($row) => tgl_indo2($row->tanggal))
+                ->editColumn('id_pend', static fn($row) => $row->penduduk->nama ?? '')
 
                 ->rawColumns(['aksi', 'nama', 'pemohon'])
                 ->make();

@@ -60,6 +60,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'cetak-surat';
     private TinyMCE $tinymce;
     private LogPenduduk $logpenduduk;
 
@@ -67,10 +69,8 @@ class Surat extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'keluarga_model', 'surat_model', 'keluar_model', 'penomoran_surat_model', 'permohonan_surat_model']);
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'cetak-surat';
-        $this->tinymce       = new TinyMCE();
-        $this->logpenduduk   = new LogPenduduk();
+        $this->tinymce     = new TinyMCE();
+        $this->logpenduduk = new LogPenduduk();
     }
 
     public function index()
@@ -98,7 +98,7 @@ class Surat extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
+                ->editColumn('lampiran', static fn($row): string => kode_format($row->lampiran))
                 ->rawColumns(['aksi', 'template_surat'])
                 ->make();
         }
@@ -121,7 +121,7 @@ class Surat extends Admin_Controller
 
             return json([
                 'results' => collect($surat->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->url_surat,
                         'text' => "Surat {$item->nama}",
                     ]),
@@ -148,7 +148,7 @@ class Surat extends Admin_Controller
             $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
 
             // NIK => id
-            if (!empty($nik)) {
+            if (! empty($nik)) {
                 $data['individu'] = null;
                 $data['anggota']  = null;
             }
@@ -176,7 +176,7 @@ class Surat extends Admin_Controller
                     $form_kategori[$key]["list_dokumen_{$key}"] = empty($form_kategori[$key]["saksi_{$key}"])
                         ? null : $this->penduduk_model->list_dokumen($form_kategori[$key]["saksi_{$key}"]->id);
                 }
-                $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
+                $filtered_kode_isian = collect($data['surat']->kode_isian)->reject(static fn($item): bool => isset($item->kategori))->values();
 
                 $data['surat']['kode_isian'] = $this->groupByLabel($filtered_kode_isian);
                 $data['form_kategori']       = $form_kategori;
@@ -189,7 +189,7 @@ class Surat extends Admin_Controller
             $data['list_dokumen'] = empty($nik) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = ci_route('surat.pratinjau', $url);
 
-            $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static fn ($item) => $item->label);
+            $data['judul_kategori'] = collect($data['surat']->form_isian)->map(static fn($item) => $item->label);
             $data['pendudukLuar']   = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
             return view('admin.surat.form_desa', $data);
@@ -440,7 +440,7 @@ class Surat extends Admin_Controller
                     $kirimFCM = 'Segera cek Halaman Admin,  ' . $cetak['surat']['nama'] . ' berhasil dibuat.';
 
                     $allToken = FcmToken::doesntHave('user.pamong')
-                        ->orWhereHas('user.pamong', static fn ($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
+                        ->orWhereHas('user.pamong', static fn($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
                         ->get()
                         ->pluck('token')
                         ->all();
@@ -514,7 +514,7 @@ class Surat extends Admin_Controller
             $isi_surat = $this->request['isi_surat'];
 
             // Kembalikan kode isian [format_nomor_surat]
-            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
+            $format_surat = substitusiNomorSurat($cetak['input']['nomor'], $cetak['surat']['format_nomor_global'] ? setting('format_nomor_surat') : $cetak['surat']['format_nomor_surat']);
             $format_surat = str_ireplace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
             $format_surat = str_ireplace('[kode_desa]', identitas()->kode_desa, $format_surat);
             $format_surat = str_ireplace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
@@ -775,7 +775,7 @@ class Surat extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->id,
                         'text' => 'NIK : ' . $item->nik . '<br>Tag ID Card : ' . ($item->tag_id_card ?: '-') . '<br>Nama : ' . $item->nama . '<br>Alamat : RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
                     ]),
@@ -795,7 +795,7 @@ class Surat extends Admin_Controller
         $kk_level = $data['individu']['kk_level'];
         if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
             if (!empty($data['anggota'])) {
-                $pengikut = $data['anggota']->filter(static fn ($item): bool => $item->umur < $minUmur);
+                $pengikut = $data['anggota']->filter(static fn($item): bool => $item->umur < $minUmur);
             }
         } else {
             // cek apakah ada penduduk yang nik_ayah atau nik_ibu = nik pemohon
@@ -805,7 +805,7 @@ class Surat extends Admin_Controller
             }
             $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
-                $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
+                $pengikut = $anak->filter(static fn($item): bool => $item->umur < $minUmur);
             }
         }
 

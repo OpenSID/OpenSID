@@ -45,13 +45,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sms extends Admin_Controller
 {
+    public $modul_ini           = 'hubung-warga';
+    public $sub_modul_ini       = 'kirim-pesan';
+    public $kategori_pengaturan = 'hubung warga';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('sms_model');
-        $this->modul_ini          = 'hubung-warga';
-        $this->sub_modul_ini      = 'kirim-pesan';
-        $this->header['kategori'] = 'hubung warga';
     }
 
     public function clear(): void

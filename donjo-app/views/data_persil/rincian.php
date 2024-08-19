@@ -10,7 +10,7 @@
     <section class="content" id="maincontent">
         <div class="box box-info">
             <div class="box-header with-border">
-                <?php if ($this->CI->cek_hak_akses('u')): ?>
+                <?php if (can('u')): ?>
                     <a href="<?=site_url('cdesa/create_mutasi/' . $cdesa['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
                     <i class="fa fa-plus"></i>Tambah Mutasi Persil
                 <?php endif; ?>
@@ -81,7 +81,7 @@
                                                 <td class="text-center padat"><?= ($key + 1); ?></td>
                                                 <td nowrap class="padat">
                                                     <a href='<?= site_url("cdesa/mutasi/{$cdesa['id']}/{$item['id']}")?>' class="btn bg-maroon btn-flat btn-sm"  title="Daftar Mutasi"><i class="fa fa-exchange"></i></a>
-                                                    <?php if ($this->CI->cek_hak_akses('u', 'data_persil')): ?>
+                                                    <?php if (can('u', 'data_persil')): ?>
                                                         <a href="<?= site_url("data_persil/form/{$item['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
                                                     <?php endif; ?>
                                                     <a href="#" data-path="<?=  $item['path']?>" class="btn bg-olive btn-flat btn-sm area-map" title="Lihat Map" data-toggle="modal" data-target="#map-modal" ><i class="fa fa-map"></i></a>

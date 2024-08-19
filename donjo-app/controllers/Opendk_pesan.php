@@ -42,13 +42,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Opendk_pesan extends Admin_Controller
 {
+    public $modul_ini        = 'opendk';
+    public $sub_modul_ini    = 'pesan';
     protected $_list_session = ['cari', 'status'];
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'opendk';
-        $this->sub_modul_ini = 'pesan';
     }
 
     public function cek()

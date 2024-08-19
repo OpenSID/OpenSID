@@ -415,6 +415,7 @@ class Keluarga_model extends MY_Model
                 $valid[] = "Nomor KK {$data['no_kk']} sudah digunakan";
             }
         }
+
         if ($valid !== []) {
             $_SESSION['validation_error'] = true;
 

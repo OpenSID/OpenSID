@@ -78,7 +78,7 @@ class DataSuratPenduduk extends CI_Controller
                 $data['ayah'] = Penduduk::where('nik', $data['individu']->ayah_nik)->first();
                 $data['ibu']  = Penduduk::where('nik', $data['individu']->ibu_nik)->first();
 
-                if (!$data['ayah'] && $data['individu']->kk_level == SHDKEnum::ANAK) {
+                if (! $data['ayah'] && $data['individu']->kk_level == SHDKEnum::ANAK) {
                     $data['ayah'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                         ->where(static function ($query): void {
                             $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
@@ -88,7 +88,7 @@ class DataSuratPenduduk extends CI_Controller
                         ->first();
                 }
 
-                if (!$data['ibu'] && $data['individu']->kk_level == SHDKEnum::ANAK) {
+                if (! $data['ibu'] && $data['individu']->kk_level == SHDKEnum::ANAK) {
                     $data['ibu'] = Penduduk::where('id_kk', $data['individu']->id_kk)
                         ->where(static function ($query): void {
                             $query->where('kk_level', SHDKEnum::KEPALA_KELUARGA)
@@ -172,7 +172,7 @@ class DataSuratPenduduk extends CI_Controller
         $kk_level = $data['individu']['kk_level'];
         if ($kk_level == SHDKEnum::KEPALA_KELUARGA) {
             if (!empty($data['anggota'])) {
-                $pengikut = $data['anggota']->filter(static fn ($item): bool => $item->umur < $minUmur);
+                $pengikut = $data['anggota']->filter(static fn($item): bool => $item->umur < $minUmur);
             }
         } else {
             // cek apakah ada penduduk yang nik_ayah atau nik_ibu = nik pemohon
@@ -182,7 +182,7 @@ class DataSuratPenduduk extends CI_Controller
             }
             $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
-                $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
+                $pengikut = $anak->filter(static fn($item): bool => $item->umur < $minUmur);
             }
         }
 

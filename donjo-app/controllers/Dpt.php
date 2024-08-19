@@ -53,11 +53,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dpt extends Admin_Controller
 {
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'calon-pemilih';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'calon-pemilih';
     }
 
     public function index(): void
@@ -87,11 +88,11 @@ class Dpt extends Admin_Controller
                 $this->sumberData()
             )
                 ->addIndexColumn()
-                ->editColumn('alamat_sekarang', static fn ($row) => $row->keluarga->alamat ?? $row->alamat_sekarang)
-                ->addColumn('dusun', static fn ($row): string => strtoupper($row->keluarga->wilayah->dusun ?? $row->wilayah->dusun))
-                ->addColumn('rw', static fn ($row) => $row->keluarga->wilayah->rw ?? $row->wilayah->rw)
-                ->addColumn('rt', static fn ($row) => $row->keluarga->wilayah->rt ?? $row->wilayah->rt)
-                ->addColumn('umur_pemilihan', static fn ($row): string => usia($row->tanggallahir, $tglPemilihan, '%y'))
+                ->editColumn('alamat_sekarang', static fn($row) => $row->keluarga->alamat ?? $row->alamat_sekarang)
+                ->addColumn('dusun', static fn($row): string => strtoupper($row->keluarga->wilayah->dusun ?? $row->wilayah->dusun))
+                ->addColumn('rw', static fn($row) => $row->keluarga->wilayah->rw ?? $row->wilayah->rw)
+                ->addColumn('rt', static fn($row) => $row->keluarga->wilayah->rt ?? $row->wilayah->rt)
+                ->addColumn('umur_pemilihan', static fn($row): string => usia($row->tanggallahir, $tglPemilihan, '%y'))
                 ->make();
         }
 
@@ -134,10 +135,10 @@ class Dpt extends Admin_Controller
         }
 
         return Penduduk::batasiUmur($tglPemilihan, $umurFilter)->dpt($tglPemilihan)
-            ->when($tagIdFilter, static fn ($q) => $tagIdFilter == '1' ? $q->whereNotNull('tag_id_card') : $q->whereNull('tag_id_card'))
-            ->when($filterKategori, static fn ($q) => $q->where($filterKategori))
-            ->when($sex, static fn ($q) => $q->where('sex', $sex))
-            ->when($listCluster, static fn ($q) => $q->whereIn('id_cluster', $listCluster))
+            ->when($tagIdFilter, static fn($q) => $tagIdFilter == '1' ? $q->whereNotNull('tag_id_card') : $q->whereNull('tag_id_card'))
+            ->when($filterKategori, static fn($q) => $q->where($filterKategori))
+            ->when($sex, static fn($q) => $q->where('sex', $sex))
+            ->when($listCluster, static fn($q) => $q->whereIn('id_cluster', $listCluster))
             ->withOnly(['jenisKelamin', 'keluarga', 'wilayah', 'pendidikanKK', 'pekerjaan', 'statusKawin']);
     }
 
@@ -176,7 +177,7 @@ class Dpt extends Admin_Controller
         view('admin.dpt.dpt_cetak', $data);
     }
 
-    public function ajax_cetak($aksi = 'cetak'): void
+    public function ajax_cetak(string $aksi = 'cetak'): void
     {
         $data['aksi']   = $aksi;
         $data['action'] = ci_route('dpt.cetak.' . $aksi);

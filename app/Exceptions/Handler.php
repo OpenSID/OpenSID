@@ -71,7 +71,7 @@ class Handler implements ExceptionHandler
      */
     public function shouldReport(Throwable $e)
     {
-        return !$this->shouldntReport($e);
+        return ! $this->shouldntReport($e);
     }
 
     /**
@@ -85,15 +85,13 @@ class Handler implements ExceptionHandler
             }
         }
 
-        return $matches[1];
+        return false;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function render($request, Throwable $e)
-    {
-    }
+    public function render($request, Throwable $e) {}
 
     /**
      * {@inheritDoc}

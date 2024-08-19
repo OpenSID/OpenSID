@@ -53,12 +53,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Suplemen extends Admin_Controller
 {
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'data-suplemen';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['pamong_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'data-suplemen';
     }
 
     public function index()
@@ -92,8 +93,8 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('terdata', static fn ($row) => $row->terdata()->count())
-                ->editColumn('sasaran', static fn ($row) => unserialize(SASARAN)[$row->sasaran])
+                ->editColumn('terdata', static fn($row) => $row->terdata()->count())
+                ->editColumn('sasaran', static fn($row) => unserialize(SASARAN)[$row->sasaran])
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -127,7 +128,7 @@ class Suplemen extends Admin_Controller
         try {
             ModelsSuplemen::create(static::validated($this->request));
             redirect_with('success', 'Berhasil Tambah Data');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
         }
     }
@@ -143,7 +144,7 @@ class Suplemen extends Admin_Controller
             $data['sasaran'] ??= $update->sasaran;
             $update->update($data);
             redirect_with('success', 'Berhasil Ubah Data');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             redirect_with('error', 'Gagal Ubah Data ' . $e->getMessage());
         }
     }
@@ -214,9 +215,9 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggallahir', static fn ($row) => tgl_indo($row->tanggallahir))
-                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->sex))
-                ->editColumn('alamat', static fn ($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
+                ->editColumn('tanggallahir', static fn($row) => tgl_indo($row->tanggallahir))
+                ->editColumn('sex', static fn($row) => JenisKelaminEnum::valueOf($row->sex))
+                ->editColumn('alamat', static fn($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -344,7 +345,7 @@ class Suplemen extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn ($item): array => [
+                ->map(static fn($item): array => [
                     'id'   => $item->id,
                     'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -379,7 +380,7 @@ class Suplemen extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn ($item): array => [
+                ->map(static fn($item): array => [
                     'id'   => $item->id,
                     'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -685,7 +686,12 @@ class Suplemen extends Admin_Controller
         }
 
         $cells = [
-            '###', '', '', '', '', '',
+            '###',
+            '',
+            '',
+            '',
+            '',
+            '',
         ];
         $singleRow = WriterEntityFactory::createRowFromArray($cells);
         $writer->addRow($singleRow);
@@ -693,19 +699,44 @@ class Suplemen extends Admin_Controller
         // Cetak Catatan
         $array_catatan = [
             [
-                'Catatan:', '', '', '', '', '',
+                'Catatan:',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk', '', '', '', '', '',
+                '1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '2. Kolom Peserta (A)  wajib di isi', '', '', '', '', '',
+                '2. Kolom Peserta (A)  wajib di isi',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '3. Kolom (B, C, D, E) diambil dari database kependudukan', '', '', '', '', '',
+                '3. Kolom (B, C, D, E) diambil dari database kependudukan',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
             [
-                '4. Kolom (F) opsional', '', '', '', '', '',
+                '4. Kolom (F) opsional',
+                '',
+                '',
+                '',
+                '',
+                '',
             ],
         ];
 

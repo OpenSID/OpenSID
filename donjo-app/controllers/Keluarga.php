@@ -44,6 +44,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'keluarga';
+    public $kategori_pengaturan  = 'data_lengkap';
     private array $_set_page     = ['20', '50', '100', [0, 'Semua']];
     private array $_list_session = ['jenis_peristiwa', 'status_hanya_tetap', 'status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 
@@ -51,8 +54,6 @@ class Keluarga extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model']);
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'keluarga';
     }
 
     public function clear_session(): void
@@ -102,14 +103,13 @@ class Keluarga extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['func']             = 'index';
-        $this->header['kategori'] = 'data_lengkap';
-        $data['set_page']         = $this->_set_page;
-        $list_data                = $this->keluarga_model->list_data($o, $p);
-        $data['paging']           = $list_data['paging'];
-        $data['main']             = $list_data['main'];
-        $data['list_sex']         = $this->referensi_model->list_data('tweb_penduduk_sex');
-        $data['list_dusun']       = $this->wilayah_model->list_dusun();
+        $data['func']       = 'index';
+        $data['set_page']   = $this->_set_page;
+        $list_data          = $this->keluarga_model->list_data($o, $p);
+        $data['paging']     = $list_data['paging'];
+        $data['main']       = $list_data['main'];
+        $data['list_sex']   = $this->referensi_model->list_data('tweb_penduduk_sex');
+        $data['list_dusun'] = $this->wilayah_model->list_dusun();
 
         $this->render('sid/kependudukan/keluarga', $data);
     }

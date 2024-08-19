@@ -1,5 +1,5 @@
 <?php foreach ($this->list_setting as $pengaturan): ?>
-    <?php if ($pengaturan->jenis != 'upload' && in_array($pengaturan->kategori, $kategori)): ?>
+    <?php if ($pengaturan->jenis != 'upload' && in_array($pengaturan->kategori, $kategori_pengaturan)): ?>
         <div class="form-group" id="form_<?= $pengaturan->key ?>">
             <label><?= $pengaturan->judul ?></label>
             <?php if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean'): ?>

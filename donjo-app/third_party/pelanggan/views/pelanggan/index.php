@@ -22,7 +22,7 @@
                     <i class="icon fa fa-ban"></i>
                     <?php if ($this->session->error_premium) : ?>
                         <h3 class="box-title"><?= $this->session->error_premium ?></h3>
-                    <?php elseif (!cek_koneksi_internet()) : ?>
+                    <?php elseif (! cek_koneksi_internet()) : ?>
                         <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
                     <?php endif ?>
                 </div>

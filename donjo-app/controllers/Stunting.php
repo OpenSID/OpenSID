@@ -52,13 +52,14 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Stunting extends Admin_Controller
 {
+    public $modul_ini     = 'kesehatan';
+    public $sub_modul_ini = 'stunting';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->library('rekap');
         $this->load->helper('tglindo_helper');
-        $this->modul_ini     = 'kesehatan';
-        $this->sub_modul_ini = 'stunting';
     }
 
     public function index()
@@ -203,7 +204,7 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('hari_perkiraan_lahir', static fn ($row) => tgl_indo($row->hari_perkiraan_lahir))
+                ->editColumn('hari_perkiraan_lahir', static fn($row) => tgl_indo($row->hari_perkiraan_lahir))
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
@@ -282,7 +283,7 @@ class Stunting extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->id,
                         'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
                     ]),
@@ -425,9 +426,9 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('kia.hari_perkiraan_lahir', static fn ($row) => tgl_indo($row->kia->hari_perkiraan_lahir))
-                ->editColumn('tanggal_melahirkan', static fn ($row) => tgl_indo($row->tanggal_melahirkan))
-                ->editColumn('tanggal_periksa', static fn ($row) => tgl_indo($row->tanggal_periksa))
+                ->editColumn('kia.hari_perkiraan_lahir', static fn($row) => tgl_indo($row->kia->hari_perkiraan_lahir))
+                ->editColumn('tanggal_melahirkan', static fn($row) => tgl_indo($row->tanggal_melahirkan))
+                ->editColumn('tanggal_periksa', static fn($row) => tgl_indo($row->tanggal_periksa))
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
@@ -634,10 +635,10 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('kia.anak.tanggallahir', static fn ($row) => tgl_indo($row->kia->anak->tanggallahir))
-                ->editColumn('berat_badan', static fn ($row): string => $row->berat_badan . ' kg')
-                ->editColumn('tinggi_badan', static fn ($row): string => $row->tinggi_badan . ' cm')
-                ->editColumn('tanggal_periksa', static fn ($row) => tgl_indo($row->tanggal_periksa))
+                ->editColumn('kia.anak.tanggallahir', static fn($row) => tgl_indo($row->kia->anak->tanggallahir))
+                ->editColumn('berat_badan', static fn($row): string => $row->berat_badan . ' kg')
+                ->editColumn('tinggi_badan', static fn($row): string => $row->tinggi_badan . ' cm')
+                ->editColumn('tanggal_periksa', static fn($row) => tgl_indo($row->tanggal_periksa))
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
@@ -880,8 +881,8 @@ class Stunting extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->editColumn('kia.anak.tanggallahir', static fn ($row) => tgl_indo($row->kia->anak->tanggallahir))
-                ->editColumn('tanggal_periksa', static fn ($row) => tgl_indo($row->tanggal_periksa))
+                ->editColumn('kia.anak.tanggallahir', static fn($row) => tgl_indo($row->kia->anak->tanggallahir))
+                ->editColumn('tanggal_periksa', static fn($row) => tgl_indo($row->tanggal_periksa))
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 

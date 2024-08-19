@@ -454,7 +454,7 @@ class MY_Model extends CI_Model
             collect($data)
                 ->chunk(100)
                 // tambahkan config_id terlebih dahulu
-                ->map(static fn ($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
+                ->map(static fn($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
                     $item['config_id'] = $config_id;
 
                     return $item;
@@ -538,22 +538,5 @@ class MY_Model extends CI_Model
         }
 
         return $hasil;
-    }
-
-    public function cek_primary_key($tabel, $kolom = [])
-    {
-        $schemaManager = DB::connection()->getDoctrineSchemaManager();
-        $indexes       = $schemaManager->listTableIndexes($tabel);
-
-        $isPrimaryKey = false;
-
-        foreach ($indexes as $index) {
-            if ($index->isPrimary() && $index->getColumns() == $kolom) {
-                $isPrimaryKey = true;
-                break;
-            }
-        }
-
-        return $isPrimaryKey;
     }
 }

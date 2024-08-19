@@ -81,7 +81,8 @@ class Menu extends BaseModel
         'order_column_name'  => 'urut',
         'sort_when_creating' => false,
     ];
-    protected $appends = ['link_url'];
+    protected $appends      = ['link_url'];
+    private array $listMenu = [];
 
     public static function boot(): void
     {
@@ -121,8 +122,54 @@ class Menu extends BaseModel
         return $this->hasMany(Menu::class, 'parrent', 'id');
     }
 
+    public function childrens(): HasMany
+    {
+        return $this->hasMany(Menu::class, 'parrent', 'id')->with(['childrens' => static fn($q) => $q->select(['id', 'nama', 'parrent'])]);
+    }
+
     protected function getLinkUrlAttribute()
     {
         return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
+    }
+
+    public function getSelfParents()
+    {
+        $result = collect([$this->toArray()]);
+        $node   = $this->parent;
+        if (! $node) {
+            return $result;
+        }
+
+        do {
+            $result->push($node->toArray());
+            $node = $node->parent;
+        } while ($node);
+
+        return $result;
+    }
+
+    public function tree()
+    {
+        return $this->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])
+            ->where('parrent', 0)
+            ->with(['childrens' => static function ($q): void {
+                $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link']);
+            }])
+            ->orderBy('urut')
+            ->get();
+    }
+
+    public function buildArray($nodes, $prefix = [])
+    {
+        foreach ($nodes as $node) {
+            $tmpPrefix                 = $prefix;
+            $this->listMenu[$node->id] = (empty($tmpPrefix) ? '' : implode(' / ', $tmpPrefix) . ' / ') . $node->nama;
+            $tmpPrefix                 = array_merge($tmpPrefix, [$node->nama]);
+            if ($node->childrens) {
+                $this->buildArray($node->childrens, $tmpPrefix);
+            }
+        }
+
+        return $this->listMenu;
     }
 }

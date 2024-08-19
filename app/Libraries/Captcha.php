@@ -68,8 +68,8 @@ class Captcha
             Str::random(5)
         );
 
-        $characters                      = static::$case_sensitive ? static::$characters : strtolower(static::$characters);
-        get_instance()->session->captcha = Hash::make($characters);
+        $characters            = static::$case_sensitive ? static::$characters : strtolower(static::$characters);
+        ci()->session->captcha = Hash::make($characters);
 
         $bg   = static::background();
         $font = static::font();
@@ -132,7 +132,7 @@ class Captcha
     public static function check($value): bool
     {
         $value = trim((string) (static::$case_sensitive ? $value : strtolower($value)));
-        $hash  = get_instance()->session->captcha;
+        $hash  = ci()->session->captcha;
 
         return $value && $hash && Hash::check($value, $hash);
     }

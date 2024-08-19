@@ -59,7 +59,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 |
 */
 
-$app = new App\Services\Laravel(FCPATH);
+$app = new \App\Services\Laravel(FCPATH);
 
 $app->withFacades();
 
@@ -77,13 +77,13 @@ $app->withEloquent();
 */
 
 $app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    \Illuminate\Contracts\Debug\ExceptionHandler::class,
+    \App\Exceptions\Handler::class
 );
 
 $app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
+    \Illuminate\Contracts\Console\Kernel::class,
+    \App\Console\Kernel::class
 );
 
 /*
@@ -112,8 +112,8 @@ $app->configure('datatables');
 
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-$app->register(App\Providers\CarbonServiceProvider::class);
-$app->register(App\Providers\DataTablesServiceProvider::class);
+$app->register(\App\Providers\CarbonServiceProvider::class);
+$app->register(\App\Providers\DataTablesServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -128,15 +128,16 @@ $app->register(App\Providers\DataTablesServiceProvider::class);
 */
 
 $app->boot();
-$hook = getHooks();
+$moduleLocations = $CFG->item('modules_locations');
+$hook            = getHooks(['modules_location' => $moduleLocations]);
 
 if (ENVIRONMENT === 'development') {
-    Illuminate\Support\Facades\DB::enableQueryLog();
+    \Illuminate\Support\Facades\DB::enableQueryLog();
 
     /**
      * Uncomment untuk listen semua query dari illuminate database.
      */
-    Illuminate\Support\Facades\Event::listen(Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
-        log_message('error', array_reduce($query->bindings, static fn ($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql));
+    \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
+        log_message('error', array_reduce($query->bindings, static fn($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql));
     });
 }

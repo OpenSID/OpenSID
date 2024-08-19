@@ -279,6 +279,7 @@ Route::group('penduduk_log', static function (): void {
     Route::post('/kembalikan_status_all', 'Penduduk_log@kembalikan_status_all')->name('penduduk_log.kembalikan_status_all');
     Route::get('/cetak/{o}/{aksi}/{privasi_nik?}', 'Penduduk_log@cetak')->name('penduduk_log.cetak');
     Route::get('/ajax_cetak/{o}/{aksi}', 'Penduduk_log@ajax_cetak')->name('penduduk_log.ajax_cetak');
+    Route::get('/statistik/{tipe?}/{nomor?}/{sex?}', 'Penduduk_log@statistik')->name('penduduk_log.statistik');
 });
 
 // Kependudukan > Keluarga
@@ -1602,7 +1603,6 @@ Route::group('pembangunan_dokumentasi', static function (): void {
     Route::get('/delete-dokumentasi/{id_pembangunan}/{id?}', 'Pembangunan_dokumentasi@deleteDokumentasi')->name('pembangunan_dokumentasi.delete-dokumentasi');
     Route::get('/dialog/{id}/{aksi?}', 'Pembangunan_dokumentasi@dialog')->name('pembangunan_dokumentasi.dialog');
     Route::post('/daftar/{id}/{aksi?}', 'Pembangunan_dokumentasi@daftar')->name('pembangunan_dokumentasi.daftar');
-
 });
 // Lapak
 Route::group('lapak_admin', static function (): void {
@@ -1863,7 +1863,8 @@ Route::group('modul', static function (): void {
     Route::get('/unlock/{id}', 'Modul@unlock')->name('modul.unlock');
     Route::post('/ubah_server', 'Modul@ubah_server')->name('modul.ubah_server');
     Route::get('/default_server', 'Modul@default_server')->name('modul.default_server');
-    Route::get('/{parent?}', 'Modul@index')->name('modul.index');
+    Route::get('/index/{parent?}', 'Modul@index')->name('modul.index');
+    Route::get('/{parent?}', 'Modul@index')->name('modul.index-default');
 });
 // Pengaturan > Aplikasi
 Route::group('setting', static function (): void {
@@ -2207,4 +2208,11 @@ Route::group('buku_keperluan', static function (): void {
 Route::group('token', static function (): void {
     Route::get('/', 'Token@index')->name('token.index');
     Route::post('/update', 'Token@update')->name('token.update');
+});
+
+Route::group('plugin', static function () {
+    Route::get('/', 'Plugin@index')->name('plugin.index');
+    Route::get('/installed', 'Plugin@installed')->name('plugin.installed');
+    Route::post('/pasang', 'Plugin@pasang')->name('plugin.pasang');
+    Route::post('/hapus', 'Plugin@hapus')->name('plugin.hapus');
 });

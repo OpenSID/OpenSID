@@ -99,6 +99,73 @@
         </div>
         </form>
     </div>
+    @include('admin.layouts.components.tombol_cetak_unduh', [
+    'cetak' => "suplemen/dialog_daftar/{$suplemen->id}/cetak",
+    'unduh' => "suplemen/dialog_daftar/{$suplemen->id}/unduh",
+    ])
+    @include('admin.layouts.components.tombol_impor_ekspor', [
+    'impor' => "suplemen/impor_data/{$suplemen->id}",
+    'ekspor' => "suplemen/ekspor/{$suplemen->id}",
+    ])
+    @endif
+    @if (can('h'))
+    <a href="#confirm-delete" title="Hapus Data"
+        onclick="deleteAllBox('mainform', '{{ ci_route('suplemen.delete_all_terdata') }}')"
+        class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
+            class='fa fa-trash-o'></i> Hapus</a>
+    @endif
+    @if (can('u'))
+    <a href="{{ ci_route('suplemen') }}"
+        class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+            class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Suplemen</a>
+    @endif
+</div>
+@include('admin.suplemen.rincian')
+<hr style="margin-bottom: 5px;">
+<div class="box-body">
+    <h5><b>Daftar Terdata</b></h5>
+    <div class="form-inline">
+        <select class="form-control input-sm" id="sex" name="sex">
+            <option value="">Pilih Jenis Kelamin</option>
+            <option value="1">Laki-laki</option>
+            <option value="2">Perempuan</option>
+        </select>
+        <select class="form-control input-sm" id="dusun" name="dusun">
+            <option value="">Pilih Dusun</option>
+            @foreach ($dusun as $item)
+            <option value="{{ $item }}">{{ $item }}</option>
+            @endforeach
+        </select>
+        <select class="form-control input-sm hide" id="rw" name="rw">
+            <option value="">Pilih RW</option>
+        </select>
+        <select class="form-control input-sm  hide" id="rt" name="rt">
+            <option value="">Pilih RT</option>
+        </select>
+    </div>
+    <hr>
+    {!! form_open(null, 'id="mainform" name="mainform"') !!}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover" id="tabeldata">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="checkall" /></th>
+                    <th class="padat">NO</th>
+                    <th class="padat">AKSI</th>
+                    <th>{{ $suplemen->sasaran == 1 ? 'NO.' : 'NIK' }} KK</th>
+                    <th>{{ $suplemen->sasaran == 1 ? 'NIK PENDUDUK' : 'NO. KK' }}</th>
+                    <th>{{ $suplemen->sasaran == 1 ? 'NAMA PENDUDUK' : 'KEPALA KELUARGA' }}</th>
+                    <th>TEMPAT LAHIR</th>
+                    <th>TANGGAL LAHIR</th>
+                    <th>JENIS KELAMIN</th>
+                    <th>ALAMAT</th>
+                    <th>KETERANGAN</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    </form>
+</div>
 </div>
 
 @include('admin.layouts.components.konfirmasi_hapus')

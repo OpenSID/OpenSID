@@ -153,6 +153,7 @@
                             dataType: 'json',
                         })
                         .done(function(response) {
+                            console.log(response);
                             $.ajax({
                                     url: '{{ ci_route('status_desa.perbarui_bps') }}',
                                     type: 'Post',

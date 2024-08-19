@@ -44,26 +44,27 @@
                         </select>
                     </div>
                 </div>
-                <hr>
-                {!! form_open(null, 'id="mainform" name="mainform"') !!}
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover" id="tabeldata">
-                        <thead>
-                            <tr>
-                                <th class="padat"><input type="checkbox" id="checkall" /></th>
-                                <th class="padat">No</th>
-                                <th class="aksi">Aksi</th>
-                                <th>Jenis</th>
-                                <th style="width:10%">Aktif</th>
-                                <th class="padat">Simbol</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                </form>
             </div>
+            <hr>
+            {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tabeldata">
+                    <thead>
+                        <tr>
+                            <th class="padat"><input type="checkbox" id="checkall" /></th>
+                            <th class="padat">No</th>
+                            <th class="aksi">Aksi</th>
+                            <th>Jenis</th>
+                            <th style="width:10%">Aktif</th>
+                            <th class="padat">Simbol</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 @include('admin.layouts.components.konfirmasi_hapus')

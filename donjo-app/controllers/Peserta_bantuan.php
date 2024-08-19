@@ -41,14 +41,13 @@ use Illuminate\Support\Str;
 
 class Peserta_bantuan extends Admin_Controller
 {
+    public $modul_ini        = 'bantuan';
+    public $sub_modul_ini    = 'peserta-bantuan';
     private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'bantuan';
-        $this->sub_modul_ini = 'peserta-bantuan';
-
         $this->load->model(['program_bantuan_model']);
     }
 

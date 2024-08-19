@@ -38,6 +38,21 @@
                             <i></i>
                         </div>
                     </div>
+                    <a href="{{ $tautan['link'] }}"
+                        class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                        title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+                    <a href="#" data-href="{{ $route_kosongkan }}"
+                        class="btn btn-social bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                        title="Kosongkan Wilayah" data-toggle="modal" data-target="#confirm-status"
+                        data-body="Apakah yakin akan mengosongkan peta wilayah ini?"><i
+                            class="fa fa fa-trash-o"></i>Kosongkan</a>
+                    <a href="#"
+                        class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                        download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                    <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i
+                            class='fa fa-times'></i> Reset</button>
+                    <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
+                        Simpan</button>
                 </div>
                 <label class="col-sm-2 control-label" for="lat">Warna Pinggiran</label>
                 <div class="col-sm-4">

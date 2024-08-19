@@ -86,8 +86,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ($bantuan_penduduk) :
-						foreach ($bantuan_penduduk as $key => $item) : ?>
+					<?php if ($bantuan_penduduk):
+						foreach ($bantuan_penduduk as $key => $item): ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
@@ -105,7 +105,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								</td>
 							</tr>
 						<?php endforeach;
-					else : ?>
+					else: ?>
 						<tr>
 							<td class="text-center" colspan="5">Data tidak tersedia</td>
 						</tr>

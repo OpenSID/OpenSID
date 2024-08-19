@@ -226,11 +226,14 @@ class MockArraySessionStorage implements SessionStorageInterface
     /**
      * Generates a session ID.
      *
+     * This doesn't need to be particularly cryptographically secure since this is just
+     * a mock.
+     *
      * @return string
      */
     protected function generateId()
     {
-        return bin2hex(random_bytes(16));
+        return hash('sha256', uniqid('ss_mock_', true));
     }
 
     protected function loadSession()

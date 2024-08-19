@@ -46,14 +46,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Area extends Admin_Controller
 {
-    private int $tip = 4;
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+    private int $tip      = 4;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function index($parent = 0): void
@@ -259,7 +258,6 @@ class Area extends Admin_Controller
 
     private function validation()
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('ref_polygon', 'Kategori', 'required');
         $this->form_validation->set_rules('desk', 'Keterangan', 'required|trim');
@@ -268,7 +266,7 @@ class Area extends Admin_Controller
         return $this->form_validation->run();
     }
 
-    private function validasi($post)
+    private function validasi(array $post)
     {
         $data['nama']        = nomor_surat_keputusan($post['nama']);
         $data['ref_polygon'] = bilangan($post['ref_polygon']);

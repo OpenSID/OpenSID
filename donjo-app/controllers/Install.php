@@ -62,8 +62,6 @@ class Install extends CI_Controller
         parent::__construct();
 
         $this->load->config('installer');
-        $this->load->library('form_validation');
-        $this->folder_lainnya();
     }
 
     /**

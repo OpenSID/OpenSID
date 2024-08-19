@@ -118,17 +118,48 @@
                     </div>
                 </div>
             </div>
-            <div class='box-footer'>
-                <div>
-                    <button type='reset' class='btn btn-social btn-danger btn-sm'><i class='fa fa-times'></i>
-                        Batal</button>
-                    <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i
-                            class='fa fa-check'></i> Simpan</button>
+            <div class="form-group">
+                <label for="nomor" class="col-sm-2 control-label">Simbol</label>
+                <div class="col-sm-4">
+                    @if ($point['simbol'] != '')
+                    <img src="{{ base_url(LOKASI_SIMBOL_LOKASI) . $point['simbol'] }}" />
+                    @else
+                    <img src="{{ base_url(LOKASI_SIMBOL_LOKASI) }}default.png" />
+                    @endif
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="id_master" class="col-sm-2 control-label">Ganti Simbol</label>
+                <div class="col-sm-10">
+                    <div class="vertical-scrollbar" style="max-height:300px;">
+                        <ul id="icons" class="bs-glyphicons">
+                            @foreach ($simbol as $data)
+                            <li @if ($point['simbol']==$data['simbol']) class="active" id="simbol_active" @endif
+                                onclick="li_active($(this).val());">
+                                <label>
+                                    <input type="radio" name="simbol" id="simbol" class="hidden"
+                                        value="{{ $data['simbol'] }}" @checked($point['simbol']==$data['simbol'])>
+                                    <img src="{{ base_url(LOKASI_SIMBOL_LOKASI) . $data['simbol'] }}">
+                                    <span class="glyphicon-class">{{ $data['simbol'] }}</span>
+                                </label>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        </form>
+        <div class='box-footer'>
+            <div>
+                <button type='reset' class='btn btn-social btn-danger btn-sm'><i class='fa fa-times'></i>
+                    Batal</button>
+                <button type='submit' class='btn btn-social btn-info btn-sm pull-right confirm'><i
+                        class='fa fa-check'></i> Simpan</button>
+            </div>
+        </div>
     </div>
+    </form>
+</div>
 </div>
 @endsection
 

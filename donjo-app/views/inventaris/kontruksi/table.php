@@ -15,7 +15,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<?php if (can('u')): ?>
 								<a href="<?= site_url('inventaris_kontruksi/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 									<i class="fa fa-plus"></i>Tambah Data
 								</a>
@@ -58,10 +58,10 @@
 																<td></td>
 																<td nowrap>
 																	<a href="<?= site_url('inventaris_kontruksi/view/' . $data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<?php if (can('u')): ?>
 																		<a href="<?= site_url('inventaris_kontruksi/edit/' . $data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
-																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																	<?php if (can('h')): ?>
 																		<a href="#" data-href="<?= site_url("api_inventaris_kontruksi/delete/{$data->id}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>

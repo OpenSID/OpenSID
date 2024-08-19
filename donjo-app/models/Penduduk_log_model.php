@@ -450,6 +450,7 @@ class Penduduk_log_model extends MY_Model
         $this->rt_sql();
         $this->status_penduduk();
         $this->tahun_bulan();
+        $this->akta_kematian_sql();
     }
 
     // $limit = 0 mengambil semua
@@ -579,5 +580,40 @@ class Penduduk_log_model extends MY_Model
             ->order_by('l.id', 'desc')
             ->get('log_penduduk l')
             ->row_array();
+    }
+
+    protected function akta_kematian_sql()
+    {
+        $kf = $this->session->akta_kematian;
+
+        if (isset($kf)) {
+            if (! in_array($kf, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+                $this->session->umurx = $kf;
+                $this->db->where("log.akta_mati <> '' ");
+                $this->umur_sql();
+
+                return;
+            }
+
+            if ($kf == BELUM_MENGISI) {
+                $this->db->where("(log.akta_mati IS NULL OR log.akta_mati = '') ");
+            } else {
+                $this->db->where("log.akta_mati <> '' ");
+            }
+        }
+    }
+
+    protected function umur_sql()
+    {
+        $kf = $this->session->umurx;
+        if (isset($kf)) {
+            if ($kf == JUMLAH) {
+                $this->db->where("u.tanggallahir <> ''");
+            } elseif ($kf == BELUM_MENGISI) {
+                $this->db->where("(u.tanggallahir IS NULL OR u.tanggallahir = '')");
+            } else {
+                $this->db->where(" DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 >= (SELECT dari FROM tweb_penduduk_umur WHERE id={$kf} ) AND DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 <= (SELECT sampai FROM tweb_penduduk_umur WHERE id={$kf} ) ");
+            }
+        }
     }
 }
