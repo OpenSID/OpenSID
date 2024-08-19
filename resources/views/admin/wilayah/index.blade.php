@@ -83,42 +83,6 @@
         </form>
     </div>
 </div>
-<div class="box-header"><strong>{{ $title }}</strong></div>
-<div class="box-body">
-    {!! form_open(null, 'id="mainform" name="mainform"') !!}
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover" id="tabeldata">
-            <thead>
-                <tr>
-                    <th class="padat">No</th>
-                    <th class="padat">Aksi</th>
-                    <th>{{ $wilayah }}</th>
-                    <th>{{ $jabatan }} {{ $wilayah }}</th>
-                    <th>NIK {{ $jabatan }} {{ $wilayah }}</th>
-                    <th style="width:5%">RW</th>
-                    <th style="width:5%">RT</th>
-                    <th style="width:5%">KK</th>
-                    <th style="width:5%">L+P</th>
-                    <th style="width:5%">L</th>
-                    <th style="width:5%">P</th>
-                </tr>
-            </thead>
-            <tbody id="dragable">
-            </tbody>
-            <tfoot>
-                <th colspan="5">Total</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tfoot>
-        </table>
-    </div>
-    </form>
-</div>
-</div>
 
 @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
