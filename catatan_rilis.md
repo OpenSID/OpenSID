@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#8345](https://github.com/OpenSID/OpenSID/issues/8345) Perbaikan sebutan dusun pada halaman web daftar pemilih tetap (DPT).
 26. [#8341](https://github.com/OpenSID/OpenSID/issues/8341) Perbaikan hak akses bawaan lainnya (kasi, kaur, dll).
 27. [#8343](https://github.com/OpenSID/OpenSID/issues/8343) Perbaikan form ubah tanggal perceraian penduduk.
+28. [#8348](https://github.com/OpenSID/OpenSID/issues/8348) Perbaikan form input pengaturan tampilan artikel.
 
 
 #### TEKNIS
