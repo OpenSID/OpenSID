@@ -23,7 +23,7 @@ class Terminal
      */
     public function __construct()
     {
-        $this->terminal = new SymfonyTerminal();
+        $this->terminal = new SymfonyTerminal;
     }
 
     /**

@@ -240,10 +240,7 @@ class Migrasi_2024040171 extends MY_model
                 $table->integer('header')->default(1);
                 $table->string('format_nomor', 100)->nullable();
                 $table->tinyInteger('format_nomor_global')->nullable()->default(1);
-                $table->timestamp('created_at')->nullable()->useCurrent();
-                $table->integer('created_by')->nullable();
-                $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-                $table->integer('updated_by')->nullable();
+                $table->timesWithUserstamps();
 
                 $table->unique(['config_id', 'url_surat'], 'url_surat_dinas_config');
                 $table->foreign(['config_id'], 'surat_dinas_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
@@ -416,10 +413,7 @@ class Migrasi_2024040171 extends MY_model
                 $table->longText('input')->nullable();
                 $table->tinyInteger('karakter')->default(1)->nullable()->comment('1:biasa, 2:terbatas, 3:rahasia');
                 $table->tinyInteger('derajat')->default(1)->nullable()->comment('1:biasa, 2:segera, 3:sangat segera');
-                $table->timestamp('created_at')->nullable()->useCurrent();
-                $table->integer('created_by')->nullable();
-                $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-                $table->integer('updated_by')->nullable();
+                $table->timesWithUserstamps();
                 $table->dateTime('deleted_at')->nullable();
 
                 $table->foreign(['config_id'], 'log_surat_dinas_config_fk')->references(['id'])->on('config')->onUpdate('CASCADE')->onDelete('CASCADE');
@@ -477,7 +471,7 @@ class Migrasi_2024040171 extends MY_model
         if (! Schema::hasTable('shortcut')) {
             Schema::create('shortcut', static function (Blueprint $table) {
                 $table->id();
-                $table->integer('config_id');
+                $table->configId();
                 $table->string('judul', 50);
                 $table->string('link', 50)->nullable();
                 $table->string('akses', 100)->nullable();
@@ -488,7 +482,6 @@ class Migrasi_2024040171 extends MY_model
                 $table->integer('urut')->default(0);
                 $table->tinyInteger('status')->default(0);
                 $table->timestamps();
-                $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
         }
 

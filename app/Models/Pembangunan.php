@@ -87,9 +87,23 @@ class Pembangunan extends BaseModel
         'sifat_proyek',
     ];
 
+    /**
+     * The appends with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'alamat',
+    ];
+
     public function pembangunanDokumentasi()
     {
         return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan');
+    }
+
+    public function getAlamatAttribute()
+    {
+        return $this->lokasi ?? $this->wilayah->dusun;
     }
 
     public function wilayah()

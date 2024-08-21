@@ -130,7 +130,7 @@ class Rentang_umur extends Statistik
         isCan('u');
 
         $update = RentangUmur::findOrFail($id);
-        $data   = $this->validate_rentang($this->request);
+        $data   = $this->validate_rentang($this->request, $id);
 
         if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data', site_url('statistik/rentang_umur'));
@@ -161,9 +161,23 @@ class Rentang_umur extends Statistik
         redirect_with('error', 'Gagal Hapus Data', site_url('statistik/rentang_umur'));
     }
 
-    private function validate_rentang(array $data = []): array
+    private function validate_rentang(array $data = [], $id = false): array
     {
+        $rentang = RentangUmur::status()
+            ->when($id, fn($query) => $query->where('id', '!=', $id))
+            ->pluck('sampai', 'dari')
+            ->flatMap(fn($end, $start) => range($start, $end === 99999 ? RentangUmur::status()->max('sampai') : $end))
+            ->unique()
+            ->values()
+            ->toArray();
+
+        if (array_intersect($rentang, range($data['dari'], $data['sampai']))) {
+            redirect_with('error', 'Data sudah ada', site_url('statistik/rentang_umur'));
+        }
+
+
         $data['status'] = 1;
+
         if ($data['sampai'] != '99999') {
             $data['nama'] = $data['dari'] . ' s/d ' . $data['sampai'] . ' Tahun';
         } else {

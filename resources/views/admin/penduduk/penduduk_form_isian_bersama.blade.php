@@ -755,7 +755,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-                <input class="form-control input-sm pull-right" id="tgl_4" name="tanggalperceraian" type="text" value="{{ $penduduk['tanggalperceraian'] }}">
+                <input class="form-control input-sm pull-right tgl_indo" name="tanggalperceraian" type="text" value="{{ $penduduk['tanggalperceraian'] ? date('d-m-Y', strtotime($penduduk['tanggalperceraian'])) : '' }}">
             </div>
         </div>
     </div>

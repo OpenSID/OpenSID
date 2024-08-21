@@ -35,7 +35,7 @@
             <td>:</td>
             <td>Permohonan Kehendak Nikah</td>
             <td style="width:200px">&nbsp;</td>
-            <td style="width:200px;text-align:right">[NAma_kecamatan], [TgL_surat] </td>
+            <td style="width:200px;text-align:right">[Nama_kecamataN], [TgL_surat] </td>
         </tr>
     </table>
 

@@ -75,10 +75,7 @@ return new class () extends Migration {
             $table->string('kantor_desa', 100)->nullable();
             $table->string('warna', 25)->nullable();
             $table->string('border', 25)->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

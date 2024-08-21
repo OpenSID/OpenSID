@@ -125,7 +125,7 @@ class Menu extends BaseModel
 
     public function childrens(): HasMany
     {
-        return $this->hasMany(Menu::class, 'parrent', 'id')->with(['childrens' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])]);
+        return $this->hasMany(Menu::class, 'parrent', 'id')->with(['childrens' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->orderBy('urut')]);
     }
 
     protected function getLinkUrlAttribute()

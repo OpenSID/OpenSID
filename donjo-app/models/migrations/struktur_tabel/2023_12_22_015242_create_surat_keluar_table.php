@@ -62,11 +62,8 @@ return new class () extends Migration {
             $table->date('tanggal_pengiriman')->nullable();
             $table->string('tanda_terima', 200)->nullable();
             $table->string('keterangan', 500)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by');
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by');
             $table->string('lokasi_arsip', 150)->nullable()->default('');
+            $table->timesWithUserstamps();
         });
     }
 

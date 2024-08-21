@@ -56,7 +56,7 @@
                                 <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                             </span>
                         </div>
-                        <p><label class="control-label">Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></label></p>
+                        <p><label class="control-label">Batas maksimal pengunggahan berkas <strong>2 MB.</strong></label></p>
                     </div>
                 </div>
             </div>

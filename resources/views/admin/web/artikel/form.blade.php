@@ -44,7 +44,12 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label" for="kode_desa">Isi Artikel</label>
-                        <textarea name="isi" data-filemanager='{!! json_encode(['external_filemanager_path' => base_url('assets/kelola_file/'), 'filemanager_title' => 'Responsive Filemanager', 'filemanager_access_key' => $session->fm_key]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
+                        <textarea name="isi" data-filemanager='{!! json_encode([
+                            '
+                                                                        external_filemanager_path' => base_url('assets/kelola_file/'),
+                            'filemanager_title' => 'Responsive Filemanager',
+                            'filemanager_access_key' => $session->fm_key,
+                        ]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
                     </div>
                 </div>
             </div>
@@ -245,7 +250,8 @@
                 <div class="box-body no-padding">
                     <div class='box-footer'>
                         {!! batal() !!}
-                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                        <button type='submit' class='btn btn-social btn-info btn-sm pull-right'><i class='fa fa-check'></i>
+                            Simpan</button>
                     </div>
                 </div>
             </div>
@@ -284,6 +290,7 @@
             external_plugins: {
                 "filemanager": "{{ asset('kelola_file/plugin.min.js') }}"
             },
+
             templates: [{
                     title: 'Test template 1',
                     content: 'Test 1'
@@ -299,7 +306,36 @@
             ],
             skin: 'tinymce-5',
             relative_urls: false,
-            remove_script_host: false
+            remove_script_host: false,
+            file_picker_callback: (cb, value, meta) => {
+                if (meta.filetype == 'file' || meta.filetype == 'image' || meta.filetype == 'media') {
+                    // Sesuaikan URL berdasarkan lokasi file manager kamu
+                    var url = "{!! base_url('assets/kelola_file/dialog.php?type=4&descending=false&lang=undefined&akey=' . $session->fm_key) !!}";
+
+                    tinymce.activeEditor.windowManager.openUrl({
+                        title: 'Responsive Filemanager',
+                        url: url,
+                        width: 900,
+                        height: 600,
+                        resizable: 'yes',
+                        inline: 1,
+                        close_previous: 'no',
+                        onMessage: function(instance, message) {
+                            if (message.mceAction == 'fileSelected') {
+                                if (meta.filetype == 'file') {
+                                    cb(message.content);
+                                } else if (meta.filetype == 'image') {
+                                    cb(message.content, {
+                                        alt: message.alt
+                                    });
+                                } else if (meta.filetype == 'media') {
+                                    cb(message.content);
+                                }
+                            }
+                        }
+                    });
+                }
+            },
         });
     </script>
 @endpush

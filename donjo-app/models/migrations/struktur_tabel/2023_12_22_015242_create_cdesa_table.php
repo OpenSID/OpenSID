@@ -55,10 +55,7 @@ return new class () extends Migration {
             $table->boolean('jenis_pemilik')->default(false);
             $table->string('nama_pemilik_luar', 100)->nullable();
             $table->string('alamat_pemilik_luar', 200)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by');
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by');
+            $table->timesWithUserstamps();
         });
     }
 

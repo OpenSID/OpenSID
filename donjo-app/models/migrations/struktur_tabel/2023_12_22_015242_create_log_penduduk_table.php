@@ -64,11 +64,8 @@ return new class () extends Migration {
             $table->string('no_kk', 16)->nullable();
             $table->string('nama_kk', 100)->nullable();
             $table->tinyInteger('ref_pindah')->nullable()->default(1)->index('id_ref_pindah');
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
             $table->string('maksud_tujuan_kedatangan', 50)->nullable();
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'id_pend', 'kode_peristiwa', 'tgl_peristiwa'], 'id_pend_config');
         });

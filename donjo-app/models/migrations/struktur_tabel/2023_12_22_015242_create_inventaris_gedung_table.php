@@ -66,12 +66,9 @@ return new class () extends Migration {
             $table->string('asal');
             $table->double('harga')->nullable();
             $table->text('keterangan');
-            $table->timestamp('created_at')->useCurrent();
-            $table->integer('created_by');
-            $table->timestamp('updated_at')->useCurrent();
-            $table->integer('updated_by');
             $table->integer('status')->default(0);
             $table->integer('visible')->default(1);
+            $table->timesWithUserstamps();
         });
     }
 

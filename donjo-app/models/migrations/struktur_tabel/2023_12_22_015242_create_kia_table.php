@@ -54,10 +54,7 @@ return new class () extends Migration {
             $table->integer('ibu_id');
             $table->integer('anak_id')->nullable();
             $table->date('hari_perkiraan_lahir')->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
         });
     }
 

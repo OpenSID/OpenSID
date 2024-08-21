@@ -413,7 +413,7 @@ class TinyMCE
         $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
 
-        $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+        $isi          = implode("<div class=\"new-break\" style=\"page-break-after: always;\">\u{a0}</div>", $isi);
         $font_surat   = SettingAplikasi::where(['key' => 'font_surat', 'kategori' => 'format_surat'])->first()->option ?? [];
         $font_surat   = array_map('strtolower', $font_surat);
         $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
@@ -674,7 +674,7 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-
+        // log_message('error', 'Surat: ' . $surat);
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont($defaultFont)
@@ -894,7 +894,7 @@ class TinyMCE
         if (empty($templateString)) {
             return [];
         }
-        $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+        $pattern = '/<div\s+class="new-break" style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
 
         return preg_split($pattern, $templateString);
     }

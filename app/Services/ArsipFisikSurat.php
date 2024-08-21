@@ -151,7 +151,8 @@ class ArsipFisikSurat
             'surat_masuk'   => SuratMasuk::whereNotNull('berkas_scan'),
             'surat_keluar'  => SuratKeluar::whereNotNull('berkas_scan'),
             'kependudukan'  => DokumenHidup::where('id_pend', '!=', 0)->whereNotNull('satuan'),
-            'layanan_surat' => LogSurat::query(),
+            'layanan_surat' => LogSurat::where(static fn ($query) => $query->where('verifikasi_operator', 1)->orWhere('verifikasi_operator', null))
+                ->whereNull('deleted_at'),
             default         => throw new Exception("Unknown category: {$kategori}"),
         };
     }

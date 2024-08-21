@@ -2,6 +2,8 @@
 
 namespace Laravel\Prompts;
 
+use Closure;
+
 class TextareaPrompt extends Prompt
 {
     use Concerns\Scrolling;
@@ -24,6 +26,7 @@ class TextareaPrompt extends Prompt
         public mixed $validate = null,
         public string $hint = '',
         int $rows = 5,
+        public ?Closure $transform = null,
     ) {
         $this->scroll = $rows;
 

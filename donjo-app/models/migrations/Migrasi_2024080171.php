@@ -473,9 +473,7 @@ class Migrasi_2024080171 extends MY_model
                 $table->integer('config_id')->nullable();
                 $table->integer('log_surat_id')->nullable();
                 $table->text('keterangan')->nullable();
-                $table->timestamps();
-                $table->integer('created_by')->nullable();
-                $table->integer('updated_by')->nullable();
+                $table->timesWithUserstamps();
                 $table->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
             });
         }

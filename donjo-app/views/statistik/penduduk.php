@@ -86,11 +86,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<a href="<?= site_url("{$this->controller}/clear/{$lap}") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 						</div>
 						<div class="box-body">
-							<?php if ((int) $lap < 50): ?>
-								<h4 class="box-title text-center"><b>Data Kependudukan Menurut <?= ($stat); ?></b></h4>
-							<?php else: ?>
-								<h4 class="box-title text-center"><b>Data Peserta Program <?= ($program['nama']); ?></b></h4>
-							<?php endif; ?>
+							<h4 class="box-title text-center"><b><?= $label ?></b></h4>
 							<div id="chart" hidden="true"> </div>
 						</div>
 						<hr>

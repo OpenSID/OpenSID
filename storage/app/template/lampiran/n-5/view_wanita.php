@@ -89,7 +89,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat_dapw]</td>
+            <td colspan="27">[Alamat_dapW]</td>
         </tr>
 
         <!-- data ibu -->
@@ -146,7 +146,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat_dibpw]</td>
+            <td colspan="27">[Alamat_dibpW]</td>
         </tr>
 
         <!-- data individu -->
@@ -207,7 +207,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat_dcpw]</td>
+            <td colspan="27">[Alamat_dcpW]</td>
         </tr>
 
         <!-- data calon pasangan  -->
@@ -270,7 +270,7 @@
             <td colspan="1">&nbsp;</td>
             <td colspan="20">8. Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat]</td>
+            <td colspan="27">[AlamaT]</td>
         </tr>
 
     </table>
@@ -286,7 +286,7 @@
     <tr style="height: 18px;">
     <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
     <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_desa], [TgL_surat]</td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">[Nama_desA], [TgL_surat]</td>
     </tr>
     <tr style="height: 18px;">
     <td style="width: 26.6281%; text-align: center; height: 18px;">Ayah/wali/pengampu</td>

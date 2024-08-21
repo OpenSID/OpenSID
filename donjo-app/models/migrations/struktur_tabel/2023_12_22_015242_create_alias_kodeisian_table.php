@@ -53,9 +53,7 @@ return new class () extends Migration {
             $table->string('judul', 10);
             $table->string('alias', 50);
             $table->string('content', 200);
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->timestamps();
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'judul', 'alias']);
         });

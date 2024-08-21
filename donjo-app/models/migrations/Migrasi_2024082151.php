@@ -35,40 +35,58 @@
  *
  */
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
-return new class () extends Migration {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Migrasi_2024082151 extends MY_model
+{
     public function up()
     {
-        Schema::create('mutasi_inventaris_peralatan', static function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->integer('config_id')->nullable()->index('mutasi_inventaris_peralatan_config_fk');
-            $table->integer('id_inventaris_peralatan')->nullable()->index('FK_mutasi_inventaris_peralatan');
-            $table->string('jenis_mutasi', 100)->nullable();
-            $table->date('tahun_mutasi');
-            $table->double('harga_jual')->nullable();
-            $table->string('sumbangkan')->nullable();
-            $table->text('keterangan');
-            $table->integer('visible')->default(1);
-            $table->string('status_mutasi', 50);
-            $table->timesWithUserstamps();
-        });
+        $hasil = true;
+
+        $hasil = $this->migrasi_2024081651($hasil);
+        $hasil = $this->migrasi_2024082151($hasil);
+
+
+        return $hasil && true;
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    protected function migrasi_2024081651($hasil)
     {
-        Schema::dropIfExists('mutasi_inventaris_peralatan');
+        $tables = [
+            'keuangan_ta_spp',
+            'keuangan_ta_sppbukti',
+            'keuangan_ta_spp',
+            'keuangan_ta_jurnal_umum',
+            'keuangan_ta_mutasi',
+            'keuangan_ta_pajak',
+            'keuangan_ta_pencairan',
+            'keuangan_ta_spj',
+            'keuangan_ta_spj_bukti',
+            'keuangan_ta_spp',
+        ];
+
+        foreach ($tables as $table) {
+            Schema::table($table, static function (Blueprint $table) {
+                $table->text('Keterangan')->nullable()->change();
+            });
+        }
+
+        return $hasil;
     }
-};
+
+    protected function migrasi_2024082151($hasil)
+    {
+        if (! Schema::hasColumn('log_surat', 'isi_surat_temp')) {
+            Schema::table('log_surat', static function (Blueprint $table) {
+                $table->longText('isi_surat_temp')->nullable()->after('isi_surat');
+            });
+        }
+
+        return $hasil;
+    }
+}

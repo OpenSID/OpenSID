@@ -77,10 +77,7 @@ return new class () extends Migration {
             $table->string('format_nomor', 100)->nullable();
             $table->tinyInteger('format_nomor_global')->nullable()->default(1);
             $table->boolean('sumber_penduduk_berulang')->nullable()->default(false);
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'url_surat'], 'url_surat_config');
         });
