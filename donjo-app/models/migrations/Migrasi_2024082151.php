@@ -35,19 +35,57 @@
  *
  */
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class Migrasi_2024082151 extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $hasil = $this->migrasi_2024081651($hasil);
+        $hasil = $this->migrasi_2024082151($hasil);
 
-        // foreach ($config_id as $id) {
-        // }
+
+        return $hasil && true;
+    }
+
+    protected function migrasi_2024081651($hasil)
+    {
+        $tables = [
+            'keuangan_ta_spp',
+            'keuangan_ta_sppbukti',
+            'keuangan_ta_spp',
+            'keuangan_ta_jurnal_umum',
+            'keuangan_ta_mutasi',
+            'keuangan_ta_pajak',
+            'keuangan_ta_pencairan',
+            'keuangan_ta_spj',
+            'keuangan_ta_spj_bukti',
+            'keuangan_ta_spp',
+        ];
+
+        foreach ($tables as $table) {
+            Schema::table($table, static function (Blueprint $table) {
+                $table->text('Keterangan')->nullable()->change();
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024082151($hasil)
+    {
+        if (! Schema::hasColumn('log_surat', 'isi_surat_temp')) {
+            Schema::table('log_surat', static function (Blueprint $table) {
+                $table->longText('isi_surat_temp')->nullable()->after('isi_surat');
+            });
+        }
 
         return $hasil;
     }
