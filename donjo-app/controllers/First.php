@@ -311,7 +311,7 @@ class First extends Web_Controller
 
         $this->_get_common_data($data);
 
-        $statistik = getStatistikLabel(4, 'per Suku', $data['desa']['nama_desa']);
+        $statistik = getStatistikLabel(4, 'per ' . ucwords(setting('sebutan_dusun')), $data['desa']['nama_desa']);
         $data['heading']      = $statistik['label'];
 
         $this->set_template('layouts/stat.tpl.php');
