@@ -154,6 +154,8 @@
 
 @push('scripts')
     <script type="text/javascript">
+        var ubah = `{{ $ubah ? '?ubah=1' : '' }}`;
+
         function cetak_pdf() {
             tinymce.triggerSave();
             Swal.fire({
@@ -165,7 +167,7 @@
                 allowOutsideClick: () => false
             })
             $.ajax({
-                    url: `{{ $aksi_cetak }}`,
+                    url: `{{ $aksi_cetak }}` + ubah,
                     type: 'POST',
                     xhrFields: {
                         responseType: 'blob'
@@ -260,7 +262,7 @@
                 });
 
                 $.ajax({
-                    url: `{{ $aksi_cetak . '/true' }}`,
+                    url: `{{ $aksi_cetak . '/true' }}` + ubah,
                     type: 'POST',
                     xhrFields: {
                         responseType: 'blob'
