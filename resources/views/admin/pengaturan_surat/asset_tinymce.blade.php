@@ -34,7 +34,7 @@
                 plugins_tambahan = ['advlist', 'autolink', 'lists', 'charmap', 'hr', 'pagebreak', 'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'insertdatetime', 'nonbreaking', 'table', 'contextmenu', 'directionality', 'emoticons', 'paste', 'textcolor', 'code'];
             }
             var pageBreakCss = pratinjau ? `` : `
-            .mce-pagebreak {
+            .new-break > .mce-pagebreak {   
                 border:none; 
                 cursor: default;
                 display: block;
@@ -44,8 +44,9 @@
                 page-break-before: always;
                 width: 120%;
                 margin-left: -9.6%;
-                background-color: #ECEEF4
-            }`
+                background-color: #ECEEF4;
+            }
+            `
 
             tinymce.init({
                 selector: '.editor',
@@ -109,7 +110,7 @@
                         text: 'Tambah Halaman Baru',
                         onAction: function() {
                             // Insert a page break when the button is clicked
-                            ed.insertContent('<div style="page-break-after: always;"><!-- pagebreak --></div>');
+                            ed.insertContent('<div class="new-break" style="page-break-after: always;"><!-- pagebreak --></div><p></p>');
                             ed.execCommand('removeFormat')
                         }
                     });
@@ -149,9 +150,9 @@
                         vertical-align: bottom;
                     }
                     {!! $cssFont !!}
-                    
+
                     ${pageBreakCss}
-                `,
+                `
             });
         });
     </script>

@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 33. [#8360](https://github.com/OpenSID/OpenSID/issues/8360) Perbaikan urutan pada sub-submenu pada halaman web.
 34. [#8361](https://github.com/OpenSID/OpenSID/issues/8361) Perbaikan urutan pada modul galeri.
 35. [#8283](https://github.com/OpenSID/OpenSID/issues/8283) Perbaikan validasi rentang umur (rentang).
+36. [#8247](https://github.com/OpenSID/OpenSID/issues/8247) Perbaikan isi surat status konsep saat akan dicetak.
 
 
 #### TEKNIS
