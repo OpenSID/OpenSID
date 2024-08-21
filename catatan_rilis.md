@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 34. [#8361](https://github.com/OpenSID/OpenSID/issues/8361) Perbaikan urutan pada modul galeri.
 35. [#8283](https://github.com/OpenSID/OpenSID/issues/8283) Perbaikan validasi rentang umur (rentang).
 36. [#8247](https://github.com/OpenSID/OpenSID/issues/8247) Perbaikan isi surat status konsep saat akan dicetak.
+37. [#7840](https://github.com/OpenSID/OpenSID/issues/7840) Perbaikan tombol RFM pada unggah gambar/video artikel.
 
 
 #### TEKNIS
