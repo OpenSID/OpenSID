@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#8318](https://github.com/OpenSID/OpenSID/issues/8318) Perbaikan template dan lampiran surat keterangan nikah.
 32. [#8362](https://github.com/OpenSID/OpenSID/issues/8362) Perbaikan validasi unggah gambar galeri.
 33. [#8360](https://github.com/OpenSID/OpenSID/issues/8360) Perbaikan urutan pada sub-submenu pada halaman web.
+34. [#8361](https://github.com/OpenSID/OpenSID/issues/8361) Perbaikan urutan pada modul galeri.
 
 
 #### TEKNIS
