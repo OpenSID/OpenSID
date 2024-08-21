@@ -2471,6 +2471,70 @@ if (! function_exists('forceRemoveDir')) {
     }
 }
 
+if (! function_exists('getStatistikLabel')) {
+    function getStatistikLabel($lap, $stat, $namaDesa)
+    {
+        $akhiran      = ' di ' . ucwords(setting('sebutan_desa') . ' ' . $namaDesa) . ', ' . date('Y');
+
+        switch (true) {
+            case (int) $lap > 50:
+                // Untuk program bantuan, $lap berbentuk '50<program_id>'
+                $program_id             = preg_replace('/^50/', '', $lap);
+                $data['program']        = get_instance()->program_bantuan_model->get_sasaran($program_id);
+                $data['judul_kelompok'] = $data['program']['judul_sasaran'];
+                $kategori               = 'bantuan';
+                $label                  = 'Jumlah dan Persentase Peserta ' . $data['program']['nama'] . $akhiran;
+                break;
+
+            case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
+                // Kategori bantuan
+                $kategori = 'bantuan';
+                $label = 'Jumlah dan Persentase ' . $stat . $akhiran;
+                break;
+
+            case (int) $lap > 20 || "{$lap}" === 'kelas_sosial':
+                // Kelurga
+                $kategori = 'keluarga';
+                $label = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
+                break;
+
+            case $lap == 'bdt':
+                // RTM
+                $kategori = 'rtm';
+                $label = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
+                break;
+
+            case $lap == null:
+            default:
+                // Penduduk
+                $kategori = 'penduduk';
+                $label = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
+                break;
+        }
+
+        if ($lap == '1') {
+            $label = 'Jumlah dan Persentase Penduduk Berdasarkan Aktivitas atau Jenis Pekerjaannya ' . $akhiran;
+        } elseif (in_array($lap, ['0', '14'])) {
+            $label = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . ' yang Dicatat dalam Kartu Keluarga ' . $akhiran;
+        } elseif (in_array($lap, ['13', '15'])) {
+            $label = 'Jumlah dan Persentase Penduduk Menurut Kelompok ' . $stat . $akhiran;
+        } elseif ($lap == '16') {
+            $label = 'Jumlah dan Persentase Penduduk Menurut Penggunaan Alat Keluarga Berencana dan Jenis Kelamin ' . $akhiran;
+        } elseif ($lap == '13') {
+            $label = 'Jumlah Keluarga dan Penduduk Berdasarkan Wilayah RT ' . $akhiran;
+        } elseif ($lap == '4') {
+            $label = 'Jumlah Penduduk yang Memiliki Hak Suara ' . $stat . $akhiran;
+        } elseif ($lap == 'hamil') {
+            $label = 'Jumlah dan Persentase Penduduk Perempuan Berdasarkan ' . $stat . $akhiran;
+        }
+
+        return [
+            'kategori' => $kategori,
+            'label'    => $label,
+        ];
+    }
+}
+
 function waktu($waktu_terakhir): string
 {
     $waktu_sekarang = time();

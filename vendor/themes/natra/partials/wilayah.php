@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_page_area">
-	<h2 class="post_titile" >Data Demografi Berdasar <?= $heading; ?></h2>
+	<h2 class="post_titile" ><?= $heading; ?></h2>
 	<div class="box-body">
 		<div class="table-responsive">
 		<?php if(count($daftar_dusun ?? []) > 0) : ?>

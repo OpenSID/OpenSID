@@ -3,7 +3,7 @@
 <div class="single_page_area">
 
 	<div class="single_page_area">
-		<h2>Daftar Calon Pemilih (pada tgl pemilihan <?= $tanggal_pemilihan ?>)</h2>
+		<h2><?= $heading ?></h2>
 
 		<div class="table-responsive">
 		<table id="dpt" class="table table-bordered table-striped">
@@ -41,5 +41,8 @@
 		} ?>
 		</table>
 		</div>
+		<p style="color: red">
+			Tanggal Pemilihan : <?= $tanggal_pemilihan ?>
+		</p>
 	</div>
 </div> <!-- .list-frame -->

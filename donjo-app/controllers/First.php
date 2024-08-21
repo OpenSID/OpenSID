@@ -310,6 +310,10 @@ class First extends Web_Controller
         $data['tampil']            = $cekMenu;
 
         $this->_get_common_data($data);
+
+        $statistik = getStatistikLabel(4, 'per Suku', $data['desa']['nama_desa']);
+        $data['heading']      = $statistik['label'];
+
         $this->set_template('layouts/stat.tpl.php');
         theme_view($this->template, $data);
     }
@@ -321,7 +325,6 @@ class First extends Web_Controller
         $this->load->model('wilayah_model');
         $data = $this->includes;
 
-        $data['heading']      = 'Populasi Per Wilayah';
         $data['tipe']         = 3;
         $data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
         $data['total']        = $this->wilayah_model->total();
@@ -329,7 +332,13 @@ class First extends Web_Controller
         $data['slug_aktif']   = 'data-wilayah';
         $data['tampil']       = $cekMenu;
 
+        
         $this->_get_common_data($data);
+
+        $statistik = getStatistikLabel(3, 'Wilayah RT', $data['desa']['nama_desa']);
+        $data['heading']      = $statistik['label'];
+        // $data['heading']      = 'Populasi Per Wilayah';
+
         $this->set_template('layouts/stat.tpl.php');
         theme_view($this->template, $data);
     }
