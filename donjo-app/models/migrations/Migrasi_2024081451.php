@@ -101,9 +101,13 @@ class Migrasi_2024081451 extends MY_model
 
     protected function migrasi_2024081252($hasil)
     {
-        Schema::table('tweb_penduduk', static function (Blueprint $table) {
-            $table->date('tanggallahir')->nullable(false)->change();
-        });
+        if (DB::table('tweb_penduduk')->whereNull('tanggallahir')->exists()) {
+            log_message('error', 'Terdapat data tanggallahir yang null pada tabel tweb_penduduk');
+        } else {
+            Schema::table('tweb_penduduk', static function (Blueprint $table) {
+                $table->date('tanggallahir')->nullable(false)->change();
+            });
+        }
 
         return $hasil;
     }
