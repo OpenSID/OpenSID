@@ -45,6 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8293](https://github.com/OpenSID/OpenSID/issues/8293) Perbaikan cetak surat arsip yang diubah.
 39. [#8365](https://github.com/OpenSID/OpenSID/issues/8365) Perbaikan validasi latitude dan longitude pada lokasi peta.
 40. [#8363](https://github.com/OpenSID/OpenSID/issues/8363) Perbaikan alamat pada cetak salinan kartu keluarga.
+41. [#8379](https://github.com/OpenSID/OpenSID/issues/8379) Perbaikan validasi judul pada form analisis master.
 
 
 #### TEKNIS
