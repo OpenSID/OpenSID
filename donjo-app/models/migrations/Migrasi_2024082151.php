@@ -49,7 +49,7 @@ class Migrasi_2024082151 extends MY_model
         $hasil = true;
 
         $hasil = $this->migrasi_2024081651($hasil);
-        $hasil = $this->migrasi_2024082151($hasil);
+        $hasil = $this->migrasi_2024082051($hasil);
 
 
         return $hasil && true;
@@ -79,7 +79,7 @@ class Migrasi_2024082151 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2024082151($hasil)
+    protected function migrasi_2024082051($hasil)
     {
         if (! Schema::hasColumn('log_surat', 'isi_surat_temp')) {
             Schema::table('log_surat', static function (Blueprint $table) {
