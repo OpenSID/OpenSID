@@ -556,25 +556,20 @@ if (! function_exists('case_replace')) {
 }
 
 if (! function_exists('kirim_versi_opensid')) {
-    function kirim_versi_opensid(): void
+    function kirim_versi_opensid($kode_desa): void
     {
         if (! config_item('demo_mode')) {
             $ci = get_instance();
-            if (empty($ci->header['desa']['kode_desa'])) {
-                return;
-            }
-
             $ci->load->driver('cache');
 
             $versi = AmbilVersi();
-
             if ($versi != $ci->cache->file->get('versi_app_cache')) {
                 try {
                     $client = new GuzzleHttp\Client();
                     $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                         'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                         'form_params' => [
-                            'kode_desa' => kode_wilayah($ci->header['desa']['kode_desa']),
+                            'kode_desa' => kode_wilayah($kode_desa),
                             'versi'     => $versi,
                         ],
                     ])

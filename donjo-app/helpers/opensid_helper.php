@@ -2474,7 +2474,7 @@ if (! function_exists('forceRemoveDir')) {
 if (! function_exists('getStatistikLabel')) {
     function getStatistikLabel($lap, $stat, $namaDesa)
     {
-        $akhiran      = ' di ' . ucwords(setting('sebutan_desa') . ' ' . $namaDesa) . ', ' . date('Y');
+        $akhiran = ' di ' . ucwords(setting('sebutan_desa') . ' ' . $namaDesa) . ', ' . date('Y');
 
         switch (true) {
             case (int) $lap > 50:
@@ -2489,26 +2489,26 @@ if (! function_exists('getStatistikLabel')) {
             case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
                 // Kategori bantuan
                 $kategori = 'bantuan';
-                $label = 'Jumlah dan Persentase ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase ' . $stat . $akhiran;
                 break;
 
             case (int) $lap > 20 || "{$lap}" === 'kelas_sosial':
                 // Kelurga
                 $kategori = 'keluarga';
-                $label = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
                 break;
 
             case $lap == 'bdt':
                 // RTM
                 $kategori = 'rtm';
-                $label = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
                 break;
 
             case $lap == null:
             default:
                 // Penduduk
                 $kategori = 'penduduk';
-                $label = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
+                $label    = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
                 break;
         }
 

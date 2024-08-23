@@ -57,13 +57,15 @@ class Track_model extends CI_Model
         }
         // Track web dan admin masing2 maksimum sekali sehari
         $sudahKirimHariIni = cache()->get('tracksid_admin_web') == date('Y m d') ? 1 : 0;
+
         if ($sudahKirimHariIni !== 0) {
             return;
         }
 
         $this->session->set_userdata('balik_ke', $dari);
         $this->kirim_data();
-        kirim_versi_opensid();
+        $config = identitas();
+        kirim_versi_opensid($config->kode_desa);
     }
 
     public function kirim_data(): void
@@ -112,7 +114,7 @@ class Track_model extends CI_Model
             'email_desa'          => $config->email_desa,
             'telepon'             => $config->telepon,
             'url'                 => current_url(),
-            'ip_address'          => $_SERVER['SERVER_ADDR'],
+            'ip_address'          => $_SERVER['SERVER_ADDR'] ?? '127.0.0.1',
             'external_ip'         => get_external_ip(),
             'version'             => AmbilVersi(),
             'jml_penduduk'        => Penduduk::status(1)->count(),
