@@ -48,6 +48,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 41. [#8379](https://github.com/OpenSID/OpenSID/issues/8379) Perbaikan validasi judul pada form analisis master.
 44. [#8376](https://github.com/OpenSID/OpenSID/issues/8376) Perbaikan urutan hari pada widget jam kerja.
 45. [#8380](https://github.com/OpenSID/OpenSID/issues/8380) Perbaikan urutan senergi program.
+46. [#8387](https://github.com/OpenSID/OpenSID/issues/8387) Perbaikan data cetak biodata penduduk.
 
 
 #### TEKNIS
