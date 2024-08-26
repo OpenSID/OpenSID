@@ -46,7 +46,7 @@
                         <label class="control-label" for="kode_desa">Isi Artikel</label>
                         <textarea name="isi" data-filemanager='{!! json_encode([
                             '
-                                                                                                                        external_filemanager_path' => base_url('assets/kelola_file/'),
+                                                                                                                                                                        external_filemanager_path' => base_url('assets/kelola_file/'),
                             'filemanager_title' => 'Responsive Filemanager',
                             'filemanager_access_key' => $session->fm_key,
                         ]) !!}' class="form-control input-sm required" style="height:350px;">{{ $artikel['isi'] }}</textarea>
