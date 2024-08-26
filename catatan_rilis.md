@@ -50,6 +50,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8380](https://github.com/OpenSID/OpenSID/issues/8380) Perbaikan urutan senergi program.
 46. [#8387](https://github.com/OpenSID/OpenSID/issues/8387) Perbaikan data cetak biodata penduduk.
 47. [#8386](https://github.com/OpenSID/OpenSID/issues/8386) Perbaikan animasi loading pada modal.
+48. [#8367](https://github.com/OpenSID/OpenSID/issues/8367) Perbaikan relasi data penduduk/keluarga pada suplemen.
 
 
 #### TEKNIS

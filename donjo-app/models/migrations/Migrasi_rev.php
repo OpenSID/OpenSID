@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
@@ -44,10 +46,41 @@ class Migrasi_rev extends MY_model
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $hasil && $this->migrasi_2024082651($hasil, $id);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024082651($hasil, $config_id)
+    {
+        if (! $this->db->field_exists('penduduk_id', 'suplemen_terdata')) {
+            $hasil = $hasil && $this->dbforge->add_column('suplemen_terdata', [
+                'penduduk_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id_terdata'],
+                'keluarga_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id_terdata'],
+            ]);
+
+            $hasil = $hasil && $this->tambahForeignKey('suplemen_terdata_penduduk_fk', 'suplemen_terdata', 'penduduk_id', 'tweb_penduduk', 'id', true);
+            $hasil = $hasil && $this->tambahForeignKey('suplemen_terdata_keluarga_fk', 'suplemen_terdata', 'keluarga_id', 'tweb_keluarga', 'id', true);
+        }
+
+        DB::table('suplemen_terdata')
+            ->where('config_id', $config_id)
+            ->update([
+                'penduduk_id' => DB::raw("
+                    case
+                        when sasaran = 1 then (select id from tweb_penduduk where config_id = {$config_id} and tweb_penduduk.id = suplemen_terdata.id_terdata)
+                    end
+                "),
+                'keluarga_id' => DB::raw("
+                    case
+                        when sasaran = 2 then (select id from tweb_keluarga where config_id = {$config_id} and tweb_keluarga.id = suplemen_terdata.id_terdata)
+                    end
+                "),
+            ]);
 
         return $hasil;
     }
