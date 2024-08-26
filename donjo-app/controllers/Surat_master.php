@@ -799,6 +799,8 @@ class Surat_master extends Admin_Controller
 
             exit();
         }
+
+        exit();
     }
 
     public function ekspor(): void
