@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 40. [#8363](https://github.com/OpenSID/OpenSID/issues/8363) Perbaikan alamat pada cetak salinan kartu keluarga.
 41. [#8379](https://github.com/OpenSID/OpenSID/issues/8379) Perbaikan validasi judul pada form analisis master.
 44. [#8376](https://github.com/OpenSID/OpenSID/issues/8376) Perbaikan urutan hari pada widget jam kerja.
+45. [#8380](https://github.com/OpenSID/OpenSID/issues/8380) Perbaikan urutan senergi program.
 
 
 #### TEKNIS
