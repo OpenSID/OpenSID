@@ -39,6 +39,7 @@
                             <th>JUDUL</th>
                             <th class="padat">GAMBAR</th>
                             <th class="padat">STATUS</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="dragable">
@@ -101,9 +102,18 @@
                         searchable: false,
                         orderable: true,
                         class: 'padat'
-                    }
+                    },
+                    {
+                        data: 'urut',
+                        name: 'urut',
+                        searchable: false,
+                        orderable: true,
+                        visible: false
+                    },
                 ],
-                aaSorting: [],
+                order: [
+                    [7, 'asc']
+                ],
                 createdRow: function(row, data, dataIndex) {
                     $(row).attr('data-id', data.uuid);
                     $(row).addClass('dragable-handle');

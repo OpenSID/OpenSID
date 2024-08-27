@@ -86,6 +86,11 @@ class UserGrup extends BaseModel
         return self::where('slug', $slug)->value('id');
     }
 
+    public static function getGrupIdAksesGrupBawaan()
+    {
+        return self::whereIn('slug', [self::ADMINISTRATOR, self::KONTRIBUTOR, self::REDAKSI, self::OPERATOR])->pluck('id')->toArray();
+    }
+
     public static function isAdministrator($id_grup): bool
     {
         return $id_grup == self::getGrupId(self::ADMINISTRATOR);

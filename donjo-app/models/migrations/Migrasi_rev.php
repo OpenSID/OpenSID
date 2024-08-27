@@ -38,7 +38,6 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,67 +46,57 @@ class Migrasi_rev extends MY_model
     public function up()
     {
         $hasil = true;
-        $hasil = $hasil && $this->migrasi_2024072871($hasil);
-        $hasil = $hasil && $this->migrasi_2024080651($hasil);
 
-        $hasil = $this->migrasi_2024081151($hasil);
-        $hasil = $this->migrasi_2024080851($hasil);
+        // Migrasi berdasarkan config_id
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        return $hasil && true;
-    }
-
-    public function migrasi_2024080851()
-    {
-        $daftarKomentar = DB::table('komentar')->whereNull('id_artikel')->get();
-
-        foreach ($daftarKomentar as $komentar) {
-            $penduduk_id = DB::table('tweb_penduduk')->where('nik', $komentar->email)->value('id');
-            if ($penduduk_id) {
-                DB::table('pesan_mandiri')->insert([
-                    'uuid'        => Str::uuid(),
-                    'config_id'   => $komentar->config_id,
-                    'owner'       => $komentar->owner,
-                    'penduduk_id' => $penduduk_id,
-                    'subjek'      => $komentar->subjek,
-                    'komentar'    => $komentar->komentar,
-                    'tgl_upload'  => $komentar->tgl_upload,
-                    'status'      => $komentar->status,
-                    'tipe'        => $komentar->tipe,
-                    'permohonan'  => $komentar->permohonan,
-                    'created_at'  => $komentar->tgl_upload ?? now(),
-                    'updated_at'  => $komentar->updated_at ?? now(),
-                    'is_archived' => $komentar->is_archived,
-                ]);
-            }
-            DB::table('komentar')->where('id', $komentar->id)->delete();
-        }
-    }
-
-    protected function migrasi_2024081151($hasil)
-    {
-        if (! $this->db->field_exists('remember_token', 'user')) {
-            $hasil = $hasil && $this->dbforge->add_column('user', [
-                'remember_token' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                    'null'       => true,
-                    'after'      => 'password',
-                ],
-            ]);
+        foreach ($config_id as $id) {
+            $hasil && $this->migrasi_2024082651($hasil, $id);
+            $hasil && $this->migrasi_2024082751($hasil, $id);
         }
 
         return $hasil;
     }
 
-    protected function migrasi_2024080651($hasil)
+    protected function migrasi_2024082651($hasil, $config_id)
     {
-        if (! Schema::hasColumn('config', 'nama_kontak')) {
-            Schema::table('config', static function (Blueprint $table) {
-                $table->string('nama_kontak', 80)->nullable();
-                $table->string('hp_kontak', 20)->nullable();
-                $table->string('jabatan_kontak', 80)->nullable();
-            });
+        if (! $this->db->field_exists('penduduk_id', 'suplemen_terdata')) {
+            $hasil = $hasil && $this->dbforge->add_column('suplemen_terdata', [
+                'penduduk_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id_terdata'],
+                'keluarga_id' => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'null' => true, 'after' => 'id_terdata'],
+            ]);
+
+            $hasil = $hasil && $this->tambahForeignKey('suplemen_terdata_penduduk_fk', 'suplemen_terdata', 'penduduk_id', 'tweb_penduduk', 'id', true);
+            $hasil = $hasil && $this->tambahForeignKey('suplemen_terdata_keluarga_fk', 'suplemen_terdata', 'keluarga_id', 'tweb_keluarga', 'id', true);
         }
+
+        DB::table('suplemen_terdata')
+            ->where('config_id', $config_id)
+            ->update([
+                'penduduk_id' => DB::raw("
+                    case
+                        when sasaran = 1 then (select id from tweb_penduduk where config_id = {$config_id} and tweb_penduduk.id = suplemen_terdata.id_terdata)
+                    end
+                "),
+                'keluarga_id' => DB::raw("
+                    case
+                        when sasaran = 2 then (select id from tweb_keluarga where config_id = {$config_id} and tweb_keluarga.id = suplemen_terdata.id_terdata)
+                    end
+                "),
+            ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024082751($hasil, $config_id)
+    {
+        DB::table('kelompok_anggota')
+            ->join('kelompok', 'kelompok_anggota.id_kelompok', '=', 'kelompok.id')
+            ->where('kelompok_anggota.config_id', $config_id)
+            ->whereColumn('kelompok_anggota.tipe', '!=', 'kelompok.tipe')
+            ->update([
+                'kelompok_anggota.tipe' => DB::raw('kelompok.tipe'),
+            ]);
 
         return $hasil;
     }

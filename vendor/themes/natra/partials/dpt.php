@@ -3,14 +3,14 @@
 <div class="single_page_area">
 
 	<div class="single_page_area">
-		<h2>Daftar Calon Pemilih (pada tgl pemilihan <?= $tanggal_pemilihan ?>)</h2>
+		<h2><?= $heading ?></h2>
 
 		<div class="table-responsive">
 		<table id="dpt" class="table table-bordered table-striped">
 		<thead>
 		<tr>
 			<th class="text-center">No</th>
-			<th class="text-center">Nama Dusun</th>
+			<th class="text-center"><?= ucwords(setting('sebutan_dusun')) ?></th>
 			<th class="text-center">RW</th>
 			<th class="text-center">Jiwa</th>
 			<th class="text-center">L</th>
@@ -41,5 +41,8 @@
 		} ?>
 		</table>
 		</div>
+		<p style="color: red">
+			Tanggal Pemilihan : <?= $tanggal_pemilihan ?>
+		</p>
 	</div>
 </div> <!-- .list-frame -->

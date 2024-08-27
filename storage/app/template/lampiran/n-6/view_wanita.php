@@ -217,7 +217,7 @@ dipergunakan sebagaimana mestinya.</p>
     <tr style="height: 18px;">
     <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
     <td style="width: 2.75528%; height: 18px;"> </td>
-    <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_desa], [TgL_surat]</td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">[Nama_desA], [TgL_surat]</td>
     </tr>
     <tr style="height: 18px;">
     <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>

@@ -59,10 +59,7 @@ return new class () extends Migration {
             $table->mediumInteger('userid');
             $table->boolean('status')->default(false);
             $table->char('asaldana', 30)->nullable();
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
-            $table->integer('updated_by')->nullable();
+            $table->timesWithUserstamps();
 
             $table->unique(['config_id', 'slug'], 'slug_config');
         });

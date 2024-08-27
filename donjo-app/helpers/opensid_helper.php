@@ -51,7 +51,7 @@ use voku\helper\AntiXSS;
  * Format => [dua digit tahun dan dua digit bulan].[nomor urut digit beta].[nomor urut digit bugfix]
  * Untuk rilis resmi (tgl 1 tiap bulan) dimulai dari 0 (beta) dan 0 (bugfix)
  */
-define('VERSION', '2408.0.1');
+define('VERSION', '2408.0.3');
 
 /**
  * PREMIUM
@@ -67,7 +67,7 @@ define('PREMIUM', true);
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2024080751');
+define('VERSI_DATABASE', '2024082151');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini
@@ -2206,8 +2206,8 @@ if (! function_exists('caseWord')) {
             }
         }
 
-        // Ganti '/' dengan ---atau---
-        if (strpos($teks, '/') !== false) {
+        // Ganti '/' dengan ---atau--- Hanya untuk pendidikan dan pekerjaan saja
+        if (preg_match('/\bpendidikan(?:_[^\s]*)?\b/i', strtolower($condition)) || preg_match('/\bpekerjaan(?:_[^\s]*)?\b/i', strtolower($condition))) {
             $teks = str_replace('/', ' ---atau--- ', $teks);
         }
 
@@ -2229,8 +2229,12 @@ if (! function_exists('caseWord')) {
         }
 
         // kembalikan '---atau---' menjadi '/'
-        if (strpos($teks, ' ---atau--- ') !== false) {
-            $teks = str_replace(' ---atau--- ', '/', $teks);
+        $teks = str_ireplace(' ---atau--- ', '/', $teks);
+
+        // Kasus lain
+        if (preg_match('/\bpendidikan(?:_[^\s]*)?\b/i', strtolower($condition)) || preg_match('/\bpekerjaan(?:_[^\s]*)?\b/i', strtolower($condition))) {
+            $teks = kasus_lain('pendidikan', $teks);
+            $teks = kasus_lain('pekerjaan', $teks);
         }
 
         // Return teks asli jika tidak sesuai kondisi
@@ -2474,6 +2478,70 @@ if (! function_exists('forceRemoveDir')) {
             reset($objects);
             rmdir($dir);
         }
+    }
+}
+
+if (! function_exists('getStatistikLabel')) {
+    function getStatistikLabel($lap, $stat, $namaDesa)
+    {
+        $akhiran = ' di ' . ucwords(setting('sebutan_desa') . ' ' . $namaDesa) . ', ' . date('Y');
+
+        switch (true) {
+            case (int) $lap > 50:
+                // Untuk program bantuan, $lap berbentuk '50<program_id>'
+                $program_id             = preg_replace('/^50/', '', $lap);
+                $data['program']        = get_instance()->program_bantuan_model->get_sasaran($program_id);
+                $data['judul_kelompok'] = $data['program']['judul_sasaran'];
+                $kategori               = 'bantuan';
+                $label                  = 'Jumlah dan Persentase Peserta ' . $data['program']['nama'] . $akhiran;
+                break;
+
+            case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
+                // Kategori bantuan
+                $kategori = 'bantuan';
+                $label    = 'Jumlah dan Persentase ' . $stat . $akhiran;
+                break;
+
+            case (int) $lap > 20 || "{$lap}" === 'kelas_sosial':
+                // Kelurga
+                $kategori = 'keluarga';
+                $label    = 'Jumlah dan Persentase Keluarga Berdasarkan ' . $stat . $akhiran;
+                break;
+
+            case $lap == 'bdt':
+                // RTM
+                $kategori = 'rtm';
+                $label    = 'Jumlah dan Persentase Rumah Tangga Berdasarkan ' . $stat . $akhiran;
+                break;
+
+            case $lap == null:
+            default:
+                // Penduduk
+                $kategori = 'penduduk';
+                $label    = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . $akhiran;
+                break;
+        }
+
+        if ($lap == '1') {
+            $label = 'Jumlah dan Persentase Penduduk Berdasarkan Aktivitas atau Jenis Pekerjaannya ' . $akhiran;
+        } elseif (in_array($lap, ['0', '14'])) {
+            $label = 'Jumlah dan Persentase Penduduk Berdasarkan ' . $stat . ' yang Dicatat dalam Kartu Keluarga ' . $akhiran;
+        } elseif (in_array($lap, ['13', '15'])) {
+            $label = 'Jumlah dan Persentase Penduduk Menurut Kelompok ' . $stat . $akhiran;
+        } elseif ($lap == '16') {
+            $label = 'Jumlah dan Persentase Penduduk Menurut Penggunaan Alat Keluarga Berencana dan Jenis Kelamin ' . $akhiran;
+        } elseif ($lap == '13') {
+            $label = 'Jumlah Keluarga dan Penduduk Berdasarkan Wilayah RT ' . $akhiran;
+        } elseif ($lap == '4') {
+            $label = 'Jumlah Penduduk yang Memiliki Hak Suara ' . $stat . $akhiran;
+        } elseif ($lap == 'hamil') {
+            $label = 'Jumlah dan Persentase Penduduk Perempuan Berdasarkan ' . $stat . $akhiran;
+        }
+
+        return [
+            'kategori' => $kategori,
+            'label'    => $label,
+        ];
     }
 }
 

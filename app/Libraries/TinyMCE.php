@@ -294,11 +294,10 @@ class TinyMCE
     public function getFormatedKodeIsian(array $data = [], $withData = false, $suratDinas = false, $jenis = null)
     {
         $daftar_kode_isian = [];
-
-        $idPenduduk      = $data['id_pend'];
-        $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
-        $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
-        $daftarKategori  = collect($data['surat']->form_isian)->map(static fn ($item): array => collect($item)->toArray())->toArray();
+        $idPenduduk        = $data['id_pend'];
+        $judulPenduduk     = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
+        $daftarKodeIsian   = grup_kode_isian($data['surat']->kode_isian);
+        $daftarKategori    = collect($data['surat']->form_isian)->map(static fn ($item): array => collect($item)->toArray())->toArray();
 
         $alias = AliasKodeIsian::get();
 
@@ -414,7 +413,7 @@ class TinyMCE
         $isi = $this->escapeSymbols($isi);
         $isi = $this->generateMultiPage($isi);
 
-        $isi          = implode("<div style=\"page-break-after: always;\">\u{a0}</div>", $isi);
+        $isi          = implode("<div class=\"new-break\" style=\"page-break-after: always;\">\u{a0}</div>", $isi);
         $font_surat   = SettingAplikasi::where(['key' => 'font_surat', 'kategori' => 'format_surat'])->first()->option ?? [];
         $font_surat   = array_map('strtolower', $font_surat);
         $replace_font = array_map(static fn ($item) => underscore(strtolower($item)), $font_surat);
@@ -675,7 +674,7 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-
+        // log_message('error', 'Surat: ' . $surat);
         (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont($defaultFont)
@@ -753,7 +752,6 @@ class TinyMCE
             if (! file_exists($data_lampiran[$i])) {
                 $data_lampiran[$i] = FCPATH . DEFAULT_LOKASI_LAMPIRAN_SURAT . $lampiran[$i] . '/data.php';
             }
-
             // Data lampiran
             include $data_lampiran[$i];
         }
@@ -766,7 +764,9 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
-
+        if (isset($input) && ! empty($input)) {
+            $data['input'] = $input;
+        }
         $data['isi_surat'] = $lampiran;
         $lampiran          = $this->gantiKodeIsian($data, false);
 
@@ -894,7 +894,7 @@ class TinyMCE
         if (empty($templateString)) {
             return [];
         }
-        $pattern = '/<div\s+style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
+        $pattern = '/<div\s+class="new-break" style="page-break-after:\s*always;">.*<!-- pagebreak -->.*<\/div>/im';
 
         return preg_split($pattern, $templateString);
     }
@@ -920,10 +920,11 @@ class TinyMCE
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
             return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
-        $input          = json_decode($surat->input, true) ?? [];
-        $isi_cetak      = $surat->isi_surat;
-        $nama_surat     = $surat->nama_surat;
-        $cetak['surat'] = $surat->formatSurat;
+        $input            = json_decode($surat->input, true) ?? [];
+        $isi_cetak        = $surat->isi_surat;
+        $nama_surat       = $surat->nama_surat;
+        $cetak['surat']   = $surat->formatSurat;
+        $cetak['id_pend'] = $surat->id_pend;
 
         $data_gambar    = KodeIsianGambar::set($cetak['surat'], $isi_cetak, $surat);
         $isi_cetak      = $data_gambar['result'];

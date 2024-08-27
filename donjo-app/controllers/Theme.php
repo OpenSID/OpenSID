@@ -226,11 +226,17 @@ class Theme extends Admin_Controller
 
         foreach ($configTheme as $config) {
             $key = $config['key'];
+            $postOpsi = $this->input->post('opsi')[$key] ?? null;
+
             if ($config['type'] == 'unggah') {
-                $opsi[$key]          = $this->imageUpload($tema->slug, $key);
-                $opsi['url_' . $key] = $this->input->post()['opsi']['url_' . $key];
+                if (!empty($_FILES[$key]['name'])) {
+                    $opsi[$key] = $this->imageUpload($tema->slug, $key);
+                } else {
+                    $opsi[$key] = theme_config($key);
+                }
+                $opsi['url_' . $key] = $this->input->post('opsi')['url_' . $key] ?? '';
             } else {
-                $opsi[$key] = $this->input->post()['opsi'][$key];
+                $opsi[$key] = $postOpsi;
             }
         }
 
@@ -241,33 +247,34 @@ class Theme extends Admin_Controller
     {
         $this->load->library('Upload');
 
-        if (! is_dir(CONFIG_THEMES . $namaTema)) {
-            mkdir(CONFIG_THEMES . $namaTema, 0777, true);
+        $uploadDir = CONFIG_THEMES . $namaTema;
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
 
-        $config['upload_path']   = CONFIG_THEMES . $namaTema;
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['overwrite']     = true;
-        $config['max_size']      = max_upload() * 5 * 1024;
-        $config['file_name']     = $key;
+        $config = [
+            'upload_path'   => $uploadDir,
+            'allowed_types' => 'jpg|jpeg|png|gif',
+            'overwrite'     => true,
+            'max_size'      => max_upload() * 5 * 1024,
+            'file_name'     => time() . '_' . $key,
+        ];
 
         $this->upload->initialize($config);
+
         if ($this->upload->do_upload($key)) {
             $upload = $this->upload->data();
+            $existingFile = FCPATH . theme_config($key);
 
-            if ($upload) {
-                $files = FCPATH . theme_config($key);
-                if (! empty($_FILES[$key]['name']) && file_exists($files)) {
-                    unlink($files);
-                }
-
-                return CONFIG_THEMES . $namaTema . '/' . $upload['file_name'];
+            if (file_exists($existingFile)) {
+                unlink($existingFile);
             }
+
+            return $uploadDir . '/' . $upload['file_name'];
         }
 
-        // set_session('error', $this->upload->display_errors());
         log_message('error', $this->upload->display_errors());
-
         return null;
     }
+
 }

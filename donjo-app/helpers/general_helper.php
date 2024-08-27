@@ -98,8 +98,8 @@ if (! function_exists('can')) {
 
         $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
             $slugGrup = UserGrup::find($grupId)->slug;
-            if (in_array($grupId, UserGrup::getGrupSistem())) {
-                $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
+            if (in_array($grupId, UserGrup::getGrupIdAksesGrupBawaan())) {
+                $grup = UserGrup::getAksesGrupBawaan()[$slugGrup] ?? [];
 
                 if (count($grup) === 1 && array_keys($grup)[0] == '*') {
                     $grupAkses = Modul::when(! super_admin(), static function ($query) {
@@ -551,38 +551,25 @@ if (! function_exists('case_replace')) {
 
         $dari = str_replace('[', '\\[', $dari);
 
-        $result = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
-
-        if (preg_match('/pendidikan/i', strtolower($dari))) {
-            $result = kasus_lain('pendidikan', $result);
-        } elseif (preg_match('/pekerjaan/i', strtolower($dari))) {
-            $result = kasus_lain('pekerjaan', $result);
-        }
-
-        return $result;
+        return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 }
 
 if (! function_exists('kirim_versi_opensid')) {
-    function kirim_versi_opensid(): void
+    function kirim_versi_opensid($kode_desa): void
     {
         if (! config_item('demo_mode')) {
             $ci = get_instance();
-            if (empty($ci->header['desa']['kode_desa'])) {
-                return;
-            }
-
             $ci->load->driver('cache');
 
             $versi = AmbilVersi();
-
             if ($versi != $ci->cache->file->get('versi_app_cache')) {
                 try {
                     $client = new GuzzleHttp\Client();
                     $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                         'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                         'form_params' => [
-                            'kode_desa' => kode_wilayah($ci->header['desa']['kode_desa']),
+                            'kode_desa' => kode_wilayah($kode_desa),
                             'versi'     => $versi,
                         ],
                     ])

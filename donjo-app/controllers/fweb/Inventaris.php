@@ -36,6 +36,7 @@
  */
 
 use App\Models\InventarisJalan;
+use App\Services\LaporanInventaris;
 
 class Inventaris extends Web_Controller
 {
@@ -43,7 +44,6 @@ class Inventaris extends Web_Controller
     {
         parent::__construct();
         $this->menu_aktif('inventaris');
-        $this->load->model('inventaris_laporan_model');
     }
 
     public function index(): void
@@ -51,7 +51,7 @@ class Inventaris extends Web_Controller
         $data = $this->includes;
 
         $data['halaman_statis'] = 'inventaris/index';
-        $data                   = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
+        $data                   = array_merge($data, LaporanInventaris::detail());
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis.tpl.php');

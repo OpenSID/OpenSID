@@ -388,7 +388,7 @@ class Keluar extends Admin_Controller
                 $log_surat['kategori'][$key] = $input['id_pend_' . $key];
             }
 
-            $isi_surat = $log_surat['isi_surat'];
+            $isi_surat = $log_surat['isi_surat_temp'];
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
@@ -398,6 +398,7 @@ class Keluar extends Admin_Controller
 
             $id_surat = $surat->id;
 
+            // comment dulu biar ngga banyak log
             LogPerubahanSurat::create([
                 'log_surat_id' => $idLogSurat,
                 'keterangan'   => $this->request['alasan'],

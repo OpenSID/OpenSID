@@ -483,6 +483,9 @@ class MultiDB extends Admin_Controller
 
             // DB::commit();
             hapus_cache('_cache_modul');
+            // reset cache blade
+            kosongkanFolder(config_item('cache_blade'));
+            cache()->flush();
             redirect_with('success', 'Proses restore dari backup berhasil.', ci_route('database'));
         } catch (Exception $e) {
             // DB::rollback();

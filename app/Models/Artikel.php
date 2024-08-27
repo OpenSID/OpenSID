@@ -81,6 +81,7 @@ class Artikel extends BaseModel
         'tgl_upload',
         'judul',
         'headline',
+        'tampilan',
         'gambar1',
         'gambar2',
         'gambar3',

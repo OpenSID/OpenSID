@@ -1,6 +1,7 @@
 @extends('admin.layouts.index')
 
 @include('admin.layouts.components.asset_datatables')
+@include('admin.layouts.components.asset_validasi')
 @section('title')
     <h1>
         <h1>Lokasi Kantor {{ $nama_wilayah }}</h1>
@@ -17,7 +18,7 @@
     @include('admin.layouts.components.notifikasi')
 
     <div class="box box-info">
-        <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+        <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" id="validasi" class="form-horizontal">
             <div class="box-body">
                 <div id="tampil-map">
                     <input type="hidden" name="zoom" id="zoom" value="{{ $wil_ini['zoom'] }}" />
@@ -29,13 +30,13 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="lat">Latitude</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm lat" name="lat" id="lat" value="{{ $wil_ini['lat'] }}" />
+                        <input type="text" class="required form-control input-sm lat" name="lat" id="lat" value="{{ $wil_ini['lat'] }}" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="lat">Longitude</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control input-sm lng" name="lng" id="lng" value="{{ $wil_ini['lng'] }}" />
+                        <input type="text" class="required form-control input-sm lng" name="lng" id="lng" value="{{ $wil_ini['lng'] }}" />
                     </div>
                 </div>
                 <a href="{{ $tautan['link'] }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
