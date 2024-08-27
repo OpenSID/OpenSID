@@ -41,17 +41,16 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 34. [#8361](https://github.com/OpenSID/OpenSID/issues/8361) Perbaikan urutan pada modul galeri.
 35. [#8283](https://github.com/OpenSID/OpenSID/issues/8283) Perbaikan validasi rentang umur (rentang).
 36. [#8247](https://github.com/OpenSID/OpenSID/issues/8247) Perbaikan isi surat status konsep saat akan dicetak.
-37. [#7840](https://github.com/OpenSID/OpenSID/issues/7840) Perbaikan tombol RFM pada unggah gambar/video artikel.
-38. [#8293](https://github.com/OpenSID/OpenSID/issues/8293) Perbaikan cetak surat arsip yang diubah.
-39. [#8365](https://github.com/OpenSID/OpenSID/issues/8365) Perbaikan validasi latitude dan longitude pada lokasi peta.
-40. [#8363](https://github.com/OpenSID/OpenSID/issues/8363) Perbaikan alamat pada cetak salinan kartu keluarga.
-41. [#8379](https://github.com/OpenSID/OpenSID/issues/8379) Perbaikan validasi judul pada form analisis master.
-44. [#8376](https://github.com/OpenSID/OpenSID/issues/8376) Perbaikan urutan hari pada widget jam kerja.
-45. [#8380](https://github.com/OpenSID/OpenSID/issues/8380) Perbaikan urutan senergi program.
-46. [#8387](https://github.com/OpenSID/OpenSID/issues/8387) Perbaikan data cetak biodata penduduk.
-47. [#8386](https://github.com/OpenSID/OpenSID/issues/8386) Perbaikan animasi loading pada modal.
-48. [#8367](https://github.com/OpenSID/OpenSID/issues/8367) Perbaikan relasi data penduduk/keluarga pada suplemen.
-49. [#8389](https://github.com/OpenSID/OpenSID/issues/8389) Perbaikan gagal pratinjau surat.
+37. [#8293](https://github.com/OpenSID/OpenSID/issues/8293) Perbaikan cetak surat arsip yang diubah.
+38. [#8365](https://github.com/OpenSID/OpenSID/issues/8365) Perbaikan validasi latitude dan longitude pada lokasi peta.
+39. [#8363](https://github.com/OpenSID/OpenSID/issues/8363) Perbaikan alamat pada cetak salinan kartu keluarga.
+40. [#8379](https://github.com/OpenSID/OpenSID/issues/8379) Perbaikan validasi judul pada form analisis master.
+41. [#8376](https://github.com/OpenSID/OpenSID/issues/8376) Perbaikan urutan hari pada widget jam kerja.
+42. [#8380](https://github.com/OpenSID/OpenSID/issues/8380) Perbaikan urutan senergi program.
+43. [#8387](https://github.com/OpenSID/OpenSID/issues/8387) Perbaikan data cetak biodata penduduk.
+44. [#8386](https://github.com/OpenSID/OpenSID/issues/8386) Perbaikan animasi loading pada modal.
+45. [#8367](https://github.com/OpenSID/OpenSID/issues/8367) Perbaikan relasi data penduduk/keluarga pada suplemen.
+46. [#8389](https://github.com/OpenSID/OpenSID/issues/8389) Perbaikan gagal pratinjau surat.
 
 
 #### TEKNIS
