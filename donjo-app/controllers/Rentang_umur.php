@@ -172,7 +172,7 @@ class Rentang_umur extends Statistik
             ->toArray();
 
         if (array_intersect($rentang, range($data['dari'], $data['sampai']))) {
-            redirect_with('error', 'Data sudah ada', site_url('statistik/rentang_umur'));
+            redirect_with('error', "Rentang umur tidak boleh tumpang tindih dengan rentang umur yang sudah ada. <br>Rentang umur dari {$data['dari']} sampai {$data['sampai']} sudah digunakan.", site_url('statistik/rentang_umur'));
         }
 
 
