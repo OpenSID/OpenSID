@@ -61,3 +61,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8317](https://github.com/OpenSID/OpenSID/issues/8317) Penyesuaian halaman masuk periksa menggunakan ORM dan Blade Laravel.
 5. [#8334](https://github.com/OpenSID/OpenSID/issues/8334) Penyesuaian datatables modul cetak surat layanan dan surat dinas.
 6. [#8339](https://github.com/OpenSID/OpenSID/issues/8339) Penyesuaian suku kata pada halamanan statisitik sesuai dengan rekomendasi oleh BPS.
+7. [#8388](https://github.com/OpenSID/OpenSID/issues/8388) Penyesuaian log untuk error 404.
