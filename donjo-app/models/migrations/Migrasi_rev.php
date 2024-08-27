@@ -50,6 +50,7 @@ class Migrasi_rev extends MY_model
 
         foreach ($config_id as $id) {
             $hasil && $this->migrasi_2024082651($hasil, $id);
+            $hasil && $this->migrasi_2024082751($hasil, $id);
         }
 
         return $hasil;
@@ -80,6 +81,19 @@ class Migrasi_rev extends MY_model
                         when sasaran = 2 then (select id from tweb_keluarga where config_id = {$config_id} and tweb_keluarga.id = suplemen_terdata.id_terdata)
                     end
                 "),
+            ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024082751($hasil, $config_id)
+    {
+        DB::table('kelompok_anggota')
+            ->join('kelompok', 'kelompok_anggota.id_kelompok', '=', 'kelompok.id')
+            ->where('kelompok_anggota.config_id', $config_id)
+            ->whereColumn('kelompok_anggota.tipe', '!=', 'kelompok.tipe')
+            ->update([
+                'kelompok_anggota.tipe' => DB::raw('kelompok.tipe'),
             ]);
 
         return $hasil;
