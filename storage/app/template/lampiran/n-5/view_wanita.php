@@ -163,9 +163,9 @@
 
         <tr>
             <td colspan="1">&nbsp;</td>
-            <td colspan="20">2. Bin</td>
+            <td colspan="20">2. Binti</td>
             <td>: </td>
-            <td colspan="27">[Nama_dapw]</td>
+            <td colspan="27">[Form_binti_dcpW]</td>
         </tr>
 
         <tr>
