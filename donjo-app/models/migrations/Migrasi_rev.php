@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_revd extends MY_model
+class Migrasi_rev extends MY_model
 {
     public function up()
     {
