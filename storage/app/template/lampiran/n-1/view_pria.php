@@ -120,7 +120,7 @@
         </tr>
         <tr>
             <td colspan="1">&nbsp;</td>
-            <td colspan="20">9. Bin/Binti</td>
+            <td colspan="20">9. Bin</td>
             <td>: </td>
             <td colspan="27">[Form_biN]</td>
 

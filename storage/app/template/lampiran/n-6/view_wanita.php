@@ -69,7 +69,7 @@
 
         <tr>
             <td colspan="1">&nbsp;</td>
-            <td colspan="20">2. Binti</td>
+            <td colspan="20">2. Bin</td>
             <td>: </td>
             <td colspan="27">[Form_bin_dsT]</td>
         </tr>
@@ -157,7 +157,7 @@
 
         <tr>
             <td colspan="1">&nbsp;</td>
-            <td colspan="20">2. Bin/Binti</td>
+            <td colspan="20">2. Binti</td>
             <td>&nbsp;</td>
             <td colspan="27">[Form_binti_dcpW]</td>
         </tr>
