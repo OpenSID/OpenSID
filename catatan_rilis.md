@@ -58,6 +58,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8367](https://github.com/OpenSID/OpenSID/issues/8367) Perbaikan relasi data penduduk/keluarga pada suplemen.
 46. [#8389](https://github.com/OpenSID/OpenSID/issues/8389) Perbaikan gagal pratinjau surat.
 47. [#8366](https://github.com/OpenSID/OpenSID/issues/8366) Perbaikan detail rincian anggota kelompok/lembaga.
+48. [#8399](https://github.com/OpenSID/OpenSID/issues/8399) Perbaikan restore surat dinas bawaan.
 
 
 #### TEKNIS

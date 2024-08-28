@@ -94,6 +94,7 @@
 
     @include('admin.layouts.components.konfirmasi_hapus')
     @include('admin.surat_dinas.pengaturan.impor')
+    @include('admin.layouts.components.restore_surat')
 @endsection
 @push('scripts')
     <script>
