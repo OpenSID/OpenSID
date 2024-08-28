@@ -53,6 +53,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 46. [#8389](https://github.com/OpenSID/OpenSID/issues/8389) Perbaikan gagal pratinjau surat.
 47. [#8366](https://github.com/OpenSID/OpenSID/issues/8366) Perbaikan detail rincian anggota kelompok/lembaga.
 48. [#8378](https://github.com/OpenSID/OpenSID/issues/8378) Perbaikan default nilai lat, lng dan zoom pada peta.
+49. [#8398](https://github.com/OpenSID/OpenSID/issues/8398) Perbaikan tambah anggota kelompok/lembaga.
 
 
 #### TEKNIS

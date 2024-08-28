@@ -174,14 +174,19 @@ class Kelompok_anggota extends Admin_Controller
             $validasi_anggota  = KelompokAnggotaModel::whereIdPenduduk($data['id_penduduk'])->whereIdKelompok($data['id_kelompok'])->first();
             $validasi_anggota1 = KelompokAnggotaModel::where('id_penduduk', '!=', $data['id_penduduk'])->whereNoAnggota($data['no_anggota'])->whereIdKelompok($data['id_kelompok'])->first();
             if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
-                session_error('Nama Anggota yang dipilih sudah masuk kelompok');
-                redirect($this->controller . "/form/{$validasi_anggota->id_kelompok}");
+                redirect_with(
+                    'error',
+                    'Nama Anggota yang dipilih sudah masuk kelompok',
+                    "{$this->controller}/form/{$id}"
+                );
             }
 
             if ($validasi_anggota1->no_anggota == $data['no_anggota']) {
-                session_error("<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silahkan gunakan nomor anggota yang lain!");
-
-                return false;
+                redirect_with(
+                    'error',
+                    "<br/>Nomor anggota ini {$data['no_anggota']} tidak bisa digunakan. Silahkan gunakan nomor anggota yang lain!",
+                    "{$this->controller}/form/{$id}"
+                );
             }
         }
 
@@ -206,7 +211,7 @@ class Kelompok_anggota extends Admin_Controller
             redirect_with('error', 'Anggota gagal disimpan', $redirect);
         }
 
-        return null;
+        redirect("{$this->controller}/form/{$id}");
     }
 
     public function update($id = 0, $id_a = 0): void
