@@ -113,6 +113,12 @@ class Periksa_model extends MY_Model
             $this->periksa['log_penduduk_null'] = $log_penduduk_null->toArray();
         }
 
+        $log_penduduk_asing = $this->deteksi_log_penduduk_asing();
+        if (! $log_penduduk_asing->isEmpty()) {
+            $this->periksa['masalah'][]          = 'log_penduduk_asing';
+            $this->periksa['log_penduduk_asing'] = $log_penduduk_asing->toArray();
+        }
+
         $log_keluarga_bermasalah = $this->deteksi_log_keluarga_bermasalah();
         if (! $log_keluarga_bermasalah->isEmpty()) {
             $this->periksa['masalah'][]               = 'log_keluarga_bermasalah';
@@ -236,6 +242,16 @@ class Periksa_model extends MY_Model
 
         return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
             ->whereNull('kode_peristiwa')
+            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
+            ->get();
+    }
+
+    public function deteksi_log_penduduk_asing()
+    {
+        identitas('id');
+
+        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
+            ->whereNotIn('kode_peristiwa', array_keys(LogPenduduk::kodePeristiwa()))
             ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
             ->get();
     }
@@ -447,6 +463,11 @@ class Periksa_model extends MY_Model
         LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK]);
     }
 
+    private function perbaiki_log_penduduk_asing(): void
+    {
+        LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_asing'], 'id'))->delete();
+    }
+
     private function perbaiki_log_keluarga_bermasalah(): void
     {
         $configId = identitas('id');
@@ -513,6 +534,10 @@ class Periksa_model extends MY_Model
 
             case 'log_penduduk_null':
                 $this->perbaiki_log_penduduk_null();
+                break;
+
+            case 'log_penduduk_asing':
+                $this->perbaiki_log_penduduk_asing();
                 break;
 
             case 'log_keluarga_bermasalah':
