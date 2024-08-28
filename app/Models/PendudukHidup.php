@@ -326,8 +326,6 @@ class PendudukHidup extends BaseModel
 
     /**
      * Getter tempat dilahirkan attribute.
-     *
-     * @return string
      */
     public function getNamaTempatDilahirkanAttribute(): ?string
     {
@@ -343,8 +341,6 @@ class PendudukHidup extends BaseModel
 
     /**
      * Getter tempat dilahirkan attribute.
-     *
-     * @return string
      */
     public function getNamaJenisKelahiranAttribute(): ?string
     {
@@ -359,8 +355,6 @@ class PendudukHidup extends BaseModel
 
     /**
      * Getter tempat dilahirkan attribute.
-     *
-     * @return string
      */
     public function getNamaPenolongKelahiranAttribute(): ?string
     {

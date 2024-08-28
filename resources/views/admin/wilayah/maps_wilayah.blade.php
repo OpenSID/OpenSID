@@ -79,11 +79,11 @@
 
             @if (!empty($wil_ini['lat']) && !empty($wil_ini['lng']))
                 var posisi = [{{ $wil_ini['lat'] . ', ' . $wil_ini['lng'] }}];
-                var zoom = {{ $wil_ini['zoom'] }};
+                var zoom = {{ $wil_ini['zoom'] ?? config('app.map.zoom') }};
             @elseif (!empty($wil_atas['lat']) && !empty($wil_atas['lng']))
                 // Jika posisi saat ini belum ada, maka posisi peta akan menampilkan peta desa
                 var posisi = [{{ $wil_atas['lat'] . ', ' . $wil_atas['lng'] }}];
-                var zoom = {{ $wil_atas['zoom'] }};
+                var zoom = {{ $wil_atas['zoom'] ?? config('app.map.zoom') }};
             @else
                 // Kondisi ini hanya untuk lokasi/wilayah desa yg belum ada
                 var posisi = [-1.0546279422758742, 116.71875000000001];
