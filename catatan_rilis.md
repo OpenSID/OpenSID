@@ -69,3 +69,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8334](https://github.com/OpenSID/OpenSID/issues/8334) Penyesuaian datatables modul cetak surat layanan dan surat dinas.
 6. [#8339](https://github.com/OpenSID/OpenSID/issues/8339) Penyesuaian suku kata pada halamanan statisitik sesuai dengan rekomendasi oleh BPS.
 7. [#8388](https://github.com/OpenSID/OpenSID/issues/8388) Penyesuaian log untuk error 404.
+
+#### KEAMANAN
+1. [#4045](https://github.com/OpenSID/premium/issues/4045) Peningkatan keamanan pada modul widget.
