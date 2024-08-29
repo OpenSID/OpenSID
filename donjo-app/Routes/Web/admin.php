@@ -318,6 +318,8 @@ Route::group('rtm', static function (): void {
 });
 
 // Identitas Desa > Lembaga atau Kependudukan > Kelompok
+Route::match(['GET', 'POST'], 'kelompok_anggota/anggota/{id_penduduk?}', 'Kelompok_anggota@anggota')->name('kelompok_anggota.anggota');
+
 foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
     Route::group($key, static function () use ($key, $value): void {
         Route::get('/apipendudukkelompok', "{$value}@apipendudukkelompok")->name("{$key}.apipendudukkelompok");
@@ -741,6 +743,7 @@ Route::group('surat_dinas', static function (): void {
     Route::match(['GET', 'POST'], 'favorit/{id?}', 'Surat_dinas@favorit')->name('surat_dinas.favorit');
     Route::match(['GET', 'POST'], 'delete/{id?}', 'Surat_dinas@delete')->name('surat_dinas.delete');
     Route::get('restore_surat_bawaan/{surat?}', 'Surat_dinas@restore_surat_bawaan')->name('surat_dinas.restore_surat_bawaan');
+    Route::post('/restore_surat_bawaan_all', 'surat_dinas@restore_surat_bawaan_all')->name('surat_dinas.restore_surat_bawaan_all');
     Route::get('pengaturan', 'Surat_dinas@pengaturan')->name('surat_dinas.pengaturan');
     Route::post('edit_pengaturan', 'Surat_dinas@edit_pengaturan')->name('surat_dinas.edit_pengaturan');
     Route::match(['GET', 'POST'], 'kode_isian/{jenis?}/{id?}', 'Surat_dinas@kode_isian')->name('surat_dinas.kode_isian');

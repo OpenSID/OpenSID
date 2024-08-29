@@ -26,21 +26,22 @@
                 </div>
                 <div class="box-body">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="id_penduduk">Nama Anggota</label>
-                        <div class="col-sm-9">
-                            <select class="form-control input-sm required" {{ jecho($pend, true, 'disabled') }} id="kelompok_penduduk" name="id_penduduk" data-kelompok="{{ $kelompok }}" data-tipe="{{ strtolower($tipe) }}">
+                        <label class="col-sm-4 control-label" for="id_penduduk">Nama Anggota</label>
+                        <div class="col-sm-8">
+                            <select class="form-control input-sm required" id="kelompok_penduduk" name="id_penduduk" data-kelompok="{{ $kelompok }}" data-tipe="{{ strtolower($tipe) }}" onchange="loadDataPenduduk(this)">
                                 <option value="">-- Silakan Masukan NIK / Nama --</option>
                                 @if ($pend)
-                                    <option value="{{ $pend['id'] }}" selected>NIK :
+                                    <option value="{{ $pend['id_penduduk'] }}" selected>NIK :
                                         {{ $pend['nik'] . ' - ' . $pend['nama'] . ' - ' . $pend['alamat'] }}
                                     </option>
                                 @endif
                             </select>
                         </div>
                     </div>
+                    <div class="data_penduduk_desa"></div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="no_anggota">Nomor Anggota</label>
+                        <div class="col-sm-8">
                             <input id="no_anggota" class="form-control input-sm number required" type="text" placeholder="Nomor Anggota" name="no_anggota" value="{{ $pend['no_anggota'] }} ">
                             <p><code>*Pastikan nomor anggota belum pernah dipakai.</code></p>
                         </div>
@@ -49,8 +50,8 @@
                         @if (!empty($pend))
                             <input type="hidden" name="jabatan_lama" value="{{ $pend['jabatan'] }}">
                         @endif
-                        <label class="col-sm-3 control-label" for="jabatan">Jabatan</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="jabatan">Jabatan</label>
+                        <div class="col-sm-8">
                             <select class="form-control input-sm select2-tags required" id="jabatan" name="jabatan">
                                 <option option value="">-- Silakan Pilih Jabatan --</option>
                                 @foreach ($list_jabatan1 as $key => $value)
@@ -67,20 +68,20 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="no_sk_jabatan">Nomor SK Jabatan</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="no_sk_jabatan">Nomor SK Jabatan</label>
+                        <div class="col-sm-8">
                             <input id="no_sk_jabatan" class="form-control input-sm nomor_sk" type="text" placeholder="Nomor SK Jabatan" name="no_sk_jabatan" value="{{ $pend['no_sk_jabatan'] }}">
                         </div>
                     </div>
                     @if ($tipe == 'Lembaga')
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Nomor SK Pengangkatan</label>
+                            <label class="col-sm-4 control-label">Nomor SK Pengangkatan</label>
                             <div class="col-sm-5">
                                 <input name="nmr_sk_pengangkatan" class="form-control input-sm" type="text" maxlength="30" placeholder="Nomor SK Pengangkatan" value="{{ $pend['nmr_sk_pengangkatan'] }}"></input>
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class="col-sm-3 control-label">Tanggal SK Pengangkatan</label>
+                            <label class="col-sm-4 control-label">Tanggal SK Pengangkatan</label>
                             <div class="col-sm-5">
                                 <div class="input-group input-group-sm date">
                                     <div class="input-group-addon">
@@ -91,13 +92,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Nomor SK Pemberhentian</label>
+                            <label class="col-sm-4 control-label">Nomor SK Pemberhentian</label>
                             <div class="col-sm-5">
                                 <input name="nmr_sk_pemberhentian" class="form-control input-sm" type="text" placeholder="Nomor SK Pemberhentian" value="{{ $pend['nmr_sk_pemberhentian'] }}"></input>
                             </div>
                         </div>
                         <div class='form-group'>
-                            <label class="col-sm-3 control-label">Tanggal SK Pemberhentian</label>
+                            <label class="col-sm-4 control-label">Tanggal SK Pemberhentian</label>
                             <div class="col-sm-5">
                                 <div class="input-group input-group-sm date">
                                     <div class="input-group-addon">
@@ -108,15 +109,15 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Masa Jabatan (Usia/Periode)</label>
+                            <label class="col-sm-4 control-label">Masa Jabatan (Usia/Periode)</label>
                             <div class="col-sm-5">
                                 <input name="periode" class="form-control input-sm" type="text" placeholder="Contoh: 6 Tahun Periode Pertama (2015 s/d 2021)" value="{{ $pend['periode'] }}"></input>
                             </div>
                         </div>
                     @endif
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="keterangan">Keterangan</label>
+                        <div class="col-sm-8">
                             <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="5">{{ $pend['keterangan'] }}</textarea>
                         </div>
                     </div>
@@ -136,4 +137,29 @@
 @include('admin.layouts.components.datetime_picker')
 @push('scripts')
     <script src="{{ asset('js/custom-select2.js') }}"></script>
+    <script>
+        var penduduk = "{{ $pend['id_penduduk'] }}";
+
+        if (penduduk) {
+            document.addEventListener("DOMContentLoaded", function() {
+                var selectElement = document.getElementById("kelompok_penduduk");
+                loadDataPenduduk(selectElement);
+                $('#kelompok_penduduk').prop('disabled', true);
+            });
+        }
+
+        function loadDataPenduduk(elm) {
+            let _val = $(elm).val()
+            let _pendudukDesaElm = $(elm).closest('.penduduk_desa')
+            _pendudukDesaElm.find('.data_penduduk_desa').empty()
+            if (!$.isEmptyObject(_val)) {
+                $.get('{{ ci_route('kelompok_anggota.anggota') }}', {
+                    id_penduduk: _val,
+                }, function(data) {
+                    $('.data_penduduk_desa').html(data.html)
+                    $('#foto').attr('src', data.foto);
+                }, 'json')
+            }
+        }
+    </script>
 @endpush

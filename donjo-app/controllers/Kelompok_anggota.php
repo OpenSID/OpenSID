@@ -353,4 +353,29 @@ class Kelompok_anggota extends Admin_Controller
 
         view('admin.layouts.components.format_cetak', $data);
     }
+
+    public function anggota(): void
+    {
+        $id       = $this->input->get('id_penduduk');
+        $kategori = $this->input->get('kategori');
+        $this->dataPenduduk($id, $kategori);
+    }
+
+    private function dataPenduduk(int $id)
+    {
+        $data['individu'] = Penduduk::findOrFail($id);
+        $foto             = AmbilFoto($data['individu']->foto, '', $data['individu']->sex);
+
+        $html = view('admin.kelompok.anggota.konfirmasi', $data, [], true);
+
+        $sumber = [
+            'html' => (string) $html,
+            'foto' => $foto,
+        ];
+
+        // Set the content type to JSON
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($sumber), JSON_THROW_ON_ERROR);
+    }
 }
