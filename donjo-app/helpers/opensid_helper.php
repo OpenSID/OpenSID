@@ -1924,6 +1924,7 @@ if (! function_exists('bersihkan_xss')) {
     {
         $antiXSS = new AntiXSS();
         $antiXSS->removeEvilHtmlTags(['iframe']);
+        $antiXSS->addEvilAttributes(['http-equiv', 'content']);
 
         return $antiXSS->xss_clean($str);
     }
