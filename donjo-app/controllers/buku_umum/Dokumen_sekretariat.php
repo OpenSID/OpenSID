@@ -298,7 +298,7 @@ class Dokumen_sekretariat extends Admin_Controller
     private function validasi(array $post): array
     {
         $data                         = [];
-        $data['nama']                 = nomor_surat_keputusan($post['nama']);
+        $data['nama']                 = nama_peraturan_desa($post['nama']);
         $data['kategori']             = (int) $post['kategori'] ?: 1;
         $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = (int) $post['id_syarat'] ?: null;

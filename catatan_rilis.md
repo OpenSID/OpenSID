@@ -56,6 +56,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 49. [#8398](https://github.com/OpenSID/OpenSID/issues/8398) Perbaikan tambah anggota kelompok/lembaga.
 50. [#8368](https://github.com/OpenSID/OpenSID/issues/8368) Perbaikan laporan penduduk bulanan yang tidak sesuai.
 51. [#8393](https://github.com/OpenSID/OpenSID/issues/8393) Perbaikan tambah/ubah data kelompok/lembaga.
+52. [#8400](https://github.com/OpenSID/OpenSID/issues/8400) Perbaikan validasi judul dokumen pada modul buku peraturan di desa.
 
 
 #### TEKNIS

@@ -899,6 +899,11 @@ function nomor_surat_keputusan($str)
     return preg_replace('/[^a-zA-Z0-9 \.\-\/,]/', '', $str);
 }
 
+function nama_peraturan_desa($str)
+{
+    return preg_replace('/[^a-zA-Z0-9 \.\-\/,()]/', '', $str);
+}
+
 // Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
 function nama($str): ?string
 {
