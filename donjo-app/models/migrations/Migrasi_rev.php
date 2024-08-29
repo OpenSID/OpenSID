@@ -35,9 +35,9 @@
  *
  */
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,13 +51,13 @@ class Migrasi_rev extends MY_model
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
-            $hasil && $this->migrasi_2024082651($hasil, $id);
-            $hasil && $this->migrasi_2024082751($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024082651($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024082751($hasil, $id);
         }
 
-        $hasil && $this->migrasi_2024082951($hasil);
+        $hasil = $hasil && $this->migrasi_2024082951($hasil);
 
-        return $hasil;
+        return $this->migrasi_2024083051($hasil);
     }
 
     protected function migrasi_2024082651($hasil, $config_id)
@@ -109,7 +109,7 @@ class Migrasi_rev extends MY_model
             $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
             $migrationFiles = [
                 '2023_12_22_015242_create_log_login_table.php',
-                '2023_12_22_015245_add_foreign_keys_to_log_login_table.php'
+                '2023_12_22_015245_add_foreign_keys_to_log_login_table.php',
             ];
 
             foreach ($migrationFiles as $file) {
@@ -117,6 +117,13 @@ class Migrasi_rev extends MY_model
                 $migrateFile->up();
             }
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024083051($hasil)
+    {
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
 
         return $hasil;
     }
