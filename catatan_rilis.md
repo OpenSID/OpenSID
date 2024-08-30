@@ -59,6 +59,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 52. [#8400](https://github.com/OpenSID/OpenSID/issues/8400) Perbaikan validasi judul dokumen pada modul buku peraturan di desa.
 53. [#8259](https://github.com/OpenSID/OpenSID/issues/8259) Perbaikan bold dan italic font times new roman pada cetak surat.
 54. [#8392](https://github.com/OpenSID/OpenSID/issues/8392) Perbaikan unggah foto pada modul kelompok/lembaga.
+55. [#8401](https://github.com/OpenSID/OpenSID/issues/8401) Perbaikan tools pagebreak bawaan tinymce.
 
 
 #### TEKNIS
