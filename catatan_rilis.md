@@ -58,6 +58,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 51. [#8393](https://github.com/OpenSID/OpenSID/issues/8393) Perbaikan tambah/ubah data kelompok/lembaga.
 52. [#8400](https://github.com/OpenSID/OpenSID/issues/8400) Perbaikan validasi judul dokumen pada modul buku peraturan di desa.
 53. [#8259](https://github.com/OpenSID/OpenSID/issues/8259) Perbaikan bold dan italic font times new roman pada cetak surat.
+54. [#8392](https://github.com/OpenSID/OpenSID/issues/8392) Perbaikan unggah foto pada modul kelompok/lembaga.
 
 
 #### TEKNIS

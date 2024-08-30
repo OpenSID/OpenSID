@@ -56,8 +56,9 @@ class Migrasi_rev extends MY_model
         }
 
         $hasil = $hasil && $this->migrasi_2024082951($hasil);
+        $hasil = $hasil && $this->migrasi_2024083051($hasil);
 
-        return $this->migrasi_2024083051($hasil);
+        return $this->migrasi_2024083052($hasil);
     }
 
     protected function migrasi_2024082651($hasil, $config_id)
@@ -124,6 +125,17 @@ class Migrasi_rev extends MY_model
     protected function migrasi_2024083051($hasil)
     {
         (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024083052($hasil)
+    {
+        if (! $this->db->field_exists('foto', 'kelompok_anggota')) {
+            $hasil = $hasil && $this->dbforge->add_column('kelompok_anggota', [
+                'foto' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
+            ]);
+        }
 
         return $hasil;
     }

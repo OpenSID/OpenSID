@@ -15,7 +15,11 @@
     {!! form_open_multipart($form_action, 'class="form-horizontal" id="validasi"') !!}
     <div class="row">
         <div class="col-md-3">
-            @include('admin.layouts.components.ambil_foto', ['id_sex' => $pend['id_sex'], 'foto' => $pend['foto']])
+            @include('admin.layouts.components.ambil_foto', [
+                'id_sex' => $pend['id_sex'],
+                'foto' => $pend['foto'] ?? $pend['foto_anggota'],
+                'lokasiFoto' => $pend['foto'] && $tipe === 'Kelompok' ? LOKASI_FOTO_KELOMPOK : ($pend['foto'] ? LOKASI_FOTO_LEMBAGA : LOKASI_USER_PICT),
+            ])
         </div>
         <div class="col-md-9">
             <div class="box box-primary">
@@ -42,7 +46,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="no_anggota">Nomor Anggota</label>
                         <div class="col-sm-8">
-                            <input id="no_anggota" class="form-control input-sm number required" type="text" placeholder="Nomor Anggota" name="no_anggota" value="{{ $pend['no_anggota'] }} ">
+                            <input id="no_anggota" class="form-control input-sm number required" type="text" placeholder="Nomor Anggota" name="no_anggota" value="{{ $pend['no_anggota'] }}">
                             <p><code>*Pastikan nomor anggota belum pernah dipakai.</code></p>
                         </div>
                     </div>
@@ -139,6 +143,8 @@
     <script src="{{ asset('js/custom-select2.js') }}"></script>
     <script>
         var penduduk = "{{ $pend['id_penduduk'] }}";
+        var id_anggota = "{{ $pend['id'] }}";
+        var kategori = "{{ $tipe }}";
 
         if (penduduk) {
             document.addEventListener("DOMContentLoaded", function() {
@@ -155,6 +161,8 @@
             if (!$.isEmptyObject(_val)) {
                 $.get('{{ ci_route('kelompok_anggota.anggota') }}', {
                     id_penduduk: _val,
+                    id_anggota: id_anggota,
+                    kategori: kategori
                 }, function(data) {
                     $('.data_penduduk_desa').html(data.html)
                     $('#foto').attr('src', data.foto);
