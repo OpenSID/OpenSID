@@ -54,8 +54,10 @@ class MY_Exceptions extends CI_Exceptions
     public function __construct()
     {
         parent::__construct();
-
-        $this->ci = get_instance();
+        // Fix blank 500 error when CI not fully loaded
+        if(class_exists('CI_Controller')){
+            $this->ci = get_instance();
+        }
     }
 
     /**
@@ -70,7 +72,7 @@ class MY_Exceptions extends CI_Exceptions
     public function log_exception($severity, $message, $filepath, $line): void
     {
         parent::log_exception($severity, $message, $filepath, $line);
-        if (preg_match('/\\[PERIKSA\\]/', $message)) {
+        if ($this->ci && preg_match('/\\[PERIKSA\\]/', $message)) {
             $this->ci->session->db_error = [
                 'code'    => 99001,
                 'message' => '<p>' . $message . '</p>',
@@ -88,7 +90,7 @@ class MY_Exceptions extends CI_Exceptions
      */
     public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
     {
-        if ($template !== 'error_db') {
+        if ( !$this->ci || $template !== 'error_db') {
             return parent::show_error($heading, $message, $template, $status_code);
         }
 
