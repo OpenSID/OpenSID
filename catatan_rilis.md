@@ -58,7 +58,14 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8367](https://github.com/OpenSID/OpenSID/issues/8367) Perbaikan relasi data penduduk/keluarga pada suplemen.
 46. [#8389](https://github.com/OpenSID/OpenSID/issues/8389) Perbaikan gagal pratinjau surat.
 47. [#8366](https://github.com/OpenSID/OpenSID/issues/8366) Perbaikan detail rincian anggota kelompok/lembaga.
-48. [#8399](https://github.com/OpenSID/OpenSID/issues/8399) Perbaikan restore surat dinas bawaan.
+48. [#8378](https://github.com/OpenSID/OpenSID/issues/8378) Perbaikan default nilai lat, lng dan zoom pada peta.
+49. [#8398](https://github.com/OpenSID/OpenSID/issues/8398) Perbaikan tambah anggota kelompok/lembaga.
+50. [#8368](https://github.com/OpenSID/OpenSID/issues/8368) Perbaikan laporan penduduk bulanan yang tidak sesuai.
+51. [#8393](https://github.com/OpenSID/OpenSID/issues/8393) Perbaikan tambah/ubah data kelompok/lembaga.
+52. [#8400](https://github.com/OpenSID/OpenSID/issues/8400) Perbaikan validasi judul dokumen pada modul buku peraturan di desa.
+53. [#8259](https://github.com/OpenSID/OpenSID/issues/8259) Perbaikan bold dan italic font times new roman pada cetak surat.
+54. [#8392](https://github.com/OpenSID/OpenSID/issues/8392) Perbaikan unggah foto pada modul kelompok/lembaga.
+55. [#8401](https://github.com/OpenSID/OpenSID/issues/8401) Perbaikan tools pagebreak bawaan tinymce.
 
 
 #### TEKNIS
@@ -70,6 +77,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8334](https://github.com/OpenSID/OpenSID/issues/8334) Penyesuaian datatables modul cetak surat layanan dan surat dinas.
 6. [#8339](https://github.com/OpenSID/OpenSID/issues/8339) Penyesuaian suku kata pada halamanan statisitik sesuai dengan rekomendasi oleh BPS.
 7. [#8388](https://github.com/OpenSID/OpenSID/issues/8388) Penyesuaian log untuk error 404.
+
+#### KEAMANAN
+1. [#4045](https://github.com/OpenSID/premium/issues/4045) Peningkatan keamanan pada modul widget.
+
 
 #### LAYANAN
 1. [#8311](https://github.com/OpenSID/OpenSID/issues/8311) Penambahan PIC Perangkat Desa.

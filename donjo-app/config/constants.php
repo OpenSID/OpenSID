@@ -206,6 +206,8 @@ define('LOKASI_LAMPIRAN_SURAT_DINAS_DESA', 'desa/template-surat/surat-dinas/lamp
 define('LOKASI_TEMA_DESA', 'desa/themes/');
 define('LOKASI_UPLOAD', 'desa/upload/');
 define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
+define('LOKASI_FOTO_KELOMPOK', 'desa/upload/kelompok/');
+define('LOKASI_FOTO_LEMBAGA', 'desa/upload/lembaga/');
 define('LOKASI_GALERI', 'desa/upload/galeri/');
 define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
 define('LOKASI_FOTO_BUKU_TAMU', 'desa/upload/buku_tamu/');

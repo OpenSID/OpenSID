@@ -61,12 +61,13 @@
             var posisi = [{{ $wil_atas['lat'] . ', ' . $wil_atas['lng'] }}];
             var zoom = {{ $wil_atas['zoom'] }};
         @else
-            var posisi = [{{ config('map.point.lat') }}, {{ config('map.point.lng') }}];
-            var zoom = {{ config('map.zoom') }};
+            var posisi = [{{ config('app.map.point.lat') }}, {{ config('app.map.point.lng') }}];
+            var zoom = {{ config('app.map.zoom') }};
         @endif
 
         window.onload = function() {
             // Inisialisasi tampilan peta
+            console.log('lat : ' + posisi[0] + ' lng : ' + posisi[1] + ' zoom : ' + zoom);
             var peta_kantor = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
             // 1. Menampilkan overlayLayers Peta Semua Wilayah

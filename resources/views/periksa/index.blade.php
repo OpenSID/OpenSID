@@ -664,6 +664,38 @@
                                         </div>
                                     @endif
 
+                                    @if (in_array('log_penduduk_asing', $masalah))
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <strong>Terdeteksi log penduduk memiliki kode peristiwa yang tidak terdaftar</strong>
+                                                <table class="table">
+                                                    <tr>
+                                                        <th>NIK</th>
+                                                        <th>Nama</th>
+                                                        <th>Kode Peristiwa</th>
+                                                    </tr>
+                                                    @foreach ($log_penduduk_asing as $penduduk)
+                                                        <tr>
+                                                            <td>{{ $penduduk['nik'] }}</td>
+                                                            <td>{{ $penduduk['nama'] }}</td>
+                                                            <td>{{ $penduduk['kode_peristiwa'] }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </table>
+                                                <p>Klik tombol Perbaiki Data memperbaiki data, log akan dihapus. <br><a
+                                                        href="#"
+                                                        data-href="{{ ci_route('periksa.perbaiki_sebagian', 'log_penduduk_asing') }}"
+                                                        class="btn btn-sm btn-social btn-danger"
+                                                        role="button"
+                                                        title="Perbaiki masalah data"
+                                                        data-toggle="modal"
+                                                        data-target="#confirm-backup"
+                                                        data-body="Apakah sudah melakukan backup database/folder desa?"
+                                                    ><i class="fa fa fa-wrench"></i>Perbaiki Data</a></p>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     @if (in_array('log_keluarga_bermasalah', $masalah))
                                         <div class="panel panel-default">
                                             <div class="panel-body">

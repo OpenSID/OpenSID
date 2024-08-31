@@ -318,6 +318,8 @@ Route::group('rtm', static function (): void {
 });
 
 // Identitas Desa > Lembaga atau Kependudukan > Kelompok
+Route::match(['GET', 'POST'], 'kelompok_anggota/anggota/{id_penduduk?}', 'Kelompok_anggota@anggota')->name('kelompok_anggota.anggota');
+
 foreach (['lembaga' => 'Lembaga', 'kelompok' => 'Kelompok'] as $key => $value) {
     Route::group($key, static function () use ($key, $value): void {
         Route::get('/apipendudukkelompok', "{$value}@apipendudukkelompok")->name("{$key}.apipendudukkelompok");

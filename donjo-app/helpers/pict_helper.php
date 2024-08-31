@@ -121,16 +121,16 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = true, $delimiter =
 /**
  * Ambil foto profil berdasarkan parameter
  */
-function AmbilFoto(?string $foto, string $ukuran = 'kecil_', ?string $sex = '1'): string
+function AmbilFoto(?string $foto, string $ukuran = 'kecil_', ?string $sex = '1', string $lokasi = LOKASI_USER_PICT): string
 {
     $sex       = $sex ?: '1';
     $file_foto = Foto_Default($foto, $sex);
 
     if ($foto == $file_foto) {
         $ukuran    = ($ukuran == 'kecil_') ? 'kecil_' : '';
-        $file_foto = base_url(LOKASI_USER_PICT . $ukuran . $foto);
+        $file_foto = base_url($lokasi . $ukuran . $foto);
 
-        if (! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto)) {
+        if (! file_exists(FCPATH . $lokasi . $ukuran . $foto)) {
             $file_foto = Foto_Default(null, $sex);
         }
     }
@@ -170,10 +170,10 @@ function UploadGambarWidget(string $nama_file, string $lokasi_file, ?string $old
 /**
  * Unggah foto
  */
-function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = '200x200'): bool
+function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = '200x200', string $lokasi = LOKASI_USER_PICT): bool
 {
     $ci                      = &get_instance();
-    $config['upload_path']   = LOKASI_USER_PICT;
+    $config['upload_path']   = $lokasi;
     $config['allowed_types'] = 'jpg|png|jpeg';
     $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize($config);
@@ -186,10 +186,10 @@ function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = 
     $uploadedImage = $ci->upload->data();
     if ($old_foto != '') {
         // Hapus old_foto
-        unlink(LOKASI_USER_PICT . $old_foto);
+        unlink($lokasi . $old_foto);
     }
     $dimensi = generateDimensi($dimensi);
-    ResizeGambar($uploadedImage['full_path'], LOKASI_USER_PICT . $fupload_name, ['width' => $dimensi['width'], 'height' => $dimensi['height']]);
+    ResizeGambar($uploadedImage['full_path'], $lokasi . $fupload_name, ['width' => $dimensi['width'], 'height' => $dimensi['height']]);
 
     unlink($uploadedImage['full_path']);
 
@@ -777,7 +777,7 @@ function qrcode_generate(array $qrcode = [], $base64 = false): string
     return $filename;
 }
 
-function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '')
+function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '', string $lokasi = LOKASI_USER_PICT)
 {
     $foto     = $_POST['foto'];
     $old_foto = $_POST['old_foto'];
@@ -788,7 +788,7 @@ function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '')
 
     if ($_FILES['foto']['tmp_name']) {
         $nama_file .= get_extension($_FILES['foto']['name']);
-        UploadFoto($nama_file, $old_foto, $dimensi);
+        UploadFoto($nama_file, $old_foto, $dimensi, $lokasi);
     } elseif ($foto) {
         $nama_file .= '.png';
         $foto = str_replace('data:image/png;base64,', '', $foto);
@@ -796,12 +796,12 @@ function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '')
 
         if (isset($old_foto)) {
             // Hapus old_foto
-            unlink(LOKASI_USER_PICT . $old_foto);
-            unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
+            unlink($lokasi . $old_foto);
+            unlink($lokasi . 'kecil_' . $old_foto);
         }
 
-        file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
-        file_put_contents(LOKASI_USER_PICT . 'kecil_' . $nama_file, $foto);
+        file_put_contents($lokasi . $nama_file, $foto);
+        file_put_contents($lokasi . 'kecil_' . $nama_file, $foto);
     } else {
         $nama_file = null;
     }

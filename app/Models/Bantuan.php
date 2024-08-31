@@ -385,6 +385,7 @@ class Bantuan extends BaseModel
                 'umur' => umur($data->tanggallahir),
             ])->toArray();
         }
+
         return null;
     }
 
@@ -463,7 +464,7 @@ class Bantuan extends BaseModel
             ->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->no_kk, $filter))->map(static fn($item): array => [
+            return collect($data)->filter(static fn ($item): bool => ! in_array($item->no_kk, $filter))->map(static fn ($item): array => [
                 'id'   => $item->nik,
                 'nik'  => $item->nik,
                 'nama' => strtoupper('KK[' . $item->no_kk . '] - [' . $item->kk_level . '] ' . $item->nama . ' [' . $item->nik . ']'),
@@ -489,7 +490,7 @@ class Bantuan extends BaseModel
             ->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->no_kk, $filter))->map(static fn($item): array => [
+            return collect($data)->filter(static fn ($item): bool => ! in_array($item->no_kk, $filter))->map(static fn ($item): array => [
                 'id'   => $item->nik,
                 'nik'  => $item->nik,
                 'nama' => strtoupper($item->nama) . ' [' . $item->nik . ']',
@@ -516,7 +517,7 @@ class Bantuan extends BaseModel
             ->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->id, $filter))->map(static fn($item): array => [
+            return collect($data)->filter(static fn ($item): bool => ! in_array($item->id, $filter))->map(static fn ($item): array => [
                 'id'   => $item->id,
                 'nik'  => $item->id,
                 'nama' => strtoupper($item->nama) . ' [' . $item->id . ']',
@@ -544,7 +545,7 @@ class Bantuan extends BaseModel
             ->get();
 
         if ($data) {
-            return collect($data)->filter(static fn ($item): bool => ! in_array($item->id, $filter))->map(static fn($item): array => [
+            return collect($data)->filter(static fn ($item): bool => ! in_array($item->id, $filter))->map(static fn ($item): array => [
                 'id'   => $item->id,
                 'nik'  => $item->nama_kelompok,
                 'nama' => strtoupper($item->nama) . ' [' . $item->nama_kelompok . ']',
@@ -598,10 +599,10 @@ class Bantuan extends BaseModel
         $query = self::get_peserta_sql($slug, $hasil0['sasaran']);
 
         return match ($hasil0['sasaran']) {
-            1 => self::get_data_peserta_penduduk($query),
-            2 => self::get_data_peserta_kk($query),
-            3 => self::get_data_peserta_rumah_tangga($query),
-            4 => self::get_data_peserta_kelompok($query),
+            1       => self::get_data_peserta_penduduk($query),
+            2       => self::get_data_peserta_kk($query),
+            3       => self::get_data_peserta_rumah_tangga($query),
+            4       => self::get_data_peserta_kelompok($query),
             default => null,
         };
     }

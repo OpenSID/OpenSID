@@ -57,7 +57,7 @@
                                                                 <td>{{ $data->nama }}</td>
                                                                 <td>{{ $data->nik }}</td>
                                                                 <td>{{ $data->tempatlahir }}</td>
-                                                                <td>{{ $data->tanggallahir->format('Y-m-d') }}</td>
+                                                                <td>{{ $data->tanggallahir?->format('Y-m-d') }}</td>
                                                                 <td>{{ $data->nama_ayah }}</td>
                                                                 <td>{{ $data->nama_ibu }}</td>
                                                             </tr>
