@@ -1,4 +1,4 @@
-Di rilis ini, versi 2408.1.0 berisi penambahan pengaturan format penomoran surat pada masing-masing surat dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2409.0.0 berisi penambahan pengaturan format penomoran surat pada masing-masing surat dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
@@ -88,3 +88,7 @@ Terima kasih pada @arifpriadi telah ikut berkontribusi.
 
 #### KEAMANAN
 1. [#3410](https://github.com/OpenSID/premium/issues/3410) Peningkatan keamanan unggah foto pengguna.
+
+
+#### INFO PENTING
+- Pada rilis ini, penggunaan surat jenis RTF tidak didukung dan tidak dikembangkan lagi. Silahkan beralih dan gunakan surat jenis TinyMCE yang sudah dikembangkan.
