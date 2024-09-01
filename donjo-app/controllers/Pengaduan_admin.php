@@ -42,10 +42,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengaduan_admin extends Admin_Controller
 {
+    public $modul_ini = 'pengaduan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'pengaduan';
     }
 
     public function index()
@@ -98,8 +99,8 @@ class Pengaduan_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('status', static fn ($row): string => '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>')
-                ->editColumn('created_at', static fn ($row): string => tgl_indo2($row->created_at))
+                ->editColumn('status', static fn($row): string => '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>')
+                ->editColumn('created_at', static fn($row): string => tgl_indo2($row->created_at))
                 ->rawColumns(['ceklist', 'aksi', 'status'])
                 ->make();
         }

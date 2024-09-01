@@ -179,7 +179,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-						<?php if ($main) :
+						<?php if ($main):
 							if ($tampil_jumlah) {
 								$totals = [
 									'WNA_L_AWAL'          => 0,
@@ -213,7 +213,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								];
 							}
 
-							foreach ($main as $key => $data) :
+							foreach ($main as $key => $data):
 								if ($tampil_jumlah) {
 									$data['JLH_JIWA_1'] = $data['KK_JLH'] + $data['KK_ANG_KEL'];
 									$data['JLH_JIWA_2'] = $data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'];

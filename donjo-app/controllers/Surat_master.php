@@ -41,7 +41,6 @@ use App\Libraries\TinyMCE;
 use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
-use App\Models\LampiranSurat;
 use App\Models\LogSurat;
 use App\Models\SettingAplikasi;
 use App\Models\Sex;
@@ -56,14 +55,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_master extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-surat';
+    public $sub_modul_ini = 'pengaturan-surat';
     protected TinyMCE $tinymce;
 
     public function __construct()
     {
         parent::__construct();
-        $this->tinymce       = new TinyMCE();
-        $this->modul_ini     = 'layanan-surat';
-        $this->sub_modul_ini = 'pengaturan-surat';
+        $this->tinymce = new TinyMCE();
         $this->load->library('MY_Upload', null, 'upload');
     }
 
@@ -111,7 +110,7 @@ class Surat_master extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('lampiran', static fn ($row): string => kode_format($row->lampiran))
+                ->editColumn('lampiran', static fn($row): string => kode_format($row->lampiran))
                 ->rawColumns(['ceklist', 'aksi', 'template_surat'])
                 ->make();
         }
@@ -144,7 +143,7 @@ class Surat_master extends Admin_Controller
             })->values();
 
             $data['kategori_isian'] = $kategori_isian;
-            $data['kode_isian']     = collect($data['suratMaster']->kode_isian)->reject(static fn ($item): bool => isset($item->kategori))->values();
+            $data['kode_isian']     = collect($data['suratMaster']->kode_isian)->reject(static fn($item): bool => isset($item->kategori))->values();
 
             $data['klasifikasiSurat'] = KlasifikasiSurat::where('kode', $data['suratMaster']->kode_surat)->first();
 
@@ -161,12 +160,12 @@ class Surat_master extends Admin_Controller
         $data['footer']               = $data['suratMaster']->footer ?? 1;
         $data['daftar_lampiran']      = $this->tinymce->getDaftarLampiran();
         $data['format_nomor']         = $data['suratMaster']->format_nomor;
+        $data['format_nomor_global']  = $data['suratMaster']->format_nomor_global;
         $data['form_isian']           = $this->form_isian();
         $data['simpan_sementara']     = site_url('surat_master/simpan_sementara');
         $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
         $data['attributes']           = FormatSurat::ATTRIBUTES;
-        // $data['pengaturanSurat']      = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
-        $data['pendudukLuar'] = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+        $data['pendudukLuar']         = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
 
         return view('admin.pengaturan_surat.form', $data);
     }
@@ -187,7 +186,7 @@ class Surat_master extends Admin_Controller
 
             return json([
                 'results' => collect($surat->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->kode,
                         'text' => $item->kode . ' - ' . $item->nama,
                     ]),
@@ -425,6 +424,7 @@ class Surat_master extends Admin_Controller
             'header'                   => (int) $request['header'],
             'footer'                   => (int) $request['footer'],
             'format_nomor'             => $request['format_nomor'],
+            'format_nomor_global'      => (int) $request['format_nomor_global'],
             'sumber_penduduk_berulang' => $request['sumber_penduduk_berulang'],
         ];
 
@@ -507,7 +507,7 @@ class Surat_master extends Admin_Controller
             $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
             $list_data = collect(json_decode($list_data, true))
                 ->where('url_surat', $url_surat)
-                ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
+                ->map(static fn($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
                 ->first();
 
             if ($list_data && $cek_surat->update($list_data)) {
@@ -523,8 +523,8 @@ class Surat_master extends Admin_Controller
         $this->set_hak_akses_rfm();
         $data['font_option']   = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
         $data['tte_demo']      = empty($this->setting->tte_api) || get_domain($this->setting->tte_api) === get_domain(APP_URL);
-        $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
-        $data['sekdes']        = User::where('active', '=', 1)->whereHas('pamong', static fn ($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
+        $data['kades']         = User::where('active', '=', 1)->whereHas('pamong', static fn($query) => $query->where('jabatan_id', '=', kades()->id))->exists();
+        $data['sekdes']        = User::where('active', '=', 1)->whereHas('pamong', static fn($query) => $query->where('jabatan_id', '=', sekdes()->id))->exists();
         $data['aksi']          = ci_route('surat_master.update');
         $data['formAksi']      = ci_route('surat_master.edit_pengaturan');
         $margin                = setting('surat_margin');
@@ -726,7 +726,7 @@ class Surat_master extends Admin_Controller
         }
 
         $file_name = namafile('Template Surat TInyMCE') . '.json';
-        $ekspor    = $ekspor->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())->toArray();
+        $ekspor    = $ekspor->map(static fn($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())->toArray();
 
         $this->output
             ->set_header("Content-Disposition: attachment; filename={$file_name}")
@@ -784,7 +784,7 @@ class Surat_master extends Admin_Controller
         return FormatSurat::jenis($jenis)
             ->latest('id')
             ->get()
-            ->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
+            ->map(static fn($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
             ->toArray();
     }
 
@@ -809,7 +809,7 @@ class Surat_master extends Admin_Controller
     private function formatImport($list_data = null)
     {
         return collect(json_decode($list_data, true))
-            ->map(static fn ($item): array => [
+            ->map(static fn($item): array => [
                 'nama'                => $item['nama'],
                 'url_surat'           => $item['url_surat'],
                 'kode_surat'          => $item['kode_surat'],
@@ -826,10 +826,13 @@ class Surat_master extends Admin_Controller
                 'template'            => $item['template'],
                 'template_desa'       => $item['template_desa'],
                 'form_isian'          => json_encode($item['form_isian'], JSON_THROW_ON_ERROR),
-                'kode_isian'          => collect($item['kode_isian'])->filter(static fn ($item): bool => !in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']))->values()->toJson(),
+                'kode_isian'          => collect($item['kode_isian'])->filter(static fn($item): bool => !in_array($item['kode'], ['[form_nik_non_warga]', '[form_nama_non_warga]']))->values()->toJson(),
                 'orientasi'           => $item['orientasi'],
                 'ukuran'              => $item['ukuran'],
+                'margin_global'       => $item['margin_global'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'margin'              => $item['margin'],
+                'format_nomor_global' => $item['format_nomor_global'] ? StatusEnum::YA : StatusEnum::TIDAK,
+                'format_nomor'        => $item['format_nomor'],
                 'footer'              => $item['footer'],
                 'header'              => $item['header'],
                 'created_at'          => date('Y-m-d H:i:s'),

@@ -42,11 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mailbox extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'kotak-pesan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'kotak-pesan';
     }
 
     public function index(int $kategori): void
@@ -67,7 +68,7 @@ class Mailbox extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of(PesanMandiri::with(['penduduk'])->whereTipe($tipe)
-                ->when($pendudukId, static fn ($q) => $q->wherePendudukId($pendudukId))
+                ->when($pendudukId, static fn($q) => $q->wherePendudukId($pendudukId))
                 ->when($status, static function ($q) use ($status) {
                     switch ($status) {
                         case 1:
@@ -80,14 +81,14 @@ class Mailbox extends Admin_Controller
                     }
                 }))
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
-                    if ($canDelete && !$row->isArchive()) {
+                    if ($canDelete && ! $row->isArchive()) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->uuid . '"/>';
                     }
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete) {
                     $aksi = '';
-                    if ($canDelete && !$row->isArchive()) {
+                    if ($canDelete && ! $row->isArchive()) {
                         $aksi .= '<a href="#" data-href="' . ci_route('mailbox.delete.' . $row->tipe, $row->uuid) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a> ';
                     }
 
@@ -104,8 +105,8 @@ class Mailbox extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('status', static fn ($row): string => $row->status == '1' ? 'Sudah Dibaca' : 'Belum Dibaca')
-                ->editColumn('tgl_upload', static fn ($row): string => tgl_indo2($row->tgl_upload))
+                ->addColumn('status', static fn($row): string => $row->status == '1' ? 'Sudah Dibaca' : 'Belum Dibaca')
+                ->editColumn('tgl_upload', static fn($row): string => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -168,7 +169,7 @@ class Mailbox extends Admin_Controller
     {
         $cari                   = $this->input->get('q');
         $page                   = 2; //$this->input->get('page');
-        $list_pendaftar_mandiri = Penduduk::whereHas('mandiri')->withOnly(['Wilayah', 'keluarga'])->where(static fn ($r) => $r->where('nama', 'like', '%' . $cari . '%')->orWhere('nik', 'like', '%' . $cari . '%'))->offset(($page - 1) * 15)->simplePaginate();
+        $list_pendaftar_mandiri = Penduduk::whereHas('mandiri')->withOnly(['Wilayah', 'keluarga'])->where(static fn($r) => $r->where('nama', 'like', '%' . $cari . '%')->orWhere('nik', 'like', '%' . $cari . '%'))->offset(($page - 1) * 15)->simplePaginate();
         $data                   = $list_pendaftar_mandiri->items();
         $result                 = [];
         if ($data) {
@@ -201,7 +202,7 @@ class Mailbox extends Admin_Controller
             $pesan->status = $nextStatus;
             $pesan->save();
             redirect_with('success', 'Berhasil ubah status', ci_route('mailbox', $tipe));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             redirect_with('error', 'Gagal ubah status ' . $e->getMessage(), ci_route('mailbox', $tipe));
         }
     }

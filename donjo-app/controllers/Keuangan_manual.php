@@ -39,11 +39,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keuangan_manual extends Admin_Controller
 {
+    public $modul_ini = 'keuangan';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['keuangan_manual_model', 'keuangan_grafik_manual_model']);
-        $this->modul_ini = 'keuangan';
     }
 
     public function index(): void
@@ -119,7 +120,8 @@ class Keuangan_manual extends Admin_Controller
 
     public function manual_apbdes(): void
     {
-        $this->sub_modul_ini    = 'input-data';
+        $this->sub_modul_ini = 'input-data';
+
         $data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
         $default_tahun          = empty($data['tahun_anggaran']) ? null : $data['tahun_anggaran'][0];
         $this->session->set_tahun ??= $default_tahun;

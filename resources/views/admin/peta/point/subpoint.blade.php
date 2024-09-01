@@ -60,8 +60,10 @@
                 </div>
                 </form>
             </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 @include('admin.layouts.components.konfirmasi_hapus')

@@ -44,15 +44,16 @@ use App\Models\PendudukMandiri;
 
 class Mandiri extends Admin_Controller
 {
+    public $modul_ini     = 'layanan-mandiri';
+    public $sub_modul_ini = 'pendaftar-layanan-mandiri';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
         $this->load->library('email');
         $this->email->initialize(config_email());
-        $this->modul_ini     = 'layanan-mandiri';
-        $this->sub_modul_ini = 'pendaftar-layanan-mandiri';
-        $this->telegram      = new Telegram();
+        $this->telegram = new Telegram();
     }
 
     public function index()

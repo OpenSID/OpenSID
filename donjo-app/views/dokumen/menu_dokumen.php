@@ -9,7 +9,7 @@
 		<div class="box-body no-padding">
 			<ul class="nav nav-pills nav-stacked">
 
-				$counter = count($submenu);<?php for ($i = 1; $i < $counter; $i++) : ?>
+				$counter = count($submenu);<?php for ($i = 1; $i < $counter; $i++): ?>
 				<li class="<?php if ($_SESSION['submenu'] == $submenu[$i]['id']) {
 													echo 'active';
 												} ?>"><a href="<?= site_url('dokumen_sekretariat/peraturan_desa/' . $submenu[$i]['id']) ?>"><?= $submenu[$i]['nama'] ?></a></li>

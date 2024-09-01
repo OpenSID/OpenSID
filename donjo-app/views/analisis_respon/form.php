@@ -28,7 +28,7 @@
 									<i class="fa fa-search-plus"></i>Full Screen
 								</a>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('u')) : ?>
+							<?php if (can('u')) : ?>
 								<a href="<?= $perbaharui; ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perbaharui Data <?= $analisis_master['subjek_nama']; ?>"><i class="fa fa-refresh"></i> Pebaharui Data <?= $analisis_master['subjek_nama']; ?></a>
 							<?php endif; ?>
 							<a href="<?= site_url('analisis_respon'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
@@ -203,7 +203,7 @@
 										</div>
 									</div>
 								</div>
-								<?php if ($this->CI->cek_hak_akses('u')) : ?>
+								<?php if (can('u')) : ?>
 									<div class="box-footer">
 										<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
 										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>

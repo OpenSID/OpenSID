@@ -24,9 +24,7 @@ class HeaderUtils
     /**
      * This class should not be instantiated.
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Splits an HTTP header by one or more separators.
@@ -58,13 +56,13 @@ class HeaderUtils
                         "(?:[^"\\\\]|\\\\.)*(?:"|\\\\|$)
                     |
                         # token
-                        [^"'.$quotedSeparators.']+
+                        [^"' . $quotedSeparators . ']+
                     )+
                 (?<!\s)
             |
                 # separator
                 \s*
-                (?<separator>['.$quotedSeparators.'])
+                (?<separator>[' . $quotedSeparators . '])
                 \s*
             /x', trim($header), $matches, \PREG_SET_ORDER);
 
@@ -115,11 +113,11 @@ class HeaderUtils
             if (true === $value) {
                 $parts[] = $name;
             } else {
-                $parts[] = $name.'='.self::quote($value);
+                $parts[] = $name . '=' . self::quote($value);
             }
         }
 
-        return implode($separator.' ', $parts);
+        return implode($separator . ' ', $parts);
     }
 
     /**
@@ -135,7 +133,7 @@ class HeaderUtils
             return $s;
         }
 
-        return '"'.addcslashes($s, '"\\"').'"';
+        return '"' . addcslashes($s, '"\\"') . '"';
     }
 
     /**
@@ -189,10 +187,10 @@ class HeaderUtils
 
         $params = ['filename' => $filenameFallback];
         if ($filename !== $filenameFallback) {
-            $params['filename*'] = "utf-8''".rawurlencode($filename);
+            $params['filename*'] = "utf-8''" . rawurlencode($filename);
         }
 
-        return $disposition.'; '.self::toString($params, ';');
+        return $disposition . '; ' . self::toString($params, ';');
     }
 
     /**
@@ -228,9 +226,9 @@ class HeaderUtils
             }
 
             if (false === $i = strpos($k, '[')) {
-                $q[] = bin2hex($k).$v;
+                $q[] = bin2hex($k) . $v;
             } else {
-                $q[] = bin2hex(substr($k, 0, $i)).rawurlencode(substr($k, $i)).$v;
+                $q[] = bin2hex(substr($k, 0, $i)) . rawurlencode(substr($k, $i)) . $v;
             }
         }
 
@@ -244,7 +242,7 @@ class HeaderUtils
 
         foreach ($q as $k => $v) {
             if (false !== $i = strpos($k, '_')) {
-                $query[substr_replace($k, hex2bin(substr($k, 0, $i)).'[', 0, 1 + $i)] = $v;
+                $query[substr_replace($k, hex2bin(substr($k, 0, $i)) . '[', 0, 1 + $i)] = $v;
             } else {
                 $query[hex2bin($k)] = $v;
             }
@@ -286,11 +284,7 @@ class HeaderUtils
         }
 
         foreach ($partMatches as $matches) {
-            if ('' === $separators && '' !== $unquoted = self::unquote($matches[0][0])) {
-                $parts[] = $unquoted;
-            } elseif ($groupedParts = self::groupParts($matches, $separators, false)) {
-                $parts[] = $groupedParts;
-            }
+            $parts[] = '' === $separators ? self::unquote($matches[0][0]) : self::groupParts($matches, $separators, false);
         }
 
         return $parts;

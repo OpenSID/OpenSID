@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\PendudukAsuransi;
+use Illuminate\Support\Facades\DB;
 use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Impor_model extends MY_Model
@@ -87,6 +88,8 @@ class Impor_model extends MY_Model
         'tag_id_card',
         'id_asuransi',
         'no_asuransi',
+        'lat',
+        'lng',
     ];
 
     public function __construct()
@@ -281,6 +284,14 @@ class Impor_model extends MY_Model
             return 'Panjang karakter tag id card minimal 10 karakter dan maksimal 17 karakter';
         }
 
+        if ($isi_baris['lat'] != '' && (strlen($isi_baris['lat']) < 2 || strlen($isi_baris['lat']) > 24)) {
+            return 'Panjang karakter lat minimal 2 karakter dan maksimal 24 karakter';
+        }
+
+        if ($isi_baris['lng'] != '' && (strlen($isi_baris['lng']) < 2 || strlen($isi_baris['lng']) > 24)) {
+            return 'Panjang karakter lng minimal 2 karakter dan maksimal 24 karakter';
+        }
+
         // Validasi data lain
         if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'NIK salah';
@@ -402,6 +413,8 @@ class Impor_model extends MY_Model
         $isi_baris['tag_id_card']          = $this->cek_kosong($rowData[$kolom['tag_id_card']]);
         $isi_baris['id_asuransi']          = $this->get_konversi_kode($this->kode_asuransi, $rowData[$kolom['id_asuransi']]);
         $isi_baris['no_asuransi']          = $this->cek_kosong($rowData[$kolom['no_asuransi']]);
+        $isi_baris['lat']                  = $this->cek_kosong($rowData[$kolom['lat']]);
+        $isi_baris['lng']                  = $this->cek_kosong($rowData[$kolom['lng']]);
 
         return $isi_baris;
     }
@@ -666,6 +679,9 @@ class Impor_model extends MY_Model
             $this->penduduk_model->tulis_log_penduduk_data($log);
         }
 
+        // Tambah atau perbarui lokasi penduduk
+        $this->penduduk_map($penduduk_baru, $isi_baris['lat'], $isi_baris['lng']);
+
         // Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
         // dan sudah ada NIK
         if ($data['kk_level'] == 1) {
@@ -679,6 +695,24 @@ class Impor_model extends MY_Model
         }
 
         return $penduduk_baru;
+    }
+
+    private function penduduk_map($id = 0, $lat = null, $lng = null)
+    {
+        if ($lat === null || $lng === null) {
+            return false;
+        }
+
+        // Ubah data penduduk map
+        DB::table('tweb_penduduk_map')->updateOrInsert([
+            'id' => $id,
+        ], [
+            'lat' => $lat,
+            'lng' => $lng,
+        ]);
+
+        // Hapus data lat dan lng yang null
+        DB::table('tweb_penduduk_map')->orWhereNull(['id', 'lat', 'lng'])->delete();
     }
 
     private function hapus_data_penduduk(): void

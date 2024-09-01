@@ -90,7 +90,7 @@
 							</div>
 						</form>
 					</div>
-					<?php if ($this->CI->cek_hak_akses('u', '', 'covid19/pantau')) : ?>
+					<?php if (can('u', '', 'covid19/pantau')): ?>
 						<div class="box-footer">
 							<div class="box-tools pull-right">
 								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
@@ -145,7 +145,7 @@
 												<thead class="bg-gray disabled color-palette">
 													<tr>
 														<th>No</th>
-														<?php if ($this->CI->cek_hak_akses('h', '', 'covid19/pantau')) : ?>
+														<?php if (can('h', '', 'covid19/pantau')): ?>
 															<th>Aksi</th>
 														<?php endif; ?>
 														<th>Data H+</th>
@@ -167,12 +167,12 @@
 													<?php
 													$nomer = $paging->offset;
 
-													foreach ($pantau_pemudik_array as $item) :
+													foreach ($pantau_pemudik_array as $item):
 														$nomer++;
 													?>
 														<tr>
 															<td align="center" width="2"><?= $nomer; ?></td>
-															<?php if ($this->CI->cek_hak_akses('h', '', 'covid19/pantau')) : ?>
+															<?php if (can('h', '', 'covid19/pantau')): ?>
 																<td nowrap>
 																	<a href="#" data-href="<?= site_url("{$url_delete_front}/{$item['id']}/{$url_delete_rare}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>

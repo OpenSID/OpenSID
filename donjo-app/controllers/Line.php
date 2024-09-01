@@ -42,15 +42,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Line extends Admin_Controller
 {
-    private int $tip    = 2;
-    private int $parent = 1;
-    private int $tipe   = 0;
+    public $modul_ini     = 'pemetaan';
+    public $sub_modul_ini = 'pengaturan-peta';
+    private int $tip      = 2;
+    private int $parent   = 1;
+    private int $tipe     = 0;
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pemetaan';
-        $this->sub_modul_ini = 'pengaturan-peta';
     }
 
     public function index(): void

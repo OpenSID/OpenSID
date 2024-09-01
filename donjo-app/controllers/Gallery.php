@@ -42,11 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Gallery extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'galeri';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'galeri';
     }
 
     public function index(): void
@@ -109,8 +110,8 @@ class Gallery extends Admin_Controller
 
                     return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
                 })
-                ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
-                ->editColumn('enabled', static fn ($row) => $row->enabled ? 'Ya' : 'Tidak')
+                ->editColumn('tgl_upload', static fn($row) => tgl_indo2($row->tgl_upload))
+                ->editColumn('enabled', static fn($row) => $row->enabled ? 'Ya' : 'Tidak')
                 ->rawColumns(['aksi', 'ceklist', 'nama'])
                 ->make();
         }
@@ -142,7 +143,7 @@ class Gallery extends Admin_Controller
     {
         isCan('u');
         $data = $this->validasi($this->input->post());
-        if (!$data) {
+        if (! $data) {
             redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
         }
         $rawParent       = decrypt($parent);
@@ -166,7 +167,7 @@ class Gallery extends Admin_Controller
     {
         isCan('u');
         $data = $this->validasi($this->input->post());
-        if (!$data) {
+        if (! $data) {
             redirect_with('error', $_SESSION['error_msg'], ci_route('gallery.index') . '?parent=' . $parent);
         }
 
@@ -260,8 +261,8 @@ class Gallery extends Admin_Controller
             $lokasi_file = $_FILES['gambar']['tmp_name'];
             $tipe_file   = TipeFile($_FILES['gambar']);
             // Bolehkan album tidak ada gambar cover
-            if (!empty($lokasi_file)) {
-                if (!CekGambar($_FILES['gambar'], $tipe_file)) {
+            if (! empty($lokasi_file)) {
+                if (! CekGambar($_FILES['gambar'], $tipe_file)) {
                     return false;
                 }
                 $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);

@@ -44,12 +44,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kehadiran_rekapitulasi extends Admin_Controller
 {
+    public $modul_ini           = 'kehadiran';
+    public $sub_modul_ini       = 'rekapitulasi';
+    public $kategori_pengaturan = 'kehadiran';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'kehadiran';
-        $this->sub_modul_ini      = 'rekapitulasi';
-        $this->header['kategori'] = 'kehadiran';
     }
 
     public function index()

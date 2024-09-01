@@ -51,7 +51,7 @@ if (! function_exists('app')) {
 
         $container = Container::getInstance();
 
-        $container->singleton('ci', static fn () => $ci);
+        $container->singleton('ci', static fn() => $ci);
 
         if (null === $abstract) {
             return $container;
@@ -164,7 +164,7 @@ if (! function_exists('dispatch')) {
      */
     function dispatch($job): object
     {
-        return new class ($job) {
+        return new class($job) {
             /**
              * The job.
              *
@@ -217,7 +217,7 @@ if (! function_exists('dispatch')) {
              */
             protected function shouldDispatch(): bool
             {
-                if (! $this->job instanceof Illuminate\Contracts\Queue\ShouldBeUnique) {
+                if (! $this->job instanceof \Illuminate\Contracts\Queue\ShouldBeUnique) {
                     return true;
                 }
 
@@ -245,8 +245,7 @@ if (! function_exists('dispatch')) {
                 if (! $this->shouldDispatch()) {
                     return;
                 }
-                    app(Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
-
+                app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
             }
         };
     }
@@ -263,7 +262,7 @@ if (! function_exists('dispatch_now')) {
      */
     function dispatch_now($job, $handler = null)
     {
-        return app(Illuminate\Contracts\Bus\Dispatcher::class)->dispatchNow($job, $handler);
+        return app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatchNow($job, $handler);
     }
 }
 
@@ -338,7 +337,7 @@ if (! function_exists('view')) {
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
-        app()->register(App\Providers\ViewServiceProvider::class);
+        app()->register(\App\Providers\ViewServiceProvider::class);
 
         $factory = app('view');
 

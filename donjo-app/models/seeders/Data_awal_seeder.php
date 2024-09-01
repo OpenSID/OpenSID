@@ -49,7 +49,7 @@ class Data_awal_seeder extends CI_Model
         set_time_limit(5400);
     }
 
-    public function run(): void
+    public function run()
     {
         $db = DB::getDatabaseName();
         // Error menggunakan Illuminate untuk alter database ini

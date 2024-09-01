@@ -43,6 +43,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Grup extends Admin_Controller
 {
+    public $modul_ini       = 'pengaturan';
+    public $sub_modul_ini   = 'pengguna';
     private int $tab_ini    = 11;
     private bool $view_only = false;
     private $ref_grup;
@@ -50,8 +52,7 @@ class Grup extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'pengaturan';
-        $this->sub_modul_ini = 'pengguna';
+        isCan('b');
     }
 
     public function index()
@@ -161,8 +162,6 @@ class Grup extends Admin_Controller
 
     private function set_form_validation(): void
     {
-        $this->load->helper('form');
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('nama', 'Nama Grup', 'required|callback_syarat_nama');
         $this->form_validation->set_message('nama', 'Hanya boleh berisi karakter alfanumerik, spasi dan strip');

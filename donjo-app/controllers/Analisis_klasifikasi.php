@@ -39,6 +39,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_klasifikasi extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
+
     public function __construct()
     {
         parent::__construct();
@@ -53,8 +56,6 @@ class Analisis_klasifikasi extends Admin_Controller
         $this->load->model(['analisis_klasifikasi_model', 'analisis_master_model']);
         $this->session->submenu  = 'Data Klasifikasi';
         $this->session->asubmenu = "{$this->controller}";
-        $this->modul_ini         = 'analisis';
-        $this->sub_modul_ini     = 'master-analisis';
         $this->set_page          = ['20', '50', '100'];
         $this->list_session      = ['cari', 'filter', 'state'];
     }

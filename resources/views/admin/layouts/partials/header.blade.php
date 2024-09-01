@@ -32,7 +32,7 @@
                 @endif
 
                 {{-- TODO:: Cek ini kenapa statis --}}
-                @if (in_array('343', array_column($modul, 'id')) && can('b', 'pesan'))
+                @if (in_array('343', array_column($modul ?? [], 'id')) && can('b', 'pesan'))
                     <li class="komunikasi-opendk">
                         <a href="{{ ci_route('opendk_pesan.clear') }}">
                             <i class="fa fa-university fa-lg" title="Komunikasi OpenDK"></i>&nbsp;
@@ -133,7 +133,7 @@
             <li>
                 <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
             </li>
-            @if ($kategori && can('u', $akses_modul ?? ($modul_ini ?? $sub_modul_ini)))
+            @if ($kategori_pengaturan && can('u', $akses_modul ?? ($modul_ini ?? $sub_modul_ini)))
                 <li>
                     @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
                         <a href="#" class="atur-token">

@@ -41,12 +41,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kehadiran_hari_libur extends Admin_Controller
 {
+    public $modul_ini           = 'kehadiran';
+    public $sub_modul_ini       = 'hari-libur';
+    public $kategori_pengaturan = 'kehadiran';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'kehadiran';
-        $this->sub_modul_ini      = 'hari-libur';
-        $this->header['kategori'] = 'kehadiran';
+        isCan('b');
     }
 
     public function index()
@@ -155,7 +157,6 @@ class Kehadiran_hari_libur extends Admin_Controller
     {
         $_POST['tanggal'] = date('Y-m-d', strtotime($request['tanggal']));
 
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
         $rules = empty($id)
             ? 'is_unique[kehadiran_hari_libur.tanggal]'

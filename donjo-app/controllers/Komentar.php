@@ -43,12 +43,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Komentar extends Admin_Controller
 {
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'komentar';
+
     public function __construct()
     {
         parent::__construct();
-
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'komentar';
     }
 
     public function index(): void
@@ -84,9 +84,9 @@ class Komentar extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('enabled', static fn ($row): string => $row->status == '1' ? 'Ya' : 'Tidak')
-                ->editColumn('dimuat_pada', static fn ($row): string => tgl_indo2($row->tgl_upload))
-                ->editColumn('judul_artikel', static fn ($row): string => '<a href="' . $row->artikel->url_slug . '" target="_blank">' . $row->artikel->judul . '</a>')
+                ->addColumn('enabled', static fn($row): string => $row->status == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('dimuat_pada', static fn($row): string => tgl_indo2($row->tgl_upload))
+                ->editColumn('judul_artikel', static fn($row): string => '<a href="' . $row->artikel->url_slug . '" target="_blank">' . $row->artikel->judul . '</a>')
                 ->rawColumns(['ceklist', 'enabled', 'aksi', 'dimuat_pada', 'judul_artikel'])
                 ->make();
         }

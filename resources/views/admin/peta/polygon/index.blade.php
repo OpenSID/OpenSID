@@ -38,41 +38,23 @@
                     <i class="fa fa-arrow-circle-left "></i>Kembali ke Tipe Area
                 </a>
                 @endif
+                <table class="table table-bordered table-hover" id="tabeldata">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkall" /></th>
+                            <th class="padat">No</th>
+                            <th class="padat">Aksi</th>
+                            <th>Jenis</th>
+                            <th style="width:10%">Aktif</th>
+                            <th style="width:10%">Warna</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <select id="status" class="form-control input-sm select2" name="status">
-                            <option value="">Pilih Status</option>
-                            @foreach ($status as $key => $item)
-                            <option value="{{ $key }}">{{ $item }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <hr>
-                {!! form_open(null, 'id="mainform" name="mainform"') !!}
-                <div class="table-responsive">
-                    @if ($parent_jenis)
-                    <h5 class="box-title text-center">Daftar Kategori {{ $parent_jenis }}</h5>
-                    @endif
-                    <table class="table table-bordered table-hover" id="tabeldata">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox" id="checkall" /></th>
-                                <th class="padat">No</th>
-                                <th class="padat">Aksi</th>
-                                <th>Jenis</th>
-                                <th style="width:10%">Aktif</th>
-                                <th style="width:10%">Warna</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 @include('admin.layouts.components.konfirmasi_hapus')

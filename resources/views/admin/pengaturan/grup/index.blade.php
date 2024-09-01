@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-9">
         <div class="box box-info">
-            <?php if (can('u')) : ?>
+            @if (can('u'))
             <div class="box-header with-border">
                 @if (can('u'))
                 <a href="{{ ci_route('grup/form') }}"
@@ -36,37 +36,38 @@
                 @endif
             </div>
             @endif
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <select id="jenis" class="form-control input-sm select2" name="jenis">
-                            <option value="">Jenis Grup</option>
-                            @foreach ($jenis as $key => $item)
-                            <option value="{{ $key }}">{{ $item }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    <select id="jenis" class="form-control input-sm select2" name="jenis">
+                        <option value="">Jenis Grup</option>
+                        @foreach ($jenis as $key => $item)
+                        <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <hr>
-                {!! form_open(null, 'id="mainform" name="mainform"') !!}
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
-                        <thead class="bg-gray">
-                            <tr>
-                                <th class="padat"><input type="checkbox" id="checkall" /></th>
-                                <th class="padat">No</th>
-                                <th class="padat">Aksi</th>
-                                <th>Grup</th>
-                                <th>Jenis</th>
-                                <th>Jumlah Pengguna</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                </form>
             </div>
+            <hr>
+            {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover tabel-daftar" id="tabeldata">
+                    <thead class="bg-gray">
+                        <tr>
+                            <th class="padat"><input type="checkbox" id="checkall" /></th>
+                            <th class="padat">No</th>
+                            <th class="padat">Aksi</th>
+                            <th>Grup</th>
+                            <th>Jenis</th>
+                            <th>Jumlah Pengguna</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

@@ -70,15 +70,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<a class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pieType" title="Pie Data" id="pieType" onclick="pieType();">
 								<i class="fa fa-pie-chart"></i>Pie Data
 							</a>
-							<?php if ((int) $lap == 13) : ?>
-								<a href="<?= site_url('statistik/rentang_umur'); ?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rentang Umur">
+							<?php if ((int) $lap == 13): ?>
+								<a href="<?=site_url('statistik/rentang_umur'); ?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rentang Umur">
 									<i class="fa fa-arrows-h"></i>Rentang Umur
 								</a>
 							<?php endif; ?>
 							<a href="<?= site_url("{$this->controller}/clear/{$lap}") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 						</div>
 						<div class="box-body">
-							<?php if ((int) $lap < 50) : ?>
+							<?php if ((int) $lap < 50): ?>
 								<h4 class="box-title text-center"><b>Data Kependudukan Menurut <?= ($stat); ?></b></h4>
 							<?php else : ?>
 								<h4 class="box-title text-center"><b>Data Peserta Program <?= ($program['nama']); ?></b></h4>
@@ -182,27 +182,50 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<td class="text-right"><a href="<?= $tautan_data . $data['id'] ?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
 												<td class="text-right"><?= $data['persen2']; ?></td>
 											</tr>
-										<?php endforeach; ?>
-									</tbody>
-								</table>
+										</thead>
+										<tbody>
+											<?php foreach ($main as $data): ?>
+												<?php if ((int) $lap > 50) {
+                                                    $tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
+                                                } ?>
+												<tr>
+													<td class="padat"><?= $data['no']; ?></td>
+													<td class="text-left"><?= strtoupper($data['nama']); ?></td>
+													<td class="text-right">
+														<a href="<?= $tautan_data . $data['id'] ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
+													</td>
+													<td class="text-right"><?= $data['persen']; ?></td>
+													<td class="text-right"><a href="<?= $tautan_data . $data['id'] ?>/1" target="_blank"><?= $data['laki']; ?></a></td>
+													<td class="text-right"><?= $data['persen1']; ?></td>
+													<td class="text-right"><a href="<?= $tautan_data . $data['id'] ?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
+													<td class="text-right"><?= $data['persen2']; ?></td>
+												</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+								<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'])):?>
+									<p class="text-muted text-justify text-red"><b>Catatan:</b>
+										<br>
+										1. Angka masing-masing program menghitung semua peserta, aktif maupun yang tidak
+										<br>
+										2. Jumlah PENERIMA menghitung peserta aktif saja, dan setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan.
+										<br>
+										3. Jumlah BUKAN PENERIMA dan TOTAL menghitung peserta aktif saja.
+									</p>
+									<br><br>
+								<?php endif; ?>
+								<?php if ((int) $lap > 50): ?>
+									<p class="text-muted text-justify text-red"><b>Catatan:</b>
+										<br>
+										1. Jumlah PESERTA termasuk peserta yang mungkin tidak aktif lagi.<br>
+										2. Jumlah BUKAN PESERTA dan TOTAL menghitung peserta aktif saja.
+									</p>
+								<?php endif; ?>
 							</div>
-							<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'])) : ?>
-								<p class="text-muted text-justify text-red"><b>Catatan:</b>
-									<br>
-									1. Angka masing-masing program menghitung semua peserta, aktif maupun yang tidak
-									<br>
-									2. Jumlah PENERIMA menghitung peserta aktif saja, dan setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan.
-									<br>
-									3. Jumlah BUKAN PENERIMA dan TOTAL menghitung peserta aktif saja.
-								</p>
-								<br><br>
-							<?php endif; ?>
-							<?php if ((int) $lap > 50) : ?>
-								<p class="text-muted text-justify text-red"><b>Catatan:</b>
-									<br>
-									1. Jumlah PESERTA termasuk peserta yang mungkin tidak aktif lagi.<br>
-									2. Jumlah BUKAN PESERTA dan TOTAL menghitung peserta aktif saja.
-								</p>
+
+							<?php if ($bantuan):?>
+								<?php $this->load->view('statistik/peserta_bantuan'); ?>
 							<?php endif; ?>
 						</div>
 

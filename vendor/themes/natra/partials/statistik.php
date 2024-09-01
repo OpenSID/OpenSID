@@ -231,6 +231,9 @@
                 <?php endforeach;?>
             </tbody>
         </table>
+        <p style="color: red">
+            Diperbarui pada : <?= tgl_indo($last_update); ?>
+        </p>
         <?php if($hide=="lebih"):?>
             <div style='float: left;'>
                 <button class='uibutton special' id='showData'>Selengkapnya...</button>
@@ -242,7 +245,7 @@
     </div>
 </div>
 
-<?php if ($this->setting->daftar_penerima_bantuan && in_array($st, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
+<?php if ($this->setting->daftar_penerima_bantuan && $bantuan): ?>
     <section class="content">
         <div class="row">
             <div class="col-md-12">

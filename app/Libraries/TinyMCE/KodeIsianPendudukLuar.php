@@ -112,7 +112,7 @@ class KodeIsianPendudukLuar
                 return ['[' . ucfirst(uclast($item)) . ']' => $value];
             }
 
-            if (!empty($input['tanggallahir'])) {
+            if (! empty($input['tanggallahir'])) {
                 $tgl_lahir = $input['tanggallahir'];
             }
 
@@ -134,6 +134,6 @@ class KodeIsianPendudukLuar
 
     public function getKategori()
     {
-        return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(fn ($item) => $this->alias($item))->toArray();
+        return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(fn($item) => $this->alias($item))->toArray();
     }
 }

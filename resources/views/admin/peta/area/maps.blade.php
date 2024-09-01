@@ -22,28 +22,27 @@
                 <input type="hidden" id="path" name="path" value="{{ $area['path'] }}">
                 <input type="hidden" name="id" id="id" value="{{ $area['id'] }}" />
             </div>
-        </div>
-        <div class='box-footer'>
-            <a href="{{ ci_route('area') }}"
-                class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-            @if (can('u'))
-            <a href="#" data-href="{{ ci_route('area.kosongkan', implode('/', [$parent, $area['id']])) }}"
-                class="btn btn-social bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                title="Kosongkan Wilayah" data-toggle="modal" data-target="#confirm-status"
-                data-body="Apakah yakin akan mengosongkan peta wilayah ini?"><i
-                    class="fa fa fa-trash-o"></i>Kosongkan</a>
-            @endif
-            <a href="#"
-                class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-            <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i>
-                Reset</button>
-            @if (can('u'))
-            <button type='submit' class='btn btn-social btn-info btn-sm pull-right' id="simpan_kantor"><i
-                    class='fa fa-check'></i> Simpan</button>
-            @endif
-        </div>
+            <div class='box-footer'>
+                <a href="{{ ci_route('area') }}"
+                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                    title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+                @if (can('u'))
+                <a href="#" data-href="{{ ci_route('area.kosongkan', implode('/', [$parent, $area['id']])) }}"
+                    class="btn btn-social bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                    title="Kosongkan Wilayah" data-toggle="modal" data-target="#confirm-status"
+                    data-body="Apakah yakin akan mengosongkan peta wilayah ini?"><i
+                        class="fa fa fa-trash-o"></i>Kosongkan</a>
+                @endif
+                <a href="#"
+                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                    download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i>
+                    Reset</button>
+                @if (can('u'))
+                <button type='submit' class='btn btn-social btn-info btn-sm pull-right' id="simpan_kantor"><i
+                        class='fa fa-check'></i> Simpan</button>
+                @endif
+            </div>
     </form>
 </div>
 @endsection

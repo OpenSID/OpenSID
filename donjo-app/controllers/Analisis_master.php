@@ -45,6 +45,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_master extends Admin_Controller
 {
+    public $modul_ini     = 'analisis';
+    public $sub_modul_ini = 'master-analisis';
+
     public function __construct()
     {
         parent::__construct();
@@ -54,10 +57,8 @@ class Analisis_master extends Admin_Controller
         $this->load->model('analisis_parameter_model');
         $this->load->model('analisis_klasifikasi_model');
         $this->session->unset_userdata(['submenu', 'asubmenu']);
-        $this->modul_ini     = 'analisis';
-        $this->sub_modul_ini = 'master-analisis';
-        $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['cari', 'filter', 'state'];
+        $this->set_page     = ['20', '50', '100'];
+        $this->list_session = ['cari', 'filter', 'state'];
     }
 
     public function clear(): void
@@ -197,7 +198,7 @@ class Analisis_master extends Admin_Controller
             ->build();
     }
 
-    private function ekspor_master($writer, $master): void
+    private function ekspor_master($writer, array $master): void
     {
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('master');
@@ -223,7 +224,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_pertanyaan($writer, $master): void
+    private function ekspor_pertanyaan($writer, array $master): void
     {
         $sheet = $writer->addNewSheetAndMakeItCurrent();
         $sheet->setName('pertanyaan');
@@ -249,7 +250,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_jawaban($writer, $master): void
+    private function ekspor_jawaban($writer, array $master): void
     {
         $jawaban = $writer->addNewSheetAndMakeItCurrent();
         $jawaban->setName('jawaban');
@@ -273,7 +274,7 @@ class Analisis_master extends Admin_Controller
         }
     }
 
-    private function ekspor_klasifikasi($writer, $master): void
+    private function ekspor_klasifikasi($writer, array $master): void
     {
         $klasifikasi = $writer->addNewSheetAndMakeItCurrent();
         $klasifikasi->setName('klasifikasi');

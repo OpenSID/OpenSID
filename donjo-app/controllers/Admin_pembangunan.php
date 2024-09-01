@@ -35,6 +35,14 @@
  *
  */
 
+use App\Enums\SatuanWaktuEnum;
+use App\Enums\StatusEnum;
+use App\Models\Area;
+use App\Models\Garis;
+use App\Models\Lokasi;
+use App\Models\Pembangunan;
+use App\Models\Wilayah;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\Area;
@@ -47,17 +55,17 @@ use App\Enums\SatuanWaktuEnum;
 
 class Admin_pembangunan extends Admin_Controller
 {
+    public $modul_ini = 'pembangunan';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini = 'pembangunan';
         isCan('b');
     }
 
     public function index()
     {
         $data['tahun'] = Pembangunan::distinct()->get('tahun_anggaran');
-        
         return view('admin.pembangunan.index', $data);
     }
 
@@ -66,18 +74,18 @@ class Admin_pembangunan extends Admin_Controller
         $tahun = $this->input->get('tahun') ?? null;
 
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))
+            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah'])->when($tahun, static fn($q) => $q->where('tahun_anggaran', $tahun)))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
                         $aksi .= '<a href="' . ci_route('admin_pembangunan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('admin_pembangunan.maps') . '/' . $row->id . '" class="btn bg-olive btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a> ';
                     }
-                    
-                    $aksi .= '<a href="' . ci_route('admin_pembangunan.maps') . '/' . $row->id . '" class="btn bg-olive btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a> ';
+
                     $aksi .= '<a href="' . ci_route('pembangunan_dokumentasi.dokumentasi') . '/' . $row->id . '" class="btn bg-purple btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-list-ol"></i></a> ';
-                    
+
                     if (can('u')) {
                         if ($row->status == StatusEnum::YA) {
                             $aksi .= '<a href="' . ci_route('admin_pembangunan.lock') . '/' . $row->id . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
@@ -100,9 +108,9 @@ class Admin_pembangunan extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn ($row) => $row->max_persentase)
-                ->editColumn('alamat', static fn ($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
-                ->editColumn('anggaran', static fn ($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
+                ->editColumn('persentase', static fn($row) => $row->max_persentase)
+                ->editColumn('alamat', static fn($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
+                ->editColumn('anggaran', static fn($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
                 ->rawColumns(['ceklist', 'aksi', 'foto'])
                 ->make();
         }
@@ -134,7 +142,7 @@ class Admin_pembangunan extends Admin_Controller
     public function create(): void
     {
         isCan('u');
-        $post = $this->input->post();
+        $post               = $this->input->post();
         $data               = $this->validasi($post);
         $data['created_at'] = date('Y-m-d H:i:s');
 
@@ -150,8 +158,8 @@ class Admin_pembangunan extends Admin_Controller
         isCan('u');
 
         $update = Pembangunan::findOrFail($id);
-        $post = $this->input->post();
-        $data = $this->validasi($post, $id, $update->foto);
+        $post   = $this->input->post();
+        $data   = $this->validasi($post, $id, $update->foto);
 
         if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -208,7 +216,7 @@ class Admin_pembangunan extends Admin_Controller
             'max_size'      => 1024, // 1 MB
         ];
         $this->upload->initialize($this->uploadConfig);
-        
+
         $uploadData = null;
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
@@ -222,7 +230,7 @@ class Admin_pembangunan extends Admin_Controller
 
             return $old_foto;
         }
-        
+
         // Upload sukses
         if ($this->upload->do_upload($jenis)) {
             $uploadData = $this->upload->data();

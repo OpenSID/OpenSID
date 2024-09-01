@@ -46,18 +46,19 @@ use App\Models\Pamong;
 use App\Models\PendidikanKK;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
-use Illuminate\Contracts\View\View;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pengurus extends Admin_Controller
 {
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
+    public $kategori_pengaturan = 'Pemerintah Desa';
+
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini          = 'buku-administrasi-desa';
-        $this->sub_modul_ini      = 'administrasi-umum';
-        $this->header['kategori'] = 'Pemerintah Desa';
         isCan('b');
     }
 
@@ -78,8 +79,8 @@ class Pengurus extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
 
-            return datatables()->of(Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status)))
-                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
+            return datatables()->of(Pamong::urut()->when($status, static fn($q) => $q->where('pamong_status', $status)))
+                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -102,7 +103,7 @@ class Pengurus extends Admin_Controller
                                 $aksi .= '<a href="' . ci_route('pengurus.ttd', "a.n/{$row->pamong_id}/1") . '" class="btn bg-purple btn-sm" title="Jadikan TTD a.n">a.n</a> ';
                             }
                         }
-                        if (!in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
+                        if (! in_array($row->jabatan_id, RefJabatan::getKadesSekdes())) {
                             if ($row->pamong_ub == 1) {
                                 $aksi .= '<a href="' . ci_route('pengurus.ttd', "u.b/{$row->pamong_id}/2") . '" class="btn bg-navy btn-sm" title="Bukan TTD u.b">u.b</a> ';
                             } else {
@@ -117,17 +118,17 @@ class Pengurus extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('foto', static fn ($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto(($row->foto == null ? $row->penduduk->foto : $row->foto), '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
-                ->editColumn('identitas', static fn ($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
-                ->editColumn('ttl', static fn ($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
-                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
-                ->editColumn('agama', static fn ($row) => AgamaEnum::valueOf($row->pamong_agama ?? $row->penduduk->agama_id))
-                ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
-                ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
-                ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
+                ->editColumn('foto', static fn($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto(($row->foto == null ? $row->penduduk->foto : $row->foto), '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
+                ->editColumn('identitas', static fn($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
+                ->editColumn('ttl', static fn($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
+                ->editColumn('sex', static fn($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
+                ->editColumn('agama', static fn($row) => AgamaEnum::valueOf($row->pamong_agama ?? $row->penduduk->agama_id))
+                ->editColumn('pendidikan_kk', static fn($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
+                ->editColumn('pamong_tglsk', static fn($row) => tgl_indo($row->pamong_tglsk))
+                ->editColumn('pamong_tglhenti', static fn($row) => tgl_indo($row->pamong_tglhenti))
                 ->filterColumn('identitas', static function ($query, $keyword): void {
                     $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
-                        ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
+                        ->orwhereHas('penduduk', static fn($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
                 })
                 ->rawColumns(['ceklist', 'aksi', 'foto', 'identitas'])
                 ->make();
@@ -146,7 +147,7 @@ class Pengurus extends Admin_Controller
             $data['pamong']         = Pamong::findOrFail($id);
             $data['pamong']['nama'] = $data['pamong']->getRawOriginal('pamong_nama');
             $data['pamong']         = $data['pamong']->toArray();
-            if (!isset($id_pend)) {
+            if (! isset($id_pend)) {
                 $id_pend = $data['pamong']['id_pend'];
             }
             $data['form_action'] = site_url("pengurus/update/{$id}");
@@ -174,6 +175,10 @@ class Pengurus extends Admin_Controller
         $data['pendidikan_kk'] = PendidikanKK::pluck('nama', 'id');
         $data['agama']         = Agama::pluck('nama', 'id');
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
+        $settings              = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
+        $data['media_sosial']  = collect($settings->option)
+            ->filter(static fn($item) => in_array($item['id'], json_decode($settings->value)))
+            ->toArray();
 
         return view('admin.pengurus.form', $data);
     }
@@ -248,7 +253,6 @@ class Pengurus extends Admin_Controller
 
     private function set_validasi(): void
     {
-        $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
     }
 
@@ -256,7 +260,7 @@ class Pengurus extends Admin_Controller
     {
         isCan('h');
 
-        if (!$id) {
+        if (! $id) {
             foreach ($this->request['id_cb'] as $id_cb) {
                 if ($this->boleh_hapus($id_cb)) {
                     redirect_with('error', "ID : {$id_cb} tidak dapat dihapus, data sudah tersedia di kehadiran perangkatl, pengaduan kehadiran dan layanan Surat.");
@@ -306,6 +310,7 @@ class Pengurus extends Admin_Controller
         $data['bagan_warna']        = warna($post['bagan_warna']);
         $data['gelar_depan']        = strip_tags($post['gelar_depan']) ?: null;
         $data['gelar_belakang']     = strip_tags($post['gelar_belakang']) ?: null;
+        $data['media_sosial']       = $post['media_sosial'];
 
         if ($data['jabatan_id'] == kades()->id) {
             $data['urut'] = 1;
@@ -368,7 +373,7 @@ class Pengurus extends Admin_Controller
         }
 
         if ($jenis == 'u.b') {
-            if (!in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
+            if (! in_array($pamong->jabatan_id, RefJabatan::getKadesSekdes())) {
                 $output = Pamong::whereNotIn('jabatan_id', RefJabatan::getKadesSekdes())->find($id)->update(['pamong_ub' => $val]);
                 redirect_with('success', 'Penandatangan u.b berhasil disimpan');
             } else {
@@ -436,7 +441,7 @@ class Pengurus extends Admin_Controller
     public function bagan($ada_bpd = ''): void
     {
         $data['desa']    = $this->header['desa'];
-        $data['ada_bpd'] = !empty($ada_bpd);
+        $data['ada_bpd'] = ! empty($ada_bpd);
 
         $atasan = Pamong::select('atasan', 'pamong_id')
             ->where('atasan', '!=', null)->status()
@@ -485,7 +490,7 @@ class Pengurus extends Admin_Controller
     public function atur_bagan_layout(): void
     {
         isCan('u');
-        $data['kategori'] = 'conf_bagan';
+        $data['kategori_pengaturan'] = 'conf_bagan';
         view('admin.layouts.components.modal_pengaturan', $data);
     }
 
@@ -512,7 +517,7 @@ class Pengurus extends Admin_Controller
                         $aksi .= '<a href="' . ci_route('pengurus.jabatanform', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
-                    if (can('h') && !in_array($row->id, RefJabatan::getKadesSekdes())) {
+                    if (can('h') && ! in_array($row->id, RefJabatan::getKadesSekdes())) {
                         $aksi .= '<a href="#" data-href="' . ci_route('pengurus.jabatandelete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
@@ -608,7 +613,7 @@ class Pengurus extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->id,
                         'text' => "NIK : {$item->nik} - {$item->nama} - {$item->wilayah->dusun}",
                     ]),

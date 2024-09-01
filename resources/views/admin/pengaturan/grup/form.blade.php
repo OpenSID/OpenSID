@@ -31,107 +31,108 @@
                             maxlength="20" placeholder="Nama Grup" value="{{ $grup['nama'] }}"></input>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" for="mandiri">Akses Modul</label>
-                    <div class="col-sm-7">
-                        <div class="table-responsive">
-                            <table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
-                                <thead class="bg-gray color-palette">
-                                    <tr>
-                                        <th><input type="checkbox" id="checkall" /></th>
-                                        <th colspan="2">No</th>
-                                        <th>Nama Modul</th>
-                                        <th>Hak Baca</th>
-                                        <th>Hak Ubah</th>
-                                        <th>Hak Hapus</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if ($moduls)
-                                    @foreach ($moduls as $key => $modulActive)
-                                    @php
-                                    $aksesParent = $grup_akses[$modulActive->id]->akses ?? 0;
-                                    $modulActive->children->each(function ($item) use (&$aksesParent, $grup_akses) {
-                                    $aksesParent += $grup_akses[$item->id]->akses ?? 0;
-                                    });
-                                    @endphp
-                                    <tr class="bg-aqua">
-                                        <td class="padat"><input id="m{{ $key + 1 }}" type="checkbox" name="modul[id][]"
-                                                value="{{ $modulActive->id }}" @checked($aksesParent) /></td>
-                                        <td class="padat" colspan="2">{{ $key + 1 }}</td>
-                                        <td>{{ SebutanDesa($modulActive->modul) }}</td>
-                                        @if ($modulActive->children->isEmpty())
-                                        <td class="padat">
-                                            <input class="m{{ $key + 1 }}" type="checkbox"
-                                                name="modul[akses_baca][{{ $modulActive->id }}]" value="1"
-                                                @checked(decbin($grup_akses[$modulActive->id]->akses ?? 0) & 1) />
-                                        </td>
-                                        <td class="padat">
-                                            <input class="m{{ $key + 1 }}" type="checkbox"
-                                                name="modul[akses_ubah][{{ $modulActive->id }}]" value="1"
-                                                @checked(decbin($grup_akses[$modulActive->id]->akses ?? 0) & 2) />
-                                        </td>
-                                        <td class="padat">
-                                            <input class="m{{ $key + 1 }}" type="checkbox"
-                                                name="modul[akses_hapus][{{ $modulActive->id }}]" value="1"
-                                                @checked(decbin($grup_akses[$modulActive->id]->akses ?? 0) & 4) />
-                                        </td>
-                                        @else
-                                        <td colspan="3"></td>
-                                        @endif
-                                    </tr>
-                                    @foreach ($modulActive->children as $subkey => $submodul)
-                                    <tr>
-                                        <td class="padat">
-                                            <input id="m{{ $key + 1 . '.' . ($subkey + 1) }}" class="m{{ $key + 1 }}"
-                                                type="checkbox" name="modul[id][]" value="{{ $submodul->id }}"
-                                                @checked($grup_akses[$submodul->id]->akses ?? false) />
-                                        </td>
-                                        <td></td>
-                                        <td class="padat">{{ $key + 1 . '.' . ($subkey + 1) }}</td>
-                                        <td>{{ SebutanDesa($submodul->modul) }}</td>
-                                        <td class="padat">
-                                            <input class="m{{ $key + 1 }}" type="checkbox"
-                                                name="modul[akses_baca][{{ $submodul->id }}]" value="1"
-                                                @checked(decbin($grup_akses[$submodul->id]->akses ?? 0) & 1) />
-                                        </td>
-                                        <td class="padat">
-                                            <input class="m{{ $key + 1 }}" type="checkbox"
-                                                name="modul[akses_ubah][{{ $submodul->id }}]" value="1"
-                                                @checked(decbin($grup_akses[$submodul->id]->akses ?? 0) & 2) />
-                                        </td>
-                                        <td class="padat">
-                                            <input class="m{{ $key + 1 }}" type="checkbox"
-                                                name="modul[akses_hapus][{{ $submodul->id }}]" value="1"
-                                                @checked(decbin($grup_akses[$submodul->id]->akses ?? 0) & 4) />
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @endforeach
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="mandiri">Akses Modul</label>
+                <div class="col-sm-7">
+                    <div class="table-responsive">
+                        <table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+                            <thead class="bg-gray color-palette">
+                                <tr>
+                                    <th><input type="checkbox" id="checkall" /></th>
+                                    <th colspan="2">No</th>
+                                    <th>Nama Modul</th>
+                                    <th>Hak Baca</th>
+                                    <th>Hak Ubah</th>
+                                    <th>Hak Hapus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($moduls)
+                                @foreach ($moduls as $key => $modulActive)
+                                @php
+                                $aksesParent = $grup_akses[$modulActive->id]->akses ?? 0;
+                                $modulActive->children->each(function ($item) use (&$aksesParent, $grup_akses) {
+                                $aksesParent += $grup_akses[$item->id]->akses ?? 0;
+                                });
+                                @endphp
+                                <tr class="bg-aqua">
+                                    <td class="padat"><input id="m{{ $key + 1 }}" type="checkbox" name="modul[id][]"
+                                            value="{{ $modulActive->id }}" @checked($aksesParent) /></td>
+                                    <td class="padat" colspan="2">{{ $key + 1 }}</td>
+                                    <td>{{ SebutanDesa($modulActive->modul) }}</td>
+                                    @if ($modulActive->children->isEmpty())
+                                    <td class="padat">
+                                        <input class="m{{ $key + 1 }}" type="checkbox"
+                                            name="modul[akses_baca][{{ $modulActive->id }}]" value="1"
+                                            @checked(decbin($grup_akses[$modulActive->id]->akses ?? 0) & 1) />
+                                    </td>
+                                    <td class="padat">
+                                        <input class="m{{ $key + 1 }}" type="checkbox"
+                                            name="modul[akses_ubah][{{ $modulActive->id }}]" value="1"
+                                            @checked(decbin($grup_akses[$modulActive->id]->akses ?? 0) & 2) />
+                                    </td>
+                                    <td class="padat">
+                                        <input class="m{{ $key + 1 }}" type="checkbox"
+                                            name="modul[akses_hapus][{{ $modulActive->id }}]" value="1"
+                                            @checked(decbin($grup_akses[$modulActive->id]->akses ?? 0) & 4) />
+                                    </td>
                                     @else
-                                    <tr>
-                                        <td class="padat" colspan="4">Data Tidak Tersedia</td>
-                                    </tr>
+                                    <td colspan="3"></td>
                                     @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                </tr>
+                                @foreach ($modulActive->children as $subkey => $submodul)
+                                <tr>
+                                    <td class="padat">
+                                        <input id="m{{ $key + 1 . '.' . ($subkey + 1) }}" class="m{{ $key + 1 }}"
+                                            type="checkbox" name="modul[id][]" value="{{ $submodul->id }}"
+                                            @checked($grup_akses[$submodul->id]->akses ?? false) />
+                                    </td>
+                                    <td></td>
+                                    <td class="padat">{{ $key + 1 . '.' . ($subkey + 1) }}</td>
+                                    <td>{{ SebutanDesa($submodul->modul) }}</td>
+                                    <td class="padat">
+                                        <input class="m{{ $key + 1 }}" type="checkbox"
+                                            name="modul[akses_baca][{{ $submodul->id }}]" value="1"
+                                            @checked(decbin($grup_akses[$submodul->id]->akses ?? 0) & 1) />
+                                    </td>
+                                    <td class="padat">
+                                        <input class="m{{ $key + 1 }}" type="checkbox"
+                                            name="modul[akses_ubah][{{ $submodul->id }}]" value="1"
+                                            @checked(decbin($grup_akses[$submodul->id]->akses ?? 0) & 2) />
+                                    </td>
+                                    <td class="padat">
+                                        <input class="m{{ $key + 1 }}" type="checkbox"
+                                            name="modul[akses_hapus][{{ $submodul->id }}]" value="1"
+                                            @checked(decbin($grup_akses[$submodul->id]->akses ?? 0) & 4) />
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @endforeach
+                                @else
+                                <tr>
+                                    <td class="padat" colspan="4">Data Tidak Tersedia</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class='box-footer'>
-                <div class='col-xs-12'>
-                    @if (!$view)
-                    <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
-                        Batal</button>
-                    <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
-                        Simpan</button>
-                    @endif
-                </div>
+        </div>
+        <div class='box-footer'>
+            <div class='col-xs-12'>
+                @if (!$view)
+                <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
+                    Batal</button>
+                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i>
+                    Simpan</button>
+                @endif
             </div>
         </div>
-    </form>
+</div>
+</form>
 </div>
 @endsection
 

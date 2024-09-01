@@ -89,6 +89,7 @@ class Artikel extends BaseModel
         'slug',
         'hit',
         'slider',
+        'tampilan'
     ];
 
     /**

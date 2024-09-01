@@ -77,6 +77,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </form>
 
 @include('admin.layouts.components.konfirmasi_hapus')

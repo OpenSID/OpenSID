@@ -46,22 +46,20 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Menu extends Admin_Controller
 {
-    private int $tip = 1;
+    public $modul_ini     = 'admin-web';
+    public $sub_modul_ini = 'menu';
 
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 'admin-web';
-        $this->sub_modul_ini = 'menu';
     }
 
     public function index(): void
     {
         $parent = $this->input->get('parent') ?? 0;
         $data   = [
-            'tip'      => $this->tip,
             'status'   => [MenuModel::UNLOCK => 'Aktif', MenuModel::LOCK => 'Non Aktif'],
-            'subtitle' => $parent > 0 ? ' / ' . strtoupper(MenuModel::find($parent)->nama ?? '') : '',
+            'subtitle' => $parent > 0 ? '<a href="' . ci_route('menu.index') . '?parent=0">MENU UTAMA </a> / ' . MenuModel::find($parent)->getSelfParents()->reverse()->map(static fn($item) => $parent == $item['id'] ? strtoupper($item['nama']) : '<a href="' . ci_route('menu.index') . '?parent=' . $item['id'] . '">' . strtoupper($item['nama']) . '</a>')->join(' / ') : '',
             'parent'   => $parent,
         ];
 
@@ -76,7 +74,7 @@ class Menu extends Admin_Controller
             $canDelete = can('h');
             $canUpdate = can('u');
 
-            return datatables()->of(MenuModel::child($parent)->with(['parent'])->orderBy('urut', 'asc')->when($status, static fn ($q) => $q->where('enabled', $status)))
+            return datatables()->of(MenuModel::child($parent)->with(['parent'])->orderBy('urut', 'asc')->when($status, static fn($q) => $q->where('enabled', $status)))
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -87,9 +85,8 @@ class Menu extends Admin_Controller
                     $aksi  = '';
                     $judul = $parent > 0 ? 'Submenu' : 'Menu';
                     if ($canUpdate) {
-                        if ($parent == 0) {
-                            $aksi .= '<a href="' . ci_route('menu.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
-                        }
+
+                        $aksi .= '<a href="' . ci_route('menu.index') . '?parent=' . $row->id . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
 
                         $aksi .= '<a href="' . ci_route('menu.ajax_menu', implode('/', [$row->parent->id ?? $parent, $row->id])) . '" class="btn bg-orange btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah ' . $judul . '" title="Ubah ' . $judul . '"><i class="fa fa-edit"></i></a> ';
                         if ($row->isActive()) {
@@ -104,7 +101,7 @@ class Menu extends Admin_Controller
                     }
 
                     return $aksi;
-                })->editColumn('link', static fn ($row) => '<a href="' . $row->linkUrl . '" target="_blank">' . $row->linkUrl . '</a>')
+                })->editColumn('link', static fn($row) => '<a href="' . $row->linkUrl . '" target="_blank">' . $row->linkUrl . '</a>')
                 ->rawColumns(['aksi', 'ceklist', 'link'])
                 ->make();
         }
@@ -115,7 +112,7 @@ class Menu extends Admin_Controller
     public function ajax_menu($parent, $id = ''): void
     {
         isCan('u');
-
+        $menu                               = new MenuModel();
         $data['link_tipe']                  = unserialize(LINK_TIPE);
         $data['artikel_statis']             = Artikel::select(['id', 'judul'])->statis()->get()->toArray();
         $data['kategori_artikel']           = Kategori::select(['slug', 'kategori'])->orderBy('urut')->get()->toArray();
@@ -128,11 +125,11 @@ class Menu extends Admin_Controller
         $data['suplemen']                   = Suplemen::select(['id', 'nama', 'slug'])->get()->toArray();
         $data['statis_lainnya']             = unserialize(STAT_LAINNYA);
         $data['artikel_keuangan']           = Artikel::select(['id', 'judul'])->keuangan()->get()->toArray();
-        $data['menu_utama']                 = $parent > 0 ? MenuModel::find($parent)->toArray() : [];
 
         if ($id) {
             $data['menu']        = MenuModel::findOrFail($id)->toArray();
             $data['form_action'] = ci_route("menu.update.{$parent}.{$id}");
+            $data['menu_utama']  = $menu->buildArray($menu->tree());
         } else {
             $data['menu']        = null;
             $data['form_action'] = ci_route("menu.insert.{$parent}");
@@ -143,10 +140,12 @@ class Menu extends Admin_Controller
     public function insert($parent): void
     {
         isCan('u');
-        $data = $this->validasi($this->input->post());
+        $data            = $this->validasi($this->input->post());
+        $data['parrent'] = $parent;
 
         try {
             MenuModel::create($data);
+            cache()->flush();
             redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -162,6 +161,7 @@ class Menu extends Admin_Controller
         try {
             $obj = MenuModel::findOrFail($id);
             $obj->update($data);
+            cache()->flush();
             redirect_with('success', 'Menu berhasil disimpan', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -179,6 +179,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::destroy($this->request['id_cb'] ?? $id);
+            cache()->flush();
             redirect_with('success', 'Menu berhasil dihapus', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -192,6 +193,7 @@ class Menu extends Admin_Controller
 
         try {
             MenuModel::gantiStatus($id, 'enabled');
+            cache()->flush();
             redirect_with('success', 'Berhasil ubah status', ci_route('menu.index') . '?parent=' . $parent);
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
@@ -203,6 +205,7 @@ class Menu extends Admin_Controller
     {
         $menu = $this->input->post('data');
         MenuModel::setNewOrder($menu);
+        cache()->flush();
 
         return json(['status' => 1]);
     }

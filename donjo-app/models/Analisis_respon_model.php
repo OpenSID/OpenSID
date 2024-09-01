@@ -567,7 +567,7 @@ class Analisis_respon_model extends MY_Model
         //CEK ada input
         if ($ir != 0 || $ic != 0 || $ia != 0 || $it != 0) {
             $this->db->where('id_subjek', $id)->where('id_periode', $per)->delete('analisis_respon');
-            if (!empty($_POST['rb'])) {
+            if (! empty($_POST['rb'])) {
                 $id_rb = $_POST['rb'];
 
                 foreach ($id_rb as $id_p) {

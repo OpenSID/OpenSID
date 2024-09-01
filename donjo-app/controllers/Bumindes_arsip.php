@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_arsip extends Admin_controller
 {
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'arsip-desa';
     private array $list_session = ['data_filter_tahun', 'data_filter_jenis', 'data_filter_cari', 'data_filter_kategori'];
     private array $_set_page    = ['50', '100', '200'];
 
@@ -46,8 +48,6 @@ class Bumindes_arsip extends Admin_controller
     {
         parent::__construct();
         $this->load->model('arsip_fisik_model');
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'arsip-desa';
     }
 
     public function index($p = 1, $o = 4): void
@@ -147,7 +147,7 @@ class Bumindes_arsip extends Admin_controller
         $this->modal_ubah_arsip($tabel, $id, $p, $o);
     }
 
-    public function tampilkan_berkas($tabel, $berkas, $tampil = true): void
+    public function tampilkan_berkas($tabel, ?string $berkas, $tampil = true): void
     {
         $lokasi = '';
         if ($tabel == 'dokumen_hidup') {
@@ -158,7 +158,7 @@ class Bumindes_arsip extends Admin_controller
         ambilBerkas($berkas, $this->controller, null, $lokasi, $tampil ?? false);
     }
 
-    public function unduh_berkas($tabel, $berkas): void
+    public function unduh_berkas($tabel, ?string $berkas): void
     {
         $this->tampilkan_berkas($tabel, $berkas, false);
     }

@@ -162,6 +162,7 @@ define('DESAPATHPERMISSION', 0755);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
 define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
+define('VENDORPATH', 'vendor' . DIRECTORY_SEPARATOR);
 
 /**
  * Folder dan file pada folder sistem.

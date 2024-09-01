@@ -421,6 +421,17 @@ class AccessToken
     }
 
     /**
+     * @return bool
+     */
+    private function checkAndInitializePhpsec2(): bool
+    {
+        if (!class_exists('phpseclib\Crypt\RSA')) {
+            return false;
+        }
+        return $formattedPublicKey;
+    }
+
+    /**
      * @return void
      */
     private function checkSimpleJwt()

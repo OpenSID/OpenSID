@@ -39,12 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keuangan extends Admin_Controller
 {
+    public $modul_ini = 'keuangan';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_grafik_model');
-        $this->modul_ini = 'keuangan';
         $this->load->model('keuangan_grafik_dd_model');
     }
 

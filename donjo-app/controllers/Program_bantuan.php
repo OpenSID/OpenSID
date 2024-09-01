@@ -50,13 +50,13 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Program_bantuan extends Admin_Controller
 {
+    public $modul_ini        = 'bantuan';
     private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['program_bantuan_model']);
-        $this->modul_ini = 'bantuan';
     }
 
     public function clear(): void
@@ -245,9 +245,7 @@ class Program_bantuan extends Admin_Controller
 
     public function create(): void
     {
-        $this->redirect_hak_akses('u');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+        isCan('u');
 
         $this->form_validation->set_rules('cid', 'Sasaran', 'required');
         $this->form_validation->set_rules('nama', 'Nama Program', 'required');
@@ -268,9 +266,7 @@ class Program_bantuan extends Admin_Controller
     // $id = program.id
     public function edit($id = 0): void
     {
-        $this->redirect_hak_akses('u');
-        $this->load->helper('form');
-        $this->load->library('form_validation');
+        isCan('u');
 
         $this->form_validation->set_rules('cid', 'Sasaran', 'required');
         $this->form_validation->set_rules('nama', 'Nama Program', 'required');

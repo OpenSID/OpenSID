@@ -3620,7 +3620,7 @@ class TCPDF {
 			$this->setXY($this->original_lMargin, $this->header_margin);
 		}
 		$this->setFont($this->header_font[0], $this->header_font[1], $this->header_font[2]);
-		$this->Header();
+		$this->header();
 		//restore position
 		if ($this->rtl) {
 			$this->setXY($this->original_rMargin, $this->tMargin);

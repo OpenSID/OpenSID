@@ -76,10 +76,11 @@ class Ekspor_model extends MY_Model
     public function expor($huruf = null)
     {
         $filter = $this->config_id('p')
-            ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi'])
+            ->select(['k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.id_asuransi as asuransi', 'p.no_asuransi', 'm.lat', 'm.lng'])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
             ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+            ->join('tweb_penduduk_map m', 'p.id = m.id', 'left')
             ->order_by('k.no_kk ASC', 'p.kk_level ASC');
 
         if ($this->session->filter) {
@@ -111,7 +112,7 @@ class Ekspor_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
+            array_walk($baris, fn(&$str, $key) => $this->bersihkanData($str, $key));
             if (!empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
@@ -259,7 +260,7 @@ class Ekspor_model extends MY_Model
         ];
         $this->upload->initialize($this->uploadConfig);
         // Upload sukses
-        if (!$this->upload->do_upload('userfile')) {
+        if (! $this->upload->do_upload('userfile')) {
             $pesan = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
 
             session_error($pesan);
@@ -454,7 +455,7 @@ class Ekspor_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
+            array_walk($baris, fn(&$str, $key) => $this->bersihkanData($str, $key));
             if (!empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }

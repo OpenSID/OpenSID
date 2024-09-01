@@ -45,6 +45,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller
 {
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
     private array $list_session = ['filter', 'cari', 'jenis_peraturan', 'tahun'];
     private array $_set_page    = ['50', '100', '200'];
 
@@ -53,8 +55,6 @@ class Dokumen_sekretariat extends Admin_Controller
         parent::__construct();
 
         $this->load->model('web_dokumen_model');
-        $this->modul_ini     = 'buku-administrasi-desa';
-        $this->sub_modul_ini = 'administrasi-umum';
     }
 
     public function index($kat = 2, $p = 1, $o = 0): void
@@ -143,7 +143,7 @@ class Dokumen_sekretariat extends Admin_Controller
 
                     return $aksi . ('<a href="' . route('buku-umum.dokumen_sekretariat.berkas', ['id_dokumen' => $row->id, 'kat' => $kategori, 'tipe' => 1]) . '" target="_blank" class="btn btn-info btn-sm" title="Lihat Dokumen"><i class="fa fa-eye"></i></a>');
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
                 ->editColumn('additional', static function ($row): array {
                     $attr = json_decode($row->attr, true);
                     if ($row->kategori == 1) {
@@ -246,7 +246,7 @@ class Dokumen_sekretariat extends Admin_Controller
         }
     }
 
-    public function update($kat, $id = '')
+    public function update($kat, $id = ''): void
     {
         isCan('u');
 
@@ -277,7 +277,7 @@ class Dokumen_sekretariat extends Admin_Controller
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
-        if (!$this->upload->do_upload('satuan')) {
+        if (! $this->upload->do_upload('satuan')) {
             session_error($this->upload->display_errors(null, null));
 
             return false;

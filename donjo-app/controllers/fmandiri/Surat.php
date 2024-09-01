@@ -96,7 +96,7 @@ class Surat extends Mandiri_Controller
         if ($id) {
             $obj = PermohonanSurat::where(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0])->first();
 
-            if (!$obj) {
+            if (! $obj) {
                 redirect('layanan-mandiri/surat/buat');
             }
             $permohonan  = $obj->toArray();
@@ -271,9 +271,6 @@ class Surat extends Mandiri_Controller
         $permohanan         = PermohonanSurat::with(['surat'])->find($id);
         $permohanan->status = PermohonanSurat::DIBATALKAN;
         $permohanan->save();
-
-        $isi = 'Penduduk atas nama : ' . $this->is_login->nama . ' - Telah membatalkan permohonan surat ' . $permohanan->surat->nama;
-        $this->kirim_notifikasi_admin('verifikasi_operator', $isi, 'Pembatalan Permohanan Surat - ' . $permohanan->surat->nama);
 
         $isi = 'Penduduk atas nama : ' . $this->is_login->nama . ' - Telah membatalkan permohonan surat ' . $permohanan->surat->nama;
         $this->kirim_notifikasi_admin('verifikasi_operator', $isi, 'Pembatalan Permohanan Surat - ' . $permohanan->surat->nama);

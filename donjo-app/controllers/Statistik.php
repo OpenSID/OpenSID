@@ -41,14 +41,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Statistik extends Admin_Controller
 {
+    public $modul_ini            = 'statistik';
+    public $sub_modul_ini        = 'statistik-kependudukan';
     private array $_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun', 'filter_global'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
-        $this->modul_ini     = 'statistik';
-        $this->sub_modul_ini = 'statistik-kependudukan';
     }
 
     public function index(): void
@@ -78,6 +78,7 @@ class Statistik extends Admin_Controller
         ];
 
         $data['judul_kelompok'] = 'Jenis Kelompok';
+        $data['bantuan']        = ((int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
         $this->get_data_stat($data, $data['lap']);
 
         $this->render('statistik/penduduk', $data);
@@ -110,7 +111,11 @@ class Statistik extends Admin_Controller
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
 
-            case (int) $lap < 50 || ((int) $lap > 50 && (int) $sasaran == 1):
+            case $lap == 'akta-kematian':
+                $tautan = site_url("penduduk_log/statistik/{$lap}/");
+                break;
+
+            case (int) $lap < 50 || $lap == 'kia' || ((int) $lap > 50 && (int) $sasaran == 1):
                 $tautan = site_url("penduduk/statistik/{$lap}/");
                 break;
 

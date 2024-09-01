@@ -46,16 +46,16 @@ use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Penduduk extends Admin_Controller
 {
+    public $modul_ini            = 'kependudukan';
+    public $sub_modul_ini        = 'penduduk';
+    public $kategori_pengaturan  = 'data_lengkap';
     private array $_set_page     = ['50', '100', '200', [0, 'Semua']];
-    private array $_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
+    private array $_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kia', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara', 'tag_id_card'];
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model', 'referensi_model', 'penduduk_log_model', 'impor_model', 'ekspor_model']);
-
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'penduduk';
     }
 
     private function clear_session(): void
@@ -106,7 +106,6 @@ class Penduduk extends Admin_Controller
         }
 
         $data['func']                 = 'index';
-        $this->header['kategori']     = 'data_lengkap';
         $data['set_page']             = $this->_set_page;
         $list_data                    = $this->penduduk_model->list_data($o, $p);
         $data['paging']               = $list_data['paging'];
@@ -859,7 +858,7 @@ class Penduduk extends Admin_Controller
 
             case 'suku':
                 $session  = 'suku';
-                $kategori = 'Suku: ';
+                $kategori = 'Suku : ';
                 break;
 
             case 'hamil':
@@ -870,6 +869,11 @@ class Penduduk extends Admin_Controller
             case 'buku-nikah':
                 $session  = 'buku-nikah';
                 $kategori = 'STATUS PERKAWINAN : ';
+                break;
+
+            case 'kia':
+                $session  = 'kia';
+                $kategori = 'KEPEMILIKAN KIA : ';
                 break;
 
             case $tipe > 50:

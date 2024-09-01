@@ -41,14 +41,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Kelompok_master extends Admin_Controller
 {
-    protected $tipe = 'kelompok';
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'kelompok';
+    protected $tipe       = 'kelompok';
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->modul_ini     = 'kependudukan';
-        $this->sub_modul_ini = 'kelompok';
     }
 
     public function clear(): void

@@ -113,7 +113,7 @@ class Data_awal extends MY_Model
 
     protected function isi_config($hasil)
     {
-        if (!identitas() || empty($kode_desa = config_item('kode_desa')) || !cek_koneksi_internet()) {
+        if (! identitas() || empty($kode_desa = config_item('kode_desa')) || ! cek_koneksi_internet()) {
             return $hasil;
         }
 
@@ -710,7 +710,7 @@ class Data_awal extends MY_Model
         ];
         // jika parent belum ada maka tambahkan dulu
         $cekParent = DB::table('setting_modul')->where(['slug' => 'kependudukan', 'config_id' => $this->config_id])->count();
-        if (!$cekParent) {
+        if (! $cekParent) {
             $slugParent = implode("','", $parent);
             DB::statement("
                 insert into setting_modul (config_id, modul, slug, url, aktif, ikon, urut, `level`, hidden , ikon_kecil , parent)
