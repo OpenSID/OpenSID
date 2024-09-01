@@ -13,7 +13,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024082051 extends MY_model
+class Migrasi_2024090101 extends MY_model
 {
     public function up()
     {
