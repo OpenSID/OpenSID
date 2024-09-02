@@ -558,7 +558,7 @@ class Bantuan extends BaseModel
 
     public static function get_program_data($slug)
     {
-        $hasil0 = self::where('id', $slug)->first()->toArray();
+        $hasil0 = self::where('id', $slug)->first()?->toArray() ?? [];
 
         switch ($hasil0['sasaran']) {
             case 1:
