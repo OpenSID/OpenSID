@@ -111,6 +111,7 @@ class Penduduk extends Admin_Controller
         if ($this->input->get('sex')) {
             $this->filterColumn['sex'] = $this->input->get('sex');
         }
+        $data['disableFilter']        = $this->uri->segment(2) === 'statistik';
         $data['wilayah']              = Wilayah::treeAccess();
         $data['list_status_dasar']    = StatusDasarEnum::all();
         $data['list_status_penduduk'] = StatusPendudukEnum::all();

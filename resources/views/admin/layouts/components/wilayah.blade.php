@@ -2,7 +2,7 @@
     @if ($labelWilayah)
         <label for="dusun">{{ ucwords(setting('sebutan_dusun')) }}</label>
     @endif
-    <select id="dusun" class="form-control input-sm select2">
+    <select id="dusun" class="form-control input-sm select2" @disabled($disableFilter ?? false)>
         <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
         @foreach ($wilayah as $keyDusun => $dusun)
             <option value="{{ $keyDusun }}">{{ $keyDusun }}</option>
@@ -13,7 +13,7 @@
     @if ($labelWilayah)
         <label for="rw">RW</label>
     @endif
-    <select id="rw" class="form-control input-sm select2">
+    <select id="rw" class="form-control input-sm select2" @disabled($disableFilter ?? false)>
         <option value="">Pilih RW</option>
         @foreach ($wilayah as $keyDusun => $dusun)
             <optgroup value="{{ $keyDusun }}" label="{{ ucwords(setting('sebutan_dusun')) . ' ' . $keyDusun }}">
@@ -28,7 +28,7 @@
     @if ($labelWilayah)
         <label for="rt">RT</label>
     @endif
-    <select id="rt" class="form-control input-sm select2">
+    <select id="rt" class="form-control input-sm select2" @disabled($disableFilter ?? false)>
         <option value="">Pilih RT</option>
         @foreach ($wilayah as $keyDusun => $dusun)
             @foreach ($dusun as $keyRw => $rw)

@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8404](https://github.com/OpenSID/OpenSID/issues/8404) Perbaikan tambah data penduduk pada suplemen agar tidak duplikasi.
 2. [#8410](https://github.com/OpenSID/OpenSID/issues/8410) Perbaikan tambah data rumah tangga pada dtks agar tidak duplikasi.
 3. [#8406](https://github.com/OpenSID/OpenSID/issues/8406) Perbaikan ekspor data dtks.
+4. [#8408](https://github.com/OpenSID/OpenSID/issues/8408) Perbaikan menampilkan data penduduk dari link pada modul statistik.
 
 
 #### TEKNIS

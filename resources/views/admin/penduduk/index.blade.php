@@ -69,6 +69,7 @@
                             data-toggle="modal"
                             data-target="#modalBox"
                             data-title="Pencarian Spesifik"
+                            @disabled($disableFilter)
                         ><i class="fa fa-search"></i> Pencarian Spesifik</a>
                     </li>
                     <li>
@@ -80,6 +81,7 @@
                             data-toggle="modal"
                             data-target="#modalBox"
                             data-title="Pencarian Program Bantuan"
+                            @disabled($disableFilter)
                         ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
                     </li>
                     <li>
@@ -91,11 +93,13 @@
                             data-toggle="modal"
                             data-target="#modalBox"
                             data-title="Pilihan Kumpulan NIK"
+                            @disabled($disableFilter)
                         ><i class="fa fa-search"></i> Pilihan Kumpulan NIK</a>
                     </li>
                     <li>
-                        <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK
-                            Sementara</a>
+                        <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara" @disabled($disableFilter)><i
+                                class="fa fa-search"
+                            ></i> NIKSementara</a>
                     </li>
                 </ul>
             </div>
@@ -120,11 +124,14 @@
                     </li>
                 </ul>
             </div>
+            @if ($disableFilter)
+                <a href="{{ ci_route('penduduk') }}" class="btn btn-social bg-purple btn-sm"><i class="fa fa-refresh"></i>Bersihkan</a>
+            @endif
         </div>
         <div class="box-body">
             <div class="row mepet">
                 <div class="col-sm-2">
-                    <select class="form-control input-sm select2" id="status_penduduk">
+                    <select class="form-control input-sm select2" id="status_penduduk" @disabled($disableFilter)>
                         <option value="">Pilih Status Penduduk</option>
                         @foreach ($list_status_penduduk as $key => $item)
                             <option value="{{ $key }}">{{ $item }}</option>
@@ -132,7 +139,7 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control input-sm  select2" id="status_dasar">
+                    <select class="form-control input-sm  select2" id="status_dasar" @disabled($disableFilter)>
                         <option value="">Pilih Status Dasar</option>
                         @foreach ($list_status_dasar as $key => $item)
                             <option value="{{ $key }}" @selected($defaultStatusDasar == $key)>{{ set_ucwords($item) }}</option>
@@ -140,7 +147,7 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control input-sm select2" id="jenis_kelamin">
+                    <select class="form-control input-sm select2" id="jenis_kelamin" @disabled($disableFilter)>
                         <option value="">Pilih Jenis Kelamin</option>
                         @foreach ($list_jenis_kelamin as $key => $item)
                             <option value="{{ $key }}">{{ set_ucwords($item) }}</option>
