@@ -1902,7 +1902,7 @@ class DTKSRegsosEk2022k
         // $dtks_anggota->kd_stat_perkawinan    = $agt->status_kawin; // 408
         // jika anggota satu kk dengan kepala rumah tangga, hubungan dengan krt = hubungan dengan kk
         // jika bukan satu kk, maka hubungannya jadi lainnya, biar diatur sendiri oleh user
-        if ($agt->id_kk == $kepala_keluarga->id_kk) {
+        if ($agt->id_kk == ($kepala_keluarga ? $kepala_keluarga->id_kk : null)) {
             $hubungan_dengan_kk              = $ref_eloquent_collection['hubungan_dengan_kk']->where('id', $agt->kk_level)->pluck('nama')->first();
             $dtks_anggota->kd_hubungan_dg_kk = $this->getIndexPilihanWithDefault(Regsosek2022kEnum::pilihanBagian4()['409'], $hubungan_dengan_kk);
         } else {
