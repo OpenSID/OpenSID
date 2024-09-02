@@ -112,7 +112,7 @@ class Dtks extends Admin_Controller
 
     public function index()
     {
-        $data['rtm'] = Rtm::with([
+        $rtm = Rtm::with([
             'kepalaKeluarga' => static function ($builder): void {
                 $builder->select('id', 'nama', 'nik');
                 $builder->without([
@@ -129,11 +129,11 @@ class Dtks extends Admin_Controller
                     'wilayah',
                 ]);
             },
-        ])
-            ->where('terdaftar_dtks', 1)
-            ->get();
+        ])->where('terdaftar_dtks', 1)->get();
 
-        $this->syncDtksRtm($data['rtm']);
+        $this->syncDtksRtm($rtm);
+
+        $data['rtm'] = $rtm->filter(static fn ($value) => ! in_array($value->id, ModelDtks::pluck('id_rtm')->toArray()));
 
         return view('admin.dtks.index', $data);
     }

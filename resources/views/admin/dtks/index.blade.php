@@ -9,7 +9,6 @@
 @endsection
 
 @section('breadcrumb')
-    <li><a href="{{ ci_route('beranda') }}"><i class="fa fa-home"></i> Beranda</a></li>
     <li class="active">DTKS</li>
 @endsection
 
