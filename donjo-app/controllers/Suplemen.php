@@ -359,9 +359,11 @@ class Suplemen extends Admin_Controller
     private function get_pilihan_penduduk($cari, $terdata)
     {
         $penduduk = Penduduk::select(['id', 'nik', 'nama', 'id_cluster', 'kk_level'])
-            ->when($cari, static function ($query) use ($cari): void {
-                $query->orWhere('nik', 'like', "%{$cari}%")
-                    ->orWhere('nama', 'like', "%{$cari}%");
+            ->when($cari, static function ($query) use ($cari) {
+                return $query->where(static function ($q) use ($cari) {
+                    $q->where('nik', 'like', "%{$cari}%")
+                        ->orWhere('nama', 'like', "%{$cari}%");
+                });
             })
             ->whereNotIn('id', $terdata)
             ->paginate(10);
