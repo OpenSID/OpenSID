@@ -544,13 +544,17 @@ if (! function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function (array $matches) use ($ke) {
-            $matches = array_map(static fn ($match) => preg_replace('/[\\[\\]]/', '', $match), $matches);
+            // Remove brackets from the match
+            $matches = array_map(static fn ($match) => preg_replace('/[\[\]]/', '', $match), $matches);
 
+            // Apply case transformation
             return caseWord($matches[0], $ke);
         };
 
-        $dari = str_replace('[', '\\[', $dari);
+        // Escape brackets and forward slashes in the search pattern
+        $dari = str_replace(['[', ']', '/'], ['\\[', '\\]', '\\/'], $dari);
 
+        // Perform case-insensitive replacement with a callback
         return preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
     }
 }
