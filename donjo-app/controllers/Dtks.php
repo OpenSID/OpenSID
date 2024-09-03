@@ -322,7 +322,7 @@ class Dtks extends Admin_Controller
                 return json(['message' => 'Proses Data', 'list' => $list_path], 200);
             }
             if ($this->input->is_ajax_request()) {
-                return json(['message' => 'Download', 'list' => $list_path], 200);
+                return json(['message' => 'Data Siap Diunduh', 'list' => $list_path], 200);
             }
 
             if ($list_path_to_zip->count() != 0) {
