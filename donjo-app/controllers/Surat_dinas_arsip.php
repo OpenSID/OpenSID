@@ -239,6 +239,7 @@ class Surat_dinas_arsip extends Admin_Controller
                 ->addColumn('alasan', static fn ($row) => $row->tolak->last()->keterangan ?? '')
                 ->addColumn('kode_surat', static fn ($row) => $row->suratDinas->kode_surat ?? '')
                 ->editColumn('id_format_surat', static fn ($row) => $row->suratDinas->nama ?? '')
+                ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
                 ->editColumn('keterangan', static fn ($row) => $row->keterangan ?? '-')
                 ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
                 ->addColumn('status_label', static function ($row) use ($jabatanId, $idJabatanKades, $idJabatanSekdes): string {
