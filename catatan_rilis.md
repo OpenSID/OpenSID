@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8394](https://github.com/OpenSID/OpenSID/issues/8394) Perbaikan kode isian pada surat yang mengandung karakter garis miring (/).
 7. [#8432](https://github.com/OpenSID/OpenSID/issues/8432) Perbaikan arsip surat dinas pada kolom user datatables.
 8. [#8407](https://github.com/OpenSID/OpenSID/issues/8407) Perbaikan cetak/unduh data dtks.
+9. [#8413](https://github.com/OpenSID/OpenSID/issues/8413) Perbaikan saring data buku keputusan kepala desa. 
 
 
 #### TEKNIS

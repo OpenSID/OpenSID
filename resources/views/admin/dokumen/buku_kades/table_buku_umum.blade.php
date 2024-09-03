@@ -214,8 +214,10 @@
             var colFilter = 6;
             var colTahun = 4;
 
-            if (kategori == 3) {
-                colFilter = 7;
+            if (kategori == 3 || kategori == 2) {
+                if (kategori == 3) {
+                    colFilter = 7;
+                }
                 colTahun = 5;
             }
 
