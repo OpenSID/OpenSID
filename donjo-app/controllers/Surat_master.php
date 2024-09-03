@@ -953,7 +953,7 @@ class Surat_master extends Admin_Controller
             $penduduk_luar_impor = collect($list_data)->pluck('penduduk_luar')->unique()->toArray();
             $penduduk_luar       = SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first();
             $luar                = json_decode($penduduk_luar->value, true);
-            $luar                = array_merge($luar, $penduduk_luar_impor[0]);
+            $luar                = array_merge($luar, $penduduk_luar_impor[0] ?? []);
             $penduduk_luar->update(['value' => json_encode($luar)]);
             unset($value['penduduk_luar']);
 
