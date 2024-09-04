@@ -35,11 +35,11 @@
  *
  */
 
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,10 +57,10 @@ class Migrasi_2024090171 extends MY_model
         $hasil = $this->migrasi_2024080852($hasil);
         $hasil = $this->migrasi_2024081651($hasil);
         $hasil = $this->migrasi_2024082051($hasil);
-        
+
         // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
-        
+
         foreach ($config_id as $id) {
             $hasil && $this->migrasi_2024082651($hasil, $id);
             $hasil && $this->migrasi_2024082751($hasil, $id);
