@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8407](https://github.com/OpenSID/OpenSID/issues/8407) Perbaikan cetak/unduh data dtks.
 9. [#8413](https://github.com/OpenSID/OpenSID/issues/8413) Perbaikan saring data buku keputusan kepala desa.
 10. [#8428](https://github.com/OpenSID/OpenSID/issues/8428) Perbaikan penomoran dan url dokumen arsip desa.
+11. [#8433](https://github.com/OpenSID/OpenSID/issues/8433) Perbaikan notifikasi saat ubah/hapus akun demo.
 
 
 #### TEKNIS

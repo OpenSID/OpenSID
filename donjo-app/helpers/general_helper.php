@@ -407,8 +407,7 @@ if (! function_exists('akun_demo')) {
     {
         if (config_item('demo_mode') && in_array($id, array_keys(config_item('demo_akun')))) {
             if ($redirect) {
-                session_error(', tidak dapat mengubah / menghapus akun demo');
-                redirect($_SERVER['HTTP_REFERER']);
+                redirect_with('error', 'Tidak dapat mengubah / menghapus akun demo');
             }
 
             return true;
