@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8413](https://github.com/OpenSID/OpenSID/issues/8413) Perbaikan saring data buku keputusan kepala desa.
 10. [#8428](https://github.com/OpenSID/OpenSID/issues/8428) Perbaikan penomoran dan url dokumen arsip desa.
 11. [#8433](https://github.com/OpenSID/OpenSID/issues/8433) Perbaikan notifikasi saat ubah/hapus akun demo.
+12. [#8436](https://github.com/OpenSID/OpenSID/issues/8436) Perbaikan tambah kepala / anggota rtm hanya untuk penduduk yang masih hidup.
 
 
 #### TEKNIS
