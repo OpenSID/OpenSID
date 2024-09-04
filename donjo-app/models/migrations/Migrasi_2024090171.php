@@ -37,6 +37,7 @@
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -66,6 +67,9 @@ class Migrasi_2024090171 extends MY_model
         }
 
         $hasil = $hasil && $this->migrasi_2024080651($hasil);
+        $hasil = $hasil && $this->migrasi_2024082951($hasil);
+        $hasil = $hasil && $this->migrasi_2024083051($hasil);
+        $hasil = $hasil && $this->migrasi_2024083052($hasil);
 
         return $hasil && true;
     }
@@ -255,6 +259,42 @@ class Migrasi_2024090171 extends MY_model
             ->update([
                 'kelompok_anggota.tipe' => DB::raw('kelompok.tipe'),
             ]);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024082951($hasil)
+    {
+        if (! Schema::hasTable('log_login')) {
+            $directoryTable = 'donjo-app/models/migrations/struktur_tabel';
+            $migrationFiles = [
+                '2023_12_22_015242_create_log_login_table.php',
+                '2023_12_22_015245_add_foreign_keys_to_log_login_table.php',
+            ];
+
+            foreach ($migrationFiles as $file) {
+                $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $file;
+                $migrateFile->up();
+            }
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024083051($hasil)
+    {
+        (new Filesystem())->copyDirectory('vendor/tecnickcom/tcpdf/fonts', LOKASI_FONT_DESA);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024083052($hasil)
+    {
+        if (! $this->db->field_exists('foto', 'kelompok_anggota')) {
+            $hasil = $hasil && $this->dbforge->add_column('kelompok_anggota', [
+                'foto' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true],
+            ]);
+        }
 
         return $hasil;
     }
