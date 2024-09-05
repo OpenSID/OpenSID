@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#8433](https://github.com/OpenSID/OpenSID/issues/8433) Perbaikan notifikasi saat ubah/hapus akun demo.
 12. [#8436](https://github.com/OpenSID/OpenSID/issues/8436) Perbaikan tambah kepala / anggota rtm hanya untuk penduduk yang masih hidup.
 13. [#8438](https://github.com/OpenSID/OpenSID/issues/8438) Perbaikan pendaftaran buku tamu.
+14. [#8425](https://github.com/OpenSID/OpenSID/issues/8425) Perbaikan hapus data dtks.
 
 
 #### TEKNIS

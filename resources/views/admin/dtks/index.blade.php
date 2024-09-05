@@ -370,20 +370,26 @@
             $(document).on('click', '.btn-hapus', function() {
                 dtks_id = $(this).data('id');
             });
+
             $('#form-delete-dtks').on('submit', function(ev) {
                 ev.preventDefault();
 
                 let form = $('#form-delete-dtks').serializeArray();
-                ajax_save_dtks("{{ ci_route('dtks.delete') }}" + "/" + dtks_id,
-                    callback_success = function(data) {
-                        location.reload();
-                    },
-                    callback_fail = function(xhr) {}
-                );
-                $('#modal-confirm-delete-dtks').modal('hide');
-                $('#tabeldata').DataTable().ajax.reload();
-
+                $.ajax({
+                    url: "{{ ci_route('dtks.delete') }}" + "/" + dtks_id,
+                    method: "POST",
+                    data: form
+                })
+                .done(function(data) {
+                    $('#modal-confirm-delete-dtks').modal('hide');
+                    showMessageDtks('success', data.message);
+                    TableData.draw();
+                })
+                .fail(function(xhr) {
+                    showMessageDtks('error', xhr.statusText + ": " + xhr.responseText);
+                });
             });
+
 
             $('#batal_cetak').on('click', function() {
                 batal_cetak = true;
