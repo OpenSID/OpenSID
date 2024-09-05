@@ -36,6 +36,8 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,13 +53,15 @@ class Migrasi_rev extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
         }
+        
+        $hasil = $hasil && $this->migrasi_2024090552($hasil);
 
         return $hasil;
     }
 
     protected function migrasi_2024090551($hasil, $config_id)
     {
-        return $hasil && $this->db
+        $this->db
             ->update(
                 'setting_aplikasi',
                 ['kategori' => 'Wilayah Administratif'],
@@ -67,5 +71,37 @@ class Migrasi_rev extends MY_model
                     'kategori !=' => 'Wilayah Administratif',
                 ]
             );
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024090552($hasil)
+    {
+        log_message('notice', 'Migrasi 2024090552: Menambahkan kolom token pada tabel log_notifikasi_admin dan log_notifikasi_mandiri');
+        if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->longText('token')->nullable()->after('isi');
+            });
+        }
+
+        if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->longText('device')->unique()->after('token');
+            });
+        }
+
+        if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
+            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                $table->longText('token')->nullable()->after('isi');
+            });
+        }
+        
+        if (! Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
+            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                $table->longText('device')->unique()->after('token');
+            });
+        }
+
+        return $hasil;
     }
 }
