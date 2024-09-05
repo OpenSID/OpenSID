@@ -3,7 +3,6 @@ Di rilis ini, versi 2409.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 
-
 #### BUG
 
 1. [#8404](https://github.com/OpenSID/OpenSID/issues/8404) Perbaikan tambah data penduduk pada suplemen agar tidak duplikasi.
@@ -27,6 +26,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### TEKNIS
 1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
 2. [#8434](https://github.com/OpenSID/OpenSID/issues/8434) Penyesuaian nilai default status telgram pada tambah/ubah pengguna.
+3. [#8381](https://github.com/OpenSID/OpenSID/issues/8381) Peyesuaian susunan komponen include blade pada modul dpt.
 
 
 #### LAYANAN
