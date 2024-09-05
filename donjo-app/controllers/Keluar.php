@@ -300,6 +300,8 @@ class Keluar extends Admin_Controller
                                 } else {
                                     $status = '<span class="label label-success">Siap Cetak</span>';
                                 }
+                            } elseif ($statusPeriksa == 0) {
+                                $status = '<span class="label label-success">Siap Cetak</span>';
                             }
                         }
                     } else {
