@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 
 #### TEKNIS
+1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
 
 
 #### LAYANAN

@@ -35,9 +35,7 @@
  *
  */
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -48,11 +46,26 @@ class Migrasi_rev extends MY_model
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
+        }
 
         return $hasil;
+    }
+
+    protected function migrasi_2024090551($hasil, $config_id)
+    {
+        return $hasil && $this->db
+            ->update(
+                'setting_aplikasi',
+                ['kategori' => 'Wilayah Administratif'],
+                [
+                    'config_id'   => $config_id,
+                    'key'         => 'sebutan_dusun',
+                    'kategori !=' => 'Wilayah Administratif',
+                ]
+            );
     }
 }
