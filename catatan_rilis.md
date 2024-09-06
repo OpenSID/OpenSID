@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8439](https://github.com/OpenSID/OpenSID/issues/8439) Perbaikan pindah posisi pada modul pengurus.
 16. [#8441](https://github.com/OpenSID/OpenSID/issues/8441) Perbaikan status surat pada modul arsip layanan.
 17. [#8431](https://github.com/OpenSID/OpenSID/issues/8431) Perbaikan periksa permohonan surat dari yang dikirim ke perangkat pengguna.
+18. [#8395](https://github.com/OpenSID/OpenSID/issues/8395) Perbaikan kode isian alamat menggunakan alamat lengkap pada template surat bawaan.
 
 
 #### TEKNIS

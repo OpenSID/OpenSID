@@ -35,9 +35,9 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -53,10 +53,8 @@ class Migrasi_rev extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
         }
-        
-        $hasil = $hasil && $this->migrasi_2024090552($hasil);
 
-        return $hasil;
+        return $hasil && $this->migrasi_2024090552($hasil);
     }
 
     protected function migrasi_2024090551($hasil, $config_id)
@@ -95,7 +93,7 @@ class Migrasi_rev extends MY_model
                 $table->longText('token')->nullable()->after('isi');
             });
         }
-        
+
         if (! Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
             Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
                 $table->longText('device')->unique()->after('token');
