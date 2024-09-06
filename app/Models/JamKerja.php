@@ -48,6 +48,9 @@ class JamKerja extends BaseModel
     use ConfigId;
     use QueryCacheable;
 
+    public const RENTANG_WAKTU_MASUK  = 10;
+    public const RENTANG_WAKTU_KELUAR = 10;
+
     /**
      * Invalidate the cache automatically
      * upon update in the database.
@@ -100,16 +103,20 @@ class JamKerja extends BaseModel
 
     public function scopeJamKerja($query)
     {
-        $waktu   = date('H:i');
-        $rentang = setting('rentang_waktu_kehadiran') ?: SettingAplikasi::RENTANG_WAKTU_KEHADIRAN;
+        $waktu  = date('H:i');
+        $masuk  = setting('rentang_waktu_masuk') ?: static::RENTANG_WAKTU_MASUK;
+        $keluar = setting('rentang_waktu_keluar') ?: static::RENTANG_WAKTU_KELUAR;
 
         return $query
-            ->selectRaw('id, nama_hari, jam_masuk, status, keterangan')
-            ->selectRaw(sprintf('date_add(jam_keluar, interval %s minute) as jam_keluar', $rentang))
+            ->selectRaw('id, nama_hari, status, keterangan')
+            ->selectRaw('jam_masuk as jam_masuk_normal, jam_keluar as jam_keluar_normal')
+            ->selectRaw(sprintf('date_sub(jam_masuk, interval %s minute) as jam_masuk', $masuk))
+            ->selectRaw(sprintf('date_add(jam_keluar, interval %s minute) as jam_keluar', $keluar))
             ->where('nama_hari', $this->getNamaHari())
-            ->where(static function ($q) use ($rentang, $waktu): void {
-                $q->whereTime('jam_masuk', '>', $waktu)
-                    ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [$rentang, $waktu]);
+            ->where(static function ($query) use ($masuk, $keluar, $waktu): void {
+                $query
+                    ->whereRaw('date_sub(jam_masuk, interval ? minute) > ?', [$masuk, $waktu])
+                    ->orWhereRaw('date_add(jam_keluar, interval ? minute) < ?', [$keluar, $waktu]);
             });
     }
 

@@ -2,6 +2,10 @@ Di rilis ini, versi 2409.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+#### FITUR
+
+1. [#8409](https://github.com/OpenSID/OpenSID/issues/8409) Penambahan pengaturan rentang waktu masuk dan keluar pada kehadiran.
+
 
 #### BUG
 
