@@ -93,13 +93,13 @@
                 <ul class="dropdown-menu" role="menu">
                     @if ($disableFilter)
                         <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
                         </li>
                         <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pilihan Kumpulan KK"><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
                         </li>
                         <li>
-                            <a href="#" class="btn btn-social btn-block btn-sm" disabled><i class="fa fa-search"></i> No KK Sementara</a>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="No KK Sementara"><i class="fa fa-search"></i> No KK Sementara</a>
                         </li>
                     @else
                         <li>
@@ -126,7 +126,7 @@
                             ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
                         </li>
                         <li>
-                            <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara" @disabled($disableFilter)><i class="fa fa-search"></i> No KK
+                            <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara"><i class="fa fa-search"></i> No KK
                                 Sementara</a>
                         </li>
                     @endif
