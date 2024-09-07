@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8441](https://github.com/OpenSID/OpenSID/issues/8441) Perbaikan status surat pada modul arsip layanan.
 17. [#8431](https://github.com/OpenSID/OpenSID/issues/8431) Perbaikan periksa permohonan surat dari yang dikirim ke perangkat pengguna.
 18. [#8395](https://github.com/OpenSID/OpenSID/issues/8395) Perbaikan kode isian alamat menggunakan alamat lengkap pada template surat bawaan.
+19. [#8445](https://github.com/OpenSID/OpenSID/issues/8445) Perbaikan menampilkan data keluarga dari link pada modul statistik.
 
 
 #### TEKNIS
