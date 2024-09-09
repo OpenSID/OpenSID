@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\SettingAplikasi;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -53,6 +54,7 @@ class Migrasi_rev extends MY_model
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
         }
+        $hasil = $this->migrasi_2024090951($hasil);
 
         return $hasil && $this->migrasi_2024090552($hasil);
     }
@@ -88,16 +90,22 @@ class Migrasi_rev extends MY_model
             });
         }
 
-        if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
-            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
-                $table->longText('token')->nullable()->after('isi');
-            });
-        }
+        return $hasil;
+    }
 
-        if (! Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
-            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
-                $table->longText('device')->unique()->after('token');
-            });
+    protected function migrasi_2024090951($hasil)
+    {
+        // pakai get, bisa jadi di database gabungan
+        $penduduk_luar = SettingAplikasi::dontCache()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->get();
+        if ($penduduk_luar) {
+            foreach ($penduduk_luar as $key => $penduduk) {
+                if ($penduduk) {
+                    log_message('error', $penduduk->value);
+                    $penduduk->value = json_encode(updateIndex(json_decode($penduduk->value, true)), JSON_THROW_ON_ERROR);
+                    log_message('error', $penduduk->value);
+                    $penduduk->save();
+                }
+            }
         }
 
         return $hasil;

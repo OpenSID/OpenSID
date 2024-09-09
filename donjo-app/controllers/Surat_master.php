@@ -939,6 +939,7 @@ class Surat_master extends Admin_Controller
                 'format_nomor'        => $item['format_nomor'],
                 'footer'              => $item['footer'],
                 'header'              => $item['header'],
+                'penduduk_luar'       => $item['penduduk_luar'],
                 'created_at'          => date('Y-m-d H:i:s'),
                 'creted_by'           => ci_auth()->id,
                 'updated_at'          => date('Y-m-d H:i:s'),
@@ -954,10 +955,10 @@ class Surat_master extends Admin_Controller
             $penduduk_luar       = SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first();
             $luar                = json_decode($penduduk_luar->value, true);
             $luar                = array_merge($luar, $penduduk_luar_impor[0] ?? []);
-            $penduduk_luar->update(['value' => json_encode($luar)]);
-            unset($value['penduduk_luar']);
+            $penduduk_luar->update(['value' => json_encode(updateIndex($luar), JSON_THROW_ON_ERROR)]);
 
             foreach ($list_data as $key => $value) {
+                unset($value['penduduk_luar']);
                 if ($id !== null) {
                     foreach ($id as $row) {
                         if ($row == $key) {
