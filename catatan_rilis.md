@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#8445](https://github.com/OpenSID/OpenSID/issues/8445) Perbaikan menampilkan data keluarga dari link pada modul statistik.
 20. [#8452](https://github.com/OpenSID/OpenSID/issues/8452) Perbaikan impor template surat dengan penduduk luar.
 21. [#8447](https://github.com/OpenSID/OpenSID/issues/8447) Perbaikan form input kategori (3) keterangan rumah tangga.
+22. [#8435](https://github.com/OpenSID/OpenSID/issues/8435) Perbaikan tinjau arsip surat dengan font yang sudah tidak ada.
 
 
 #### TEKNIS

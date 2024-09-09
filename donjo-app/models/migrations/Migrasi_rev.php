@@ -77,7 +77,6 @@ class Migrasi_rev extends MY_model
 
     protected function migrasi_2024090552($hasil)
     {
-        log_message('notice', 'Migrasi 2024090552: Menambahkan kolom token pada tabel log_notifikasi_admin dan log_notifikasi_mandiri');
         if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
             Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
                 $table->longText('token')->nullable()->after('isi');
