@@ -1140,7 +1140,10 @@ class DTKSRegsosEk2022k
             if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian3()["{$key}"])) {
                 continue;
             }
-            $message[] = "No {$key}: Pilihan tidak ditemukan";
+            if ($input == '') {
+                continue;
+            }
+            $message[] = "No {$key}: {$input} Pilihan tidak ditemukan";
         }
 
         if ($message !== []) {
