@@ -1369,6 +1369,8 @@ class DTKSRegsosEk2022k
             'id_rtm'     => $dtks->rtm->id,
         ]);
 
+        $lampiran['foto_kecil'] = site_url() . LOKASI_FOTO_DTKS . 'kecil_' . $nama_file;
+
         // simpan
         $dtks->lampiran()->attach($lampiran->id);
 

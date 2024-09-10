@@ -126,7 +126,8 @@
                             ><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
                         </li>
                         <li>
-                            <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara"><i class="fa fa-search"></i> No KK
+                            <a href="#" onclick="$('#tabeldata').data('kk_sementara', 1);$('#tabeldata').data('kumpulanKK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="No KK Sementara"><i
+                                    class="fa fa-search"></i> No KK
                                 Sementara</a>
                         </li>
                     @endif
