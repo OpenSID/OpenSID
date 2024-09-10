@@ -19,7 +19,6 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '06a34129a50df3d9257ee706cf3c875b' => __DIR__ . '/..' . '/illuminate/filesystem/functions.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'ef65a1626449d89d0811cf9befce46f0' => __DIR__ . '/..' . '/illuminate/events/functions.php',
@@ -70,7 +69,6 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         array (
             'Symfony\\Polyfill\\Php83\\' => 23,
             'Symfony\\Polyfill\\Php80\\' => 23,
-            'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
@@ -266,10 +264,6 @@ class ComposerStaticInitb155827bb9684c59c9985879aae3cf29
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
-        ),
-        'Symfony\\Polyfill\\Php72\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
