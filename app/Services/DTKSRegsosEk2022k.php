@@ -1441,13 +1441,11 @@ class DTKSRegsosEk2022k
      */
     protected function saveBagian4Pendidikan(Dtks $dtks, array $request): array
     {
-        $message = [];
+        $message        = [];
+        $pilihanBagian4 = Regsosek2022kEnum::pilihanBagian4(); // Avoid repeated function calls
 
         foreach ($request['pilihan']['4'] as $key => $input) {
-            if ($input != '' && ! array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
-                $message[] = "No {$key}: Pilihan tidak ditemukan";
-            }
-            if (array_key_exists($input, Regsosek2022kEnum::pilihanBagian4()["{$key}"])) {
+            if ($input === '' || array_key_exists($input, $pilihanBagian4["{$key}"])) {
                 continue;
             }
             $message[] = "No {$key}: Pilihan tidak ditemukan";

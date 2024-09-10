@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#8458](https://github.com/OpenSID/OpenSID/issues/8458) Perbaikan program bantuan untuk database gabungan.
 26. [#8459](https://github.com/OpenSID/OpenSID/issues/8459) Perbaikan kategori artikel untuk database gabungan.
 27. [#8457](https://github.com/OpenSID/OpenSID/issues/8457) Perbaikan pencarian pada modul rekapitulasi kehasiran.
+28. [#8448](https://github.com/OpenSID/OpenSID/issues/8448) Perbaikan form input kategori (IV) keterangan sosial ekonomi anggota keluarga pada DTKS.
 
 
 #### TEKNIS
