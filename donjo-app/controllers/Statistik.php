@@ -149,7 +149,7 @@ class Statistik extends Admin_Controller
     {
         $config       = $this->header['desa'];
         $data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-        
+
         $statistik = getStatistikLabel($lap, $data['stat'], $config['nama_desa']);
 
         $data['label']    = $statistik['label'];

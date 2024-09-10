@@ -167,14 +167,14 @@ class Analisis_master_model extends MY_Model
     private function sterilkan_data($post)
     {
         return [
-            'nama' => judul($post['nama']),
-            'subjek_tipe' => $post['subjek_tipe'],
-            'id_kelompok' => $post['id_kelompok'] ?: null,
-            'lock' => $post['lock'] ?: null,
+            'nama'         => judul($post['nama']),
+            'subjek_tipe'  => $post['subjek_tipe'],
+            'id_kelompok'  => $post['id_kelompok'] ?: null,
+            'lock'         => $post['lock'] ?: null,
             'format_impor' => $post['format_impor'] ?: null,
-            'pembagi' => bilangan_titik($post['pembagi']),
-            'id_child' => $post['id_child'] ?: null,
-            'deskripsi' => htmlentities($post['deskripsi'])
+            'pembagi'      => bilangan_titik($post['pembagi']),
+            'id_child'     => $post['id_child'] ?: null,
+            'deskripsi'    => htmlentities($post['deskripsi']),
         ];
     }
 

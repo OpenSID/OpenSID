@@ -60,7 +60,7 @@ class NoCaptcha
     protected $sitekey;
 
     /**
-     * @var \GuzzleHttp\Client
+     * @var Client
      */
     protected $http;
 
