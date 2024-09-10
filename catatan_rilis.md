@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#8435](https://github.com/OpenSID/OpenSID/issues/8435) Perbaikan tinjau arsip surat dengan font yang sudah tidak ada.
 23. [#8449](https://github.com/OpenSID/OpenSID/issues/8449) Perbaikan form input kategori (IV) keterangan sosial ekonomi anggota rumah tangga pada DTKS.
 24. [#8450](https://github.com/OpenSID/OpenSID/issues/8450) Perbaikan unggah foto pada form DTKS.
+25. [#8458](https://github.com/OpenSID/OpenSID/issues/8458) Perbaikan program bantuan untuk database gabungan.
 
 
 #### TEKNIS
