@@ -107,6 +107,7 @@
                                         <td class="aksi">
                                             @if (can('u'))
                                                 <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+                                                @if ($data['kk_level'] != 1)
                                                 <a
                                                     href="#"
                                                     data-href="{{ ci_route('keluarga.delete_anggota.' . $kk, $data['id']) }}"
@@ -116,6 +117,7 @@
                                                     data-target="#confirm-status"
                                                     data-body="Apakah Anda yakin ingin memecah Data Keluarga ini?"
                                                 ><i class="fa fa-cut"></i></a>
+                                                @endif
                                                 @if ($kepala_kk['status_dasar'] == 1)
                                                     <a
                                                         href="{{ ci_route('keluarga.edit_anggota.' . $kk, $data['id']) }}"
@@ -127,6 +129,7 @@
                                                         class="btn bg-navy btn-sm"
                                                     ><i class='fa fa-link'></i></a>
                                                 @endif
+                                                @if ($data['kk_level'] != 1)
                                                 <a
                                                     href="#"
                                                     data-href="{{ ci_route('keluarga.keluarkan_anggota.' . $kk, $data['id']) }}"
@@ -136,6 +139,7 @@
                                                     data-target="#confirm-status"
                                                     data-body="Apakah yakin akan dikeluarkan dari keluarga ini?"
                                                 ><i class="fa fa-times"></i></a>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{{ $data['nik'] }}</td>

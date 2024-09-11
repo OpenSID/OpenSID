@@ -39,7 +39,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### TEKNIS
 1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
 2. [#8434](https://github.com/OpenSID/OpenSID/issues/8434) Penyesuaian nilai default status telgram pada tambah/ubah pengguna.
-3. [#8381](https://github.com/OpenSID/OpenSID/issues/8381) Peyesuaian susunan komponen include blade pada modul dpt.
+3. [#8381](https://github.com/OpenSID/OpenSID/issues/8381) Penyesuaian susunan komponen include blade pada modul dpt.
+4. [#8460](https://github.com/OpenSID/OpenSID/issues/8460) Penyesuaian fungsi pecah kk dan hapus pada anggota keluarga dengan status kepala keluarga.
 
 
 #### LAYANAN
