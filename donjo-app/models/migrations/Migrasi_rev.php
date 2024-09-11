@@ -99,9 +99,7 @@ class Migrasi_rev extends MY_model
         if ($penduduk_luar) {
             foreach ($penduduk_luar as $key => $penduduk) {
                 if ($penduduk) {
-                    log_message('error', $penduduk->value);
                     $penduduk->value = json_encode(updateIndex(json_decode($penduduk->value, true)), JSON_THROW_ON_ERROR);
-                    log_message('error', $penduduk->value);
                     $penduduk->save();
                 }
             }
