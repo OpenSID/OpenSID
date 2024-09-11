@@ -35,10 +35,7 @@
  *
  */
 
-use App\Models\SettingAplikasi;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -46,65 +43,12 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        $hasil = true;
+        return true;
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
-        }
-        $hasil = $this->migrasi_2024090951($hasil);
-
-        return $hasil && $this->migrasi_2024090552($hasil);
-    }
-
-    protected function migrasi_2024090551($hasil, $config_id)
-    {
-        $this->db
-            ->update(
-                'setting_aplikasi',
-                ['kategori' => 'Wilayah Administratif'],
-                [
-                    'config_id'   => $config_id,
-                    'key'         => 'sebutan_dusun',
-                    'kategori !=' => 'Wilayah Administratif',
-                ]
-            );
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024090552($hasil)
-    {
-        if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('token')->nullable()->after('isi');
-            });
-        }
-
-        if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('device')->unique()->after('token');
-            });
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024090951($hasil)
-    {
-        // pakai get, bisa jadi di database gabungan
-        $penduduk_luar = SettingAplikasi::dontCache()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->get();
-        if ($penduduk_luar) {
-            foreach ($penduduk_luar as $key => $penduduk) {
-                if ($penduduk) {
-                    $penduduk->value = json_encode(updateIndex(json_decode($penduduk->value, true)), JSON_THROW_ON_ERROR);
-                    $penduduk->save();
-                }
-            }
-        }
-
-        return $hasil;
+        // foreach ($config_id as $id) {
+        // }
     }
 }
