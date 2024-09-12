@@ -61,7 +61,7 @@
                 <tr>
                     <td>Tanggal Lahir</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->tanggallahir->format('d-m-Y')) }}</td>
+                    <td>{{ strtoupper($penduduk->tanggallahir?->format('d-m-Y')) }}</td>
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
