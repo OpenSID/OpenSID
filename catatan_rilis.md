@@ -43,6 +43,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8381](https://github.com/OpenSID/OpenSID/issues/8381) Penyesuaian susunan komponen include blade pada modul dpt.
 4. [#8460](https://github.com/OpenSID/OpenSID/issues/8460) Penyesuaian fungsi pecah kk dan hapus pada anggota keluarga dengan status kepala keluarga.
 5. [#8464](https://github.com/OpenSID/OpenSID/issues/8464) Penyesuaian kata draft menjadi draf pada cetak surat.
+6. [#8469](https://github.com/OpenSID/OpenSID/issues/8469) Penyesuaian data tanggal lahir penduduk melalui halaman periksa.
 
 
 #### LAYANAN
