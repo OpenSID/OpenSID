@@ -28,21 +28,19 @@
 				"url": url,
 				"type": "POST"
 			},
-      //Set column definition initialisation properties.
-      "columnDefs": [
-      {
-          "targets": [ 0 ], //first column / numbering column
-          "orderable": false, //set not orderable
-      },
-      ],
-      'language': {
-      	'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-      },
-      'drawCallback': function (){
-      	$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
-      }
-  });
-
-	} );
-
+			//Set column definition initialisation properties.
+			"columnDefs": [
+				{
+					"targets": [ 0 ], //first column / numbering column
+					"orderable": false, //set not orderable
+				},
+			],
+			'language': {
+				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+			},
+			'drawCallback': function (){
+				$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
+			}
+		});
+	});
 </script>

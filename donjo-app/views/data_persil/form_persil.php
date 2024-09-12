@@ -17,7 +17,7 @@
                     <div class="box-header with-border">
                         <a href="<?= site_url('data_persil/clear')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Persil"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Persil</a>
                     </div>
-                    <form name='mainform' action="<?= site_url('data_persil/simpan_persil')?>" method="POST" id="validasi" class="form-horizontal">
+                    <form name='mainform' action="<?= site_url('data_persil/simpan_persil')?>" novalidate method="POST" id="validasi" class="form-horizontal">
                         <div class="box-body">
                             <input type="hidden" name="id_persil" value="<?= $persil['id']?>">
                             <div class="form-group">
@@ -55,8 +55,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="luas_persil" class="col-sm-3 control-label">Luas Persil Keseluruhan (M2)</label>
-                                <div class="col-sm-8">
-                                    <input name="luas_persil" class="form-control input-sm angka required" type="text" placeholder="Luas persil secara keseluruhan (M2)" value="<?= $persil['luas_persil'] ?>">
+                                <div class="col-sm-4">
+                                    <input name="luas_persil" class="form-control input-sm number required" type="number" min="1" max="9999999" placeholder="Luas persil secara keseluruhan (M2)" value="<?= $persil['luas_persil'] ?>">
                                 </div>
                             </div>
 

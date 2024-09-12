@@ -99,7 +99,7 @@ class Simbol extends Admin_Controller
             if ($file !== '' && $file != '.' && $file != '..') {
                 $source      = $dir . '/' . $file;
                 $destination = $new_dir . '/' . $file;
-                if (!file_exists($destination)) {
+                if (! file_exists($destination)) {
                     $outp   = $outp && copy($source, $destination);
                     $simbol = basename($file);
 
@@ -128,7 +128,7 @@ class Simbol extends Admin_Controller
         }
         $this->upload->initialize($config);
 
-        if (!$this->upload->do_upload('simbol')) {
+        if (! $this->upload->do_upload('simbol')) {
             session_error($this->upload->display_errors());
 
             return;

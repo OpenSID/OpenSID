@@ -65,7 +65,7 @@ class Permohonan_surat_model extends MY_Model
     {
         $outp = $this->config_id()->where('id', $id_permohonan)
             ->delete('permohonan_surat');
-        if (!$outp) {
+        if (! $outp) {
             $this->session->set_userdata('success', -1);
         }
     }
@@ -146,16 +146,13 @@ class Permohonan_surat_model extends MY_Model
 
         //Ordering SQL
         switch ($o) {
-            case 1:
-                $this->db->order_by('u.created_at', 'asc');
+            case 1: $this->db->order_by('u.created_at', 'asc');
                 break;
 
-            case 2:
-                $this->db->order_by('u.created_at', 'desc');
+            case 2: $this->db->order_by('u.created_at', 'desc');
                 break;
 
-            default:
-                $this->db->order_by('(u.status = 0), ISNULL(u.no_antrian)');
+            default: $this->db->order_by('(u.status = 0), ISNULL(u.no_antrian)');
         }
 
         //Main Query

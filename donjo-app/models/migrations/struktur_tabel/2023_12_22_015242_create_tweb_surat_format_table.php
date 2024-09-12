@@ -75,6 +75,7 @@ return new class () extends Migration {
             $table->integer('footer')->default(1);
             $table->integer('header')->default(1);
             $table->string('format_nomor', 100)->nullable();
+            $table->tinyInteger('format_nomor_global')->nullable()->default(1);
             $table->boolean('sumber_penduduk_berulang')->nullable()->default(false);
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->integer('created_by')->nullable();

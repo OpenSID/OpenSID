@@ -117,7 +117,7 @@ function buat_pdf(string $isi, string $file, $style = null, $orientation = 'P', 
 }
 
 // Untuk Lampiran
-if (!function_exists('kotak')) {
+if (! function_exists('kotak')) {
     function kotak(array $data_kolom, $max_kolom = 26): string
     {
         $view = '';
@@ -136,7 +136,7 @@ if (!function_exists('kotak')) {
     }
 }
 
-if (!function_exists('checklist')) {
+if (! function_exists('checklist')) {
     function checklist($kondisi_1, $kondisi_2): string
     {
         $view = '<td class="kotak padat tengah">';
@@ -156,10 +156,9 @@ function get_key_form_kategori($data, $utama = false)
             $judul = 'Utama';
         }
 
-        return [$key => $judul];
+        return [strtolower($key) => $judul];
     })->toArray();
-
-    if (!$utama) {
+    if (! $utama) {
         unset($kategori['individu']);
     }
 

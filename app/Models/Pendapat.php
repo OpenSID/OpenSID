@@ -79,7 +79,7 @@ class Pendapat extends BaseModel
         $lblx = 'TANGGAL';
 
         switch ($tipe) {
-                // Hari ini
+            // Hari ini
             case 1:
                 $judul = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
                 $where = 'DATE(`tanggal`) = "' . $tgl . '"';

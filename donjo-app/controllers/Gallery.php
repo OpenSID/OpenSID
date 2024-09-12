@@ -48,6 +48,7 @@ class Gallery extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index(): void
@@ -76,6 +77,7 @@ class Gallery extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $canDelete): string {
                     $aksi      = '';
                     $judul     = $parent > 0 ? 'Subgallery' : 'gallery';
@@ -97,6 +99,7 @@ class Gallery extends Admin_Controller
                                 $aksi .= '<a href="' . ci_route('gallery.slider', implode('/', [$row->parent->id ?? $parent, $idEncrypt])) . '" class="btn bg-gray btn-sm" title="Tampilkan Di Slider"><i class="fa fa-eject"></i></a> ';
                             }
                         }
+
                     }
 
                     if ($canDelete) {
@@ -109,10 +112,10 @@ class Gallery extends Admin_Controller
                     $gambarKecil  = ($row->jenis == 1 ? AmbilGaleri($row->gambar ?? '', 'kecil') : $row->gambar);
 
                     return '<label style="cursor: pointer;" class="tampil" data-img="' . $gambarSedang . '" data-rel="popover" data-content="<img width=200 height=134 src=' . $gambarKecil . '>" >' . $row->nama . '</label>';
-                })
-                ->editColumn('tgl_upload', static fn($row) => tgl_indo2($row->tgl_upload))
-                ->editColumn('enabled', static fn($row) => $row->enabled ? 'Ya' : 'Tidak')
-                ->rawColumns(['aksi', 'ceklist', 'nama'])
+                } )
+                ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
+                ->editColumn('enabled', static fn ($row) => $row->enabled ? 'Ya' : 'Tidak')
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'nama'])
                 ->make();
         }
 
@@ -194,7 +197,7 @@ class Gallery extends Admin_Controller
         if ($id) {
             $id = decrypt($id);
         }
-        if (Galery::whereIn('id', $this->request['id_cb'] ?? [$id])->whereHas('children')->count()) {
+        if (Galery::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
             redirect_with('error', 'gallery tidak dapat dihapus karena masih memiliki subgallery');
         }
 

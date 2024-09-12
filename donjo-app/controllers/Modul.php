@@ -49,6 +49,7 @@ class Modul extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['modul_model']);
     }
 
@@ -78,7 +79,7 @@ class Modul extends Admin_Controller
             }
 
             return datatables()->of(ModulModel::with(['children'])->whereParent($parent)->whereNotIn('modul', ModulModel::SELALU_AKTIF)
-                ->when(! $order, static fn($q) => $q->orderBy('urut', 'asc')))
+                ->when(! $order, static fn ($q) => $q->orderBy('urut', 'asc')))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($parent, $canUpdate, $lockParent): string {
                     $aksi = '';
@@ -97,7 +98,7 @@ class Modul extends Admin_Controller
                     }
 
                     return $aksi;
-                })->editColumn('modul', static fn($row) => SebutanDesa($row->modul))
+                })->editColumn('modul', static fn ($row) => SebutanDesa($row->modul))
                 ->rawColumns(['aksi'])
                 ->make();
         }

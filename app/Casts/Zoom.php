@@ -48,10 +48,8 @@ class Zoom implements CastsAttributes
      * @param string                              $key
      * @param mixed                               $value
      * @param array                               $attributes
-     *
-     * @return mixed
      */
-    public function get($model, $key, $value, $attributes)
+    public function get($model, $key, $value, $attributes): int
     {
         return (int) $value ?: 18;
     }
@@ -63,10 +61,8 @@ class Zoom implements CastsAttributes
      * @param string                              $key
      * @param mixed                               $value
      * @param array                               $attributes
-     *
-     * @return mixed
      */
-    public function set($model, $key, $value, $attributes)
+    public function set($model, $key, $value, $attributes): int
     {
         return (int) $value;
     }

@@ -275,11 +275,9 @@ class Surat_model extends MY_Model
     public function format_data_surat(&$data): void
     {
         // Asumsi kolom "alamat_wilayah" sdh dalam format ucwords
-        $kolomUpper = [
-            'tanggallahir', 'tempatlahir', 'dusun', 'pekerjaan', 'gol_darah', 'agama', 'sex',
+        $kolomUpper = ['tanggallahir', 'tempatlahir', 'dusun', 'pekerjaan', 'gol_darah', 'agama', 'sex',
             'status_kawin', 'pendidikan', 'hubungan', 'nama_ayah', 'nama_ibu', 'alamat', 'alamat_sebelumnya',
-            'cacat',
-        ];
+            'cacat', ];
 
         foreach ($kolomUpper as $kolom) {
             if (isset($data[$kolom])) {
@@ -395,9 +393,9 @@ class Surat_model extends MY_Model
                 ->where('u.id_kk', $id_kk)
                 ->where('u.sex', 1)
                 ->group_start()
-                // Kepala Keluarga
+                    // Kepala Keluarga
                 ->where('u.kk_level', 1)
-                // Suami dari ibu
+                    // Suami dari ibu
                 ->or_group_start()
                 ->where('u.kk_level', 2)
                 ->group_end()
@@ -407,7 +405,7 @@ class Surat_model extends MY_Model
         }
 
         // jika tidak ada Cari berdasarkan ayah_nik
-        if (empty($data['id']) && !empty($penduduk['ayah_nik'])) {
+        if (empty($data['id']) && ! empty($penduduk['ayah_nik'])) {
             $data = $this->config_id('u')
                 ->select('u.id')
                 ->from('tweb_penduduk u')
@@ -442,9 +440,9 @@ class Surat_model extends MY_Model
                 ->from('tweb_penduduk u')
                 ->where('u.id_kk', $id_kk)
                 ->group_start()
-                // istri
+                    // istri
                 ->where('u.kk_level', 3)
-                // kepala keluarga perempuan
+                    // kepala keluarga perempuan
                 ->or_group_start()
                 ->where('u.kk_level', 1)
                 ->where('u.sex', 2)
@@ -456,7 +454,7 @@ class Surat_model extends MY_Model
         }
 
         // Cari berdasarkan ibu_nik
-        if (empty($data['id']) && !empty($penduduk['ibu_nik'])) {
+        if (empty($data['id']) && ! empty($penduduk['ibu_nik'])) {
             $data = $this->config_id('u')
                 ->select('u.id')
                 ->from('tweb_penduduk u')
@@ -533,7 +531,7 @@ class Surat_model extends MY_Model
             $pamong_nip       = $sebutan_nip_desa . ' : ' . $nip;
         } else {
             $sebutan_nip_desa = setting('sebutan_nip_desa');
-            if (!empty($niap_pamong)) {
+            if (! empty($niap_pamong)) {
                 $nip        = $niap_pamong;
                 $pamong_nip = $sebutan_nip_desa . ' : ' . $niap_pamong;
             } else {

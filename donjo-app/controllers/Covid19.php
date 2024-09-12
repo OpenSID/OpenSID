@@ -48,6 +48,7 @@ class Covid19 extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('covid19_model');
         $this->load->model('wilayah_model');
         $this->load->model('penduduk_model');
@@ -76,7 +77,7 @@ class Covid19 extends Admin_Controller
 
     public function form_pemudik(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->sub_modul_ini = 'pendataan';
 
         $d                      = new DateTime('NOW');
@@ -136,7 +137,7 @@ class Covid19 extends Admin_Controller
 
     public function insert_penduduk(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         unset($_POST['callback_url']);
 
         $this->session->jenis_peristiwa = 5; // pindah masuk
@@ -150,7 +151,7 @@ class Covid19 extends Admin_Controller
 
     public function add_pemudik(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->covid19_model->add_pemudik($_POST);
 
         redirect($this->controller);
@@ -158,7 +159,7 @@ class Covid19 extends Admin_Controller
 
     public function hapus_pemudik($id_pemudik): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->covid19_model->delete_pemudik_by_id($id_pemudik);
 
         redirect($this->controller);
@@ -166,7 +167,7 @@ class Covid19 extends Admin_Controller
 
     public function edit_pemudik_form($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data                        = $this->covid19_model->get_pemudik_by_id($id);
         $data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
         $data['select_status_covid'] = $this->referensi_model->list_data('ref_status_covid');
@@ -177,7 +178,7 @@ class Covid19 extends Admin_Controller
 
     public function edit_pemudik($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->covid19_model->update_pemudik_by_id($this->input->post(), $id);
 
         redirect($this->controller);
@@ -212,7 +213,7 @@ class Covid19 extends Admin_Controller
 
     public function update_penduduk($id_pend, $id_pemudik): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->penduduk_model->update($id_pend);
         if ($_SESSION['success'] == -1) {
             $_SESSION['dari_internal'] = true;
@@ -265,7 +266,7 @@ class Covid19 extends Admin_Controller
 
     public function add_pantau(): void
     {
-        $this->redirect_hak_akses('u', '', 'covid19/pantau');
+        isCan('u');
         $this->covid19_model->add_pantau_pemudik($_POST);
         $url = 'covid19/pantau/' . $_POST['page'] . '/' . $_POST['data_h_plus'];
 
@@ -274,7 +275,7 @@ class Covid19 extends Admin_Controller
 
     public function hapus_pantau($id_pantau_pemudik, $page = null, $h_plus = null): void
     {
-        $this->redirect_hak_akses('h', '', 'covid19/pantau');
+        isCan('h');
         $this->covid19_model->delete_pantau_pemudik_by_id($id_pantau_pemudik);
 
         $url = 'covid19/pantau';

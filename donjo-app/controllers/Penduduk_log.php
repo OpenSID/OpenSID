@@ -48,10 +48,11 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['penduduk_model', 'penduduk_log_model', 'wilayah_model']);
     }
 
-    private function clear_session()
+    private function clear_session(): void
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->filter_bulan = date('n');
@@ -59,7 +60,7 @@ class Penduduk_log extends Admin_Controller
         $this->session->per_page     = 20;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->clear_session();
 
@@ -187,7 +188,7 @@ class Penduduk_log extends Admin_Controller
 
     public function edit($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['log_status_dasar'] = $this->penduduk_log_model->get_log($id) ?? show_404();
         $data['list_ref_pindah']  = $this->referensi_model->list_data('ref_pindah');
         $data['sebab']            = $this->referensi_model->list_ref(SEBAB);
@@ -199,7 +200,7 @@ class Penduduk_log extends Admin_Controller
 
     public function update($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->penduduk_log_model->update($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -207,9 +208,9 @@ class Penduduk_log extends Admin_Controller
 
     public function kembalikan_status($id_log): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        if (!data_lengkap()) {
+        if (! data_lengkap()) {
             show_404();
         }
 
@@ -221,7 +222,7 @@ class Penduduk_log extends Admin_Controller
 
     public function ajax_kembalikan_status_pergi($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['nik']         = $this->penduduk_model->get_penduduk($id);
         $data['form_action'] = site_url("{$this->controller}/kembalikan_status_pergi/{$id}");
 
@@ -230,9 +231,9 @@ class Penduduk_log extends Admin_Controller
 
     public function kembalikan_status_pergi($id_log = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        if (!data_lengkap()) {
+        if (! data_lengkap()) {
             show_404();
         }
 
@@ -244,9 +245,9 @@ class Penduduk_log extends Admin_Controller
 
     public function kembalikan_status_all(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        if (!data_lengkap()) {
+        if (! data_lengkap()) {
             show_404();
         }
 
@@ -275,19 +276,17 @@ class Penduduk_log extends Admin_Controller
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
 
-    public function statistik($tipe = '0', $nomor = 0, $sex = null)
+    public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
         $this->clear_session();
         $this->session->sex = ($sex == 0) ? null : $sex;
 
-        switch ((string) $tipe) {
-            case 'akta-kematian':
-                $session                       = 'akta_kematian';
-                $kategori                      = 'AKTA KEMATIAN : ';
-                $this->session->status_dasar   = 2;
-                $this->session->kode_peristiwa = 2;
-                $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
-                break;
+        if ((string) $tipe === 'akta-kematian') {
+            $session                       = 'akta_kematian';
+            $kategori                      = 'AKTA KEMATIAN : ';
+            $this->session->status_dasar   = 2;
+            $this->session->kode_peristiwa = 2;
+            $this->session->unset_userdata(['filter_tahun', 'filter_bulan', 'agama']);
         }
 
         $this->session->{$session} = rawurldecode($nomor);

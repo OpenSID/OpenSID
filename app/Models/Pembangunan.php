@@ -143,6 +143,27 @@ class Pembangunan extends BaseModel
         return $query->where('status', $value);
     }
 
+    public function scopeTipe($query, $tipe = null)
+    {
+        if ($tipe == 'kegiatan') {
+            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query) {
+                $query->whereRaw('CAST(REPLACE(persentase, "%", "") AS SIGNED) < 100');
+            });
+        }
+
+        if ($tipe == 'rencana') {
+            $query = $query->whereDoesntHave('pembangunanDokumentasi');
+        }
+
+        if ($tipe == 'hasil') {
+            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query) {
+                $query->whereRaw('CAST(REPLACE(persentase, "%", "") AS SIGNED) = 100');
+            });
+        }
+
+        return $query;
+    }
+
     public static function boot(): void
     {
         parent::boot();

@@ -56,7 +56,7 @@
                                     <?php if ($pemesanan->status_pemesanan == 'aktif') : ?>
                                         <?php foreach ($pemesanan->layanan as $layanan) : ?>
                                             <?php
-                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && !file_exists('mitra')) {
+                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
                                                 fopen('mitra', 'wb');
                                             }
                                             ?>
@@ -185,7 +185,7 @@
                                         <?php endforeach ?>
                                     </td>
                                 </tr>
-                                <?php if (!config_item('demo_mode') && $response->body->token) : ?>
+                                <?php if (! config_item('demo_mode') && $response->body->token) : ?>
                                     <tr>
                                         <td>Token</td>
                                         <td> : </td>

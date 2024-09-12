@@ -35,124 +35,113 @@
  *
  */
 
+use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\LogHapusPenduduk;
 use App\Models\LogPenduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_mutasi extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-penduduk';
-    public $kategori_pengaturan  = 'data_lengkap';
-    private array $_set_page     = ['10', '20', '50', '100'];
-    private array $_list_session = ['tgl_lengkap', 'filter_tahun', 'filter_bulan', 'filter', 'kode_peristiwa', 'status_dasar', 'cari', 'status', 'status_penduduk'];
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-penduduk';
+    public $kategori_pengaturan = 'data_lengkap';
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['pamong_model', 'penduduk_model', 'penduduk_log_model']);
-        $this->logpenduduk = new LogPenduduk();
+        isCan('b');
     }
 
-    public function index($page_number = 1, $order_by = 0): void
+    public function index()
     {
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
+        $data['selectedNav'] = 'mutasi';
+        $data['subtitle']    = 'Buku Mutasi Penduduk Desa';
+        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
+        $data['mainContent'] = 'admin.bumindes.penduduk.mutasi.index';
+        $data['hapus']       = LogHapusPenduduk::with(['penduduk.log_latest'])->data()->count();
+
+        return view('admin.bumindes.penduduk.index', $data);
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->penduduk->sex)))
+                ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->penduduk->tanggallahir))
+                ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->penduduk->warganegara_id)))
+                ->editColumn('alamat_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? $row->penduduk->alamat_sebelumnya : '-')
+                ->editColumn('tanggal_sebelumnya', static fn ($row) => $row->kode_peristiwa == LogPenduduk::BARU_PINDAH_MASUK ? tgl_indo_out($row->penduduk->created_at) : '-')
+                ->editColumn('alamat_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? $row->alamat_tujuan : '-')
+                ->editColumn('tanggal_tujuan', static fn ($row) => $row->kode_peristiwa == LogPenduduk::PINDAH_KELUAR ? tgl_indo_out($row->tgl_peristiwa) : '-')
+                ->editColumn('meninggal_di', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? $row->meninggal_di : '-')
+                ->editColumn('tanggal_meninggal', static fn ($row) => $row->kode_peristiwa == LogPenduduk::MATI ? tgl_indo_out($row->tgl_peristiwa) : '-')
+                ->editColumn('ket', static fn ($row) => ! $row->penduduk->created_at ? 'Penduduk sudah dihapus.' : ($row->catatan ? strtoupper($row->catatan) : '-'))
+                ->make();
         }
 
-        // Menampilkan hanya kode peristiwa
-        $this->session->kode_peristiwa = [2, 3, 5];
-        // Menampilkan hanya status penduduk TETAP
-        $this->session->status_penduduk = 1;
-        $tanggal_lengkap                = $this->logpenduduk::min('tgl_lapor');
+        return show_404();
+    }
 
-        $data = [
-            'main_content'  => 'bumindes/penduduk/mutasi/content_mutasi',
-            'subtitle'      => 'Buku Mutasi Penduduk Desa',
-            'selected_nav'  => 'mutasi',
-            'p'             => $page_number,
-            'o'             => $order_by,
-            'cari'          => $this->session->cari ?: '',
-            'filter'        => $this->session->filter ?: '',
-            'per_page'      => $this->session->per_page,
-            'bulan'         => $this->session->filter_bulan ?: null,
-            'tahun'         => $this->session->filter_tahun ?: null,
-            'func'          => 'index',
-            'set_page'      => $this->_set_page,
-            'tgl_lengkap'   => $tanggal_lengkap,
-            'paging'        => $this->penduduk_log_model->paging($page_number),
-            'tahun_lengkap' => (new DateTime($tanggal_lengkap))->format('Y'),
-            'data_hapus'    => $this->penduduk_log_model->list_data_hapus(),
-        ];
-
-        $data['main'] = $this->penduduk_log_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
-
-        if ($data['tgl_lengkap']) {
-            $this->session->tgl_lengkap = $data['tgl_lengkap'];
+    public function datatablesHapus()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(LogHapusPenduduk::with(['penduduk.log_latest'])->data()
+                ->where('deleted_at', '>', 'penduduk.log_latest.created_at'))
+                ->addIndexColumn()
+                ->editColumn('deleted_at', static fn ($row) => tgl_indo_out($row->deleted_at))
+                ->editColumn('catatan', static fn ($row) => $row->penduduk->log_latest->catatan ?: 'Data dihapus karena salah pengisian.')
+                ->make();
         }
 
-        $this->render('bumindes/penduduk/main', $data);
+        return show_404();
     }
 
-    private function clear_session(): void
+    private function sumberData()
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
+        $tahun = $this->input->get('tahun') ?? null;
+        $bulan = $this->input->get('bulan') ?? null;
+
+        return LogPenduduk::with(['penduduk'])
+            ->whereIn('kode_peristiwa', [LogPenduduk::MATI, LogPenduduk::PINDAH_KELUAR, LogPenduduk::BARU_PINDAH_MASUK])
+            ->whereHas('penduduk', static function ($query) {
+                $query->where('status', StatusPendudukEnum::TETAP);
+            })
+            ->orderByDesc('tgl_lapor')
+            ->when($tahun, static fn ($q) => $q->whereYear('tgl_lapor', $tahun))
+            ->when($bulan, static fn ($q) => $q->whereMonth('tgl_lapor', $bulan));
     }
 
-    public function clear(): void
+    public function dialog($aksi = 'cetak')
     {
-        $this->clear_session();
-        // Set default filter ke tahun dan bulan sekarang
-        $this->session->filter_tahun = date('Y');
-        $this->session->filter_bulan = date('m');
-        redirect('bumindes_penduduk_mutasi');
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_penduduk_mutasi.cetak', $aksi);
+
+        return view('admin.bumindes.penduduk.mutasi.dialog', $data);
     }
 
-    public function ajax_cetak($o = 0, $aksi = ''): void
+    public function cetak($aksi = '')
     {
-        // pengaturan data untuk dialog cetak/unduh
-        $data = [
-            'o'           => $o,
-            'aksi'        => $aksi,
-            'form_action' => site_url("bumindes_penduduk_mutasi/cetak/{$o}/{$aksi}"),
-            'isi'         => 'bumindes/penduduk/mutasi/ajax_dialog_mutasi',
-        ];
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
+        }
 
-        $this->load->view('global/dialog_cetak', $data);
-    }
-
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0): void
-    {
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
-        $data['bulan']     = $this->session->filter_bulan ?: date('m');
-        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
-        $data['main']      = $this->penduduk_log_model->list_data($o);
+        $data['main']      = $query->take($paramDatatable['length'])->get();
         $data['config']    = $this->header['desa'];
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');
         $data['file']      = 'Buku Mutasi Penduduk';
-        $data['isi']       = 'bumindes/penduduk/mutasi/content_mutasi_cetak';
+        $data['isi']       = 'admin.bumindes.penduduk.mutasi.cetak';
         $data['letak_ttd'] = ['1', '2', '8'];
 
-        $this->load->view('global/format_cetak', $data);
-    }
-
-    public function autocomplete(): void
-    {
-        $data = $this->penduduk_model->autocomplete($this->input->post('cari'));
-        $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
-    }
-
-    public function filter($filter): void
-    {
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-        redirect('bumindes_penduduk_mutasi');
+        return view('admin.layouts.components.format_cetak', $data);
     }
 }

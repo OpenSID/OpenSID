@@ -150,14 +150,14 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                         } elseif ($p->allowsNull() && !$p->isOptional()) {
                             $invalidBehavior = ContainerInterface::NULL_ON_INVALID_REFERENCE;
                         }
-                    } elseif (isset($bindings[$bindingName = $type . ' $' . $name = Target::parseName($p)]) || isset($bindings[$bindingName = '$' . $name]) || isset($bindings[$bindingName = $type])) {
+                    } elseif (isset($bindings[$bindingName = $type.' $'.$name = Target::parseName($p)]) || isset($bindings[$bindingName = '$'.$name]) || isset($bindings[$bindingName = $type])) {
                         $binding = $bindings[$bindingName];
 
-                        [$bindingValue, $bindingId,, $bindingType, $bindingFile] = $binding->getValues();
+                        [$bindingValue, $bindingId, , $bindingType, $bindingFile] = $binding->getValues();
                         $binding->setValues([$bindingValue, $bindingId, true, $bindingType, $bindingFile]);
 
                         if (!$bindingValue instanceof Reference) {
-                            $args[$p->name] = new Reference('.value.' . $container->hash($bindingValue));
+                            $args[$p->name] = new Reference('.value.'.$container->hash($bindingValue));
                             $container->register((string) $args[$p->name], 'mixed')
                                 ->setFactory('current')
                                 ->addArgument([$bindingValue]);
@@ -187,7 +187,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                             $message .= ' Did you forget to add a use statement?';
                         }
 
-                        $container->register($erroredId = '.errored.' . $container->hash($message), $type)
+                        $container->register($erroredId = '.errored.'.$container->hash($message), $type)
                             ->addError($message);
 
                         $args[$p->name] = new Reference($erroredId, ContainerInterface::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE);
@@ -198,10 +198,10 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                 }
                 // register the maps as a per-method service-locators
                 if ($args) {
-                    $controllers[$id . '::' . $r->name] = ServiceLocatorTagPass::register($container, $args);
+                    $controllers[$id.'::'.$r->name] = ServiceLocatorTagPass::register($container, $args);
 
                     foreach ($publicAliases[$id] ?? [] as $alias) {
-                        $controllers[$alias . '::' . $r->name] = clone $controllers[$id . '::' . $r->name];
+                        $controllers[$alias.'::'.$r->name] = clone $controllers[$id.'::'.$r->name];
                     }
                 }
             }

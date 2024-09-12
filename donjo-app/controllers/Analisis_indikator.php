@@ -45,6 +45,7 @@ class Analisis_indikator extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         if (! $this->session->has_userdata('analisis_master')) {
             $this->session->success   = -1;
@@ -92,7 +93,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['p'] = $p;
         $data['o'] = $o;
 
@@ -132,7 +133,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function form_parameter($in = '', $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if ($id) {
             $data['analisis_parameter'] = $this->analisis_indikator_model->get_analisis_parameter($id) ?? show_404();
             $data['form_action']        = site_url("{$this->controller}/p_update/{$in}/{$id}");
@@ -197,7 +198,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_indikator_model->insert();
 
         redirect($this->controller);
@@ -205,7 +206,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function update($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_indikator_model->update($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -213,7 +214,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function delete($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->analisis_indikator_model->delete($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -221,7 +222,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function delete_all($p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->analisis_indikator_model->delete_all();
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -229,7 +230,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function p_insert($in = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_indikator_model->p_insert($in);
 
         redirect("{$this->controller}/parameter/{$in}");
@@ -237,7 +238,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function p_update($in = '', $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_indikator_model->p_update($id, $in);
 
         redirect("{$this->controller}/parameter/{$in}");
@@ -245,7 +246,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function p_delete($in = '', $id = 0): void
     {
-        $this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
+        isCan('h');
         $this->analisis_indikator_model->p_delete($id);
 
         redirect("{$this->controller}/parameter/{$in}");
@@ -253,7 +254,7 @@ class Analisis_indikator extends Admin_Controller
 
     public function p_delete_all($in = ''): void
     {
-        $this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
+        isCan('h');
         $this->analisis_indikator_model->p_delete_all();
 
         redirect("{$this->controller}/parameter/{$in}");

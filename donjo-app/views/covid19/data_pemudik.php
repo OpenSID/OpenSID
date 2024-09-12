@@ -2,7 +2,7 @@
 	<section class="content-header">
 		<h1>Daftar Pemudik Saat Pandemi Covid-19</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?= site_url('beranda') ?>"><i class="fa fa-home"></i> Beranda</a></li>
+			<li><a href="<?= site_url('beranda')?>"><i class="fa fa-home"></i> Beranda</a></li>
 			<li class="active">Data Pemudik</li>
 		</ol>
 	</section>
@@ -10,11 +10,11 @@
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<?php if (can('u')): ?>
-					<a href="<?= site_url('covid19/form_pemudik') ?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Pemudik</a>
+					<a href="<?= site_url('covid19/form_pemudik')?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Pemudik</a>
 				<?php endif; ?>
-				<a href="<?= site_url('covid19/daftar/cetak') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
+				<a href="<?= site_url('covid19/daftar/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
 				</a>
-				<a href="<?= site_url('covid19/daftar/unduh') ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
+				<a href="<?= site_url('covid19/daftar/unduh')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
 				</a>
 			</div>
 			<div class="box-body">
@@ -47,40 +47,40 @@
 										</thead>
 										<tbody>
 											<?php
-											$nomer = $paging->offset;
+                                            $nomer = $paging->offset;
 
-											foreach ($pemudik_list as $item):
-												$nomer++;
-											?>
-												<tr>
-													<td align="center" width="2"><?= $nomer; ?></td>
-													<?php if (can('u')): ?>
-														<td nowrap>
-															<?php if (can('u')): ?>
-																<a href="<?= site_url("covid19/edit_pemudik_form/{$item['id']}") ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-															<?php endif; ?>
-															<?php if (can('h')): ?>
-																<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/{$item['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-															<?php endif; ?>
-														</td>
-													<?php endif; ?>
-													<td><?= $item['terdata_nama'] ?></td>
-													<td nowrap><a href="<?= site_url('covid19/detil_pemudik/' . $item['id']) ?>" title="Data terdata"><?= $item['terdata_info']; ?></a></td>
-													<td><?= $item['umur'] ?></td>
-													<?php
-													$jk = (strtoupper($item['sex']) === 'PEREMPUAN') ? 'Pr' : 'Lk';
-													?>
-													<td><?= $jk ?></td>
-													<td><?= $item['info']; ?></td>
-													<td>Warga <?= $item['pantau'] == 1 ? 'Pemudik' : ucwords($this->setting->sebutan_desa) ?></td>
-													<td><?= $item['asal_mudik']; ?></td>
-													<td><?= $item['tanggal_datang']; ?></td>
-													<td><?= $item['tujuan_mudik']; ?></td>
-													<td><?= $item['no_hp']; ?> - <?= $item['email']; ?> </td>
-													<td><?= $item['status_covid']; ?></td>
-													<td><?= $item['keluhan_kesehatan']; ?></td>
-													<td><?= ($item['is_wajib_pantau'] === '1' ? 'Ya' : 'Tidak'); ?></td>
-												</tr>
+            foreach ($pemudik_list as $item):
+                $nomer++;
+                ?>
+											<tr>
+												<td align="center" width="2"><?= $nomer; ?></td>
+												<?php if (can('u')): ?>
+													<td nowrap>
+														<?php if (can('u')): ?>
+															<a href="<?= site_url("covid19/edit_pemudik_form/{$item['id']}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Pemudik" title="Ubah Data Pemudik" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+														<?php endif; ?>
+														<?php if (can('h')): ?>
+															<a href="#" data-href="<?= site_url("covid19/hapus_pemudik/{$item['id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<?php endif; ?>
+													</td>
+												<?php endif; ?>
+												<td><?= $item['terdata_nama'] ?></td>
+												<td nowrap><a href="<?= site_url('covid19/detil_pemudik/' . $item['id'])?>" title="Data terdata"><?= $item['terdata_info']; ?></a></td>
+												<td><?= $item['umur'] ?></td>
+												<?php
+                    $jk = (strtoupper($item['sex']) === 'PEREMPUAN') ? 'Pr' : 'Lk';
+                ?>
+												<td><?= $jk?></td>
+												<td><?= $item['info']; ?></td>
+												<td>Warga <?= $item['pantau'] == 1 ? 'Pemudik' : ucwords($this->setting->sebutan_desa) ?></td>
+												<td><?= $item['asal_mudik']; ?></td>
+												<td><?= $item['tanggal_datang']; ?></td>
+												<td><?= $item['tujuan_mudik']; ?></td>
+												<td><?= $item['no_hp']; ?> - <?= $item['email']; ?> </td>
+												<td><?= $item['status_covid']; ?></td>
+												<td><?= $item['keluhan_kesehatan']; ?></td>
+												<td><?= ($item['is_wajib_pantau'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											</tr>
 											<?php endforeach; ?>
 										</tbody>
 									</table>
@@ -89,16 +89,16 @@
 							<div class="row">
 								<div class="col-sm-6">
 									<div class="dataTables_length">
-										<form id="paging" method="post" class="form-horizontal">
+										<form id="paging"method="post" class="form-horizontal">
 											<label>
 												Tampilkan
 												<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-													<option value="10" <?php selected($per_page, 10); ?>>10</option>
-													<option value="100" <?php selected($per_page, 100); ?>>100</option>
-													<option value="200" <?php selected($per_page, 200); ?>>200</option>
+													<option value="10" <?php selected($per_page, 10); ?> >10</option>
+													<option value="100" <?php selected($per_page, 100); ?> >100</option>
+													<option value="200" <?php selected($per_page, 200); ?> >200</option>
 												</select>
 												Dari
-												<strong><?= $paging->num_rows ?></strong>
+												<strong><?= $paging->num_rows?></strong>
 												Total Data
 											</label>
 										</form>
@@ -107,29 +107,29 @@
 								<div class="col-sm-6">
 									<div class="dataTables_paginate paging_simple_numbers">
 										<ul class="pagination">
-											<?php if ($paging->start_link) : ?>
+										<?php if ($paging->start_link): ?>
 												<li>
-													<a href="<?= site_url('covid19/data_pemudik/' . $paging->start_link) ?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
+													<a href="<?=site_url('covid19/data_pemudik/' . $paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
 												</li>
 											<?php endif; ?>
-											<?php if ($paging->prev) : ?>
+											<?php if ($paging->prev): ?>
 												<li>
-													<a href="<?= site_url('covid19/data_pemudik/' . $paging->prev) ?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+													<a href="<?=site_url('covid19/data_pemudik/' . $paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 												</li>
 											<?php endif; ?>
-											<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++) : ?>
-												<li <?= jecho($p, $i, "class='active'") ?>>
-													<a href="<?= site_url('covid19/data_pemudik/' . $i) ?>"><?= $i ?></a>
+											<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++): ?>
+												<li <?=jecho($p, $i, "class='active'")?>>
+													<a href="<?= site_url('covid19/data_pemudik/' . $i)?>"><?= $i?></a>
 												</li>
 											<?php endfor; ?>
-											<?php if ($paging->next) : ?>
+											<?php if ($paging->next): ?>
 												<li>
-													<a href="<?= site_url('covid19/data_pemudik/' . $paging->next) ?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+													<a href="<?=site_url('covid19/data_pemudik/' . $paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
 												</li>
 											<?php endif; ?>
-											<?php if ($paging->end_link) : ?>
+											<?php if ($paging->end_link): ?>
 												<li>
-													<a href="<?= site_url('covid19/data_pemudik/' . $paging->end_link) ?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
+													<a href="<?=site_url('covid19/data_pemudik/' . $paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
 												</li>
 											<?php endif; ?>
 										</ul>

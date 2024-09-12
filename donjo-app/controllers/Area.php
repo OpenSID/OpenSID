@@ -53,12 +53,13 @@ class Area extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index($parent = 0): void
     {
         $data            = ['tip' => $this->tip, 'parent' => $parent];
-        $data['status']  = [Polygon::LOCK => 'Aktif', Polygon::UNLOCK => 'Non Aktif'];
+        $data['status']  = [Polygon::UNLOCK => 'Aktif', Polygon::LOCK => 'Non Aktif'];
         $data['polygon'] = Polygon::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.area.index', $data);
@@ -92,9 +93,9 @@ class Area extends Admin_Controller
                     $aksi .= '<a href="' . ci_route('area.ajax_area_maps', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-olive btn-sm" title="Lokasi ' . $row->nama . '"><i class="fa fa-map"></i></a> ';
                     if (can('u')) {
                         if ($row->isLock()) {
-                            $aksi .= '<a href="' . ci_route('area.unlock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a> ';
+                            $aksi .= '<a href="' . ci_route('area.unlock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
                         } else {
-                            $aksi .= '<a href="' . ci_route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
+                            $aksi .= '<a href="' . ci_route('area.lock', implode('/', [$row->polygon->parent->id ?? $parent, $row->id])) . '" class="btn bg-navy btn-sm" title="Non Aktifkan"><i class="fa fa-unlock">&nbsp;</i></a> ';
                         }
                     }
                     if (can('h')) {
@@ -103,7 +104,7 @@ class Area extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->isLock() ? 'Tidak' : 'Ya')
                 ->editColumn('ref_polygon', static fn ($row) => $row->polygon->parent->nama ?? '')
                 ->editColumn('kategori', static fn ($row) => $row->polygon->nama ?? '')
                 ->rawColumns(['aksi', 'ceklist'])
@@ -115,7 +116,7 @@ class Area extends Admin_Controller
 
     public function form($parent = 0, $id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['area']        = null;
         $data['form_action'] = ci_route('area.insert', $parent);
         $data['foto_area']   = null;
@@ -134,7 +135,7 @@ class Area extends Admin_Controller
 
     public function ajax_area_maps($parent, int $id)
     {
-        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
+        isCan('u');
 
         $data['area']                   = AreaModel::find($id)->toArray();
         $data['parent']                 = $parent;
@@ -154,7 +155,7 @@ class Area extends Admin_Controller
 
     public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
+        isCan('u');
 
         try {
             $data = $this->input->post();
@@ -172,7 +173,7 @@ class Area extends Admin_Controller
 
     public function kosongkan($parent, $id): void
     {
-        $this->redirect_hak_akses('u', ci_route('area.index', $parent));
+        isCan('u');
 
         try {
             AreaModel::whereId($id)->update(['path' => null]);
@@ -185,7 +186,7 @@ class Area extends Admin_Controller
 
     public function insert($parent): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if ($this->validation()) {
             $data = $this->validasi($this->input->post());
         }
@@ -201,7 +202,7 @@ class Area extends Admin_Controller
 
     public function update($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($this->validation()) {
             $data = $this->validasi($this->input->post());
@@ -219,7 +220,7 @@ class Area extends Admin_Controller
 
     public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
+        isCan('h');
 
         try {
             AreaModel::destroy($this->request['id_cb'] ?? $id);
@@ -232,7 +233,7 @@ class Area extends Admin_Controller
 
     public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
+        isCan('h');
 
         try {
             AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::LOCK]);
@@ -245,14 +246,14 @@ class Area extends Admin_Controller
 
     public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', ci_route('area.index', $parent));
+        isCan('h');
 
         try {
             AreaModel::where(['id' => $id])->update(['enabled' => AreaModel::UNLOCK]);
-            redirect_with('success', 'Area berhasil dinonaktifkan', ci_route('area.index', $parent));
+            redirect_with('success', 'Area berhasil diaktifkan', ci_route('area.index', $parent));
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-            redirect_with('error', 'Area gagal dinonaktifkan', ci_route('area.index', $parent));
+            redirect_with('error', 'Area gagal diaktifkan', ci_route('area.index', $parent));
         }
     }
 
@@ -276,7 +277,7 @@ class Area extends Admin_Controller
         $area_file = $_FILES['foto']['tmp_name'];
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (!empty($area_file)) {
+        if (! empty($area_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA);
         } else {
             unset($data['foto']);

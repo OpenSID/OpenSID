@@ -257,7 +257,7 @@ class FormatSurat extends BaseModel
     public function getListSyaratSuratAttribute()
     {
         return $this->syaratSurat->map(
-            static fn($syarat): array => [
+            static fn ($syarat): array => [
                 'label'      => $syarat->ref_syarat_nama,
                 'value'      => $syarat->ref_syarat_id,
                 'form_surat' => [
@@ -267,7 +267,7 @@ class FormatSurat extends BaseModel
                         'label'    => 'Dokumen Syarat',
                         'name'     => 'dokumen',
                         'multiple' => false,
-                        'values'   => $syarat->dokumen->map(static fn($dokumen): array => [
+                        'values'   => $syarat->dokumen->map(static fn ($dokumen): array => [
                             'label' => $dokumen->nama,
                             'value' => $dokumen->id,
                         ]),

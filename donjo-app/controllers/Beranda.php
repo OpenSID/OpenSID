@@ -95,7 +95,7 @@ class Beranda extends Admin_Controller
             if ($release->isAvailable()) {
                 $info['update_available'] = $release->isAvailable();
                 $info['current_version']  = 'v' . AmbilVersi();
-                $info['latest_version']   = $release->getLatestVersion() . (PREMIUM ? '-premium' : '');
+                $info['latest_version']   = $release->getLatestVersion();
                 $info['release_name']     = $release->getReleaseName();
                 $info['release_body']     = $release->getReleaseBody();
                 $info['url_download']     = $release->getReleaseDownload();
@@ -105,23 +105,6 @@ class Beranda extends Admin_Controller
         }
 
         return $info;
-    }
-
-    public function hapus_foreign_key($tabel, $nama_constraint, $drop): bool
-    {
-        $query = $this->db
-            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
-            ->where('CONSTRAINT_SCHEMA', $this->db->database)
-            ->where('REFERENCED_TABLE_NAME', $tabel)
-            ->where('CONSTRAINT_NAME', $nama_constraint)
-            ->get();
-
-        $hasil = true;
-        if ($query->num_rows() > 0) {
-            return $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
-        }
-
-        return $hasil;
     }
 
     private function bantuan()
@@ -138,12 +121,12 @@ class Beranda extends Admin_Controller
     private function logSurat()
     {
         return LogSurat::whereNull('deleted_at')
-            ->when($this->isAdmin->jabatan_id == kades()->id, static fn($q) => $q->when(setting('tte') == 1, static fn($tte) => $tte->where('tte', '=', 1))
-                ->when(setting('tte') == 0, static fn($tte) => $tte->where('verifikasi_kades', '=', '1'))
+            ->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
                 ->orWhere(static function ($verifikasi): void {
                     $verifikasi->whereNull('verifikasi_operator');
                 }))
-            ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count();
+            ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count();
     }
 }

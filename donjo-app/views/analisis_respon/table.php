@@ -33,7 +33,7 @@
 								<i class="fa fa-upload"></i>Impor
 							</a>
 						<?php endif; ?>
-						<?php if ($analisis_master['format_impor'] == 1 && isCan('u')): ?>
+						<?php if ($analisis_master['format_impor'] == 1 && can('u')): ?>
 							<a href="<?= site_url('analisis_respon/form_impor_bdt')?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data BDT 2015" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data BDT 2015">
 								<i class="fa fa-upload"></i>Impor BDT 2015
 							</a>

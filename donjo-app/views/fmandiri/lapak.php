@@ -195,8 +195,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<?php endif; ?>
 						<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++) : ?>
 							<li class="<?php if ($paging->page == $i) {
-											echo 'active';
-										} ?>"><a href="<?= site_url("{$paging_page}/{$i}" . $paging->suffix); ?>" title="<?= 'Halaman ' . $i ?>"><?= $i ?></a></li>
+                                echo 'active';
+                            } ?>"><a href="<?= site_url("{$paging_page}/{$i}" . $paging->suffix); ?>" title="<?= 'Halaman ' . $i ?>"><?= $i ?></a></li>
 						<?php endfor; ?>
 						<?php if ($paging->next) : ?>
 							<li><a href="<?= site_url("{$paging_page}/{$paging->next}" . $paging->suffix); ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
@@ -218,7 +218,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <script src="<?= asset('js/leaflet.js'); ?>"></script>
 <script src="<?= asset('js/leaflet-providers.js'); ?>"></script>
 <script src="<?= asset('js/leaflet-mapbox-gl.js'); ?>"></script>
-<script src="<?= asset('js/peta.js') ?>"></script>
+<script src="<?= asset('js/peta.js')?>"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';

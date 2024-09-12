@@ -131,7 +131,7 @@ class MY_Model extends CI_Model
 
             [$kolom, $table, $where, $cari] = $kode;
 
-            $sql[] = "({$this->config_id($table)->select($kolom)->from($table)->where($where)->like($kolom,$cari)->order_by($kolom, 'desc')->get_compiled_select()})";
+            $sql[] = "({$this->config_id($table)->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
         }
 
         $sql = implode('UNION', $sql);
@@ -159,7 +159,7 @@ class MY_Model extends CI_Model
         }
 
         $unique_name = preg_replace('/[^a-zA-Z0-9_-]+/i', '', $kolom);
-        if (!$this->cek_indeks($tabel, $unique_name)) {
+        if (! $this->cek_indeks($tabel, $unique_name)) {
             if ($multi == true && $index == 'UNIQUE') {
                 return $this->db->query("ALTER TABLE `{$tabel}` ADD UNIQUE INDEX `{$unique_name}` ({$kolom})");
             }
@@ -262,7 +262,7 @@ class MY_Model extends CI_Model
         cache()->forget('identitas_desa');
 
         if (Schema::hasColumn('setting_aplikasi', 'config_id')) {
-            $cek = SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
+            $cek = SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('config_id', $config_id ?? $this->config_id)->where('key', $setting['key']);
 
             if ($cek->exists()) {
                 unset($setting['value']);
@@ -328,12 +328,12 @@ class MY_Model extends CI_Model
         $fields = [];
 
         // Kolom created_at
-        if (!$this->db->field_exists('created_at', $table)) {
+        if (! $this->db->field_exists('created_at', $table)) {
             $fields[] = 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP';
         }
 
         // Kolom created_by
-        if ($creator && !$this->db->field_exists('created_by', $table)) {
+        if ($creator && ! $this->db->field_exists('created_by', $table)) {
             $fields['created_by'] = [
                 'type'       => 'INT',
                 'constraint' => 11,
@@ -342,12 +342,12 @@ class MY_Model extends CI_Model
         }
 
         // Kolom updated_at
-        if (!$this->db->field_exists('updated_at', $table)) {
+        if (! $this->db->field_exists('updated_at', $table)) {
             $fields[] = 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
         }
 
         // Kolom updated_by
-        if ($creator && !$this->db->field_exists('updated_by', $table)) {
+        if ($creator && ! $this->db->field_exists('updated_by', $table)) {
             $fields['updated_by'] = [
                 'type'       => 'INT',
                 'constraint' => 11,
@@ -386,7 +386,7 @@ class MY_Model extends CI_Model
     {
         $hasil = true;
 
-        if (!$this->db->field_exists('config_id', $tabel)) {
+        if (! $this->db->field_exists('config_id', $tabel)) {
             $hasil = $hasil && $this->dbforge->add_column($tabel, [
                 'config_id' => [
                     'type'       => 'INT',
@@ -454,7 +454,7 @@ class MY_Model extends CI_Model
             collect($data)
                 ->chunk(100)
                 // tambahkan config_id terlebih dahulu
-                ->map(static fn($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
+                ->map(static fn ($chunk) => $chunk->map(static function (array $item) use ($config_id): array {
                     $item['config_id'] = $config_id;
 
                     return $item;
@@ -473,11 +473,16 @@ class MY_Model extends CI_Model
 
     // Buat ulang yang hanya dibutuhkan
     // Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
-    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom, $ubahNull = false)
+    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom, $ubahNull = false, $primaryForeignKey = false)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         DB::statement("alter table `{$ke_tbl}` modify column `{$ke_kolom}` int(11) NOT NULL AUTO_INCREMENT");
-        DB::statement("alter table `{$di_tbl}` modify column `{$fk}` int(11) NULL");
+
+        // kondisi dimana kolom di set primary key yg auto increment (tdk boleh null) tapi di set foreign key yg boleh null
+        // contoh di tweb_penduduk_mandiri, yg seharusnya diperbaiki. dibuatkan kolom id yg auto increment dan primary key
+        if (! $primaryForeignKey) {
+            DB::statement("alter table `{$di_tbl}` modify column `{$fk}` int(11) NULL");
+        }
 
         $query = $this->db
             ->where('CONSTRAINT_SCHEMA', $this->db->database)

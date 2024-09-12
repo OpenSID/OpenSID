@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -46,9 +47,23 @@ class Modul extends BaseModel
 {
     use ConfigId;
 
+    public const PARENT       = 0;
     public const LOCK         = 2;
     public const UNLOCK       = 1;
+    public const SHOW         = 0;
+    public const SHOW_S       = 1;
+    public const HIDDEN       = 2;
     public const SELALU_AKTIF = ['beranda', 'notif', 'pengguna'];
+
+    // default modul
+    public const DEFAULT_MODUL = [
+        'beranda' => [
+            'modul' => 'Beranda',
+            'slug'  => 'beranda',
+            'url'   => 'beranda',
+            'ikon'  => 'fa-home',
+        ],
+    ];
 
     /**
      * The table associated with the model.
@@ -97,14 +112,37 @@ class Modul extends BaseModel
         return $query->where('aktif', $value);
     }
 
-    public function scopeRoot($query)
+    public function scopeIsActive($query)
     {
-        return $query->where('parent', 0);
+        return $query->where('aktif', self::UNLOCK);
     }
 
-    protected function getRawAktifAttribute($value)
+    public function scopeIsNonActive($query)
     {
-        return $this->attributes['aktif'];
+        return $query->where('aktif', self::LOCK);
+    }
+
+    public function scopeIsShow($query)
+    {
+        return $query->whereIn('hidden', [self::SHOW, self::SHOW_S]);
+    }
+
+    public function scopeIsParent($query)
+    {
+        return $query->where('parent', self::PARENT);
+    }
+
+    public function scopeIsChild($query)
+    {
+        return $query->where('parent', '!=', 0);
+    }
+
+    /**
+     * Get the parent that owns the Polygon
+     */
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Modul::class, 'parent', 'id');
     }
 
     /**
@@ -113,6 +151,55 @@ class Modul extends BaseModel
     public function children(): HasMany
     {
         return $this->hasMany(Modul::class, 'parent', 'id');
+    }
+
+    public function childrens(): HasMany
+    {
+        return $this->hasMany(Modul::class, 'parent', 'id')->with(['childrens' => static fn ($q) => $q->select(['id', 'modul', 'parent', 'url', 'ikon'])]);
+    }
+
+    public function tree($grupId)
+    {
+        $modul = $this->with(['childrens' => static function ($q) use ($grupId) {
+                $q->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])
+                    ->when(! UserGrup::isAdministrator($grupId), static function ($query) use ($grupId) {
+                        $query->whereIn('id', static function ($query) use ($grupId) {
+                            $query->select('id_modul')->from('grup_akses')->where('id_grup', $grupId);
+                        });
+                    })
+                    ->when(config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO), static function ($query) {
+                        $query->whereNotIn('slug', ['layanan-pelanggan', 'pendaftaran-kerjasama']);
+                    })
+                    ->isChild()->isShow()->isActive()->orderBy('urut');
+            }])
+            ->select(['id', 'parent', 'modul', 'slug', 'url', 'ikon'])
+            ->when(! UserGrup::isAdministrator($grupId), static function ($query) use ($grupId) {
+                    $query->whereIn('id', static function ($query) use ($grupId) {
+                        $query->select('id_modul')->from('grup_akses')->where('id_grup', $grupId);
+                    });
+                })
+            ->isParent()->isShow()->isActive()->orderBy('urut')
+            ->get();
+
+        return collect(self::DEFAULT_MODUL)->merge($modul)
+            ->map(static function ($item) {
+                $item['modul'] = SebutanDesa($item['modul']);
+                if (isset($item['childrens'])) {
+                    $item['childrens'] = $item['childrens']->map(static function ($child) {
+                        $child['modul'] = SebutanDesa($child['modul']);
+
+                        return $child;
+                    });
+                }
+
+                return $item;
+            })
+            ->values();
+    }
+
+    protected function getRawAktifAttribute($value)
+    {
+        return $this->attributes['aktif'];
     }
 
     public static function listIcon()

@@ -54,6 +54,7 @@ class Permohonan_surat_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -97,8 +98,8 @@ class Permohonan_surat_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('no_antrian', static fn($row) => get_antrian($row->no_antrian))
-                ->editColumn('created_at', static fn($row) => tgl_indo2($row->created_at))
+                ->editColumn('no_antrian', static fn ($row) => get_antrian($row->no_antrian))
+                ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -111,7 +112,7 @@ class Permohonan_surat_admin extends Admin_Controller
         // Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
         $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->find($id);
 
-        if (!$id || !$periksa) {
+        if (! $id || ! $periksa) {
             show_404();
         }
         $url = $periksa->surat->url_surat;
@@ -205,7 +206,7 @@ class Permohonan_surat_admin extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h', '', '', true);
+        isCan('h');
 
         $delete = PermohonanSurat::where('status', PermohonanSurat::DIBATALKAN)->find($id) ?? show_404();
 
@@ -221,7 +222,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $berkasObj = Dokumen::aktif()->whereId($id_dokumen)->first();
         $berkas    = $berkasObj ? $berkasObj->satuan : null;
 
-        if (!$id_dokumen || !$id_pend || !$berkas || !file_exists(LOKASI_DOKUMEN . $berkas)) {
+        if (! $id_dokumen || ! $id_pend || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas)) {
             $data['link_berkas'] = null;
         } else {
             $data = [

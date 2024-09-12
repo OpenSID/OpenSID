@@ -41,19 +41,13 @@ require_once APPPATH . 'controllers/Bumindes_rencana_pembangunan.php';
 
 class Bumindes_hasil_pembangunan extends Bumindes_rencana_pembangunan
 {
-    public $modul_ini      = 'buku-administrasi-desa';
-    public $sub_modul_ini  = 'administrasi-pembangunan';
-    protected $tipe        = 'hasil';
-    protected array $order = [
-        1 => 'judul',
-        2 => 'volume',
-        3 => 'jml_anggaran',
-        4 => 'alamat',
-        5 => 'keterangan',
-    ];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-pembangunan';
+    protected $tipe       = 'hasil';
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 }

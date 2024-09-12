@@ -103,22 +103,22 @@ class Grup extends Admin_Controller
 
     public function form($id = '')
     {
-        if (!$this->view_only) {
-            $this->redirect_hak_akses('u');
+        if (! $this->view_only) {
+            isCan('u');
         }
 
         $data['form_action'] = ci_route('grup.insert');
         $data['view']        = $this->view_only;
         $data['grup']        = [];
 
-        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->status(1)->orderBy('urut')])->status(1)->root()->orderBy('urut')->get();
+        $data['moduls']     = Modul::with(['children' => static fn ($q) => $q->isActive()->orderBy('urut')])->isActive()->isParent()->orderBy('urut')->get();
         $idGrup             = $this->ref_grup ?? $id;
         $data['grup_akses'] = $idGrup ? GrupAkses::select(['id_modul', 'akses'])->whereIdGrup($idGrup)->get()->keyBy('id_modul') : collect([]);
 
         if ($id) {
             $data['grup'] = UserGrup::findOrFail($id)->toArray();
-            if (!$this->ref_grup) {
-                if (!$this->view_only && $data['grup']['jenis'] == UserGrup::SISTEM) {
+            if (! $this->ref_grup) {
+                if (! $this->view_only && $data['grup']['jenis'] == UserGrup::SISTEM) {
                     redirect_with('error', 'Grup Pengguna Tidak Dapat Diubah');
                 }
                 $data['form_action'] = ci_route('grup.update', $id);
@@ -142,7 +142,7 @@ class Grup extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->set_form_validation();
         if ($this->form_validation->run() !== true) {
             redirect_with('error', trim(validation_errors()));
@@ -170,12 +170,12 @@ class Grup extends Admin_Controller
 
     public function syarat_nama($str)
     {
-        return !preg_match('/[^a-zA-Z0-9 \\-]/', $str);
+        return ! preg_match('/[^a-zA-Z0-9 \\-]/', $str);
     }
 
     public function update($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->set_form_validation();
 
         if ($this->form_validation->run() !== true) {
@@ -221,12 +221,12 @@ class Grup extends Admin_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         try {
             // cek apakah sudah ada user untuk grup tersebut
             $adaUser = UserGrup::whereHas('users')->whereIn('id', $this->request['id_cb'] ?? [$id])->get();
-            if (!$adaUser->isEmpty()) {
+            if (! $adaUser->isEmpty()) {
                 redirect_with('error', 'Grup ' . $adaUser->implode('nama', ',') . ' sudah memiliki pengguna, tidak boleh dihapus');
             }
             $adaGrupSistem = UserGrup::where(['jenis' => UserGrup::SISTEM])->whereIn('id', $this->request['id_cb'] ?? [$id])->count();

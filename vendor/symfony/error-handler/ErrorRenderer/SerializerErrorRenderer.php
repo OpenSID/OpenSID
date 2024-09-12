@@ -59,7 +59,7 @@ class SerializerErrorRenderer implements ErrorRendererInterface
         $debug = \is_bool($this->debug) ? $this->debug : ($this->debug)($exception);
         if ($debug) {
             $headers['X-Debug-Exception'] = rawurlencode($exception->getMessage());
-            $headers['X-Debug-Exception-File'] = rawurlencode($exception->getFile()) . ':' . $exception->getLine();
+            $headers['X-Debug-Exception-File'] = rawurlencode($exception->getFile()).':'.$exception->getLine();
         }
 
         $flattenException = FlattenException::createFromThrowable($exception, null, $headers);

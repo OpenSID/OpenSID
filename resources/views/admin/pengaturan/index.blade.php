@@ -17,10 +17,10 @@
     @include('admin.layouts.components.notifikasi')
     <div class="row">
 
-        {!! form_open_multipart(ci_route('setting.new_update'), 'id="validasi" class="form-horizontal"') !!}
+        {!! form_open_multipart(ci_route('notif.update_setting'), 'id="validasi" class="form-horizontal"') !!}
         @if ($atur_latar)
             <div class="col-md-3">
-                @if (in_array('sistem', $pengaturan_kategori))
+                @if (in_array('sistem', $pengaturan_kategori ?? []))
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <b>Latar Website</b>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                 @endif
-                @if (in_array('setting_mandiri', $pengaturan_kategori))
+                @if (in_array('setting_mandiri', $pengaturan_kategori ?? []))
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <b>Latar Login Mandiri</b>
@@ -119,7 +119,7 @@
             <div class="box-footer">
                 <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i>
                     Batal</button>
-                @if ($ci->cek_hak_akses_url('u', $aksi_controller))
+                @if (can('u', $akses_modul))
                     <button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
                 @endif
             </div>

@@ -133,7 +133,7 @@
             <li>
                 <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
             </li>
-            @if ($kategori_pengaturan && can('u', $akses_modul ?? ($modul_ini ?? $sub_modul_ini)))
+            @if ($kategori_pengaturan && can('u', $akses_modul))
                 <li>
                     @if ($modul_ini === 'layanan-pelanggan' || $sub_modul_ini === 'layanan-pelanggan')
                         <a href="#" class="atur-token">

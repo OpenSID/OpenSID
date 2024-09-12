@@ -48,6 +48,7 @@ class Statistik extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
     }
 
@@ -78,7 +79,7 @@ class Statistik extends Admin_Controller
         ];
 
         $data['judul_kelompok'] = 'Jenis Kelompok';
-        $data['bantuan']        = ((int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk'])) ? true : false;
+        $data['bantuan']        = (int) $data['lap'] > 50 || in_array($data['lap'], ['bantuan_keluarga', 'bantuan_penduduk']);
         $this->get_data_stat($data, $data['lap']);
 
         $this->render('statistik/penduduk', $data);
@@ -247,7 +248,7 @@ class Statistik extends Admin_Controller
 
     public function rentang_insert(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $data['insert'] = $this->laporan_penduduk_model->insert_rentang();
         redirect('statistik/rentang_umur');
@@ -255,7 +256,7 @@ class Statistik extends Admin_Controller
 
     public function rentang_update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->laporan_penduduk_model->update_rentang($id);
         redirect('statistik/rentang_umur');
@@ -263,14 +264,14 @@ class Statistik extends Admin_Controller
 
     public function rentang_delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->laporan_penduduk_model->delete_rentang($id);
         redirect('statistik/rentang_umur');
     }
 
     public function delete_all_rentang(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->laporan_penduduk_model->delete_all_rentang();
         redirect('statistik/rentang_umur');
     }

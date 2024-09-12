@@ -1,5 +1,6 @@
 $("#dragable").sortable({
 cursor: 'row-resize',
+handle: '.fa-sort-alpha-desc',
 placeholder: 'ui-state-highlight',
 items: '.dragable-handle',
 update: function () {

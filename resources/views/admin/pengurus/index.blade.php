@@ -46,20 +46,6 @@
                 <li>
                     <a href="{{ ci_route('pengurus/bagan/bpd') }}" title="Bagan Dengan BPD" class="btn btn-social btn-block btn-sm"><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
                 </li>
-                <li>
-                    @php
-                        $kategori = 'conf_bagan';
-                    @endphp
-                    <a
-                        href="{{ ci_route('pengurus/atur_bagan_layout') }}"
-                        title="Atur Ukuran Bagan"
-                        data-remote="false"
-                        data-toggle="modal"
-                        data-target="#modalBox"
-                        data-title="Atur Ukuran Bagan"
-                        class="btn btn-social btn-block btn-sm"
-                    ><i class="fa fa-cogs"></i> Atur Ukuran Bagan</a>
-                </li>
             </ul>
         </div>
         <a href="{{ ci_route('pengurus.jabatan') }}" class="btn btn-social bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Jabatan">
@@ -111,6 +97,7 @@
             <table class="table table-bordered table-hover" id="tabeldata">
                 <thead>
                     <tr>
+                        <th class="padat">#</th>
                         <th><input type="checkbox" id="checkall" /></th>
                         <th class="padat">NO</th>
                         <th class="padat">AKSI</th>
@@ -152,6 +139,12 @@
                     }
                 },
                 columns: [{
+                        data: 'drag-handle',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,
@@ -265,11 +258,11 @@
             })
 
             if (hapus == 0) {
-                TableData.column(0).visible(false);
+                TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(3).visible(false);
             }
 
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal

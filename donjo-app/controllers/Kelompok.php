@@ -52,6 +52,7 @@ class Kelompok extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['kelompok_model', 'pamong_model']);
         $this->kelompok_model->set_tipe($this->tipe);
     }
@@ -90,7 +91,7 @@ class Kelompok extends Admin_Controller
 
             return datatables()->of($query)
                 ->addIndexColumn()
-                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>')
                 ->addColumn('aksi', static function ($row) use ($controller): string {
                     $aksi = '';
 
@@ -114,7 +115,7 @@ class Kelompok extends Admin_Controller
 
     public function form($id = 0)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $list_master = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
 
         if (count($list_master) <= 0) {
@@ -161,7 +162,7 @@ class Kelompok extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn($item): array => [
+                    ->map(static fn ($item): array => [
                         'id'   => $item->id,
                         'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
                     ]),
@@ -202,7 +203,7 @@ class Kelompok extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data        = $this->validate($this->input->post());
         $getKelompok = KelompokModel::where('kode', $data['kode'])->exists();
@@ -231,7 +232,7 @@ class Kelompok extends Admin_Controller
 
     public function update($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data        = $this->validate($this->input->post());
         $getKelompok = KelompokModel::where('id', '!=', $id)
@@ -270,7 +271,7 @@ class Kelompok extends Admin_Controller
 
     public function delete($id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $this->delete_kelompok($id);
 
@@ -279,7 +280,7 @@ class Kelompok extends Admin_Controller
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
             $this->delete_kelompok($id);
@@ -326,7 +327,7 @@ class Kelompok extends Admin_Controller
                 ->get('program')
                 ->row()
                 ->nama;
-            if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+            if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                 $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                 $nomor                       = $program_id;
             }

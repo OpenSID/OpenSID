@@ -39,13 +39,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Optimasi_gambar extends Admin_Controller
 {
-    public $modul_ini           = 'pengaturan';
-    public $sub_modul_ini       = 'optimasi-gambar';
-    public $kategori_pengaturan = 'Optimasi';
+    public $modul_ini     = 'pengaturan';
+    public $sub_modul_ini = 'optimasi-gambar';
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -58,7 +58,7 @@ class Optimasi_gambar extends Admin_Controller
     public function get_image($dir = null)
     {
         if (! $dir) {
-            $folders = $this->get_folders(LOKASI_UPLOAD)->map(static fn($dir): string => LOKASI_UPLOAD . $dir);
+            $folders = $this->get_folders(LOKASI_UPLOAD)->map(static fn ($dir): string => LOKASI_UPLOAD . $dir);
         } else {
             $folders = [LOKASI_UPLOAD . $dir];
         }
@@ -77,7 +77,7 @@ class Optimasi_gambar extends Admin_Controller
                 if ($image_size[1] > '880') {
                     return $file;
                 }
-            })->map(static fn($file): string => $path . DIRECTORY_SEPARATOR . $file);
+            })->map(static fn ($file): string => $path . DIRECTORY_SEPARATOR . $file);
             $files = $files->merge($images);
         }
 
@@ -90,7 +90,7 @@ class Optimasi_gambar extends Admin_Controller
     public function get_folders($path)
     {
         return collect(array_diff(scandir($path), ['.', '..']))
-            ->filter(static fn($dir): bool => is_dir($path . DIRECTORY_SEPARATOR . $dir));
+            ->filter(static fn ($dir): bool => is_dir($path . DIRECTORY_SEPARATOR . $dir));
     }
 
     public function resize()

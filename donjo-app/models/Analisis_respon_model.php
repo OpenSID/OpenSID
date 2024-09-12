@@ -192,8 +192,7 @@ class Analisis_respon_model extends MY_Model
                     ->group_end();
                 break;
 
-            default:
-                return null;
+            default: return null;
         }
     }
 
@@ -320,8 +319,7 @@ class Analisis_respon_model extends MY_Model
                     ->where('u.rt <> "-"');
                 break;
 
-            default:
-                return null;
+            default: return null;
         }
         if ($id_kelompok != 0) {
             $this->kelompok_sql($id_kelompok);
@@ -376,30 +374,24 @@ class Analisis_respon_model extends MY_Model
                     ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
                 break;
 
-            default:
-                return null;
+            default: return null;
         }
         $this->list_data_sql();
 
         switch ($o) {
-            case 1:
-                $this->db->order_by('u.id');
+            case 1: $this->db->order_by('u.id');
                 break;
 
-            case 2:
-                $this->db->order_by('u.id DESC');
+            case 2: $this->db->order_by('u.id DESC');
                 break;
 
-            case 3:
-                $this->db->order_by('nama');
+            case 3: $this->db->order_by('nama');
                 break;
 
-            case 4:
-                $this->db->order_by('nama DESC');
+            case 4: $this->db->order_by('nama DESC');
                 break;
 
-            default:
-                $this->db->order_by('u.id');
+            default:$this->db->order_by('u.id');
         }
 
         if ($limit > 0) {
@@ -465,24 +457,19 @@ class Analisis_respon_model extends MY_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1:
-                $this->db->order_by('u.id');
+            case 1: $this->db->order_by('u.id');
                 break;
 
-            case 2:
-                $this->db->order_by('u.id DESC');
+            case 2: $this->db->order_by('u.id DESC');
                 break;
 
-            case 3:
-                $this->db->order_by('nama');
+            case 3: $this->db->order_by('nama');
                 break;
 
-            case 4:
-                $this->db->order_by('nama DESC');
+            case 4: $this->db->order_by('nama DESC');
                 break;
 
-            default:
-                $this->db->order_by('u.id');
+            default:$this->db->order_by('u.id');
         }
 
         $data    = $this->db->get()->result_array();
@@ -608,7 +595,7 @@ class Analisis_respon_model extends MY_Model
                         $dx        = $this->config_id()
                             ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
                             ->row_array();
-                        if (!$dx) {
+                        if (! $dx) {
                             $data['id_indikator'] = $indikator;
                             $data['jawaban']      = $id_p;
                             $data['config_id']    = $this->config_id;
@@ -644,7 +631,7 @@ class Analisis_respon_model extends MY_Model
                         $dx        = $this->config_id()
                             ->get_where('analisis_parameter', ['jawaban' => $id_p, 'id_indikator' => $indikator])
                             ->row_array();
-                        if (!$dx) {
+                        if (! $dx) {
                             $data['id_indikator'] = $indikator;
                             $data['jawaban']      = $id_p;
                             $data['config_id']    = $this->config_id;
@@ -686,7 +673,7 @@ class Analisis_respon_model extends MY_Model
         if (isset($_FILES['pengesahan'])) {
             $lokasi_file = $_FILES['pengesahan']['tmp_name'];
             $tipe_file   = $_FILES['pengesahan']['type'];
-            if (!empty($lokasi_file)) {
+            if (! empty($lokasi_file)) {
                 if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg') {
                     $_SESSION['sukses'] = -1;
                 } else {
@@ -979,8 +966,7 @@ class Analisis_respon_model extends MY_Model
                     ->where('u.rt <> "-"');
                 break;
 
-            default:
-                return null;
+            default: return null;
         }
         $data = $this->db
             ->where('u.id', $id)
@@ -1027,8 +1013,7 @@ class Analisis_respon_model extends MY_Model
                         ->get('penduduk_hidup u')
                         ->result_array();
 
-                default:
-                    return null;
+                default: return null;
             }
         }
 

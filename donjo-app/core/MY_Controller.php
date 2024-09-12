@@ -77,7 +77,7 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         $error = $this->session->db_error;
-        if ($error['code'] == 1049 && !$this->db) {
+        if ($error['code'] == 1049 && ! $this->db) {
             return;
         }
 
@@ -100,7 +100,7 @@ class MY_Controller extends CI_Controller
     private function cek_config(): void
     {
         // jika belum install
-        if (!file_exists(DESAPATH)) {
+        if (! file_exists(DESAPATH)) {
             redirect('install');
         }
 
@@ -120,7 +120,7 @@ class MY_Controller extends CI_Controller
             $appKeyDb = Config::appKey()->first();
         }
 
-        if (!empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
+        if (! empty($appKeyDb->app_key) && $appKey !== $appKeyDb->app_key) {
             $this->session->cek_app_key = true;
             redirect('koneksi_database/config');
         }
@@ -145,7 +145,7 @@ class MY_Controller extends CI_Controller
 
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
         })
-            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn($query) => $query->orWhereNull('pamong_id'))
+            ->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id'))
             ->get();
 
         if (is_array($isi) && $users->count() > 0) {
@@ -160,7 +160,7 @@ class MY_Controller extends CI_Controller
 
     public function kirim_notifikasi_admin($next, $pesan, $judul, $payload = ''): void
     {
-        $allToken = FcmToken::whereHas('user', static fn($user) => $user->WhereHas('pamong', static function ($query) use ($next) {
+        $allToken = FcmToken::whereHas('user', static fn ($user) => $user->WhereHas('pamong', static function ($query) use ($next) {
             if ($next == 'verifikasi_sekdes') {
                 return $query->where('jabatan_id', '=', sekdes()->id);
             }
@@ -169,13 +169,13 @@ class MY_Controller extends CI_Controller
             }
 
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
-        })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn($query) => $query->orWhereNull('pamong_id')))->get();
+        })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id')))->get();
 
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
             try {
-                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new Fcm\Push\Notification();
+                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new \Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())
@@ -213,8 +213,8 @@ class MY_Controller extends CI_Controller
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
             try {
-                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new Fcm\Push\Notification();
+                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new \Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())
@@ -246,7 +246,7 @@ class MY_Controller extends CI_Controller
             $modules        = [];
 
             foreach ($moduleLocation as $key => $value) {
-                $modules = array_merge($modules, array_map(static fn($module): string => $module . '/Views/', glob($key . '*', GLOB_ONLYDIR)));
+                $modules = array_merge($modules, array_map(static fn ($module): string => $module . '/Views/', glob($key . '*', GLOB_ONLYDIR)));
             }
             $themes = array_merge(
                 glob(DESAPATH . 'themes/*/', GLOB_ONLYDIR),
@@ -256,7 +256,7 @@ class MY_Controller extends CI_Controller
             return array_merge(config('view.paths') ?? [], $modules, $themes);
         });
 
-        array_walk($config, static fn($value) => app('view')->addLocation($value));
+        array_walk($config, static fn ($value) => app('view')->addLocation($value));
     }
 }
 
@@ -270,14 +270,14 @@ require_once APPPATH . 'core/Web_Controller.php';
 require_once APPPATH . 'core/Mandiri_Controller.php';
 
 // Api controller
-require_once APPPATH . 'core/Web_Controller.php';
+require_once APPPATH . 'core/Api_Controller.php';
 
 class Tte_Controller extends MY_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->siteman != 1) {
+        if (! auth()) {
             redirect('siteman');
         }
     }
@@ -288,7 +288,7 @@ class Anjungan_Controller extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        if (!cek_anjungan()) {
+        if (! cek_anjungan()) {
             redirect('anjungan');
         }
     }

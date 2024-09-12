@@ -134,6 +134,6 @@ class KodeIsianPendudukLuar
 
     public function getKategori()
     {
-        return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(fn($item) => $this->alias($item))->toArray();
+        return collect($this->suratMatser->form_isian)->keys()->mapWithKeys(fn ($item) => $this->alias($item))->toArray();
     }
 }

@@ -48,5 +48,6 @@ class Lembaga extends Kelompok
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 }

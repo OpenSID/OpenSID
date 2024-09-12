@@ -45,7 +45,7 @@ use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-if (!function_exists('asset')) {
+if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
     {
         if ($default) {
@@ -64,14 +64,14 @@ if (! function_exists('set_session')) {
     }
 }
 
-if (!function_exists('session')) {
+if (! function_exists('session')) {
     function session($nama = '')
     {
         return ci()->session->flashdata($nama);
     }
 }
 
-if (!function_exists('can')) {
+if (! function_exists('can')) {
     /**
      * Cek akses user
      *
@@ -83,10 +83,10 @@ if (!function_exists('can')) {
      */
     function can($akses = null, $slugModul = null, $adminOnly = false)
     {
-        $idGrup   = auth()->id_grup;
-        $slugGrup = UserGrup::find($idGrup)->slug;
-        $data     = cache()->remember('akses_grup_' . $idGrup, 604800, static function () use ($idGrup, $slugGrup) {
-            if (in_array($idGrup, UserGrup::getGrupSistem())) {
+        $grupId   = auth()->id_grup;
+        $slugGrup = UserGrup::find($grupId)->slug;
+        $data     = cache()->remember('akses_grup_' . $grupId, 604800, static function () use ($grupId, $slugGrup) {
+            if (in_array($grupId, UserGrup::getGrupSistem())) {
                 $grup = UserGrup::getAksesGrupBawaan()[$slugGrup];
 
                 if (count($grup) === 1 && array_keys($grup)[0] == '*') {
@@ -96,7 +96,7 @@ if (!function_exists('can')) {
                     $grupAkses = Modul::whereIn('slug', array_keys($grup))->get();
                 }
 
-                return $grupAkses->mapWithKeys(static function ($item) use ($idGrup, $rbac, $grup) {
+                return $grupAkses->mapWithKeys(static function ($item) use ($grupId, $rbac, $grup) {
                     $rbac ??= $grup[$item->slug];
                     $rbac = $rbac === 0 ? 1 : $rbac;
 
@@ -104,7 +104,7 @@ if (!function_exists('can')) {
                         $item->slug => [
                             'id_modul' => $item->id,
                             // 'parent_slug' => Modul::find($item->parent)->slug ?? null,
-                            'id_grup' => $idGrup,
+                            'id_grup' => $grupId,
                             'akses'   => $rbac,
                             'baca'    => $rbac >= 1,
                             'ubah'    => $rbac >= 3,
@@ -115,12 +115,12 @@ if (!function_exists('can')) {
             }
             $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
                 // ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
-                ->where('id_grup', $idGrup)
+                ->where('id_grup', $grupId)
                 ->select('grup_akses.*', 's1.slug as slug')
                 // ->select('s2.slug as parent_slug')
                 ->get();
 
-            return $grupAkses->mapWithKeys(static fn($item) => [
+            return $grupAkses->mapWithKeys(static fn ($item) => [
                 $item->slug => [
                     'id_modul' => $item->id_modul,
                     // 'parent_slug' => $item->parent_slug,
@@ -147,7 +147,7 @@ if (!function_exists('can')) {
             'h' => 'hapus',
         ];
 
-        if (!array_key_exists($akses, $alias)) {
+        if (! array_key_exists($akses, $alias)) {
             return false;
         }
 
@@ -159,7 +159,7 @@ if (!function_exists('can')) {
     }
 }
 
-if (!function_exists('isCan')) {
+if (! function_exists('isCan')) {
     /**
      * Cek akses user
      *
@@ -170,12 +170,12 @@ if (!function_exists('isCan')) {
     function isCan($akses = null, $slugModul = null, $adminOnly = false): void
     {
         $pesan = 'Anda tidak memiliki akses untuk halaman tersebut!';
-        if (!can('b', $slugModul, $adminOnly)) {
+        if (! can('b', $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
             redirect('beranda');
-        } elseif (!can($akses, $slugModul, $adminOnly)) {
+        } elseif (! can($akses, $slugModul, $adminOnly)) {
             set_session('error', $pesan);
             session_error($pesan);
 
@@ -185,7 +185,7 @@ if (!function_exists('isCan')) {
 }
 
 // response()->json(array_data);
-if (!function_exists('json')) {
+if (! function_exists('json')) {
     function json($content = [], $header = 200): void
     {
         ci()->output
@@ -238,12 +238,12 @@ if (! function_exists('ci_route')) {
 }
 
 // setting('sebutan_desa');
-if (!function_exists('setting')) {
+if (! function_exists('setting')) {
     function setting($params = null)
     {
         $getSetting = ci()->setting;
 
-        if ($params && !empty($getSetting)) {
+        if ($params && ! empty($getSetting)) {
             if (property_exists($getSetting, $params)) {
                 return $getSetting->{$params};
             }
@@ -256,7 +256,7 @@ if (!function_exists('setting')) {
 }
 
 // identitas('nama_desa');
-if (!function_exists('identitas')) {
+if (! function_exists('identitas')) {
     /**
      * Get identitas desa.
      *
@@ -264,7 +264,7 @@ if (!function_exists('identitas')) {
      */
     function identitas(?string $params = null)
     {
-        $identitas = cache()->remember('identitas_desa', 604800, static fn() => Config::appKey()->first());
+        $identitas = cache()->remember('identitas_desa', 604800, static fn () => Config::appKey()->first());
 
         if ($params) {
             return $identitas->{$params};
@@ -275,7 +275,7 @@ if (!function_exists('identitas')) {
 }
 
 // hapus_cache('cache_id');
-if (!function_exists('hapus_cache')) {
+if (! function_exists('hapus_cache')) {
     function hapus_cache($params = null)
     {
         if ($params) {
@@ -286,7 +286,7 @@ if (!function_exists('hapus_cache')) {
     }
 }
 
-if (!function_exists('calculate_days')) {
+if (! function_exists('calculate_days')) {
     /**
      * Calculate minute between 2 date.
      *
@@ -298,7 +298,7 @@ if (!function_exists('calculate_days')) {
     }
 }
 
-if (!function_exists('calculate_date_intervals')) {
+if (! function_exists('calculate_date_intervals')) {
     /**
      * Calculate list dates interval to minutes.
      *
@@ -310,9 +310,6 @@ if (!function_exists('calculate_date_intervals')) {
         $endTime   = clone $reference;
 
         foreach ($date as $dateInterval) {
-            if (empty($dateInterval)) {
-                continue;
-            }
             $endTime = $endTime->add(DateInterval::createFromDateString(calculate_days($dateInterval) . 'days'));
         }
 
@@ -342,7 +339,7 @@ if (! function_exists('parsedown')) {
 }
 
 // SebutanDesa('Surat [Desa]');
-if (!function_exists('SebutanDesa')) {
+if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
         return str_replace(
@@ -353,7 +350,7 @@ if (!function_exists('SebutanDesa')) {
     }
 }
 
-if (!function_exists('underscore')) {
+if (! function_exists('underscore')) {
     /**
      * Membuat spasi menjadi underscore atau sebaliknya
      *
@@ -378,7 +375,7 @@ if (!function_exists('underscore')) {
     }
 }
 
-if (!function_exists('akun_demo')) {
+if (! function_exists('akun_demo')) {
     /**
      * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
      *
@@ -398,7 +395,7 @@ if (!function_exists('akun_demo')) {
     }
 }
 
-if (!function_exists('folder')) {
+if (! function_exists('folder')) {
     /**
      * Membuat folder jika tidak tersedia
      *
@@ -440,7 +437,7 @@ if (!function_exists('folder')) {
     }
 }
 
-if (!function_exists('folder_desa')) {
+if (! function_exists('folder_desa')) {
     /**
      * Membuat folder desa dan isinya
      */
@@ -469,7 +466,7 @@ if (!function_exists('folder_desa')) {
     }
 }
 
-if (!function_exists('auth')) {
+if (! function_exists('auth')) {
     /**
      * Ambil data user login
      *
@@ -487,14 +484,14 @@ if (!function_exists('auth')) {
     }
 }
 
-if (!function_exists('ci_db')) {
+if (! function_exists('ci_db')) {
     function ci_db()
     {
         return ci()->db;
     }
 }
 
-if (!function_exists('cek_kehadiran')) {
+if (! function_exists('cek_kehadiran')) {
     /**
      * Cek perangkat lupa absen
      */
@@ -524,11 +521,11 @@ if (!function_exists('cek_kehadiran')) {
  *
  * @return void
  */
-if (!function_exists('case_replace')) {
+if (! function_exists('case_replace')) {
     function case_replace($dari, $ke, $str)
     {
         $replacer = static function (array $matches) use ($ke) {
-            $matches = array_map(static fn($match) => preg_replace('/[\\[\\]]/', '', $match), $matches);
+            $matches = array_map(static fn ($match) => preg_replace('/[\\[\\]]/', '', $match), $matches);
 
             return caseWord($matches[0], $ke);
         };
@@ -537,7 +534,13 @@ if (!function_exists('case_replace')) {
 
         $result = preg_replace_callback('/(' . $dari . ')/i', $replacer, $str);
 
-        if (preg_match('/pendidikan/i', strtolower($dari))) {
+        if (preg_match('/nama_kepala_camat/i', strtolower($dari))) {
+            $pecah_nama_gelar = pecah_nama_gelar($ke);
+            $gelar_depan      = $pecah_nama_gelar['gelar_depan'];
+            $gelar_belakang   = $pecah_nama_gelar['gelar_belakang'];
+
+            $result = str_ireplace([$gelar_depan, $gelar_belakang], [$gelar_depan, $gelar_belakang], $result);
+        } elseif (preg_match('/pendidikan/i', strtolower($dari))) {
             $result = kasus_lain('pendidikan', $result);
         } elseif (preg_match('/pekerjaan/i', strtolower($dari))) {
             $result = kasus_lain('pekerjaan', $result);
@@ -547,10 +550,10 @@ if (!function_exists('case_replace')) {
     }
 }
 
-if (!function_exists('kirim_versi_opensid')) {
+if (! function_exists('kirim_versi_opensid')) {
     function kirim_versi_opensid(): void
     {
-        if (!config_item('demo_mode')) {
+        if (! config_item('demo_mode')) {
             $ci = get_instance();
             if (empty($ci->header['desa']['kode_desa'])) {
                 return;
@@ -562,7 +565,7 @@ if (!function_exists('kirim_versi_opensid')) {
 
             if ($versi != $ci->cache->file->get('versi_app_cache')) {
                 try {
-                    $client = new GuzzleHttp\Client();
+                    $client = new \GuzzleHttp\Client();
                     $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                         'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                         'form_params' => [
@@ -580,7 +583,7 @@ if (!function_exists('kirim_versi_opensid')) {
     }
 }
 
-if (!function_exists('kotak')) {
+if (! function_exists('kotak')) {
     function kotak(?string $data_kolom, int $max_kolom = 26): string
     {
         $view = '';
@@ -599,7 +602,7 @@ if (!function_exists('kotak')) {
     }
 }
 
-if (!function_exists('checklist')) {
+if (! function_exists('checklist')) {
     function checklist($kondisi_1, $kondisi_2): string
     {
         $view = '<td class="kotak padat tengah">';
@@ -611,10 +614,10 @@ if (!function_exists('checklist')) {
     }
 }
 
-if (!function_exists('create_tree_folder')) {
+if (! function_exists('create_tree_folder')) {
     function create_tree_folder($arr, string $baseDir)
     {
-        if (!empty($arr)) {
+        if (! empty($arr)) {
             $tmp = '<ul class="tree-folder">';
 
             foreach ($arr as $i => $val) {
@@ -633,7 +636,7 @@ if (!function_exists('create_tree_folder')) {
     }
 }
 
-if (!function_exists('generatePengikut')) {
+if (! function_exists('generatePengikut')) {
     function generatePengikut($pengikut, $keterangan): string
     {
         $html = '
@@ -685,7 +688,7 @@ if (!function_exists('generatePengikut')) {
     }
 }
 
-if (!function_exists('generatePengikutSuratKIS')) {
+if (! function_exists('generatePengikutSuratKIS')) {
     function generatePengikutSuratKIS($pengikut): string
     {
         $html = '
@@ -725,7 +728,7 @@ if (!function_exists('generatePengikutSuratKIS')) {
     }
 }
 
-if (!function_exists('generatePengikutKartuKIS')) {
+if (! function_exists('generatePengikutKartuKIS')) {
     function generatePengikutKartuKIS($kis): string
     {
         $html = '
@@ -765,7 +768,7 @@ if (!function_exists('generatePengikutKartuKIS')) {
     }
 }
 
-if (!function_exists('generatePengikutPindah')) {
+if (! function_exists('generatePengikutPindah')) {
     function generatePengikutPindah($pengikut): string
     {
         $html = '
@@ -809,7 +812,7 @@ function tidak_ada_data($col = 12, string $message = 'Data Tidak Tersedia'): voi
     echo $html;
 }
 
-if (!function_exists('data_lengkap')) {
+if (! function_exists('data_lengkap')) {
     function data_lengkap(): bool
     {
         $CI = &get_instance();
@@ -818,7 +821,7 @@ if (!function_exists('data_lengkap')) {
     }
 }
 
-if (!function_exists('buat_class')) {
+if (! function_exists('buat_class')) {
     function buat_class($class1 = '', $class2 = '', $required = false): string
     {
         $onlyClass = '';
@@ -848,11 +851,11 @@ if (! function_exists('cek_lokasi_peta')) {
             $wilayah = identitas();
         }
 
-        return $wilayah['path'] && ($wilayah['lat'] && !empty($wilayah['lng']));
+        return $wilayah['path'] && ($wilayah['lat'] && ! empty($wilayah['lng']));
     }
 }
 
-if (!function_exists('config_email')) {
+if (! function_exists('config_email')) {
     function config_email()
     {
         return [
@@ -867,7 +870,7 @@ if (!function_exists('config_email')) {
 }
 
 // source: https://stackoverflow.com/questions/12553160/getting-visitors-country-from-their-ip
-if (!function_exists('geoip_info')) {
+if (! function_exists('geoip_info')) {
     function geoip_info($ip = null, $purpose = 'location', $deep_detect = true)
     {
         $output = null;
@@ -944,17 +947,17 @@ if (!function_exists('geoip_info')) {
     }
 }
 
-if (!function_exists('batal')) {
+if (! function_exists('batal')) {
     function batal(): string
     {
         return '<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>';
     }
 }
 
-if (!function_exists('sensorEmail')) {
+if (! function_exists('sensorEmail')) {
     function sensorEmail($email): string
     {
-        if (!$email || null === $email) {
+        if (! $email || null === $email) {
             return '';
         }
         $atPosition = strpos($email, '@');
@@ -967,12 +970,12 @@ if (!function_exists('sensorEmail')) {
     }
 }
 
-if (!function_exists('gis_simbols')) {
+if (! function_exists('gis_simbols')) {
     function gis_simbols()
     {
         $simbols = DB::table('gis_simbol')->get('simbol');
 
-        return $simbols->map(static fn($item): array => (array) $item)->toArray();
+        return $simbols->map(static fn ($item): array => (array) $item)->toArray();
     }
 }
 
@@ -984,13 +987,9 @@ if (! function_exists('admin_menu')) {
      */
     function admin_menu()
     {
-        $CI = &get_instance();
+        $grupId = auth()->id_grup;
 
-        return cache()->remember("{$CI->session->user}_admin_menu", 604800, static function () use ($CI) {
-            $CI->load->model('modul_model');
-
-            return $CI->modul_model->list_aktif();
-        });
+        return cache()->rememberForever("{$grupId}_admin_menu", static fn () => (new Modul())->tree($grupId)->toArray());
     }
 }
 
@@ -1002,18 +1001,16 @@ if (! function_exists('menu_tema')) {
      */
     function menu_tema()
     {
-        return cache()->rememberForever('menu_tema', static function () {
-            $menu = new Menu();
-
-            return $menu->tree()->toArray();
-        });
+        return cache()->rememberForever('menu_tema', static fn () => (new Menu())->tree()->toArray());
     }
 }
 
 if (! function_exists('createDropdownMenu')) {
-    function createDropdownMenu($menuData, $level = 0)
+    function createDropdownMenu($menuData, $level = 0): void
     {
-        if ($level) echo '<ul class="dropdown-menu">';
+        if ($level) {
+            echo '<ul class="dropdown-menu">';
+        }
 
         foreach ($menuData as $item) {
             $level++;
@@ -1023,6 +1020,84 @@ if (! function_exists('createDropdownMenu')) {
             }
             echo '</li>';
         }
-        if ($level) echo '</ul>';
+        if ($level) {
+            echo '</ul>';
+        }
+    }
+}
+
+/**
+ * Fungsi untuk memecah nama dan gelar
+ *
+ * @param string $nama
+ *
+ * @return array
+ */
+// TODO:: Masih bermasalah untuk nama dengan singkatan, misalnya M., Muh. Moh., A. karena akan terbaca sebagai gelar depan
+if (! function_exists('pecah_nama_gelar')) {
+    function pecah_nama_gelar($nama): array
+    {
+        $result = [];
+
+        // Split the input string by comma
+        $parts = explode(',', $nama);
+
+        // Remove leading and trailing whitespace from each part
+        foreach ($parts as &$part) {
+            $part = trim($part);
+        }
+
+        // Determine the components based on the number of parts
+        if (count($parts) === 1) {
+            // Case: Single part
+            $result['nama'] = $parts[0];
+        } else {
+            // Case: More than one part
+            $gelar_depan    = '';
+            $nama           = '';
+            $gelar_belakang = '';
+
+            // Check for prefix (gelar_depan)
+            $firstPart   = trim($parts[0]);
+            $dotPosition = strrpos($firstPart, '.');
+            if ($dotPosition !== false) {
+                $gelar_depan = substr($firstPart, 0, $dotPosition + 1);
+                $nama        = trim(substr($firstPart, $dotPosition + 1));
+            } else {
+                $nama = $firstPart;
+            }
+            // Combine the rest as gelar_belakang
+            $counter = count($parts);
+
+            // Combine the rest as gelar_belakang
+            for ($i = 1; $i < $counter; $i++) {
+                $gelar_belakang .= ($i > 1 ? ', ' : '') . $parts[$i];
+            }
+
+            $result['gelar_depan']    = $gelar_depan;
+            $result['nama']           = $nama;
+            $result['gelar_belakang'] = $gelar_belakang;
+        }
+
+        return $result;
+    }
+}
+
+if (! function_exists('invalid_tags')) {
+    function invalid_tags()
+    {
+        return [
+            '<center>',
+            '<article>',
+            '<aside>',
+            '<details>',
+            '<figcaption>',
+            '<figure>',
+            '<header>',
+            '<main>',
+            '<nav>',
+            '<section>',
+            '<time>',
+        ];
     }
 }

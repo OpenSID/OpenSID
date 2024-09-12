@@ -46,6 +46,7 @@ class Analisis_statistik_jawaban extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         if (! $this->session->has_userdata('analisis_master')) {
             $this->session->success   = -1;
@@ -359,14 +360,14 @@ class Analisis_statistik_jawaban extends Admin_Controller
 
     public function delete($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('h', "analisis_statistik_jawaban/index/{$p}/{$o}");
+        isCan('h');
         $this->analisis_statistik_jawaban_model->delete($id);
         redirect("analisis_statistik_jawaban/index/{$p}/{$o}");
     }
 
     public function delete_all($p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h', "analisis_statistik_jawaban/index/{$p}/{$o}");
+        isCan('h');
         $this->analisis_statistik_jawaban_model->delete_all();
         redirect("analisis_statistik_jawaban/index/{$p}/{$o}");
     }

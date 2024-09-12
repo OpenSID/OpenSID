@@ -98,7 +98,7 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
-return (new PhpCsFixer\Config())
+return (new \PhpCsFixer\Config())
     ->setRules(
         [
             'align_multiline_comment'                  => ['comment_type' => 'phpdocs_only'],

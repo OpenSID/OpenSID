@@ -57,51 +57,78 @@
                 </div>
                 <div class="tab-pane" id="tab_buat_key">
                     <form id="validasi" class="form-horizontal" action="<?= site_url('setting/update'); ?>" method="POST">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td style="padding-top:20px; padding-bottom:10px;">
-                                        <div class="form-group">
-                                            <label class="col-sm-12 col-md-3" for="nama">Api Opendk Server</label>
-                                            <div class="col-sm-12 col-md-4">
-                                                <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_server; ?>" />
-                                            </div>
-                                            <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demodk.opendesa.id)</code></label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-12 col-md-3" for="nama">Api Opendk User</label>
-                                            <div class="col-sm-12 col-md-4">
-                                                <input id="api_opendk_user" name="api_opendk_user" class="form-control input-sm" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_user; ?>" />
-                                            </div>
-                                            <label class="col-sm-12 col-md-5 pull-left" for="nama">Email Login Pengguna OpenDK</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-12 col-md-3" for="nama">Api Opendk Password</label>
-                                            <div class="col-sm-12 col-md-4">
-                                                <input id="api_opendk_password" name="api_opendk_password" class="form-control input-sm" type="password" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_password; ?>" />
-                                            </div>
-                                            <label class="col-sm-12 col-md-5 pull-left" for="nama">Password Login Pengguna OpenDK</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-12 col-md-3" for="nama">Api Opendk Key</label>
-                                            <div class="col-sm-12 col-md-4">
-                                                <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" type="text" placeholder="Silahkan Buat API Key OpenDK"></textarea>
-                                            </div>
-                                            <label class="col-sm-12 col-md-5 pull-left" for="nama">OpenDK API Key untuk Sinkronisasi Data</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="token" class="col-sm-3 control-label"></label>
-                                            <div class="col-sm-4">
-                                                <?php if(can('u')): ?>
-                                                <a class="btn btn-social btn-success btn-sm btn-key" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
-                                                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan Pengaturan</button>
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label class="col-sm-12 col-md-3" for="nama">Sinkronisasi Server OpenDK</label>
+                                <div class="col-sm-12 col-md-4">
+                                    <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons" style="padding: 0px;">
+                                        <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= jecho($this->setting->sinkronisasi_opendk, 1, 'active'); ?>">
+                                            <input
+                                                type="radio"
+                                                name="sinkronisasi_opendk"
+                                                class="form-check-input"
+                                                value="1"
+                                                autocomplete="off"
+                                                <?= jecho($this->setting->sinkronisasi_opendk, 1, 'checked'); ?>
+                                            >Ya</label>
+                                        <label class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= jecho($this->setting->sinkronisasi_opendk, 0, 'active'); ?>">
+                                            <input
+                                                type="radio"
+                                                name="sinkronisasi_opendk"
+                                                class="form-check-input"
+                                                value="0"
+                                                autocomplete="off"
+                                                <?= jecho($this->setting->sinkronisasi_opendk, 0, 'checked'); ?>
+                                            >Tidak
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-12 col-md-5 pull-left" for="nama">Aktifkan Sinkronisasi Server OpenDK</code></label>
+                            </div>
+                            <div id="modul-sinkronisasi">
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-3" for="nama">Api Opendk Server</label>
+                                    <div class="col-sm-12 col-md-4">
+                                        <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_server; ?>" />
+                                    </div>
+                                    <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demodk.opendesa.id)</code></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-3" for="nama">Api Opendk User</label>
+                                    <div class="col-sm-12 col-md-4">
+                                        <input id="api_opendk_user" name="api_opendk_user" class="form-control input-sm" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_user; ?>" />
+                                    </div>
+                                    <label class="col-sm-12 col-md-5 pull-left" for="nama">Email Login Pengguna OpenDK</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-3" for="nama">Api Opendk Password</label>
+                                    <div class="col-sm-12 col-md-4">
+                                        <input id="api_opendk_password" name="api_opendk_password" class="form-control input-sm <?= jecho($this->setting->api_opendk_password, false, 'required') ?>" type="password" onkeyup="cek_input()" />
+                                        <?php if ($this->setting->api_opendk_password): ?>
+                                            <p id="info-password" class="help-block small text-red">Kosongkan jika tidak ingin mengubah Password.</p>
+                                        <?php endif; ?>
+                                    </div>
+                                    <label class="col-sm-12 col-md-5 pull-left" for="nama">Password Login Pengguna OpenDK</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12 col-md-3" for="nama">Api Opendk Key</label>
+                                    <div class="col-sm-12 col-md-4">
+                                        <textarea rows="5" id="api_opendk_key" name="api_opendk_key" class="form-control input-sm" type="text" placeholder="Silahkan Buat API Key OpenDK"></textarea>
+                                        <br>
+                                        <?php if(can('u')): ?>
+                                            <a class="btn btn-social btn-success btn-block btn-sm btn-key" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <label class="col-sm-12 col-md-5 pull-left" for="nama">OpenDK API Key untuk Sinkronisasi Data</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
+                                Batal</button>
+                            <button type="submit" class="btn btn-social btn-info btn-sm pull-right simpan"><i class="fa fa-check"></i>
+                                Simpan</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -150,6 +177,36 @@
 
 <script>
     $(document).ready(function() {
+        ganti_sinkronisasi();
+
+        $('input[name="sinkronisasi_opendk"]').on('change', function(e) {
+            ganti_sinkronisasi();
+        });
+
+        function ganti_sinkronisasi() {
+            var api_opendk_password = "<?= $this->setting->api_opendk_password; ?>";
+            if ($('input[name="sinkronisasi_opendk"]').filter(':checked').val() == 1) {
+                $('input[name="api_opendk_server"]');
+                if (api_opendk_password == "") {
+                    $('input[name="api_opendk_password"]').attr("required", true);
+                    $('#info-password').hide();
+                } else {
+                    $('#info-password').show();
+                }
+                $('input[name="api_opendk_key"]').attr("required", true);
+                $('input[name="api_opendk_user"]').attr("required", true);
+                $('#btn_buat_key').show();
+                $('#modul-sinkronisasi').show();
+            } else {
+                $('input[name="api_opendk_server"]').attr("required", false);
+                $('input[name="api_opendk_password"]').attr("required", false);
+                $('input[name="api_opendk_key"]').attr("required", false);
+                $('input[name="api_opendk_user"]').attr("required", false);
+                $('#btn_buat_key').hide();
+                $('#modul-sinkronisasi').hide();
+            }
+        }
+
         cek_input();
 
         $('#response').modal({
@@ -414,7 +471,9 @@
     });
 
     function cek_input() {
-        if ($('#api_opendk_server').val() == '' || $('#api_opendk_user').val() == '' || $('#api_opendk_password').val() == '') {
+        var password = '<?= $this->setting->api_opendk_password ?>';
+
+        if ($('#api_opendk_server').val() == '' || $('#api_opendk_user').val() == '' || (password == '')) {
             $('#api_opendk_key').prop("readonly", true);
             $('#btn_buat_key').prop("readonly", true);
             $('#api_opendk_key').val("");
@@ -428,6 +487,8 @@
     }
 
     async function get_token() {
+        var password = '<?= $this->setting->api_opendk_password ?>';
+
         let res = await axios({
             'method': 'post',
             'header': {
@@ -436,7 +497,7 @@
             'url': $('#api_opendk_server').val() + '/api/v1/auth/login',
             'data': {
                 'email': $('#api_opendk_user').val(),
-                'password': $('#api_opendk_password').val()
+                'password': password
             }
         }).catch(function (error) {
             if(error.response.statusText) {

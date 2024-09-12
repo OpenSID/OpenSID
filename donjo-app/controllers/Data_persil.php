@@ -48,6 +48,7 @@ class Data_persil extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['data_persil_model', 'cdesa_model', 'pamong_model', 'wilayah_model']);
     }
 
@@ -130,7 +131,7 @@ class Data_persil extends Admin_Controller
 
     public function form($id = '', $id_cdesa = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->load->model('plan_area_model');
         $this->tab_ini = 13;
 
@@ -152,7 +153,7 @@ class Data_persil extends Admin_Controller
 
     public function simpan_persil($page = 1): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->form_validation->set_rules('no_persil', 'Nomor Surat Persil', 'required|trim|numeric');
         $this->form_validation->set_rules('nomor_urut_bidang', 'Nomor Urut Bidang', 'required|trim|numeric|max_length[3]|less_than[1000]|greater_than[0]');
         $this->form_validation->set_rules('kelas', 'Kelas Tanah', 'required|trim|numeric');
@@ -175,21 +176,21 @@ class Data_persil extends Admin_Controller
 
     public function hapus($id): void
     {
-        $this->redirect_hak_akses('h', 'data_persil');
+        isCan('h');
         $this->data_persil_model->hapus($id);
         redirect('data_persil/clear');
     }
 
     public function import(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = site_url('data_persil/import_proses');
         $this->load->view('data_persil/import', $data);
     }
 
     public function import_proses(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->data_persil_model->impor_persil();
         redirect('data_persil');
     }

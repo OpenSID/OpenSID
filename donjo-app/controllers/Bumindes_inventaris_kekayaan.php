@@ -46,6 +46,7 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['pamong_model', 'inventaris_laporan_model']);
     }
 

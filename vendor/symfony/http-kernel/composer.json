@@ -70,9 +70,7 @@
         "symfony/dependency-injection": ""
     },
     "autoload": {
-        "psr-4": {
-            "Symfony\\Component\\HttpKernel\\": ""
-        },
+        "psr-4": { "Symfony\\Component\\HttpKernel\\": "" },
         "exclude-from-classmap": [
             "/Tests/"
         ]

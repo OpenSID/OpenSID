@@ -40,7 +40,7 @@
 																<tr>
 																	<td></td>
 																	<td nowrap>
-																		<?php if ($data->status == '0' && isCan('u')): ?>
+																		<?php if ($data->status == '0' && can('u')): ?>
 																			<a href="<?= site_url('inventaris_gedung/form_mutasi/' . $data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																		<?php endif; ?>
 																		<a href="<?= site_url('inventaris_gedung/view_mutasi/' . $data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>

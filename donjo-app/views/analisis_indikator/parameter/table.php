@@ -34,11 +34,11 @@
 										<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<?php if ($analisis_master['lock'] == 1 && isCan('u') && ! $analisis_indikator['referensi']): ?>
+													<?php if ($analisis_master['lock'] == 1 && can('u') && ! $analisis_indikator['referensi']): ?>
 														<th><input type="checkbox" id="checkall"/></th>
 													<?php endif; ?>
 													<th>No</th>
-													<?php if ($analisis_master['lock'] == 1 && isCan('u')): ?>
+													<?php if ($analisis_master['lock'] == 1 && can('u')): ?>
 														<th>Aksi</th>
 													<?php endif; ?>
 													<th>Kode</th>
@@ -50,11 +50,11 @@
 												<?php if ($main): ?>
 													<?php foreach ($main as $key => $data): ?>
 														<tr>
-															<?php if ($analisis_master['lock'] == 1 && isCan('u') && ! $analisis_indikator['referensi']): ?>
+															<?php if ($analisis_master['lock'] == 1 && can('u') && ! $analisis_indikator['referensi']): ?>
 																<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 															<?php endif; ?>
 															<td class="padat"><?= ($key + 1); ?></td>
-															<?php if ($analisis_master['lock'] == 1 && isCan('u')): ?>
+															<?php if ($analisis_master['lock'] == 1 && can('u')): ?>
 																<td class="aksi">
 																	<a href="<?= site_url("analisis_indikator/form_parameter/{$analisis_indikator['id']}/{$data['id']}") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Parameter"><i class='fa fa-edit'></i></a>
 																	<?php if ($analisis_master['jenis'] != 1 && ! $analisis_indikator['referensi']): ?>

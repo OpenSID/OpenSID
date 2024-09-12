@@ -1,6 +1,6 @@
 @push('scripts')
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             $(function() {
                 $('#dusun').on('change', function() {
                     var dusun = $(this).val();
@@ -79,5 +79,5 @@
                 });
             });
         });
-</script>
+    </script>
 @endpush
