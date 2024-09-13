@@ -68,7 +68,8 @@
         "mikey179/vfsstream": "~1.1.0",
         "phpunit/phpunit": "^9.6",
         "rector/rector": "^1.0",
-        "tinymce/tinymce": "^6.5"
+        "tinymce/tinymce": "^6.5",
+        "fakerphp/faker": "^1.9.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
