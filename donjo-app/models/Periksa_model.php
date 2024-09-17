@@ -158,7 +158,7 @@ class Periksa_model extends MY_Model
 
         $tgllahir_null_kosong = $this->deteksi_tgllahir_null_kosong();
         if (! $tgllahir_null_kosong->isEmpty()) {
-            $this->periksa['masalah'][]               = 'tgllahir_null_kosong';
+            $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
             $this->periksa['tgllahir_null_kosong'] = $tgllahir_null_kosong->toArray();
         }
 

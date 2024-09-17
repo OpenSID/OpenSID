@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 29. [#8426](https://github.com/OpenSID/OpenSID/issues/8426) Perbaikan perhitungan pada buku rekapitulasi jumlah penduduk.
 30. [#8332](https://github.com/OpenSID/OpenSID/issues/8332) Perbaikan pemformatan tanggal lahir penduduk ddengan isian null.
 31. [#8472](https://github.com/OpenSID/OpenSID/issues/8472) Perbaikan validasi input data artikel agenda.
+32. [#8468](https://github.com/OpenSID/OpenSID/issues/8468) Perbaikan menampilkan peta dengan token mapbox tidak valid atau kadaluarsa.
 
 
 #### TEKNIS
