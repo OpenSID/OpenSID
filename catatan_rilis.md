@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 28. [#8448](https://github.com/OpenSID/OpenSID/issues/8448) Perbaikan form input kategori (IV) keterangan sosial ekonomi anggota keluarga pada DTKS.
 29. [#8426](https://github.com/OpenSID/OpenSID/issues/8426) Perbaikan perhitungan pada buku rekapitulasi jumlah penduduk.
 30. [#8332](https://github.com/OpenSID/OpenSID/issues/8332) Perbaikan pemformatan tanggal lahir penduduk ddengan isian null.
+31. [#8472](https://github.com/OpenSID/OpenSID/issues/8472) Perbaikan validasi input data artikel agenda.
 
 
 #### TEKNIS

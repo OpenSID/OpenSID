@@ -157,7 +157,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-map-marker"></i>
                                     </div>
-                                    <input class="form-control input-sm pull-right" name="lokasi_kegiatan" type="text" placeholder="Masukan lokasi tempat dilakukan kegiatan" value="{{ $artikel['agenda']['lokasi_kegiatan'] }}">
+                                    <input class="form-control input-sm pull-right" name="lokasi_kegiatan" type="text" placeholder="Masukan lokasi tempat dilakukan kegiatan" value="{{ $artikel['agenda']['lokasi_kegiatan'] }}" maxlength="100">
                                 </div>
                                 <span class="help-block"><code>(Isikan Lokasi Tempat Dilakukan Kegiatan)</code></span>
                                 <label class="control-label" for="koordinator_kegiatan">Koordinator Kegiatan</label>
@@ -165,7 +165,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-user"></i>
                                     </div>
-                                    <input class="form-control input-sm pull-right" name="koordinator_kegiatan" type="text" placeholder="Masukan nama koordinator" value="{{ $artikel['agenda']['koordinator_kegiatan'] }}">
+                                    <input class="form-control input-sm pull-right" name="koordinator_kegiatan" type="text" placeholder="Masukan nama koordinator" value="{{ $artikel['agenda']['koordinator_kegiatan'] }}" maxlength="50">
                                 </div>
                                 <span class="help-block"><code>(Isikan Koordinator Kegiatan)</code></span>
                             </div>
@@ -225,7 +225,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label" for="nama_dokumen">Nama Dokumen</label>
-                            <input id="link_dokumen" name="link_dokumen" class="form-control input-sm strip_tags" type="text" value="{{ e($artikel['link_dokumen']) }}"></input>
+                            <input id="link_dokumen" name="link_dokumen" class="form-control input-sm strip_tags" type="text" value="{{ e($artikel['link_dokumen']) }}" maxlength="100">
                             <span class="help-block"><code>(Nantinya akan menjadi link unduh/download)</code></span>
                         </div>
                         <div class="form-group">
