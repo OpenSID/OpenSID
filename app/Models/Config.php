@@ -100,6 +100,9 @@ class Config extends BaseModel
         'border',
         'created_by',
         'updated_by',
+        'nama_kontak',
+        'hp_kontak',
+        'jabatan_kontak',
     ];
 
     /**
@@ -216,9 +219,9 @@ class Config extends BaseModel
     public static function clearCache(): void
     {
         cache()->forget('identitas_desa');
-        hapus_cache('status_langganan');
+        // hapus_cache('status_langganan');
         cache()->forget('siappakai');
-        hapus_cache('_cache_modul');
+        // hapus_cache('_cache_modul');
     }
 
     public static function deleteFile($model, ?string $file): void

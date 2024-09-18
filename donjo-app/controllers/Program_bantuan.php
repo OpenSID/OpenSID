@@ -84,7 +84,7 @@ class Program_bantuan extends Admin_Controller
             $sasaran    = $this->input->get('sasaran') ?? null;
             $program_id = $this->input->get('program_id') ?? null;
 
-            return datatables()->of(Bantuan::configId()->getProgram($program_id)->when($sasaran, static fn ($q) => $q->where('sasaran', $sasaran)))
+            return datatables()->of(Bantuan::getProgram($program_id)->when($sasaran, static fn ($q) => $q->where('sasaran', $sasaran)))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $openKab = null === $row->config_id ? 'disabled' : '';
@@ -335,7 +335,8 @@ class Program_bantuan extends Admin_Controller
 
         $this->validasi_form();
 
-        $data['program']      = Bantuan::GetProgram($id)->first()->toArray() ?? show_404();
+        $bantuan              = Bantuan::getProgram($id)->first();
+        $data['program']      = $bantuan ? $bantuan->toArray() : show_404();
         $data['asaldana']     = unserialize(ASALDANA);
         $data['jml']          = $this->program_bantuan_model->jml_peserta_program($id);
         $data['nama_excerpt'] = Str::limit($data['program']['nama'], 25);

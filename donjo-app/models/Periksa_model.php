@@ -113,6 +113,12 @@ class Periksa_model extends MY_Model
             $this->periksa['log_penduduk_null'] = $log_penduduk_null->toArray();
         }
 
+        $log_penduduk_asing = $this->deteksi_log_penduduk_asing();
+        if (! $log_penduduk_asing->isEmpty()) {
+            $this->periksa['masalah'][]          = 'log_penduduk_asing';
+            $this->periksa['log_penduduk_asing'] = $log_penduduk_asing->toArray();
+        }
+
         $log_keluarga_bermasalah = $this->deteksi_log_keluarga_bermasalah();
         if (! $log_keluarga_bermasalah->isEmpty()) {
             $this->periksa['masalah'][]               = 'log_keluarga_bermasalah';
@@ -148,6 +154,12 @@ class Periksa_model extends MY_Model
         if (! $klasifikasi_surat_ganda->isEmpty()) {
             $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
             $this->periksa['klasifikasi_surat_ganda'] = $klasifikasi_surat_ganda->toArray();
+        }
+
+        $tgllahir_null_kosong = $this->deteksi_tgllahir_null_kosong();
+        if (! $tgllahir_null_kosong->isEmpty()) {
+            $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
+            $this->periksa['tgllahir_null_kosong'] = $tgllahir_null_kosong->toArray();
         }
 
         return $calon;
@@ -240,6 +252,16 @@ class Periksa_model extends MY_Model
             ->get();
     }
 
+    public function deteksi_log_penduduk_asing()
+    {
+        identitas('id');
+
+        return LogPenduduk::select('log_penduduk.id', 'nama', 'nik', 'kode_peristiwa', 'log_penduduk.created_at')
+            ->whereNotIn('kode_peristiwa', array_keys(LogPenduduk::kodePeristiwa()))
+            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'log_penduduk.id_pend')
+            ->get();
+    }
+
     public function deteksi_log_keluarga_bermasalah()
     {
         return Keluarga::whereDoesntHave('LogKeluarga')->get();
@@ -286,6 +308,13 @@ class Periksa_model extends MY_Model
         $config_id = identitas('id');
 
         return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
+    }
+
+    private function deteksi_tgllahir_null_kosong()
+    {
+        $config_id = identitas('id');
+
+        return Penduduk::where('config_id', $config_id)->where('tanggallahir', '0000-00-00')->orWhereNull('tanggallahir')->get();
     }
 
     public function perbaiki(): void
@@ -447,6 +476,11 @@ class Periksa_model extends MY_Model
         LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_null'], 'id'))->update(['kode_peristiwa' => LogPenduduk::BARU_PINDAH_MASUK]);
     }
 
+    private function perbaiki_log_penduduk_asing(): void
+    {
+        LogPenduduk::whereIn('id', array_column($this->periksa['log_penduduk_asing'], 'id'))->delete();
+    }
+
     private function perbaiki_log_keluarga_bermasalah(): void
     {
         $configId = identitas('id');
@@ -513,6 +547,10 @@ class Periksa_model extends MY_Model
 
             case 'log_penduduk_null':
                 $this->perbaiki_log_penduduk_null();
+                break;
+
+            case 'log_penduduk_asing':
+                $this->perbaiki_log_penduduk_asing();
                 break;
 
             case 'log_keluarga_bermasalah':

@@ -77,20 +77,11 @@
         window.onload = function() {
             $(".my-colorpicker2").colorpicker()
 
-            @if (!empty($wil_ini['lat']) && !empty($wil_ini['lng']))
-                var posisi = [{{ $wil_ini['lat'] . ', ' . $wil_ini['lng'] }}];
-                var zoom = {{ $wil_ini['zoom'] }};
-            @elseif (!empty($wil_atas['lat']) && !empty($wil_atas['lng']))
-                // Jika posisi saat ini belum ada, maka posisi peta akan menampilkan peta desa
-                var posisi = [{{ $wil_atas['lat'] . ', ' . $wil_atas['lng'] }}];
-                var zoom = {{ $wil_atas['zoom'] }};
-            @else
-                // Kondisi ini hanya untuk lokasi/wilayah desa yg belum ada
-                var posisi = [-1.0546279422758742, 116.71875000000001];
-                var zoom = 10;
-            @endif
-
             // Inisialisasi tampilan peta
+            var lat = {{ $wil_ini['lat'] ?? ($wil_atas['lat'] ?? config('app.map.point.lat')) }};
+            var lng = {{ $wil_ini['lng'] ?? ($wil_atas['lng'] ?? config('app.map.point.lng')) }};
+            var zoom = {{ $wil_ini['zoom'] ?? ($wil_atas['zoom'] ?? config('app.map.zoom')) }};
+            var posisi = [lat, lng];
             var peta_wilayah = L.map('tampil-map', pengaturan_peta).setView(posisi, zoom);
 
             // 1. Menampilkan overlayLayers Peta Semua Wilayah

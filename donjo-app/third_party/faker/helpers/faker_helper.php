@@ -46,15 +46,9 @@ use App\Models\Pekerjaan;
 use App\Models\Pendidikan;
 use App\Models\PendidikanKK;
 use App\Models\StatusKawin;
-use Faker\Factory;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
-
-function faker()
-{
-    return Factory::create('id_ID');
-}
 
 function configFaker($key = null)
 {

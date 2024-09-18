@@ -799,6 +799,8 @@ class Surat_master extends Admin_Controller
 
             exit();
         }
+
+        exit();
     }
 
     public function ekspor(): void
@@ -817,8 +819,18 @@ class Surat_master extends Admin_Controller
             redirect_with('error', 'Tidak ada surat TinyMCE yang ditemukan dari pilihan anda.');
         }
 
+        $setting_penduduk_luar = SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value;
+        $setting_penduduk_luar = json_decode($setting_penduduk_luar, true);
+        $setting_penduduk_luar = collect($setting_penduduk_luar)->except([2, 3])->toArray();
+
         $file_name = namafile('Template Surat TInyMCE') . '.json';
-        $ekspor    = $ekspor->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())->toArray();
+        $ekspor    = $ekspor->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
+            ->map(static function ($item) use ($setting_penduduk_luar) {
+                $item['penduduk_luar'] = $setting_penduduk_luar;
+
+                return $item;
+            })
+            ->toArray();
 
         $this->output
             ->set_header("Content-Disposition: attachment; filename={$file_name}")
@@ -927,6 +939,7 @@ class Surat_master extends Admin_Controller
                 'format_nomor'        => $item['format_nomor'],
                 'footer'              => $item['footer'],
                 'header'              => $item['header'],
+                'penduduk_luar'       => $item['penduduk_luar'],
                 'created_at'          => date('Y-m-d H:i:s'),
                 'creted_by'           => ci_auth()->id,
                 'updated_at'          => date('Y-m-d H:i:s'),
@@ -938,7 +951,14 @@ class Surat_master extends Admin_Controller
     private function prosesImport($list_data = null, $id = null): bool
     {
         if ($list_data) {
+            $penduduk_luar_impor = collect($list_data)->pluck('penduduk_luar')->unique()->toArray();
+            $penduduk_luar       = SettingAplikasi::where('key', '=', 'form_penduduk_luar')->first();
+            $luar                = json_decode($penduduk_luar->value, true);
+            $luar                = array_merge($luar, $penduduk_luar_impor[0] ?? []);
+            $penduduk_luar->update(['value' => json_encode(updateIndex($luar), JSON_THROW_ON_ERROR)]);
+
             foreach ($list_data as $key => $value) {
+                unset($value['penduduk_luar']);
                 if ($id !== null) {
                     foreach ($id as $row) {
                         if ($row == $key) {

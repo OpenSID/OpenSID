@@ -163,14 +163,16 @@ class KelompokAnggota extends BaseModel
         });
 
         static::deleting(static function ($model): void {
-            static::deleteFile($model->anggota, 'foto', true);
+            static::deleteFile($model, 'foto', true);
         });
     }
 
-    public static function deleteFile($model, ?string $file, $deleting = false): void
+    public static function deleteFile($model, ?string $file, bool $deleting = false): void
     {
         if ($model->isDirty($file) || $deleting) {
-            $pathFile = LOKASI_USER_PICT . $model->getOriginal($file);
+            $lokasi   = $model->tipe === 'kelompok' ? LOKASI_FOTO_KELOMPOK : LOKASI_FOTO_LEMBAGA;
+            $pathFile = $lokasi . $model->getOriginal($file);
+
             if (file_exists($pathFile)) {
                 unlink($pathFile);
             }

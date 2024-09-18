@@ -109,9 +109,15 @@ class Dokumen_sekretariat extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $kategori = $this->input->get('kategori');
             $tahun    = $this->input->get('tahun');
-            $data     = DokumenHidup::PeraturanDesa($kategori, $tahun);
+            $data     = DokumenHidup::peraturanDesa($kategori, $tahun);
 
         return datatables()->of($data)
+            ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {
+                $query->orderBy('attr->tgl_kep_kades', $order);
+            })
+            ->orderColumn('attr->tgl_ditetapkan', static function ($query, $order) {
+                $query->orderBy('attr->tgl_ditetapkan', $order);
+            })
             ->addColumn('ceklist', static function ($row) {
                 if (can('h')) {
                     return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -298,7 +304,7 @@ class Dokumen_sekretariat extends Admin_Controller
     private function validasi(array $post): array
     {
         $data                         = [];
-        $data['nama']                 = nomor_surat_keputusan($post['nama']);
+        $data['nama']                 = nama_peraturan_desa($post['nama']);
         $data['kategori']             = (int) $post['kategori'] ?: 1;
         $data['kategori_info_publik'] = (int) $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = (int) $post['id_syarat'] ?: null;
@@ -389,8 +395,7 @@ class Dokumen_sekretariat extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog_cetak($kat = 0, $aksi = 'cetak')
     {
-        // $data                = $this->modal_penandatangan();
-        $data['tahun_laporan']   = DokumenHidup::GetTahun($kat);
+        $data['tahun_laporan']   = DokumenHidup::getTahun($kat);
         $data['aksi']            = $aksi;
         $data['kat']             = $kat;
         $data['jenis_peraturan'] = JenisPeraturan::all();
@@ -432,8 +437,18 @@ class Dokumen_sekretariat extends Admin_Controller
         $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
 
-        $post             = $this->input->post();
-        $data['main']     = DokumenHidup::DataCetak($kat, $post['tahun'], $post['jenis_peraturan']);
+        $post = $this->input->post();
+
+        $query = datatables(DokumenHidup::dataCetak($kat, $post['tahun'], $post['jenis_peraturan']))
+            ->orderColumn('attr->tgl_kep_kades', static function ($query, $order) {
+                $query->orderBy('attr->tgl_kep_kades', $order);
+            })
+            ->orderColumn('attr->tgl_ditetapkan', static function ($query, $order) {
+                $query->orderBy('attr->tgl_ditetapkan', $order);
+            })
+            ->prepareQuery();
+
+        $data['main']     = $query->results();
         $data['input']    = $post;
         $data['kat']      = $kat;
         $data['tahun']    = $post['tahun'];

@@ -75,8 +75,11 @@ class Kelompok extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $controller = $this->controller;
             $status     = $this->input->get('status_dasar');
+            $tipe       = $this->tipe;
             $query      = KelompokModel::with(['kelompokMaster', 'ketua'])
-                ->withCount('kelompokAnggota as jml_anggota')
+                ->withCount(['kelompokAnggota as jml_anggota' => static function ($query) use ($tipe) {
+                    $query->where('tipe', $tipe);
+                }])
                 ->tipe($this->tipe)
                 ->jenisKelaminKetua($this->session->sex)
                 ->penerimaBantuan()

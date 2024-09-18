@@ -61,7 +61,7 @@
                 <tr>
                     <td>Tanggal Lahir</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->tanggallahir->format('d-m-Y')) }}</td>
+                    <td>{{ strtoupper($penduduk->tanggallahir?->format('d-m-Y')) }}</td>
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
@@ -151,7 +151,7 @@
                 <tr>
                     <td>Alamat Email</td>
                     <td>:</td>
-                    <td>{{ strtoupper($penduduk->email) }}</td>
+                    <td>{{ $penduduk->email }}</td>
                 </tr>
                 <tr>
                     <td>Alamat</td>
@@ -207,12 +207,12 @@
             </table>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td align="center" scope="col" width="40%">Yang Bersangkutan</td>
+                    <td align="center" scope="col" width="40%">&nbsp;</td>
                     <td align="center" scope="col" width="10%">&nbsp;</td>
                     <td align="center" scope="col" width="50%">{{ ucwords(setting('sebutan_desa') . ' ' . $desa['nama_desa']) . ', ' . tgl_indo(date('Y m d')) }}</td>
                 </tr>
                 <tr>
-                    <td align="center">&nbsp;</td>
+                    <td align="center">Yang Bersangkutan</td>
                     <td align="center">&nbsp;</td>
                     <td align="center">{{ ucwords(setting('sebutan_kepala_desa') . ' ' . $desa['nama_desa']) }}</td>
                 </tr>

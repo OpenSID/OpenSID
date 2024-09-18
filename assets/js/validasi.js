@@ -272,6 +272,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
 
+	jQuery.validator.addMethod("peraturan_desa", function(value, element) {
+		valid = /^[a-zA-Z0-9 \.\-\/,()]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring, (, ) dan strip");
+
 	jQuery.validator.addMethod("alfanumerik_titik", function(value, element) {
 		valid = /^[a-zA-Z0-9\.]+$/i.test(value);
 		return this.optional(element) || valid;
@@ -409,12 +414,14 @@ $(document).ready(function() {
 	// https://www.aspsnippets.com/questions/532641/Validation-Latitude-and-Longitude-using-Regular-Expression-in-jQuery/
 	jQuery.validator.addMethod("lat", function(value, element) {
 		var regexLat = new RegExp('^(\\+|-)?(?:90(?:(?:\\.0{1,18})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,18})?))$');
+
 		return this.optional(element) || regexLat.test(value);
 	}, `Isi lat tidak valid`);
 
 	// https://www.aspsnippets.com/questions/532641/Validation-Latitude-and-Longitude-using-Regular-Expression-in-jQuery/
 	jQuery.validator.addMethod("lng", function(value, element) {
 		var regexLong = new RegExp('^(\\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\\.[0-9]{1,18})?))$');
+		
 		return this.optional(element) || regexLong.test(value);
 	}, `Isi lng tidak valid`);
 

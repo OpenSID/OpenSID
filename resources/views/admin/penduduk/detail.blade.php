@@ -167,7 +167,7 @@
                                         <tr>
                                             <td>Tempat / Tanggal Lahir</td>
                                             <td>:</td>
-                                            <td>{{ strtoupper($penduduk->tempatlahir) }} / {{ strtoupper($penduduk->tanggallahir->format('d-m-Y')) }}</td>
+                                            <td>{{ strtoupper($penduduk->tempatlahir) }} / {{ strtoupper($penduduk->tanggallahir?->format('d-m-Y')) }}</td>
                                         </tr>
                                         <tr>
                                             <td>Tempat Dilahirkan</td>

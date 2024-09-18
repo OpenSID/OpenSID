@@ -1,55 +1,56 @@
-Di rilis ini, versi 2408.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2409.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 
 #### BUG
 
-1. [#8269](https://github.com/OpenSID/OpenSID/issues/8269) Perbaikan informasi lebar dan tinggi foto aparatur saat tambah/ubah data.
-2. [#8288](https://github.com/OpenSID/OpenSID/issues/8288) Perbaikan hasil cetak pada modul penduduk, keluarga dan peristiwa.
-3. [#8290](https://github.com/OpenSID/OpenSID/issues/8290) Perbaikan menu navigasi pada halaman admin.
-4. [#8301](https://github.com/OpenSID/OpenSID/issues/8301) Perbaikan impor keuangan dengan isian keterangan yang panjang.
-5. [#8285](https://github.com/OpenSID/OpenSID/issues/8285) Perbaikan validasi url yang panjang.
-6. [#8313](https://github.com/OpenSID/OpenSID/issues/8313) Perbaikan mutasi aset tetap lainnya.
-7. [#8315](https://github.com/OpenSID/OpenSID/issues/8315) Perbaikan link detail laporan kelompok rentang > sakit menahun.
-8. [#8309](https://github.com/OpenSID/OpenSID/issues/8309) Perbaikan backup database gabungkan untuk modul inventaris dan suplemen.
-9. [#8292](https://github.com/OpenSID/OpenSID/issues/8292) Perbaikan penanganan slug pada modul kelompok/lembaga saat memperbatui data.
-10. [#8320](https://github.com/OpenSID/OpenSID/issues/8320) Perbaikan validasi form kategori bisa menggunakan strip (-).
-11. [#8294](https://github.com/OpenSID/OpenSID/issues/8294) Perbaikan penanganan halaman yang belum didaftarkan dimenu.
-12. [#8278](https://github.com/OpenSID/OpenSID/issues/8278) Perbaikan pengaturan surat dinas.
-13. [#8326](https://github.com/OpenSID/OpenSID/issues/8326) Perbaikan notifikasi gagal pada idm dan sdgs.
-14. [#8305](https://github.com/OpenSID/OpenSID/issues/8305) Perbaikan default peta wilayah tidak tampil di web.
-15. [#8299](https://github.com/OpenSID/OpenSID/issues/8299) Perbaikan notifikasi komentar dan pesan mandiri.
-16. [#7052](https://github.com/OpenSID/OpenSID/issues/7052) Perbaikan form pilihan status perkawinan anak dan cucu.
-17. [#8331](https://github.com/OpenSID/OpenSID/issues/8331) Perbaikan ketua kelompok dan lembaga.
-18. [#8251](https://github.com/OpenSID/OpenSID/issues/8251) Perbaikan editor tinymce.
-19. [#8327](https://github.com/OpenSID/OpenSID/issues/8327) Perbaikan isi surat setelah proses verifikasi oleh operator.
-20. [#8332](https://github.com/OpenSID/OpenSID/issues/8332) Perbaikan validasi tanggal lahir pada impor data penduduk.
-21. [#8337](https://github.com/OpenSID/OpenSID/issues/8337) Perbaikan lokasi pembangunan.
-22. [#8340](https://github.com/OpenSID/OpenSID/issues/8340) Perbaikan unggah gambar pada pengaturan tema.
-23. [#8295](https://github.com/OpenSID/OpenSID/issues/8295) Perbaikan restore database multi db.
-24. [#8255](https://github.com/OpenSID/OpenSID/issues/8255) Perbaikan penomoran arsip desa nomor dokumen.
-25. [#8345](https://github.com/OpenSID/OpenSID/issues/8345) Perbaikan sebutan dusun pada halaman web daftar pemilih tetap (DPT).
-26. [#8341](https://github.com/OpenSID/OpenSID/issues/8341) Perbaikan hak akses bawaan lainnya (kasi, kaur, dll).
-27. [#8343](https://github.com/OpenSID/OpenSID/issues/8343) Perbaikan form ubah tanggal perceraian penduduk.
-28. [#8348](https://github.com/OpenSID/OpenSID/issues/8348) Perbaikan form input pengaturan tampilan artikel.
-29. [#8063](https://github.com/OpenSID/OpenSID/issues/8063) Perbaikan jumlah arsip surat pada modul arsip desa > layanan surat.
-30. [#8355](https://github.com/OpenSID/OpenSID/issues/8355) Perbaikan cetak/unduh statistik penduduk.
-31. [#8318](https://github.com/OpenSID/OpenSID/issues/8318) Perbaikan template dan lampiran surat keterangan nikah.
-32. [#8362](https://github.com/OpenSID/OpenSID/issues/8362) Perbaikan validasi unggah gambar galeri.
-33. [#8360](https://github.com/OpenSID/OpenSID/issues/8360) Perbaikan urutan pada sub-submenu pada halaman web.
-34. [#8361](https://github.com/OpenSID/OpenSID/issues/8361) Perbaikan urutan pada modul galeri.
-35. [#8283](https://github.com/OpenSID/OpenSID/issues/8283) Perbaikan validasi rentang umur (rentang).
-36. [#8247](https://github.com/OpenSID/OpenSID/issues/8247) Perbaikan isi surat status konsep saat akan dicetak.
-37. [#7840](https://github.com/OpenSID/OpenSID/issues/7840) Perbaikan tombol RFM pada unggah gambar/video artikel.
-38. [#8293](https://github.com/OpenSID/OpenSID/issues/8293) Perbaikan cetak surat arsip yang diubah.
+1. [#8404](https://github.com/OpenSID/OpenSID/issues/8404) Perbaikan tambah data penduduk pada suplemen agar tidak duplikasi.
+2. [#8410](https://github.com/OpenSID/OpenSID/issues/8410) Perbaikan tambah data rumah tangga pada dtks agar tidak duplikasi.
+3. [#8406](https://github.com/OpenSID/OpenSID/issues/8406) Perbaikan ekspor data dtks.
+4. [#8408](https://github.com/OpenSID/OpenSID/issues/8408) Perbaikan menampilkan data penduduk dari link pada modul statistik.
+5. [#8421](https://github.com/OpenSID/OpenSID/issues/8421) Perbaikan tambah data penerima program bantuan.
+6. [#8394](https://github.com/OpenSID/OpenSID/issues/8394) Perbaikan kode isian pada surat yang mengandung karakter garis miring (/).
+7. [#8432](https://github.com/OpenSID/OpenSID/issues/8432) Perbaikan arsip surat dinas pada kolom user datatables.
+8. [#8407](https://github.com/OpenSID/OpenSID/issues/8407) Perbaikan cetak/unduh data dtks.
+9. [#8413](https://github.com/OpenSID/OpenSID/issues/8413) Perbaikan saring data buku keputusan kepala desa.
+10. [#8428](https://github.com/OpenSID/OpenSID/issues/8428) Perbaikan penomoran dan url dokumen arsip desa.
+11. [#8433](https://github.com/OpenSID/OpenSID/issues/8433) Perbaikan notifikasi saat ubah/hapus akun demo.
+12. [#8436](https://github.com/OpenSID/OpenSID/issues/8436) Perbaikan tambah kepala / anggota rtm hanya untuk penduduk yang masih hidup.
+13. [#8438](https://github.com/OpenSID/OpenSID/issues/8438) Perbaikan pendaftaran buku tamu.
+14. [#8425](https://github.com/OpenSID/OpenSID/issues/8425) Perbaikan hapus data dtks.
+15. [#8439](https://github.com/OpenSID/OpenSID/issues/8439) Perbaikan pindah posisi pada modul pengurus.
+16. [#8441](https://github.com/OpenSID/OpenSID/issues/8441) Perbaikan status surat pada modul arsip layanan.
+17. [#8431](https://github.com/OpenSID/OpenSID/issues/8431) Perbaikan periksa permohonan surat dari yang dikirim ke perangkat pengguna.
+18. [#8395](https://github.com/OpenSID/OpenSID/issues/8395) Perbaikan kode isian alamat menggunakan alamat lengkap pada template surat bawaan.
+19. [#8445](https://github.com/OpenSID/OpenSID/issues/8445) Perbaikan menampilkan data keluarga dari link pada modul statistik.
+20. [#8452](https://github.com/OpenSID/OpenSID/issues/8452) Perbaikan impor template surat dengan penduduk luar.
+21. [#8447](https://github.com/OpenSID/OpenSID/issues/8447) Perbaikan form input kategori (III) keterangan rumah tangga pada DTKS.
+22. [#8435](https://github.com/OpenSID/OpenSID/issues/8435) Perbaikan tinjau arsip surat dengan font yang sudah tidak ada.
+23. [#8449](https://github.com/OpenSID/OpenSID/issues/8449) Perbaikan form input kategori (IV) keterangan sosial ekonomi anggota rumah tangga pada DTKS.
+24. [#8450](https://github.com/OpenSID/OpenSID/issues/8450) Perbaikan unggah foto pada form DTKS.
+25. [#8458](https://github.com/OpenSID/OpenSID/issues/8458) Perbaikan program bantuan untuk database gabungan.
+26. [#8459](https://github.com/OpenSID/OpenSID/issues/8459) Perbaikan kategori artikel untuk database gabungan.
+27. [#8457](https://github.com/OpenSID/OpenSID/issues/8457) Perbaikan pencarian pada modul rekapitulasi kehasiran.
+28. [#8448](https://github.com/OpenSID/OpenSID/issues/8448) Perbaikan form input kategori (IV) keterangan sosial ekonomi anggota keluarga pada DTKS.
+29. [#8426](https://github.com/OpenSID/OpenSID/issues/8426) Perbaikan perhitungan pada buku rekapitulasi jumlah penduduk.
+30. [#8332](https://github.com/OpenSID/OpenSID/issues/8332) Perbaikan pemformatan tanggal lahir penduduk ddengan isian null.
+31. [#8472](https://github.com/OpenSID/OpenSID/issues/8472) Perbaikan validasi input data artikel agenda.
+32. [#8468](https://github.com/OpenSID/OpenSID/issues/8468) Perbaikan menampilkan peta dengan token mapbox tidak valid atau kadaluarsa.
+33. [#8461](https://github.com/OpenSID/OpenSID/issues/8461) Perbaikan pengurutan pada cetak buku peraturan di desa dan keputusan kepala desa.
+34. [#8476](https://github.com/OpenSID/OpenSID/issues/8476) Perbaikan judul cetak/unduh inventaris aset tetap lainnya.
+35. [#8467](https://github.com/OpenSID/OpenSID/issues/8467) Perbaikan verifikasi surat oleh operator dengan TTE aktif.
+
 
 
 #### TEKNIS
+1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
+2. [#8434](https://github.com/OpenSID/OpenSID/issues/8434) Penyesuaian nilai default status telgram pada tambah/ubah pengguna.
+3. [#8381](https://github.com/OpenSID/OpenSID/issues/8381) Penyesuaian susunan komponen include blade pada modul dpt.
+4. [#8460](https://github.com/OpenSID/OpenSID/issues/8460) Penyesuaian fungsi pecah kk dan hapus pada anggota keluarga dengan status kepala keluarga.
+5. [#8464](https://github.com/OpenSID/OpenSID/issues/8464) Penyesuaian kata draft menjadi draf pada cetak surat.
+6. [#8469](https://github.com/OpenSID/OpenSID/issues/8469) Penyesuaian data tanggal lahir penduduk melalui halaman periksa.
 
-1. [#8274](https://github.com/OpenSID/OpenSID/issues/8274) Penyesuaian notifikasi tambah/ubah surat layanan yang disediakan untuk layanan mandiri.
-2. [#8222](https://github.com/OpenSID/OpenSID/issues/8222) Penyesuaian halaman masuk siteman menggunakan ORM dan Blade Laravel.
-3. [#8150](https://github.com/OpenSID/OpenSID/issues/8150) Penyesuaian halaman masuk layanan mandiri menggunakan ORM dan Blade Laravel.
-4. [#8317](https://github.com/OpenSID/OpenSID/issues/8317) Penyesuaian halaman masuk periksa menggunakan ORM dan Blade Laravel.
-5. [#8334](https://github.com/OpenSID/OpenSID/issues/8334) Penyesuaian datatables modul cetak surat layanan dan surat dinas.
-6. [#8339](https://github.com/OpenSID/OpenSID/issues/8339) Penyesuaian suku kata pada halamanan statisitik sesuai dengan rekomendasi oleh BPS.
+
+#### LAYANAN
+1. [#8364](https://github.com/OpenSID/OpenSID/issues/8364) Penyesuaian menampilkan data layanan pelanggan.
