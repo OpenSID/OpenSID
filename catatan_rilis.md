@@ -38,6 +38,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 31. [#8472](https://github.com/OpenSID/OpenSID/issues/8472) Perbaikan validasi input data artikel agenda.
 32. [#8468](https://github.com/OpenSID/OpenSID/issues/8468) Perbaikan menampilkan peta dengan token mapbox tidak valid atau kadaluarsa.
 33. [#8461](https://github.com/OpenSID/OpenSID/issues/8461) Perbaikan pengurutan pada cetak buku peraturan di desa dan keputusan kepala desa.
+34. [#8476](https://github.com/OpenSID/OpenSID/issues/8476) Perbaikan judul cetak/unduh inventaris aset tetap lainnya.
 
 
 
