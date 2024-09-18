@@ -237,7 +237,7 @@
                     },
                     {
                         data: 'kepala_keluarga.keluarga.wilayah.rw',
-                        name: 'tw',
+                        name: 'rw',
                         searchable: false,
                         orderable: false,
                         defaultContent: '-',
