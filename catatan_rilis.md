@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 #### FITUR
 
 1. [#8409](https://github.com/OpenSID/OpenSID/issues/8409) Penambahan pengaturan rentang waktu masuk dan keluar pada kehadiran.
+2. [#8371](https://github.com/OpenSID/OpenSID/issues/8371) Penambahan kode isian inisial jenis kelamin penduduk pada surat.
 
 
 #### BUG
