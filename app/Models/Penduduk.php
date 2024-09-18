@@ -37,25 +37,26 @@
 
 namespace App\Models;
 
-use App\Enums\AgamaEnum;
-use App\Enums\CaraKBEnum;
-use App\Enums\JenisKelaminEnum;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\SasaranEnum;
+use Carbon\Carbon;
+use App\Traits\Author;
 use App\Enums\SHDKEnum;
+use App\Enums\AgamaEnum;
+use App\Traits\ConfigId;
+use App\Enums\CaraKBEnum;
+use App\Enums\SasaranEnum;
+use App\Traits\ShortcutCache;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
-use App\Traits\Author;
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
+use App\Enums\PendidikanSedangEnum;
+use App\Enums\StatusKawinSpesifikEnum;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -583,13 +584,26 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
-            ? $this->statusKawin->nama
-            : (
-                empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
-                    ? 'KAWIN BELUM TERCATAT'
-                    : 'KAWIN TERCATAT'
-            );
+        $status = match ($this->status_kawin) {
+            StatusKawinSpesifikEnum::KAWIN_TERCATAT =>
+                $this->isBelumTercatat($this->akta_perkawinan, $this->tanggalperkawinan)
+                    ? StatusKawinSpesifikEnum::KAWIN_BELUM_TERCATAT
+                    : StatusKawinSpesifikEnum::KAWIN_TERCATAT,
+
+            StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT =>
+                $this->isBelumTercatat($this->akta_perceraian, $this->tanggalperceraian)
+                    ? StatusKawinSpesifikEnum::CERAIHIDUP_BELUM_TERCATAT
+                    : StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT,
+
+            default => $this->status_kawin,
+        };
+
+        return StatusKawinSpesifikEnum::valueOf($status);
+    }
+
+    private function isBelumTercatat($akta, $tanggal): bool
+    {
+        return empty($akta) && empty($tanggal);
     }
 
     /**
