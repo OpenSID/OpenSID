@@ -156,6 +156,12 @@ class Periksa_model extends MY_Model
             $this->periksa['klasifikasi_surat_ganda'] = $klasifikasi_surat_ganda->toArray();
         }
 
+        $tgllahir_null_kosong = $this->deteksi_tgllahir_null_kosong();
+        if (! $tgllahir_null_kosong->isEmpty()) {
+            $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
+            $this->periksa['tgllahir_null_kosong'] = $tgllahir_null_kosong->toArray();
+        }
+
         return $calon;
     }
 
@@ -302,6 +308,13 @@ class Periksa_model extends MY_Model
         $config_id = identitas('id');
 
         return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
+    }
+
+    private function deteksi_tgllahir_null_kosong()
+    {
+        $config_id = identitas('id');
+
+        return Penduduk::where('config_id', $config_id)->where('tanggallahir', '0000-00-00')->orWhereNull('tanggallahir')->get();
     }
 
     public function perbaiki(): void

@@ -35,8 +35,6 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_beta extends MY_model

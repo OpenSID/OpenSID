@@ -39,6 +39,7 @@ Route::group('job', static function (): void {
     Route::cli('/restore/{database?}', 'Job@restore');
     Route::cli('/backup_inkremental/{lokasi}', 'Job@backup_inkremental');
     Route::cli('/restore_desa/{id}', 'Job@restore_desa');
+    Route::cli('/acak', 'Job@acak');
 });
 
 Route::group('modul', static function (): void {

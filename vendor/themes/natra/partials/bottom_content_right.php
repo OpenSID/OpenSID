@@ -34,7 +34,9 @@
 			<div class="single_bottom_rightbar">
 				<h2><i class="fa fa-folder"></i>&ensp;<?= $judul_widget['judul_widget'] ?></h2>
 				<div class="box-body">
-					<?= htmlspecialchars_decode(html_entity_decode($widget['isi']), ENT_QUOTES) ?>
+					<div class="embed-responsive embed-responsive-16by9">
+						<?= htmlspecialchars_decode(html_entity_decode($widget['isi']), ENT_QUOTES) ?>
+					</div>
 				</div>
 			</div>
 		<?php endif ?>

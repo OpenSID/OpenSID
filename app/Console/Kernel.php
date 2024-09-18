@@ -70,7 +70,9 @@ class Kernel implements KernelContract
      *
      * @var array
      */
-    protected $commands = [];
+    protected $commands = [
+        'App\Console\Commands\AcakData',
+    ];
 
     /**
      * Create a new console kernel instance.

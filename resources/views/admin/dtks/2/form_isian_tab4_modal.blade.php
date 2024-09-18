@@ -646,10 +646,11 @@
 
             // -- sekolah/pendidikan
             $('#pilihan_4_412').on('change', function(ev) {
-                show_when_otherwise_hide(global_umur_art >= 5 && ['2', '3'].indexOf($('#pilihan_4_412')
-                    .val()) > -1, ['tr_4_413', 'tr_4_414', 'tr_4_415'], ['tr_4_428', 'tr_4_414',
-                    'tr_4_415'
-                ]);
+                show_when_otherwise_hide(
+                    global_umur_art >= 5 && ['2', '3'].indexOf($('#pilihan_4_412').val()) > -1,
+                    ['tr_4_413', 'tr_4_414', 'tr_4_415'],
+                    ['tr_4_428', 'tr_4_413', 'tr_4_414', 'tr_4_415']
+                );
             });
 
             // -- ketenagakerjaan

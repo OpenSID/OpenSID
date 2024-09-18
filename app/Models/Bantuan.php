@@ -37,7 +37,7 @@
 
 namespace App\Models;
 
-use App\Traits\ConfigId;
+use App\Traits\ConfigIdNull;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
@@ -46,7 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Bantuan extends BaseModel
 {
     use ShortcutCache;
-    // use ConfigId;
+    use ConfigIdNull;
 
     /**
      * The table associated with the model.

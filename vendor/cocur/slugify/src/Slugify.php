@@ -53,6 +53,7 @@ class Slugify implements SlugifyInterface
             // Languages are preferred if they appear later, list is ordered by number of
             // websites in that language
             // https://en.wikipedia.org/wiki/Languages_used_on_the_Internet#Content_languages_for_websites
+            'yiddish',
             'armenian',
             'azerbaijani',
             'burmese',
@@ -79,7 +80,7 @@ class Slugify implements SlugifyInterface
      * @param array                 $options
      * @param RuleProviderInterface $provider
      */
-    public function __construct(array $options = [], RuleProviderInterface $provider = null)
+    public function __construct(array $options = [], ?RuleProviderInterface $provider = null)
     {
         $this->options  = array_merge($this->options, $options);
         $this->provider = $provider ? $provider : new DefaultRuleProvider();

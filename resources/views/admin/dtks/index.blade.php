@@ -376,18 +376,18 @@
 
                 let form = $('#form-delete-dtks').serializeArray();
                 $.ajax({
-                    url: "{{ ci_route('dtks.delete') }}" + "/" + dtks_id,
-                    method: "POST",
-                    data: form
-                })
-                .done(function(data) {
-                    $('#modal-confirm-delete-dtks').modal('hide');
-                    showMessageDtks('success', data.message);
-                    TableData.draw();
-                })
-                .fail(function(xhr) {
-                    showMessageDtks('error', xhr.statusText + ": " + xhr.responseText);
-                });
+                        url: "{{ ci_route('dtks.delete') }}" + "/" + dtks_id,
+                        method: "POST",
+                        data: form
+                    })
+                    .done(function(data) {
+                        $('#modal-confirm-delete-dtks').modal('hide');
+                        showMessageDtks('success', data.message);
+                        TableData.draw();
+                    })
+                    .fail(function(xhr) {
+                        showMessageDtks('error', xhr.statusText + ": " + xhr.responseText);
+                    });
             });
 
 

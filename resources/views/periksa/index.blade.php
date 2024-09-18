@@ -825,6 +825,40 @@
                                         </div>
                                     @endif
 
+                                    @if (in_array('tgllahir_null_kosong', $masalah))
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <strong>Terdeteksi tanggal lahir kosong atau null</strong>
+                                                <form id="form-tanggallahir" action="{{ ci_route('periksa.tanggallahir') }}" method="post">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Id</th>
+                                                            <th>NIK</th>
+                                                            <th>Nama</th>
+                                                            <th>Tanggal Lahir</th>
+                                                        </tr>
+                                                        @foreach ($tgllahir_null_kosong as $tgllahir)
+                                                            <tr>
+                                                                <td>{{ $tgllahir['id'] }}</td>
+                                                                <td>{{ $tgllahir['nik'] }}</td>
+                                                                <td>{{ $tgllahir['nama'] }}</td>
+                                                                <td>
+                                                                    <input type="hidden" name="id[]" value="{{ $tgllahir['id'] }}">
+                                                                    <input type="date" class="form-control" name="tanggallahir[]" value="{{ $tgllahir['tanggallahir'] }}" required>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </table>
+
+                                                    <button type="submit" class="btn btn-sm btn-social btn-danger" role="button" title="Perbaiki masalah data">
+                                                        <i class="fa fa fa-wrench"></i>Perbaiki Data
+                                                    </button>
+                                                </form>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     @if (in_array('kepala_keluarga_ganda', $masalah))
                                         <div class="panel panel-default">
                                             <div class="panel-body">
@@ -934,7 +968,7 @@
                                     @endif
 
                                     @php
-                                        $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda', 'log_penduduk_tidak_sinkron', 'kepala_keluarga_ganda'];
+                                        $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda', 'log_penduduk_tidak_sinkron', 'kepala_keluarga_ganda', 'tgllahir_null_kosong'];
                                         $pengurangMasalah = 0;
                                         foreach ($excludePerbaikiSemua as $mandiri) {
                                             if (in_array($mandiri, $masalah)) {
@@ -958,7 +992,6 @@
                                         ><i class="fa fa fa-wrench"></i>Perbaiki Semua</a>
                                     @endif
                                 @endif
-
                             </div>
                         </div>
                     @endif
@@ -1018,6 +1051,39 @@
                         class="fa fa-sign-out"></i> Tutup</button>
                 `
             )
+        });
+
+        // kirim dara pada form-tanggallahir menggunakan ajax post
+        $('#form-tanggallahir').submit(function(e) {
+            e.preventDefault();
+
+            // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
+            let csrfTokenName = '{{ $ci->security->get_csrf_token_name() }}';
+            let csrfTokenValue = '{{ $ci->security->get_csrf_hash() }}';
+
+            // Tambahkan CSRF token ke dalam data form
+            let formData = $(this).serializeArray();
+            formData.push({
+                name: csrfTokenName,
+                value: csrfTokenValue
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        alert('Data berhasil diperbarui');
+                        location.reload();
+                    } else {
+                        alert('Data gagal diperbarui');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Data gagal diperbarui');
+                }
+            });
         });
     </script>
 </body>

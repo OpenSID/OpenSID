@@ -438,7 +438,7 @@ class Surat extends Admin_Controller
                 // pakai try catch untuk menghindari error saat generate surat
                 try {
                     $this->tinymce->generateSurat($isi_cetak, $cetak, $margin_cm_to_mm, $defaultFont);
-                } catch (\Throwable $th) {
+                } catch (Throwable $th) {
                     log_message('error', $th->getMessage());
                 }
 

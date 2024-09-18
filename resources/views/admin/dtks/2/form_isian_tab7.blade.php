@@ -24,7 +24,7 @@
                                 {{ $lampiran->judul }}
                             </td>
                             <td>
-                                <img src="{{ $lampiran->foto_kecil }}" title="Foto Thumbnail" alt="Foto {{ $lampiran->judul }}" style="max-height: 150px; max-width: 50vw;">
+                                <a href="#" data-target="#modal-foto" data-foto="{{ $lampiran->foto }}" data-toggle="modal"><img src="{{ $lampiran->foto_kecil }}" title="Foto Thumbnail" alt="Foto {{ $lampiran->judul }}" style="max-height: 150px; max-width: 50vw;"></a>
                             </td>
                             <td>
                                 {{ $lampiran->keterangan }}
@@ -203,92 +203,117 @@
         </div>
     </div>
 </div>
-@push('scripts')
-    <script src="<?= asset('js/webcam.min.js') ?>"></script>
-    <script src="<?= asset('js/cropper.min.js') ?>"></script>
-    <script src="<?= asset('js/main-camera.js') ?>"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            let default_pic = "{{ AmbilFoto('', '') }}";
-            $('.btn-hapus').one('click', function() {
-                $('#form-7-remove-lampiran #lampiran_id').val($(this).data('id'));
-            });
-            $('#form-7-remove-lampiran').on('submit', function(ev) {
-                ev.preventDefault();
 
-                let form = $('#form-7-remove-lampiran').serializeArray();
-                ajax_save_dtks("{{ ci_route('dtks.remove') . '/' . $dtks->id }}", form,
-                    callback_success = function(data) {
-                        $('#modal-confirm-delete-lampiran').modal('hide');
-                        $(document).find('tr[data-id=' + $('#form-7-remove-lampiran #lampiran_id').val() + ']').remove();
-                    },
-                    callback_fail = function(xhr) {
-                        $('#modal-confirm-delete-lampiran').modal('hide');
+{{-- buatkan modal untuk menampilkan foto --}}
+<div class="modal fade" id="modal-foto" style="overflow: scroll;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-center">Foto</h4>
+            </div>
+            <div class="modal-body">
+                <img id="foto_lampiran_full" alt="Foto" class="img-responsive" width="600px">
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script src="<?= asset('js/webcam.min.js') ?>"></script>
+        <script src="<?= asset('js/cropper.min.js') ?>"></script>
+        <script src="<?= asset('js/main-camera.js') ?>"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                let default_pic = "{{ AmbilFoto('', '') }}";
+                $('.btn-hapus').one('click', function() {
+                    $('#form-7-remove-lampiran #lampiran_id').val($(this).data('id'));
+                });
+                $('#form-7-remove-lampiran').on('submit', function(ev) {
+                    ev.preventDefault();
+
+                    let form = $('#form-7-remove-lampiran').serializeArray();
+                    ajax_save_dtks("{{ ci_route('dtks.remove') . '/' . $dtks->id }}", form,
+                        callback_success = function(data) {
+                            $('#modal-confirm-delete-lampiran').modal('hide');
+                            $(document).find('tr[data-id=' + $('#form-7-remove-lampiran #lampiran_id').val() + ']').remove();
+                        },
+                        callback_fail = function(xhr) {
+                            $('#modal-confirm-delete-lampiran').modal('hide');
+                        }
+                    );
+                });
+                $('#modal-tambah-lampiran').on('shown.bs.modal', function(ev) {
+
+                });
+                $('#form-7-upload').on('submit', function(ev) {
+                    ev.preventDefault();
+
+                    let judul_terisi = $('#judul_foto').val() != '' || $('#judul_foto_select').val() != null;
+                    if (!judul_terisi) {
+                        Swal.fire({
+                            icon: 'error',
+                            html: 'Judul harus diisi atau dipilih',
+                        })
+                        return false;
                     }
-                );
-            });
-            $('#modal-tambah-lampiran').on('shown.bs.modal', function(ev) {
-
-            });
-            $('#form-7-upload').on('submit', function(ev) {
-                ev.preventDefault();
-
-                let judul_terisi = $('#judul_foto').val() != '' || $('#judul_foto_select').val() != null;
-                if (!judul_terisi) {
-                    Swal.fire({
-                        icon: 'error',
-                        html: 'Judul harus diisi atau dipilih',
-                    })
-                    return false;
-                }
-                if ($('#keterangan_foto').val() == '') {
-                    Swal.fire({
-                        icon: 'error',
-                        html: 'Keterangan harus diisi',
-                    })
-                    return false;
-                }
-
-                let form = new FormData(this);
-                ajax_save_dtks("{{ ci_route('dtks.save') . '/' . $dtks->id }}", form,
-                    callback_success = function(data) {
-                        $('#judul_foto').val(null).trigger('change');
-                        $('.select2-tags').append('<option value="' + data.data.judul + '">' + data.data.judul + '</option>')
-                        $('#modal-tambah-lampiran').modal('hide');
-                        $('#foto').attr('src', default_pic);
-                        $('#form-7-upload').trigger('reset');
-                        $('#tabel_lampiran tbody').append(`<tr data-id="` + data.data.id + `">` +
-                            `<td>` +
-                            `<a href="#" data-id="` + data.data.id + `" class="btn-hapus btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#modal-confirm-delete-lampiran"><i class="fa fa-trash"></i> Hapus</a>` +
-                            `</td>` +
-                            `<td>` +
-                            data.data.judul +
-                            `</td>` +
-                            `<td>` +
-                            `<img src="` + data.data.foto_kecil + `" title="Foto Thumbnail" alt="Foto ` + data.data.judul + `" style="max-height: 150px;max-width: 50vw;">` +
-                            `</td>` +
-                            `<td>` +
-                            data.data.keterangan +
-                            `</td>` +
-                            `</tr>`);
-                        // tambahkan event hapus untuk lampiran baru
-                        $('tr[data-id=' + data.data.id + '] .btn-hapus').on('click', function() {
-                            $('#form-7-remove-lampiran #lampiran_id').val($(this).data('id'));
-                        });
-                    },
-                    callback_fail = function(xhr) {
-                        $('#modal-tambah-lampiran').modal('hide');
-                        $('#foto').attr('src', default_pic);
-                        $('#form-7-upload').trigger('reset');
-                    },
-                    custom_config = {
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: 'json',
+                    if ($('#keterangan_foto').val() == '') {
+                        Swal.fire({
+                            icon: 'error',
+                            html: 'Keterangan harus diisi',
+                        })
+                        return false;
                     }
-                );
+
+                    let form = new FormData(this);
+                    ajax_save_dtks("{{ ci_route('dtks.save') . '/' . $dtks->id }}", form,
+                        callback_success = function(data) {
+                            $('#judul_foto').val(null).trigger('change');
+                            $('.select2-tags').append('<option value="' + data.data.judul + '">' + data.data.judul + '</option>')
+                            $('#modal-tambah-lampiran').modal('hide');
+                            $('#foto').attr('src', default_pic);
+                            $('#form-7-upload').trigger('reset');
+                            $('#tabel_lampiran tbody').append(`<tr data-id="` + data.data.id + `">` +
+                                `<td>` +
+                                `<a href="#" data-id="` + data.data.id + `" class="btn-hapus btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#modal-confirm-delete-lampiran"><i class="fa fa-trash"></i> Hapus</a>` +
+                                `</td>` +
+                                `<td>` +
+                                data.data.judul +
+                                `</td>` +
+                                `<td>` +
+                                `<a href="#" data-target="#modal-foto" data-foto="` + data.data.foto + `" data-toggle="modal"><img src="` + data.data.foto_kecil + `" title="Foto Thumbnail" alt="Foto ` + data.data.judul + `" style="max-height: 150px;max-width: 50vw;"></a>` +
+                                `</td>` +
+                                `<td>` +
+                                data.data.keterangan +
+                                `</td>` +
+                                `</tr>`);
+                            // tambahkan event hapus untuk lampiran baru
+                            $('tr[data-id=' + data.data.id + '] .btn-hapus').on('click', function() {
+                                $('#form-7-remove-lampiran #lampiran_id').val($(this).data('id'));
+                            });
+                        },
+                        callback_fail = function(xhr) {
+                            $('#modal-tambah-lampiran').modal('hide');
+                            $('#foto').attr('src', default_pic);
+                            $('#form-7-upload').trigger('reset');
+                        },
+                        custom_config = {
+                            contentType: false,
+                            cache: false,
+                            processData: false,
+                            dataType: 'json',
+                        }
+                    );
+                });
             });
-        });
-    </script>
-@endpush
+            // buat fungsi ketika modal modal-foto di show, maka gambar akan di load
+            $('#modal-foto').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var pathFoto = `{{ site_url() . LOKASI_FOTO_DTKS }}`;
+                var foto = pathFoto + button.data('foto');
+                var modal = $(this);
+                modal.find('.modal-body #foto_lampiran_full').attr('src', foto);
+            });
+        </script>
+    @endpush

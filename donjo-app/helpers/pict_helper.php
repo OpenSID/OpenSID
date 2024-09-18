@@ -571,35 +571,48 @@ function UploadResizeImage($lokasi, array $dimensi, $jenis_upload, string $fuplo
     $height     = imagesy($image);
     $new_width  = $dimensi['width'];
     $new_height = $dimensi['height'];
-    if ($width > $new_width && $height > $new_height) {
-        $ratio_orig = $width / $height;
-        $dst_width  = $new_width;
-        $dst_height = $new_height;
-        if ($new_width / $new_height > $ratio_orig) {
-            $dst_width = $new_height * $ratio_orig;
-        } else {
-            $dst_height = $new_width / $ratio_orig;
-        }
 
-        $image_p = imagecreatetruecolor($new_width, $new_height);
-        if ($is_png) {
-            // http://stackoverflow.com/questions/279236/how-do-i-resize-pngs-with-transparency-in-php
-            imagealphablending($image_p, false);
-            imagesavealpha($image_p, true);
-        }
-        imagecopyresampled($image_p, $image, 0, 0, 0, 0, $dst_width, $dst_height, $width, $height);
-        if ($is_png) {
-            imagepng($image_p, $filepath_out, 5);
-        } else {
-            imagejpeg($image_p, $filepath_out);
-        }
-        imagedestroy($image_p);
-        imagedestroy($image);
+    // Hitung rasio gambar asli dan gambar baru
+    $ratio_orig = $width / $height;
+    $ratio_new  = $new_width / $new_height;
+
+    // Letterbox: Sesuaikan ukuran thumbnail tanpa memotong gambar
+    if ($ratio_new > $ratio_orig) {
+        $dst_height = $new_height;
+        $dst_width  = $new_height * $ratio_orig;
     } else {
-        // Ukuran file tidak perlu di-resize
-        copy($filepath_in, $filepath_out);
-        imagedestroy($image);
+        $dst_width  = $new_width;
+        $dst_height = $new_width / $ratio_orig;
     }
+
+    $image_p = imagecreatetruecolor($new_width, $new_height);
+
+    // Jika gambar PNG, atur transparansi
+    if ($is_png) {
+        imagealphablending($image_p, false);
+        imagesavealpha($image_p, true);
+        $transparency = imagecolorallocatealpha($image_p, 255, 255, 255, 127);
+        imagefill($image_p, 0, 0, $transparency);
+    } else {
+        // Background warna putih untuk JPEG
+        $white = imagecolorallocate($image_p, 255, 255, 255);
+        imagefill($image_p, 0, 0, $white);
+    }
+
+    // Posisikan gambar yang di-resize ke tengah thumbnail (letterbox)
+    $x_pos = ($new_width - $dst_width) / 2;
+    $y_pos = ($new_height - $dst_height) / 2;
+
+    imagecopyresampled($image_p, $image, $x_pos, $y_pos, 0, 0, $dst_width, $dst_height, $width, $height);
+
+    if ($is_png) {
+        imagepng($image_p, $filepath_out, 5);
+    } else {
+        imagejpeg($image_p, $filepath_out);
+    }
+
+    imagedestroy($image_p);
+    imagedestroy($image);
 
     return true;
 }

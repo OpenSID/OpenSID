@@ -129,45 +129,44 @@ class DokumenHidup extends BaseModel
 
     public function scopeDataCetak($query, $kat = 1, ?string $tahun = '', ?string $jenis_peraturan = '')
     {
-        $data = $query->where('id_pend', '0')
-            ->where('enabled', '1');
+        $query = $query->where('id_pend', '0')->where('enabled', '1');
 
         if ($tahun !== null && $tahun !== '' && $tahun !== '0') {
             switch ($kat) {
                 case '1':
                     // Informasi publik
-                    $data->where('tahun', $tahun);
+                    $query->where('tahun', $tahun);
                     break;
 
                 case '2':
                     // SK KADES
                     $regex = '"tgl_kep_kades":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
-                    $data->whereRaw("attr REGEXP '" . $regex . "'");
+                    $query->whereRaw("attr REGEXP '" . $regex . "'");
                     break;
 
                 case '3':
                     // PERDES
                     $regex = '"tgl_ditetapkan":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;
-                    $data->whereRaw("attr REGEXP '" . $regex . "'");
+                    $query->whereRaw("attr REGEXP '" . $regex . "'");
                     break;
             }
         }
 
         if ($kat == 3 && $jenis_peraturan) {
             $like = '"jenis_peraturan":"' . $jenis_peraturan . '"';
-            $data->where('attr', 'LIKE', "%{$like}%");
+            $query->where('attr', 'LIKE', "%{$like}%");
         }
 
         // Informasi publik termasuk kategori lainnya
         if ($kat != '1') {
-            $data->where('kategori', $kat);
+            $query->where('kategori', $kat);
         }
 
-        return $data->where('id_pend', '0')->where('enabled', '1')->get()->map(static function ($item) {
-            $item->attr = json_decode($item->attr, true);
+        $this->casts = [
+            'attr' => 'json',
+        ];
 
-            return $item;
-        });
+        return $query;
     }
 
     public function scopeGetDokumen($query, $id = 0, $id_pend = null): ?array

@@ -60,47 +60,67 @@
                             data-title="Unduh Data"
                         ><i class="fa fa-download"></i> Unduh</a>
                     </li>
-                    <li>
-                        <a
-                            href="{{ ci_route('penduduk.ajax_adv_search') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Pencarian Spesifik"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Pencarian Spesifik"
-                            @disabled($disableFilter)
-                        ><i class="fa fa-search"></i> Pencarian Spesifik</a>
-                    </li>
-                    <li>
-                        <a
-                            href="{{ ci_route('penduduk.program_bantuan') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Pencarian Program Bantuan"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Pencarian Program Bantuan"
-                            @disabled($disableFilter)
-                        ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
-                    </li>
-                    <li>
-                        <a
-                            href="{{ ci_route('penduduk.search_kumpulan_nik') }}"
-                            class="btn btn-social btn-block btn-sm"
-                            title="Pilihan Kumpulan NIK"
-                            data-remote="false"
-                            data-toggle="modal"
-                            data-target="#modalBox"
-                            data-title="Pilihan Kumpulan NIK"
-                            @disabled($disableFilter)
-                        ><i class="fa fa-search"></i> Pilihan Kumpulan NIK</a>
-                    </li>
-                    <li>
-                        <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara" @disabled($disableFilter)><i
-                                class="fa fa-search"
-                            ></i> NIKSementara</a>
-                    </li>
+                    @if ($disableFilter)
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pencarian Spesifik">
+                                <i class="fa fa-search"></i> Pencarian Spesifik
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pencarian Program Bantuan">
+                                <i class="fa fa-search"></i> Pencarian Program Bantuan
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="Pilihan Kumpulan NIK">
+                                <i class="fa fa-search"></i> Pilihan Kumpulan NIK
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-social btn-block btn-sm" disabled title="NIK Sementara">
+                                <i class="fa fa-search"></i> NIK Sementara
+                            </a>
+                        </li>
+                    @else
+                        <li>
+                            <a
+                                href="{{ ci_route('penduduk.ajax_adv_search') }}"
+                                class="btn btn-social btn-block btn-sm"
+                                title="Pencarian Spesifik"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Pencarian Spesifik"
+                            ><i class="fa fa-search"></i> Pencarian Spesifik</a>
+                        </li>
+                        <li>
+                            <a
+                                href="{{ ci_route('penduduk.program_bantuan') }}"
+                                class="btn btn-social btn-block btn-sm"
+                                title="Pencarian Program Bantuan"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Pencarian Program Bantuan"
+                            ><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+                        </li>
+                        <li>
+                            <a
+                                href="{{ ci_route('penduduk.search_kumpulan_nik') }}"
+                                class="btn btn-social btn-block btn-sm"
+                                title="Pilihan Kumpulan NIK"
+                                data-remote="false"
+                                data-toggle="modal"
+                                data-target="#modalBox"
+                                data-title="Pilihan Kumpulan NIK"
+                            ><i class="fa fa-search"></i> Pilihan Kumpulan NIK</a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="$('#tabeldata').data('nik_sementara', 1);$('#tabeldata').data('kumpulanNIK', []);$('#tabeldata').data('bantuan', null);$('#tabeldata').DataTable().draw()" class="btn btn-social btn-block btn-sm" title="NIK Sementara" @disabled($disableFilter)><i
+                                    class="fa fa-search"
+                                ></i> NIK Sementara</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
             <div class="btn-group-vertical">

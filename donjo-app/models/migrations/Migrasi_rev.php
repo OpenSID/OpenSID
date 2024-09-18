@@ -35,71 +35,18 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        $hasil = true;
+        return true;
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
-        }
-
-        return $hasil && $this->migrasi_2024090552($hasil);
-    }
-
-    protected function migrasi_2024090551($hasil, $config_id)
-    {
-        $this->db
-            ->update(
-                'setting_aplikasi',
-                ['kategori' => 'Wilayah Administratif'],
-                [
-                    'config_id'   => $config_id,
-                    'key'         => 'sebutan_dusun',
-                    'kategori !=' => 'Wilayah Administratif',
-                ]
-            );
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024090552($hasil)
-    {
-        log_message('notice', 'Migrasi 2024090552: Menambahkan kolom token pada tabel log_notifikasi_admin dan log_notifikasi_mandiri');
-        if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('token')->nullable()->after('isi');
-            });
-        }
-
-        if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
-            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('device')->unique()->after('token');
-            });
-        }
-
-        if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
-            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
-                $table->longText('token')->nullable()->after('isi');
-            });
-        }
-
-        if (! Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
-            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
-                $table->longText('device')->unique()->after('token');
-            });
-        }
-
-        return $hasil;
+        // foreach ($config_id as $id) {
+        // }
     }
 }
