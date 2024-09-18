@@ -47,6 +47,7 @@ class Kategori extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index(): void
@@ -69,6 +70,7 @@ class Kategori extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of(KategoriModel::configId()->child($parent)->with(['parent'])->orderBy('urut', 'asc'))
+                ->addColumn('drag-handle', static fn () => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) use ($canDelete) {
                     if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -96,7 +98,7 @@ class Kategori extends Admin_Controller
                     }
 
                     return $aksi;
-                })->rawColumns(['aksi', 'ceklist', 'link'])
+                })->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
                 ->make();
         }
 
@@ -164,7 +166,7 @@ class Kategori extends Admin_Controller
     {
         isCan('h');
 
-        if (KategoriModel::whereIn('id', $this->request['id_cb'] ?? [$id])->whereHas('children')->count()) {
+        if (KategoriModel::whereIn('id', $this->request['id_cb'] ?? [$id] )->whereHas('children')->count()) {
             redirect_with('error', 'Kategori tidak dapat dihapus karena masih memiliki subkategori');
         }
 

@@ -130,13 +130,11 @@ abstract class PKCS8 extends Progenitor
 
         if (isset($key['privateKey'])) {
             $components['curve'] = $key['privateKeyAlgorithm']['algorithm'] == 'id-Ed25519' ? new Ed25519() : new Ed448();
-            $expected = chr(ASN1::TYPE_OCTET_STRING) . ASN1::encodeLength($components['curve']::SIZE);
-            if (substr($key['privateKey'], 0, 2) != $expected) {
-                throw new \RuntimeException(
-                    'The first two bytes of the ' .
-                    $key['privateKeyAlgorithm']['algorithm'] .
-                    ' private key field should be 0x' . bin2hex($expected)
-                );
+
+            // 0x04 == octet string
+            // 0x20 == length (32 bytes)
+            if (substr($key['privateKey'], 0, 2) != "\x04\x20") {
+                throw new \RuntimeException('The first two bytes of the private key field should be 0x0420');
             }
             $arr = $components['curve']->extractSecret(substr($key['privateKey'], 2));
             $components['dA'] = $arr['dA'];
@@ -210,7 +208,7 @@ abstract class PKCS8 extends Progenitor
 
         if ($curve instanceof TwistedEdwardsCurve) {
             return self::wrapPrivateKey(
-                chr(ASN1::TYPE_OCTET_STRING) . ASN1::encodeLength($curve::SIZE) . $secret,
+                "\x04\x20" . $secret,
                 [],
                 null,
                 $password,

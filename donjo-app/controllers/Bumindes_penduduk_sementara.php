@@ -37,119 +37,89 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
+
 class Bumindes_penduduk_sementara extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-penduduk';
-    private array $_set_page     = ['10', '20', '50', '100'];
-    private array $_list_session = ['filter_tahun', 'filter_bulan', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-penduduk';
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model(['pamong_model', 'penduduk_model']);
+        isCan('b');
     }
 
-    public function index($page_number = 1, $order_by = 0): void
+    public function index()
     {
-        // hanya menampilkan data status_dasar 1 (Hidup) dan status_penduduk 2 (Tidak Tetap)
-        $this->session->status_dasar    = [1, 6];
-        $this->session->status_penduduk = 2;
+        $data['selectedNav'] = 'sementara';
+        $data['subtitle']    = 'Buku Penduduk Sementara';
+        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
+        $data['mainContent'] = 'admin.bumindes.penduduk.sementara.index';
 
-        if ($this->input->post('per_page')) {
-            $this->session->per_page = $this->input->post('per_page');
+        return view('admin.bumindes.penduduk.index', $data);
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->editColumn('ttl', static fn ($row) => $row->tempatlahir . ', ' . tgl_indo_out($row->tanggallahir) . ' / ' . usia($row->tanggallahir))
+                ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->warganegara_id)))
+                ->editColumn('alamat_wilayah', static fn ($row) => strtoupper($row->alamat_wilayah))
+                ->editColumn('tanggal_datang', static fn ($row) => tgl_indo_out($row->log_latest->tgl_lapor))
+                ->editColumn('tanggal_pergi', static fn ($row) => $row->log_latest->kode_peristiwa == 6 ? tgl_indo_out($row->log_latest->tgl_lapor) : null)
+                ->make();
         }
 
-        $list_data = $this->penduduk_model->list_data($order_by, $page_number);
-        $data      = [
-            'main_content' => 'bumindes/penduduk/sementara/content_sementara',
-            'subtitle'     => 'Buku Penduduk Sementara',
-            'selected_nav' => 'sementara',
-            'p'            => $page_number,
-            'o'            => $order_by,
-            'cari'         => $this->session->cari ?? '',
-            'filter'       => $this->session->filter ?? '',
-            'per_page'     => $this->session->per_page,
-            'bulan'        => (! isset($this->session->filter_bulan)) ?: $this->session->filter_bulan,
-            'tahun'        => (! isset($this->session->filter_tahun)) ?: $this->session->filter_tahun,
-            'func'         => 'index',
-            'set_page'     => $this->_set_page,
-            'paging'       => $list_data['paging'],
-            'list_tahun'   => $this->penduduk_log_model->list_tahun(),
+        return show_404();
+    }
+
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => $this->input->get('tahun') ?? null,
+            'bulan' => $this->input->get('bulan') ?? null,
         ];
 
-        $data['main'] = $list_data['main'];
-
-        $this->render('bumindes/penduduk/main', $data);
+        return Penduduk::with(['log_latest'])
+            ->statusPenduduk(StatusPendudukEnum::TIDAK_TETAP)
+            ->statusDasar([StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI])
+            ->filterLog($filters);
     }
 
-    private function clear_session(): void
+    public function dialog($aksi = 'cetak')
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->status_dasar = 1; // default status dasar = hidup
-        $this->session->per_page     = $this->_set_page[0];
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_penduduk_sementara.cetak', $aksi);
+
+        return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    public function clear(): void
+    public function cetak($aksi = '')
     {
-        $this->clear_session();
-        // Set default filter ke tahun dan bulan sekarang
-        $this->session->filter_tahun = date('Y');
-        $this->session->filter_bulan = date('m');
-        redirect('bumindes_penduduk_sementara');
-    }
-
-    public function ajax_cetak($o = 0, $aksi = ''): void
-    {
-        $data = [
-            'o'                   => $o,
-            'aksi'                => $aksi,
-            'form_action'         => site_url("bumindes_penduduk_sementara/cetak/{$o}/{$aksi}"),
-            'form_action_privasi' => site_url("bumindes_penduduk_sementara/cetak/{$o}/{$aksi}/1"),
-            'isi'                 => 'bumindes/penduduk/sementara/ajax_cetak_sementara',
-        ];
-
-        $this->load->view('global/dialog_cetak', $data);
-    }
-
-    public function cetak($o = 0, $aksi = '', $privasi_nik = 0): void
-    {
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['main']      = $this->penduduk_model->list_data($o, 0);
-        $data['config']    = $this->header['desa'];
-        $data['bulan']     = $this->session->filter_bulan ?: date('m');
-        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
-        $data['tgl_cetak'] = $this->input->post('tgl_cetak');
-        $data['file']      = 'Buku Penduduk Sementara';
-        $data['isi']       = 'bumindes/penduduk/sementara/content_sementara_cetak';
-        $data['letak_ttd'] = ['2', '2', '9'];
-
-        if ($privasi_nik == 1) {
-            $data['privasi_nik'] = true;
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
         }
 
-        $this->load->view('global/format_cetak', $data);
-    }
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = $aksi;
+        $data['main']        = $query->take($paramDatatable['length'])->get();
+        $data['config']      = $this->header['desa'];
+        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
+        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
+        $data['file']        = 'Buku Penduduk Sementara';
+        $data['isi']         = 'admin.bumindes.penduduk.sementara.cetak';
+        $data['letak_ttd']   = ['2', '2', '9'];
 
-    public function autocomplete(): void
-    {
-        $data = $this->penduduk_model->autocomplete($this->input->post('cari'));
-        $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
-    }
-
-    public function filter($filter): void
-    {
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-
-        $this->session->filter_tahun = $this->input->post('filter_tahun') ?: date('Y');
-        $this->session->filter_bulan = $this->input->post('filter_bulan') ?: date('m');
-        redirect('bumindes_penduduk_sementara');
+        return view('admin.layouts.components.format_cetak', $data);
     }
 }

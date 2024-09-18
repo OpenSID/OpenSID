@@ -35,104 +35,231 @@
  *
  */
 
+use App\Enums\HubunganRTMEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
+use App\Enums\StatusEnum;
+use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
 use App\Models\Penduduk;
+use App\Models\Rtm as RtmModel;
+use App\Models\Wilayah;
+use App\Traits\Upload;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Rtm extends Admin_Controller
 {
-    public $modul_ini            = 'kependudukan';
-    public $sub_modul_ini        = 'rumah-tangga';
-    private array $_set_page     = ['50', '100', '200'];
-    private array $_list_session = ['status_dasar', 'cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan'];
+    use Upload;
+
+    public $modul_ini     = 'kependudukan';
+    public $sub_modul_ini = 'rumah-tangga';
+    private $judulStatistik;
+    private $filterColumn = [];
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']); // Session id_bos
+        isCan('b');
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page     = $this->_set_page[0];
-        $this->session->status_dasar = 1; // Rumah Tangga Aktif
-        $this->session->order_by     = 1;
+        $data = [
+            'status'          => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
+            'jenis_kelamin'   => JenisKelaminEnum::all(),
+            'wilayah'         => Wilayah::with(['rws' => static fn ($q) => $q->select(['id', 'dusun', 'rt', 'rw'])->with(['rts' => static fn ($r) => $r->select(['id', 'dusun', 'rt', 'rw'])])])->select(['id', 'dusun', 'rt', 'rw'])->dusun()->get(),
+            'judul_statistik' => $this->judulStatistik,
+            'filterColumn'    => $this->filterColumn,
+        ];
 
-        redirect($this->controller);
+        view('admin.penduduk.rtm.index', $data);
     }
 
-    public function index($page = 1, $order_by = 0): void
+    public function datatables()
     {
-        foreach ($this->_list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'])) {
-                ${$list} = $this->session->{$list};
-            } else {
-                $data[$list] = $this->session->{$list} ?: '';
+        if ($this->input->is_ajax_request()) {
+            $status    = $this->input->get('status') ?? null;
+            $sex       = $this->input->get('jenis_kelamin') ?? null;
+            $dusun     = $this->input->get('dusun') ?? null;
+            $rw        = $this->input->get('rw') ?? null;
+            $rt        = $this->input->get('rt') ?? null;
+            $bdt       = $this->input->get('bdt') ?? null;
+            $canDelete = can('h');
+            $canUpdate = can('u');
+            $idCluster = $rt ? [$rt] : [];
+
+            if (empty($idCluster) && ! empty($rw)) {
+                $rws       = Wilayah::with(['rts' => static fn ($q) => $q->select(['id'])])->find($rw);
+                $idCluster = array_merge([$rw], $rws->rts->pluck('id')->toArray());
             }
+
+            if (empty($idCluster) && ! empty($dusun)) {
+                $namaDusun = Wilayah::find($dusun)->dusun;
+                $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
+            }
+
+            return datatables()->of(RtmModel::when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $status == 1 ? $r->whereStatusDasar($status) : $r->whereNull('status_dasar')))->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
+                ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
+                ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
+                ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota'))
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->kepalaKeluarga->foto, '', $row->kepalaKeluarga->id_sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+                    $aksi = '<a href="' . ci_route('rtm.anggota', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>';
+
+                    if ($canUpdate && $row->kepalaKeluarga->status_dasar == 1) {
+                        $aksi .= ' <a href="' . ci_route('rtm.ajax_add_anggota', $row->id) . '" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-sm"><i class="fa fa-plus"></i></a>';
+                        $aksi .= ' <a href="' . ci_route('rtm.edit_nokk', $row->id) . '" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>';
+                    }
+                    if ($canDelete) {
+                        $aksi .= ' <a href="#" data-href="' . ci_route('rtm.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                    }
+                    if ($row->terdaftar_dtks && can('u', 'dtks')) {
+                        $aksi .= ' <a href="' . ci_route('dtks.new', $row->id) . '" onclick="show_confirm(this)" data-remote="false" data-toggle="modal" data-target="#show_confirm_modal" class="btn bg-purple btn-sm" title="DTKS"><i class="fa fa-plus "></i> DTKS</a>';
+                    }
+
+                    return $aksi;
+
+                })->editColumn('tgl_daftar', static fn ($q) => tgl_indo($q->tgl_daftar))
+                ->editColumn('terdaftar_dtks', static fn ($q) => $q->terdaftar_dtks ? 'Terdaftar' : 'Tidak Terdaftar')
+                ->rawColumns(['aksi', 'ceklist', 'foto'])
+                ->make();
         }
 
-        if (isset($dusun)) {
-            $data['dusun']   = $dusun;
-            $data['list_rw'] = $this->wilayah_model->list_rw($dusun);
+        return show_404();
+    }
 
-            if (isset($rw)) {
-                $data['rw']      = $rw;
-                $data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
+    public function form($id = null): void
+    {
+        isCan('u');
 
-                $data['rt'] = $rt ?? '';
-            } else {
-                $data['rw'] = '';
-            }
+        if ($id) {
+            $data['form_action'] = ci_route('rtm.update', $id);
         } else {
-            $data['dusun'] = $data['rw'] = $data['rt'] = '';
+            $data['menu']        = null;
+            $data['form_action'] = ci_route('rtm.insert');
         }
-
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['pesan_rtm']        = $this->session->pesan_rtm ?: null; // Hasil impor rtm
-        $this->session->pesan_rtm = null;
-        $data['func']             = 'index';
-        $data['set_page']         = $this->_set_page;
-        $list_data                = $this->rtm_model->list_data($page);
-        $data['paging']           = $list_data['paging'];
-        $data['main']             = $list_data['main'];
-        $data['keyword']          = $this->rtm_model->autocomplete();
-        $data['list_dusun']       = $this->wilayah_model->list_dusun();
-        $data['list_sex']         = $this->referensi_model->list_data('tweb_penduduk_sex');
-
-        $this->render('rtm/rtm', $data);
-    }
-
-    // $aksi = cetak/unduh
-    public function daftar($aksi = '', $privasi_nik = 0): void
-    {
-        $data['main'] = $this->rtm_model->list_data(0);
-        if ($privasi_nik == 1) {
-            $data['privasi_nik'] = true;
-        }
-        $this->load->view("rtm/rtm_{$aksi}", $data);
+        view('admin.penduduk.rtm.form', $data);
     }
 
     public function edit_nokk($id = 0): void
     {
-        $this->redirect_hak_akses('u');
-        $data['kk']          = $this->rtm_model->get_rtm($id) ?? show_404();
-        $data['form_action'] = site_url("{$this->controller}/update_nokk/{$id}");
+        isCan('u');
+        $data['kk']          = RtmModel::findOrFail($id) ?? show_404();
+        $data['form_action'] = ci_route($this->controller . '.update_nokk', $id);
 
-        $this->load->view('rtm/ajax_edit_no_rtm', $data);
+        view('admin.penduduk.rtm.ajax_edit_no_rtm', $data);
     }
 
-    public function form_old($id = 0): void
+    public function update_nokk($id = 0): void
     {
-        $this->redirect_hak_akses('u');
-        $data['form_action'] = site_url("{$this->controller}/insert/{$id}");
+        isCan('u');
 
-        $this->load->view('rtm/ajax_add_rtm', $data);
+        try {
+            $post                   = $this->input->post();
+            $data['no_kk']          = bilangan($post['no_kk']);
+            $data['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
+            $data['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
+            $rtm                    = RtmModel::findOrFail($id);
+            if ($data['no_kk']) {
+                $adaNoKKLain = RtmModel::where(['no_kk' => $data['no_kk']])->where('id', '!=', $id)->count();
+                if ($adaNoKKLain) {
+                    redirect_with('error', 'Nomor RTM itu sudah ada. Silakan ganti dengan yang lain.');
+                }
+                Penduduk::where(['id_rtm' => $rtm->no_kk])->update(['id_rtm' => $data['no_kk']]);
+            }
+            $rtm->update($data);
+            redirect_with('success', 'Data RTM berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Data RTM gagal disimpan');
+        }
+    }
+
+    public function insert(): void
+    {
+        isCan('u');
+        $post = $this->input->post();
+        $nik  = bilangan($post['nik']);
+
+        $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
+
+        try {
+
+            if ($lastRtm) {
+                $noRtm = $lastRtm->no_kk;
+                if (strlen($noRtm) >= 5) {
+                    // Gunakan 5 digit terakhir sebagai nomor urut
+                    $kw           = substr($noRtm, 0, strlen($noRtm) - 5);
+                    $noUrut       = substr($noRtm, -5);
+                    $noUrut       = str_pad($noUrut + 1, 5, '0', STR_PAD_LEFT);
+                    $rtm['no_kk'] = $kw . $noUrut;
+                } else {
+                    $rtm['no_kk'] = str_pad($noRtm + 1, strlen($noRtm), '0', STR_PAD_LEFT);
+                }
+            } else {
+                $kw           = identitas()->kode_desa;
+                $rtm['no_kk'] = $kw . str_pad('1', 5, '0', STR_PAD_LEFT);
+            }
+
+            $rtm['nik_kepala']     = $nik;
+            $rtm['bdt']            = empty($post['bdt']) ? null : bilangan($post['bdt']);
+            $rtm['terdaftar_dtks'] = empty($post['terdaftar_dtks']) ? 0 : 1;
+            RtmModel::create($rtm);
+
+            $default['id_rtm']     = $rtm['no_kk'];
+            $default['rtm_level']  = 1;
+            $default['updated_at'] = date('Y-m-d H:i:s');
+            $default['updated_by'] = auth()->id;
+            Penduduk::where(['id' => $nik])->update($default);
+
+            // anggota
+            $default['rtm_level'] = 2;
+            if ($post['anggota_kk']) {
+                Penduduk::whereIn('id', $post['anggota_kk'])->update($default);
+            }
+
+            redirect_with('success', 'Rumah Tangga berhasil disimpan');
+        } catch (Exception  $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Rumah Tangga gagal disimpan');
+        }
+    }
+
+    public function update($parent, $id): void
+    {
+        isCan('u');
+        $data = $this->input->post();
+
+        try {
+            $obj = RtmModel::findOrFail($id);
+            $obj->update($data);
+            redirect_with('success', 'Rumah Tangga berhasil disimpan');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Rumah Tangga gagal disimpan');
+        }
+    }
+
+    public function delete($id = null): void
+    {
+        isCan('h');
+
+        try {
+            RtmModel::destroy($this->request['id_cb'] ?? $id);
+            redirect_with('success', 'Rumah Tangga berhasil dihapus');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Rumah Tangga gagal dihapus');
+        }
     }
 
     public function apipendudukrtm()
@@ -167,140 +294,181 @@ class Rtm extends Admin_Controller
         return show_404();
     }
 
-    public function filter($filter = '', $order_by = ''): void
+    /**
+     * Impor Pengelompokan Data Rumah Tangga
+     * Alur :
+     * Cek apakah NIK ada atau tidak.
+     * 1. Jika Ya, update data penduduk (rtm) berdasarkan data impor.
+     * 2. Jika Tidak, tampilkan notifikasi baris data yang gagal.
+     *
+     * @param mixed $hapus
+     */
+    public function impor()
     {
-        $value = $order_by ?: $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
+        isCan('u');
+        $configId                = identitas('id');
+        $config['upload_path']   = sys_get_temp_dir();
+        $config['allowed_types'] = 'xls|xlsx|xlsm';
+
+        $this->upload('userfile', $config);
+
+        $reader = ReaderEntityFactory::createXLSXReader();
+        $reader->open($_FILES['userfile']['tmp_name']);
+        $pesan = '';
+
+        foreach ($reader->getSheetIterator() as $sheet) {
+            $baris_pertama = false;
+            $gagal         = 0;
+            $nomor_baris   = 0;
+
+            if ($sheet->getName() === 'RTM') {
+                foreach ($sheet->getRowIterator() as $row) {
+                    // Abaikan baris pertama yg berisi nama kolom
+                    if (! $baris_pertama) {
+                        $baris_pertama = true;
+
+                        continue;
+                    }
+
+                    $nomor_baris++;
+
+                    $rowData = [];
+                    $cells   = $row->getCells();
+
+                    foreach ($cells as $cell) {
+                        $rowData[] = $cell->getValue();
+                    }
+                    //ID RuTa
+                    $id_rtm = $rowData[1];
+
+                    if (empty($id_rtm)) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Nomer Rumah Tannga Tidak Boleh Kosong</br>";
+                        $gagal++;
+
+                        continue;
+                    }
+
+                    //Level
+                    $rtm_level = (int) $rowData[2];
+
+                    if ($rtm_level === 0) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kode Hubungan Rumah Tangga Tidak Diketahui</br>";
+                        $gagal++;
+                        $outp = false;
+
+                        continue;
+                    }
+
+                    if ($rtm_level > 1) {
+                        $rtm_level = 2;
+                    }
+
+                    //NIK
+                    $nik = $rowData[0];
+
+                    if (empty($nik)) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} NIK Tidak Boleh Kosong</br>";
+                        $gagal++;
+                        $outp = false;
+
+                        continue;
+                    }
+                    // pakai withOnly, karena  kalau tidak akan melakukan query terhadap semua relationship yang didefine pada $with
+                    $penduduk = Penduduk::select(['id', 'nik'])->withOnly(['wilayah'])->whereNik($nik)->first();
+
+                    if ($penduduk) {
+                        $ada = [
+                            'id_rtm'     => $id_rtm,
+                            'rtm_level'  => $rtm_level,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        ];
+
+                        if (! $penduduk->update($ada)) {
+                            $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : { {$nik} } gagal disimpan</br>";
+                            $gagal++;
+                            $outp = false;
+
+                            continue;
+                        }
+
+                        if ($rtm_level == 1) {
+                            // untuk upsert harus tetap menyertakan data config_id
+                            $dataRTM = [
+                                'nik_kepala' => $penduduk->id,
+                                'no_kk'      => $id_rtm,
+                                'config_id'  => $configId,
+                            ];
+
+                            if (! RtmModel::upsert($dataRTM, ['config_id', 'no_kk'])) {
+                                $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} gagal disimpan</br>";
+                                $gagal++;
+                                $outp = false;
+
+                                continue;
+                            }
+                        }
+                    } else {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} tidak ditemukan</br>";
+                        $gagal++;
+                        $outp = false;
+                    }
+                }
+                $berhasil = ($nomor_baris - $gagal);
+                $pesan .= "Jumlah Berhasil : {$berhasil} </br>";
+                $pesan .= "Jumlah Gagal : {$gagal} </br>";
+                $pesan .= "Jumlah Data : {$nomor_baris} </br>";
+
+                break;
+            }
         }
-
-        redirect($this->controller);
-    }
-
-    public function dusun(): void
-    {
-        $this->session->unset_userdata(['rw', 'rt']);
-        $dusun = $this->input->post('dusun');
-        if ($dusun != '') {
-            $this->session->dusun = $dusun;
-        } else {
-            $this->session->unset_userdata('dusun');
+        $reader->close();
+        if (empty($pesan)) {
+            redirect_with('error', 'File impor tidak sesuai');
         }
-
-        redirect($this->controller);
+        redirect_with('success', $pesan);
     }
 
-    public function rw(): void
+    public function cetak($aksi = 'cetak', $privasi_nik = 0): void
     {
-        $this->session->unset_userdata('rt');
-        $rw = $this->input->post('rw');
-        if ($rw != '') {
-            $this->session->rw = $rw;
-        } else {
-            $this->session->unset_userdata('rw');
+        if ($privasi_nik == 1) {
+            $data['privasi_nik'] = true;
         }
-
-        redirect($this->controller);
-    }
-
-    public function rt(): void
-    {
-        $rt = $this->input->post('rt');
-        if ($rt != '') {
-            $this->session->rt = $rt;
-        } else {
-            $this->session->unset_userdata('rt');
+        $data['main'] = RtmModel::with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota')->get();
+        if ($aksi == 'unduh') {
+            header('Content-type: application/xls');
+            header('Content-Disposition: attachment; filename=rtm_' . date('Y-m-d') . '.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
         }
-
-        redirect($this->controller);
+        view('admin.penduduk.rtm.cetak', $data);
     }
 
-    public function insert(): void
+    public function ajax_cetak($aksi = ''): void
     {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->insert();
-        $this->session->order_by = 6;
+        $data['aksi']   = $aksi;
+        $data['action'] = ci_route('rtm.cetak.' . $aksi);
 
-        redirect($this->controller);
-    }
-
-    public function insert_by_kk(): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->insert_by_kk();
-        $this->session->order_by = 6;
-
-        redirect($this->controller);
-    }
-
-    public function insert_a(): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->insert_a();
-        $this->session->order_by = 6;
-
-        redirect($this->controller);
-    }
-
-    public function insert_new(): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->insert_new();
-        $this->session->order_by = 6;
-
-        redirect($this->controller);
-    }
-
-    public function update($id = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->update($id);
-
-        redirect($this->controller);
-    }
-
-    public function update_nokk($id = 0): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->update_nokk($id);
-        redirect($this->controller);
-    }
-
-    public function delete($id = 0): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->rtm_model->delete($id);
-        redirect($this->controller);
-    }
-
-    public function delete_all(): void
-    {
-        $this->redirect_hak_akses('h');
-        $this->rtm_model->delete_all();
-        redirect($this->controller);
+        view('admin.dpt.ajax_cetak_bersama', $data);
     }
 
     public function anggota($id = 0): void
     {
-        $data['p']  = $this->session->per_page;
-        $data['kk'] = $id;
+        $data['kk']        = $id;
+        $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota' => static fn ($q) => $q->orderBy('rtm_level')])->findOrFail($id);
+        $data['main']      = $rtm->anggota->toArray();
+        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], $rtm->kepalaKeluarga->toArray());
+        $data['program']   = ['programkerja' => BantuanPeserta::with(['bantuan'])->whereHas('bantuan', static fn ($q) => $q->whereSasaran(SasaranEnum::RUMAH_TANGGA))->wherePeserta($rtm->no_kk)->get()->toArray()];
 
-        $data['main']      = $this->rtm_model->list_anggota($id);
-        $data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
-        $data['program']   = $this->program_bantuan_model->get_peserta_program(3, $data['kepala_kk']['no_kk']);
-
-        $this->render('rtm/rtm_anggota', $data);
+        view('admin.penduduk.rtm.anggota', $data);
     }
 
     public function ajax_add_anggota($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
+        $data['form_action'] = ci_route($this->controller . '.add_anggota', $id);
 
-        $this->load->view('rtm/ajax_add_anggota_rtm_form', $data);
+        view('admin.penduduk.rtm.ajax_add_anggota_rtm_form', $data);
     }
 
     public function datables_anggota($id_pend = null)
@@ -331,100 +499,132 @@ class Rtm extends Admin_Controller
 
     public function edit_anggota($id_rtm = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
-        $data['hubungan']    = $this->rtm_model->list_hubungan();
-        $data['main']        = $this->rtm_model->get_anggota($id) ?? show_404();
-        $data['form_action'] = site_url("{$this->controller}/update_anggota/{$id_rtm}/{$id}");
+        isCan('u');
+        $data['hubungan']    = HubunganRTMEnum::all();
+        $data['main']        = Penduduk::findOrFail($id) ?? show_404();
+        $data['form_action'] = ci_route($this->controller . ".update_anggota.{$id_rtm}", $id);
 
-        $this->load->view('rtm/ajax_edit_anggota_rtm', $data);
+        view('admin.penduduk.rtm.ajax_edit_anggota_rtm', $data);
     }
 
     public function kartu_rtm($id = 0): void
     {
-        $data['id_kk']    = $id;
-        $data['desa']     = $this->header['desa'];
-        $data['hubungan'] = $this->rtm_model->list_hubungan();
-        $data['main']     = $this->rtm_model->list_anggota($id);
-        $kk               = $this->rtm_model->get_kepala_rtm($id);
+        $data['id_kk']     = $id;
+        $data['desa']      = $this->header['desa'];
+        $data['hubungan']  = HubunganRTMEnum::all();
+        $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota'])->findOrFail($id);
+        $data['main']      = $rtm->anggota->toArray();
+        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], $rtm->kepalaKeluarga->toArray());
 
-        $data['kepala_kk'] = $kk ?: null;
-
-        $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
-        $data['form_action'] = site_url("{$this->controller}/print");
-
-        $this->render('rtm/kartu_rtm', $data);
+        view('admin.penduduk.rtm.kartu_rtm', $data);
     }
 
     public function cetak_kk($id = 0): void
     {
         $data['id_kk']     = $id;
         $data['desa']      = $this->header['desa'];
-        $data['main']      = $this->rtm_model->list_anggota($id);
-        $data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
+        $data['hubungan']  = HubunganRTMEnum::all();
+        $rtm               = RtmModel::with(['kepalaKeluarga', 'anggota'])->findOrFail($id);
+        $data['main']      = $rtm->anggota->toArray();
+        $data['kepala_kk'] = array_merge(['bdt' => $rtm->bdt, 'no_kk' => $rtm->no_kk], $rtm->kepalaKeluarga->toArray());
 
-        $this->load->view('rtm/cetak_rtm', $data);
+        view('admin.penduduk.rtm.cetak_rtm', $data);
     }
 
     public function add_anggota($id = 0): void
     {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->add_anggota($id);
+        isCan('u');
+        $data = $this->input->post('id_cb');
+        $nik  = $this->input->post('nik');
+        if (! $data && ! $nik) {
+            redirect_with('error', 'Tidak ada anggota yang dipilih', ci_route('rtm.anggota', $id) );
+        }
 
-        redirect("{$this->controller}/anggota/{$id}");
+        try {
+            // TODO :: Gunakan id pada tabel tweb_rtm agar memudahkan relasi
+            $temp['id_rtm']     = RtmModel::findOrFail($id)->no_kk;
+            $temp['rtm_level']  = HubunganRTMEnum::ANGGOTA;
+            $temp['updated_at'] = date('Y-m-d H:i:s');
+            $temp['updated_by'] = auth()->id;
+
+            if ($data) {
+                Penduduk::whereIn('id', $data)->update($temp);
+            } else {
+                Penduduk::where('id', $nik)->update($temp);
+            }
+
+            redirect_with('success', 'Anggota berhasil ditambahkan', ci_route('rtm.anggota', $id) );
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            redirect_with('error', 'Anggota gagal ditambahkan', ci_route('rtm.anggota', $id) );
+        }
+
     }
 
     public function update_anggota($id_rtm = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->update_anggota($id, $id_rtm);
+        isCan('u');
+        // Krn penduduk_hidup menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
+        $rtm = RtmModel::findOrFail($id_rtm);
 
-        redirect("{$this->controller}/anggota/{$id_rtm}");
+        $rtm_level = (string) $this->input->post('rtm_level');
+
+        $data = [
+            'rtm_level'  => $rtm_level,
+            'updated_at' => date('Y-m-d H:i:s'),
+            'updated_by' => auth()->id,
+        ];
+
+        if ($rtm_level === '1') {
+            // Ganti semua level penduduk dgn id_rtm yg sma -> rtm_level = 2 (Anggota)
+            Penduduk::where(['id_rtm' => $rtm->no_kk])->update(['rtm_level' => HubunganRTMEnum::ANGGOTA]);
+            // nik_kepala = id_penduduk pd table tweb_penduduk
+            // field no_kk pada tweb_rtm maksudnya adalah no_rtm
+            $rtm->nik_kepala = $id;
+            $rtm->save();
+        }
+
+        Penduduk::where(['id' => $id])->update($data);
+
+        redirect_with('success', 'Anggota berhasil diupdate', ci_route($this->controller . '.anggota', $id_rtm));
     }
 
     public function delete_anggota($kk = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('h');
-        $this->rtm_model->rem_anggota($kk, $id);
+        isCan('h');
+        $this->delete_single_anggota($id);
+        redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
+    }
 
-        redirect("{$this->controller}/anggota/{$kk}");
+    private function delete_single_anggota($id): void
+    {
+        isCan('h');
+        $pend = Penduduk::findOrFail($id);
+
+        if ($pend->rtm_level == HubunganRTMEnum::KEPALA_RUMAH_TANGGA) {
+            RtmModel::where('id', $pend->id_rtm)->update(['nik_kepala' => 0]);
+        }
+        $temp['id_rtm']     = 0;
+        $temp['rtm_level']  = 0;
+        $temp['updated_at'] = date('Y-m-d H:i:s');
+        $pend->update($temp);
     }
 
     public function delete_all_anggota($kk = 0): void
     {
-        $this->redirect_hak_akses('h');
-        $this->rtm_model->rem_all_anggota($kk);
+        isCan('h');
+        $id_cb = $_POST['id_cb'];
 
-        redirect("{$this->controller}/anggota/{$kk}");
-    }
-
-    public function ajax_cetak($aksi = ''): void
-    {
-        $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("{$this->controller}/daftar/{$aksi}");
-        $data['form_action_privasi'] = site_url("{$this->controller}/daftar/{$aksi}/1");
-
-        $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
+        foreach ($id_cb as $id) {
+            $this->delete_single_anggota($id);
+        }
+        redirect_with('success', 'Anggota berhasil dihapus', ci_route($this->controller . '.anggota', $kk));
     }
 
     public function statistik($tipe = '0', $nomor = 0, $sex = null): void
     {
-        if ($sex == null) {
-            if ($nomor != 0) {
-                $this->session->sex = $nomor;
-            } else {
-                $this->session->unset_userdata('sex');
-            }
-            $this->session->unset_userdata('judul_statistik');
-
-            redirect($this->controller);
-        }
-
-        $this->session->unset_userdata('program_bantuan');
-        $this->session->sex = ($sex == 0) ? null : $sex;
-
         switch ($tipe) {
             case 'bdt':
-                $session  = 'bdt';
                 $kategori = 'KLASIFIKASI BDT :';
                 break;
 
@@ -433,39 +633,22 @@ class Rtm extends Admin_Controller
                 $this->session->program_bantuan = $program_id;
 
                 // TODO: Sederhanakan query ini, pindahkan ke model
-                $nama = $this->db
-                    ->select('nama')
-                    ->where('config_id', identitas('id'))
-                    ->where('id', $program_id)
-                    ->get('program')
-                    ->row()
-                    ->nama;
+                $nama = Bantuan::find($program_id)->nama;
 
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }
                 $kategori = $nama . ' : ';
-                $session  = 'penerima_bantuan';
                 $tipe     = 'penerima_bantuan';
                 break;
         }
-        $this->session->{$session} = ($nomor != TOTAL) ? $nomor : null;
 
-        $judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
-        $this->session->unset_userdata('judul_statistik');
+        $judul = (new RtmModel())->judulStatistik($tipe, $nomor, $sex);
         if ($judul['nama']) {
-            $this->session->judul_statistik = $kategori . $judul['nama'];
+            $this->judulStatistik = $kategori . $judul['nama'];
         }
-
-        redirect($this->controller);
-    }
-
-    // Impor Pengelompokan Data Rumah Tangga
-    public function impor(): void
-    {
-        $this->redirect_hak_akses('u');
-        $this->rtm_model->impor();
-        redirect($this->controller);
+        $this->filterColumn = ['sex' => $sex, 'status' => $nomor];
+        $this->index();
     }
 }

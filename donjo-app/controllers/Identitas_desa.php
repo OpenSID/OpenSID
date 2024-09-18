@@ -165,8 +165,9 @@ class Identitas_desa extends Admin_Controller
             $data['lat'] = koordinat($this->request['lat']);
             $data['lng'] = koordinat($this->request['lng']);
         } else {
-            $data['path']  = htmlentities($this->request['path']);
-            $data['warna'] = warna($this->request['warna']);
+            $data['path']   = htmlentities($this->request['path']);
+            $data['warna']  = warna($this->request['warna']);
+            $data['border'] = warna($this->request['border']);
         }
 
         if (Config::find($this->identitas_desa['id'])->update($data)) {
@@ -259,7 +260,7 @@ class Identitas_desa extends Admin_Controller
             redirect_with('error', $CI->upload->display_errors(null, null));
         }
 
-        if (!empty($uploadData)) {
+        if (! empty($uploadData)) {
             if ($resize) {
                 $tipe_file = TipeFile($_FILES['logo']);
                 $dimensi   = ['width' => $ukuran, 'height' => $ukuran];

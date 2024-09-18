@@ -407,25 +407,6 @@ class Penduduk_log_model extends MY_Model
         return $this->paging;
     }
 
-    public function list_data_hapus()
-    {
-        $this->config_id('log')
-            ->select('log.tgl_peristiwa, log.tgl_lapor, h.nik, h.deleted_at')
-            ->from('log_penduduk log')
-            ->join('tweb_penduduk u', 'u.id = log.id_pend', 'left')
-            ->join('log_hapus_penduduk h', 'h.id_pend = log.id_pend', 'left')
-            ->where('u.created_at IS NULL')
-            ->where('h.deleted_at > log.created_at');
-
-        $this->tgl_lengkap();
-        $this->tahun_bulan();
-
-        $data['list_hapus'] = $this->db->get()->result_array();
-        $data['total']      = count($data['list_hapus']);
-
-        return $data;
-    }
-
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
     private function list_data_sql(): void
     {

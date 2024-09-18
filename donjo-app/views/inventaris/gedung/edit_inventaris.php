@@ -179,29 +179,9 @@
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="hak_tanah">Penggunaan Barang </label>
 										<div class="col-sm-4">
 											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
-												<?php
-                                                $value = '';
-                            if (substr($main->kode_barang, -7, 2) == 01) {
-                                $value = 'Pemerintah Desa';
-                            } elseif (substr($main->kode_barang, -7, 2) == 02) {
-                                $value = 'Badan Permusyawaratan Daerah';
-                            } elseif (substr($main->kode_barang, -7, 2) == 03) {
-                                $value = 'PKK';
-                            } elseif (substr($main->kode_barang, -7, 2) == 04) {
-                                $value = 'LKMD';
-                            } elseif (substr($main->kode_barang, -7, 2) == 05) {
-                                $value = 'Karang Taruna';
-                            } elseif (substr($main->kode_barang, -7, 2) == 07) {
-                                $value = 'RW';
-                            }
-                            ?>
-												<option value="<?= substr($main->kode_barang, 14, 2); ?>"><?= $value; ?></option>
-												<option value="01">Pemerintah Desa</option>
-												<option value="02">Badan Permusyawaratan Daerah</option>
-												<option value="03">PKK</option>
-												<option value="04">LKMD</option>
-												<option value="05">Karang Taruna</option>
-												<option value="06">RW</option>
+												<?php foreach (unserialize(PENGGUNAAN_BARANG) as $key => $value) : ?>
+													<option value="<?= $key ?>" <?= selected(substr($main->kode_barang, -7, 2), $key) ?>><?= $value ?></option>
+												<?php endforeach ?>
 											</select>
 										</div>
 									</div>

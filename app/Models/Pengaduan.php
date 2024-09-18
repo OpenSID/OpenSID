@@ -137,7 +137,7 @@ class Pengaduan extends BaseModel
 
     public function scopeFilter($query, $status)
     {
-        if (!empty($status)) {
+        if (! empty($status)) {
             $query->where('status', $status);
         }
 

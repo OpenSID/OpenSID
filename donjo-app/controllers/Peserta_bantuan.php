@@ -42,12 +42,13 @@ use Illuminate\Support\Str;
 class Peserta_bantuan extends Admin_Controller
 {
     public $modul_ini        = 'bantuan';
-    public $sub_modul_ini    = 'peserta-bantuan';
+    public $akses_modul      = 'peserta-bantuan';
     private array $_set_page = ['20', '50', '100'];
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b', 'peserta-bantuan');
         $this->load->model(['program_bantuan_model']);
     }
 
@@ -74,7 +75,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function form($program_id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u', 'peserta-bantuan');
         $this->session->unset_userdata('cari');
         $data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
         $sasaran         = $data['program'][0]['sasaran'];
@@ -126,7 +127,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function add_peserta($program_id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u', 'peserta-bantuan');
 
         $cek = BantuanPeserta::where('program_id', $program_id)->where('kartu_id_pend', $this->input->post('kartu_id_pend'))->first();
 
@@ -146,7 +147,7 @@ class Peserta_bantuan extends Admin_Controller
     // $id = program_peserta.id
     public function edit_peserta($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u', 'peserta-bantuan');
         $this->program_bantuan_model->edit_peserta($id);
         $program_id = $this->input->post('program_id');
 
@@ -156,7 +157,7 @@ class Peserta_bantuan extends Admin_Controller
     // $id = program_peserta.id
     public function edit_peserta_form($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u', 'peserta-bantuan');
 
         $data                = $this->program_bantuan_model->get_program_peserta_by_id($id) ?? show_404();
         $data['form_action'] = site_url("peserta_bantuan/edit_peserta/{$id}");
@@ -165,7 +166,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function hapus_peserta($program_id = 0, $peserta_id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h', 'peserta-bantuan');
         $this->program_bantuan_model->hapus_peserta($peserta_id);
 
         redirect("peserta_bantuan/detail/{$program_id}");
@@ -173,7 +174,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function aksi($aksi = '', $program_id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u', 'peserta-bantuan');
         $this->session->set_userdata('aksi', $aksi);
 
         redirect("peserta_bantuan/form/{$program_id}");
@@ -181,7 +182,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function delete_all($program_id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h', 'peserta-bantuan');
         $this->program_bantuan_model->delete_all();
 
         redirect("peserta_bantuan/detail/{$program_id}");

@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Web_widget_model extends MY_Model
 {
     private string $tabel = 'widget';
-    private Urut_Model $urut_model;
+    private \Urut_Model $urut_model;
 
     public function __construct()
     {

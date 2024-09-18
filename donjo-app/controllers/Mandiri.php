@@ -50,6 +50,7 @@ class Mandiri extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
         $this->load->library('email');
         $this->email->initialize(config_email());
@@ -94,7 +95,7 @@ class Mandiri extends Admin_Controller
 
     public function ajax_pin($id_pend = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['penduduk'] = PendudukHidup::select(['id', 'nik', 'nama'])->whereDoesntHave('mandiri')->get()->toArray();
 
         if ($id_pend) {
@@ -114,7 +115,7 @@ class Mandiri extends Admin_Controller
 
     public function ajax_hp($id_pend)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = ci_route("{$this->controller}.ubah_hp", $id_pend);
         $data['penduduk']    = PendudukHidup::select(['id', 'nik', 'nama', 'telepon'])->find($id_pend)->toArray() ?? show_404();
 
@@ -123,7 +124,7 @@ class Mandiri extends Admin_Controller
 
     public function ajax_verifikasi_warga($id_pend)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($id_pend);
         $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($id_pend);
         $data['form_action']             = ci_route("{$this->controller}.verifikasi_warga", $id_pend);
@@ -134,7 +135,7 @@ class Mandiri extends Admin_Controller
 
     public function verifikasi_warga($id_pend): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->input->post();
         $pilihan_kirim = $this->request['pilihan_kirim'];
@@ -175,7 +176,7 @@ class Mandiri extends Admin_Controller
         try {
             // TODO: Sederhanakan query ini, pindahkan ke model
             $this->telegram->sendMessage($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_message('error', $e);
 
             status_sukses(false);
@@ -198,9 +199,9 @@ class Mandiri extends Admin_Controller
                 ->message($message);
 
             if (! $this->email->send()) {
-                throw new Exception($this->email->print_debugger());
+                throw new \Exception($this->email->print_debugger());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_message('error', $e);
 
             status_sukses(false);
@@ -212,12 +213,12 @@ class Mandiri extends Admin_Controller
 
     public function ubah_hp($id_pend): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         try {
             Penduduk::where(['id' => $id_pend])->update(['telepon' => bilangan($this->request['telepon'])]);
             redirect_with('success', 'Data berhasil disimpan');
-        } catch (Exception  $e) {
+        } catch (\Exception  $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }
@@ -225,7 +226,7 @@ class Mandiri extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         try {
             $mandiri = new PendudukMandiri();
@@ -241,7 +242,7 @@ class Mandiri extends Admin_Controller
             set_session('info', $flash);
 
             redirect_with('success', 'Data berhasil disimpan');
-        } catch (Exception  $e) {
+        } catch (\Exception  $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }
@@ -250,7 +251,7 @@ class Mandiri extends Admin_Controller
     public function update($id_pend): void
     {
         akun_demo($id_pend);
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         try {
             $mandiri = PendudukMandiri::find($id_pend) ?? show_404();
@@ -284,7 +285,7 @@ class Mandiri extends Admin_Controller
             set_session('info', $flash);
 
             redirect_with('success', 'Data berhasil disimpan');
-        } catch (Exception  $e) {
+        } catch (\Exception  $e) {
             log_message('error', $e->getMessage());
             redirect_with('error', 'Data gagal disimpan');
         }
@@ -292,14 +293,14 @@ class Mandiri extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         PendudukMandiri::where(['id_pend' => $id])->delete();
         redirect($this->controller);
     }
 
     public function kirim($id_pend = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $pin  = $this->input->post('pin');
         $data = PendudukMandiri::where(['id_pend' => $id_pend])->join('penduduk_hidup', 'penduduk_hidup.id', '=', 'tweb_penduduk_mandiri.id_pend')->first()->toArray();
         $desa = $this->header['desa'];
@@ -315,7 +316,7 @@ class Mandiri extends Admin_Controller
 
     private function kirimPinBaru(?string $media, $pin, $penduduk): void
     {
-        switch($media) {
+        switch ($media) {
             case 'telegram':
                 $this->otp_library->driver('telegram')->kirim_pin_baru($penduduk->telegram, $pin, $penduduk->nama);
                 break;

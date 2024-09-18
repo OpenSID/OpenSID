@@ -111,9 +111,11 @@ $app->configure('datatables');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\CarbonServiceProvider::class);
+$app->register(\App\Providers\EventServiceProvider::class);
 $app->register(\App\Providers\DataTablesServiceProvider::class);
+
+$app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +140,6 @@ if (ENVIRONMENT === 'development') {
      * Uncomment untuk listen semua query dari illuminate database.
      */
     \Illuminate\Support\Facades\Event::listen(\Illuminate\Database\Events\QueryExecuted::class, static function ($query): void {
-        log_message('error', array_reduce($query->bindings, static fn($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql));
+        log_message('error', array_reduce($query->bindings, static fn ($sql, $binding) => preg_replace('/\?/', is_numeric($binding) ? $binding : "'{$binding}'", $sql, 1), $query->sql));
     });
 }

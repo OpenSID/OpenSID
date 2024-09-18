@@ -46,10 +46,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan extends Admin_Controller
 {
-    public $modul_ini     = 'pemetaan';
-    public $sub_modul_ini = 'pengaturan-peta';
-    public $akses_modul   = 'plan';
-    private int $tip      = 3;
+    public $modul_ini       = 'pemetaan';
+    public $sub_modul_ini   = 'pengaturan-peta';
+    public $aliasController = 'plan';
+    private int $tip        = 3;
 
     public function __construct()
     {
@@ -77,8 +77,7 @@ class Plan extends Admin_Controller
             return datatables()->of(Lokasi::when($status, static fn ($q) => $q->whereEnabled($status))
                 ->when($point, static fn ($q) => $q->whereIn('ref_point', static fn ($q) => $q->select('id')->from('point')->whereParrent($point)))
                 ->when($subpoint, static fn ($q) => $q->whereRefPoint($subpoint))
-                ->with([
-                    'point' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
+                ->with(['point' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -160,7 +159,7 @@ class Plan extends Admin_Controller
 
         try {
             $data = $this->input->post();
-            if (!empty($data['lat']) && !empty($data['lng'])) {
+            if (! empty($data['lat']) && ! empty($data['lng'])) {
                 Lokasi::whereId($id)->update($data);
                 redirect_with('success', 'Lokasi berhasil disimpan', ci_route('plan.index', $parent));
             } else {
@@ -266,7 +265,7 @@ class Plan extends Admin_Controller
         $lokasi_file = $_FILES['foto']['tmp_name'];
         $nama_file   = $_FILES['foto']['name'];
         $nama_file   = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (!empty($lokasi_file)) {
+        if (! empty($lokasi_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_LOKASI);
         } else {
             unset($data['foto']);

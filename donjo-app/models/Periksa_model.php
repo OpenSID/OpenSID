@@ -70,7 +70,7 @@ class Periksa_model extends MY_Model
         $calon            = $current_version;
 
         // Deteksi jabatan kades atau sekdes tidak ada
-        if (!empty($jabatan = $this->deteksi_jabatan())) {
+        if (! empty($jabatan = $this->deteksi_jabatan())) {
             $this->periksa['masalah'][]    = 'data_jabatan_tidak_ada';
             $this->periksa['data_jabatan'] = $jabatan;
         }
@@ -87,7 +87,7 @@ class Periksa_model extends MY_Model
         // Error collation table
         $collation_table = $this->deteksi_collation_table_tidak_sesuai();
         $error_msg       = strpos($this->session->message_query, 'Illegal mix of collations');
-        if (!empty($collation_table) || $error_msg) {
+        if (! empty($collation_table) || $error_msg) {
             $this->periksa['masalah'][]       = 'collation';
             $this->periksa['collation_table'] = $collation_table;
         }
@@ -95,37 +95,37 @@ class Periksa_model extends MY_Model
         // Error penduduk tanpa ada keluarga di tweb_keluarga
         $penduduk_tanpa_keluarga = $this->deteksi_penduduk_tanpa_keluarga();
 
-        if (!$penduduk_tanpa_keluarga->isEmpty()) {
+        if (! $penduduk_tanpa_keluarga->isEmpty()) {
             $this->periksa['masalah'][]               = 'penduduk_tanpa_keluarga';
             $this->periksa['penduduk_tanpa_keluarga'] = $penduduk_tanpa_keluarga->toArray();
         }
 
         $log_penduduk_tidak_sinkron = $this->deteksi_log_penduduk_tidak_sinkron();
-        if (!$log_penduduk_tidak_sinkron->isEmpty()) {
+        if (! $log_penduduk_tidak_sinkron->isEmpty()) {
             $this->periksa['masalah'][]                  = 'log_penduduk_tidak_sinkron';
             $this->periksa['log_penduduk_tidak_sinkron'] = $log_penduduk_tidak_sinkron->toArray();
         }
 
         $log_penduduk_null = $this->deteksi_log_penduduk_null();
-        if (!$log_penduduk_null->isEmpty()) {
+        if (! $log_penduduk_null->isEmpty()) {
             $this->periksa['masalah'][]         = 'log_penduduk_null';
             $this->periksa['log_penduduk_null'] = $log_penduduk_null->toArray();
         }
 
         $log_keluarga_bermasalah = $this->deteksi_log_keluarga_bermasalah();
-        if (!$log_keluarga_bermasalah->isEmpty()) {
+        if (! $log_keluarga_bermasalah->isEmpty()) {
             $this->periksa['masalah'][]               = 'log_keluarga_bermasalah';
             $this->periksa['log_keluarga_bermasalah'] = $log_keluarga_bermasalah->toArray();
         }
 
         $log_keluarga_ganda = $this->deteksi_log_keluarga_ganda();
-        if (!$log_keluarga_ganda->isEmpty()) {
+        if (! $log_keluarga_ganda->isEmpty()) {
             $this->periksa['masalah'][]          = 'log_keluarga_ganda';
             $this->periksa['log_keluarga_ganda'] = $log_keluarga_ganda->toArray();
         }
 
         $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
-        if (!$klasifikasi_surat_ganda->isEmpty()) {
+        if (! $klasifikasi_surat_ganda->isEmpty()) {
             $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
             $this->periksa['klasifikasi_surat_ganda'] = $klasifikasi_surat_ganda->toArray();
         }
@@ -178,7 +178,7 @@ class Periksa_model extends MY_Model
         return Penduduk::select('id', 'nama', 'nik', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static fn($q) => $q->where('config_id', $config_id))
+            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $config_id))
             ->get();
     }
 
@@ -229,14 +229,14 @@ class Periksa_model extends MY_Model
     {
         $config_id = identitas('id');
 
-        return Keluarga::whereIn('id', static fn($query) => $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
+        return Keluarga::whereIn('id', static fn ($query) => $query->from('log_keluarga')->where(['config_id' => $config_id])->select(['id_kk'])->groupBy(['id_kk', 'tgl_peristiwa'])->having(DB::raw('count(tgl_peristiwa)'), '>', 1))->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()
     {
         $config_id = identitas('id');
 
-        return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
+        return KlasifikasiSurat::where(['config_id' => $config_id])->whereIn('kode', static fn ($q) => $q->from('klasifikasi_surat')->select(['kode'])->where(['config_id' => $config_id])->groupBy('kode')->having(DB::raw('count(kode)'), '>', 1))->orderBy('kode')->get();
     }
 
     public function perbaiki(): void
@@ -301,7 +301,7 @@ class Periksa_model extends MY_Model
 
         foreach ($tables->result() as $tbl) {
             $name = $tbl->TABLE_NAME;
-            if (!in_array($name, $exclude_table) && in_array($key = $this->db->list_fields($name)[0], $only_pk)) {
+            if (! in_array($name, $exclude_table) && in_array($key = $this->db->list_fields($name)[0], $only_pk)) {
                 $fields = [
                     $key => [
                         'type'           => 'INT',
@@ -355,7 +355,7 @@ class Periksa_model extends MY_Model
         $data_penduduk = Penduduk::select('id', 'id_cluster', 'id_kk', 'alamat_sekarang', 'created_at')
             ->kepalaKeluarga()
             ->whereNotNull('id_kk')
-            ->wheredoesntHave('keluarga', static fn($q) => $q->where('config_id', $config_id))
+            ->wheredoesntHave('keluarga', static fn ($q) => $q->where('config_id', $config_id))
             ->get();
         // nomer urut kk sementara
         $digit = Keluarga::nomerKKSementara();

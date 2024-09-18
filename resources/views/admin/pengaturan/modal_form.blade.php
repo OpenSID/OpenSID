@@ -1,4 +1,4 @@
-{!! form_open_multipart(ci_route('setting.new_update'), 'class="form-group" id="main_setting"') !!}
+{!! form_open_multipart(ci_route('notif.update_setting'), 'class="form-group" id="main_setting"') !!}
 <div class="modal-body">
     @foreach ($list_setting as $key => $pengaturan)
         @if ($pengaturan->jenis != 'upload' && $pengaturan->kategori == $kategori_pengaturan)
@@ -13,7 +13,7 @@
                 @elseif ($pengaturan->jenis == 'multiple-option')
                     <select class="form-control input-sm select2 required" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $val)
-                            <option value="{{ $val }}" {{ in_array($val, json_decode($pengaturan->value)) ? 'selected' : '' }}>
+                            <option value="{{ $val }}" {{ in_array($val, json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>
                                 {{ $val }}</option>
                         @endforeach
                     </select>
@@ -21,7 +21,7 @@
                     <input type="hidden" name="{{ $pengaturan->key }}" value="[]">
                     <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $key => $val)
-                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value)) ? 'selected' : '' }}>{{ $val['nama'] }}</option>
+                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>{{ $val['nama'] }}</option>
                         @endforeach
                     </select>
                 @elseif ($pengaturan->jenis == 'datetime')
@@ -55,7 +55,7 @@
                         @endphp
                         <option value="-" @selected(empty($selectedValue))>Tanpa Referensi (kosong)</option>
                         @foreach ($referensiData as $val)
-                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue))>{{ $val[$modelData['label']] }}</option>
+                            <option value="{{ $val[$modelData['value']] }}" @selected(in_array($val[$modelData['value']], $selectedValue ?? []))>{{ $val[$modelData['label']] }}</option>
                         @endforeach
                     </select>
                     {{-- prettier-ignore-end --}}

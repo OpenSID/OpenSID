@@ -35,120 +35,104 @@
  *
  */
 
-use App\Models\Pamong;
+use App\Enums\AgamaEnum;
+use App\Enums\BahasaEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanKKEnum;
+use App\Enums\SHDKEnum;
+use App\Enums\StatusDasarEnum;
+use App\Enums\StatusKawinEnum;
+use App\Enums\StatusPendudukEnum;
+use App\Enums\WargaNegaraEnum;
+use App\Models\LogPenduduk;
+use App\Models\Penduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_penduduk_induk extends Admin_Controller
 {
-    public $modul_ini            = 'buku-administrasi-desa';
-    public $sub_modul_ini        = 'administrasi-penduduk';
-    private array $_set_page     = ['10', '20', '50', '100', [0, 'Semua']];
-    private array $_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-penduduk';
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model(['pamong_model', 'penduduk_model']);
+        isCan('b');
     }
 
-    public function index($page_number = 1, $order_by = 0): void
+    public function index()
     {
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
+        $data['selectedNav'] = 'induk';
+        $data['subtitle']    = 'Buku Induk Penduduk';
+        $data['tahun']       = LogPenduduk::tahun()->pluck('tahun');
+        $data['mainContent'] = 'admin.bumindes.penduduk.induk.index';
+
+        return view('admin.bumindes.penduduk.index', $data);
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->editColumn('sex', static fn ($row) => strtoupper(JenisKelaminEnum::valueOf($row->sex)))
+                ->editColumn('status_kawin', static fn ($row) => strtoupper(in_array($row->status_kawin, [1, 2]) ? StatusKawinEnum::valueOf($row->status_kawin) : (($row->sex == 1) ? 'DUDA' : 'JANDA')))
+                ->editColumn('tanggallahir', static fn ($row) => tgl_indo_out($row->tanggallahir))
+                ->editColumn('agama', static fn ($row) => strtoupper(AgamaEnum::valueOf($row->agama_id)))
+                ->editColumn('pendidikan', static fn ($row) => strtoupper(PendidikanKKEnum::valueOf($row->pendidikan_kk_id)))
+                ->editColumn('bahasa', static fn ($row) => strtoupper(BahasaEnum::valueOf($row->bahasa_id)))
+                ->editColumn('warganegara', static fn ($row) => strtoupper(WargaNegaraEnum::valueOf($row->warganegara_id)))
+                ->editColumn('kk_level', static fn ($row) => strtoupper(SHDKEnum::valueOf($row->kk_level)))
+                ->editColumn('alamat_wilayah', static fn ($row) => strtoupper($row->alamat_wilayah))
+                ->editColumn('nik', static fn ($row) => '<a href="' . ci_route('penduduk.detail.1.0', $row->id) . '">' . $row->nik . '</a>')
+                ->editColumn('kk', static fn ($row) => '<a href="' . ci_route('keluarga.kartu_keluarga.1.0', $row->id_kk) . '">' . $row->keluarga->no_kk . '</a>')
+                ->rawColumns(['nik', 'kk'])
+                ->make();
         }
 
-        // Hanya menampilkan data status_dasar HIDUP, HILANG
-        $this->session->status_dasar = [1, 4];
+        return show_404();
+    }
 
-        // Menampilkan hanya status penduduk TETAP
-        $this->session->status_penduduk = 1;
-
-        $list_data = $this->penduduk_model->list_data($order_by, $page_number);
-        $data      = [
-            'main_content' => 'bumindes/penduduk/induk/content_induk',
-            'subtitle'     => 'Buku Induk Penduduk',
-            'selected_nav' => 'induk',
-            'page'         => $page_number,
-            'order_by'     => $order_by,
-            'cari'         => $this->session->cari ?: '',
-            'filter'       => $this->session->filter ?: '',
-            'bulan'        => $this->session->filter_bulan,
-            'tahun'        => $this->session->filter_tahun,
-            'func'         => 'index',
-            'set_page'     => $this->_set_page,
-            'main'         => $list_data['main'],
-            'paging'       => $list_data['paging'],
-            'list_tahun'   => $this->penduduk_log_model->list_tahun(),
+    private function sumberData()
+    {
+        $filters = [
+            'tahun' => $this->input->get('tahun') ?? null,
+            'bulan' => $this->input->get('bulan') ?? null,
         ];
 
-        $this->render('bumindes/penduduk/main', $data);
+        return Penduduk::with(['log_latest'])
+            ->statusPenduduk(StatusPendudukEnum::TETAP)
+            ->statusDasar([StatusDasarEnum::HIDUP, StatusDasarEnum::HILANG])
+            ->filterLog($filters);
     }
 
-    private function clear_session(): void
+    public function dialog($aksi = 'cetak')
     {
-        $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_penduduk_induk.cetak', $aksi);
+
+        return view('admin.bumindes.penduduk.induk.dialog', $data);
     }
 
-    public function clear(): void
+    public function cetak($aksi = '')
     {
-        $this->clear_session();
-        // Set default filter ke tahun dan bulan sekarang
-        $this->session->filter_tahun = date('Y');
-        $this->session->filter_bulan = date('m');
-        redirect('bumindes_penduduk_induk');
-    }
-
-    public function ajax_cetak($page = 1, $o = 0, $aksi = ''): void
-    {
-        // pengaturan data untuk dialog cetak/unduh
-        $data = [
-            'o'                   => $o,
-            'aksi'                => $aksi,
-            'form_action'         => site_url("bumindes_penduduk_induk/cetak/{$page}/{$o}/{$aksi}"),
-            'form_action_privasi' => site_url("bumindes_penduduk_induk/cetak/{$page}/{$o}/{$aksi}/1"),
-            'isi'                 => 'bumindes/penduduk/induk/ajax_dialog_induk',
-        ];
-
-        $this->load->view('global/dialog_cetak', $data);
-    }
-
-    public function cetak($page = 1, $o = 0, $aksi = '', $privasi_nik = 0): void
-    {
-        $data = [
-            'aksi'           => $aksi,
-            'config'         => $this->header['desa'],
-            'pamong_ttd'     => Pamong::sekretarisDesa()->first(),
-            'pamong_ketahui' => Pamong::kepalaDesa()->first(),
-            'main'           => $this->penduduk_model->list_data($o, $page)['main'],
-            'bulan'          => $this->session->filter_bulan,
-            'tahun'          => $this->session->filter_tahun,
-            'tgl_cetak'      => $_POST['tgl_cetak'],
-            'privasi_nik'    => $privasi_nik == 1,
-            'file'           => 'Buku Induk Kependudukan',
-            'isi'            => 'bumindes/penduduk/induk/content_induk_cetak',
-            'letak_ttd'      => ['2', '2', '9'],
-        ];
-        $this->load->view('global/format_cetak', $data);
-    }
-
-    public function autocomplete(): void
-    {
-        $data = $this->penduduk_model->autocomplete($this->input->post('cari'));
-        $this->output->set_content_type('application/json')->set_output(json_encode($data, JSON_THROW_ON_ERROR));
-    }
-
-    public function filter($filter): void
-    {
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+        $query          = $this->sumberData();
+        if ($paramDatatable['start']) {
+            $query->skip($paramDatatable['start']);
         }
-        redirect('bumindes_penduduk_induk');
+
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = $aksi;
+        $data['main']        = $query->take($paramDatatable['length'])->get();
+        $data['config']      = $this->header['desa'];
+        $data['tgl_cetak']   = $this->input->post('tgl_cetak');
+        $data['privasi_nik'] = $this->input->post('privasi_nik') ?? null;
+        $data['file']        = 'Buku Induk Kependudukan';
+        $data['isi']         = 'admin.bumindes.penduduk.induk.cetak';
+        $data['letak_ttd']   = ['2', '2', '9'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 }

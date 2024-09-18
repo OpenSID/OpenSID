@@ -67,7 +67,7 @@ use App\Models\RefPersilMutasi;
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2023 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -85,6 +85,7 @@ class Cdesa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('data_persil_model');
         $this->load->model('cdesa_model');
         $this->load->model('wilayah_model');
@@ -154,7 +155,7 @@ class Cdesa extends Admin_Controller
 
     public function create($mode = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
         $this->tab_ini = empty($mode) ? 10 : 12;
@@ -170,7 +171,7 @@ class Cdesa extends Admin_Controller
             switch ($post['jenis_pemilik']) {
                 case '1':
                     // Pemilik desa
-                    if (!empty($post['nik'])) {
+                    if (! empty($post['nik'])) {
                         $data['pemilik'] = $this->cdesa_model->get_penduduk($post['nik'], $nik = true);
                     }
                     break;
@@ -187,7 +188,7 @@ class Cdesa extends Admin_Controller
 
     private function ubah_pemilik($id, array &$data, array $post): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $jenis_pemilik_baru = $post['jenis_pemilik'] ?: 0;
 
         switch ($jenis_pemilik_baru) {
@@ -216,7 +217,7 @@ class Cdesa extends Admin_Controller
 
     public function simpan_cdesa($page = 1): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->form_validation->set_rules('c_desa', 'Nomor Surat C-DESA', 'required|trim|numeric');
         $this->form_validation->set_rules('c_desa', 'Username', 'callback_cek_nomor');
 
@@ -248,7 +249,7 @@ class Cdesa extends Admin_Controller
 
     public function create_mutasi($id_cdesa, $id_persil = '', $id_mutasi = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->load->model('plan_area_model');
         $this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
         $this->session->unset_userdata('cari'); // Area menggunakan session cari, jadi perlu dihapus terlebih dahulu
@@ -280,7 +281,7 @@ class Cdesa extends Admin_Controller
 
     public function simpan_mutasi($id_cdesa, $id_mutasi = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = $this->cdesa_model->simpan_mutasi($id_cdesa, $id_mutasi, $this->input->post());
         if ($data['id_persil']) {
             redirect("cdesa/mutasi/{$id_cdesa}/{$data['id_persil']}");
@@ -291,7 +292,7 @@ class Cdesa extends Admin_Controller
 
     public function hapus_mutasi($cdesa, $id_mutasi): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $id_persil = $this->db
             ->select('id_persil')
             ->where('id', $id_mutasi)
@@ -339,7 +340,7 @@ class Cdesa extends Admin_Controller
 
     public function hapus($id): void
     {
-        $this->redirect_hak_akses('h', 'cdesa');
+        isCan('h');
         $this->cdesa_model->hapus_cdesa($id);
         redirect('cdesa');
     }
@@ -352,7 +353,7 @@ class Cdesa extends Admin_Controller
 
     public function import_proses(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->data_persil_model->impor_persil();
         redirect('data_persil');
     }
@@ -380,7 +381,7 @@ class Cdesa extends Admin_Controller
 
     public function awal_persil($id_cdesa, $id_persil, $hapus = false): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->data_persil_model->awal_persil($id_cdesa, $id_persil, $hapus);
         redirect("cdesa/mutasi/{$id_cdesa}/{$id_persil}");
     }

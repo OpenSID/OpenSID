@@ -92,15 +92,21 @@ abstract class DataCollector implements DataCollectorInterface
         return ['data'];
     }
 
-    public function __wakeup() {}
+    public function __wakeup()
+    {
+    }
 
     /**
      * @internal to prevent implementing \Serializable
      */
-    final protected function serialize() {}
+    final protected function serialize()
+    {
+    }
 
     /**
      * @internal to prevent implementing \Serializable
      */
-    final protected function unserialize($data) {}
+    final protected function unserialize($data)
+    {
+    }
 }

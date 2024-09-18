@@ -7,6 +7,7 @@ use GuzzleHttp\BodySummarizerInterface;
 use Psr\Http\Client\RequestExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * HTTP Request exception
@@ -31,8 +32,8 @@ class RequestException extends TransferException implements RequestExceptionInte
     public function __construct(
         string $message,
         RequestInterface $request,
-        ?ResponseInterface $response = null,
-        ?\Throwable $previous = null,
+        ResponseInterface $response = null,
+        \Throwable $previous = null,
         array $handlerContext = []
     ) {
         // Set the code of the exception if the response is set and not future.
@@ -62,10 +63,10 @@ class RequestException extends TransferException implements RequestExceptionInte
      */
     public static function create(
         RequestInterface $request,
-        ?ResponseInterface $response = null,
-        ?\Throwable $previous = null,
+        ResponseInterface $response = null,
+        \Throwable $previous = null,
         array $handlerContext = [],
-        ?BodySummarizerInterface $bodySummarizer = null
+        BodySummarizerInterface $bodySummarizer = null
     ): self {
         if (!$response) {
             return new self(
@@ -89,7 +90,8 @@ class RequestException extends TransferException implements RequestExceptionInte
             $className = __CLASS__;
         }
 
-        $uri = \GuzzleHttp\Psr7\Utils::redactUserInfo($request->getUri());
+        $uri = $request->getUri();
+        $uri = static::obfuscateUri($uri);
 
         // Client Error: `GET /` resulted in a `404 Not Found` response:
         // <html> ... (truncated)
@@ -109,6 +111,20 @@ class RequestException extends TransferException implements RequestExceptionInte
         }
 
         return new $className($message, $request, $response, $previous, $handlerContext);
+    }
+
+    /**
+     * Obfuscates URI if there is a username and a password present
+     */
+    private static function obfuscateUri(UriInterface $uri): UriInterface
+    {
+        $userInfo = $uri->getUserInfo();
+
+        if (false !== ($pos = \strpos($userInfo, ':'))) {
+            return $uri->withUserInfo(\substr($userInfo, 0, $pos), '***');
+        }
+
+        return $uri;
     }
 
     /**

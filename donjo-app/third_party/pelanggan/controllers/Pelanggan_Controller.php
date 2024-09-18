@@ -50,13 +50,14 @@ class Pelanggan_Controller extends Admin_Controller
     /**
      * @var Client HTTP Client
      */
-    protected Client $client;
+    protected \GuzzleHttp\Client $client;
 
     protected $server;
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         // jangan aktifkan jika demo dan di domain whitelist
         if (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) {

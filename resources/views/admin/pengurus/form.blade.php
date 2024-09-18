@@ -82,7 +82,7 @@
         <div class="col-md-3">
             @include('admin.layouts.components.ambil_foto', [
                 'id_sex' => $individu ? $individu['sex'] : $pamong['id_sex'],
-                'foto' => $individu ? $individu['foto'] : $pamong['foto'],
+                'foto' => $pamong['foto_staff'],
                 'show_dimensi' => true,
             ])
 

@@ -112,17 +112,17 @@ class Ekspor_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, fn(&$str, $key) => $this->bersihkanData($str, $key));
-            if (!empty($baris->tanggallahir)) {
+            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
+            if (! empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
-            if (!empty($baris->tanggalperceraian)) {
+            if (! empty($baris->tanggalperceraian)) {
                 $baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian), 'Y-m-d');
             }
-            if (!empty($baris->tanggalperkawinan)) {
+            if (! empty($baris->tanggalperkawinan)) {
                 $baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan), 'Y-m-d');
             }
-            if (!empty($baris->tanggal_akhir_paspor)) {
+            if (! empty($baris->tanggal_akhir_paspor)) {
                 $baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor), 'Y-m-d');
             }
             if (empty($baris->dusun)) {
@@ -276,7 +276,7 @@ class Ekspor_model extends MY_Model
 
     public function proses_restore($filename = null)
     {
-        if (!$filename) {
+        if (! $filename) {
             return false;
         }
 
@@ -323,7 +323,7 @@ class Ekspor_model extends MY_Model
                 $query .= $sql_line;
                 if (substr(rtrim($query), -1) == ';') {
                     $result = $this->db->simple_query($query);
-                    if (!$result) {
+                    if (! $result) {
                         $_SESSION['success'] = -1;
                         $error               = $this->db->error();
                         log_message('error', '<br><br>[' . $key . ']>>>>>>>> Error: ' . $query . '<br>');
@@ -455,17 +455,17 @@ class Ekspor_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, fn(&$str, $key) => $this->bersihkanData($str, $key));
-            if (!empty($baris->tanggallahir)) {
+            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
+            if (! empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
-            if (!empty($baris->tanggalperceraian)) {
+            if (! empty($baris->tanggalperceraian)) {
                 $baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian), 'Y-m-d');
             }
-            if (!empty($baris->tanggalperkawinan)) {
+            if (! empty($baris->tanggalperkawinan)) {
                 $baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan), 'Y-m-d');
             }
-            if (!empty($baris->tanggal_akhir_paspor)) {
+            if (! empty($baris->tanggal_akhir_paspor)) {
                 $baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor), 'Y-m-d');
             }
             if (empty($baris->dusun)) {
@@ -477,7 +477,7 @@ class Ekspor_model extends MY_Model
             if (empty($baris->rw)) {
                 $baris->rw = '-';
             }
-            if (!empty($baris->foto)) {
+            if (! empty($baris->foto)) {
                 $baris->foto = 'kecil_' . $baris->foto;
             }
             $data[$i] = $baris;

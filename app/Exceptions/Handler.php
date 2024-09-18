@@ -69,7 +69,7 @@ class Handler implements ExceptionHandler
     /**
      * {@inheritDoc}
      */
-    public function shouldReport(Throwable $e)
+    public function shouldReport(Throwable $e): bool
     {
         return ! $this->shouldntReport($e);
     }
@@ -91,7 +91,9 @@ class Handler implements ExceptionHandler
     /**
      * {@inheritDoc}
      */
-    public function render($request, Throwable $e) {}
+    public function render($request, Throwable $e): void
+    {
+    }
 
     /**
      * {@inheritDoc}

@@ -1,4 +1,4 @@
-<?php  defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php  defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <nav
   class="bg-primary-100 text-white lg:hidden block"
@@ -10,25 +10,26 @@
     @click="menuOpen = !menuOpen" >
     <i
       class="fas mr-1"
-      :class="{'fa-bars':!menuOpen, 'fa-times': menuOpen}"></i> 
+      :class="{'fa-bars':!menuOpen, 'fa-times': menuOpen}"></i>
       Menu
   </button>
-  <ul 
+  <ul
     x-show="menuOpen"
     x-transition
     class="divide-y divide-primary-200">
+    <?php $menu_atas = menu_tema() ?>
     <?php if($menu_atas) : ?>
       <?php foreach($menu_atas as $menu) : ?>
-        <?php $has_dropdown = count($menu['submenu']) > 0 ?>
-        <li class="block relative" <?php $has_dropdown and print('x-data="{dropdown: false}"') ?>>
+        <?php $has_dropdown = count($menu['childrens'] ?? []) > 0 ?>
+        <li class="block relative" <?php $has_dropdown && print 'x-data="{dropdown: false}"' ?>>
 
-          <?php $menu_link = $has_dropdown ? '#!' : $menu['link'] ?>
+          <?php $menu_link = $has_dropdown ? '#!' : $menu['link_url'] ?>
 
           <a href="<?= $menu_link ?>"
             class="p-3 block hover:bg-secondary-100"
             @click="dropdown = !dropdown">
             <?= $menu['nama'] ?>
-            
+
             <?php if($has_dropdown) : ?>
               <i class="fas fa-chevron-down text-xs ml-1 inline-block transition duration-300" :class="{'transform rotate-180': dropdown}"></i>
             <?php endif ?>
@@ -41,10 +42,10 @@
               x-transition.opacity
               @click="dropdown = !dropdown">
 
-              <?php foreach($menu['submenu'] as $submenu) : ?>
-                <li @click="dropdown = false"><a href="<?= $submenu['link'] ?>" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white"><?= $submenu['nama'] ?></a></li>
+              <?php foreach($menu['childrens'] as $childrens) : ?>
+                <li @click="dropdown = false"><a href="<?= $childrens['link_url'] ?>" class="block py-3 pl-5 pr-4 hover:bg-primary-200 hover:text-white"><?= $childrens['nama'] ?></a></li>
               <?php endforeach ?>
-              
+
             </ul>
           <?php endif ?>
         </li>

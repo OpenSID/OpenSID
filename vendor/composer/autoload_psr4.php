@@ -36,6 +36,8 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Spipu\\Html2Pdf\\' => array($vendorDir . '/spipu/html2pdf/src'),
     'Spatie\\EloquentSortable\\' => array($vendorDir . '/spatie/eloquent-sortable/src'),
+    'SlowProg\\CopyFile\\' => array($vendorDir . '/slowprog/composer-copy-file'),
+    'Rap2hpoutre\\FastExcel\\' => array($vendorDir . '/rap2hpoutre/fast-excel/src'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),

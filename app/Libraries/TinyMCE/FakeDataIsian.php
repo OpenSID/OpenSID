@@ -136,7 +136,7 @@ class FakeDataIsian
         foreach ($kode_isian as $value) {
             $tanggal = date('d-m-Y');
 
-            switch ($value['tipe']) {
+            switch($value['tipe']) {
                 case 'select-manual':
                     $pilihan     = $value['pilihan'];
                     $nilai_isian = $pilihan[array_rand($pilihan)];

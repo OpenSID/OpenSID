@@ -13,7 +13,7 @@
 	</div>
 	<div style="margin-top:50px;">
 		<div class="box-body">
-			<?php if(count($farsip)>0): ?>
+			<?php if(count($farsip ?? [])>0): ?>
 				<table class="table table-striped">
 					<thead>
 						<tr>

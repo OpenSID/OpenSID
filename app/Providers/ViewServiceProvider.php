@@ -46,7 +46,7 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->callAfterResolving('blade.compiler', fn(BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
+        $this->callAfterResolving('blade.compiler', fn (BladeCompiler $bladeCompiler) => $this->registerBladeExtensions($bladeCompiler));
     }
 
     public function boot(): void
@@ -65,7 +65,7 @@ class ViewServiceProvider extends ServiceProvider
             View::share([
                 'ci'           => $this->app['ci'],
                 'auth'         => $this->app['ci']->session->isAdmin,
-                'controller'   => $this->app['ci']->controller,
+                'controller'   => $this->app['ci']->controller ?? $this->app['ci']->aliasController,
                 'desa'         => $desa ?? null,
                 'list_setting' => $this->app['ci']->list_setting,
                 'modul'        => $this->app['ci']->header['modul'],
@@ -81,7 +81,7 @@ class ViewServiceProvider extends ServiceProvider
                 ],
                 'kategori_pengaturan'  => $this->app['ci']->kategori_pengaturan,
                 'sub_modul_ini'        => $this->app['ci']->sub_modul_ini,
-                'akses_modul'          => $this->app['ci']->akses_modul,
+                'akses_modul'          => $this->app['ci']->sub_modul_ini ?? $this->app['ci']->modul_ini,
                 'session'              => $this->app['ci']->session,
                 'setting'              => $this->app['ci']->setting,
                 'token'                => $this->app['ci']->security->get_csrf_token_name(),
@@ -92,16 +92,16 @@ class ViewServiceProvider extends ServiceProvider
 
     protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
     {
-        $bladeCompiler->directive('selected', static fn($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
+        $bladeCompiler->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
 
-        $bladeCompiler->directive('checked', static fn($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
+        $bladeCompiler->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
 
-        $bladeCompiler->directive('disabled', static fn($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
+        $bladeCompiler->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
 
-        $bladeCompiler->directive('active', static fn($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
+        $bladeCompiler->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
 
-        $bladeCompiler->directive('display', static fn($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
+        $bladeCompiler->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
 
-        $bladeCompiler->directive('can', static fn($condition): string => "<?= can({$condition}) ?>");
+        $bladeCompiler->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
     }
 }

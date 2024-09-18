@@ -42,98 +42,83 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_rencana_pembangunan extends Admin_Controller
 {
-    public $modul_ini      = 'buku-administrasi-desa';
-    public $sub_modul_ini  = 'administrasi-pembangunan';
-    protected $tipe        = 'rencana';
-    protected array $order = [
-        1  => 'judul',
-        2  => 'alamat',
-        3  => 'sumber_biaya_pemerintah',
-        4  => 'sumber_biaya_provinsi',
-        5  => 'sumber_biaya_kab_kota',
-        6  => 'sumber_biaya_swadaya',
-        7  => 'sumber_biaya_jumlah',
-        8  => 'pelaksana_kegiatan',
-        9  => 'manfaat',
-        10 => 'keterangan',
-    ];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-pembangunan';
+    protected $tipe       = 'rencana';
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('pembangunan_model', 'model');
-        $this->load->model('pamong_model');
-        $this->model->set_tipe($this->tipe);
+        isCan('b');
     }
 
     public function index()
     {
+        $data['tipe']        = ucwords($this->tipe);
+        $data['selectedNav'] = $this->tipe;
+        $data['subtitle']    = 'Buku ' . ucwords($this->tipe) . ' Pembangunan';
+        $data['tahun']       = Pembangunan::tipe($this->tipe)->distinct()->get('tahun_anggaran');
+        $data['mainContent'] = 'admin.bumindes.pembangunan.' . $this->tipe . '.index';
+
+        return view('admin.bumindes.pembangunan.index', $data);
+    }
+
+    public function datatables()
+    {
+        $tahun        = $this->input->get('tahun') ?? null;
+        $satuan_waktu = SatuanWaktuEnum::all();
+
         if ($this->input->is_ajax_request()) {
-            $start  = $this->input->post('start');
-            $length = $this->input->post('length');
-            $search = $this->input->post('search[value]');
-            $order  = $this->order[$this->input->post('order[0][column]') ?? 1];
-
-            $dir   = $this->input->post('order[0][dir]');
-            $tahun = $this->input->post('tahun');
-
-            return json([
-                'draw'            => $this->input->post('draw'),
-                'recordsTotal'    => $this->model->get_data()->count_all_results(),
-                'recordsFiltered' => $this->model->get_data($search, $tahun)->count_all_results(),
-                'data'            => $this->model->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-            ]);
+            return datatables()->of(Pembangunan::tipe($this->tipe)->with(['wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))
+                ->addIndexColumn()
+                ->editColumn('alamat', static fn ($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
+                ->editColumn('proyek_baru', static fn ($row) => $row->sifat_proyek == 'BARU' ? '&#10004' : '-')
+                ->editColumn('proyek_lanjutan', static fn ($row) => $row->sifat_proyek == 'LANJUTAN' ? '&#10004' : '-')
+                ->editColumn('format_waktu', static fn ($row) => $row->waktu . ' ' . $satuan_waktu[$row->satuan_waktu])
+                ->editColumn('anggaran', static fn ($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
+                ->rawColumns(['proyek_baru', 'proyek_lanjutan'])
+                ->make();
         }
 
-        $this->render('bumindes/pembangunan/main', [
-            'tipe'         => ucwords($this->tipe),
-            'list_tahun'   => $this->model->list_filter_tahun(),
-            'satuan_waktu' => SatuanWaktuEnum::all(),
-            'selected_nav' => $this->tipe,
-            'subtitle'     => 'Buku ' . ucwords($this->tipe) . ' Pembangunan',
-            'main_content' => 'bumindes/pembangunan/' . $this->tipe . '/index',
-        ]);
+        return show_404();
     }
 
-    public function dialog(string $aksi = ''): void
+    public function dialog($aksi = 'cetak')
     {
-        $data = [
-            'aksi'        => $aksi,
-            'form_action' => site_url('bumindes_' . $this->tipe . '_pembangunan/cetak/' . $aksi),
-            'isi'         => 'bumindes/pembangunan/ajax_dialog',
-            'list_tahun'  => $this->model->list_filter_tahun(),
-        ];
+        $data['tahun']      = Pembangunan::tipe($this->tipe)->distinct()->get('tahun_anggaran');
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_' . $this->tipe . '_pembangunan.cetak', $aksi);
 
-        $this->load->view('global/dialog_cetak', $data);
+        return view('admin.bumindes.pembangunan.dialog', $data);
     }
 
-    public function cetak($aksi = ''): void
+    public function cetak($aksi = '')
     {
         $tahun = $this->input->post('tahun');
 
         $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
-        $data['main']   = $this->model->get_data('', $tahun)->get()->result();
+        $data['main']   = Pembangunan::tipe($this->tipe)->with(['wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun))->get();
         $data['config'] = $this->header['desa'];
-        if ($tahun == 'semua') {
+        if (empty($tahun)) {
             $tahun_pembangunan = Pembangunan::selectRaw('MIN(CAST(tahun_anggaran AS CHAR)) as awal, MAX(CAST(tahun_anggaran AS CHAR)) as akhir ')->first();
             $data['tahun']     = ($tahun_pembangunan->awal == $tahun_pembangunan->akhir) ? $tahun_pembangunan->awal : "{$tahun_pembangunan->awal} -  {$tahun_pembangunan->akhir}";
         }
         $data['satuan_waktu'] = SatuanWaktuEnum::all();
         $data['tgl_cetak']    = $this->input->post('tgl_cetak');
         $data['file']         = 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan';
-        $data['isi']          = 'bumindes/pembangunan/' . $this->tipe . '/cetak';
+        $data['isi']          = 'admin.bumindes.pembangunan.' . $this->tipe . '.cetak';
         $data['letak_ttd']    = ['1', '1', '3'];
 
-        $this->load->view('global/format_cetak', $data);
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     // Lainnya
-    public function lainnya($submenu): void
+    public function lainnya($submenu)
     {
-        $this->render('bumindes/pembangunan/main', [
-            'selected_nav' => $submenu,
-            'main_content' => 'bumindes/pembangunan/content_rencana',
-        ]);
+        $data['selectedNav'] = $submenu;
+        $data['mainContent'] = 'admin.bumindes.pembangunan.rencana.index';
+
+        return view('admin.bumindes.pembangunan.main', $data);
     }
 }

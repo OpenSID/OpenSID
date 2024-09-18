@@ -170,7 +170,6 @@
                             var fullname = `pilihan_kode[${counter}][]`
                             if (type != 'utama') {
                                 fullname = `kategori_pilihan_kode[${kategori}][${counter + 1}][]`
-                                console.log(fullname);
                             }
                             elselect2.innerHTML = ''
                             elselect2.name = fullname
@@ -411,15 +410,31 @@
                 var tipeKode = tr.find('select.pilih_tipe').val()
                 var kaitkanData = td.find('input.kaitkan').val()
                 var tbody = tr.closest('tbody')
+                var tab_kategori = $("ul.customized-tab#tabs").find(".active").data('name');
+                var kategori_nama = @json($kategori_nama);
+                var kategori = @json($kategori);
+                delete kategori[tab_kategori ?? ''];
                 var optionIsian = [],
-                    optionKodeIsianLain = []
+                    optionKodeIsianLain = [],
+                    optionKategori = []
                 var isiPilihanManual = tr.find('select.select-manual').val()
                 for (let i in isiPilihanManual) {
                     optionIsian.push(`<option>${isiPilihanManual[i]}</option>`)
                 }
-                tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
+                $('#dragable-form-utama').find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
                     optionKodeIsianLain.push(`<option>${$(this).val()}</option>`)
                 })
+
+                $.each(kategori_nama, function(i, data) {
+                    $(`#dragable-${data}`).find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
+                        optionKodeIsianLain.push(`<option>${$(this).val()}</option>`)
+                    })
+                })
+
+                $.each(kategori, function(i, data) {
+                    optionKategori.push(`<option value="${i}">${data}</option>`)
+                })
+
                 var sectionKondisi =
                     `<div class="panel panel-default isian" style="margin-top:5px">
                     <div class="panel-heading">
@@ -437,6 +452,10 @@
                             <label class="control-label">Kode Isian</label>
                             <select name="kode_isian_terkait" class="select2 form-control" multiple>${optionKodeIsianLain}</select>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label">Kategori</label>
+                            <select name="kategori_terkait" class="select2 form-control" multiple>${optionKategori}</select>
+                        </div>
                     </div>
                 </div>`
                 _modal.find('.modal-body').append(sectionKondisi)
@@ -452,6 +471,7 @@
                     data.push({
                         'nilai_isian': $(this).find('select[name=nilai_isian]').val(),
                         'kode_isian_terkait': $(this).find('select[name=kode_isian_terkait]').val(),
+                        'kategori_terkait': $(this).find('select[name=kategori_terkait]').val(),
                         'lampiran_terkait': $(this).find('select[name=lampiran_terkait]').val(),
                     })
                 })
@@ -507,6 +527,10 @@
                 var tipeKode = tr.find('select.pilih_tipe').val()
                 var kaitkanData = td.find('input.kaitkan').val()
                 var tbody = tr.closest('tbody')
+                var tab_kategori = $("ul.customized-tab#tabs").find(".active").data('name');
+                var kategori_nama = @json($kategori_nama);
+                var kategori = @json($kategori);
+                delete kategori[tab_kategori ?? ''];
                 var content = ['<button type="button" class="btn btn-sm btn-primary tambah-kondisi-btn">Tambahkan Kondisi Baru</button>']
                 var modal = $(this);
                 if (tipeKode != 'select-manual') {
@@ -514,13 +538,14 @@
                     return
                 }
                 var optionIsian = [],
-                    optionKodeIsianLain = []
+                    optionKodeIsianLain = [],
+                    optionKategori = []
                 var isiPilihanManual = tr.find('select.select-manual').val()
                 if (!$.isEmptyObject(kaitkanData)) {
                     let sectionKondisi, selected, lampirans = $('#pengaturan-umum select[name="lampiran[]"]').val(),
                         jsonDataKaitkan = JSON.parse(kaitkanData)
                     for (let i in jsonDataKaitkan) {
-                        optionIsian = [], optionKodeIsianLain = [], optionLampiran = []
+                        optionIsian = [], optionKodeIsianLain = [], optionKategori = [], optionLampiran = []
                         for (let j in isiPilihanManual) {
                             selected = jsonDataKaitkan[i]['nilai_isian'].includes(isiPilihanManual[j]) ? 'selected' : ''
                             optionIsian.push(`<option ${selected}>${isiPilihanManual[j]}</option>`)
@@ -531,9 +556,27 @@
                             optionLampiran.push(`<option ${selected}>${lampiran}</option>`)
                         }
 
-                        tbody.find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
-                            selected = jsonDataKaitkan[i]['kode_isian_terkait'].includes($(this).val()) ? 'selected' : ''
-                            optionKodeIsianLain.push(`<option ${selected}>${$(this).val()}</option>`)
+                        $('#dragable-form-utama').find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
+                            optionKodeIsianLain.push(`<option>${$(this).val()}</option>`)
+                        })
+
+                        $.each(kategori_nama, function(i, data) {
+                            $(`#dragable-${data}`).find('input[name*=nama_kode]').not(tr.find('input[name*=nama_kode]')).each(function() {
+                                optionKodeIsianLain.push(`<option>${$(this).val()}</option>`)
+                            })
+                        })
+
+                        for (let k in jsonDataKaitkan[i]['kode_isian_terkait']) {
+                            selected = `<option>${jsonDataKaitkan[i]['kode_isian_terkait'][k]}</option>`
+                            index = optionKodeIsianLain.indexOf(selected)
+                            if (index !== -1) {
+                                optionKodeIsianLain[index] = `<option selected>${jsonDataKaitkan[i]['kode_isian_terkait'][k]}</option>`
+                            }
+                        }
+
+                        $.each(kategori, function(j, data) {
+                            selected = (jsonDataKaitkan[i]['kategori_terkait'] ?? []).includes(j) ? 'selected' : ''
+                            optionKategori.push(`<option ${selected} value="${j}">${data}</option>`)
                         })
 
                         sectionKondisi =
@@ -548,6 +591,10 @@
                                 <div class="form-group">
                                     <label class="control-label">Nilai Kode Isian</label>
                                     <select name="nilai_isian" class="select2 form-control" multiple>${optionIsian.join('')}</select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Form Kategori</label>
+                                    <select name="kategori_terkait" class="select2 form-control" multiple>${optionKategori}</select>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label">Kode Isian</label>

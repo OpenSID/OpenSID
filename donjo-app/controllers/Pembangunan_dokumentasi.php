@@ -86,11 +86,11 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn($row) => $row->persentase . '%')
+                ->editColumn('persentase', static fn ($row) => $row->persentase . '%')
                 ->orderColumn('persentase', static function ($query, $order) {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
-                ->editColumn('created_at', static fn($row) => $row->created_at)
+                ->editColumn('created_at', static fn ($row) => $row->created_at)
                 ->rawColumns(['ceklist', 'aksi', 'gambar'])
                 ->make();
         }
@@ -244,7 +244,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
         }
         // Upload gagal
         else {
-            redirect_with('error', $this->upload->display_errors(null, null), ci_route('admin_pembangunan.form-dokumentasi', $id));
+            redirect_with('error', $this->upload->display_errors(null, null), ci_route('pembangunan_dokumentasi.dokumentasi', $id));
         }
 
         return (empty($uploadData)) ? null : $uploadData['file_name'];

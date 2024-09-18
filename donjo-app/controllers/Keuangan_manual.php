@@ -44,6 +44,7 @@ class Keuangan_manual extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['keuangan_manual_model', 'keuangan_grafik_manual_model']);
     }
 
@@ -158,7 +159,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function simpan_anggaran(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $insert = $this->validation($this->input->post());
         $data   = $this->keuangan_manual_model->simpan_anggaran($insert);
 
@@ -168,7 +169,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function update_anggaran(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $id     = $this->input->post('id');
         $update = $this->validation($this->input->post());
         $data   = $this->keuangan_manual_model->update_anggaran($id, $update);
@@ -179,7 +180,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function delete_input($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->keuangan_manual_model->delete_input($id);
         redirect('keuangan_manual/manual_apbdes');
     }
@@ -238,8 +239,8 @@ class Keuangan_manual extends Admin_Controller
             'Kd_Akun'         => $this->security->xss_clean($post['Kd_Akun']),
             'Kd_Keg'          => $this->security->xss_clean($post['Kd_Keg']),
             'Kd_Rincian'      => $this->security->xss_clean($post['Kd_Rincian']),
-            'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0'),
-            'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0'),
+            'Nilai_Anggaran'  => ltrim(bilangan_titik($post['Nilai_Anggaran']), '0') ?: '0.00',
+            'Nilai_Realisasi' => ltrim(bilangan_titik($post['Nilai_Realisasi']), '0') ?: '0.00',
         ];
     }
 }

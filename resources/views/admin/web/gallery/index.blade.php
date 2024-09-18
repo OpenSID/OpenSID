@@ -54,6 +54,7 @@
                 <table class="table table-bordered table-hover" id="tabeldata">
                     <thead>
                         <tr>
+                            <th class="padat">#</th>
                             <th><input type="checkbox" id="checkall" /></th>
                             <th class="padat">No</th>
                             <th class="padat">Aksi</th>
@@ -83,6 +84,12 @@
                 serverSide: true,
                 ajax: "{{ ci_route('gallery.datatables') }}?parent={{ $parent }}",
                 columns: [{
+                        data: 'drag-handle',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,
@@ -127,7 +134,7 @@
                     },
                 ],
                 order: [
-                    [6, 'asc']
+                    [7, 'asc']
                 ],
                 aaSorting: [],
                 createdRow: function(row, data, dataIndex) {
@@ -143,16 +150,16 @@
             });
 
             $('#status').change(function() {
-                TableData.column(4).search($(this).val()).draw()
+                TableData.column(5).search($(this).val()).draw()
             })
 
 
             if (hapus == 0) {
-                TableData.column(0).visible(false);
+                TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(3).visible(false);
             }
 
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('gallery.tukar')])

@@ -28,7 +28,7 @@
                       <th>Alamat</th>
                       <td>:</td>
 											
-                      <td><?= ($data->alamat == "=== Lokasi Tidak Ditemukan ===") ? 'Lokasi tidak diketahui' : d($data->alamat); ?></td>
+                      <td><?= ($data->alamat == "=== Lokasi Tidak Ditemukan ===") ? 'Lokasi tidak diketahui' : e($data->alamat); ?></td>
                     </tr>
                     <tr>
                       <th>Tahun</th>

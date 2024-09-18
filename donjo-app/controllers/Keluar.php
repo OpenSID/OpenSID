@@ -63,6 +63,7 @@ class Keluar extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->tinymce = new TinyMCE();
         $this->load->helper('download');
         $this->isAdmin = $this->session->isAdmin->pamong;
@@ -148,7 +149,7 @@ class Keluar extends Admin_Controller
             $isAdmin         = $this->isAdmin;
             $redirectDelete  = '';
             if (setting('tte')) {
-                switch ($state) {
+                switch($state) {
                     case 'masuk':
                         $redirectDelete = 'masuk';
                         break;
@@ -165,13 +166,13 @@ class Keluar extends Admin_Controller
             }
 
             return datatables()->of(LogSurat::withOnly(['formatSuratArsip', 'penduduk', 'pamong', 'tolak'])->selectRaw('*')
-                ->when($tahun, static fn($q) => $q->whereYear('tanggal', $tahun))
-                ->when($bulan, static fn($q) => $q->whereMonth('tanggal', $bulan))
-                ->when($jenis, static fn($q) => $q->where('id_format_surat', $jenis))
-                ->when(($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1), static fn($q) => $q->selectRaw('verifikasi_kades as verifikasi'))
+                ->when($tahun, static fn ($q) => $q->whereYear('tanggal', $tahun))
+                ->when($bulan, static fn ($q) => $q->whereMonth('tanggal', $bulan))
+                ->when($jenis, static fn ($q) => $q->where('id_format_surat', $jenis))
+                ->when(($jabatanId == $idJabatanKades && setting('verifikasi_kades') == 1), static fn ($q) => $q->selectRaw('verifikasi_kades as verifikasi'))
                 // ->when(($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1 ), static fn ($q) => $q->selectRaw('verifikasi_sekdes as verifikasi')->where(static fn($r) => $q->whereIn('verifikasi_sekdes', [1,0])->orWhereNull('verifikasi_operator')))
-                ->when(($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1), static fn($q) => $q->selectRaw('verifikasi_sekdes as verifikasi'))
-                ->when(! in_array($jabatanId, [$idJabatanKades, $idJabatanSekdes]), static fn($q) => $q->selectRaw('verifikasi_operator as verifikasi'))
+                ->when(($jabatanId == $idJabatanSekdes && setting('verifikasi_sekdes') == 1), static fn ($q) => $q->selectRaw('verifikasi_sekdes as verifikasi'))
+                ->when(! in_array($jabatanId, [$idJabatanKades, $idJabatanSekdes]), static fn ($q) => $q->selectRaw('verifikasi_operator as verifikasi'))
                 ->when($state == 'arsip', static function ($q) use ($isAdmin, $jabatanId, $idJabatanKades, $idJabatanSekdes) {
                     $listJabatan = [
                         'jabatan_id'        => $jabatanId,
@@ -190,7 +191,7 @@ class Keluar extends Admin_Controller
 
                     return $q->masuk($isAdmin, $listJabatan);
                 })
-                ->when($state == 'tolak', static fn($q) => $q->ditolak())
+                ->when($state == 'tolak', static fn ($q) => $q->ditolak())
                 ->withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at'))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($state, $canUpdate, $canDelete, $operator, $jabatanId, $idJabatanKades, $idJabatanSekdes, $redirectDelete): string {
@@ -247,7 +248,7 @@ class Keluar extends Admin_Controller
                             $aksi .= '<a href="' . ci_route('keluar.unduh.tinymce', $row->id) . '" class="btn bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a> ';
                         }
                         if ($row->tte && $row->kecamatan == 2) {
-                            if (setting('api_opendk_key')) {
+                            if (setting('sinkronisasi_opendk')) {
                                 $aksi .= '<a data-id="' . $row->id . '" class="btn btn-social bg-olive btn-sm kirim-kecamatan" title="Kirim ke Kecamatan"><i class="fa fa-send"></i> Kirim ke Kecamatan</a> ';
                             } else {
                                 $aksi .= '<a class="btn btn-social bg-olive btn-sm" title="Kirim ke Kecamatan" disabled><i class="fa fa-send"></i> Kirim ke Kecamatan</a> ';
@@ -262,12 +263,12 @@ class Keluar extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('kode_surat', static fn($row) => $row->formatSuratArsip->kode_surat ?? '')
-                ->editColumn('id_format_surat', static fn($row) => $row->formatSuratArsip->nama ?? '')
-                ->editColumn('id_user', static fn($row) => $row->user->nama ?? '')
-                ->editColumn('keterangan', static fn($row) => $row->keterangan ?? '-')
-                ->editColumn('tanggal', static fn($row) => tgl_indo2($row->tanggal))
-                ->editColumn('penduduk_non_warga', static fn($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
+                ->addColumn('kode_surat', static fn ($row) => $row->formatSuratArsip->kode_surat ?? '')
+                ->editColumn('id_format_surat', static fn ($row) => $row->formatSuratArsip->nama ?? '')
+                ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
+                ->editColumn('keterangan', static fn ($row) => $row->keterangan ?? '-')
+                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
+                ->editColumn('penduduk_non_warga', static fn ($row) => $row->penduduk->nama ?? ($row->nama_non_warga ? '<strong>Non-warga: </strong>' . $row->nama_non_warga . '<br><strong>NIK: </strong>' . $row->nik_non_warga : ''))
                 ->addColumn('pemohon', static function ($row) {
                     if ($row->pemohon) {
                         return json_decode($row->pemohon)->nama ?? '<strong>Non-warga: </strong>' . ((json_decode($row->pemohon))->nama_non_warga ?? '') . '<br><strong>NIK: </strong>' . ((json_decode($row->pemohon))->nik_non_warga ?? '');
@@ -318,7 +319,7 @@ class Keluar extends Admin_Controller
         $ref_jabatan_sekdes = setting('sebutan_sekretaris_desa');
 
         switch ($this->isAdmin->jabatan_id) {
-                // verifikasi kades
+            // verifikasi kades
             case kades()->id:
                 $current = 'verifikasi_kades';
                 $next    = (setting('tte') && in_array($surat->formatSurat->jenis, FormatSurat::TINYMCE)) ? 'tte' : null;
@@ -423,15 +424,15 @@ class Keluar extends Admin_Controller
                                 ]],
                             ]),
                         ]);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         log_message('error', $e->getMessage());
                     }
                 }
 
                 // kirim ke aplikasi android admin.
                 try {
-                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new Fcm\Push\Notification();
+                    $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                    $notification = new \Fcm\Push\Notification();
 
                     $notification
                         ->addRecipient($allToken->pluck('token')->all())
@@ -479,7 +480,7 @@ class Keluar extends Admin_Controller
 
             $jenis_surat = $log_surat->formatSurat->nama;
 
-            $kirim_telegram = User::whereHas('pamong', static fn($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
+            $kirim_telegram = User::whereHas('pamong', static fn ($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
                 ->where('notif_telegram', '=', '1')
                 ->get();
 
@@ -518,9 +519,9 @@ class Keluar extends Admin_Controller
             $payload = '/home/arsip';
 
             $allToken = FcmToken::doesntHave('user.pamong')
-                ->orWhereHas('user.pamong', static fn($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
+                ->orWhereHas('user.pamong', static fn ($query) => $query->whereNotIn('jabatan_id', RefJabatan::getKadesSekdes()))
                 ->get();
-            $log_notification = $allToken->map(static fn($log): array => [
+            $log_notification = $allToken->map(static fn ($log): array => [
                 'id_user'    => $log->id_user,
                 'judul'      => $judul,
                 'isi'        => $kirimFCM,
@@ -536,8 +537,8 @@ class Keluar extends Admin_Controller
 
             // kirim ke aplikasi android admin.
             try {
-                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new Fcm\Push\Notification();
+                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new \Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())
@@ -677,9 +678,11 @@ class Keluar extends Admin_Controller
         }
     }
 
-    public function perorangan(): void
+    public function perorangan($id): void
     {
-        view('admin.surat.keluar.perorangan');
+        $data['penduduk'] = $id ? Penduduk::find($id) : null;
+
+        view('admin.surat.keluar.perorangan', $data);
     }
 
     public function perorangan_datatables()
@@ -717,11 +720,11 @@ class Keluar extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('kode_surat', static fn($row) => $row->formatSurat->kode_surat ?? '')
-                ->editColumn('id_format_surat', static fn($row) => $row->formatSurat->nama ?? '')
-                ->editColumn('id_user', static fn($row) => $row->user->nama ?? '')
-                ->editColumn('tanggal', static fn($row) => tgl_indo2($row->tanggal))
-                ->editColumn('id_pend', static fn($row) => $row->penduduk->nama ?? '')
+                ->addColumn('kode_surat', static fn ($row) => $row->formatSurat->kode_surat ?? '')
+                ->editColumn('id_format_surat', static fn ($row) => $row->formatSurat->nama ?? '')
+                ->editColumn('id_user', static fn ($row) => $row->user->nama ?? '')
+                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
+                ->editColumn('id_pend', static fn ($row) => $row->penduduk->nama ?? '')
 
                 ->rawColumns(['aksi', 'nama', 'pemohon'])
                 ->make();
@@ -799,7 +802,7 @@ class Keluar extends Admin_Controller
 
     public function widget()
     {
-        if (!setting('verifikasi_sekdes') && !setting('verifikasi_kades')) {
+        if (! setting('verifikasi_sekdes') && ! setting('verifikasi_kades')) {
             return null;
         }
 
@@ -850,13 +853,13 @@ class Keluar extends Admin_Controller
 
     private function data_kecamatan()
     {
-        if (empty($this->setting->api_opendk_key)) {
+        if (empty($this->setting->sinkronisasi_opendk)) {
             return null;
         }
         $desa = kode_wilayah($this->header['desa']['kode_desa']);
 
         try {
-            $client = new GuzzleHttp\Client([
+            $client = new \GuzzleHttp\Client([
                 'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat?desa_id={$desa}",
             ]);
 
@@ -870,7 +873,7 @@ class Keluar extends Admin_Controller
             log_message('error', $e);
 
             return null;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             log_message('error', $exception);
 
             return null;

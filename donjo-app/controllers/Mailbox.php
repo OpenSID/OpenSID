@@ -48,6 +48,7 @@ class Mailbox extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index(int $kategori): void
@@ -68,9 +69,9 @@ class Mailbox extends Admin_Controller
             $canUpdate = can('u');
 
             return datatables()->of(PesanMandiri::with(['penduduk'])->whereTipe($tipe)
-                ->when($pendudukId, static fn($q) => $q->wherePendudukId($pendudukId))
+                ->when($pendudukId, static fn ($q) => $q->wherePendudukId($pendudukId))
                 ->when($status, static function ($q) use ($status) {
-                    switch ($status) {
+                    switch($status) {
                         case 1:
                         case 2:
                             $q->whereStatus($status);
@@ -105,8 +106,8 @@ class Mailbox extends Admin_Controller
 
                     return $aksi;
                 })
-                ->addColumn('status', static fn($row): string => $row->status == '1' ? 'Sudah Dibaca' : 'Belum Dibaca')
-                ->editColumn('tgl_upload', static fn($row): string => tgl_indo2($row->tgl_upload))
+                ->addColumn('status', static fn ($row): string => $row->status == '1' ? 'Sudah Dibaca' : 'Belum Dibaca')
+                ->editColumn('tgl_upload', static fn ($row): string => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -169,7 +170,7 @@ class Mailbox extends Admin_Controller
     {
         $cari                   = $this->input->get('q');
         $page                   = 2; //$this->input->get('page');
-        $list_pendaftar_mandiri = Penduduk::whereHas('mandiri')->withOnly(['Wilayah', 'keluarga'])->where(static fn($r) => $r->where('nama', 'like', '%' . $cari . '%')->orWhere('nik', 'like', '%' . $cari . '%'))->offset(($page - 1) * 15)->simplePaginate();
+        $list_pendaftar_mandiri = Penduduk::whereHas('mandiri')->withOnly(['Wilayah', 'keluarga'])->where(static fn ($r) => $r->where('nama', 'like', '%' . $cari . '%')->orWhere('nik', 'like', '%' . $cari . '%'))->offset(($page - 1) * 15)->simplePaginate();
         $data                   = $list_pendaftar_mandiri->items();
         $result                 = [];
         if ($data) {

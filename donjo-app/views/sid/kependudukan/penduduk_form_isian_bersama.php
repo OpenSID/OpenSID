@@ -1,5 +1,5 @@
 <div class="row">
-	<?php if ($jenis_peristiwa == 5 && !$penduduk['tgl_peristiwa']) : ?>
+	<?php if ($jenis_peristiwa == 5 && ! $penduduk['tgl_peristiwa']) : ?>
 		<div class='col-sm-4'>
 			<div class='form-group'>
 				<label for="tgl_peristiwa">Tanggal Pindah Masuk</label>
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php if (!$penduduk['tgl_lapor']) : ?>
+	<?php if (! $penduduk['tgl_lapor']) : ?>
 		<div class='col-sm-4'>
 			<div class='form-group'>
 				<label for="tgl_lapor">Tanggal Lapor</label>
@@ -127,7 +127,7 @@
 			<select id="kk_level" class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
-					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == App\Enums\SHDKEnum::KEPALA_KELUARGA && $this->controller === 'keluarga') : ?>
+					<?php if ($this->session->has_userdata('jenis_peristiwa') && $this->session->jenis_peristiwa == '5' && $data['id'] == \App\Enums\SHDKEnum::KEPALA_KELUARGA && $this->controller === 'keluarga') : ?>
 						<option selected value="<?= $data['id'] ?>"><?= strtoupper($data['nama']) ?></option>
 						<?php break ?>
 					<?php else : ?>
@@ -292,8 +292,8 @@
 				<option value="">Pilih Pendidikan (Dalam KK) </option>
 				<?php foreach ($pendidikan_kk as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['pendidikan_kk_id'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-																															selected(1, $data['id']);
-																														} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(1, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach ?>
 			</select>
 		</div>
@@ -305,8 +305,8 @@
 				<option value="">Pilih Pendidikan</option>
 				<?php foreach ($pendidikan_sedang as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['pendidikan_sedang_id'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-																																selected(18, $data['id']);
-																															} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(18, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -318,8 +318,8 @@
 				<option value="">Pilih Pekerjaan</option>
 				<?php foreach ($pekerjaan as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['pekerjaan_id'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-																														selected(1, $data['id']);
-																													} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(1, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -424,7 +424,7 @@
 			<label class="text-right"><strong>ALAMAT :</strong></label>
 		</div>
 	</div>
-	<?php if (!empty($penduduk['no_kk']) || $kk_baru) : ?>
+	<?php if (! empty($penduduk['no_kk']) || $kk_baru) : ?>
 		<div class='col-sm-12'>
 			<div class='form-group'>
 				<label for="alamat">Alamat KK </label>
@@ -437,8 +437,8 @@
 			<div class="col-sm-12">
 				<div class='form-group col-sm-3'>
 					<label for="dusun"><?= ucwords($this->setting->sebutan_dusun) ?> <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
-																							echo 'KK';
-																						} ?></label>
+                        echo 'KK';
+                    } ?></label>
 					<select id="dusun" name="dusun" class="form-control input-sm required">
 						<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun) ?></option>
 						<?php foreach ($dusun as $data) : ?>
@@ -448,8 +448,8 @@
 				</div>
 				<div id='isi_rw' class='form-group col-sm-2'>
 					<label for="rw">RW <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
-											echo 'KK';
-										} ?></label>
+                        echo 'KK';
+                    } ?></label>
 					<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/') ?>" data-valueKey="rw" data-displayKey="rw">
 						<option class="placeholder" value="">Pilih RW</option>
 						<?php foreach ($rw as $data) : ?>
@@ -459,8 +459,8 @@
 				</div>
 				<div id='isi_rt' class='form-group col-sm-2'>
 					<label for="id_cluster">RT <?php if (! (empty($penduduk['no_kk']) && empty($kk_baru))) {
-													echo 'KK';
-												} ?></label>
+                        echo 'KK';
+                    } ?></label>
 					<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/') ?>" data-valueKey="id" data-displayKey="rt">
 						<option class="placeholder" value="">Pilih RT </option>
 						<?php foreach ($rt as $data) : ?>
@@ -477,7 +477,7 @@
 			<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk <?= jecho($jenis_peristiwa, 5, 'required') ?>" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya'] ?>"></input>
 		</div>
 	</div>
-	<?php if (!$penduduk['no_kk'] && !$kk_baru) : ?>
+	<?php if (! $penduduk['no_kk'] && ! $kk_baru) : ?>
 		<div class='col-sm-12'>
 			<div class='form-group'>
 				<label for="alamat_sekarang">Alamat Sekarang </label>
@@ -510,10 +510,10 @@
 				<option value="">Pilih Cara Hubungi</option>
 				<?php foreach (['SMS', 'Email', 'Telegram'] as $value) : ?>
 					<?php
-					if ((bool) $this->setting->aktifkan_sms === false && $value === 'SMS') {
-						continue;
-					}
-					?>
+                                            if ((bool) $this->setting->aktifkan_sms === false && $value === 'SMS') {
+                                                continue;
+                                            }
+                    ?>
 					<option value="<?= $value ?>" <?= selected($penduduk['hubung_warga'], $value); ?>><?= $value ?></option>
 				<?php endforeach ?>
 			</select>
@@ -531,8 +531,8 @@
 				<option value="">Pilih Status Perkawinan</option>
 				<?php foreach ($kawin as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['status_kawin'], $data['id']); ?> <?php if ($jenis_peristiwa == '1') {
-																														selected(1, $data['id']);
-																													} ?>><?= strtoupper($data['nama']) ?></option>
+                        selected(1, $data['id']);
+                    } ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -850,6 +850,7 @@
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('BELUM WAJIB');
+				$('#akseptor_kb').hide();
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -857,6 +858,7 @@
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
+				$('#akseptor_kb').show();
 				break;
 			case '3':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -864,6 +866,7 @@
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				$('#wajib_ktp').text('WAJIB');
+				$('#akseptor_kb').show();
 				break;
 			case '4':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -871,6 +874,7 @@
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
+				$('#akseptor_kb').show();
 				break;
 		}
 	}
@@ -919,4 +923,5 @@
 			$('#nama_ibu').val('<?= $penduduk['nama_ibu'] ?>');
 		}
 	}
+
 </script>
