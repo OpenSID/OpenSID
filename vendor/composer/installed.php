@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-2409.0.1-bug-fix',
-        'version' => 'dev-2409.0.1-bug-fix',
+        'pretty_version' => 'dev-2409.0.2-bug-fix',
+        'version' => 'dev-2409.0.2-bug-fix',
         'reference' => '2c80733bdbf606765716b2c1b625aef53bb92b7f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
@@ -674,8 +674,8 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-2409.0.1-bug-fix',
-            'version' => 'dev-2409.0.1-bug-fix',
+            'pretty_version' => 'dev-2409.0.2-bug-fix',
+            'version' => 'dev-2409.0.2-bug-fix',
             'reference' => '2c80733bdbf606765716b2c1b625aef53bb92b7f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',

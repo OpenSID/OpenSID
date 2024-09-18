@@ -35,33 +35,18 @@
  *
  */
 
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        $hasil = true;
+        return true;
 
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }
-
-        return $hasil && $this->migrasi_2024091251($hasil);
-    }
-
-    protected function migrasi_2024091251($hasil)
-    {
-        Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-            $table->longText('device')->nullable()->change();
-        });
-
-        return $hasil;
     }
 }
