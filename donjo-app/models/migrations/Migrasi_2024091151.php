@@ -85,7 +85,7 @@ class Migrasi_2024091151 extends MY_model
 
         if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
             Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
-                $table->longText('device')->unique()->after('token');
+                $table->longText('device')->after('token');
             });
         }
 
