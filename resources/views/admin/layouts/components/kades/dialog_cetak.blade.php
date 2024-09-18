@@ -48,7 +48,7 @@
     </div>
     <div class="modal-footer">
         {!! batal() !!}
-        <button type="submit" class="btn btn-social btn-info btn-sm" id="btn-ok">
+        <button type="submit" onclick="cetak()" class="btn btn-social btn-info btn-sm" id="btn-ok">
             @if ($aksi == 'cetak')
                 <i class='fa fa-print'></i> Cetak
             @else
@@ -66,4 +66,18 @@
             }
         });
     });
+
+    function cetak() {
+        // Retrieve DataTable parameters
+        let params = $('#tabeldata').DataTable().ajax.params();
+
+        // Convert params object to query string
+        let queryString = $.param(params);
+
+        // Set form action with query parameters
+        $("#validasi").attr("action", `{{ $form_action }}?${queryString}`);
+
+        // Hide modal
+        $('#modalBox').modal('hide');
+    }
 </script>

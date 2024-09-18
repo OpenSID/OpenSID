@@ -1055,34 +1055,36 @@
 
         // kirim dara pada form-tanggallahir menggunakan ajax post
         $('#form-tanggallahir').submit(function(e) {
-    e.preventDefault();
+            e.preventDefault();
 
-    // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
-    let csrfTokenName = '{{ $ci->security->get_csrf_token_name() }}';
-    let csrfTokenValue = '{{ $ci->security->get_csrf_hash() }}';
+            // Ambil csrf token dari Laravel (pastikan blade directives diproses di server)
+            let csrfTokenName = '{{ $ci->security->get_csrf_token_name() }}';
+            let csrfTokenValue = '{{ $ci->security->get_csrf_hash() }}';
 
-    // Tambahkan CSRF token ke dalam data form
-    let formData = $(this).serializeArray();
-    formData.push({ name: csrfTokenName, value: csrfTokenValue });
+            // Tambahkan CSRF token ke dalam data form
+            let formData = $(this).serializeArray();
+            formData.push({
+                name: csrfTokenName,
+                value: csrfTokenValue
+            });
 
-    $.ajax({
-        type: 'POST',
-        url: $(this).attr('action'),
-        data: formData,
-        success: function(data) {
-            if (data.status) {
-                alert('Data berhasil diperbarui');
-                location.reload();
-            } else {
-                alert('Data gagal diperbarui');
-            }
-        },
-        error: function(xhr, status, error) {
-            alert('Data gagal diperbarui');
-        }
-    });
-});
-
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function(data) {
+                    if (data.status) {
+                        alert('Data berhasil diperbarui');
+                        location.reload();
+                    } else {
+                        alert('Data gagal diperbarui');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('Data gagal diperbarui');
+                }
+            });
+        });
     </script>
 </body>
 

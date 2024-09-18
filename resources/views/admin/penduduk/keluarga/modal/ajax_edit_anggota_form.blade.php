@@ -19,7 +19,7 @@
                     <select name="kk_level" class="form-control input-sm select2 required" style="width:100%;">
                         <option value=""> ----- Pilih Hubungan Keluarga ----- </option>
                         @foreach ($hubungan as $key => $value)
-                        <option value="{{ $key }}" @selected($key==$main->kk_level)>{{ $value }}</option>
+                            <option value="{{ $key }}" @selected($key == $main->kk_level)>{{ $value }}</option>
                         @endforeach
                     </select>
                 </td>
