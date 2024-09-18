@@ -44,7 +44,6 @@ use App\Models\Penduduk;
 use App\Models\Rtm;
 use App\Models\Wilayah;
 use Carbon\Carbon;
-use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 
 class AcakData extends Command

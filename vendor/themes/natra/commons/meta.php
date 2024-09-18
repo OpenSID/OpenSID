@@ -123,17 +123,34 @@
 	}
 
 	@keyframes progressiveReveal {
-    0% {
-        opacity: 0;
-        transform: scale(1.05)
-    }
+		0% {
+			opacity: 0;
+			transform: scale(1.05)
+		}
 
-    to {
-        opacity: 1;
-        transform: scale(1)
-    }
-}
-	
+		to {
+			opacity: 1;
+			transform: scale(1)
+		}
+	}
+
+	embed-responsive {
+		position: relative;
+		display: block;
+		height: 0;
+		padding: 0;
+		overflow: hidden;
+		padding-bottom: 56.25%; /* For a 16:9 ratio */
+	}
+
+	embed-responsive iframe {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
 </style>
 
 <script>
