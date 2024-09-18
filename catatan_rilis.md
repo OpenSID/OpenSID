@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#8409](https://github.com/OpenSID/OpenSID/issues/8409) Penambahan pengaturan rentang waktu masuk dan keluar pada kehadiran.
 2. [#8371](https://github.com/OpenSID/OpenSID/issues/8371) Penambahan kode isian inisial jenis kelamin penduduk pada surat.
+3. [#8444](https://github.com/OpenSID/OpenSID/issues/8444) Penambahan detail jumlah kartu keluarga dalam rumah tangga.
 
 
 #### BUG

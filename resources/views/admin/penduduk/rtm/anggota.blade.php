@@ -58,6 +58,16 @@
                             <td>{{ $kepala_kk['alamat_wilayah'] }}</td>
                         </tr>
                         <tr>
+                            <td>Jumlah KK</td>
+                            <td>:</td>
+                            <td>{{ $kepala_kk['jumlah_kk'] }} </td>
+                        </tr>
+                        <tr>
+                            <td>Jumlah Anggota</td>
+                            <td>:</td>
+                            <td>{{ count($main) }} </td>
+                        </tr>
+                        <tr>
                             <td>BDT</td>
                             <td>:</td>
                             <td>{{ $kepala_kk['bdt'] ?? '-' }} </td>

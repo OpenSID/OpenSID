@@ -71,6 +71,15 @@ class Rtm extends BaseModel
     protected $guarded = [];
 
     /**
+     * The appends with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'jumlah_kk'
+    ];
+
+    /**
      * Define a one-to-one relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\hasOne
@@ -188,5 +197,10 @@ class Rtm extends BaseModel
         }
 
         return $data ?? null;
+    }
+
+    public function getJumlahKkAttribute()
+    {
+        return $this->anggota()->distinct('id_kk')->count('id_kk');
     }
 }
