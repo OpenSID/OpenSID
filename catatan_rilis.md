@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#8371](https://github.com/OpenSID/OpenSID/issues/8371) Penambahan kode isian inisial jenis kelamin penduduk pada surat.
 3. [#8444](https://github.com/OpenSID/OpenSID/issues/8444) Penambahan detail jumlah kartu keluarga dalam rumah tangga.
 4. [#5058](https://github.com/OpenSID/OpenSID/issues/5058) Penambahan status perkawinan cerai hidup tercatat/belum tercatat pada penduduk.
+5. [#5228](https://github.com/OpenSID/OpenSID/issues/5228) Penambahan notifikasi pengaturan email/telegram belum disesuaikan jika pendaftaran layanan mandiri diaktifkan.
 
 
 #### BUG

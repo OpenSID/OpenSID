@@ -204,6 +204,15 @@ class Setting_model extends MY_Model
                     continue;
                 }
 
+
+                if ($key == 'tampilkan_pendaftaran' && $value == 1) {
+                    if ($this->setting->email_notifikasi == 0 || $this->setting->telegram_notifikasi == 0) {
+                        $value = 0;
+                        $hasil = false;
+                        set_session('flash_error_msg', 'Untuk menampilkan pendaftaran, notifikasi harus mengaktifkan pengaturan notifikasi email dan telegram');
+                    }
+                }
+
                 if ($key == 'ip_adress_kehadiran' || $key == 'mac_adress_kehadiran') {
                     $value = trim($value);
                 }
