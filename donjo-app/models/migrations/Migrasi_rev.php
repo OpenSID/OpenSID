@@ -49,13 +49,29 @@ class Migrasi_rev extends MY_model
         // foreach ($config_id as $id) {
         // }
 
-        return $this->migrasi_2024092051(true);
+        $hasil = $this->migrasi_2024092051(true);
+
+        return $hasil && $this->migrasi_2024090551($hasil);
     }
 
     public function migrasi_2024092051($hasil)
     {
-        DB::table('widget')->where('form_admin', 'web/tab/1000')
+        DB::table('widget')
+            ->where('form_admin', 'web/tab/1000')
             ->update(['form_admin' => 'web/agenda']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024090551($hasil)
+    {
+        DB::table('setting_aplikasi')
+            ->where('key', 'sebutan_dusun')
+            ->where('kategori', '!=', 'Wilayah Administratif')
+
+            ->update(['kategori' => 'Wilayah Administratif']);
+
+        
 
         return $hasil;
     }

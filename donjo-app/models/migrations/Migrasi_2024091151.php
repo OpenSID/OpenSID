@@ -46,33 +46,9 @@ class Migrasi_2024091151 extends MY_model
 {
     public function up()
     {
-        $hasil = true;
-
-        // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
-
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024090551($hasil, $id);
-        }
-        $hasil = $this->migrasi_2024090951($hasil);
+        $hasil = $this->migrasi_2024090951(true);
 
         return $hasil && $this->migrasi_2024090552($hasil);
-    }
-
-    protected function migrasi_2024090551($hasil, $config_id)
-    {
-        $this->db
-            ->update(
-                'setting_aplikasi',
-                ['kategori' => 'Wilayah Administratif'],
-                [
-                    'config_id'   => $config_id,
-                    'key'         => 'sebutan_dusun',
-                    'kategori !=' => 'Wilayah Administratif',
-                ]
-            );
-
-        return $hasil;
     }
 
     protected function migrasi_2024090552($hasil)
