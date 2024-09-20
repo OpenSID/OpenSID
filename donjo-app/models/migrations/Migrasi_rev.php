@@ -66,12 +66,9 @@ class Migrasi_rev extends MY_model
     protected function migrasi_2024090551($hasil)
     {
         DB::table('setting_aplikasi')
-            ->where('key', 'sebutan_dusun')
+            ->whereIn('key', ['sebutan_dusun', 'sebutan_singkatan_kadus'])
             ->where('kategori', '!=', 'Wilayah Administratif')
-
             ->update(['kategori' => 'Wilayah Administratif']);
-
-        
 
         return $hasil;
     }
