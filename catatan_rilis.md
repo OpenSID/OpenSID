@@ -40,7 +40,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 33. [#8461](https://github.com/OpenSID/OpenSID/issues/8461) Perbaikan pengurutan pada cetak buku peraturan di desa dan keputusan kepala desa.
 34. [#8476](https://github.com/OpenSID/OpenSID/issues/8476) Perbaikan judul cetak/unduh inventaris aset tetap lainnya.
 35. [#8467](https://github.com/OpenSID/OpenSID/issues/8467) Perbaikan verifikasi surat oleh operator dengan TTE aktif.
-
+36. [#8483](https://github.com/OpenSID/OpenSID/issues/8483) Perbaikan url agenda pada modul widget.
 
 
 #### TEKNIS

@@ -35,18 +35,28 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return true;
-
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }
+
+        return $this->migrasi_2024092051(true);
+    }
+
+    public function migrasi_2024092051($hasil)
+    {
+        DB::table('widget')->where('form_admin', 'web/tab/1000')
+            ->update(['form_admin' => 'web/agenda']);
+
+        return $hasil;
     }
 }
