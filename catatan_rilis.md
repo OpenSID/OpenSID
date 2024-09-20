@@ -45,6 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 38. [#8475](https://github.com/OpenSID/OpenSID/issues/8475) Perbaikan cetak/unduh pada modul peristiwa.
 39. [#8487](https://github.com/OpenSID/OpenSID/issues/8487) Perbaikan validasi csrf pada impor data penduduk.
 40. [#8489](https://github.com/OpenSID/OpenSID/issues/8489) Perbaikan hapus file tema tambahan.
+41. [#8492](https://github.com/OpenSID/OpenSID/issues/8492) Perbaikan modal form untuk data anak ke dan alamat sebelumnya pada modul peristiwa.
 
 
 #### TEKNIS

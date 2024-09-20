@@ -241,7 +241,7 @@ class Penduduk_log extends Admin_Controller
     public function edit($id): void
     {
         isCan('u');
-        $data['log_status_dasar'] = LogPenduduk::findOrFail($id);
+        $data['log_status_dasar'] = LogPenduduk::with('penduduk')->findOrFail($id);
         $data['list_ref_pindah']  = PindahEnum::all();
         $data['sebab']            = unserialize(SEBAB);
         $data['penolong_mati']    = unserialize(PENOLONG_MATI);
