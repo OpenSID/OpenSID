@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 35. [#8467](https://github.com/OpenSID/OpenSID/issues/8467) Perbaikan verifikasi surat oleh operator dengan TTE aktif.
 36. [#8483](https://github.com/OpenSID/OpenSID/issues/8483) Perbaikan url agenda pada modul widget.
 37. [#8482](https://github.com/OpenSID/OpenSID/issues/8482) Perbaikan pengaturan sebutan dusun pada modul wilayah administratif.
+38. [#8475](https://github.com/OpenSID/OpenSID/issues/8475) Perbaikan cetak/unduh pada modul peristiwa.
 
 
 #### TEKNIS
