@@ -350,7 +350,7 @@ class Log_Viewer
      * extract the log level from the logLine
      *
      * @param $logLineStart - The single line that is the start of log line.
-     *                       extracted by getLogLineStart()
+     *                      extracted by getLogLineStart()
      *
      * @return log level e.g. ERROR, DEBUG, INFO
      */

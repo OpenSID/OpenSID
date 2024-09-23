@@ -65,8 +65,8 @@ class Migrasi_rev extends MY_model
         DB::table('setting_aplikasi')
             ->where('key', 'sebutan_singkatan_kadus')
             ->update([
-                'key' => 'sebutan_kepala_dusun',
-                'keterangan' => 'Sebutan Kepala Dusun'
+                'key'        => 'sebutan_kepala_dusun',
+                'keterangan' => 'Sebutan Kepala Dusun',
             ]);
 
         return $hasil;
@@ -84,8 +84,7 @@ class Migrasi_rev extends MY_model
     public function migrasi_2024092151($hasil)
     {
         $hasil = $hasil && checkAndFixTable('log_notifikasi_admin');
-        $hasil = $hasil && checkAndFixTable('log_notifikasi_mandiri');
 
-        return $hasil;
+        return $hasil && checkAndFixTable('log_notifikasi_mandiri');
     }
 }

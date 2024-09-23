@@ -1196,16 +1196,17 @@ if (! function_exists('format_penomoran_surat')) {
  *
  * @return bool
  */
-if (!function_exists('deleteDir')) {
-    function deleteDir($dirPath) {
-        if (!is_dir($dirPath)) {
+if (! function_exists('deleteDir')) {
+    function deleteDir($dirPath)
+    {
+        if (! is_dir($dirPath)) {
             return false;
         }
 
         // Memastikan izin semua file dan folder diubah sehingga dapat dihapus
-        $items = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($dirPath, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
+        $items = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dirPath, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::CHILD_FIRST
         );
 
         foreach ($items as $item) {
