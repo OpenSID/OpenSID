@@ -62,7 +62,7 @@ class Buku_kepuasan extends Anjungan_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '<a href="' . site_url('buku_kepuasan/show/' . $row->id) . '" class="btn bg-teal btn-sm" title="Lihat Data"><i class="fa fa-list"></i></a> ';
+                    $aksi = '<a href="' . site_url('buku_kepuasan/show/' . $row->id) . '" class="btn bg-purple btn-sm" title="Lihat Data"><i class="fa fa-list"></i></a> ';
 
                     if (can('h')) {
                         $aksi .= '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
@@ -83,6 +83,7 @@ class Buku_kepuasan extends Anjungan_Controller
 
         return view('admin.buku_tamu.kepuasan.show', [
             'id_pertanyaan' => $id,
+            'pertanyaan'    => BukuPertanyaan::find($id)->pertanyaan,
         ]);
     }
 
@@ -97,7 +98,7 @@ class Buku_kepuasan extends Anjungan_Controller
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '<a href="' . site_url('buku_kepuasan/show/' . $row->id) . '" class="btn bg-teal btn-sm" title="Lihat Data"><i class="fa fa-list"></i></a> ';
+                    $aksi = '';
 
                     if (can('h')) {
                         $aksi .= '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
