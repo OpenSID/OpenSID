@@ -49,6 +49,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 42. [#8493](https://github.com/OpenSID/OpenSID/issues/8493) Perbaikan tambah/ubah data menu jika link sudah digunakan.
 43. [#7720](https://github.com/OpenSID/OpenSID/issues/7720) Perbaikan login menggunakan recaptha yang tidak valid.
 44. [#8478](https://github.com/OpenSID/OpenSID/issues/8478) Perbaikan penyaringan penduduk berdasarkan hak akses wilayah.
+45. [#8488](https://github.com/OpenSID/OpenSID/issues/8488) Perbaikan pengaturan sebutan kepala dusun.
 
 
 #### TEKNIS

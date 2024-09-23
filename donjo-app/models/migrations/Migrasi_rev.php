@@ -62,6 +62,13 @@ class Migrasi_rev extends MY_model
             ->where('kategori', '!=', 'Wilayah Administratif')
             ->update(['kategori' => 'Wilayah Administratif']);
 
+        DB::table('setting_aplikasi')
+            ->where('key', 'sebutan_singkatan_kadus')
+            ->update([
+                'key' => 'sebutan_kepala_dusun',
+                'keterangan' => 'Sebutan Kepala Dusun'
+            ]);
+
         return $hasil;
     }
 
