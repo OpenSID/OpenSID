@@ -36,7 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Anjungan as AnjunganModel;
+use Modules\Anjungan\Models\Anjungan as AnjunganModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

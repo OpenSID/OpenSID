@@ -35,26 +35,26 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\Anjungan\Models;
 
+use App\Models\User;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use Spatie\EloquentSortable\SortableTrait;
+use App\Models\BaseModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class AnjunganMenu extends BaseModel
+class Anjungan extends BaseModel
 {
     use Author;
     use ConfigId;
-    use SortableTrait;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'anjungan_menu';
+    protected $table = 'anjungan';
 
     /**
      * The attributes that are mass assignable.
@@ -62,14 +62,28 @@ class AnjunganMenu extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'nama',
-        'icon',
-        'link',
-        'link_tipe',
-        'urut',
+        'ip_address',
+        'mac_address',
+        'id_pengunjung',
+        'keterangan',
         'status',
+        'status_alasan',
+        'tipe',
+        'printer_ip',
+        'printer_port',
+        'keyboard',
         'created_by',
         'updated_by',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status'   => 'boolean',
+        'keyboard' => 'boolean',
     ];
 
     /**
@@ -80,16 +94,6 @@ class AnjunganMenu extends BaseModel
     protected $with = [
         // 'createdBy',
         // 'updatedBy',
-    ];
-
-    protected $appends = ['link_url'];
-
-    /**
-     * {@inheritDoc}
-     */
-    public $sortable = [
-        'order_column_name'  => 'urut',
-        'sort_when_creating' => true,
     ];
 
     /**
@@ -112,34 +116,8 @@ class AnjunganMenu extends BaseModel
         return $this->hasOne(User::class, 'id', 'updated_by');
     }
 
-    /**
-     * The "booted" method of the model.
-     */
-    public static function boot(): void
+    public function scopeTipe($query, $tipe = 1)
     {
-        parent::boot();
-
-        static::updating(static function ($model): void {
-            static::deleteFile($model, 'icon');
-        });
-
-        static::deleting(static function ($model): void {
-            static::deleteFile($model, 'icon', true);
-        });
-    }
-
-    public static function deleteFile($model, ?string $file, $deleting = false): void
-    {
-        if ($model->isDirty($file) || $deleting) {
-            $logo = LOKASI_ICON_MENU_ANJUNGAN . $model->getOriginal($file);
-            if (file_exists($logo)) {
-                unlink($logo);
-            }
-        }
-    }
-
-    public function getLinkUrlAttribute()
-    {
-        return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
+        return $query->where('tipe', $tipe);
     }
 }

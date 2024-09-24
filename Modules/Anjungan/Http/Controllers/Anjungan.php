@@ -35,87 +35,45 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\Author;
-use App\Traits\ConfigId;
+use Modules\Anjungan\Models\AnjunganMenu;
+use App\Models\Artikel;
+use App\Models\Galery;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan extends BaseModel
+class Anjungan extends Web_Controller
 {
-    use Author;
-    use ConfigId;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'anjungan';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'ip_address',
-        'mac_address',
-        'id_pengunjung',
-        'keterangan',
-        'status',
-        'status_alasan',
-        'tipe',
-        'printer_ip',
-        'printer_port',
-        'keyboard',
-        'created_by',
-        'updated_by',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'status'   => 'boolean',
-        'keyboard' => 'boolean',
-    ];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = [
-        // 'createdBy',
-        // 'updatedBy',
-    ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function createdBy()
+    public function __construct()
     {
-        return $this->hasOne(User::class, 'id', 'created_by');
+        parent::__construct();
+        $this->load->helper('web');
+        $this->load->model('pamong_model');
+        if (! cek_anjungan() || $this->cek_anjungan['tipe'] != 1) {
+            redirect('layanan-mandiri/beranda');
+        }
     }
 
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function updatedBy()
+    public function index()
     {
-        return $this->hasOne(User::class, 'id', 'updated_by');
-    }
+        $menu = AnjunganMenu::where('status', 1)->get();
 
-    public function scopeTipe($query, $tipe = 1)
-    {
-        return $query->where('tipe', $tipe);
+        $jumlah_artikel = setting('anjungan_layar') == 1 ? 4 : 6;
+
+        $data = [
+            'cek_anjungan'  => $this->cek_anjungan,
+            'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->limit($jumlah_artikel)->get(),
+            'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->limit($jumlah_artikel)->get(),
+            'tanggal'       => Carbon::now()->dayName . ', ' . date('d/m/Y'),
+            'menu'          => $menu,
+            'slides'        => count($menu) > 5 ? 5 : count($menu),
+            'teks_berjalan' => setting('anjungan_teks_berjalan'),
+            'gambar'        => Galery::where('parrent', setting('anjungan_slide'))->where('enabled', 1)->get(),
+            'pamong'        => $this->pamong_model->list_aparatur_desa()['daftar_perangkat'],
+        ];
+
+        $layar = setting('anjungan_layar') == 1 ? 'index' : 'potrait';
+
+        return view("anjungan.{$layar}", $data);
     }
 }
