@@ -1894,7 +1894,7 @@ class DTKSRegsosEk2022k
         return ['content' => ['message' => 'Berhasil disimpan'], 'header_code' => 200];
     }
 
-    public function syncKetDemografi(DtksAnggota $dtks_anggota, $agt, Penduduk $kepala_keluarga, array $ref_eloquent_collection): DtksAnggota
+    public function syncKetDemografi(DtksAnggota $dtks_anggota, $agt, ?Penduduk $kepala_keluarga, array $ref_eloquent_collection): DtksAnggota
     {
         // $dtks_anggota->nama  = $agt->nama; // 402
         // $dtks_anggota->nik   = $agt->nik; // 403
@@ -2059,7 +2059,7 @@ class DTKSRegsosEk2022k
         return $dtks_anggota;
     }
 
-    public function syncProgramPerlindunganSosial(DtksAnggota $dtks_anggota, $agt, Penduduk $kepala_keluarga, $ref_eloquent_collection): DtksAnggota
+    public function syncProgramPerlindunganSosial(DtksAnggota $dtks_anggota, $agt, ?Penduduk $kepala_keluarga, $ref_eloquent_collection): DtksAnggota
     {
         $pengaturan_programs = DtksPengaturanProgram::where('versi_kuisioner', '2')
             ->where('target_table', 'dtks_anggota');
