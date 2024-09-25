@@ -334,7 +334,7 @@
                 Apakah Anda yakin ingin mengembalikan surat bawaan/sistem ini?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                <button id="tutup-restore" type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
                 <a class="btn-ok">
                     <a href="{{ ci_route('surat_dinas.restore_surat_bawaan', $suratDinas->url_surat) }}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i>
                         Kembalikan</a>
@@ -426,6 +426,10 @@
             serverSide: true,
             bPaginate: false,
             ajax: "{{ ci_route('surat_dinas.syaratSuratDatatables', $suratDinas->id) }}",
+            drawCallback: function(settings) {
+                // Disable all checkbox inputs after the DataTable is rendered
+                $('input[type="checkbox"]').prop('disabled', {{ $viewOnly }});
+            },
             columns: [{
                     data: 'ceklist',
                     class: 'padat',
