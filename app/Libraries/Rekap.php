@@ -35,22 +35,13 @@
  *
  */
 
+namespace App\Libraries;
+
 use App\Models\Anak;
-use App\Models\UserGrup;
 use Illuminate\Support\Facades\DB;
 
 class Rekap
 {
-    /**
-     * @var CI_Controller
-     */
-    protected $ci;
-
-    public function __construct()
-    {
-        $this->ci = &get_instance();
-    }
-
     public function get_data_ibu_hamil($kuartal = null, $tahun = null, $id = null)
     {
         if ($kuartal == 1) {
@@ -89,14 +80,6 @@ class Rekap
         if ($id) {
             $ibuHamil = $ibuHamil->where('posyandu_id', $id);
         }
-
-        // if ($this->ci->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
-        //     $ibuHamil = $ibuHamil->where('posyandu_id', $this->ci->session->userdata('id'));
-        // } else {
-        //     if ($id != null) {
-        //         $ibuHamil = $ibuHamil->where('posyandu_id', $id);
-        //     }
-        // }
 
         $ibuHamil  = $ibuHamil->get()->toArray();
         $dataTahun = DB::table('ibu_hamil')
@@ -389,14 +372,6 @@ class Rekap
         if ($id) {
             $bulananAnak = $bulananAnak->where('posyandu_id', $id);
         }
-
-        // if ($this->ci->session->userdata('isAdmin')->id_grup !== UserGrup::getGrupId(UserGrup::ADMINISTRATOR)) {
-        //     $bulananAnak = $bulananAnak->where('posyandu_id', $this->ci->session->userdata('id'));
-        // } else {
-        //     if ($id != null) {
-        //         $bulananAnak = $bulananAnak->where('posyandu_id', $id);
-        //     }
-        // }
 
         $bulananAnak = $bulananAnak->get()->toArray();
         $dataTahun   = DB::table('bulanan_anak')

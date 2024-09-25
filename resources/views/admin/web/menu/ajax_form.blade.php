@@ -67,6 +67,10 @@
                     <option value="statistik/50{{ $nama['id'] }}" @selected($menu['link'] == "statistik/50{$nama['id']}")>{{ $nama['nama'] }}</option>
                 @endforeach
             </select>
+            <select id="statistik_kesehatan" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 12, 'link') }}" style="@if ($menu['link_tipe'] != 12) display:none; @endif">
+                <option value="">-- Pilih Statistik Kesehatan --</option>
+                <option value="data-kesehatan/stunting" @selected($menu['link'] == 'data-kesehatan/stunting')>Stunting</option>
+            </select>
             <select id="statis_lainnya" class="form-control input-sm jenis_link" name="{{ jecho($menu['link_tipe'], 5, 'link') }}" style="@if ($menu['link_tipe'] != 5) display:none; @endif">
                 <option value="">-- Pilih Halaman Statis Lainnya --</option>
                 @foreach ($statis_lainnya as $id => $nama)
@@ -177,6 +181,10 @@
             $('#lembaga').show();
             $('#lembaga').attr('name', 'link');
             $('#lembaga').addClass('required');
+        } else if (jenis == '12') {
+            $('#statistik_kesehatan').show();
+            $('#statistik_kesehatan').attr('name', 'link');
+            $('#statistik_kesehatan').addClass('required');
         } else if (jenis == '99') {
             $('#eksternal').show();
             $('#eksternal > input').show();
