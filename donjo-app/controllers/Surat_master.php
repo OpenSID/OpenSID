@@ -86,7 +86,13 @@ class Surat_master extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+
+                        if (in_array($row->jenis, FormatSurat::SISTEM)) {
+                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn bg-info btn-sm" title="Lihat"><i class="fa fa-eye fa-sm"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('surat_master.form', $row->id) . '" class="btn btn-warning btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        }
+
                         $aksi .= '<a href="' . ci_route('surat_master.salin', $row->id) . '" class="btn bg-olive btn-sm" title="Salin"><i class="fa fa-copy"></i></a> ';
 
                         if ($row->kunci) {
@@ -177,6 +183,7 @@ class Surat_master extends Admin_Controller
         $data['masaBerlaku']          = FormatSurat::MASA_BERLAKU;
         $data['attributes']           = FormatSurat::ATTRIBUTES;
         $data['pendudukLuar']         = json_decode(SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value ?? [], true);
+        $data['viewOnly']             = in_array($data['suratMaster']?->jenis, FormatSurat::SISTEM);
 
         return view('admin.pengaturan_surat.form', $data);
     }
@@ -268,7 +275,12 @@ class Surat_master extends Admin_Controller
         $this->checkTags($this->request['template_desa'], $id);
 
         $cek_surat = FormatSurat::find($id);
-        $validasi  = static::validate($this->request, $cek_surat->jenis ?? 4);
+
+        if (in_array($cek_surat->jenis, FormatSurat::SISTEM)) {
+            return redirect_with('error', 'Surat bawaan sistem tidak dapat diubah');
+        }
+
+        $validasi = static::validate($this->request, $cek_surat->jenis ?? 4);
 
         if ($validasi['success'] === false) {
             return json(['success' => false, 'message' => $validasi['message']], 500);
@@ -296,6 +308,10 @@ class Surat_master extends Admin_Controller
 
         if (! $data) {
             return json(['success' => false, 'message' => 'Data Tidak Ditemukan'], 404);
+        }
+
+        if (in_array($data->jenis, FormatSurat::SISTEM)) {
+            return redirect_with('error', 'Surat bawaan sistem tidak dapat diubah');
         }
 
         $validasi = static::validate($this->request, $data->jenis, $id);

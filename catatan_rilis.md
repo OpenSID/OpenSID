@@ -10,7 +10,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#5058](https://github.com/OpenSID/OpenSID/issues/5058) Penambahan status perkawinan cerai hidup tercatat/belum tercatat pada penduduk.
 5. [#5228](https://github.com/OpenSID/OpenSID/issues/5228) Penambahan notifikasi pengaturan email/telegram belum disesuaikan jika pendaftaran layanan mandiri diaktifkan.
 6. [#8485](https://github.com/OpenSID/OpenSID/issues/8485) Penambahan saring data berdasarkan tahun pada statistik bantuan.
-
+7. [#8499](https://github.com/OpenSID/OpenSID/issues/8499) Penamabahan fungsi lihat dan pembatasan ubah pada surat bawaan pada pengaturan surat.
 
 #### BUG
 

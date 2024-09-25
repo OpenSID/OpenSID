@@ -412,7 +412,7 @@
                 Apakah Anda yakin ingin mengembalikan surat bawaan/sistem ini?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                <button type="button" class="btn btn-social btn-danger btn-sm pull-left" data-dismiss="modal" id="tutup-restore"><i class="fa fa-sign-out"></i> Tutup</button>
                 <a class="btn-ok">
                     <a href="{{ ci_route('surat_master.restore_surat_bawaan', $suratMaster->url_surat) }}" class="btn btn-social btn-success btn-sm" id="ok-restore"><i class="fa fa-refresh"></i> Kembalikan</a>
                 </a>

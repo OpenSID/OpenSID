@@ -54,6 +54,34 @@
         });
 
         $(document).ready(function() {
+            var viewOnly = "{{ $viewOnly }}";
+
+            if (viewOnly) {
+                // Disable all form elements, including checkboxes
+                $('form :input')
+                    .not('#tutup-restore')
+                    .prop('disabled', true);
+
+                // If using select2, disable it separately
+                $('.select2').prop('disabled', true).trigger('change');
+
+                // Disable all <a> links within the form
+                $('form a')
+                    .not('#tabs a')
+                    .not('a[href="{{ ci_route('surat_master') }}"]')
+                    .not('#restore_surat_bawaan')
+                    .not('#ok-restore')
+                    .css({
+                        'opacity': '0.5',
+                        'pointer-events': 'none',
+                        'cursor': 'default',
+                    });
+
+                // Disable tinymce editor
+                tinymce.activeEditor.mode.set('readonly');
+                tinymce.activeEditor.mode.set('design');
+            }
+
             syarat($('input[name=mandiri]:checked').val());
             $('input[name="mandiri"]').change(function() {
                 syarat($(this).val());
