@@ -211,17 +211,23 @@ class First extends Web_Controller
 
         $cekMenu = $this->web_menu_model->menu_aktif('statistik/' . $stat);
 
-        $data = $this->includes;
-
+        $data                = $this->includes;
+        $selectedTahun       = $this->input->get('tahun');
         $data['heading']     = $this->laporan_penduduk_model->judul_statistik($stat);
         $data['title']       = 'Statistik ' . $data['heading'];
-        $data['stat']        = $this->laporan_penduduk_model->list_data($stat);
+        $data['stat']        = $this->laporan_penduduk_model->setTahun($selectedTahun)->list_data($stat);
         $data['tipe']        = $tipe;
         $data['st']          = $stat;
         $data['slug_aktif']  = $stat;
         $data['bantuan']     = (int) $stat > 50 || in_array($stat, ['bantuan_keluarga', 'bantuan_penduduk']);
         $data['last_update'] = Penduduk::latest()->first()->updated_at;
         $data['tampil']      = $cekMenu;
+
+        if ($data['bantuan']) {
+            $data['list_tahun']         = range(date('Y'), date('Y') - 5);
+            $data['selected_tahun']     = $selectedTahun;
+            $data['default_chart_type'] = 'column';
+        }
 
         $this->_get_common_data($data);
         $this->set_template('layouts/stat.tpl.php');
@@ -240,9 +246,10 @@ class First extends Web_Controller
 
     public function ajax_peserta_program_bantuan(): void
     {
-        $peserta = $this->program_bantuan_model->get_peserta_bantuan();
-        $data    = [];
-        $no      = $_POST['start'];
+        $selectedTahun = $this->input->get('tahun');
+        $peserta       = $this->program_bantuan_model->setTahun($selectedTahun)->get_peserta_bantuan();
+        $data          = [];
+        $no            = $_POST['start'];
 
         foreach ($peserta as $baris) {
             $no++;
@@ -255,8 +262,8 @@ class First extends Web_Controller
         }
 
         $output = [
-            'recordsTotal'    => $this->program_bantuan_model->count_peserta_bantuan_all(),
-            'recordsFiltered' => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
+            'recordsTotal'    => $this->program_bantuan_model->setTahun($selectedTahun)->count_peserta_bantuan_all(),
+            'recordsFiltered' => $this->program_bantuan_model->setTahun($selectedTahun)->count_peserta_bantuan_filtered(),
             'data'            => $data,
         ];
         echo json_encode($output, JSON_THROW_ON_ERROR);

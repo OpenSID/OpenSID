@@ -42,6 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Laporan_penduduk_model extends MY_Model
 {
     private $lap;
+    private $tahun;
 
     public function __construct()
     {
@@ -610,7 +611,7 @@ class Laporan_penduduk_model extends MY_Model
         $this->lap = $lap;
 
         $this->load->model('statistik_penduduk_model');
-        if ($statistik = $this->statistik_penduduk_model->statistik($lap)) {
+        if ($statistik = $this->statistik_penduduk_model->setTahun($this->getTahun())->statistik($lap)) {
             // Statistik yg sudah di-refactor
             $namespace    = $statistik;
             $judul_belum  = $statistik->judul_belum;
@@ -718,5 +719,27 @@ class Laporan_penduduk_model extends MY_Model
             }
             $this->db->group_end();
         }
+    }
+
+    /**
+     * Get the value of tahun
+     */
+    public function getTahun()
+    {
+        return $this->tahun;
+    }
+
+    /**
+     * Set the value of tahun
+     *
+     * @param mixed $tahun
+     *
+     * @return self
+     */
+    public function setTahun($tahun)
+    {
+        $this->tahun = $tahun;
+
+        return $this;
     }
 }

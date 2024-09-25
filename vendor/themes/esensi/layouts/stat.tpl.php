@@ -17,7 +17,7 @@
     </div>
     <main class="lg:w-3/4 w-full space-y-1 bg-white rounded-lg px-4 py-2 lg:py-4 lg:px-5 shadow">
       <?php
-        if ($tampil) {
+        if ($tampil) {          
           switch ($tipe) {
             case null:
             case '0':
