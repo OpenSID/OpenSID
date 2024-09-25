@@ -37,26 +37,26 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use App\Traits\Author;
-use App\Enums\SHDKEnum;
 use App\Enums\AgamaEnum;
-use App\Traits\ConfigId;
 use App\Enums\CaraKBEnum;
+use App\Enums\JenisKelaminEnum;
+use App\Enums\PendidikanSedangEnum;
 use App\Enums\SasaranEnum;
-use App\Traits\ShortcutCache;
+use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
-use App\Enums\JenisKelaminEnum;
+use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
-use Illuminate\Support\Facades\DB;
-use App\Enums\PendidikanSedangEnum;
-use App\Enums\StatusKawinSpesifikEnum;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Traits\Author;
+use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -585,13 +585,11 @@ class Penduduk extends BaseModel
     public function getStatusPerkawinanAttribute()
     {
         $status = match ($this->status_kawin) {
-            StatusKawinSpesifikEnum::KAWIN_TERCATAT =>
-                $this->isBelumTercatat($this->akta_perkawinan, $this->tanggalperkawinan)
+            StatusKawinSpesifikEnum::KAWIN_TERCATAT => $this->isBelumTercatat($this->akta_perkawinan, $this->tanggalperkawinan)
                     ? StatusKawinSpesifikEnum::KAWIN_BELUM_TERCATAT
                     : StatusKawinSpesifikEnum::KAWIN_TERCATAT,
 
-            StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT =>
-                $this->isBelumTercatat($this->akta_perceraian, $this->tanggalperceraian)
+            StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT => $this->isBelumTercatat($this->akta_perceraian, $this->tanggalperceraian)
                     ? StatusKawinSpesifikEnum::CERAIHIDUP_BELUM_TERCATAT
                     : StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT,
 

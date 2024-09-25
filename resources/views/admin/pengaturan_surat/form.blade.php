@@ -57,13 +57,20 @@
             var viewOnly = "{{ $viewOnly }}";
 
             if (viewOnly) {
-                // Disable all form elements, including checkboxes
+                // Disable all input form elements
                 $('form :input')
+                    .prop('readonly', true);
+
+                $('input[type="checkbox"]').prop('disabled', true);
+
+                // Disable all button form elements
+                $('form :button')
                     .not('#tutup-restore')
+                    .not('#preview')
                     .prop('disabled', true);
 
                 // If using select2, disable it separately
-                $('.select2').prop('disabled', true).trigger('change');
+                $('select').prop('disabled', true).trigger('change');
 
                 // Disable all <a> links within the form
                 $('form a')

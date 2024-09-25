@@ -300,6 +300,8 @@ class Surat_master extends Admin_Controller
 
         if ($this->request['action'] == 'preview') {
             $this->preview();
+
+            return;
         }
 
         $this->checkTags($this->request['template_desa'], $id);
