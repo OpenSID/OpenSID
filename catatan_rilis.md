@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8485](https://github.com/OpenSID/OpenSID/issues/8485) Penambahan saring data berdasarkan tahun pada statistik bantuan.
 7. [#8499](https://github.com/OpenSID/OpenSID/issues/8499) Penamabahan fungsi lihat dan pembatasan ubah pada surat bawaan pada pengaturan surat layanan dan dinas.
 8. [#8495](https://github.com/OpenSID/OpenSID/issues/8495) Penambahan halaman e-stunging pada web.
+9. [#8500](https://github.com/OpenSID/OpenSID/issues/8500) Penambahan lampiran pada pratinjau surat layanan.
 
 
 #### BUG

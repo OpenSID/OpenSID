@@ -783,7 +783,8 @@ class Surat_master extends Admin_Controller
         $request             = static::validate($this->request);
         $request['id_surat'] = $this->request['id_surat'] ?? null;
 
-        $isi_cetak = $this->tinymce->getPreview($request);
+        $preview   = $this->tinymce->getPreview($request);
+        $isi_cetak = $preview->getResult();
 
         // Ubah jadi format pdf
         $pages = $this->tinymce->generateMultiPage($isi_cetak);
@@ -807,7 +808,13 @@ class Surat_master extends Admin_Controller
             $html2pdf->setDefaultFont(underscore(setting('font_surat')));
             $html2pdf->setTestTdInOnePage(false);
             $html2pdf->writeHTML($isi_cetak);
-            $html2pdf->output(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
+            $html2pdf->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
+
+            $this->tinymce->pdfMerge->add($out);
+
+            $this->tinymce->generateLampiran($preview->getData('id_pend'), $preview->getData(), $preview->getData('input'));
+
+            $this->tinymce->pdfMerge->merge(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {
             $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);

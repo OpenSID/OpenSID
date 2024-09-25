@@ -179,6 +179,11 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">Lampiran</label>
             <div class="col-sm-7">
+                @if ($viewOnly)
+                    @foreach (explode(',', $suratMaster->lampiran) as $item)
+                        <input type="hidden" name="lampiran[]" value="{{ $item }}">
+                    @endforeach
+                @endif
                 <select class="form-control input-sm select2" name="lampiran[]" multiple="multiple" data-placeholder="Pilih Lampiran">
                     @foreach ($daftar_lampiran as $value)
                         <option value="{{ $value }}" @selected(in_array($value, explode(',', $suratMaster->lampiran)))>{{ $value }} </option>
