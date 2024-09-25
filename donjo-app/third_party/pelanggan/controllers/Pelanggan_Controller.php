@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use Modules\Anjungan\Models\Anjungan;
+use App\Models\Anjungan;
 use App\Services\Pelanggan;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
