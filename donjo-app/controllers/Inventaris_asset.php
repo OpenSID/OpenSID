@@ -103,7 +103,7 @@ class Inventaris_asset extends Admin_Controller
             $data['action']      = $view ? 'Rincian' : 'Ubah';
             $data['form_action'] = ci_route('inventaris_asset.update', $id);
             $data['main']        = InventarisAsset::findOrFail($id);
-            $data['view_mark'] = $view ? 1 : 0;
+            $data['view_mark']   = $view ? 1 : 0;
         } else {
             $data['action']      = 'Tambah';
             $data['form_action'] = ci_route('inventaris_asset.create');

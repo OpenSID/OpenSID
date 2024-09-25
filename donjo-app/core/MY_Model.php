@@ -512,3 +512,19 @@ class MY_Model extends CI_Model
         return $isPrimaryKey;
     }
 }
+
+function checkAndFixTable($tableName)
+{
+    $table = DB::table($tableName)->first();
+    if ($table) {
+        $kolom_id = DB::select("SHOW COLUMNS FROM {$tableName} WHERE Field = 'id' AND Extra = 'auto_increment'");
+        $pk       = DB::select("SHOW INDEX FROM {$tableName} WHERE Key_name = 'PRIMARY'");
+
+        if (! $kolom_id || ! $pk) {
+            DB::statement("ALTER TABLE {$tableName} ADD PRIMARY KEY (id)");
+            DB::statement("ALTER TABLE {$tableName} MODIFY id INT AUTO_INCREMENT");
+        }
+    }
+
+    return true;
+}

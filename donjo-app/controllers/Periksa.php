@@ -35,13 +35,13 @@
  *
  */
 
-use App\Models\User;
 use App\Models\Config;
 use App\Models\Penduduk;
+use App\Models\User;
 use App\Models\UserGrup;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Auth\Traits\LoginRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -178,6 +178,7 @@ class Periksa extends CI_Controller
         $this->cek_user();
 
         $dataPenduduk = array_combine($this->input->post('id'), $this->input->post('tanggallahir'));
+
         foreach ($dataPenduduk as $id => $tanggallahir) {
             Penduduk::where('id', $id)->update(['tanggallahir' => $tanggallahir]);
         }

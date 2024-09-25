@@ -47,7 +47,6 @@ class Setting extends Admin_Controller
         parent::__construct();
         isCan('b');
         $this->load->model('theme_model');
-        isCan('b');
     }
 
     public function index()

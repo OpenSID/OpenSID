@@ -35,18 +35,56 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return true;
-
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }
+
+        $hasil = $this->migrasi_2024090551(true);
+        $hasil = $this->migrasi_2024092051($hasil);
+
+        return $hasil && $this->migrasi_2024092151($hasil);
+    }
+
+    protected function migrasi_2024090551($hasil)
+    {
+        DB::table('setting_aplikasi')
+            ->whereIn('key', ['sebutan_dusun', 'sebutan_singkatan_kadus'])
+            ->where('kategori', '!=', 'Wilayah Administratif')
+            ->update(['kategori' => 'Wilayah Administratif']);
+
+        DB::table('setting_aplikasi')
+            ->where('key', 'sebutan_singkatan_kadus')
+            ->update([
+                'key'        => 'sebutan_kepala_dusun',
+                'keterangan' => 'Sebutan Kepala Dusun',
+            ]);
+
+        return $hasil;
+    }
+
+    public function migrasi_2024092051($hasil)
+    {
+        DB::table('widget')
+            ->where('form_admin', 'web/tab/1000')
+            ->update(['form_admin' => 'web/agenda']);
+
+        return $hasil;
+    }
+
+    public function migrasi_2024092151($hasil)
+    {
+        $hasil = $hasil && checkAndFixTable('log_notifikasi_admin');
+
+        return $hasil && checkAndFixTable('log_notifikasi_mandiri');
     }
 }

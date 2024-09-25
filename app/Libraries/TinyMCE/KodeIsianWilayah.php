@@ -72,7 +72,7 @@ class KodeIsianWilayah
 
         foreach ($this->wilayah as $wil) {
             $namaDusun   = ucwords($this->sebutanDusun . ' ' . $wil->dusun);
-            $kepalaDusun = ucwords('kepala ' . $this->sebutanDusun . ' ' . $wil->dusun);
+            $kepalaDusun = ucwords(setting('sebutan_kepala_dusun') . ' ' . $wil->dusun);
 
             $data[] = [
                 'judul' => $namaDusun,

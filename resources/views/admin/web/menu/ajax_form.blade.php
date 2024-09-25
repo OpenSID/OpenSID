@@ -108,6 +108,13 @@
                 <span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
             </span>
         </div>
+        <div class="form-group">
+            <label class="control-label" for="enabled">Status</label>
+            <select name="enabled" class="form-control input-sm required">
+                <option value="1" @selected($menu['status'] == 1)>Aktif</option>
+                <option value="0" @selected($menu['status'] == 0)>Tidak Aktif</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         {!! batal() !!}

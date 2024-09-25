@@ -143,7 +143,7 @@ class Menu extends Admin_Controller
     public function insert($parent): void
     {
         isCan('u');
-        $data            = $this->validasi($this->input->post());
+        $data            = $this->validasi($this->input->post(), $parent);
         $data['parrent'] = $parent;
 
         try {
@@ -160,7 +160,7 @@ class Menu extends Admin_Controller
     public function update($parent, $id): void
     {
         isCan('u');
-        $data = $this->validasi($this->input->post());
+        $data = $this->validasi($this->input->post(), $id, $parent);
 
         try {
             $obj = MenuModel::findOrFail($id);
@@ -215,8 +215,14 @@ class Menu extends Admin_Controller
         return json(['status' => 1]);
     }
 
-    private function validasi($post)
+    private function validasi($post, $parent = null, $id = null): array
     {
+        $cek = MenuModel::where('link', $post['link'])->whereNotIn('link', ['', '#'])->where('id', '!=', $id)->exists();
+        if ($cek) {
+            $parrent = $parent ? '?parent=' . $parent : '';
+            redirect_with('error', 'Link sudah digunakan', ci_route('menu.index') . $parrent);
+        }
+
         $parrent = bilangan($post['parrent'] ?? 0);
 
         return [
@@ -224,7 +230,7 @@ class Menu extends Admin_Controller
             'link'      => $post['link'],
             'parrent'   => $parrent,
             'link_tipe' => $post['link_tipe'],
-            'enabled'   => 1,
+            'enabled'   => $post['enabled'] ?? 0,
         ];
     }
 }

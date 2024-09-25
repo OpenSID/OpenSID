@@ -133,6 +133,7 @@ class Track_model extends CI_Model
             'nama_kontak'         => $config->nama_kontak,
             'hp_kontak'           => $config->hp_kontak,
             'jabatan_kontak'      => $config->jabatan_kontak,
+            'tema'                => theme_active()->nama,
         ];
 
         if ($this->abaikan($desa)) {

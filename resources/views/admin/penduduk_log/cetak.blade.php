@@ -100,13 +100,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
                             <td>{{ strtoupper($item->penduduk->nama) }}</td>
                             <td>
                                 {{ $privasi_nik ? sensor_nik_kk($item->keluarga->no_kk) : $item->keluarga->no_kk }}
-                                {{ ' / ' . strtoupper($item->kepala_keluarga) }}
+                                {{ ' / ' . strtoupper($item?->penduduk?->keluarga?->kepalaKeluarga?->nama) }}
                             </td>
                             <td>{{ strtoupper($item->penduduk->wilayah->dusun) }}</td>
                             <td>{{ $item->penduduk->wilayah->rw }}</td>
                             <td>{{ $item->penduduk->wilayah->rt }}</td>
-                            <td align="right">{{ $item->umur }}</td>
-                            <td>{{ $item->status_menjadi }}</td>
+                            <td align="right">{{ $item?->penduduk?->umur }}</td>
+                            <td>{{ \App\Models\LogPenduduk::kodePeristiwaAll($item->kode_peristiwa) }}</td>
                             <td>{{ tgl_indo($item->tgl_peristiwa) }}</td>
                             <td>{{ tgl_indo($item->tgl_lapor) }}</td>
                             <td>{{ $item->catatan }}</td>
