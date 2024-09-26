@@ -63,6 +63,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 44. [#8478](https://github.com/OpenSID/OpenSID/issues/8478) Perbaikan penyaringan penduduk berdasarkan hak akses wilayah.
 45. [#8488](https://github.com/OpenSID/OpenSID/issues/8488) Perbaikan pengaturan sebutan kepala dusun.
 46. [#8502](https://github.com/OpenSID/OpenSID/issues/8502) Perbaikan info kontak dan informasi pada bagian infromasi/bantuan.
+47. [#8503](https://github.com/OpenSID/OpenSID/issues/8503) Perbaikan judul icon pada tampilan anjugan mandiri.
 
 
 #### TEKNIS
@@ -75,7 +76,6 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8490](https://github.com/OpenSID/OpenSID/issues/8490) Penyesuaian link panduan pemasangan aplikasi.
 8. [#8491](https://github.com/OpenSID/OpenSID/issues/8491) Penyesuaian primary key dan autoincrement pada tabel log_notifikasi_admin dan log_notifikasi_mandiri.
 9. [#8480](https://github.com/OpenSID/OpenSID/issues/8480) Penyesuaian tombol unduh dokumen layanan mandiri menjadi lihat dokumen.
-10. [#6619](https://github.com/OpenSID/OpenSID/issues/6619) Penyesuaian modul anjungan menggunakan konsep module.
 
 
 #### LAYANAN

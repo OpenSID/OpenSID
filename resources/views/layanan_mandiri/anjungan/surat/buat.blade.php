@@ -1,4 +1,4 @@
-@extends('anjungan.beranda.index')
+@extends('layanan_mandiri.anjungan.beranda.index')
 
 @push('css')
     <style>

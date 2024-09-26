@@ -36,7 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
-use Modules\Anjungan\Models\AnjunganMenu as Menu;
+use App\Models\AnjunganMenu as Menu;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\Kategori;
