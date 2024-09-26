@@ -878,6 +878,11 @@ class Penduduk extends BaseModel
         return $this->belongsTo(Bahasa::class, 'bahasa_id');
     }
 
+    public function logSurat(): HasMany
+    {
+        return $this->hasMany(LogSurat::class, 'id_pend');
+    }
+
     /**
      * Get the map associated with the Penduduk
      */
