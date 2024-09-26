@@ -52,6 +52,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8488](https://github.com/OpenSID/OpenSID/issues/8488) Perbaikan pengaturan sebutan kepala dusun.
 46. [#8502](https://github.com/OpenSID/OpenSID/issues/8502) Perbaikan info kontak dan informasi pada bagian infromasi/bantuan.
 47. [#8503](https://github.com/OpenSID/OpenSID/issues/8503) Perbaikan judul icon pada tampilan anjugan mandiri.
+48. [#8494](https://github.com/OpenSID/OpenSID/issues/8494) Perbaikan perhitungan pembiayaan pada widget keuangan manual.
 
 
 #### TEKNIS
