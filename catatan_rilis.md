@@ -53,6 +53,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 46. [#8502](https://github.com/OpenSID/OpenSID/issues/8502) Perbaikan info kontak dan informasi pada bagian infromasi/bantuan.
 47. [#8503](https://github.com/OpenSID/OpenSID/issues/8503) Perbaikan judul icon pada tampilan anjugan mandiri.
 48. [#8494](https://github.com/OpenSID/OpenSID/issues/8494) Perbaikan perhitungan pembiayaan pada widget keuangan manual.
+49. [#8505](https://github.com/OpenSID/OpenSID/issues/8505) Perbaikan menampilkan statistik kepemilikan akta kematian untuk database gabungan.
 
 
 #### TEKNIS

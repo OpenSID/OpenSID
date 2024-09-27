@@ -426,9 +426,9 @@ class Laporan_penduduk_model extends MY_Model
                 // Akta Kematian
                 $where = "(DATE_FORMAT(FROM_DAYS(TO_DAYS( NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0)>=u.dari AND (DATE_FORMAT(FROM_DAYS( TO_DAYS(NOW()) - TO_DAYS(tanggallahir)) , '%Y')+0) <= u.sampai AND l.akta_mati IS NOT NULL ";
                 $this->select_jml($where, '2');
-                $this->db
+                $this->config_id('u')
                     ->select("u.*, concat('UMUR ', u.dari, ' S/D ', u.sampai, ' TAHUN') as nama")
-                    ->from('tweb_penduduk_umur u')
+                    ->from('tweb_penduduk_umur as u')
                     ->where('u.status', '1');
                 break;
 
