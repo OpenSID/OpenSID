@@ -67,7 +67,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8491](https://github.com/OpenSID/OpenSID/issues/8491) Penyesuaian primary key dan autoincrement pada tabel log_notifikasi_admin dan log_notifikasi_mandiri.
 9. [#8480](https://github.com/OpenSID/OpenSID/issues/8480) Penyesuaian tombol unduh dokumen layanan mandiri menjadi lihat dokumen.
 10. [#8498](https://github.com/OpenSID/OpenSID/issues/8498) Penyesuaian hapus data penduduk ketika sudah digunakan pada surat dan bantuan.
-11. [#8512](https://github.com/OpenSID/OpenSID/issues/8512) Penyesuaian default filter status pada modul galeri.
+11. [#8512](https://github.com/OpenSID/OpenSID/issues/8512) Penyesuaian default filter status pada modul galeri, artikel, widget, komentar dan kategori.
 
 
 #### LAYANAN
