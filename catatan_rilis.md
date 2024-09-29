@@ -54,6 +54,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 47. [#8503](https://github.com/OpenSID/OpenSID/issues/8503) Perbaikan judul icon pada tampilan anjugan mandiri.
 48. [#8494](https://github.com/OpenSID/OpenSID/issues/8494) Perbaikan perhitungan pembiayaan pada widget keuangan manual.
 49. [#8505](https://github.com/OpenSID/OpenSID/issues/8505) Perbaikan menampilkan statistik kepemilikan akta kematian untuk database gabungan.
+50. [#8508](https://github.com/OpenSID/OpenSID/issues/8508) Perbaikan link ubah data penduduk pada modul rumah tangga.
 
 
 #### TEKNIS

@@ -79,7 +79,7 @@
         <script>
             $(document).ready(function() {
                 $('#status').val('1').trigger('change');
-            
+
                 var TableData = $('#tabeldata').DataTable({
                     responsive: true,
                     processing: true,
