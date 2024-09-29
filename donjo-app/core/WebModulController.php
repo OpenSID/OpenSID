@@ -37,22 +37,17 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-require_once APPPATH . 'controllers/fmandiri/Beranda.php';
-
-class AnjunganBeranda extends Mandiri_Controller
+abstract class WebModulController extends Web_Controller
 {
+    use ModulTrait;
+
     public function __construct()
     {
         parent::__construct();
-        if (! $this->session->is_anjungan) {
-            redirect(route('layanan-mandiri.beranda.index'));
-        }
-    }
-
-    public function index()
-    {
-        $data['beranda'] = true;
-
-        return view('layanan_mandiri.anjungan.beranda.content', $data);
+        $this->moduleDirectory = $this->getModuleDirectory();
+        $this->moduleName      = $this->loadModuleJson()['name'];
+        $this->activate();
+        $this->loadHelper();
+        $this->loadConfig();
     }
 }

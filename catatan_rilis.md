@@ -71,6 +71,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8480](https://github.com/OpenSID/OpenSID/issues/8480) Penyesuaian tombol unduh dokumen layanan mandiri menjadi lihat dokumen.
 10. [#8498](https://github.com/OpenSID/OpenSID/issues/8498) Penyesuaian hapus data penduduk ketika sudah digunakan pada surat dan bantuan.
 11. [#8512](https://github.com/OpenSID/OpenSID/issues/8512) Penyesuaian default filter status pada modul galeri, artikel, widget, komentar dan kategori.
+12. [#6619](https://github.com/OpenSID/OpenSID/issues/6619) Penyesuaian modul anjungan menggunakan konsep module.
 
 
 #### LAYANAN

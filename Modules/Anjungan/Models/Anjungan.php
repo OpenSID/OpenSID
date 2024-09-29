@@ -35,19 +35,27 @@
  *
  */
 
+namespace Modules\Anjungan\Models;
+
+use App\Models\Gawai;
+use Illuminate\Database\Eloquent\Builder;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-abstract class AdminModulController extends Admin_Controller
+class Anjungan extends Gawai
 {
-    use ModulTrait;
-
-    public function __construct()
+    public function setTipeAttribute($value)
     {
-        parent::__construct();
-        $this->moduleDirectory = $this->getModuleDirectory();
-        $this->moduleName      = $this->loadModuleJson()['name'];
-        $this->activate();
-        $this->loadHelper();
-        $this->loadConfig();
+        $this->attributes['tipe'] = self::ANJUNGAN;
+    }
+
+    /**
+     * Apply a global scope to only include active status.
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('tipe', function (Builder $builder) {
+            $builder->where('tipe', self::ANJUNGAN);
+        });
     }
 }

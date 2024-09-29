@@ -36,11 +36,11 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Anjungan as AnjunganModel;
+use Modules\Anjungan\Models\Anjungan as AnjunganModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan extends Admin_Controller
+class Anjungan extends AdminModulController
 {
     public $modul_ini     = 'anjungan';
     public $sub_modul_ini = 'daftar-anjungan';
@@ -61,7 +61,7 @@ class Anjungan extends Admin_Controller
         $status = cek_anjungan();
 
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AnjunganModel::where('tipe', 1))
+            return datatables()->of(AnjunganModel::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -174,9 +174,9 @@ class Anjungan extends Admin_Controller
     protected static function validate(array $request = [], $id = null): array
     {
         $anjungan      = AnjunganModel::find($id);
-        $ip_address    = AnjunganModel::tipe(1)->where('ip_address', $request['ip_address'])->first();
-        $mac_address   = AnjunganModel::tipe(1)->where('mac_address', $request['mac_address'])->first();
-        $id_pengunjung = AnjunganModel::tipe(1)->where('id_pengunjung', $request['id_pengunjung'])->first();
+        $ip_address    = AnjunganModel::where('ip_address', $request['ip_address'])->first();
+        $mac_address   = AnjunganModel::where('mac_address', $request['mac_address'])->first();
+        $id_pengunjung = AnjunganModel::where('id_pengunjung', $request['id_pengunjung'])->first();
 
         if ($ip_address && $anjungan->ip_address != $request['ip_address']) {
             redirect_with('error', 'IP Address telah digunakan');

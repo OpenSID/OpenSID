@@ -41,7 +41,7 @@ use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan_pengaturan extends Anjungan_Controller
+class Anjungan_pengaturan extends AnjunganModulController
 {
     public $modul_ini     = 'anjungan';
     public $sub_modul_ini = 'pengaturan-anjungan';

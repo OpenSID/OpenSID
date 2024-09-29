@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-abstract class AdminModulController extends Admin_Controller
+abstract class MandiriModulController extends Mandiri_Controller
 {
     use ModulTrait;
 

@@ -44,7 +44,7 @@ use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
-class AnjunganSurat extends Mandiri_Controller
+class AnjunganSurat extends MandiriModulController
 {
     public function __construct()
     {
@@ -79,7 +79,7 @@ class AnjunganSurat extends Mandiri_Controller
             'form_action'          => $form_action,
         ];
 
-        return view('layanan_mandiri.anjungan.surat.buat', $data);
+        return view('anjungan.surat.buat', $data);
     }
 
     public function form($id = '')
@@ -101,7 +101,7 @@ class AnjunganSurat extends Mandiri_Controller
         ]);
         $this->get_data_untuk_form($surat->url_surat, $data);
 
-        return view('layanan_mandiri.anjungan.surat.form', $data);
+        return view('anjungan.surat.form', $data);
     }
 
     public function getSyarat($suratMaster)
@@ -188,7 +188,7 @@ class AnjunganSurat extends Mandiri_Controller
                 ->make();
         }
 
-        return view('layanan_mandiri.anjungan.surat.permohonan');
+        return view('anjungan.surat.permohonan');
     }
 
     protected function print_connector()

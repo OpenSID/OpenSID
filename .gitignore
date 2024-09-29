@@ -65,8 +65,17 @@ storage/logs
 
 php.ini
 
+# Ignore all files in Modules
 Modules/*
+
+# Do not ignore Anjungan folder and its contents
+!Modules/Anjungan/
+!Modules/Anjungan/**
+
+# Do not ignore specific files
 !Modules/.gitkeep
 !Modules/.htaccess
 !Modules/index.html
+
+# Ignore PHPUnit result cache file
 .phpunit.result.cache
