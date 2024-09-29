@@ -80,7 +80,7 @@
 												<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('analisis_statistik_jawaban/rt'); ?>')">
 													<option value="">Pilih RT</option>
 													<?php foreach ($list_rt as $data): ?>
-														<option value="<?= $data['rt']; ?>" <?= selected($rt, $rt['dusun']); ?>><?= $data['rt']; ?></option>
+														<option value="<?= $data['rt']; ?>" <?= is_array($rt) ? selected($rt, $rt['dusun']) : ''; ?>><?= $data['rt']; ?></option>
 													<?php endforeach; ?>
 												</select>
 											<?php endif; ?>

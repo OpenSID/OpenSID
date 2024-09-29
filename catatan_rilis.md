@@ -56,7 +56,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 49. [#8505](https://github.com/OpenSID/OpenSID/issues/8505) Perbaikan menampilkan statistik kepemilikan akta kematian untuk database gabungan.
 50. [#8508](https://github.com/OpenSID/OpenSID/issues/8508) Perbaikan link ubah data penduduk pada modul rumah tangga.
 51. [#8509](https://github.com/OpenSID/OpenSID/issues/8509) Perbaikan waktu komentar pada artikel.
-
+52. [#8515](https://github.com/OpenSID/OpenSID/issues/8515) Perbaikan filter berdasarkan perindikator, dusun, rw dan rt pada modul analisis laporan perindikator.
+ 
 
 #### TEKNIS
 1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
