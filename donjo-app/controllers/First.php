@@ -152,8 +152,7 @@ class First extends Web_Controller
             ->where('id_artikel', $id)
             ->where('status', Komentar::ACTIVE)
             ->whereNull('parent_id')
-            ->get()
-            ->toArray();
+            ->get();
 
         $this->_get_common_data($data);
         $this->set_template('layouts/artikel.tpl.php');
