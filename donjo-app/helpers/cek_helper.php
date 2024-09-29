@@ -60,8 +60,10 @@ if (! function_exists('cek_anjungan')) {
             return true;
         }
 
-        $status = Pelanggan::api_pelanggan_pemesanan();
+        return cache()->rememberForever('license_anjugan', function () {
+            $status = Pelanggan::api_pelanggan_pemesanan();
 
-        return $status->body->tanggal_berlangganan->anjungan == 'aktif';
+            return $status->body->tanggal_berlangganan->anjungan == 'aktif';
+        });
     }
 }
