@@ -35,8 +35,8 @@
  *
  */
 
-use App\Models\Gawai;
 use App\Enums\StatusEnum;
+use App\Models\Gawai;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

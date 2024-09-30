@@ -60,7 +60,7 @@ if (! function_exists('cek_anjungan')) {
             return true;
         }
 
-        return cache()->rememberForever('license_anjugan', function () {
+        return cache()->rememberForever('license_anjugan', static function () {
             $status = Pelanggan::api_pelanggan_pemesanan();
 
             return $status->body->tanggal_berlangganan->anjungan == 'aktif';

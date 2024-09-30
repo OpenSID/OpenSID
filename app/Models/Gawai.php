@@ -37,10 +37,8 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -130,7 +128,7 @@ class Gawai extends BaseModel
      */
     protected static function booted()
     {
-        static::addGlobalScope('tipe', function (Builder $builder) {
+        static::addGlobalScope('tipe', static function (Builder $builder) {
             $builder->where('tipe', self::GAWAI);
         });
     }
