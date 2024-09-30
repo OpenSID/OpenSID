@@ -128,7 +128,7 @@
                                         @if (can('u'))
                                             <td class="aksi">
                                                 @if (can('u'))
-                                                    <a href="{{ ci_route("penduduk.form.1.{$kk}", $data['id']) }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
+                                                    <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
                                                     <a
                                                         href="{{ ci_route("rtm.edit_anggota.{$kk}", $data['id']) }}"
                                                         data-remote="false"

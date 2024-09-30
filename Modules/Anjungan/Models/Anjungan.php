@@ -35,35 +35,27 @@
  *
  */
 
-use App\Services\Pelanggan;
+namespace Modules\Anjungan\Models;
+
+use App\Models\Gawai;
+use Illuminate\Database\Eloquent\Builder;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// Website Demo OpenSID
-define('WEBSITE_DEMO', [
-    'beta.opendesa.id',
-    'beta2.opensid.or.id',
-    'berputar.opendesa.id',
-    'devpremium.opendesa.id',
-    'opensid-premium.test',
-    'opensid.test',
-]);
-
-if (! function_exists('cek_anjungan')) {
-    /**
-     * - Fungsi validasi anjungan.
-     */
-    function cek_anjungan(): bool
+class Anjungan extends Gawai
+{
+    public function setTipeAttribute($value)
     {
-        // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
-        if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
-        }
+        $this->attributes['tipe'] = self::ANJUNGAN;
+    }
 
-        return cache()->rememberForever('license_anjugan', static function () {
-            $status = Pelanggan::api_pelanggan_pemesanan();
-
-            return $status->body->tanggal_berlangganan->anjungan == 'aktif';
+    /**
+     * Apply a global scope to only include active status.
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('tipe', function (Builder $builder) {
+            $builder->where('tipe', self::ANJUNGAN);
         });
     }
 }

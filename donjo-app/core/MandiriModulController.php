@@ -35,35 +35,19 @@
  *
  */
 
-use App\Services\Pelanggan;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// Website Demo OpenSID
-define('WEBSITE_DEMO', [
-    'beta.opendesa.id',
-    'beta2.opensid.or.id',
-    'berputar.opendesa.id',
-    'devpremium.opendesa.id',
-    'opensid-premium.test',
-    'opensid.test',
-]);
+abstract class MandiriModulController extends Mandiri_Controller
+{
+    use ModulTrait;
 
-if (! function_exists('cek_anjungan')) {
-    /**
-     * - Fungsi validasi anjungan.
-     */
-    function cek_anjungan(): bool
+    public function __construct()
     {
-        // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
-        if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
-        }
-
-        return cache()->rememberForever('license_anjugan', static function () {
-            $status = Pelanggan::api_pelanggan_pemesanan();
-
-            return $status->body->tanggal_berlangganan->anjungan == 'aktif';
-        });
+        parent::__construct();
+        $this->moduleDirectory = $this->getModuleDirectory();
+        $this->moduleName      = $this->loadModuleJson()['name'];
+        $this->activate();
+        $this->loadHelper();
+        $this->loadConfig();
     }
 }

@@ -2172,37 +2172,6 @@ Route::group('setting_mandiri', static function (): void {
     Route::post('/update', 'Setting_mandiri@update')->name('setting_mandiri.update');
 });
 
-// Anjungan > Daftar Anjungan
-Route::group('anjungan', static function (): void {
-    Route::get('/', 'Anjungan@index')->name('admin.anjungan.index');
-    Route::get('/datatables', 'Anjungan@datatables')->name('admin.anjungan.datatables');
-    Route::get('/form/{id?}', 'Anjungan@form')->name('admin.anjungan.form');
-    Route::post('/insert', 'Anjungan@insert')->name('admin.anjungan.insert');
-    Route::post('/update/{id?}', 'Anjungan@update')->name('admin.anjungan.update');
-    Route::get('/delete/{id?}', 'Anjungan@delete')->name('admin.anjungan.delete');
-    Route::post('/delete', 'Anjungan@delete')->name('admin.anjungan.delete-all');
-    Route::get('/kunci/{id?}/{val?}', 'Anjungan@kunci')->name('admin.anjungan.kunci');
-});
-
-// Anjungan > Menu
-Route::group('anjungan_menu', static function (): void {
-    Route::get('/', 'Anjungan_menu@index')->name('anjungan_menu.index');
-    Route::get('/datatables', 'Anjungan_menu@datatables')->name('anjungan_menu.datatables');
-    Route::get('/form/{id?}', 'Anjungan_menu@form')->name('anjungan_menu.form');
-    Route::post('/insert', 'Anjungan_menu@insert')->name('anjungan_menu.insert');
-    Route::post('/update/{id?}', 'Anjungan_menu@update')->name('anjungan_menu.update');
-    Route::get('/delete/{id?}', 'Anjungan_menu@delete')->name('anjungan_menu.delete');
-    Route::post('/delete', 'Anjungan_menu@delete')->name('anjungan_menu.delete-all');
-    Route::get('/lock/{id?}', 'Anjungan_menu@lock')->name('anjungan_menu.lock');
-    Route::post('/tukar', 'Anjungan_menu@tukar')->name('anjungan_menu.tukar');
-});
-
-// Anjungan > Pengaturan
-Route::group('anjungan_pengaturan', static function (): void {
-    Route::get('/', 'Anjungan_pengaturan@index')->name('anjungan_pengaturan.index');
-    Route::post('/update', 'Anjungan_pengaturan@update')->name('anjungan_pengaturan.update');
-});
-
 // Satu Data > DTKS
 Route::group('dtks', static function (): void {
     Route::get('/', 'Dtks@index')->name('dtks.index');

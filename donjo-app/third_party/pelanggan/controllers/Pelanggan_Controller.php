@@ -37,11 +37,11 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Anjungan;
 use App\Services\Pelanggan;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
+use Modules\Anjungan\Models\Anjungan;
 
 class Pelanggan_Controller extends Admin_Controller
 {

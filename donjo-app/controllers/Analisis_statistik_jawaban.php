@@ -77,36 +77,41 @@ class Analisis_statistik_jawaban extends Admin_Controller
             $this->session->error_msg = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
             redirect('analisis_periode');
         }
+
+        // Clear the search session
         unset($_SESSION['cari2']);
         $data['p'] = $p;
         $data['o'] = $o;
 
-        $data['cari'] = $_SESSION['cari'] ?? '';
-
+        // Set up session values with defaults
+        $data['cari']     = $_SESSION['cari'] ?? '';
         $data['filter']   = $_SESSION['filter'] ?? '';
         $data['tipe']     = $_SESSION['tipe'] ?? '';
         $data['kategori'] = $_SESSION['kategori'] ?? '';
+
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
         }
         $data['per_page'] = $this->session->per_page;
 
-        if (isset($_SESSION['dusun'])) {
-            $data['dusun']   = $_SESSION['dusun'];
+        // Initialize dusun, rw, and rt values with checks
+        $data['dusun'] = $_SESSION['dusun'] ?? '';
+        $data['rw']    = $_SESSION['rw'] ?? '';
+        $data['rt']    = $_SESSION['rt'] ?? '';
+
+        // Retrieve related data only if 'dusun' is set
+        if ($data['dusun']) {
             $data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 
-            if (isset($_SESSION['rw'])) {
-                $data['rw']      = $_SESSION['rw'];
+            if ($data['rw']) {
                 $data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
-
-                $data['rt'] = $_SESSION['rt'] ?? '';
             } else {
-                $data['rw'] = '';
+                $data['rw']      = ''; // Ensure rw is an empty string if not set
+                $data['list_rt'] = []; // Initialize as an empty array if no rw
             }
         } else {
-            $data['dusun'] = '';
-            $data['rw']    = '';
-            $data['rt']    = '';
+            $data['list_rw'] = [];
+            $data['list_rt'] = [];
         }
 
         $data['func']            = 'index';

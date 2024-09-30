@@ -67,12 +67,15 @@ class Keuangan_grafik_manual_model extends MY_Model
         $this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai_Anggaran) AS pagu');
         $this->db->where('Tahun', $thn);
         $this->db->group_by('jenis_pelaksanaan');
+        $this->db->like('Kd_Rincian', '6.1', 'after');
 
         $data['anggaran'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         $this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai_Realisasi) AS realisasi');
         $this->db->group_by('jenis_pelaksanaan');
         $this->db->where('Tahun', $thn);
+        $this->db->like('Kd_Rincian', '6.1', 'after');
+
         $data['realisasi_pendapatan'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
 
         $this->db->select('LEFT(Kd_Rincian, 2) AS jenis_pelaksanaan, SUM(Nilai_Realisasi) AS realisasi');
@@ -81,6 +84,15 @@ class Keuangan_grafik_manual_model extends MY_Model
         $this->db->like('Kd_Rincian', '5.', 'after');
 
         $data['realisasi_belanja'] = $this->config_id()->get('keuangan_manual_rinci')->result_array();
+
+        $this->db->select('Akun, Nama_Akun');
+        $this->db->where("Akun = '6.'");
+
+        $data['pembiayaan_keluar'] = $this->db->get('keuangan_manual_ref_rek1')->result_array();
+
+        foreach ($data['pembiayaan_keluar'] as $i => $p) {
+            $data['pembiayaan_keluar'][$i]['sub_pembiayaan_keluar'] = $this->get_subval_pembiayaan_keluar($p['Akun'], $thn);
+        }
 
         return $data;
     }
@@ -282,6 +294,9 @@ class Keuangan_grafik_manual_model extends MY_Model
         }
 
         foreach ($tmp_pelaksanaan as $value) {
+            if ($value['nama'] == 'PEMBIAYAAN') {
+                $value['pembiayaan_keluar'] = $raw_data['pembiayaan_keluar'];
+            }
             $res_pelaksanaan[] = $value;
         }
 

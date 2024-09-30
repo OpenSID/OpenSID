@@ -36,7 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\AnjunganMenu as Menu;
+use Modules\Anjungan\Models\AnjunganMenu as Menu;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\Kategori;
@@ -45,7 +45,7 @@ use App\Models\Suplemen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan_menu extends Anjungan_Controller
+class Anjungan_menu extends AnjunganModulController
 {
     public $modul_ini     = 'anjungan';
     public $sub_modul_ini = 'anjungan-menu';

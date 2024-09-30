@@ -64,7 +64,12 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 45. [#8488](https://github.com/OpenSID/OpenSID/issues/8488) Perbaikan pengaturan sebutan kepala dusun.
 46. [#8502](https://github.com/OpenSID/OpenSID/issues/8502) Perbaikan info kontak dan informasi pada bagian infromasi/bantuan.
 47. [#8503](https://github.com/OpenSID/OpenSID/issues/8503) Perbaikan judul icon pada tampilan anjugan mandiri.
-
+48. [#8494](https://github.com/OpenSID/OpenSID/issues/8494) Perbaikan perhitungan pembiayaan pada widget keuangan manual.
+49. [#8505](https://github.com/OpenSID/OpenSID/issues/8505) Perbaikan menampilkan statistik kepemilikan akta kematian untuk database gabungan.
+50. [#8508](https://github.com/OpenSID/OpenSID/issues/8508) Perbaikan link ubah data penduduk pada modul rumah tangga.
+51. [#8509](https://github.com/OpenSID/OpenSID/issues/8509) Perbaikan waktu komentar pada artikel.
+52. [#8515](https://github.com/OpenSID/OpenSID/issues/8515) Perbaikan filter berdasarkan perindikator, dusun, rw dan rt pada modul analisis laporan perindikator.
+ 
 
 #### TEKNIS
 1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
@@ -76,6 +81,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8490](https://github.com/OpenSID/OpenSID/issues/8490) Penyesuaian link panduan pemasangan aplikasi.
 8. [#8491](https://github.com/OpenSID/OpenSID/issues/8491) Penyesuaian primary key dan autoincrement pada tabel log_notifikasi_admin dan log_notifikasi_mandiri.
 9. [#8480](https://github.com/OpenSID/OpenSID/issues/8480) Penyesuaian tombol unduh dokumen layanan mandiri menjadi lihat dokumen.
+10. [#8498](https://github.com/OpenSID/OpenSID/issues/8498) Penyesuaian hapus data penduduk ketika sudah digunakan pada surat dan bantuan.
+11. [#8512](https://github.com/OpenSID/OpenSID/issues/8512) Penyesuaian default filter status pada modul galeri, artikel, widget, komentar dan kategori.
+12. [#6619](https://github.com/OpenSID/OpenSID/issues/6619) Penyesuaian modul anjungan menggunakan konsep module.
 
 
 #### LAYANAN

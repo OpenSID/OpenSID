@@ -84,11 +84,18 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val('1').trigger('change');
+
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ ci_route('kategori.datatables') }}?parent={{ $parent }}",
+                ajax: {
+                    url: "{{ ci_route('kategori.datatables') }}?parent={{ $parent }}",
+                    data: function(req) {
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'drag-handle',
                         class: 'padat',

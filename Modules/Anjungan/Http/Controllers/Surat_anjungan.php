@@ -43,7 +43,7 @@ use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 
-class Surat_anjungan extends Mandiri_Controller
+class Surat_anjungan extends MandiriModulController
 {
     public function buat($id = '')
     {

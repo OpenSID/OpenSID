@@ -35,35 +35,45 @@
  *
  */
 
-use App\Services\Pelanggan;
+use Modules\Anjungan\Models\AnjunganMenu;
+use App\Models\Artikel;
+use App\Models\Galery;
+use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-// Website Demo OpenSID
-define('WEBSITE_DEMO', [
-    'beta.opendesa.id',
-    'beta2.opensid.or.id',
-    'berputar.opendesa.id',
-    'devpremium.opendesa.id',
-    'opensid-premium.test',
-    'opensid.test',
-]);
-
-if (! function_exists('cek_anjungan')) {
-    /**
-     * - Fungsi validasi anjungan.
-     */
-    function cek_anjungan(): bool
+class Anjungan extends WebModulController
+{
+    public function __construct()
     {
-        // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
-        if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
-            return true;
+        parent::__construct();
+        $this->load->helper('web');
+        $this->load->model('pamong_model');
+        if (! cek_anjungan() || $this->cek_anjungan['tipe'] != 1) {
+            redirect('layanan-mandiri/beranda');
         }
+    }
 
-        return cache()->rememberForever('license_anjugan', static function () {
-            $status = Pelanggan::api_pelanggan_pemesanan();
+    public function index()
+    {
+        $menu = AnjunganMenu::where('status', 1)->get();
 
-            return $status->body->tanggal_berlangganan->anjungan == 'aktif';
-        });
+        $jumlah_artikel = setting('anjungan_layar') == 1 ? 4 : 6;
+
+        $data = [
+            'cek_anjungan'  => $this->cek_anjungan,
+            'arsip_terkini' => Artikel::arsip()->orderBy('tgl_upload', 'DESC')->limit($jumlah_artikel)->get(),
+            'arsip_populer' => Artikel::arsip()->orderBy('hit', 'DESC')->limit($jumlah_artikel)->get(),
+            'tanggal'       => Carbon::now()->dayName . ', ' . date('d/m/Y'),
+            'menu'          => $menu,
+            'slides'        => count($menu) > 5 ? 5 : count($menu),
+            'teks_berjalan' => setting('anjungan_teks_berjalan'),
+            'gambar'        => Galery::where('parrent', setting('anjungan_slide'))->where('enabled', 1)->get(),
+            'pamong'        => $this->pamong_model->list_aparatur_desa()['daftar_perangkat'],
+        ];
+
+        $layar = setting('anjungan_layar') == 1 ? 'index' : 'potrait';
+
+        return view("anjungan.{$layar}", $data);
     }
 }
