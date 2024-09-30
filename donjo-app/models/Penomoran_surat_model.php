@@ -267,6 +267,6 @@ class Penomoran_surat_model extends MY_Model
             '[kode_desa]'    => identitas()->kode_desa,
         ];
 
-        return str_replace(array_keys($array_replace), array_values($array_replace), $setting);
+        return str_ireplace(array_keys($array_replace), array_values($array_replace), $setting);
     }
 }
