@@ -1,4 +1,4 @@
-Di rilis ini, versi 2409.1.0 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2410.0.0 berisi [isi disini] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [isi disini] telah ikut berkontribusi.
 
@@ -37,3 +37,7 @@ Terima kasih pada [isi disini] telah ikut berkontribusi.
 #### KEAMANAN
 
 1. [#3507](https://github.com/OpenSID/premium/issues/3507) Peningkatan unggah file pada modul informasi publik.
+
+
+#### INFO PENTING
+- Pada rilis ini, penggunaan surat jenis RTF tidak didukung dan tidak dikembangkan lagi. Silahkan beralih dan gunakan surat jenis TinyMCE yang sudah dikembangkan.
