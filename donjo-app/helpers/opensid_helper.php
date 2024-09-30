@@ -2014,7 +2014,7 @@ if (! function_exists('kodeIsianTanggal')) {
     {
         try {
             $formatInput = 'd F Y';
-            $tanggal     = $tanggal ? Carbon::createFromFormat($formatInput, $tanggal, 'id') : Carbon::now();
+            $tanggal     = $tanggal ? Carbon::createFromFormat($formatInput, $tanggal) : Carbon::now();
 
             return match ($format) {
                 'hari'  => $tanggal->translatedFormat('l'),

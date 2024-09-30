@@ -298,6 +298,18 @@ class Impor_model extends MY_Model
             return 'Tanggal lahir tidak boleh kosong';
         }
 
+        if (! $this->cekValidasiTanggal($isi_baris['tanggallahir'])) {
+            return 'Tanggal lahir (' . $isi_baris['tanggallahir'] . ') tidak valid';
+        }
+
+        if (! empty($isi_baris['tanggalperkawinan']) && ! $this->cekValidasiTanggal($isi_baris['tanggalperkawinan'])) {
+            return 'Tanggal perkawinan (' . $isi_baris['tanggalperkawinan'] . ') tidak valid';
+        }
+
+        if (! empty($isi_baris['tanggalperceraian']) && ! $this->cekValidasiTanggal($isi_baris['tanggalperceraian'])) {
+            return 'Tanggal perceraian (' . $isi_baris['tanggalperceraian'] . ') tidak valid';
+        }
+
         if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'NIK salah';
         }
@@ -338,6 +350,16 @@ class Impor_model extends MY_Model
         }
 
         return $kolom_tanggal;
+    }
+
+    protected function cekValidasiTanggal($tanggal)
+    {
+        $tgl = explode('-', $tanggal);
+        if (count($tgl) != 3) {
+            return false;
+        }
+
+        return checkdate($tgl[1], $tgl[2], $tgl[0]);
     }
 
     private function cek_kosong($isi)
