@@ -174,7 +174,7 @@
                                     if ($tampil_jumlah) {
                                         $data['JLH_JIWA_1'] = $data['KK_JLH'] + $data['KK_ANG_KEL'];
                                         $data['JLH_JIWA_2'] = $data['KK_AKHIR_JML'] + $data['KK_AKHIR_ANG_KEL'];
-                                    
+
                                         $totals['WNA_L_AWAL'] += (int) $data['WNA_L_AWAL'];
                                         $totals['WNA_P_AWAL'] += (int) $data['WNA_P_AWAL'];
                                         $totals['WNI_L_AWAL'] += (int) $data['WNI_L_AWAL'];

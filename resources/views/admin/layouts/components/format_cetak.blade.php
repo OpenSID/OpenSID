@@ -2,7 +2,7 @@
     if (empty($ekstensi)) {
         $ekstensi = 'xls';
     }
-    
+
     if ($aksi == 'unduh') {
         header('Content-type: application/' . $ekstensi);
         header('Content-Disposition: attachment; filename=' . namafile($file) . '.' . $ekstensi);

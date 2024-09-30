@@ -69,10 +69,10 @@
                         $attributes = is_array($attributes) ? $attributes : [];
                         if (isset($attributes['class'])) {
                             $value['class'] = $attributes['class'];
-                        
+
                             unset($attributes['class']);
                         }
-                        
+
                         $value['type'] = $pengaturan->jenis;
                         $value['default'] = $pengaturan->value;
                         $value['readonly'] = strpos($pengaturan->attribute, 'readonly') ? 'readonly' : '';

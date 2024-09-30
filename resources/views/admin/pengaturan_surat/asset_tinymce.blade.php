@@ -4,7 +4,7 @@
     foreach (glob(LOKASI_FONT_DESA . '*.ttf') as $font) {
         $url = site_url($font);
         $nameFont = ucfirst(pathinfo($font, PATHINFO_FILENAME));
-    
+
         $fonts .= $nameFont . '=' . pathinfo($font, PATHINFO_FILENAME) . '; ';
         $cssFont .= "
             @font-face {
