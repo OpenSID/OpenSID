@@ -35,13 +35,15 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_beta extends MY_model
 {
     public function up()
     {
-        return true;
+        $hasil = true;
 
         // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
@@ -72,7 +74,7 @@ class Migrasi_beta extends MY_model
             'kategori' => 'Kehadiran',
         ], $config_id);
 
-        return $hasil && $this->db->update(
+        $this->db->update(
             'setting_aplikasi',
             [
                 'key'   => 'rentang_waktu_keluar',
@@ -83,5 +85,7 @@ class Migrasi_beta extends MY_model
                 'key'       => 'rentang_waktu_kehadiran',
             ]
         );
+
+        return $hasil;
     }
 }
