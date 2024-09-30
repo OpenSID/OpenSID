@@ -216,10 +216,10 @@ class Keluarga extends BaseModel
         if ($this->kepalaKeluarga && $this->kepalaKeluarga->status_dasar != StatusDasarEnum::HIDUP) {
             return false;
         }
-        if ($this->bantuan->count() > 0) {
+        if ($this->kepalaKeluarga && $this->bantuan->count() > 0) {
             return false;
         }
-        if ($this->suplemen->count() > 0) {
+        if ($this->kepalaKeluarga && $this->suplemen->count() > 0) {
             return false;
         }
 
