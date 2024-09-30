@@ -59,6 +59,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 52. [#8515](https://github.com/OpenSID/OpenSID/issues/8515) Perbaikan filter berdasarkan perindikator, dusun, rw dan rt pada modul analisis laporan perindikator.
 53. [#8520](https://github.com/OpenSID/OpenSID/issues/8520) Perbaikan validasi dan notifikasi tanggal pada impor data penduduk.
 54. [#8522](https://github.com/OpenSID/OpenSID/issues/8522) Perbaikan replace kode isian pada format nomer surat.
+55. [#8523](https://github.com/OpenSID/OpenSID/issues/8523) Perbaikan kode isian berupa tanggal.
+
 
 #### TEKNIS
 1. [#8437](https://github.com/OpenSID/OpenSID/issues/8437) Penyesuaian lokasi pengaturan sebutan dusun dan pindahkan ke modul wilayah administratif.
