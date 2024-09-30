@@ -43,18 +43,19 @@ use App\Models\Posyandu;
 use App\Models\SasaranPaud;
 
 class Stunting
-{   
+{
     private $kuartal;
     private $tahun;
     private $idPosyandu;
     private $batasBulanAtas;
     private $batasBulanBawah;
+
     public function __construct(?array $default)
     {
-        $this->kuartal = $default['kuartal'] ?? null;
-        $this->tahun = $default['tahun'] ?? null;
+        $this->kuartal    = $default['kuartal'] ?? null;
+        $this->tahun      = $default['tahun'] ?? null;
         $this->idPosyandu = $default['idPosyandu'] ?? null;
-        
+
         if ($this->kuartal < 1 || $this->kuartal > 4) {
             $this->kuartal = null;
         }
@@ -74,7 +75,7 @@ class Stunting
         }
 
         if ($this->tahun == null) {
-            $this->tahun = date('Y');                   
+            $this->tahun = date('Y');
         }
 
         if ($this->kuartal == 1) {
@@ -90,7 +91,7 @@ class Stunting
             $this->batasBulanBawah = 10;
             $this->batasBulanAtas  = 12;
         }
-    } 
+    }
 
     public function chartStuntingUmurData()
     {
@@ -99,92 +100,90 @@ class Stunting
                 'range_1' => [Anak::TB_PENDEK => 0, Anak::TB_SANGAT_PENDEK => 0],
                 'range_2' => [Anak::TB_PENDEK => 0, Anak::TB_SANGAT_PENDEK => 0],
                 'range_3' => [Anak::TB_PENDEK => 0, Anak::TB_SANGAT_PENDEK => 0],
-            ]
+            ],
         ]);
         $stuntingObj = Anak::selectRaw('status_tikar')
             ->selectRaw('sum(case when umur_bulan between 0 and 5 then 1 else 0 end) as range_1')
             ->selectRaw('sum(case when umur_bulan between 6 and 11 then 1 else 0 end) as range_2')
             ->selectRaw('sum(case when umur_bulan between 12 and 23 then 1 else 0 end) as range_3')
-            ->stuntingPendek()            
-            ->whereMonth('created_at', '>=',$this->batasBulanBawah)
-            ->whereMonth('created_at', '<=',$this->batasBulanAtas)    
-            ->whereYear('created_at', $this->tahun)        
+            ->stuntingPendek()
+            ->whereMonth('created_at', '>=', $this->batasBulanBawah)
+            ->whereMonth('created_at', '<=', $this->batasBulanAtas)
+            ->whereYear('created_at', $this->tahun)
             ->groupBy(['status_tikar']);
-        
-        if($this->idPosyandu){
-            $stuntingObj->where('posyandu_id',$this->idPosyandu);
+
+        if ($this->idPosyandu) {
+            $stuntingObj->where('posyandu_id', $this->idPosyandu);
         }
         $stunting = $stuntingObj->get();
-        if(!$stunting->isEmpty()){
-            $obj = $stunting->keyBy('status_tikar');
+        if (! $stunting->isEmpty()) {
+            $obj         = $stunting->keyBy('status_tikar');
             $totalRange1 = $obj[Anak::TB_SANGAT_PENDEK]->range_1 + $obj[Anak::TB_PENDEK]->range_1;
             $totalRange2 = $obj[Anak::TB_SANGAT_PENDEK]->range_2 + $obj[Anak::TB_PENDEK]->range_2;
             $totalRange3 = $obj[Anak::TB_SANGAT_PENDEK]->range_3 + $obj[Anak::TB_PENDEK]->range_3;
-            $summary = collect([
-                'range_1' => [Anak::TB_PENDEK => $this->conversiPercent($obj[Anak::TB_PENDEK]->range_1, $totalRange1) , Anak::TB_SANGAT_PENDEK => $this->conversiPercent($obj[Anak::TB_SANGAT_PENDEK]->range_1, $totalRange1)],
-                'range_2' => [Anak::TB_PENDEK => $this->conversiPercent($obj[Anak::TB_PENDEK]->range_2, $totalRange2) , Anak::TB_SANGAT_PENDEK => $this->conversiPercent($obj[Anak::TB_SANGAT_PENDEK]->range_2, $totalRange2)],
-                'range_3' => [Anak::TB_PENDEK => $this->conversiPercent($obj[Anak::TB_PENDEK]->range_3, $totalRange3) , Anak::TB_SANGAT_PENDEK => $this->conversiPercent($obj[Anak::TB_SANGAT_PENDEK]->range_3, $totalRange3)],
+            $summary     = collect([
+                'range_1' => [Anak::TB_PENDEK => $this->conversiPercent($obj[Anak::TB_PENDEK]->range_1, $totalRange1), Anak::TB_SANGAT_PENDEK => $this->conversiPercent($obj[Anak::TB_SANGAT_PENDEK]->range_1, $totalRange1)],
+                'range_2' => [Anak::TB_PENDEK => $this->conversiPercent($obj[Anak::TB_PENDEK]->range_2, $totalRange2), Anak::TB_SANGAT_PENDEK => $this->conversiPercent($obj[Anak::TB_SANGAT_PENDEK]->range_2, $totalRange2)],
+                'range_3' => [Anak::TB_PENDEK => $this->conversiPercent($obj[Anak::TB_PENDEK]->range_3, $totalRange3), Anak::TB_SANGAT_PENDEK => $this->conversiPercent($obj[Anak::TB_SANGAT_PENDEK]->range_3, $totalRange3)],
             ]);
         }
-        
+
         log_message('error', $summary->toJson());
+
         return [
-            ['id' => 'chart_0_5', 'title' => 'Jumlah Per Gol Umur 0-5 Bulan', 'data' => [['name' => 'Pendek (Stunting)','y' => $summary['range_1'][Anak::TB_PENDEK]], ['name' => 'Sangat Pendek (Severity Stunting)', 'y' => $summary['range_1'][Anak::TB_SANGAT_PENDEK] ]]],
-            ['id' => 'chart_6_11', 'title' => 'Jumlah Per Gol Umur 6-11 Bulan', 'data' => [['name' => 'Pendek (Stunting)','y' => $summary['range_2'][Anak::TB_PENDEK]], ['name' => 'Sangat Pendek (Severity Stunting)', 'y' => $summary['range_2'][Anak::TB_SANGAT_PENDEK]]]],
-            ['id' => 'chart_12_23', 'title' => 'Jumlah Per Gol Umur 12-23 Bulan', 'data' => [['name' => 'Pendek (Stunting)','y' => $summary['range_3'][Anak::TB_PENDEK]], ['name' => 'Sangat Pendek (Severity Stunting)', 'y' => $summary['range_3'][Anak::TB_SANGAT_PENDEK]]]],
+            ['id' => 'chart_0_5', 'title' => 'Jumlah Per Gol Umur 0-5 Bulan', 'data' => [['name' => 'Pendek (Stunting)', 'y' => $summary['range_1'][Anak::TB_PENDEK]], ['name' => 'Sangat Pendek (Severity Stunting)', 'y' => $summary['range_1'][Anak::TB_SANGAT_PENDEK]]]],
+            ['id' => 'chart_6_11', 'title' => 'Jumlah Per Gol Umur 6-11 Bulan', 'data' => [['name' => 'Pendek (Stunting)', 'y' => $summary['range_2'][Anak::TB_PENDEK]], ['name' => 'Sangat Pendek (Severity Stunting)', 'y' => $summary['range_2'][Anak::TB_SANGAT_PENDEK]]]],
+            ['id' => 'chart_12_23', 'title' => 'Jumlah Per Gol Umur 12-23 Bulan', 'data' => [['name' => 'Pendek (Stunting)', 'y' => $summary['range_3'][Anak::TB_PENDEK]], ['name' => 'Sangat Pendek (Severity Stunting)', 'y' => $summary['range_3'][Anak::TB_SANGAT_PENDEK]]]],
         ];
     }
 
-    public function chartPosyanduData(){
+    public function chartPosyanduData()
+    {
         $giziAnakObj = Anak::selectRaw('status_gizi, posyandu_id, count(*) as total')
-            ->whereMonth('created_at', '>=',$this->batasBulanBawah)
-            ->whereMonth('created_at', '<=',$this->batasBulanAtas)    
+            ->whereMonth('created_at', '>=', $this->batasBulanBawah)
+            ->whereMonth('created_at', '<=', $this->batasBulanAtas)
             ->whereYear('created_at', $this->tahun)
             ->groupBy(['posyandu_id', 'status_gizi']);
         $posyanduObj = Posyandu::query();
-        if($this->idPosyandu){
+        if ($this->idPosyandu) {
             $giziAnakObj->wherePosyanduId($this->idPosyandu);
             $posyanduObj->whereId($this->idPosyandu);
         }
         $posyandu = $posyanduObj->get();
 
         $giziAnak = $giziAnakObj->get();
-        $summary = collect([
+        $summary  = collect([
             [
-                'normal' => [],
+                'normal'          => [],
                 'resiko_stunting' => [],
-                'stunting' => [],
-            ]
+                'stunting'        => [],
+            ],
         ]);
-        if(!$giziAnak->isEmpty()){
-            $summary = $giziAnak->groupBy('posyandu_id')->map(function($item){
+        if (! $giziAnak->isEmpty()) {
+            $summary = $giziAnak->groupBy('posyandu_id')->map(static function ($item) {
                 return [
-                    'normal' => $item->sum(function($q) {
-                        return $q->isNormal() ? $q->total : 0;
-                    }),
-                    'resiko_stunting' => $item->sum(function($q) {
-                        return $q->isResikoStunting() ? $q->total : 0;
-                    }),
-                    'stunting' => $item->sum(function($q) {                        
-                        return $q->isStunting() ? $q->total : 0;
-                    }),
+                    'normal'          => $item->sum(static fn ($q) => $q->isNormal() ? $q->total : 0),
+                    'resiko_stunting' => $item->sum(static fn ($q) => $q->isResikoStunting() ? $q->total : 0),
+                    'stunting'        => $item->sum(static fn ($q) => $q->isStunting() ? $q->total : 0),
                 ];
             });
-            
+
         }
+
         return [
             'categories' => $posyandu->pluck('nama')->toArray(),
-            'data' => [
+            'data'       => [
                 ['name' => 'Normal', 'data' => $summary->pluck('normal')->toArray()],
                 ['name' => 'Resiko Stunting', 'data' => $summary->pluck('resiko_stunting')->toArray()],
                 ['name' => 'Terindikasi Stunting', 'data' => $summary->pluck('stunting')->toArray()],
-            ]
+            ],
         ];
     }
+
     public function scoreCard()
     {
-        $rekap = new Rekap();                
-        
+        $rekap = new Rekap();
+
         $JTRT_IbuHamil = IbuHamil::query()
             ->distinct()
             ->join('kia', 'ibu_hamil.kia_id', '=', 'kia.id')
@@ -193,7 +192,7 @@ class Stunting
             ->whereYear('ibu_hamil.created_at', $this->tahun)
             ->selectRaw('ibu_hamil.kia_id as kia_id')
             ->get();
-        
+
         $JTRT_BulananAnak = Anak::query()
             ->distinct()
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
@@ -202,7 +201,7 @@ class Stunting
             ->whereYear('bulanan_anak.created_at', $this->tahun)
             ->selectRaw('bulanan_anak.kia_id as kia_id')
             ->get();
-            
+
         foreach ($JTRT_IbuHamil as $item_ibuHamil) {
             $dataNoKia[] = $item_ibuHamil;
 
@@ -212,7 +211,7 @@ class Stunting
                 }
             }
         }
-        
+
         $ibu_hamil    = $rekap->get_data_ibu_hamil($this->kuartal, $this->tahun, $this->idPosyandu);
         $bulanan_anak = $rekap->get_data_bulanan_anak($this->kuartal, $this->tahun, $this->idPosyandu);
 
@@ -224,7 +223,7 @@ class Stunting
                 $jumlahKekRisti++;
             }
         }
-        
+
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
         $status_tikar = collect(Anak::STATUS_TIKAR_ANAK)->pluck('simbol', 'id');
         $tikar        = ['TD' => 0, 'M' => 0, 'K' => 0, 'H' => 0];
@@ -366,7 +365,7 @@ class Stunting
         $dataAnak0sd2Tahun['jumlah'] = $jmlV;
         $dataAnak0sd2Tahun['persen'] = $jmlAnk !== 0 ? number_format($jmlV / $jmlAnk * 100, 2) : 0;
 
-        //END ANAK PAUD------------------------------------------------------------                
+        //END ANAK PAUD------------------------------------------------------------
         $data['dataAnak0sd2Tahun']     = $dataAnak0sd2Tahun;
         $data['id']                    = $this->idPosyandu;
         $data['posyandu']              = Posyandu::get();
@@ -378,12 +377,13 @@ class Stunting
         $data['bulanan_anak']          = $bulanan_anak;
         $data['dataTahun']             = $data['ibu_hamil']['dataTahun'];
         $data['kuartal']               = $this->kuartal;
-        $data['_tahun']                = $this->tahun;        
+        $data['_tahun']                = $this->tahun;
 
         return $data;
     }
 
-    private function conversiPercent($number, $total){
-        return intval(str_replace('%','', persen3($number, $total)));
+    private function conversiPercent($number, $total)
+    {
+        return (int) (str_replace('%', '', persen3($number, $total)));
     }
 }

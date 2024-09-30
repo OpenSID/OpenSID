@@ -37,10 +37,10 @@
 
 namespace App\Libraries\TinyMCE;
 
+use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Models\Penduduk;
 use Illuminate\Support\Str;
-use App\Enums\JenisKelaminEnum;
 
 class KodeIsianPenduduk
 {

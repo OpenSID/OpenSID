@@ -35,11 +35,9 @@
  *
  */
 
-use App\Enums\SasaranEnum;
 use App\Libraries\Stunting;
 use App\Models\Anak;
 use App\Models\IbuHamil;
-use App\Models\Suplemen as SuplemenModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -52,24 +50,24 @@ class Kesehatan extends Web_Controller
     }
 
     public function detail($slug = null): void
-    {                
-        $cekMenu = $this->menu_aktif('data-kesehatan/' . $slug);
-        $idPosyandu = $this->input->get('id_posyandu');
-        $kuartal = $this->input->get('kuartal');
-        $tahun = $this->input->get('tahun');
-        $stunting = new Stunting(['idPosyandu' => $idPosyandu, 'kuartal' => $kuartal, 'tahun' => $tahun]);
-        $data            = $this->includes;        
-        $data['title']   = 'e-' . ucwords($slug);        
-        $data['tampil']  = $cekMenu;
-        $data['scorecard'] = $stunting->scoreCard();
-        $data['widgets'] = $this->widget();
-        $data['chartStuntingUmurData'] = $stunting->chartStuntingUmurData();
+    {
+        $cekMenu                           = $this->menu_aktif('data-kesehatan/' . $slug);
+        $idPosyandu                        = $this->input->get('id_posyandu');
+        $kuartal                           = $this->input->get('kuartal');
+        $tahun                             = $this->input->get('tahun');
+        $stunting                          = new Stunting(['idPosyandu' => $idPosyandu, 'kuartal' => $kuartal, 'tahun' => $tahun]);
+        $data                              = $this->includes;
+        $data['title']                     = 'e-' . ucwords($slug);
+        $data['tampil']                    = $cekMenu;
+        $data['scorecard']                 = $stunting->scoreCard();
+        $data['widgets']                   = $this->widget();
+        $data['chartStuntingUmurData']     = $stunting->chartStuntingUmurData();
         $data['chartStuntingPosyanduData'] = $stunting->chartPosyanduData();
-        $data['posyandu'] = $data['scorecard']['posyandu'];
-        $data['kuartal'] = $data['scorecard']['kuartal'];        
-        $data['dataTahun'] = $data['scorecard']['dataTahun'];
-        $data['idPosyandu'] = $idPosyandu;
-        
+        $data['posyandu']                  = $data['scorecard']['posyandu'];
+        $data['kuartal']                   = $data['scorecard']['kuartal'];
+        $data['dataTahun']                 = $data['scorecard']['dataTahun'];
+        $data['idPosyandu']                = $idPosyandu;
+
         $this->_get_common_data($data);
         $this->set_template('layouts/kesehatan.tpl.php');
         theme_view($this->template, $data);
@@ -79,47 +77,47 @@ class Kesehatan extends Web_Controller
     {
         return [
             [
-                'title' => 'Ibu Hamil Periksa Bulan ini',
-                'icon' => 'ion-woman',
+                'title'    => 'Ibu Hamil Periksa Bulan ini',
+                'icon'     => 'ion-woman',
                 'bg-color' => 'bg-blue',
-                'bg-icon'=> 'ion-stats-bars',
-                'total' => IbuHamil::whereMonth('created_at', date('m'))->count(),
+                'bg-icon'  => 'ion-stats-bars',
+                'total'    => IbuHamil::whereMonth('created_at', date('m'))->count(),
             ],
             [
-                'title' => 'Anak Periksa Bulan ini',
-                'icon' => 'ion-woman',
+                'title'    => 'Anak Periksa Bulan ini',
+                'icon'     => 'ion-woman',
                 'bg-color' => 'bg-gray',
-                'bg-icon'=> 'ion-stats-bars',
-                'total' => Anak::whereMonth('created_at', date('m'))->count(),
+                'bg-icon'  => 'ion-stats-bars',
+                'total'    => Anak::whereMonth('created_at', date('m'))->count(),
             ],
             [
-                'title' => 'Ibu Hamil & Anak 0-23 Bulan',
-                'icon' => 'ion-woman',
+                'title'    => 'Ibu Hamil & Anak 0-23 Bulan',
+                'icon'     => 'ion-woman',
                 'bg-color' => 'bg-green',
-                'bg-icon'=> 'ion-stats-bars',
-                'total' => IbuHamil::count() + Anak::count(),
+                'bg-icon'  => 'ion-stats-bars',
+                'total'    => IbuHamil::count() + Anak::count(),
             ],
             [
-                'title' => 'Anak 0-23 Bulan Normal',
-                'icon' => 'ion-woman',
+                'title'    => 'Anak 0-23 Bulan Normal',
+                'icon'     => 'ion-woman',
                 'bg-color' => 'bg-green',
-                'bg-icon'=> 'ion-stats-bars',
-                'total' => Anak::normal()->count(),
+                'bg-icon'  => 'ion-stats-bars',
+                'total'    => Anak::normal()->count(),
             ],
             [
-                'title' => 'Anak 0-23 Bulan Resiko Stunting',
-                'icon' => 'ion-woman',
+                'title'    => 'Anak 0-23 Bulan Resiko Stunting',
+                'icon'     => 'ion-woman',
                 'bg-color' => 'bg-yellow',
-                'bg-icon'=> 'ion-stats-bars',
-                'total' => Anak::resikoStunting()->count(),
+                'bg-icon'  => 'ion-stats-bars',
+                'total'    => Anak::resikoStunting()->count(),
             ],
             [
-                'title' => 'Anak 0-23 Bulan Stunting',
-                'icon' => 'ion-woman',
+                'title'    => 'Anak 0-23 Bulan Stunting',
+                'icon'     => 'ion-woman',
                 'bg-color' => 'bg-red',
-                'bg-icon'=> 'ion-stats-bars',
-                'total' => Anak::stunting()->count(),
-            ]            
+                'bg-icon'  => 'ion-stats-bars',
+                'total'    => Anak::stunting()->count(),
+            ],
         ];
     }
 }

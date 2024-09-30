@@ -45,12 +45,12 @@ class Anak extends BaseModel
 {
     use ConfigId;
 
-    public const NORMAL = 1;
-    public const GIZI_KURANG = 2;
-    public const GIZI_BURUK = 3;
-    public const STUNTING = 4;    
+    public const NORMAL           = 1;
+    public const GIZI_KURANG      = 2;
+    public const GIZI_BURUK       = 3;
+    public const STUNTING         = 4;
     public const TB_SANGAT_PENDEK = 2;
-    public const TB_PENDEK = 3;
+    public const TB_PENDEK        = 3;
 
     /**
      * Static data status gizi anak
@@ -166,31 +166,38 @@ class Anak extends BaseModel
         return $query;
     }
 
-    protected function scopeNormal($query){
+    protected function scopeNormal($query)
+    {
         return $query->where('status_gizi', self::NORMAL);
     }
 
-    protected function scopeResikoStunting($query){
+    protected function scopeResikoStunting($query)
+    {
         return $query->whereIn('status_gizi', [self::GIZI_BURUK, self::GIZI_KURANG]);
     }
 
-    protected function scopeStunting($query){
+    protected function scopeStunting($query)
+    {
         return $query->where('status_gizi', self::STUNTING);
-    }    
+    }
 
-    protected function scopeStuntingPendek($query){
+    protected function scopeStuntingPendek($query)
+    {
         return $query->stunting()->whereIn('status_tikar', [self::TB_PENDEK, self::TB_SANGAT_PENDEK]);
     }
 
-    public function isNormal(){
+    public function isNormal()
+    {
         return $this->attributes['status_gizi'] == self::NORMAL;
     }
 
-    public function isResikoStunting(){        
+    public function isResikoStunting()
+    {
         return in_array($this->attributes['status_gizi'], [self::GIZI_BURUK, self::GIZI_KURANG]);
     }
 
-    public function isStunting(){
-        return $this->attributes['status_gizi'] == self::STUNTING;        
+    public function isStunting()
+    {
+        return $this->attributes['status_gizi'] == self::STUNTING;
     }
 }

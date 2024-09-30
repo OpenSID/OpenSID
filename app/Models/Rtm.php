@@ -76,7 +76,7 @@ class Rtm extends BaseModel
      * @var array
      */
     protected $appends = [
-        'jumlah_kk'
+        'jumlah_kk',
     ];
 
     /**

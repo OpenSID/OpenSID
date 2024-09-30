@@ -204,7 +204,6 @@ class Setting_model extends MY_Model
                     continue;
                 }
 
-
                 if ($key == 'tampilkan_pendaftaran' && $value == 1) {
                     if ($this->setting->email_notifikasi == 0 || $this->setting->telegram_notifikasi == 0) {
                         $value = 0;
