@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3764abc645c0a23db2586f259cd89c41",
+    "content-hash": "8e9059ec283ab4d95d7bf85543db0150",
     "packages": [
         {
             "name": "brick/math",
@@ -9588,16 +9588,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "6.8.3",
+            "version": "7.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "01d1959b1200e0b872ea078e59ea5abfb5c54100"
+                "reference": "ca4b8ce34f4d4f4c1485da90a4247886c4e45335"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/01d1959b1200e0b872ea078e59ea5abfb5c54100",
-                "reference": "01d1959b1200e0b872ea078e59ea5abfb5c54100",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/ca4b8ce34f4d4f4c1485da90a4247886c4e45335",
+                "reference": "ca4b8ce34f4d4f4c1485da90a4247886c4e45335",
                 "shasum": ""
             },
             "type": "component",
@@ -9622,7 +9622,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT-only"
+                "GPL-2.0-or-later"
             ],
             "description": "Web based JavaScript HTML WYSIWYG editor control.",
             "homepage": "https://www.tiny.cloud/",
@@ -9641,9 +9641,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/6.8.3"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/7.2.0"
             },
-            "time": "2024-02-08T23:33:30+00:00"
+            "time": "2024-06-19T06:08:58+00:00"
         }
     ],
     "aliases": [],
@@ -9655,5 +9655,5 @@
         "php": "^7.4 || ^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
