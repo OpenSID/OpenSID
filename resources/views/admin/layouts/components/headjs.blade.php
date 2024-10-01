@@ -1,17 +1,17 @@
 @push('css')
-<link rel="stylesheet" href="{{ asset('lib/print/css/960.css') }}asset/" type="text/css" media="screen">
-<link rel="stylesheet" href="{{ asset('lib/print/css/screen.css') }}" type="text/css" media="screen" />
-<link rel="stylesheet" href="{{ asset('lib/print/css/print-preview.css') }}" type="text/css" media="screen">
-<link rel="stylesheet" href="{{ asset('lib/print/css/print.css') }}" type="text/css" media="print" />
-<link rel="shortcut icon" href="{{ favico_desa() }}" />
+    <link rel="stylesheet" href="{{ asset('lib/print/css/960.css') }}asset/" type="text/css" media="screen">
+    <link rel="stylesheet" href="{{ asset('lib/print/css/screen.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('lib/print/css/print-preview.css') }}" type="text/css" media="screen">
+    <link rel="stylesheet" href="{{ asset('lib/print/css/print.css') }}" type="text/css" media="print" />
+    <link rel="shortcut icon" href="{{ favico_desa() }}" />
 @endpush
 
 @push('scripts')
-<script src="{{ asset('lib/print/js/jquery.tools.min.js') }}"></script>
-<script src="{{ asset('lib/print/js/jquery.print-preview.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ asset('lib/print/js/jquery.tools.min.js') }}"></script>
+    <script src="{{ asset('lib/print/js/jquery.print-preview.js') }}" type="text/javascript" charset="utf-8"></script>
 
-<script type="text/javascript">
-    $(function() {
+    <script type="text/javascript">
+        $(function() {
             $("#feature > div").scrollable({
                 interval: 2000
             }).autoscroll();
@@ -27,5 +27,5 @@
             //}
             //});
         });
-</script>
+    </script>
 @endpush

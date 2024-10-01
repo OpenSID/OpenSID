@@ -55,6 +55,7 @@ class Database extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
@@ -87,7 +88,7 @@ class Database extends Admin_Controller
 
     public function migrasi_db_cri(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         session_error_clear();
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
@@ -104,7 +105,7 @@ class Database extends Admin_Controller
 
     public function exec_backup()
     {
-        if (!Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result')) {
+        if (! Arr::get($this->setting_model->cekKebutuhanSistem(), 'memory_limit.result')) {
             return show_404();
         }
 
@@ -165,7 +166,7 @@ class Database extends Admin_Controller
 
     public function restore(): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         if (config_item('demo_mode')) {
             redirect($this->controller);
@@ -201,8 +202,8 @@ class Database extends Admin_Controller
 
     public function acak()
     {
-        $this->redirect_hak_akses('u');
-        if ($this->setting->penggunaan_server != 6 && !super_admin()) {
+        isCan('u');
+        if ($this->setting->penggunaan_server != 6 && ! super_admin()) {
             return;
         }
 
@@ -219,7 +220,7 @@ class Database extends Admin_Controller
     // Digunakan untuk server yg hanya digunakan untuk web publik
     public function mutakhirkan_data_server(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->error_msg = null;
         if ($this->setting->penggunaan_server != 6) {
             return;
@@ -229,7 +230,7 @@ class Database extends Admin_Controller
 
     public function proses_sinkronkan(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->load->model('sinkronisasi_model');
 
         $this->load->library('MY_Upload', null, 'upload');
@@ -240,7 +241,7 @@ class Database extends Admin_Controller
             'file_name'     => namafile('Sinkronisasi'),
         ]);
 
-        if (!$this->upload->do_upload('sinkronkan')) {
+        if (! $this->upload->do_upload('sinkronkan')) {
             status_sukses(false, false, $this->upload->display_errors());
             redirect($_SERVER['HTTP_REFERER']);
         }
@@ -271,15 +272,15 @@ class Database extends Admin_Controller
         $method                  = $this->input->post('method');
         $this->session->kode_otp = null;
 
-        if (!in_array($method, ['telegram', 'email'])) {
+        if (! in_array($method, ['telegram', 'email'])) {
             return json([
                 'status'  => false,
                 'message' => 'Metode tidak ditemukan',
             ], 400);
         }
 
-        $user = User::when($method == 'telegram', static fn($query) => $query->whereNotNull('telegram_verified_at'))
-            ->when($method == 'email', static fn($query) => $query->whereNotNull('email_verified_at'))
+        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
+            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
             ->first();
 
         if ($user == null) {
@@ -336,7 +337,7 @@ class Database extends Admin_Controller
 
     public function upload_restore()
     {
-        if (!$this->cek_otp(bilangan($this->session->kode_otp))) {
+        if (! $this->cek_otp(bilangan($this->session->kode_otp))) {
             return json([
                 'status'  => false,
                 'message' => 'Kode OTP Salah',
@@ -355,7 +356,7 @@ class Database extends Admin_Controller
         $this->upload->initialize($config);
 
         try {
-            if (!$this->upload->do_upload('file')) {
+            if (! $this->upload->do_upload('file')) {
                 return json([
                     'status'  => false,
                     'message' => $this->upload->display_errors(null, null),

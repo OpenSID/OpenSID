@@ -66,17 +66,17 @@ class KodeIsianPenduduk
         $penduduk = null;
 
         // Data Umum
-        if (!empty($this->prefix)) {
+        if (! empty($this->prefix)) {
             $ortu   = ' ' . ucwords($this->prefix);
             $prefix = '_' . $this->prefix;
         }
 
-        if (!$this->prefixJudul) {
+        if (! $this->prefixJudul) {
             $ortu = '';
         }
 
         if ($this->idPenduduk) {
-            $penduduk = Penduduk::with(['keluarga', 'rtm'])->find($this->idPenduduk);
+            $penduduk = Penduduk::with(['keluarga', 'rtm', 'sakitMenahun', 'kb', 'bahasa'])->find($this->idPenduduk);
         }
 
         $individu = [
@@ -152,6 +152,53 @@ class KodeIsianPenduduk
                 'isian' => 'Gol_daraH' . $prefix,
                 'data'  => $penduduk->golonganDarah->nama,
             ],
+
+            // melengkapi kode isian penduduk
+            [
+                'judul' => 'Suku' . $ortu,
+                'isian' => 'suku' . $prefix,
+                'data'  => $penduduk->suku,
+            ],
+            [
+                'judul' => 'No Telepon' . $ortu,
+                'isian' => 'telepon' . $prefix,
+                'data'  => $penduduk->telepon,
+            ],
+            [
+                'judul' => 'Nomor KITAS/KITAP' . $ortu,
+                'isian' => 'dokumen_kitas' . $prefix,
+                'data'  => $penduduk->dokumen_kitas,
+            ],
+            [
+                'judul' => 'Email' . $ortu,
+                'isian' => 'email' . $prefix,
+                'data'  => $penduduk->email,
+            ],
+            [
+                'judul' => 'Sakit Menahun' . $ortu,
+                'isian' => 'sakit_menahun' . $prefix,
+                'data'  => $penduduk->sakitMenahun->nama,
+            ],
+            [
+                'judul' => 'Akseptor KB' . $ortu,
+                'isian' => 'cara_kb' . $prefix,
+                'data'  => $penduduk->kb->nama,
+            ],
+            [
+                'judul' => 'Nama/Nomor Asuransi Kesehatan' . $ortu,
+                'isian' => 'nama_asuransi' . $prefix,
+                'data'  => $penduduk->nama_asuransi,
+            ],
+            [
+                'judul' => 'Nomor BPJS Ketenagakerjaan' . $ortu,
+                'isian' => 'bpjs_ketenagakerjaan' . $prefix,
+                'data'  => $penduduk->bpjs_ketenagakerjaan,
+            ],
+            [
+                'judul' => 'Bahasa' . $ortu,
+                'isian' => 'Bahasa' . $prefix,
+                'data'  => $penduduk->bahasa->nama,
+            ],
             [
                 'judul' => 'Pendidikan Sedang' . $ortu,
                 'isian' => 'pendidikan_sedang' . $prefix,
@@ -192,22 +239,34 @@ class KodeIsianPenduduk
             [
                 'judul' => 'Desa' . $ortu,
                 'isian' => 'pend_desa' . $prefix,
-                'data'  => $config->pend_desa,
+                'data'  => $config->nama_desa,
             ],
             [
                 'judul' => 'Kecamatan' . $ortu,
                 'isian' => 'pend_kecamatan' . $prefix,
-                'data'  => $config->pend_kecamatan,
+                'data'  => $config->nama_kecamatan,
             ],
             [
                 'judul' => 'Kabupaten' . $ortu,
                 'isian' => 'pend_kabupaten' . $prefix,
-                'data'  => $config->pend_kabupaten,
+                'data'  => $config->nama_kabupaten,
             ],
             [
                 'judul' => 'Provinsi' . $ortu,
                 'isian' => 'pend_provinsi' . $prefix,
-                'data'  => $config->pend_provinsi,
+                'data'  => $config->nama_propinsi,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Anak Ke' . $ortu,
+                'isian'         => 'anakke' . $prefix,
+                'data'          => $penduduk->kelahiran_anak_ke,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Jumlah Saudara' . $ortu,
+                'isian'         => 'jumlah_saudara' . $prefix,
+                'data'          => $penduduk->jml_anak,
             ],
         ];
 
@@ -223,13 +282,13 @@ class KodeIsianPenduduk
                     'case_sentence' => true,
                     'judul'         => 'Foto Ukuran',
                     'isian'         => '<img src="' . base_url('assets/images/pengguna/kuser.png') . '" width="124" height="148">',
-                    'data'          => empty($penduduk->foto) || !file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
                     'case_sentence' => true,
                     'judul'         => 'Foto Ukuran',
                     'isian'         => '<img src="' . base_url('desa/upload/media/kuser.png') . '" width="124" height="148">',
-                    'data'          => empty($penduduk->foto) || !file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
+                    'data'          => empty($penduduk->foto) || ! file_exists(FCPATH . LOKASI_USER_PICT . $penduduk->foto) ? '' : base_url(LOKASI_USER_PICT . $penduduk->foto),
                 ],
                 [
                     'judul' => 'Akta Kelahiran',
@@ -340,7 +399,7 @@ class KodeIsianPenduduk
             // Data Ayah
             $data = array_merge($data, self::get($id_ayah, 'ayah', true));
 
-            if (!$id_ayah && !empty($penduduk)) {
+            if (! $id_ayah && ! empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ayah',
@@ -360,7 +419,7 @@ class KodeIsianPenduduk
             // Data Ibu
             $data = array_merge($data, self::get($id_ibu, 'ibu', true));
 
-            if (!$id_ibu && !empty($penduduk)) {
+            if (! $id_ibu && ! empty($penduduk)) {
                 $data_ortu = [
                     [
                         'judul' => 'Nama Ibu',

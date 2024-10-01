@@ -37,9 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Exports\KlasifikasiSuratExport;
+use App\Imports\KlasifikasiSuratImports;
 use App\Models\KlasifikasiSurat;
-use OpenSpout\Reader\Common\Creator\ReaderEntityFactory;
-use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
 class Klasifikasi extends Admin_Controller
 {
@@ -95,7 +95,7 @@ class Klasifikasi extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $data['data']        = KlasifikasiSurat::where('id', (int) $id)->first();
@@ -110,7 +110,7 @@ class Klasifikasi extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = static::validated($this->request);
 
         try {
@@ -126,7 +126,7 @@ class Klasifikasi extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data = static::validated($this->request);
 
         try {
@@ -142,14 +142,14 @@ class Klasifikasi extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h', 'klasifikasi');
+        isCan('h');
         KlasifikasiSurat::where('id', (int) $id)->delete();
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
     }
 
     public function delete_all(): void
     {
-        $this->redirect_hak_akses('h', 'klasifikasi');
+        isCan('h');
         KlasifikasiSurat::whereIn('id', $this->request['id_cb'])->delete();
 
         redirect_with('success', 'Klasifikasi surat berhasil dihapus');
@@ -157,40 +157,26 @@ class Klasifikasi extends Admin_Controller
 
     public function lock($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 0]);
         redirect_with('success', 'Klasifikasi surat berhasil dinonaktifkan');
     }
 
     public function unlock($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         KlasifikasiSurat::where('id', (int) $id)->update(['enabled' => 1]);
         redirect_with('success', 'Klasifikasi surat berhasil diaktifkan');
     }
 
-    public function ekspor(): void
+    public function ekspor()
     {
-        //Nama File
-        $writer   = WriterEntityFactory::createXLSXWriter();
-        $fileName = namafile('klasifikasi_surat_' . date('d-m-Y')) . '.xlsx';
-        $writer->openToBrowser($fileName);
-
-        // Sheet Program
-        $writer->getCurrentSheet()->setName('klasifikasi');
-        $writer->addRow(WriterEntityFactory::createRowFromArray(['kode', 'nama', 'uraian']));
-
-        foreach (KlasifikasiSurat::select(['kode', 'nama', 'uraian'])->get()->toArray() as $row) {
-            $rowFromValues = WriterEntityFactory::createRowFromArray($row);
-            $writer->addRow($rowFromValues);
-        }
-
-        $writer->close();
+        return (new KlasifikasiSuratExport())->download();
     }
 
     public function impor()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = ci_route('klasifikasi.proses_impor');
 
         return view('admin.klasifikasi.import', $data);
@@ -198,7 +184,7 @@ class Klasifikasi extends Admin_Controller
 
     public function proses_impor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize([
@@ -209,40 +195,14 @@ class Klasifikasi extends Admin_Controller
 
         if ($this->upload->do_upload('klasifikasi')) {
             $upload = $this->upload->data();
-            $reader = ReaderEntityFactory::createXLSXReader();
-            $reader->open($upload['full_path']);
-            $configId = identitas('id');
 
-            try {
-                foreach ($reader->getSheetIterator() as $sheet) {
-                    // Sheet klasifikasi
-                    if ($sheet->getName() == 'klasifikasi') {
-                        $dataUpdate = [];
-
-                        foreach ($sheet->getRowIterator() as $index => $row) {
-                            if ($index <= 1) {
-                                continue;
-                            }
-                            $cells        = $row->getCells();
-                            $dataUpdate[] = [
-                                'kode'      => (string) $cells[0],
-                                'nama'      => (string) $cells[1],
-                                'uraian'    => (string) $cells[2],
-                                'config_id' => $configId,
-                            ];
-                        }
-                        KlasifikasiSurat::upsert($dataUpdate, ['kode', 'config_id']);
-                    }
-                }
-
-                $reader->close();
-                redirect_with('success', 'Klasifikasi surat berhasil diimport');
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
-                $reader->close();
-                redirect_with('error', 'Gagal import klasifikasi surat');
+            $result = (new KlasifikasiSuratImports($upload['full_path']))->import();
+            if (! $result) {
+                redirect_with('error', 'Klasifikasi surat gagal diimport');
             }
         }
+
+        redirect_with('success', 'Klasifikasi surat berhasil diimport');
     }
 
     protected static function validated($data): array

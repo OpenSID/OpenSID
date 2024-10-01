@@ -353,7 +353,7 @@
 		<?php
 		for ($i = 0; $i < MAX_PINDAH; $i++) :
 			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'])) :
+			if ($i < count($input['id_pengikut_pindah'] ?? [])) :
 				$id = trim($input['id_pengikut_pindah'][$i], "'");
 				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
 				<tr>

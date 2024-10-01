@@ -166,7 +166,7 @@ class Surat extends Mandiri_Controller
         if ($id) {
             $permohonan = PermohonanSurat::where(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0])->first();
 
-            if (!$permohonan || !$post) {
+            if (! $permohonan || ! $post) {
                 redirect('layanan-mandiri/surat/buat');
             }
 
@@ -174,7 +174,7 @@ class Surat extends Mandiri_Controller
             $data['isian_form'] = json_encode($permohonan->isian_form, JSON_THROW_ON_ERROR);
             $data['id_surat']   = $permohonan->id_surat;
         } else {
-            if (!$post) {
+            if (! $post) {
                 redirect('layanan-mandiri/surat/buat');
             }
             $data['permohonan'] = null;

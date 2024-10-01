@@ -80,11 +80,11 @@
 
             @include('admin.surat.kode_isian')
 
-            @if (isset($form_kategori))
-                @include('admin.surat.kategori_isian')
-            @endif
+            @includeWhen(isset($form_kategori), 'admin.surat.kategori_isian')
 
-            @include('admin.surat.form_tgl_berlaku')
+            @includeWhen((int) $surat->masa_berlaku > 0, 'admin.surat.form_tgl_berlaku')
+
+            @includeWhen(count($lampiran) > 0 && !empty($lampiran[0]), 'admin.surat.lampiran')
 
             @include('admin.surat.form_pamong')
 
@@ -211,12 +211,13 @@
                 _kaitkan.forEach(element => {
                     for (let i in element.kode_isian_terkait) {
                         let _namaElm = element.kode_isian_terkait[i].replaceAll(/\s+/g, '_').toLowerCase()
-                        if (_kategori) {
-                            _namaElm += `_${_kategori}`
-                        }
-
                         $(`[name=${_namaElm}]`).removeClass('required')
                         $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
+                    }
+
+                    for (let i in element.kategori_terkait) {
+                        let _namaKategori = element.kategori_terkait[i]
+                        $(`#kategori-${_namaKategori}`).addClass('hide')
                     }
                 });
 
@@ -226,21 +227,28 @@
                     _aktifkanElm.forEach(element => {
                         for (let j in element.kode_isian_terkait) {
                             _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g, '_').toLowerCase()
-                            if (_kategori) {
-                                _namaElm += `_${_kategori}`
-                            }
                             $(`[name=${_namaElm}]`).removeClass('required')
                             $(`[name=${_namaElm}]`).closest('.form-group').addClass('hide')
+                        }
+                        for (let j in element.kategori_terkait) {
+                            _namaKategori = element.kategori_terkait[j]
+                            $(`#kategori-${_namaKategori}`).addClass('hide')
                         }
                         for (let i in element.nilai_isian) {
                             if (element.nilai_isian[i].includes($(this).val())) {
                                 for (let j in element.kode_isian_terkait) {
                                     _namaElm = element.kode_isian_terkait[j].replaceAll(/\s+/g, '_').toLowerCase()
-                                    if (_kategori) {
-                                        _namaElm += `_${_kategori}`
-                                    }
                                     $(`[name=${_namaElm}]`).addClass('required')
                                     $(`[name=${_namaElm}]`).closest('.form-group').removeClass('hide')
+                                }
+
+                            }
+                        }
+                        for (let i in element.nilai_isian) {
+                            if (element.nilai_isian[i].includes($(this).val())) {
+                                for (let j in element.kategori_terkait) {
+                                    _namaKategori = element.kategori_terkait[j]
+                                    $(`#kategori-${_namaKategori}`).removeClass('hide')
                                 }
 
                             }

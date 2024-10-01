@@ -45,14 +45,6 @@ use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\Area;
-use App\Models\Garis;
-use App\Models\Lokasi;
-use App\Models\Wilayah;
-use App\Enums\StatusEnum;
-use App\Models\Pembangunan;
-use App\Enums\SatuanWaktuEnum;
-
 class Admin_pembangunan extends Admin_Controller
 {
     public $modul_ini = 'pembangunan';
@@ -66,6 +58,7 @@ class Admin_pembangunan extends Admin_Controller
     public function index()
     {
         $data['tahun'] = Pembangunan::distinct()->get('tahun_anggaran');
+
         return view('admin.pembangunan.index', $data);
     }
 
@@ -74,7 +67,7 @@ class Admin_pembangunan extends Admin_Controller
         $tahun = $this->input->get('tahun') ?? null;
 
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah'])->when($tahun, static fn($q) => $q->where('tahun_anggaran', $tahun)))
+            return datatables()->of(Pembangunan::with(['pembangunanDokumentasi', 'wilayah'])->when($tahun, static fn ($q) => $q->where('tahun_anggaran', $tahun)))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -103,14 +96,15 @@ class Admin_pembangunan extends Admin_Controller
                 ->editColumn('foto', static function ($row): string {
                     if ($row->foto) {
                         $row->url_foto = to_base64(LOKASI_GALERI . $row->foto);
+
                         return '<img class="penduduk_kecil" src="' . $row->url_foto . '" class="penduduk_kecil text-center" alt="Gambar Dokumentasi">';
                     }
 
                     return '';
                 })
-                ->editColumn('persentase', static fn($row) => $row->max_persentase)
-                ->editColumn('alamat', static fn($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
-                ->editColumn('anggaran', static fn($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
+                ->editColumn('persentase', static fn ($row) => $row->max_persentase)
+                ->editColumn('alamat', static fn ($row) => $row->wilayah->dusun ?? 'Lokasi tidak diketahui')
+                ->editColumn('anggaran', static fn ($row) => $row->perubahan_anggaran > 0 ? $row->perubahan_anggaran : $row->anggaran)
                 ->rawColumns(['ceklist', 'aksi', 'foto'])
                 ->make();
         }

@@ -85,7 +85,7 @@ class Suplemen extends BaseModel
 
     public function scopeFilter($query, $sasaran)
     {
-        if (!empty($sasaran)) {
+        if (! empty($sasaran)) {
             $query->where('sasaran', $sasaran);
         }
 

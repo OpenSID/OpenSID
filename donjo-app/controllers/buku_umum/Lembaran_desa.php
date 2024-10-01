@@ -47,6 +47,7 @@ class Lembaran_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         $this->load->model(['web_dokumen_model', 'pamong_model']);
     }
@@ -54,8 +55,8 @@ class Lembaran_desa extends Admin_Controller
     // Buku Lembaran Desa dan Berita Desa
     public function index($p = 1, $o = 0): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['p'] = $p ?: 1;
+        $data['o'] = $o ?: 0;
         $kat       = 3;
 
         $data['cari'] = $this->session->cari ?: '';
@@ -98,7 +99,7 @@ class Lembaran_desa extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id) ?? show_404();
@@ -129,7 +130,7 @@ class Lembaran_desa extends Admin_Controller
 
     public function update($id = '', $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->success = 1;
         $outp                   = $this->web_dokumen_model->update($id);
         status_sukses($outp);
@@ -138,7 +139,7 @@ class Lembaran_desa extends Admin_Controller
 
     public function lock($id, $val = 1): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->web_dokumen_model->dokumen_lock($id, $val);
         redirect('lembaran_desa');
     }

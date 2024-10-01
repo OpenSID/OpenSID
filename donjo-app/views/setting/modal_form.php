@@ -1,7 +1,7 @@
 <?php foreach ($this->list_setting as $pengaturan): ?>
     <?php if ($pengaturan->jenis != 'upload' && in_array($pengaturan->kategori, $kategori_pengaturan)): ?>
         <div class="form-group" id="form_<?= $pengaturan->key ?>">
-            <label><?= $pengaturan->judul ?></label>
+            <label><?= SebutanDesa($pengaturan->judul) ?></label>
             <?php if ($pengaturan->jenis == 'option' || $pengaturan->jenis == 'boolean'): ?>
                 <select class="form-control input-sm select2 required" id="<?= $pengaturan->key ?>" name="<?= $pengaturan->key ?>" <?= $pengaturan->attribute ?>>
                     <?php foreach ($pengaturan->option as $key => $value): ?>

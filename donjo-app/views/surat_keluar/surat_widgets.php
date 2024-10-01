@@ -1,4 +1,4 @@
-<?php if ($this->setting->api_opendk_key) : ?>
+<?php if ($this->setting->sinkronisasi_opendk) : ?>
 <div class="alert alert-warning alert-dismissible">
     <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
     Fitur Sinkronisasi Surat TTE ke kecamatan saat ini masih berupa demo menunggu proses penyempurnaan dan terdapat kecamatan yang sudah mengimplentasikan TTE.
@@ -57,7 +57,7 @@
     </div>
     <?php endif ?>
 
-    <?php if ($this->setting->api_opendk_key) : ?>
+    <?php if ($this->setting->sinkronisasi_opendk) : ?>
 
     <div class="col-lg-3 col-sm-6 col-xs-12 widget-surat">
         <a href="<?= site_url($this->controller . '/kecamatan')?>">

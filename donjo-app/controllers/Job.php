@@ -46,9 +46,7 @@ class Job extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->load->database();
-
         $this->load->helper(['number', 'file']);
         $this->load->model(['ekspor_model', 'database_model']);
     }
@@ -84,6 +82,9 @@ class Job extends CI_Controller
         } else {
             log_message('error', 'Proses Restore Database Gagal');
         }
+
+        cache()->flush();
+        kosongkanFolder('storage/framework/views/');
 
         log_message('notice', '>_ Selesai');
     }

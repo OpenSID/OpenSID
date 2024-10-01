@@ -157,7 +157,7 @@
 	<p style="text-align: center;">
 		<strong style="font-size: 12pt;">FORMULIR PERMOHONAN PINDAH WNI</strong><br>
 		<?= $input['judul_format'] ?><br>
-		No. .................................
+		No. <?= $format_surat ?>
 	</p>
 
 	<table class="disdukcapil">
@@ -396,7 +396,7 @@
 		<tr>
 			<td>4.</td>
 			<td>Status KK Bagi Yang Tidak Pindah</td>
-			<td class="kotak satu"><?= ($input['status_kk_tidak_pindah_id']) ? $input['status_kk_bagi_yang_tidak_pindah'] : "-"; ?></td>
+			<td class="kotak satu"><?= ($input['status_kk_tidak_pindah_id']) ? $input['status_kk_bagi_yang_tidak_pindah'] : '-'; ?></td>
 			<td colspan=5 class="padat">1. Numpang KK</td>
 			<td colspan=6 class="padat">2. Membuat KK Baru</td>
 			<td colspan=7 class="padat">3. Nomor KK Tetap</td>
@@ -427,11 +427,11 @@
 		</tr>
 
 		<?php
-		for ($i = 0; $i < MAX_PINDAH; $i++) :
-			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'])) :
-				$id = trim($input['id_pengikut_pindah'][$i], "'");
-				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
+        for ($i = 0; $i < MAX_PINDAH; $i++) :
+            $nomor = $i + 1;
+            if ($i < count($input['id_pengikut_pindah'] ?? [])) :
+                $id       = trim($input['id_pengikut_pindah'][$i], "'");
+                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
 
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>
@@ -452,7 +452,7 @@
 							&nbsp;
 						<?php endif; ?>
 					</td>
-					<?php $shdk = str_pad($penduduk['kk_level'], 2, "0", STR_PAD_LEFT); ?>
+					<?php $shdk = str_pad($penduduk['kk_level'], 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>
 						<td class="tengah">
 							<?= $shdk[$j]; ?>
@@ -478,7 +478,7 @@
 		<tr>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+			<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date('Y m d')); ?></td>
 		</tr>
 		<tr>
 			<td>Mengetahui,</td>

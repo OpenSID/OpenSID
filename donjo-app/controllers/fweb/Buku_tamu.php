@@ -51,7 +51,6 @@ class Buku_tamu extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-
         if ($this->setting->layanan_mandiri == 0) {
             show_404();
         }

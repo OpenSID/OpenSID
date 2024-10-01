@@ -13,10 +13,5 @@
             "name": "Diki Siswanto",
             "email": "dickyachmady@gmail.com"
         }
-    ],
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2402.x-dev"
-        }
-    }
+    ]
 }

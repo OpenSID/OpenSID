@@ -59,6 +59,7 @@ class Suplemen extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['pamong_model']);
     }
 
@@ -93,8 +94,8 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('terdata', static fn($row) => $row->terdata()->count())
-                ->editColumn('sasaran', static fn($row) => unserialize(SASARAN)[$row->sasaran])
+                ->editColumn('terdata', static fn ($row) => $row->terdata()->count())
+                ->editColumn('sasaran', static fn ($row) => unserialize(SASARAN)[$row->sasaran])
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -215,9 +216,9 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggallahir', static fn($row) => tgl_indo($row->tanggallahir))
-                ->editColumn('sex', static fn($row) => JenisKelaminEnum::valueOf($row->sex))
-                ->editColumn('alamat', static fn($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
+                ->editColumn('tanggallahir', static fn ($row) => tgl_indo($row->tanggallahir))
+                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->sex))
+                ->editColumn('alamat', static fn ($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -345,7 +346,7 @@ class Suplemen extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn($item): array => [
+                ->map(static fn ($item): array => [
                     'id'   => $item->id,
                     'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -380,7 +381,7 @@ class Suplemen extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn($item): array => [
+                ->map(static fn ($item): array => [
                     'id'   => $item->id,
                     'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -442,7 +443,7 @@ class Suplemen extends Admin_Controller
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 
-        if (!$this->upload->do_upload('userfile')) {
+        if (! $this->upload->do_upload('userfile')) {
             return session_error($this->upload->display_errors(null, null));
         }
 
@@ -495,14 +496,14 @@ class Suplemen extends Admin_Controller
 
                     // Cek valid data peserta sesuai sasaran
                     $cek_peserta = $this->cek_peserta($peserta, $sasaran);
-                    if (!in_array($peserta, $cek_peserta['valid'])) {
+                    if (! in_array($peserta, $cek_peserta['valid'])) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
                         continue;
                     }
                     $penduduk_sasaran = $this->cek_penduduk($sasaran, $peserta);
-                    if (!$penduduk_sasaran['id_terdata']) {
+                    if (! $penduduk_sasaran['id_terdata']) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $penduduk_sasaran['id_sasaran'] . ' = ' . $peserta . '</b> yang terdaftar tidak ditemukan <br>';
 
@@ -686,12 +687,7 @@ class Suplemen extends Admin_Controller
         }
 
         $cells = [
-            '###',
-            '',
-            '',
-            '',
-            '',
-            '',
+            '###', '', '', '', '', '',
         ];
         $singleRow = WriterEntityFactory::createRowFromArray($cells);
         $writer->addRow($singleRow);
@@ -699,44 +695,19 @@ class Suplemen extends Admin_Controller
         // Cetak Catatan
         $array_catatan = [
             [
-                'Catatan:',
-                '',
-                '',
-                '',
-                '',
-                '',
+                'Catatan:', '', '', '', '', '',
             ],
             [
-                '1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk',
-                '',
-                '',
-                '',
-                '',
-                '',
+                '1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk', '', '', '', '', '',
             ],
             [
-                '2. Kolom Peserta (A)  wajib di isi',
-                '',
-                '',
-                '',
-                '',
-                '',
+                '2. Kolom Peserta (A)  wajib di isi', '', '', '', '', '',
             ],
             [
-                '3. Kolom (B, C, D, E) diambil dari database kependudukan',
-                '',
-                '',
-                '',
-                '',
-                '',
+                '3. Kolom (B, C, D, E) diambil dari database kependudukan', '', '', '', '', '',
             ],
             [
-                '4. Kolom (F) opsional',
-                '',
-                '',
-                '',
-                '',
-                '',
+                '4. Kolom (F) opsional', '', '', '', '', '',
             ],
         ];
 

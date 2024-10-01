@@ -53,13 +53,14 @@ class Garis extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index($parent = 0): void
     {
         $data           = ['tip' => $this->tip, 'parent' => $parent];
         $data['status'] = [Line::LOCK => 'Aktif', Line::UNLOCK => 'Non Aktif'];
-        $data['line']   = Line::root()->with(['children' => static fn($q) => $q->select(['id', 'parrent', 'nama'])])->get();
+        $data['line']   = Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get();
 
         view('admin.peta.garis.index', $data);
     }
@@ -72,11 +73,11 @@ class Garis extends Admin_Controller
             $line    = $this->input->get('line') ?? null;
             $parent  = $this->input->get('parent') ?? 0;
 
-            return datatables()->of(GarisModel::when($status, static fn($q) => $q->whereEnabled($status))
-                ->when($line, static fn($q) => $q->whereIn('ref_line', static fn($q) => $q->select('id')->from('line')->whereParrent($line)))
-                ->when($subline, static fn($q) => $q->whereRefLine($subline))
+            return datatables()->of(GarisModel::when($status, static fn ($q) => $q->whereEnabled($status))
+                ->when($line, static fn ($q) => $q->whereIn('ref_line', static fn ($q) => $q->select('id')->from('line')->whereParrent($line)))
+                ->when($subline, static fn ($q) => $q->whereRefLine($subline))
                 ->with([
-                    'line' => static fn($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn($r) => $r->select(['id', 'nama', 'parrent'])]),
+                    'line' => static fn ($q) => $q->select(['id', 'nama', 'parrent'])->with(['parent' => static fn ($r) => $r->select(['id', 'nama', 'parrent'])]),
                 ]))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -103,9 +104,9 @@ class Garis extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
-                ->editColumn('ref_line', static fn($row) => $row->line->parent->nama ?? '')
-                ->editColumn('kategori', static fn($row) => $row->line->nama ?? '')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == '1' ? 'Ya' : 'Tidak')
+                ->editColumn('ref_line', static fn ($row) => $row->line->parent->nama ?? '')
+                ->editColumn('kategori', static fn ($row) => $row->line->nama ?? '')
                 ->rawColumns(['aksi', 'ceklist'])
                 ->make();
         }
@@ -115,7 +116,7 @@ class Garis extends Admin_Controller
 
     public function form($parent = 0, $id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['garis']       = null;
         $data['form_action'] = ci_route('garis.insert', $parent);
         $data['foto_garis']  = null;
@@ -153,7 +154,7 @@ class Garis extends Admin_Controller
 
     public function update_maps($parent, $id): void
     {
-        $this->redirect_hak_akses('u', ci_route('garis.index', $parent));
+        isCan('u');
 
         try {
             $data = $this->input->post();
@@ -171,7 +172,7 @@ class Garis extends Admin_Controller
 
     public function kosongkan($parent, $id): void
     {
-        $this->redirect_hak_akses('u', ci_route('garis.index', $parent));
+        isCan('u');
 
         try {
             GarisModel::whereId($id)->update(['path' => null]);
@@ -184,7 +185,7 @@ class Garis extends Admin_Controller
 
     public function insert($parent): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if ($this->validation()) {
             $data = $this->validasi($this->input->post());
         }
@@ -200,7 +201,7 @@ class Garis extends Admin_Controller
 
     public function update($parent, $id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($this->validation()) {
             $data = $this->validasi($this->input->post());
@@ -218,7 +219,7 @@ class Garis extends Admin_Controller
 
     public function delete($parent, $id = null): void
     {
-        $this->redirect_hak_akses('h', ci_route('garis.index', $parent));
+        isCan('h');
 
         try {
             GarisModel::destroy($this->request['id_cb'] ?? $id);
@@ -231,7 +232,7 @@ class Garis extends Admin_Controller
 
     public function lock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', ci_route('garis.index', $parent));
+        isCan('h');
 
         try {
             GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::LOCK]);
@@ -244,7 +245,7 @@ class Garis extends Admin_Controller
 
     public function unlock($parent, $id): void
     {
-        $this->redirect_hak_akses('h', ci_route('garis.index', $parent));
+        isCan('h');
 
         try {
             GarisModel::where(['id' => $id])->update(['enabled' => GarisModel::UNLOCK]);
@@ -275,7 +276,7 @@ class Garis extends Admin_Controller
         $garis_file = $_FILES['foto']['tmp_name'];
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (!empty($garis_file)) {
+        if (! empty($garis_file)) {
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
             unset($data['foto']);

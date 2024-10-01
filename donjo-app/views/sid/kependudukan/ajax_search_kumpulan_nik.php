@@ -1,6 +1,8 @@
 <script type="text/javascript" src="<?= asset('js/jquery.validate.min.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('js/validasi.js') ?>"></script>
 <script type="text/javascript" src="<?= asset('js/localization/messages_id.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('js/select2.min.js') ?>"></script>
+<script type="text/javascript" src="<?= asset('js/custom-select2.js') ?>"></script>
 <!-- TODO: Pindahkan ke external css -->
 <style>
 	.form-group
@@ -18,7 +20,21 @@
 					</div>
 					<div class="col-sm-12">
 						<div class="form-group">
-							<textarea class="form-control  input-sm kumpulan_nik_kk" maxlength="340" type="text" placeholder="Isi maks 20 NIK, dengan pemisah koma (,). Contoh: 5201142005716996, 5201144609786995" name="kumpulan_nik"  rows="4"><?= $kumpulan_nik?></textarea>
+							<select
+								autofocus
+								name="kumpulan_nik[]"
+								id="kumpulan_nik"
+								class="form-control input-sm select2 select2-kk-ajax"
+								data-placeholder="-- Cari NIK --"
+								multiple
+								data-url="<?= site_url('penduduk/list_nik_ajax') ?>"
+								>
+								<?php if (! empty($kumpulan_nik)) : ?>
+									<?php foreach ($kumpulan_nik as $kk) : ?>
+										<option selected value="<?= $kk ?>"><?= $kk ?></option>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							</select>
 						</div>
 					</div>
 				</div>

@@ -35,19 +35,15 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/**
- * @param mixed $needle
- * @param mixed $array
- */
-
-/*
-    Mencari nilai di nested array (array dalam array).
-    Ambil key dari array utama
-*/
 function nested_array_search($needle, $array)
 {
+    /**
+     * Mencari nilai di nested array (array dalam array).
+     * Ambil key dari array utama
+     *
+     * @param mixed $needle
+     * @param mixed $array
+     */
     foreach ($array as $key => $value) {
         $array_key = array_search($needle, $value, true);
         if ($array_key !== false) {
@@ -527,6 +523,8 @@ function fTampilTgl($sdate, $edate): string
         } else {
             $tgl = date('j M Y', strtotime($sdate)) . ' - ' . date('j M Y', strtotime($edate));
         }
+    } else {
+        $tgl = fTampilTgl($edate, $sdate);
     }
 
     return $tgl;
@@ -552,9 +550,9 @@ function potong_teks($teks, $panjang): string
     return $abstrak;
 }
 
-function hash_pin($pin = ''): string
+function hash_pin($pin = 0): string
 {
-    $pin = strrev($pin);
+    $pin = (int) strrev($pin);
     $pin *= 77;
     $pin .= '!#@$#%';
 
@@ -664,16 +662,49 @@ function ribuan($angka): string
     return number_format($angka, 0, '.', '.');
 }
 
-// Kalau angka romawi jangan ubah
+// TODO:: Jangan gunakan ini lagi, gunakan fungsi set_words sebagai penggantinya yang lebih dinamis
 function set_ucwords($data): string
 {
-    $exp = explode(' ', $data);
+    return set_words($data, 'ucwords');
+}
 
+/**
+ * Fungsi ini digunakan untuk mengubah kata/kalimat menjadi huruf besar, kecil, dll
+ *
+ * @param string      $data
+ * @param string|null $type
+ */
+function set_words($data = '', $type = null): string
+{
+    $exp     = explode(' ', $data);
     $data    = '';
     $counter = count($exp);
 
     for ($i = 0; $i < $counter; $i++) {
-        $data .= ' ' . (is_angka_romawi($exp[$i]) ? $exp[$i] : ucwords(strtolower($exp[$i])));
+        $txt = $exp[$i];
+
+        switch ($type) {
+            case 'ucwords':
+                $txt = ucwords(strtolower($exp[$i]));
+                break;
+
+            case 'lower':
+                $txt = strtolower($exp[$i]);
+                break;
+
+            case 'upper':
+                $txt = strtoupper($exp[$i]);
+                break;
+
+            case 'ucfirst':
+                $txt = ($i === 0) ? ucfirst(strtolower($exp[$i])) : $exp[$i];
+                break;
+
+            default:
+                $txt = $exp[$i];
+                break;
+        }
+        $data .= ' ' . (is_angka_romawi($exp[$i]) ? $exp[$i] : $txt);
     }
 
     return trim($data);
@@ -752,12 +783,12 @@ function get_pesan_opendk(): void
     if ((! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) || empty($ci->setting->api_opendk_key)) {
         return;
     }
-    $model_pesan        = new App\Models\Pesan();
-    $model_detail_pesan = new App\Models\PesanDetail();
+    $model_pesan        = new \App\Models\Pesan();
+    $model_detail_pesan = new \App\Models\PesanDetail();
     $id_terakhir        = $model_detail_pesan::latest('id')->first()->id;
 
     try {
-        $client   = new GuzzleHttp\Client();
+        $client   = new \GuzzleHttp\Client();
         $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -804,7 +835,7 @@ if (! function_exists('opendk_api')) {
         $ci = &get_instance();
 
         try {
-            $client   = new GuzzleHttp\Client();
+            $client   = new \GuzzleHttp\Client();
             $response = $client->{$method}("{$ci->setting->api_opendk_server}{$path_url}", array_merge(
                 [
                     'headers' => [

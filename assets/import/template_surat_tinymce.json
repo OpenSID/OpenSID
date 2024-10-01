@@ -3513,7 +3513,7 @@
                 "info": "",
                 "hubungan": ""
             },
-            "Saksi_I": {
+            "saksi_i": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -3549,7 +3549,7 @@
                 "info": "",
                 "hubungan": ""
             },
-            "Saksi_II": {
+            "saksi_ii": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -4760,7 +4760,7 @@
                 "label": "Identitas Jenazah",
                 "hubungan": null
             },
-            "Pelapor": {
+            "pelapor": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -4795,7 +4795,7 @@
                 "label": "Pelapor",
                 "hubungan": ""
             },
-            "Saksi_I": {
+            "saksi_i": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -4830,7 +4830,7 @@
                 "label": "Saksi 1",
                 "hubungan": ""
             },
-            "Saksi_II": {
+            "saksi_ii": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -4868,7 +4868,7 @@
         },
         "kode_isian": [
             {
-                "kategori": "Pelapor",
+                "kategori": "pelapor",
                 "tipe": "text",
                 "kode": "[form_hubungan_pelapor_dengan_yang_mati]",
                 "nama": "Hubungan pelapor dengan yang mati",
@@ -5337,7 +5337,7 @@
                 "label": "TANAH DI PEROLEH",
                 "hubungan": ""
             },
-            "Saksi_I": {
+            "saksi_i": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -5372,7 +5372,7 @@
                 "label": "Saksi 1",
                 "hubungan": ""
             },
-            "Saksi_II": {
+            "saksi_ii": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -5717,7 +5717,7 @@
                 "info": "",
                 "hubungan": "individu"
             },
-            "Pelapor": {
+            "pelapor": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -5745,7 +5745,7 @@
                 "info": "",
                 "hubungan": ""
             },
-            "Saksi_I": {
+            "saksi_i": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -5773,7 +5773,7 @@
                 "info": "",
                 "hubungan": ""
             },
-            "Saksi_II": {
+            "saksi_ii": {
                 "sumber": "1",
                 "data": [
                     "1",
@@ -5804,7 +5804,7 @@
         },
         "kode_isian": [
             {
-                "kategori": "Pelapor",
+                "kategori": "pelapor",
                 "tipe": "text",
                 "kode": "[form_hubungan_pelapor_dengan_bayi]",
                 "nama": "Hubungan Pelapor dengan Bayi",
@@ -6328,15 +6328,16 @@
         "lampiran": "N-1,N-2,N-4,N-5,N-6,SPS,SWN",
         "kunci": false,
         "favorit": false,
-        "jenis": "3",
+        "jenis": 3,
         "mandiri": false,
-        "masa_berlaku": 0,
+        "masa_berlaku": 1,
         "satuan_masa_berlaku": "M",
         "qr_code": false,
         "logo_garuda": false,
-        "kecamatan": "0",
+        "kecamatan": 0,
         "syarat_surat": null,
         "template": "<h4 style=\"margin: 0; text-align: center;\"><span style=\"text-decoration: underline;\">SURAT PENGANTAR NUMPANG NIKAH<\/span><\/h4>\r\n<p style=\"margin: 0; text-align: center;\">Nomor : [Format_nomor_suraT]<br><br><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Yang bertanda tangan di bawah ini [JaBatan] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten], Provinsi [NaMa_provinsi] menerangkan dengan sebenarnya bahwa :<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 231.297px;\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">1.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Nama Lengkap<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\"><strong>[NAma]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">2.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Tempat \/ Tanggal Lahir<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[TtL]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 22.3906px; text-align: left;\">3.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Jenis Kelamin<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; height: 22.3906px; text-align: justify;\">[JeNis_kelamin]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">4.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Surat bukti diri KTP<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[NiK]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">5.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Warga Negara<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[WArga_negara]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">6.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Agama<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[AgAma]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">7.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Status Perkawinan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[Form_status_kawin_priA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; text-align: left; height: 22.3906px;\">8.<\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 22.3906px;\">Pekerjaan<\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 22.3906px;\">:<\/td>\r\n<td style=\"width: 60.0206%; text-align: justify; height: 22.3906px;\">[PeKerjaan]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 29.7812px;\">\r\n<td style=\"width: 4.31655%; text-align: center; height: 29.7812px;\">\u00a0<\/td>\r\n<td style=\"width: 3.90429%; height: 29.7812px; text-align: left;\">9.<br><br><\/td>\r\n<td style=\"width: 30.5253%; text-align: left; height: 29.7812px;\">Alamat \/ Tempat Tinggal<br><br><\/td>\r\n<td style=\"width: 1.2333%; text-align: center; height: 29.7812px;\">:<br><br><\/td>\r\n<td style=\"width: 60.0206%; height: 29.7812px; text-align: justify;\">[ALamat] [SeButan_desa] [NaMa_desa], Kecamatan [NaMa_kecamatan], [SeButan_kabupaten] [NaMa_kabupaten]<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Nama tersebut di atas betul bermaksud akan menumpang Nikah \/ Kawin di :\u00a0<strong>RT [NAma_rt] RW [NaMa_rw] [NaMa_dusun] [Sebutan_desa] [NaMa_desa] Kecamatan [NaMa_kecamatan] Kabupaten [NaMa_kabupaten]<\/strong><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Kepada seorang [JeNis_kelamin_dcpw] yang bernama :<\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\"><strong>[NAma_dcpw] <\/strong>Bin <strong>[Form_binti_wanitA]<\/strong><\/p>\r\n<p style=\"text-align: justify; text-indent: 30px;\">Demikian Surat ini dibuat, untuk dipergunakan sebagaimana mestinya.<\/p>\r\n<table style=\"border-collapse: collapse; width: 100%; height: 178.5px;\" border=\"0\">\r\n<tbody>\r\n<tr style=\"height: 21.7656px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 21.7656px;\">\r\n<table style=\"border-collapse: collapse; width: 100.353%; height: 44.7812px; border-width: 1px;\" border=\"0\"><colgroup><col style=\"width: 15.9175%;\"><col style=\"width: 6.59994%;\"><col style=\"width: 77.4522%;\"><\/colgroup>\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"height: 22.3906px; text-align: left;\">Nomor<\/td>\r\n<td style=\"height: 22.3906px;\">:<\/td>\r\n<td style=\"height: 22.3906px; text-align: left;\">..................................................................................<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<\/td>\r\n<td style=\"width: 29.9801%; height: 21.7656px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 21.7656px;\">[NaMa_desa], [TgL_surat]<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35.0099%; text-align: center;\">\r\n<table style=\"border-collapse: collapse; width: 100.156%; border-width: 1px;\" border=\"0\"><colgroup><col style=\"width: 15.7277%;\"><col style=\"width: 6.99119%;\"><col style=\"width: 77.2781%;\"><\/colgroup>\r\n<tbody>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"height: 22.3906px; text-align: left;\">Tanggal<\/td>\r\n<td style=\"height: 22.3906px;\">:<\/td>\r\n<td style=\"height: 22.3906px; text-align: left;\">..................................................................................<\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<\/td>\r\n<td style=\"width: 29.9801%;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\">Mengetahui,<\/td>\r\n<td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr>\r\n<td style=\"width: 35.0099%; text-align: center;\">[SeButan_camat] [NaMa_kecamatan]<\/td>\r\n<td style=\"width: 29.9801%;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center;\">[Atas_namA]<\/td>\r\n<\/tr>\r\n<tr style=\"height: 89.5625px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 89.5625px;\">\u00a0<\/td>\r\n<td style=\"width: 29.9801%; height: 89.5625px;\"><br><br><br><br><\/td>\r\n<td style=\"width: 35.0099%; height: 89.5625px;\">\u00a0<\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[NaMa_kepala_camat]<\/strong><\/td>\r\n<td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[Nama_pamonG]<\/strong><\/td>\r\n<\/tr>\r\n<tr style=\"height: 22.3906px;\">\r\n<td style=\"width: 35.0099%; height: 22.3906px; text-align: center;\"><strong>....................................................................................<\/strong><\/td>\r\n<td style=\"width: 29.9801%; height: 22.3906px;\">\u00a0<\/td>\r\n<td style=\"width: 35.0099%; text-align: center; height: 22.3906px;\"><strong>[SEbutan_nip_desa] : [nip_pamong]<\/strong><\/td>\r\n<\/tr>\r\n<\/tbody>\r\n<\/table>\r\n<div style=\"text-align: center;\"><br>[qr_code]<\/div>",
+        "template_desa": null,
         "form_isian": {
             "individu": {
                 "sumber": 1,
@@ -6349,94 +6350,52 @@
                     "1"
                 ],
                 "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9",
+                    "10",
+                    "11"
                 ],
-                "data_orang_tua": "1",
+                "data_orang_tua": "0",
                 "data_pasangan": "0",
                 "judul": "Pasangan Pria",
                 "label": "A.1 DATA CALON PASANGAN PRIA",
+                "info": "",
+                "sebagai": 1,
                 "hubungan": null
             },
             "dapp": {
-                "sumber": "1",
+                "sumber": 1,
                 "data": [
+                    "1",
                     "3"
                 ],
-                "sex": "",
+                "sex": "1",
                 "status_dasar": [
                     "1",
                     "2",
                     "3",
                     "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9"
+                    "6"
                 ],
                 "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "1",
+                    "2"
                 ],
                 "judul": "Ayah Pasangan Pria",
                 "label": "A.2 DATA AYAH PASANGAN PRIA",
-                "hubungan": ""
+                "info": "",
+                "sebagai": 0,
+                "hubungan": "individu"
             },
             "dipp": {
-                "sumber": "1",
-                "data": [
-                    "3"
-                ],
-                "sex": "",
-                "status_dasar": [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
-                ],
-                "judul": "Ibu Pasangan Pria",
-                "label": "A.3 DATA IBU PASANGAN PRIA",
-                "hubungan": ""
-            },
-            "dcpw": {
-                "sumber": "1",
+                "sumber": 1,
                 "data": [
                     "1",
                     "3"
@@ -6447,100 +6406,99 @@
                     "2",
                     "3",
                     "4",
+                    "6"
+                ],
+                "kk_level": [
+                    "1",
+                    "3"
+                ],
+                "judul": "Ibu Pasangan Pria",
+                "label": "A.3 DATA IBU PASANGAN PRIA",
+                "info": "",
+                "sebagai": 0,
+                "hubungan": "individu"
+            },
+            "dcpw": {
+                "sumber": 1,
+                "data": [
+                    "1",
+                    "3"
+                ],
+                "sex": "2",
+                "status_dasar": [
+                    "1"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Pasangan Wanita",
                 "label": "B1. DATA CALON PASANGAN WANITA",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             },
             "dapw": {
-                "sumber": "1",
+                "sumber": 1,
                 "data": [
+                    "1",
                     "3"
                 ],
-                "sex": "",
+                "sex": "1",
                 "status_dasar": [
                     "1",
                     "2",
                     "3",
                     "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9"
+                    "6"
                 ],
                 "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "1",
+                    "2"
                 ],
                 "judul": "Ayah Pasangan Wanita",
                 "label": "B.2 DATA AYAH PASANGAN WANITA",
-                "hubungan": ""
+                "info": "",
+                "sebagai": 0,
+                "hubungan": "dcpw"
             },
             "dibpw": {
-                "sumber": "1",
+                "sumber": 1,
                 "data": [
+                    "1",
                     "3"
                 ],
-                "sex": "",
+                "sex": "2",
                 "status_dasar": [
                     "1",
                     "2",
                     "3",
                     "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9"
+                    "6"
                 ],
                 "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "1",
+                    "3"
                 ],
                 "judul": "Ibu Pasangan Wanita",
                 "label": "B.3 DATA IBU PASANGAN WANITA",
-                "hubungan": ""
+                "info": "",
+                "sebagai": 0,
+                "hubungan": "dcpw"
             },
             "dst": {
-                "sumber": "1",
+                "sumber": 1,
                 "data": [
+                    "1",
                     "3"
                 ],
                 "sex": "",
@@ -6549,32 +6507,32 @@
                     "2",
                     "3",
                     "4",
+                    "6",
+                    "9"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Suami Terdahulu",
                 "label": "B.4 DATA SUAMI TERDAHULU ",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             },
             "dwn": {
-                "sumber": "1",
+                "sumber": 1,
                 "data": [
+                    "1",
                     "3"
                 ],
                 "sex": "",
@@ -6583,31 +6541,29 @@
                     "2",
                     "3",
                     "4",
+                    "6"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Wali Nikah",
                 "label": "B.5 DATA WALI NIKAH ",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             },
             "dpn": {
-                "sumber": "0",
+                "sumber": 0,
                 "data": [
                     "1"
                 ],
@@ -6617,27 +6573,26 @@
                     "2",
                     "3",
                     "4",
+                    "6",
+                    "9"
+                ],
+                "kk_level": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
                     "5",
                     "6",
                     "7",
                     "8",
-                    "9"
-                ],
-                "kk_level": [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11
+                    "9",
+                    "10",
+                    "11"
                 ],
                 "judul": "Pernikahan",
                 "label": "C. DATA PERNIKAHAN ",
+                "info": "",
+                "sebagai": 0,
                 "hubungan": ""
             }
         },
@@ -6917,11 +6872,12 @@
         "orientasi": "Potrait",
         "ukuran": "F4",
         "margin": "{\"kiri\":1.78,\"atas\":0.63,\"kanan\":1.78,\"bawah\":1.37}",
-        "margin_global": "0",
-        "footer": "1",
+        "margin_global": 0,
+        "footer": 1,
         "header": 1,
-        "format_nomor": null,
-        "sumber_penduduk_berulang": "0"
+        "format_nomor": "",
+        "format_nomor_global": 1,
+        "sumber_penduduk_berulang": 0
     },
     {
         "nama": "Permohonan Akta Lahir",

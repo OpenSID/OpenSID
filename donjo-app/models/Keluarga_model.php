@@ -116,10 +116,11 @@ class Keluarga_model extends MY_Model
             return;
         }
 
-        $kumpulan_kk                = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
-        $kumpulan_kk                = array_filter(array_slice(explode(',', $kumpulan_kk), 0, 20)); // ambil 20 saja
-        $kumpulan_kk                = implode(',', $kumpulan_kk);
-        $this->session->kumpulan_kk = $kumpulan_kk;
+        $kumpulan_kk = preg_replace('/[^0-9\,]/', '', $this->session->kumpulan_kk);
+        if (! is_array($kumpulan_kk)) {
+            $kumpulan_kk                = explode(',', $kumpulan_kk);
+            $this->session->kumpulan_kk = $kumpulan_kk;
+        }
         $this->db->where_in('u.no_kk ', $kumpulan_kk);
     }
 
@@ -144,7 +145,7 @@ class Keluarga_model extends MY_Model
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
         $bantuan_keluarga = $this->session->bantuan_keluarga;
-        if (!in_array($bantuan_keluarga, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+        if (! in_array($bantuan_keluarga, [JUMLAH, BELUM_MENGISI, TOTAL])) {
             // Salin program_id
             $this->session->program_bantuan = $bantuan_keluarga;
         }
@@ -173,7 +174,7 @@ class Keluarga_model extends MY_Model
                 // Bukan penerima bantuan apa pun
                 $this->db->where('bt.id is null');
             }
-        } elseif ($bantuan_keluarga == JUMLAH && !$this->session->program_bantuan) {
+        } elseif ($bantuan_keluarga == JUMLAH && ! $this->session->program_bantuan) {
             if (isset($this->session->status)) {
                 $status = $this->session->status;
                 $this->db->join('program_peserta bt', "bt.peserta = u.no_kk AND bt.program_id in (SELECT pro.id from program AS pro WHERE pro.`status` = {$status} and pro.sasaran = 2)", 'left')->where('bt.id is not null');
@@ -310,7 +311,7 @@ class Keluarga_model extends MY_Model
         /** Lakukan pencarian jumlah anggota setelah data diperoleh supaya lebih cepat */
         $this->db->from('(' . $query_dasar . ') u');
 
-        if (!$this->input->get('id_cb') && $this->session->per_page > 0) {
+        if (! $this->input->get('id_cb') && $this->session->per_page > 0) {
             $jumlah_pilahan = $this->db->count_all_results('', false);
             $paging         = $this->paginasi($page, $jumlah_pilahan);
             $this->db->limit($paging->per_page, $paging->offset);
@@ -357,7 +358,7 @@ class Keluarga_model extends MY_Model
         $this->session->unset_userdata('error_msg');
         $data = $_POST;
 
-        if (!$this->validasi_data_keluarga($data)) {
+        if (! $this->validasi_data_keluarga($data)) {
             return;
         }
 
@@ -397,7 +398,7 @@ class Keluarga_model extends MY_Model
         // Sterilkan data
         $data['alamat'] = strip_tags($data['alamat']);
 
-        if (!empty($data['id'])) {
+        if (! empty($data['id'])) {
             $nokk_lama = $this->get_nokk($data['id']);
             if ($data['no_kk'] == $nokk_lama) {
                 return true;
@@ -405,7 +406,7 @@ class Keluarga_model extends MY_Model
         }
         $valid = [];
         if (isset($data['no_kk'])) {
-            if (!ctype_digit($data['no_kk'])) {
+            if (! ctype_digit($data['no_kk'])) {
                 $valid[] = 'Nomor KK hanya berisi angka';
             }
             if (strlen($data['no_kk']) != 16 && $data['no_kk'] != '0') {
@@ -438,12 +439,12 @@ class Keluarga_model extends MY_Model
 
         $data = $_POST;
 
-        if (!$this->validasi_data_keluarga($data)) {
+        if (! $this->validasi_data_keluarga($data)) {
             return;
         }
 
         $error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
-        if (!empty($error_validasi)) {
+        if (! empty($error_validasi)) {
             foreach ($error_validasi as $error) {
                 $_SESSION['error_msg'] .= ': ' . $error . '\n';
             }
@@ -458,7 +459,7 @@ class Keluarga_model extends MY_Model
         $nama_file   = $_FILES['foto']['name'];
         $nama_file   = str_replace(' ', '-', $nama_file);      // normalkan nama file
         $old_foto    = '';
-        if (!empty($lokasi_file)) {
+        if (! empty($lokasi_file)) {
             if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg' && $tipe_file != 'image/png') {
                 unset($data['foto']);
             } else {
@@ -589,11 +590,11 @@ class Keluarga_model extends MY_Model
     */
     public function delete($id = 0, $semua = false): void
     {
-        if (!$semua) {
+        if (! $semua) {
             $this->session->success = 1;
         }
 
-        if (!$this->cek_boleh_hapus($id)) {
+        if (! $this->cek_boleh_hapus($id)) {
             $this->session->success   = -1;
             $this->session->error_msg = "Keluarga ini (id = {$id} ) tidak diperbolehkan dihapus";
 
@@ -752,13 +753,13 @@ class Keluarga_model extends MY_Model
         if ($data) {
             $data['alamat_plus_dusun'] = $data['alamat'];
             $data['tgl_cetak_kk']      = tgl_indo_out($data['tgl_cetak_kk']);
-            if (!isset($data['alamat'])) {
+            if (! isset($data['alamat'])) {
                 $data['alamat'] = '';
             }
-            if (!isset($data['rt'])) {
+            if (! isset($data['rt'])) {
                 $data['rt'] = '';
             }
-            if (!isset($data['rw'])) {
+            if (! isset($data['rw'])) {
                 $data['rw'] = '';
             }
             $str_dusun              = (empty($data['dusun']) || $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun . ' ' . $data['dusun']);
@@ -867,11 +868,11 @@ class Keluarga_model extends MY_Model
             ->join('tweb_keluarga k', 'u.id_kk = k.id', 'left')
             ->where(['status_dasar' => 1, 'id_kk' => $id]);
 
-        if ($options['dengan_kk'] !== null && !$options['dengan_kk']) {
+        if ($options['dengan_kk'] !== null && ! $options['dengan_kk']) {
             $this->db->where('kk_level !=', SHDKEnum::KEPALA_KELUARGA);
         }
 
-        if (!empty($options['pilih'])) {
+        if (! empty($options['pilih'])) {
             $this->db->where_in('u.nik', $options['pilih']);
         }
 
@@ -984,7 +985,7 @@ class Keluarga_model extends MY_Model
         $tipe_file   = $_FILES['foto']['type'];
         $nama_file   = $_FILES['foto']['name'];
         $nama_file   = str_replace(' ', '-', $nama_file);      // normalkan nama file
-        if (!empty($lokasi_file)) {
+        if (! empty($lokasi_file)) {
             if ($tipe_file != 'image/jpeg' && $tipe_file != 'image/pjpeg' && $tipe_file != 'image/png') {
                 unset($data['foto']);
             } else {
@@ -1015,13 +1016,13 @@ class Keluarga_model extends MY_Model
             }
         }
 
-        if (!$this->validasi_data_keluarga($data)) {
+        if (! $this->validasi_data_keluarga($data)) {
             return;
         }
         unset($data['alamat'], $data['no_kk'], $data['id']);
 
         $error_validasi = $this->penduduk_model->validasi_data_penduduk($data);
-        if (!empty($error_validasi)) {
+        if (! empty($error_validasi)) {
             foreach ($error_validasi as $error) {
                 $_SESSION['error_msg'] .= ': ' . $error . '\n';
             }
@@ -1038,7 +1039,7 @@ class Keluarga_model extends MY_Model
             $data['config_id']  = $this->config_id;
             $outp               = $this->db->insert('tweb_penduduk', $data);
 
-            if (!$outp) {
+            if (! $outp) {
                 $_SESSION = -1;
             }
 
@@ -1069,7 +1070,7 @@ class Keluarga_model extends MY_Model
 
             $this->penduduk_model->tulis_log_penduduk_data($x);
             $this->db->trans_commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             $this->db->trans_rollback();
         }
@@ -1097,7 +1098,7 @@ class Keluarga_model extends MY_Model
         unset($_SESSION['error_msg']);
         $data = $_POST;
 
-        if (!$this->validasi_data_keluarga($data)) {
+        if (! $this->validasi_data_keluarga($data)) {
             return;
         }
 
@@ -1126,7 +1127,7 @@ class Keluarga_model extends MY_Model
     private function pindah_anggota_keluarga($id_kk, $id_cluster): void
     {
         // Ubah dusun/rw/rt untuk semua anggota keluarga
-        if (!empty($id_cluster)) {
+        if (! empty($id_cluster)) {
             $data['id_cluster'] = $id_cluster;
             $data['updated_at'] = date('Y-m-d H:i:s');
             $data['updated_by'] = $this->session->user;
@@ -1155,13 +1156,13 @@ class Keluarga_model extends MY_Model
             ->get()
             ->row_array();
 
-        if (!isset($data['alamat'])) {
+        if (! isset($data['alamat'])) {
             $data['alamat'] = '';
         }
-        if (!isset($data['rt'])) {
+        if (! isset($data['rt'])) {
             $data['rt'] = '';
         }
-        if (!isset($data['rw'])) {
+        if (! isset($data['rw'])) {
             $data['rw'] = '';
         }
         $str_dusun = (empty($data['dusun']) || $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun . ' ' . $data['dusun']);
@@ -1235,16 +1236,11 @@ class Keluarga_model extends MY_Model
 
     private function buat_berkas_kk($data = '')
     {
-        $mypath = 'template-surat\\kk\\';
-
-        $path       = '' . str_replace('\\', '/', $mypath);
         $path_arsip = LOKASI_ARSIP;
-
-        $file = $path . 'kk.rtf';
-        if (!is_file($file)) {
+        $file       = DEFAULT_LOKASI_EKSPOR . 'kk.rtf';
+        if (! is_file($file)) {
             return;
         }
-
         $nama = '';
 
         $handle = fopen($file, 'rb');

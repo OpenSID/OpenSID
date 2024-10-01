@@ -44,12 +44,12 @@ class Pemilihan extends Admin_Controller
 {
     public $modul_ini       = 'kependudukan';
     public $sub_modul_ini   = 'calon-pemilih';
-    public $akses_modul     = 'calon-pemilih';
     public $aliasController = 'dpt';
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         isCan('u');
         if (! Schema::hasTable('pemilihan')) {
             session_error('Tabel Pemilihan tidak ditemukan, silahkan lakukan migrasi database terlebih dahulu.');
@@ -72,7 +72,7 @@ class Pemilihan extends Admin_Controller
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) {
+                ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
                     if (can('u')) {
@@ -93,7 +93,7 @@ class Pemilihan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggal', static fn($row) => tgl_indo2($row->tanggal))
+                ->editColumn('tanggal', static fn ($row) => tgl_indo2($row->tanggal))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -115,10 +115,10 @@ class Pemilihan extends Admin_Controller
             $pemilihan   = null;
         }
 
-        return view('admin.pemilihan.form', compact('action', 'form_action', 'pemilihan'));
+        return view('admin.pemilihan.form', ['action' => $action, 'form_action' => $form_action, 'pemilihan' => $pemilihan]);
     }
 
-    public function insert()
+    public function insert(): void
     {
         isCan('u');
 
@@ -128,19 +128,19 @@ class Pemilihan extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data', 'pemilihan/');
     }
 
-    public function Update($id = '')
+    public function update($id = ''): void
     {
         isCan('u');
 
         $data = PemilihanModel::findOrFail($id);
 
-        if ($data->update(static::validate($this->request, $data->id))) {
+        if ($data->update(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data', 'pemilihan/');
         }
         redirect_with('error', 'Gagal Ubah Data', 'pemilihan/');
     }
 
-    public function status($id = null)
+    public function status($id = null): void
     {
         isCan('u');
 
@@ -150,7 +150,7 @@ class Pemilihan extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data', 'pemilihan/');
     }
 
-    public function delete($id)
+    public function delete($id): void
     {
         isCan('h');
 
@@ -163,7 +163,7 @@ class Pemilihan extends Admin_Controller
         redirect_with('error', 'Gagal Hapus Data', 'pemilihan/');
     }
 
-    public function delete_all()
+    public function delete_all(): void
     {
         isCan('h');
 

@@ -13,7 +13,7 @@
             }
         ";
     }
-    $fonts   = trim($fonts);
+    $fonts = trim($fonts);
     $cssFont = trim($cssFont);
 @endphp
 

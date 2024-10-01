@@ -20,7 +20,7 @@
           <th class="text-center">P</th>
         </tr>
     </thead>
-      <?php if(count($daftar_dusun) > 0) : ?>
+      <?php if(count($daftar_dusun ?? []) > 0) : ?>
         <tbody>
           <?php foreach ($daftar_dusun as $key_dusun => $data_dusun): ?>
           <tr>

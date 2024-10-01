@@ -221,7 +221,11 @@ class Keuangan_manual_model extends MY_Model
                 return $item;
             })->toArray();
 
-        KeuanganManualRinci::insert($result_set);
+        if (KeuanganManualRinci::insert($result_set)) {
+            session_success();
+        } else {
+            session_error('Gagal salin data');
+        }
 
         return $result_set;
     }

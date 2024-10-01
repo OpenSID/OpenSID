@@ -287,31 +287,34 @@
 
     <!-- Penandatangan -->
     <br><br><br>
-    <table class="disdukcapil" style="margin-top: -5px; border: 0px;">
-        <col span="48" style="width: 2.0833%;">
-        <tr>
-            <td colspan="26">&nbsp;</td>
-            <td colspan="16" class="tengah">[NAma_desa], [TgL_surat]</td>
-        </tr>
-        <tr>
-            <td colspan="16">
-                <div>Ayah/wali/pengampu</div>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div><strong>[NAma_dapw]</strong></div>
-            </td>
-            <td colspan="16">&nbsp;</td>
-            <td colspan="16">
-                <div>Ibu/wali/pengampu</div>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div><strong>[NAma_dibpw]</strong></div>
-            </td>
-        </tr>
+    <table style="border-collapse: collapse; width: 100%; height: 144px;" border="0">
+    <tbody>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">[NAma_desa], [TgL_surat]</td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;">Ayah/wali/pengampu</td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;">Ibu/wali/pengampu</td>
+    </tr>
+    <tr style="height: 72px;">
+    <td style="width: 26.6281%; text-align: center; height: 72px;"> </td>
+    <td style="width: 2.75528%; height: 72px;"><br><br><br><br></td>
+    <td style="width: 70.6166%; height: 72px;"> </td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;"><strong>[NAma_dapw]</strong></td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;"><strong>[NAma_dibpw]</strong></td>
+    </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; height: 18px;"> </td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
+    </tr>
+    </tbody>
     </table>
     <?= $qrcode ?? '' ?>
 </page>

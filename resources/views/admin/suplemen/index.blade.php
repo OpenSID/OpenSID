@@ -2,50 +2,61 @@
 @extends('admin.layouts.index')
 
 @section('title')
-<h1>
-    Data Suplemen
-</h1>
+    <h1>
+        Data Suplemen
+    </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Data Suplemen</li>
+    <li class="active">Data Suplemen</li>
 @endsection
 
 @section('content')
-@include('admin.layouts.components.notifikasi')
+    @include('admin.layouts.components.notifikasi')
 
-<div class="box box-info">
-    <div class="box-header with-border">
-        @if (can('u'))
-        <a href="{{ ci_route('suplemen.form') }}"
-            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                class="fa fa-plus"></i> Tambah</a>
-        @endif
+    <div class="box box-info">
+        <div class="box-header with-border">
+            @if (can('u'))
+                <a href="{{ ci_route('suplemen.form') }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+            @endif
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm" id="sasaran" name="sasaran">
+                        <option value="">Pilih Sasaran</option>
+                        @foreach ($list_sasaran as $key => $value)
+                            @if (in_array($key, ['1', '2']))
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tabeldata">
+                    <thead>
+                        <tr>
+                            <th class="padat">NO</th>
+                            <th class="padat">AKSI</th>
+                            <th>NAMA DATA</th>
+                            <th>JUMLAH TERDATA</th>
+                            <th>SASARAN</th>
+                            <th width="30%">KETERANGAN</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
-    <hr>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover" id="tabeldata">
-            <thead>
-                <tr>
-                    <th class="padat">NO</th>
-                    <th class="padat">AKSI</th>
-                    <th>NAMA DATA</th>
-                    <th>JUMLAH TERDATA</th>
-                    <th>SASARAN</th>
-                    <th width="30%">KETERANGAN</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
-</div>
 
-@include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -105,5 +116,5 @@
                 TableData.ajax.reload();
             });
         });
-</script>
+    </script>
 @endpush

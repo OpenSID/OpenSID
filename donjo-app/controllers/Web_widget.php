@@ -49,6 +49,7 @@ class Web_widget extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         // Jika offline_mode dalam level yang menyembunyikan website,
         // tidak perlu menampilkan halaman website
         if ($this->setting->offline_mode >= 2) {
@@ -69,6 +70,7 @@ class Web_widget extends Admin_Controller
             $status = $this->input->get('status') ?? null;
 
             return datatables()->of(Widget::orderBy('urut')->when($status, static fn ($q) => $q->where('enabled', $status)))
+                ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -78,10 +80,8 @@ class Web_widget extends Admin_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
-                    if (can('u')) {
-                        if ($row->jenis_widget != 1) {
-                            $aksi .= '<a href="' . ci_route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        }
+                    if (can('u') && $row->jenis_widget != 1) {
+                        $aksi .= '<a href="' . ci_route('web_widget.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                     if ($row->form_admin) {
                         $aksi .= '<a href="' . ci_route($row->form_admin) . '" class="btn btn-info btn-sm"  title="Form Admin"><i class="fa fa-sliders"></i></a> ';
@@ -94,7 +94,7 @@ class Web_widget extends Admin_Controller
                         }
                     }
                     if (can('h') && $row->jenis_widget != 1) {
-                        $aksi .= '<a href="#" data-href="' . site_url('web_widget/delete/' . $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('web_widget.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -115,7 +115,7 @@ class Web_widget extends Admin_Controller
                     return $row->isi;
                 })
                 ->addColumn('jenis_widget', static fn ($row): string => $row->jenis_widget == '1' ? 'Sistem' : ($row->jenis_widget == '2' ? 'Statis' : 'Dinamis'))
-                ->rawColumns(['ceklist', 'aksi', 'jenis_widget'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'jenis_widget'])
                 ->make();
         }
 
@@ -199,8 +199,8 @@ class Web_widget extends Admin_Controller
 
         $uploadData = null;
         // Adakah berkas yang disertakan?
-        $adaBerkas = !empty($_FILES[$jenis]['name']);
-        if (!$adaBerkas) {
+        $adaBerkas = ! empty($_FILES[$jenis]['name']);
+        if (! $adaBerkas) {
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
                 unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
@@ -252,7 +252,6 @@ class Web_widget extends Admin_Controller
     public function delete($id = ''): void
     {
         isCan('h');
-
         $web = Widget::where('jenis_widget', '!=', Widget::WIDGET_SISTEM)->find($id) ?? show_404();
         if ($web->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
@@ -263,7 +262,6 @@ class Web_widget extends Admin_Controller
     public function delete_all(): void
     {
         isCan('h');
-
         if (Widget::whereIn('id', $this->request['id_cb'])->where('jenis_widget', '!=', Widget::WIDGET_SISTEM)->delete()) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
@@ -287,7 +285,7 @@ class Web_widget extends Admin_Controller
 
     private function cek_tidy(): void
     {
-        if (!in_array('tidy', get_loaded_extensions())) {
+        if (! in_array('tidy', get_loaded_extensions())) {
             $pesan = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . site_url('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
 
             redirect_with('error', $pesan);

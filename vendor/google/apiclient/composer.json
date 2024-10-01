@@ -2,9 +2,7 @@
     "name": "google/apiclient",
     "type": "library",
     "description": "Client library for Google APIs",
-    "keywords": [
-        "google"
-    ],
+    "keywords": ["google"],
     "homepage": "http://developers.google.com/api-client-library/php",
     "license": "Apache-2.0",
     "require": {
@@ -23,7 +21,7 @@
         "symfony/css-selector": "~2.1",
         "cache/filesystem-adapter": "^1.1",
         "phpcompatibility/php-compatibility": "^9.2",
-        "composer/composer": "^1.10.23",
+        "composer/composer": "^1.10.22",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5"
     },

@@ -2,55 +2,54 @@
 
 @include('admin.layouts.components.asset_datatables')
 @section('title')
-<h1>
-    Peta {{ $area['nama'] }}
-</h1>
+    <h1>
+        Peta {{ $area['nama'] }}
+    </h1>
 @endsection
 
 @section('breadcrumb')
-<li>Pengaturan Area</li>
-<li class="active">Peta {{ $area['nama'] }}</li>
+    <li>Pengaturan Area</li>
+    <li class="active">Peta {{ $area['nama'] }}</li>
 @endsection
 
 @section('content')
-@include('admin.layouts.components.notifikasi')
+    @include('admin.layouts.components.notifikasi')
 
-<div class="box box-info">
-    <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
-        <div class="box-body">
-            <div id="tampil-map">
-                <input type="hidden" id="path" name="path" value="{{ $area['path'] }}">
-                <input type="hidden" name="id" id="id" value="{{ $area['id'] }}" />
+    <div class="box box-info">
+        <form action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+            <div class="box-body">
+                <div id="tampil-map">
+                    <input type="hidden" id="path" name="path" value="{{ $area['path'] }}">
+                    <input type="hidden" name="id" id="id" value="{{ $area['id'] }}" />
+                </div>
             </div>
             <div class='box-footer'>
-                <a href="{{ ci_route('area') }}"
-                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+                <a href="{{ ci_route('area') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
                 @if (can('u'))
-                <a href="#" data-href="{{ ci_route('area.kosongkan', implode('/', [$parent, $area['id']])) }}"
-                    class="btn btn-social bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Kosongkan Wilayah" data-toggle="modal" data-target="#confirm-status"
-                    data-body="Apakah yakin akan mengosongkan peta wilayah ini?"><i
-                        class="fa fa fa-trash-o"></i>Kosongkan</a>
+                    <a
+                        href="#"
+                        data-href="{{ ci_route('area.kosongkan', implode('/', [$parent, $area['id']])) }}"
+                        class="btn btn-social bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                        title="Kosongkan Wilayah"
+                        data-toggle="modal"
+                        data-target="#confirm-status"
+                        data-body="Apakah yakin akan mengosongkan peta wilayah ini?"
+                    ><i class="fa fa fa-trash-o"></i>Kosongkan</a>
                 @endif
-                <a href="#"
-                    class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-                <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i>
-                    Reset</button>
+                <a href="#" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+                <button type='reset' class='btn btn-social btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
                 @if (can('u'))
-                <button type='submit' class='btn btn-social btn-info btn-sm pull-right' id="simpan_kantor"><i
-                        class='fa fa-check'></i> Simpan</button>
+                    <button type='submit' class='btn btn-social btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
                 @endif
             </div>
-    </form>
-</div>
+        </form>
+    </div>
 @endsection
 @include('admin.layouts.components.asset_peta')
 @include('admin.layouts.components.konfirmasi', ['periksa_data' => true])
 @push('scripts')
-<script>
-    window.onload = function() {
+    <script>
+        window.onload = function() {
             @if (!empty($desa['lat']) && !empty($desa['lng']))
                 var posisi = [{{ $desa['lat'] }}, {{ $desa['lng'] }}];
                 var zoom = {{ $desa['zoom'] ?: 18 }};
@@ -156,7 +155,7 @@
             }).addTo(peta_area);
 
         }; //EOF window.onload
-</script>
-<script src="{{ asset('js/leaflet.filelayer.js') }}"></script>
-<script src="{{ asset('js/togeojson.js') }}"></script>
+    </script>
+    <script src="{{ asset('js/leaflet.filelayer.js') }}"></script>
+    <script src="{{ asset('js/togeojson.js') }}"></script>
 @endpush

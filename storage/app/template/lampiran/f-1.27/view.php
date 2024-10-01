@@ -148,7 +148,7 @@
 	<p style="text-align: center;">
 		<strong style="font-size: 12pt;">FORMULIR PERMOHONAN PINDAH DATANG WNI</strong><br>
 		<strong><?= $input['judul_format'] ?></strong><br>
-		No. .................................
+		No. <?= $format_surat ?>
 	</p>
 
 	<table class="disdukcapil">
@@ -421,11 +421,11 @@
 		</tr>
 
 		<?php
-		for ($i = 0; $i < MAX_PINDAH; $i++) :
-			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'])) :
-				$id = trim($input['id_pengikut_pindah'][$i], "'");
-				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
+        for ($i = 0; $i < MAX_PINDAH; $i++) :
+            $nomor = $i + 1;
+            if ($i < count($input['id_pengikut_pindah'] ?? [])) :
+                $id       = trim($input['id_pengikut_pindah'][$i], "'");
+                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
 
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>
@@ -446,7 +446,7 @@
 							&nbsp;
 						<?php endif; ?>
 					</td>
-					<?php $shdk = str_pad($penduduk['kk_level'], 2, "0", STR_PAD_LEFT); ?>
+					<?php $shdk = str_pad($penduduk['kk_level'], 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>
 						<td class="tengah">
 							<?= $shdk[$j]; ?>
@@ -473,7 +473,7 @@
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date('Y m d')); ?></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -506,7 +506,7 @@
 			*) Diisi Oleh Petugas<br>
 				<p> - Untuk klasifikasi 3 (antar kecamatan dalam satu Kabupaten/Kota) selain ditandatangani oleh Pemohon juga diketahui oleh Kepala Desa/Lurah</p>
 		</p>
-	<?php endif;?>
+	<?php endif; ?>
 	<?php if ($input['kode_format'] == 'F-1.27') : ?>
 		<table class="ttd">
 			<col style="width:35%">
@@ -515,7 +515,7 @@
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date('Y m d')); ?></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -547,7 +547,7 @@
 			<strong>Keterangan:</strong><br>
 			*) Diisi Oleh Petugas
 		</p>
-	<?php endif;?>
+	<?php endif; ?>
 	<?php if ($input['kode_format'] == 'F-1.39') : ?>
 		<table class="ttd">
 			<col style="width:35%">
@@ -556,7 +556,7 @@
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date('Y m d')); ?></td>
 			</tr>
 			<tr>
 				<td>Petugas Registrasi</td>
@@ -591,6 +591,6 @@
 					- Lembar 2 untuk pemohon.<br>
 					- Lembar 3 diarsipkan di Kecamatan.
 		</p>
-	<?php endif;?>
+	<?php endif; ?>
 
 </page>

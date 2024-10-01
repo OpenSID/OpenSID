@@ -50,6 +50,7 @@ class Vaksin_covid extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['vaksin_covid_model', 'wilayah_model', 'pamong_model']);
     }
 
@@ -112,7 +113,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function form(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->unset_userdata($this->_list_session);
         $id_penduduk = $this->input->get('terdata');
         $data        = [
@@ -160,7 +161,7 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/sertifkat', $data);
     }
 
-    public function berkas_vaksin($id_penduduk, $vaksin_ke)
+    public function berkas_vaksin($id_penduduk, $vaksin_ke): void
     {
         $this->berkas($id_penduduk, $vaksin_ke, false, false);
     }
@@ -172,9 +173,9 @@ class Vaksin_covid extends Admin_Controller
         ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN, $tampil);
     }
 
-    public function update()
+    public function update(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->vaksin_covid_model->update_vaksin();
 
         if ($this->session->success == -1) {
@@ -282,7 +283,7 @@ class Vaksin_covid extends Admin_Controller
 
         foreach ($penduduk as $value) {
             $value->dusun ??= 'Data ' . ucwords(setting('sebutan_dusun')) . ' Tidak Ada';
-            if (!isset($rekap['detail'][$value->dusun])) {
+            if (! isset($rekap['detail'][$value->dusun])) {
                 $rekap['detail'][$value->dusun] = ['vaksin_1' => 0, 'vaksin_2' => 0, 'vaksin_3' => 0, 'belum' => 0];
             }
 
@@ -309,7 +310,7 @@ class Vaksin_covid extends Admin_Controller
 
     public function impor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->vaksin_covid_model->impor();
 
         redirect('vaksin_covid');

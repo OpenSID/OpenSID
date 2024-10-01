@@ -1,62 +1,53 @@
-<div class="tab-pane {{ $act_tab == 2 ? 'active' : '' }}">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box-header with-border">
-                <h3 class="box-title"><strong>Migrasi Database Ke {{ config_item('nama_aplikasi') }} {{ AmbilVersi()
-                        }}</strong></h3>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" id="excell"
-                            class="form-horizontal">
-                            <p>Proses ini untuk mengubah database SID ke struktur database {{
-                                config_item('nama_aplikasi') }} {{ AmbilVersi() }}.</p>
-                            <p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
-                                <small>
-                                    <strong><i class="fa fa-info-circle text-red"></i> Sebelum melakukan migrasi ini,
-                                        pastikan database SID anda telah dibackup.</strong>
-                                </small>
-                            </p>
-                            <p>Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di :</P>
-                            <ul>
-                                <li> <a
-                                        href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a>
-                                </li>
-                                <li> <a href="{{ config_item('fb_opendesa') }}">{{ config_item('fb_opendesa') }}</a>
-                                </li>
-                            </ul>
-                            <table class="table table-bordered">
-                                <tbody>
-                                    <tr>
-                                        <td style="padding-top:20px;padding-bottom:10px;">
-                                            <div class="form-group">
-                                                <div class="col-sm-5 col-md-4">
-                                                    <a href="#" class="btn btn-block btn-danger btn-sm ajax migrasi"
-                                                        title="Migrasi DB"></i> Migrasi Database Ke {{
-                                                        config_item('nama_aplikasi') }} {{ AmbilVersi() }}</a>
+                                        <div class="tab-pane {{ $act_tab == 2 ? 'active' : '' }}">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="box-header with-border">
+                                                        <h3 class="box-title"><strong>Migrasi Database Ke {{ config_item('nama_aplikasi') }} {{ AmbilVersi() }}</strong></h3>
+                                                    </div>
+                                                    <div class="box-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <form action="{{ $form_action }}" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+                                                                    <p>Proses ini untuk mengubah database SID ke struktur database {{ config_item('nama_aplikasi') }} {{ AmbilVersi() }}.</p>
+                                                                    <p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
+                                                                        <small>
+                                                                            <strong><i class="fa fa-info-circle text-red"></i> Sebelum melakukan migrasi ini, pastikan database SID anda telah dibackup.</strong>
+                                                                        </small>
+                                                                    </p>
+                                                                    <p>Apabila sesudah melakukan konversi ini, masih ditemukan masalah, laporkan di :</P>
+                                                                    <ul>
+                                                                        <li> <a href="https://github.com/OpenSID/OpenSID/issues">https://github.com/OpenSID/OpenSID/issues</a></li>
+                                                                        <li> <a href="{{ config_item('fb_opendesa') }}">{{ config_item('fb_opendesa') }}</a></li>
+                                                                    </ul>
+                                                                    <table class="table table-bordered">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td style="padding-top:20px;padding-bottom:10px;">
+                                                                                    <div class="form-group">
+                                                                                        <div class="col-sm-5 col-md-4">
+                                                                                            <a href="#" class="btn btn-block btn-danger btn-sm ajax migrasi" title="Migrasi DB"></i> Migrasi Database Ke {{ config_item('nama_aplikasi') }} {{ AmbilVersi() }}</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="ajax-content"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="ajax-content"></div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@push('css')
-<link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
-@endpush
-@push('scripts')
-<script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('js/backup.min.js') }}"></script>
-<script>
-    $(function() {
+                                        </div>
+                                        @push('css')
+                                            <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
+                                        @endpush
+                                        @push('scripts')
+                                            <script src="{{ asset('js/sweetalert2/sweetalert2.all.min.js') }}"></script>
+                                            <script src="{{ asset('js/backup.min.js') }}"></script>
+                                            <script>
+                                                $(function() {
                                                     $('.migrasi').click(function(e) {
                                                         e.preventDefault();
                                                         Swal.fire({
@@ -138,5 +129,5 @@
                                                         })
                                                     })
                                                 })
-</script>
-@endpush
+                                            </script>
+                                        @endpush

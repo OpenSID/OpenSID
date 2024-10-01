@@ -47,6 +47,7 @@ class Pengaduan_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -99,8 +100,8 @@ class Pengaduan_admin extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('status', static fn($row): string => '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>')
-                ->editColumn('created_at', static fn($row): string => tgl_indo2($row->created_at))
+                ->editColumn('status', static fn ($row): string => '<span class="label ' . StatusPengaduanEnum::label()[$row->status] . '">' . ucwords(StatusPengaduanEnum::valueOf($row->status)) . ' </span>')
+                ->editColumn('created_at', static fn ($row): string => tgl_indo2($row->created_at))
                 ->rawColumns(['ceklist', 'aksi', 'status'])
                 ->make();
         }
@@ -110,7 +111,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action          = 'Tanggapi Pengaduan';
@@ -123,7 +124,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function kirim($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         try {
             $pengaduan = Pengaduan::findOrFail($id);
@@ -141,7 +142,7 @@ class Pengaduan_admin extends Admin_Controller
             ]);
 
             redirect_with('success', 'Berhasil Ditanggapi');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_message('error', $e);
         }
 
@@ -150,7 +151,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function detail($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action    = 'Detail Pengaduan';
@@ -162,7 +163,7 @@ class Pengaduan_admin extends Admin_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         try {
             Pengaduan::destroy($id ?? $this->request['id_cb']);
@@ -174,7 +175,7 @@ class Pengaduan_admin extends Admin_Controller
             Pengaduan::whereIn('id_pengaduan', $this->request['id_cb'])->delete();
 
             redirect_with('success', 'Berhasil Hapus Data');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_message('error', $e);
         }
 

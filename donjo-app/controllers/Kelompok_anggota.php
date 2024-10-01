@@ -47,17 +47,17 @@ class Kelompok_anggota extends Admin_Controller
 {
     public $modul_ini       = 'kependudukan';
     public $sub_modul_ini   = 'kelompok';
-    public $akses_modul     = 'kelompok';
     public $tipe            = 'kelompok';
     public $aliasController = 'kelompok';
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['kelompok_model', 'pamong_model']);
     }
 
-    public function index()
+    public function index(): void
     {
         redirect($this->aliasController);
     }
@@ -106,8 +106,8 @@ class Kelompok_anggota extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('foto', static fn($row): string => '<img src="' . AmbilFoto($row->anggota->foto, '', $row->anggota->sex) . '" alt="Foto Penduduk" class="img-circle" width="50px">')
-                ->editColumn('jk', static fn($row): string => JenisKelaminEnum::valueOf($row->anggota->sex))
+                ->editColumn('foto', static fn ($row): string => '<img src="' . AmbilFoto($row->anggota->foto, '', $row->anggota->sex) . '" alt="Foto Penduduk" class="img-circle" width="50px">')
+                ->editColumn('jk', static fn ($row): string => JenisKelaminEnum::valueOf($row->anggota->sex))
                 ->editColumn('jabatan', static function ($row): string {
                     if ($row->jabatan != 90) {
                         return JabatanKelompokEnum::valueOf($row->jabatan) ?: strtoupper($row->jabatan);
@@ -115,8 +115,8 @@ class Kelompok_anggota extends Admin_Controller
 
                     return JabatanKelompokEnum::valueOf($row->jabatan);
                 })
-                ->editColumn('umur', static fn($row): string => $row->anggota->umur)
-                ->editColumn('tanggallahir', static fn($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper(tgl_indo($row->anggota->tanggallahir)))
+                ->editColumn('umur', static fn ($row): string => $row->anggota->umur)
+                ->editColumn('tanggallahir', static fn ($row): string => strtoupper($row->anggota->tempatlahir) . ' / ' . strtoupper(tgl_indo($row->anggota->tanggallahir)))
                 ->rawColumns(['aksi', 'ceklist', 'foto', 'tanggallahir', 'jk', 'jabatan', 'umur'])
                 ->make();
         }
@@ -207,10 +207,10 @@ class Kelompok_anggota extends Admin_Controller
         }
     }
 
-    public function update($id = 0, $id_a = 0)
+    public function update($id = 0, $id_a = 0): void
     {
         isCan('u');
-        $data                = $this->validasi_anggota($this->input->post(), $id_a);
+        $data                = $this->validasi_anggota($this->input->post());
         $data['id_kelompok'] = $id;
         KelompokAnggotaModel::UbahJabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
         if ($data['id_kelompok']) {
@@ -306,7 +306,7 @@ class Kelompok_anggota extends Admin_Controller
         $kelompok     = KelompokAnggotaModel::with('anggota')->tipe($this->tipe)->where('id_kelompok', '=', $id)->orderByRaw('CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)')->get();
         $list_anggota = collect($kelompok)
             ->map(
-                static fn($item) => collect($item)->merge(
+                static fn ($item) => collect($item)->merge(
                     [
                         'nama'         => $item->anggota->nama,
                         'nik'          => $item->anggota->nik,

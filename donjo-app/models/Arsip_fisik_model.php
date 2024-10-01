@@ -148,7 +148,7 @@ class Arsip_fisik_model extends MY_Model
             ->select("concat('5-',f.`id`) as jenis")
             ->select('f.`nama` as nama_jenis')
             ->select('s.`lokasi_arsip`')
-            ->select("concat('keluar/perorangan') as modul_asli")
+            ->select("concat('keluar/perorangan/',p.`id`) as modul_asli")
             ->select('s.`tahun`')
             ->select("'layanan_surat' as kategori")
             ->select("if (s.`lampiran` IS NOT NULL, s.`lampiran`, '') as lampiran")

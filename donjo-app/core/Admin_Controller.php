@@ -50,7 +50,6 @@ class Admin_Controller extends MY_Controller
     public $grup;
     public $modul_ini;
     public $sub_modul_ini;
-    public $akses_modul;
     public $header;
     public $controller;
     public $aliasController;
@@ -60,7 +59,12 @@ class Admin_Controller extends MY_Controller
         // To inherit directly the attributes of the parent class.
         parent::__construct();
         $this->CI = &get_instance();
+        
         $this->controller = strtolower($this->router->fetch_class());
+        if (! auth()) {
+            redirect('siteman');
+        }
+
         $this->cek_identitas_desa();
 
         // paksa untuk logout jika melakukan ubah password
@@ -78,7 +82,8 @@ class Admin_Controller extends MY_Controller
      * Urutan pengecakan :
      *
      * 1. Config desa sudah diisi
-     * 2. Password standard (sid304)
+     * 2. Validasi pelanggan premium
+     * 3. Password standard (sid304)
      */
     private function cek_identitas_desa(): void
     {
@@ -90,6 +95,7 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
+        
         $force    = $this->session->force_change_password;
 
         if ($force && ! $kode_desa && $this->controller != 'pengguna') {
@@ -103,25 +109,6 @@ class Admin_Controller extends MY_Controller
             $this->user_model->logout();
         }
 
-        $this->grup = $this->user_model->sesi_grup($this->session->sesi);
-        $this->load->model('modul_model');
-        $aliasController = $this->aliasController ?? $this->controller;
-        if (! $this->modul_model->modul_aktif($aliasController)) {
-            session_error('Fitur ini tidak aktif');
-            redirect($_SERVER['HTTP_REFERER']);
-        }
-
-        if (! $this->user_model->hak_akses($this->grup, $aliasController, 'b')) {
-            if (empty($this->grup)) {
-                $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
-                redirect('siteman');
-            } else {
-                // TODO:: cek masalah ini kenapa selalu muncul error di untuk can('u', 'pelanggan)
-                // session_error('Anda tidak mempunyai akses pada fitur itu');
-                unset($_SESSION['request_uri']);
-                redirect('main');
-            }
-        }
         $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
         $this->header['desa']                   = collect(identitas())->toArray();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
@@ -154,6 +141,7 @@ class Admin_Controller extends MY_Controller
         }
 
         // Hanya untuk user administrator
+        $this->grup = $this->user_model->sesi_grup($this->session->sesi);
         if ($this->grup == $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) {
             $notifikasi = $this->notif_model->get_semua_notif();
 
@@ -166,71 +154,6 @@ class Admin_Controller extends MY_Controller
         }
 
         return $pengumuman;
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
-    protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-        if (! $this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
-            session_error('Anda tidak mempunyai akses pada fitur ini');
-            if (empty($this->grup)) {
-                redirect('siteman');
-            }
-            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
-        }
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    protected function redirect_hak_akses($akses, $redirect = '', $controller = '', $admin_only = false)
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        if (($admin_only && $this->grup != $this->user_model->id_grup(UserGrup::ADMINISTRATOR)) || ! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
-            session_error('Anda tidak mempunyai akses pada fitur ini');
-
-            if (empty($this->grup)) {
-                redirect('siteman');
-            }
-            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
-        }
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
-    public function cek_hak_akses_url($akses, $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    public function cek_hak_akses($akses, $controller = '')
-    {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses($this->grup, $controller, $akses);
-    }
-
-    // TODO:: hapus method ini jika sudah tidak digunakan
-    public function redirect_tidak_valid($valid): void
-    {
-        if ($valid) {
-            return;
-        }
-
-        session_error('Aksi ini tidak diperbolehkan');
-        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function render($view, ?array $data = null): void

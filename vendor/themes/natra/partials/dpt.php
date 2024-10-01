@@ -17,7 +17,7 @@
 			<th class="text-center">P</th>
 		</tr>
 		</thead><?php
-		if(count($main) > 0){ ?>
+		if(count($main ?? []) > 0){ ?>
 			<tbody><?php
 			foreach($main as $data){ ?>
 				<tr>

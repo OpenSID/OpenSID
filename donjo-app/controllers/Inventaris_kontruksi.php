@@ -47,6 +47,7 @@ class Inventaris_kontruksi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['inventaris_kontruksi_model', 'pamong_model', 'aset_model']);
     }
 
@@ -70,7 +71,7 @@ class Inventaris_kontruksi extends Admin_Controller
 
     public function edit($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_kontruksi_model->view($id);
         $data['tip']  = 1;
 
@@ -79,7 +80,7 @@ class Inventaris_kontruksi extends Admin_Controller
 
     public function form(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['tip'] = 1;
 
         $this->render('inventaris/kontruksi/form_tambah', $data);

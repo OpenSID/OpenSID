@@ -57,12 +57,12 @@ class XliffFileLoader implements LoaderInterface
             } else {
                 $dom = XmlUtils::loadFile($resource);
             }
-        } catch (\InvalidArgumentException | XmlParsingException | InvalidXmlException $e) {
-            throw new InvalidResourceException(sprintf('Unable to load "%s": ', $resource) . $e->getMessage(), $e->getCode(), $e);
+        } catch (\InvalidArgumentException|XmlParsingException|InvalidXmlException $e) {
+            throw new InvalidResourceException(sprintf('Unable to load "%s": ', $resource).$e->getMessage(), $e->getCode(), $e);
         }
 
         if ($errors = XliffUtils::validateSchema($dom)) {
-            throw new InvalidResourceException(sprintf('Invalid resource provided: "%s"; Errors: ', $resource) . XliffUtils::getErrorsAsString($errors));
+            throw new InvalidResourceException(sprintf('Invalid resource provided: "%s"; Errors: ', $resource).XliffUtils::getErrorsAsString($errors));
         }
 
         $catalogue = new MessageCatalogue($locale);
@@ -120,7 +120,7 @@ class XliffFileLoader implements LoaderInterface
                 // simple_xml will always return utf-8 encoded values
                 $target = $this->utf8ToCharset((string) ($translation->target ?? $translation->source), $encoding);
 
-                $catalogue->set($source, $target, $domain);
+                $catalogue->set((string) $source, $target, $domain);
 
                 $metadata = [
                     'source' => (string) $translation->source,
@@ -143,7 +143,7 @@ class XliffFileLoader implements LoaderInterface
                     $metadata['id'] = (string) $attributes['id'];
                 }
 
-                $catalogue->setMetadata($source, $metadata, $domain);
+                $catalogue->setMetadata((string) $source, $metadata, $domain);
             }
         }
     }

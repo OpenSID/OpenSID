@@ -44,6 +44,7 @@ class Keuangan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_grafik_model');
         $this->load->model('keuangan_grafik_dd_model');
@@ -181,7 +182,7 @@ class Keuangan extends Admin_Controller
 
     public function proses_impor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (empty($_FILES['keuangan']['name'])) {
             $this->session->success   = -1;
             $this->session->error_msg = 'Tidak ada file untuk diimpor';
@@ -231,7 +232,7 @@ class Keuangan extends Admin_Controller
 
     public function delete($id = ''): void
     {
-        $this->redirect_hak_akses('h', 'keuangan');
+        isCan('h');
         $this->keuangan_model->delete($id);
         redirect('keuangan/impor_data');
     }

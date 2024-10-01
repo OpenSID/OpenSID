@@ -135,7 +135,7 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<?php if ($analisis_master['lock'] == 1 && isCan('u')): ?>
+																		<?php if ($analisis_master['lock'] == 1 && can('u')): ?>
 																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																		<?php endif; ?>
 																		<td><?= $data['no']?></td>
@@ -147,7 +147,7 @@
 																				<?php if (can('u')): ?>
 																					<a href="<?= site_url("analisis_indikator/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class='fa fa-edit'></i></a>
 																				<?php endif; ?>
-																				<?php if ($analisis_master['jenis'] != 1 && isCan('h')): ?>
+																				<?php if ($analisis_master['jenis'] != 1 && can('h')): ?>
 																					<a href="#" data-href="<?= site_url("analisis_indikator/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																			</td>

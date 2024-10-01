@@ -55,14 +55,9 @@ class LogRestoreDesa extends BaseModel
     protected $table = 'log_restore_desa';
 
     /**
-     * The attributes that are mass assignable.
+     * The guarded with the model.
      *
-     * @var array<int, string>
+     * @var array
      */
-    protected $fillable = [
-        'nama',
-        'slug',
-        'sasaran',
-        'keterangan',
-    ];
+    protected $guarded = [];
 }

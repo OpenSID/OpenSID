@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -96,5 +97,52 @@ class Rtm extends BaseModel
         return static::whereHas('kepalaKeluarga', static function ($query): void {
             $query->status()->where('rtm_level', '1');
         });
+    }
+
+    public function judulStatistik($tipe = 0, $nomor = 0, $sex = 0)
+    {
+        if ($nomor == JUMLAH) {
+            $judul = ['nama' => ' JUMLAH'];
+        } elseif ($nomor == BELUM_MENGISI) {
+            $judul = ['nama' => ' BELUM MENGISI'];
+        } elseif ($nomor == TOTAL) {
+            $judul = ['nama' => ' TOTAL'];
+        } else {
+            switch ($tipe) {
+                case 'penerima_bantuan':
+                    $judul = ['nama' => 'PESERTA'];
+                    break;
+
+                default:
+                    $judul = Rtm::where(['id' => $nomor])->first()->toArray();
+                    break;
+            }
+        }
+
+        if ($sex == 1) {
+            $judul['nama'] .= ' - LAKI-LAKI';
+        } elseif ($sex == 2) {
+            $judul['nama'] .= ' - PEREMPUAN';
+        }
+
+        return $judul;
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+        static::deleting(static function ($model): void {
+            static::deletePenduduk($model);
+        });
+    }
+
+    public static function deletePenduduk($model): void
+    {
+        $reset['id_rtm']     = 0;
+        $reset['rtm_level']  = 0;
+        $reset['updated_at'] = date('Y-m-d H:i:s');
+        Penduduk::where(['id_rtm' => $model->no_kk])->update($reset);
+
+        BantuanPeserta::where('peserta', $model->no_kk)->whereHas('bantuan', static fn ($q) => $q->where(['sasaran' => SasaranEnum::RUMAH_TANGGA]))->delete();
     }
 }
