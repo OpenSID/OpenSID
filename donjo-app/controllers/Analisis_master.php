@@ -51,6 +51,8 @@ class Analisis_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
+
         $this->load->model('analisis_master_model');
         $this->load->model('analisis_import_model');
         $this->load->model('analisis_indikator_model');
@@ -109,7 +111,7 @@ class Analisis_master extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['p'] = $p;
         $data['o'] = $o;
 
@@ -136,7 +138,7 @@ class Analisis_master extends Admin_Controller
 
     public function import_analisis(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = site_url("{$this->controller}/import");
 
         $this->load->view('analisis_master/import', $data);
@@ -144,7 +146,7 @@ class Analisis_master extends Admin_Controller
 
     public function import(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_import_model->impor_analisis();
 
         redirect($this->controller);
@@ -299,7 +301,7 @@ class Analisis_master extends Admin_Controller
 
     public function import_gform(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['form_action'] = site_url("{$this->controller}/exec_import_gform");
 
         $this->load->view('analisis_master/import_gform', $data);
@@ -369,7 +371,7 @@ class Analisis_master extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_master_model->insert();
 
         redirect($this->controller);
@@ -404,7 +406,7 @@ class Analisis_master extends Admin_Controller
 
     public function exec_import_gform(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->google_form_id = $this->input->post('input-form-id');
 
         $REDIRECT_URI = $this->get_redirect_uri();
@@ -432,7 +434,7 @@ class Analisis_master extends Admin_Controller
 
     public function update($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_master_model->update($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -440,7 +442,7 @@ class Analisis_master extends Admin_Controller
 
     public function delete($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->analisis_master_model->delete($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -448,7 +450,7 @@ class Analisis_master extends Admin_Controller
 
     public function delete_all($p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->analisis_master_model->delete_all();
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -456,7 +458,7 @@ class Analisis_master extends Admin_Controller
 
     public function save_import_gform(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_import_model->save_import_gform();
         $this->session->unset_userdata('data_import');
 
@@ -465,7 +467,7 @@ class Analisis_master extends Admin_Controller
 
     public function update_gform($id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];
 
         $REDIRECT_URI = $this->get_redirect_uri();

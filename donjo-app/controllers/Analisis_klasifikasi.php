@@ -45,6 +45,7 @@ class Analisis_klasifikasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
 
         if (! $this->session->has_userdata('analisis_master')) {
             $this->session->success   = -1;
@@ -95,7 +96,7 @@ class Analisis_klasifikasi extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['p'] = $p;
         $data['o'] = $o;
 
@@ -126,7 +127,7 @@ class Analisis_klasifikasi extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_klasifikasi_model->insert();
 
         redirect($this->controller);
@@ -134,7 +135,7 @@ class Analisis_klasifikasi extends Admin_Controller
 
     public function update($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->analisis_klasifikasi_model->update($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -142,7 +143,7 @@ class Analisis_klasifikasi extends Admin_Controller
 
     public function delete($p = 1, $o = 0, $id = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->analisis_klasifikasi_model->delete($id);
 
         redirect("{$this->controller}/index/{$p}/{$o}");
@@ -150,7 +151,7 @@ class Analisis_klasifikasi extends Admin_Controller
 
     public function delete_all($p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->analisis_klasifikasi_model->delete_all();
 
         redirect("{$this->controller}/index/{$p}/{$o}");

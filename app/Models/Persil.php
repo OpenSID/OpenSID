@@ -38,6 +38,8 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -58,4 +60,51 @@ class Persil extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the refKelas associated with the Persil
+     */
+    public function refKelas(): HasOne
+    {
+        return $this->hasOne(RefPersilKelas::class, 'id', 'kelas');
+    }
+
+    /**
+     * Get the wilayah associated with the Persil
+     */
+    public function wilayah(): HasOne
+    {
+        return $this->hasOne(Wilayah::class, 'id', 'id_wilayah');
+    }
+
+    /**
+     * Get all of the mutasi for the Persil
+     */
+    public function mutasi(): HasMany
+    {
+        return $this->hasMany(MutasiCdesa::class, 'id_persil');
+    }
+
+    /**
+     * Get the cdesa associated with the Persil
+     */
+    public function cdesa(): HasOne
+    {
+        return $this->hasOne(Cdesa::class, 'id', 'cdesa_awal');
+    }
+
+    public static function activeMap()
+    {
+        return self::with(['cdesa', 'refKelas', 'wilayah'])->withCount('mutasi')
+            ->orderBy('nomor')->orderBy('nomor_urut_bidang')->get()->map(static function ($item) {
+            $item->kode             = $item->refKelas->kode ?? '';
+            $item->jml_bidang       = $item->mutasi_count;
+            $item->nomor_cdesa_awal = $item->cdesa->nomor ?? '';
+            $item->nama_kepemilikan = $item->cdesa->nama_kepemilikan;
+            $item->alamat           = $item->wilayah ? ($item->wilayah->rt != 0 ? 'RT ' . $item->wilayah->rt . ' / ' : '') . ($item->wilayah->rw != 0 ? 'RW ' . $item->wilayah->rw . ' - ' : '') . $item->wilayah->dusun : ($item->lokasi ?? '=== Lokasi Tidak Ditemukan ===');
+            unset($item->refKelas, $item->cdesa, $item->wilayah);
+
+            return $item;
+        })->toArray();
+    }
 }

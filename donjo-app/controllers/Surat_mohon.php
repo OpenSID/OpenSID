@@ -140,7 +140,7 @@ class Surat_mohon extends Admin_Controller
         isCan('h');
 
         foreach ($this->request['id_cb'] as $id) {
-            if (!SyaratSurat::deleteFormatSuratExist($id)) {
+            if (! SyaratSurat::deleteFormatSuratExist($id)) {
                 redirect_with('error', 'Gagal Hapus Data');
             }
         }

@@ -50,6 +50,7 @@ class Teks_berjalan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -93,7 +94,7 @@ class Teks_berjalan extends Admin_Controller
 
                     return $text . (' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>');
                 })
-                ->editColumn('tampilkan', static fn($row) => SistemEnum::valueOf($row->tipe))
+                ->editColumn('tampilkan', static fn ($row) => SistemEnum::valueOf($row->tipe))
                 ->addColumn('judul_tautan', static function ($row) {
                     if ($row->tautan) {
                         return '<a href="' . $row->tautan . '" target="_blank">' . tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul . '</a>';
@@ -111,8 +112,8 @@ class Teks_berjalan extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
-        $data['list_artikel'] = Artikel::where('id_kategori', 999)->limit(500)->orderBy('id', 'DESC')->get();
+        isCan('u');
+        $data['list_artikel'] = Artikel::where('tipe', 'statis')->limit(500)->orderBy('id', 'DESC')->get();
         if ($id) {
             $data['teks']        = TeksBerjalan::findOrFail($id);
             $data['form_action'] = ci_route('teks_berjalan.update', $id);
@@ -128,7 +129,7 @@ class Teks_berjalan extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (TeksBerjalan::create($this->validated($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
@@ -139,7 +140,7 @@ class Teks_berjalan extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (TeksBerjalan::findOrFail($id)->update($this->validated($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
@@ -159,14 +160,14 @@ class Teks_berjalan extends Admin_Controller
 
     public function urut($id = 0, $arah = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         TeksBerjalan::nomorUrut($id, $arah);
         redirect('teks_berjalan');
     }
 
     public function lock($id = 0, $val = 1): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         if (TeksBerjalan::findOrFail($id)->update(['status' => $val])) {
             redirect_with('success', 'Berhasil Ubah Status');
         }

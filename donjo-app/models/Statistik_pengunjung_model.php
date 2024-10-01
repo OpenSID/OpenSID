@@ -227,7 +227,7 @@ class Statistik_pengunjung_model extends MY_Model
         $thn = date('Y');
 
         switch ($type) {
-                // Hari ini
+            // Hari ini
             case 1:
                 $this->db->where('Tanggal', $tgl);
                 break;

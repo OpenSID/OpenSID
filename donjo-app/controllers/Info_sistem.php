@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Sistem;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Info_sistem extends Admin_Controller
@@ -45,33 +47,33 @@ class Info_sistem extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->helper('directory');
     }
 
-    public function index(): void
+    public function index()
     {
         // Logs viewer
         $this->load->library('Log_Viewer');
 
         $data                      = $this->log_viewer->showLogs();
-        $data['ekstensi']          = $this->setting_model->cekEkstensi();
-        $data['kebutuhan_sistem']  = $this->setting_model->cekKebutuhanSistem();
-        $data['php']               = $this->setting_model->cekPhp();
-        $data['mysql']             = $this->setting_model->cekDatabase();
-        $data['disable_functions'] = $this->setting_model->disableFunctions();
+        $data['ekstensi']          = Sistem::cekEkstensi();
+        $data['kebutuhan_sistem']  = Sistem::cekKebutuhanSistem();
+        $data['php']               = Sistem::cekPhp();
+        $data['mysql']             = Sistem::cekDatabase();
+        $data['disable_functions'] = Sistem::disableFunctions();
         $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
-
+        $data['controller']        = $this->controller;
         // $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
         $data['disk'] = false;
 
-        $this->render('setting/info_sistem/index', $data);
+        return view('admin.setting.info_sistem.index', $data);
     }
 
     public function remove_log(): void
     {
-        $this->redirect_hak_akses('h');
-
+        isCan('h');
         $path = config_item('log_path');
         $file = base64_decode($this->input->get('f'), true);
 
@@ -82,40 +84,38 @@ class Info_sistem extends Admin_Controller
                 $file = $path . basename($file);
                 unlink($file);
             }
+
+            redirect_with('success', 'Berhasil Hapus Data');
         }
 
-        redirect($this->controller);
+        redirect_with('error', 'Gagal Hapus Data');
     }
 
     public function cache_desa(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         cache()->flush();
 
-        status_sukses(true);
-
-        redirect($this->controller);
+        redirect_with('success', 'Berhasil Hapus Cache');
     }
 
     public function cache_blade(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        kosongkanFolder(config_item('cache_blade'));
+        kosongkanFolder('storage/framework/views/');
 
-        status_sukses(true);
-
-        redirect($this->controller);
+        redirect_with('success', 'Berhasil Hapus Cache');
     }
 
     public function set_permission_desa(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $dirs   = $_POST['folders'];
         $error  = [];
-        $result = ['status' => 1, $message = 'Berhasil ubah permission folder desa'];
+        $result = ['status' => 1, 'message' => 'Berhasil ubah permission folder desa'];
 
         foreach ($dirs as $dir) {
             if (! chmod($dir, DESAPATHPERMISSION)) {

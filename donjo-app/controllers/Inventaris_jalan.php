@@ -47,6 +47,7 @@ class Inventaris_jalan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model(['inventaris_jalan_model', 'pamong_model', 'aset_model']);
     }
 
@@ -78,7 +79,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function edit($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main']      = $this->inventaris_jalan_model->view($id);
         $data['aset']      = $this->aset_model->list_aset(5);
         $data['count_reg'] = $this->inventaris_jalan_model->count_reg();
@@ -91,7 +92,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function edit_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_jalan_model->edit_mutasi($id);
         $data['tip']  = 2;
 
@@ -100,7 +101,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function form(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['tip']       = 1;
         $data['get_kode']  = $this->header['desa'];
         $data['aset']      = $this->aset_model->list_aset(5);
@@ -111,7 +112,7 @@ class Inventaris_jalan extends Admin_Controller
 
     public function form_mutasi($id): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['main'] = $this->inventaris_jalan_model->view($id);
         $data['tip']  = 2;
 

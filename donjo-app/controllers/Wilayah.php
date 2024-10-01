@@ -53,6 +53,7 @@ class Wilayah extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index($parent = '', $level = 'dusun'): void
@@ -125,13 +126,14 @@ class Wilayah extends Admin_Controller
                     $mapWilayah      = 'ajax_wilayah_dusun_maps';
             }
 
-            if (!$adaUrutKosong->isempty()) {
+            if (! $adaUrutKosong->isempty()) {
                 // update urut dan urut cetak
                 WilayahModel::updateUrutan();
             }
 
             return datatables()->of($model)
                 ->addIndexColumn()
+                ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
                 ->addColumn('aksi', static function ($row) use ($parent, $mapKantor, $mapWilayah, $level, $subOrdinat, $cek_lokasi_peta): string {
                     $aksi = '';
                     if ($level != 'rt') {
@@ -169,7 +171,7 @@ class Wilayah extends Admin_Controller
                     }
                     if ($cek_lokasi_peta && can('u')) {
                         $wilayah = $level == 'dusun' ? ucwords(setting('sebutan_dusun')) : strtoupper($level);
-                        if (!($level == 'rw' && $row->rw == '-')) {
+                        if (! ($level == 'rw' && $row->rw == '-')) {
                             $aksi .= '<div class="btn-group">
                                 <button type="button" class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class="fa fa-arrow-circle-down"></i> Peta</button>
                                 <ul class="dropdown-menu" role="menu">
@@ -194,7 +196,7 @@ class Wilayah extends Admin_Controller
                 ->editColumn('penduduk_wanita_count', static fn ($row): string => $level == 'dusun' ? '<a href="' . ci_route('wilayah.warga_p', $row->id) . '">' . ($row->penduduk_wanita_count ?? '') . '</a>' : '<span>' . ($row->penduduk_wanita_count ?? '') . '</span>')
                 ->editColumn('kepala', static fn ($row): string => '<strong>' . $row->kepala->nama . '</strong>' ?? '')
                 ->addColumn('nik_kepala', static fn ($row): string => $row->kepala->nik ?? '')
-                ->rawColumns(['aksi', 'ceklist', 'kepala', 'penduduk_count', 'rts_count', 'rws_count', 'keluarga_aktif_count', 'penduduk_wanita_count', 'penduduk_pria_count'])
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'kepala', 'penduduk_count', 'rts_count', 'rws_count', 'keluarga_aktif_count', 'penduduk_wanita_count', 'penduduk_pria_count'])
                 ->make();
         }
 
@@ -249,7 +251,7 @@ class Wilayah extends Admin_Controller
 
     private function form(string $level, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $parent = $this->parent ?? null;
         $data   = [
             'wilayah'      => null,
@@ -325,7 +327,7 @@ class Wilayah extends Admin_Controller
 
     public function insert(string $level, ?int $parent = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         try {
             $data      = $this->bersihkan_data($this->request);
@@ -412,7 +414,7 @@ class Wilayah extends Admin_Controller
     //Delete dusun/rw/rt tergantung tipe
     public function delete(string $level, int $id): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         // Perlu hapus berdasarkan nama, supaya baris RW dan RT juga terhapus
         $wilayah = WilayahModel::find($id) ?? show_404();
 
@@ -695,21 +697,21 @@ class Wilayah extends Admin_Controller
 
     public function update_kantor_map(string $level, int $id, ?int $parent = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         WilayahModel::whereId($id)->update($this->validasi_koordinat($this->request));
         redirect_with('success', 'Lokasi kantor berhasil disimpan', ci_route('wilayah.index') . '?level=' . $level . '&parent=' . $parent);
     }
 
     public function update_wilayah_map(string $level, int $id, ?int $parent = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         WilayahModel::whereId($id)->update($this->validasi_wilayah($this->request));
         redirect_with('success', 'Peta berhasil disimpan', ci_route('wilayah.index') . '?level=' . $level . '&parent=' . $parent);
     }
 
     public function kosongkan($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $wilayah       = WilayahModel::findOrFail($id);
         $wilayah->path = null;
         $wilayah->save();
@@ -754,9 +756,9 @@ class Wilayah extends Admin_Controller
 
     public function ubah_lokasi_peta($wilayah, $to = 'index', $msg = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
-        if (!cek_lokasi_peta($wilayah)) {
+        if (! cek_lokasi_peta($wilayah)) {
             session_error($msg);
 
             redirect("{$this->controller}.{$to}");

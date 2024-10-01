@@ -54,6 +54,7 @@ class Sinkronisasi extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->kode_desa = kode_wilayah($this->header['desa']['kode_desa']);
         $this->load->library('zip');
         $this->load->model('ekspor_model');
@@ -112,7 +113,7 @@ class Sinkronisasi extends Admin_Controller
 
     public function kirim($modul): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         switch ($modul) {
             case 'penduduk':
@@ -133,11 +134,6 @@ class Sinkronisasi extends Admin_Controller
             case 'identitas-desa':
                 // identitas desa
                 $notif = $this->sinkronisasi_identitas_desa();
-                break;
-
-            case 'identitas-desa':
-                // identitas desa
-                $this->sinkronisasi_identitas_desa();
                 break;
 
             default:

@@ -140,6 +140,12 @@ class KodeIsianPeristiwa
                 'isian'         => 'panjang_bayI',
                 'data'          => $peristiwa->penduduk->panjang_lahir,
             ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Jumlah Saudara',
+                'isian'         => 'jumlah_saudara_kelahiran',
+                'data'          => $peristiwa->penduduk->jml_anak,
+            ],
         ];
     }
 
@@ -176,6 +182,23 @@ class KodeIsianPeristiwa
                 'judul' => 'Penolong Kematian',
                 'isian' => 'penolong_kematian',
                 'data'  => $peristiwa->yang_menerangkan,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Anak Ke',
+                'isian'         => 'anakke_kematian',
+                'data'          => $peristiwa->penduduk->kelahiran_anak_ke,
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Jumlah Saudara',
+                'isian'         => 'jumlah_saudara_kematian',
+                'data'          => $peristiwa->penduduk->jml_anak,
+            ],
+            [
+                'judul' => 'Bukti Kematian',
+                'isian' => 'bukti_kematian',
+                'data'  => $peristiwa->akta_mati,
             ],
         ];
     }

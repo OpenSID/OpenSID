@@ -96,7 +96,7 @@
 											<?php $this->load->view(MANDIRI . '/pendaftaran') ?>
 										</form>
 									<?php else : ?>
-										<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form">
+										<form id="validasi" autocomplete="off" action="<?= $form_action; ?>" method="post" class="login-form">
 											<?php if (! $this->session->login_ektp) : ?>
 
 												<?php if ($this->session->mandiri_try < 4) : ?>
@@ -149,7 +149,7 @@
 														<img src="<?= asset('images/camera-scan.gif') ?>" alt="scanner" class="center" style="width:30%">
 													</div>
 												</div>
-												<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;') ?>">
+												<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; height: 0; overflow: hidden;') ?>">
 													<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
 												</div>
 												<?php if (! $cek_anjungan) : ?>
@@ -253,14 +253,6 @@
 			};
 			$("#daftar_tgl_lahir").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
 
-			if (ektp) {
-				if (anjungan) {
-					$('#tag').focus();
-				} else {
-					$('#pin').focus();
-				}
-			}
-
 			var pass = $("#pin");
 			$('#checkbox').click(function() {
 				if (pass.attr('type') === "password") {
@@ -269,6 +261,14 @@
 					pass.attr('type', 'password')
 				}
 			});
+
+			if (ektp) {
+				if (anjungan) {
+					$('#tag').focus();
+				} else {
+					$('#pin').focus();
+				}
+			}
 
 			if ($('#countdown').length) {
 				start_countdown();
@@ -279,6 +279,18 @@
 					$(this).remove();
 				});
 			}, 5000);
+
+			// onlcik all area
+			$(document).on('click', function(e) {
+				if (ektp) {
+					if (anjungan) {
+						$('#tag').focus();
+					} else {
+						$('#pin').focus();
+					}
+				}
+			});
+
 		});
 
 		function start_countdown() {

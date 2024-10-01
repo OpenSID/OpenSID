@@ -35,62 +35,79 @@
  *
  */
 
+use App\Models\Ekspedisi as ModelsEkspedisi;
+use App\Models\KlasifikasiSurat;
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Ekspedisi extends Admin_Controller
 {
-    public $modul_ini     = 'buku-administrasi-desa';
-    public $sub_modul_ini = 'administrasi-umum';
+    public $modul_ini           = 'buku-administrasi-desa';
+    public $sub_modul_ini       = 'administrasi-umum';
+    private array $uploadConfig = [];
 
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->helper('download');
-        $this->load->model('surat_keluar_model');
-        $this->load->model('ekspedisi_model');
-        $this->load->model('klasifikasi_model');
         $this->load->model('pamong_model');
+        $this->uploadConfig = [
+            'upload_path'   => LOKASI_ARSIP,
+            'allowed_types' => 'gif|jpg|jpeg|png|pdf',
+            'max_size'      => max_upload() * 1024,
+        ];
     }
 
-    public function clear(): void
+    public function datatables()
     {
-        $this->session->per_page = 20;
-        $this->session->cari     = null;
-        $this->session->filter   = null;
-        redirect('ekspedisi');
+        if ($this->input->is_ajax_request()) {
+            $data = ModelsEkspedisi::get();
+
+            return datatables()->of($data)
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . route('buku-umum.ekspedisi.form', ['id' => $row->id]) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if ($row->tanda_terima) {
+                        $aksi .= '<a href="' . route('buku-umum.ekspedisi.unduh_tanda_terima', ['id' => $row->id]) . '" class="btn btn-purple btn-sm bg-purple" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a> ';
+                    }
+
+                    return $aksi . ('<a href="' . route('buku-umum.ekspedisi.bukan_ekspedisi', ['id' => $row->id]) . '" class="btn bg-olive btn-sm" title="Keluarkan dari Buku Ekspedisi"><i class="fa fa-undo"></i></a>');
+                })
+                ->editColumn('tanggal_pengiriman', static fn ($row): string => tgl_indo($row->tanggal_pengiriman))
+                ->rawColumns(['aksi'])
+                ->make();
+        }
+
+        return show_404();
     }
 
-    public function index($p = 1, $o = 2): void
+    public function index(): void
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $data['controller'] = $this->controller;
+        $data['list_tahun'] = ModelsEkspedisi::GetTahun();
 
-        $data['cari']            = $this->session->cari ?: '';
-        $data['filter']          = $this->session->filter ?: '';
-        $this->session->per_page = $this->input->post('per_page') ?: null;
-
-        $data['per_page']     = $this->session->per_page;
-        $data['paging']       = $this->ekspedisi_model->paging($p, $o);
-        $data['main']         = $this->ekspedisi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['tahun_surat']  = $this->ekspedisi_model->list_tahun_surat();
-        $data['keyword']      = $this->ekspedisi_model->autocomplete();
-        $data['main_content'] = 'ekspedisi/table';
+        $data['main_content'] = 'admin.dokumen.ekspedisi.table';
         $data['subtitle']     = 'Buku Ekspedisi';
         $data['selected_nav'] = 'ekspedisi';
 
-        $this->render('bumindes/umum/main', $data);
+        view('admin.bumindes.umum.main', $data);
     }
 
-    public function form($p, $o, $id): void
+    public function form($id): void
     {
-        $this->redirect_hak_akses('u');
-        $data['klasifikasi'] = $this->klasifikasi_model->list_kode();
-        $data['p']           = $p;
-        $data['o']           = $o;
+        isCan('u');
+        $data['klasifikasi'] = KlasifikasiSurat::enabled()->get(['kode', 'nama'])->toArray();
 
         if ($id) {
-            $data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id) ?? show_404();
-            $data['form_action']  = site_url("ekspedisi/update/{$p}/{$o}/{$id}");
+            $data['surat_keluar'] = ModelsEkspedisi::findOrFail($id);
+            $data['form_action']  = route('buku-umum.ekspedisi.update', ['id' => $id]);
         }
 
         // Buang unique id pada link nama file
@@ -99,49 +116,158 @@ class Ekspedisi extends Admin_Controller
         $ekstensiFile                         = explode('.', end($berkas));
         $ekstensiFile                         = end($ekstensiFile);
         $data['surat_keluar']['tanda_terima'] = $namaFile . '.' . $ekstensiFile;
-        $this->render('ekspedisi/form', $data);
+
+        view('admin.dokumen.ekspedisi.form', $data);
     }
 
-    public function search(): void
+    public function update($id): void
     {
-        $this->session->cari = $this->input->post('cari') ?: null;
-        redirect('ekspedisi');
+        isCan('u');
+        $this->updateProcess($id);
+        redirect('ekspedisi/index');
     }
 
-    public function filter(): void
+    public function updateProcess($id): void
     {
-        $this->session->filter = $this->input->post('filter') ?: null;
-        redirect('ekspedisi');
+        // Ambil semua data dari var. global $_POST
+        $post = $this->input->post();
+        $data = $this->validasi($post);
+
+        $error_msg = '';
+
+        // Ambil nama berkas scan lama dari database
+        $berkas_lama        = ModelsEkspedisi::GetTandaTerima($id)->tanda_terima;
+        $uploadConfig       = $this->uploadConfig;
+        $lokasi_berkas_lama = $uploadConfig['upload_path'] . $berkas_lama;
+        $lokasi_berkas_lama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasi_berkas_lama);
+
+        // Hapus lampiran lama?
+        $hapus_lampiran_lama = $post['gambar_hapus'];
+
+        $upload_data = null;
+
+        // Adakah file baru yang akan diupload?
+        $ada_berkas = ! empty($_FILES['tanda_terima']['name']);
+
+        // penerapan transaction karena insert ke 2 tabel
+        DB::beginTransaction();
+        $ekspedisi = ModelsEkspedisi::findOrFail($id);
+
+        // Ada lampiran file
+        if ($ada_berkas) {
+            // Tes tidak berisi script PHP
+            if (isPHP($_FILES['tanda_terima']['tmp_name'], $_FILES['tanda_terima']['name'])) {
+                $error_msg = ' -> Jenis file ini tidak diperbolehkan ';
+                redirect_with('error', $error_msg);
+            }
+            // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
+            // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
+            if ((strlen($_FILES['tanda_terima']['name']) + 20) >= 100) {
+                $this->session->success = -1;
+                $error_msg              = ' -> Nama berkas yang coba Anda unggah terlalu panjang, ' .
+                    'batas maksimal yang diijinkan adalah 80 karakter';
+                redirect_with('error', $error_msg);
+            }
+            // Inisialisasi library 'upload'
+            $this->upload->initialize($uploadConfig);
+            // Upload sukses
+            if ($this->upload->do_upload('tanda_terima')) {
+                $upload_data = $this->upload->data();
+                // Hapus berkas dari disk
+                // Perhatian: operator 'or' di sini error menggantikan '||'
+                $berkas_dihapus = empty($berkas_lama) || (file_exists($lokasi_berkas_lama) && unlink($lokasi_berkas_lama));
+                if (! $berkas_dihapus) {
+                    $error_msg .= ' -> Gagal menghapus berkas lama';
+                }
+                // Buat nama file unik untuk nama file upload
+                $nama_file_unik = tambahSuffixUniqueKeNamaFile($upload_data['file_name']);
+                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+                $berkas_direname = rename(
+                    $uploadConfig['upload_path'] . $upload_data['file_name'],
+                    $uploadConfig['upload_path'] . $nama_file_unik
+                );
+                $data['tanda_terima'] = $berkas_direname ? $nama_file_unik : $upload_data['file_name'];
+                // Update database dengan `tanda_terima` berisi nama unik
+                if (! $ekspedisi->update($data)) {
+                    $error_msg .= ' -> Gagal memperbarui data di database';
+                }
+            }
+            // Upload gagal
+            else {
+                $error_msg .= $this->upload->display_errors(null, null);
+            }
+        }
+        // Tidak ada file upload
+        else {
+            if ($hapus_lampiran_lama) {
+                $data['tanda_terima'] = null;
+                $hasil                = file_exists($lokasi_berkas_lama) && unlink($lokasi_berkas_lama);
+                if (! $hasil) {
+                    $error_msg = ' -> Gagal menghapus berkas lama';
+                    redirect_with('error', $error_msg);
+                }
+            }
+            if (! $ekspedisi->update($data)) {
+                $error_msg = ' -> Gagal memperbarui data di database';
+                redirect_with('error', $error_msg);
+            }
+        }
+
+        DB::commit();
+
+        $this->session->success = null === $this->session->error_msg ? 1 : -1;
     }
 
-    public function update($p, $o, $id): void
+    private function validasi($post)
     {
-        $this->redirect_hak_akses('u');
-        $this->ekspedisi_model->update($id);
-        redirect("ekspedisi/index/{$p}/{$o}");
+        $data['tanggal_pengiriman'] = tgl_indo_in($post['tanggal_pengiriman']);
+        $data['keterangan']         = htmlentities($post['keterangan']);
+
+        return $data;
     }
 
-    public function dialog($aksi = 'cetak', $o = 0): void
+    // $aksi = cetak/unduh
+    public function dialog_cetak($aksi = 'cetak')
     {
-        $data['aksi']        = $aksi;
-        $data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
-        $data['form_action'] = site_url("ekspedisi/daftar/{$aksi}/{$o}");
+        $data['tahun_laporan'] = ModelsEkspedisi::GetTahun();
+        $data['aksi']          = $aksi;
+        $data['form_action']   = route('buku-umum.ekspedisi.daftar', ['aksi' => $aksi]);
 
-        $this->load->view('ekspedisi/ajax_cetak', $data);
+        return view('admin.layouts.components.kades.dialog_cetak', $data);
     }
 
-    public function daftar($aksi = 'cetak', $o = 1): void
+    public function daftar($aksi = '')
     {
-        // TODO :: gunakan view global penandatangan
+        $data           = $this->data_cetak();
+        $data['config'] = $this->header['desa'];
+        $data['aksi']   = $aksi;
+
+        //pengaturan data untuk format cetak/ unduh
+        $data['isi']       = $data['template'];
+        $data['letak_ttd'] = ['1', '1', '3'];
+
+        return view('admin.layouts.components.format_cetak', $data);
+    }
+
+    private function data_cetak()
+    {
+        // Agar tidak terlalu banyak mengubah kode, karena menggunakan view global
         $ttd                    = $this->modal_penandatangan();
         $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-        $data['input']          = $_POST;
-        $_SESSION['filter']     = $data['input']['tahun'];
-        $data['desa']           = $this->header['desa'];
-        $data['main']           = $this->ekspedisi_model->list_data($o, 0, 10000);
 
-        $this->load->view("ekspedisi/ekspedisi_{$aksi}", $data);
+        $post          = $this->input->post();
+        $data['input'] = $post;
+        $data['tahun'] = $post['tahun'];
+        $data['main']  = ModelsEkspedisi::when($post['tahun'], static function ($query) use ($post): void {
+            $query->whereYear('tanggal_surat', $post['tahun']);
+        })->get();
+        $data['desa'] = $this->header['desa'];
+
+        $data['file']     = 'Buku Ekspedisi';
+        $data['template'] = 'admin.dokumen.ekspedisi.cetak';
+
+        return $data;
     }
 
     /**
@@ -152,13 +278,13 @@ class Ekspedisi extends Admin_Controller
     public function unduh_tanda_terima($id): void
     {
         // Ambil nama berkas dari database
-        $berkas = $this->ekspedisi_model->get_tanda_terima($id);
+        $berkas = ModelsEkspedisi::GetTandaTerima($id)->tanda_terima;
         ambilBerkas($berkas, 'surat_keluar', '__sid__');
     }
 
-    public function bukan_ekspedisi($p, $o, $id): void
+    public function bukan_ekspedisi($id): void
     {
-        $this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 0);
-        redirect("ekspedisi/index/{$p}/{$o}");
+        ModelsEkspedisi::UntukEkspedisi($id, $masuk = 0);
+        redirect_with('success', 'Data berhasil dikeluarkan dari Buku Ekspedisi');
     }
 }

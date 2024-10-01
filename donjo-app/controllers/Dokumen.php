@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\DokumenHidup;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen extends Admin_Controller
@@ -45,6 +47,7 @@ class Dokumen extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('web_dokumen_model');
         $this->load->model('pamong_model');
         $this->load->helper('download');
@@ -82,7 +85,7 @@ class Dokumen extends Admin_Controller
 
     public function form($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['p']   = $p;
         $data['o']   = $o;
         $data['kat'] = $kat;
@@ -127,7 +130,7 @@ class Dokumen extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $_SESSION['success'] = 1;
         $kat                 = $this->input->post('kategori');
         $outp                = $this->web_dokumen_model->insert();
@@ -139,39 +142,48 @@ class Dokumen extends Admin_Controller
 
     public function update($kat, $id = '', $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $_SESSION['success'] = 1;
-        $outp                = $this->web_dokumen_model->update($id);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
+        $data                = $this->web_dokumen_model->validasi($this->request);
+        $dokumen             = DokumenHidup::find($id) ?? show_404();
+        if ($this->request['satuan']) {
+            $data['satuan'] = $this->upload_dokumen();
+        }
+        if ($dokumen->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
     public function delete($kat = 1, $p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
-        $this->web_dokumen_model->delete($id);
+        isCan('h');
+        $dokumen = DokumenHidup::find($id) ?? show_404();
+        if ($dokumen->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
     public function delete_all($kat = 1, $p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h', "dokumen/index/{$kat}/{$p}/{$o}");
-        $this->web_dokumen_model->delete_all();
+        isCan('h');
+        if (DokumenHidup::whereIn('id', $_POST['id_cb'])->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
     public function dokumen_lock($kat = 1, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->web_dokumen_model->dokumen_lock($id, 1);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
 
     public function dokumen_unlock($kat = 1, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->web_dokumen_model->dokumen_lock($id, 2);
         redirect("dokumen/index/{$kat}/{$p}/{$o}");
     }
@@ -254,5 +266,23 @@ class Dokumen extends Admin_Controller
     public function tampilkan_berkas($id_dokumen, $id_pend = null): void
     {
         $this->unduh_berkas($id_dokumen, $id_pend, $tampil = true);
+    }
+
+    private function upload_dokumen()
+    {
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['file_name']     = namafile($this->input->post('nama', true));
+
+        $this->load->library('MY_Upload', null, 'upload');
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('satuan')) {
+            session_error($this->upload->display_errors(null, null));
+
+            return false;
+        }
+
+        return $this->upload->data()['file_name'];
     }
 }

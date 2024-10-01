@@ -163,27 +163,32 @@ class Kernel implements KernelContract
 
     /**
      * Bootstrap the application for artisan commands.
-     *
-     * @return void
      */
-    public function bootstrap() {}
+    public function bootstrap(): void
+    {
+
+    }
 
     /**
      * Terminate the application.
      *
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param int                                             $status
-     *
-     * @return void
      */
-    public function terminate($input, $status) {}
+    public function terminate($input, $status): void
+    {
+
+    }
 
     /**
      * Define the application's command schedule.
      *
      * @return void
      */
-    protected function schedule(Schedule $schedule) {}
+    protected function schedule(Schedule $schedule)
+    {
+
+    }
 
     /**
      * Run an Artisan console command by name.
@@ -202,10 +207,8 @@ class Kernel implements KernelContract
      * Queue the given console command.
      *
      * @param string $command
-     *
-     * @return void
      */
-    public function queue($command, array $parameters = [])
+    public function queue($command, array $parameters = []): void
     {
         throw new RuntimeException('Queueing Artisan commands is not supported.');
     }

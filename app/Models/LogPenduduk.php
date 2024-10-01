@@ -90,14 +90,14 @@ class LogPenduduk extends BaseModel
     ];
 
     /**
-     * The table associated with the model.
+     * The table associated with the models.
      *
      * @var string
      */
     protected $table = 'log_penduduk';
 
     /**
-     * The guarded with the model.
+     * The guarded with the models.
      *
      * @var array
      */
@@ -126,6 +126,48 @@ class LogPenduduk extends BaseModel
         return static::PENOLONG_MATI[$this->penolong_mati] ?? '';
     }
 
+    public function scopeRekapitulasiList($query, $filters = [])
+    {
+        $bln     = $filters['bulan'] ?? date('m');
+        $thn     = $filters['tahun'] ?? date('Y');
+        $pad_bln = str_pad($bln, 2, '0', STR_PAD_LEFT); // Untuk membandingkan dengan tgl mysql
+
+        // log_penduduk.
+        $query
+        // ->select(['tgl_lapor', 'kode_peristiwa', 'id_pend'])
+            ->selectRaw('tweb_wil_clusterdesa.dusun as DUSUN')
+            ->selectRaw("(sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_L_AWAL")
+            ->selectRaw("(sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNI_P_AWAL")
+            ->selectRaw("(sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNA_L_AWAL")
+            ->selectRaw("(sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS WNA_P_AWAL")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 1 then 1 else 0 end) AS WNI_L_TAMBAH_LAHIR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 1 then 1 else 0 end) AS WNI_P_TAMBAH_LAHIR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 1 then 1 else 0 end) AS WNA_L_TAMBAH_LAHIR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 1 then 1 else 0 end) AS WNA_P_TAMBAH_LAHIR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 5 then 1 else 0 end) AS WNI_L_TAMBAH_MASUK")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 5 then 1 else 0 end) AS WNI_P_TAMBAH_MASUK")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 5 then 1 else 0 end) AS WNA_L_TAMBAH_MASUK")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 5 then 1 else 0 end) AS WNA_P_TAMBAH_MASUK")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 2 then 1 else 0 end) AS WNI_L_KURANG_MATI")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 2 then 1 else 0 end) AS WNI_P_KURANG_MATI")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 2 then 1 else 0 end) AS WNA_L_KURANG_MATI")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 2 then 1 else 0 end) AS WNA_P_KURANG_MATI")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNI_L_KURANG_KELUAR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id <> 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNI_P_KURANG_KELUAR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 1 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNA_L_KURANG_KELUAR")
+            ->selectRaw("sum(case when tweb_penduduk.sex = 2 and tweb_penduduk.warganegara_id = 2 and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} and log_penduduk.kode_peristiwa = 3 then 1 else 0 end) AS WNA_P_KURANG_KELUAR")
+            ->selectRaw("(sum(case when tweb_penduduk.kk_level = 1 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.kk_level = 1 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_JLH")
+            ->selectRaw("(sum(case when tweb_penduduk.kk_level != 1 and log_penduduk.kode_peristiwa in (1,5) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end) - sum(case when tweb_penduduk.kk_level != 1 and log_penduduk.kode_peristiwa in (2,3,4) and DATE_FORMAT(log_penduduk.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}' then 1 else 0 end)) AS KK_ANG_KEL")
+            ->selectRaw("(sum(case when tweb_penduduk.kk_level = 1 and log_penduduk.kode_peristiwa in (1,5) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end) - sum(case when tweb_penduduk.kk_level = 1 and log_penduduk.kode_peristiwa in (2,3,4) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end)) AS KK_MASUK_JLH")
+            ->selectRaw("(sum(case when tweb_penduduk.kk_level != 1 and log_penduduk.kode_peristiwa in (1,5) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end) - sum(case when tweb_penduduk.kk_level != 1 and log_penduduk.kode_peristiwa in (2,3,4) and month(log_penduduk.tgl_lapor) = {$bln} and year(log_penduduk.tgl_lapor) = {$thn} then 1 else 0 end)) AS KK_MASUK_ANG_KEL")
+            ->join('tweb_penduduk', 'log_penduduk.id_pend', '=', 'tweb_penduduk.id')
+            ->join('tweb_keluarga', 'tweb_penduduk.id_kk', '=', 'tweb_keluarga.id')
+            ->leftJoin('tweb_wil_clusterdesa', 'tweb_keluarga.id_cluster', '=', 'tweb_wil_clusterdesa.id')
+            ->groupBy('DUSUN');
+
+        return $query;
+    }
+
     /**
      * Getter penolong mati.
      *
@@ -148,5 +190,20 @@ class LogPenduduk extends BaseModel
         ];
 
         return $result[$index] ?? '-';
+    }
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tgl_lapor) as tahun')->distinct()->orderBy('tahun', 'desc')->take(5);
+    }
+
+    public function refPeristiwa()
+    {
+        return $this->belongsTo(RefPeristiwa::class, 'kode_peristiwa', 'id')->withDefault();
+    }
+
+    public function refPindah()
+    {
+        return $this->belongsTo(RefPindah::class, 'ref_pindah', 'id')->withDefault();
     }
 }

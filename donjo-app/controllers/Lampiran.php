@@ -49,6 +49,7 @@ class Lampiran extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -82,12 +83,12 @@ class Lampiran extends Admin_Controller
 
     public function form($id = null)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->set_hak_akses_rfm();
 
         $lampiran = $id ? LampiranSurat::findOrFail($id) : null;
         $margin   = LampiranSurat::MARGINS;
-        if ($lampiran && !empty($lampiran->margin)) {
+        if ($lampiran && ! empty($lampiran->margin)) {
             $margin = json_decode($lampiran->margin, null);
         }
 
@@ -106,7 +107,7 @@ class Lampiran extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (LampiranSurat::create(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'lampiran');
@@ -117,7 +118,7 @@ class Lampiran extends Admin_Controller
 
     public function update($id = null): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = LampiranSurat::findOrFail($id);
 
@@ -130,8 +131,8 @@ class Lampiran extends Admin_Controller
 
     public function delete($id = null): void
     {
-        $this->redirect_hak_akses('h');
-        if (!is_array($id)) {
+        isCan('h');
+        if (! is_array($id)) {
             $id = [$id];
         }
         if (LampiranSurat::jenis(LampiranSurat::LAMPIRAN_DESA)->whereIn('id', $id)->delete()) {
@@ -164,7 +165,7 @@ class Lampiran extends Admin_Controller
 
     public function impor()
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $this->load->library('upload');
 
@@ -204,7 +205,7 @@ class Lampiran extends Admin_Controller
 
     public function impor_store(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = $this->request['id_cb'];
 
@@ -233,7 +234,7 @@ class Lampiran extends Admin_Controller
 
     public function ekspor(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $id = $this->request['id_cb'];
 

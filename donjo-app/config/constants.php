@@ -177,6 +177,8 @@ define('PENDAPAT', 'assets/images/layanan_mandiri/');
 define('LOKASI_ICON_MENU_ANJUNGAN_DEFAULT', 'assets/anjungan/images/');
 define('LOKASI_SURAT_SISTEM', 'template-surat/');
 define('DEFAULT_LOKASI_LAMPIRAN_SURAT', 'storage/app/template/lampiran/');
+define('DEFAULT_LOKASI_EKSPOR', 'storage/app/template/ekspor/');
+define('DEFAULT_LOKASI_IMPOR', 'storage/app/template/impor/');
 define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
 
 // File

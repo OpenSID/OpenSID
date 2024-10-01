@@ -48,6 +48,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -77,7 +78,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $action      = 'Ubah';
         $form_action = ci_route('kehadiran_jam_kerja.update', $id);
@@ -89,7 +90,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
 
     public function update($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $update = JamKerja::findOrFail($id);
 

@@ -176,7 +176,7 @@ class Statistik_web extends Web_Controller
 
     private function cek_akses($lap)
     {
-        $pengaturan = setting('tampilkan_tombol_peta');
+        $pengaturan = json_decode(setting('tampilkan_tombol_peta'), true);
 
         if (((int) $lap > 50 || in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) && in_array('Statistik Bantuan', $pengaturan)) {
             return true;

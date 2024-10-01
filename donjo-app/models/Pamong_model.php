@@ -36,6 +36,7 @@
  */
 
 use App\Models\Kehadiran;
+use App\Models\Pamong;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -163,10 +164,10 @@ class Pamong_model extends MY_Model
             ->row_array();
 
         if ($data) {
-            $data['pamong_niap_nip'] = (!empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
-            if (!empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
+            $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
+            if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
                 $data['sebutan_pamong_niap_nip'] = 'NIP: ';
-            } elseif (!empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
+            } elseif (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
                 $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
             } else {
                 $data['sebutan_pamong_niap_nip'] = '';
@@ -202,33 +203,33 @@ class Pamong_model extends MY_Model
     // Ambil data untuk widget aparatur desa
     public function list_aparatur_desa()
     {
-        $data_query = $this->config_id('dp')
-            ->select(
-                'dp.pamong_id, rj.nama AS jabatan, dp.pamong_niap, dp.gelar_depan, dp.gelar_belakang, dp.kehadiran, dp.media_sosial,
-                CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
-                CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
-                CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama ELSE p.nama END AS nama',
-                false
-            )
-            ->from('tweb_desa_pamong dp')
-            ->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
-            ->join('ref_jabatan rj', 'rj.id = dp.jabatan_id', 'left')
-            ->where('dp.pamong_status', '1')
-            ->order_by('dp.urut')
-            ->get()
-            ->result_array();
+        $data_query = Pamong::aktif()->urut()->get()->toArray();
 
-        return [
-            'daftar_perangkat' => collect($data_query)->map(static function (array $item): array {
-                $kehadiran                = Kehadiran::where('pamong_id', $item['pamong_id'])->where('tanggal', Carbon::now()->format('Y-m-d'))->orderBy('id', 'DESC')->first();
-                $item['status_kehadiran'] = $kehadiran ? $kehadiran->status_kehadiran : null;
-                $item['tanggal']          = $kehadiran ? $kehadiran->tanggal : null;
-                $item['foto']             = AmbilFoto($item['foto'] ?? '', 'besar', $item['id_sex']);
-                $item['nama']             = gelar($item['gelar_depan'], $item['nama'], $item['gelar_belakang']);
+        $result = collect($data_query)->map(static function (array $item): array {
+            $kehadiran = Kehadiran::where('pamong_id', $item['pamong_id'])
+                ->where('tanggal', Carbon::now()->format('Y-m-d'))
+                ->orderBy('id', 'DESC')->first();
 
-                return $item;
-            })->toArray(),
-        ];
+            $nama = $item['id_pend'] ? $item['penduduk']['nama'] : $item['pamong_nama'];
+            $sex  = $item['id_pend'] ? $item['penduduk']['sex'] : $item['pamong_sex'];
+
+            return [
+                'pamong_id'        => $item['pamong_id'],
+                'jabatan'          => $item['jabatan']['nama'],
+                'pamong_niap'      => $item['pamong_niap'],
+                'gelar_depan'      => $item['gelar_depan'],
+                'gelar_belakang'   => $item['gelar_belakang'],
+                'kehadiran'        => $item['kehadiran'],
+                'media_sosial'     => json_encode($item['media_sosial']),
+                'foto'             => AmbilFoto($item['foto_staff'], '', ($item['pamong_sex'] ?? $item['penduduk->sex'])),
+                'id_sex'           => $sex,
+                'nama'             => gelar($item['gelar_depan'], $nama, $item['gelar_belakang']),
+                'status_kehadiran' => $kehadiran ? $kehadiran->status_kehadiran : null,
+                'tanggal'          => $kehadiran ? $kehadiran->tanggal : null,
+            ];
+        })->toArray();
+
+        return ['daftar_perangkat' => $result];
     }
 
     public function list_bagan()

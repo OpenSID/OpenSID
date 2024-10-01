@@ -1,7 +1,9 @@
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#subjek_tipe').change(function() {
-			if ($(this).val() == 4)
+	$(document).ready(function()
+	{
+		$('#subjek_tipe').change(function()
+		{
+			if ($(this).val()==4)
 				$('#idelik').addClass("show").removeClass("hide");
 			else
 				$('#idelik').removeClass("show").addClass("hide");
@@ -25,14 +27,14 @@
 					<div class="box-header with-border">
 						<a href="<?= site_url('analisis_master/clear') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Master Analisis</a>
 					</div>
-					<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nama">Nama Analisis</label>
 										<div class="col-sm-7">
-											<input id="nama" class="form-control input-sm required nomor_sk" maxlength="40" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
+											<input  id="nama" class="form-control input-sm required nomor_sk" maxlength="40" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
 										</div>
 									</div>
 								</div>
@@ -54,8 +56,8 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_kelompok" name="id_kelompok" style="width:100%">
 												<option value="">--Kategori Kelompok--</option>
-												<?php foreach ($list_kelompok as $data) : ?>
-													<option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_kelompok'], $data['id']) ?>><?= $data['kelompok'] ?></option>
+												<?php foreach ($list_kelompok as $data): ?>
+													 <option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_kelompok'], $data['id']) ?>><?= $data['kelompok'] ?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -67,8 +69,8 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="lock" name="lock">
 												<option value="1" <?php if ($analisis_master['lock'] == '1' || $analisis_master['lock'] == '') {
-																		echo 'selected';
-																	} ?>>Tidak Terkunci</option>
+                                                    echo 'selected';
+                                                }?> >Tidak Terkunci</option>
 												<option value="2" <?php if ($analisis_master['lock'] == '2'): ?>selected<?php endif; ?>> Terkunci</option>
 											</select>
 										</div>
@@ -80,8 +82,8 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="format_impor" name="format_impor" <?php selected($analisis_master['jenis'], 1) ?>>
 												<option value="">--Pilih Format Impor--</option>
-												<?php foreach ($list_format_impor as $key => $nama) : ?>
-													<option value="<?= $key ?>" <?php selected($analisis_master['format_impor'], $key) ?>><?= $nama ?></option>
+												<?php foreach ($list_format_impor as $key => $nama): ?>
+													<option value="<?= $key?>" <?php selected($analisis_master['format_impor'], $key) ?>><?= $nama?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -112,9 +114,9 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_child" name="id_child">
 												<option value="">-- Silakan Masukan Analisis Terhubung--</option>
-												<?php foreach ($list_analisis as $data) : ?>
+												<?php foreach ($list_analisis as $data): ?>
 													<option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_child'], $data['id']) ?>><?= $data['nama'] ?></option>
-												<?php endforeach; ?>
+											 	<?php endforeach; ?>
 											</select>
 											<p class="help-block"><code>Kosongkan jika tidak ada Analisis yang terhubung</code></p>
 										</div>
@@ -155,9 +157,9 @@
 							</div>
 						</div>
 					</form>
+					</div>
 				</div>
 			</div>
 		</div>
-</div>
-</section>
+	</section>
 </div>

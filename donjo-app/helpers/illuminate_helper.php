@@ -51,7 +51,7 @@ if (! function_exists('app')) {
 
         $container = Container::getInstance();
 
-        $container->singleton('ci', static fn() => $ci);
+        $container->singleton('ci', static fn () => $ci);
 
         if (null === $abstract) {
             return $container;
@@ -68,6 +68,21 @@ if (! function_exists('base_path')) {
     function base_path(?string $path = ''): string
     {
         return app()->basePath() . ($path ? '/' . $path : $path);
+    }
+}
+
+if (! function_exists('bcrypt')) {
+    /**
+     * Hash the given value against the bcrypt algorithm.
+     *
+     * @param string $value
+     * @param array  $options
+     *
+     * @return string
+     */
+    function bcrypt($value, $options = [])
+    {
+        return app('hash')->driver('bcrypt')->make($value, $options);
     }
 }
 
@@ -164,7 +179,7 @@ if (! function_exists('dispatch')) {
      */
     function dispatch($job): object
     {
-        return new class($job) {
+        return new class ($job) {
             /**
              * The job.
              *
@@ -245,6 +260,7 @@ if (! function_exists('dispatch')) {
                 if (! $this->shouldDispatch()) {
                     return;
                 }
+
                 app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
             }
         };
@@ -307,6 +323,24 @@ if (! function_exists('resource_path')) {
     function resource_path($path = '')
     {
         return app()->resourcePath($path);
+    }
+}
+
+if ( ! function_exists('response')) {
+    /**
+     * Response construction helper
+     *
+     * @param string $content
+     * @param int    $statusCode
+     * @param array  $headers
+     *
+     * @return Illuminate\Http\Response|Response
+     */
+    function response($content = '', $statusCode = 200, $headers = [])
+    {
+        $responseClass = class_exists(\Illuminate\Http\Response::class) ? \Illuminate\Http\Response::class : 'Response';
+
+        return new $responseClass($content, $statusCode, $headers);
     }
 }
 

@@ -50,6 +50,7 @@ class Pengaturan_lampiran extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 
     public function index()
@@ -66,7 +67,7 @@ class Pengaturan_lampiran extends Admin_Controller
 
     public function edit(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->load->model('setting_model');
         $data = $this->validate($this->request);
 

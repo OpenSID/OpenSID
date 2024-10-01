@@ -49,6 +49,7 @@ class Plugin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
     }
 
@@ -57,8 +58,9 @@ class Plugin extends Admin_Controller
         $data = [
             'content'         => 'admin.plugin.paket_tersedia',
             'act_tab'         => 1,
-            'url_marketplace' => config_item('server_layanan') . '/api/modules',
+            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
             'paket_terpasang' => json_encode($this->paketTerpasang()),
+            'token_layanan'   => setting('layanan_opendesa_token'),
         ];
 
         view('admin.plugin.index', $data);
@@ -70,8 +72,9 @@ class Plugin extends Admin_Controller
         $data      = [
             'content'         => 'admin.plugin.paket_terinstall',
             'act_tab'         => 2,
-            'url_marketplace' => config_item('server_layanan') . '/api/modules',
+            'url_marketplace' => config_item('server_layanan') . '/api/v1/modules',
             'paket_terpasang' => $terpasang ? json_encode(array_keys($terpasang)) : null,
+            'token_layanan'   => setting('layanan_opendesa_token'),
         ];
 
         view('admin.plugin.index', $data);
@@ -96,8 +99,7 @@ class Plugin extends Admin_Controller
     {
         [$name, $url, $version] = explode('___', $this->request['pasang']);
         $pasangBaru             = true;
-        if (! empty($version)) {
-            $this->jalankanMigrasi($name, 'down');
+        if ($version !== '' && $version !== '0') {
             forceRemoveDir($this->modulesDirectory . $name);
             $pasangBaru = false;
         }
@@ -106,8 +108,10 @@ class Plugin extends Admin_Controller
         if ($pasangBaru) {
             try {
                 // hit ke url install module untuk update total yang terinstall
-                $urlHitModule = config_item('server_layanan') . '/api/modules/install';
-                Http::post($urlHitModule, ['module_name' => $name]);
+                $urlHitModule = config_item('server_layanan') . '/api/v1/modules/install';
+                $token        = setting('layanan_opendesa_token');
+                $response     = Http::withToken($token)->post($urlHitModule, ['module_name' => $name]);
+                log_message('error', $response->body());
             } catch (\Exception $e) {
                 log_message('error', $e->getMessage());
             }
@@ -179,6 +183,9 @@ class Plugin extends Admin_Controller
         $this->load->helper('directory');
         $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
         $migrations     = directory_map($directoryTable, 1);
+        if ($action == 'up') {
+            usort($migrations, static fn ($a, $b): int => strcmp($a, $b));
+        }
 
         foreach ($migrations as $migrate) {
             $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
@@ -192,5 +199,22 @@ class Plugin extends Admin_Controller
                     $migrateFile->up();
             }
         }
+    }
+
+    public function dev($name, $action): void
+    {
+        if (ENVIRONMENT !== 'development') {
+            show_error('Hanya bisa dijalankan di development');
+        }
+
+        if (! is_dir($this->modulesDirectory . $name)) {
+            show_error('Modul ' . $name . ' tidak ditemukan');
+        }
+
+        $this->jalankanMigrasi($name, $action ?? 'up');
+
+        cache()->flush();
+
+        redirect_with('success', 'Migrasi Modul ' . $name . ' berhasil dijalankan');
     }
 }

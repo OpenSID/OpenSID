@@ -89,7 +89,9 @@ class Artikel extends BaseModel
         'slug',
         'hit',
         'slider',
-        'tampilan'
+        'tipe',
+        'id_kategori',
+        'id_user',
     ];
 
     /**
@@ -110,6 +112,10 @@ class Artikel extends BaseModel
      */
     protected $appends = [
         'url_slug',
+    ];
+
+    protected $casts = [
+        'tgl_upload' => 'datetime:d-m-Y H:i:s',
     ];
 
     /**
@@ -151,6 +157,11 @@ class Artikel extends BaseModel
     public function scopeStatis($query)
     {
         return $query->where('tipe', 'statis');
+    }
+
+    public function scopeDinamis($query)
+    {
+        return $query->where('tipe', 'dinamis');
     }
 
     public function scopeKeuangan($query)
@@ -209,6 +220,16 @@ class Artikel extends BaseModel
         return $this->hasMany(Komentar::class, 'id_artikel');
     }
 
+    /**
+     * Define a one-to-many relationship.
+     *
+     * @return HasMany
+     */
+    public function agenda()
+    {
+        return $this->hasOne(Agenda::class, 'id_artikel');
+    }
+
     public function getPerkiraanMembacaAttribute()
     {
         return Str::perkiraanMembaca($this->isi);
@@ -260,5 +281,15 @@ class Artikel extends BaseModel
     public function getUrlSlugAttribute(): string
     {
         return site_url('artikel/' . Carbon::parse($this->tgl_upload)->format('Y/m/d') . '/' . $this->slug);
+    }
+
+    public function bolehUbah(): bool
+    {
+        return auth()->id == $this->id_user || auth()->id_grup != 4;
+    }
+
+    public function getKategoriAttribute()
+    {
+        return $this->tipe == 'dinamis' ? $this->id_kategori : $this->tipe;
     }
 }

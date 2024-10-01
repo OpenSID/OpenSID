@@ -48,5 +48,6 @@ class Lembaga_master extends Kelompok_master
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
     }
 }

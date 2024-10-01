@@ -47,6 +47,7 @@ class Point extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         $this->load->model('plan_point_model');
     }
 
@@ -115,7 +116,7 @@ class Point extends Admin_Controller
 
     public function form($id = '', $subpoint = 0)
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $data['point']       = ModelsPoint::findOrFail($id);
@@ -159,7 +160,7 @@ class Point extends Admin_Controller
 
     public function insert($subpoint = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data  = $this->input->post();
         $url   = $subpoint ? "point/sub_point/{$subpoint}" : null;
         $label = $subpoint ? 'Kategori' : 'Tipe';
@@ -185,7 +186,7 @@ class Point extends Admin_Controller
 
     public function update($id = '', $subpoint = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data  = $this->input->post();
         $url   = $subpoint ? "point/sub_point/{$subpoint}" : null;
         $label = $subpoint ? 'Kategori' : 'Tipe';
@@ -201,7 +202,7 @@ class Point extends Admin_Controller
 
     public function delete($id = '', $subpoint = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $subpoint = $subpoint ? "point/sub_point/{$subpoint}" : null;
         if (ModelsPoint::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data', $subpoint);
@@ -212,7 +213,7 @@ class Point extends Admin_Controller
 
     public function lock($id = 0, $val = 1, $subpoint = 0): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $subpoint = $subpoint ? "point/sub_point/{$subpoint}" : null;
         if (ModelsPoint::findOrFail($id)->update(['enabled' => $val])) {
             redirect_with('success', 'Berhasil Ubah Status', $subpoint);

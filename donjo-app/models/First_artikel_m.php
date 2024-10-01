@@ -294,7 +294,6 @@ class First_artikel_m extends MY_Model
                     ->where('enabled', 1)
                     ->where('gambar !=', '')
                     ->where('tgl_upload <', date('Y-m-d H:i:s'))
-                    ->where('slider', 1)
                     ->order_by('tgl_upload DESC')
                     ->limit($limit)
                     ->get('artikel')
@@ -321,7 +320,7 @@ class First_artikel_m extends MY_Model
         }
 
         $slider_gambar['sumber'] = $sumber;
-        $slider_gambar['gambar'] = array_slice($slider_gambar['gambar'], 0, $limit);
+        $slider_gambar['gambar'] = array_slice($slider_gambar['gambar'] ?? [], 0, $limit);
 
         return $slider_gambar;
     }

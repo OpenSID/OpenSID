@@ -54,6 +54,7 @@ class Pengurus extends Admin_Controller
 {
     public $modul_ini           = 'buku-administrasi-desa';
     public $sub_modul_ini       = 'administrasi-umum';
+    public $akses_modul         = 'pemerintah-desa';
     public $kategori_pengaturan = 'Pemerintah Desa';
 
     public function __construct()
@@ -79,8 +80,9 @@ class Pengurus extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $status = $this->input->get('status') ?? null;
 
-            return datatables()->of(Pamong::urut()->when($status, static fn($q) => $q->where('pamong_status', $status)))
-                ->addColumn('ceklist', static fn($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
+            return datatables()->of(Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status)))
+                ->addColumn('drag-handle', static fn (): string => '<i class="fa fa-sort-alpha-desc"></i>')
+                ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->pamong_id . '"/>')
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
@@ -118,19 +120,20 @@ class Pengurus extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('foto', static fn($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto(($row->foto == null ? $row->penduduk->foto : $row->foto), '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
-                ->editColumn('identitas', static fn($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
-                ->editColumn('ttl', static fn($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
-                ->editColumn('sex', static fn($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
-                ->editColumn('agama', static fn($row) => AgamaEnum::valueOf($row->pamong_agama ?? $row->penduduk->agama_id))
-                ->editColumn('pendidikan_kk', static fn($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
-                ->editColumn('pamong_tglsk', static fn($row) => tgl_indo($row->pamong_tglsk))
-                ->editColumn('pamong_tglhenti', static fn($row) => tgl_indo($row->pamong_tglhenti))
+                // foto ambil dari staff_photo
+                ->editColumn('foto', static fn ($row): string => '<img class="penduduk_kecil" src="' . AmbilFoto($row->foto_staff, '', ($row->pamong_sex ?? $row->penduduk->sex)) . '" class="img-circle" alt="Foto Penduduk"/>')
+                ->editColumn('identitas', static fn ($row): string => $row->pamong_nama . '<p class="text-blue">NIP: ' . $row->pamong_nip . '<br> NIK: ' . ($row->pamong_nik ?? $row->penduduk->nik) . '<br> Tag ID Card: ' . ($row->pamong_tag_id_card ?? $row->penduduk->tag_id_card) . '</p>')
+                ->editColumn('ttl', static fn ($row): string => ($row->pamong_tempatlahir ?? $row->penduduk->tempatlahir) . ', ' . tgl_indo($row->pamong_tanggallahir ?? $row->penduduk->tanggallahir))
+                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->pamong_sex ?? $row->penduduk->sex))
+                ->editColumn('agama', static fn ($row) => AgamaEnum::valueOf($row->pamong_agama ?? $row->penduduk->agama_id))
+                ->editColumn('pendidikan_kk', static fn ($row) => PendidikanKKEnum::valueOf($row->pamong_pendidikan ?? $row->penduduk->pendidikan_kk_id))
+                ->editColumn('pamong_tglsk', static fn ($row) => tgl_indo($row->pamong_tglsk))
+                ->editColumn('pamong_tglhenti', static fn ($row) => tgl_indo($row->pamong_tglhenti))
                 ->filterColumn('identitas', static function ($query, $keyword): void {
                     $query->whereRaw('pamong_nama like ?', ["%{$keyword}%"])
-                        ->orwhereHas('penduduk', static fn($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
+                        ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
                 })
-                ->rawColumns(['ceklist', 'aksi', 'foto', 'identitas'])
+                ->rawColumns(['drag-handle', 'ceklist', 'aksi', 'foto', 'identitas'])
                 ->make();
         }
 
@@ -177,7 +180,7 @@ class Pengurus extends Admin_Controller
         $data['individu']      = empty($id_pend) ? null : Penduduk::findOrFail($id_pend)->toArray();
         $settings              = SettingAplikasi::where('key', 'media_sosial_pemerintah_desa')->first();
         $data['media_sosial']  = collect($settings->option)
-            ->filter(static fn($item) => in_array($item['id'], json_decode($settings->value)))
+            ->filter(static fn ($item): bool => in_array($item['id'], json_decode($settings->value)))
             ->toArray();
 
         return view('admin.pengurus.form', $data);
@@ -187,7 +190,7 @@ class Pengurus extends Admin_Controller
     {
         isCan('u');
         $this->set_validasi();
-        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]]');
+        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]');
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
@@ -337,18 +340,10 @@ class Pengurus extends Admin_Controller
     protected function foto($post)
     {
         $dimensi = $post['lebar'] . 'x' . $post['tinggi'];
-        if ($post['id_pend']) {
-            // Penduduk Dalam Desa
-            $foto = time() . '-' . $post['id_pend'] . '-' . random_int(10000, 999999);
-            if ($foto = upload_foto_penduduk($foto, $dimensi)) {
-                Penduduk::where('id', $post['id_pend'])->update(['foto' => $foto]);
-            }
-        } else {
-            // Penduduk Luar Desa
-            $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
-            if ($foto = upload_foto_penduduk($foto, $dimensi)) {
-                Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
-            }
+        // Penduduk Luar Desa
+        $foto = 'pamong_' . time() . '-' . $post['id'] . '-' . random_int(10000, 999999);
+        if ($foto = upload_foto_penduduk($foto, $dimensi)) {
+            Pamong::where('pamong_id', $post['id'])->update(['foto' => $foto]);
         }
     }
 
@@ -452,7 +447,6 @@ class Pengurus extends Admin_Controller
         foreach ($atasan as $pamong) {
             $data['bagan']['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
-
         $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
 
         view('admin.pengurus.bagan', $data);
@@ -487,20 +481,13 @@ class Pengurus extends Admin_Controller
         redirect_with('success', 'Data Berhasil Simpan');
     }
 
-    public function atur_bagan_layout(): void
-    {
-        isCan('u');
-        $data['kategori_pengaturan'] = 'conf_bagan';
-        view('admin.layouts.components.modal_pengaturan', $data);
-    }
-
     // Jabatan
     public function jabatan()
     {
         if ($this->input->is_ajax_request()) {
             return datatables()->of(RefJabatan::query()->urut()->latest())
                 ->addColumn('ceklist', static function ($row) {
-                    if (!can('h')) {
+                    if (! can('h')) {
                         return;
                     }
                     if (in_array($row->id, RefJabatan::getKadesSekdes())) {
@@ -534,11 +521,11 @@ class Pengurus extends Admin_Controller
 
     public function jabatanform($id = '')
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = ci_route('pengurus.jabatanupdate', $id);
+            $form_action = route('buku-umum.pengurus.jabatanUpdate', $id);
             $jabatan     = RefJabatan::find($id) ?? show_404();
         } else {
             $action      = 'Tambah';
@@ -553,7 +540,7 @@ class Pengurus extends Admin_Controller
 
     public function jabataninsert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         if (RefJabatan::create(static::jabatanValidate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data', 'pengurus/jabatan');
@@ -563,7 +550,7 @@ class Pengurus extends Admin_Controller
 
     public function jabatanUpdate($id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
 
         $data = RefJabatan::find($id) ?? show_404();
 
@@ -575,7 +562,7 @@ class Pengurus extends Admin_Controller
 
     public function jabatandelete($id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
 
         $data = RefJabatan::find($id) ?? show_404();
         if (in_array($data->id, RefJabatan::getKadesSekdes())) {
@@ -613,7 +600,7 @@ class Pengurus extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn($item): array => [
+                    ->map(static fn ($item): array => [
                         'id'   => $item->id,
                         'text' => "NIK : {$item->nik} - {$item->nama} - {$item->wilayah->dusun}",
                     ]),

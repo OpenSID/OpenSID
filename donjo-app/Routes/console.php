@@ -41,4 +41,9 @@ Route::group('job', static function (): void {
     Route::cli('/restore_desa/{id}', 'Job@restore_desa');
 });
 
+Route::group('modul', static function (): void {
+    Route::cli('pasang/{namaModule}', 'Install_modul@pasang');
+    Route::cli('hapus/{namaModule}', 'Install_modul@hapus');
+});
+
 Route::cli('artisan/{any1?}/{any2?}/{any3?}/{any4?}/{any5?}/{any6?}/{any7?}/{any8?}/{any9?}/{any10?}', 'Artisan@index');

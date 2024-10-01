@@ -3,93 +3,102 @@
 @include('admin.layouts.components.asset_datatables')
 @include('admin.layouts.components.jquery_ui')
 @section('title')
-<h1>
-    Wilayah Administratif {{ $wilayah }}
-</h1>
+    <h1>
+        Wilayah Administratif {{ $wilayah }}
+    </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Wilayah Administratif {{ $wilayah }}</li>
+    <li class="active">Wilayah Administratif {{ $wilayah }}</li>
 @endsection
 
 @section('content')
-@include('admin.layouts.components.notifikasi')
-<div class="box box-info">
-    <div class="box-header with-border">
-        @if (can('u'))
-        <a href="{{ ci_route('wilayah.form_' . $level, $parent) }}" id="btn-add"
-            class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                class="fa fa-plus"></i> Tambah</a>
-        @endif
-        @if ($level == 'dusun')
-        <a href="{{ ci_route('wilayah.dialog.cetak') }}"
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox"
-            data-title="Cetak Data"><i class="fa fa-print "></i> Cetak</a>
-        <a href="{{ ci_route('wilayah.dialog.unduh') }}" title="Unduh Data"
-            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox"
-            data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
-        @else
-        <a href='{{ ci_route(' wilayah.cetak_' . $level, $parent) }}'
-            class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-        <a href='{{ ci_route(' wilayah.unduh_' . $level, $parent) }}' title="Unduh Data"
-            class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-            title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
-        @endif
+    @include('admin.layouts.components.notifikasi')
+    <div class="box box-info">
+        <div class="box-header with-border">
+            @if (can('u'))
+                <a href="{{ ci_route('wilayah.form_' . $level, $parent) }}" id="btn-add" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+            @endif
+            @if ($level == 'dusun')
+                <a
+                    href="{{ ci_route('wilayah.dialog.cetak') }}"
+                    class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                    title="Cetak Data"
+                    data-remote="false"
+                    data-toggle="modal"
+                    data-target="#modalBox"
+                    data-title="Cetak Data"
+                ><i class="fa fa-print "></i> Cetak</a>
+                <a
+                    href="{{ ci_route('wilayah.dialog.unduh') }}"
+                    title="Unduh Data"
+                    class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                    title="Unduh Data"
+                    data-remote="false"
+                    data-toggle="modal"
+                    data-target="#modalBox"
+                    data-title="Unduh Data"
+                ><i class="fa fa-download"></i> Unduh</a>
+            @else
+                <a href='{{ ci_route('wilayah.cetak_' . $level, $parent) }}' class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+                <a href='{{ ci_route('wilayah.unduh_' . $level, $parent) }}' title="Unduh Data" class="btn btn-social bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+            @endif
 
-        @if ($parent)
-        <a href="{{ $backUrl }}"
-            class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-            <i class="fa fa-arrow-circle-left "></i>Kembali ke Wilayah Administratif {{ $level == 'rt' ? 'RW' : 'Dusun'
-            }}
-        </a>
-        @endif
-    </div>
-    <div class="box-header"><strong>{{ $title }}</strong></div>
-    <div class="box-body">
-        {!! form_open(null, 'id="mainform" name="mainform"') !!}
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="tabeldata">
-                <thead>
-                    <tr>
-                        <th class="padat">No</th>
-                        <th class="padat">Aksi</th>
-                        <th>{{ $wilayah }}</th>
-                        <th>{{ $jabatan }} {{ $wilayah }}</th>
-                        <th>NIK {{ $jabatan }} {{ $wilayah }}</th>
-                        <th style="width:5%">RW</th>
-                        <th style="width:5%">RT</th>
-                        <th style="width:5%">KK</th>
-                        <th style="width:5%">L+P</th>
-                        <th style="width:5%">L</th>
-                        <th style="width:5%">P</th>
-                    </tr>
-                </thead>
-                <tbody id="dragable">
-                </tbody>
-                <tfoot>
-                    <th colspan="5">Total</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tfoot>
-            </table>
+            @if ($parent)
+                <a href="{{ $backUrl }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <i class="fa fa-arrow-circle-left "></i>Kembali ke Wilayah Administratif {{ $level == 'rt' ? 'RW' : 'Dusun' }}
+                </a>
+            @endif
         </div>
-        </form>
+        @if ($title)
+            <div class="box-header">
+                <strong>{{ $title }}</strong>
+            </div>
+        @endif
+        <div class="box-body">
+            {!! form_open(null, 'id="mainform" name="mainform"') !!}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="tabeldata">
+                    <thead>
+                        <tr>
+                            <th class="padat">#</th>
+                            <th class="padat">No</th>
+                            <th class="padat">Aksi</th>
+                            <th>{{ $wilayah }}</th>
+                            <th>{{ $jabatan }} {{ $wilayah }}</th>
+                            <th>NIK {{ $jabatan }} {{ $wilayah }}</th>
+                            <th style="width:5%">RW</th>
+                            <th style="width:5%">RT</th>
+                            <th style="width:5%">KK</th>
+                            <th style="width:5%">L+P</th>
+                            <th style="width:5%">L</th>
+                            <th style="width:5%">P</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dragable">
+                    </tbody>
+                    <tfoot>
+                        <th colspan="5">Total</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tfoot>
+                </table>
+            </div>
+            </form>
+        </div>
     </div>
-</div>
 
-@include('admin.layouts.components.konfirmasi_hapus')
+    @include('admin.layouts.components.konfirmasi_hapus')
 @endsection
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
                 processing: true,
@@ -99,6 +108,12 @@
                     data: function(req) {}
                 },
                 columns: [{
+                        data: 'drag-handle',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
                         data: 'DT_RowIndex',
                         class: 'padat',
                         searchable: false,
@@ -202,14 +217,14 @@
             });
 
             if (hapus == 0) {
-                TableData.column(0).visible(false);
+                TableData.column(1).visible(false);
             }
 
             if (ubah == 0) {
-                TableData.column(2).visible(false);
+                TableData.column(3).visible(false);
             }
             // harus diletakkan didalam blok ini, jika tidak maka object TableData tidak dikenal
             @include('admin.layouts.components.draggable', ['urlDraggable' => ci_route('wilayah.tukar')])
         });
-</script>
+    </script>
 @endpush

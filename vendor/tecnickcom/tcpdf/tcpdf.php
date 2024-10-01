@@ -1,7 +1,7 @@
 <?php
 //============================================================+
 // File name   : tcpdf.php
-// Version     : 6.7.5
+// Version     : 6.7.4
 // Begin       : 2002-08-03
 // Last Update : 2024-03-18
 // Author      : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
@@ -128,7 +128,7 @@ require_once(dirname(__FILE__).'/include/tcpdf_static.php');
  * TCPDF project (http://www.tcpdf.org) has been originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org), but now is almost entirely rewritten.<br>
  * @package com.tecnick.tcpdf
  * @brief PHP class for generating PDF documents without requiring external extensions.
- * @version 6.7.5
+ * @version 6.7.4
  * @author Nicola Asuni - info@tecnick.com
  * @IgnoreAnnotation("protected")
  * @IgnoreAnnotation("public")
@@ -841,7 +841,7 @@ class TCPDF {
 	/**
 	 * Internal secret used to encrypt data.
 	 * @protected
-	 * @since 6.7.5 (2024-03-21)
+	 * @since 6.7.4 (2024-03-21)
 	 */
 	protected $hash_key;
 
@@ -3620,7 +3620,7 @@ class TCPDF {
 			$this->setXY($this->original_lMargin, $this->header_margin);
 		}
 		$this->setFont($this->header_font[0], $this->header_font[1], $this->header_font[2]);
-		$this->header();
+		$this->Header();
 		//restore position
 		if ($this->rtl) {
 			$this->setXY($this->original_rMargin, $this->tMargin);

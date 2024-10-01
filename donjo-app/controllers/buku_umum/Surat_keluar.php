@@ -45,6 +45,7 @@ class Surat_keluar extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        isCan('b');
         // Untuk bisa menggunakan helper force_download()
         $this->load->helper('download');
         $this->load->model(['surat_keluar_model', 'klasifikasi_model', 'pamong_model', 'penomoran_surat_model']);
@@ -86,7 +87,7 @@ class Surat_keluar extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $data['tujuan']      = $this->surat_keluar_model->autocomplete();
         $data['klasifikasi'] = $this->klasifikasi_model->list_kode();
         $data['p']           = $p;
@@ -141,35 +142,35 @@ class Surat_keluar extends Admin_Controller
 
     public function insert(): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->surat_keluar_model->insert();
         redirect('surat_keluar');
     }
 
     public function update($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->surat_keluar_model->update($id);
         redirect("surat_keluar/index/{$p}/{$o}");
     }
 
     public function upload($p = 1, $o = 0, $url = ''): void
     {
-        $this->redirect_hak_akses('u');
+        isCan('u');
         $this->surat_keluar_model->upload($url);
         redirect("surat_keluar/index/{$p}/{$o}");
     }
 
     public function delete($p = 1, $o = 0, $id = ''): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->surat_keluar_model->delete($id);
         redirect("surat_keluar/index/{$p}/{$o}");
     }
 
     public function delete_all($p = 1, $o = 0): void
     {
-        $this->redirect_hak_akses('h');
+        isCan('h');
         $this->surat_keluar_model->delete_all();
         redirect("surat_keluar/index/{$p}/{$o}");
     }
@@ -233,9 +234,9 @@ class Surat_keluar extends Admin_Controller
         echo $hasil ? 'false' : 'true';
     }
 
-    public function untuk_ekspedisi($p, $o, $id): void
+    public function untuk_ekspedisi($id): void
     {
         $this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 1);
-        redirect("ekspedisi/index/{$p}/{$o}");
+        redirect('ekspedisi');
     }
 }

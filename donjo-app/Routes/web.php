@@ -102,6 +102,20 @@ Route::group('/dokumen_web', static function (): void {
     Route::get('/unduh_berkas/{id_dokumen}', 'Dokumen_web@unduh_berkas');
 });
 
+Route::group('/statistik_web', static function (): void {
+    Route::get('/load_chart_gis/{lap?}', 'Statistik_web@load_chart_gis');
+    Route::get('/get_data_stat/{data?}/{lap?}', 'Statistik_web@get_data_stat');
+    Route::get('/dusun/{tipe?}/{lap?}', 'Statistik_web@dusun');
+    Route::get('/rw/{tipe?}/{lap?}', 'Statistik_web@rw');
+    Route::get('/rt/{tipe?}/{lap?}', 'Statistik_web@rt');
+    Route::get('/chart_gis_desa/{lap?}/{desa?}', 'Statistik_web@chart_gis_desa');
+    Route::get('/chart_gis_dusun/{tipe?}/{lap?}', 'Statistik_web@chart_gis_dusun');
+    Route::get('/chart_gis_rw/{tipe?}/{lap?}', 'Statistik_web@chart_gis_rw');
+    Route::get('/chart_gis_rt/{tipe?}/{lap?}', 'Statistik_web@chart_gis_rt');
+    Route::get('/chart_gis_kadus/{id_kepala?}', 'Statistik_web@chart_gis_kadus');
+    Route::get('/load_kadus/{tipe?}/{lap?}', 'Statistik_web@load_kadus');
+});
+
 // Tampil assets
 Route::get('/tampil/{slug?}', 'Dokumen_web@tampil');
 Route::get('/unduh/{slug?}', 'Dokumen_web@unduh');
@@ -127,7 +141,8 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::group('galeri', static function (): void {
         Route::get('/{parent?}/index/{p?}', 'Galeri@detail')->name('fweb.galeri.detail');
         // Route::get('/{parent?}/index', 'Galeri@detail')->name('fweb.galeri.detail');
-        Route::get('/index/{p?}', 'Galeri@index')->name('fweb.galeri.index');
+        Route::get('/index/{p?}', 'Galeri@index')->name('fweb.galeri.index-page');
+        Route::get('/', 'Galeri@index')->name('fweb.galeri.index');
     });
 
     Route::get('/status-idm/{tahun?}', 'Idm@index')->name('fweb.idm.index');

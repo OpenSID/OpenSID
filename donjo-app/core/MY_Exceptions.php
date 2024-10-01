@@ -77,7 +77,7 @@ class MY_Exceptions extends CI_Exceptions
             ];
             $this->ci->session->heading           = 'Error ditemukan pada isi data';
             $this->ci->session->message_query     = '<p>Error ditemukan di file' . $filepath . 'pada baris ' . $line . '</p>';
-            $this->ci->session->message_exception = strip_tags((new Exception())->getTraceAsString());
+            $this->ci->session->message_exception = strip_tags((new \Exception())->getTraceAsString());
 
             redirect('periksa');
         }
@@ -104,7 +104,7 @@ class MY_Exceptions extends CI_Exceptions
             $this->ci->session->message           = '<p>' . (is_array($error) ? implode('</p><p>', $error) : $error) . '</p>';
             $this->ci->session->heading           = $heading;
             $this->ci->session->message_query     = '<p>' . (is_array($message) ? implode('</p><p>', $message) : $message) . '</p>';
-            $this->ci->session->message_exception = strip_tags((new Exception())->getTraceAsString());
+            $this->ci->session->message_exception = strip_tags((new \Exception())->getTraceAsString());
             /*
             | 1049 adalah kode koneksi database gagal. Dalam hal ini tampilkan halaman khusus
             | menjelaskan langkah yang dapat dilakukan untuk mengatasi.

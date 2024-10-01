@@ -43,7 +43,7 @@
       <?php foreach($baris as $baris_program) : ?>
       <tr>
         <td>
-          <?php $width = 100/count($baris_program)-count($baris_program)?>
+          <?php $width = 100/count($baris_program ?? [])-count($baris_program ?? [])?>
           <?php foreach($baris_program as $key => $program) : ?>
           <span style="display: inline-block; width: <?= $width.'%'?>">
             <a href="<?= $program['tautan'] ?>" target="_blank"><img

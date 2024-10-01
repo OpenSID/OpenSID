@@ -1,94 +1,58 @@
-Di rilis ini, versi 2409.0.0 berisi penambahan pengaturan format penomoran surat pada masing-masing surat dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2410.0.0 berisi kode isian dan beberepa lampiran serta perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada @arifpriadi telah ikut berkontribusi.
+#### FITUR
 
-### FITUR
-1. [#3319](https://github.com/OpenSID/premium/issues/3319) Penambahan manajemen modul plugin.
-2. [#4051](https://github.com/OpenSID/OpenSID/issues/4051) Penambahan statistik kepemilikan KIA.
-3. [#5218](https://github.com/OpenSID/OpenSID/issues/5218) Penambahan detail penerima bantuan pada statistik program bantuan.
-4. [#5509](https://github.com/OpenSID/OpenSID/issues/5509) Penambahan informasi terakhir diperbarui pada statistik penduduk.
-5. [#1757](https://github.com/OpenSID/OpenSID/issues/1757) Penambahan pengaturan artikel statis yang ditampilkan ke halaman web.
-6. [#3830](https://github.com/OpenSID/OpenSID/issues/3830) Penambahan data lag dan lng pada impor data penduduk.
-7. [#2623](https://github.com/OpenSID/OpenSID/issues/2623) Penambahan pengaturan posisi konten artikel.
-8. [#2603](https://github.com/OpenSID/OpenSID/issues/2603) Penambahan media sosial pengurus / pemerintah desa.
-9. [#2612](https://github.com/OpenSID/OpenSID/issues/2612) Penambahan statistik kepemilikan akta kematian.
-10. [#7432](https://github.com/OpenSID/OpenSID/issues/7432) Penambahan tingkatan pada menu statis dan dinamis.
-11. [#7637](https://github.com/OpenSID/OpenSID/issues/7637) Penambahan pengaturan format penomoran surat pada masing-masing surat.
+1. [#7689](https://github.com/OpenSID/OpenSID/issues/7689) Penambahan kode isian data penduduk pada tinymce.
+2. [#7635](https://github.com/OpenSID/OpenSID/issues/7635) Penambahan kaitkan kategori isian dengan kondisi pilihan referensi kode isian.
+3. [#7710](https://github.com/OpenSID/OpenSID/issues/7710) Penambahan pilihan lampiran yang akan dicetak pada pengisian cetak surat.
+4. [#7284](https://github.com/OpenSID/OpenSID/issues/7284) Penambahan kelengkapan data lampiran F-2.01 saat cetak.
+5. [#7043](https://github.com/OpenSID/OpenSID/issues/7043) Penambahan lampiran F-2.30.
+6. [#6116](https://github.com/OpenSID/OpenSID/issues/6116) Penerapan Kode/ klasifikasi Surat/arsip Sesuai Peraturan Menteri Dalam Negeri Nomor 83 Tahun 2022.
+6. [#7712](https://github.com/OpenSID/OpenSID/issues/7712) Penambahan otomatis isi data dari pengaturan hubungkan data antar form kategori surat.
 
 
 #### BUG
 
-1. [#7543](https://github.com/OpenSID/OpenSID/issues/7543) Perbaikan strict php 8.x pada halaman tambah surat.
-2. [#7550](https://github.com/OpenSID/OpenSID/issues/7550) Perbaikan tampilan offline mode.
-3. [#7556](https://github.com/OpenSID/OpenSID/issues/7556) Perbaikan cetak surat dengan lampiran F-2.01.
-4. [#7557](https://github.com/OpenSID/OpenSID/issues/7557) Perbaikan redirect setelah hapus surat.
-5. [#7555](https://github.com/OpenSID/OpenSID/issues/7555) Perbaikan daftar artikel yang tampil pada menu dan menu anjungan.
-6. [#7564](https://github.com/OpenSID/OpenSID/issues/7564) Perbaikan cetang semua pada pilihan data keluarga saat cetak surat TinyMCE.
-7. [#7565](https://github.com/OpenSID/OpenSID/issues/7565) Perbaikan cetak lampiran F-1.08.
-8. [#7558](https://github.com/OpenSID/OpenSID/issues/7558) Perbaikan surat yang dikaitkan pada modul log penduduk.
-9. [#7560](https://github.com/OpenSID/OpenSID/issues/7560) Perbaikan impor hari libur pada php 8.x.
-10. [#7563](https://github.com/OpenSID/OpenSID/issues/7563) Perbaikan menampilkan icon ajungan jika null pada php 8.x.
-11. [#7561](https://github.com/OpenSID/OpenSID/issues/7561) Perbaikan lokasi data lampiran surat.
-12. [#7530](https://github.com/OpenSID/OpenSID/issues/7530) Perbaikan validasi ubah data anggota kelompok/lembaga.
-13. [#7568](https://github.com/OpenSID/OpenSID/issues/7568) Perbaikan hapus data arsip surat beserta file-filenya.
-14. [#7572](https://github.com/OpenSID/OpenSID/issues/7572) Perbaikan penggunaan session notifikasi.
-15. [#7589](https://github.com/OpenSID/OpenSID/issues/7589) Perbaikan tambah keluarga.
-16. [#7566](https://github.com/OpenSID/OpenSID/issues/7566) Perbaikan cetak surat tinymce pada php 8.x.
-17. [#7581](https://github.com/OpenSID/OpenSID/issues/7581) Perbaikan relasi kolom id_lokasi pada tabel pembangunan.
-18. [#7585](https://github.com/OpenSID/OpenSID/issues/7585) Perbaikan menu suplemen jika tidak ditemukan.
-19. [#7602](https://github.com/OpenSID/OpenSID/issues/7602) Perbaikan data slug suplemen.
-20. [#7583](https://github.com/OpenSID/OpenSID/issues/7583) Perbaikan hak akses RFM pada modul QRCode.
-21. [#7606](https://github.com/OpenSID/OpenSID/issues/7606) Perbaikan saring data tahun pada modul Buku Administrasi Pembangunan.
-22. [#3391](https://github.com/OpenSID/premium/issues/3391) Perbaikan backup dan restore database.
-23. [#7610](https://github.com/OpenSID/OpenSID/issues/7610) Perbaikan Division by zero pada Modul Lapak.
-24. [#7619](https://github.com/OpenSID/OpenSID/issues/7619) Perbaikan hasil unggah file di RFM tanpa adanya spasi.
-25. [#7611](https://github.com/OpenSID/OpenSID/issues/7611) Perbaikan data penduduk luar saat cetak surat.
-26. [#7633](https://github.com/OpenSID/OpenSID/issues/7633) Perbaikan tambah penduduk.
-27. [#3425](https://github.com/OpenSID/premium/issues/3425) Perbaikan strict grup_by modul syarat surat.
-28. [#7628](https://github.com/OpenSID/OpenSID/issues/7628) Perbaikan perbuhan data terkait a.n dan u.b pada pengurus.
-29. [#7638](https://github.com/OpenSID/OpenSID/issues/7638) Perbaikan ubah data suplemen.
-30. [#7642](https://github.com/OpenSID/OpenSID/issues/7642) Perbaikan aksi lihat dokumen tipe url pada halaman informasi publik.
-31. [#7629](https://github.com/OpenSID/OpenSID/issues/7629) Perbaikan sebutan desa pada judul dan keterangan pengaturan aplikasi.
-32. [#7647](https://github.com/OpenSID/OpenSID/issues/7647) Perbaikan tombol grafik dan bar pada statistik program bantuan web.
-33. [#7646](https://github.com/OpenSID/OpenSID/issues/7646) Perbaikan tambah / ubah program bantuan.
-34. [#7651](https://github.com/OpenSID/OpenSID/issues/7651) Perbaikan hapus data buku agenda - surat keluar.
-35. [#7650](https://github.com/OpenSID/OpenSID/issues/7650) Perbaikan simpan data sensus / survei pada modul analisis.
-36. [#7658](https://github.com/OpenSID/OpenSID/issues/7658) Perbaikan pencarian suplemen terdata.
-37. [#7661](https://github.com/OpenSID/OpenSID/issues/7661) Perbaikan unduh format impor data program bantuan.
-38. [#3451](https://github.com/OpenSID/premium/issues/3451) Perbaikan strict helper ikut_case().
-39. [#7665](https://github.com/OpenSID/OpenSID/issues/7665) Perbaikan cetak surat dengan kode isian wilayah > 27 dusun.
-40. [#7666](https://github.com/OpenSID/OpenSID/issues/7666) Perbaikan cetak surat dengan font bawaan.
-41. [#7636](https://github.com/OpenSID/OpenSID/issues/7636) Perbaikan plugin tabel tinymce untuk border 0.
+1. [#7679](https://github.com/OpenSID/OpenSID/issues/7679) Perbaikan validasi luas tanah pada tambah data persil modul pertanahan.
+2. [#7694](https://github.com/OpenSID/OpenSID/issues/7694) Perbaikan router tidak ditemukan.
+3. [#7690](https://github.com/OpenSID/OpenSID/issues/7690) Perbaikan menampilkan daftar menu bertingkat.
+4. [#7634](https://github.com/OpenSID/OpenSID/issues/7634) Perbaikan penanda tangan pada lampiran surat keterangan nikah.
+5. [#7695](https://github.com/OpenSID/OpenSID/issues/7695) Perbaikan data keluarga yang ditampilkan pada surat keterangan pindah.
+6. [#7692](https://github.com/OpenSID/OpenSID/issues/7692) Perbaikan data lampiran f-1.08.
+7. [#7686](https://github.com/OpenSID/OpenSID/issues/7686) Perbaikan data awal modul widget.
+8. [#7688](https://github.com/OpenSID/OpenSID/issues/7688) Perbaikan akses hapus kategori pada artikel statis.
+9. [#7698](https://github.com/OpenSID/OpenSID/issues/7698) Perbaikan menampilkan bagan pengurus / pemerintah desa.
+10. [#7685](https://github.com/OpenSID/OpenSID/issues/7685) Perbaikan besar kecil huruf pada gelar nama camat data kode isian surat.
+11. [#7701](https://github.com/OpenSID/OpenSID/issues/7701) Perbaikan hak akses beberapa modul pada view.
+12. [#7714](https://github.com/OpenSID/OpenSID/issues/7714) Perbaikan url/navigasi submodul kategori lembaga/kelompok.
+13. [#7709](https://github.com/OpenSID/OpenSID/issues/7709) Perbaikan data kode isian nama desa yang menggunakan romawi.
+14. [#7702](https://github.com/OpenSID/OpenSID/issues/7702) Perbaikan menampilkan foto pada modul pengurus.
+15. [#7716](https://github.com/OpenSID/OpenSID/issues/7716) Perbaikan pratinjau surat dengan status konsep.
+16. [#7719](https://github.com/OpenSID/OpenSID/issues/7719) Perbaikan pengecekan perangkat kehadiran yang terdaftar.
+17. [#7664](https://github.com/OpenSID/OpenSID/issues/7664) Perbaikan fungsi dragable pada versi mobile.
+18. [#7728](https://github.com/OpenSID/OpenSID/issues/7728) Perbaikan ejaan provinsi pada lampiran surat.
+19. [#7727](https://github.com/OpenSID/OpenSID/issues/7727) Perbaikan menampilkan detail data surat perorangan dari modul arsip desa.
+20. [#7720](https://github.com/OpenSID/OpenSID/issues/7720) Perbaikan verifikasi google captha jika tidak valid.
+21. [#7730](https://github.com/OpenSID/OpenSID/issues/7730) Perbaikan menampilkan data galeri pada halaman web.
+22. [#7722](https://github.com/OpenSID/OpenSID/issues/7722) Perbaikan strict count array php 8.x pada lampiran dengan data pengikut tidak ada.
+22. [#7735](https://github.com/OpenSID/OpenSID/issues/7735) Perbaikan pencarian kumpulan KK pada modul keluarga.
+23. [#7740](https://github.com/OpenSID/OpenSID/issues/7740) Perbaikan impor data program bantuan.
 
 
 #### TEKNIS
 
-1. [#7545](https://github.com/OpenSID/OpenSID/issues/7545) Penerapan komponen illuminate.
-2. [#3304](https://github.com/OpenSID/OpenSID/issues/3304) Penerapan route menggunakan library opensid/router.
-3. [#7510](https://github.com/OpenSID/OpenSID/issues/7510) Penyesuaian fungsi pengurutan mengunakan dragable pada tabel.
-4. [#6724](https://github.com/OpenSID/OpenSID/issues/6724) Penyesuaian modul kelompok/lembaga menggunakan ORM dan View Blade Laravel.
-5. [#3371](https://github.com/OpenSID/premium/issues/3371) Penerapan library hasing menggunakan illuminate/hashing.
-6. [#3372](https://github.com/OpenSID/premium/issues/3372) Penerapan library parsedown menggunakan erusev/parsedown.
-7. [#7548](https://github.com/OpenSID/OpenSID/issues/7548) Penyesuaian modul menu dan kategori menggunakan ORM dan View Blade Laravel.
-8. [#3915](https://github.com/OpenSID/OpenSID/issues/3915) Penyesuaian penduduk/log_penduduk pindahkan ke modul catatan peristiwa.
-9. [#7519](https://github.com/OpenSID/OpenSID/issues/7519) Penyesuaian modul komentar menggunakan ORM dan View Blade Laravel.
-10. [#3380](https://github.com/OpenSID/premium/issues/3380) Penerapan artisan dan queue  laravel.
-11. [#7573](https://github.com/OpenSID/OpenSID/issues/7573) Penyesuaian modul galeri menggunakan ORM dan View Blade Laravel.
-12. [#7574](https://github.com/OpenSID/OpenSID/issues/7574) Penyesuaian modul identitas desa menggunakan ORM dan View Blade Laravel.
-13. [#3381](https://github.com/OpenSID/premium/issues/3381) Penerapan library request menggunakan illuminate/http  laravel.
-15. [#3377](https://github.com/OpenSID/premium/issues/3377) Penerapan library datatables menggunakan yajra/laravel-datatables-oracle.
-16. [#7447](https://github.com/OpenSID/OpenSID/issues/7447) Penyesuaian modul anggota kelompok/lembaga desa menggunakan ORM dan View Blade Laravel.
-17. [#7521](https://github.com/OpenSID/OpenSID/issues/7521) Penyesuaian modul buku keputusan kepala desa menggunakan ORM dan View Blade Laravel.
-18. [#7520](https://github.com/OpenSID/OpenSID/issues/7520) Penyesuaian modul buku peraturan di desa menggunakan ORM dan View Blade Laravel.
-19. [#6723](https://github.com/OpenSID/OpenSID/issues/6723) Penyesuaian modul buku pemerintah desa menggunakan ORM dan View Blade Laravel.
-20. [#3383](https://github.com/OpenSID/premium/issues/3383) Penyesuaian modul pesan mandiri menggunakan ORM dan View Blade Laravel.
-21. [#7587](https://github.com/OpenSID/OpenSID/issues/7587) Penyesuaian modul pembangunan menggunakan ORM dan View Blade Laravel.
-22. [#7655](https://github.com/OpenSID/OpenSID/issues/7655) Penyesuaian modul anjungan > menu menggunakan dragable.
+1. [#7588](https://github.com/OpenSID/OpenSID/issues/7588) Penyesuaian modul Administrasi Pembangunan (Buku Rencana kerja Pembangunan, Buku Kegiatan Pembangunan dan Buku Inventaris hasil-Hasil Pembangunan) menggunakan ORM dan Blade Laravel.
+2. [#7713](https://github.com/OpenSID/OpenSID/issues/7713) Penyesuaian pengaturan ukuran bagan serangam dengan yang lain, berada di pojok kanan atas.
+3. [#7683](https://github.com/OpenSID/OpenSID/issues/7683) Penyesuaian modul Info Sistem menggunakan ORM dan Blade Laravel.
+4. [#7684](https://github.com/OpenSID/OpenSID/issues/7684) Penyesuaian modul Buku Ekspedisi menggunakan ORM dan Blade Laravel.
+5. [#7706](https://github.com/OpenSID/OpenSID/issues/7706) Penyesuaian modul Buku Induk Penduduk, Buku Mutasi Penduduk Desa dan Buku Penduduk Sementara menggunakan ORM dan Blade Laravel.
+6. [#76827682](https://github.com/OpenSID/OpenSID/issues/76827682) Penyesuaian modul QRCode menggunakan ORM dan Blade Laravel.
 
 
 #### KEAMANAN
-1. [#3410](https://github.com/OpenSID/premium/issues/3410) Peningkatan keamanan unggah foto pengguna.
+
+1. [#3506](https://github.com/OpenSID/premium/issues/3506) Peningkatan keamanan unggah foto widget.
 
 
 #### INFO PENTING
-- Pada rilis ini, penggunaan surat jenis RTF tidak didukung dan tidak dikembangkan lagi. Silahkan beralih dan gunakan surat jenis TinyMCE yang sudah dikembangkan.
+- Pada rilis ini, penggunaan surat jenis RTF tidak didukung dan tidak dikembangkan lagi. Silahkan beralih dan gunakan surat jenis TinyMCE yang sudah dikembangkan

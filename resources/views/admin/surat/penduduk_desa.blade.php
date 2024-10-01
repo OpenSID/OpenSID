@@ -5,7 +5,7 @@
             <select
                 autofocus
                 name="{{ $kategori }}[nik]"
-                class="form-control input-sm isi-penduduk-desa {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
+                class="form-control input-sm isi-penduduk-desa nama-kategori-{{ $kategori }} {{ $kategori == 'individu' ? 'required' : '' }} select2-nik-ajax"
                 data-surat="{{ $surat->id }}"
                 data-hubungan="{{ $surat->form_isian->$kategori->hubungan }}"
                 data-kategori="{{ $kategori }}"
@@ -34,6 +34,14 @@
                     kategori: _kategori
                 }, function(data) {
                     _pendudukDesaElm.find('.data_penduduk_desa').html(data.html)
+
+                    for (let i = 0; i < data.hubungan.length; i++) {
+                        let hubungan = data.hubungan[i]
+                        let option = data[`option${hubungan}`]
+                        let html = data[`html${hubungan}`]
+                        $(`#kategori-${hubungan}`).find('.select2-nik-ajax').empty().append(option)
+                        $(`#kategori-${hubungan}`).find('.data_penduduk_desa').empty().html(html)
+                    }
                 }, 'json')
             }
         }

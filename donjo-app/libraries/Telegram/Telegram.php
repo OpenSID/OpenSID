@@ -55,7 +55,7 @@ class Telegram
     /**
      * @var HttpClient HTTP Client
      */
-    protected HttpClient $http;
+    protected \GuzzleHttp\Client $http;
 
     /**
      * @var string|null Telegram Bot API Token.

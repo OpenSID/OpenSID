@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Penduduk;
+use App\Models\TanahDesa;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_tanah_desa extends Admin_Controller
@@ -45,125 +48,216 @@ class Bumindes_tanah_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['tanah_desa_model', 'pamong_model']);
+        isCan('b');
     }
 
     public function index()
     {
-        if ($this->input->is_ajax_request()) {
-            $start  = $this->input->post('start');
-            $length = $this->input->post('length');
-            $search = $this->input->post('search[value]');
-            $order  = $this->tanah_desa_model::ORDER_ABLE[$this->input->post('order[0][column]')];
-            $dir    = $this->input->post('order[0][dir]');
-
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode([
-                    'draw'            => $this->input->post('draw'),
-                    'recordsTotal'    => $this->tanah_desa_model->get_data()->count_all_results(),
-                    'recordsFiltered' => $this->tanah_desa_model->get_data($search)->count_all_results(),
-                    'data'            => $this->tanah_desa_model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-                ], JSON_THROW_ON_ERROR));
-        }
-
-        $this->render('bumindes/umum/main', [
-            'subtitle'     => 'Buku Tanah di ' . ucwords($this->setting->sebutan_desa),
-            'selected_nav' => 'tanah',
-            'main_content' => 'bumindes/pembangunan/tanah_di_desa/content_tanah_di_desa',
-        ]);
-    }
-
-    public function clear(): void
-    {
-        $this->session->filter_tahun = date('Y');
-        $this->session->filter_bulan = date('m');
-
-        redirect('bumindes_tanah_desa');
-    }
-
-    public function view_tanah_desa($id): void
-    {
-        $data = [
-            'main'         => $this->tanah_desa_model->view_tanah_desa_by_id($id) ?? show_404(),
-            'main_content' => 'bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa',
-            'subtitle'     => 'Buku Tanah di Desa',
-            'selected_nav' => 'tanah',
-            'view_mark'    => 1,
-        ];
-
-        $this->render('bumindes/umum/main', $data);
-    }
-
-    public function form($id = ''): void
-    {
-        $this->redirect_hak_akses('u');
-        if ($id) {
-            $data = [
-                'main'        => $this->tanah_desa_model->view_tanah_desa_by_id($id) ?? show_404(),
-                'form_action' => site_url("bumindes_tanah_desa/update_tanah_desa/{$id}"),
-            ];
-        } else {
-            $data = [
-                'main'        => null,
-                'form_action' => site_url('bumindes_tanah_desa/add_tanah_desa'),
-            ];
-        }
-
-        $data['main_content'] = 'bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa';
-        $data['penduduk']     = $this->tanah_desa_model->list_penduduk();
-        $data['subtitle']     = 'Buku Tanah di Desa';
         $data['selected_nav'] = 'tanah';
-        $data['view_mark']    = 0;
+        $data['subtitle']     = 'Buku Tanah di ' . ucwords(setting('sebutan_desa'));
+        $data['main_content'] = 'admin.bumindes.pembangunan.tanah_di_desa.index';
 
-        $this->render('bumindes/umum/main', $data);
+        return view('admin.bumindes.umum.main', $data);
     }
 
-    public function add_tanah_desa(): void
+    public function datatables()
     {
-        $this->redirect_hak_akses('u');
-        $this->tanah_desa_model->add_tanah_desa();
-        if ($this->session->success == -1) {
-            $this->session->dari_internal = true;
-            redirect('bumindes_tanah_desa/form');
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+
+                    $aksi .= '<a href="' . ci_route('bumindes_tanah_desa.form') . '/' . $row->id . '/' . 1 . '" class="btn btn-info btn-sm"  title="Lihat Data"><i class="fa fa-eye"></i></a> ';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('bumindes_tanah_desa.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('bumindes_tanah_desa.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->filterColumn('nama_pemilik_asal', static function ($query, $keyword): void {
+                    $query->whereRaw('nama_pemilik_asal like ?', ["%{$keyword}%"])
+                        ->orwhereHas('penduduk', static fn ($q) => $q->whereRaw('nama like ?', ["%{$keyword}%"]));
+                })
+                ->rawColumns(['aksi'])
+                ->make();
+        }
+
+        return show_404();
+    }
+
+    private function sumberData()
+    {
+        return TanahDesa::with('penduduk')->visible();
+    }
+
+    public function form($id = '', $view = false)
+    {
+        isCan('u');
+
+        if ($id) {
+            $data['action']      = 'Ubah';
+            $data['form_action'] = ci_route('bumindes_tanah_desa.update', $id);
+            $data['main']        = TanahDesa::findOrFail($id);
+            $data['view_mark']   = $view ? 1 : 0;
         } else {
-            redirect('bumindes_tanah_desa/clear');
+            $data['action']      = 'Tambah';
+            $data['form_action'] = ci_route('bumindes_tanah_desa.create');
+            $data['main']        = null;
+            $data['view_mark']   = null;
+        }
+
+        $data['penduduk'] = Penduduk::get();
+
+        return view('admin.bumindes.pembangunan.tanah_di_desa.form', $data);
+    }
+
+    public function create(): void
+    {
+        isCan('u');
+
+        if (TanahDesa::create($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
+    }
+
+    public function update($id = ''): void
+    {
+        isCan('u');
+
+        $update = TanahDesa::findOrFail($id);
+
+        $data = $this->validate($this->request, $id);
+
+        if ($update->update($data)) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    public function delete($id): void
+    {
+        isCan('h');
+
+        if (TanahDesa::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    private function validate($data, $id = 0)
+    {
+        if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['pemilik_asal'])) {
+            redirect_with('error', 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip');
+        }
+        if (empty($data['penduduk'])) {
+            $this->periksa_nik($data, $id);
+        }
+
+        //  steril data
+        $data['id_penduduk']          = empty($data['penduduk']) ? null : $data['penduduk'];
+        $data['nik']                  = empty(bilangan($data['nik'])) ? 0 : bilangan($data['nik']);
+        $data['jenis_pemilik']        = bilangan($data['jenis_pemilik']);
+        $data['nama_pemilik_asal']    = nama(strtoupper($data['pemilik_asal']));
+        $data['luas']                 = bilangan($data['luas']);
+        $data['hak_milik']            = bilangan($data['hak_milik']);
+        $data['hak_guna_bangunan']    = bilangan($data['hak_guna_bangunan']);
+        $data['hak_pakai']            = bilangan($data['hak_pakai']);
+        $data['hak_guna_usaha']       = bilangan($data['hak_guna_usaha']);
+        $data['hak_pengelolaan']      = bilangan($data['hak_pengelolaan']);
+        $data['hak_milik_adat']       = bilangan($data['hak_milik_adat']);
+        $data['hak_verponding']       = bilangan($data['hak_verponding']);
+        $data['tanah_negara']         = bilangan($data['tanah_negara']);
+        $data['perumahan']            = bilangan($data['perumahan']);
+        $data['perdagangan_jasa']     = bilangan($data['perdagangan_jasa']);
+        $data['perkantoran']          = bilangan($data['perkantoran']);
+        $data['industri']             = bilangan($data['industri']);
+        $data['fasilitas_umum']       = bilangan($data['fasilitas_umum']);
+        $data['sawah']                = bilangan($data['sawah']);
+        $data['tegalan']              = bilangan($data['tegalan']);
+        $data['perkebunan']           = bilangan($data['perkebunan']);
+        $data['peternakan_perikanan'] = bilangan($data['peternakan_perikanan']);
+        $data['hutan_belukar']        = bilangan($data['hutan_belukar']);
+        $data['hutan_lebat_lindung']  = bilangan($data['hutan_lebat_lindung']);
+        $data['tanah_kosong']         = bilangan($data['tanah_kosong']);
+        $data['lain']                 = bilangan($data['lain_lain']);
+        $data['mutasi']               = strip_tags($data['mutasi']);
+        $data['keterangan']           = strip_tags($data['keterangan']);
+        $data['visible']              = 1;
+
+        return $data;
+    }
+
+    private function periksa_nik($data, $id): void
+    {
+        if (empty($data['penduduk']) && ! isset($data['nik'])) {
+            redirect_with('error', 'NIK Kosong');
+        }
+
+        if ($error_nik = $this->nik_error($data['nik'], 'NIK')) {
+            redirect_with('error', $error_nik);
+        }
+
+        // NIK 0 (yaitu NIK tidak diketahui) boleh duplikat
+        if ($data['nik'] == 0) {
+            redirect_with('error', 'NIK tidak boleh 0');
+        }
+
+        // cek nik penduduk luar tidak boleh sama dengan penduduk desa
+        if ($id == 0) {
+            if (Penduduk::whereNik($data['nik'])->exists()) {
+                redirect_with('error', "NIK {$data['nik']} sudah digunakan");
+            }
+
         }
     }
 
-    public function update_tanah_desa($id): void
+    private function nik_error($nilai, string $judul)
     {
-        $this->redirect_hak_akses('u');
-        $this->tanah_desa_model->update_tanah_desa();
-        if ($this->session->success == -1) {
-            $this->session->dari_internal = true;
-            redirect("bumindes_tanah_desa/form/{$id}");
-        } else {
-            redirect('bumindes_tanah_desa/clear');
+        if (empty($nilai)) {
+            return false;
+        }
+        if (! ctype_digit($nilai)) {
+            return $judul . ' hanya berisi angka';
+        }
+        if (strlen($nilai) != 16) {
+            return $judul . ' panjangnya harus 16 digit';
+        }
+        if ($nilai == '0') {
+            return false;
         }
     }
 
-    public function delete_tanah_desa($id): void
+    public function dialog($aksi = 'cetak')
     {
-        $this->redirect_hak_akses('h');
-        $this->tanah_desa_model->delete_tanah_desa($id);
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('bumindes_tanah_desa.cetak', $aksi);
 
-        redirect('bumindes_tanah_desa');
+        return view('admin.bumindes.pembangunan.tanah_di_desa.dialog', $data);
     }
 
-    public function cetak_tanah_desa($aksi = ''): void
+    public function cetak($aksi = '')
     {
+        $query             = $this->sumberData();
         $data              = $this->modal_penandatangan();
         $data['aksi']      = $aksi;
-        $data['main']      = $this->tanah_desa_model->cetak_tanah_desa();
+        $data['main']      = $query->get();
         $data['config']    = $this->header['desa'];
-        $data['bulan']     = $this->session->filter_bulan ?: date('m');
-        $data['tahun']     = $this->session->filter_tahun ?: date('Y');
+        $data['bulan']     = date('m');
+        $data['tahun']     = date('Y');
         $data['tgl_cetak'] = $this->input->post('tgl_cetak');
-        $data['file']      = 'Buku Tanah di Desa';
-        $data['isi']       = 'bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak';
+        $data['isi']       = 'admin.bumindes.pembangunan.tanah_di_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '23'];
 
-        $this->load->view('global/format_cetak', $data);
+        return view('admin.layouts.components.format_cetak', $data);
     }
 }
