@@ -40,6 +40,7 @@ use App\Models\LogLogin;
 use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -164,6 +165,10 @@ class User_model extends MY_Model
         $this->session->fm_key       = $this->set_fm_key($user->id . $user->id_grup . $user->sesi);
         $this->session->isAdmin      = $user;
         $this->last_login($user->id);
+
+        if (! Schema:: hasTable('log_login')) {
+            return;
+        }
 
         $log_login = LogLogin::create([
             'username'   => $user->nama,
