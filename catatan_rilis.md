@@ -1,6 +1,6 @@
-Di rilis ini, versi 2410.0.0 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2410.0.0 berisi penambahan halaman e-stunging pada web dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @Arifpriadi telah ikut berkontribusi.
 
 #### FITUR
 
