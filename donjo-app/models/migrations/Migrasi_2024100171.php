@@ -35,25 +35,78 @@
  *
  */
 
+use Illuminate\Support\Str;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024092651 extends MY_model
+class Migrasi_2024100171 extends MY_model
 {
     public function up()
     {
-        $hasil = $this->migrasi_2024090551(true);
-        $hasil = $this->migrasi_2024092051($hasil);
-        $hasil = $this->migrasi_2024092151($hasil);
+        $hasil = true;
 
         // Migrasi berdasarkan config_id
         $config_id = DB::table('config')->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
+            $hasil = $this->migrasi_2024090671($hasil, $id);
             $hasil = $this->migrasi_2024093051($hasil, $id);
             $hasil = $this->migrasi_2024093052($hasil, $id);
         }
+
+        $hasil = $this->migrasi_2024090552($hasil);
+        $hasil = $this->migrasi_2024090551($hasil);
+        $hasil = $this->migrasi_2024090951($hasil);
+        $hasil = $this->migrasi_2024091251($hasil);
+        $hasil = $this->migrasi_2024092051($hasil);
+        $hasil = $this->migrasi_2024092151($hasil);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024090552($hasil)
+    {
+        if (! Schema::hasColumn('log_notifikasi_admin', 'token')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->longText('token')->nullable()->after('isi');
+            });
+        }
+
+        if (! Schema::hasColumn('log_notifikasi_admin', 'device')) {
+            Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+                $table->longText('device')->after('token');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024090951($hasil)
+    {
+        // pakai get, bisa jadi di database gabungan
+        $penduduk_luar = SettingAplikasi::dontCache()->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'form_penduduk_luar')->get();
+        if ($penduduk_luar) {
+            foreach ($penduduk_luar as $key => $penduduk) {
+                if ($penduduk) {
+                    $penduduk->value = json_encode(updateIndex(json_decode($penduduk->value, true)), JSON_THROW_ON_ERROR);
+                    $penduduk->save();
+                }
+            }
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024091251($hasil)
+    {
+        Schema::table('log_notifikasi_admin', static function (Blueprint $table) {
+            $table->longText('device')->nullable()->change();
+        });
 
         return $hasil;
     }
@@ -154,6 +207,40 @@ class Migrasi_2024092651 extends MY_model
                 DB::table('surat_dinas')->where('config_id', $config_id)->where('id', $surat->id)->update(['url_surat' => $url_surat]);
             }
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024090671($hasil, $config_id)
+    {
+        $hasil = $this->tambah_setting([
+            'judul'      => 'Rentang Waktu Masuk',
+            'key'        => 'rentang_waktu_masuk',
+            'value'      => '10',
+            'keterangan' => 'Rentang waktu kehadiran ketika masuk. (satuan: menit)',
+            'jenis'      => 'input-number',
+            'option'     => null,
+            'attribute'  => [
+                'class'       => 'required',
+                'min'         => 0,
+                'max'         => 3600,
+                'step'        => 1,
+                'placeholder' => '10',
+            ],
+            'kategori' => 'Kehadiran',
+        ], $config_id);
+
+        $this->db->update(
+            'setting_aplikasi',
+            [
+                'key'   => 'rentang_waktu_keluar',
+                'judul' => 'Rentang Waktu Keluar',
+            ],
+            [
+                'config_id' => $config_id,
+                'key'       => 'rentang_waktu_kehadiran',
+            ]
+        );
 
         return $hasil;
     }

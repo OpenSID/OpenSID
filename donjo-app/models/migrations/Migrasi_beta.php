@@ -46,45 +46,10 @@ class Migrasi_beta extends MY_model
         $hasil = true;
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        foreach ($config_id as $id) {
-            $hasil = $hasil && $this->migrasi_2024090671($hasil, $id);
-        }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024090671($hasil, $config_id)
-    {
-        $hasil = $hasil && $this->tambah_setting([
-            'judul'      => 'Rentang Waktu Masuk',
-            'key'        => 'rentang_waktu_masuk',
-            'value'      => '10',
-            'keterangan' => 'Rentang waktu kehadiran ketika masuk. (satuan: menit)',
-            'jenis'      => 'input-number',
-            'option'     => null,
-            'attribute'  => [
-                'class'       => 'required',
-                'min'         => 0,
-                'max'         => 3600,
-                'step'        => 1,
-                'placeholder' => '10',
-            ],
-            'kategori' => 'Kehadiran',
-        ], $config_id);
-
-        $this->db->update(
-            'setting_aplikasi',
-            [
-                'key'   => 'rentang_waktu_keluar',
-                'judul' => 'Rentang Waktu Keluar',
-            ],
-            [
-                'config_id' => $config_id,
-                'key'       => 'rentang_waktu_kehadiran',
-            ]
-        );
+        // foreach ($config_id as $id) {
+        // }
 
         return $hasil;
     }
