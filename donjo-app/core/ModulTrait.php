@@ -51,7 +51,7 @@ trait ModulTrait
         $directory  = dirname($reflection->getFileName());
 
         // Find the position of "\Http\Controllers" to trim everything after the module directory
-        $moduleDirectory = substr($directory, 0, strpos($directory, 'Http\Controllers') - 1);
+        $moduleDirectory = substr($directory, 0, strpos($directory, 'Http/Controllers') - 1);
 
         return $moduleDirectory;
     }
