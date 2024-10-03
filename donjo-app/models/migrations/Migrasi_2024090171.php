@@ -120,7 +120,7 @@ class Migrasi_2024090171 extends MY_model
 
         foreach ($daftarKomentar as $komentar) {
             $penduduk_id = DB::table('tweb_penduduk')->where('nik', $komentar->email)->value('id');
-            if ($penduduk_id) {
+            if ($penduduk_id && $komentar->config_id) {
                 DB::table('pesan_mandiri')->insert([
                     'uuid'        => Str::uuid(),
                     'config_id'   => $komentar->config_id,
