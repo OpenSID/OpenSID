@@ -43,6 +43,7 @@ use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\SuplemenTerdata;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -160,6 +161,12 @@ class Periksa_model extends MY_Model
         if (! $tgllahir_null_kosong->isEmpty()) {
             $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
             $this->periksa['tgllahir_null_kosong'] = $tgllahir_null_kosong->toArray();
+        }
+
+        $suplemen_terdata_kosong = $this->deteksi_suplemen_terdata_kosong();
+        if (! $suplemen_terdata_kosong->isEmpty()) {
+            $this->periksa['masalah'][]               = 'suplemen_terdata_kosong';
+            $this->periksa['suplemen_terdata_kosong'] = $suplemen_terdata_kosong->groupBy('id_suplemen')->toArray();
         }
 
         return $calon;
@@ -315,6 +322,13 @@ class Periksa_model extends MY_Model
         $config_id = identitas('id');
 
         return Penduduk::where('config_id', $config_id)->where('tanggallahir', '0000-00-00')->orWhereNull('tanggallahir')->get();
+    }
+
+    private function deteksi_suplemen_terdata_kosong()
+    {
+        $suplemenKeluarga = SuplemenTerdata::withOnly(['suplemen'])->sasaranKeluarga()->whereDoesntHave('keluarga');
+
+        return SuplemenTerdata::withOnly(['suplemen'])->sasaranPenduduk()->whereDoesntHave('penduduk')->union($suplemenKeluarga)->get();
     }
 
     public function perbaiki(): void
