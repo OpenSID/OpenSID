@@ -93,7 +93,7 @@ class Keluarga extends BaseModel
      */
     public function kepalaKeluarga()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(Penduduk::class, 'id_kk')->kepalaKeluarga();
     }
 
     /**
