@@ -86,7 +86,7 @@ class Rtm extends BaseModel
      */
     public function kepalaKeluarga()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasOne(Penduduk::class, 'id', 'nik_kepala');
     }
 
     /**
@@ -96,7 +96,7 @@ class Rtm extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status();
     }
 
     /**
