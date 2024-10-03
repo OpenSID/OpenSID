@@ -36,6 +36,7 @@
  */
 
 use App\Libraries\Sistem;
+use App\Models\LogLogin;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -64,7 +65,6 @@ class Info_sistem extends Admin_Controller
         $data['disable_functions'] = Sistem::disableFunctions();
         $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
         $data['controller']        = $this->controller;
-        // $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
         $data['disk'] = false;
 
@@ -132,5 +132,32 @@ class Info_sistem extends Admin_Controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(LogLogin::query())
+                ->addIndexColumn()
+                ->editColumn('lainnya', static function ($q) {
+                    log_message('error', json_encode($q->lainnya));
+                    if (! $q->lainnya) return '<span class="badge">kosong</span>';
+                    $info = [];
+
+                    foreach ($q->lainnya as $key => $value) {
+                        if ($value) {
+                            $info[] = '<div><span class="badge bg-green">' . $key . ' : ' . $value . '</span></div>';
+                        }
+
+                    }
+
+                    return implode('', $info);
+                })
+                ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
+                ->rawColumns(['lainnya'])
+                ->make();
+        }
+
+        return show_404();
     }
 }

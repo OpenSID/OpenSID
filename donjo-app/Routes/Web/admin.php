@@ -1951,6 +1951,7 @@ Route::group('/info_sistem', static function (): void {
     Route::get('/cache_desa', 'Info_sistem@cache_desa')->name('info_sistem.cache_desa');
     Route::get('/cache_blade', 'Info_sistem@cache_blade')->name('info_sistem.cache_blade');
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
+    Route::get('datatables', 'Info_sistem@datatables')->name('info_sistem.datatables');
 });
 
 // Pengaturan > QR Code
