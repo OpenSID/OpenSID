@@ -794,7 +794,7 @@ class Bantuan extends BaseModel
         return [];
     }
 
-    private static function dusun(string $nama_dusun): string
+    private static function dusun(?string $nama_dusun = null): string
     {
         return (setting('sebutan_dusun') == '-') ? '' : ucwords(strtolower(setting('sebutan_dusun') . ' ' . $nama_dusun));
     }
