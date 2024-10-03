@@ -35,18 +35,35 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return true;
-
+        $hasil = true;
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $this->migrasi_2024100351($hasil, $id);
+        }
+
+        return true;
+    }
+
+    private function migrasi_2024100351($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Versi Umum Setara',
+            'key'        => 'compatible_version_general',
+            'value'      => null,
+            'keterangan' => 'Versi Umum Yang Setara',
+            'jenis'      => 'text',
+            'attribute'  => null,
+            'kategori'   => 'default',
+        ], $id);
     }
 }

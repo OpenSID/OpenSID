@@ -2597,3 +2597,11 @@ function waktu($waktu_terakhir): string
         return "{$tahun} tahun yang lalu";
 
 }
+
+function versiUmumSetara($version): string
+{
+    $formatVersi = 'y.m'; // contoh format 24.01
+    $versiSetara = Carbon::createFromFormat($formatVersi, $version)->addMonths(7);
+
+    return $versiSetara->format($formatVersi);
+}
