@@ -2254,6 +2254,11 @@ if (! function_exists('caseWord')) {
             $teks = kasus_lain('pekerjaan', $teks);
         }
 
+        // Kasus lain RT / RW
+        if (preg_match('/\balamat(_[^\s]*)?\b/i', strtolower($condition))) {
+            $teks = str_ireplace(['Rt', 'Rw'], ['RT', 'RW'], $teks);
+        }
+
         // Return teks asli jika tidak sesuai kondisi
         return $prefix . $teks . $suffix;
     }
