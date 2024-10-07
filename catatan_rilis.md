@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8517](https://github.com/OpenSID/OpenSID/issues/8517) Perbaikan ukuran kertas F4.
 5. [#8516](https://github.com/OpenSID/OpenSID/issues/8516) Perbaikan penulisan RW dan RT pada kode isian alamat.
 6. [#8513](https://github.com/OpenSID/OpenSID/issues/8513) Perbaikan menampilkan data detail rumah tangga pada database gabungan.
+7. [#8526](https://github.com/OpenSID/OpenSID/issues/8526) Perbaikan status penduduk pada tambah kepala keluarga atau anggota melalui modul keluarga hanya bisa penduduk tetap.
 
 
 ### TEKNIS

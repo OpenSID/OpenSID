@@ -319,7 +319,7 @@ class Keluarga extends Admin_Controller
         $data['cek_nik']            = 1;
         $data['cek_nokk']           = 1;
         $data['nokk_sementara']     = KeluargaModel::formatNomerKKSementara();
-        $data['status_penduduk']    = StatusPendudukEnum::all();
+        $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
         $data['jenis_peristiwa']    = LogPenduduk::BARU_PINDAH_MASUK;
         $data['controller']         = 'keluarga';
         $originalInput              = session('old_input');
