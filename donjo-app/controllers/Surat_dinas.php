@@ -737,12 +737,12 @@ class Surat_dinas extends Admin_Controller
         return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
-                'url_surat'           => $item['url_surat'],
+                'url_surat'           => str_replace('sistem-', '', $item['url_surat']), // Hapus prefix sistem- pada url surat agar tidak sama dengan surat bawaan sistem
                 'kode_surat'          => $item['kode_surat'],
                 'lampiran'            => $item['lampiran'],
                 'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                'jenis'               => $item['jenis'],
+                'jenis'               => SuratDinas::TINYMCE_DESA, // Surat yang diimpor selalu jenis surat desa
                 'masa_berlaku'        => $item['masa_berlaku'],
                 'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],
                 'qr_code'             => $item['qr_code'] ? StatusEnum::YA : StatusEnum::TIDAK,
