@@ -35,16 +35,17 @@
  *
  */
 
-use App\Enums\Statistik\StatistikEnum;
-use App\Models\Bantuan;
-use App\Models\RefJabatan;
-use App\Models\Suplemen;
-use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Support\Str;
+use App\Models\Bantuan;
+use App\Models\Wilayah;
+use App\Models\Suplemen;
 use voku\helper\AntiXSS;
+use App\Models\RefJabatan;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use App\Enums\Statistik\StatistikEnum;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * VERSION
@@ -2161,6 +2162,35 @@ if (! function_exists('getSuratBawaanTinyMCE')) {
     }
 }
 
+if (! function_exists('restoreSuratBawaanTinyMCE')) {
+    function restoreSuratBawaanTinyMCE($id = null)
+    {
+        $id = $id ?? identitas('id');
+
+        $suratFormats = DB::table('tweb_surat_format')
+            ->where('config_id', $id)
+            ->where('jenis', 3)
+            ->get();
+
+        foreach ($suratFormats as $format) {
+            $defaultSurat = collect(getSuratBawaanTinyMCE($format->url_surat))->first();
+
+            if ($defaultSurat) {
+                $dataToUpdate = [
+                    ...$defaultSurat,
+                    'config_id'    => $id,
+                    'syarat_surat' => json_encode($defaultSurat['syarat_surat']),
+                    'form_isian'   => json_encode($defaultSurat['form_isian']),
+                ];
+
+                DB::table('tweb_surat_format')
+                    ->where('id', $format->id)
+                    ->update($dataToUpdate);
+            }
+        }
+    }
+}
+
 if (! function_exists('getSuratBawaanDinasTinyMCE')) {
     function getSuratBawaanDinasTinyMCE($url_surat = null)
     {
@@ -2168,6 +2198,34 @@ if (! function_exists('getSuratBawaanDinasTinyMCE')) {
 
         return collect(json_decode($list_data, true))
             ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray());
+    }
+}
+
+if (! function_exists('restoreSuratBawaanDinasTinyMCE')) {
+    function restoreSuratBawaanDinasTinyMCE($id = null)
+    {
+        $id = $id ?? identitas('id');
+
+        $suratFormats = DB::table('surat_dinas')
+            ->where('config_id', $id)
+            ->where('jenis', 3)
+            ->get();
+
+        foreach ($suratFormats as $format) {
+            $defaultSurat = collect(getSuratBawaanDinasTinyMCE($format->url_surat))->first();
+
+            if ($defaultSurat) {
+                $dataToUpdate = [
+                    ...$defaultSurat,
+                    'config_id'    => $id,
+                    'form_isian'   => json_encode($defaultSurat['form_isian']),
+                ];
+
+                DB::table('surat_dinas')
+                    ->where('id', $format->id)
+                    ->update($dataToUpdate);
+            }
+        }
     }
 }
 

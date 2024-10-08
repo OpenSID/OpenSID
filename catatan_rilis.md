@@ -14,3 +14,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 ### TEKNIS
 1. [#8507](https://github.com/OpenSID/OpenSID/issues/8507) Penyesuaian notifikasi saat melakukan update dari premium ke umum bukan versi 6 bulan setelahnya.
+2. [#8554](https://github.com/OpenSID/OpenSID/issues/8554) Penyesuaian surat layanan dan dinas bawaan.

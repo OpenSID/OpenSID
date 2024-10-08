@@ -1,7 +1,7 @@
 [
     {
         "nama": "Pernyataan",
-        "url_surat": "surat-pernyataan",
+        "url_surat": "sistem-surat-pernyataan",
         "kode_surat": "S1",
         "lampiran": null,
         "kunci": false,
