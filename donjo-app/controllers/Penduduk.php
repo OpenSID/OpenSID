@@ -349,6 +349,8 @@ class Penduduk extends Admin_Controller
                                 $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
+                                } else if ($val == JUMLAH || $val == 2) {
+                                    $q->where(static fn ($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
                                 }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
@@ -1372,7 +1374,7 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
         // pengecualian untuk kia dan 18
-        if (in_array($tipe, ['18', 'kia'])) {
+        if (in_array($tipe, ['18', 'kia', 'buku-nikah'])) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
 
