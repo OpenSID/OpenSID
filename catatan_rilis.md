@@ -11,7 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8513](https://github.com/OpenSID/OpenSID/issues/8513) Perbaikan menampilkan data detail rumah tangga pada database gabungan.
 7. [#8526](https://github.com/OpenSID/OpenSID/issues/8526) Perbaikan status penduduk pada tambah kepala keluarga atau anggota melalui modul keluarga hanya bisa penduduk tetap.
 8. [#8556](https://github.com/OpenSID/OpenSID/issues/8556) Perbaikan link detail statistik kepemilikan buku nikah.
-
+9. [#8552](https://github.com/OpenSID/OpenSID/issues/8552) Perbaikan kode isian no_kk pada form selain form utama.
 
 ### TEKNIS
 1. [#8507](https://github.com/OpenSID/OpenSID/issues/8507) Penyesuaian notifikasi saat melakukan update dari premium ke umum bukan versi 6 bulan setelahnya.
