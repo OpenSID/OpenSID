@@ -14,7 +14,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8556](https://github.com/OpenSID/OpenSID/issues/8556) Perbaikan link detail statistik kepemilikan buku nikah.
 9. [#8552](https://github.com/OpenSID/OpenSID/issues/8552) Perbaikan kode isian no_kk pada form selain form utama.
 10. [#8544](https://github.com/OpenSID/OpenSID/issues/8544) Perbaikan unduh arsip surat yang menggunakan tte.
-11. [#8559](https://github.com/OpenSID/OpenSID/issues/8559) Bug/error: nomor surat dengan nomor surat hasil scan tidak sesuai
+11. [#8559](https://github.com/OpenSID/OpenSID/issues/8559) Perbaikan nomor surat dengan nomor surat hasil scan tidak sesuai
+12. [#8559](https://github.com/OpenSID/OpenSID/issues/8569) Perbaikan daftar peserta bantuan tidak tampil 
 
 ### TEKNIS
 

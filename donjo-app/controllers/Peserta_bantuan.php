@@ -72,7 +72,7 @@ class Peserta_bantuan extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $program   = Bantuan::getProgramPeserta($program_id);
             $sasaran   = $program['detail']['sasaran'];
-            $data      = $program['peserta'];
+            $data      = $program['peserta'] ?? [];
             $canDelete = can('h');
 
             return datatables()->of($data)
@@ -203,12 +203,12 @@ class Peserta_bantuan extends Admin_Controller
         redirect_with('success', 'Peserta berhasil ditambahkan', $redirect);
     }
 
-    public function process($program_id, $id = 0): void
+    public function process($program_id, $id = null): void
     {
         $data               = $this->validasi_peserta($this->input->post());
         $data['program_id'] = $program_id;
 
-        if ($id == 0) {
+        if ($id === null) {
             $data['peserta'] = $this->input->post('peserta');
         }
 
@@ -231,6 +231,7 @@ class Peserta_bantuan extends Admin_Controller
 
     public function validasi_peserta($post)
     {
+        $data['config_id']           = identitas('id');
         $data['no_id_kartu']         = nama_terbatas($post['no_id_kartu']);
         $data['kartu_nik']           = bilangan($post['kartu_nik']);
         $data['kartu_nama']          = nama(htmlentities($post['kartu_nama']));
