@@ -950,9 +950,9 @@ class TinyMCE
     public function cetak_surat_tinymce($surat, $jenis = null)
     {
         // Cek ada file
-        // if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-        //     return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
-        // }
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
         $input            = json_decode($surat->input, true) ?? [];
         $isi_cetak        = $surat->isi_surat;
         $nama_surat       = $surat->nama_surat;
@@ -984,7 +984,6 @@ class TinyMCE
             $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
-            dd($formatter);
             log_message('error', $formatter->getHtmlMessage());
         }
     }
