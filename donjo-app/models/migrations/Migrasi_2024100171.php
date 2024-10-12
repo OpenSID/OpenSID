@@ -35,12 +35,10 @@
  *
  */
 
-use Illuminate\Support\Str;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -64,9 +62,8 @@ class Migrasi_2024100171 extends MY_model
         $hasil = $this->migrasi_2024090951($hasil);
         $hasil = $this->migrasi_2024091251($hasil);
         $hasil = $this->migrasi_2024092051($hasil);
-        $hasil = $this->migrasi_2024092151($hasil);
 
-        return $hasil;
+        return $this->migrasi_2024092151($hasil);
     }
 
     protected function migrasi_2024090552($hasil)

@@ -81,6 +81,12 @@ class KodeIsianPenduduk
                 'data'          => get_nik($penduduk->nik),
             ],
             [
+                'case_sentence' => true,
+                'judul'         => 'No KK' . $ortu,
+                'isian'         => 'no_kk' . $prefix,
+                'data'          => get_nokk($penduduk->keluarga->no_kk),
+            ],
+            [
                 'judul' => 'Nama' . $ortu,
                 'isian' => 'nama' . $prefix,
                 'data'  => $penduduk->nama,
@@ -340,12 +346,12 @@ class KodeIsianPenduduk
                     'isian' => 'hubungan_kk',
                     'data'  => $penduduk->pendudukHubungan->nama,
                 ],
-                [
-                    'case_sentence' => true,
-                    'judul'         => 'No KK',
-                    'isian'         => 'No_kK',
-                    'data'          => get_nokk($penduduk->keluarga->no_kk),
-                ],
+                // [
+                //     'case_sentence' => true,
+                //     'judul'         => 'No KK',
+                //     'isian'         => 'No_kK',
+                //     'data'          => get_nokk($penduduk->keluarga->no_kk),
+                // ],
                 [
                     'judul' => 'Kepala KK',
                     'isian' => 'kepala_kk',

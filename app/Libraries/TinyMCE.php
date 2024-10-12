@@ -730,8 +730,9 @@ class TinyMCE
             return;
         }
 
-        $surat    = $data['surat'];
-        $config   = identitas();
+        $surat  = $data['surat'];
+        $config = identitas();
+
         $individu = $this->surat_model->get_data_surat($id);
 
         // Data penandatangan terpilih
@@ -774,6 +775,7 @@ class TinyMCE
         $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
 
         for ($i = 0; $i < count($lampiran); $i++) {
+            $lampiran[$i] = strtolower($lampiran[$i]);
             // Cek lampiran desa
             $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
@@ -797,6 +799,7 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
+
         if (isset($input) && ! empty($input)) {
             $data['input'] = $input;
         }
@@ -950,9 +953,9 @@ class TinyMCE
     public function cetak_surat_tinymce($surat, $jenis = null)
     {
         // Cek ada file
-        // if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-        //     return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
-        // }
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
         $input            = json_decode($surat->input, true) ?? [];
         $isi_cetak        = $surat->isi_surat;
         $nama_surat       = $surat->nama_surat;
@@ -984,7 +987,6 @@ class TinyMCE
             $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
-            dd($formatter);
             log_message('error', $formatter->getHtmlMessage());
         }
     }

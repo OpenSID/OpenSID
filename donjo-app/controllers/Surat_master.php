@@ -50,7 +50,6 @@ use App\Models\SyaratSurat;
 use App\Models\User;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
-use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -767,20 +766,14 @@ class Surat_master extends Admin_Controller
         }
 
         try {
-            $html2pdf = new Html2Pdf($this->request['orientasi'], $this->request['ukuran'], 'en', true, 'UTF-8', $margins);
-            $html2pdf->pdf->SetTitle($this->request['nama'] . ' (Pratinjau)');
-            $html2pdf->setDefaultFont(underscore(setting('font_surat')));
-            $html2pdf->setTestTdInOnePage(false);
-            $html2pdf->writeHTML($isi_cetak);
-            $html2pdf->output($out = tempnam(sys_get_temp_dir(), '') . '.pdf', 'F');
-
-            $this->tinymce->pdfMerge->add($out);
+            $cetak       = ['surat' => $this->request];
+            $defaultFont = underscore($this->session->pengaturan_surat['font_surat'] ?? setting('font_surat'));
+            $this->tinymce->generateSurat($isi_cetak, $cetak, $margins, $defaultFont);
 
             $this->tinymce->generateLampiran($preview->getData('id_pend'), $preview->getData(), $preview->getData('input'));
+            $this->tinymce->pdfMerge->merge('document.pdf', 'I');
 
-            $this->tinymce->pdfMerge->merge(tempnam(sys_get_temp_dir(), '') . '.pdf', 'FI');
         } catch (Html2PdfException $e) {
-            $html2pdf->clean();
             $formatter = new ExceptionFormatter($e);
             log_message('error', $formatter->getHtmlMessage());
             log_message('error', 'belum redirect');
@@ -904,12 +897,12 @@ class Surat_master extends Admin_Controller
         return collect(json_decode((string) $list_data, true))
             ->map(static fn ($item): array => [
                 'nama'                => $item['nama'],
-                'url_surat'           => $item['url_surat'],
+                'url_surat'           => str_replace('sistem-', '', $item['url_surat']), // Hapus prefix sistem- pada url surat agar tidak sama dengan surat bawaan sistem
                 'kode_surat'          => $item['kode_surat'],
                 'lampiran'            => $item['lampiran'],
                 'kunci'               => $item['kunci'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'favorit'             => $item['favorit'] ? StatusEnum::YA : StatusEnum::TIDAK,
-                'jenis'               => $item['jenis'],
+                'jenis'               => FormatSurat::TINYMCE_DESA, // Surat yang diimpor selalu jenis surat desa
                 'mandiri'             => $item['mandiri'] ? StatusEnum::YA : StatusEnum::TIDAK,
                 'masa_berlaku'        => $item['masa_berlaku'],
                 'satuan_masa_berlaku' => $item['satuan_masa_berlaku'],

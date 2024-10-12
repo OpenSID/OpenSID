@@ -36,23 +36,65 @@
  */
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class Migrasi_2024100951 extends MY_model
 {
     public function up()
     {
-        // $hasil = true;
-
+        $hasil = true;
         // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = DB::table('config')->pluck('id')->toArray();
 
-        // foreach ($config_id as $id) {
-        // }
+        foreach ($config_id as $id) {
+            $hasil = $this->migrasi_2024100351($hasil, $id);
+            $hasil = $this->migrasi_2024100852($hasil, $id);
+        }
 
-        // return $hasil;
+        $hasil = $this->migrasi_2024100851($hasil);
 
-        return true;
+        return $hasil;
+    }
+
+    private function migrasi_2024100351($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Versi Umum Setara',
+            'key'        => 'compatible_version_general',
+            'value'      => null,
+            'keterangan' => 'Versi Umum Yang Setara',
+            'jenis'      => 'text',
+            'attribute'  => null,
+            'kategori'   => 'default',
+        ], $id);
+    }
+
+    protected function migrasi_2024100851($hasil)
+    {
+        if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
+            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                $table->longText('token')->nullable()->after('isi');
+            });
+        }
+
+        if (! Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
+            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                $table->longText('device')->nullable()->after('token');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024100852($hasil, $id)
+    {
+        // Panggil disaat ada perubahan pada form surat bawaan saja
+        restoreSuratBawaanTinyMCE($id);
+        restoreSuratBawaanDinasTinyMCE($id);
+
+        return $hasil;
     }
 }

@@ -43,7 +43,7 @@ class Migrasi_beta extends MY_model
 {
     public function up()
     {
-        $hasil = true;
+        // $hasil = true;
 
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
@@ -51,6 +51,8 @@ class Migrasi_beta extends MY_model
         // foreach ($config_id as $id) {
         // }
 
-        return $hasil;
+        // return $hasil;
+
+        return true;
     }
 }

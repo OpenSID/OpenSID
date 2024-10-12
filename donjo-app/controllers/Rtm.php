@@ -198,7 +198,11 @@ class Rtm extends Admin_Controller
 
         try {
             if (empty($post['no_rtm'])) {
-                $lastRtm = RtmModel::select(['no_kk'])->orderBy(DB::raw('length(no_kk)'), 'desc')->orderBy(DB::raw('no_kk'), 'desc')->first();
+                $lastRtm = RtmModel::select(['no_kk'])
+                    ->where('config_id', identitas('id'))
+                    ->orderBy(DB::raw('length(no_kk)'), 'desc')
+                    ->orderBy(DB::raw('no_kk'), 'desc')
+                    ->first();
 
                 if ($lastRtm) {
                     $noRtm = $lastRtm->no_kk;

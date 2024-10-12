@@ -36,7 +36,7 @@
                 </div>
                 <center>
                     <div id="indikator" class="text-center">
-                        <img src="<?= asset('images/background/loading.gif') ?>">
+                        <img src="<?= asset('images/loading.gif') ?>">
                     </div>
                 </center>
             </div>
