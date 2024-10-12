@@ -1519,6 +1519,10 @@ function menu_slug($url)
             $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
             break;
 
+        case 'dpt';
+            $url = 'data-dpt';
+            break;
+
         case 'statistik':
             $cek = StatistikEnum::slugFromKey($cut[1]);
             $url = $cek ? "data-statistik/{$cek}" : "first/{$url}";
@@ -2120,7 +2124,7 @@ if (! function_exists('daftar_statistik')) {
                 'key'   => 'dpt',
                 'slug'  => 'dpt',
                 'label' => 'Calon Pemilih',
-                'url'   => 'first/dpt',
+                'url'   => 'data-dpt',
             ],
             [
                 'key'   => 'data-wilayah',

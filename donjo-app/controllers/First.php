@@ -303,25 +303,7 @@ class First extends Web_Controller
 
     public function dpt(): void
     {
-        $cekMenu = $this->web_menu_model->menu_aktif('dpt');
-
-        $this->load->model('dpt_model');
-        $data                      = $this->includes;
-        $data['title']             = 'Daftar Calon Pemilih Berdasarkan Wilayah';
-        $data['main']              = $this->dpt_model->statistik_wilayah();
-        $data['total']             = $this->dpt_model->statistik_total();
-        $data['tanggal_pemilihan'] = Schema::hasTable('pemilihan') ? Pemilihan::tanggalPemilihan() : Carbon::now()->format('Y-m-d');
-        $data['tipe']              = 4;
-        $data['slug_aktif']        = 'dpt';
-        $data['tampil']            = $cekMenu;
-
-        $this->_get_common_data($data);
-
-        $statistik       = getStatistikLabel(4, 'per ' . ucwords(setting('sebutan_dusun')), $data['desa']['nama_desa']);
-        $data['heading'] = $statistik['label'];
-
-        $this->set_template('layouts/stat.tpl.php');
-        theme_view($this->template, $data);
+        redirect('data-dpt');
     }
 
     public function wilayah(): void
