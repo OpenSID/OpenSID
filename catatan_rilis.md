@@ -15,7 +15,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8552](https://github.com/OpenSID/OpenSID/issues/8552) Perbaikan kode isian no_kk pada form selain form utama.
 10. [#8544](https://github.com/OpenSID/OpenSID/issues/8544) Perbaikan unduh arsip surat yang menggunakan tte.
 11. [#8559](https://github.com/OpenSID/OpenSID/issues/8559) Perbaikan nomor surat dengan nomor surat hasil scan tidak sesuai
-12. [#8559](https://github.com/OpenSID/OpenSID/issues/8569) Perbaikan daftar peserta bantuan tidak tampil 
+12. [#8559](https://github.com/OpenSID/OpenSID/issues/8569) Perbaikan daftar peserta bantuan tidak tampil.
+13. [#8565](https://github.com/OpenSID/OpenSID/issues/8565) Perbaikan pratinjau surat yang memiliki lampiran pada master surat layanan.
+
 
 ### TEKNIS
 

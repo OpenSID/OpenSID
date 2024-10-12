@@ -730,8 +730,9 @@ class TinyMCE
             return;
         }
 
-        $surat    = $data['surat'];
-        $config   = identitas();
+        $surat  = $data['surat'];
+        $config = identitas();
+
         $individu = $this->surat_model->get_data_surat($id);
 
         // Data penandatangan terpilih
@@ -774,6 +775,7 @@ class TinyMCE
         $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
 
         for ($i = 0; $i < count($lampiran); $i++) {
+            $lampiran[$i] = strtolower($lampiran[$i]);
             // Cek lampiran desa
             $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
@@ -797,6 +799,7 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
+
         if (isset($input) && ! empty($input)) {
             $data['input'] = $input;
         }
