@@ -12,8 +12,8 @@
             <br /><br />
             <div class="alert alert-info alert-dismissible">
                 <h4><i class="icon fa fa-info"></i> Info !</h4>
-                Jika surat ingin dikirim ke kecamatan, letakan kode [qr_camat] pada tempat yang ingin ditempelkan QRCode
-                Kecamatan.
+                Jika surat ingin dikirim ke {{ setting('sebutan_kecamatan') }}, letakan kode [qr_camat] pada tempat yang ingin ditempelkan QRCode
+                {{ setting('sebutan_kecamatan') }}.
             </div>
         @endif
     @endif
