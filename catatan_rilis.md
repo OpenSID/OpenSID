@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### FITUR
 1. [#8527](https://github.com/OpenSID/OpenSID/issues/8527) Penambahan log login pada modul info sistem.
 2. [#8463](https://github.com/OpenSID/OpenSID/issues/8463) Penambahan kode isian penduduk yang sama untuk semua form selain form utama.
+3. [#8575](https://github.com/OpenSID/OpenSID/issues/8575) Penambahan tinjau gambar saat diunggah pada modul identitas, kelompok/lembaga, pengaturan, pengguna dan lapak.
 
 
 ### BUG
