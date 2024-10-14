@@ -461,4 +461,9 @@ class FormatSurat extends BaseModel
     {
         return $this->jenis == self::TINYMCE_SISTEM;
     }
+
+    protected function scopeSistem(Builder $query)
+    {
+        return $query->whereIn('jenis', self::SISTEM);
+    }
 }
