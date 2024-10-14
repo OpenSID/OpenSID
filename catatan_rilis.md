@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#8567](https://github.com/OpenSID/OpenSID/issues/8567) Perbaikan dan pisahkan lampiran F-2.01 mejnadi F-2.01 -Kelahiran dan F-2.01-Kematian.
 15. [#8560](https://github.com/OpenSID/OpenSID/issues/8560) Perbaikan standar ukuran font menggunakan 12 dan format ukuran pt.
 16. [#8576](https://github.com/OpenSID/OpenSID/issues/8576) Perbaikan hapus surat desa secara masal.
+17. [#8561](https://github.com/OpenSID/OpenSID/issues/8561) Perbaikan grafik pendapatan desa dan belanja desa.
 
 
 ### TEKNIS
