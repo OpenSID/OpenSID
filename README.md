@@ -90,4 +90,4 @@ Apakah desa/lembaga/perusahaan anda mendapat manfaat dari OpenSID? Bantu kami te
 
 Berikut adalah teman-teman luar biasa yang telah berkontribusi langsung mengembangkan aplikasi OpenSID.
 
-![Contributors](https://contrib.rocks/image?repo=OpenSID/OpenSID)
+[![Contributors](https://contrib.rocks/image?repo=OpenSID/OpenSID)](https://github.com/OpenSID/OpenSID/graphs/contributors)
