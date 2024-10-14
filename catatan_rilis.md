@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 12. [#8559](https://github.com/OpenSID/OpenSID/issues/8569) Perbaikan daftar peserta bantuan tidak tampil.
 13. [#8565](https://github.com/OpenSID/OpenSID/issues/8565) Perbaikan pratinjau surat yang memiliki lampiran pada master surat layanan.
 14. [#8567](https://github.com/OpenSID/OpenSID/issues/8567) Perbaikan dan pisahkan lampiran F-2.01 mejnadi F-2.01 -Kelahiran dan F-2.01-Kematian.
+15. [#8560](https://github.com/OpenSID/OpenSID/issues/8560) Perbaikan standar ukuran font menggunakan 12 dan format ukuran pt.
 
 
 ### TEKNIS
