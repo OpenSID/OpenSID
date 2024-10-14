@@ -60,7 +60,6 @@
                 // Disable all input form elements
                 $('form :input')
                     .prop('readonly', true);
-
                 $('input[type="checkbox"]').prop('disabled', true);
 
                 // Disable all button form elements
@@ -140,6 +139,10 @@
             });
 
             $('#preview').click(function(e) {
+                if (viewOnly) {
+                    $('form :input').prop('required', false);
+                    $('form :input').removeClass('required');
+                }
                 if (!$('#validasi').valid()) return false;
 
 

@@ -37,47 +37,12 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$tampil_data_anak                           = false;
-$tampil_data_orang_tua                      = false;
-$tampil_data_pelapor                        = false;
-$tampil_data_saksi                          = false;
-$tampil_data_kematian                       = false;
-$tampil_data_subjek_akta_1                  = false;
-$tampil_data_subjek_akta_2                  = false;
-$tampil_data_lahir_mati                     = false;
-$tampil_data_perkawinan                     = false;
-$tampil_data_perceraian                     = false;
-$tampil_data_pengankatan_anak               = false;
-$tampil_data_pengakuan_anak                 = false;
-$tampil_data_pengesahan_anak                = false;
-$tampil_data_perubahan_nama                 = false;
-$tampil_data_perubahan_status_kewarganeraan = false;
-$tampil_data_perubahan_peristiwa_lain       = false;
-$tampil_data_perubahan_akta                 = false;
-$tampil_data_pelaporan_luar_nkri            = false;
-
-switch ($surat->url_surat) {
-    case Illuminate\Support\Str::contains($surat->url_surat, 'surat-keterangan-kelahiran'):
-        $format_f201            = 1;
-        $tampil_data_anak       = true;
-        $tampil_data_orang_tua  = true;
-        $tampil_data_pelapor    = true;
-        $tampil_data_saksi      = true;
-        $tampil_data_lahir_mati = true;
-        break;
-
-    case Illuminate\Support\Str::contains($surat->url_surat, 'surat-keterangan-kematian'):
-        $format_f201           = 7;
-        $tampil_data_kematian  = true;
-        $tampil_data_orang_tua = true;
-        $tampil_data_pelapor   = true;
-        $tampil_data_saksi     = true;
-    break;
-
-        default:
-    // code...
-    break;
-}
+$format_f201            = 1;
+$tampil_data_anak       = true;
+$tampil_data_orang_tua  = true;
+$tampil_data_pelapor    = true;
+$tampil_data_saksi      = true;
+$tampil_data_lahir_mati = true;
 
 // include data pelapor dan saksi
 include STORAGEPATH . 'app/template/lampiran/kode_pelapor_saksi.php';
@@ -127,13 +92,3 @@ if ($ayah) {
     $input['pekerjaanid_ayah'] = str_pad($input['pekerjaanid_ayah'], 2, '0', STR_PAD_LEFT);
     $input['umur_ayah']        = str_pad($input['umur_ayah'], 3, '0', STR_PAD_LEFT);
 }
-
-// Karena data F-2.01 berisi berbagai jenis lampiran, sehingga yang dimaksud data utama belum sesuai
-$input['nik_kematian']      = get_nik($individu['nik']);
-$input['nama_kematian']     = $individu['nama'];
-$data_mati                  = $this->surat_model->get_data_mati($individu['id']);
-$input['tanggal_kematian']  = $data_mati->tgl_peristiwa;
-$input['jam_kematian']      = $data_mati->jam_mati;
-$input['sebab_kematian']    = $data_mati->sebab;
-$input['tempat_kematian']   = $data_mati->meninggal_di;
-$input['penolong_kematian'] = $data_mati->penolong_mati;
