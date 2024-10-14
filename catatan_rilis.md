@@ -30,3 +30,5 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8507](https://github.com/OpenSID/OpenSID/issues/8507) Penyesuaian notifikasi saat melakukan update dari premium ke umum bukan versi 6 bulan setelahnya.
 2. [#8554](https://github.com/OpenSID/OpenSID/issues/8554) Penyesuaian data awal surat layanan dan dinas bawaan.
 3. [#8555](https://github.com/OpenSID/OpenSID/issues/8555) Penyesuaian import surat layanan dan dinas bawaan.
+4. [#8573](https://github.com/OpenSID/OpenSID/issues/8573) Penyesuaian sebutan kecamatan mengikuti pengaturan aplikasi.
+5. [#8574](https://github.com/OpenSID/OpenSID/issues/8574) Penyesuaian url first/dpt menjadi data-dpt pada halaman web.
