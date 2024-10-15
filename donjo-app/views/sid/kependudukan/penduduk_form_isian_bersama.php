@@ -703,6 +703,8 @@
 			maxDate: 'now',
 		});
 
+		var jenis_peristiwa = <?php echo json_encode($jenis_peristiwa); ?>;
+
 		var addOrRemoveRequiredAttribute = function() {
 			var tglsekarang = new Date();
 			var tgllahir = parseInt($('#tgl_lahir').val().substring(6, 10));
@@ -729,6 +731,8 @@
 
 			if (selected == 2 || selected == 3) {
 				$("#status_perkawinan").val("2").change();
+			} else if ((selected == 4 || selected == 6) && jenis_peristiwa == 1) {
+				$("#status_perkawinan").val("1").change();
 			} else {
 				$("#status_perkawinan").val("").change();
 			}
