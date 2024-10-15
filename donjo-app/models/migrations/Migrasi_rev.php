@@ -91,7 +91,7 @@ class Migrasi_rev extends MY_model
         DB::table('setting_modul')->where('modul', 'analisis_respon')->update(['modul' => 'Input Data Sensus / Survei']);
         DB::table('setting_modul')->where('modul', 'analisis_laporan')->update(['modul' => 'Laporan Hasil Klasifikasi']);
         DB::table('setting_modul')->where('modul', 'analisis_statistik_jawaban')->update(['modul' => 'Laporan Per Indikator']);
-    
+
         return $hasil;
     }
 }
