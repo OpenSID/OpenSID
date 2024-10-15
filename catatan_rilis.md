@@ -30,3 +30,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8555](https://github.com/OpenSID/OpenSID/issues/8555) Penyesuaian import surat layanan dan dinas bawaan.
 4. [#8573](https://github.com/OpenSID/OpenSID/issues/8573) Penyesuaian sebutan kecamatan mengikuti pengaturan aplikasi.
 5. [#8574](https://github.com/OpenSID/OpenSID/issues/8574) Penyesuaian url first/dpt menjadi data-dpt pada halaman web.
+6. [#8535](https://github.com/OpenSID/OpenSID/issues/8535) Penyesuaian modul analisis menggunakan view blade dan ORM laravel.

@@ -35,17 +35,17 @@
  *
  */
 
+use App\Enums\Statistik\StatistikEnum;
+use App\Models\Bantuan;
+use App\Models\RefJabatan;
+use App\Models\Suplemen;
+use App\Models\Wilayah;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use App\Models\Bantuan;
-use App\Models\Wilayah;
-use App\Models\Suplemen;
-use voku\helper\AntiXSS;
-use App\Models\RefJabatan;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use App\Enums\Statistik\StatistikEnum;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use voku\helper\AntiXSS;
 
 /**
  * VERSION
@@ -1519,7 +1519,7 @@ function menu_slug($url)
             $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
             break;
 
-        case 'dpt';
+        case 'dpt':
             $url = 'data-dpt';
             break;
 
@@ -2169,7 +2169,7 @@ if (! function_exists('getSuratBawaanTinyMCE')) {
 if (! function_exists('restoreSuratBawaanTinyMCE')) {
     function restoreSuratBawaanTinyMCE($id = null)
     {
-        $id = $id ?? identitas('id');
+        $id ??= identitas('id');
 
         $suratFormats = DB::table('tweb_surat_format')
             ->where('config_id', $id)
@@ -2208,7 +2208,7 @@ if (! function_exists('getSuratBawaanDinasTinyMCE')) {
 if (! function_exists('restoreSuratBawaanDinasTinyMCE')) {
     function restoreSuratBawaanDinasTinyMCE($id = null)
     {
-        $id = $id ?? identitas('id');
+        $id ??= identitas('id');
 
         $suratFormats = DB::table('surat_dinas')
             ->where('config_id', $id)
@@ -2221,8 +2221,8 @@ if (! function_exists('restoreSuratBawaanDinasTinyMCE')) {
             if ($defaultSurat) {
                 $dataToUpdate = [
                     ...$defaultSurat,
-                    'config_id'    => $id,
-                    'form_isian'   => json_encode($defaultSurat['form_isian']),
+                    'config_id'  => $id,
+                    'form_isian' => json_encode($defaultSurat['form_isian']),
                 ];
 
                 DB::table('surat_dinas')
