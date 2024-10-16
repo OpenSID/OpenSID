@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8560](https://github.com/OpenSID/OpenSID/issues/8560) Perbaikan standar ukuran font menggunakan 12 dan format ukuran pt.
 16. [#8576](https://github.com/OpenSID/OpenSID/issues/8576) Perbaikan hapus surat desa secara masal.
 17. [#8561](https://github.com/OpenSID/OpenSID/issues/8561) Perbaikan grafik pendapatan desa dan belanja desa.
+18. [#8572](https://github.com/OpenSID/OpenSID/issues/8572) Perbaikan notifikasi gagal unggah tema.
 
 
 ### TEKNIS
