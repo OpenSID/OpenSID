@@ -114,7 +114,7 @@ class LaporanPenduduk
         if ((int) $lap > 50) {
             $program_id = preg_replace('/^50/', '', $lap);
 
-            return Bantuan::find($program_id)->get('nama');
+            return Bantuan::find($program_id)->nama;
         }
 
         $list_judul = [...StatistikPendudukEnum::allKeyLabel(),
