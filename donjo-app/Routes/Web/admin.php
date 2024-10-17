@@ -419,28 +419,56 @@ Route::group('pemilihan', static function (): void {
 
 // Statistik > Statistik Kependudukan
 Route::group('statistik', static function (): void {
-    Route::get('/', 'Statistik@index')->name('statistik.index');
-    Route::get('/clear/{lap?}/{order_by?}', 'Statistik@clear')->name('statistik.clear');
-    Route::get('/order_by/{lap?}/{order_by?}', 'Statistik@order_by')->name('statistik.order_by');
-    Route::get('/dialog/{aksi?}', 'Statistik@dialog')->name('statistik.dialog');
-    Route::post('/daftar/{aksi?}/{lap?}', 'Statistik@daftar')->name('statistik.daftar');
-    Route::get('/rentang_umur', 'Rentang_umur@rentang_umur')->name('statistik.rentang_umur');
-    Route::get('/datatables_rentang_umur', 'Rentang_umur@datatables_rentang_umur')->name('statistik.datatables_rentang_umur');
-    Route::get('/form_rentang/{id?}', 'Rentang_umur@form_rentang')->name('statistik.form_rentang');
-    Route::post('/rentang_insert', 'Rentang_umur@rentang_insert')->name('statistik.rentang_insert');
-    Route::post('/rentang_update/{id?}', 'Rentang_umur@rentang_update')->name('statistik.rentang_update');
-    Route::get('/rentang_delete/{id}', 'Rentang_umur@rentang_delete')->name('statistik.rentang_delete');
-    Route::post('/delete_all_rentang', 'Rentang_umur@delete_all_rentang')->name('statistik.delete_all_rentang');
-    Route::post('/dusun/{lap?}', 'Statistik@dusun')->name('statistik.dusun');
-    Route::post('/rw/{lap?}', 'Statistik@rw')->name('statistik.rw');
-    Route::post('/rt/{lap?}', 'Statistik@rt')->name('statistik.rt');
-    Route::match(['GET', 'POST'], '/filter/{key}', 'Statistik@filter')->name('statistik.filter');
-    Route::get('/load_chart_gis/{lap?}', 'Statistik@load_chart_gis')->name('statistik.load_chart_gis');
-    Route::get('/chart_gis_desa/{lap?}/{desa?}', 'Statistik@chart_gis_desa')->name('statistik.chart_gis_desa');
-    Route::get('/chart_gis_dusun/{lap?}/{dusun?}', 'Statistik@chart_gis_dusun')->name('statistik.chart_gis_dusun');
-    Route::get('/chart_gis_rw/{lap?}/{dusun?}/{rw?}', 'Statistik@chart_gis_rw')->name('statistik.chart_gis_rw');
-    Route::get('/chart_gis_rt/{lap?}/{dusun?}/{rw?}/{rt?}', 'Statistik@chart_gis_rt')->name('statistik.chart_gis_rt');
-    Route::match(['GET', 'POST'], '/ajax_peserta_program_bantuan', 'Statistik@ajax_peserta_program_bantuan')->name('statistik.ajax_peserta_program_bantuan');
+
+    Route::get('', 'Statistik@index')->name('statistik.index');
+
+    Route::get('clear', static function (): void {
+        redirect('statistik');
+    });
+
+    // Statistik Penduduk
+    Route::group('penduduk/{id}', static function (): void {
+        Route::get('', 'Statistik@index')->name('statistik.penduduk.index');
+        Route::get('datatables', 'Statistik@datatables')->name('statistik.penduduk.datatables');
+        Route::post('cetak/{aksi?}', 'Statistik@cetak')->name('statistik.penduduk.cetak');
+        Route::get('dialog/{aksi?}', 'Statistik@dialog')->name('statistik.penduduk.dialog');
+        Route::post('daftar/{aksi?}/{lap?}', 'Statistik@daftar')->name('statistik.penduduk.daftar');
+    });
+
+    // Statistik RTM
+    Route::group('rtm/{id}', static function (): void {
+        Route::post('cetak/{aksi?}', 'Statistik@cetak')->name('statistik.rtm.cetak_rtm');
+        Route::get('dialog/{aksi?}', 'Statistik@dialog')->name('statistik.rtm.dialog_rtm');
+    });
+
+    // Statistik Keluarga
+    Route::group('keluarga/{id}', static function (): void {
+        Route::get('', 'Statistik@index')->name('statistik.keluarga.index');
+        Route::get('datatables', 'Statistik@datatables')->name('statistik.keluarga.datatables');
+        Route::post('cetak/{aksi?}', 'Statistik@cetak')->name('statistik.keluarga.cetak');
+        Route::get('dialog/{aksi?}', 'Statistik@dialog')->name('statistik.keluarga.dialog');
+        Route::post('daftar/{aksi?}/{lap?}', 'Statistik@daftar')->name('statistik.keluarga.daftar');
+    });
+
+    // Statistik Bantuan
+    Route::group('bantuan/{id}', static function (): void {
+        Route::get('', 'Statistik_bantuan@index')->name('statistik.bantuan.program.index');
+        Route::get('datatables', 'Statistik_bantuan@datatables')->name('statistik.bantuan.datatables');
+        Route::get('dialog/{tipe}/{aksi}', 'Statistik_bantuan@dialog')->name('statistik.bantuan.dialog');
+        Route::post('cetak/{tipe}/{aksi}', 'Statistik_bantuan@cetak')->name('statistik.bantuan.cetak');
+        Route::get('peserta_datatables', 'Statistik_bantuan@peserta_datatables')->name('statistik.bantuan.peserta_datatables');
+    });
+
+    // Rentang Umur
+    Route::group('rentang_umur', static function (): void {
+        Route::get('', 'Rentang_umur@index')->name('statistik.rentang_umur');
+        Route::get('/datatables', 'Rentang_umur@datatables')->name('statistik.rentang_umur.datatables');
+        Route::get('/form/{id?}', 'Rentang_umur@form')->name('statistik.rentang_umur.form');
+        Route::post('/insert', 'Rentang_umur@insert')->name('statistik.rentang_umur.insert');
+        Route::post('/update/{id?}', 'Rentang_umur@update')->name('statistik.rentang_umur.update');
+        Route::get('/delete/{id}', 'Rentang_umur@delete')->name('statistik.rentang_umur.delete');
+        Route::post('/delete_all', 'Rentang_umur@delete_all')->name('statistik.rentang_umur.delete_all');
+    });
 });
 
 // Statistik > Laporan Bulanan

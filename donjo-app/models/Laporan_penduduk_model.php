@@ -129,26 +129,6 @@ class Laporan_penduduk_model extends MY_Model
         return $sql . ($delimiter ? ',' : '');
     }
 
-    public function judul_statistik($lap)
-    {
-        // Program bantuan berbentuk '50<program_id>'
-        if ((int) $lap > 50) {
-            $program_id = preg_replace('/^50/', '', $lap);
-
-            $program = $this->config_id(null, true)
-                ->select('nama')
-                ->where('id', $program_id)
-                ->get('program')
-                ->row_array();
-
-            return $program['nama'];
-        }
-
-        $list_judul = unserialize(STAT_PENDUDUK) + unserialize(STAT_KELUARGA) + unserialize(STAT_RTM) + unserialize(STAT_BANTUAN);
-
-        return $list_judul[$lap];
-    }
-
     // -------------------- Siapkan data untuk statistik kependudukan -------------------
 
     protected function hitung_total(&$data)
@@ -625,6 +605,7 @@ class Laporan_penduduk_model extends MY_Model
         if ($namespace->select_per_kategori()) {
             $this->order_by($o, $lap);
             $data = $this->db->get()->result_array();
+            // ss
             $this->isi_nomor($data);
         } else {
             $data = [];

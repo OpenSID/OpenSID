@@ -22,7 +22,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8576](https://github.com/OpenSID/OpenSID/issues/8576) Perbaikan hapus surat desa secara masal.
 17. [#8561](https://github.com/OpenSID/OpenSID/issues/8561) Perbaikan grafik pendapatan desa dan belanja desa.
 18. [#8572](https://github.com/OpenSID/OpenSID/issues/8572) Perbaikan notifikasi gagal unggah tema.
-19. [#8597](https://github.com/OpenSID/OpenSID/issues/8597) Perbaikan ubah menu bagian status yang kurang sesuai
+19. [#8597](https://github.com/OpenSID/OpenSID/issues/8597) Perbaikan ubah menu bagian status yang kurang sesuai.
+
 
 ### TEKNIS
 
@@ -32,3 +33,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8573](https://github.com/OpenSID/OpenSID/issues/8573) Penyesuaian sebutan kecamatan mengikuti pengaturan aplikasi.
 5. [#8574](https://github.com/OpenSID/OpenSID/issues/8574) Penyesuaian url first/dpt menjadi data-dpt pada halaman web.
 6. [#8535](https://github.com/OpenSID/OpenSID/issues/8535) Penyesuaian modul analisis menggunakan view blade dan ORM laravel.
+7. [#8592](https://github.com/OpenSID/OpenSID/issues/8592) Penyesuaian modul statistik kependudukan menggunakan view blade dan ORM laravel.

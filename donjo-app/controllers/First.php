@@ -38,6 +38,7 @@
 use App\Enums\Statistik\StatistikEnum;
 use App\Models\Komentar;
 use App\Models\Penduduk;
+use App\Services\LaporanPenduduk;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -209,7 +210,7 @@ class First extends Web_Controller
 
         $data                = $this->includes;
         $selectedTahun       = $this->input->get('tahun');
-        $data['heading']     = $this->laporan_penduduk_model->judul_statistik($stat);
+        $data['heading']     = LaporanPenduduk::judulStatistik($stat);
         $data['title']       = 'Statistik ' . $data['heading'];
         $data['stat']        = $this->laporan_penduduk_model->setTahun($selectedTahun)->list_data($stat);
         $data['tipe']        = $tipe;

@@ -35,30 +35,63 @@
  *
  */
 
+namespace App\Enums\Statistik;
+
+use App\Enums\BaseEnum;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class StatistikJenisBantuanEnum extends BaseEnum
 {
-    public function up()
+    public const PENDUDUK = [
+        'key'   => 'bantuan_penduduk',
+        'slug'  => 'bantuan-penduduk',
+        'label' => 'Bantuan Penduduk',
+    ];
+    public const KELUARGA = [
+        'key'   => 'bantuan_keluarga',
+        'slug'  => 'bantuan-keluarga',
+        'label' => 'Bantuan Keluarga',
+    ];
+
+    public static $data = [
+        self::PENDUDUK,
+        self::KELUARGA,
+    ];
+
+    /**
+     * Override method all()
+     */
+    public static function all(): array
     {
-        $hasil = true;
-
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        // }
-
-        $hasil = $this->migrasi_202410651($hasil);
-
-        return true;
+        return collect(self::$data)->pluck('label', 'slug')->toArray();
     }
 
-    protected function migrasi_202410651($hasil)
+    /**
+     * Get slug from key
+     */
+    public static function slugFromKey(mixed $key): ?string
     {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'statistik-kependudukan', 'url' => 'statistik/clear'],
-            ['url' => 'statistik']
-        );
+        $item = collect(self::$data)->firstWhere('key', $key);
+
+        return $item ? $item['slug'] : null;
+    }
+
+    /**
+     * Get all key label
+     */
+    public static function allKeyLabel(): array
+    {
+        return collect(self::$data)->pluck('label', 'key')->toArray();
+    }
+
+    /**
+     * Get key form slug
+     */
+    public static function keyFromSlug(mixed $slug): ?string
+    {
+        $item = collect(self::$data)->firstWhere('slug', $slug);
+
+        return $item ? $item['key'] : null;
     }
 }
