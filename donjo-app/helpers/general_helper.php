@@ -128,23 +128,26 @@ if (! function_exists('can')) {
                 })->toArray();
             }
             $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
-                // ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
+                ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
                 ->where('id_grup', $grupId)
-                ->select('grup_akses.*', 's1.slug as slug')
-                // ->select('s2.slug as parent_slug')
+                ->select('grup_akses.*', 's1.slug as slug', 's2.slug as parent_slug')
                 ->get();
 
-            return $grupAkses->mapWithKeys(static fn ($item) => [
-                $item->slug => [
-                    'id_modul' => $item->id_modul,
-                    // 'parent_slug' => $item->parent_slug,
-                    'id_grup' => $item->id_grup,
-                    'akses'   => $item->akses,
-                    'baca'    => $item->akses >= 1,
-                    'ubah'    => $item->akses >= 3,
-                    'hapus'   => $item->akses >= 7,
-                ],
-            ])->toArray();
+            return $grupAkses->mapWithKeys(static function ($item) use ($grupAkses) {
+                $item->akses = $grupAkses->where('parent_slug', $item->slug)->where('akses', '>', 0)->count() > 0 ? 7 : $item->akses;
+
+                return [
+                    $item->slug => [
+                        'id_modul'    => $item->id_modul,
+                        'parent_slug' => $item->parent_slug,
+                        'id_grup'     => $item->id_grup,
+                        'akses'       => $item->akses,
+                        'baca'        => $item->akses >= 1,
+                        'ubah'        => $item->akses >= 3,
+                        'hapus'       => $item->akses >= 7,
+                    ],
+                ];
+            })->toArray();
         });
 
         if (null === $akses) {

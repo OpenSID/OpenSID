@@ -43,6 +43,7 @@ trait ModulTrait
     public $moduleName;
     protected $except = [
         'Anjungan',
+        'Analisis',
     ];
 
     protected function getModuleDirectory()

@@ -160,7 +160,7 @@ class Menu extends Admin_Controller
     public function update($parent, $id): void
     {
         isCan('u');
-        $data = $this->validasi($this->input->post(), $id, $parent);
+        $data = $this->validasi($this->input->post(), $parent, $id);
 
         try {
             $obj = MenuModel::findOrFail($id);
@@ -217,8 +217,8 @@ class Menu extends Admin_Controller
 
     private function validasi($post, $parent = null, $id = null): array
     {
-        $cek = MenuModel::where('link', $post['link'])->whereNotIn('link', ['', '#'])->where('id', '!=', $id)->exists();
-        if ($cek) {
+        $cek = MenuModel::where('link', $post['link'])->where('id', '!=', $id)->exists();
+        if ($cek && $post['link_tipe'] !== '99') {
             $parrent = $parent ? '?parent=' . $parent : '';
             redirect_with('error', 'Link sudah digunakan', ci_route('menu.index') . $parrent);
         }

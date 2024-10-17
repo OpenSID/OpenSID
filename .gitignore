@@ -71,6 +71,8 @@ Modules/*
 # Do not ignore Anjungan folder and its contents
 !Modules/Anjungan/
 !Modules/Anjungan/**
+!Modules/Analisis/
+!Modules/Analisis/**
 
 # Do not ignore specific files
 !Modules/.gitkeep

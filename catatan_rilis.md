@@ -23,6 +23,12 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#8559](https://github.com/OpenSID/OpenSID/issues/8559) Perbaikan nomor surat dengan nomor surat hasil scan tidak sesuai
 12. [#8559](https://github.com/OpenSID/OpenSID/issues/8569) Perbaikan daftar peserta bantuan tidak tampil.
 13. [#8565](https://github.com/OpenSID/OpenSID/issues/8565) Perbaikan pratinjau surat yang memiliki lampiran pada master surat layanan.
+14. [#8567](https://github.com/OpenSID/OpenSID/issues/8567) Perbaikan dan pisahkan lampiran F-2.01 mejnadi F-2.01 -Kelahiran dan F-2.01-Kematian.
+15. [#8560](https://github.com/OpenSID/OpenSID/issues/8560) Perbaikan standar ukuran font menggunakan 12 dan format ukuran pt.
+16. [#8576](https://github.com/OpenSID/OpenSID/issues/8576) Perbaikan hapus surat desa secara masal.
+17. [#8561](https://github.com/OpenSID/OpenSID/issues/8561) Perbaikan grafik pendapatan desa dan belanja desa.
+18. [#8572](https://github.com/OpenSID/OpenSID/issues/8572) Perbaikan notifikasi gagal unggah tema.
+19. [#8597](https://github.com/OpenSID/OpenSID/issues/8597) Perbaikan ubah menu bagian status yang kurang sesuai.
 
 
 ### TEKNIS
@@ -32,3 +38,5 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 3. [#8555](https://github.com/OpenSID/OpenSID/issues/8555) Penyesuaian import surat layanan dan dinas bawaan.
 4. [#8573](https://github.com/OpenSID/OpenSID/issues/8573) Penyesuaian sebutan kecamatan mengikuti pengaturan aplikasi.
 5. [#8574](https://github.com/OpenSID/OpenSID/issues/8574) Penyesuaian url first/dpt menjadi data-dpt pada halaman web.
+6. [#8535](https://github.com/OpenSID/OpenSID/issues/8535) Penyesuaian modul analisis menggunakan view blade dan ORM laravel.
+7. [#8592](https://github.com/OpenSID/OpenSID/issues/8592) Penyesuaian modul statistik kependudukan menggunakan view blade dan ORM laravel.

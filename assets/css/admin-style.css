@@ -852,3 +852,8 @@ hr.batas {
 .rounded {
     border-radius: 5px;
 }
+
+.judul-besar {
+    text-transform: uppercase;
+    font-size: 12px;
+}

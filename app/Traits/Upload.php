@@ -41,7 +41,7 @@ use Exception;
 
 trait Upload
 {
-    protected function upload($file, $config = [])
+    protected function upload($file, $config = [], $redirectUrl = null)
     {
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
@@ -50,14 +50,14 @@ trait Upload
             $upload = $this->upload->do_upload($file);
 
             if (! $upload) {
-                redirect_with('error', $this->upload->display_errors(), $this->controller);
+                redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
             }
 
             $uploadData = $this->upload->data();
 
             return $uploadData['file_name'];
         } catch (Exception) {
-            redirect_with('error', $this->upload->display_errors(), $this->controller);
+            redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
         }
 
         return null;

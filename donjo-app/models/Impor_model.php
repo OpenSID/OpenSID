@@ -39,10 +39,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Enums\SHDKEnum;
 use App\Models\LogPenduduk;
-use Illuminate\Support\Carbon;
 use App\Models\PendudukAsuransi;
-use OpenSpout\Reader\XLSX\Reader;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use OpenSpout\Reader\XLSX\Reader;
 
 class Impor_model extends MY_Model
 {
@@ -350,15 +350,16 @@ class Impor_model extends MY_Model
             return Carbon::parse($kolom_tanggal)->format('Y-m-d');
         } catch (Exception $e) {
             log_message('error', 'Format tanggal (' . $kolom_tanggal . ') tidak valid. Format tanggal harus dd-mm-yyyy');
+
             return false;
         }
     }
-
 
     protected function cekValidasiTanggal($tanggal)
     {
         try {
             $date = Carbon::createFromFormat('Y-m-d', $tanggal);
+
             return $date && $date->format('Y-m-d') === $tanggal;
         } catch (Exception $e) {
             return false;

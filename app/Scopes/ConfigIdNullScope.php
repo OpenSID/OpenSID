@@ -52,7 +52,7 @@ class ConfigIdNullScope implements Scope
     {
         // semua model yang menerapkan trait ConfigId dipastikan memiliki kolom config_id
         return $builder->where($model->getTable() . '.config_id', identitas('id'))
-            ->orWhereNull('config_id');
+            ->orWhereNull($model->getTable() . '.config_id');
     }
 
     /**

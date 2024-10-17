@@ -547,29 +547,21 @@ class Surat_master extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id): void
+    public function delete($id = null): void
     {
         isCan('h');
-        $surat = FormatSurat::findOrFail($id);
 
-        if ($surat->jenis !== FormatSurat::TINYMCE_DESA) {
+        $suratSistem = FormatSurat::sistem()->whereIn('id', $this->request['id_cb'] ?? [$id])->count();
+
+        if ($suratSistem) {
             redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
         }
 
-        if ($surat->delete($id)) {
+        if (FormatSurat::destroy($this->request['id_cb'] ?? $id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function delete_all(): void
-    {
-        isCan('h');
-
-        foreach ($this->request['id_cb'] as $id) {
-            $this->delete($id);
-        }
     }
 
     public function pengaturan()

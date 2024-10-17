@@ -35,9 +35,9 @@
  *
  */
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -54,9 +54,7 @@ class Migrasi_2024100951 extends MY_model
             $hasil = $this->migrasi_2024100852($hasil, $id);
         }
 
-        $hasil = $this->migrasi_2024100851($hasil);
-
-        return $hasil;
+        return $this->migrasi_2024100851($hasil);
     }
 
     private function migrasi_2024100351($hasil, $id)

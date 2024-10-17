@@ -51,4 +51,14 @@ class KeluargaAktif extends BaseModel
      * @var string
      */
     protected $table = 'keluarga_aktif';
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function kepalaKeluarga()
+    {
+        return $this->hasOne(Penduduk::class, 'id_kk')->kepalaKeluarga();
+    }
 }
