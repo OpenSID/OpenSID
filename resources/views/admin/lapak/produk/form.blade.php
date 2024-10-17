@@ -172,15 +172,14 @@
                     <div class="box-body">
                         <center>
                             @php $foto = json_decode($main->foto, null); @endphp
-                            @for ($i = 0; $i < setting('banyak_foto_tiap_produk'); $i++) <b>Foto {{ $i == 0 ? 'Utama' : 'Tambahan ' . $i
-                                }}</b>
+                            @for ($i = 0; $i < setting('banyak_foto_tiap_produk'); $i++)
+                                <b>Foto {{ $i == 0 ? 'Utama' : 'Tambahan ' . $i }}</b>
                                 @php $ii = $i + 1; @endphp
                                 <div class="form-group preview-img">
                                     @if (is_file(LOKASI_PRODUK . $foto[$i]))
-                                    <img class="img-responsive" src="{{ to_base64(LOKASI_PRODUK . $foto[$i]) }}" alt="Foto Produk">
+                                        <img class="img-responsive" src="{{ to_base64(LOKASI_PRODUK . $foto[$i]) }}" alt="Foto Produk">
                                     @else
-                                    <img class="img-responsive" src="{{ to_base64('assets/images/404-image-not-found.jpg') }}"
-                                        alt="Foto Produk" />
+                                        <img class="img-responsive" src="{{ to_base64('assets/images/404-image-not-found.jpg') }}" alt="Foto Produk" />
                                     @endif
                                     <div class="input-group input-group-sm">
                                         <input type="hidden" name="old_foto_{{ $ii }}" value="{{ $foto[$i] }}">
@@ -195,7 +194,7 @@
                                     </div>
                                 </div>
                                 <hr />
-                                @endfor
+                            @endfor
                         </center>
                     </div>
                 </div>

@@ -30,8 +30,15 @@
                     <div class="form-group">
                         <label class="col-sm-12 control-label" for="ukuran">Dimensi logo (persegi)</label>
                         <div class="col-sm-12">
-                            <input id="ukuran" name="ukuran" class="form-control input-sm number" min="100" max="400" type="text"
-                                placeholder="Kosongkan jika ingin dimensi bawaan" />
+                            <input
+                                id="ukuran"
+                                name="ukuran"
+                                class="form-control input-sm number"
+                                min="100"
+                                max="400"
+                                type="text"
+                                placeholder="Kosongkan jika ingin dimensi bawaan"
+                            />
                         </div>
                     </div>
                     <div class="input-group input-group-sm">
@@ -43,11 +50,10 @@
                     </div>
                 </div>
             </div>
-        
+
             <div class="box box-primary">
                 <div class="box-body box-profile preview-img">
-                    <img class="img-responsive" src="{{ gambar_desa($main['path_kantor_desa'], true) }}"
-                        alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
+                    <img class="img-responsive" src="{{ gambar_desa($main['path_kantor_desa'], true) }}" alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
                     <br />
                     <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
                     <p class="text-muted text-center text-red">(Kosongkan, jika kantor {{ ucwords($setting->sebutan_desa) }} tidak
