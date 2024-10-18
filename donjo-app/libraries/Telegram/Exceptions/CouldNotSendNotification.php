@@ -35,7 +35,6 @@
  *
  */
 
-use Exception;
 use GuzzleHttp\Exception\ClientException;
 
 /**

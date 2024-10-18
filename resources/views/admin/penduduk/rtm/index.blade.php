@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-sm-2">
                     <select id="dusun" class="form-control input-sm select2">
-                        <option value="">Pilih Dusun</option>
+                        <option value="">Pilih {{ ucwords(setting('sebutan_dusun')) }}</option>
                         @foreach ($wilayah as $item)
                             <option value="{{ $item->id }}">{{ $item->dusun }}</option>
                         @endforeach
@@ -103,7 +103,7 @@
                         <option value="">Pilih RW</option>
                         @foreach ($wilayah as $item)
                             <optgroup label="{{ $item->dusun }}">
-                                @foreach ($item->rws as $child)
+                                @foreach ($item->rwAll as $child)
                                     <option value="{{ $child->id }}">{{ $child->rw }}</option>
                                 @endforeach
                             </optgroup>
@@ -114,9 +114,9 @@
                     <select id="rt" class="form-control input-sm select2">
                         <option value="">Pilih RT</option>
                         @foreach ($wilayah as $item)
-                            @foreach ($item->rws as $child)
+                            @foreach ($item->rwAll as $child)
                                 <optgroup value={{ $child->id }} label="{{ $child->rw }}">
-                                    @foreach ($item->rts as $rt)
+                                    @foreach ($item->rts->where('rw', $child->rw) as $rt)
                                         <option value="{{ $rt->id }}">{{ $rt->rt }}</option>
                                     @endforeach
                                 </optgroup>
@@ -231,12 +231,14 @@
                     {
                         data: 'kepala_keluarga.nama',
                         name: 'kepalaKeluarga.nama',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kepala_keluarga.nik',
                         name: 'kepalaKeluarga.nik',
+                        defaultContent: '-',
                         searchable: true,
                         orderable: false
                     },

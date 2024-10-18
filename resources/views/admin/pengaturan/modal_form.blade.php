@@ -21,7 +21,8 @@
                     <input type="hidden" name="{{ $pengaturan->key }}" value="[]">
                     <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $key => $val)
-                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>{{ $val['nama'] }}</option>
+                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>
+                                {{ SebutanDesa($val['nama']) }}</option>
                         @endforeach
                     </select>
                 @elseif ($pengaturan->jenis == 'datetime')

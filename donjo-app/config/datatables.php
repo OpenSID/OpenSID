@@ -74,10 +74,10 @@ return [
      * This is where you can register your custom dataTables builder.
      */
     'engines' => [
-        'eloquent'   => \App\Services\DataTables\EloquentDataTable::class,
-        'query'      => \App\Services\DataTables\QueryDataTable::class,
-        'collection' => \App\Services\DataTables\CollectionDataTable::class,
-        'resource'   => \App\Services\DataTables\ApiResourceDataTable::class,
+        'eloquent'   => App\Services\DataTables\EloquentDataTable::class,
+        'query'      => App\Services\DataTables\QueryDataTable::class,
+        'collection' => App\Services\DataTables\CollectionDataTable::class,
+        'resource'   => App\Services\DataTables\ApiResourceDataTable::class,
     ],
 
     /*

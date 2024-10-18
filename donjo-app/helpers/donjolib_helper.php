@@ -783,12 +783,12 @@ function get_pesan_opendk(): void
     if ((! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) || empty($ci->setting->api_opendk_key)) {
         return;
     }
-    $model_pesan        = new \App\Models\Pesan();
-    $model_detail_pesan = new \App\Models\PesanDetail();
+    $model_pesan        = new App\Models\Pesan();
+    $model_detail_pesan = new App\Models\PesanDetail();
     $id_terakhir        = $model_detail_pesan::latest('id')->first()->id;
 
     try {
-        $client   = new \GuzzleHttp\Client();
+        $client   = new GuzzleHttp\Client();
         $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
@@ -835,7 +835,7 @@ if (! function_exists('opendk_api')) {
         $ci = &get_instance();
 
         try {
-            $client   = new \GuzzleHttp\Client();
+            $client   = new GuzzleHttp\Client();
             $response = $client->{$method}("{$ci->setting->api_opendk_server}{$path_url}", array_merge(
                 [
                     'headers' => [

@@ -72,7 +72,7 @@ abstract class Abstract_manager
         $driver = $driver ?: $this->getDefaultDriver();
 
         if (null === $driver) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Unable to resolve NULL driver for [%s].',
                 static::class
             ));

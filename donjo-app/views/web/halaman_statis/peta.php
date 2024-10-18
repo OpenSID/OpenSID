@@ -147,7 +147,12 @@
       var LOKASI_GALERI = '<?= base_url(LOKASI_GALERI) ?>';
       var info_pembangunan = '<?= site_url('pembangunan') ?>';
       var all_persil = '<?= addslashes(json_encode($persil, JSON_THROW_ON_ERROR)) ?>';
-      var TAMPIL_LUAS = <?= setting('tampil_luas_peta') ?>
+      var TAMPIL_LUAS = '<?= setting('tampil_luas_peta') ?>';
+      var PENGATURAN_WILAYAH = '<?= SebutanDesa(setting('default_tampil_peta_wilayah')) ?: [] ?>';
+      var PENGATURAN_INFRASTRUKTUR = '<?= SebutanDesa(setting('default_tampil_peta_infrastruktur')) ?: [] ?>';
+      var WILAYAH_INFRASTRUKTUR = PENGATURAN_WILAYAH.concat(PENGATURAN_INFRASTRUKTUR);
+
+      console.log(PENGATURAN_WILAYAH);
 
       //OVERLAY WILAYAH DESA
       <?php if (! empty($desa['path'])) : ?>
@@ -269,6 +274,12 @@
       $('#isi_popup_rw').remove();
       $('#isi_popup_rt').remove();
       $('#isi_popup').remove();
+
+      $('input[type=checkbox]').each(function() {
+        if (WILAYAH_INFRASTRUKTUR.includes($(this).next().text().trim())) {
+          $(this).click();
+        }
+      });
 
     }; //EOF window.onload
 

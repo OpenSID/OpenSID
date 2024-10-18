@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Feed_Reader
 {
-    private \FeedParser $parser;
+    private FeedParser $parser;
     public $items;
 
     public function __construct()

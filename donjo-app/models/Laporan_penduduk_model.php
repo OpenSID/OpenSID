@@ -279,6 +279,7 @@ class Laporan_penduduk_model extends MY_Model
             ->from('tweb_rtm r')
             ->join('tweb_penduduk p', 'p.id = r.nik_kepala', 'left') //TODO : Ganti kolom no_kk jadi no_rtm
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
+            ->where('r.nik_kepala !=', null)
             ->get()
             ->row_array();
     }
@@ -430,7 +431,7 @@ class Laporan_penduduk_model extends MY_Model
                     ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
                     ->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
                     ->from('tweb_rtm u')
-                    ->join('tweb_penduduk p', 'p.id = u.nik_kepala', 'left')
+                    ->join('tweb_penduduk p', 'p.id = u.nik_kepala')
                     ->group_by('u.id')
                     ->where('u.bdt !=', null);
                 break;
@@ -614,6 +615,7 @@ class Laporan_penduduk_model extends MY_Model
             $data = [];
         }
 
+        $data[] = $this->baris_jumlah($total, $judul_jumlah);
         $data[] = $this->baris_belum($semua, $total, $judul_belum);
         $this->hitung_persentase($data, $semua);
 
@@ -709,7 +711,7 @@ class Laporan_penduduk_model extends MY_Model
     public function filter_status(): void
     {
         $status = (string) $this->session->status;
-        if ($status != '') {
+        if ($status !== '') {
             $this->db->where('u.status', $status);
         }
     }

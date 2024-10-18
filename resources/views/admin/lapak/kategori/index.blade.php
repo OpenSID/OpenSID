@@ -21,24 +21,23 @@
 
     <div class="box box-info">
         <div class="box-header with-border">
-            @if (can('u'))
-                <a
-                    href="{{ site_url("lapak_admin/kategori_form/{$main->id}") }}"
-                    class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                    title="Tambah"
-                    data-target="#modalBox"
-                    data-remote="false"
-                    data-toggle="modal"
-                    data-backdrop="false"
-                    data-keyboard="false"
-                    data-title="Tambah Data"
-                ><i class="fa fa fa-plus"></i> Tambah</a>
-            @endif
-            @if (can('h'))
-                <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','{{ site_url('lapak_admin/kategori_delete_all') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
-                        class='fa fa-trash-o'
-                    ></i> Hapus</a>
-            @endif
+            <div class="box-header with-border">
+                @includeIf('admin.layouts.components.buttons.tambah', [
+                    'modal' => true,
+                    'url' => "lapak_admin/kategori_form/{$main->id}",
+                ])
+                @includeIf('admin.layouts.components.buttons.hapus', [
+                    'url' => 'lapak_admin/kategori_delete_all',
+                ])
+                @includeIf('admin.layouts.components.buttons.cetak', [
+                    'modal' => true,
+                    'url' => 'lapak_admin/kategori/dialog/cetak',
+                ])
+                @includeIf('admin.layouts.components.buttons.unduh', [
+                    'modal' => true,
+                    'url' => 'lapak_admin/kategori/dialog/unduh',
+                ])
+            </div>
         </div>
         <form id="mainform" name="mainform" method="post">
             <div class="box-header with-border form-inline">
@@ -120,14 +119,17 @@
                         'data': function(data) {
                             let status;
                             if (data.status == 1) {
-                                status = `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}/2" class="btn bg-navy btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
+                                status =
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}/2" class="btn bg-navy btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
                             } else {
-                                status = `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}/1" class="btn bg-navy btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`
+                                status =
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}/1" class="btn bg-navy btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`
                             }
 
                             let hapus;
                             if (data.jumlah == 0) {
-                                hapus = `<a href="#" data-href="{{ site_url('lapak_admin/kategori_delete/') }}${data.id}" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
+                                hapus =
+                                    `<a href="#" data-href="{{ site_url('lapak_admin/kategori_delete/') }}${data.id}" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
                             } else {
                                 hapus = ''
                             }

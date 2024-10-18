@@ -72,7 +72,7 @@ class Rtm extends Admin_Controller
         $data = [
             'status'          => [StatusEnum::YA => 'Aktif', StatusEnum::TIDAK => 'Tidak Aktif'],
             'jenis_kelamin'   => JenisKelaminEnum::all(),
-            'wilayah'         => Wilayah::with(['rws' => static fn ($q) => $q->select(['id', 'dusun', 'rt', 'rw'])->with(['rts' => static fn ($r) => $r->select(['id', 'dusun', 'rt', 'rw'])])])->select(['id', 'dusun', 'rt', 'rw'])->dusun()->get(),
+            'wilayah'         => Wilayah::with(['rwAll' => static fn ($q) => $q->select(['id', 'dusun', 'rt', 'rw'])->with(['rts' => static fn ($r) => $r->select(['id', 'dusun', 'rt', 'rw'])])])->select(['id', 'dusun', 'rt', 'rw'])->dusun()->get(),
             'judul_statistik' => $this->judulStatistik,
             'filterColumn'    => $this->filterColumn,
         ];
@@ -103,7 +103,14 @@ class Rtm extends Admin_Controller
                 $idCluster = Wilayah::whereDusun($namaDusun)->select(['id'])->get()->pluck('id')->toArray();
             }
 
-            return datatables()->of(RtmModel::when($status != null, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $status == 1 ? $r->whereStatusDasar($status) : $r->whereNull('status_dasar')))->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
+            return datatables()->of(RtmModel::when($status != null, static function ($q) use ($status) {
+                    if ($status == '1') {
+                        $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereStatusDasar($status));
+                    } elseif ($status == '0') {
+                        $q->whereDoesntHave('kepalaKeluarga')->orWhereHas('kepalaKeluarga', static fn ($r) => $r->where('status_dasar', '!=', 1));
+                    }
+                })
+                ->when($sex, static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($r) => $r->whereSex($sex)))
                 ->when(in_array($bdt, [BELUM_MENGISI, JUMLAH]), static fn ($q) => $bdt == BELUM_MENGISI ? $q->whereNull('bdt') : $q->whereNotNull('bdt'))
                 ->when($idCluster, static fn ($q) => $q->whereHas('kepalaKeluarga.keluarga', static fn ($r) => $r->whereIn('id_cluster', $idCluster)))
                 ->with(['kepalaKeluarga' => static fn ($q) => $q->withOnly(['keluarga'])])->withCount('anggota'))

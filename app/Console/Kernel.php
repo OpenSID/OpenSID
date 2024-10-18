@@ -54,7 +54,7 @@ class Kernel implements KernelContract
     /**
      * The application implementation.
      */
-    protected \App\Services\Laravel $app;
+    protected Laravel $app;
 
     /**
      * The Artisan application instance.

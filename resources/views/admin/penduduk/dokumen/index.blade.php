@@ -32,7 +32,7 @@
                         class='fa fa-trash-o'
                     ></i> Hapus</a>
             @endif
-            <a href="{{ preg_match('/bumindes_arsip/i', $_SERVER['HTTP_REFERER']) ? ci_route('bumindes_arsip.clear') : ci_route('penduduk.detail', "1/0/{$penduduk->id}") }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+            <a href="{{ preg_match('/bumindes_arsip/i', $_SERVER['HTTP_REFERER']) ? ci_route('bumindes_arsip.clear') : ci_route('penduduk.detail', $penduduk->id) }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                     class="fa fa-arrow-circle-left"
                 ></i> Kembali ke Halaman
                 {{ $_SERVER['HTTP_REFERER'] == ci_route('bumindes_arsip') ? 'Bumindes Arsip' : 'Biodata Penduduk' }}</a>

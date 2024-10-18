@@ -43,11 +43,13 @@
 						<td>:</td>
 						<td><?= "Surat " . $surat->perihal; ?></td>
 					</tr>
+					<?php if ($surat->nama_penduduk): ?>
 					<tr>
 						<td></td>
 						<td></td>
 						<td><?= "a/n " . $surat->nama_penduduk ?></td>
 					</tr>
+					<?php endif; ?>
 					<tr>
 						<td colspan="3"><u><b>Ditandatangani oleh :</b></u></td>
 					</tr>

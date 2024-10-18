@@ -37,10 +37,14 @@
 
 namespace App\Models;
 
+use App\Traits\ShortcutCache;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bantuan extends BaseModel
 {
+    use ShortcutCache;
+
     /**
      * The table associated with the model.
      *

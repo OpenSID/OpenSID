@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\PendudukMandiri;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,33 +44,34 @@ class Migrasi_dev extends MY_model
     public function up()
     {
         $hasil = true;
-        $hasil = $hasil && $this->migrasi_2024031451($hasil);
-        $hasil = $hasil && $this->migrasi_2024031851($hasil);
-        $hasil = $hasil && $this->migrasi_2024032051($hasil);
 
-        return $hasil && true;
+        $hasil = $hasil && $this->migrasi_tabel($hasil);
+
+        return $hasil && $this->migrasi_data($hasil);
     }
 
-    protected function migrasi_2024031451($hasil)
+    protected function migrasi_tabel($hasil)
     {
-        if (! $this->db->field_exists('input', 'log_surat')) {
-            $hasil = $hasil && $this->db->query('ALTER TABLE `log_surat` ADD COLUMN `input` LONGTEXT NULL AFTER `pemohon`');
-        }
-
         return $hasil;
     }
 
-    protected function migrasi_2024031851($hasil)
+    // Migrasi perubahan data
+    protected function migrasi_data($hasil)
     {
-        PendudukMandiri::whereDoesntHave('penduduk')->delete();
-        $hasil && $this->tambahForeignKey('tweb_penduduk_mandiri_penduduk_fk', 'tweb_penduduk_mandiri', 'id_pend', 'tweb_penduduk', 'id', false, true);
+        // Migrasi berdasarkan config_id
+        // $config_id = DB::table('config')->pluck('id')->toArray();
 
-        return $hasil;
+        // foreach ($config_id as $id) {
+        //     $hasil = $hasil && $this->migrasi_xxxx($hasil, $id);
+        // }
+
+        return $hasil && $this->migrasi_2024042751($hasil);
     }
 
-    protected function migrasi_2024032051($hasil)
+    protected function migrasi_2024042751($hasil)
     {
-        DB::table('setting_modul')->where('slug', 'beranda')->delete();
+        log_message('notice', 'Migrasi data 2024042751');
+        DB::table('menu')->where('enabled', 2)->update(['enabled' => 0]);
 
         return $hasil;
     }

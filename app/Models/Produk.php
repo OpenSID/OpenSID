@@ -38,11 +38,13 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
 class Produk extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     protected $table   = 'produk';
     protected $guarded = [];

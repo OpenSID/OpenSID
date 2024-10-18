@@ -168,7 +168,7 @@ class Siteman extends MY_Controller
             $status = $this->password->driver('email')->sendResetLink([
                 'email' => $this->input->post('email'),
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             set_session('notif', 'Tidak berhasil mengirim email, harap mencoba kembali.');
@@ -213,7 +213,7 @@ class Siteman extends MY_Controller
                     $this->db->where('id', $user->id)->update('user', ['password' => $this->generatePasswordHash($password)]);
                 }
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             set_session('notif', 'Tidak berhasil memverifikasi kata sandi, silahkan coba kembali.');

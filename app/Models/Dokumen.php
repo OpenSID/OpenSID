@@ -93,6 +93,8 @@ class Dokumen extends BaseModel
         'tipe',
         'url',
         'attr',
+        'tahun',
+        'kategori_info_publik',
     ];
 
     /**

@@ -43,7 +43,7 @@
             <div class="col-sm-6">
                 <div class="row">
                     <div class="col-sm-2">
-                        <input type="number" class="form-control input-sm" id="masa_berlaku" name="masa_berlaku" onchange="masaBerlaku()" value="{{ $suratMaster->masa_berlaku ?? 1 }}">
+                        <input type="number" class="form-control input-sm" id="masa_berlaku" name="masa_berlaku" onchange="masaBerlaku()" value="{{ $suratMaster->masa_berlaku ?? 0 }}">
                     </div>
                     <div class="col-sm-3">
                         <select class="form-control input-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Orientasi Kertas</label>
                 <div class="col-sm-7">
-                    <select class="form-control input-sm select2-tags required" name="orientasi">
+                    <select class="form-control input-sm select2 required" name="orientasi">
                         @foreach ($orientations as $value)
                             <option value="{{ $value }}" @selected(($suratMaster->orientasi ?? $default_orientations) === $value)>
                                 {{ $value }}</option>
@@ -76,7 +76,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">Ukuran Kertas</label>
                 <div class="col-sm-7">
-                    <select class="form-control input-sm select2-tags required" name="ukuran">
+                    <select class="form-control input-sm select2 required" name="ukuran">
                         @foreach ($sizes as $value)
                             <option value="{{ $value }}" @selected(($suratMaster->ukuran ?? $default_sizes) === $value)>
                                 {{ $value }}</option>

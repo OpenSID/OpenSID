@@ -223,7 +223,7 @@ class Laravel extends Container
     /**
      * Register a service provider with the application.
      *
-     * @param \Illuminate\Support\ServiceProvider|string $provider
+     * @param ServiceProvider|string $provider
      */
     public function register($provider): void
     {

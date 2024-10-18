@@ -158,12 +158,13 @@ class Setting_model extends MY_Model
         $this->load->model('database_model');
         $this->database_model->cek_migrasi();
 
-        cache()->flush();
+        // cache()->flush();
     }
 
     public function update_setting($data)
     {
         $hasil = true;
+        $this->load->model('theme_model');
 
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website'] != '') {
@@ -273,7 +274,7 @@ class Setting_model extends MY_Model
         return false;
     }
 
-    private function notifikasi_tracker()
+    private function notifikasi_tracker(): bool
     {
         if ($this->setting->enable_track == 0) {
             // Notifikasi tracker dimatikan
@@ -308,7 +309,7 @@ class Setting_model extends MY_Model
 
         // Hapus Cache
         // $this->cache->hapus_cache_untuk_semua('status_langganan');
-        cache()->flush();
+        // cache()->flush();
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         status_sukses($outp);
@@ -319,7 +320,7 @@ class Setting_model extends MY_Model
     public function aktifkan_tracking(): void
     {
         $outp = $this->config_id()->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
-        cache()->flush();
+        // cache()->flush();
 
         status_sukses($outp);
     }
@@ -331,7 +332,7 @@ class Setting_model extends MY_Model
         $this->setting->jumlah_gambar_slider = $this->input->post('jumlah_gambar_slider');
         $outp                                = $this->config_id()->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
         $outp                                = $this->config_id()->where('key', 'jumlah_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('jumlah_gambar_slider')]);
-        cache()->flush();
+        // cache()->flush();
 
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -352,7 +353,6 @@ class Setting_model extends MY_Model
         $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
         $this->setting->penggunaan_server = $penggunaan_server;
         $out2                             = $this->config_id()->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
-        cache()->flush();
 
         if (! $out1 || ! $out2) {
             $_SESSION['success'] = -1;

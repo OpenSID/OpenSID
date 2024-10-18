@@ -59,7 +59,6 @@ class Admin_Controller extends MY_Controller
         // To inherit directly the attributes of the parent class.
         parent::__construct();
         $this->CI = &get_instance();
-        
         $this->controller = strtolower($this->router->fetch_class());
         if (! auth()) {
             redirect('siteman');
@@ -82,8 +81,7 @@ class Admin_Controller extends MY_Controller
      * Urutan pengecakan :
      *
      * 1. Config desa sudah diisi
-     * 2. Validasi pelanggan premium
-     * 3. Password standard (sid304)
+     * 2. Password standard (sid304)
      */
     private function cek_identitas_desa(): void
     {
@@ -95,7 +93,6 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
-        
         $force    = $this->session->force_change_password;
 
         if ($force && ! $kode_desa && $this->controller != 'pengguna') {

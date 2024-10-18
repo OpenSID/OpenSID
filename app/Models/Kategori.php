@@ -148,6 +148,11 @@ class Kategori extends BaseModel
         return $this->hasMany(Kategori::class, 'parrent', 'id');
     }
 
+    public function artikel(): HasMany
+    {
+        return $this->hasMany(Artikel::class, 'id_kategori');
+    }
+
     public static function isUniqueKategori($kategori, $config_id, $id = null)
     {
         $query = Kategori::where(['kategori' => $kategori, 'config_id' => $config_id]);

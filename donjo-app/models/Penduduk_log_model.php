@@ -63,7 +63,7 @@ class Penduduk_log_model extends MY_Model
     public function get_log($id_log)
     {
         $log = $this->config_id('l')
-            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati")
+            ->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya, p.kelahiran_anak_ke AS anak_ke, l.jam_mati, l.sebab, l.penolong_mati, l.akta_mati, l.file_akta_mati")
             ->where('l.id', $id_log)
             ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
             ->join('ref_peristiwa s', 's.id = l.kode_peristiwa', 'left')
@@ -107,6 +107,13 @@ class Penduduk_log_model extends MY_Model
 
         if ($this->input->post('akta_mati')) {
             $data['akta_mati'] = $this->input->post('akta_mati');
+            if (! empty($_FILES['nama_file']['name'])) {
+                $data['file_akta_mati'] = $this->upload_akta_mati($id_log);
+                $old                    = LOKASI_DOKUMEN . $this->config_id()->where('id', $id_log)->get('log_penduduk')->row()->file_akta_mati;
+                if (file_exists($old)) {
+                    unlink($old);
+                }
+            }
         }
 
         $penduduk = [];
@@ -129,6 +136,29 @@ class Penduduk_log_model extends MY_Model
 
         $outp = $this->config_id()->where('id', $id_log)->update('log_penduduk', $data);
         status_sukses($outp);
+    }
+
+    private function upload_akta_mati($id)
+    {
+        $this->load->library('My_upload', null, 'upload');
+
+        $config = [
+            'upload_path'   => LOKASI_DOKUMEN,
+            'allowed_types' => 'jpg|jpeg|png|pdf',
+            'max_size'      => 1024 * 10,
+            'file_name'     => 'akta_mati_' . $id . '_' . time(),
+        ];
+
+        $this->upload->initialize($config);
+
+        if (! $this->upload->do_upload('nama_file')) {
+            session_error($this->upload->display_errors());
+            redirect($this->controller);
+        }
+
+        $uploadData = $this->upload->data();
+
+        return $uploadData['file_name'];
     }
 
     /**

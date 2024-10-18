@@ -37,13 +37,13 @@
 
 use App\Enums\AgamaEnum;
 use App\Enums\JenisKelaminEnum;
+use App\Enums\PekerjaanEnum;
 use App\Enums\PendidikanKKEnum;
 use App\Enums\StatusKawinEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Models\Area;
 use App\Models\Garis;
 use App\Models\Lokasi;
-use App\Models\Pekerjaan;
 use App\Models\Pembangunan;
 use App\Models\Pendidikan;
 use App\Models\Penduduk;
@@ -153,7 +153,7 @@ class Gis extends Admin_Controller
         $data['list_agama']           = AgamaEnum::all();
         $data['list_pendidikan']      = Pendidikan::get()->toArray();
         $data['list_pendidikan_kk']   = PendidikanKKEnum::all();
-        $data['list_pekerjaan']       = Pekerjaan::get()->toArray();
+        $data['list_pekerjaan']       = PekerjaanEnum::all();
         $data['list_status_kawin']    = StatusKawinEnum::all();
         $data['list_status_penduduk'] = StatusPendudukEnum::all();
         $data['form_action']          = ci_route('gis.adv_search_proses');

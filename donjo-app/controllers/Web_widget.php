@@ -178,6 +178,7 @@ class Web_widget extends Admin_Controller
         isCan('u');
 
         $this->cek_tidy();
+
         if (Widget::create($this->validasi($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -185,7 +186,7 @@ class Web_widget extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-    private function upload_gambar(string $jenis)
+    private function upload_gambar(string $jenis, int $id)
     {
         // Inisialisasi library 'upload'
         $CI = &get_instance();
@@ -201,14 +202,16 @@ class Web_widget extends Admin_Controller
         // Adakah berkas yang disertakan?
         $adaBerkas = ! empty($_FILES[$jenis]['name']);
         if (! $adaBerkas) {
+            $berkas = Widget::find($id)->foto;
+
             // Jika hapus (ceklis)
             if (isset($_POST['hapus_foto'])) {
-                unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
+                unlink(LOKASI_GAMBAR_WIDGET . $berkas);
 
                 return null;
             }
 
-            return $this->input->post('old_foto');
+            return $berkas;
         }
 
         // Upload sukses
@@ -224,9 +227,6 @@ class Web_widget extends Admin_Controller
             // Ganti nama di array upload jika file berhasil di-rename --
             // jika rename gagal, fallback ke nama asli
             $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
-
-            // Hapus file lama
-            unlink(LOKASI_GAMBAR_WIDGET . $this->input->post('old_foto'));
         }
         // Upload gagal
         else {
@@ -243,7 +243,7 @@ class Web_widget extends Admin_Controller
         isCan('u');
 
         $this->cek_tidy();
-        if (Widget::findOrFail($id)->update($this->validasi($this->request))) {
+        if (Widget::findOrFail($id)->update($this->validasi($this->request, $id))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
         redirect_with('error', 'Gagal Ubah Data');
@@ -272,10 +272,6 @@ class Web_widget extends Admin_Controller
     {
         isCan('u');
 
-        if ($this->session->error_msg) {
-            redirect_with('error', $this->session->error_msg);
-        }
-
         if (Widget::gantiStatus($id, 'enabled')) {
             redirect_with('success', 'Berhasil Ubah Status');
         }
@@ -292,11 +288,11 @@ class Web_widget extends Admin_Controller
         }
     }
 
-    private function validasi($post)
+    private function validasi(array $post, int $id = 0)
     {
         $data['judul']        = judul($post['judul']);
         $data['jenis_widget'] = (int) $post['jenis_widget'];
-        $data['foto']         = $this->upload_gambar('foto');
+        $data['foto']         = $this->upload_gambar('foto', $id);
         if ($data['jenis_widget'] == 2) {
             $data['isi'] = bersihkan_xss($post['isi-statis']);
         } elseif ($data['jenis_widget'] == 3) {
@@ -307,7 +303,7 @@ class Web_widget extends Admin_Controller
         return $data;
     }
 
-    private function bersihkan_html($isi)
+    private function bersihkan_html($isi): string
     {
         // Konfigurasi tidy
         $config = [

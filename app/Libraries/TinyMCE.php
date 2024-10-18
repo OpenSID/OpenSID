@@ -55,7 +55,9 @@ use App\Models\FormatSurat;
 use App\Models\LampiranSurat;
 use App\Models\LogPenduduk;
 use App\Models\LogSurat;
+use App\Models\LogSuratDinas;
 use App\Models\Pamong;
+use App\Models\SuratDinas;
 use CI_Controller;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
@@ -64,10 +66,7 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-if (! in_array(setting('font_surat'), FONT_SYSTEM_TINYMCE)) {
-    define('K_PATH_MAIN', '');
-    define('K_PATH_FONTS', LOKASI_FONT_DESA);
-}
+define('K_PATH_FONTS', LOKASI_FONT_DESA);
 
 class TinyMCE
 {
@@ -190,8 +189,22 @@ class TinyMCE
             ]);
     }
 
-    public function getFormatedKodeIsian(array $data = [], $withData = false)
+    public function getTemplateSuratDinas()
     {
+        return collect(SuratDinas::whereNotNull('template')->get(['nama', 'template', 'template_desa']))
+            ->map(static fn ($item, $key): array => [
+                'nama'     => 'Surat ' . $item->nama,
+                'template' => [
+                    'sistem' => $item->template,
+                    'desa'   => $item->template_desa,
+                ],
+            ]);
+    }
+
+    public function getFormatedKodeIsian(array $data = [], $withData = false, $suratDinas = false)
+    {
+        $daftar_kode_isian = [];
+
         $idPenduduk      = $data['id_pend'];
         $judulPenduduk   = $data['surat']->form_isian->individu->judul ?? 'Penduduk';
         $daftarKodeIsian = grup_kode_isian($data['surat']->kode_isian);
@@ -199,41 +212,45 @@ class TinyMCE
 
         $alias = AliasKodeIsian::get();
 
-        $daftar_kode_isian = [
-            // Kode Isian Alias
-            'Alias' => $alias->map(static fn ($item): array => [
-                'judul' => $item->judul,
-                'isian' => $item->alias,
-                'data'  => $item->content,
-            ])->toArray(),
+        $daftar_kode_isian['Alias'] = $alias->map(static fn ($item): array => [
+            'judul' => $item->judul,
+            'isian' => $item->alias,
+            'data'  => $item->content,
+        ])->toArray();
 
-            // Data Surat
-            'Surat' => KodeIsianSurat::get($data),
+        // Surat
+        $daftar_kode_isian['Surat'] = KodeIsianSurat::get($data);
 
-            // Data Form Surat
-            'Form Surat' => KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0),
+        // Data Form Surat
+        $daftar_kode_isian['Form Surat'] = KodeIsianForm::get($data['input'], null, $data['surat']['masa_berlaku'] > 0);
 
-            // Data Identitas Desa
-            'Identitas Desa' => KodeIsianIdentitas::get(),
+        // Data Identitas Desa
+        $daftar_kode_isian['Identitas Desa'] = KodeIsianIdentitas::get();
 
-            // Data Dusun
-            'Wilayah' => KodeIsianWilayah::get(),
+        // Data Dusun
+        $daftar_kode_isian['Wilayah'] = KodeIsianWilayah::get();
 
-            // Data Penduduk
-            $judulPenduduk => KodeIsianPenduduk::get($idPenduduk),
+        // Data Penduduk
+        if (! $suratDinas) {
+            $daftar_kode_isian[$judulPenduduk] = KodeIsianPenduduk::get($idPenduduk);
+        }
 
-            // Data Form Penduduk
-            "Form {$judulPenduduk}" => KodeIsianForm::get($data['input'], $daftarKodeIsian['individu'] ?? []),
+        // Data Form Penduduk
+        $formPenduduk = KodeIsianForm::get($data['input'], $daftarKodeIsian['individu'] ?? []);
+        if (count($formPenduduk) > 0) {
+            $daftar_kode_isian["Form {$judulPenduduk}"] = $formPenduduk;
+        }
 
+        if (! $suratDinas) {
             // Data Anggota keluarga
-            'Anggota Keluarga' => KodeIsianAnggotaKeluarga::get($idPenduduk),
+            $daftar_kode_isian['Anggota Keluarga'] = KodeIsianAnggotaKeluarga::get($idPenduduk);
 
             // Data Pasangan
-            'Pasangan' => KodeIsianPasangan::get($idPenduduk),
+            $daftar_kode_isian['Pasangan'] = KodeIsianPasangan::get($idPenduduk);
+        }
 
-            // Data Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
-            'Aritmatika' => KodeIsianAritmatika::get(),
-        ];
+        // Data Aritmatika untuk penambahan, pengurangan, dan operasi lainnya serta terbilang
+        $daftar_kode_isian['Aritmatika'] = KodeIsianAritmatika::get();
 
         if ($alias->count() <= 0) {
             unset($daftar_kode_isian['Alias']);
@@ -258,7 +275,7 @@ class TinyMCE
 
             $kodeIsianPendudukLuar = KodeIsianPendudukLuar::$kodeIsian;
             if ($key == 'individu') {
-                if (! array_intersect($value['data'], [1])) {
+                if (! array_intersect(($value['data'] ?? []), [1])) {
                     $daftar_kode_isian[$judulPenduduk] = collect($daftar_kode_isian[$judulPenduduk])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
@@ -268,7 +285,7 @@ class TinyMCE
             } else {
                 $daftar_kode_isian[$value['judul']] = KodeIsianPenduduk::get($data['input']['id_pend_' . $key], $key);
                 $kodeIsianPendudukLuar              = array_map(static fn ($item): string => $item . "_{$key}", $kodeIsianPendudukLuar);
-                if (! array_intersect($value['data'], [1])) {
+                if (! array_intersect($value['data'] ?? [], [1])) {
                     $daftar_kode_isian[$value['judul']] = collect($daftar_kode_isian[$value['judul']])->filter(static fn ($item) => in_array($item['isian'], $kodeIsianPendudukLuar))->toArray();
                 }
 
@@ -509,6 +526,22 @@ class TinyMCE
         return collect($lampiran)->unique()->sort()->values();
     }
 
+    public function getDaftarLampiranSuratDinas()
+    {
+        $lampiran               = [];
+        $daftar_lampiran_sistem = glob(DEFAULT_LOKASI_LAMPIRAN_SURAT_DINAS . '*', GLOB_ONLYDIR);
+        $daftar_lampiran_desa   = glob(LOKASI_LAMPIRAN_SURAT_DINAS_DESA . '*', GLOB_ONLYDIR);
+        $daftar_lampiran        = array_merge($daftar_lampiran_desa, $daftar_lampiran_sistem);
+
+        foreach ($daftar_lampiran as $value) {
+            if (file_exists(FCPATH . $value . '/view.php')) {
+                $lampiran[] = kode_format(basename($value));
+            }
+        }
+
+        return collect($lampiran)->unique()->sort()->values();
+    }
+
     /**
      * Generate surat menggunakan html2pdf, kemudian gabungakan ke pdfMerge.
      *
@@ -584,7 +617,7 @@ class TinyMCE
         }
 
         // exclude lampiran jika lampiran tidak dikaitkan dengan nilai inputan tertentu
-        $lampiran = $this->excludeLampiran($surat, $input, $lampiran);
+        $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
 
         for ($i = 0; $i < count($lampiran); $i++) {
             // Cek lampiran desa
@@ -694,13 +727,23 @@ class TinyMCE
     public function cetak_surat($id)
     {
         $surat = LogSurat::find($id);
-        $input = json_decode($surat->input, true) ?? [];
+        $this->cetak_surat_tinymce($surat);
+    }
 
+    public function cetak_surat_dinas($id)
+    {
+        $surat              = LogSuratDinas::find($id);
+        $surat->formatSurat = $surat->suratDinas;
+        $this->cetak_surat_tinymce($surat);
+    }
+
+    public function cetak_surat_tinymce($surat)
+    {
         // Cek ada file
         if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
             return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
         }
-
+        $input          = json_decode($surat->input, true) ?? [];
         $isi_cetak      = $surat->isi_surat;
         $nama_surat     = $surat->nama_surat;
         $cetak['surat'] = $surat->formatSurat;

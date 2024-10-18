@@ -48,14 +48,10 @@ class Lapak_kategori_admin extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+        $this->load->model('pamong_model');
     }
 
     public function index()
-    {
-        $this->kategori();
-    }
-
-    public function kategori()
     {
         $data['navigasi'] = Produk::navigasi();
 
@@ -63,7 +59,7 @@ class Lapak_kategori_admin extends Admin_Controller
             $status = $this->input->get('status');
 
             $query = ProdukKategori::listKategori()
-                ->when($status, static function ($query, $status) {
+                ->when($status, static function ($query, $status): void {
                     $query->where('status', $status);
                 });
 
@@ -106,7 +102,6 @@ class Lapak_kategori_admin extends Admin_Controller
         (new ProdukKategori())->kategoriUpdate($id, $this->input->post());
 
         redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/kategori');
-
     }
 
     public function kategori_delete($id): void
@@ -139,5 +134,29 @@ class Lapak_kategori_admin extends Admin_Controller
             ->update(['status' => $status]);
 
         redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/kategori');
+    }
+
+    public function dialog($aksi = 'cetak'): void
+    {
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("lapak_admin/kategori/aksi/{$aksi}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi($aksi = 'cetak'): void
+    {
+        $post                   = $this->input->post();
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['main']           = ProdukKategori::withCount('produk')->get();
+        $data['file']           = 'Data Kategori Produk';
+        $data['isi']            = 'admin.lapak.kategori.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 }

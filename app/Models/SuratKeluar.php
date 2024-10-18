@@ -53,4 +53,62 @@ class SuratKeluar extends BaseModel
      * @var string
      */
     protected $table = 'surat_keluar';
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'config_id',
+        'nomor_urut',
+        'nomor_surat',
+        'kode_surat',
+        'tanggal_surat',
+        'tanggal_catat',
+        'tujuan',
+        'isi_singkat',
+        'berkas_scan',
+        'tanggal_pengiriman',
+        'tanda_terima',
+        'keterangan',
+        'ekspedisi',
+        'created_by',
+        'updated_by',
+    ];
+
+    public function scopeTahun($query)
+    {
+        return $query->selectRaw('YEAR(tanggal_surat) as tahun')->distinct()->orderBy('tahun', 'desc');
+    }
+
+    public function scopeAutocomplete($query)
+    {
+        $query->select('tujuan')->distinct()->orderBy('tujuan');
+
+        return $query->limit(15)->pluck('tujuan')->toArray();
+    }
+
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::updating(static function ($model): void {
+            static::deleteFile($model, 'berkas_scan');
+        });
+
+        static::deleting(static function ($model): void {
+            static::deleteFile($model, 'berkas_scan', true);
+        });
+    }
+
+    public static function deleteFile($model, ?string $file, $deleting = false): void
+    {
+        if ($model->isDirty($file) || $deleting) {
+            $gambar = LOKASI_ARSIP . $model->getOriginal($file);
+            if (file_exists($gambar)) {
+                unlink($gambar);
+            }
+        }
+    }
 }

@@ -60,6 +60,6 @@ class Vaksin extends Web_Controller
 
         $this->_get_common_data($data);
         $this->set_template('layouts/halaman_statis.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 }

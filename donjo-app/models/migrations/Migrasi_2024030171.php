@@ -35,6 +35,7 @@
  *
  */
 
+use App\Imports\KlasifikasiSuratImports;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -65,14 +66,14 @@ class Migrasi_2024030171 extends MY_model
             $hasil = $hasil && $this->migrasi_2024020651($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024020652($hasil, $id);
             $hasil = $hasil && $this->migrasi_2024021351($hasil, $id);
+            $hasil = $hasil && $this->migrasi_2024022271($hasil, $id);
         }
 
         // Migrasi tanpa config_id
         $hasil = $hasil && $this->migrasi_2024020551($hasil);
         $hasil = $hasil && $this->migrasi_2024130201($hasil);
-        $hasil = $hasil && $this->migrasi_2024210201($hasil);
 
-        return $hasil && $this->migrasi_2024022271($hasil);
+        return $hasil && $this->migrasi_2024210201($hasil);
     }
 
     protected function migrasi_2024020551($hasil)
@@ -161,13 +162,19 @@ class Migrasi_2024030171 extends MY_model
         );
     }
 
-    protected function migrasi_2024022271($hasil)
+    protected function migrasi_2024022271($hasil, $id)
     {
-        return $hasil && $this->dbforge->modify_column('klasifikasi_surat', [
+        $hasil = $hasil && $this->dbforge->modify_column('klasifikasi_surat', [
             'nama' => [
                 'type' => 'TEXT',
                 'null' => false,
             ],
         ]);
+
+        if (DB::table('klasifikasi_surat')->where('config_id', $id)->count() === 0) {
+            (new KlasifikasiSuratImports())->import();
+        }
+
+        return $hasil;
     }
 }

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
-<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2402.0.0') ?>
+<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v2404.0.0') ?>
 <?php $desa_title =  ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] . ' '. ucwords($this->setting->sebutan_kecamatan) . ' '. $desa['nama_kecamatan'] . ' '. ucwords($this->setting->sebutan_kabupaten) . ' '. $desa['nama_kabupaten']; ?>
 
 <meta http-equiv="encoding" content="utf-8">
@@ -74,6 +74,8 @@
 	var BASE_URL   = '<?= base_url() ?>';
 </script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<?php $this->load->view("$folder_themes/commons/style"); ?>
+<?php if (theme_config('jam', true)): ?>
 <script type="text/javascript">
 	window.setTimeout("renderDate()",1);
 	days = new Array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
@@ -103,16 +105,11 @@
 			minutes = "0" + minutes;
 		if (seconds <= 9)
 			seconds = "0" + seconds;
-		$('#jam').html("<B>"+days[day]+", "+daym+" "+months[month]+" "+year+"</B><br>"+hours+" : "+minutes+" : "+seconds);
+		$('#jam').html('<b class="white">'+days[day]+", "+daym+" "+months[month]+" "+year+"<br>"+hours+" : "+minutes+" : "+seconds+'</b>');
 		setTimeout("renderDate()",1000)
 	}
 </script>
-<style type="text/css">
-	#jam {
-		text-align:center;
-		color: #ffffff;
-	}
-</style>
+<?php endif ?>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
 
@@ -120,10 +117,8 @@
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/yall/yall.min.js") ?>"></script>
 
 <style>
- 
-
 	img.yall_loaded {
-	    animation: progressiveReveal 0.2s linear;
+		animation: progressiveReveal 0.2s linear;
 	}
 
 	@keyframes progressiveReveal {
@@ -141,13 +136,13 @@
 </style>
 
 <script>
-	 let yall_option = {
-	    useLoading : true
+	let yall_option = {
+		useLoading : true
 	}
 	var lazyload = new yall(yall_option);
 
 	window.addEventListener('DOMContentLoaded', (e) => {
-	  lazyload.run();
+		lazyload.run();
 	});
 </script>
 

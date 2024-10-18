@@ -50,7 +50,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
     /**
      * @var Client HTTP Client
      */
-    protected \GuzzleHttp\Client $client;
+    protected Client $client;
 
     protected $server;
 
@@ -156,7 +156,7 @@ class Pendaftaran_kerjasama_controller extends Admin_Controller
 
     public function dokumen_template(): void
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         $desa = $this->header['desa'];
 
         $data['desa']         = $desa['nama_desa'];

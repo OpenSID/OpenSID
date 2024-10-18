@@ -49,14 +49,14 @@ class Web_Controller extends MY_Controller
         $CI           = &get_instance();
         $this->header = identitas();
 
-        $this->load->model('theme_model');
         $this->load->helper('theme');
-        $this->theme        = $this->theme_model->tema;
-        $this->theme_folder = $this->theme_model->folder;
+        $theme              = theme_active();
+        $this->theme        = str_replace('desa-', '', $theme->path);
+        $this->theme_folder = str_replace($this->theme, '', $theme->path);
 
         // Variabel untuk tema
         $this->set_template();
-        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
+        $this->includes['folder_themes'] = theme_view_path();
 
         if ($this->setting->offline_mode == 2) {
             $this->view_maintenance();
@@ -79,7 +79,7 @@ class Web_Controller extends MY_Controller
      */
     public function set_template($template_file = 'template'): void
     {
-        $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
+        $this->template = $template_file;
     }
 
     public function _get_common_data(&$data): void
@@ -103,7 +103,7 @@ class Web_Controller extends MY_Controller
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
-        $data['teks_berjalan'] = ($this->db->field_exists('tipe', 'teks_berjalan')) ? $this->teks_berjalan_model->list_data(true, 1) : null;
+        $data['teks_berjalan'] = $this->db->field_exists('tipe', 'teks_berjalan') ? $this->teks_berjalan_model->list_data(true) : null;
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
         $data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
         $data['w_cos']         = $this->web_widget_model->get_widget_aktif();

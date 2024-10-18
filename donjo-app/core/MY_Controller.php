@@ -168,14 +168,18 @@ class MY_Controller extends CI_Controller
                 return $query->where('jabatan_id', '=', kades()->id);
             }
 
+            if ($next == 'all') {
+                    return $query;
+            }
+
             return $query->where('jabatan_id', '!=', kades()->id)->where('jabatan_id', '!=', sekdes()->id);
         })->when($next != 'verifikasi_sekdes' && $next != 'verifikasi_kades', static fn ($query) => $query->orWhereNull('pamong_id')))->get();
 
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
             try {
-                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new \Fcm\Push\Notification();
+                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())
@@ -213,8 +217,8 @@ class MY_Controller extends CI_Controller
         if (cek_koneksi_internet()) {
             // kirim ke aplikasi android admin.
             try {
-                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new \Fcm\Push\Notification();
+                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())

@@ -361,6 +361,7 @@ class First_artikel_m extends MY_Model
             ->join('artikel a', 'k.id_artikel = a.id')
             ->where('k.status', 1)
             ->where('k.id_artikel <>', 775)
+            ->where('parent_id', null)
             ->order_by('k.tgl_upload', 'DESC')
             ->limit(10)
             ->get()
@@ -512,15 +513,23 @@ class First_artikel_m extends MY_Model
         return $this->db->affected_rows();
     }
 
-    public function list_komentar($id = 0)
+    public function list_komentar($id_artikel = 0, $parent = null, $order = 'DESC')
     {
-        return $this->config_id()
+        $komentar = $this->config_id()
             ->from('komentar')
-            ->where('id_artikel', $id)
+            ->where('id_artikel', $id_artikel)
             ->where('status', 1)
-            ->order_by('tgl_upload DESC')
+            ->where('parent_id', $parent)
+            ->order_by("tgl_upload {$order}")
             ->get()
             ->result_array();
+
+        return collect($komentar)->map(function (array $item) use ($id_artikel): array {
+            $item['owner']    = 's';
+            $item['children'] = $this->list_komentar($id_artikel, $item['id'], 'ASC');
+
+            return $item;
+        })->toArray();
     }
 
     // Tampilan di widget sosmed

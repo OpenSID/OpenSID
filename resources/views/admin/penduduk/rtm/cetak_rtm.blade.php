@@ -18,7 +18,7 @@
             <div align="center">
                 <h3>KARTU RUMAH TANGGA</h3>
                 <h4>SALINAN</h4>
-                <h5>No. {{ $kepala_kk['no_kk'] }} </h5>
+                <h5>No. {{ $main['no_kk'] }} </h5>
             </div>
             <br>
             <table width="100%" cellpadding="3" cellspacing="4">

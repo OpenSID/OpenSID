@@ -38,12 +38,14 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class PendudukMandiri extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * {@inheritDoc}

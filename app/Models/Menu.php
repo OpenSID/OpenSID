@@ -49,7 +49,8 @@ class Menu extends BaseModel
     use ConfigId;
     use SortableTrait;
 
-    public const LOCK   = 2;
+    // TODO:: Ganti menggunakan StatusEnum
+    public const LOCK   = 0;
     public const UNLOCK = 1;
 
     /**

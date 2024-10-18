@@ -37,6 +37,11 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/*
+ * User: didikkurniawan
+ * Date: 10/1/16
+ * Time: 06:59
+ */
 class Api_inventaris_tanah extends Admin_Controller
 {
     public $modul_ini     = 'sekretariat';

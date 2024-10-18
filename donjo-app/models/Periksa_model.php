@@ -366,7 +366,7 @@ class Periksa_model extends MY_Model
             if (isset($id_sementara[$value->id_kk])) {
                 continue;
             }
-            $nokk_sementara = '0' . $kode_desa . sprintf('%05d', $digit);
+            $nokk_sementara = '0' . $kode_desa . sprintf('%05d', (int) $digit + 1);
             $hasil          = Keluarga::create([
                 'id'         => $value->id_kk,
                 'config_id'  => $config_id,

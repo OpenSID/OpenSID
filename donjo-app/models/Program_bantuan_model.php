@@ -208,7 +208,7 @@ class Program_bantuan_model extends MY_Model
 
     // Query dibuat pada satu tempat, supaya penghitungan baris untuk paging selalu
     // konsisten dengan data yang diperoleh
-    private function get_peserta_sql($slug, $sasaran, bool $jumlah = false)
+    private function get_peserta_sql(string $slug, $sasaran, bool $jumlah = false): string
     {
         if ($jumlah) {
             $select_sql = 'COUNT(p.id) as jumlah';
@@ -356,7 +356,7 @@ class Program_bantuan_model extends MY_Model
         return $hasil0;
     }
 
-    private function get_data_peserta($hasil0, $slug)
+    private function get_data_peserta(array $hasil0, $slug)
     {
         $paging_sql = ' LIMIT ' . $hasil0['paging']->offset . ',' . $hasil0['paging']->per_page;
         $strSQL     = $this->get_peserta_sql($slug, $hasil0['sasaran']);
@@ -788,17 +788,23 @@ class Program_bantuan_model extends MY_Model
         return null;
     }
 
-    public function set_program()
+    public function set_program(): void
     {
         $data              = $this->validasi_bantuan($this->input->post());
         $data['config_id'] = $this->config_id;
 
         $outp = $this->db->insert('program', $data);
+        shortcut_cache();
         status_sukses($outp);
     }
 
-    private function validasi_bantuan($post)
+    private function validasi_bantuan(array $post): array
     {
+        $kk_level = json_encode($post['kk_level']);
+        if ($post['cid'] != 2) {
+            $kk_level = null;
+        }
+
         return [
             // Ambil dan bersihkan data input
             'sasaran'  => $post['cid'],
@@ -807,6 +813,7 @@ class Program_bantuan_model extends MY_Model
             'asaldana' => $post['asaldana'],
             'sdate'    => date('Y-m-d', strtotime($post['sdate'])),
             'edate'    => date('Y-m-d', strtotime($post['edate'])),
+            'kk_level' => $kk_level,
         ];
     }
 
@@ -971,7 +978,7 @@ class Program_bantuan_model extends MY_Model
         }
 
         $this->config_id()->where('id', $id)->delete('program');
-
+        shortcut_cache();
         status_sukses($this->db->affected_rows());
     }
 
@@ -1019,20 +1026,21 @@ class Program_bantuan_model extends MY_Model
         $this->jenis_sasaran($tipe);
     }
 
-    private function jenis_sasaran($sasaran)
+    private function jenis_sasaran($sasaran): void
     {
         // keluarga
         if ($sasaran == 'bantuan_keluarga') {
             $this->db->where('p.sasaran', 2);
+            $sasaran = '1';
         }
         // penduduk
         elseif ($sasaran == 'bantuan_penduduk') {
             $this->db->where('p.sasaran', 1);
+            $sasaran = '2';
         } else {
             $id = substr($sasaran, 2);
             $this->db->where('p.id', $id);
             $sasaran = Bantuan::find($id)->sasaran;
-            log_message('error', 'sasaran: ' . $sasaran);
         }
 
         switch ($sasaran) {
@@ -1108,8 +1116,8 @@ class Program_bantuan_model extends MY_Model
             if ($filter['tahun'] != '') {
                 $this->db
                     ->group_start()
-                    ->where('YEAR(u.sdate) <=', $filter['tahun'])
-                    ->where('YEAR(u.edate) >=', $filter['tahun'])
+                    ->where('YEAR(p.sdate) <=', $filter['tahun'])
+                    ->where('YEAR(p.edate) >=', $filter['tahun'])
                     ->group_end();
             }
         }
@@ -1209,6 +1217,7 @@ class Program_bantuan_model extends MY_Model
 
         if ($program_id == null) {
             $this->db->insert('program', $data_program);
+            shortcut_cache();
 
             return $this->db->insert_id();
         }
@@ -1311,7 +1320,7 @@ class Program_bantuan_model extends MY_Model
         ];
     }
 
-    private function dusun($nama_dusun)
+    private function dusun(string $nama_dusun): string
     {
         return ($this->setting->sebutan_dusun == '-') ? '' : ucwords(strtolower($this->setting->sebutan_dusun . ' ' . $nama_dusun));
     }

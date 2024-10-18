@@ -35,6 +35,9 @@
  *
  */
 
+use App\Enums\StatusEnum;
+use App\Models\MediaSosial;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Sosmed extends Admin_Controller
@@ -46,40 +49,161 @@ class Sosmed extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-
         $this->load->model('web_sosmed_model');
     }
 
-    public function index(): void
+    public function index()
     {
-        $sosmed = $this->session->userdata('sosmed');
+        return view('admin.sosmed.index');
+    }
 
-        if (! $sosmed) {
-            $sosmed = 'facebook';
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(MediaSosial::query())
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
+
+                    if (can('u')) {
+                        $aksi .= '<a href="' . site_url("sosmed/form/{$row->id}") . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+
+                        if ($row->enabled == StatusEnum::YA) {
+                            $aksi .= '<a href="' . site_url("sosmed/lock/{$row->id}") . '" class="btn bg-navy btn-sm" title="Nonaktifkan"><i class="fa fa-unlock"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . site_url("sosmed/lock/{$row->id}") . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . site_url("sosmed/delete/{$row->id}") . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('url_icon', static fn ($row): string => '<a href="' . $row->new_link . '" target="_blank"><img src="' . $row->url_icon . '" class="img-thumbnail" width="50" height="50"></a>')
+                ->editColumn('enabled', static fn ($row): string => ($row->enabled == StatusEnum::YA) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
+                ->rawColumns(['ceklist', 'aksi', 'url_icon', 'enabled'])
+                ->make();
         }
 
-        $data['media']       = $sosmed;
-        $data['main']        = $this->web_sosmed_model->get_sosmed($sosmed);
-        $data['list_sosmed'] = $this->web_sosmed_model->list_sosmed();
-        $data['form_action'] = site_url("sosmed/update/{$sosmed}");
-
-        $this->session->unset_userdata('sosmed');
-
-        $this->render('sosmed/sosmed', $data);
+        return show_404();
     }
 
-    public function tab($sosmed): void
-    {
-        $this->session->set_userdata('sosmed', $sosmed);
-
-        redirect('sosmed');
-    }
-
-    public function update($sosmed): void
+    public function form($id = null)
     {
         isCan('u');
-        $this->web_sosmed_model->update($sosmed);
-        $redirect = (empty($sosmed)) ? 'sosmed' : "sosmed/tab/{$sosmed}";
-        redirect($redirect);
+
+        if ($id) {
+            $data['action']      = 'Ubah';
+            $data['form_action'] = site_url("sosmed/update/{$id}");
+            $data['sosmed']      = MediaSosial::findOrFail($id);
+        } else {
+            $data['action']      = 'Tambah';
+            $data['form_action'] = site_url('sosmed/insert');
+            $data['sosmed']      = null;
+        }
+
+        return view('admin.sosmed.form', $data);
+    }
+
+    public function insert(): void
+    {
+        isCan('u');
+
+        if (MediaSosial::create(static::validated($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+        redirect_with('error', 'Gagal Tambah Data');
+    }
+
+    public function update($id = null): void
+    {
+        isCan('u');
+
+        $data = MediaSosial::findOrFail($id);
+
+        if ($data->update(static::validated($this->request, $id))) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+        redirect_with('error', 'Gagal Ubah Data');
+    }
+
+    public function delete($id = null): void
+    {
+        isCan('h');
+
+        if (MediaSosial::destroy($id ?? $this->request['id_cb']) !== 0) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function lock($id = 0): void
+    {
+        isCan('h');
+
+        if (MediaSosial::gantiStatus($id, 'enabled')) {
+            redirect_with('success', 'Berhasil Ubah Status');
+        }
+
+        redirect_with('error', 'Gagal Ubah Status');
+    }
+
+    protected static function validated(array $request = [], $id = null): array
+    {
+        $data = [
+            'link'    => $request['link'],
+            'nama'    => htmlentities($request['nama']),
+            'tipe'    => 1,
+            'enabled' => $request['enabled'] ?? 0,
+        ];
+
+        if (! empty($id) && empty($request['gambar'])) {
+            unset($data['gambar']);
+        } else {
+            $data['gambar'] = static::unggah('gambar');
+        }
+
+        return $data;
+    }
+
+    protected static function unggah($jenis = '')
+    {
+        $CI = &get_instance();
+        $CI->load->library('MY_Upload', null, 'upload');
+        folder(LOKASI_ICON_SOSMED);
+
+        $CI->uploadConfig = [
+            'upload_path'   => LOKASI_ICON_SOSMED,
+            'allowed_types' => 'gif|jpg|jpeg|png',
+            'max_size'      => max_upload() * 1024,
+        ];
+        // Adakah berkas yang disertakan?
+        if (empty($_FILES[$jenis]['name'])) {
+            return null;
+        }
+        // Tes tidak berisi script PHP
+        if (isPHP($_FILES[$jenis]['tmp_name'], $_FILES[$jenis]['name'])) {
+            redirect_with('error', 'Jenis file ini tidak diperbolehkan');
+        }
+        $uploadData = null;
+        // Inisialisasi library 'upload'
+        $CI->upload->initialize($CI->uploadConfig);
+        // Upload sukses
+        if ($CI->upload->do_upload($jenis)) {
+            $uploadData = $CI->upload->data();
+            $tipe_file  = TipeFile($_FILES['gambar']);
+            resizeImage(LOKASI_ICON_SOSMED . $uploadData['file_name'], $tipe_file, ['width' => 100, 'height' => 100]);
+
+            return $uploadData['file_name'];
+        }
+
+        redirect_with('error', $CI->upload->display_errors(null, null));
     }
 }

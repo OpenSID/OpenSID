@@ -22,7 +22,7 @@
                 <div class="col-sm-12 col-md-4">
                     <select class="form-control input-sm select2" name="{{ $pengaturan->key }}[]" multiple="multiple">
                         @foreach ($pengaturan->option as $key => $val)
-                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>{{ $val['nama'] }}</option>
+                            <option value="{{ $val['id'] }}" {{ in_array($val['id'], json_decode($pengaturan->value) ?? []) ? 'selected' : '' }}>{{ SebutanDesa($val['nama']) }}</option>
                         @endforeach
                     </select>
                 </div>

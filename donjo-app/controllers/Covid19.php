@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Covid19 extends Admin_Controller
 {
     public $modul_ini     = 'kesehatan';
-    public $sub_modul_ini = 'covid19';
+    public $sub_modul_ini = 'pendataan';
 
     public function __construct()
     {

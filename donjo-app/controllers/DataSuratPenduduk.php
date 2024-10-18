@@ -175,15 +175,9 @@ class DataSuratPenduduk extends CI_Controller
             }
 
             $dataPenduduk = Penduduk::where('id_kk', $data['individu']['id_kk'])
-                ->when(!empty($value->sex), function ($query) use ($value) {
-                    return $query->where('sex', $value->sex);
-                })
-                ->when(!empty($value->kk_level), function ($query) use ($value) {
-                    return $query->whereIn('kk_level', $value->kk_level);
-                })
-                ->when(!empty($value->status_dasar), function ($query) use ($value) {
-                    return $query->whereIn('status_dasar', $value->status_dasar);
-                })
+                ->when(! empty($value->sex), static fn ($query) => $query->where('sex', $value->sex))
+                ->when(! empty($value->kk_level), static fn ($query) => $query->whereIn('kk_level', $value->kk_level))
+                ->when(! empty($value->status_dasar), static fn ($query) => $query->whereIn('status_dasar', $value->status_dasar))
                 ->get()
                 ->toArray();
 
@@ -220,7 +214,7 @@ class DataSuratPenduduk extends CI_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
                 $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }

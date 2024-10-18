@@ -50,19 +50,10 @@ class Lapak_admin extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
+        $this->load->model('pamong_model');
     }
 
-    public function index(): void
-    {
-        redirect("{$this->controller}/produk");
-    }
-
-    public function navigasi()
-    {
-        return Produk::navigasi();
-    }
-
-    public function produk()
+    public function index()
     {
         $data['navigasi'] = Produk::navigasi();
 
@@ -80,13 +71,13 @@ class Lapak_admin extends Admin_Controller
             $id_produk_kategori = $this->input->get('id_produk_kategori');
 
             $query = Produk::listProduk()
-                ->when($status, static function ($query, $status) {
+                ->when($status, static function ($query, $status): void {
                     $query->where('produk.status', $status);
                 })
-                ->when($id_pend, static function ($query, $id_pend) {
+                ->when($id_pend, static function ($query, $id_pend): void {
                     $query->where('p.id', $id_pend);
                 })
-                ->when($id_produk_kategori, static function ($query, $id_produk_kategori) {
+                ->when($id_produk_kategori, static function ($query, $id_produk_kategori): void {
                     $query->where('pk.id', $id_produk_kategori);
                 });
 
@@ -186,5 +177,29 @@ class Lapak_admin extends Admin_Controller
         }
 
         redirect_with('error', 'Gagal mengubah data', "{$this->controller}/produk");
+    }
+
+    public function dialog($aksi = 'cetak'): void
+    {
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("lapak_admin/produk/aksi/{$aksi}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi($aksi = 'cetak'): void
+    {
+        $post                   = $this->input->post();
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['main']           = Produk::with(['pelapak.penduduk:id,nama', 'kategori:id,kategori'])->get();
+        $data['file']           = 'Data Produk';
+        $data['isi']            = 'admin.lapak.produk.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 }

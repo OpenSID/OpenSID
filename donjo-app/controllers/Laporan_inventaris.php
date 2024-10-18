@@ -42,7 +42,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Laporan_inventaris extends Admin_Controller
 {
     public $modul_ini           = 'sekretariat';
-    public $sub_modul_ini       = 61;
+    public $sub_modul_ini       = 'inventaris';
     private array $list_session = ['tahun'];
 
     public function __construct()
@@ -110,55 +110,6 @@ class Laporan_inventaris extends Admin_Controller
         $data           = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
 
         $this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
-    }
-
-    // TODO: Ini masih digunakan ? Jika tidak, hapus
-    public function permendagri_47($asset = null): void
-    {
-        $tahun = $this->session->tahun ?? date('Y');
-
-        foreach ($this->list_session as $list) {
-            $data[$list] = $this->session->{$list} ?: '';
-        }
-
-        $pamong        = $this->pamong_model->list_data();
-        $data['kades'] = array_filter($pamong, static function (array $x) {
-            if ($x['jabatan'] == 'Kepala Desa') {
-                return $x;
-            }
-        });
-
-        $data['sekdes'] = array_filter($pamong, static function (array $x) {
-            if ($x['jabatan'] == 'Sekretaris Desa') {
-                return $x;
-            }
-        });
-
-        $data['tip']   = 3;
-        $data['data']  = $this->inventaris_laporan_model->permen_47($tahun, $asset);
-        $data['tahun'] = $tahun;
-
-        $this->render('inventaris/laporan/table_permen47', $data);
-    }
-
-    public function permendagri_47_dialog($aksi = 'cetak', $asset = null): void
-    {
-        // TODO :: gunakan view global penandatangan
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-
-        $tahun           = $this->session->tahun ?? date('Y');
-        $data['header']  = $this->header['desa'];
-        $data['data']    = $this->inventaris_laporan_model->permen_47($tahun, $asset);
-        $data['tahun']   = $this->session->tahun;
-        $data['tanggal'] = date('d / M / y');
-
-        if ($aksi == 'unduh') {
-            $this->load->view('inventaris/laporan/permen47_excel', $data);
-        } else {
-            $this->load->view('inventaris/laporan/permen47_print', $data);
-        }
     }
 
     // TODO: Ini digunakan dimana pada view

@@ -33,11 +33,25 @@
                 <div class="space-y-2">
                   <blockquote class="italic">"<?= $comment['komentar'] ?></blockquote>
                   <div class="space-y-1 space-x-3 text-xs lg:text-sm">
-                    <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $comment['owner'] ?></span>
+                    <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $comment['pengguna']['nama'] ?></span>
                     <span><i class="fa fa-calendar-alt mr-1 text-accent-100"></i> <?= tgl_indo($comment['tgl_upload']) ?></span>
                   </div>
                 </div>
               </div>
+              <?php if (count($comment['children']) > 0): ?>
+                <?php foreach($comment['children'] as $children) : ?>
+                  <div style="margin: 0 0 0 40px;" class="flex gap-x-3 py-4">
+                    <div class="h-10 lg:h-12 lg:w-12 w-10 inline-flex items-center justify-center bg-gray-200 rounded-full flex-shrink-0 text-secondary-100"><i class="fa fa-comments text-lg"></i></div>
+                    <div class="space-y-2">
+                      <blockquote class="italic">"<?= $children['komentar'] ?></blockquote>
+                      <div class="space-y-1 space-x-3 text-xs lg:text-sm">
+                        <span><i class="fa fa-user mr-1 text-accent-100"></i> <?= $children['pengguna']['nama'] ?> <code>(<?= $children['pengguna']['level'] ?>)</code></span>
+                        <span><i class="fa fa-calendar-alt mr-1 text-accent-100"></i> <?= tgl_indo($children['tgl_upload']) ?></span>
+                      </div>
+                    </div>
+                  </div>
+                <?php endforeach ?>
+              <?php endif ?>
             <?php endforeach ?>
           </div>
         </div>
