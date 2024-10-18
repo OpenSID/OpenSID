@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ favico_desa() }}">
 
-    <link href="{{ asset('anjungan/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/bootstrap-v5.2.2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('anjungan/css/default.css') }}" rel="stylesheet">
     <link href="{{ asset('anjungan/css/color/nature.css') }}" rel="stylesheet">
     <link href="{{ asset('anjungan/css/color/nature.css') }}" rel="stylesheet alternate" title="nature" />

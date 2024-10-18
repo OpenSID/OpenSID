@@ -10,7 +10,7 @@
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-v3.3.7.min.css') }}" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}" />
     <!-- Ionicons -->

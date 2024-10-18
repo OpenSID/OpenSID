@@ -11,7 +11,7 @@
     <title>Buku Tamu</title>
 
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
-    <link href="{{ asset('buku_tamu/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap/css/bootstrap-v5.2.2.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('js/sweetalert2/sweetalert2.min.css') }}">
     <link href="{{ asset('buku_tamu/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('buku_tamu/css/screen.css') }}" rel="stylesheet">

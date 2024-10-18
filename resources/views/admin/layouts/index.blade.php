@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="{{ favico_desa() }}" />
     <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="{{ base_url('rss.xml') }}" />
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap-v3.3.7.min.css') }}" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('bootstrap/css/font-awesome.min.css') }}" />
     <!-- Ionicons -->
