@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="<?= asset('js/progressive-image/progressive-image.css') ?>">
 
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap-v3.3.7.min.css') ?>">
     <!-- Jquery UI -->
     <link rel="stylesheet" href="<?= asset('bootstrap/css/jquery-ui.min.css') ?>">
     <!-- Font Awesome -->
