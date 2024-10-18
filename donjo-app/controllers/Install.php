@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property CI_Config           $config
  * @property CI_DB_query_builder $db
  * @property CI_Form_validation  $form_validation
- * @property CI_Input            $input
+ * @property MY_input            $input
  * @property CI_Lang             $lang
  * @property CI_Loader           $loader
  * @property CI_log              $log
