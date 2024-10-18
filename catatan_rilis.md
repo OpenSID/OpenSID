@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#8572](https://github.com/OpenSID/OpenSID/issues/8572) Perbaikan notifikasi gagal unggah tema.
 19. [#8597](https://github.com/OpenSID/OpenSID/issues/8597) Perbaikan ubah menu bagian status yang kurang sesuai.
 20. [#8599](https://github.com/OpenSID/OpenSID/issues/8599) Perbaikan lampiran model N6 tidak muncul.
+21. [#8601](https://github.com/OpenSID/OpenSID/issues/8601) Perbaikan tambah informasi publik tipe URL tidak bisa di Simpan.
 
 
 ### TEKNIS
