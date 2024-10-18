@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8527](https://github.com/OpenSID/OpenSID/issues/8527) Penambahan log login pada modul info sistem.
 2. [#8463](https://github.com/OpenSID/OpenSID/issues/8463) Penambahan kode isian penduduk yang sama untuk semua form selain form utama.
 3. [#8575](https://github.com/OpenSID/OpenSID/issues/8575) Penambahan tinjau gambar saat diunggah pada modul identitas, kelompok/lembaga, pengaturan, pengguna dan lapak.
+4. [#8534](https://github.com/OpenSID/OpenSID/issues/8534) Penambahan filter status surat dan jenis surat pada layanan surat dan surat dinas.
 
 
 ### BUG
@@ -29,6 +30,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 17. [#8561](https://github.com/OpenSID/OpenSID/issues/8561) Perbaikan grafik pendapatan desa dan belanja desa.
 18. [#8572](https://github.com/OpenSID/OpenSID/issues/8572) Perbaikan notifikasi gagal unggah tema.
 19. [#8597](https://github.com/OpenSID/OpenSID/issues/8597) Perbaikan ubah menu bagian status yang kurang sesuai.
+20. [#8599](https://github.com/OpenSID/OpenSID/issues/8599) Perbaikan lampiran model N6 tidak muncul.
+21. [#8601](https://github.com/OpenSID/OpenSID/issues/8601) Perbaikan tambah informasi publik tipe URL tidak bisa di Simpan.
 
 
 ### TEKNIS
