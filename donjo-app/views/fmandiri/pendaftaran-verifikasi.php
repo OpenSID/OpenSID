@@ -55,8 +55,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="nav-tabs-custom">
 					<?php if ($tab_aktif = $this->session->flashdata('tab-aktif')) : ?>
 						<ul class="nav nav-tabs">
-							<li id="link-telegram" class="<?= ($tab_aktif['status'] == 0) ? 'active' : '' ?>"><a href="#telegram" data-toggle="tab">Telegram</a></li>
 							<li id="link-email" class="<?= ($tab_aktif['status'] == 1) ? 'active' : '' ?>"><a href="#email" data-toggle="tab">Email</a></li>
+							<li id="link-telegram" class="<?= ($tab_aktif['status'] == 0) ? 'active' : '' ?>"><a href="#telegram" data-toggle="tab">Telegram</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="<?= ($tab_aktif['status'] == 0) ? 'active' : '' ?> tab-pane" id="telegram">

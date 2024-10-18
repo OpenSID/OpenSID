@@ -221,7 +221,7 @@ class Mandiri_model extends MY_Model
                     'nik'    => $data['nik'],
                     'pin'    => $data['pin2'],
                     'pesan'  => 'untuk melengkapi pendaftaran Silahkan Verifikasi Email dan Telegram',
-                    'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/telegram'), // TODO issue
+                    'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/email'), // TODO issue
                 ];
             } elseif ($this->cek_layanan_mandiri($penduduk->id) && ! $this->otp_library->driver('telegram')->cek_verifikasi_otp($penduduk->id)) {
                 $data_penduduk['id']        = $penduduk->id;
@@ -237,7 +237,7 @@ class Mandiri_model extends MY_Model
                     'nik'    => $data['nik'],
                     'pin'    => $data['pin2'],
                     'pesan'  => 'untuk melengkapi pendaftaran Silahkan Verifikasi Email dan Telegram',
-                    'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/telegram'), // TODO issue
+                    'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/email'), // TODO issue
                 ];
             } else {
                 $respon = [
