@@ -1,4 +1,4 @@
-Di rilis ini, versi 2410.1e.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2410.1.0 berisi penambahan instalasi aplikasi dengan wizard dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada @totoprayogo1916 yang terus berkontribusi.
 
