@@ -36,22 +36,15 @@
  */
 
 use App\Libraries\Release;
-use App\Models\Bantuan;
-use App\Models\Kelompok;
-use App\Models\Keluarga;
-use App\Models\LogSurat;
-use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
-use App\Models\RefJabatan;
-use App\Models\Rtm;
-use App\Models\Wilayah;
+use App\Models\Shortcut;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Beranda extends Admin_Controller
 {
     public $isAdmin;
-    public $modul_ini = 'beranda';
+    public $modul_ini           = 'beranda';
+    public $kategori_pengaturan = 'beranda';
 
     public function __construct()
     {
@@ -64,17 +57,9 @@ class Beranda extends Admin_Controller
         get_pesan_opendk(); //ambil pesan baru di opendk
 
         $this->load->library('saas');
-        $configId = identitas('id');
-        $data     = [
+        $data = [
             'rilis'           => $this->getUpdate(),
-            'bantuan'         => $this->bantuan(),
-            'penduduk'        => Penduduk::status()->count(),
-            'keluarga'        => Keluarga::status()->logTerakhir($configId, date('Y-m-d'))->count(),
-            'rtm'             => Rtm::status()->count(),
-            'kelompok'        => Kelompok::status()->tipe()->count(),
-            'dusun'           => Wilayah::dusun()->count(),
-            'pendaftaran'     => PendudukMandiri::status()->count(),
-            'surat'           => $this->logSurat(),
+            'shortcut'        => Shortcut::querys()['data'],
             'saas'            => $this->saas->peringatan(),
             'notif_langganan' => $this->pelanggan_model->status_langganan(),
         ];
@@ -105,28 +90,5 @@ class Beranda extends Admin_Controller
         }
 
         return $info;
-    }
-
-    private function bantuan()
-    {
-        $program                = Bantuan::with('peserta')->whereId($this->setting->dashboard_program_bantuan)->first();
-        $bantuan['jumlah']      = $program ? $program->peserta->count() : Bantuan::status()->count();
-        $bantuan['nama']        = $program ? $program->nama : 'Bantuan';
-        $bantuan['link_detail'] = $program ? ('statistik/clear/50' . $this->setting->dashboard_program_bantuan) : 'program_bantuan';
-        $bantuan['program']     = Bantuan::status()->pluck('nama', 'id');
-
-        return $bantuan;
-    }
-
-    private function logSurat()
-    {
-        return LogSurat::whereNull('deleted_at')
-            ->when($this->isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
-                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-                ->orWhere(static function ($verifikasi): void {
-                    $verifikasi->whereNull('verifikasi_operator');
-                }))
-            ->when($this->isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-            ->when($this->isAdmin == null || ! in_array($this->isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator'))->count();
     }
 }

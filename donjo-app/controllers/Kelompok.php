@@ -206,7 +206,7 @@ class Kelompok extends Admin_Controller
         isCan('u');
 
         $data        = $this->validate($this->input->post());
-        $getKelompok = KelompokModel::where('kode', $data['kode'])->exists();
+        $getKelompok = KelompokModel::tipe($this->tipe)->where('kode', $data['kode'])->exists();
 
         if ($getKelompok) {
             redirect_with('error', "<br/>Kode ini {$data['kode']} tidak bisa digunakan. Silahkan gunakan kode yang lain!");
@@ -235,7 +235,7 @@ class Kelompok extends Admin_Controller
         isCan('u');
 
         $data        = $this->validate($this->input->post());
-        $getKelompok = KelompokModel::where('id', '!=', $id)
+        $getKelompok = KelompokModel::tipe($this->tipe)->where('id', '!=', $id)
             ->where(static function ($query) use ($id, $data): void {
                 $query->where('id', $id)->orWhere('kode', $data['kode']);
             })->exists();

@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\KlasifikasiSurat;
+use App\Models\SuratKeluar;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_keluar extends Admin_Controller
@@ -48,55 +51,86 @@ class Surat_keluar extends Admin_Controller
         isCan('b');
         // Untuk bisa menggunakan helper force_download()
         $this->load->helper('download');
-        $this->load->model(['surat_keluar_model', 'klasifikasi_model', 'pamong_model', 'penomoran_surat_model']);
-        $this->list_session = ['cari', 'filter'];
+        $this->load->model(['penomoran_surat_model']);
+        $this->uploadConfig = [
+            'upload_path'   => LOKASI_ARSIP,
+            'allowed_types' => 'gif|jpg|jpeg|png|pdf',
+            'max_size'      => max_upload() * 1024,
+        ];
     }
 
-    public function clear($id = 0): void
+    public function index()
     {
-        $this->session->per_page = 20;
-        $this->session->surat    = $id;
-        $this->session->unset_userdata($this->list_session);
-        redirect('surat_keluar');
+        $data['selected_nav'] = 'agenda_keluar';
+        $data['subtitle']     = 'Buku Agenda - Surat Keluar';
+        $data['main_content'] = 'admin.surat_keluar.index';
+        $data['tahun']        = SuratKeluar::tahun()->pluck('tahun');
+
+        return view('admin.bumindes.umum.main', $data);
     }
 
-    public function index($p = 1, $o = 0): void
+    public function datatables()
     {
-        $data['p'] = $p ?? 1;
-        $data['o'] = $o ?? 0;
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->addColumn('ceklist', static function ($row) {
+                    if (can('h')) {
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                    }
+                })
+                ->addColumn('aksi', static function ($row): string {
+                    $aksi = '';
 
-        $data['cari'] = $this->session->has_userdata('cari') ? $this->session->cari : '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('surat_keluar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
 
-        $data['filter'] = $this->session->has_userdata('filter') ? $this->session->filter : '';
+                    if ($row->berkas_scan) {
+                        $aksi .= '<a href="' . ci_route("surat_keluar.berkas.{$row->id}.0") . '" class="btn bg-purple btn-sm" title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a> ';
+                    }
 
-        if ($this->session->has_userdata('per_page')) {
-            $this->session->per_page = $this->input->post('per_page');
+                    if (can('u')) {
+                        if ($row->ekspedisi) {
+                            $aksi .= '<a href="' . ci_route('ekspedisi') . '" class="btn bg-info btn-sm" title="Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a> ';
+                        } else {
+                            $aksi .= '<a href="' . ci_route('surat_keluar.untuk_ekspedisi', $row->id) . '" class="btn bg-blue btn-sm" title="Tambahkan ke Buku Ekspedisi"><i class="fa fa-envelope-open"></i></a> ';
+                        }
+                    }
+
+                    if (can('h')) {
+                        $aksi .= '<a href="#" data-href="' . ci_route('surat_keluar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                    }
+
+                    return $aksi . ('<a href="' . ci_route("surat_keluar.berkas.{$row->id}.1") . '" target="_blank" class="btn btn-info btn-sm"  title="Lihat Berkas Surat"><i class="fa fa-eye"></i></a> ');
+                })
+                ->editColumn('tanggal_surat', static fn ($row) => tgl_indo_out($row->tanggal_surat))
+                ->rawColumns(['ceklist', 'aksi'])
+                ->make();
         }
 
-        $data['per_page']     = $this->session->per_page;
-        $data['paging']       = $this->surat_keluar_model->paging($p, $o);
-        $data['main']         = $this->surat_keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['tahun_surat']  = $this->surat_keluar_model->list_tahun_surat();
-        $data['keyword']      = $this->surat_keluar_model->autocomplete();
-        $data['main_content'] = 'surat_keluar/table';
-        $data['subtitle']     = 'Buku Agenda - Surat Keluar';
-        $data['selected_nav'] = 'agenda_keluar';
-
-        $this->render('bumindes/umum/main', $data);
+        return show_404();
     }
 
-    public function form($p = 1, $o = 0, $id = ''): void
+    private function sumberData()
+    {
+        $tahun = $this->input->get('tahun') ?? null;
+
+        return SuratKeluar::when($tahun, static fn ($q) => $q->whereYear('tanggal_surat', $tahun));
+    }
+
+    public function form($id = '')
     {
         isCan('u');
-        $data['tujuan']      = $this->surat_keluar_model->autocomplete();
-        $data['klasifikasi'] = $this->klasifikasi_model->list_kode();
-        $data['p']           = $p;
-        $data['o']           = $o;
+        $data['tujuan']      = SuratKeluar::autocomplete();
+        $data['klasifikasi'] = KlasifikasiSurat::select(['kode', 'nama'])->get();
 
         if ($id) {
-            $data['surat_keluar'] = $this->surat_keluar_model->get_surat_keluar($id) ?? show_404();
-            $data['form_action']  = site_url("surat_keluar/update/{$p}/{$o}/{$id}");
+            $data['action']       = 'Ubah';
+            $data['surat_keluar'] = SuratKeluar::findOrFail($id);
+            $data['form_action']  = site_url("surat_keluar/update/{$id}");
         } else {
+            $data['action']                     = 'Tambah';
             $last_surat                         = $this->penomoran_surat_model->get_surat_terakhir('surat_keluar');
             $data['surat_keluar']['nomor_urut'] = $last_surat['no_surat'] + 1;
             $data['form_action']                = site_url('surat_keluar/insert');
@@ -109,106 +143,202 @@ class Surat_keluar extends Admin_Controller
         $ekstensiFile                        = end($ekstensiFile);
         $data['surat_keluar']['berkas_scan'] = $namaFile . '.' . $ekstensiFile;
 
-        $this->render('surat_keluar/form', $data);
-    }
-
-    public function form_upload($p = 1, $o = 0, $url = ''): void
-    {
-        $data['form_action'] = site_url("surat_keluar/upload/{$p}/{$o}/{$url}");
-        $this->load->view('surat_keluar/ajax-upload', $data);
-    }
-
-    public function search(): void
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $this->session->cari = $cari;
-        } else {
-            $this->session->unset_userdata('cari');
-        }
-        redirect('surat_keluar');
-    }
-
-    public function filter(): void
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != 0) {
-            $this->session->filter = $filter;
-        } else {
-            $this->session->unset_userdata('filter');
-        }
-        redirect('surat_keluar');
+        return view('admin.surat_keluar.form', $data);
     }
 
     public function insert(): void
     {
         isCan('u');
-        $this->surat_keluar_model->insert();
-        redirect('surat_keluar');
-    }
 
-    public function update($p = 1, $o = 0, $id = ''): void
-    {
-        isCan('u');
-        $this->surat_keluar_model->update($id);
-        redirect("surat_keluar/index/{$p}/{$o}");
-    }
+        // Ambil semua data dari var. global $_POST
+        $data = $this->input->post(null);
 
-    public function upload($p = 1, $o = 0, $url = ''): void
-    {
-        isCan('u');
-        $this->surat_keluar_model->upload($url);
-        redirect("surat_keluar/index/{$p}/{$o}");
-    }
+        unset($data['url_remote'], $data['nomor_urut_lama']);
 
-    public function delete($p = 1, $o = 0, $id = ''): void
-    {
-        isCan('h');
-        $this->surat_keluar_model->delete($id);
-        redirect("surat_keluar/index/{$p}/{$o}");
-    }
+        $this->validasi($data);
 
-    public function delete_all($p = 1, $o = 0): void
-    {
-        isCan('h');
-        $this->surat_keluar_model->delete_all();
-        redirect("surat_keluar/index/{$p}/{$o}");
-    }
+        // Adakah lampiran yang disertakan?
+        $adaLampiran = ! empty($_FILES['satuan']['name']);
 
-    public function dialog_cetak($o = 0): void
-    {
-        $data['aksi']        = 'Cetak';
-        $data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_keluar/dialog/cetak/{$o}");
-
-        $this->load->view('surat_keluar/ajax_cetak', $data);
-    }
-
-    public function dialog_unduh($o = 0): void
-    {
-        $data['aksi']        = 'Unduh';
-        $data['tahun_surat'] = $this->surat_keluar_model->list_tahun_surat();
-        $data['form_action'] = site_url("surat_keluar/dialog/unduh/{$o}");
-        $this->load->view('surat_keluar/ajax_cetak', $data);
-    }
-
-    public function dialog($aksi = 'unduh', $o = 0): void
-    {
-        // TODO :: gunakan view global penandatangan
-        $ttd                    = $this->modal_penandatangan();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($ttd['pamong_ttd']->pamong_id);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($ttd['pamong_ketahui']->pamong_id);
-
-        $data['input']         = $this->input->post();
-        $this->session->filter = $data['input']['tahun'];
-        $data['desa']          = $this->header['desa'];
-        $data['main']          = $this->surat_keluar_model->list_data($o, 0, 10000);
-
-        if ($aksi == 'unduh') {
-            $this->load->view('surat_keluar/surat_keluar_excel', $data);
-        } else {
-            $this->load->view('surat_keluar/surat_keluar_print', $data);
+        // Cek nama berkas user boleh lebih dari 80 karakter (+20 untuk unique id) karena -
+        // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
+        if ($adaLampiran && ((strlen($_FILES['satuan']['name']) + 20) >= 100)) {
+            redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
         }
+
+        $uploadData = null;
+        // Ada lampiran file
+        if ($adaLampiran) {
+            // Tes tidak berisi script PHP
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
+                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan');
+            }
+            // Inisialisasi library 'upload'
+            $this->upload->initialize($this->uploadConfig);
+            // Upload sukses
+            if ($this->upload->do_upload('satuan')) {
+                $uploadData = $this->upload->data();
+                // Buat nama file unik agar url file susah ditebak dari browser
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+                $fileRenamed = rename(
+                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                    $this->uploadConfig['upload_path'] . $namaFileUnik
+                );
+                // Ganti nama di array upload jika file berhasil di-rename --
+                // jika rename gagal, fallback ke nama asli
+                $uploadData['file_name'] = $fileRenamed ? $namaFileUnik : $uploadData['file_name'];
+            }
+        }
+        // Berkas lampiran
+        $data['berkas_scan'] = $adaLampiran && null !== $uploadData ? $uploadData['file_name'] : null;
+
+        if (SuratKeluar::create($data)) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
+    }
+
+    public function update($idSuratMasuk): void
+    {
+        isCan('u');
+        // Ambil semua data dari var. global $_POST
+        $data = $this->input->post(null);
+        unset($data['url_remote'], $data['nomor_urut_lama']);
+
+        $this->validasi($data);
+
+        // Ambil nama berkas scan lama dari database
+        $berkasLama = SuratKeluar::findOrFail($idSuratMasuk)->berkas_scan;
+
+        // Lokasi berkas scan lama (absolut)
+        $lokasiBerkasLama = $this->uploadConfig['upload_path'] . $berkasLama;
+        $lokasiBerkasLama = str_replace('/', DIRECTORY_SEPARATOR, FCPATH . $lokasiBerkasLama);
+
+        // Hapus lampiran lama?
+        $hapusLampiranLama = $data['gambar_hapus'];
+        unset($data['gambar_hapus']);
+
+        $uploadData = null;
+
+        // Adakah file baru yang akan diupload?
+        $adaLampiran = ! empty($_FILES['satuan']['name']);
+
+        // Ada lampiran file
+        if ($adaLampiran) {
+            // Tes tidak berisi script PHP
+            if (isPHP($_FILES['satuan']['tmp_name'], $_FILES['satuan']['name'])) {
+                redirect_with('error', ' -> Jenis file ini tidak diperbolehkan ');
+            }
+            // Cek nama berkas tidak boleh lebih dari 80 karakter (+20 untuk unique id) karena -
+            // karakter maksimal yang bisa ditampung kolom surat_keluar.berkas_scan hanya 100 karakter
+            if ((strlen($_FILES['satuan']['name']) + 20) >= 100) {
+                redirect_with('error', ' -> Nama berkas yang coba Anda unggah terlalu panjang, batas maksimal yang diijinkan adalah 80 karakter');
+            }
+            // Inisialisasi library 'upload'
+            $this->upload->initialize($this->uploadConfig);
+            // Upload sukses
+            if ($this->upload->do_upload('satuan')) {
+                $uploadData = $this->upload->data();
+                // Buat nama file unik untuk nama file upload
+                $namaFileUnik = tambahSuffixUniqueKeNamaFile($uploadData['file_name']);
+                // Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
+                $uploadedFileRenamed = rename(
+                    $this->uploadConfig['upload_path'] . $uploadData['file_name'],
+                    $this->uploadConfig['upload_path'] . $namaFileUnik
+                );
+
+                $uploadData['file_name'] = ($uploadedFileRenamed === false) ?: $namaFileUnik;
+
+                $data['berkas_scan'] = $uploadData['file_name'];
+                // Update database dengan `berkas_scan` berisi nama unik
+
+                $update = SuratKeluar::findOrFail($idSuratMasuk);
+
+                if ($update->update($data)) {
+                    redirect_with('success', 'Berhasil Ubah Data');
+                }
+
+                redirect_with('error', 'Gagal Ubah Data');
+            }
+        }
+        // Tidak ada file upload
+        else {
+            unset($data['berkas_scan']);
+            if ($hapusLampiranLama) {
+                $data['berkas_scan'] = null;
+                $adaBerkasLamaDiDisk = file_exists($lokasiBerkasLama);
+                $oldFileRemoved      = $adaBerkasLamaDiDisk && unlink($lokasiBerkasLama);
+                ($oldFileRemoved) ? null : redirect_with('error', ' -> Gagal menghapus berkas lama');
+            }
+
+            $update = SuratKeluar::findOrFail($idSuratMasuk);
+
+            if ($update->update($data)) {
+                redirect_with('success', 'Berhasil Ubah Data');
+            }
+
+            redirect_with('error', 'Gagal Ubah Data');
+        }
+    }
+
+    private function validasi(array &$data): void
+    {
+        // Normalkan tanggal
+        $data['tanggal_surat'] = tgl_indo_in($data['tanggal_surat']);
+        // Bersihkan data
+        $data['nomor_surat'] = nomor_surat_keputusan(strip_tags($data['nomor_surat']));
+        $data['tujuan']      = strip_tags($data['tujuan']);
+        $data['isi_singkat'] = strip_tags($data['isi_singkat']);
+    }
+
+    public function delete($id): void
+    {
+        isCan('h');
+
+        if (SuratKeluar::destroy($id)) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function delete_all(): void
+    {
+        isCan('h');
+
+        if (SuratKeluar::destroy($this->request['id_cb'])) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    public function dialog($aksi = 'cetak')
+    {
+        $data['aksi']       = $aksi;
+        $data['tahun']      = SuratKeluar::tahun()->pluck('tahun');
+        $data['formAction'] = ci_route('surat_keluar.cetak', $aksi);
+
+        return view('admin.surat_keluar.dialog', $data);
+    }
+
+    public function cetak($aksi = '')
+    {
+        $query          = $this->sumberData();
+        $data           = $this->modal_penandatangan();
+        $data['aksi']   = $aksi;
+        $data['main']   = $query->get()->toArray();
+        $data['config'] = $this->header['desa'];
+        $data['tahun']  = $this->input->post('tahun');
+        if ($data['tahun']) {
+            $data['main'] = $query->whereYear('tanggal_surat', $data['tahun'])->get()->toArray();
+        }
+        $data['isi']       = 'admin.surat_keluar.cetak';
+        $data['letak_ttd'] = ['1', '1', '23'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 
     /**
@@ -219,8 +349,7 @@ class Surat_keluar extends Admin_Controller
      */
     public function berkas($idSuratKeluar = 0, $tipe = 0): void
     {
-        // Ambil nama berkas dari database
-        $berkas = $this->surat_keluar_model->getNamaBerkasScan($idSuratKeluar);
+        $berkas = SuratKeluar::find($idSuratKeluar)->berkas_scan;
         ambilBerkas($berkas, 'surat_keluar', '__sid__', LOKASI_ARSIP, $tipe == 1);
     }
 
@@ -236,7 +365,8 @@ class Surat_keluar extends Admin_Controller
 
     public function untuk_ekspedisi($id): void
     {
-        $this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 1);
-        redirect('ekspedisi');
+        SuratKeluar::find($id)->update(['ekspedisi' => 1]);
+
+        redirect_with('success', 'Berhasil Masuk ke Ekspedisi');
     }
 }

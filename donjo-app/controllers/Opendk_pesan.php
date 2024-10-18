@@ -182,7 +182,7 @@ class Opendk_pesan extends Admin_Controller
                 ];
             }
 
-            $client   = new \GuzzleHttp\Client();
+            $client   = new GuzzleHttp\Client();
             $response = $client->post("{$this->setting->api_opendk_server}/api/v1/pesan", [
                 'headers' => [
                     'X-Requested-With' => 'XMLHttpRequest',

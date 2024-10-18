@@ -232,7 +232,7 @@ if (! function_exists('dispatch')) {
              */
             protected function shouldDispatch(): bool
             {
-                if (! $this->job instanceof \Illuminate\Contracts\Queue\ShouldBeUnique) {
+                if (! $this->job instanceof Illuminate\Contracts\Queue\ShouldBeUnique) {
                     return true;
                 }
 
@@ -261,7 +261,7 @@ if (! function_exists('dispatch')) {
                     return;
                 }
 
-                app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
+                app(Illuminate\Contracts\Bus\Dispatcher::class)->dispatch($this->job);
             }
         };
     }
@@ -278,7 +278,7 @@ if (! function_exists('dispatch_now')) {
      */
     function dispatch_now($job, $handler = null)
     {
-        return app(\Illuminate\Contracts\Bus\Dispatcher::class)->dispatchNow($job, $handler);
+        return app(Illuminate\Contracts\Bus\Dispatcher::class)->dispatchNow($job, $handler);
     }
 }
 
@@ -338,7 +338,7 @@ if ( ! function_exists('response')) {
      */
     function response($content = '', $statusCode = 200, $headers = [])
     {
-        $responseClass = class_exists(\Illuminate\Http\Response::class) ? \Illuminate\Http\Response::class : 'Response';
+        $responseClass = class_exists(Illuminate\Http\Response::class) ? Illuminate\Http\Response::class : 'Response';
 
         return new $responseClass($content, $statusCode, $headers);
     }
@@ -371,7 +371,7 @@ if (! function_exists('view')) {
      */
     function view($view = null, $data = [], $mergeData = [], $returnView = false)
     {
-        app()->register(\App\Providers\ViewServiceProvider::class);
+        app()->register(App\Providers\ViewServiceProvider::class);
 
         $factory = app('view');
 

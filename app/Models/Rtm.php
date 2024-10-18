@@ -39,12 +39,14 @@ namespace App\Models;
 
 use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Rtm extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -84,7 +86,7 @@ class Rtm extends BaseModel
      */
     public function anggota()
     {
-        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
+        return $this->hasMany(Penduduk::class, 'id_rtm', 'no_kk')->status()->withoutGlobalScope(\App\Scopes\ConfigIdScope::class);
     }
 
     /**

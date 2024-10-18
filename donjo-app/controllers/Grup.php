@@ -198,7 +198,7 @@ class Grup extends Admin_Controller
         }
     }
 
-    private function simpanAkses($grupId, $moduls): void
+    private function simpanAkses(string $grupId, array $moduls): void
     {
         $grupAkses = [];
         $configId  = identitas()->id;
@@ -235,7 +235,7 @@ class Grup extends Admin_Controller
             }
             GrupAkses::whereIn('id_grup', $this->request['id_cb'] ?? [$id])->delete();
             UserGrup::destroy($this->request['id_cb'] ?? $id);
-            cache()->flush();
+            // cache()->flush();
             $this->cache->hapus_cache_untuk_semua('_cache_modul');
             redirect_with('success', 'Grup pengguna berhasil dihapus');
         } catch (Exception $e) {

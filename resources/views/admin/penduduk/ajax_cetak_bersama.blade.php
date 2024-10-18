@@ -1,4 +1,15 @@
 <script>
+    $(function() {
+        let _objParams = $('#tabeldata').DataTable().ajax.params()
+        delete(_objParams.draw)
+        delete(_objParams.search)
+        $('input[name=params]').val(JSON.stringify(_objParams))
+        $('input[name=judul]').val($('#judul-statistik').text())
+        // copy id_rb terpilih ke form ini
+        let _clone = $('#tabeldata').find('input[name="id_cb[]"]:checked').clone()
+        $('#checkbox_div').append(_clone)
+    })
+
     function cetak() {
         const privasi_nik = $('#privasi_nik:checked').val();
         if (privasi_nik == "on") {
@@ -20,11 +31,14 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <input type="hidden" name="params" value="">
+                    <input type="hidden" name="judul" value="">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="privasi_nik">
                         <label class="form-check-label" for="cetak_privasi_nik">Sensor NIK/No. KK</label>
                     </div>
                 </div>
+            </div>
+            <div class="form-group hide" id="checkbox_div">
             </div>
         </div>
     </div>

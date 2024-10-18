@@ -202,9 +202,9 @@ class Config extends BaseModel
     // Hapus cache config dan modul
     public static function clearCache(): void
     {
-        cache()->flush();
-        // cache()->forget('identitas_desa');
+        cache()->forget('identitas_desa');
         hapus_cache('status_langganan');
+        cache()->forget('siappakai');
         hapus_cache('_cache_modul');
     }
 

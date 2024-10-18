@@ -94,7 +94,7 @@ class Database_model extends MY_Model
             return;
         }
 
-        $migratedDatabase = Migrasi::pluck('versi_database')->toArray();
+        $migratedDatabase = Migrasi::pluck('versi_database', 'versi_database')->toArray();
 
         session_success();
         $versi        = (int) str_replace('.', '', $this->cekCurrentVersion());
@@ -118,18 +118,13 @@ class Database_model extends MY_Model
                         $this->jalankan_migrasi('Migrasi_' . $migrateName);
                         $migrasiDb = Migrasi::firstOrCreate(['versi_database' => $migrateName]);
                         $migrasiDb->update(['premium' => ['Migrasi_' . $migrateName]]);
-
-                        if ($this->getShowProgress()) {
-                            // sleep(1.5);
-                            echo json_encode(['message' => 'Jalankan ' . $migrate, 'status' => 0]);
-                        }
                     }
                 }
             }
             // untuk mencegah kesalahan nama file migrasi, tambahkan record berdasarkan VERSI_DATABASE saat ini
             $migrasiDb = Migrasi::firstOrCreate(['versi_database' => VERSI_DATABASE]);
             $migrasiDb->update(['premium' => ['Migrasi_' . VERSI_DATABASE]]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e->getMessage());
             if ($this->getShowProgress()) {
                 echo json_encode(['message' => $e->getMessage(), 'status' => 0]);
@@ -142,9 +137,9 @@ class Database_model extends MY_Model
         // Lengkapi folder desa
         folder_desa();
         kosongkanFolder(config_item('cache_blade'));
-        cache()->flush();
+        // cache()->flush();
 
-        SettingAplikasi::withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
+        SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => currentVersion()]);
         $this->load->model('track_model');
         $this->track_model->kirim_data();
 
@@ -164,8 +159,6 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = true): void
     {
-        
-
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
         if (Migrasi::where('versi_database', '=', VERSI_DATABASE)->doesntExist()) {
@@ -219,13 +212,23 @@ class Database_model extends MY_Model
     public function jalankan_migrasi($migrasi)
     {
         $this->load->model('migrations/' . $migrasi);
-        if ($this->{$migrasi}->up()) {
+        if ($this->getShowProgress()) {
+            // sleep(1.5);
+            echo json_encode(['message' => 'Jalankan ' . $migrasi, 'status' => 0]);
+        }
+
+        try {
+            $this->{$migrasi}->up();
             log_message('notice', 'Berhasil Jalankan ' . $migrasi);
 
             return true;
+        } catch (Exception $e) {
+            log_message('error', 'Gagal Jalankan ' . $migrasi . ' dengan error ' . $e->getMessage());
+            if ($this->getShowProgress()) {
+                // sleep(1.5);
+                echo json_encode(['message' => 'Gagal Jalankan ' . $migrasi . ' dengan error ' . $e->getMessage(), 'status' => 500]);
+            }
         }
-
-        log_message('error', 'Gagal Jalankan ' . $migrasi);
 
         return false;
     }

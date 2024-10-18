@@ -42,6 +42,7 @@ use App\Casts\Zoom;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -53,6 +54,7 @@ class Wilayah extends BaseModel
 {
     use ConfigId;
     use SortableTrait;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -139,12 +141,17 @@ class Wilayah extends BaseModel
      */
     public function rws(): HasMany
     {
-        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rw', '!=', '-')->where('rt', '=', '-');
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '=', '-');
+    }
+
+    public function rwAll(): HasMany
+    {
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '=', '-');
     }
 
     public function rts(): HasMany
     {
-        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->where('rt', '!=', '0')->where('rt', '!=', '-');
+        return $this->hasMany(Wilayah::class, 'dusun', 'dusun')->whereNotIn('rt', ['0', '-']);
     }
 
     public function pendudukPria(): HasManyThrough
@@ -170,30 +177,52 @@ class Wilayah extends BaseModel
         $urut = 1;
 
         foreach ($all as $dusun) {
-            $dusun->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+            $dusun->update(['urut_cetak' => $urut++]);
 
             foreach ($dusun->rws as $rw) {
-                $rw->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+                $rw->update(['urut_cetak' => $urut++]);
 
                 foreach ($rw->rts as $rt) {
-                    $rt->update(['urut' => $urut, 'urut_cetak' => $urut++]);
+                    $rt->update(['urut_cetak' => $urut++]);
                 }
             }
         }
     }
 
-    public function isDusun()
+    public function isDusun(): bool
     {
         return $this->attributes['rt'] == '0' && $this->attributes['rw'] == '0';
     }
 
-    public function isRw()
+    public function isRw(): bool
     {
-        return $this->attributes['rt'] == '0' && $this->attributes['rw'] != '0';
+        return $this->attributes['rt'] == '0' && $this->attributes['rw'] !== '0';
     }
 
-    public function isRt()
+    public function isRt(): bool
     {
-        return $this->attributes['rt'] != '0';
+        return $this->attributes['rt'] !== '0';
+    }
+
+    public function bukanRT(): bool
+    {
+        return in_array($this->attributes['rt'], ['0']);
+    }
+
+    public static function tree()
+    {
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+    }
+
+    public static function treeAccess()
+    {
+        $user = auth();
+        if ($user->batasi_wilayah) {
+            $aksesWilayah = $user->akses_wilayah ?? [];
+
+            return self::select(['id', 'dusun', 'rt', 'rw'])->whereIn('id', $aksesWilayah)->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT() )));
+        }
+
+        return self::select(['id', 'dusun', 'rt', 'rw'])->get()->groupBy('dusun')->map(static fn ($item) => $item->filter(static fn ($q): bool => $q->rw !== '0')->groupBy('rw')->map(static fn ($item) => $item->filter(static fn ($q): bool => ! $q->isDusun() && ! $q->bukanRT()  )));
     }
 }

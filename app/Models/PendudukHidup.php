@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\SHDKEnum;
 use App\Traits\ConfigId;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -67,5 +68,18 @@ class PendudukHidup extends BaseModel
     public function map()
     {
         return $this->belongsTo(PendudukMap::class, 'id', 'id');
+    }
+
+    protected function scopeLepas($query, $shdk = false)
+    {
+        $query->whereNull('id_kk')->where('status', 1);
+
+        if ($shdk) {
+            $query->where(static fn ($q) => $q->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
+        } else {
+            $query->where(static fn ($q) => $q->where('kk_level', SHDKEnum::KEPALA_KELUARGA)->orWhereNull('kk_level'));
+        }
+
+        return $query;
     }
 }

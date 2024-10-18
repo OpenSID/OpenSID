@@ -49,6 +49,7 @@ use App\Models\LogPenduduk;
 use App\Models\LogSurat;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\Urls;
@@ -205,6 +206,13 @@ class Surat extends Admin_Controller
         if ($id) {
             // Ganti status menjadi 'Menunggu Tandatangan'
             $this->permohonan_surat_model->proses($id, 2);
+
+            //update isian form
+            $post       = $this->input->post();
+            $remove     = ['berlaku_dari', 'berlaku_sampai', 'pilih_atas_nama', 'submit_cetak'];
+            $isian_form = array_diff_key($post, array_flip($remove));
+
+            PermohonanSurat::where('id', $id)->update(['isian_form' => json_encode($isian_form)]);
         }
 
         $surat     = FormatSurat::cetak($url)->first();
@@ -450,8 +458,8 @@ class Surat extends Admin_Controller
                         ->pluck('token')
                         ->all();
 
-                    $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new \Fcm\Push\Notification();
+                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                    $notification = new Fcm\Push\Notification();
 
                     $notification
                         ->addRecipient($allToken)
@@ -811,7 +819,7 @@ class Surat extends Admin_Controller
             if ($data['individu']['jenis_kelamin'] == JenisKelaminEnum::LAKI_LAKI) {
                 $filterColumn = 'ayah_nik';
             }
-            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(\App\Scopes\ConfigIdScope::class)->get();
+            $anak = Penduduk::where($filterColumn, $data['individu']['nik'])->withoutGlobalScope(App\Scopes\ConfigIdScope::class)->get();
             if ($anak) {
                 $pengikut = $anak->filter(static fn ($item): bool => $item->umur < $minUmur);
             }

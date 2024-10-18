@@ -54,7 +54,7 @@ class Email_repository implements Password_interface
      */
     protected $ci;
 
-    protected \Password_reset_interface $tokens;
+    protected Password_reset_interface $tokens;
 
     public function __construct(Password_reset_interface $token)
     {
@@ -86,7 +86,7 @@ class Email_repository implements Password_interface
 
         $token = $this->tokens->create($user);
 
-        if ($callback instanceof \Closure) {
+        if ($callback instanceof Closure) {
             $callback($user, $token);
         } else {
             // Once we have the reset token, we are ready to send the message out to this
@@ -105,7 +105,7 @@ class Email_repository implements Password_interface
                 return static::RESET_LINK_SENT;
             }
 
-            throw new \Exception($this->ci->email->print_debugger());
+            throw new Exception($this->ci->email->print_debugger());
         }
 
         return static::RESET_LINK_SENT;
@@ -125,7 +125,7 @@ class Email_repository implements Password_interface
             return static::INVALID_USER;
         }
 
-        if ($callback instanceof \Closure) {
+        if ($callback instanceof Closure) {
             $callback($user);
         } else {
             // We are ready to send verify the message out to this user with a link
@@ -145,7 +145,7 @@ class Email_repository implements Password_interface
                 return static::VERIFY_LINK_SENT;
             }
 
-            throw new \Exception($this->ci->email->print_debugger());
+            throw new Exception($this->ci->email->print_debugger());
         }
 
         return static::VERIFY_LINK_SENT;

@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Carbon\Carbon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Pengaduan extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -147,7 +149,6 @@ class Pengaduan extends BaseModel
     public static function boot(): void
     {
         parent::boot();
-
         static::deleting(static function ($model): void {
             if ($model->foto) {
                 $file = FCPATH . LOKASI_PENGADUAN . $model->foto;

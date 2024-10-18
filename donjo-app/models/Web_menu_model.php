@@ -40,7 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Web_menu_model extends MY_Model
 {
     protected $table = 'menu';
-    private \Urut_Model $urut_model;
+    private Urut_Model $urut_model;
 
     public function __construct()
     {

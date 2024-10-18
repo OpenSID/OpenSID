@@ -124,7 +124,7 @@ class Verifikasi extends Mandiri_Controller
                 $this->otp_library->driver('telegram')->kirim_otp($userID, $raw_token);
 
                 $this->db->trans_commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e);
 
                 $this->session->set_flashdata('notif_verifikasi', [
@@ -174,7 +174,7 @@ class Verifikasi extends Mandiri_Controller
 
             try {
                 $this->otp_library->driver('telegram')->verifikasi_berhasil($telegramID, $nama);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e);
             }
 
@@ -239,7 +239,7 @@ class Verifikasi extends Mandiri_Controller
                 $this->otp_library->driver('email')->kirim_otp($email, $raw_token);
 
                 $this->db->trans_commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e);
 
                 $this->session->set_flashdata('notif_verifikasi', [
@@ -289,7 +289,7 @@ class Verifikasi extends Mandiri_Controller
 
             try {
                 $this->otp_library->driver('email')->verifikasi_berhasil($email, $nama);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 log_message('error', $e);
             }
 

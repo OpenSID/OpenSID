@@ -79,7 +79,7 @@
 					<?php endforeach; ?>
 				</tbody>
 				<tfoot>
-					<tr style="background-color:#e64946;font-weight:bold;">
+					<tr style="background-color:<?=theme_config('warna_dasar', '#e64946')?>;font-weight:bold;">
 						<td colspan="9" align="left"><label>TOTAL</label></td>
 						<td align="right"><?= $total['total_kk']; ?></td>
 						<td align="right"><?= $total['total_warga']; ?></td>

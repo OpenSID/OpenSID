@@ -42,9 +42,11 @@ defined('EXT') || define('EXT', '.php');
 global $CFG;
 
 // get module locations from config settings or use the default module location and offset
-is_array(Modules::$locations = $CFG->item('modules_locations')) || Modules::$locations = [
-    APPPATH . 'modules/' => '../modules/',
-];
+if (! is_array(Modules::$locations = $CFG->item('modules_locations'))) {
+    Modules::$locations = [
+        APPPATH . 'modules/' => '../modules/',
+    ];
+}
 
 // PHP5 spl_autoload
 spl_autoload_register('Modules::autoload');
@@ -63,10 +65,10 @@ class Modules
      *
      * @return [type]          [description]
      */
-    public static function autoload($class)
+    public static function autoload(string $class): void
     {
         // don't autoload CI_ prefixed classes or those using the config subclass_prefix
-        if (strstr($class, 'CI_') || strstr($class, config_item('subclass_prefix'))) {
+        if (strstr($class, 'CI_') || strstr($class, (string) config_item('subclass_prefix'))) {
             return;
         }
 
@@ -107,7 +109,7 @@ class Modules
      *
      * @return [type]            [description]
      */
-    public static function load_file($file, $path, $type = 'other', $result = true)
+    public static function load_file($file, string $path, $type = 'other', $result = true)
     {
         $file     = str_replace(EXT, '', $file);
         $location = $path . $file . EXT;
@@ -148,7 +150,7 @@ class Modules
      *
      * @return [type]         [description]
      */
-    public static function find($file, $module, $base)
+    public static function find($file, string $module, string $base): array
     {
         $segments = explode('/', $file);
 
@@ -190,7 +192,7 @@ class Modules
      *
      * @return [type]               [description]
      */
-    public static function parse_routes($module, $uri)
+    public static function parse_routes(string $module, $uri)
     {
         // load the route file
         if (! isset(self::$routes[$module])) {
@@ -201,10 +203,8 @@ class Modules
                 if ([$path] = self::find('routes', $module, 'config/')) {
                     $path && self::$routes[$module] = self::load_file('routes', $path, 'route');
                 }
-            } else {
-                if ([$path] = self::find('routes', $module, 'config/')) {
-                    $path && self::$routes[$module] = self::load_file('routes', $path, 'route');
-                }
+            } elseif ([$path] = self::find('routes', $module, 'config/')) {
+                $path && self::$routes[$module] = self::load_file('routes', $path, 'route');
             }
         }
 

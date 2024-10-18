@@ -45,4 +45,24 @@ class PendudukHubungan extends BaseModel
      * {@inheritDoc}
      */
     protected $table = 'tweb_penduduk_hubungan';
+
+    protected function scopeKawin($query, $status_kawin_kk, $sex = 1)
+    {
+        if (! empty($status_kawin_kk)) {
+            /*
+                Untuk Kepala Keluarga yang belum kawin, hubungan berikut tidak berlaku:
+                    menantu, cucu, mertua, suami, istri; anak hanya berlaku untuk kk perempuan
+                Untuk semua Kepala Keluarga, hubungan 'kepala keluarga' tidak berlaku
+            */
+
+            if ($status_kawin_kk == 1) {
+                ($sex == 2) ? $query->whereNotIn('id', ['1', '2', '3', '5', '6', '8'])
+                    : $query->whereNotIn('id', ['1', '2', '3', '4', '5', '6', '8']);
+            } else {
+                $query->where('id', '!=', '1');
+            }
+        }
+
+        return $query;
+    }
 }

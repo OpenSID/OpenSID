@@ -16,5 +16,10 @@
             // https://stackoverflow.com/questions/15205262/resetting-select2-value-in-dropdown-with-reset-button
             $(this).closest('form').find('.select2').trigger('change');
         });
+
+        $('#jammenit_1').datetimepicker({
+            format: 'HH:mm',
+            locale: 'id'
+        });
     })
 </script>

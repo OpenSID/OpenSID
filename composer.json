@@ -41,8 +41,8 @@
         "spipu/html2pdf": "^5.2",
         "symfony/process": "^5.4",
         "symfony/var-dumper": "^5.4",
-        "themes/esensi": "^2403",
-        "themes/natra": "^2403",
+        "themes/esensi": "^2404",
+        "themes/natra": "^2404",
         "voku/anti-xss": "^4.1",
         "yajra/laravel-datatables-oracle": "^9.21"
     },

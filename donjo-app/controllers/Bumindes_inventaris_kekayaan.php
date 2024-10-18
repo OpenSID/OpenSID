@@ -35,45 +35,76 @@
  *
  */
 
+use App\Models\MasterInventaris;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bumindes_inventaris_kekayaan extends Admin_Controller
 {
-    public $modul_ini           = 'buku-administrasi-desa';
-    public $sub_modul_ini       = 'administrasi-umum';
-    private array $list_session = ['tahun'];
+    public $modul_ini     = 'buku-administrasi-desa';
+    public $sub_modul_ini = 'administrasi-umum';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['pamong_model', 'inventaris_laporan_model']);
     }
 
     public function index(): void
     {
-        $tahun = (empty($this->session->tahun) || $this->session->tahun == 'semua') ? date('Y') : $this->session->tahun;
 
         $data = [
             'subtitle'     => 'Buku Inventaris dan Kekayaan ' . ucwords($this->setting->sebutan_desa),
             'selected_nav' => 'inventaris',
-            'main_content' => 'bumindes/umum/content_inventaris',
-            'min_tahun'    => $this->inventaris_laporan_model->min_tahun(),
-            'data'         => $this->inventaris_laporan_model->permen_47($tahun, null),
-            'tahun'        => $this->session->tahun,
+            'main_content' => 'admin.dokumen.inventaris_kekayaan.table',
+            'min_tahun'    => MasterInventaris::minTahun(),
         ];
 
-        $this->render('bumindes/umum/main', $data);
+        view('admin.bumindes.umum.main', $data);
     }
 
-    public function filter($filter): void
+    private function sumberData($tahun = null)
     {
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
+        return MasterInventaris::permen47($tahun);
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+        $tahun = $this->input->get('tahun') ?? date('Y');
+
+        return datatables()->of($this->sumberData($tahun))
+            ->addIndexColumn()
+            ->editColumn('keterangan', static function (array $row): string {
+                $html = '';
+
+                foreach ($row['keterangan'] as $ket) {
+                    $html .= '<li>' . $ket . '</li>';
+                }
+
+                return $html;
+            })
+            ->editColumn('tgl_hapus', static fn ($row) => tgl_indo($row['tgl_hapus']))
+            ->rawColumns(['aksi', 'keterangan'])
+            ->make();
         }
-        redirect('bumindes_inventaris_kekayaan');
+
+        return show_404();
+    }
+
+    public function cetak($aksi = '')
+    {
+        $tahun             = date('Y');
+        $query             = $this->sumberData($tahun);
+        $data              = $this->modal_penandatangan();
+        $data['aksi']      = $aksi;
+        $data['main']      = $query;
+        $data['config']    = $this->header['desa'];
+        $data['bulan']     = date('m');
+        $data['tahun']     = date('Y');
+        $data['isi']       = 'admin.dokumen.inventaris_kekayaan.cetak';
+        $data['letak_ttd'] = ['1', '1', '23'];
+
+        return view('admin.layouts.components.format_cetak', $data);
     }
 }

@@ -354,6 +354,13 @@ class Keluar extends Admin_Controller
 
             if ($mandiri != null) {
                 $mandiri->update(['status' => 3]);
+
+                // kirim notifikasi ke pemohon bahwa suratnya siap untuk diambil
+                $id_penduduk = $mandiri['id_pemohon'];
+                $pesan       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+                $judul       = 'Surat ' . $mandiri->surat->nama . ' siap untuk dambil';
+
+                $this->kirim_notifikasi_penduduk($id_penduduk, $pesan, $judul);
             }
         } else {
             $log_surat = LogSurat::where('id', '=', $id)->first();
@@ -424,15 +431,15 @@ class Keluar extends Admin_Controller
                                 ]],
                             ]),
                         ]);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         log_message('error', $e->getMessage());
                     }
                 }
 
                 // kirim ke aplikasi android admin.
                 try {
-                    $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                    $notification = new \Fcm\Push\Notification();
+                    $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                    $notification = new Fcm\Push\Notification();
 
                     $notification
                         ->addRecipient($allToken->pluck('token')->all())
@@ -537,8 +544,8 @@ class Keluar extends Admin_Controller
 
             // kirim ke aplikasi android admin.
             try {
-                $client       = new \Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
-                $notification = new \Fcm\Push\Notification();
+                $client       = new Fcm\FcmClient(FirebaseEnum::SERVER_KEY, FirebaseEnum::SENDER_ID);
+                $notification = new Fcm\Push\Notification();
 
                 $notification
                     ->addRecipient($allToken->pluck('token')->all())
@@ -859,7 +866,7 @@ class Keluar extends Admin_Controller
         $desa = kode_wilayah($this->header['desa']['kode_desa']);
 
         try {
-            $client = new \GuzzleHttp\Client([
+            $client = new GuzzleHttp\Client([
                 'base_uri' => "{$this->setting->api_opendk_server}/api/v1/surat?desa_id={$desa}",
             ]);
 
@@ -873,7 +880,7 @@ class Keluar extends Admin_Controller
             log_message('error', $e);
 
             return null;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             log_message('error', $exception);
 
             return null;

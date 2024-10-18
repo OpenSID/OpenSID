@@ -38,22 +38,47 @@
             <table>
                 <tbody>
                     <tr>
-                        <td width="20%"><strong>NAMA KEGIATAN</strong></td>
+                        <td width="20%"><strong>Nama Kegiatan</strong></td>
                         <td width="1%">:</td>
-                        <td> {{ $pembangunan->judul }}</td>
+                        <td><b>{{ $pembangunan->judul }}</b></td>
                     </tr>
                     <tr>
-                        <td><strong>SUMBER DANA</strong></td>
+                        <td><strong>Anggaran</strong></td>
                         <td> : </td>
-                        <td> {{ $pembangunan->sumber_dana }}</td>
+                        <td><b>{{ rupiah($pembangunan->anggaran) }}</b></td>
                     </tr>
                     <tr>
-                        <td><strong>LOKASI PEMBANGUNAN</strong></td>
+                        <td><strong>Tahun</strong></td>
+                        <td> : </td>
+                        <td><b>{{ $pembangunan->tahun_anggaran }}</b></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lokasi Pembangunan</strong></td>
                         <td> : </td>
                         <td> {{ $pembangunan->wilayah->dusun }}</td>
                     </tr>
                     <tr>
-                        <td><strong>KETERANGAN</strong></td>
+                        <td><strong>Sumber Anggaran</strong></td>
+                        <td> : </td>
+                        <td> {{ $pembangunan->sumber_dana }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Volume</strong></td>
+                        <td> : </td>
+                        <td> {{ $pembangunan->volume }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pelaksana</strong></td>
+                        <td> : </td>
+                        <td> {{ $pembangunan->pelaksana_kegiatan }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Manfaat</strong></td>
+                        <td> : </td>
+                        <td> {{ $pembangunan->manfaat }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keterangan</strong></td>
                         <td> : </td>
                         <td> {{ $pembangunan->keterangan }}</td>
                     </tr>
@@ -77,6 +102,7 @@
                     @endforeach
                 </tbody>
             </table>
+            @include('admin.layouts.components.blok_ttd_pamong', ['total_col' => 12, 'spasi_kiri' => 2, 'spasi_tengah' => 6])
         </tbody>
     </table>
 </body>

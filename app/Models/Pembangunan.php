@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -45,6 +46,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Pembangunan extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     /**
      * The table associated with the model.
@@ -146,7 +148,7 @@ class Pembangunan extends BaseModel
     public function scopeTipe($query, $tipe = null)
     {
         if ($tipe == 'kegiatan') {
-            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query) {
+            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query): void {
                 $query->whereRaw('CAST(REPLACE(persentase, "%", "") AS SIGNED) < 100');
             });
         }
@@ -156,7 +158,7 @@ class Pembangunan extends BaseModel
         }
 
         if ($tipe == 'hasil') {
-            $query = $query->orWhereHas('pembangunanDokumentasi', static function ($query) {
+            return $query->orWhereHas('pembangunanDokumentasi', static function ($query): void {
                 $query->whereRaw('CAST(REPLACE(persentase, "%", "") AS SIGNED) = 100');
             });
         }

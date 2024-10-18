@@ -38,11 +38,13 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
 class Pelapak extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     protected $table   = 'pelapak';
     protected $guarded = [];
@@ -51,6 +53,11 @@ class Pelapak extends BaseModel
     public function penduduk()
     {
         return $this->belongsTo(PendudukHidup::class, 'id_pend', 'id');
+    }
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id', 'id_pelapak');
     }
 
     public function scopelistPelapak($query)
@@ -73,7 +80,7 @@ class Pelapak extends BaseModel
             ->where('p.nik', '<>', '')
             ->where('p.nik', '<>', 0)
             ->where('p.config_id', identitas('id'))
-            ->whereNotIn('p.id', static function ($query) use ($id) {
+            ->whereNotIn('p.id', static function ($query) use ($id): void {
                 $query->select('id_pend')
                     ->from('pelapak')
                     ->where('id_pend', '!=', $id)
@@ -114,7 +121,7 @@ class Pelapak extends BaseModel
         $this->where('id', $id)->update($data);
     }
 
-    private function pelapakValidasi()
+    private function pelapakValidasi(): array
     {
         $post = ci()->input->post();
 
@@ -136,5 +143,10 @@ class Pelapak extends BaseModel
         foreach ($id_cb as $id) {
             $this->pelapakDelete($id);
         }
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
     }
 }

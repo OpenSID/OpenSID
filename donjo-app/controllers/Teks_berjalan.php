@@ -92,13 +92,19 @@ class Teks_berjalan extends Admin_Controller
                 ->addColumn('teks', static function ($row): string {
                     $text = $row->teks;
 
-                    return $text . (' <a href="' . menu_slug('artikel/' . $row->tautan) . '" target="_blank">' . $row->judul_tautan . '</a><br>');
+                    $tautan = $row->tipe == 1 ? menu_slug('artikel/' . $row->tautan) : $row->tautan;
+
+                    return $text . (' <a href="' . $tautan . '" target="_blank">' . $row->judul_tautan . '</a><br>');
                 })
-                ->editColumn('tampilkan', static fn ($row) => SistemEnum::valueOf($row->tipe))
-                ->addColumn('judul_tautan', static function ($row) {
-                    if ($row->tautan) {
-                        return '<a href="' . $row->tautan . '" target="_blank">' . tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul . '</a>';
+                ->addColumn('judul_tautan', static function ($row): string {
+                    if ($row->tipe == 1) {
+                        $tautan = menu_slug('artikel/' . $row->tautan);
+                        $tampil = tgl_indo($row->artikel->tgl_upload) . ' <br> ' . $row->artikel->judul;
+                    } else {
+                        $tautan = $tampil = $row->tautan;
                     }
+
+                    return '<a href="' . $tautan . '" target="_blank">' . $tampil . '</a>';
                 })
                 ->rawColumns(['ceklist', 'aksi', 'teks', 'judul_tautan'])
                 ->orderColumn('teks', static function ($query, $order): void {
@@ -178,11 +184,12 @@ class Teks_berjalan extends Admin_Controller
     {
         $data = [
             'teks'         => htmlentities($request['teks']),
-            'tautan'       => (int) $request['tautan'],
+            'tipe'         => (int) $request['tipe'], // 1 = 'Internal', 2 = 'Eksternal'
             'judul_tautan' => htmlentities($request['judul_tautan']),
-            'tipe'         => 1, // web
             'status'       => (int) $request['status'],
         ];
+
+        $data['tautan'] = $data['title'] === '' ? $request['tautan_internal'] : $request['tautan_eksternal'];
 
         if ($id === null) {
             $data['urut'] = TeksBerjalan::UrutMax();

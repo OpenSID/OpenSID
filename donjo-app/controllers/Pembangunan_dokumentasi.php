@@ -86,8 +86,8 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn ($row) => $row->persentase . '%')
-                ->orderColumn('persentase', static function ($query, $order) {
+                ->editColumn('persentase', static fn ($row): string => $row->persentase . '%')
+                ->orderColumn('persentase', static function ($query, $order): void {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
                 ->editColumn('created_at', static fn ($row) => $row->created_at)

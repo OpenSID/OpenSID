@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -72,8 +73,9 @@ class Koneksi_database extends CI_Controller
     public function desaBaru(): void
     {
         $this->load->database();
+        if (Config::appKey()->count() == 0) {
+            reset_auto_increment('config');
 
-        if ($this->session->cek_app_key) {
             // Tambahkan data sementara
             Config::create([
                 'app_key'           => get_app_key(),
@@ -92,6 +94,10 @@ class Koneksi_database extends CI_Controller
             $this->load->model('migrations/data_awal', 'data_awal');
             $this->data_awal->up();
 
+            DB::table('migrasi')->truncate();
+            $this->load->model('database_model');
+            $this->database_model->cek_migrasi(true);
+
             // hapus cache
             resetCacheDesa();
 
@@ -99,10 +105,9 @@ class Koneksi_database extends CI_Controller
             session_destroy();
         }
 
-        redirect(site_url());
     }
 
-    private function cekConfig()
+    private function cekConfig(): array
     {
         if (! $this->session->cek_app_key) {
             redirect(site_url());

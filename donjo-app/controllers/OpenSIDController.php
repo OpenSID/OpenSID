@@ -42,7 +42,7 @@ class OpenSIDController extends CI_Controller
     /**
      * OpenSID CI fake index method
      */
-    public function index()
+    public function index(): void
     {
     }
 }

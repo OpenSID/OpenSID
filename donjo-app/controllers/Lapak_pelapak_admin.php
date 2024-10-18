@@ -49,14 +49,10 @@ class Lapak_pelapak_admin extends Admin_Controller
         parent::__construct();
         isCan('b');
         $this->load->model('penduduk_model');
+        $this->load->model('pamong_model');
     }
 
     public function index()
-    {
-        $this->pelapak();
-    }
-
-    public function pelapak()
     {
         $data['navigasi'] = Produk::navigasi();
 
@@ -64,7 +60,7 @@ class Lapak_pelapak_admin extends Admin_Controller
             $status = $this->input->get('status');
 
             $query = Pelapak::listPelapak()
-                ->when($status, static function ($query, $status) {
+                ->when($status, static function ($query, $status): void {
                     $query->where('pelapak.status', $status);
                 });
 
@@ -152,7 +148,6 @@ class Lapak_pelapak_admin extends Admin_Controller
         (new Pelapak())->pelapakInsert();
 
         redirect_with('success', 'Berhasil menambah data', 'lapak_admin/pelapak');
-
     }
 
     public function pelapak_update_maps($id = ''): void
@@ -184,7 +179,6 @@ class Lapak_pelapak_admin extends Admin_Controller
         }
 
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/pelapak');
-
     }
 
     public function pelapak_delete_all(): void
@@ -194,7 +188,6 @@ class Lapak_pelapak_admin extends Admin_Controller
         (new Pelapak())->pelapakDeleteAll();
 
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/pelapak');
-
     }
 
     public function pelapak_status($id = 0, $status = 0): void
@@ -205,5 +198,29 @@ class Lapak_pelapak_admin extends Admin_Controller
             ->update(['status' => $status]);
 
         redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/pelapak');
+    }
+
+    public function dialog($aksi = 'cetak'): void
+    {
+        $data                = $this->modal_penandatangan();
+        $data['aksi']        = ucwords($aksi);
+        $data['form_action'] = site_url("lapak_admin/pelapak/aksi/{$aksi}");
+
+        view('admin.layouts.components.ttd_pamong', $data);
+    }
+
+    public function aksi($aksi = 'cetak'): void
+    {
+        $post                   = $this->input->post();
+        $data['aksi']           = $aksi;
+        $data['config']         = identitas();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
+        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['main']           = Pelapak::with('penduduk:id,nama')->withCount('produk')->get();
+        $data['file']           = 'Data Pelapak';
+        $data['isi']            = 'admin.lapak.pelapak.cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 }

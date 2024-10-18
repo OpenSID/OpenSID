@@ -50,8 +50,8 @@
                         <label for="pekerjaan">Pekerjaan</label>
                         <select class="form-control input-sm select2" id="pekerjaan_id" name="pekerjaan_id">
                             <option value=""> -- </option>
-                            @foreach ($list_pekerjaan as $data)
-                                <option value="{{ $data['id'] }}" @selected($pekerjaan_id == $data['id'])>{{ $data['nama'] }}</option>
+                            @foreach ($list_pekerjaan as $key => $item)
+                                <option value="{{ $key }}" @selected($pekerjaan_id == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -148,8 +148,8 @@
                         <label for="status_dasar">Status Dasar</label>
                         <select class="form-control input-sm select2" id="status_dasar" name="status_dasar">
                             <option value=""> -- </option>
-                            @foreach ($list_status_dasar as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($status_dasar, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_status_dasar as $key => $item)
+                                <option value="{{ $key }}" @selected($status_dasar == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -162,8 +162,8 @@
                         <label for="cacat">Cacat</label>
                         <select class="form-control input-sm select2" id="cacat" name="cacat">
                             <option value=""> -- </option>
-                            @foreach ($list_cacat as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($cacat, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_cacat as $key => $item)
+                                <option value="{{ $key }}" @selected($cacat == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -176,8 +176,8 @@
                         <label for="cara_kb_id">Cara KB</label>
                         <select class="form-control input-sm select2" id="cara_kb_id" name="cara_kb_id">
                             <option value=""> -- </option>
-                            @foreach ($list_cara_kb as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($cara_kb_id, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_cara_kb as $key => $item)
+                                <option value="{{ $key }}" @selected($cara_kb_id == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -190,8 +190,8 @@
                         <label for="status_ktp">Status KTP</label>
                         <select class="form-control input-sm select2" id="status_ktp" name="status_ktp">
                             <option value=""> -- </option>
-                            @foreach ($list_status_ktp as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($status_ktp, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_status_ktp as $key => $item)
+                                <option value="{{ $key }}" @selected($status_ktp == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -204,8 +204,8 @@
                         <label for="id_asuransi">Asuransi</label>
                         <select class="form-control input-sm select2" id="id_asuransi" name="id_asuransi">
                             <option value=""> -- </option>
-                            @foreach ($list_asuransi as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($id_asuransi, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_asuransi as $key => $item)
+                                <option value="{{ $key }}" @selected($id_asuransi == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -218,8 +218,8 @@
                         <label for="warganegara">Warga Negara</label>
                         <select class="form-control input-sm select2" id="warganegara" name="warganegara">
                             <option value=""> -- </option>
-                            @foreach ($list_warganegara as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($warganegara, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_warganegara as $key => $item)
+                                <option value="{{ $key }}" @selected($warganegara == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -232,8 +232,8 @@
                         <label for="golongan_darah">Golongan Darah</label>
                         <select class="form-control input-sm select2" id="golongan_darah" name="golongan_darah">
                             <option value=""> -- </option>
-                            @foreach ($list_golongan_darah as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($golongan_darah, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_golongan_darah as $key => $item)
+                                <option value="{{ $key }}" @selected($golongan_darah == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -246,8 +246,8 @@
                         <label for="menahun">Sakit Menahun</label>
                         <select class="form-control input-sm select2" id="menahun" name="menahun">
                             <option value=""> -- </option>
-                            @foreach ($list_sakit_menahun as $data)
-                                <option value="{{ $data['id'] }}" {{ selected($menahun, $data['id']) }}>{{ $data['nama'] }}</option>
+                            @foreach ($list_sakit_menahun as $key => $item)
+                                <option value="{{ $key }}" @selected($menahun == $key)>{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -271,7 +271,7 @@
     </div>
     <div class="modal-footer">
         {!! batal() !!}
-        <button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+        <button type="submit" class="btn btn-social btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
     </div>
 </form>
 
@@ -299,4 +299,17 @@
         }
         $(this).prop('min', min)
     });
+    $(function() {
+        let advanceSearch = $('#tabeldata').data('advancesearch')
+        if (advanceSearch) {
+            for (let x in advanceSearch) {
+                console.log(advanceSearch[x])
+                if (advanceSearch[x]) {
+                    $('.modal [name=' + x + ']').val(advanceSearch[x])
+                    $('.modal [name=' + x + ']').trigger('change')
+                }
+
+            }
+        }
+    })
 </script>

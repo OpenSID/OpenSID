@@ -121,13 +121,36 @@
 						<table class="table table-bordered table-striped dataTable table-hover">
 							<thead class="bg-gray disabled color-palette">
 								<tr>
-									<th><i class="fa fa-comment"></i> <?= $data['owner'] ?></th>
+									<th colspan="2" style="text-align: left;"><i class="fa fa-comment"></i> <?= $data['pengguna']['nama'] ?></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>
+									<td colspan="2">
 										<font color='green'><small><?= tgl_indo2($data['tgl_upload']) ?></small></font><br /><?= $data['komentar'] ?>
+									</td>
+								</tr>
+								<tr>
+									<td width="10%"></td>
+									<td>
+										<?php if (count($data['children']) > 0): ?>
+											<?php foreach ($data['children'] as $children) : ?>
+												<table class="table table-bordered table-striped dataTable table-hover">
+													<thead class="bg-gray disabled color-palette">
+														<tr>
+															<th style="text-align: left;"><i class="fa fa-comment"></i> <?= $children['pengguna']['nama'] ?> <code>(<?= $children['pengguna']['level'] ?>)</code></th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>
+																<font color='green'><small><?= tgl_indo2($children['tgl_upload']) ?></small></font><br /><?= $children['komentar'] ?>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											<?php endforeach ?>
+										<?php endif ?>
 									</td>
 								</tr>
 							</tbody>

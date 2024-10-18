@@ -211,14 +211,14 @@ class Bumindes_tanah_desa extends Admin_Controller
         if ($data['nik'] == 0) {
             redirect_with('error', 'NIK tidak boleh 0');
         }
-
         // cek nik penduduk luar tidak boleh sama dengan penduduk desa
-        if ($id == 0) {
-            if (Penduduk::whereNik($data['nik'])->exists()) {
-                redirect_with('error', "NIK {$data['nik']} sudah digunakan");
-            }
-
+        if ($id != 0) {
+            return;
         }
+        if (! Penduduk::whereNik($data['nik'])->exists()) {
+            return;
+        }
+        redirect_with('error', "NIK {$data['nik']} sudah digunakan");
     }
 
     private function nik_error($nilai, string $judul)

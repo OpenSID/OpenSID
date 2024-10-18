@@ -615,7 +615,7 @@ class Mandiri_model extends MY_Model
 
                     $this->config_id()->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
                     $this->db->trans_commit();
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     log_message('error', $e);
                     $this->db->trans_rollback();
                 }
@@ -661,7 +661,7 @@ class Mandiri_model extends MY_Model
             $this->config_id()->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
 
             $this->db->trans_commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             $this->db->trans_rollback();
@@ -691,7 +691,7 @@ class Mandiri_model extends MY_Model
             $this->config_id()->where('id_pend', $user['id_pend'])->update('tweb_penduduk_mandiri', $data);
 
             $this->db->trans_commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             log_message('error', $e);
 
             $this->db->trans_rollback();

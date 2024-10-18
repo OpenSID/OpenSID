@@ -172,7 +172,7 @@ class DTKSRegsosEk2022k
      */
     protected function splitDTKSForEachKeluarga($dtks)
     {
-        $semua_dtks = DTKS::where('id_rtm', $dtks->id_rtm)->whereNotNull('id_keluarga')->get();
+        $semua_dtks = Dtks::where('id_rtm', $dtks->id_rtm)->whereNotNull('id_keluarga')->get();
 
         if ($semua_dtks->count() != $dtks->jumlah_keluarga) {
             // lepas semua anggota
@@ -190,7 +190,7 @@ class DTKSRegsosEk2022k
                 }
                 // clone dtks dan set id_keluarga
                 elseif (! $dtks_keluarga) {
-                    $new_dtks = DTKS::where('id_rtm', $dtks->id_rtm)->whereNull('id_keluarga')->first();
+                    $new_dtks = Dtks::where('id_rtm', $dtks->id_rtm)->whereNull('id_keluarga')->first();
                     if ($new_dtks) {
                         $new_dtks->update(['id_keluarga' => $keluarga->id]);
                     } else {
@@ -220,7 +220,7 @@ class DTKSRegsosEk2022k
             }
 
             // lepaskan keluarga yang tidak termasuk dalam rtm
-            DTKS::where('id_rtm', $dtks->id_rtm)
+            Dtks::where('id_rtm', $dtks->id_rtm)
                 ->whereNotIn('id_keluarga', $dtks->keluarga_in_rtm->pluck('id'))
                 ->update(['id_keluarga' => null]);
         }
@@ -347,7 +347,7 @@ class DTKSRegsosEk2022k
         });
 
         if ($dtks->jumlah_keluarga > 1) {
-            $dtks->all_dtks_id = DTKS::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
+            $dtks->all_dtks_id = Dtks::select('id', 'id_rtm', 'id_keluarga', 'versi_kuisioner')
                 ->withOnly([
                     'rtm' => static function ($builder): void {
                         $builder->select('id', 'nik_kepala');
@@ -468,10 +468,9 @@ class DTKSRegsosEk2022k
             log_message('error', $th);
         }
         $dtks      = $this->generateDefaultDtks($dtks);
-        $nama_file = 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
+        $nama_file = 'cetak_regsosek2022k_' . $dtks->kepalaKeluarga->nik
             . '_' . $dtks->id_rtm . '_' . str_replace([':', '-', ' '], '', $dtks->updated_at) . '.pdf';
         $path = FCPATH . LOKASI_FOTO_DTKS . $nama_file;
-
         if (! is_file($path) || $preview) {
             // OK, berkas ada. Ambil konten berkasnya
             if (is_file($path) && $preview) {
@@ -488,7 +487,7 @@ class DTKSRegsosEk2022k
             }
 
             // cari berkas dtks lama untuk dihapus
-            foreach (glob(FCPATH . LOKASI_FOTO_DTKS . 'cetak_regsosek2022k_' . $dtks->kepala_keluarga->nik
+            foreach (glob(FCPATH . LOKASI_FOTO_DTKS . 'cetak_regsosek2022k_' . $dtks->kepalaKeluarga->nik
                 . '_' . $dtks->id_rtm . '_*.pdf') as $file) {
                 if (file_exists($file)) {
                     unlink($file);
@@ -501,7 +500,7 @@ class DTKSRegsosEk2022k
                 // get the HTML using output buffer
                 ob_start();
 
-                include FCPATH . config_item('views_blade') . '/admin/dtks/2/cetak.php';
+                include FCPATH . config_item('views_blade')[0] . '/admin/dtks/2/cetak.php';
                 $content = ob_get_clean();
 
                 $html2pdf = new Html2Pdf();

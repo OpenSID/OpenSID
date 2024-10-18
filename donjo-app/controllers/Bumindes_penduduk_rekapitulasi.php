@@ -72,7 +72,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
             'bulan' => empty($this->input->get('bulan')) ? null : $this->input->get('bulan'),
         ];
 
-        $rekapitulasi = LogPenduduk::RekapitulasiList($filters)->get();
+        $rekapitulasi = LogPenduduk::RekapitulasiList($filters)->get()->toArray();
 
         $collected = $this->dataProcess($rekapitulasi);
 
@@ -87,7 +87,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function dataProcess($rekap)
     {
-        return collect($rekap)->map(static function ($item) {
+        return collect($rekap)->map(static function (array $item): array {
             $item['WNI_L_AKHIR']      = $item['WNI_L_AWAL'] + $item['WNI_L_TAMBAH_LAHIR'] + $item['WNI_L_TAMBAH_MASUK'] - $item['WNI_L_KURANG_MATI'] - $item['WNI_L_KURANG_KELUAR'];
             $item['WNI_P_AKHIR']      = $item['WNI_P_AWAL'] + $item['WNI_P_TAMBAH_LAHIR'] + $item['WNI_P_TAMBAH_MASUK'] - $item['WNI_P_KURANG_MATI'] - $item['WNI_P_KURANG_KELUAR'];
             $item['WNA_L_AKHIR']      = $item['WNA_L_AWAL'] + $item['WNA_L_TAMBAH_LAHIR'] + $item['WNA_L_TAMBAH_MASUK'] - $item['WNA_L_KURANG_MATI'] - $item['WNA_L_KURANG_KELUAR'];
@@ -117,7 +117,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $rekap                 = LogPenduduk::RekapitulasiList()->get();
+        $rekap                 = LogPenduduk::RekapitulasiList()->get()->toArray();
         $data                  = $this->modal_penandatangan();
         $data['aksi']          = $aksi;
         $data['main']          = $this->dataProcess($rekap);

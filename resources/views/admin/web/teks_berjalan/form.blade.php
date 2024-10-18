@@ -33,8 +33,17 @@
             </div>
             <div class="col-sm-12">
                 <div class="form-group">
+                    <label class="control-label">Tipe</label>
+                    <select class="form-control select2" id="tipe" name="tipe">
+                        <option value="1" @selected(in_array($teks['tipe'], [null, '1']))>Internal</option>
+                        <option value="2" @selected(in_array($teks['tipe'], ['2']))>Eksternal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-12" id="internal" style="display: {{ in_array($teks['tipe'], ['2']) ? 'none' : '' }}">
+                <div class="form-group">
                     <label class="control-label">Tautan ke artikel</label>
-                    <select class="form-control select2 " id="tautan" name="tautan">
+                    <select class="form-control select2 " id="tautan_internal" name="tautan_internal">
                         <option value="">-- Cari Judul Artikel --</option>
                         @foreach ($list_artikel as $artikel)
                             <option value="{{ $artikel['id'] }}" @selected($artikel['id'] == $teks['tautan'])>
@@ -42,6 +51,12 @@
                             </option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+            <div class="col-md-12" id="eksternal" style="display: {{ in_array($teks['tipe'], [null, '1']) ? 'none' : '' }}">
+                <div class="form-group">
+                    <label class="control-label">Tautan Luar</label>
+                    <input class="form-control input-sm required" placeholder="Contoh: https://opendesa.id" id="tautan_eksternal" name="tautan_eksternal" value="<?= $teks['tautan'] ?>" maxlength="150"></input>
                 </div>
             </div>
             <div class="col-md-12" id="box_judul_tautan" style="display: {{ $teks['tautan'] ? '' : 'none' }}">
@@ -83,15 +98,40 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#tautan').on('change', function() {
-                if (this.value == "") {
+            tipe(<?= $teks['tipe'] ?: 1 ?>);
+
+            $('#tipe').on('change', function() {
+                tipe(this.value);
+            });
+
+            $('#tautan_internal').on('change', function() {
+                tautan(this.value);
+            });
+
+            function tipe(param) {
+                if (param == 1) {
+                    $('#internal').show();
+                    $('#eksternal').hide();
+                    $("#tautan_internal").addClass("required");
+                    $("#tautan_eksternal").removeClass("required");
+                } else {
+                    $('#internal').hide();
+                    $('#eksternal').show();
+                    $("#tautan_internal").removeClass("required");
+                    $("#tautan_eksternal").addClass("required");
+                    tautan(true);
+                }
+            }
+
+            function tautan(params) {
+                if (params == "") {
                     $('#box_judul_tautan').hide();
                     $('#input_judul_tautan').prop("disabled", true);
                 } else {
                     $('#box_judul_tautan').show();
                     $('#input_judul_tautan').prop("disabled", false);
                 }
-            });
+            }
         });
     </script>
 @endpush

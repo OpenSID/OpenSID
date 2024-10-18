@@ -103,7 +103,7 @@ class Log_Viewer
     private function init(): void
     {
         if (! function_exists('get_instance')) {
-            throw new \Exception('This library works in a Code Igniter Project/Environment');
+            throw new Exception('This library works in a Code Igniter Project/Environment');
         }
 
         //initiate Code Igniter Instance
@@ -350,7 +350,7 @@ class Log_Viewer
      * extract the log level from the logLine
      *
      * @param $logLineStart - The single line that is the start of log line.
-     *                       extracted by getLogLineStart()
+     *                      extracted by getLogLineStart()
      *
      * @return log level e.g. ERROR, DEBUG, INFO
      */

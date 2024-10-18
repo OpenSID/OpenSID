@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,6 +70,16 @@ class BantuanPeserta extends BaseModel
     public function bantuan()
     {
         return $this->belongsTo(Bantuan::class, 'program_id');
+    }
+
+    public function bantuanKeluarga()
+    {
+        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::KELUARGA]);
+    }
+
+    public function bantuanPenduduk()
+    {
+        return $this->belongsTo(Bantuan::class, 'program_id')->where(['sasaran' => SasaranEnum::PENDUDUK]);
     }
 
     /**

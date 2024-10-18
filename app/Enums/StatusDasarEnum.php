@@ -39,7 +39,7 @@ namespace App\Enums;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class StatusDasarEnum
+class StatusDasarEnum extends BaseEnum
 {
     public const HIDUP       = 1;
     public const MATI        = 2;

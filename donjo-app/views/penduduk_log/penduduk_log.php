@@ -163,6 +163,9 @@
                                                                 <?php endif ?>
                                                             <?php endif ?>
                                                         <?php endif ?>
+                                                        <?php if ($data['kode_peristiwa'] == 2) : ?>
+                                                            <a target="_blank" href="<?= site_url("penduduk_log/dokumen/{$data['id_log']}") ?>" class="btn btn-info btn-flat btn-sm" title="Lihat File Akta Kematian"><i class="fa fa-eye"></i></a>
+                                                        <?php endif ?>
 
                                                             <?php
                                                                 switch($data['kode_peristiwa']) {
@@ -207,7 +210,7 @@
                                                         <a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>"><?= strtoupper($data['nama'])?></a>
                                                     </td>
                                                     <td>
-                                                        <a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}")?>"><?= $data['no_kk']?> </a> <br>
+                                                        <a href="<?= site_url("keluarga/kartu_keluarga/{$data['id_kk']}")?>"><?= $data['no_kk']?> </a> <br>
                                                         <?= $data['nama_kk']?>
                                                     </td>
                                                     <td><?= $data['dusun']?></td>

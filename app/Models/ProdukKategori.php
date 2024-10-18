@@ -38,15 +38,22 @@
 namespace App\Models;
 
 use App\Traits\ConfigId;
+use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
 class ProdukKategori extends BaseModel
 {
     use ConfigId;
+    use ShortcutCache;
 
     protected $table   = 'produk_kategori';
     protected $guarded = [];
     public $timestamps = false;
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id', 'id_produk_kategori');
+    }
 
     public function scopelistKategori($query)
     {

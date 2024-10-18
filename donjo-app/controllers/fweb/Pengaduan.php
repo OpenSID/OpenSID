@@ -75,7 +75,7 @@ class Pengaduan extends Web_Controller
         $data['halaman_statis']  = 'pengaduan/index';
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
-        $this->load->view($this->template, $data);
+        theme_view($this->template, $data);
     }
 
     public function kirim(): void
@@ -108,6 +108,7 @@ class Pengaduan extends Web_Controller
                     'pesan'  => 'Pengaduan gagal dikirim. Anda hanya dapat mengirimkan satu pengaduan dalam satu hari.',
                 ];
             } elseif ($this->pengaduan_model->insert()) {
+                $id_pengaduan = $this->db->insert_id();
                 if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
                     try {
                         $this->telegram->sendMessage([
@@ -123,6 +124,11 @@ class Pengaduan extends Web_Controller
                     'status' => 'success',
                     'pesan'  => 'Pengaduan berhasil dikirim.',
                 ];
+
+                // notifikasi penduduk
+                $payload = '/pengaduan/detail/' . $id_pengaduan;
+                $isi     = 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.';
+                $this->kirim_notifikasi_admin('all', $isi, $this->input->post('judul'), $payload);
             } else {
                 $notif = [
                     'status' => 'error',
