@@ -1,9 +1,9 @@
-<style>
-    td {
-        padding: 5px;
-    }
-</style>
 <table>
+    <style>
+        td {
+            padding: 5px;
+        }
+    </style>
     <tbody>
         <tr>
             <td>
