@@ -38,23 +38,24 @@
 namespace Modules\Analisis\Libraries;
 
 use App\Enums\AnalisisRefSubjekEnum;
+use App\Models\Keluarga;
+use App\Models\Penduduk;
+use Exception;
+use Google\Client;
+use Google\Service\Script;
+use Google\Service\Script\ExecutionRequest;
+use Illuminate\Http\Request;
 use Modules\Analisis\Models\AnalisisIndikator;
 use Modules\Analisis\Models\AnalisisKategori;
 use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisRespon;
-use App\Models\Keluarga;
-use Illuminate\Http\Request;
-use App\Models\Penduduk;
-use Exception;
-use Google\Client;
-use Google\Service\Script;
-use Google\Service\Script\ExecutionRequest;
 
 class Gform
-{    
+{
     private Request $request;
+
     public function __construct($request)
     {
         $this->request = $request;
@@ -79,8 +80,8 @@ class Gform
             'gform_last_sync'   => date('Y-m-d H:i:s'),
             'config_id'         => identitas('id'),
         ];
-        $analisisMaster = AnalisisMaster::create($data_analisis_master);        
-        $id_master = $analisisMaster->id;
+        $analisisMaster = AnalisisMaster::create($data_analisis_master);
+        $id_master      = $analisisMaster->id;
 
         // SIMPAN KATEGORI ANALISIS
         $list_kategori        = $this->request->get('kategori');
@@ -106,7 +107,7 @@ class Gform
                 'kategori_kode' => '',
                 'config_id'     => identitas('id'),
             ];
-            $kategori = AnalisisKategori::create($data_kategori);            
+            $kategori = AnalisisKategori::create($data_kategori);
 
             $list_unique_kategori[$kategori->id] = $val;
         }
@@ -139,7 +140,7 @@ class Gform
                 }
 
                 $data_indikator['config_id'] = identitas('id');
-                $analisisIndikator = AnalisisIndikator::create($data_indikator);                
+                $analisisIndikator           = AnalisisIndikator::create($data_indikator);
                 $id_indikator                = $analisisIndikator->id;
 
                 // Simpan Parameter untuk setiap unique value pada masing-masing indikator
@@ -154,7 +155,7 @@ class Gform
                         'asign'        => 0,
                         'config_id'    => identitas('id'),
                     ];
-                    $analisisParameter = AnalisisParameter::create($data_parameter);                    
+                    $analisisParameter                 = AnalisisParameter::create($data_parameter);
                     $id_parameter                      = $analisisParameter->id;
                     $temp_idx_parameter[$id_parameter] = $param_val;
                 }
@@ -175,12 +176,12 @@ class Gform
             'tahun_pelaksanaan' => $this->request->get('tahun_pendataan') == '' ? date('Y') : $this->request->get('tahun_pendataan'),
             'config_id'         => identitas('id'),
         ];
-        $analisisPeriode = AnalisisPeriode::create($data_periode);        
-        $id_periode = $analisisPeriode->id;
+        $analisisPeriode = AnalisisPeriode::create($data_periode);
+        $id_periode      = $analisisPeriode->id;
 
         // SIMPAN RESPON ANALISIS
         $data_import = session('data_import');
-        
+
         // Iterasi untuk setiap subjek
         foreach ($data_import['jawaban'] as $key_jawaban => $val_jawaban) {
             // Get Id Subjek berdasarkan Tipe Subjek (Penduduk / Keluarga / Rumah Tangga / Kelompok)
@@ -202,21 +203,22 @@ class Gform
                             'id_periode'   => $id_periode,
                         ];
 
-                        AnalisisRespon::create($data_respon);                        
+                        AnalisisRespon::create($data_respon);
                     }
                 }
             } else {
                 $list_error[] = 'NIK / No. KK data ke-' . ($key_jawaban + 1) . ' (' . $nik_kk_subject . ') ' . $id_subject . ' tidak valid';
             }
         }
-        
+
         return ['error' => $list_error];
     }
 
     protected function getOAuthCredentialsFile()
     {
-        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri        
+        // Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
         $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
+
         return json_decode(str_replace('\"', '"', $api_gform_credential), true);
     }
 
@@ -356,7 +358,7 @@ class Gform
             }
         }
 
-        if ($list_error) {                        
+        if ($list_error) {
 
             return ['error' => $list_error];
         }
@@ -391,8 +393,8 @@ class Gform
                                 'asign'        => 0,
                                 'config_id'    => identitas('id'),
                             ];
-                            $analisisParameter = AnalisisParameter::create($data_parameter);                                                        
-                            $id_parameter = $analisisParameter->id;
+                            $analisisParameter            = AnalisisParameter::create($data_parameter);
+                            $id_parameter                 = $analisisParameter->id;
                             $data_parameter['id']         = $id_parameter;
                             $new_parameter[$id_parameter] = $val_choice;
                         }
@@ -414,7 +416,7 @@ class Gform
 
         foreach ($variabel['jawaban'] as $key_responden => $val_responden) {
             $nik_kk = $val_responden[$id_column_nik_kk];
-            
+
             if ($master_data['subjek_tipe'] == AnalisisRefSubjekEnum::KELUARGA) {
                 $id_subject = Keluarga::where(['no_kk' => $nik_kk])->first()?->id;
             } else {
@@ -446,7 +448,7 @@ class Gform
                                     'id_subjek'    => $obj_respon['id_subjek'],
                                     'id_periode'   => $obj_respon['id_periode'],
                                 ];
-                                AnalisisRespon::create($data_respon);                                
+                                AnalisisRespon::create($data_respon);
                             }
                         } else {
                             // Jika Responden belum pernah disimpan (Responden Baru)
@@ -495,13 +497,13 @@ class Gform
     {
         $result = [];
         if ($subjek == 1) { // Untuk Subjek Penduduk
-            $list_penduduk = AnalisisRespon::selectRaw('analisis_respon.*, tweb_penduduk.nik')->join('tweb_penduduk','tweb_penduduk.id','analisis_respon.id_subjek')->where(['id_periode' => $id_periode])->get()?->toArray();
+            $list_penduduk = AnalisisRespon::selectRaw('analisis_respon.*, tweb_penduduk.nik')->join('tweb_penduduk', 'tweb_penduduk.id', 'analisis_respon.id_subjek')->where(['id_periode' => $id_periode])->get()?->toArray();
 
             foreach ($list_penduduk as $penduduk) {
                 $result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
             }
         } else { // Untuk Subjek Keluarga
-            $list_keluarga = AnalisisRespon::selectRaw('analisis_respon.*, tweb_keluarga.no_kkk')->join('tweb_keluarga','tweb_keluarga.id','analisis_respon.id_subjek')->where(['id_periode' => $id_periode])->get()?->toArray();            
+            $list_keluarga = AnalisisRespon::selectRaw('analisis_respon.*, tweb_keluarga.no_kkk')->join('tweb_keluarga', 'tweb_keluarga.id', 'analisis_respon.id_subjek')->where(['id_periode' => $id_periode])->get()?->toArray();
 
             foreach ($list_keluarga as $keluarga) {
                 $result[$keluarga['no_kk']][$keluarga['id_indikator']] = $keluarga;

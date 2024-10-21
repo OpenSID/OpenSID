@@ -34,6 +34,7 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+
 namespace Modules\Analisis\Libraries;
 
 use App\Models\Penduduk;
@@ -67,8 +68,8 @@ class Bdt
 
     public function __construct($idMaster, $periode)
     {
-        $this->idMaster = $idMaster;
-        $this->periode = $periode;
+        $this->idMaster       = $idMaster;
+        $this->periode        = $periode;
         $this->analisisMaster = AnalisisMaster::findOrFail($idMaster);
     }
 
@@ -110,7 +111,7 @@ class Bdt
         }
 
         // Pakai parameter 'false' untuk mengurangi penggunaan memori
-        // https://github.com/jasonrogena/php-excel-reader/issues/96        
+        // https://github.com/jasonrogena/php-excel-reader/issues/96
         $data = new Spreadsheet_Excel_Reader($_FILES['bdt']['tmp_name'], false);
         // Baca jumlah baris berkas BDT
         $this->jml_baris     = $data->rowcount($sheet_index = 0);
@@ -143,7 +144,7 @@ class Bdt
         $ada          = 0;
         $sudah_proses = [];
         $per          = $this->periode;
-        $indikator    = AnalisisIndikator::where('id_master', $this->idMaster)->orderBy('id')->get()->toArray();            
+        $indikator    = AnalisisIndikator::where('id_master', $this->idMaster)->orderBy('id')->get()->toArray();
 
         $respon = [];
 
@@ -176,7 +177,7 @@ class Bdt
         // echo var_dump($respon);
 
         $outp = empty($respon) ? false : AnalisisRespon::insert($respon);
-        (new AnalisisRespon())->pre_update($this->idMaster,$this->periode);
+        (new AnalisisRespon())->pre_update($this->idMaster, $this->periode);
 
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -202,7 +203,7 @@ class Bdt
             $list_id_subjek_str .= $prefix . "'" . $id . "'";
             $prefix = ', ';
         }
-        
+
         AnalisisRespon::where('id_periode', $per)->whereRaw("id_subjek in({$list_id_subjek_str})")->delete();
     }
 
@@ -244,13 +245,13 @@ class Bdt
         $nik = $baris[$this->kolom['nik']];
 
         $pendudukObj = Penduduk::where('nik', $nik)->first();
-        if (!$pendudukObj) {
+        if (! $pendudukObj) {
             // Laporkan penduduk BDT tidak ada di database
             echo "<a style='color: red;'>" . $id_rtm . ' ' . $rtm_level . ' ' . $nik . ' ' . $baris[$this->kolom['nama']] . ' == tidak ditemukan di database penduduk. </a><br>';
 
             return false;
         }
-        
+
         $rtm = Rtm::where('no_kk', $id_rtm)->first()->id;
         if ($rtm) {
             // Update rumah tangga
@@ -264,7 +265,7 @@ class Bdt
             if ($rtm_level == 1) {
                 $rtm_data['nik_kepala'] = $pendudukObj->id;
             }
-            
+
             $rtm = (Rtm::create($rtm_data))->id;
         }
 
@@ -335,7 +336,7 @@ class Bdt
         $in_param = [];
 
         foreach ($id_isi as $isi) {
-            $param = AnalisisParameter::select('id')->where('id_indikator', $id_indikator)->where('kode_jawaban', $isi)->first()->toArray();                
+            $param = AnalisisParameter::select('id')->where('id_indikator', $id_indikator)->where('kode_jawaban', $isi)->first()->toArray();
             if ($param['id'] != '') {
                 $in_param[] = $param['id'];
             }
@@ -360,7 +361,7 @@ class Bdt
             $parameter['jawaban']      = $isi;
             $parameter['id_indikator'] = $id_indikator;
             $parameter['asign']        = 0;
-                        
+
             $in_param = (AnalisisParameter::create($parameter))->id;
         }
 

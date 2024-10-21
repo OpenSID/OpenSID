@@ -47,13 +47,15 @@ use OpenSpout\Reader\XLSX\Reader;
 
 class Import
 {
-    private String $file;
-    public function __construct(String $file)
+    private string $file;
+
+    public function __construct(string $file)
     {
         $this->file = $file;
     }
+
     public function analisis($kode = '00000', $jenis = 2): void
-    {         
+    {
         $reader = new Reader();
         $reader->open($this->file);
         $id_master = null;
@@ -75,11 +77,12 @@ class Import
                 case 'klasifikasi':
                     $this->impor_klasifikasi($sheet, $id_master);
                     break;
-                default:                    
-            }            
+
+                default:
+            }
         }
         $reader->close();
-    }   
+    }
 
     private function impor_master($sheet, $kode, $jenis)
     {
@@ -123,7 +126,7 @@ class Import
         $master['jenis']         = $jenis;
         $master['config_id']     = identitas('id');
 
-        $analisisMaster = AnalisisMaster::create($master);                
+        $analisisMaster = AnalisisMaster::create($master);
 
         $periode['id_master'] = $analisisMaster->id;
         $periode['aktif']     = 1;
@@ -132,7 +135,7 @@ class Import
         AnalisisPeriode::create($periode);
 
         return $analisisMaster->id;
-    }    
+    }
 
     private function impor_pertanyaan($sheet, $id_master)
     {
@@ -161,8 +164,9 @@ class Import
     }
 
     private function get_id_kategori($kategori, $id_master)
-    {        
-        $adaKategori = AnalisisKategori::firstOrCreate(['kategori' => $kategori, 'id_master' =>$id_master]);        
+    {
+        $adaKategori = AnalisisKategori::firstOrCreate(['kategori' => $kategori, 'id_master' => $id_master]);
+
         return $adaKategori->id;
     }
 
@@ -184,13 +188,13 @@ class Import
             if (! empty($cells[3]) && $cells[3]->getValue()) {
                 $parameter['nilai'] = $cells[3]->getValue();
             }
-            AnalisisParameter::create($parameter);            
+            AnalisisParameter::create($parameter);
         }
     }
 
     private function get_id_indikator($kode_pertanyaan, $id_master)
     {
-        return AnalisisIndikator::where(['id_master' => $id_master, 'nomor' => $kode_pertanyaan])->first()?->id;        
+        return AnalisisIndikator::where(['id_master' => $id_master, 'nomor' => $kode_pertanyaan])->first()?->id;
     }
 
     private function impor_klasifikasi($sheet, $id_master)
@@ -208,7 +212,7 @@ class Import
             $klasifikasi['maxval']    = $cells[2]->getValue();
             $klasifikasi['config_id'] = identitas('id');
 
-            AnalisisKlasifikasi::create($klasifikasi);            
+            AnalisisKlasifikasi::create($klasifikasi);
         }
     }
 }

@@ -45,6 +45,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class AnalisisResponBukti extends BaseModel
 {
     use ConfigId;
+
     /**
      * {@inheritDoc}
      */

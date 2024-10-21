@@ -54,7 +54,7 @@ class Anjungan extends Gawai
      */
     protected static function booted()
     {
-        static::addGlobalScope('tipe', function (Builder $builder) {
+        static::addGlobalScope('tipe', static function (Builder $builder) {
             $builder->where('tipe', self::ANJUNGAN);
         });
     }

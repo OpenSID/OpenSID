@@ -37,9 +37,9 @@
 
 namespace Modules\Analisis\Models;
 
-use App\Traits\ConfigId;
 use App\Models\BaseModel;
-use \Modules\Analisis\Enums\TahapPedataanEnum;
+use App\Traits\ConfigId;
+use Modules\Analisis\Enums\TahapPedataanEnum;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -57,7 +57,6 @@ class AnalisisPeriode extends BaseModel
 
     protected $guarded = [];
     public $timestamps = false;
-
     protected $appends = [
         'tahapan',
     ];

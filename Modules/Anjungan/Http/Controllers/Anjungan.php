@@ -35,10 +35,10 @@
  *
  */
 
-use Modules\Anjungan\Models\AnjunganMenu;
 use App\Models\Artikel;
 use App\Models\Galery;
 use Carbon\Carbon;
+use Modules\Anjungan\Models\AnjunganMenu;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

@@ -57,7 +57,7 @@ class AnalisisRespon extends BaseModel
     public $timestamps = false;
 
     public static function updateKuisioner($idMaster, $idPeriode, $postData, $id = null): void
-    {                
+    {
         $ia = 0;
         $it = 0;
         $ir = 0;
@@ -142,8 +142,8 @@ class AnalisisRespon extends BaseModel
                         unset($data);
                         $indikator = key($id_ia);
                         $dx        = AnalisisParameter::firstOrCreate(['jawaban' => $id_p, 'id_indikator' => $indikator]);
-                            
-                        unset($data);                            
+
+                        unset($data);
                         $data['id_parameter'] = $dx->id;
                         $data['id_indikator'] = $indikator;
                         $data['id_subjek']    = $id;
@@ -161,7 +161,7 @@ class AnalisisRespon extends BaseModel
                         unset($data);
                         $indikator = key($id_it);
                         $dx        = AnalisisParameter::firstOrCreate(['jawaban' => $id_p, 'id_indikator' => $indikator]);
-                        
+
                         $data2['id_parameter'] = $dx->id;
                         $data2['id_indikator'] = $indikator;
                         $data2['id_subjek']    = $id;
@@ -172,9 +172,9 @@ class AnalisisRespon extends BaseModel
                 }
             }
 
-            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? ';
-            $dx = (array) DB::select($sql, [$id, $idPeriode])[0];
-            
+            $sql = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=? ';
+            $dx  = (array) DB::select($sql, [$id, $idPeriode])[0];
+
             $upx['id_master']  = $idMaster;
             $upx['akumulasi']  = 0 + $dx['jml'];
             $upx['id_subjek']  = $id;
@@ -182,12 +182,12 @@ class AnalisisRespon extends BaseModel
             $upx['config_id']  = identitas('id');
             AnalisisResponHasil::where('id_subjek', $id)->where('id_periode', $idPeriode)->delete();
             AnalisisResponHasil::create($upx);
-        }            
+        }
     }
 
     public function import_respon($idMaster, $periode, $subjekTipe, $op = 0)
     {
-        $per = $periode;        
+        $per    = $periode;
         $subjek = $subjekTipe;
         $mas    = $idMaster;
         $key    = ($per + 3) * ($mas + 7) * ($subjek * 3);
@@ -254,11 +254,11 @@ class AnalisisRespon extends BaseModel
 
                 for ($i = $br; $i <= $baris; $i++) {
                     $id_subjek = $data->val($i, $kl - 1, $s);
-                    if (strlen($id_subjek) > 14 && $subjek == 1) {                        
+                    if (strlen($id_subjek) > 14 && $subjek == 1) {
                         $id_subjek = PendudukHidup::select(['id'])->where('nik', $id_subjek)->first()?->id ?? null;
                     } elseif ($subjek == 3) {
                         // sasaran rumah tangga, simpan id, bukan nomor rumah tangga
-                        $id_subjek = Rtm::select('id')->where('id_rtm', $id_subjek)->first()?->id ?? null;                            
+                        $id_subjek = Rtm::select('id')->where('id_rtm', $id_subjek)->first()?->id ?? null;
                     }
 
                     $j   = $kl + $op;
@@ -269,7 +269,7 @@ class AnalisisRespon extends BaseModel
                         if ($isi != '') {
                             if ($indi['id_tipe'] == 1) {
                                 $param = AnalisisParameter::where('id_indikator', $indi['id'])
-                                    ->where(function ($query) use ($isi) {
+                                    ->where(static function ($query) use ($isi) {
                                         $query->where('kode_jawaban', $isi)->orWhere('jawaban', $isi);
                                     })->first()->toArray();
                                 if ($param) {
@@ -289,7 +289,7 @@ class AnalisisRespon extends BaseModel
                             } elseif ($indi['id_tipe'] == 2) {
                                 $this->respon_checkbox($indi, $isi, $id_subjek, $per, $respon);
                             } else {
-                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();                                    
+                                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
 
                                 // apakah sdh ada jawaban yg sama
                                 if ($param) {
@@ -299,9 +299,9 @@ class AnalisisRespon extends BaseModel
                                     $parameter['id_indikator'] = $indi['id'];
                                     $parameter['asign']        = 0;
                                     $parameter['config_id']    = identitas('id');
-                                    AnalisisParameter::create($parameter);                                    
+                                    AnalisisParameter::create($parameter);
 
-                                    $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();                                        
+                                    $param    = AnalisisParameter::where('id_indikator', $indi['id'])->where('jawaban', $isi)->first()->toArray();
                                     $in_param = $param['id'];
                                 }
 
@@ -319,7 +319,7 @@ class AnalisisRespon extends BaseModel
                 }
 
                 if (count($respon) > 0) {
-                    AnalisisRespon::insert($respon);                    
+                    AnalisisRespon::insert($respon);
                 } else {
                     return [
                         'success' => false,
@@ -350,9 +350,9 @@ class AnalisisRespon extends BaseModel
             if ($indi['is_teks'] == 1) {
                 // Isian sebagai teks pilihan bukan kode
                 $teks  = strtolower($isi_ini);
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();                    
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->whereRaw("LOWER(jawaban) = '{$teks}'")->first()->toArray();
             } else {
-                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();                    
+                $param = AnalisisParameter::where('id_indikator', $indi['id'])->where('kode_jawaban', $isi_ini)->first()->toArray();
             }
             if ($param['id'] != '') {
                 $in_param = $param['id'];
@@ -368,18 +368,18 @@ class AnalisisRespon extends BaseModel
     }
 
     public function pre_update($idMaster, $per): void
-    {                
-        $data  = AnalisisRespon::selectRaw('distinct(id_subjek) as id')->where('id_periode', $per)->get()->toArray();
-        
+    {
+        $data = AnalisisRespon::selectRaw('distinct(id_subjek) as id')->where('id_periode', $per)->get()->toArray();
+
         AnalisisResponHasil::where('id_subjek', 0)->delete();
-        AnalisisRespon::where('id_subjek', 0)->delete();        
+        AnalisisRespon::where('id_subjek', 0)->delete();
         AnalisisResponHasil::where('id_periode', $per)->delete();
-        
+
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
-            $sql   = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?';            
-            $dx    = (array) DB::select($sql, [$data[$i]['id'], $per])[0];
+            $sql = 'SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis=1 AND r.id_periode=?';
+            $dx  = (array) DB::select($sql, [$data[$i]['id'], $per])[0];
 
             $upx[$i]['id_master']  = $idMaster;
             $upx[$i]['akumulasi']  = 0 + $dx['jml'];
@@ -388,7 +388,7 @@ class AnalisisRespon extends BaseModel
             $upx[$i]['config_id']  = identitas('id');
         }
         if (@$upx) {
-            AnalisisResponHasil::insert($upx);            
+            AnalisisResponHasil::insert($upx);
         }
     }
 }

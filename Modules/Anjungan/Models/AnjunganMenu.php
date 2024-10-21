@@ -37,10 +37,10 @@
 
 namespace Modules\Anjungan\Models;
 
+use App\Models\BaseModel;
 use App\Models\User;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use App\Models\BaseModel;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
