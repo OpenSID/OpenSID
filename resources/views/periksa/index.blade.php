@@ -1005,8 +1005,8 @@
                                             </div>
                                         </div>
                                     @endif
-                                    
-                                    @includeWhen(in_array('keluarga_tanpa_nik_kepala', $masalah),'periksa.keluarga_tanpa_nik_kepala')
+
+                                    @includeWhen(in_array('keluarga_tanpa_nik_kepala', $masalah), 'periksa.keluarga_tanpa_nik_kepala')
                                     @php
                                         $excludePerbaikiSemua = ['klasifikasi_surat_ganda', 'log_keluarga_ganda', 'log_penduduk_tidak_sinkron', 'kepala_keluarga_ganda', 'tgllahir_null_kosong', 'suplemen_terdata_kosong'];
                                         $pengurangMasalah = 0;
