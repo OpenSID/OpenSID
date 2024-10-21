@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 19. [#8597](https://github.com/OpenSID/OpenSID/issues/8597) Perbaikan ubah menu bagian status yang kurang sesuai.
 20. [#8599](https://github.com/OpenSID/OpenSID/issues/8599) Perbaikan lampiran model N6 tidak muncul.
 21. [#8601](https://github.com/OpenSID/OpenSID/issues/8601) Perbaikan tambah informasi publik tipe URL tidak bisa di Simpan.
+22. [#8610](https://github.com/OpenSID/OpenSID/issues/8610) Perbaikan hapus wilayah dan tambahkan periksa data untuk keluarga tanpa kelapa keluarga.
 
 
 ### TEKNIS
