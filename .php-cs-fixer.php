@@ -79,6 +79,8 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->notPath('views/*')
     ->in([
         __DIR__ . '/app',
+        __DIR__ . '/bootstrap',
+        __DIR__ . '/config',
         __DIR__ . '/donjo-app',
         __DIR__ . '/Modules',
     ])
