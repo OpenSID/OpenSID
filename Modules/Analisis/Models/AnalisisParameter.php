@@ -46,17 +46,17 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class AnalisisParameter extends BaseModel
 {
     use ConfigId;
+
     /**
      * {@inheritDoc}
      */
     protected $table = 'analisis_parameter';
+
     protected $guarded = [];
     public $timestamps = false;
 
     /**
      * Get the kategori that owns the AnalisisIndikator
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function indikator(): BelongsTo
     {

@@ -90,7 +90,7 @@ class Analisis_indikator extends AdminModulController
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete, $analisisMaster): string {
                     $aksi = '';
-                    if($analisisMaster->isLock()){
+                    if ($analisisMaster->isLock()) {
                         return $aksi;
                     }
                     if ($canUpdate) {
@@ -117,17 +117,17 @@ class Analisis_indikator extends AdminModulController
     public function form($master, $id = null)
     {
         isCan('u');
-        $analisisMaster          = $this->analisisMaster;
-        $data['list_kategori']   = AnalisisKategori::where(['id_master' => $master])->pluck('kategori', 'id');
-        $data['data_tabel']      = AnalisisIndikator::hubungan($analisisMaster->subjek_tipe);
+        $analisisMaster        = $this->analisisMaster;
+        $data['list_kategori'] = AnalisisKategori::where(['id_master' => $master])->pluck('kategori', 'id');
+        $data['data_tabel']    = AnalisisIndikator::hubungan($analisisMaster->subjek_tipe);
         if ($id) {
             $data['action']             = 'Ubah';
-            $data['form_action']        = ci_route('analisis_indikator.'.$master.'.update', $id);
+            $data['form_action']        = ci_route('analisis_indikator.' . $master . '.update', $id);
             $data['analisis_indikator'] = AnalisisIndikator::findOrFail($id);
             $data['ubah']               = (AnalisisParameter::where('id_indikator', $id)->exists() && in_array($data['analisis_indikator']['id_tipe'], [1, 2])) ? false : true;
         } else {
             $data['action']             = 'Tambah';
-            $data['form_action']        = ci_route('analisis_indikator.'.$master.'.insert');
+            $data['form_action']        = ci_route('analisis_indikator.' . $master . '.insert');
             $data['analisis_indikator'] = null;
             $data['ubah']               = true;
         }
@@ -139,15 +139,15 @@ class Analisis_indikator extends AdminModulController
     {
         isCan('u');
         $analisisMaster = $this->analisisMaster;
-        if($analisisMaster->isSystem()){
-            redirect_with('error', 'Analisis sistem tidak boleh dirubah', ci_route('analisis_indikator.'.$master));
+        if ($analisisMaster->isSystem()) {
+            redirect_with('error', 'Analisis sistem tidak boleh dirubah', ci_route('analisis_indikator.' . $master));
         }
         $dataInsert              = static::validate($this->request);
         $dataInsert['id_master'] = $master;
         if (AnalisisIndikator::create($dataInsert)) {
-            redirect_with('success', 'Berhasil Tambah Data', ci_route('analisis_indikator.'.$master));
+            redirect_with('success', 'Berhasil Tambah Data', ci_route('analisis_indikator.' . $master));
         }
-        redirect_with('error', 'Gagal Tambah Data', ci_route('analisis_indikator.'.$master));
+        redirect_with('error', 'Gagal Tambah Data', ci_route('analisis_indikator.' . $master));
     }
 
     public function update($master, $id = null): void
@@ -155,33 +155,33 @@ class Analisis_indikator extends AdminModulController
         isCan('u');
         $analisisMaster = $this->analisisMaster;
         $dataUpdate     = static::validate($this->request, $id);
-        if($analisisMaster->isSystem()){
+        if ($analisisMaster->isSystem()) {
             // Hanya kolom yang boleh diubah untuk analisis sistem
             $dataUpdate = ['is_publik' => $dataUpdate['is_publik']];
         }
         $data = AnalisisIndikator::findOrFail($id);
 
         if ($data->update($dataUpdate)) {
-            redirect_with('success', 'Berhasil Ubah Data', ci_route('analisis_indikator.'.$master));
+            redirect_with('success', 'Berhasil Ubah Data', ci_route('analisis_indikator.' . $master));
         }
-        redirect_with('error', 'Gagal Ubah Data', ci_route('analisis_indikator.'.$master));
+        redirect_with('error', 'Gagal Ubah Data', ci_route('analisis_indikator.' . $master));
     }
 
     public function delete($master, $id = null): void
     {
         isCan('h');
         $analisisMaster = $this->analisisMaster;
-        if($analisisMaster->isSystem()){
-            redirect_with('error', 'Analisis sistem tidak boleh dihapus', ci_route('analisis_indikator.'.$master));
+        if ($analisisMaster->isSystem()) {
+            redirect_with('error', 'Analisis sistem tidak boleh dihapus', ci_route('analisis_indikator.' . $master));
         }
         $adaParameter = AnalisisIndikator::whereIn('id', $id ? [$id] : $this->request['id_cb'])->whereHas('parameter')->exists();
-        if($adaParameter){
-            redirect_with('error', 'Gagal hapus, masih ada parameter dalam indikator tersebut', ci_route('analisis_indikator.'.$master));
+        if ($adaParameter) {
+            redirect_with('error', 'Gagal hapus, masih ada parameter dalam indikator tersebut', ci_route('analisis_indikator.' . $master));
         }
         if (AnalisisIndikator::destroy($id ?? $this->request['id_cb']) !== 0) {
-            redirect_with('success', 'Berhasil Hapus Data', ci_route('analisis_indikator.'.$master));
+            redirect_with('success', 'Berhasil Hapus Data', ci_route('analisis_indikator.' . $master));
         }
-        redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_indikator.'.$master));
+        redirect_with('error', 'Gagal Hapus Data', ci_route('analisis_indikator.' . $master));
     }
 
     protected static function validate(array $request = []): array

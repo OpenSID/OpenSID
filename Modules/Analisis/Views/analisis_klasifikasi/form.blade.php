@@ -3,7 +3,15 @@
     <div class="modal-body">
         <div class="form-group">
             <label class="control-label" for="nama">Klasifikasi</label>
-            <input id="nama" class="form-control input-sm required nomor_sk" maxlength="36" type="text" placeholder="Klasifikasi" name="nama" value="{{ $analisis_klasifikasi['nama'] }}">
+            <input
+                id="nama"
+                class="form-control input-sm required nomor_sk"
+                maxlength="36"
+                type="text"
+                placeholder="Klasifikasi"
+                name="nama"
+                value="{{ $analisis_klasifikasi['nama'] }}"
+            >
         </div>
         <div class="form-group">
             <label class="control-label" for="minval">Nilai Minimal</label>

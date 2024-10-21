@@ -84,17 +84,16 @@ class Analisis_laporan extends AdminModulController
             'list_klasifikasi' => AnalisisKlasifikasi::where('id_master', $master)->get(),
             'analisis_periode' => $this->periodeAktif->id,
             'wilayah'          => Wilayah::treeAccess(),
-            'namaPeriode'      => $this->periodeAktif->nama
+            'namaPeriode'      => $this->periodeAktif->nama,
         ];
 
         view('analisis_laporan.index', $data);
     }
 
-
     public function datatables($master)
     {
         if ($this->input->is_ajax_request()) {
-            $sumberData     = $this->sumberData();
+            $sumberData = $this->sumberData();
 
             return datatables()->of($sumberData)
                 ->addIndexColumn()
@@ -152,13 +151,13 @@ class Analisis_laporan extends AdminModulController
     {
         $analisis = new Analisis();
 
-        $data['total']           = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
-        $data['subjek']          = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
-        $data['list_jawab']      = $analisis->listIndikatorLaporan($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
-        $data['list_bukti']      = $analisis->listBukti($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
-        $data['list_anggota']    = $analisis->listAnggota($this->analisisMaster, $idSubjek);
-        $data['asubjek']         = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
-        $data['id']              = $idSubjek;
+        $data['total']        = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
+        $data['subjek']       = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
+        $data['list_jawab']   = $analisis->listIndikatorLaporan($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
+        $data['list_bukti']   = $analisis->listBukti($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
+        $data['list_anggota'] = $analisis->listAnggota($this->analisisMaster, $idSubjek);
+        $data['asubjek']      = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
+        $data['id']           = $idSubjek;
 
         view('analisis_laporan.form', $data);
     }
@@ -174,14 +173,14 @@ class Analisis_laporan extends AdminModulController
     }
 
     public function daftar($master, $idSubjek, $aksi = ''): void
-    {        
-        $analisis                = new Analisis();
-        $data['total']           = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
-        $data['subjek']          = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
-        $data['list_jawab']      = $analisis->listIndikatorLaporan($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
-        $data['list_bukti']      = $analisis->listBukti($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
-        $data['list_anggota']    = $analisis->listAnggota($this->analisisMaster, $idSubjek);
-        $data['asubjek']         = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
+    {
+        $analisis             = new Analisis();
+        $data['total']        = AnalisisResponHasil::where(['id_subjek' => $idSubjek, 'id_periode' => $this->periodeAktif->id])->first()->akumulasi ?? 0;
+        $data['subjek']       = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
+        $data['list_jawab']   = $analisis->listIndikatorLaporan($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
+        $data['list_bukti']   = $analisis->listBukti($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
+        $data['list_anggota'] = $analisis->listAnggota($this->analisisMaster, $idSubjek);
+        $data['asubjek']      = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
 
         $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
@@ -194,30 +193,30 @@ class Analisis_laporan extends AdminModulController
     // $aksi = cetak/unduh
     public function dialog($master, $aksi = ''): void
     {
-        // Simpan session lama                
+        // Simpan session lama
         $data                = $this->modal_penandatangan();
         $data['aksi']        = ucwords((string) $aksi);
-        $data['form_action'] = ci_route("analisis_laporan.{$master}.cetak.{$aksi}");        
+        $data['form_action'] = ci_route("analisis_laporan.{$master}.cetak.{$aksi}");
 
         view('analisis_laporan.ttd_pamong', $data);
     }
 
     public function cetak($master, $aksi = ''): void
-    {        
+    {
         $paramDatatable = json_decode((string) $this->input->post('params'), 1);
         $_GET           = $paramDatatable;
-        
-        $query       = $this->sumberData();
-        
+
+        $query = $this->sumberData();
+
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['aksi']            = $aksi;
-        $data['config']          = $this->header['desa'];
+        $data['aksi']           = $aksi;
+        $data['config']         = $this->header['desa'];
         // $data['judul']           = Analisis::judul_subjek($this->analisisMaster->subjek_tipe);
-        $data['file']            = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
-        $data['isi']             = 'analisis_laporan.table_print';
-        $data['main']            = $query->get();
-        $data['letak_ttd']       = ['2', '2', '1'];
+        $data['file']      = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
+        $data['isi']       = 'analisis_laporan.table_print';
+        $data['main']      = $query->get();
+        $data['letak_ttd'] = ['2', '2', '1'];
 
         view('admin.layouts.components.format_cetak', $data);
     }
@@ -225,7 +224,7 @@ class Analisis_laporan extends AdminModulController
     public function ajax_multi_jawab($master): void
     {
         $data['jawab']       = session('jawab') ?? '';
-        $data['main']        = (new Analisis)->multi_jawab($master);
+        $data['main']        = (new Analisis())->multi_jawab($master);
         $data['form_action'] = ci_route("analisis_laporan.{$master}.multi_jawab_proses");
 
         view('analisis_laporan.ajax_multi', $data);
@@ -245,7 +244,7 @@ class Analisis_laporan extends AdminModulController
             }
             set_session('jawab', $cb . '7777777');
             $jawab = session('jawab');
-            set_session('jmkf', AnalisisParameter::selectRaw('DISTINCT(id_indikator) AS id_jmkf')->whereRaw('id in ('.$jawab.')')->count());            
+            set_session('jmkf', AnalisisParameter::selectRaw('DISTINCT(id_indikator) AS id_jmkf')->whereRaw('id in (' . $jawab . ')')->count());
         }
 
         redirect(ci_route("analisis_laporan.{$master}"));

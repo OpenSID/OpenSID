@@ -37,9 +37,8 @@
 
 namespace Modules\Analisis\Models;
 
-use App\Traits\ConfigId;
 use App\Models\BaseModel;
-use Modules\Analisis\Models\AnalisisIndikator;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

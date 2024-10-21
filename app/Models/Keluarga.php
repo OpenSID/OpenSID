@@ -46,6 +46,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\DB;
+use Modules\Analisis\Models\AnalisisRespon;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

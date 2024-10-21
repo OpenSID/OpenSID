@@ -1,4 +1,4 @@
-<?php 
+<?php
 $tgl = date('d_m_Y');
 header('Content-Type: application/vnd.ms-excel');
 header("Content-Disposition: attachment; filename=statistik_analisis_jawaban_{$tgl}.xls");
@@ -8,15 +8,17 @@ header('Expires: 0');
 <!-- TODO: Pindahkan ke external css -->
 <style>
     td {
-        mso-number-format:"\@";
-        vertical-align:top;
+        mso-number-format: "\@";
+        vertical-align: top;
     }
-    td,th {
-        font-size:9pt;
-        line-height:9px;
-        border:0.5px solid #555;
-        cell-padding:-2px;
-        margin:0px;
+
+    td,
+    th {
+        font-size: 9pt;
+        line-height: 9px;
+        border: 0.5px solid #555;
+        cell-padding: -2px;
+        margin: 0px;
     }
 </style>
 <div id="body">
@@ -40,162 +42,163 @@ header('Expires: 0');
             <th style="background-color:#fefe00">Batas</th>
             @foreach ($indikator as $pt)
                 @php
-                    if ($pt['par']){
+                    if ($pt['par']) {
                         $w = '';
-                    }else{
+                    } else {
                         $w = "width='80'";
                     }
                 @endphp
-        
+
                 @if ($pt['id_tipe'] == 1)
-                    <td {{ $w  }} >
-                        {{ $pt['no']}}<br>{{ $pt['pertanyaan'] }}
-                        @if ($pt['par']):
+                    <td {{ $w }}>
+                        {{ $pt['no'] }}<br>{{ $pt['pertanyaan'] }}
+                        @if ($pt['par'])
+                            :
                             @foreach ($pt['par'] as $jb)
-                                <br>{{ $jb['kode_jawaban']}}&nbsp{{ $jb['jawaban']}}
+                                <br>{{ $jb['kode_jawaban'] }}&nbsp{{ $jb['jawaban'] }}
                             @endforeach;
                         @endif
                     </td>
                 @else
                     @if ($pt['id_tipe'] == 2)
-                        <td {{ $w}} style='background-color:#aaaafe;'>
-                            {{ $pt['no']}}<br>{{ $pt['pertanyaan']}}
+                        <td {{ $w }} style='background-color:#aaaafe;'>
+                            {{ $pt['no'] }}<br>{{ $pt['pertanyaan'] }}
                             @if ($pt['par'])
                                 @foreach ($pt['par'] as $jb)
-                                    <br>{{ $jb['kode_jawaban']}}&nbsp{{ $jb['jawaban']}}
+                                    <br>{{ $jb['kode_jawaban'] }}&nbsp{{ $jb['jawaban'] }}
                                 @endforeach
                             @endif
                         </td>
                     @elseif ($pt['id_tipe'] == 3)
                         <td style='background-color:#00fe00;'>
-                            {{ $pt['no']}}<br>{{ $pt['pertanyaan']}}
+                            {{ $pt['no'] }}<br>{{ $pt['pertanyaan'] }}
                         </td>
                     @else
                         <td style='background-color:#feaaaa;'>
-                            {{ $pt['no']}}<br>{{ $pt['pertanyaan']}}
+                            {{ $pt['no'] }}<br>{{ $pt['pertanyaan'] }}
                         </td>
                     @endif
-        @endif
-    @endforeach
-    
+                @endif
+            @endforeach
+
         </tr>
         <tr>
-            <th colspan='{{ $span_kolom ?: 7}}' style="background-color:#fefe00"></th>
-            <th style="background-color:#fefe00">{{ $key}}</th>
+            <th colspan='{{ $span_kolom ?: 7 }}' style="background-color:#fefe00"></th>
+            <th style="background-color:#fefe00">{{ $key }}</th>
             @php
-            $tot = count($indikator);
+                $tot = count($indikator);
             @endphp
             @foreach ($indikator as $pt)
                 <td style='background-color:#fefe00'>
-                    {{ $pt['nomor']}}
+                    {{ $pt['nomor'] }}
                 </td>
             @endforeach
         </tr>
         @foreach ($main as $data)
-        <tr>
-            <td>{{ $data['no']}}</td>
-            <td>{{ $data['nid']}}</td>
-            <td>{{ $data['nama']}}</td>
-            @if (in_array($subjek_tipe, [1, 2, 3, 4]))
-                <td>{{ $data['sex'] == 1 ? 'L' : 'P' }}</td>
-            @endif
-            @if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8]))
-                <td>{{ $data['dusun']}}</td>
-                @if ($subjek_tipe != 6)
-                    <td>{{ $data['rw']}}</td>
-                    @if ($subjek_tipe != 7)
-                        <td>{{ $data['rt']}}</td>
+            <tr>
+                <td>{{ $data['no'] }}</td>
+                <td>{{ $data['nid'] }}</td>
+                <td>{{ $data['nama'] }}</td>
+                @if (in_array($subjek_tipe, [1, 2, 3, 4]))
+                    <td>{{ $data['sex'] == 1 ? 'L' : 'P' }}</td>
+                @endif
+                @if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8]))
+                    <td>{{ $data['dusun'] }}</td>
+                    @if ($subjek_tipe != 6)
+                        <td>{{ $data['rw'] }}</td>
+                        @if ($subjek_tipe != 7)
+                            <td>{{ $data['rt'] }}</td>
+                        @endif
                     @endif
                 @endif
-            @endif
-            <td style="background-color:#fefe00">{{ $data['id']}}</td>
-            
-        @if (!$data['par'])
-            @for ($j = 0; $j < $tot; $j++)
-                    <td></td>
-            @endfor
-        @else
-            @foreach ($indikator as $pt)
-            @php
-                //cumawarna
-                $bx    = '';
-                $false = 0;
+                <td style="background-color:#fefe00">{{ $data['id'] }}</td>
 
-                foreach ($data['par'] as $jawab):
-                    $isi = '';
-                    if ($pt['id'] == $jawab['id_indikator'] && $false == 0):
-                        if ($pt['id_tipe'] == 1):
-                            $isi = $jawab['kode_jawaban'];
-                        elseif ($pt['id_tipe'] == 2):
-                            $isi .= $jawab['kode_jawaban'];
-                        else:
-                            $isi = $jawab['jawaban'];
-                        endif;
+                @if (!$data['par'])
+                    @for ($j = 0; $j < $tot; $j++)
+                        <td></td>
+                    @endfor
+                @else
+                    @foreach ($indikator as $pt)
+                        @php
+                            //cumawarna
+                            $bx = '';
+                            $false = 0;
 
-                        //kosong dia
-                        if ($isi == ''):
-                            $bx = "style='background-color:#bbffbb;'";
-                        endif;
+                            foreach ($data['par'] as $jawab):
+                                $isi = '';
+                                if ($pt['id'] == $jawab['id_indikator'] && $false == 0):
+                                    if ($pt['id_tipe'] == 1):
+                                        $isi = $jawab['kode_jawaban'];
+                                    elseif ($pt['id_tipe'] == 2):
+                                        $isi .= $jawab['kode_jawaban'];
+                                    else:
+                                        $isi = $jawab['jawaban'];
+                                    endif;
 
-                        //koreksi
-                        if ($jawab['korek'] == -1):
-                            $bx = "style='background-color:#ff9999;'";
-                        endif;
+                                    //kosong dia
+                                    if ($isi == ''):
+                                        $bx = "style='background-color:#bbffbb;'";
+                                    endif;
 
-                        if ($pt['id_tipe'] != 2):
-                            $false = 1;
-                        endif;
-                    endif;
-                endforeach
-            @endphp
+                                    //koreksi
+                                    if ($jawab['korek'] == -1):
+                                        $bx = "style='background-color:#ff9999;'";
+                                    endif;
 
-                    <td {{ $bx }} >
+                                    if ($pt['id_tipe'] != 2):
+                                        $false = 1;
+                                    endif;
+                                endif;
+                            endforeach;
+                        @endphp
 
-                @php 
-                        $false = 0;
-                    $isi  = '';
+                        <td {{ $bx }}>
 
-                    foreach ($data['par'] as $jawab):
-                        if ($pt['id'] == $jawab['id_indikator'] && $false == 0):
-                            if ($pt['id_tipe'] == 1):
-                                $isi = ($tipe == 1) ? $jawab['jawaban'] : $jawab['kode_jawaban'];
-                            elseif ($pt['id_tipe'] == 2 && $pt['is_teks'] == 0):
-                                $isi .= ($tipe == 1) ? $jawab['jawaban'] : $jawab['kode_jawaban'] . ',';
-                            elseif ($pt['id_tipe'] == 2 && $pt['is_teks'] == 1):
-                                $isi .= $jawab['jawaban'] . ',';
-                            else:
-                                $isi = $jawab['jawaban'];
-                            endif;
+                            @php
+                                $false = 0;
+                                $isi = '';
 
-                            //kosong dia
-                            if ($isi == ''):
-                                $bx = "style='background-color:#bbffbb;'";
-                            endif;
+                                foreach ($data['par'] as $jawab):
+                                    if ($pt['id'] == $jawab['id_indikator'] && $false == 0):
+                                        if ($pt['id_tipe'] == 1):
+                                            $isi = $tipe == 1 ? $jawab['jawaban'] : $jawab['kode_jawaban'];
+                                        elseif ($pt['id_tipe'] == 2 && $pt['is_teks'] == 0):
+                                            $isi .= $tipe == 1 ? $jawab['jawaban'] : $jawab['kode_jawaban'] . ',';
+                                        elseif ($pt['id_tipe'] == 2 && $pt['is_teks'] == 1):
+                                            $isi .= $jawab['jawaban'] . ',';
+                                        else:
+                                            $isi = $jawab['jawaban'];
+                                        endif;
 
-                            //koreksi
-                            if ($jawab['korek'] == -1):
-                                $isi = 'xxx';
-                                $bx  = "style='background-color:#ff9999;'";
-                            endif;
+                                        //kosong dia
+                                        if ($isi == ''):
+                                            $bx = "style='background-color:#bbffbb;'";
+                                        endif;
 
-                            if ($pt['id_tipe'] != 2):
-                                $false = 1;
-                            endif;
-                        endif;
-                    endforeach;
+                                        //koreksi
+                                        if ($jawab['korek'] == -1):
+                                            $isi = 'xxx';
+                                            $bx = "style='background-color:#ff9999;'";
+                                        endif;
 
-                //DEL last koma
-                if ($pt['id_tipe'] == 2):
-                    $jml = strlen($isi);
-                    $isi = substr($isi, 0, $jml - 1);
-                endif
-                
-                @endphp
-                    {{ $isi }}
-                    </td>
-                @endforeach
-            @endif            
-        </tr>
+                                        if ($pt['id_tipe'] != 2):
+                                            $false = 1;
+                                        endif;
+                                    endif;
+                                endforeach;
+
+                                //DEL last koma
+                                if ($pt['id_tipe'] == 2):
+                                    $jml = strlen($isi);
+                                    $isi = substr($isi, 0, $jml - 1);
+                                endif;
+
+                            @endphp
+                            {{ $isi }}
+                        </td>
+                    @endforeach
+                @endif
+            </tr>
         @endforeach
     </table>
 </div>

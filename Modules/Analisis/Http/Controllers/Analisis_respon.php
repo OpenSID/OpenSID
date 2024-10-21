@@ -80,9 +80,9 @@ class Analisis_respon extends AdminModulController
 
     public function index($master)
     {
-        $data           = array_merge([
-            'wilayah'         => Wilayah::treeAccess(),
-            'namaPeriode'     => $this->periodeAktif->nama,
+        $data = array_merge([
+            'wilayah'     => Wilayah::treeAccess(),
+            'namaPeriode' => $this->periodeAktif->nama,
         ], Analisis::judul_subjek($this->analisisMaster->subjek_tipe));
 
         return view('analisis_respon.index', $data);
@@ -91,7 +91,7 @@ class Analisis_respon extends AdminModulController
     public function datatables($master)
     {
         if ($this->input->is_ajax_request()) {
-            $sumberData     = $this->sumberData();
+            $sumberData = $this->sumberData();
 
             return datatables()->of($sumberData)
                 ->addIndexColumn()
@@ -154,10 +154,10 @@ class Analisis_respon extends AdminModulController
     public function form($master, $idSubjek)
     {
         isCan('u');
-        $analisis                = new Analisis();
-        $data['fullscreen']      = $this->input->get('fs') ?? null;
-        $data['form_action']     = ci_route('analisis_respon.' . $master . '.update', $idSubjek);
-        $data['idSubjek']        = $idSubjek;
+        $analisis            = new Analisis();
+        $data['fullscreen']  = $this->input->get('fs') ?? null;
+        $data['form_action'] = ci_route('analisis_respon.' . $master . '.update', $idSubjek);
+        $data['idSubjek']    = $idSubjek;
 
         $data['subjek']       = $analisis->getSubjek($this->analisisMaster, $idSubjek) ?? show_404();
         $data['list_jawab']   = $analisis->listIndikator($this->analisisMaster, $this->periodeAktif->id, $idSubjek);
@@ -222,28 +222,29 @@ class Analisis_respon extends AdminModulController
      */
     public function data_unduh($master): void
     {
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
-        $_GET           = $paramDatatable;
-        $tipe           = $this->input->post('tipe') ?? 1;
+        $paramDatatable      = json_decode((string) $this->input->post('params'), 1);
+        $_GET                = $paramDatatable;
+        $tipe                = $this->input->post('tipe') ?? 1;
         $data['subjek_tipe'] = $this->analisisMaster->subjek_tipe;
-        $data['main']        = $this->sumberData()->get()->map(function($item){
-            
+        $data['main']        = $this->sumberData()->get()->map(function ($item) {
+
             $par = AnalisisRespon::selectRaw('kode_jawaban, asign, jawaban, analisis_respon.id_indikator, analisis_respon.id_parameter AS korek')
-                        ->from('analisis_respon')
-                        ->join('analisis_parameter', 'analisis_parameter.id' ,'=', 'analisis_respon.id_parameter')
-                        ->where('analisis_respon.id_periode', $this->periodeAktif->id)
-                        ->where('analisis_respon.id_subjek', $item->id)
-                        ->orderBy('analisis_respon.id_indikator')
-                        ->get()
-                        ->toArray();
+                ->from('analisis_respon')
+                ->join('analisis_parameter', 'analisis_parameter.id', '=', 'analisis_respon.id_parameter')
+                ->where('analisis_respon.id_periode', $this->periodeAktif->id)
+                ->where('analisis_respon.id_subjek', $item->id)
+                ->orderBy('analisis_respon.id_indikator')
+                ->get()
+                ->toArray();
             $item['par'] = $par;
-            return $item;   
+
+            return $item;
         })->toArray();
-        $data['periode']     = $this->periodeAktif->id;
-        $data['indikator']   = AnalisisIndikator::indikatorUnduh($master);
-        $data['tipe']        = $tipe;
-        $key                 = ($data['periode'] + 3) * ($this->analisisMaster->id + 7) * ($this->analisisMaster->subjek_tipe * 3);
-        $data['key']         = 'AN' . $key;
+        $data['periode']   = $this->periodeAktif->id;
+        $data['indikator'] = AnalisisIndikator::indikatorUnduh($master);
+        $data['tipe']      = $tipe;
+        $key               = ($data['periode'] + 3) * ($this->analisisMaster->id + 7) * ($this->analisisMaster->subjek_tipe * 3);
+        $data['key']       = 'AN' . $key;
 
         $data['span_kolom'] = match ($this->analisisMaster->subjek_tipe) {
             5, 6 => 3,

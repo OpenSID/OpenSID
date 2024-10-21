@@ -151,6 +151,13 @@ class Periksa_model extends MY_Model
             $this->periksa['nik_kepala_bukan_kepala_keluarga'] = $nik_kepala_bukan_kepala_keluarga->toArray();
         }
 
+        // keluarga tanpa nik_kepala
+        $keluarga_tanpa_nik_kepala = $this->deteksi_keluarga_tanpa_nik_kepala();
+        if (! $keluarga_tanpa_nik_kepala->isEmpty()) {
+            $this->periksa['masalah'][]                 = 'keluarga_tanpa_nik_kepala';
+            $this->periksa['keluarga_tanpa_nik_kepala'] = $keluarga_tanpa_nik_kepala->toArray();
+        }
+
         $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
         if (! $klasifikasi_surat_ganda->isEmpty()) {
             $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
@@ -308,6 +315,11 @@ class Periksa_model extends MY_Model
     private function deteksi_nik_kepala_bukan_kepala_keluarga()
     {
         return Penduduk::withOnly(['keluarga'])->whereIn('id', static fn ($q) => $q->select(['nik_kepala'])->from('tweb_keluarga'))->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->get();
+    }
+
+    private function deteksi_keluarga_tanpa_nik_kepala()
+    {
+        return Keluarga::with(['wilayah'])->whereNull('nik_kepala')->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()
@@ -540,6 +552,14 @@ class Periksa_model extends MY_Model
         }
     }
 
+    private function perbaiki_keluarga_tanpa_nik_kepala(): void
+    {
+        $keluarga = $this->periksa['keluarga_tanpa_nik_kepala'];
+        if ($keluarga) {
+            Keluarga::whereIn('id', array_column($keluarga, 'id'))->delete();
+        }
+    }
+
     private function selesaikan_masalah($masalah_ini): void
     {
         switch ($masalah_ini) {
@@ -577,6 +597,10 @@ class Periksa_model extends MY_Model
 
             case 'nik_kepala_bukan_kepala_keluarga':
                 $this->perbaiki_nik_kepala_bukan_kepala_keluarga();
+                break;
+
+            case 'keluarga_tanpa_nik_kepala':
+                $this->perbaiki_keluarga_tanpa_nik_kepala();
                 break;
 
             default:

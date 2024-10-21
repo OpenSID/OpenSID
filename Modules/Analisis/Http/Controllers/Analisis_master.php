@@ -36,14 +36,14 @@
  */
 
 use App\Enums\AnalisisRefSubjekEnum;
-use Modules\Analisis\Models\AnalisisIndikator;
-use Modules\Analisis\Models\AnalisisKlasifikasi;
-use Modules\Analisis\Models\AnalisisMaster;
-use Modules\Analisis\Models\AnalisisPeriode;
 use App\Models\KelompokMaster;
 use App\Traits\Upload;
 use Modules\Analisis\Libraries\Gform;
 use Modules\Analisis\Libraries\Import;
+use Modules\Analisis\Models\AnalisisIndikator;
+use Modules\Analisis\Models\AnalisisKlasifikasi;
+use Modules\Analisis\Models\AnalisisMaster;
+use Modules\Analisis\Models\AnalisisPeriode;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Common\Entity\Style\Border;
 use OpenSpout\Common\Entity\Style\BorderPart;
@@ -56,6 +56,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Analisis_master extends AdminModulController
 {
     use Upload;
+
     public $moduleName          = 'Analisis';
     public $modul_ini           = 'analisis';
     public $kategori_pengaturan = 'Analisis';
@@ -64,7 +65,7 @@ class Analisis_master extends AdminModulController
     {
         parent::__construct();
         can('b');
-    }    
+    }
 
     public function index()
     {
@@ -75,6 +76,7 @@ class Analisis_master extends AdminModulController
     {
         if ($this->input->is_ajax_request()) {
             $canUpdate = can('u');
+
             return datatables()->of(AnalisisMaster::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -82,25 +84,25 @@ class Analisis_master extends AdminModulController
                     }
                 })
                 ->addIndexColumn()
-                ->addColumn('aksi', static function ($row) use($canUpdate) : string {
-                    $aksi = '<a href="'. ci_route("analisis_master.menu", $row->id).'" class="btn bg-purple btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a> ';
-                    if ($canUpdate){
-                        $aksi .= ' <a href="'. ci_route("analisis_master.form", $row->id).'" class="btn bg-orange btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
-                        if ($row->gform_id){
-                            $aksi .= ' <a href="'. ci_route("analisis_master.update_gform",$row->id).'" class="btn bg-navy btn-sm" title="Update Data Google Form"><i class="fa fa-refresh"></i></a> ';
+                ->addColumn('aksi', static function ($row) use ($canUpdate): string {
+                    $aksi = '<a href="' . ci_route('analisis_master.menu', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a> ';
+                    if ($canUpdate) {
+                        $aksi .= ' <a href="' . ci_route('analisis_master.form', $row->id) . '" class="btn bg-orange btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        if ($row->gform_id) {
+                            $aksi .= ' <a href="' . ci_route('analisis_master.update_gform', $row->id) . '" class="btn bg-navy btn-sm" title="Update Data Google Form"><i class="fa fa-refresh"></i></a> ';
                         }
-                        $aksi .= ' <a href="' . ci_route('analisis_master.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa '.($row->isLock() ? 'fa-lock' : 'fa-unlock').'">&nbsp;</i></a> ';
+                        $aksi .= ' <a href="' . ci_route('analisis_master.lock', $row->id) . '" class="btn bg-navy btn-sm"  title="Aktifkan"><i class="fa ' . ($row->isLock() ? 'fa-lock' : 'fa-unlock') . '">&nbsp;</i></a> ';
 
                         if ($row->jenis != 1 ) {
-                            $aksi .= ' <a href="#" data-href="'. ci_route("analisis_master.delete", $row->id).'" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
+                            $aksi .= ' <a href="#" data-href="' . ci_route('analisis_master.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a> ';
                         }
                     }
-                    $aksi .= '<a href="'. ci_route("analisis_master.ekspor",$row->id).'" class="btn bg-navy btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a> ';
+                    $aksi .= '<a href="' . ci_route('analisis_master.ekspor', $row->id) . '" class="btn bg-navy btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a> ';
 
                     return $aksi;
                 })
-                ->editColumn('subjek_tipe', static fn($q) => AnalisisRefSubjekEnum::valueOf($q->subjek_tipe))   
-                ->editColumn('gform_last_sync', static fn($q) => tgl_indo($q->gform_last_sync))                             
+                ->editColumn('subjek_tipe', static fn ($q) => AnalisisRefSubjekEnum::valueOf($q->subjek_tipe))
+                ->editColumn('gform_last_sync', static fn ($q) => tgl_indo($q->gform_last_sync))
                 ->rawColumns(['ceklist', 'aksi', 'gform_last_sync'])
                 ->make();
         }
@@ -116,13 +118,13 @@ class Analisis_master extends AdminModulController
         $data['list_kelompok']     = KelompokMaster::get()->toArray();
         $data['list_analisis']     = AnalisisMaster::subjekPenduduk()->get()->toArray();
         if ($id) {
-            $data['action']      = 'Ubah';
-            $data['form_action'] = ci_route('analisis_master.update', $id);
-            $data['analisis_master']    = AnalisisMaster::findOrFail($id);
+            $data['action']          = 'Ubah';
+            $data['form_action']     = ci_route('analisis_master.update', $id);
+            $data['analisis_master'] = AnalisisMaster::findOrFail($id);
         } else {
-            $data['action']      = 'Tambah';
-            $data['form_action'] = ci_route('analisis_master.insert');
-            $data['analisis_master']    = null;
+            $data['action']          = 'Tambah';
+            $data['form_action']     = ci_route('analisis_master.insert');
+            $data['analisis_master'] = null;
         }
 
         return view('analisis.form', $data);
@@ -158,12 +160,12 @@ class Analisis_master extends AdminModulController
             redirect_with('success', 'Berhasil Hapus Data');
         }
         redirect_with('error', 'Gagal Hapus Data');
-    }    
+    }
 
     public function import_analisis(): void
     {
         isCan('u');
-        $data['form_action'] = ci_route("analisis_master.import");
+        $data['form_action'] = ci_route('analisis_master.import');
 
         view('analisis.import', $data);
     }
@@ -173,15 +175,16 @@ class Analisis_master extends AdminModulController
         isCan('u');
         $config['upload_path']   = sys_get_temp_dir();
         $config['allowed_types'] = 'xlsx';
-        
-        $namaFile = $config['upload_path'].DIRECTORY_SEPARATOR.$this->upload('userfile', $config);
+
+        $namaFile = $config['upload_path'] . DIRECTORY_SEPARATOR . $this->upload('userfile', $config);
+
         try {
             (new Import($namaFile))->analisis();
             redirect_with('success', 'Berhasil import analisis');
-        } catch (\Exception $e) {
-            redirect_with('error', 'Gagal import analisis '.$e->getMessage());
+        } catch (Exception $e) {
+            redirect_with('error', 'Gagal import analisis ' . $e->getMessage());
         }
-                
+
     }
 
     public function ekspor($id): void
@@ -334,11 +337,11 @@ class Analisis_master extends AdminModulController
     public function import_gform(): void
     {
         isCan('u');
-        $data['form_action'] = ci_route("analisis_master.exec_import_gform");
+        $data['form_action'] = ci_route('analisis_master.exec_import_gform');
 
         view('analisis.import_gform', $data);
-    }   
-    
+    }
+
     /**
      * 1. Credential
      * 2. Id script
@@ -349,8 +352,8 @@ class Analisis_master extends AdminModulController
      * - Jika semua tidak terisi (asumsi opensid ini yang jalan di server OpenDesa) ambil credential setting di file config
      */
     private function get_redirect_uri()
-    {        
-        $api_gform_credential = setting('api_gform_credential')?? config_item('api_gform_credential');
+    {
+        $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
         if ($api_gform_credential) {
             $credential_data = json_decode(str_replace('\"', '"', $api_gform_credential), true);
             $redirect_uri    = $credential_data['web']['redirect_uris'][0];
@@ -378,7 +381,7 @@ class Analisis_master extends AdminModulController
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
 
-            $variabel                   = json_decode((string) $response->getBody(), true);
+            $variabel = json_decode((string) $response->getBody(), true);
             set_session('data_import', $variabel);
             set_session('gform_id', $this->request->get('formId'));
             set_session('success', 5);
@@ -389,15 +392,16 @@ class Analisis_master extends AdminModulController
             header('Location: ' . $url);
         }
     }
-    
+
     public function save_import_gform(): void
     {
         isCan('u');
+
         try {
             (new Gform($this->request))->save();
         } catch (Exception $e) {
             redirect_with('error', $e->getMessage());
-        }        
+        }
 
         redirect('analisis_master');
     }
@@ -418,7 +422,7 @@ class Analisis_master extends AdminModulController
             $httpClient = $client->authorize();
             $response   = $httpClient->get($url);
 
-            $variabel                   = json_decode((string) $response->getBody(), true);            
+            $variabel = json_decode((string) $response->getBody(), true);
             (new Gform($this->request))->update($id, $variabel);
 
             redirect('analisis_master');
@@ -438,7 +442,8 @@ class Analisis_master extends AdminModulController
         redirect_with('error', 'Gagal status analisis');
     }
 
-    public function menu($master){
+    public function menu($master)
+    {
         $data = [
             'analisis_master' => AnalisisMaster::findOrFail($master),
         ];
@@ -447,7 +452,7 @@ class Analisis_master extends AdminModulController
     }
 
     protected static function validate(array $request = []): array
-    {        
+    {
         return [
             'nama'         => judul($request['nama']),
             'subjek_tipe'  => $request['subjek_tipe'],
@@ -457,6 +462,6 @@ class Analisis_master extends AdminModulController
             'pembagi'      => bilangan_titik($request['pembagi']),
             'id_child'     => $request['id_child'] ?: null,
             'deskripsi'    => htmlentities($request['deskripsi']),
-        ];        
+        ];
     }
 }

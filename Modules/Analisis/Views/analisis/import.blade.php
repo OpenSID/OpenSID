@@ -1,12 +1,12 @@
 <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data">
     <div class='modal-body'>
         <div class="form-group">
-            <label for="file"  class="control-label">File Master Analisis :</label>
+            <label for="file" class="control-label">File Master Analisis :</label>
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control required" id="file_path2" name="userfile">
                 <input type="file" class="hidden" id="file2" required name="userfile" accept=".xlsx">
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-info"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
+                    <button type="button" class="btn btn-info" id="file_browser2"><i class="fa fa-search"></i> Browse</button>
                 </span>
             </div>
         </div>
@@ -23,13 +23,13 @@
 </form>
 
 <script>
-    $(document).ready(function () {
-        $('#file_browser2, #file_path2').click(function (e) {
+    $(document).ready(function() {
+        $('#file_browser2, #file_path2').click(function(e) {
             e.preventDefault();
             $('#file2').click();
         });
 
-        $('#file2').change(function () {
+        $('#file2').change(function() {
             $('#file_path2').val($(this).val());
         });
     })

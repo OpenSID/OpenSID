@@ -35,11 +35,10 @@
  *
  */
 
-
-use Modules\Analisis\Models\AnalisisRespon;
-use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Enums\TahapPedataanEnum;
 use Modules\Analisis\Models\AnalisisMaster;
+use Modules\Analisis\Models\AnalisisPeriode;
+use Modules\Analisis\Models\AnalisisRespon;
 use Modules\Analisis\Models\AnalisisResponHasil;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -72,8 +71,8 @@ class Analisis_periode extends AdminModulController
     public function datatables($master)
     {
         if ($this->input->is_ajax_request()) {
-            $canUpdate      = can('u');
-            $canDelete      = can('h');
+            $canUpdate = can('u');
+            $canDelete = can('h');
 
             return datatables()->of(AnalisisPeriode::whereIdMaster($master))
                 ->addColumn('ceklist', static function ($row) {
@@ -142,8 +141,8 @@ class Analisis_periode extends AdminModulController
     public function update($master, $id = null): void
     {
         isCan('u');
-        $dataUpdate     = static::validate($this->request, $id);
-        $data           = AnalisisPeriode::findOrFail($id);
+        $dataUpdate = static::validate($this->request, $id);
+        $data       = AnalisisPeriode::findOrFail($id);
 
         if ($data->update($dataUpdate)) {
             redirect_with('success', 'Berhasil Ubah Data', ci_route('analisis_periode.' . $master));
@@ -175,10 +174,10 @@ class Analisis_periode extends AdminModulController
     protected static function validate(array $request = []): array
     {
         return [
-            'nama'   => htmlentities($request['nama']),
-            'id_state' => bilangan($request['id_state']),
-            'aktif' => bilangan($request['aktif']),
-            'keterangan' => htmlentities($request['keterangan']),
+            'nama'              => htmlentities($request['nama']),
+            'id_state'          => bilangan($request['id_state']),
+            'aktif'             => bilangan($request['aktif']),
+            'keterangan'        => htmlentities($request['keterangan']),
             'tahun_pelaksanaan' => bilangan($request['tahun_pelaksanaan']),
         ];
     }
@@ -191,18 +190,18 @@ class Analisis_periode extends AdminModulController
         }
 
         if ($request['duplikasi'] == 1) {
-            $dpd  = AnalisisPeriode::where('id_master', $idMaster)
-                    ->where('id', '!=', $idPeriode)
-                    ->orderBy('id', 'desc')
-                    ->first();
+            $dpd = AnalisisPeriode::where('id_master', $idMaster)
+                ->where('id', '!=', $idPeriode)
+                ->orderBy('id', 'desc')
+                ->first();
             $sblm = $dpd->id;
             $skrg = $idPeriode;
 
             $dataRespon = AnalisisRespon::where('id_periode', $sblm)
-                        ->get(['id_subjek', 'id_indikator', 'id_parameter']);
+                ->get(['id_subjek', 'id_indikator', 'id_parameter']);
 
             if ($dataRespon->isNotEmpty()) {
-                $dataRespon->each(function ($item) use ($skrg) {
+                $dataRespon->each(static function ($item) use ($skrg) {
                     $item->id_periode = $skrg;
                 });
 
