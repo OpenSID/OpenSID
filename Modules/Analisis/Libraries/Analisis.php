@@ -275,8 +275,8 @@ class Analisis
                     ')
                     ->leftJoin('tweb_desa_pamong', 'config.pamong_id', '=', 'tweb_desa_pamong.pamong_id')
                     ->leftJoin('tweb_penduduk', 'tweb_desa_pamong.id_pend', '=', 'tweb_penduduk.id')
-                    ->leftJoin('tweb_penduduk_pendidikan_kk as pendidikan_warga', 'tweb_penduduk.pendidikan_kk_id', '=', 'pendidikan_warga.id')                    
-                    ->leftJoin('tweb_penduduk_pendidikan_kk as pendidikan_pamong', 'tweb_desa_pamong.pamong_pendidikan', '=', 'pendidikan_pamong.id')                    
+                    ->leftJoin('tweb_penduduk_pendidikan_kk as pendidikan_warga', 'tweb_penduduk.pendidikan_kk_id', '=', 'pendidikan_warga.id')
+                    ->leftJoin('tweb_penduduk_pendidikan_kk as pendidikan_pamong', 'tweb_desa_pamong.pamong_pendidikan', '=', 'pendidikan_pamong.id')
                     ->where('config.id', $id);
                 break;
 
@@ -401,14 +401,14 @@ class Analisis
 
     private function listJawabLaporan($periode, $idSubjek, $in)
     {
-        $per  = $periode;
-        $obj = AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter, analisis_parameter.jawaban as jawaban,analisis_parameter.nilai')            
-            ->join('analisis_parameter','analisis_respon.id_parameter', '=', 'analisis_parameter.id')
+        $per = $periode;
+        $obj = AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter, analisis_parameter.jawaban as jawaban,analisis_parameter.nilai')
+            ->join('analisis_parameter', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')
             ->where('id_subjek', $idSubjek)
             ->where('id_periode', $per)
             ->where('analisis_respon.id_indikator', $in)
             ->first();
-        
+
         $data['jawaban'] = $obj->jawaban ?? '-';
         $data['nilai']   = $obj->nilai ?? '0';
 
@@ -416,13 +416,13 @@ class Analisis
     }
 
     public function listIndikatorLaporan($analisisMaster, $periode, $id = 0)
-    {                                  
+    {
         $data    = AnalisisIndikator::where('id_master', $analisisMaster->id)->orderBy('nomor')->get()->toArray();
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
             $data[$i]['no']      = $i + 1;
-            $ret                 = $this->listJawabLaporan($periode, $id, $data[$i]['id']);            
+            $ret                 = $this->listJawabLaporan($periode, $id, $data[$i]['id']);
             $data[$i]['jawaban'] = $ret['jawaban'];
             $data[$i]['nilai']   = $ret['nilai'];
             $data[$i]['poin']    = $data[$i]['bobot'] * $ret['nilai'];
@@ -432,14 +432,14 @@ class Analisis
     }
 
     public function multi_jawab($master)
-    {        
-        $kf     = session('jawab') ?? '7777777';
-        
-        $data    = AnalisisIndikator::selectRaw('analisis_indikator.pertanyaan,analisis_indikator.nomor,analisis_parameter.jawaban,analisis_parameter.id AS id_jawaban,analisis_parameter.kode_jawaban')
-                    ->selectRaw("(SELECT count(id) FROM analisis_parameter WHERE id IN ({$kf}) AND id = analisis_parameter.id AND analisis_indikator.config_id = " . identitas('id') . ") AS cek")
-                    ->where('id_master', $master)
-                    ->join('analisis_parameter', 'analisis_parameter.id_indikator', '=', 'analisis_indikator.id')
-                    ->orderBy('nomor')->orderBy('kode_jawaban')->get()->toArray();
+    {
+        $kf = session('jawab') ?? '7777777';
+
+        $data = AnalisisIndikator::selectRaw('analisis_indikator.pertanyaan,analisis_indikator.nomor,analisis_parameter.jawaban,analisis_parameter.id AS id_jawaban,analisis_parameter.kode_jawaban')
+            ->selectRaw("(SELECT count(id) FROM analisis_parameter WHERE id IN ({$kf}) AND id = analisis_parameter.id AND analisis_indikator.config_id = " . identitas('id') . ') AS cek')
+            ->where('id_master', $master)
+            ->join('analisis_parameter', 'analisis_parameter.id_indikator', '=', 'analisis_indikator.id')
+            ->orderBy('nomor')->orderBy('kode_jawaban')->get()->toArray();
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {

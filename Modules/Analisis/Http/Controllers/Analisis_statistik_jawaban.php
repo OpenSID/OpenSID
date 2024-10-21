@@ -263,7 +263,7 @@ class Analisis_statistik_jawaban extends AdminModulController
     }
 
     public function cetak_subjek($master, $id, $par, $tipe = 'cetak'): void
-    {        
+    {
         if ($tipe == 'unduh') {
             $tgl = date('d_m_Y');
             header('Content-type: application/octet-stream');

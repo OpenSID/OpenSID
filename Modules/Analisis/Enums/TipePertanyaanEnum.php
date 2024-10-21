@@ -43,21 +43,21 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class TipePertanyaanEnum extends BaseEnum
 {
-    public const PILIHAN_TUNGGAL    = 1;
-    public const PILIHAN_GANDA      = 2;
+    public const PILIHAN_TUNGGAL = 1;
+    public const PILIHAN_GANDA   = 2;
     public const ISIAN_JUMLAH    = 3;
     public const ISIAN_TEKS      = 4;
-    
+
     /**
      * Override method all()
      */
     public static function all(): array
     {
         return [
-            self::PILIHAN_TUNGGAL    => 'Pilihan (Tunggal)',
-            self::PILIHAN_GANDA => 'Pilihan (Ganda)',
-            self::ISIAN_JUMLAH => 'Isian angka',
-            self::ISIAN_TEKS => 'Isian Tulisan'
+            self::PILIHAN_TUNGGAL => 'Pilihan (Tunggal)',
+            self::PILIHAN_GANDA   => 'Pilihan (Ganda)',
+            self::ISIAN_JUMLAH    => 'Isian angka',
+            self::ISIAN_TEKS      => 'Isian Tulisan',
         ];
     }
 }

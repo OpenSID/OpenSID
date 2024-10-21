@@ -36,12 +36,12 @@
  */
 
 use App\Enums\StatusEnum;
-use Modules\Anjungan\Models\AnjunganMenu as Menu;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\Kategori;
 use App\Models\Kelompok;
 use App\Models\Suplemen;
+use Modules\Anjungan\Models\AnjunganMenu as Menu;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

@@ -68,8 +68,9 @@ class Analisis_klasifikasi extends AdminModulController
     public function datatables($master)
     {
         if ($this->input->is_ajax_request()) {
-            $canUpdate      = can('u');
-            $canDelete      = can('h');
+            $canUpdate = can('u');
+            $canDelete = can('h');
+
             return datatables()->of(AnalisisKlasifikasi::whereIdMaster($master))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
@@ -82,7 +83,7 @@ class Analisis_klasifikasi extends AdminModulController
                     if ($canUpdate) {
                         $aksi .= '<a href="' . ci_route("analisis_klasifikasi.{$master}.form", $row->id) . '" class="btn bg-orange btn-sm"  title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data"><i class="fa fa-edit"></i></a>';
                     }
-                    
+
                     if ($canDelete) {
                         $aksi .= ' <a href="#" data-href="' . ci_route("analisis_klasifikasi.{$master}.delete", $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
                     }

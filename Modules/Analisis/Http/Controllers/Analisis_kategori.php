@@ -35,8 +35,8 @@
  *
  */
 
-use Modules\Analisis\Models\AnalisisMaster;
 use Modules\Analisis\Models\AnalisisKategori;
+use Modules\Analisis\Models\AnalisisMaster;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -128,8 +128,8 @@ class Analisis_kategori extends AdminModulController
     public function update($master, $id = null): void
     {
         isCan('u');
-        $dataUpdate     = static::validate($this->request, $id);
-        $data           = AnalisisKategori::findOrFail($id);
+        $dataUpdate = static::validate($this->request, $id);
+        $data       = AnalisisKategori::findOrFail($id);
 
         if ($data->update($dataUpdate)) {
             redirect_with('success', 'Berhasil Ubah Data', ci_route('analisis_kategori.' . $master));
@@ -141,7 +141,7 @@ class Analisis_kategori extends AdminModulController
     {
         isCan('h');
         $ids = $id ? [$id] : $this->request['id_cb'];
-        
+
         foreach ($ids as $id) {
             $this->prosesDelete($master, $id);
         }
@@ -165,7 +165,7 @@ class Analisis_kategori extends AdminModulController
     protected static function validate(array $request = []): array
     {
         return [
-            'kategori'   => htmlentities($request['kategori']),
+            'kategori' => htmlentities($request['kategori']),
         ];
     }
 }

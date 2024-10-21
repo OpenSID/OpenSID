@@ -411,11 +411,11 @@ class AnalisisIndikator extends BaseModel
         }
 
         return $data;
-    }   
+    }
 
     public static function indikatorUnduh($idMaster, $parameter = 1)
     {
-        $data = self::where('id_master', $idMaster)->orderByRaw('LPAD(nomor, 10, " ")')->get()->toArray();            
+        $data    = self::where('id_master', $idMaster)->orderByRaw('LPAD(nomor, 10, " ")')->get()->toArray();
         $counter = count($data);
 
         for ($i = 0; $i < $counter; $i++) {
@@ -423,7 +423,7 @@ class AnalisisIndikator extends BaseModel
             $data[$i]['par'] = null;
 
             if ($parameter == 2) {
-                $par = AnalisisParameter::where('id_indikator', $data[$i]['id'])->where('asign', 1)->get()->toArray();                                        
+                $par             = AnalisisParameter::where('id_indikator', $data[$i]['id'])->where('asign', 1)->get()->toArray();
                 $data[$i]['par'] = $par;
             }
         }

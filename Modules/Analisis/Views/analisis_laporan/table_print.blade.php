@@ -40,6 +40,7 @@
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+
 ?>
 
 <table>
@@ -47,12 +48,10 @@
         <tr>
             <td colspan="8">
                 @if ($aksi != 'unduh')
-                <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
+                    <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
                 @endif
                 <h1 class="judul">
-                    PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $config['nama_kabupaten'] . ' <br>' .
-                    setting('sebutan_kecamatan') . ' ' . $config['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') .
-                    ' ' . $config['nama_desa']) !!}
+                    PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $config['nama_kabupaten'] . ' <br>' . setting('sebutan_kecamatan') . ' ' . $config['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . ' ' . $config['nama_desa']) !!}
                     <h1>
             </td>
         </tr>
@@ -74,15 +73,14 @@
         <tr class="border thick">
             <th width="10">NO</th>
             <th align="left">{{ strtoupper($judul['nomor']) }}</th>
-            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK,
-            App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
-            <th>{{ $analisis_master['subjek_tipe'] == App\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'No. KK' : 'NIK KK' }}
-            </th>
+            @if (in_array($analisis_master['subjek_tipe'], [App\Enums\AnalisisRefSubjekEnum::PENDUDUK, App\Enums\AnalisisRefSubjekEnum::KELUARGA, App\Enums\AnalisisRefSubjekEnum::RUMAH_TANGGA]))
+                <th>{{ $analisis_master['subjek_tipe'] == App\Enums\AnalisisRefSubjekEnum::PENDUDUK ? 'No. KK' : 'NIK KK' }}
+                </th>
             @endif
             <th align="left">{{ strtoupper($judul['nama']) }}</th>
             @if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4]))
-            <th align="left">JENIS KELAMIN</th>
-            <th align="left">ALAMAT</th>
+                <th align="left">JENIS KELAMIN</th>
+                <th align="left">ALAMAT</th>
             @endif
             <th align="left">NILAI</th>
             <th align="left">KLASIFIKASI</th>
@@ -90,21 +88,20 @@
     </thead>
     <tbody>
         @foreach ($main as $data)
-        <tr>
-            <td align="center" width="2">{{ $loop->iteration }}</td>
-            <td class="textx">{{ $data[$judul['kolom'][0]] }}</td>
-            @if (in_array($analisis_master['subjek_tipe'], [1, 2, 3]))
-            <td class="textx">{{ $data['kk'] }}</td>
-            @endif
-            <td>{{ $data[$judul['kolom'][1]] }}</td>
-            @if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4]))
-            <td align="center">{{ App\Enums\JenisKelaminEnum::valueOf($data['sex']) }}</td>
-            <td>{{ strtoupper($data['alamat'] . ' ' . 'RT/RW ' . $data['rt'] . '/' . $data['rw'] . ' - ' .
-                setting('sebutan_dusun') . ' ' . $data['dusun']) }}</td>
-            @endif
-            <td align="right">{{ $data['nilai'] ? number_format($data['nilai'], 2, ',', '.') : '-' }}</td>
-            <td align="right">{{ $data['klasifikasi'] }}</td>
-        </tr>
+            <tr>
+                <td align="center" width="2">{{ $loop->iteration }}</td>
+                <td class="textx">{{ $data[$judul['kolom'][0]] }}</td>
+                @if (in_array($analisis_master['subjek_tipe'], [1, 2, 3]))
+                    <td class="textx">{{ $data['kk'] }}</td>
+                @endif
+                <td>{{ $data[$judul['kolom'][1]] }}</td>
+                @if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4]))
+                    <td align="center">{{ App\Enums\JenisKelaminEnum::valueOf($data['sex']) }}</td>
+                    <td>{{ strtoupper($data['alamat'] . ' ' . 'RT/RW ' . $data['rt'] . '/' . $data['rw'] . ' - ' . setting('sebutan_dusun') . ' ' . $data['dusun']) }}</td>
+                @endif
+                <td align="right">{{ $data['nilai'] ? number_format($data['nilai'], 2, ',', '.') : '-' }}</td>
+                <td align="right">{{ $data['klasifikasi'] }}</td>
+            </tr>
         @endforeach
     </tbody>
 </table>

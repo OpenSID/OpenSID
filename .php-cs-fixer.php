@@ -79,10 +79,12 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->notPath('views/*')
     ->in([
         __DIR__ . '/app',
+        __DIR__ . '/bootstrap',
+        __DIR__ . '/config',
         __DIR__ . '/donjo-app',
+        __DIR__ . '/Modules',
     ])
     ->exclude([
-        __DIR__ . '/donjo-app/Modules',
         __DIR__ . '/donjo-app/views',
         __DIR__ . '/donjo-app/third_party/*/views',
         __DIR__ . '/donjo-app/models/migrations',

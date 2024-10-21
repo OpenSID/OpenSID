@@ -1,22 +1,21 @@
 <?php
-    if ($aksi == 'unduh') {
-        $judul = namafile('Laporan Hasil Analisis ' . $asubjek . ' ' . $subjek['nama']);
+if ($aksi == 'unduh') {
+    $judul = namafile('Laporan Hasil Analisis ' . $asubjek . ' ' . $subjek['nama']);
 
-        header('Content-type: application/xls');
-        header('Content-Disposition: attachment; filename=' . $judul . '.xls');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-    }
+    header('Content-type: application/xls');
+    header('Content-Disposition: attachment; filename=' . $judul . '.xls');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+}
 ?>
 
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Laporan Hasil Analisis {{ $asubjek }}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="{{ asset('css/report.css')  }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/report.css') }}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -28,12 +27,10 @@
                     <tr>
                         <td colspan='6'>
                             @if ($aksi != 'unduh')
-                            <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
+                                <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
                             @endif
                             <h1 class="judul">
-                                PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $config['nama_kabupaten']
-                                . ' <br>' . setting('sebutan_kecamatan') . ' ' . $config['nama_kecamatan'] . ' <br>' .
-                                setting('sebutan_desa') . ' ' . $config['nama_desa']) !!}
+                                PEMERINTAH {!! strtoupper(setting('sebutan_kabupaten') . ' ' . $config['nama_kabupaten'] . ' <br>' . setting('sebutan_kecamatan') . ' ' . $config['nama_kecamatan'] . ' <br>' . setting('sebutan_desa') . ' ' . $config['nama_desa']) !!}
                                 <h1>
                         </td>
                     </tr>
@@ -71,13 +68,13 @@
                 </thead>
                 <tbody>
                     @foreach ($list_anggota as $ang)
-                    <tr>
-                        <td align="center" width="2">{{ $loop->iteration }}</td>
-                        <td class="textx">{{ $ang['nik'] }}</td>
-                        <td width="45%">{{ $ang['nama'] }}</td>
-                        <td nowrap>{{ tgl_indo(implode('-',array_reverse(explode('-',$ang['tanggallahir'])))) }}</td>
-                        <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($ang['sex']) ) }}</td>
-                    </tr>
+                        <tr>
+                            <td align="center" width="2">{{ $loop->iteration }}</td>
+                            <td class="textx">{{ $ang['nik'] }}</td>
+                            <td width="45%">{{ $ang['nama'] }}</td>
+                            <td nowrap>{{ tgl_indo(implode('-', array_reverse(explode('-', $ang['tanggallahir'])))) }}</td>
+                            <td>{{ strtoupper(App\Enums\JenisKelaminEnum::valueOf($ang['sex'])) }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -96,14 +93,14 @@
                 </thead>
                 <tbody>
                     @foreach ($list_jawab as $data)
-                    <tr>
-                        <td>{{ $data['no'] }}</td>
-                        <td>{{ $data['pertanyaan'] }}</td>
-                        <td>{{ $data['bobot'] }}</td>
-                        <td>{{ $data['jawaban'] }}</td>
-                        <td>{{ $data['nilai'] }}</td>
-                        <td>{{ $data['poin'] }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ $data['no'] }}</td>
+                            <td>{{ $data['pertanyaan'] }}</td>
+                            <td>{{ $data['bobot'] }}</td>
+                            <td>{{ $data['jawaban'] }}</td>
+                            <td>{{ $data['nilai'] }}</td>
+                            <td>{{ $data['poin'] }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
