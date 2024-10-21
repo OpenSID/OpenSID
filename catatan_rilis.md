@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#8463](https://github.com/OpenSID/OpenSID/issues/8463) Penambahan kode isian penduduk yang sama untuk semua form selain form utama.
 3. [#8575](https://github.com/OpenSID/OpenSID/issues/8575) Penambahan tinjau gambar saat diunggah pada modul identitas, kelompok/lembaga, pengaturan, pengguna dan lapak.
 4. [#8534](https://github.com/OpenSID/OpenSID/issues/8534) Penambahan filter status surat dan jenis surat pada layanan surat dan surat dinas.
+5. [#8587](https://github.com/OpenSID/OpenSID/issues/8587) Penambahan fungsi cetak dan unduh pada halaman statistik dan bantuan.
 
 
 ### BUG

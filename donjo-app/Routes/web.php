@@ -184,6 +184,7 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     Route::get('/status-sdgs', 'Sdgs@index')->name('fweb.sdgs.index');
     Route::get('/peta', 'Peta@index')->name('fweb.peta.index');
+    Route::get('/data-statistik/{slug}/cetak/{aksi}', 'Statistik@cetak')->name('fweb.statistik.cetak');
     Route::get('/data-statistik/{slug?}', 'Statistik@index')->name('fweb.statistik.index');
     Route::get('/data-suplemen/{slug?}', 'Suplemen@detail')->name('fweb.suplemen.detail');
     Route::get('/data-kesehatan/{slug?}', 'Kesehatan@detail')->name('fweb.kesehatan.detail');

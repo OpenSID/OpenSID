@@ -471,7 +471,7 @@ class LaporanPenduduk
                             ->where('k.config_id', '=', identitas('id'));
                     })
                     ->leftJoin('tweb_penduduk as p', 'p.id', '=', 'k.nik_kepala')
-                    ->groupBy('u.id')
+                    ->groupBy(['u.id', 'u.nama'])
                     ->get();
                 break;
 

@@ -182,6 +182,16 @@
         <div class="btn-group-xs">
             <a class="btn <?= (($default_chart_type ?? 'pie')=='pie') ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType(this);">Bar Graph</a>
             <a class="btn <?= (($default_chart_type ?? 'pie')=='column') ? 'btn-primary' : 'btn-default' ?> btn-xs" onclick="switchType(this);">Pie Cart</a>
+            <a href="<?= site_url("data-statistik/{$slug_aktif}/cetak/cetak") ?>?tahun=<?= $selected_tahun ?>"
+                class="btn btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                title="Cetak Laporan" target="_blank">
+                <i class="fa fa-print "></i> Cetak
+            </a>
+            <a href="<?= site_url("data-statistik/{$slug_aktif}/cetak/unduh") ?>?tahun=<?= $selected_tahun ?>"
+                class="btn btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                title="Unduh Laporan" target="_blank">
+                <i class="fa fa-print "></i> Unduh
+            </a>
         </div>
     </div>
 </div>
