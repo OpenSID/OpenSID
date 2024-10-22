@@ -71,7 +71,7 @@ class Kesehatan extends Web_Controller
         $data['isi']            = 'web.kesehatan.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
         $data['judul']          = 'DATA SCORECARD KONVERGENSI KUARTAL ' . $kuartal . ' (' . strtoupper((string) get_kuartal($kuartal)['bulan']) . ') TAHUN ' . $tahun;
-        // dd($data);
+
         view('admin.layouts.components.format_cetak', $data);
     }
 
@@ -106,14 +106,6 @@ class Kesehatan extends Web_Controller
             $batasBulanAtas  = 12;
         } else {
             exit('Terjadi Kesalahan di kuartal!');
-        }
-
-        if ($kuartal == null || $tahun == null) {
-            if ($tahun == null) {
-                $tahun = date('Y');
-            }
-            $kuartal = $_kuartal;
-            redirect(site_url('stunting/scorecard_konvergensi/') . $kuartal . '/' . $tahun);
         }
 
         $JTRT_IbuHamil = IbuHamil::query()
