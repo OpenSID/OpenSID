@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 20. [#8599](https://github.com/OpenSID/OpenSID/issues/8599) Perbaikan lampiran model N6 tidak muncul.
 21. [#8601](https://github.com/OpenSID/OpenSID/issues/8601) Perbaikan tambah informasi publik tipe URL tidak bisa di Simpan.
 22. [#8610](https://github.com/OpenSID/OpenSID/issues/8610) Perbaikan hapus wilayah dan tambahkan periksa data untuk keluarga tanpa kelapa keluarga.
+23. [#8141](https://github.com/OpenSID/OpenSID/issues/8141) Perbaikan menampilkan status IDM dan SDGS.
 
 
 ### TEKNIS
