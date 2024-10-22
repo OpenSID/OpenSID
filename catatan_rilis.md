@@ -39,3 +39,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8574](https://github.com/OpenSID/OpenSID/issues/8574) Penyesuaian url first/dpt menjadi data-dpt pada halaman web.
 6. [#8535](https://github.com/OpenSID/OpenSID/issues/8535) Penyesuaian modul analisis menggunakan view blade dan ORM laravel.
 7. [#8592](https://github.com/OpenSID/OpenSID/issues/8592) Penyesuaian modul statistik kependudukan menggunakan view blade dan ORM laravel.
+8. [#8613](https://github.com/OpenSID/OpenSID/issues/8613) Penyesuaian notifikasi saat hapus dusun dari hapus penduduk ke pindah wilayah kolektif
