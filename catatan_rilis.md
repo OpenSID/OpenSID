@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 24. [#8615](https://github.com/OpenSID/OpenSID/issues/8615) Perbaikan urutan produk lapak tidak terurut yang terbaru.
 25. [#8620](https://github.com/OpenSID/OpenSID/issues/8620) Perbaikan hapus dokumen persyaratan surat secara masal.
 26. [#8619](https://github.com/OpenSID/OpenSID/issues/8619) Perbaikan hapus produk tanpa gambar pada lapak.
+27. [#8621](https://github.com/OpenSID/OpenSID/issues/8621) Perbaikan tampilan dan penulisan pada lampiran F-1.06.
 
 
 ### TEKNIS

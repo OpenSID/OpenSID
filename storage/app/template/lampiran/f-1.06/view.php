@@ -1,9 +1,9 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php if (! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <!-- Cara pengisian bisa dilihat di : https://sipenduduk.pekanbaru.go.id/Formulir-F1-01.pdf -->
 
 <style type="text/css">
-    <?php include(FCPATH . "/assets/css/dukcapil.css"); ?>
+    <?php include FCPATH . '/assets/css/dukcapil.css'; ?>
 </style>
 
 <style type="text/css">
@@ -96,7 +96,7 @@
         </tr>
     </table>
 
-    <p>dengan rincian KK sebagai berikut:</p>
+    <p>Dengan rincian KK sebagai berikut:</p>
 
     <table style="border-collapse: collapse;" class="tg">
         <thead>
@@ -181,7 +181,7 @@
         </thead>
         <tbody>
             <tr>
-                <td class="tg-0lax">1</td>
+                <td class="tg-0lax" style="text-align: center;">1</td>
                 <td class="tg-0lax"></td>
                 <td class="tg-0lax"></td>
                 <td class="tg-0lax"></td>
@@ -227,7 +227,7 @@
         </thead>
         <tbody>
             <tr>
-                <td class="tg-0lax">1</td>
+                <td class="tg-0lax" style="text-align: center;">1</td>
                 <td class="tg-0lax"></td>
                 <td class="tg-0lax"><?= $input['form_agama'] ?></td>
                 <td class="tg-0lax"></td>
@@ -239,7 +239,7 @@
         </tbody>
     </table>
 
-    <p style="text-indent: 30px;">
+    <p style="text-indent: 30px; text-align: justify; line-height: 1.2;">
         Terlampir disampaikan fotokopi berkas-berkas yang terkait dangan perubahan elemen data tersebut.
         Demikian Surat Pernyataan ini saya buat dengan sebenarnya, apabila dalam keterangan yang saya berikan
         terdapat hal-hal yang tidak berdasarkan keadilan yang sebenarnya, saya bersedia dikenakan sanksi sesuai
