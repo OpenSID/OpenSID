@@ -753,7 +753,7 @@ Route::group('surat_mohon', static function (): void {
     Route::post('/insert', 'Surat_mohon@insert')->name('surat_mohon.insert');
     Route::post('/update/{id?}', 'Surat_mohon@update')->name('surat_mohon.update');
     Route::get('/delete/{id?}', 'Surat_mohon@delete')->name('surat_mohon.delete');
-    Route::post('/deleteAll', 'Surat_mohon@delete_all')->name('surat_mohon.delete_all');
+    Route::post('/deleteAll', 'Surat_mohon@deleteAll')->name('surat_mohon.delete_all');
 });
 
 // Surat Dinas > Pengaturan Surat Dinas

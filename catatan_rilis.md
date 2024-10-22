@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 22. [#8610](https://github.com/OpenSID/OpenSID/issues/8610) Perbaikan hapus wilayah dan tambahkan periksa data untuk keluarga tanpa kelapa keluarga.
 23. [#8141](https://github.com/OpenSID/OpenSID/issues/8141) Perbaikan menampilkan status IDM dan SDGS.
 24. [#8615](https://github.com/OpenSID/OpenSID/issues/8615) Perbaikan urutan produk lapak tidak terurut yang terbaru.
+25. [#8620](https://github.com/OpenSID/OpenSID/issues/8620) Perbaikan hapus dokumen persyaratan surat secara masal.
 
 
 ### TEKNIS
