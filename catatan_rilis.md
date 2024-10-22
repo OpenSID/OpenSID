@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#8141](https://github.com/OpenSID/OpenSID/issues/8141) Perbaikan menampilkan status IDM dan SDGS.
 24. [#8615](https://github.com/OpenSID/OpenSID/issues/8615) Perbaikan urutan produk lapak tidak terurut yang terbaru.
 25. [#8620](https://github.com/OpenSID/OpenSID/issues/8620) Perbaikan hapus dokumen persyaratan surat secara masal.
+26. [#8619](https://github.com/OpenSID/OpenSID/issues/8619) Perbaikan hapus produk tanpa gambar pada lapak.
 
 
 ### TEKNIS
