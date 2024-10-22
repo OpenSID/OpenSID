@@ -75,7 +75,7 @@ class Lapak extends Web_Controller
             $data['produk'] = $data['produk']->where('id_produk_kategori', $data['id_kategori']);
         }
 
-        $data['produk']         = $data['produk']->limit($data['paging']->per_page, $data['keyword'] ? 0 : $data['paging']->offset)->get()->result();
+        $data['produk']         = $data['produk']->order_by('updated_at', 'desc')->limit($data['paging']->per_page, $data['keyword'] ? 0 : $data['paging']->offset)->get()->result();
         $data['kategori']       = $this->lapak_model->get_kategori()->get()->result();
         $data['halaman_statis'] = 'lapak/index';
         $data['tampil']         = $cekMenu && $cekLapak;
