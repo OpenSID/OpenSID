@@ -37,10 +37,18 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class Migrasi_2024102351 extends MY_model
 {
     public function up()
     {
-        return true;
+        return $this->migrasi_202410651(true);
+    }
+
+    protected function migrasi_202410651($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'statistik-kependudukan', 'url' => 'statistik/clear'],
+            ['url' => 'statistik']
+        );
     }
 }
