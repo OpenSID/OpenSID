@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 25. [#8620](https://github.com/OpenSID/OpenSID/issues/8620) Perbaikan hapus dokumen persyaratan surat secara masal.
 26. [#8619](https://github.com/OpenSID/OpenSID/issues/8619) Perbaikan hapus produk tanpa gambar pada lapak.
 27. [#8621](https://github.com/OpenSID/OpenSID/issues/8621) Perbaikan tampilan dan penulisan pada lampiran F-1.06.
+28. [#8616](https://github.com/OpenSID/OpenSID/issues/8616) Perbaikan penulisan pada lampiran F-1.25.
 
 
 ### TEKNIS
