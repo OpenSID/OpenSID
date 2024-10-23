@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 26. [#8619](https://github.com/OpenSID/OpenSID/issues/8619) Perbaikan hapus produk tanpa gambar pada lapak.
 27. [#8621](https://github.com/OpenSID/OpenSID/issues/8621) Perbaikan tampilan dan penulisan pada lampiran F-1.06.
 28. [#8616](https://github.com/OpenSID/OpenSID/issues/8616) Perbaikan penulisan pada lampiran F-1.25.
+29. [#8628](https://github.com/OpenSID/OpenSID/issues/8628) Perbaikan notifikasi ubah dan hapus keluarga.
 
 
 ### TEKNIS
