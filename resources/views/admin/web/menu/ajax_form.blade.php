@@ -107,8 +107,8 @@
                     <option value="status-idm/{{ $thn }}" @selected($menu['link'] == "status-idm/{$thn}")>{{ $thn }}</option>
                 @endforeach
             </select>
-            <span id="eksternal" class="jenis_link" style="@if ($menu['link_tipe'] != 99) display:none; @endif">
-                <input name="{{ jecho($menu['link_tipe'], 99, 'link') }}" class="form-control input-sm" type="text" value="{{ $menu['link'] }}" />
+            <span id="eksternal" class="jenis_link" style="@if (!in_array($menu['link_tipe'], [88, 99])) display:none; @endif">
+                <input name="{{ jecho(in_array($menu['link_tipe'], [88, 99]), true, 'link') }}" class="form-control input-sm" type="text" value="{{ $menu['link'] }}" />
                 <span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
             </span>
         </div>
@@ -185,7 +185,7 @@
             $('#statistik_kesehatan').show();
             $('#statistik_kesehatan').attr('name', 'link');
             $('#statistik_kesehatan').addClass('required');
-        } else if (jenis == '99') {
+        } else if (jenis == '88' || jenis == '99') {
             $('#eksternal').show();
             $('#eksternal > input').show();
             $('#eksternal > input').attr('name', 'link');

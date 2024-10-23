@@ -9,7 +9,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8534](https://github.com/OpenSID/OpenSID/issues/8534) Penambahan filter status surat dan jenis surat pada layanan surat dan surat dinas.
 5. [#8587](https://github.com/OpenSID/OpenSID/issues/8587) Penambahan fungsi cetak dan unduh pada halaman statistik dan bantuan.
 6. [#8588](https://github.com/OpenSID/OpenSID/issues/8588) Penambahan fungsi cetak dan unduh pada halaman statistik kesehatan > stunting.
-
+7. [#8603](https://github.com/OpenSID/OpenSID/issues/8603) Penambahan fungsi menu tipe embed.
 
 ### BUG
 
