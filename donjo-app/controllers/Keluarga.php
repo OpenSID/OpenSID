@@ -487,7 +487,7 @@ class Keluarga extends Admin_Controller
         $data['updated_by'] = ci_auth()->id;
         $keluarga->update($data);
 
-        redirect($this->controller);
+        redirect_with('success', 'Keluarga berhasil diubah');
     }
 
     public function delete($id = 0): void
@@ -504,7 +504,7 @@ class Keluarga extends Admin_Controller
         }
         $keluarga->delete();
 
-        redirect(ci_route('keluarga'));
+        redirect_with('success', 'Keluarga berhasil dihapus');
     }
 
     public function delete_all(): void
