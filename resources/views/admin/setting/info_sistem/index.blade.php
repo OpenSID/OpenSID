@@ -130,6 +130,7 @@
                 @endif
                 <li><a data-toggle="tab" href="#optimasi">Optimasi</a></li>
                 <li><a data-toggle="tab" href="#folder_desa">Folder Desa</a></li>
+                <li><a data-toggle="tab" onclick="loadFileDesa(this)" data-url="{{ ci_route('info_sistem.file_desa') }}" href="#file_desa">File Unggah Desa</a></li>
             </ul>
             <div class="tab-content">
                 <div id="log_viewer" class="tab-pane fade in active">
@@ -434,6 +435,8 @@
                     </div>
                 </div>
             </div>
+
+            <div id="file_desa" class="tab-pane fade in"></div>
         </div>
         </div>
     </form>
@@ -548,6 +551,18 @@
                     'timer': 2000,
                     'text': 'Tidak ada yang harus diubah permissionnya'
                 })
+            }
+        }
+
+        function loadFileDesa(elm) {
+            const _url = $(elm).data('url')
+            const _target = $(elm).attr('href')
+
+            if ($(_target).html() == '') {
+                $(_target).html('Memuat data dari server .....')
+                $.get(_url, function(data) {
+                    $(_target).html(data)
+                }, 'html')
             }
         }
     </script>

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Checker;
 use App\Models\Area as AreaModel;
 use App\Models\Garis;
 use App\Models\Lokasi;
@@ -278,6 +279,7 @@ class Area extends Admin_Controller
         $nama_file = $_FILES['foto']['name'];
         $nama_file = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($area_file)) {
+            $nama_file    = (new Checker(get_app_key(), $nama_file))->encrypt();
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_AREA);
         } else {
             unset($data['foto']);

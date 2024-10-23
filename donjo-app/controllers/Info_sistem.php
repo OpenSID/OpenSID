@@ -35,7 +35,36 @@
  *
  */
 
+use App\Libraries\Checker;
 use App\Libraries\Sistem;
+use App\Models\Area;
+use App\Models\Artikel;
+use App\Models\BantuanPeserta;
+use App\Models\BukuTamu;
+use App\Models\Config;
+use App\Models\Dokumen;
+use App\Models\DtksLampiran;
+use App\Models\Galery;
+use App\Models\Garis;
+use App\Models\KelompokAnggota;
+use App\Models\LaporanSinkronisasi;
+use App\Models\LogPenduduk;
+use App\Models\Lokasi;
+use App\Models\MediaSosial;
+use App\Models\Pembangunan;
+use App\Models\PembangunanDokumentasi;
+use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
+use App\Models\Pengaduan;
+use App\Models\Point;
+use App\Models\Produk;
+use App\Models\SettingAplikasi;
+use App\Models\Simbol;
+use App\Models\SinergiProgram;
+use App\Models\Widget;
+use Illuminate\Support\Str;
+use Modules\Analisis\Models\AnalisisResponBukti;
+use Modules\Anjungan\Models\AnjunganMenu;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -132,5 +161,114 @@ class Info_sistem extends Admin_Controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
+    }
+
+    public function fileDesa()
+    {
+        view('admin.setting.info_sistem.file_desa', ['files' => $this->listInvalidFile()]);
+    }
+
+    private function listInvalidFile()
+    {
+        $appKey             = get_app_key();
+        $excludeFilePattern = '/\.(php|htaccess|html|css)|app_key|favicon.ico|latar_login.jpg|latar_login_mandiri.jpg$/'; // Pattern: ends with .php, .htaccess, or .html
+        $excludeDirectory   = [LOKASI_FONT_DESA];
+        // Define the directory to scan
+        $directoryList = [DESAPATH . 'logo', DESAPATH . 'upload', DESAPATH . 'pengaturan'];
+        // Initialize an associative array to hold matching files grouped by directory
+        $groupedFiles = [];
+
+        foreach ($directoryList as $directory) {
+            // Create a recursive directory iterator
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
+
+            // Loop through each file in the directory and subdirectories
+            foreach ($iterator as $file) {
+                // Get the directory path
+                $dirPath = $file->getPath();
+                if ($excludeDirectory) {
+                    // Skip if dirPath starts with any of the excluded directories
+                    foreach ($excludeDirectory as $excludedDir) {
+                        if (Str::contains($dirPath . '/', $excludedDir)) {
+                            continue 2; // Skip to the next iteration of the outer loop
+                        }
+                    }
+                }
+                // Check if the current item is a file (not a directory)
+                if ($file->isFile()) {
+                    // Get the filename
+                    $filename = $file->getFilename();
+                    if (preg_match($excludeFilePattern, $filename)) continue;
+
+                    if (! (new Checker($appKey, $filename))->isValid()) {
+                        // Group files by directory
+                        if (! isset($groupedFiles[$dirPath])) {
+                            $groupedFiles[$dirPath] = []; // Initialize an array for this directory
+                        }
+                        $groupedFiles[$dirPath][] = $filename; // Add the matching file to the directory's array
+                    }
+                }
+            }
+        }
+
+        return $groupedFiles;
+    }
+
+    public function perbaikiFileDesa()
+    {
+        if (! is_super_admin()) {
+            redirect_with('error', 'Hanya super admin yang diijinkan untuk memperbaiki file yang tidak valid');
+        }
+        $groupedFiles = $this->listInvalidFile();
+        $mapLokasi    = [
+            LOKASI_LOGO_DESA          => [Config::class => ['logo', 'kantor_desa']],
+            LOKASI_USER_PICT          => [Penduduk::class => ['foto']],
+            LOKASI_FOTO_KELOMPOK      => [KelompokAnggota::class => ['foto']],
+            LOKASI_FOTO_LEMBAGA       => [KelompokAnggota::class => ['foto']],
+            LOKASI_GALERI             => [PembangunanDokumentasi::class => ['gambar'], Galery::class => ['gambar'], Pembangunan::class => ['foto']],
+            LOKASI_FOTO_ARTIKEL       => [Artikel::class => ['gambar', 'gambar1', 'gambar2', 'gambar3']],
+            LOKASI_FOTO_BUKU_TAMU     => [BukuTamu::class => ['foto']],
+            LOKASI_FOTO_LOKASI        => [Lokasi::class => ['foto']],
+            LOKASI_FOTO_AREA          => [Area::class => ['foto']],
+            LOKASI_FOTO_GARIS         => [Garis::class => ['foto']],
+            LOKASI_DOKUMEN            => [BantuanPeserta::class => ['kartu_peserta'], Dokumen::class => ['satuan'], LaporanSinkronisasi::class => ['nama_file'], LogPenduduk::class => ['file_akta_mati']],
+            LOKASI_PENGESAHAN         => [AnalisisResponBukti::class => ['pengesahan']],
+            LOKASI_GAMBAR_WIDGET      => [Widget::class => ['foto']],
+            LOKASI_SIMBOL_LOKASI      => [Point::class => ['simbol'], Simbol::class => ['simbol']],
+            LOKASI_PRODUK             => [Produk::class => ['foto']],
+            LOKASI_PENGADUAN          => [Pengaduan::class => ['foto']],
+            LOKASI_PENDAFTARAN        => [PendudukMandiri::class => ['scan_ktp', 'scan_kk', 'foto_selfie']],
+            LOKASI_ICON_MENU_ANJUNGAN => [AnjunganMenu::class => ['icon']],
+            LOKASI_FOTO_DTKS          => [DtksLampiran::class => ['foto']],
+            LOKASI_ICON_SOSMED        => [MediaSosial::class => ['gambar']],
+            LOKASI_SINERGI_PROGRAM    => [SinergiProgram::class => ['gambar']],
+        ];
+            if ($groupedFiles) {
+                $appKey = get_app_key();
+
+                foreach ($groupedFiles as $key => $files) {
+                    $key    = str_replace('\\', '/', $key);
+                    $folder = $key . '/';
+
+                    foreach ($files as $file) {
+                        if (in_array($folder, [LATAR_LOGIN])) {
+                            $newFile = (new Checker($appKey, $file))->encrypt();
+                            rename($folder . $file, $folder . $newFile);
+                            SettingAplikasi::where('value', $file)->whereIn('key', ['latar_login', 'latar_kehadiran'])->update(['value' => $newFile]);
+                        }
+                        $tableMap = $mapLokasi[$folder] ?? [];
+
+                        foreach ($tableMap as $table => $columns) {
+                            foreach ($columns as $column) {
+                                $newFile = (new Checker($appKey, $file))->encrypt();
+                                rename($folder . $file, $folder . $newFile);
+                                (new $table())->where($column, $file)->update([$column => $newFile]);
+                            }
+                        }
+                    }
+                }
+            }
+        cache()->flush();
+        redirect_with('success', 'File tidak valid telah diperbaiki');
     }
 }

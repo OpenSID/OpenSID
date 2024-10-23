@@ -1791,6 +1791,8 @@ Route::group('/info_sistem', static function (): void {
     Route::get('/cache_desa', 'Info_sistem@cache_desa')->name('info_sistem.cache_desa');
     Route::get('/cache_blade', 'Info_sistem@cache_blade')->name('info_sistem.cache_blade');
     Route::post('/set_permission_desa', 'Info_sistem@set_permission_desa')->name('info_sistem.set_permission_desa');
+    Route::get('file_desa', 'Info_sistem@fileDesa')->name('info_sistem.file_desa');
+    Route::get('perbaiki_file_desa', 'Info_sistem@perbaikiFileDesa')->name('info_sistem.perbaiki_file_desa');
 });
 
 // Pengaturan > QR Code

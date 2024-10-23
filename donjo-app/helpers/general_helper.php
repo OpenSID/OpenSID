@@ -1227,3 +1227,23 @@ if (! function_exists('deleteDir')) {
         return true;
     }
 }
+
+if (! function_exists('create_tree_file')) {
+    function create_tree_file($arr, string $baseDir)
+    {
+        if (! empty($arr)) {
+            $tmp = '<ul class="tree-folder">';
+
+            foreach ($arr as $i => $val) {
+                $iconPermission = '<i class="fa fa-times-circle-o fa-lg pull-right" style="color:red"></i>';
+                $liClass        = 'text-red';
+                $currentPath    = is_array($val) ? $i : $val;
+                $tmp .= '<li class="' . $liClass . '"  data-path="' . preg_replace('/\/+/', '/', $baseDir . DIRECTORY_SEPARATOR . $currentPath) . '">' . $currentPath . ' ' . $iconPermission;
+                $tmp .= create_tree_file($val, $baseDir . $i);
+                $tmp .= '</li>';
+            }
+
+            return $tmp . '</ul>';
+        }
+    }
+}

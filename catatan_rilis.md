@@ -51,3 +51,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### KEAMANAN
 
 1. [#8623](https://github.com/OpenSID/OpenSID/issues/8623) Peningkatan keamanan library tinymce menggunakan versi 7.*.
+2. [#4120](https://github.com/OpenSID/premium/issues/4120) Peningkatan keamanan unggah file pada folder desa.

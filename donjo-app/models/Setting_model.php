@@ -264,7 +264,7 @@ class Setting_model extends MY_Model
         $this->upload->initialize($config);
 
         if ($this->upload->do_upload($key)) {
-            $this->upload->data();
+            $uploadData = $this->upload->data();
 
             if ($latar_old) {
                 unlink($lokasi . $latar_old); // hapus file yang sebelumya
@@ -273,7 +273,7 @@ class Setting_model extends MY_Model
             if ($key . '.jpg' !== '') {
                 unlink($lokasi . $key . '.jpg'); // hapus file yang sebelumya
             }
-
+            $data['value'] = $uploadData['file_name'];
             (SettingAplikasi::where('key', $key)->first())->update($data); // simpan ke database
 
             return $lokasi . $config['file_name']; // simpan ke path

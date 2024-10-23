@@ -145,11 +145,12 @@ class Pelanggan_Controller extends Admin_Controller
 
         try {
             $this->upload->do_upload('permohonan');
+            $uploadData = $this->upload->data();
             $this->client->post(config_item('server_layanan') . '/api/v1/pelanggan/perpanjang', [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
                 'multipart' => [
                     ['name' => 'pemesanan_id', 'contents' => (int) $this->input->post('pemesanan_id')],
-                    ['name' => 'permohonan', 'contents' => Psr7\Utils::tryFopen(LOKASI_DOKUMEN . 'dokumen-permohonan.pdf', 'r')],
+                    ['name' => 'permohonan', 'contents' => Psr7\Utils::tryFopen(LOKASI_DOKUMEN . $uploadData['file_name'], 'r')],
                 ],
             ])
                 ->getBody();
