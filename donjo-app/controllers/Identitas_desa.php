@@ -279,30 +279,35 @@ class Identitas_desa extends Admin_Controller
 
     private function cek_kode_wilayah(array $request = []): array
     {
-        $status = false;
-        $config = new Config();
+        $status    = false;
+        $config    = new Config();
+        $db_level  = config_item('db_level');
+        $firstItem = $config->where('id', '!=', $this->identitas_desa['id'])->first();
 
         switch (true) {
             case $config->count() <= 1:
-            default:
-                $status = true;
+                $message = 'Tentukan Identitas Desa Terlebih Dahulu';
+                $status  = true;
                 break;
-
-            case $request['kode_propinsi'] != $config->first()->kode_propinsi:
-                $message = 'Kode Provinsi Tidak Sesuai, Pastikan Kode Provinsi Sesuai Dengan Lingkup Wilayah Penggunaan.';
-                break;
-
-            case $request['kode_kabupaten'] != $config->first()->kode_kabupaten:
-                $message = 'Kode Kabupaten Tidak Sesuai, Pastikan Kode Kabupaten Sesuai Dengan Lingkup Wilayah Penggunaan.';
-                break;
-
-                // TODO: Saat ini penggunaan validassi hanya sampai tingkat kabupaten
-                // case $request['kode_kecamatan'] != $config->first()->kode_kecamatan:
-                //     $message = 'Kode Kecamatan Tidak Sesuai, Pastikan Kode Kecamatan Sesuai Dengan Lingkup Wilayah Penggunaan.';
-                //     break;
 
             case in_array($request['kode_desa'], $config->where('kode_desa', '!=', $this->identitas_desa['kode_desa'])->pluck('kode_desa')->toArray()):
                 $message = 'Kode Desa Sudah Digunakan';
+                break;
+
+            case $db_level == 4 && $request['kode_kecamatan'] != $firstItem->kode_kecamatan:
+                $message = 'Kode Kecamatan Tidak Sesuai, Pastikan Kode Kecamatan Sesuai Dengan Lingkup Wilayah Penggunaan.';
+                break;
+
+            case $db_level == 3 && $request['kode_kabupaten'] != $firstItem->kode_kabupaten:
+                $message = 'Kode Kabupaten Tidak Sesuai, Pastikan Kode Kabupaten Sesuai Dengan Lingkup Wilayah Penggunaan.';
+                break;
+
+            case $db_level == 2 && $request['kode_propinsi'] != $firstItem->kode_propinsi:
+                $message = 'Kode Provinsi Tidak Sesuai, Pastikan Kode Provinsi Sesuai Dengan Lingkup Wilayah Penggunaan.';
+                break;
+
+            default:
+                $status = true;
                 break;
         }
 

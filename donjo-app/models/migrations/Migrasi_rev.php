@@ -41,24 +41,6 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        $hasil = true;
-
-        // Migrasi berdasarkan config_id
-        // $config_id = DB::table('config')->pluck('id')->toArray();
-
-        // foreach ($config_id as $id) {
-        // }
-
-        $hasil = $this->migrasi_202410651($hasil);
-
         return true;
-    }
-
-    protected function migrasi_202410651($hasil)
-    {
-        return $hasil && $this->ubah_modul(
-            ['slug' => 'statistik-kependudukan', 'url' => 'statistik/clear'],
-            ['url' => 'statistik']
-        );
     }
 }

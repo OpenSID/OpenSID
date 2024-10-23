@@ -1,4 +1,4 @@
-Di rilis ini, versi 2410.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2410.0.3 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -35,6 +35,14 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 20. [#8599](https://github.com/OpenSID/OpenSID/issues/8599) Perbaikan lampiran model N6 tidak muncul.
 21. [#8601](https://github.com/OpenSID/OpenSID/issues/8601) Perbaikan tambah informasi publik tipe URL tidak bisa di Simpan.
 22. [#8610](https://github.com/OpenSID/OpenSID/issues/8610) Perbaikan hapus wilayah dan tambahkan periksa data untuk keluarga tanpa kelapa keluarga.
+23. [#8141](https://github.com/OpenSID/OpenSID/issues/8141) Perbaikan menampilkan status IDM dan SDGS.
+24. [#8615](https://github.com/OpenSID/OpenSID/issues/8615) Perbaikan urutan produk lapak tidak terurut yang terbaru.
+25. [#8620](https://github.com/OpenSID/OpenSID/issues/8620) Perbaikan hapus dokumen persyaratan surat secara masal.
+26. [#8619](https://github.com/OpenSID/OpenSID/issues/8619) Perbaikan hapus produk tanpa gambar pada lapak.
+27. [#8621](https://github.com/OpenSID/OpenSID/issues/8621) Perbaikan tampilan dan penulisan pada lampiran F-1.06.
+28. [#8616](https://github.com/OpenSID/OpenSID/issues/8616) Perbaikan penulisan pada lampiran F-1.25.
+29. [#8628](https://github.com/OpenSID/OpenSID/issues/8628) Perbaikan notifikasi ubah dan hapus keluarga.
+30. [#8589](https://github.com/OpenSID/OpenSID/issues/8589) Perbaikan validasi berdasarkan tingkatan penggunaan database.
 
 
 ### TEKNIS
@@ -46,3 +54,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8574](https://github.com/OpenSID/OpenSID/issues/8574) Penyesuaian url first/dpt menjadi data-dpt pada halaman web.
 6. [#8535](https://github.com/OpenSID/OpenSID/issues/8535) Penyesuaian modul analisis menggunakan view blade dan ORM laravel.
 7. [#8592](https://github.com/OpenSID/OpenSID/issues/8592) Penyesuaian modul statistik kependudukan menggunakan view blade dan ORM laravel.
+8. [#8613](https://github.com/OpenSID/OpenSID/issues/8613) Penyesuaian notifikasi saat hapus dusun dari hapus penduduk ke pindah wilayah kolektif
