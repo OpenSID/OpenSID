@@ -46,3 +46,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8535](https://github.com/OpenSID/OpenSID/issues/8535) Penyesuaian modul analisis menggunakan view blade dan ORM laravel.
 7. [#8592](https://github.com/OpenSID/OpenSID/issues/8592) Penyesuaian modul statistik kependudukan menggunakan view blade dan ORM laravel.
 8. [#8613](https://github.com/OpenSID/OpenSID/issues/8613) Penyesuaian notifikasi saat hapus dusun dari hapus penduduk ke pindah wilayah kolektif
+
+
+### KEAMANAN
+
+1. [#8623](https://github.com/OpenSID/OpenSID/issues/8623) Peningkatan keamanan library tinymce menggunakan versi 7.*.

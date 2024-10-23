@@ -53,6 +53,7 @@ example/
 examples/
 /tools/
 
+vendor/tinymce/*
 vendor/libreoffice/*
 vendor/mikey179/*
 .vscode/*
