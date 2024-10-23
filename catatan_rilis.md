@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 27. [#8621](https://github.com/OpenSID/OpenSID/issues/8621) Perbaikan tampilan dan penulisan pada lampiran F-1.06.
 28. [#8616](https://github.com/OpenSID/OpenSID/issues/8616) Perbaikan penulisan pada lampiran F-1.25.
 29. [#8628](https://github.com/OpenSID/OpenSID/issues/8628) Perbaikan notifikasi ubah dan hapus keluarga.
+30. [#8589](https://github.com/OpenSID/OpenSID/issues/8589) Perbaikan validasi berdasarkan tingkatan penggunaan database.
 
 
 ### TEKNIS
