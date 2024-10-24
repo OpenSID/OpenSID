@@ -35,36 +35,73 @@
  *
  */
 
-use App\Libraries\Checker;
-use App\Libraries\Sistem;
 use App\Models\Area;
-use App\Models\Artikel;
-use App\Models\BantuanPeserta;
-use App\Models\BukuTamu;
-use App\Models\Config;
-use App\Models\Dokumen;
-use App\Models\DtksLampiran;
-use App\Models\Galery;
 use App\Models\Garis;
-use App\Models\KelompokAnggota;
-use App\Models\LaporanSinkronisasi;
-use App\Models\LogPenduduk;
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+use App\Models\Point;
+use App\Models\Config;
+use App\Models\Galery;
 use App\Models\Lokasi;
+use App\Models\Produk;
+use App\Models\Simbol;
+use App\Models\Widget;
+use App\Models\Artikel;
+use App\Models\Dokumen;
+use App\Models\BukuTamu;
+use App\Models\LogLogin;
+use App\Models\Penduduk;
+use App\Libraries\Sistem;
+use App\Models\Pengaduan;
+use App\Libraries\Checker;
+use App\Models\LogPenduduk;
 use App\Models\MediaSosial;
 use App\Models\Pembangunan;
-use App\Models\PembangunanDokumentasi;
-use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
-use App\Models\Pengaduan;
-use App\Models\Point;
-use App\Models\Produk;
-use App\Models\SettingAplikasi;
-use App\Models\Simbol;
-use App\Models\SinergiProgram;
-use App\Models\Widget;
 use Illuminate\Support\Str;
-use Modules\Analisis\Models\AnalisisResponBukti;
+use App\Models\DtksLampiran;
+use App\Models\BantuanPeserta;
+use App\Models\SinergiProgram;
+use App\Models\KelompokAnggota;
+use App\Models\PendudukMandiri;
+use App\Models\SettingAplikasi;
+use App\Models\LaporanSinkronisasi;
+use App\Models\PembangunanDokumentasi;
 use Modules\Anjungan\Models\AnjunganMenu;
+use Modules\Analisis\Models\AnalisisResponBukti;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -93,7 +130,6 @@ class Info_sistem extends Admin_Controller
         $data['disable_functions'] = Sistem::disableFunctions();
         $data['check_permission']  = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 0 : 1;
         $data['controller']        = $this->controller;
-        // $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
         $data['disk'] = false;
 
@@ -161,6 +197,33 @@ class Info_sistem extends Admin_Controller
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($result, JSON_THROW_ON_ERROR));
+    }
+
+    public function datatables()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables()->of(LogLogin::query())
+                ->addIndexColumn()
+                ->editColumn('lainnya', static function ($q) {
+                    log_message('error', json_encode($q->lainnya));
+                    if (! $q->lainnya) return '<span class="badge">kosong</span>';
+                    $info = [];
+
+                    foreach ($q->lainnya as $key => $value) {
+                        if ($value) {
+                            $info[] = '<div><span class="badge bg-green">' . $key . ' : ' . $value . '</span></div>';
+                        }
+
+                    }
+
+                    return implode('', $info);
+                })
+                ->editColumn('created_at', static fn ($row) => tgl_indo2($row->created_at))
+                ->rawColumns(['lainnya'])
+                ->make();
+        }
+
+        return show_404();
     }
 
     public function fileDesa()

@@ -25,17 +25,18 @@
                         <div class="box-header with-border">
                             <b>Latar Website</b>
                         </div>
-                        <div class="box-body box-profile text-center">
-                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_website[0]}&pengaturan={$latar_website[1]}") ?>" class="progressive replace">
-                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Wesbite" width="100%" />
+                        <div class="box-body box-profile text-center preview-img">
+                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_website[0]}&pengaturan={$latar_website[1]}") ?>"
+                                class="progressive replace">
+                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Website" width="100%" />
                             </a>
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar website tidak berubah)</p>
-                            <div class="input-group">
-                                <input type="text" class="form-control input-sm" id="file_path" name="latar_website">
-                                <input type="file" class="hidden" id="file" name="latar_website" accept=".jpg,.jpeg,.png" />
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control file-path" id="file_path" name="latar_website" readonly>
+                                <input type="file" class="hidden file-input" id="file" name="latar_website" accept=".jpg,.jpeg,.png" />
                                 <input type="text" class="hidden" name="lokasi" value="{{ $lokasi }}" />
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
+                                    <button type="button" class="btn btn-info btn-flat btn-sm file-browser" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
                                 </span>
                             </div>
                         </div>
@@ -44,16 +45,17 @@
                         <div class="box-header with-border">
                             <b>Latar Login Admin</b>
                         </div>
-                        <div class="box-body box-profile text-center">
-                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_siteman[0]}&pengaturan={$latar_siteman[1]}") ?>" class="progressive replace">
+                        <div class="box-body box-profile text-center preview-img">
+                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_siteman[0]}&pengaturan={$latar_siteman[1]}") ?>"
+                                class="progressive replace">
                                 <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Login" width="100%" />
                             </a>
                             <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
-                            <div class="input-group">
-                                <input type="text" class="form-control input-sm" id="file_path1" name="latar_login" />
-                                <input type="file" class="hidden" id="file1" name="latar_login" accept=".jpg,.jpeg,.png" />
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control file-path" id="file_path1" name="latar_login" readonly />
+                                <input type="file" class="hidden file-input" id="file1" name="latar_login" accept=".jpg,.jpeg,.png" />
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser1"><i class="fa fa-search"></i>&nbsp;</button>
+                                    <button type="button" class="btn btn-info btn-flat btn-sm file-browser" id="file_browser1"><i class="fa fa-search"></i>&nbsp;</button>
                                 </span>
                             </div>
                         </div>
@@ -64,16 +66,17 @@
                         <div class="box-header with-border">
                             <b>Latar Login Mandiri</b>
                         </div>
-                        <div class="box-body box-profile text-center">
-                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}") ?>" class="progressive replace">
-                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Wesbite" width="100%" />
+                        <div class="box-body box-profile text-center preview-img">
+                            <a href="<?= site_url("setting/ambil_foto?foto={$latar_mandiri[0]}&pengaturan={$latar_mandiri[1]}") ?>"
+                                class="progressive replace">
+                                <img class="preview" loading="lazy" src="<?= base_url('assets/images/img-loader.gif') ?>" alt="Latar Website" width="100%" />
                             </a>
-                            <p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
-                            <div class="input-group">
-                                <input type="text" class="form-control input-sm" id="file_path2" name="latar_login_mandiri" />
-                                <input type="file" class="hidden" id="file2" name="latar_login_mandiri" accept=".jpg,.jpeg,.png" />
+                            <p class="text-muted text-center text-red">(Kosongkan, jika latar mandiri tidak berubah)</p>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control file-path" id="file_path2" name="latar_login_mandiri" readonly />
+                                <input type="file" class="hidden file-input" id="file2" name="latar_login_mandiri" accept=".jpg,.jpeg,.png" />
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser2"><i class="fa fa-search"></i>&nbsp;</button>
+                                    <button type="button" class="btn btn-info btn-flat btn-sm file-browser" id="file_browser2"><i class="fa fa-search"></i>&nbsp;</button>
                                 </span>
                             </div>
                         </div>
@@ -245,7 +248,18 @@
                 _passwordElm.attr('type', 'password');
             }
             $(this).find('i').toggleClass('fa-eye fa-eye-slash')
-
         })
+
+        $('#file').change(function() {
+            previewImage(this, '.preview-img');
+        });
+
+        $('#file1').change(function() {
+            previewImage(this, '.preview-img-1');
+        });
+
+        $('#file2').change(function() {
+            previewImage(this, '.preview-img-2');
+        });
     </script>
 @endpush

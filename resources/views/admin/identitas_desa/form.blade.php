@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="box box-primary">
-                <div class="box-body box-profile">
+                <div class="box-body box-profile preview-img">
                     <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main['path_logo']) }}" alt="Logo">
                     <br />
                     <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
@@ -42,28 +42,28 @@
                         </div>
                     </div>
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="file_path">
-                        <input type="file" class="hidden" id="file" name="logo" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="text" class="form-control file-path" readonly>
+                        <input type="file" class="hidden file-input" name="logo" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
+
             <div class="box box-primary">
-                <div class="box-body box-profile">
+                <div class="box-body box-profile preview-img">
                     <img class="img-responsive" src="{{ gambar_desa($main['path_kantor_desa'], true) }}" alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
                     <br />
                     <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
-                    <p class="text-muted text-center text-red">(Kosongkan, jika kantor
-                        {{ ucwords($setting->sebutan_desa) }} tidak berubah)
-                    </p>
+                    <p class="text-muted text-center text-red">(Kosongkan, jika kantor {{ ucwords($setting->sebutan_desa) }} tidak
+                        berubah)</p>
                     <br />
                     <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" id="file_path2">
-                        <input type="file" class="hidden" id="file2" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png">
+                        <input type="text" class="form-control file-path" readonly>
+                        <input type="file" class="hidden file-input" name="kantor_desa" accept=".gif,.jpg,.jpeg,.png">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </div>
@@ -504,7 +504,6 @@
                         })
                     });
             });
-
         });
 
         function tampil_kode_desa() {

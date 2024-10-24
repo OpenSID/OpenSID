@@ -319,6 +319,10 @@ class SuratDinas extends BaseModel
      */
     public function scopeKunci(mixed $query, mixed $value = self::KUNCI)
     {
+        if ($value == '') {
+            return $query;
+        }
+
         return $query->where('kunci', $value);
     }
 

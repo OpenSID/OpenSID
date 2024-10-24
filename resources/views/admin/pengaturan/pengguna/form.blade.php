@@ -19,17 +19,17 @@
         <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="col-md-3">
                 <div class="box box-primary">
-                    <div class="box-body box-profile">
-                        <img class="penduduk" src="{{ AmbilFoto($user['foto']) }}" alt="Foto Pengguna">
+                    <div class="box-body box-profile preview-img">
+                        <img class="penduduk img-responsive" src="{{ AmbilFoto($user['foto']) }}" alt="Foto Pengguna">
                         <br />
                         <p class="text-center text-bold">Foto Pengguna</p>
                         <p class="text-muted text-center text-red">(Kosongkan, jika foto tidak berubah)</p>
                         <br />
                         <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="file_path" name="foto">
-                            <input type="file" class="hidden" id="file" name="foto" accept=".gif,.jpg,.jpeg,.png">
+                            <input type="text" class="form-control file-path" readonly name="foto">
+                            <input type="file" class="hidden file-input" name="foto" accept=".gif,.jpg,.jpeg,.png">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+                                <button type="button" class="btn btn-info btn-flat file-browser"><i class="fa fa-search"></i></button>
                             </span>
                         </div>
                     </div>

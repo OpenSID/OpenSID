@@ -76,7 +76,10 @@ class Surat_dinas extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables((new SuratDinas())->jenis($this->input->get('jenis')))
+            $kunci = $this->input->get('status');
+            $jenis = $this->input->get('jenis');
+
+            return datatables((new SuratDinas())->jenis($jenis)->kunci($kunci))
                 ->addIndexColumn()
                 ->addColumn('ceklist', static fn ($row): string => '<input type="checkbox" name="id_cb[]" value="' . $row->id . '" />')
                 ->addColumn('aksi', static function ($row): string {

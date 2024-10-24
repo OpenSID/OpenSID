@@ -35,6 +35,10 @@
  *
  */
 
+use App\Enums\Statistik\StatistikJenisBantuanEnum;
+use App\Enums\Statistik\StatistikKeluargaEnum;
+use App\Enums\Statistik\StatistikPendudukEnum;
+use App\Enums\TipeLinkEnum;
 use App\Models\Artikel;
 use App\Models\Bantuan;
 use App\Models\Kategori;
@@ -116,12 +120,12 @@ class Menu extends Admin_Controller
     {
         isCan('u');
         $menu                               = new MenuModel();
-        $data['link_tipe']                  = unserialize(LINK_TIPE);
+        $data['link_tipe']                  = TipeLinkEnum::all();
         $data['artikel_statis']             = Artikel::select(['id', 'judul'])->statis()->get()->toArray();
         $data['kategori_artikel']           = Kategori::select(['slug', 'kategori'])->orderBy('urut')->get()->toArray();
-        $data['statistik_penduduk']         = unserialize(STAT_PENDUDUK);
-        $data['statistik_keluarga']         = unserialize(STAT_KELUARGA);
-        $data['statistik_kategori_bantuan'] = unserialize(STAT_BANTUAN);
+        $data['statistik_penduduk']         = StatistikPendudukEnum::allKeyLabel();
+        $data['statistik_keluarga']         = StatistikKeluargaEnum::allKeyLabel();
+        $data['statistik_kategori_bantuan'] = StatistikJenisBantuanEnum::allKeyLabel();
         $data['statistik_program_bantuan']  = Bantuan::select(['id', 'nama', 'slug'])->get()->toArray();
         $data['kelompok']                   = Kelompok::tipe('kelompok')->get()->toArray();
         $data['lembaga']                    = Kelompok::tipe('lembaga')->get()->toArray();

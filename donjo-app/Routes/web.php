@@ -184,8 +184,10 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     Route::get('/status-sdgs', 'Sdgs@index')->name('fweb.sdgs.index');
     Route::get('/peta', 'Peta@index')->name('fweb.peta.index');
+    Route::get('/data-statistik/{slug}/cetak/{aksi}', 'Statistik@cetak')->name('fweb.statistik.cetak');
     Route::get('/data-statistik/{slug?}', 'Statistik@index')->name('fweb.statistik.index');
     Route::get('/data-suplemen/{slug?}', 'Suplemen@detail')->name('fweb.suplemen.detail');
+    Route::get('/data-kesehatan/cetak/{aksi?}', 'Kesehatan@cetak')->name('fweb.kesehatan.cetak');
     Route::get('/data-kesehatan/{slug?}', 'Kesehatan@detail')->name('fweb.kesehatan.detail');
     Route::get('/data-vaksinasi', 'Vaksin@index')->name('fweb.vaksin.index');
     Route::get('/data-dpt', 'Dpt@index')->name('fweb.dpt');
@@ -193,6 +195,9 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('/c1/{id_dokumen?}/{tipe?}', 'Verifikasi_surat@encode')->name('fweb.verifikasi_surat.encode');
     Route::get('/verifikasi-surat/{id_encoded?}', 'Verifikasi_surat@decode')->name('fweb.verifikasi_surat.decode');
     Route::get('/verifikasi-surat-dinas/{id_encoded?}', 'Verifikasi_surat@decodeSuratDinas')->name('fweb.verifikasi_surat.decode-surat-dinas');
+
+    // Embed
+    Route::get('/embed', 'Embed@index');
 });
 
 Route::group('kehadiran', ['namespace' => 'kehadiran'], static function (): void {

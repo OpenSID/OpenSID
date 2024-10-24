@@ -57,6 +57,14 @@
         {!! form_open(null, 'id="mainform" name="mainform"') !!}
         <div class="box-body">
             <div class="row mepet">
+                <div class="col-sm-2">
+                    <select class="form-control input-sm select2" id="status" name="status">
+                        <option value="">Pilih Status</option>
+                        <option value="0" selected>Aktif</option>
+                        <option value="1">Tidak Aktif</option>
+                        {{-- Aktif = Kunci 0, Tidak Aktif = Kunci 1 --}}
+                    </select>
+                </div>
                 <div class="col-sm-3">
                     <select class="form-control input-sm select2" id="jenis" name="jenis">
                         <option value="">Pilih Surat</option>
@@ -99,6 +107,7 @@
                 ajax: {
                     url: "{{ ci_route('surat_master.datatables') }}",
                     data: function(d) {
+                        d.status = $('#status').val();
                         d.jenis = $('#jenis').val();
                     }
                 },
@@ -160,6 +169,10 @@
                 TableData.column(2).visible(false);
                 TableData.column(7).visible(false);
             }
+
+            $('#status').on('select2:select', function(e) {
+                TableData.draw();
+            });
 
             $('#jenis').on('select2:select', function(e) {
                 TableData.draw();
