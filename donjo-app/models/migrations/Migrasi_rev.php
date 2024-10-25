@@ -1,5 +1,6 @@
 <?php
 
+
 /*
  *
  * File ini bagian dari:
@@ -35,12 +36,23 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return true;
+        return $this->migrasi_202412551(true);
+    }
+
+    public function migrasi_202412551($hasil)
+    {
+        DB::table('tweb_penduduk_umur')
+            ->where('sampai', 99999)
+            ->update(['sampai' => 150]);
+
+        return $hasil;
     }
 }
