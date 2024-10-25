@@ -122,7 +122,6 @@ class KodeIsianPendudukLuar
             // jenis kelamin inisial
             if ($item === 'jenis_kelamin_inisial') {
                 $value = Str::substr($input['jenis_kelamin'], 0, 1);
-                log_message('error', $input['jenis_kelamin'] . 'inisial jenis kelamin: ' . $value);
             }
 
             if (! empty($input['tanggallahir'])) {

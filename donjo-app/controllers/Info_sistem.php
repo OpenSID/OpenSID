@@ -205,7 +205,6 @@ class Info_sistem extends Admin_Controller
             return datatables()->of(LogLogin::query())
                 ->addIndexColumn()
                 ->editColumn('lainnya', static function ($q) {
-                    log_message('error', json_encode($q->lainnya));
                     if (! $q->lainnya) return '<span class="badge">kosong</span>';
                     $info = [];
 
