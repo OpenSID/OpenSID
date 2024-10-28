@@ -228,7 +228,7 @@ class LaporanPenduduk
                         }
                     }
                 });
-            })
+            })->where('k.config_id', identitas('id'))
             ->get()
             ->toArray();
     }
@@ -256,7 +256,7 @@ class LaporanPenduduk
                         }
                     }
                 });
-            })
+            })->where('r.config_id', identitas('id'))
             ->get()
             ->toArray();
     }
@@ -286,6 +286,7 @@ class LaporanPenduduk
             ->when($idCluster, static function ($sq) use ($idCluster) {
                 $sq->whereIn('a.id', $idCluster);
             })
+            ->where('b.config_id', identitas('id'))
             ->where('b.status_dasar', $status_dasar);
 
         return $query;
@@ -333,6 +334,7 @@ class LaporanPenduduk
 
         return $query
             ->where('b.status_dasar', $status_dasar)
+            ->where('b.config_id', identitas('id'))
             ->whereRaw($where)
             ->toRawSql();
     }
@@ -417,6 +419,7 @@ class LaporanPenduduk
                     ->selectRaw(DB::raw('(' . $jml['str_jml_laki'] . ') as laki'))
                     ->selectRaw(DB::raw('(' . $jml['str_jml_perempuan'] . ') as perempuan'))
                     ->where('u.status', '1')
+                    ->where('u.config_id', identitas('id'))
                     // kondisi param datatable
                     ->when($this->paramCetak, static function ($query, $param) {
                         $query->take($param['length'])->skip($param['start']);
@@ -434,6 +437,7 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(CASE WHEN u.sex = 2 THEN 1 END) as perempuan')
                     ->whereNotNull('u.pendidikan_sedang_id')
                     ->where('u.pendidikan_sedang_id', '!=', '')
+                    ->where('u.config_id', identitas('id'))
                     ->groupBy('u.pendidikan_sedang_id')
                     ->get();
 
@@ -451,6 +455,7 @@ class LaporanPenduduk
                     ->selectRaw(DB::raw('(' . $jml['str_jml_laki'] . ') as laki'))
                     ->selectRaw(DB::raw('(' . $jml['str_jml_perempuan'] . ') as perempuan'))
                     ->where('u.status', '1')
+                    ->where('u.config_id', identitas('id'))
                 // kondisi param datatable
                     ->when($this->paramCetak, static function ($query, $param) {
                         $query->take($param['length'])->skip($param['start']);
@@ -484,6 +489,7 @@ class LaporanPenduduk
                     ->selectRaw('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
                     ->join('tweb_penduduk as p', 'p.id', '=', 'u.nik_kepala')
                     ->whereNotNull('u.bdt')
+                    ->where('u.config_id', identitas('id'))
                     ->groupBy('u.id')
                     ->get();
                 break;
@@ -556,6 +562,7 @@ class LaporanPenduduk
                     ->leftJoin('tweb_wil_clusterdesa as a', 'u.id_cluster', '=', 'a.id')
                     ->whereNotNull('u.suku')
                     ->where('u.suku', '!=', '')
+                    ->where('u.config_id', identitas('id'))
                     ->groupBy('u.suku')
                     ->when($idCluster, static function ($sq) use ($idCluster) {
                         $sq->whereIn('a.id', $idCluster);
@@ -594,6 +601,7 @@ class LaporanPenduduk
                     ->selectRaw(DB::raw('(' . $jml['str_jml_laki'] . ') as laki'))
                     ->selectRaw(DB::raw('(' . $jml['str_jml_perempuan'] . ') as perempuan'))
                     ->where('u.status', '0')
+                    ->where('u.config_id', identitas('id'))
                     // kondisi param datatable
                     ->when($this->paramCetak, static function ($query, $param) {
                         $query->take($param['length'])->skip($param['start']);
@@ -614,6 +622,7 @@ class LaporanPenduduk
                     ->selectRaw(DB::raw('(' . $jml['str_jml_laki'] . ') as laki'))
                     ->selectRaw(DB::raw('(' . $jml['str_jml_perempuan'] . ') as perempuan'))
                     ->where('u.status', '1')
+                    ->where('u.config_id', identitas('id'))
                 // kondisi param datatable
                     ->when($this->paramCetak, static function ($query, $param) {
                         $query->take($param['length'])->skip($param['start']);
