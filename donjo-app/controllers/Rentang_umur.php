@@ -159,7 +159,7 @@ class Rentang_umur extends Admin_Controller
         $rentang = RentangUmur::status()
             ->when($id, static fn ($query) => $query->where('id', '!=', $id))
             ->pluck('sampai', 'dari')
-            ->flatMap(static fn ($end, $start) => range($start, $end === 99999 ? RentangUmur::status()->max('sampai') : $end))
+            ->flatMap(static fn ($end, $start) => range($start, $end === 150 ? RentangUmur::status()->max('sampai') : $end))
             ->unique()
             ->values()
             ->toArray();
@@ -170,7 +170,7 @@ class Rentang_umur extends Admin_Controller
 
         $data['status'] = 1;
 
-        if ($data['sampai'] != '99999') {
+        if ($data['sampai'] != '150') {
             $data['nama'] = $data['dari'] . ' s/d ' . $data['sampai'] . ' Tahun';
         } else {
             $data['nama'] = 'Di atas ' . $data['dari'] . ' Tahun';
