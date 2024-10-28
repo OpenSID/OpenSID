@@ -1,4 +1,3 @@
-<div class="row">
     <div class="box box-info">
         <div class="box-body">
             <div class="table-responsive">
@@ -17,8 +16,6 @@
             </div>
         </div>
     </div>
-</div>
-
 @push('scripts')
     <script>
         function loadDatatable() {
@@ -56,7 +53,7 @@
                         },
                     ],
                     order: [
-                        [4, 'asc']
+                        [5, 'desc']
                     ]
                 });
             }
