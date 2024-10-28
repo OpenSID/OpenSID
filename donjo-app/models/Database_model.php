@@ -140,6 +140,9 @@ class Database_model extends MY_Model
             }
         }
 
+        // Migrasi Surat Bawaan
+        $this->jalankan_migrasi('migrasi_surat_bawaan');
+
         // Migrasi beta
         $this->jalankan_migrasi('migrasi_beta');
 
