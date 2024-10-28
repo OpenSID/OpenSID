@@ -81,6 +81,7 @@
     },
     "autoload-dev": {
         "files": [
+            "donjo-app/helpers/core_helper.php",
             "donjo-app/helpers/donjolib_helper.php",
             "donjo-app/helpers/general_helper.php",
             "donjo-app/helpers/opensid_helper.php"
