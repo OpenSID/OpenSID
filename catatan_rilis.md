@@ -45,7 +45,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 30. [#8589](https://github.com/OpenSID/OpenSID/issues/8589) Perbaikan validasi berdasarkan tingkatan penggunaan database.
 31. [#8634](https://github.com/OpenSID/OpenSID/issues/8634) Perbaikan menampilkan IDM, SDGS dan Vaksin.
 32. [#8637](https://github.com/OpenSID/OpenSID/issues/8637) Perbaikan rentang umur maksimal menjadi 150.
-
+33. [#8640](https://github.com/OpenSID/OpenSID/issues/8640) Perbaikan perbarui pengaturan berupa unggahan gambar.
 
 ### TEKNIS
 
