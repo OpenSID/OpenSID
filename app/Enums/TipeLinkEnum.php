@@ -56,7 +56,6 @@ class TipeLinkEnum extends BaseEnum
     public const EMBED                     = 88;
     public const EKSTERNAL                 = 99;
 
-
     /**
      * Override method all()
      */

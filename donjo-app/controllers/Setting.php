@@ -68,18 +68,17 @@ class Setting extends Admin_Controller
         $pengaturan = $this->input->get('pengaturan');
 
         $paths = [
-            'latar_website' => [$this->theme_model->lokasi_latar_website(), LOKASI_ASSET_FRONT_IMAGES],
-            'latar_login' => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
-            'latar_login_mandiri' => [LATAR_LOGIN, LOKASI_ASSET_IMAGES]
+            'latar_website'       => [$this->theme_model->lokasi_latar_website(), LOKASI_ASSET_FRONT_IMAGES],
+            'latar_login'         => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
+            'latar_login_mandiri' => [LATAR_LOGIN, LOKASI_ASSET_IMAGES],
         ];
 
         if (isset($paths[$pengaturan])) {
             [$new_setting, $default] = $paths[$pengaturan];
-            if (!file_exists(FCPATH . $new_setting . $foto)) {
+            if (! file_exists(FCPATH . $new_setting . $foto)) {
                 $foto = $pengaturan . '.jpg';
             }
         }
-
 
         ambilBerkas($foto, $this->controller, null, $foto == $pengaturan . '.jpg' ? $default : $new_setting, $tampil = true);
     }

@@ -60,7 +60,7 @@ class Embed extends Web_Controller
         $this->set_template('layouts/embed.tpl.php');
         theme_view($this->template, [
             'desa' => identitas(),
-            'menu' => $this->menu
+            'menu' => $this->menu,
         ]);
     }
 }

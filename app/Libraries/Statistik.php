@@ -53,18 +53,18 @@ class Statistik
     public static function bantuan($lap, $filter = [])
     {
         $program = false;
-        $sasaran                 = SasaranEnum::PENDUDUK;
-        
-        if (in_array($lap, array_keys(StatistikJenisBantuanEnum::allKeyLabel()))){
+        $sasaran = SasaranEnum::PENDUDUK;
+
+        if (in_array($lap, array_keys(StatistikJenisBantuanEnum::allKeyLabel()))) {
             if ($lap == StatistikJenisBantuanEnum::KELUARGA['key']) {
                 $sasaran = SasaranEnum::KELUARGA;
-            }    
-        }else{
-            $lap = preg_replace('/^50/', '', $lap);
+            }
+        } else {
+            $lap     = preg_replace('/^50/', '', $lap);
             $sasaran = Bantuan::find($lap)?->sasaran;
             $program = true;
-        }        
-        
+        }
+
         $bantuan = (new Bantuan())->whereSasaran($sasaran);
         $label   = 'PENERIMA';
 
@@ -75,10 +75,10 @@ class Statistik
         if ($filter['status']) {
             $bantuan->whereStatus($filter['status']);
         }
-        
+
         if ($program) {
-            $bantuan->where('id', $lap);            
-            $label   = 'PESERTA';
+            $bantuan->where('id', $lap);
+            $label = 'PESERTA';
         }
         $data = $bantuan->withCount(['peserta as peserta_lakilaki_count' => static function ($query) use ($sasaran, $cluster) {
             $query->when($sasaran == SasaranEnum::PENDUDUK, static fn ($query) => $query->whereHas('penduduk', static fn ($q) => $q->where(['sex' => JenisKelaminEnum::LAKI_LAKI])->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster))))->when($sasaran == SasaranEnum::KELUARGA, static fn ($query) => $query->whereHas('keluarga', static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($t) => $t->where(['sex' => JenisKelaminEnum::LAKI_LAKI])->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))))->when($sasaran == SasaranEnum::RUMAH_TANGGA, static fn ($query) => $query->whereHas('rtm', static fn ($q) => $q->whereHas('kepalaKeluarga', static fn ($t) => $t->where(['sex' => JenisKelaminEnum::LAKI_LAKI])->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))))->when($sasaran == SasaranEnum::KELOMPOK, static fn ($query) => $query->whereHas('kelompok', static fn ($q) => $q->whereHas('ketua', static fn ($t) => $t->where(['sex' => JenisKelaminEnum::LAKI_LAKI])->when($cluster, static fn ($r) => $r->whereIn('id_cluster', $cluster)))));
@@ -136,7 +136,7 @@ class Statistik
 
             $result = $result ? collect(array_merge($result->toArray(), $resume)) : collect($resume);
         }
-        
+
         return $result;
     }
 

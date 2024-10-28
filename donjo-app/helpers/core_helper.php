@@ -39,7 +39,7 @@ use App\Services\Pelanggan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-define('VERSION', '2410.0.2');
+define('VERSION', '2410.2.0');
 
 /**
  * PREMIUM
