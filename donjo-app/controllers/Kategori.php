@@ -101,7 +101,9 @@ class Kategori extends Admin_Controller
                     }
 
                     return $aksi;
-                })->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
+                })
+                ->editColumn('kategori', static fn ($row) => html_entity_decode($row->kategori))
+                ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
                 ->make();
         }
 

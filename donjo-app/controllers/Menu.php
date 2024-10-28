@@ -109,6 +109,7 @@ class Menu extends Admin_Controller
 
                     return $aksi;
                 })->editColumn('link', static fn ($row) => '<a href="' . $row->linkUrl . '" target="_blank">' . $row->linkUrl . '</a>' )
+                ->editColumn('nama', static fn ($row) => html_entity_decode($row->nama))
                 ->rawColumns(['drag-handle', 'aksi', 'ceklist', 'link'])
                 ->make();
         }
