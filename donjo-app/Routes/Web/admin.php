@@ -1659,19 +1659,29 @@ Route::group('polygon', static function (): void {
 });
 
 // Hubung Warga > Kirim Pesan
-Route::group('sms', static function (): void {
-    Route::get('/clear', 'Sms@clear')->name('sms.clear');
-    Route::match(['GET', 'POST'], '/', 'Sms@index')->name('sms.index');
-    Route::match(['GET', 'POST'], '/outbox', 'Sms@outbox')->name('sms.outbox');
-    Route::match(['GET', 'POST'], '/sentitem', 'Sms@sentitem')->name('sms.sentitem');
-    Route::match(['GET', 'POST'], '/pending', 'Sms@pending')->name('sms.pending');
-    Route::get('/form/{tipe?}/{id?}', 'Sms@form')->name('sms.form');
-    Route::get('/broadcast/{p?}/{s?}/{t?}', 'Sms@broadcast')->name('sms.broadcast');
-    Route::post('/broadcast_proses', 'Sms@broadcast_proses')->name('sms.broadcast_proses');
-    Route::post('/insert/{tipe}/{id?}', 'Sms@insert')->name('sms.insert');
-    Route::post('/update/{id?}', 'Sms@update')->name('sms.update');
-    Route::get('/delete/{tipe?}/{id?}', 'Sms@delete')->name('sms.delete');
-    Route::post('/deleteAll/{tipe?}', 'Sms@deleteAll')->name('sms.deleteAll');
+Route::group('sms', static function (): void {    
+    Route::get('', 'Sms@index')->name('sms.index');
+    Route::get('datatables', 'Sms@datatables')->name('sms.datatables');    
+    Route::get('form/{tipe?}/{id?}', 'Sms@form')->name('sms.form');
+    Route::get('broadcast/{p?}/{s?}/{t?}', 'Sms@broadcast')->name('sms.broadcast');
+    Route::post('broadcast_proses', 'Sms@broadcast_proses')->name('sms.broadcast_proses');
+    Route::post('insert/{tipe}/{id?}', 'Sms@insert')->name('sms.insert');
+    Route::post('update/{id?}', 'Sms@update')->name('sms.update');
+    Route::match(['GET', 'POST'],'delete/{tipe?}/{id?}', 'Sms@delete')->name('sms.delete');
+
+    Route::group('outbox', static function() : void{
+        Route::get('', 'Sms_outbox@index')->name('sms.outbox');
+        Route::get('datatables', 'Sms_outbox@datatables')->name('sms_outbox.datatables');        
+    });
+    Route::group('sentitem', static function() : void{
+        Route::get('', 'Sms_sentitem@index')->name('sms.sentitem');
+        Route::get('datatables', 'Sms_sentitem@datatables')->name('sms_sentitem.datatables');
+    });
+    Route::group('pending', static function() : void{
+        Route::get('', 'Sms_pending@index')->name('sms.pending');
+        Route::get('datatables', 'Sms_pending@datatables')->name('sms_pending.datatables');            
+    });
+    
     Route::get('/arsip', 'Sms@arsip')->name('sms.arsip');
     Route::get('/arsipdatatables', 'Sms@arsipDatatables')->name('sms.arsipDatatables');
     Route::get('/kirim', 'Sms@kirim')->name('sms.kirim');
