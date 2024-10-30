@@ -169,14 +169,13 @@ class Info_sistem extends Admin_Controller
             return datatables()->of(LogLogin::query())
                 ->addIndexColumn()
                 ->editColumn('lainnya', static function ($q) {
-                    if (! $q->lainnya) return '<span class="badge">kosong</span>';
+                    if (! $q->lainnya) return '<label class="label label-danger">Tidak ada data</label>';
                     $info = [];
 
                     foreach ($q->lainnya as $key => $value) {
                         if ($value) {
-                            $info[] = '<div><span class="badge bg-green">' . $key . ' : ' . $value . '</span></div>';
+                            $info[] = '<div><label class="label label-success">' . $key . ' : ' . $value . '</label></div>';
                         }
-
                     }
 
                     return implode('', $info);
