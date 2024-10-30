@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 32. [#8637](https://github.com/OpenSID/OpenSID/issues/8637) Perbaikan rentang umur maksimal menjadi 150.
 33. [#8640](https://github.com/OpenSID/OpenSID/issues/8640) Perbaikan perbarui pengaturan berupa unggahan gambar.
 34. [#8643](https://github.com/OpenSID/OpenSID/issues/8643) Perbaikan menampilkan simbol pada modul menu dan kategori.
+35. [#8648](https://github.com/OpenSID/OpenSID/issues/8648) Perbaikan form widget > aparatur desa.
 
 
 ### TEKNIS
