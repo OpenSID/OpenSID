@@ -1,6 +1,6 @@
-Di rilis ini, versi 2410.2.0 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2411.0.0 berisi penambahan filter status surat dan jenis surat pada layanan surat dan surat dinas dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] telah ikut berkontribusi.
+Terima kasih pada @agung2001, @arifpriadi telah ikut berkontribusi.
 
 ### FITUR
 1. [#8527](https://github.com/OpenSID/OpenSID/issues/8527) Penambahan log login pada modul info sistem.

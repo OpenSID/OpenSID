@@ -37,14 +37,69 @@
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024101651 extends MY_model
+class Migrasi_2024110171 extends MY_model
 {
     public function up()
     {
-        return $this->migrasi_2024100451(true);
+        $hasil = true;
+
+        // Migrasi berdasarkan config_id
+        $config_id = DB::table('config')->pluck('id')->toArray();
+
+        foreach ($config_id as $id) {
+            $hasil = $this->migrasi_2024100351($hasil, $id);
+            $hasil = $this->migrasi_2024100852($hasil, $id);
+        }
+
+        $hasil = $this->migrasi_2024100851($hasil);
+        $hasil = $this->migrasi_2024100451($hasil);
+        $hasil = $this->migrasi_202410651($hasil);
+
+        return $this->migrasi_202412551($hasil);
+    }
+
+    protected function migrasi_2024100351($hasil, $id)
+    {
+        return $hasil && $this->tambah_setting([
+            'judul'      => 'Versi Umum Setara',
+            'key'        => 'compatible_version_general',
+            'value'      => null,
+            'keterangan' => 'Versi Umum Yang Setara',
+            'jenis'      => 'text',
+            'attribute'  => null,
+            'kategori'   => 'default',
+        ], $id);
+    }
+
+    protected function migrasi_2024100851($hasil)
+    {
+        if (! Schema::hasColumn('log_notifikasi_mandiri', 'token')) {
+            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                $table->longText('token')->nullable()->after('isi');
+            });
+        }
+
+        if (! Schema::hasColumn('log_notifikasi_mandiri', 'device')) {
+            Schema::table('log_notifikasi_mandiri', static function (Blueprint $table) {
+                $table->longText('device')->nullable()->after('token');
+            });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024100852($hasil, $id)
+    {
+        // Panggil disaat ada perubahan pada form surat bawaan saja
+        restoreSuratBawaanTinyMCE($id);
+        restoreSuratBawaanDinasTinyMCE($id);
+
+        return $hasil;
     }
 
     protected function migrasi_2024100451($hasil)
@@ -80,6 +135,23 @@ class Migrasi_2024101651 extends MY_model
         DB::table('setting_modul')->where('modul', 'analisis_respon')->update(['modul' => 'Input Data Sensus / Survei']);
         DB::table('setting_modul')->where('modul', 'analisis_laporan')->update(['modul' => 'Laporan Hasil Klasifikasi']);
         DB::table('setting_modul')->where('modul', 'analisis_statistik_jawaban')->update(['modul' => 'Laporan Per Indikator']);
+
+        return $hasil;
+    }
+
+    protected function migrasi_202410651($hasil)
+    {
+        return $hasil && $this->ubah_modul(
+            ['slug' => 'statistik-kependudukan', 'url' => 'statistik/clear'],
+            ['url' => 'statistik']
+        );
+    }
+
+    protected function migrasi_202412551($hasil)
+    {
+        DB::table('tweb_penduduk_umur')
+            ->where('sampai', 99999)
+            ->update(['sampai' => 150]);
 
         return $hasil;
     }
