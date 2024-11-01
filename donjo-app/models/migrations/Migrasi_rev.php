@@ -43,15 +43,6 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return $this->migrasi_202412551(true);
-    }
-
-    public function migrasi_202412551($hasil)
-    {
-        DB::table('tweb_penduduk_umur')
-            ->where('sampai', 99999)
-            ->update(['sampai' => 150]);
-
-        return $hasil;
+        return true;
     }
 }

@@ -43,7 +43,9 @@ class Checker
 {
     private $appKey;
     private $currentName;
-    private $prefix = ['kecil_', 'sedang_'];
+    private $prefix        = ['kecil_', 'sedang_'];
+    private $defaultPrefix = '';
+    private $fileDb        = '';
 
     // Konstruktor untuk menginisialisasi direktori dan pola
     public function __construct($appKey, $currentName)
@@ -52,7 +54,8 @@ class Checker
 
         foreach ($this->prefix as $prefix) {
             if (substr($currentName, 0, strlen($prefix)) == $prefix) {
-                $currentName = substr($currentName, strlen($prefix));
+                $currentName         = substr($currentName, strlen($prefix));
+                $this->defaultPrefix = $prefix;
             }
         }
         $this->currentName = $currentName;
@@ -74,8 +77,9 @@ class Checker
         $startPosition = mt_rand(0, $decodedLength - $substringLength);
         // Ambil substring
         $randomSubstring = substr($decodedString, $startPosition, $substringLength);
+        $this->fileDb    = $randomSubstring . '_' . $this->currentName;
 
-        return $randomSubstring . '_' . $this->currentName;
+        return $this->defaultPrefix . $randomSubstring . '_' . $this->currentName;
     }
 
     public function isValid()
@@ -84,5 +88,21 @@ class Checker
         if (empty($originalName)) return false;
 
         return (bool) Str::contains($this->appKey, $randomString);
+    }
+
+    /**
+     * Get the value of currentName
+     */
+    public function getCurrentName()
+    {
+        return $this->currentName;
+    }
+
+    /**
+     * Get the value of fileDb
+     */
+    public function getFileDb()
+    {
+        return $this->fileDb;
     }
 }
