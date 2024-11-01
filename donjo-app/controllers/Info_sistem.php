@@ -246,21 +246,22 @@ class Info_sistem extends Admin_Controller
         }
         $groupedFiles = $this->listInvalidFile();
         $mapLokasi    = [
-            LOKASI_LOGO_DESA          => [Config::class => ['logo', 'kantor_desa']],
-            LOKASI_USER_PICT          => [Penduduk::class => ['foto']],
-            LOKASI_FOTO_KELOMPOK      => [KelompokAnggota::class => ['foto']],
-            LOKASI_FOTO_LEMBAGA       => [KelompokAnggota::class => ['foto']],
-            LOKASI_GALERI             => [PembangunanDokumentasi::class => ['gambar'], Galery::class => ['gambar'], Pembangunan::class => ['foto']],
-            LOKASI_FOTO_ARTIKEL       => [Artikel::class => ['gambar', 'gambar1', 'gambar2', 'gambar3']],
-            LOKASI_FOTO_BUKU_TAMU     => [BukuTamu::class => ['foto']],
-            LOKASI_FOTO_LOKASI        => [Lokasi::class => ['foto']],
-            LOKASI_FOTO_AREA          => [Area::class => ['foto']],
-            LOKASI_FOTO_GARIS         => [Garis::class => ['foto']],
-            LOKASI_DOKUMEN            => [BantuanPeserta::class => ['kartu_peserta'], Dokumen::class => ['satuan'], LaporanSinkronisasi::class => ['nama_file'], LogPenduduk::class => ['file_akta_mati']],
-            LOKASI_PENGESAHAN         => [AnalisisResponBukti::class => ['pengesahan']],
-            LOKASI_GAMBAR_WIDGET      => [Widget::class => ['foto']],
-            LOKASI_SIMBOL_LOKASI      => [Point::class => ['simbol'], Simbol::class => ['simbol']],
-            LOKASI_PRODUK             => [Produk::class => ['foto']],
+            LOKASI_LOGO_DESA      => [Config::class => ['logo', 'kantor_desa']],
+            LOKASI_USER_PICT      => [Penduduk::class => ['foto']],
+            LOKASI_FOTO_KELOMPOK  => [KelompokAnggota::class => ['foto']],
+            LOKASI_FOTO_LEMBAGA   => [KelompokAnggota::class => ['foto']],
+            LOKASI_GALERI         => [PembangunanDokumentasi::class => ['gambar'], Galery::class => ['gambar'], Pembangunan::class => ['foto']],
+            LOKASI_FOTO_ARTIKEL   => [Artikel::class => ['gambar', 'gambar1', 'gambar2', 'gambar3']],
+            LOKASI_FOTO_BUKU_TAMU => [BukuTamu::class => ['foto']],
+            LOKASI_FOTO_LOKASI    => [Lokasi::class => ['foto']],
+            LOKASI_FOTO_AREA      => [Area::class => ['foto']],
+            LOKASI_FOTO_GARIS     => [Garis::class => ['foto']],
+            LOKASI_DOKUMEN        => [BantuanPeserta::class => ['kartu_peserta'], Dokumen::class => ['satuan'], LaporanSinkronisasi::class => ['nama_file'], LogPenduduk::class => ['file_akta_mati']],
+            LOKASI_PENGESAHAN     => [AnalisisResponBukti::class => ['pengesahan']],
+            LOKASI_GAMBAR_WIDGET  => [Widget::class => ['foto']],
+            LOKASI_SIMBOL_LOKASI  => [Point::class => ['simbol'], Simbol::class => ['simbol']],
+            // cara simpan di produk dalam bentuk array
+            //LOKASI_PRODUK             => [Produk::class => ['foto']],
             LOKASI_PENGADUAN          => [Pengaduan::class => ['foto']],
             LOKASI_PENDAFTARAN        => [PendudukMandiri::class => ['scan_ktp', 'scan_kk', 'foto_selfie']],
             LOKASI_ICON_MENU_ANJUNGAN => [AnjunganMenu::class => ['icon']],
@@ -268,6 +269,21 @@ class Info_sistem extends Admin_Controller
             LOKASI_ICON_SOSMED        => [MediaSosial::class => ['gambar']],
             LOKASI_SINERGI_PROGRAM    => [SinergiProgram::class => ['gambar']],
         ];
+        // tabel yang menyimpan gambar dengan nama file, tapi menampilkan gambar di web dengan tambahan prefix sedang_, kecil_ dst
+        $hasPrefix = [
+            Artikel::class,
+            Penduduk::class,
+            Pembangunan::class,
+            Galery::class,
+            PembangunanDokumentasi::class,
+        ];
+        $validPrefix  = ['sedang', 'kecil'];
+        $sudahDirubah = [];
+
+        foreach ($hasPrefix as $item) {
+            $sudahDirubah[$item] = [];
+        }
+
             if ($groupedFiles) {
                 $appKey = get_app_key();
 
@@ -281,13 +297,38 @@ class Info_sistem extends Admin_Controller
                             rename($folder . $file, $folder . $newFile);
                             SettingAplikasi::where('value', $file)->whereIn('key', ['latar_login', 'latar_kehadiran'])->update(['value' => $newFile]);
                         }
-                        $tableMap = $mapLokasi[$folder] ?? [];
+                        $tableMap  = $mapLokasi[$folder] ?? [];
+                        $adaPrefix = false;
 
                         foreach ($tableMap as $table => $columns) {
+                            $adaPrefix = false;
+                            if (in_array($table, $hasPrefix)) {
+                                $adaPrefix = true;
+                            }
+                            $checker   = new Checker($appKey, $file);
+                            $newFile   = $checker->encrypt();
+                            $fileDb    = $checker->getCurrentName();
+                            $newFileDb = $checker->getFileDb();
+
                             foreach ($columns as $column) {
-                                $newFile = (new Checker($appKey, $file))->encrypt();
-                                rename($folder . $file, $folder . $newFile);
-                                (new $table())->where($column, $file)->update([$column => $newFile]);
+                                // cek dulu di db, jika ada baru update
+                                $adaGambar = (new $table())->where($column, $fileDb)->exists();
+                                if ($adaGambar) {
+                                    rename($folder . $file, $folder . $newFile);
+                                    (new $table())->where($column, $fileDb)->update([$column => $newFileDb]);
+                                    $sudahDirubah[$table][$fileDb] = $newFileDb;
+                                } else {
+                                    // case gambar yang mengandung prefix, di db tidak ada karena sudah diubah sebelumnya oleh gambar yang memiliki prefix lain
+                                    if ($adaPrefix) {
+                                        if (isset($sudahDirubah[$table][$fileDb])) {
+                                            $prefixFile = explode('_', $file);
+                                            if (in_array($prefixFile[0], $validPrefix)) {
+                                                $newFile = $prefixFile[0] . '_' . $sudahDirubah[$table][$fileDb];
+                                                rename($folder . $file, $folder . $newFile);
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
