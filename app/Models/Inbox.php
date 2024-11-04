@@ -55,7 +55,8 @@ class Inbox extends BaseModel
      * @var string
      */
     protected $table = 'inbox';
-    protected $guarded = [];
+
+    protected $guarded    = [];
     protected $primaryKey = 'ID';
 
     /**
