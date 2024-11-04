@@ -53,7 +53,6 @@ class Migrasi_2024110171 extends MY_model
 
         foreach ($config_id as $id) {
             $hasil = $this->migrasi_2024100351($hasil, $id);
-            $hasil = $this->migrasi_2024100852($hasil, $id);
         }
 
         $hasil = $this->migrasi_2024100851($hasil);
@@ -89,15 +88,6 @@ class Migrasi_2024110171 extends MY_model
                 $table->longText('device')->nullable()->after('token');
             });
         }
-
-        return $hasil;
-    }
-
-    protected function migrasi_2024100852($hasil, $id)
-    {
-        // Panggil disaat ada perubahan pada form surat bawaan saja
-        restoreSuratBawaanTinyMCE($id);
-        restoreSuratBawaanDinasTinyMCE($id);
 
         return $hasil;
     }
