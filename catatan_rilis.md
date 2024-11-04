@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### BUG
 
 1. [#8648](https://github.com/OpenSID/OpenSID/issues/8648) Perbaikan form widget > aparatur desa.
+2. [#8670](https://github.com/OpenSID/OpenSID/issues/8670) Perbaikan iframe / embed media pada artikel.
 
 
 ### TEKNIS

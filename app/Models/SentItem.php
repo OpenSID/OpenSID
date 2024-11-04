@@ -45,15 +45,18 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class SentItem extends BaseModel
 {
     use ConfigId;
+
+    public const CREATED_AT = 'InsertIntoDB';
+    public const UPDATED_AT = 'UpdatedInDB';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'sentitems';
-    const CREATED_AT = 'InsertIntoDB';
-    const UPDATED_AT = 'UpdatedInDB';
-    protected $guarded = [];
+
+    protected $guarded    = [];
     protected $primaryKey = 'ID';
 
     /**
