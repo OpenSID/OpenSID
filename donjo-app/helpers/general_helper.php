@@ -46,6 +46,7 @@ use App\Models\User;
 use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -363,11 +364,14 @@ if (! function_exists('parsedown')) {
 if (! function_exists('SebutanDesa')) {
     function SebutanDesa($params = null)
     {
+        $replaceWord = ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'];
+        if (! Str::contains($params, $replaceWord)) return $params;
+
         // Tidak bisa gunakan helper setting karena value belum di load
         $setting = SettingAplikasi::whereIn('key', ['sebutan_desa', 'sebutan_pemerintah_desa', 'sebutan_dusun'])->pluck('value', 'key')->toArray();
 
         return str_replace(
-            ['[Desa]', '[desa]', '[Pemerintah Desa]', '[dusun]'],
+            $replaceWord,
             [ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_desa']), ucwords($setting['sebutan_pemerintah_desa']), ucwords($setting['sebutan_dusun'])],
             $params
         );
