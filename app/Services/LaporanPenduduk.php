@@ -117,10 +117,7 @@ class LaporanPenduduk
             return Bantuan::find($program_id)->nama;
         }
 
-        $list_judul = [...StatistikPendudukEnum::allKeyLabel(),
-            ...StatistikKeluargaEnum::allKeyLabel(),
-            ...StatistikRtmEnum::allKeyLabel(),
-            ...StatistikJenisBantuanEnum::allKeyLabel()];
+        $list_judul = StatistikPendudukEnum::allKeyLabel() + StatistikKeluargaEnum::allKeyLabel() + StatistikRtmEnum::allKeyLabel() + StatistikJenisBantuanEnum::allKeyLabel();
 
         return $list_judul[$lap];
     }
