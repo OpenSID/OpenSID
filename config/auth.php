@@ -81,6 +81,10 @@ return [
             'driver'   => 'session',
             'provider' => 'users',
         ],
+        'perangkat' => [
+            'driver'   => 'session',
+            'provider' => 'users',
+        ],
         'penduduk' => [
             'driver'   => 'session',
             'provider' => 'pendudukMandiri',
