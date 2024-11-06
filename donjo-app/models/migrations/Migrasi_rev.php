@@ -35,7 +35,9 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+use App\Models\GrupAkses;
+use App\Models\Modul;
+use App\Models\UserGrup;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -43,6 +45,87 @@ class Migrasi_rev extends MY_model
 {
     public function up()
     {
-        return true;
+        $hasil = true;
+
+        return $this->migrasi_2024110651($hasil);
+    }
+
+    private function migrasi_2024110651($hasil)
+    {
+        $hakAksesBawaan = [
+            'administrator' => [
+                '*' => 7,
+            ],
+            'kontributor' => [
+                'admin-web' => 0,
+                'artikel'   => 3,
+                'komentar'  => 3,
+                'galeri'    => 3,
+                'slider'    => 3,
+            ],
+            'redaksi' => [
+                'admin-web'      => 0,
+                'artikel'        => 3,
+                'widget'         => 3,
+                'menu'           => 3,
+                'komentar'       => 3,
+                'galeri'         => 3,
+                'media-sosial'   => 3,
+                'slider'         => 3,
+                'teks-berjalan'  => 3,
+                'pengunjung'     => 3,
+                'pengaturan-web' => 3,
+                'kategori'       => 3,
+                'lapak'          => 3,
+            ],
+            'operator' => [
+                '*' => 3,
+            ],
+            'satgas-covid-19' => [
+                'statistik'              => 0,
+                'statistik-kependudukan' => 3,
+                'kesehatan'              => 0,
+                'pendataan'              => 7,
+                'pemantauan'             => 7,
+            ],
+        ];
+        $configId = identitas('id');
+        $modul    = Modul::get();
+        $modulMap = $modul->pluck('id', 'slug');
+
+        foreach ($hakAksesBawaan as $role => $akses) {
+            $idGrup = UserGrup::where('slug', $role)->first()->id;
+            // jika id grup tidak ditemukan, lanjut saja
+            if (! $idGrup) continue;
+
+            if (count($akses) == 1) {
+                if (array_keys($akses)[0] == '*') {
+                    $modul->each(static function ($q) use ($akses, $idGrup, $configId) {
+                        $dataInsert = [
+                            'config_id' => $configId,
+                            'id_grup'   => $idGrup,
+                            'id_modul'  => $q->id,
+                            'akses'     => $akses['*'],
+                        ];
+                        GrupAkses::upsert($dataInsert, ['id_grup', 'id_modul']);
+                    });
+
+                    continue;
+                }
+            } else {
+                foreach ($akses as $slug => $itemAkses) {
+                    $idModul    = $modulMap[$slug];
+                    $dataInsert = [
+                        'config_id' => $configId,
+                        'id_grup'   => $idGrup,
+                        'id_modul'  => $idModul,
+                        'akses'     => $itemAkses,
+                    ];
+                    GrupAkses::upsert($dataInsert, ['id_grup', 'id_modul']);
+                }
+            }
+        }
+
+        return $hasil;
     }
 }

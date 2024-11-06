@@ -43,7 +43,6 @@ use App\Models\Menu;
 use App\Models\Modul;
 use App\Models\SettingAplikasi;
 use App\Models\User;
-use App\Models\UserGrup;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -96,38 +95,8 @@ if (! function_exists('can')) {
         }
 
         $grupId = ci_auth()->id_grup;
+        $data   = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
 
-        $data = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
-            $slugGrup = UserGrup::find($grupId)->slug;
-            if (in_array($grupId, UserGrup::getGrupIdAksesGrupBawaan())) {
-                $grup = UserGrup::getAksesGrupBawaan()[$slugGrup] ?? [];
-
-                if (count($grup) === 1 && array_keys($grup)[0] == '*') {
-                    $grupAkses = Modul::when(! super_admin(), static function ($query) {
-                            $query->isActive();
-                        })->get();
-                    $rbac = array_values($grup)[0];
-                } else {
-                    $grupAkses = Modul::whereIn('slug', array_keys($grup))->isActive()->get();
-                }
-
-                return $grupAkses->mapWithKeys(static function ($item) use ($grupId, $rbac, $grup) {
-                    $rbac ??= $grup[$item->slug];
-                    $rbac = $rbac === 0 ? 1 : $rbac;
-
-                    return [
-                        $item->slug => [
-                            'id_modul' => $item->id,
-                            // 'parent_slug' => Modul::find($item->parent)->slug ?? null,
-                            'id_grup' => $grupId,
-                            'akses'   => $rbac,
-                            'baca'    => $rbac >= 1,
-                            'ubah'    => $rbac >= 3,
-                            'hapus'   => $rbac >= 7,
-                        ],
-                    ];
-                })->toArray();
-            }
             $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
                 ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
                 ->where('id_grup', $grupId)

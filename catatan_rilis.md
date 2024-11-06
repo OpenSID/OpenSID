@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8632](https://github.com/OpenSID/OpenSID/issues/8632) Penyesuaian modul hubung waga > kirim pesan menggunakan view blade dan ORM laravel.
 2. [#4219](https://github.com/OpenSID/premium/issues/4219) Penyesuaian query berulang saat pertama kali buka aplikasi.
 3. [#8677](https://github.com/OpenSID/OpenSID/issues/8677) Penyesuaian login perangkat kehadiran menggunakan laravel auth.
+4. [#8682](https://github.com/OpenSID/OpenSID/issues/8682) Penyesuaian pengecekan grup akses bawaan.
 
 
 ### LAYANAN
