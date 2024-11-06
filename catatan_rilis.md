@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 2. [#8670](https://github.com/OpenSID/OpenSID/issues/8670) Perbaikan iframe / embed media pada artikel.
 3. [#8675](https://github.com/OpenSID/OpenSID/issues/8675) Perbaikan judul pada cetak/unduh statistik kependudukan.
 4. [#8678](https://github.com/OpenSID/OpenSID/issues/8678) Perbaikan cetak pdf laporan buku rekapitulasi jumlah penduduk.
+5. [#8669](https://github.com/OpenSID/OpenSID/issues/8669) Perbaikan cell properties height pada tinymce surat.
 
 
 ### TEKNIS

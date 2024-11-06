@@ -60,6 +60,7 @@ use App\Models\Pamong;
 use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
 use CI_Controller;
+use DOMDocument;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -674,8 +675,8 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-
-        $pdf = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
+        $surat = $this->updateHeightTd($surat);
+        $pdf   = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont($defaultFont);
 
@@ -989,5 +990,44 @@ class TinyMCE
             $formatter = new ExceptionFormatter($e);
             log_message('error', $formatter->getHtmlMessage());
         }
+    }
+
+    private function updateHeightTd($html)
+    {
+        // Load the HTML into DOMDocument
+        libxml_use_internal_errors(true); // Suppress warnings for malformed HTML
+        $dom = new DOMDocument();
+        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+
+        // Find all <td> elements
+        $rows = $dom->getElementsByTagName('tr');
+
+        // Loop through each <tr> element
+        foreach ($rows as $row) {
+            // Get the height from the <tr> style
+            $rowStyle = $row->getAttribute('style');
+            if (preg_match('/height:\s*(\d+px)/', $rowStyle, $matches)) {
+                $heightValue = $matches[1]; // Extract the height value (e.g., "18px")
+
+                // Get all <td> elements within this <tr>
+                $cells = $row->getElementsByTagName('td');
+
+                // Loop through each <td> element
+                foreach ($cells as $cell) {
+                    // Set the height in the style attribute of the <td>
+                    $cellStyle = $cell->getAttribute('style');
+                    // Update or add the height to the <td> style
+                    if (! empty($cellStyle)) {
+                        $cellStyle .= ' height: ' . $heightValue . ';';
+                    } else {
+                        $cellStyle = 'height: ' . $heightValue . ';';
+                    }
+                    $cell->setAttribute('style', $cellStyle);
+                }
+            }
+        }
+
+        return $dom->saveHTML();
     }
 }
