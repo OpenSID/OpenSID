@@ -36,7 +36,6 @@
  */
 
 use App\Models\Config;
-use App\Models\GrupAkses;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\Menu;
@@ -45,6 +44,7 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 if (! function_exists('asset')) {
@@ -86,63 +86,11 @@ if (! function_exists('can')) {
      */
     function can($akses = null, $slugModul = null, $adminOnly = false, $demoOnly = false)
     {
-        if ($demoOnly && config_item('demo_mode')) {
-            return false;
-        }
-
-        if ($slugModul === Modul::DEFAULT_MODUL['beranda']['slug']) {
-            return true;
-        }
-
-        $grupId = ci_auth()->id_grup;
-        $data   = cache()->remember("akses_grup_{$grupId}", 604800, static function () use ($grupId) {
-
-            $grupAkses = GrupAkses::leftJoin('setting_modul as s1', 'grup_akses.id_modul', '=', 's1.id')
-                ->leftJoin('setting_modul as s2', 's1.parent', '=', 's2.id')
-                ->where('id_grup', $grupId)
-                ->select('grup_akses.*', 's1.slug as slug', 's2.slug as parent_slug')
-                ->get();
-
-            return $grupAkses->mapWithKeys(static function ($item) use ($grupAkses) {
-                $item->akses = $grupAkses->where('parent_slug', $item->slug)->where('akses', '>', 0)->count() > 0 ? 7 : $item->akses;
-
-                return [
-                    $item->slug => [
-                        'id_modul'    => $item->id_modul,
-                        'parent_slug' => $item->parent_slug,
-                        'id_grup'     => $item->id_grup,
-                        'akses'       => $item->akses,
-                        'baca'        => $item->akses >= 1,
-                        'ubah'        => $item->akses >= 3,
-                        'hapus'       => $item->akses >= 7,
-                    ],
-                ];
-            })->toArray();
-        });
-
-        if (null === $akses) {
-            return $data;
-        }
-
         if (null === $slugModul) {
             $slugModul = ci()->akses_modul ?? (ci()->sub_modul_ini ?? ci()->modul_ini);
         }
 
-        $alias = [
-            'b' => 'baca',
-            'u' => 'ubah',
-            'h' => 'hapus',
-        ];
-
-        if (! array_key_exists($akses, $alias)) {
-            return false;
-        }
-
-        if ($adminOnly && ci_auth()->id != super_admin()) {
-            return false;
-        }
-
-        return $data[$slugModul][$alias[$akses]];
+        return Gate::allows("{$slugModul}:{$akses}", [$akses, $slugModul, $adminOnly, $demoOnly]);
     }
 }
 

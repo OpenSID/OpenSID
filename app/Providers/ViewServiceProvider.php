@@ -96,15 +96,9 @@ class ViewServiceProvider extends ServiceProvider
     protected function registerBladeExtensions(BladeCompiler $bladeCompiler): void
     {
         $bladeCompiler->directive('selected', static fn ($condition): string => "<?= ({$condition}) ? 'selected' : ''; ?>");
-
         $bladeCompiler->directive('checked', static fn ($condition): string => "<?= ({$condition}) ? 'checked' : ''; ?>");
-
         $bladeCompiler->directive('disabled', static fn ($condition): string => "<?= ({$condition}) ? 'disabled' : ''; ?>");
-
         $bladeCompiler->directive('active', static fn ($condition): string => "<?= ({$condition}) ? 'active' : ''; ?>");
-
         $bladeCompiler->directive('display', static fn ($condition): string => "<?= ({$condition}) ? 'show' : 'hide'; ?>");
-
-        $bladeCompiler->directive('can', static fn ($condition): string => "<?= can({$condition}) ?>");
     }
 }
