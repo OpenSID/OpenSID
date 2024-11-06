@@ -269,6 +269,7 @@ class Identitas_desa extends Admin_Controller
                 $dimensi   = ['width' => $ukuran, 'height' => $ukuran];
                 resizeImage(LOKASI_LOGO_DESA . $uploadData['file_name'], $tipe_file, $dimensi);
                 resizeImage(LOKASI_LOGO_DESA . $uploadData['file_name'], $tipe_file, ['width' => 16, 'height' => 16], LOKASI_LOGO_DESA . 'favicon.ico');
+                copyFavicon();
             }
 
             return $uploadData['file_name'];

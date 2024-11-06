@@ -46,6 +46,7 @@ class Migrasi_rev extends MY_model
     public function up()
     {
         $hasil = true;
+        $hasil = $this->migrasi_2024110652($hasil);
 
         return $this->migrasi_2024110651($hasil);
     }
@@ -125,6 +126,13 @@ class Migrasi_rev extends MY_model
                 }
             }
         }
+
+        return $hasil;
+    }
+
+    private function migrasi_2024110652($hasil)
+    {
+        copyFavicon();
 
         return $hasil;
     }

@@ -82,3 +82,6 @@ Modules/*
 
 # Ignore PHPUnit result cache file
 .phpunit.result.cache
+
+# ignore favicon.ico
+/favicon.ico

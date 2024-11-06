@@ -184,10 +184,6 @@ function get_app_key(): string
  */
 function favico_desa($favico = 'favicon.ico'): string
 {
-    if (is_file(LOKASI_LOGO_DESA . $favico)) {
-        $favico = LOKASI_LOGO_DESA . $favico;
-    }
-
     return base_url($favico) . '?v' . md5_file($favico);
 }
 
@@ -2668,4 +2664,13 @@ function versiUmumSetara($version): string
     $versiSetara = Carbon::createFromFormat($formatVersi, $version)->addMonths(7);
 
     return $versiSetara->format($formatVersi);
+}
+
+function copyFavicon(): void
+{
+    if (file_exists(LOKASI_LOGO_DESA . 'favicon.ico')) {
+        copy(FCPATH . LOKASI_LOGO_DESA . 'favicon.ico', FCPATH . 'favicon.ico');
+    } else {
+        copy(FCPATH . LOKASI_FILES_LOGO . 'favicon.ico', FCPATH . 'favicon.ico');
+    }
 }
