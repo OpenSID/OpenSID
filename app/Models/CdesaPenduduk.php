@@ -35,9 +35,39 @@
  *
  */
 
-header('Content-type: application/xls');
-header('Content-Disposition: attachment; filename=Daftar C-Desa_' . date('Y-m-d') . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Models;
 
-$this->load->view('data_persil/c_desa_cetak');
+use App\Traits\ConfigId;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class CdesaPenduduk extends BaseModel
+{
+    use ConfigId;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'cdesa_penduduk';
+
+    protected $guarded = [];
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    public function cdesa()
+    {
+        return $this->belongsTo(Cdesa::class, 'id_cdesa', 'id');
+    }
+
+    public function penduduk()
+    {
+        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+    }
+}

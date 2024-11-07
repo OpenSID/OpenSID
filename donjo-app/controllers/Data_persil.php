@@ -35,228 +35,206 @@
  *
  */
 
+use App\Models\Area;
+use App\Models\Cdesa;
+use App\Models\Persil;
+use App\Models\RefPersilKelas;
+use App\Models\Wilayah;
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Data_persil extends Admin_Controller
 {
-    public $modul_ini           = 'pertanahan';
-    public $sub_modul_ini       = 'daftar-persil';
-    public $aliasController     = 'data_persil';
-    private array $set_page     = ['20', '50', '100'];
-    private array $list_session = ['lokasi', 'tipe', 'kelas', 'dusun', 'rw', 'rt', 'cari'];
+    public $modul_ini       = 'pertanahan';
+    public $sub_modul_ini   = 'daftar-persil';
+    public $aliasController = 'data_persil';
 
     public function __construct()
     {
         parent::__construct();
         isCan('b');
-        $this->load->model(['data_persil_model', 'cdesa_model', 'pamong_model', 'wilayah_model']);
     }
 
-    public function clear(): void
+    public function index(): void
     {
-        $this->session->unset_userdata($this->list_session);
-        $this->session->per_page = $this->set_page[0];
-        redirect('data_persil');
+        $data['list_kelas'] = Persil::distinct('kelas')->with(['refKelas'])->get()->groupBy('refKelas.tipe');
+        $data['wilayah']    = Wilayah::treeAccess();
+
+        view('admin.pertanahan.persil.index', $data);
     }
 
-    // TODO: fix
-    public function autocomplete(): void
+    public function datatables()
     {
-        $data = $this->data_persil_model->autocomplete($this->input->post('cari'));
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
+        if ($this->input->is_ajax_request()) {
+            $canUpdate = can('u');
+            $canDelete = can('h');
 
-    public function search(): void
-    {
-        $this->session->cari = $this->input->post('cari') ?: null;
-        redirect('data_persil');
-    }
+            return datatables()->of($this->sumberData())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
+                    $aksi = '';
+                    if ($row->mutasi_count) {
+                        $aksi .= '<a href="' . ci_route('data_persil.rincian', $row->id) . '" class="btn bg-purple btn-sm" title="Rincian"><i class="fa fa-bars"></i></a> ';
+                    } else {
+                        $aksi .= '<a class="btn bg-purple btn-sm" disabled title="Rincian"><i class="fa fa-bars"></i></a> ';
+                    }
 
-    public function index($page = 1, $o = 0): void
-    {
-        $this->tab_ini = 13;
+                    if ($canUpdate) {
+                        $aksi .= '<a href="' . ci_route('data_persil.form', $row->id) . '" class="btn bg-orange btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+                    if ($canDelete) {
+                        if ($row->mutasi_count) {
+                            $aksi .= '<a class="btn bg-maroon btn-sm" disabled><i class="fa fa-trash-o"></i></a>';
+                        } else {
+                            $aksi .= '<a href="#" data-href="' . ci_route('data_persil.delete', $row->id) . '" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>';
+                        }
+                    }
 
-        foreach ($this->list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'])) {
-                ${$list} = $this->session->{$list};
-            } else {
-                $data[$list] = $this->session->{$list} ?: '';
-            }
+                    return $aksi;
+                })
+                ->editColumn('cdesa_awal', static fn ($row) => '<a href="' . ci_route("cdesa.mutasi.{$row->cdesa_awal}.{$row->id}") . '">' . $row->cdesa->nomor . '</a>')
+                ->editColumn('kelas', static fn ($row) => $row->refKelas->kode)
+                ->editColumn('lokasi', static fn ($row) => $row->wilayah ? $row->wilayah->alamat : ($row->lokasi ?? 'Lokasi Tidak Ditemukan'))
+                ->editColumn('nomor', static fn ($row) => $row->nomor . ':' . $row->nomor_urut_bidang)
+                ->rawColumns(['aksi', 'cdesa_awal'])
+                ->make();
         }
 
-        if (isset($dusun)) {
-            $data['dusun']   = $dusun;
-            $data['list_rw'] = $this->data_persil_model->list_rw($dusun);
-
-            if (isset($rw)) {
-                $data['rw']      = $rw;
-                $data['list_rt'] = $this->data_persil_model->list_rt($dusun, $rw);
-
-                $data['rt'] = $rt ?? '';
-            } else {
-                $data['rw'] = '';
-            }
-        } else {
-            $data['dusun'] = $data['rw'] = $data['rt'] = '';
-        }
-
-        $data['list_kelas'] = isset($data['tipe']) ? $this->data_persil_model->list_kelas($data['tipe']) : '';
-
-        $per_page = $this->input->post('per_page');
-        if (isset($per_page)) {
-            $this->session->per_page = $per_page;
-        }
-
-        $data['func']         = 'index';
-        $data['set_page']     = $this->set_page;
-        $data['per_page']     = $this->session->per_page;
-        $data['desa']         = $this->header['desa'];
-        $data['paging']       = $this->data_persil_model->paging($page);
-        $data['persil']       = $this->data_persil_model->list_data($data['paging']->offset, $data['paging']->per_page);
-        $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
-        $data['keyword']      = $this->data_persil_model->autocomplete();
-        $data['list_dusun']   = $this->data_persil_model->list_dusun();
-
-        $this->render('data_persil/persil', $data);
+        return show_404();
     }
 
-    public function rincian($id = 0): void
+    private function sumberData()
     {
-        $this->tab_ini  = 13;
-        $data           = [];
-        $data['persil'] = $this->data_persil_model->get_persil($id) ?? show_404();
-        $data['mutasi'] = $this->data_persil_model->get_list_mutasi($id);
-        $this->render('data_persil/rincian_persil', $data);
+        $dusun   = $this->input->get('dusun') ?? null;
+        $rw      = $this->input->get('rw') ?? null;
+        $rt      = $this->input->get('rt') ?? null;
+        $wilayah = $this->input->get('lokasi') ?? null;
+        $kelas   = $this->input->get('kelas') ?? null;
+        $tipe    = $this->input->get('tipe') ?? null;
+
+        $idCluster = $rt ? [$rt] : [];
+        if (empty($idCluster) && ! empty($rw)) {
+            [$namaDusun, $namaRw] = explode('__', $rw);
+            $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->select(['id'])->get()->pluck('id')->toArray();
+        }
+
+        if (empty($idCluster) && ! empty($dusun)) {
+            $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
+        }
+        $query = Persil::withCount('mutasi')->with(['refKelas', 'cdesa', 'wilayah'])
+            ->when($kelas, static fn ($q) => $q->where('kelas', $kelas))
+            ->when($tipe, static fn ($q) => $q->whereIn('kelas', static function ($r) use ($tipe) {
+                $r->select('id')->from('ref_persil_kelas')->where('tipe', $tipe);
+            }))
+            ->when($wilayah, static function ($q) use ($wilayah) {
+                if ($wilayah == 1) {
+                    return $q->whereNotNull('id_wilayah');
+                }
+                if ($wilayah == 2) {
+                    return $q->whereNull('id_wilayah');
+                }
+            })->when($idCluster, static fn ($q) => $q->whereIn('id_wilayah', $idCluster));
+
+        return $query;
+    }
+
+    public function rincian($id): void
+    {
+
+        $data['desa']   = identitas();
+        $data['persil'] = Persil::with(['refKelas', 'cdesa', 'wilayah', 'mutasi' => static fn ($q) => $q->with(['cdesaMasuk', 'cdesaKeluar'])])->findOrFail($id);
+
+        view('admin.pertanahan.persil.rincian.index', $data);
     }
 
     public function form($id = '', $id_cdesa = ''): void
     {
         isCan('u');
-        $this->load->model('plan_area_model');
-        $this->tab_ini = 13;
 
-        $data = $this->navigasi_peta();
-
+        $data                = $this->navigasi_peta();
+        $data['form_action'] = ci_route('data_persil.simpan');
         if ($id) {
-            $data['persil'] = $this->data_persil_model->get_persil($id) ?? show_404();
+            $persil              = Persil::findOrFail($id) ?? show_404();
+            $data['persil']      = $persil;
+            $data['form_action'] = ci_route('data_persil.simpan', $id);
+            $data['tipe_tanah']  = $persil->refKelas->tipe;
         }
         if ($id_cdesa) {
             $data['id_cdesa'] = $id_cdesa;
         }
-        $data['list_cdesa']    = $this->cdesa_model->list_c_desa();
-        $data['persil_lokasi'] = $this->wilayah_model->list_semua_wilayah();
-        $data['persil_kelas']  = $this->data_persil_model->list_persil_kelas();
-        $data['peta']          = $this->plan_area_model->list_data();
 
-        $this->render('data_persil/form_persil', $data);
+        $data['list_cdesa']    = Cdesa::with(['cdesaPenduduk' => static fn ($q) => $q->with(['penduduk'])])->orderByRaw('cast(nomor as unsigned)')->get();
+        $data['persil_lokasi'] = Wilayah::get();
+        $data['persil_kelas']  = RefPersilKelas::select(['id', 'tipe', 'kode', 'ndesc'])->get()->groupBy('tipe');
+        $data['peta']          = Area::areaMap();
+
+        view('admin.pertanahan.persil.form', $data);
     }
 
-    public function simpan_persil($page = 1): void
+    public function simpan(): void
     {
         isCan('u');
-        $this->form_validation->set_rules('no_persil', 'Nomor Surat Persil', 'required|trim|numeric');
-        $this->form_validation->set_rules('nomor_urut_bidang', 'Nomor Urut Bidang', 'required|trim|numeric|max_length[3]|less_than[1000]|greater_than[0]');
-        $this->form_validation->set_rules('kelas', 'Kelas Tanah', 'required|trim|numeric');
+        $data = static::validate();
+        DB::beginTransaction();
 
-        if ($this->form_validation->run() != false) {
-            $id_persil  = $this->data_persil_model->simpan_persil($this->input->post());
-            $cdesa_awal = $this->input->post('cdesa_awal');
-            if (! $this->input->post('id_persil') && $cdesa_awal) {
-                redirect("cdesa/mutasi/{$cdesa_awal}/{$id_persil}");
+        try {
+            $id_persil = $this->request['id_persil'] ?: Persil::select('id')->where('nomor', $data['nomor'])->where('nomor_urut_bidang', $data['nomor_urut_bidang'])->first()?->id;
+            if ($id_persil) {
+                $persil = Persil::findOrFail($id_persil);
+                $persil->update($data);
             } else {
-                redirect('data_persil');
+                $data['cdesa_awal'] = bilangan($this->request['cdesa_awal']);
+                $persil             = Persil::create($data);
+                $persil->mutasi()->create($this->dataMutasi($data));
             }
+            DB::commit();
+            $cdesa_awal = $this->request['cdesa_awal'];
+            if (! $this->request['id_persil'] && $cdesa_awal) {
+                redirect_with('success', 'Data persil berhasil disimpan', ci_route("cdesa.mutasi.{$cdesa_awal}.{$persil->id}"));
+            } else {
+                redirect_with('success', 'Data persil berhasil ditambahkan');
+            }
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            log_message('error', 'Gagal Tambah Data ' . $e->getMessage());
+            redirect_with('error', 'Gagal Tambah Data ' . $e->getMessage());
         }
-
-        $this->session->success   = -1;
-        $this->session->error_msg = trim(strip_tags(validation_errors()));
-        $id                       = $this->input->post('id_persil');
-        redirect('data_persil/form/' . $id);
-    }
-
-    public function hapus($id): void
-    {
-        isCan('h');
-        $this->data_persil_model->hapus($id);
-        redirect('data_persil/clear');
-    }
-
-    public function import(): void
-    {
-        isCan('u');
-        $data['form_action'] = site_url('data_persil/import_proses');
-        $this->load->view('data_persil/import', $data);
-    }
-
-    public function import_proses(): void
-    {
-        isCan('u');
-        $this->data_persil_model->impor_persil();
-        redirect('data_persil');
-    }
-
-    public function kelasid(): void
-    {
-        $data  = [];
-        $id    = $this->input->post('id');
-        $kelas = $this->data_persil_model->list_persil_kelas($id);
-
-        foreach ($kelas as $key => $item) {
-            $data[] = ['id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']];
-        }
-        echo json_encode($data, JSON_THROW_ON_ERROR);
-    }
-
-    public function filter($filter): void
-    {
-        if ($filter == 'dusun') {
-            $this->session->unset_userdata(['rw', 'rt']);
-        }
-        if ($filter == 'rw') {
-            $this->session->unset_userdata('rt');
-        }
-        if ($filter == 'tipe') {
-            $this->session->unset_userdata('kelas');
-        }
-        if ($filter == 'lokasi') {
-            $this->session->unset_userdata(['dusun', 'rw', 'rt']);
-        }
-
-        $value = $this->input->post($filter);
-        if ($value != '') {
-            $this->session->{$filter} = $value;
-        } else {
-            $this->session->unset_userdata($filter);
-        }
-        redirect('data_persil');
     }
 
     public function dialog_cetak($aksi = ''): void
     {
-        $data                = $this->modal_penandatangan();
-        $data['aksi']        = $aksi;
-        $data['form_action'] = site_url("data_persil/cetak/{$aksi}");
-        $this->load->view('global/ttd_pamong', $data);
+        $data               = $this->modal_penandatangan();
+        $data['aksi']       = $aksi;
+        $data['formAction'] = ci_route('data_persil.cetak', $aksi);
+        view('admin.layouts.components.dialog_cetak', $data);
     }
 
     public function cetak($aksi = ''): void
     {
-        $post                   = $this->input->post();
-        $data['aksi']           = $aksi;
-        $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-        $data['desa']           = $this->header['desa'];
-        $data['persil']         = $this->data_persil_model->list_data();
-        $data['persil_kelas']   = $this->data_persil_model->list_persil_kelas();
+        $paramDatatable = json_decode($this->input->post('params'), 1);
+        $_GET           = $paramDatatable;
+
+        $data                 = $this->modal_penandatangan();
+        $data['aksi']         = $aksi;
+        $data['config']       = $this->header['desa'];
+        $data['persil']       = $this->sumberData()->get();
+        $data['persil_kelas'] = RefPersilKelas::get()->keyBy('id')->toArray();
 
         //pengaturan data untuk format cetak/ unduh
         $data['file'] = 'Persil';
-        $data['isi']  = 'data_persil/persil_cetak';
+        $data['isi']  = 'admin.pertanahan.persil.cetak';
         //colspan tepi, colspan ttd pertama, colspan jarak ke ttd kedua
         $data['letak_ttd'] = ['1', '2', '2'];
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=data_persil.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
 
-        $this->load->view('global/format_cetak', $data);
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     public function area_map()
@@ -265,13 +243,59 @@ class Data_persil extends Admin_Controller
             exit('access restricted');
         }
 
-        $this->load->model('plan_area_model');
         $id   = $this->input->get('id');
-        $data = $this->plan_area_model->get_area($id);
+        $data = Area::findOrFail($id)->toArray();
 
         return json([
             'data'   => $data,
             'status' => true,
         ]);
+    }
+
+    public function delete($id): void
+    {
+        isCan('h');
+        $persil = Persil::with('mutasi')->findOrFail($id);
+        if ($persil->mutasi->count()) {
+            redirect_with('error', 'Gagal hapus data, sudah ada data mutasi cdesa');
+        }
+
+        if ($persil->delete()) {
+            redirect_with('success', 'Berhasil Hapus Data');
+        }
+        redirect_with('error', 'Gagal Hapus Data');
+    }
+
+    protected function validate()
+    {
+        $this->validated(request(), [
+            'no_persil'         => 'required|numeric',
+            'nomor_urut_bidang' => 'required|numeric|min:1|max:1000',
+            'kelas'             => 'required|numeric',
+        ]);
+        $post                      = $this->request;
+        $data['nomor']             = bilangan($post['no_persil']);
+        $data['nomor_urut_bidang'] = bilangan($post['nomor_urut_bidang']);
+        $data['kelas']             = $post['kelas'];
+        $data['id_wilayah']        = $post['id_wilayah'] ?: null;
+        $data['luas_persil']       = bilangan($post['luas_persil']) ?: null;
+        $data['lokasi']            = $post['lokasi'] ?: null;
+        $data['path']              = $post['path'];
+        $data['id_peta']           = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? (empty($post['id_peta']) ? null : $post['id_peta']) : null;
+
+        return $data;
+    }
+
+    private function dataMutasi($data)
+    {
+        $mutasi['id_cdesa_masuk'] = $data['cdesa_awal'];
+        $mutasi['jenis_mutasi']   = '9';
+        $mutasi['tanggal_mutasi'] = date('Y-m-d H:i:s');
+        $mutasi['luas']           = $data['luas_persil'];
+        $mutasi['keterangan']     = 'Pemilik awal persil ini';
+        $mutasi['path']           = $data['path'];
+        $mutasi['id_peta']        = ($data['area_tanah'] == 1 || $data['area_tanah'] == null) ? $data['id_peta'] : null;
+
+        return $mutasi;
     }
 }

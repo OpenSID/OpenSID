@@ -46,6 +46,7 @@ class Migrasi_rev extends MY_model
     public function up()
     {
         $hasil = true;
+        $hasil = $this->migrasi_2024110351($hasil);
         $hasil = $this->migrasi_2024110652($hasil);
 
         return $this->migrasi_2024110651($hasil);
@@ -135,5 +136,14 @@ class Migrasi_rev extends MY_model
         copyFavicon();
 
         return $hasil;
+    }
+
+    protected function migrasi_2024110351($hasil)
+    {
+        $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'persil_peta_fk', 'persil');
+        $hasil = $hasil && $this->tambahForeignKey('persil_peta_fk', 'persil', 'id_peta', 'area', 'id', true);
+        $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'mutasi_cdesa_peta_fk', 'mutasi_cdesa');
+
+        return $hasil && $this->tambahForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'id_peta', 'area', 'id', true);
     }
 }
