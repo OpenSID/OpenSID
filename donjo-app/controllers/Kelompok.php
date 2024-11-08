@@ -70,8 +70,9 @@ class Kelompok extends Admin_Controller
 
     public function index()
     {
-        $data['list_master'] = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
-
+        $data['list_master']          = KelompokMaster::tipe($this->tipe)->get(['id', 'kelompok']);
+        $data['default_status_dasar'] = $this->input->get('default_status_dasar') ?? 1;
+        $data['default_kelompok']     = $this->input->get('default_kelompok');
         if ($this->input->is_ajax_request()) {
             $controller = $this->controller;
             $status     = $this->input->get('status_dasar');
@@ -81,18 +82,20 @@ class Kelompok extends Admin_Controller
                     $query->where('tipe', $tipe);
                 }])
                 ->tipe($this->tipe)
-                ->jenisKelaminKetua($this->session->sex)
+                ->when($this->session->sex, static fn ($q) => $q->jenisKelaminKetua() )
                 ->penerimaBantuan()
                 ->whereHas('kelompokMaster', function ($query): void {
                     if ($filter = $this->input->get('filter')) {
                         $query->where('id_master', $filter);
                     }
-                })->whereHas('ketua', static function ($query) use ($status): void {
-                    if ($status == 1) {
-                        $query->where('status_dasar', 1);
-                    } elseif ($status == 2) {
-                        $query->where('status_dasar', null);
-                    }
+                })->when($status > 0, static function ($query) use ($status) {
+                    $query->whereHas('ketua', static function ($query) use ($status): void {
+                        if ($status == 1) {
+                            $query->where('status_dasar', 1);
+                        } elseif ($status == 2) {
+                            $query->where('status_dasar', null);
+                        }
+                    });
                 });
 
             return datatables()->of($query)

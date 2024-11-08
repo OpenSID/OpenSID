@@ -48,16 +48,16 @@
                     <div class="row mepet">
                         <div class="col-sm-2">
                             <select id="status_dasar" class="form-control input-sm select2" name="status_dasar">
-                                <option value="">Pilih Status</option>
-                                <option value="1" selected>Aktif</option>
-                                <option value="2">Tidak Aktif</option>
+                                <option value="0" @selected($default_status_dasar == 0)>Pilih Status</option>
+                                <option value="1" @selected($default_status_dasar == 1)>Aktif</option>
+                                <option value="2" @selected($default_status_dasar == 2)>Tidak Aktif</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
                             <select id="filter" class="form-control input-sm select2" name="filter">
                                 <option value="">Pilih Kategori {{ $tipe }}</option>
                                 @foreach ($list_master as $data)
-                                    <option value="{{ $data->id }}">{{ $data->kelompok }}</option>
+                                    <option @selected($default_kelompok == $data->id) value="{{ $data->id }}">{{ $data->kelompok }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -136,6 +136,7 @@
                         data: 'ketua.nama',
                         name: 'ketua.nama',
                         class: 'padat',
+                        defaultContent: '',
                         searchable: true,
                         orderable: true
                     },
