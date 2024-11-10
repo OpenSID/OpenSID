@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8669](https://github.com/OpenSID/OpenSID/issues/8669) Perbaikan cell properties height pada tinymce surat.
 6. [#8679](https://github.com/OpenSID/OpenSID/issues/8679) Perbaikan tanggal nikah pada lampiran F-2.12.
 7. [#8652](https://github.com/OpenSID/OpenSID/issues/8652) Perbaikan notifikasi dan alur hapus kategori kelompok/lembaga.
+8. [#8694](https://github.com/OpenSID/OpenSID/issues/8694) Perbaikan penulisan judul kecamatan dan kabupaten pada tampilan buku tamu dan anjungan.
 
 
 ### TEKNIS
