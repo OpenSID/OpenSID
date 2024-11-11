@@ -61,10 +61,10 @@ class Sms_outbox extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(SentItem::with(['penduduk', 'kontak']))                
+            return datatables()->of(SentItem::with(['penduduk', 'kontak']))
                 ->addIndexColumn()
                 ->addColumn('nama', static fn ($row) => $row->kontak?->nama ?? ($row->penduduk?->nama ?? ''))
-                ->editColumn('SendingDateTime', static fn ($row) => tgl_indo2($row->SendingDateTime))                
+                ->editColumn('SendingDateTime', static fn ($row) => tgl_indo2($row->SendingDateTime))
                 ->make();
         }
 

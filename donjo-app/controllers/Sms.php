@@ -55,7 +55,7 @@ class Sms extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        isCan('b');        
+        isCan('b');
     }
 
     public function index()
@@ -150,7 +150,7 @@ class Sms extends Admin_Controller
             ]);
         }
 
-        redirect_with('success', 'Data berhasil disimpan',ci_route('sms.outbox'));
+        redirect_with('success', 'Data berhasil disimpan', ci_route('sms.outbox'));
     }
 
     // Sms
@@ -185,7 +185,7 @@ class Sms extends Admin_Controller
     }
 
     public function delete($tipe = 0, $id = ''): void
-    {        
+    {
         isCan('h');
         if ($tipe == 2) {
             SentItem::destroy($this->request['id_cb'] ?? $id);

@@ -70,9 +70,9 @@ class Persil extends BaseModel
 
     public function scopeList($query)
     {
-        return $query->with(['wilayah' => function ($query) {
+        return $query->with(['wilayah' => static function ($query) {
             $query->select('id', 'rt', 'rw', 'dusun');
-        }, 'refKelas' => function ($query) {
+        }, 'refKelas' => static function ($query) {
             $query->select('id', 'kode', 'tipe');
         }])->orderBy('nomor')->orderBy('nomor_urut_bidang')->get()->toArray();
     }

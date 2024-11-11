@@ -89,11 +89,11 @@ class Cdesa extends BaseModel
             ->selectRaw('IF(cdesa.jenis_pemilik = 1, tweb_penduduk.nik, "-") as nik_pemilik')
             ->selectRaw('IF(cdesa.jenis_pemilik = 1, tweb_penduduk.id, "-") as id_pemilik')
             ->selectRaw('COUNT(DISTINCT persil.id) as jumlah')
-            ->leftJoin('mutasi_cdesa', static function ($join) {
+            ->leftJoin('mutasi_cdesa', static function ($join): void {
                 $join->on('mutasi_cdesa.id_cdesa_masuk', '=', 'cdesa.id')
                     ->orOn('mutasi_cdesa.cdesa_keluar', '=', 'cdesa.id');
             })
-            ->leftJoin('persil', static function ($join) {
+            ->leftJoin('persil', static function ($join): void {
                 $join->on('persil.id', '=', 'mutasi_cdesa.id_persil')
                     ->orOn('cdesa.id', '=', 'persil.cdesa_awal');
             })
@@ -115,21 +115,22 @@ class Cdesa extends BaseModel
             $query->whereNotIn('cdesa.id', $kecuali);
         }
 
-        $data = $query->get()->map(function ($item) {
+        return $query->get()->map(function ($item) {
             // Mengisi nilai luas persil untuk setiap data
-            $luas_persil = $this->jumlah_luas($item->id_cdesa);
-            $item->basah = $luas_persil['BASAH'];
+            $luas_persil  = $this->jumlah_luas($item->id_cdesa);
+            $item->basah  = $luas_persil['BASAH'];
             $item->kering = $luas_persil['KERING'];
 
             return $item;
         })->toArray();
-
-        return $data;
     }
 
     // Untuk cetak daftar C-Desa, menghitung jumlah luas per kelas persil
     // Perhitungkan kasus suatu C-Desa adalah pemilik awal keseluruhan persil
-    public function jumlah_luas($id_cdesa)
+    /**
+     * @return float[]|int[]
+     */
+    public function jumlah_luas($id_cdesa): array
     {
         // Mengambil data persil awal
         $persil_awal = DB::table('persil as p')
@@ -139,9 +140,7 @@ class Cdesa extends BaseModel
             ->get();
 
         // Membuat array untuk menyimpan luas persil berdasarkan tipe
-        $luas_persil = $persil_awal->groupBy('tipe')->mapWithKeys(function ($items) {
-            return [$items->first()->tipe => $items->pluck('luas_persil', 'id')->toArray()];
-        })->toArray();
+        $persil_awal->groupBy('tipe')->mapWithKeys(static fn ($items): array => [$items->first()->tipe => $items->pluck('luas_persil', 'id')->toArray()])->toArray();
 
         // Mengambil data mutasi persil
         $list_mutasi = DB::table('mutasi_cdesa as m')
@@ -154,18 +153,18 @@ class Cdesa extends BaseModel
 
         // Menghitung luas persil dari mutasi
         $luas_persil_mutasi = [];
+
         foreach ($list_mutasi as $mutasi) {
             if ($mutasi->cdesa_keluar == $id_cdesa) {
-                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] =
-                    ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) - $mutasi->luas;
+                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] = ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) - $mutasi->luas;
             } else {
-                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] =
-                    ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) + $mutasi->luas;
+                $luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] = ($luas_persil_mutasi[$mutasi->tipe][$mutasi->id_persil] ?? 0) + $mutasi->luas;
             }
         }
 
         // Menjumlahkan luas total per tipe persil
         $luas_total = [];
+
         foreach ($luas_persil_mutasi as $tipe => $luas) {
             $luas_total[$tipe] = array_sum($luas);
         }
@@ -175,7 +174,7 @@ class Cdesa extends BaseModel
 
     public function scopeListPersil($query, $id_cdesa)
     {
-        $data = DB::table('persil as p')
+        return DB::table('persil as p')
             ->select('p.*', 'rk.kode as kelas_tanah')
             ->selectRaw("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
         (CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
@@ -186,15 +185,13 @@ class Cdesa extends BaseModel
             ->leftJoin('mutasi_cdesa as m', 'p.id', '=', 'm.id_persil')
             ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
             ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_wilayah')
-            ->where(function ($query) use ($id_cdesa) {
+            ->where(static function ($query) use ($id_cdesa): void {
                 $query->where('m.id_cdesa_masuk', $id_cdesa)
                     ->orWhere('m.cdesa_keluar', $id_cdesa)
                     ->orWhere('p.cdesa_awal', $id_cdesa);
             })
             ->groupBy('p.id')
             ->orderByRaw('CAST(p.nomor AS UNSIGNED), nomor_urut_bidang');
-
-        return $data;
     }
 
     public static function cetakMutasi($id_cdesa, $tipe = '')
@@ -237,7 +234,7 @@ class Cdesa extends BaseModel
         $data = DB::select($sql);
 
         foreach ($data as $key => $mutasi) {
-            if ($id_cdesa == $mutasi->cdesa_awal && !isset($processed[$mutasi->id_persil])) {
+            if ($id_cdesa == $mutasi->cdesa_awal && ! isset($processed[$mutasi->id_persil])) {
                 // Cek kalau memiliki keseluruhan persil sekali saja untuk setiap persil
                 $data[$key]->luas   = $mutasi->luas_persil;
                 $data[$key]->mutasi = '<p>Memiliki keseluruhan persil sejak awal</p>';
@@ -256,13 +253,13 @@ class Cdesa extends BaseModel
         return $data;
     }
 
-    private static function format_mutasi($id_cdesa, $mutasi)
+    private static function format_mutasi($id_cdesa, array $mutasi): string
     {
         $keluar = $mutasi['id_cdesa_keluar'] == $id_cdesa;
         $div    = $keluar ? 'class="out"' : null;
         $hasil  = "<p {$div}>";
         $hasil .= $mutasi['sebabmutasi'];
-        $hasil .= $keluar ? ' ke C No ' . str_pad($mutasi['cdesa_keluar'], 4, '0', STR_PAD_LEFT) : ' dari C No ' . str_pad($mutasi['cdesa_masuk'], 4, '0', STR_PAD_LEFT);
+        $hasil .= $keluar ? ' ke C No ' . str_pad((string) $mutasi['cdesa_keluar'], 4, '0', STR_PAD_LEFT) : ' dari C No ' . str_pad((string) $mutasi['cdesa_masuk'], 4, '0', STR_PAD_LEFT);
         $hasil .= empty($mutasi['luas']) ? null : ', Seluas ' . number_format($mutasi['luas']) . ' m<sup>2</sup>, ';
         $hasil .= empty($mutasi['tanggal_mutasi']) ? null : tgl_indo_out($mutasi['tanggal_mutasi']) . '<br />';
         $hasil .= empty($mutasi['keterangan']) ? null : $mutasi['keterangan'];

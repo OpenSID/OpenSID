@@ -74,10 +74,8 @@ class AcakData extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         // INIT
         $kode_kecamatan = identitas('kode_kecamatan');
@@ -164,7 +162,7 @@ class AcakData extends Command
         foreach ($rtms as $key => $rtm) {
             $update_tgl_daftar = Carbon::parse($rtm->tgl_daftar)->addDays(7);
             $tgl_daftar        = Carbon::parse($update_tgl_daftar)->format('dmy');
-            $bdt               = ! empty($rtm->bdt) ? $kode_kecamatan . str_pad($key + 1, 10, '0', STR_PAD_LEFT) : null;
+            $bdt               = empty($rtm->bdt) ? null : $kode_kecamatan . str_pad($key + 1, 10, '0', STR_PAD_LEFT);
             Rtm::find($rtm->id)->update([
                 'no_kk'      => $kode_kecamatan . $tgl_daftar . str_pad($rtm->id, 4, '0', STR_PAD_LEFT),
                 'tgl_daftar' => $update_tgl_daftar,
@@ -176,7 +174,7 @@ class AcakData extends Command
         $this->info('>_ Acak Keluarga');
         $keluargas = Keluarga::get(['id', 'tgl_daftar']);
 
-        foreach ($keluargas as $key => $keluarga) {
+        foreach ($keluargas as $keluarga) {
             $update_tgl_daftar = Carbon::parse($keluarga->tgl_daftar)->addDays(7);
             $tgl_daftar        = Carbon::parse($update_tgl_daftar)->format('dmy');
             Keluarga::find($keluarga->id)->update([

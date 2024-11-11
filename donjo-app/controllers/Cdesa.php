@@ -36,13 +36,8 @@
  */
 
 use App\Models\Cdesa as CdesaModel;
-use App\Models\CdesaPenduduk;
-use App\Models\MutasiCdesa;
 use App\Models\Pamong;
 use App\Models\Penduduk;
-use App\Models\Persil;
-use App\Models\RefPersilKelas;
-use App\Models\RefPersilMutasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -88,7 +83,7 @@ class Cdesa extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('nomor', static fn($row) => sprintf('%04s', $row->nomor))
+                ->editColumn('nomor', static fn ($row) => sprintf('%04s', $row->nomor))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -106,9 +101,9 @@ class Cdesa extends Admin_Controller
 
             $cdesa = CdesaModel::selectData()->findOrFail($id);
         } else {
-            $action           = 'Tambah';
-            $form_action      = ci_route('cdesa.insert');
-            $cdesa = null;
+            $action      = 'Tambah';
+            $form_action = ci_route('cdesa.insert');
+            $cdesa       = null;
         }
 
         return view('admin.pertanahan.cdesa.form', ['action' => $action, 'form_action' => $form_action, 'cdesa' => $cdesa]);
@@ -118,7 +113,7 @@ class Cdesa extends Admin_Controller
     {
         isCan('u');
 
-        $req = static::validate();
+        $req  = static::validate();
         $data = CdesaModel::create($req['data']);
 
         if ($data) {
@@ -131,12 +126,11 @@ class Cdesa extends Admin_Controller
         redirect_with('error', 'Gagal Tambah Data');
     }
 
-
     public function update($id = ''): void
     {
         isCan('u');
 
-        $req = static::validate();
+        $req  = static::validate();
         $data = CdesaModel::with('cdesaPenduduk')->findOrFail($id);
 
         $data->fill($req['data']);
@@ -180,13 +174,14 @@ class Cdesa extends Admin_Controller
 
         $cdesaPenduduk = [];
         if ($data['jenis_pemilik'] == 1) {
-            $cdesaPenduduk['id_pend'] = $data['id_penduduk'];
+            $cdesaPenduduk['id_pend']  = $data['id_penduduk'];
             $cdesaPenduduk['id_cdesa'] = $data['id_cdesa'];
         }
         unset($data['id_penduduk']);
 
-        $cdesa['data'] = $data;
+        $cdesa['data']     = $data;
         $cdesa['penduduk'] = $cdesaPenduduk;
+
         return $cdesa;
     }
 
@@ -200,14 +195,14 @@ class Cdesa extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data           = $this->modal_penandatangan();
-        $data['aksi']   = $aksi;
-        $data['config'] = $this->header['desa'];
+        $data                   = $this->modal_penandatangan();
+        $data['aksi']           = $aksi;
+        $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['main']   = CdesaModel::listCdesa();
+        $data['main']           = CdesaModel::listCdesa();
 
-        $data['file']  = 'Daftar C-Desa ' . date('Y-m-d');
+        $data['file'] = 'Daftar C-Desa ' . date('Y-m-d');
 
         $data['isi']       = 'admin.pertanahan.cdesa.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
@@ -228,7 +223,7 @@ class Cdesa extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn($item): array => [
+                    ->map(static fn ($item): array => [
                         'id'   => $item->id,
                         'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper(setting('sebutan_dusun') . ' ' . $item->wilayah->dusun),
                     ]),
@@ -244,8 +239,8 @@ class Cdesa extends Admin_Controller
     public function detailPenduduk()
     {
         $id_penduduk = $this->input->get('id_penduduk');
-        $individu   = Penduduk::with('wilayah')->findOrFail($id_penduduk);
-        $html    = view('admin.pertanahan.cdesa.detail_penduduk', ['pemilik' => $individu], [], true);
+        $individu    = Penduduk::with('wilayah')->findOrFail($id_penduduk);
+        $html        = view('admin.pertanahan.cdesa.detail_penduduk', ['pemilik' => $individu], [], true);
 
         $sumber = [
             'html' => (string) $html,
@@ -263,12 +258,12 @@ class Cdesa extends Admin_Controller
         $data['basah']  = CdesaModel::cetakMutasi($id, 'BASAH');
         $data['kering'] = CdesaModel::cetakMutasi($id, 'KERING');
 
-        $data['aksi']   = 'cetak';
-        $data['desa']   = $this->header['desa'];
+        $data['aksi'] = 'cetak';
+        $data['desa'] = $this->header['desa'];
 
-        $data['file']  = 'Form C-Desa ' . date('Y-m-d');
+        $data['file'] = 'Form C-Desa ' . date('Y-m-d');
 
-        $data['isi']       = 'admin.pertanahan.cdesa.cdesa_form_cetak';
+        $data['isi'] = 'admin.pertanahan.cdesa.cdesa_form_cetak';
         // $data['letak_ttd'] = ['1', '2', '12'];
         $data['letak_ttd'] = [];
 

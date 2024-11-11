@@ -246,15 +246,15 @@ class Rekap
                     $jumlahLayanan = count($item['indikator']);
 
                     foreach ($item['indikator'] as $indikator) {
-                        if ($indikator == 'Y') {
+                        if ($indikator === 'Y') {
                             $jumlahY++;
                         }
 
-                        if ($indikator == 'T') {
+                        if ($indikator === 'T') {
                             $jumlahT++;
                         }
 
-                        if ($indikator == 'TS') {
+                        if ($indikator === 'TS') {
                             $jumlahTS++;
                         }
                     }
@@ -673,15 +673,15 @@ class Rekap
                 $jumlahTS      = 0;
 
                 foreach ($dataFilter[$key]['indikator'] as $indikator) {
-                    if ($indikator == 'Y') {
+                    if ($indikator === 'Y') {
                         $jumlahY++;
                     }
 
-                    if ($indikator == 'T') {
+                    if ($indikator === 'T') {
                         $jumlahT++;
                     }
 
-                    if ($indikator == 'TS') {
+                    if ($indikator === 'TS') {
                         $jumlahTS++;
                     }
                 }

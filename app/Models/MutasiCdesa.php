@@ -77,30 +77,30 @@ class MutasiCdesa extends BaseModel
 
         // Query utama untuk daftar mutasi
         $query = DB::table('mutasi_cdesa as m')
-        ->selectRaw("CASE 
-                        WHEN p.id_wilayah = w.id 
+            ->selectRaw("CASE
+                        WHEN p.id_wilayah = w.id
                             THEN CONCAT(
                                 IF(w.rt != '0', CONCAT('RT ', w.rt, ' / '), ''),
                                 IF(w.rw != '0', CONCAT('RW ', w.rw, ' - '), ''),
                                 w.dusun
-                            ) 
-                        ELSE 
-                            IF(p.lokasi IS NOT NULL, p.lokasi, '=== Lokasi Tidak Ditemukan ===') 
+                            )
+                        ELSE
+                            IF(p.lokasi IS NOT NULL, p.lokasi, '=== Lokasi Tidak Ditemukan ===')
                     END AS alamat")
-        ->addSelect('m.*', 'p.nomor', 'rk.kode as kelas_tanah')
-        ->addSelect(DB::raw("IF(m.id_cdesa_masuk = {$id_cdesa}, m.luas, '') AS luas_masuk"))
-        ->addSelect(DB::raw("IF(m.cdesa_keluar = {$id_cdesa}, m.luas, '') AS luas_keluar"))
-        ->addSelect(DB::raw("IF(m.jenis_mutasi = '9', 0, 1) AS awal"))
-        ->leftJoin('cdesa as c', 'c.id', '=', 'm.id_cdesa_masuk')
-        ->leftJoin('persil as p', 'p.id', '=', 'm.id_persil')
-        ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
-        ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_wilayah')
-        ->where(function ($query) use ($id_cdesa) {
-            $query->where('m.id_cdesa_masuk', $id_cdesa)
-                ->orWhere('m.cdesa_keluar', $id_cdesa);
-        })
-        ->orderBy('awal')
-        ->orderBy('tanggal_mutasi');
+            ->addSelect('m.*', 'p.nomor', 'rk.kode as kelas_tanah')
+            ->addSelect(DB::raw("IF(m.id_cdesa_masuk = {$id_cdesa}, m.luas, '') AS luas_masuk"))
+            ->addSelect(DB::raw("IF(m.cdesa_keluar = {$id_cdesa}, m.luas, '') AS luas_keluar"))
+            ->addSelect(DB::raw("IF(m.jenis_mutasi = '9', 0, 1) AS awal"))
+            ->leftJoin('cdesa as c', 'c.id', '=', 'm.id_cdesa_masuk')
+            ->leftJoin('persil as p', 'p.id', '=', 'm.id_persil')
+            ->leftJoin('ref_persil_kelas as rk', 'p.kelas', '=', 'rk.id')
+            ->leftJoin('tweb_wil_clusterdesa as w', 'w.id', '=', 'p.id_wilayah')
+            ->where(static function ($query) use ($id_cdesa) {
+                $query->where('m.id_cdesa_masuk', $id_cdesa)
+                    ->orWhere('m.cdesa_keluar', $id_cdesa);
+            })
+            ->orderBy('awal')
+            ->orderBy('tanggal_mutasi');
 
         // Tambahkan kondisi untuk $id_persil jika diberikan
         if ($id_persil) {

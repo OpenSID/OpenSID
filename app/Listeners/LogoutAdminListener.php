@@ -46,7 +46,7 @@ class LogoutAdminListener
     {
     }
 
-    public function handle(Logout $logout)
+    public function handle(Logout $logout): void
     {
         if (! in_array($logout->guard, ['admin', 'admin_periksa'])) {
             return;

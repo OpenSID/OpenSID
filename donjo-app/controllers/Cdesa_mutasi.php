@@ -36,10 +36,7 @@
  */
 
 use App\Models\Cdesa as CdesaModel;
-use App\Models\CdesaPenduduk;
 use App\Models\MutasiCdesa;
-use App\Models\Pamong;
-use App\Models\Penduduk;
 use App\Models\Persil;
 use App\Models\RefPersilKelas;
 use App\Models\RefPersilMutasi;
@@ -61,8 +58,9 @@ class Cdesa_mutasi extends Admin_Controller
 
     public function index($id_cdesa, $id_persil = null)
     {
-        $data['cdesa']   = CdesaModel::selectData()->findOrFail($id_cdesa);
-        $data['persil']  = Persil::with('refKelas', 'wilayah')->find($id_persil);
+        $data['cdesa']  = CdesaModel::selectData()->findOrFail($id_cdesa);
+        $data['persil'] = Persil::with('refKelas', 'wilayah')->find($id_persil);
+
         // dd($data);
         return view('admin.pertanahan.cdesa.mutasi.index', $data);
     }
@@ -82,7 +80,7 @@ class Cdesa_mutasi extends Admin_Controller
     public function datatables($id_cdesa, $id_persil = null)
     {
         if ($this->input->is_ajax_request()) {
-            $query  = MutasiCdesa::getList($id_cdesa, $id_persil);
+            $query = MutasiCdesa::getList($id_cdesa, $id_persil);
 
             return datatables()->of($query)
                 ->addIndexColumn()
@@ -102,13 +100,14 @@ class Cdesa_mutasi extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('nomor', static fn($row) => sprintf('%04s', $row->nomor))
-                ->editColumn('tanggal_mutasi', static fn($row) => tgl_indo_out($row->tanggal_mutasi))
+                ->editColumn('nomor', static fn ($row) => sprintf('%04s', $row->nomor))
+                ->editColumn('tanggal_mutasi', static fn ($row) => tgl_indo_out($row->tanggal_mutasi))
                 ->editColumn('luas_masuk', static function ($row) {
                     $txt = $row->luas_masuk;
                     if ($row->cdesa_keluar && $row->id_cdesa_masuk == $row->id_cdesa) {
                         $txt .= 'dari ' . '<a href="' . ci_route('cdesa.mutasi', $row->cdesa_keluar) . '/' . $row->id_persil . '">C-Desa ini</a>';
                     }
+
                     return $txt;
                 })
                 ->editColumn('luas_keluar', static function ($row) {
@@ -116,6 +115,7 @@ class Cdesa_mutasi extends Admin_Controller
                     if ($row->cdesa_keluar && $row->id_cdesa_masuk != $row->id_cdesa) {
                         $txt .= 'ke ' . '<a href="' . ci_route('cdesa.mutasi', $row->cdesa_keluar) . '/' . $row->id_persil . '">C-Desa ini</a>';
                     }
+
                     return $txt;
                 })
                 ->rawColumns(['ceklist', 'aksi', 'luas_masuk', 'luas_keluar'])
@@ -139,15 +139,15 @@ class Cdesa_mutasi extends Admin_Controller
 
         $data['list_cdesa'] = CdesaModel::listCdesa([$id_cdesa]);
 
-        $data['list_persil']         = Persil::list();
+        $data['list_persil'] = Persil::list();
 
-        $data['desa']    = $this->header['desa'];
+        $data['desa'] = $this->header['desa'];
 
         $data['persil_lokasi']       = $this->wilayah_model->list_semua_wilayah();
         $data['persil_kelas']        = RefPersilKelas::get()->toArray();
         $data['persil_sebab_mutasi'] = RefPersilMutasi::get()->toArray();
 
-        $data['peta']                = $this->plan_area_model->list_data();
+        $data['peta'] = $this->plan_area_model->list_data();
 
         return view('admin.pertanahan.cdesa.mutasi.form', $data);
     }

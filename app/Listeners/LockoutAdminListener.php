@@ -47,7 +47,7 @@ class LockoutAdminListener
     {
     }
 
-    public function handle(Lockout $lockout)
+    public function handle(Lockout $lockout): void
     {
         if ($this->app['auth']->guard('admin')->name !== 'admin' || $this->app['auth']->guard('admin_periksa')->name !== 'admin_periksa') {
             return;

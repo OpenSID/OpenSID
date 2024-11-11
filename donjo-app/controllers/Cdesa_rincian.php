@@ -54,7 +54,7 @@ class Cdesa_rincian extends Admin_Controller
     public function index($rincian)
     {
         $data['rincian'] = Cdesa::selectData()->findOrFail($rincian);
-        $data['desa'] = $this->header['desa'];
+        $data['desa']    = $this->header['desa'];
 
         return view('admin.pertanahan.cdesa.rincian.index', $data);
     }
@@ -71,13 +71,15 @@ class Cdesa_rincian extends Admin_Controller
                     $aksi = '<a href="' . ci_route('cdesa.mutasi', [$rincian, $row->id]) . '" class="btn bg-maroon btn-sm" style="margin-right: 3px;"  title="Daftar Mutasi"><i class="fa fa-exchange"></i></a>';
 
                     $aksi .= '<a href="#" data-path="' . $row->path . '" class="btn bg-olive btn-sm area-map" title="Lihat Map" data-toggle="modal" style="margin-right: 3px;" data-target="#map-modal" ><i class="fa fa-map"></i></a>';
+
                     return $aksi;
                 })
                 ->editColumn('nomor_persil', static function ($row) use ($rincian) {
                     $pemilik = $row->cdesa_awal == $rincian ? '<code>( Pemilik awal )</code>' : '';
-                    return '<a href="' . ci_route('data_persil.rincian', $row->id) . '">' . $row->nomor  . ' : ' . $row->nomor_urut_bidang . $pemilik . '</a>';
+
+                    return '<a href="' . ci_route('data_persil.rincian', $row->id) . '">' . $row->nomor . ' : ' . $row->nomor_urut_bidang . $pemilik . '</a>';
                 })
-                ->editColumn('lokasi', static fn($row) => $row->lokasi ?: $row->alamat)
+                ->editColumn('lokasi', static fn ($row) => $row->lokasi ?: $row->alamat)
                 ->rawColumns(['ceklist', 'aksi', 'nomor_persil'])
                 ->make();
         }

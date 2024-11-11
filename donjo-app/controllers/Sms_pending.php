@@ -36,7 +36,6 @@
  */
 
 use App\Models\Outbox;
-use App\Models\SentItem;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
