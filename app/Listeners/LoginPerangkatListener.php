@@ -38,7 +38,6 @@
 namespace App\Listeners;
 
 use App\Enums\StatusEnum;
-use CI_Session;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Container\Container;
 
