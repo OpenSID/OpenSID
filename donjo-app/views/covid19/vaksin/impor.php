@@ -29,7 +29,7 @@
                             <code>Data dengan NIK sama akan ditimpa.</code>
                             <br/>
                             <br/>
-                            <a href="<?= asset('import/FormatImporVaksin.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Penerima Vaksin</a>
+                            <a href="<?= $formatImpor ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Penerima Vaksin</a>
                         </div>
                     </div>
                     <div class="modal-footer">

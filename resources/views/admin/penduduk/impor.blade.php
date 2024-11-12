@@ -61,8 +61,8 @@
                                 <li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan
                                     di bawah ini :
                                     <div class="timeline-footer col-sm-12">
-                                        <a href="{{ asset('import/FormatImporExcel.xlsm') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan Contoh Format Data</a>
-                                        <a href="{{ asset('import/contoh_penduduk.xlsx') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Contoh Data Penduduk Ekspor</a>
+                                        <a href="{{ $formatImpor }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan Contoh Format Data</a>
+                                        <a href="{{ $contohPenduduk }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Contoh Data Penduduk Ekspor</a>
                                     </div>
                                 </li>
                             </ol>

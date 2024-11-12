@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <a href="{{ site_url('surat_dinas/bawaan') }}" class="btn btn-social bg-navy btn-sm" target="_blank">
+                    <a href="{{ $suratDinasBawaan }}" class="btn btn-social bg-navy btn-sm" target="_blank">
                         <i class="fa fa-download"></i> Contoh Surat Dinas Sistem </a>
                 </div>
             </div>

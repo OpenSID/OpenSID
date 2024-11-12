@@ -2139,7 +2139,7 @@ if (! function_exists('isNestedArray')) {
 if (! function_exists('getSuratBawaanTinyMCE')) {
     function getSuratBawaanTinyMCE($url_surat = null)
     {
-        $list_data = file_get_contents('assets/import/template_surat_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
 
         return collect(json_decode($list_data, true))
             ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());
@@ -2178,7 +2178,7 @@ if (! function_exists('restoreSuratBawaanTinyMCE')) {
 if (! function_exists('getSuratBawaanDinasTinyMCE')) {
     function getSuratBawaanDinasTinyMCE($url_surat = null)
     {
-        $list_data = file_get_contents('assets/import/template_surat_dinas_tinymce.json');
+        $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json');
 
         return collect(json_decode($list_data, true))
             ->when($url_surat, static fn ($collection) => $collection->where('url_surat', $url_surat))->map(static fn ($item) => collect($item)->except('id', 'config_id', 'url_surat', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa', 'kunci')->toArray());

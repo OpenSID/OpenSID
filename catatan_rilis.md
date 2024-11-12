@@ -24,6 +24,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 5. [#8676](https://github.com/OpenSID/OpenSID/issues/8676) Penyesuaian pengecekan grup akses menggunakan bawaan laravel gate access.
 6. [#8665](https://github.com/OpenSID/OpenSID/issues/8665) Penyesuaian menampilkan favicon.ico.
 7. [#8593](https://github.com/OpenSID/OpenSID/issues/8593) Penyesuaian modul pertanahan menggunakan view blade dan ORM laravel.
+8. [#8703](https://github.com/OpenSID/OpenSID/issues/8703) Penyesuaian lokasi dan format file impor.
+
 
 ### LAYANAN
 

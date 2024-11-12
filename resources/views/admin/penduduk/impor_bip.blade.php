@@ -24,12 +24,11 @@
             </p>
             <p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat
                 pada tautan berikut :</P>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2012.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2012</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2016.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2016</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_ektp.xls') }}"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2016_luwutimur.xls') }}"><i class="fa fa-download"></i>Contoh BIP 2016
-                Luwu Timur</a>
-            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_siak.xls') }}"><i class="fa fa-download"></i>Contoh Data SIAK</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ $formatBip2012 }}"><i class="fa fa-download"></i>Contoh BIP 2012</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ $formatBip2016 }}"><i class="fa fa-download"></i>Contoh BIP 2016</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ $formatBipEktp }}"><i class="fa fa-download"></i>Contoh BIP eKTP</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ $formatBip2016Lutim }}"><i class="fa fa-download"></i>Contoh BIP 2016 Luwu Timur</a>
+            <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ $formatBipSiak }}"><i class="fa fa-download"></i>Contoh Data SIAK</a>
             <p></p>
             <p>Proses ini mengimpor data keluarga di semua worksheet di berkas BIP. Misalnya, apabila data BIP tersusun
                 menjadi satu worksheet per dusun, proses ini akan mengimpor data semua dusun.</p>

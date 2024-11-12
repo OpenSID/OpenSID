@@ -108,7 +108,6 @@ Route::group('analisis_respon/{master}', ['namespace' => 'Analisis'], static fun
     Route::post('import_proses/{op?}', 'Analisis_respon@import_proses')->name('analisis_respon.import_proses');
     Route::get('form_impor_bdt/{id?}', 'Analisis_respon@form_impor_bdt')->name('analisis_respon.form_impor_bdt');
     Route::post('impor_bdt', 'Analisis_respon@impor_bdt')->name('analisis_respon.impor_bdt');
-    Route::get('unduh_form_bdt/{id?}', 'Analisis_respon@unduh_form_bdt')->name('analisis_respon.unduh_form_bdt');
     Route::group('child', static function (): void {
         Route::get('form/{id}/{idc?}', 'Analisis_respon_child@formChild')->name('analisis_respon.form_child');
         Route::post('update/{id}/{idc?}', 'Analisis_respon_child@updateChild')->name('analisis_respon.update_child');

@@ -35,7 +35,7 @@
                             <label>Data dengan NIK sama akan ditimpa</label>
                             <br />
                             <br />
-                            <a href="{{ asset('import/FormatImporRTM.xlsx') }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Rumah Tangga</a>
+                            <a href="{{ $formatImpor }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Rumah Tangga</a>
                         </div>
                     </div>
                     <div class="modal-footer">

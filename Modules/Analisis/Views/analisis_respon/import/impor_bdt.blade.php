@@ -14,7 +14,7 @@
 </script>
 <form id="validasi" action="{{ $form_action }}" method="POST" enctype="multipart/form-data">
     <div class='modal-body'>
-        <p>Impor Data BDT 2015 menggunakan format data yang diperoleh dari TNP2K. Contoh format data ada di tautan berikut <a href="{{ ci_route('analisis_respon.' . $analisis_master['id'] . '.unduh_form_bdt') }}" class="uibutton confirm" target="_blank"> Form Data BDT 2015 </a></p>
+        <p>Impor Data BDT 2015 menggunakan format data yang diperoleh dari TNP2K. Contoh format data ada di tautan berikut <a href="{{ $formatImpor }}" class="uibutton confirm" target="_blank"> Form Data BDT 2015 </a></p>
         <div class="form-group">
             <label for="file" class="control-label">Pilih Berkas Data BDT 2015 :</label>
             <div class="input-group input-group-sm">

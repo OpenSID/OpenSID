@@ -165,9 +165,12 @@ class Analisis_master extends AdminModulController
     public function import_analisis(): void
     {
         isCan('u');
-        $data['form_action'] = ci_route('analisis_master.import');
 
-        view('analisis.import', $data);
+        view('analisis.import', [
+            'form_action' => ci_route('analisis_master.import'),
+            'formatImpor' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'analisis.xlsx')),
+            'formatPpls2' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'ppls2.xlsx')),
+        ]);
     }
 
     public function import(): void
