@@ -72,7 +72,7 @@ define('WEBSITE_DEMO', [
     'devpremium.opendesa.id',
     'opensid-premium.test',
     'opensid.test',
-    'pelatihan.opendesa.id',
+    'pelatihan-opensid.opendesa.id',
 ]);
 
 if (! function_exists('cek_anjungan')) {
