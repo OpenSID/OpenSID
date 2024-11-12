@@ -125,7 +125,7 @@ class Menu extends BaseModel
 
     public function childrens(): HasMany
     {
-        return $this->hasMany(Menu::class, 'parrent', 'id')->with(['childrens' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->orderBy('urut')]);
+        return $this->hasMany(Menu::class, 'parrent', 'id')->with(['childrens' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->orderBy('urut')->where('enabled', 1)]);
     }
 
     protected function getLinkUrlAttribute()
@@ -159,10 +159,7 @@ class Menu extends BaseModel
     public function tree()
     {
         return $this->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])
-            ->where('parrent', 0)->where('enabled', 1)
-            ->with(['childrens' => static function ($q): void {
-                $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->where('enabled', 1)->orderBy('urut');
-            }])
+            ->where('parrent', 0)->where('enabled', 1)->with('childrens')
             ->orderBy('urut')
             ->get();
     }

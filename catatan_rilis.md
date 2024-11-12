@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8652](https://github.com/OpenSID/OpenSID/issues/8652) Perbaikan notifikasi dan alur hapus kategori kelompok/lembaga.
 8. [#8694](https://github.com/OpenSID/OpenSID/issues/8694) Perbaikan penulisan judul kecamatan dan kabupaten pada tampilan buku tamu dan anjungan.
 9. [#8697](https://github.com/OpenSID/OpenSID/issues/8697) Perbaikan pengaturan font dan margin saat cetak surat.
+10. [#8716](https://github.com/OpenSID/OpenSID/issues/8716) Perbaikan menampilkan menu dengan status tidak aktif.
 
 
 ### TEKNIS
