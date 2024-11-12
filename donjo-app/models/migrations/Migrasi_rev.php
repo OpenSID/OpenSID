@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
@@ -48,6 +49,7 @@ class Migrasi_rev extends MY_model
         $hasil = true;
         $hasil = $this->migrasi_2024110351($hasil);
         $hasil = $this->migrasi_2024110652($hasil);
+        $hasil = $this->migrasi_2024111251($hasil);
 
         return $this->migrasi_2024110651($hasil);
     }
@@ -91,6 +93,7 @@ class Migrasi_rev extends MY_model
                 'pemantauan'             => 7,
             ],
         ];
+
         $configId = identitas('id');
         $modul    = Modul::get();
         $modulMap = $modul->pluck('id', 'slug');
@@ -145,5 +148,12 @@ class Migrasi_rev extends MY_model
         $hasil = $hasil && $this->hapus_foreign_key('lokasi', 'mutasi_cdesa_peta_fk', 'mutasi_cdesa');
 
         return $hasil && $this->tambahForeignKey('mutasi_cdesa_peta_fk', 'mutasi_cdesa', 'id_peta', 'area', 'id', true);
+    }
+
+    protected function migrasi_2024111251($hasil)
+    {
+        FormatSurat::where('url_surat', 'sistem-surat-keterangan-pengantar-rujukcerai')->where('jenis', FormatSurat::TINYMCE_SISTEM)->delete();
+
+        return $hasil;
     }
 }
