@@ -34,15 +34,11 @@ class NormalizerFormatter implements FormatterInterface
     protected string $basePath = '';
 
     /**
-     * @param  string|null       $dateFormat The format of the timestamp: one supported by DateTime::format
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
      */
     public function __construct(?string $dateFormat = null)
     {
         $this->dateFormat = null === $dateFormat ? static::SIMPLE_DATE : $dateFormat;
-        if (!\function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
-        }
     }
 
     /**
@@ -167,7 +163,7 @@ class NormalizerFormatter implements FormatterInterface
      */
     protected function normalizeRecord(LogRecord $record): array
     {
-        /** @var array<mixed> $normalized */
+        /** @var array<mixed[]|scalar|null> $normalized */
         $normalized = $this->normalize($record->toArray());
 
         return $normalized;
@@ -252,7 +248,7 @@ class NormalizerFormatter implements FormatterInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, string|int|array<string|int|array<string>>>|string
      */
     protected function normalizeException(Throwable $e, int $depth = 0)
     {
