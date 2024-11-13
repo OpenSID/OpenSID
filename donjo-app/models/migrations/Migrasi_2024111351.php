@@ -131,6 +131,8 @@ class Migrasi_2024111351 extends MY_model
             }
         }
 
+        cache()->flush();
+
         return $hasil;
     }
 
