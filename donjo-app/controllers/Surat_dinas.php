@@ -35,21 +35,20 @@
  *
  */
 
-use App\Models\Sex;
-use App\Models\User;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
-use App\Models\SuratDinas;
-use App\Models\StatusDasar;
-use App\Models\SyaratSurat;
-use Spipu\Html2Pdf\Html2Pdf;
 use App\Models\AliasKodeIsian;
-use App\Models\SettingAplikasi;
 use App\Models\KlasifikasiSurat;
-use App\Imports\SuratDinasImports;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
+use App\Models\SettingAplikasi;
+use App\Models\Sex;
+use App\Models\StatusDasar;
+use App\Models\SuratDinas;
+use App\Models\SyaratSurat;
+use App\Models\User;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Html2Pdf;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -70,7 +69,7 @@ class Surat_dinas extends Admin_Controller
     public function index()
     {
         return view('admin.surat_dinas.pengaturan.index', [
-            'jenisSurat' => SuratDinas::JENIS_SURAT,
+            'jenisSurat'       => SuratDinas::JENIS_SURAT,
             'suratDinasBawaan' => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'template-surat-dinas-tinymce.json')),
         ]);
     }

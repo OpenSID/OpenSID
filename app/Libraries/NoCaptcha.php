@@ -45,7 +45,7 @@ class NoCaptcha
     public const CLIENT_API = 'https://www.google.com/recaptcha/api.js';
     public const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-    protected \GuzzleHttp\Client $http;
+    protected Client $http;
 
     /**
      * The cached verified responses.
@@ -67,9 +67,10 @@ class NoCaptcha
     protected $secret, /**
      * The recaptcha sitekey key.
      */
-    protected $sitekey, $options = [])
-    {
-        $this->http    = new Client($options);
+    protected $sitekey,
+        $options = []
+    ) {
+        $this->http = new Client($options);
     }
 
     /**

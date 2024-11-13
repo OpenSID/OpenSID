@@ -70,7 +70,7 @@ class Dokumen_web extends Web_Controller
         $fileName = end($part);
         $filePath = str_replace($fileName, '', $slug);
 
-        if (!file_exists($filePath . $fileName)) {
+        if (! file_exists($filePath . $fileName)) {
             show_404();
         }
 

@@ -43,7 +43,7 @@ class Checker
 {
     private readonly array|string|null $appKey;
     private $currentName;
-    private array $prefix        = ['kecil_', 'sedang_'];
+    private array $prefix         = ['kecil_', 'sedang_'];
     private string $defaultPrefix = '';
     private string $fileDb        = '';
 
