@@ -29,3 +29,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8593](https://github.com/OpenSID/OpenSID/issues/8593) Penyesuaian modul pertanahan menggunakan view blade dan ORM laravel.
 8. [#8703](https://github.com/OpenSID/OpenSID/issues/8703) Penyesuaian lokasi dan format file impor.
 9. [#8705](https://github.com/OpenSID/OpenSID/issues/8705) Penyesuaian widget pemesanan pada layanan pelanggan, status idm dan stunting.
+10. [#8714](https://github.com/OpenSID/OpenSID/issues/8714) Penghapusan contoh penduduk pada format impor penduduk.

@@ -1535,7 +1535,6 @@ class Penduduk extends Admin_Controller
             'form_action'          => ci_route('penduduk.proses_impor'),
             'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
             'formatImpor'          => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-excel.xlsm')),
-            'contohPenduduk'       => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'contoh-penduduk.xlsx')),
         ];
 
         return view('admin.penduduk.impor', $data);
