@@ -39,6 +39,7 @@ use App\Models\FormatSurat;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,10 +52,17 @@ class Migrasi_2024111351 extends MY_model
         $hasil = $this->migrasi_2024110652($hasil);
         $hasil = $this->migrasi_2024111251($hasil);
 
-        return $this->migrasi_2024110651($hasil);
+        // Migrasi berdasarkan config_id
+        $config_id = DB::table('config')->pluck('id')->toArray();
+
+        foreach ($config_id as $id) {
+            $hasil = $this->migrasi_2024110651($hasil, $id);
+        }
+
+        return $hasil;
     }
 
-    private function migrasi_2024110651($hasil)
+    private function migrasi_2024110651($hasil, $id)
     {
         $hakAksesBawaan = [
             'administrator' => [
@@ -94,25 +102,25 @@ class Migrasi_2024111351 extends MY_model
             ],
         ];
 
-        $configId = identitas('id');
-        $modul    = Modul::get();
+        $configId = $id;
+        $modul    = Modul::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->get();
         $modulMap = $modul->pluck('id', 'slug');
 
         foreach ($hakAksesBawaan as $role => $akses) {
-            $idGrup = UserGrup::where('slug', $role)->first()->id;
+            $idGrup = UserGrup::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->where('slug', $role)->first()->id;
 
             if (! $idGrup) continue;
 
             if (count($akses) == 1) {
                 if (array_keys($akses)[0] == '*') {
-                    $modul->each(static function ($q) use ($akses, $idGrup, $configId) {
+                    $modul->each(static function ($q) use ($akses, $idGrup, $configId, $id) {
                         $dataInsert = [
                             'config_id' => $configId,
                             'id_grup'   => $idGrup,
                             'id_modul'  => $q->id,
                             'akses'     => $akses['*'],
                         ];
-                        GrupAkses::upsert($dataInsert, ['id_grup', 'id_modul']);
+                        GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->upsert($dataInsert, ['id_grup', 'id_modul']);
                     });
 
                     continue;
@@ -126,7 +134,7 @@ class Migrasi_2024111351 extends MY_model
                         'id_modul'  => $idModul,
                         'akses'     => $itemAkses,
                     ];
-                    GrupAkses::upsert($dataInsert, ['id_grup', 'id_modul']);
+                    GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->upsert($dataInsert, ['id_grup', 'id_modul']);
                 }
             }
         }
