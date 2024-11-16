@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  # Layanan Web
+  web:
+    image: opendesa:latest
+    container_name: opendesa_web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ${PWD}:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # Layanan Database
+  db:
+    image: mariadb:latest
+    container_name: opendesa_db
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: opendesa
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
