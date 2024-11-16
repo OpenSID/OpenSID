@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 10. [#8716](https://github.com/OpenSID/OpenSID/issues/8716) Perbaikan menampilkan menu dengan status tidak aktif.
 11. [#8718](https://github.com/OpenSID/OpenSID/issues/8718) Perbaikan surat layanan bawaan yang duplikasi.
 12. [#8609](https://github.com/OpenSID/OpenSID/issues/8609) Perbaikan redirect tambah/ubah menu yang sudah ada.
+13. [#8727](https://github.com/OpenSID/OpenSID/issues/8727) Perbaikan load helper pada modules.
 
 
 ### TEKNIS

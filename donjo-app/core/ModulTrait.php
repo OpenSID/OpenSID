@@ -46,31 +46,81 @@ trait ModulTrait
         'Analisis',
     ];
 
+    /**
+     * Get the module directory dynamically based on the file's location.
+     *
+     * This method uses Reflection to determine the current class file's directory
+     * and then calculates the module's root directory by stripping off the
+     * "Http/Controllers" part of the path.
+     *
+     * @return string The module directory path.
+     */
     protected function getModuleDirectory()
     {
-        $reflection = new ReflectionClass(static::class);
-        $directory  = dirname($reflection->getFileName());
+        if (! $this->moduleDirectory) {
+            $reflection = new ReflectionClass(static::class);
+            $directory  = dirname($reflection->getFileName());
 
-        // Find the position of "\Http\Controllers" to trim everything after the module directory
-        $moduleDirectory = substr($directory, 0, strpos($directory, 'Http/Controllers') - 1);
+            // Use DIRECTORY_SEPARATOR for dynamic path handling
+            $this->moduleDirectory = substr($directory, 0, strpos($directory, 'Http' . DIRECTORY_SEPARATOR . 'Controllers') - 1);
+        }
 
-        return $moduleDirectory;
+        return $this->moduleDirectory;
     }
 
+    /**
+     * Load helper files from the module's "Helpers" directory.
+     *
+     * This method calls the `loadFilesFromDirectory` method to load all PHP files
+     * from the module's "Helpers" directory.
+     */
     private function loadHelper(): void
     {
-        foreach (glob($this->moduleDirectory . '/Helpers/*.php') as $file) {
-            require_once $file;
-        }
+        $this->loadFilesFromDirectory('Helpers');
     }
 
+    /**
+     * Load configuration files from the module's "Config" directory.
+     *
+     * This method calls the `loadFilesFromDirectory` method to load all PHP files
+     * from the "Config" directory, and merges them into the application configuration.
+     */
     private function loadConfig(): void
     {
-        foreach (glob($this->moduleDirectory . '/Config/*.php') as $file) {
-            $this->mergeConfigFrom($file, substr(basename($file), 0, -4));
+        $this->loadFilesFromDirectory('Config', function ($file) {
+            $this->mergeConfigFrom($file, pathinfo($file, PATHINFO_FILENAME));
+        });
+    }
+
+    /**
+     * Load all files from a specified subdirectory within the module's directory.
+     *
+     * This method is responsible for requiring or executing the PHP files from
+     * the given subdirectory. If a callback is provided, it will be called for each file.
+     *
+     * @param string        $subDirectory The subdirectory from which to load files.
+     * @param callable|null $callback     Optional callback to execute on each file.
+     */
+    private function loadFilesFromDirectory($subDirectory, ?callable $callback = null): void
+    {
+        foreach (glob($this->getModuleDirectory() . DIRECTORY_SEPARATOR . $subDirectory . DIRECTORY_SEPARATOR . '*.php') as $file) {
+            if ($callback) {
+                $callback($file);
+            } else {
+                require_once $file;
+            }
         }
     }
 
+    /**
+     * Merge a configuration file into the application's configuration.
+     *
+     * This method loads a configuration file and merges its contents into the
+     * application's configuration under the given key.
+     *
+     * @param string $path The file path to the configuration file.
+     * @param string $key  The configuration key to merge under.
+     */
     protected function mergeConfigFrom($path, $key)
     {
         $config = app()->make('config');
@@ -81,26 +131,41 @@ trait ModulTrait
         ));
     }
 
+    /**
+     * Load the module's "module.json" file.
+     *
+     * This method checks if the "module.json" file exists in the module directory
+     * and returns its decoded JSON content as an associative array.
+     *
+     * @return array The contents of the "module.json" file, or an empty array if the file doesn't exist.
+     */
     protected function loadModuleJson()
     {
-        $path = $this->moduleDirectory . '/module.json';
-        if (file_exists($path)) {
-            return json_decode(file_get_contents($path), true);
-        }
+        $path = $this->getModuleDirectory() . DIRECTORY_SEPARATOR . 'module.json';
 
-        return [];
+        return file_exists($path) ? json_decode(file_get_contents($path), true) : [];
     }
 
+    /**
+     * Activate the module if it is not excluded or not in demo mode.
+     *
+     * This method checks whether the module should be activated based on conditions like
+     * demo mode, cache status, or if the module is in the list of active modules.
+     * If not activated, it redirects the user with an error message.
+     */
     protected function activate()
     {
+        // Check if the module is excluded from activation
         if (in_array($this->moduleName, $this->except)) {
             return true;
         }
 
+        // Check demo mode and other conditions
         if ((config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) || cache('siappakai') === true) {
             return true;
         }
 
+        // If module is not in the list of active modules, show error and redirect
         if (! in_array($this->moduleName, cache('modul_aktif') ?? [])) {
             set_session('error', 'Paket ' . $this->moduleName . ' belum bisa digunakan karena belum diaktivasi.');
 
