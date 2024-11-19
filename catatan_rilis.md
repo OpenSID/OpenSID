@@ -19,6 +19,8 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#8727](https://github.com/OpenSID/OpenSID/issues/8727) Perbaikan load helper pada modules.
 14. [#8740](https://github.com/OpenSID/OpenSID/issues/8740) Perbaikan akses modul anjungan.
 15. [#8741](https://github.com/OpenSID/OpenSID/issues/8741) Perbaikan menampilkan data statistik penduduk kategori ktp dan kia.
+16. [#8733](https://github.com/OpenSID/OpenSID/issues/8733) Perbaikan cetak buku ktp dan kk.
+
 
 ### TEKNIS
 
