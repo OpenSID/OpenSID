@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8733](https://github.com/OpenSID/OpenSID/issues/8733) Perbaikan cetak buku ktp dan kk.
 17. [#8742](https://github.com/OpenSID/OpenSID/issues/8742) Perbaikan kode isian qrcode pada pratijau surat.
 18. [#8744](https://github.com/OpenSID/OpenSID/issues/8744) Perbaikan iformasi pada form balas pesan.
+19. [#8681](https://github.com/OpenSID/OpenSID/issues/8681) Perbaikan qrcode pada lampiran surat nikah.
 
 
 ### TEKNIS

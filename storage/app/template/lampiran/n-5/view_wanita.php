@@ -308,7 +308,11 @@
     <td style="width: 2.75528%; height: 18px;"> </td>
     <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
     </tr>
+    <tr style="height: 18px;">
+    <td style="width: 26.6281%; text-align: center; height: 18px;">[qr_code]</td>
+    <td style="width: 2.75528%; height: 18px;"> </td>
+    <td style="width: 70.6166%; text-align: center; height: 18px;"> </td>
+    </tr>
     </tbody>
     </table>
-    <?= $qrcode ?? '' ?>
 </page>

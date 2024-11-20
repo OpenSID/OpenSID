@@ -10,58 +10,58 @@
         <tr>
             <td colspan="20">Nama lengkap dan alias</td>
             <td>: </td>
-            <td colspan="27"><strong>[NAma_dcpw]</strong></td>
+            <td colspan="27"><strong>[NAma]</strong></td>
         </tr>
         <tr>
             <td colspan="20">Nomor Induk Kependudukan</td>
             <td>: </td>
-            <td colspan="27">[NiK_dcpW]</td>
+            <td colspan="27">[NiK]</td>
 
         </tr>
         <tr>
             <td colspan="20">Jenis Kelamin</td>
             <td>: </td>
-            <td colspan="27">[Jenis_kelamin_dcpw]</td>
+            <td colspan="27">[JeNis_kelamin]</td>
+
         </tr>
         <tr>
             <td colspan="20">Tempat dan Tanggal Lahir</td>
             <td>: </td>
-            <td colspan="27">[TtL_dcpw]</td>
+            <td colspan="27">[TtL]</td>
 
         </tr>
         <tr>
             <td colspan="20">Kewarganegaraan</td>
             <td>: </td>
-            <td colspan="27">[WArga_negara_dcpw]</td>
+            <td colspan="27">[WArga_negara]</td>
 
         </tr>
         <tr>
             <td colspan="20">Agama</td>
             <td>: </td>
-            <td colspan="27">[AgAma_dcpw]</td>
+            <td colspan="27">[AgAma]</td>
 
         </tr>
         <tr>
             <td colspan="20">Pekerjaan</td>
             <td>: </td>
-            <td colspan="27">[PeKerjaan_dcpw]</td>
+            <td colspan="27">[PeKerjaan]</td>
 
         </tr>
         <tr>
             <td colspan="20">Pendidikan Terakhir</td>
             <td>: </td>
-            <td colspan="27">[PeNdidikan_kk_dcpw]</td>
+            <td colspan="27">[PeNdidikan_kk]</td>
 
         </tr>
         <tr>
             <td colspan="20">Alamat</td>
             <td>: </td>
-            <td colspan="27">[AlAmat_dcpw]</td>
-
+            <td colspan="27">[AlAmat]</td>
         </tr>
     </table>
 
-    <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus [Form_status_kawin_dcpW], dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
+    <p>Dengan ini menyatakan bahwa, Saya betul-betul pada saat ini berstatus [Form_status_kawiN], dan surat pernyataan ini dibuat guna persyaratan Pernikahan.</p>
 
     <p>Demikianlah surat pernyataan ini saya buat dengan sebenarnya, dalam keadaan sehat jasmani dan rohani tanpa ada paksaan dari pihak manapun. Apabila di kemudian hari menyalahi surat pernyataan ini, saya bersedia dituntut sesuai Perundang-undangan/Hukum yang berlaku dan tidak akan melibatkan aparat setempat ( Resiko Sendiri).</p>
 
@@ -75,13 +75,13 @@
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
-            <td colspan="32"><?= $qrcode ?? '' ?></td>
+            <td colspan="32">[qr_code]</td>
             <td colspan="15" class="tengah"><br><b><i>Materai 10.000</i></b><br><br></td>
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr>
             <td colspan="27">&nbsp;</td>
-            <td colspan="20" class="tengah"><strong>[NAma_dcpw]</strong></td>
+            <td colspan="20" class="tengah"><strong><?= $individu['nama'] ?></strong></td>
             <td colspan="2">&nbsp;</td>
         </tr>
     </table>
