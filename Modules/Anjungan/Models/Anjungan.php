@@ -50,7 +50,7 @@ class Anjungan extends Gawai
 
     /**
      * The attributes that should be appended to the model.
-     * 
+     *
      * @var array
      */
     protected static function booted()

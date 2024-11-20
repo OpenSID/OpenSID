@@ -90,7 +90,7 @@ class Gawai extends BaseModel
 
     /**
      * The attributes that should be appended to the model.
-     * 
+     *
      * @var array
      */
     protected $attributes = [
