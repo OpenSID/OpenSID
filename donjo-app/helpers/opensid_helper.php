@@ -2674,3 +2674,18 @@ function copyFavicon(): void
         copy(FCPATH . LOKASI_FILES_LOGO . 'favicon.ico', FCPATH . 'favicon.ico');
     }
 }
+
+function dummyQrCode($logo)
+{
+    $qrCode = [
+        'isiqr'   => 'dummy qrcode OpenSID',
+        'urls_id' => 'http://dummy.com',
+        'logoqr'  => gambar_desa($logo, false, true),
+        'sizeqr'  => 6,
+        'foreqr'  => '#000000',
+    ];
+
+    $qrCode['viewqr'] = qrcode_generate($qrCode);
+
+    return $qrCode;
+}

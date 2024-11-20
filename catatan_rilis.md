@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 14. [#8740](https://github.com/OpenSID/OpenSID/issues/8740) Perbaikan akses modul anjungan.
 15. [#8741](https://github.com/OpenSID/OpenSID/issues/8741) Perbaikan menampilkan data statistik penduduk kategori ktp dan kia.
 16. [#8733](https://github.com/OpenSID/OpenSID/issues/8733) Perbaikan cetak buku ktp dan kk.
+17. [#8742](https://github.com/OpenSID/OpenSID/issues/8742) Perbaikan kode isian qrcode pada pratijau surat.
 
 
 ### TEKNIS
@@ -35,4 +36,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 9. [#8705](https://github.com/OpenSID/OpenSID/issues/8705) Penyesuaian widget pemesanan pada layanan pelanggan, status idm dan stunting.
 10. [#8714](https://github.com/OpenSID/OpenSID/issues/8714) Penghapusan contoh penduduk pada format impor penduduk.
 11. [#8726](https://github.com/OpenSID/OpenSID/issues/8726) Penyesuaian notifikasi impor data penduduk.
-12. [#8591](https://github.com/OpenSID/OpenSID/issues/8591) Penyesuaian lingkungan pengembangan menggunakan docker container. 
+12. [#8591](https://github.com/OpenSID/OpenSID/issues/8591) Penyesuaian lingkungan pengembangan menggunakan docker container.

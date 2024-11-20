@@ -96,6 +96,7 @@ class KodeIsianGambar
                     $this->surat->update(['isi_surat' => $this->result]);
                 }
             } else {
+
                 if ((setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || setting('tte') == 0) {
                     $this->result = str_replace('[qr_code]', $qrcode, $this->result);
                 }
@@ -103,7 +104,12 @@ class KodeIsianGambar
 
             $this->urls_id = $cek['urls_id'];
         } else {
-            $this->result = str_replace('[qr_code]', '', $this->result);
+            $qrcode = '';
+            if ($this->request['qr_code']) {
+                $cek    = dummyQrCode($this->header['desa']['logo']);
+                $qrcode = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
+            }
+            $this->result = str_replace('[qr_code]', $qrcode, $this->result);
         }
 
         return [
