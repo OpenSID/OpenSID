@@ -92,7 +92,9 @@
                             <thead class="bg-gray disabled color-palette">
                                 <tr>
                                     <th>No</th>
-                                    <th>Aksi</th>
+                                    @if (can('u'))
+                                        <th>Aksi</th>
+                                    @endif
                                     <th>NIK</th>
                                     <th>Nama</th>
                                     <th>Tanggal Lahir</th>
@@ -104,8 +106,8 @@
                                 @foreach ($main as $key => $data)
                                     <tr>
                                         <td class="padat">{{ $key + 1 }} </td>
+                                        @if (can('u'))
                                         <td class="aksi">
-                                            @if (can('u'))
                                                 <a href="{{ ci_route("penduduk.form.{$data['id']}") }}" class="btn bg-orange btn-sm" title="Ubah Biodata Penduduk"><i class="fa fa-edit"></i></a>
                                                 @if ($data['kk_level'] != 1)
                                                     <a

@@ -277,6 +277,9 @@
             if (hapus == 0) {
                 TableData.column(0).visible(false);
             }
+            if (ubah == 0) {
+                TableData.column(2).visible(false);
+            }
 
             $('#kode_peristiwa, #bulan, #tahun ,#agama, #jenis_kelamin, #dusun, #rw, #rt').change(function() {
                 TableData.draw()
