@@ -974,7 +974,8 @@ class Laravel extends Container
         $this->loadedConfigurations    = [];
         $this->afterResolvingCallbacks = [];
 
-        static::$instance = null;
+        static::$instance          = null;
+        static::$aliasesRegistered = false;
     }
 
     /**
