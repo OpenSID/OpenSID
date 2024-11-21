@@ -85,7 +85,8 @@ class Kernel implements KernelContract
      * @var array
      */
     protected $commands = [
-        Commands\AcakData::class,
+        \App\Console\Commands\AcakDataCommand::class,
+        \App\Console\Commands\ViewClearCommand::class,
     ];
 
     /**

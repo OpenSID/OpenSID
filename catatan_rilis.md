@@ -41,3 +41,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#8726](https://github.com/OpenSID/OpenSID/issues/8726) Penyesuaian notifikasi impor data penduduk.
 12. [#8591](https://github.com/OpenSID/OpenSID/issues/8591) Penyesuaian lingkungan pengembangan menggunakan docker container.
 13. [#8748](https://github.com/OpenSID/OpenSID/issues/8748) Penyesuaian komponen illuminate/console.
+14. [#8749](https://github.com/OpenSID/OpenSID/issues/8749) Penyesuaian hapus cache view menggunakan command view:clear.

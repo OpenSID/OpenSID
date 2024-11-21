@@ -46,7 +46,7 @@ use App\Models\Wilayah;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class AcakData extends Command
+class AcakDataCommand extends Command
 {
     /**
      * The name and signature of the console command.

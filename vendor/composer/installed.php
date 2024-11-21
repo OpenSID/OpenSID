@@ -3,7 +3,7 @@
         'name' => 'opendesa/opensid',
         'pretty_version' => 'dev-2501.0.0-Laravel',
         'version' => 'dev-2501.0.0-Laravel',
-        'reference' => 'e3595e19cde50bb7a91c356eade40c165ef0aa88',
+        'reference' => '4d3017443acbea4b9d1a73165b7c0ae4be66d6e5',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -676,7 +676,7 @@
         'opendesa/opensid' => array(
             'pretty_version' => 'dev-2501.0.0-Laravel',
             'version' => 'dev-2501.0.0-Laravel',
-            'reference' => 'e3595e19cde50bb7a91c356eade40c165ef0aa88',
+            'reference' => '4d3017443acbea4b9d1a73165b7c0ae4be66d6e5',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
