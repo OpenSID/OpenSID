@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 18. [#8744](https://github.com/OpenSID/OpenSID/issues/8744) Perbaikan iformasi pada form balas pesan.
 19. [#8681](https://github.com/OpenSID/OpenSID/issues/8681) Perbaikan qrcode pada lampiran surat nikah.
 20. [#8745](https://github.com/OpenSID/OpenSID/issues/8745) Perbaikan hak akses pada modul keluarga, catatan peristwa dan sinergi program.
+21. [#8754](https://github.com/OpenSID/OpenSID/issues/8754) Perbaikan menampilkan menu aktif pada halaman web.
 
 
 ### TEKNIS
