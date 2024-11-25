@@ -472,6 +472,13 @@ class Surat_master extends Admin_Controller
             }
         }
 
+        if (strlen($request['nama']) > 100) {
+            return [
+                'success' => false,
+                'message' => 'Nama surat maksimal 100 karakter',
+            ];
+        }
+
         $namaSurat = nama_surat($request['nama']);
 
         if ((collect($formIsian)->where('sumber', '1')->count() > 1) && ($request['mandiri'] == 1)) {
@@ -835,7 +842,11 @@ class Surat_master extends Admin_Controller
             redirect_with('error', 'Tidak ada surat yang dipilih.');
         }
 
-        $this->prosesImport(session('data_impor_surat'), $id);
+        $proses = $this->prosesImport(session('data_impor_surat'), $id);
+
+        if (isset($proses['error'])) {
+            redirect_with('error', $proses['error']);
+        }
 
         redirect_with('success', 'Berhasil Impor Data');
     }
@@ -875,6 +886,10 @@ class Surat_master extends Admin_Controller
         $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
 
         $proses = $this->prosesImport($this->formatImport($list_data));
+
+        if (isset($proses['error'])) {
+            redirect_with('error', $proses['error']);
+        }
 
         if ($proses) {
             $template = $this->getTemplate(FormatSurat::TINYMCE_SISTEM);
@@ -926,7 +941,7 @@ class Surat_master extends Admin_Controller
             ->toArray();
     }
 
-    private function prosesImport($list_data = null, $id = null): bool
+    private function prosesImport($list_data = null, $id = null): bool|array
     {
         if ($list_data) {
             $penduduk_luar_impor = collect($list_data)->pluck('penduduk_luar')->unique()->toArray();
@@ -936,6 +951,9 @@ class Surat_master extends Admin_Controller
             $penduduk_luar->update(['value' => json_encode(updateIndex($luar), JSON_THROW_ON_ERROR)]);
 
             foreach ($list_data as $key => $value) {
+                if (strlen($value['nama']) > 100) {
+                    return ['error' => 'Nama surat tidak boleh lebih dari 100 karakter'];
+                }
                 unset($value['penduduk_luar']);
                 if ($id !== null) {
                     foreach ($id as $row) {
