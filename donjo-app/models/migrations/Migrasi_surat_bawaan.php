@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_surat_bawaan extends MY_model
+class Migrasi_surat_bawaan extends MY_Model
 {
     public function up()
     {
