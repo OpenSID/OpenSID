@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 21. [#8754](https://github.com/OpenSID/OpenSID/issues/8754) Perbaikan menampilkan menu aktif pada halaman web.
 22. [#8747](https://github.com/OpenSID/OpenSID/issues/8747) Perbaikan validasi nama surat layanan dan surat dinas.
 23. [#8757](https://github.com/OpenSID/OpenSID/issues/8757) Perbaikan laporan bulanan pada keluarga baru.
+24. [#8750](https://github.com/OpenSID/OpenSID/issues/8750) Perbaikan hak akses modul analisis.
 
 
 ### TEKNIS

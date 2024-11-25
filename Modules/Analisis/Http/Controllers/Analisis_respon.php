@@ -96,7 +96,10 @@ class Analisis_respon extends AdminModulController
             return datatables()->of($sumberData)
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($master): string {
-                    $aksi = '<a href="' . ci_route("analisis_respon.{$master}.form", $row->id) . '" class="btn bg-purple btn-sm" title="Input Data"><i class="fa fa-check-square-o"></i></a>';
+                    $aksi = '';
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route("analisis_respon.{$master}.form", $row->id) . '" class="btn bg-purple btn-sm" title="Input Data"><i class="fa fa-check-square-o"></i></a>';
+                    }
                     if ($row->bukti_pengesahan) {
                         $aksi .= ' <a href="' . base_url(LOKASI_PENGESAHAN . $row->bukti_pengesahan) . '" class="btn bg-olive btn-sm" title="Unduh Bukti Pengesahan" target="_blank"><i class="fa fa-paperclip"></i></a>';
                     }

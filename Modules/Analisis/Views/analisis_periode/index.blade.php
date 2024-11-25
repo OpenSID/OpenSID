@@ -92,7 +92,8 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ ci_route('analisis_periode.' . $analisis_master['id'] . '.datatables') }}",
-                columns: [{
+                columns: [
+                    {
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,

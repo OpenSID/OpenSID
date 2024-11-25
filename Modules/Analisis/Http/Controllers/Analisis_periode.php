@@ -47,7 +47,7 @@ class Analisis_periode extends AdminModulController
 {
     public $moduleName    = 'Analisis';
     public $modul_ini     = 'analisis';
-    public $submodul_ini  = 'analisis-periode';
+    public $sub_modul_ini = 'analisis-periode';
     private $selectedMenu = 'Data Periode';
     protected $analisisMaster;
 
@@ -75,8 +75,8 @@ class Analisis_periode extends AdminModulController
             $canDelete = can('h');
 
             return datatables()->of(AnalisisPeriode::whereIdMaster($master))
-                ->addColumn('ceklist', static function ($row) {
-                    if (can('h')) {
+                ->addColumn('ceklist', static function ($row) use ($canDelete) {
+                    if ($canDelete) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
