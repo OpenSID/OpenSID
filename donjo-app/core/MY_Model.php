@@ -141,14 +141,15 @@ class MY_Model extends CI_Model
     public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE', $multi = false)
     {
         if ($index == 'UNIQUE') {
+            $kolomStr = $kolom . ' ,count(*) as jumlah';
+
             $duplikat = $this->db
-                ->select("CONCAT({$kolom}) AS jmlh")
+                ->select($kolomStr)
                 ->from($tabel)
-                ->group_by('jmlh')
-                ->having('COUNT(jmlh) > 1')
+                ->group_by($kolom)
+                ->having('jumlah > 1')
                 ->get()
                 ->num_rows();
-
             if ($duplikat > 0) {
                 session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");

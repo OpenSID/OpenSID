@@ -54,6 +54,7 @@ class Migrasi_rev extends MY_Model
         // }
 
         $hasil = $this->migrasi_2024112071($hasil);
+        $hasil = $this->migrasi_2024112551($hasil);
 
         return true;
     }
@@ -77,6 +78,25 @@ class Migrasi_rev extends MY_Model
                 $table->longText('form_isian')->nullable()->comment('Menyimpan data formulir dinamis tambahan sebagai JSON atau teks');
             });
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024112551($hasil)
+    {
+        $query = <<<'SQL'
+                        delete t1
+                        FROM grup_akses t1
+                        INNER JOIN grup_akses t2
+                        WHERE
+                            t1.id > t2.id AND
+                            t1.config_id = t2.config_id AND
+                            t1.id_grup = t2.id_grup and
+                            t1.id_modul = t2.id_modul
+            SQL;
+        DB::statement($query);
+
+        $this->tambahIndeks('grup_akses', 'config_id, id_grup, id_modul', 'UNIQUE', true);
 
         return $hasil;
     }

@@ -110,7 +110,14 @@ class Migrasi_2024112051 extends MY_Model
             $idGrup = UserGrup::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->where('slug', $role)->first()->id;
 
             if (! $idGrup) continue;
-
+            // jika sudah ada hak akses di tabel, maka tidak perlu dijalankan lagi
+            if (GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('id_grup', $idGrup)->exists()) continue;
+            // hanya dijalankan untuk perbaikan data saja, bisa juga hapus manual melalui database
+            /* delete from grup_akses where id_grup in (
+                select id from user_grup where slug in ('administrator','kontributor', 'redaksi', 'operator', 'satgas-covid-19')
+                )
+            */
+            //GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('id_grup', $idGrup)->delete();
             if (count($akses) == 1) {
                 if (array_keys($akses)[0] == '*') {
                     $modul->each(static function ($q) use ($akses, $idGrup, $configId, $id) {
@@ -120,7 +127,7 @@ class Migrasi_2024112051 extends MY_Model
                             'id_modul'  => $q->id,
                             'akses'     => $akses['*'],
                         ];
-                        GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->upsert($dataInsert, ['id_grup', 'id_modul']);
+                        GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->upsert($dataInsert, ['id_grup', 'id_modul', 'config_id']);
                     });
 
                     continue;
@@ -134,7 +141,7 @@ class Migrasi_2024112051 extends MY_Model
                         'id_modul'  => $idModul,
                         'akses'     => $itemAkses,
                     ];
-                    GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->upsert($dataInsert, ['id_grup', 'id_modul']);
+                    GrupAkses::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('config_id', $id)->upsert($dataInsert, ['id_grup', 'id_modul', 'config_id']);
                 }
             }
         }
