@@ -240,11 +240,7 @@
 			<td colspan=3>Kode Pos</td>
 			<?php for ($i = 0; $i < 5; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($config['kode_pos'][$i])) : ?>
-						<?= $config['kode_pos'][$i]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					<?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2 style="padding-left: -2px;">Telepon</td>

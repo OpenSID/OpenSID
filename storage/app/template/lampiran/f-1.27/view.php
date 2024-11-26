@@ -231,11 +231,7 @@
 			<td colspan=3>Kode Pos</td>
 			<?php for ($i = 0; $i < 5; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($config['kode_pos'][$i])) : ?>
-						<?= $config['kode_pos'][$i]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					<?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2 style="padding-left: -2px;">Telepon</td>
@@ -504,7 +500,7 @@
 		<p>
 			<strong>Keterangan:</strong><br>
 			*) Diisi Oleh Petugas<br>
-				<p> - Untuk klasifikasi 3 (antar kecamatan dalam satu Kabupaten/Kota) selain ditandatangani oleh Pemohon juga diketahui oleh Kepala Desa/Lurah</p>
+		<p> - Untuk klasifikasi 3 (antar kecamatan dalam satu Kabupaten/Kota) selain ditandatangani oleh Pemohon juga diketahui oleh Kepala Desa/Lurah</p>
 		</p>
 	<?php endif; ?>
 	<?php if ($input['kode_format'] == 'F-1.27') : ?>
@@ -587,9 +583,9 @@
 		<p>
 			<strong>Keterangan:</strong><br>
 			*) Diisi Oleh Petugas<br>
-					- Lembar 1 dibawa dan diarsipkan di Dinas Kependudukan dan Pencatatan Sipil.<br>
-					- Lembar 2 untuk pemohon.<br>
-					- Lembar 3 diarsipkan di Kecamatan.
+			- Lembar 1 dibawa dan diarsipkan di Dinas Kependudukan dan Pencatatan Sipil.<br>
+			- Lembar 2 untuk pemohon.<br>
+			- Lembar 3 diarsipkan di Kecamatan.
 		</p>
 	<?php endif; ?>
 

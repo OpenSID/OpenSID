@@ -201,11 +201,7 @@
 			<td colspan=3>Kode Pos</td>
 			<?php for ($i = 0; $i < 5; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($config['kode_pos'][$i])) : ?>
-						<?= $config['kode_pos'][$i]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					<?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
 				</td>
 			<?php endfor; ?>
 		</tr>
@@ -351,13 +347,13 @@
 		</tr>
 
 		<?php
-		for ($i = 0; $i < MAX_PINDAH; $i++) :
-			$nomor = $i + 1;
-			if ($i < count($input['id_pengikut_pindah'] ?? [])) :
-				$id = trim($input['id_pengikut_pindah'][$i], "'");
-				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
+        for ($i = 0; $i < MAX_PINDAH; $i++) :
+            $nomor = $i + 1;
+            if ($i < count($input['id_pengikut_pindah'] ?? [])) :
+                $id       = trim($input['id_pengikut_pindah'][$i], "'");
+                $penduduk = $this->penduduk_model->get_penduduk($id, true); ?>
 				<tr>
-					<?php $nourut = str_pad($nomor, 2, "0", STR_PAD_LEFT); ?>
+					<?php $nourut = str_pad($nomor, 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>
 						<td class="tengah">
 							<?= $nourut[$j]; ?>
@@ -376,7 +372,7 @@
 					<td colspan=1 class="border-kolom">&nbsp;&nbsp;</td>
 					<td><?= $penduduk['nama']; ?></td>
 					<td colspan=1 class="border-kolom">&nbsp;&nbsp;</td>
-					<?php $shdk = str_pad($penduduk['kk_level'], 2, "0", STR_PAD_LEFT); ?>
+					<?php $shdk = str_pad($penduduk['kk_level'], 2, '0', STR_PAD_LEFT); ?>
 					<?php for ($j = 0; $j < 2; $j++) : ?>
 						<td class="tengah">
 							<?= $shdk[$j]; ?>
@@ -454,10 +450,10 @@
 				</td>
 			<?php endfor; ?>
 			<td colspan=2>&nbsp;</td>
-			<?php $tgl = date('dd', strtotime($input['tanggal_itas']));
-			$bln = date('mm', strtotime($input['tanggal_itas']));
-			$thn = date('Y', strtotime($input['tanggal_itas']));
-			?>
+			<?php $tgl    = date('dd', strtotime($input['tanggal_itas']));
+            $bln = date('mm', strtotime($input['tanggal_itas']));
+            $thn = date('Y', strtotime($input['tanggal_itas']));
+            ?>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
 					<?php if (isset($tgl[$j])) : ?>
@@ -536,10 +532,10 @@
 		<tr>
 			<td>20.</td>
 			<td>Rencana Pindah Tanggal</td>
-			<?php $tgl = date('dd', strtotime($input['tanggal_pindah']));
-			$bln = date('mm', strtotime($input['tanggal_pindah']));
-			$thn = date('Y', strtotime($input['tanggal_pindah']));
-			?>
+			<?php $tgl    = date('dd', strtotime($input['tanggal_pindah']));
+            $bln = date('mm', strtotime($input['tanggal_pindah']));
+            $thn = date('Y', strtotime($input['tanggal_pindah']));
+            ?>
 			<td>Tgl</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">

@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 24. [#8750](https://github.com/OpenSID/OpenSID/issues/8750) Perbaikan hak akses modul analisis.
 25. [#8756](https://github.com/OpenSID/OpenSID/issues/8756) Perbaikan grup akses bawaan yang duplikasi.
 26. [#8671](https://github.com/OpenSID/OpenSID/issues/8671) Perbaikan menampilkan layanan surat mode anjungan.
+27. [#8763](https://github.com/OpenSID/OpenSID/issues/8763) Perbaikan lampiran F-2.12.
 
 
 ### TEKNIS
