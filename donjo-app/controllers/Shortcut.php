@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Modul;
 use App\Models\Shortcut as ShortcutModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -113,11 +112,10 @@ class Shortcut extends Admin_Controller
             $form_action = ci_route('shortcut.insert');
             $shortcut    = null;
         }
-        $icons  = ShortcutModel::listIcon();
-        $moduls = Modul::where('slug', '!=', 'home')->where('hidden', '!=', 2)->get()->pluck('modul', 'slug')->toArray();
-        $querys = ShortcutModel::querys()['mapping'];
+        $icons   = ShortcutModel::listIcon();
+        $modules = ShortcutModel::querys()['modules'];
 
-        return view('admin.shortcut.form', ['action' => $action, 'form_action' => $form_action, 'shortcut' => $shortcut, 'icons' => $icons, 'moduls' => $moduls, 'querys' => $querys]);
+        return view('admin.shortcut.form', ['action' => $action, 'form_action' => $form_action, 'shortcut' => $shortcut, 'icons' => $icons, 'moduls' => $moduls, 'modules' => $modules]);
     }
 
     public function insert(): void
@@ -189,14 +187,11 @@ class Shortcut extends Admin_Controller
     protected static function validate($request = [])
     {
         return [
-            'judul'       => $request['judul'],
-            'akses'       => $request['akses'],
-            'link'        => $request['link'],
-            'jenis_query' => $request['jenis_query'] ?? 0,
-            'raw_query'   => $request['jenis_query'] == 1 ? $request['query_manual'] : $request['query_otomatis'],
-            'icon'        => $request['icon'],
-            'warna'       => $request['warna'] ?? '#00c0ef',
-            'status'      => $request['status'] ?? 0,
+            'judul'     => $request['judul'],
+            'raw_query' => $request['raw_query'],
+            'icon'      => $request['icon'],
+            'warna'     => $request['warna'] ?? '#00c0ef',
+            'status'    => $request['status'] ?? 0,
         ];
     }
 }

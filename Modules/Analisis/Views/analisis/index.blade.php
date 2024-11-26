@@ -87,7 +87,7 @@
                                         <thead class="bg-gray disabled color-palette">
                                             <tr>
                                                 @if (can('h'))
-                                                <th><input type="checkbox" id="checkall" /></th>
+                                                    <th><input type="checkbox" id="checkall" /></th>
                                                 @endif
                                                 <th>NO</th>
                                                 <th>AKSI</th>
@@ -120,8 +120,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ ci_route('analisis_master.datatables') }}",
-                columns: [
-                    {
+                columns: [{
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,

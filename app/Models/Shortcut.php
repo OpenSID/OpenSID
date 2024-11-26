@@ -43,7 +43,6 @@ use App\Enums\SasaranEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -71,6 +70,11 @@ class Shortcut extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    protected $appends = [
+        'link',
+        'akses',
+    ];
 
     /**
      * {@inheritDoc}
@@ -105,100 +109,34 @@ class Shortcut extends BaseModel
         return null;
     }
 
+    public function getModuleData($key)
+    {
+        $raw_query = $this->attributes['raw_query'];
+
+        return static::querys()['modules'][$raw_query][$key] ?? null;
+    }
+
+    public function getLinkAttribute()
+    {
+        return $this->getModuleData('link');
+    }
+
+    public function getAksesAttribute()
+    {
+        return $this->getModuleData('akses');
+    }
+
     public function getCountAttribute()
     {
-        $raw_query   = $this->attributes['raw_query'];
-        $jenis_query = $this->attributes['jenis_query'];
-        $config_id   = identitas('id');
-
         try {
-            // If jenis_query is 0, get the count from a predefined query
-            if ($jenis_query == 0) {
-                return static::querys()['jumlah'][$raw_query];
-            }
-
-            // Handle dynamic Eloquent queries
-            if (preg_match('/^([a-zA-Z_][a-zA-Z0-9_]*)::/', $raw_query, $matches)) {
-                $query_class  = $matches[1];
-                $query_method = str_replace("{$query_class}::", '', $raw_query);
-
-                // Define the default namespace
-                $full_class_name = "App\\Models\\{$query_class}";
-
-                // Ensure the class exists
-                if (! class_exists($full_class_name)) {
-                    throw new Exception("Class '{$full_class_name}' not found");
-                }
-
-                // Create a new query instance
-                $query = (new $full_class_name())->newQuery();
-
-                // Apply dynamic query methods
-                $query = $this->applyQueryMethod($query, $query_method);
-
-                return $query->count();
-            }
-
-            // Handle query builder
-            if (preg_match('/^DB::table/i', (string) $raw_query) && preg_match('/->count\(\)/i', (string) $raw_query)) {
-                if (! preg_match('/->where\(\'config_id\',\s*config_id\(\)\)/i', (string) $raw_query)) {
-                    $raw_query = preg_replace('/^DB::table/i', 'DB::table', $raw_query);
-                    $raw_query = preg_replace('/->count\(\)/i', "->where('config_id', {$config_id})->count()", $raw_query);
-                }
-
-                return DB::statement($raw_query);
-            }
-
-            // Handle raw SQL queries
-            if (preg_match('/^select/i', (string) $raw_query)) {
-                if (! preg_match('/where\s+config_id\s*=\s*config_id\(\)/i', (string) $raw_query)) {
-                    $raw_query = preg_replace('/^select/i', 'select', $raw_query);
-                    $raw_query = preg_replace('/from/i', 'from', $raw_query);
-                    $raw_query = preg_replace('/where/i', "where config_id = {$config_id} and", $raw_query);
-                }
-
-                return DB::statement($raw_query);
-            }
-
-            throw new Exception('Invalid query format');
+            return $this->getModuleData('jumlah') ?? 0;
         } catch (Exception $e) {
             // Log the error for debugging
-            log_message('error', "Query : {$raw_query}. Error : " . $e->getMessage());
+            log_message('error', "Query : {$this->attributes['raw_query']}. Error : " . $e->getMessage());
 
             // Return a default value on error
             return 0;
         }
-    }
-
-    /**
-     * Apply dynamic query methods to the query builder instance.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string                                $query_method
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function applyQueryMethod($query, $query_method)
-    {
-        // Split the query method into parts
-        $methods = explode('->', $query_method);
-
-        // Apply each method to the query instance
-        foreach ($methods as $method) {
-            // Extract method name and parameters
-            if (preg_match('/(\w+)\((.*)\)/', $method, $matches)) {
-                $method_name = $matches[1];
-                $params      = $matches[2] ? explode(',', $matches[2]) : [];
-
-                // Clean up parameters and apply method
-                $params = array_map('trim', $params);
-                if (method_exists($query, $method_name)) {
-                    $query = call_user_func_array([$query, $method_name], $params);
-                }
-            }
-        }
-
-        return $query;
     }
 
     protected static function boot()
@@ -214,108 +152,262 @@ class Shortcut extends BaseModel
         $isAdmin = get_instance()->session->isAdmin->pamong->jabatan_id;
 
         return cache()->rememberForever('shortcut_' . ci_auth()->id, static function () use ($isAdmin): array {
-            $activeShortcut    = self::where('status', '=', '1')->orderBy('urut')->get();
-            $querys            = [];
-            $querys['data']    = $activeShortcut;
-            $querys['jumlah']  = [];
-            $querys['mapping'] = [];
-            $mapping           = collect([
-                'Dusun' => Wilayah::dusun(),
-                'RW'    => Wilayah::rw(),
-                'RT'    => Wilayah::rt(),
+            $activeShortcut = self::where('status', '=', '1')->orderBy('urut')->get();
 
-                // Penduduk
-                'Penduduk'           => PendudukSaja::status(),
-                'Penduduk Laki-laki' => PendudukSaja::status()->where('sex', JenisKelaminEnum::LAKI_LAKI),
-                'Penduduk Perempuan' => PendudukSaja::status()->where('sex', JenisKelaminEnum::PEREMPUAN),
-                'Penduduk TagID'     => PendudukSaja::status()->whereNotNull('tag_id_card'),
-                'Dokumen Penduduk'   => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup(),
+            return [
+                'data'    => $activeShortcut,
+                'modules' => collect([
+                    // Wilayah
+                    'Dusun' => [
+                        'link'   => 'wilayah',
+                        'akses'  => 'wilayah-administratif',
+                        'jumlah' => Wilayah::dusun()->count(),
+                    ],
 
-                // Keluarga
-                'Keluarga'        => Keluarga::statusAktif(),
-                'Kepala Keluarga' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
-                    $query->status()->kepalaKeluarga();
-                }),
-                'Kepala Keluarga Laki-laki' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
-                    $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::LAKI_LAKI);
-                }),
-                'Kepala Keluarga Perempuan' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
-                    $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::PEREMPUAN);
-                }),
+                    'RW' => [
+                        'link'   => 'wilayah',
+                        'akses'  => 'wilayah-administratif',
+                        'jumlah' => Wilayah::rw()->count(),
+                    ],
 
-                // RTM
-                'RTM'        => Rtm::status(),
-                'Kepala RTM' => Rtm::whereHas('kepalaKeluarga', static function ($query): void {
-                    $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA);
-                }),
-                'Kepala RTM Laki-laki' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
-                    $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::LAKI_LAKI);
-                }]),
-                'Kepala RTM Perempuan' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
-                    $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::PEREMPUAN);
-                }]),
+                    'RT' => [
+                        'link'   => 'wilayah',
+                        'akses'  => 'wilayah-administratif',
+                        'jumlah' => Wilayah::rt()->count(),
+                    ],
 
-                // Kelompok
-                'Kelompok' => Kelompok::status()->tipe(),
+                    // Penduduk
+                    'Penduduk' => [
+                        'link'   => 'penduduk',
+                        'akses'  => 'penduduk',
+                        'jumlah' => PendudukSaja::status()->count(),
+                    ],
 
-                // Lembaga
-                'Lembaga' => Kelompok::status()->tipe('lembaga'),
+                    'Penduduk Laki-laki' => [
+                        'link'   => 'penduduk',
+                        'akses'  => 'penduduk',
+                        'jumlah' => PendudukSaja::status()->where('sex', JenisKelaminEnum::LAKI_LAKI)->count(),
+                    ],
 
-                // Pembangunan
-                'Pembangunan' => Pembangunan::whereNotNull('id'),
+                    'Penduduk Perempuan' => [
+                        'link'   => 'penduduk',
+                        'akses'  => 'penduduk',
+                        'jumlah' => PendudukSaja::status()->where('sex', JenisKelaminEnum::PEREMPUAN)->count(),
+                    ],
 
-                // Pengaduan
-                'Pengaduan'                   => Pengaduan::whereNotNull('id'),
-                'Pengaduan Menunggu Diproses' => Pengaduan::where('status', 1),
-                'Pengaduan Sedang Diproses'   => Pengaduan::where('status', 2),
-                'Pengaduan Selesai Diproses'  => Pengaduan::where('status', 3),
+                    'Penduduk TagID' => [
+                        'link'   => 'penduduk',
+                        'akses'  => 'penduduk',
+                        'jumlah' => PendudukSaja::status()->whereNotNull('tag_id_card')->count(),
+                    ],
 
-                // Pengguna
-                'Pengguna'      => User::whereNotNull('id'),
-                'Grup Pengguna' => UserGrup::whereNotNull('id'),
+                    'Dokumen Penduduk' => [
+                        'link'   => 'dokumen',
+                        'akses'  => 'penduduk',
+                        'jumlah' => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup()->count(),
+                    ],
 
-                // Surat
-                'Surat'          => LogSurat::whereNull('deleted_at'),
-                'Surat Tercetak' => LogSurat::whereNull('deleted_at')
-                    ->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
-                        ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
-                        ->orWhere(static function ($verifikasi): void {
-                            $verifikasi->whereNull('verifikasi_operator');
-                        }))
-                    ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
-                    ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator')),
+                    // Keluarga
+                    'Keluarga' => [
+                        'link'   => 'keluarga',
+                        'akses'  => 'keluarga',
+                        'jumlah' => Keluarga::statusAktif()->count(),
+                    ],
 
-                // Layanan Mandiri
-                'Verifikasi Layanan Mandiri' => PendudukMandiri::status(),
+                    'Kepala Keluarga' => [
+                        'link'   => 'keluarga',
+                        'akses'  => 'keluarga',
+                        'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
+                            $query->status()->kepalaKeluarga();
+                        })->count(),
+                    ],
 
-                // Lapak
-                'Produk'          => Produk::whereNotNull('id'),
-                'Pelapak'         => Pelapak::whereNotNull('id'),
-                'Kategori Produk' => ProdukKategori::whereNotNull('id'),
+                    'Kepala Keluarga Laki-laki' => [
+                        'link'   => 'keluarga',
+                        'akses'  => 'keluarga',
+                        'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
+                            $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::LAKI_LAKI);
+                        })->count(),
+                    ],
 
-                // Bantuan
-                'Bantuan'                  => Bantuan::whereNotNull('id'),
-                'Bantuan Penduduk'         => Bantuan::whereSasaran(SasaranEnum::PENDUDUK),
-                'Bantuan Keluarga'         => Bantuan::whereSasaran(SasaranEnum::KELUARGA),
-                'Bantuan Rumah Tangga'     => Bantuan::whereSasaran(SasaranEnum::RUMAH_TANGGA),
-                'Bantuan Kelompok/Lembaga' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK),
-            ]);
+                    'Kepala Keluarga Perempuan' => [
+                        'link'   => 'keluarga',
+                        'akses'  => 'keluarga',
+                        'jumlah' => Keluarga::whereHas('kepalaKeluarga', static function ($query): void {
+                            $query->status()->kepalaKeluarga()->where('sex', JenisKelaminEnum::PEREMPUAN);
+                        })->count(),
+                    ],
 
-            $bantuan = Bantuan::get();
-            if ($bantuan) {
-                $pesertaBantuan = $bantuan->filter(static fn ($item) => $activeShortcut->where('raw_query', 'Bantuan ' . $item->nama)->count())->mapWithKeys(static fn ($item): array => [
-                    'Bantuan ' . $item->nama => BantuanPeserta::where('program_id', $item->id),
-                ]);
+                    // RTM
+                    'RTM' => [
+                        'link'   => 'rtm',
+                        'akses'  => 'rumah-tangga',
+                        'jumlah' => Rtm::status()->count(),
+                    ],
 
-                $mapping = $mapping->merge($pesertaBantuan);
-            }
-            $querys['mapping'] = $mapping->keys();
-            if ($activeShortcut) {
-                $resultJumlah     = $activeShortcut->mapWithKeys(static fn ($item): array => [$item->raw_query => $mapping->get($item->raw_query)?->count()])->toArray();
-                $querys['jumlah'] = $resultJumlah;
-            }
+                    'Kepala RTM' => [
+                        'link'   => 'rtm',
+                        'akses'  => 'rumah-tangga',
+                        'jumlah' => Rtm::whereHas('kepalaKeluarga', static function ($query): void {
+                            $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA);
+                        })->count(),
+                    ],
 
-            return $querys;
+                    'Kepala RTM Laki-laki' => [
+                        'link'   => 'rtm',
+                        'akses'  => 'rumah-tangga',
+                        'jumlah' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                            $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::LAKI_LAKI);
+                        }])->count(),
+                    ],
+
+                    'Kepala RTM Perempuan' => [
+                        'link'   => 'rtm',
+                        'akses'  => 'rumah-tangga',
+                        'jumlah' => Rtm::with(['kepalaKeluarga' => static function ($query): void {
+                            $query->status()->where('rtm_level', HubunganRTMEnum::KEPALA_RUMAH_TANGGA)->where('sex', JenisKelaminEnum::PEREMPUAN);
+                        }])->count(),
+                    ],
+
+                    // Kelompok
+                    'Kelompok' => [
+                        'link'   => 'kelompok',
+                        'akses'  => 'kelompok',
+                        'jumlah' => Kelompok::status()->tipe()->count(),
+                    ],
+
+                    // Lembaga
+                    'Lembaga' => [
+                        'link'   => 'kelompok',
+                        'akses'  => 'lembaga',
+                        'jumlah' => Kelompok::status()->tipe('lembaga')->count(),
+                    ],
+
+                    // Pembangunan
+                    'Pembangunan' => [
+                        'link'   => 'admin_pembangunan',
+                        'akses'  => 'pembangunan',
+                        'jumlah' => Pembangunan::count(),
+                    ],
+
+                    // Pengaduan
+                    'Pengaduan' => [
+                        'link'   => 'pengaduan_admin',
+                        'akses'  => 'pengaduan',
+                        'jumlah' => Pengaduan::count(),
+                    ],
+
+                    'Pengaduan Menunggu Diproses' => [
+                        'link'   => 'pengaduan_admin',
+                        'akses'  => 'pengaduan',
+                        'jumlah' => Pengaduan::where('status', 1)->count(),
+                    ],
+
+                    'Pengaduan Sedang Diproses' => [
+                        'link'   => 'pengaduan_admin',
+                        'akses'  => 'pengaduan',
+                        'jumlah' => Pengaduan::where('status', 2)->count(),
+                    ],
+
+                    'Pengaduan Selesai Diproses' => [
+                        'link'   => 'pengaduan_admin',
+                        'akses'  => 'pengaduan',
+                        'jumlah' => Pengaduan::where('status', 3)->count(),
+                    ],
+
+                    // Pengguna
+                    'Pengguna' => [
+                        'link'   => 'pengguna',
+                        'akses'  => 'man_user',
+                        'jumlah' => User::count(),
+                    ],
+
+                    'Grup Pengguna' => [
+                        'link'   => 'pengguna',
+                        'akses'  => 'man_user',
+                        'jumlah' => UserGrup::count(),
+                    ],
+
+                    // Surat
+                    'Surat' => [
+                        'link'   => 'surat_master',
+                        'akses'  => 'pengaturan-surat',
+                        'jumlah' => LogSurat::whereNull('deleted_at')->count(),
+                    ],
+
+                    'Surat Tercetak' => [
+                        'link'   => 'keluar',
+                        'akses'  => 'arsip-layanan',
+                        'jumlah' => LogSurat::whereNull('deleted_at')
+                            ->when($isAdmin->jabatan_id == kades()->id, static fn ($q) => $q->when(setting('tte') == 1, static fn ($tte) => $tte->where('tte', '=', 1))
+                                ->when(setting('tte') == 0, static fn ($tte) => $tte->where('verifikasi_kades', '=', '1'))
+                                ->orWhere(static function ($verifikasi): void {
+                                    $verifikasi->whereNull('verifikasi_operator');
+                                }))
+                            ->when($isAdmin->jabatan_id == sekdes()->id, static fn ($q) => $q->where('verifikasi_sekdes', '=', '1')->orWhereNull('verifikasi_operator'))
+                            ->when($isAdmin == null || ! in_array($isAdmin->jabatan_id, RefJabatan::getKadesSekdes()), static fn ($q) => $q->where('verifikasi_operator', '=', '1')
+                                ->orWhereNull('verifikasi_operator'))
+                            ->count(),
+                    ],
+
+                    // Layanan Mandiri
+                    'Verifikasi Layanan Mandiri' => [
+                        'link'   => 'mandiri',
+                        'akses'  => 'pendaftar-layanan-mandiri',
+                        'jumlah' => PendudukMandiri::status()->count(),
+                    ],
+
+                    // Lapak
+                    'Produk' => [
+                        'link'   => 'lapak_admin',
+                        'akses'  => 'lapak',
+                        'jumlah' => Produk::count(),
+                    ],
+
+                    'Pelapak' => [
+                        'link'   => 'lapak_admin',
+                        'akses'  => 'lapak',
+                        'jumlah' => Pelapak::count(),
+                    ],
+
+                    'Kategori Produk' => [
+                        'link'   => 'lapak_admin',
+                        'akses'  => 'lapak',
+                        'jumlah' => ProdukKategori::count(),
+                    ],
+
+                    // Bantuan
+                    'Bantuan' => [
+                        'link'   => 'program_bantuan',
+                        'akses'  => 'program-bantuan',
+                        'jumlah' => Bantuan::count(),
+                    ],
+
+                    'Bantuan Penduduk' => [
+                        'link'   => 'program_bantuan',
+                        'akses'  => 'program-bantuan',
+                        'jumlah' => Bantuan::whereSasaran(SasaranEnum::PENDUDUK)->count(),
+                    ],
+
+                    'Bantuan Keluarga' => [
+                        'link'   => 'program_bantuan',
+                        'akses'  => 'program-bantuan',
+                        'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELUARGA)->count(),
+                    ],
+
+                    'Bantuan Rumah Tangga' => [
+                        'link'   => 'program_bantuan',
+                        'akses'  => 'program-bantuan',
+                        'jumlah' => Bantuan::whereSasaran(SasaranEnum::RUMAH_TANGGA)->count(),
+                    ],
+
+                    'Bantuan Kelompok/Lembaga' => [
+                        'link'   => 'program_bantuan',
+                        'akses'  => 'program-bantuan',
+                        'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK)->count(),
+                    ],
+                ]),
+            ];
         });
     }
 }

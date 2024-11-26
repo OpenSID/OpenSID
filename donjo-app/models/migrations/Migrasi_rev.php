@@ -35,6 +35,8 @@
  *
  */
 
+use App\Enums\StatusEnum;
+use App\Observers\ClearCacheObserver;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -55,6 +57,7 @@ class Migrasi_rev extends MY_Model
 
         $hasil = $this->migrasi_2024112071($hasil);
         $hasil = $this->migrasi_2024112551($hasil);
+        $hasil = $this->migrasi_2024112651($hasil);
 
         return true;
     }
@@ -97,6 +100,33 @@ class Migrasi_rev extends MY_Model
         DB::statement($query);
 
         $this->tambahIndeks('grup_akses', 'config_id, id_grup, id_modul', 'UNIQUE', true);
+
+        return $hasil;
+    }
+
+    protected function migrasi_2024112651($hasil)
+    {
+        if (Schema::hasColumn('shortcut', 'akses')) {
+            Schema::table('shortcut', static function ($table) {
+                $table->dropColumn('akses');
+            });
+        }
+
+        if (Schema::hasColumn('shortcut', 'link')) {
+            Schema::table('shortcut', static function ($table) {
+                $table->dropColumn('link');
+            });
+        }
+
+        if (Schema::hasColumn('shortcut', 'jenis_query')) {
+            DB::table('shortcut')->where('jenis_query', 1)->update(['raw_query' => null, 'status' => StatusEnum::TIDAK]);
+
+            Schema::table('shortcut', static function (Blueprint $table) {
+                $table->dropColumn('jenis_query');
+            });
+
+            (new ClearCacheObserver())->clearAllCache();
+        }
 
         return $hasil;
     }

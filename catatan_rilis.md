@@ -48,3 +48,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#8748](https://github.com/OpenSID/OpenSID/issues/8748) Penyesuaian komponen illuminate/console.
 14. [#8749](https://github.com/OpenSID/OpenSID/issues/8749) Penyesuaian hapus cache view menggunakan command view:clear.
 15. [#8759](https://github.com/OpenSID/OpenSID/issues/8759) Penyesuaian alur impor penduduk.
+16. [#8753](https://github.com/OpenSID/OpenSID/issues/8753) Hapus Penggunaan Query Manual di Modul Shortcut.
