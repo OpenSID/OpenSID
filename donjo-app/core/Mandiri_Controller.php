@@ -82,12 +82,4 @@ class Mandiri_Controller extends MY_Controller
             return redirect('layanan-mandiri/daftar/verifikasi/telegram');
         }
     }
-
-    public function render($view, ?array $data = null): void
-    {
-        $data['desa']         = $this->header;
-        $data['cek_anjungan'] = $this->cek_anjungan;
-        $data['konten']       = $view;
-        $this->load->view(MANDIRI . '/template', $data);
-    }
 }

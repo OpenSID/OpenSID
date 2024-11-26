@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 23. [#8757](https://github.com/OpenSID/OpenSID/issues/8757) Perbaikan laporan bulanan pada keluarga baru.
 24. [#8750](https://github.com/OpenSID/OpenSID/issues/8750) Perbaikan hak akses modul analisis.
 25. [#8756](https://github.com/OpenSID/OpenSID/issues/8756) Perbaikan grup akses bawaan yang duplikasi.
+26. [#8671](https://github.com/OpenSID/OpenSID/issues/8671) Perbaikan menampilkan layanan surat mode anjungan.
 
 
 ### TEKNIS
