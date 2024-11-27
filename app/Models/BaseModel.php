@@ -39,8 +39,8 @@ namespace App\Models;
 
 use App\Enums\StatusEnum;
 use App\Scopes\ConfigIdScope;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Model;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -103,8 +103,6 @@ class BaseModel extends Model
     public static function scopeWithoutConfigId($query, $configId = '')
     {
         return $query->withoutGlobalScope(ConfigIdScope::class)
-            ->when($configId !== '', function ($query) use ($configId) {
-                return $query->where('config_id', $configId);
-            });
+            ->when($configId !== '', static fn ($query) => $query->where('config_id', $configId));
     }
 }

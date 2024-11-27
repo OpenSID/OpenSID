@@ -44,13 +44,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Anjungan extends Gawai
 {
-    public function setTipeAttribute($value)
-    {
-        $this->attributes['tipe'] = self::ANJUNGAN;
-    }
+    protected $attributes = [
+        'tipe' => self::ANJUNGAN,
+    ];
 
     /**
-     * Apply a global scope to only include active status.
+     * The attributes that should be appended to the model.
+     *
+     * @var array
      */
     protected static function booted()
     {

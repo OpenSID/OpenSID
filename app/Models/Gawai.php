@@ -89,6 +89,15 @@ class Gawai extends BaseModel
     ];
 
     /**
+     * The attributes that should be appended to the model.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'tipe' => self::GAWAI,
+    ];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array
@@ -116,11 +125,6 @@ class Gawai extends BaseModel
     public function updatedBy()
     {
         return $this->hasOne(User::class, 'id', 'updated_by');
-    }
-
-    public function setTipeAttribute($value): void
-    {
-        $this->attributes['tipe'] = self::GAWAI;
     }
 
     /**

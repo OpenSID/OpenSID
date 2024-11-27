@@ -86,7 +86,9 @@
                                     <table id="tabeldata" class="table table-bordered table-striped dataTable table-hover">
                                         <thead class="bg-gray disabled color-palette">
                                             <tr>
-                                                <th><input type="checkbox" id="checkall" /></th>
+                                                @if (can('h'))
+                                                    <th><input type="checkbox" id="checkall" /></th>
+                                                @endif
                                                 <th>NO</th>
                                                 <th>AKSI</th>
                                                 <th>NAMA</th>
@@ -122,7 +124,8 @@
                         data: 'ceklist',
                         class: 'padat',
                         searchable: false,
-                        orderable: false
+                        orderable: false,
+                        visible: {{ can('h') ? 1 : 0 }}
                     },
                     {
                         data: 'DT_RowIndex',

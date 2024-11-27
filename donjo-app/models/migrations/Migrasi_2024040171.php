@@ -47,7 +47,7 @@ use Illuminate\Support\Str;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024040171 extends MY_model
+class Migrasi_2024040171 extends MY_Model
 {
     public function up()
     {

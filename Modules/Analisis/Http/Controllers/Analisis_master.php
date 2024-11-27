@@ -64,7 +64,7 @@ class Analisis_master extends AdminModulController
     public function __construct()
     {
         parent::__construct();
-        can('b');
+        isCan('b');
     }
 
     public function index()

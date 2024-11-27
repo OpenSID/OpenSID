@@ -42,7 +42,7 @@ use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024100171 extends MY_model
+class Migrasi_2024100171 extends MY_Model
 {
     public function up()
     {

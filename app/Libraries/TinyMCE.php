@@ -734,8 +734,8 @@ class TinyMCE
         $surat  = $data['surat'];
         $config = identitas();
 
+        // TODO: Cek apakah ini masih digunakan
         $individu = $this->surat_model->get_data_surat($id);
-
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
@@ -808,7 +808,7 @@ class TinyMCE
         $lampiran          = $this->gantiKodeIsian($data, false);
 
         // Replace Gambar menggunakan KodeIsianGambar
-        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat);
+        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat, true);
         $lampiran       = $data_gambar['result'];
         $surat->urls_id = $data_gambar['urls_id'];
 

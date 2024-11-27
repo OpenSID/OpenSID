@@ -84,7 +84,7 @@ class Package
         return Str::after($this->name, 'laravel-');
     }
 
-    public function hasViews(string $namespace = null): static
+    public function hasViews(?string $namespace = null): static
     {
         $this->hasViews = true;
 
@@ -93,7 +93,7 @@ class Package
         return $this;
     }
 
-    public function hasInertiaComponents(string $namespace = null): static
+    public function hasInertiaComponents(?string $namespace = null): static
     {
         $this->hasInertiaComponents = true;
 
@@ -218,7 +218,7 @@ class Package
         return $this;
     }
 
-    public function basePath(string $directory = null): string
+    public function basePath(?string $directory = null): string
     {
         if ($directory === null) {
             return $this->basePath;

@@ -130,8 +130,11 @@ class AuthenticatedSessionController extends Web_Controller
         }
 
         $this->session->sess_regenerate();
-
-        return redirect(route('layanan-mandiri.beranda.index'));
+        
+        if ($this->session->is_anjungan) {
+            redirect(route('anjungan.beranda.index'));
+        }
+        redirect(route('layanan-mandiri.beranda.index'));
     }
 
     public function destroy()

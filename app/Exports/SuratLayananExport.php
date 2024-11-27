@@ -35,30 +35,48 @@
  *
  */
 
-use Illuminate\Support\Facades\DB;
+namespace App\Exports;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use App\Models\SuratDinas;
+use App\Models\FormatSurat;
+use App\Models\SettingAplikasi;
 
-class Migrasi_surat_bawaan extends MY_Model
+class SuratLayananExport
 {
-    public function up()
+    public function __construct(public $id)
     {
-        $hasil = true;
-
-        $config_id = DB::table('config')->pluck('id')->toArray();
-
-        foreach ($config_id as $id) {
-            $hasil = $this->tambah_ubah_surat_bawaan($hasil, $id);
-        }
-
-        return $hasil;
+        $this->id = $id;
     }
 
-    protected function tambah_ubah_surat_bawaan($hasil, $id)
+    public function filename()
     {
-        restoreSuratBawaanTinyMCE($id);
-        restoreSuratBawaanDinasTinyMCE($id);
+        return 'template-surat-tinymce.json';
+    }
 
-        return $hasil;
+    public function data()
+    {
+        $dataExport = FormatSurat::jenis(FormatSurat::TINYMCE)->whereIn('id', $this->id)->latest('id')->get();
+
+        $setting_penduduk_luar = SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value;
+        $setting_penduduk_luar = json_decode($setting_penduduk_luar, true);
+        $setting_penduduk_luar = collect($setting_penduduk_luar)->except([2, 3])->toArray();
+
+        $dataExport    = $dataExport->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
+            ->map(static function ($item) use ($setting_penduduk_luar) {
+                $item['penduduk_luar'] = $setting_penduduk_luar;
+
+                return $item;
+            })
+            ->toArray();
+
+        return $dataExport;
+    }
+
+    public function download()
+    {
+        return app('ci')->output
+            ->set_header("Content-Disposition: attachment; filename={$this->filename()}")
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($this->data(), JSON_PRETTY_PRINT));
     }
 }

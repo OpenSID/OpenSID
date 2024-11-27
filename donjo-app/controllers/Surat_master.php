@@ -35,21 +35,22 @@
  *
  */
 
+use App\Models\Sex;
+use App\Models\User;
 use App\Enums\SHDKEnum;
+use App\Models\LogSurat;
 use App\Enums\StatusEnum;
 use App\Libraries\TinyMCE;
-use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
-use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
-use App\Models\KlasifikasiSurat;
-use App\Models\LogSurat;
-use App\Models\SettingAplikasi;
-use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
-use App\Models\User;
-use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use App\Models\AliasKodeIsian;
+use App\Models\SettingAplikasi;
+use App\Models\KlasifikasiSurat;
+use App\Exports\SuratLayananExport;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -472,6 +473,13 @@ class Surat_master extends Admin_Controller
             }
         }
 
+        if (strlen($request['nama']) > 100) {
+            return [
+                'success' => false,
+                'message' => 'Nama surat maksimal 100 karakter',
+            ];
+        }
+
         $namaSurat = nama_surat($request['nama']);
 
         if ((collect($formIsian)->where('sumber', '1')->count() > 1) && ($request['mandiri'] == 1)) {
@@ -781,39 +789,17 @@ class Surat_master extends Admin_Controller
         exit();
     }
 
-    public function ekspor(): void
+    public function ekspor()
     {
         isCan('u');
 
         $id = $this->request['id_cb'];
 
-        if (null === $id) {
+        if (null === $id || count($id) === 0) {
             redirect_with('error', 'Tidak ada surat yang dipilih.');
         }
 
-        $ekspor = FormatSurat::jenis(FormatSurat::TINYMCE)->whereIn('id', $id)->latest('id')->get();
-
-        if ($ekspor->count() === 0) {
-            redirect_with('error', 'Tidak ada surat TinyMCE yang ditemukan dari pilihan anda.');
-        }
-
-        $setting_penduduk_luar = SettingAplikasi::where('key', 'form_penduduk_luar')->first()->value;
-        $setting_penduduk_luar = json_decode($setting_penduduk_luar, true);
-        $setting_penduduk_luar = collect($setting_penduduk_luar)->except([2, 3])->toArray();
-
-        $file_name = namafile('Template Surat TInyMCE') . '.json';
-        $ekspor    = $ekspor->map(static fn ($item) => collect($item)->except('id', 'config_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'deleted_at', 'judul_surat', 'margin_cm_to_mm', 'url_surat_sistem', 'url_surat_desa')->toArray())
-            ->map(static function ($item) use ($setting_penduduk_luar) {
-                $item['penduduk_luar'] = $setting_penduduk_luar;
-
-                return $item;
-            })
-            ->toArray();
-
-        $this->output
-            ->set_header("Content-Disposition: attachment; filename={$file_name}")
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($ekspor, JSON_PRETTY_PRINT));
+        return (new SuratLayananExport($id))->download();
     }
 
     public function impor_filter($data)
@@ -835,7 +821,11 @@ class Surat_master extends Admin_Controller
             redirect_with('error', 'Tidak ada surat yang dipilih.');
         }
 
-        $this->prosesImport(session('data_impor_surat'), $id);
+        $proses = $this->prosesImport(session('data_impor_surat'), $id);
+
+        if (isset($proses['error'])) {
+            redirect_with('error', $proses['error']);
+        }
 
         redirect_with('success', 'Berhasil Impor Data');
     }
@@ -875,6 +865,10 @@ class Surat_master extends Admin_Controller
         $list_data = file_get_contents(DEFAULT_LOKASI_IMPOR . 'template-surat-tinymce.json');
 
         $proses = $this->prosesImport($this->formatImport($list_data));
+
+        if (isset($proses['error'])) {
+            redirect_with('error', $proses['error']);
+        }
 
         if ($proses) {
             $template = $this->getTemplate(FormatSurat::TINYMCE_SISTEM);
@@ -926,7 +920,7 @@ class Surat_master extends Admin_Controller
             ->toArray();
     }
 
-    private function prosesImport($list_data = null, $id = null): bool
+    private function prosesImport($list_data = null, $id = null): bool|array
     {
         if ($list_data) {
             $penduduk_luar_impor = collect($list_data)->pluck('penduduk_luar')->unique()->toArray();
@@ -936,6 +930,9 @@ class Surat_master extends Admin_Controller
             $penduduk_luar->update(['value' => json_encode(updateIndex($luar), JSON_THROW_ON_ERROR)]);
 
             foreach ($list_data as $key => $value) {
+                if (strlen($value['nama']) > 100) {
+                    return ['error' => 'Nama surat tidak boleh lebih dari 100 karakter'];
+                }
                 unset($value['penduduk_luar']);
                 if ($id !== null) {
                     foreach ($id as $row) {
