@@ -41,7 +41,6 @@ use App\Models\SuratDinas;
 
 class SuratDinasExport
 {
-
     public function __construct(public $id)
     {
         $this->id = $id;

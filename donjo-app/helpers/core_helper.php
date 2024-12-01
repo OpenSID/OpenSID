@@ -39,7 +39,7 @@ use App\Services\Pelanggan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-define('VERSION', '2411.0.2');
+define('VERSION', '2412.0.0');
 
 /**
  * PREMIUM
@@ -57,7 +57,7 @@ define('PREMIUM', true);
  *
  * Varsi database jika premium = 2025061501, jika umum = 2024101651 (6 bulan setelah rilis premium, namun rilis beta)
  */
-define('VERSI_DATABASE', PREMIUM ? '2024112051' : '2025061501');
+define('VERSI_DATABASE', PREMIUM ? '2024120171' : '2025071501');
 
 /**
  * Minimum versi OpenSID yang bisa melakukan migrasi, backup dan restore database ke versi ini

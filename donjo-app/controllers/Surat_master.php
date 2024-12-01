@@ -35,22 +35,22 @@
  *
  */
 
-use App\Models\Sex;
-use App\Models\User;
 use App\Enums\SHDKEnum;
-use App\Models\LogSurat;
 use App\Enums\StatusEnum;
+use App\Exports\SuratLayananExport;
 use App\Libraries\TinyMCE;
+use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use App\Models\AliasKodeIsian;
 use App\Models\FormatSurat;
+use App\Models\KlasifikasiSurat;
+use App\Models\LogSurat;
+use App\Models\SettingAplikasi;
+use App\Models\Sex;
 use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
-use App\Models\AliasKodeIsian;
-use App\Models\SettingAplikasi;
-use App\Models\KlasifikasiSurat;
-use App\Exports\SuratLayananExport;
-use Spipu\Html2Pdf\Exception\Html2PdfException;
-use App\Libraries\TinyMCE\KodeIsianPendudukLuar;
+use App\Models\User;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

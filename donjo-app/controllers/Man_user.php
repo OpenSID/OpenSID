@@ -133,8 +133,10 @@ class Man_user extends Admin_Controller
             $data['action']      = 'Tambah';
         }
 
-        $data['wilayah']             = Wilayah::tree();
-        $data['user_group']          = UserGrup::status()->get(['id', 'nama']);
+        $data['wilayah']    = Wilayah::tree();
+        $data['user_group'] = UserGrup::status()->when(super_admin() == $id, static function ($query): void {
+                                            $query->where('slug', UserGrup::ADMINISTRATOR);
+                                        })->get(['id', 'nama']);
         $data['akses']               = (new UserGrup())->getGrupSistem();
         $data['pamong']              = Pamong::selectData()->aktif()->bukanPengguna($id)->get();
         $data['notifikasi_telegram'] = setting('telegram_notifikasi');
