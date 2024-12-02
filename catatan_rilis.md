@@ -5,3 +5,4 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### BUG
 
 1. [#8761] (https://github.com/OpenSID/OpenSID/issues/8761) Perbaikan tambah default surat bawaan layanan dan dinas saat migrasi.
+2. [#8767](https://github.com/OpenSID/OpenSID/issues/8767) Perbaikan sebutan nama bulan.
