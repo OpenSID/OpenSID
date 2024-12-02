@@ -27,10 +27,10 @@
     <!-- Plugins -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/kehadiran-style.css') }}" />
-    @if ($setting->latar_kehadiran && file_exists(FCPATH . $setting->latar_kehadiran))
+    @if ($setting->latar_kehadiran && ($latarKehadiran = default_file(LATAR_LOGIN . $setting->latar_kehadiran, DEFAULT_LATAR_KEHADIRAN_PERANGKAT)))
         <style type="text/css">
             .form-left {
-                background-image: url('{{ asset($setting->latar_kehadiran, false) }}');
+                background-image: url('{{ $latarKehadiran }}');
             }
         </style>
     @endif
