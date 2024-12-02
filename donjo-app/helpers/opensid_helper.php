@@ -2003,11 +2003,12 @@ if (! function_exists('kodeIsianTanggal')) {
             $tanggal     = $tanggal ? Carbon::createFromFormat($formatInput, $tanggal) : Carbon::now();
 
             return match ($format) {
-                'hari'  => $tanggal->translatedFormat('l'),
-                'tgl'   => $tanggal->format('d'),
-                'bulan' => $tanggal->translatedFormat('F'),
-                'tahun' => $tanggal->format('Y'),
-                default => $tanggal->translatedFormat(setting('format_tanggal_surat')),
+                'hari'        => $tanggal->translatedFormat('l'),
+                'tgl'         => $tanggal->format('d'),
+                'bulan'       => $tanggal->translatedFormat('F'),
+                'bulan_angka' => $tanggal->translatedFormat('m'),
+                'tahun'       => $tanggal->format('Y'),
+                default       => $tanggal->translatedFormat(setting('format_tanggal_surat')),
             };
         } catch (InvalidArgumentException $e) {
             return $tanggal;
@@ -2059,6 +2060,12 @@ if (! function_exists('tanggalLengkap')) {
                 'judul'         => 'Bulan',
                 'isian'         => 'bulan' . $prefix,
                 'data'          => kodeIsianTanggal($tgl, 'bulan'),
+            ],
+            [
+                'case_sentence' => true,
+                'judul'         => 'Bulan (Angka)',
+                'isian'         => 'bulan_angka' . $prefix,
+                'data'          => kodeIsianTanggal($tgl, 'bulan_angka'),
             ],
             [
                 'case_sentence' => true,

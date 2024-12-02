@@ -45,14 +45,10 @@
                             <label class="col-sm-3 control-label" for="group">Group</label>
                             <div class="col-sm-8">
                                 <select class="form-control input-sm required" id="id_grup" name="id_grup">
-                                    @if ($user['id'] === super_admin())
-                                        <option @selected($user['id_grup'] == '1') value="1">Administrator</option>
-                                    @else
-                                        @foreach ($user_group as $item)
-                                            <option @selected($user['id_grup'] == $item['id']) value="{{ $item['id'] }}">
-                                                {{ $item['nama'] }}</option>
-                                        @endforeach
-                                    @endif
+                                    @foreach ($user_group as $item)
+                                        <option @selected($user['id_grup'] == $item['id']) value="{{ $item['id'] }}">
+                                            {{ $item['nama'] }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
