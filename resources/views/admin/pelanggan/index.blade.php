@@ -296,6 +296,7 @@
                 </div>
             </div>
         </div>
+        @php $pemesananLainnya = 0 @endphp
         <div class="box box-info" id="box-pemesanan-lainnya">
             <div class="box-header with-border">
                 <b>Rincian Pemesanan Lainnya</b>
@@ -320,57 +321,59 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php $pemesananLainnya = 0 @endphp
                             @foreach ($response->body->pemesanan as $number => $pemesanan)
-                                <tr id="tbl-pemesanan-{{ $number }}">
-                                    <td class="padat">{{ $number + 1 }}</td>
-                                    <td class="aksi">
-                                        @if (($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar') || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi')
-                                            <a target="_blank" href="{{ "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" }}"
-                                                class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"
-                                            ><i class="fa fa-print"></i>Cetak Nota Faktur</a>
+                                @php
+                                    $pemesananBukanPremium = collect($pemesanan->layanan)->filter(static fn($q) => $q->kategori_id != 4);
+                                    $totalLayanan = $pemesananBukanPremium->count();
+                                    $pemesananLainnya += $totalLayanan;
+                                @endphp
+                                @foreach ($pemesananBukanPremium as $layanan)
+                                    <tr>
+                                        @if ($loop->first)
+                                            <td rowspan="{{ $totalLayanan }}" class="padat">{{ $number + 1 }}</td>
+                                            <td rowspan="{{ $totalLayanan }}" class="aksi">
+                                                @if (($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar') || $response->body->status_langganan === 'menunggu verifikasi pendaftaran' || $response->body->status_langganan === 'email telah terverifikasi')
+                                                    <a target="_blank" href="{{ "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" }}"
+                                                        class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"
+                                                    ><i class="fa fa-print"></i>Cetak Nota Faktur</a>
+                                                @endif
+                                                @if ($notif_langganan['warna'] == 'orange')
+                                                    <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}"
+                                                        class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"
+                                                    ><i class="fa fa-refresh"></i>Perpanjang</a>
+                                                @endif
+                                            </td>
                                         @endif
-                                        @if ($notif_langganan['warna'] == 'orange')
-                                            <a href="{{ site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) }}"
-                                                class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"
-                                            ><i class="fa fa-refresh"></i>Perpanjang</a>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @foreach ($pemesanan->layanan as $layanan)
-                                            @if ($layanan->kategori_id != 4)
-                                                @php $pemesananLainnya++ @endphp
-                                                <a href="#" data-parent="#layanan" data-target="{{ '#layanan' . $layanan->id }}" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                                                    title="Klik untuk melihat ketentuan {{ $layanan->nama }}"
-                                                ><i class="fa fa-info"></i> {{ $layanan->nama }}</a><br>
-                                                {!! '<style>#tbl-pemesanan-' . $number . ' { display:table-row!important;}</style>' !!}
+                                        <td>
+                                            <a href="#" data-parent="#layanan" data-target="{{ '#layanan' . $layanan->id }}" data-toggle="modal" class="mt-5 btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
+                                                title="Klik untuk melihat ketentuan {{ $layanan->nama }}"
+                                            ><i class="fa fa-info"></i> {{ $layanan->nama }}</a>
+                                        </td>
+                                        <td class="padat">{{ tgl_indo($layanan->tanggal_mulai) }}</td>
+                                        <td class="padat">{{ tgl_indo($layanan->tanggal_akhir) }}</td>
+                                        <td class="padat">
+                                            @if ($notif_langganan['warna'] == 'orange')
+                                                <span class="label label-warning">perlu diperpanjang</span>
                                             @else
-                                                {!! '<style>#tbl-pemesanan-' . $number . ' { display:none;}</style>' !!}
+                                                <span class="label label-{{ $layanan->tanggal_akhir >= date('Y-m-d') ? 'success' : 'danger' }}">{{ $layanan->tanggal_akhir >= date('Y-m-d') ? 'aktif' : 'tidak aktif' }}</span>
                                             @endif
-                                        @endforeach
-                                    </td>
-                                    <td class="padat">{{ tgl_indo($pemesanan->tgl_mulai) }}</td>
-                                    <td class="padat">{{ tgl_indo($pemesanan->tgl_akhir) }}</td>
-                                    <td class="padat">
-                                        @if ($notif_langganan['warna'] == 'orange')
-                                            <span class="label label-warning">perlu diperpanjang</span>
-                                        @else
-                                            <span class="label label-{{ $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' }}">{{ $pemesanan->status_pemesanan }}</span>
+                                        </td>
+                                        @if ($loop->first)
+                                            <td rowspan="{{ $totalLayanan }}" class="padat">
+                                                <span class="label label-{{ $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' }}">{{ $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' }}</span>
+                                            </td>
                                         @endif
-                                    </td>
-                                    <td class="padat">
-                                        <span class="label label-{{ $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' }}">{{ $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' }}</span>
-                                    </td>
-                                </tr>
+                                    </tr>
+                                @endforeach
                             @endforeach
-                            @if ($pemesananLainnya == 0)
-                                {!! '<style>#box-pemesanan-lainnya { display:none;}</style>' !!}
-                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        @if ($pemesananLainnya == 0)
+            {!! '<style>#box-pemesanan-lainnya { display:none;}</style>' !!}
+        @endif
 
         <div id="layanan">
             @foreach ($response->body->pemesanan as $pemesanan)
