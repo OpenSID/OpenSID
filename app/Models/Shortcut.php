@@ -202,7 +202,7 @@ class Shortcut extends BaseModel
                     ],
 
                     'Dokumen Penduduk' => [
-                        'link'   => 'dokumen',
+                        'link'   => 'penduduk',
                         'akses'  => 'penduduk',
                         'jumlah' => Dokumen::whereHas('penduduk', static fn ($q) => $q->withOnly([])->status())->hidup()->count(),
                     ],
@@ -278,8 +278,8 @@ class Shortcut extends BaseModel
 
                     // Lembaga
                     'Lembaga' => [
-                        'link'   => 'kelompok',
-                        'akses'  => 'lembaga',
+                        'link'   => 'lembaga',
+                        'akses'  => 'kelompok',
                         'jumlah' => Kelompok::status()->tipe('lembaga')->count(),
                     ],
 
