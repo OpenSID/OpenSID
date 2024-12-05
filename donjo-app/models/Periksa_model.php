@@ -45,12 +45,15 @@ use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SuplemenTerdata;
 use App\Models\User;
+use App\Traits\Collation;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Periksa_model extends MY_Model
 {
+    use Collation;
+
     public $periksa = [];
 
     public function __construct()
@@ -435,13 +438,7 @@ class Periksa_model extends MY_Model
         $tables = $this->periksa['collation_table'];
 
         if ($tables) {
-            foreach ($tables as $tbl) {
-                if ($this->db->table_exists($tbl['TABLE_NAME'])) {
-                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat}");
-
-                    log_message('notice', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . " menjadi {$this->db->dbcollat}.");
-                }
-            }
+            $this->updateCollation($this->db->database, $this->db->dbcollat);
         }
 
         return $hasil;

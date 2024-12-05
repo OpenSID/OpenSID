@@ -13,5 +13,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 7. [#8788](https://github.com/OpenSID/OpenSID/issues/8788) Perbaikan menampilkan lokasi penduduk hidup pada peta.
 
 
+### TEKNIS
+
+1. [#8785](https://github.com/OpenSID/OpenSID/issues/8785) Penyesuaian collation database menggunakan utf8mb4_general_ci.
+
+
 ### LAYANAN
 1. [#8775](https://github.com/OpenSID/OpenSID/issues/8775) Penyesuaian status pesanan pada layanan pelanggan.
