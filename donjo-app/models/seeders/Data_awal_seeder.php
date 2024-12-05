@@ -35,9 +35,9 @@
  *
  */
 
+use App\Imports\KlasifikasiSuratImports;
 use App\Models\Config;
 use Illuminate\Support\Facades\DB;
-use App\Imports\KlasifikasiSuratImports;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -56,7 +56,7 @@ class Data_awal_seeder extends CI_Model
         // Error menggunakan Illuminate untuk alter database ini
         // DB::statement("ALTER DATABASE {$db} CHARACTER SET utf8 COLLATE utf8_general_ci;");
         $this->db->query(
-            "ALTER DATABASE `{$db}` CHARACTER SET utf8 COLLATE {$this->db->dbcollat};"
+            "ALTER DATABASE `{$db}` CHARACTER SET {$this->db->char_set} COLLATE {$this->db->dbcollat};"
         );
 
         $this->load->helper('directory');
