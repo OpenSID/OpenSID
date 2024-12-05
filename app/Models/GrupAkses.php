@@ -75,4 +75,9 @@ class GrupAkses extends BaseModel
     {
         return $this->belongsTo(Modul::class, 'id_modul', 'id');
     }
+
+    public function grup()
+    {
+        return $this->belongsTo(UserGrup::class, 'id_grup', 'id');
+    }
 }
