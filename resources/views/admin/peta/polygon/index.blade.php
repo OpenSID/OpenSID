@@ -21,7 +21,7 @@
             <div class="box box-info">
                 <div class="box-header with-border">
                     @if (can('u'))
-                        <a href="{{ ci_route('polygon.form', $parent) }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{ ci_route('polygon.form', $parent) }}?tipe={{ $tipe }}" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah</a>
                     @endif
                     @if (can('h'))
                         <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ ci_route('polygon.delete_all', $parent) }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i

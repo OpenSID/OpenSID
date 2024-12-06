@@ -1601,8 +1601,7 @@ Route::group('line', static function (): void {
     Route::get('/datatables', 'Line@datatables')->name('line.datatables');
     Route::get('/form/{parent}', 'Line@form')->name('line.form-default');
     Route::get('/form/{parent}/{id?}', 'Line@form')->name('line.form');
-    Route::get('/ajax_add_sub_line/{parent}', 'Line@ajax_add_sub_line')->name('line.ajax_add_sub_line');
-    Route::post('/insert/{parent}', 'Line@insert')->name('line.insert');
+    Route::post('/insert/{parent}/{tipe?}', 'Line@insert')->name('line.insert');
     Route::post('/update/{parent}/{id?}', 'Line@update')->name('line.update');
     Route::match(['GET', 'POST'], '/delete/{parent}/{id?}', 'Line@delete')->name('line.delete');
     Route::get('/lock/{parent}/{id?}', 'Line@lock')->name('line.lock');
@@ -1634,8 +1633,7 @@ Route::group('polygon', static function (): void {
     Route::get('/datatables', 'Polygon@datatables')->name('polygon.datatables');
     Route::get('/form', 'Polygon@form')->name('polygon.form-default');
     Route::get('/form/{parent}/{id?}', 'Polygon@form')->name('polygon.form');
-    Route::get('/ajax_add_sub_polygon/{parent?}', 'Polygon@ajax_add_sub_polygon')->name('polygon.ajax_add_sub_polygon');
-    Route::post('/insert/{parent}', 'Polygon@insert')->name('polygon.insert');
+    Route::post('/insert/{parent?}/{tipe?}', 'Polygon@insert')->name('polygon.insert');
     Route::post('/update/{parent}/{id?}', 'Polygon@update')->name('polygon.update');
     Route::get('/delete/{parent}/{id?}', 'Polygon@delete')->name('polygon.delete');
     Route::post('/delete_all/{parent}', 'Polygon@delete_all')->name('polygon.delete_all');

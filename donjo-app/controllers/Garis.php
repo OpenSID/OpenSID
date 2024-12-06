@@ -128,7 +128,7 @@ class Garis extends Admin_Controller
             $data['form_action'] = ci_route('garis.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_line'] = empty($parent) ? Line::subline()->whereHas('parent')->get() : Line::child($parent)->whereHas('parent')->get();
+        $data['list_line'] = empty($parent) ? Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get() : Line::child($parent)->whereHas('parent')->get();
         $data['tip']       = $this->tip;
 
         return view('admin.peta.garis.form', $data);

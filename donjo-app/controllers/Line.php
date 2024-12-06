@@ -89,10 +89,6 @@ class Line extends Admin_Controller
                     }
 
                     if (can('u')) {
-                        if ($row->tipe == LineModel::ROOT) {
-                            $aksi .= '<a href="' . ci_route('line.ajax_add_sub_line', $row->id) . '" class="btn bg-olive btn-sm"  title="Tambah Kategori  ' . $row->nama . '" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori ' . $row->nama . '"><i class="fa fa-plus"></i></a> ';
-                        }
-
                         if ($row->enabled == LineModel::UNLOCK) {
                             $aksi .= '<a href="' . ci_route('line.lock', implode('/', [$row->parrent, $row->id])) . '" class="btn bg-navy btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a> ';
                         }
@@ -124,7 +120,7 @@ class Line extends Admin_Controller
 
         $data['aksi']        = 'Tambah';
         $data['line']        = null;
-        $data['form_action'] = ci_route('line.insert', $this->parent);
+        $data['form_action'] = ci_route('line.insert', [$this->parent, $this->input->get('tipe')]);
 
         if ($id) {
             $data['aksi']        = 'Ubah';
@@ -137,20 +133,11 @@ class Line extends Admin_Controller
         return view('admin.peta.line.form', $data);
     }
 
-    public function ajax_add_sub_line(int $parent = 0)
-    {
-        $data['form_action'] = ci_route("line.insert.{$parent}");
-        $data['tipe']        = LineModel::CHILD;
-
-        return view('admin.peta.line.ajax_form', $data);
-    }
-
-    public function insert(int $parent): void
+    public function insert(int $parent, $tipe): void
     {
         isCan('u');
         $dataInsert            = $this->validasi($this->input->post());
         $dataInsert['parrent'] = $parent;
-        $tipe                  = $this->input->post('tipe') ?? $this->tipe($parent);
         $dataInsert['tipe']    = $tipe;
 
         try {

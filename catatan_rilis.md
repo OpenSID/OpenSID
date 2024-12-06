@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8783](https://github.com/OpenSID/OpenSID/issues/8783) Perbaikan link shorcut penduduk dan lembaga.
 7. [#8788](https://github.com/OpenSID/OpenSID/issues/8788) Perbaikan menampilkan lokasi penduduk hidup pada peta.
 8. [#8791](https://github.com/OpenSID/OpenSID/issues/8791) Perbaikan backup database .sid dengan penambahan pengecekan grup akses pada halaman periksa.
+9. [#8776](https://github.com/OpenSID/OpenSID/issues/8776) Perbaikan tambah subdata pada pengaturan tipe garis dan tipe area.
 
 
 ### TEKNIS
