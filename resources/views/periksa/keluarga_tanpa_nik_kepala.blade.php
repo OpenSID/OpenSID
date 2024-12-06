@@ -9,6 +9,7 @@
                 <th>Dusun</th>
                 <th>RW</th>
                 <th>RT</th>
+                <th>Keterangan</th>
             </tr>
             @foreach ($keluarga_tanpa_nik_kepala as $keluarga)
                 <tr>
@@ -17,6 +18,7 @@
                     <td>{{ $keluarga['wilayah']['dusun'] ?? '' }}</td>
                     <td>{{ $keluarga['wilayah']['rw'] ?? '' }}</td>
                     <td>{{ $keluarga['wilayah']['rt'] ?? '' }}</td>
+                    <td>{{ App\Models\LogKeluarga::kodePeristiwaAll($keluarga['id_peristiwa']) ?? '-' }}</td>
                 </tr>
             @endforeach
         </table>

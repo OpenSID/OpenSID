@@ -6,7 +6,7 @@
             <tr>
                 <th>No</th>
                 <th>Grup</th>
-                <th>Id Modul</th>                
+                <th>Id Modul</th>
             </tr>
             @foreach ($modul_asing as $grupAkses)
                 <tr>

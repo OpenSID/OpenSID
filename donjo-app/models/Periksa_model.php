@@ -329,7 +329,9 @@ class Periksa_model extends MY_Model
 
     private function deteksi_keluarga_tanpa_nik_kepala()
     {
-        return Keluarga::with(['wilayah'])->whereNull('nik_kepala')->get();
+        $configId = identitas('id');
+
+        return Keluarga::selectRaw('tweb_keluarga.*, log_keluarga.id_peristiwa')->logTerakhir($configId, date('Y-m-d'))->with(['wilayah'])->whereNull('nik_kepala')->get();
     }
 
     private function deteksi_klasifikasi_surat_ganda()
