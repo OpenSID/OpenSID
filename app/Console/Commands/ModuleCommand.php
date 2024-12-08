@@ -1,0 +1,136 @@
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2024 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+namespace App\Console\Commands;
+
+use Carbon\Carbon;
+use App\Models\Rtm;
+use App\Models\Config;
+use App\Models\Pelapak;
+use App\Models\Wilayah;
+use App\Models\Keluarga;
+use App\Models\Penduduk;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+
+class ModuleCommand extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'opensid:module';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Memasang modul baru ke OpenSID';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     */
+    public function handle(): void
+    {
+        $this->info('Modul:');
+        $modules = array_map('basename', glob(base_path('modules/*'), GLOB_ONLYDIR));
+        $modules = array_diff($modules, ['Anjungan', 'Analisis']);
+        $modules = array_combine(range(1, count($modules)), $modules);
+        foreach ($modules as $key => $module) {
+            $this->info(" [{$key}] {$module}");
+        }
+        
+        $module = $this->ask('Pilih modul yang akan dipasang (masukkan nomor):');
+
+        if (!isset($modules[$module])) {
+            $this->error('Modul tidak ditemukan');
+            return;
+        }
+
+        $this->info('Migrasi:');
+        $this->info('[1] Migrasi Up');
+        $this->info('[2] Migrasi Down');
+        $migrasi = $this->ask('Pilih migrasi yang akan dijalankan (masukkan nomor):');
+        if ($migrasi == 1) {
+            $this->jalankanMigrasi($modules[$module], 'up');
+        } else if ($migrasi == 2) {
+            $this->jalankanMigrasi($modules[$module], 'down');
+        } else {
+            $this->error('Pilihan tidak valid');
+            return;
+        }
+        
+        $this->info('Selesai');
+    }
+
+    private function jalankanMigrasi(string $name, string $action = 'up'): void
+    {
+        $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
+        $directoryTable = $modulesDirectory . '/' . $name . '/Database/Migrations';
+
+        // Mendapatkan daftar file migrasi
+        $migrations = File::files($directoryTable);
+
+        if ($action === 'up') {
+            // Mengurutkan berdasarkan nama file
+            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+        }
+
+        foreach ($migrations as $migrate) {
+            $migrateFile = require $migrate->getPathname();
+
+            match ($action) {
+                'down'  => $migrateFile->down(),
+                default => $migrateFile->up(),
+            };
+        }
+
+        cache()->flush();
+    }
+}

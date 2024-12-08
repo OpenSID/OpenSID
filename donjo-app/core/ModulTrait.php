@@ -41,10 +41,6 @@ trait ModulTrait
 {
     public $moduleDirectory;
     public $moduleName;
-    protected $except = [
-        'Anjungan',
-        'Analisis',
-    ];
 
     /**
      * Get the module directory dynamically based on the file's location.
@@ -156,12 +152,12 @@ trait ModulTrait
     protected function activate()
     {
         // Check if the module is excluded from activation
-        if (in_array($this->moduleName, $this->except)) {
+        if (in_array($this->moduleName, MODUL_BAWAAN)) {
             return true;
         }
 
         // Check demo mode and other conditions
-        if ((config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) || cache('siappakai') === true) {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) || cache('siappakai') === true) {
             return true;
         }
 

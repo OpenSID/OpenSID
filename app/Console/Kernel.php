@@ -87,6 +87,7 @@ class Kernel implements KernelContract
     protected $commands = [
         Commands\AcakDataCommand::class,
         Commands\ViewClearCommand::class,
+        Commands\ModuleCommand::class,
     ];
 
     /**
