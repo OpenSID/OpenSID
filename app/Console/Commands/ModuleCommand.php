@@ -37,13 +37,6 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
-use App\Models\Rtm;
-use App\Models\Config;
-use App\Models\Pelapak;
-use App\Models\Wilayah;
-use App\Models\Keluarga;
-use App\Models\Penduduk;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -82,14 +75,16 @@ class ModuleCommand extends Command
         $modules = array_map('basename', glob(base_path('modules/*'), GLOB_ONLYDIR));
         $modules = array_diff($modules, ['Anjungan', 'Analisis']);
         $modules = array_combine(range(1, count($modules)), $modules);
+
         foreach ($modules as $key => $module) {
             $this->info(" [{$key}] {$module}");
         }
-        
+
         $module = $this->ask('Pilih modul yang akan dipasang (masukkan nomor):');
 
-        if (!isset($modules[$module])) {
+        if (! isset($modules[$module])) {
             $this->error('Modul tidak ditemukan');
+
             return;
         }
 
@@ -99,20 +94,21 @@ class ModuleCommand extends Command
         $migrasi = $this->ask('Pilih migrasi yang akan dijalankan (masukkan nomor):');
         if ($migrasi == 1) {
             $this->jalankanMigrasi($modules[$module], 'up');
-        } else if ($migrasi == 2) {
+        } elseif ($migrasi == 2) {
             $this->jalankanMigrasi($modules[$module], 'down');
         } else {
             $this->error('Pilihan tidak valid');
+
             return;
         }
-        
+
         $this->info('Selesai');
     }
 
     private function jalankanMigrasi(string $name, string $action = 'up'): void
     {
         $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
-        $directoryTable = $modulesDirectory . '/' . $name . '/Database/Migrations';
+        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
 
         // Mendapatkan daftar file migrasi
         $migrations = File::files($directoryTable);

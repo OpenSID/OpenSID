@@ -45,17 +45,16 @@ abstract class Migrator extends Migration
     /**
      * Tambah atau perbarui data ke tabel modul.
      *
-     * @param array $data
      * @return void
      */
     protected function createModul(array $data)
     {
-        $modul = new Modul;
+        $modul = new Modul();
         $modul = $modul->withoutGlobalScope('config_id');
 
-        $data['ikon_kecil'] = $data['ikon_kecil'] ?? $data['ikon'];
+        $data['ikon_kecil'] ??= $data['ikon'];
         // Tetapkan nilai urut jika belum disediakan
-        if (!isset($data['urut'])) {
+        if (! isset($data['urut'])) {
             $data['urut'] = $data['parent'] == Modul::PARENT
                 ? $modul->max('urut') + 1
                 : $modul->where('parent', $data['parent'])->max('urut') + 1;
@@ -68,12 +67,11 @@ abstract class Migrator extends Migration
     /**
      * Hapus data dari tabel modul berdasarkan config_id dan slug.
      *
-     * @param array $where
      * @return void
      */
     protected function deleteModul(array $where)
     {
-        $modul = new Modul;
+        $modul = new Modul();
         $modul = $modul->withoutGlobalScope('config_id');
 
         $modul = $modul->where($where)->first();

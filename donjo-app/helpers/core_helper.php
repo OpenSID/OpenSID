@@ -89,8 +89,6 @@ define('MODUL_BAWAAN', [
 if (! function_exists('cek_anjungan')) {
     /**
      * Cek status anjungan.
-     * 
-     * @return bool
      */
     function cek_anjungan(): bool
     {
@@ -141,4 +139,3 @@ if (! function_exists('storage_modules')) {
         return $module . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . $uri;
     }
 }
-
