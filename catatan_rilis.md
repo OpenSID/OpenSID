@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 11. [#8794](https://github.com/OpenSID/OpenSID/issues/8794) Perbaikan urutan tahun pada halaman peraturan desa.
 12. [#8798](https://github.com/OpenSID/OpenSID/issues/8798) Perbaikan fungsi checkbox dan delete pada modul sesuai hak aksesnya.
 13. [#8792](https://github.com/OpenSID/OpenSID/issues/8792) Perbaikan menampilkan data c-desa.
+14. [#8793](https://github.com/OpenSID/OpenSID/issues/8793) Perbaikan tampilan halaman inventaris. 
 
 
 ### TEKNIS
