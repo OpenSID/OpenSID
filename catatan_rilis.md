@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
 1. [#8785](https://github.com/OpenSID/OpenSID/issues/8785) Penyesuaian collation database menggunakan utf8mb4_general_ci.
 2. [#8789](https://github.com/OpenSID/OpenSID/issues/8789) Penyesuaian lokasi anggota keluarga saat lokasi kepala keluarga diubah.
+3. [#8790](https://github.com/OpenSID/OpenSID/issues/8790) Penyesuian link kategori artikel statis yang tidak digunakan.
 
 
 ### LAYANAN
