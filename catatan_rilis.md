@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 8. [#8791](https://github.com/OpenSID/OpenSID/issues/8791) Perbaikan backup database .sid dengan penambahan pengecekan grup akses pada halaman periksa.
 9. [#8776](https://github.com/OpenSID/OpenSID/issues/8776) Perbaikan tambah subdata pada pengaturan tipe garis dan tipe area.
 10. [#8657](https://github.com/OpenSID/OpenSID/issues/8657) Perbaikan alur pecah anggota keluarga dengan kepala keluarga perempuan.
+11. [#8794](https://github.com/OpenSID/OpenSID/issues/8794) Perbaikan urutan tahun pada halaman peraturan desa.
 
 
 ### TEKNIS
