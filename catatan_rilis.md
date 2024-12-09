@@ -2,6 +2,11 @@ Di rilis ini, versi 2412.0.1 berisi [untuk diisi] dan perbaikan lain yang dimint
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
+### FITUR
+
+1. [#8797](https://github.com/OpenSID/OpenSID/issues/8797) Penambahan jenis query untuk modul buku administrasi desa pada modul shortcut.
+
+
 ### BUG
 
 1. [#8761](https://github.com/OpenSID/OpenSID/issues/8761) Perbaikan tambah default surat bawaan layanan dan dinas saat migrasi.

@@ -60,7 +60,7 @@ class Lembaran_desa extends Admin_Controller
         $data['main_content']    = 'admin.dokumen.lembaran_desa.index';
         $data['subtitle']        = "Buku Lembaran {$sebutan_desa} Dan Berita {$sebutan_desa}";
         $data['selected_nav']    = 'lembaran';
-
+        $data['status']          = request('status');
         view('admin.bumindes.umum.main', $data);
     }
 

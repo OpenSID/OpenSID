@@ -63,7 +63,7 @@ class Ekspedisi extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $data = ModelsEkspedisi::get();
+            $data = ModelsEkspedisi::query();
 
             return datatables()->of($data)
                 ->addIndexColumn()

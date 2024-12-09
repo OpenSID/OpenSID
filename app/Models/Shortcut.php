@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
+use App\Enums\StatusEnum;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Exception;
@@ -405,6 +406,96 @@ class Shortcut extends BaseModel
                         'link'   => 'program_bantuan',
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK)->count(),
+                    ],
+                    'Buku Peraturan di Desa (Semua)' => [
+                        'link'   => 'dokumen_sekretariat/perdes/3',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(3)->count(),
+                    ],
+                    'Buku Peraturan di Desa (Aktif)' => [
+                        'link'   => 'dokumen_sekretariat/perdes/3?active=' . StatusEnum::YA,
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(3)->active()->count(),
+                    ],
+                    'Buku Peraturan di Desa (Tidak Aktif)' => [
+                        'link'   => 'dokumen_sekretariat/perdes/3?active=2',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(3)->nonActive()->count(),
+                    ],
+                    'Buku Keputusan Kepala Desa (Semua)' => [
+                        'link'   => 'dokumen_sekretariat/perdes/2',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(2)->count(),
+                    ],
+                    'Buku Keputusan Kepala Desa (Aktif)' => [
+                        'link'   => 'dokumen_sekretariat/perdes/2?active=' . StatusEnum::YA,
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(2)->active()->count(),
+                    ],
+                    'Buku Keputusan Kepala Desa (Tidak Aktif)' => [
+                        'link'   => 'dokumen_sekretariat/perdes/2?active=2',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(2)->nonActive()->count(),
+                    ],
+                    'Buku Inventaris dan Kekayaan Desa (Semua)' => [
+                        'link'   => 'bumindes_inventaris_kekayaan',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => count(MasterInventaris::permen47(date('Y'))) ?? 0,
+                    ],
+                    'Buku Pemerintah Desa (Semua)' => [
+                        'link'   => 'pengurus',
+                        'akses'  => 'pemerintah-desa',
+                        'jumlah' => Pamong::withOnly([])->count(),
+                    ],
+                    'Buku Pemerintah Desa (Aktif)' => [
+                        'link'   => 'pengurus?status=' . Pamong::LOCK,
+                        'akses'  => 'pemerintah-desa',
+                        'jumlah' => Pamong::withOnly([])->status(StatusEnum::YA)->count(),
+                    ],
+                    'Buku Pemerintah Desa (Tidak Aktif)' => [
+                        'link'   => 'pengurus?status=' . Pamong::UNLOCK,
+                        'akses'  => 'pemerintah-desa',
+                        'jumlah' => Pamong::withOnly([])->status(StatusEnum::TIDAK)->count(),
+                    ],
+                    'Buku Tanah Kas Desa (Semua)' => [
+                        'link'   => 'bumindes_tanah_kas_desa',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => TanahKasDesa::withOnly([])->visible()->count(),
+                    ],
+                    'Buku Tanah Di Desa (Semua)' => [
+                        'link'   => 'bumindes_tanah_desa',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => TanahDesa::withOnly([])->visible()->count(),
+                    ],
+                    'Buku Agenda - Surat Keluar (Semua)' => [
+                        'link'   => 'surat_keluar',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => SuratKeluar::count(),
+                    ],
+                    'Buku Agenda - Surat Masuk (Semua)' => [
+                        'link'   => 'surat_masuk',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => SuratMasuk::count(),
+                    ],
+                    'Buku Ekspedisi (Semua)' => [
+                        'link'   => 'ekspedisi',
+                        'akses'  => 'buku-eskpedisi',
+                        'jumlah' => Ekspedisi::count(),
+                    ],
+                    'Buku Lembaran Desa Dan Berita Desa (Semua)' => [
+                        'link'   => 'lembaran_desa',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(3)->count(),
+                    ],
+                    'Buku Lembaran Desa Dan Berita Desa (Aktif)' => [
+                        'link'   => 'lembaran_desa?status=1',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(3)->active()->count(),
+                    ],
+                    'Buku Lembaran Desa Dan Berita Desa (Tidak Aktif)' => [
+                        'link'   => 'lembaran_desa?status=2',
+                        'akses'  => 'administrasi-umum',
+                        'jumlah' => DokumenHidup::peraturanDesa(3)->nonActive()->count(),
                     ],
                 ]),
             ];
