@@ -38,6 +38,7 @@
 use App\Models\Cdesa as CdesaModel;
 use App\Models\Pamong;
 use App\Models\Penduduk;
+use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -60,29 +61,41 @@ class Cdesa extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $query = CdesaModel::selectData()->get();
+            $query = CdesaModel::with(['penduduk'])->selectRaw('cdesa.*')->jumlahPersil('jumlah');
 
             return datatables()->of($query)
-                ->addColumn('ceklist', static function ($row) {
+                ->filter(static function ($query) {
+                    $keyword = request('search')['value'] ?? null;
+                    if ($keyword) {
+                        $query->where('nomor', 'like', DB::raw("cast('{$keyword}' as unsigned)"))
+                            ->orWhere('nama_kepemilikan', 'like', "%{$keyword}%")
+                            ->orWhere('nama_pemilik_luar', 'like', "%{$keyword}%")
+                            ->orWhereHas('penduduk', static fn ($q) => $q->where('nik', 'like', "%{$keyword}%")->orWhere('nama', 'like', "%{$keyword}%"));
+                    }
+                })->orderColumn('nomor', static function ($query, $order) {
+                    $query->orderByRaw('cast(nomor as unsigned) ' . $order);
+                })->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id_cdesa . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
                     }
                 })
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
-                    $aksi = '<a href="' . ci_route('cdesa.rincian', $row->id_cdesa) . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
+                    $aksi = '<a href="' . ci_route('cdesa.rincian', $row->id) . '" class="btn bg-purple btn-sm"><i class="fa fa-bars"></i></a> ';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('cdesa.create_mutasi', ['id_cdesa' => $row->id_cdesa]) . '" class="btn btn-success btn-sm"  title="Tambah Data"><i class="fa fa-plus"></i></a> ';
-                        $aksi .= '<a href="' . ci_route('cdesa.form', $row->id_cdesa) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . route('cdesa.create_mutasi', ['id_cdesa' => $row->id]) . '" class="btn btn-success btn-sm"  title="Tambah Data"><i class="fa fa-plus"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('cdesa.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('cdesa.delete', $row->id_cdesa) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('cdesa.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
-                })
+                })->addColumn('nama_pemilik', static fn ($row) => $row->nama_pemilik)
+                ->addColumn('nik_pemilik', static fn ($row) => $row->nik_pemilik)
+                ->addColumn('id_pemilik', static fn ($row) => $row->id_pemilik)
                 ->editColumn('nomor', static fn ($row) => sprintf('%04s', $row->nomor))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
@@ -99,7 +112,7 @@ class Cdesa extends Admin_Controller
             $action      = 'Ubah';
             $form_action = ci_route('cdesa.update', $id);
 
-            $cdesa = CdesaModel::selectData()->findOrFail($id);
+            $cdesa = CdesaModel::findOrFail($id);
         } else {
             $action      = 'Tambah';
             $form_action = ci_route('cdesa.insert');
@@ -118,7 +131,7 @@ class Cdesa extends Admin_Controller
 
         if ($data) {
             if ($req['data']['jenis_pemilik'] == 1) {
-                $data->cdesaPenduduk()->create($req['penduduk']);
+                $data->penduduk()->create($req['penduduk']);
             }
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -131,14 +144,14 @@ class Cdesa extends Admin_Controller
         isCan('u');
 
         $req  = static::validate();
-        $data = CdesaModel::with('cdesaPenduduk')->findOrFail($id);
+        $data = CdesaModel::with('penduduk')->findOrFail($id);
 
         $data->fill($req['data']);
 
         if ($req['data']['jenis_pemilik'] == 1) {
-            $data->cdesaPenduduk ? $data->cdesaPenduduk->update($req['penduduk']) : $data->cdesaPenduduk()->create($req['penduduk']);
+            $data->penduduk ? $data->penduduk->update($req['penduduk']) : $data->penduduk()->create($req['penduduk']);
         } else {
-            $data->cdesaPenduduk?->delete();
+            $data->penduduk?->delete();
         }
 
         if ($data->save()) {
@@ -172,15 +185,15 @@ class Cdesa extends Admin_Controller
     {
         $data = $this->input->post();
 
-        $cdesaPenduduk = [];
+        $penduduk = [];
         if ($data['jenis_pemilik'] == 1) {
-            $cdesaPenduduk['id_pend']  = $data['id_penduduk'];
-            $cdesaPenduduk['id_cdesa'] = $data['id_cdesa'];
+            $penduduk['id_pend']  = $data['id_penduduk'];
+            $penduduk['id_cdesa'] = $data['id_cdesa'];
         }
         unset($data['id_penduduk']);
 
         $cdesa['data']     = $data;
-        $cdesa['penduduk'] = $cdesaPenduduk;
+        $cdesa['penduduk'] = $penduduk;
 
         return $cdesa;
     }
@@ -254,7 +267,7 @@ class Cdesa extends Admin_Controller
     public function form_c_desa($id = 0)
     {
         // $data           = $this->modal_penandatangan();
-        $data['cdesa']  = CdesaModel::selectData()->findOrFail($id);
+        $data['cdesa']  = CdesaModel::findOrFail($id);
         $data['basah']  = CdesaModel::cetakMutasi($id, 'BASAH');
         $data['kering'] = CdesaModel::cetakMutasi($id, 'KERING');
 

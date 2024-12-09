@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
 use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
@@ -69,47 +70,33 @@ class Cdesa extends BaseModel
         return $this->hasOne(CdesaPenduduk::class, 'id_cdesa', 'id');
     }
 
+    public function penduduk()
+    {
+        return $this->hasOneThrough(PendudukSaja::class, CdesaPenduduk::class, 'id_cdesa', 'id', 'id', 'id_pend')->withoutGlobalScope(AccessWilayahScope::class);
+    }
+
     public function cdesaMutasi()
     {
         return $this->hasMany(CdesaMutasi::class, 'id_cdesa_masuk', 'id');
     }
 
-    public function scopeSelectData($query)
+    public function scopeJumlahPersil($query, string $alias = 'jumlah')
     {
-        $query->select([
-            'cdesa.*',
-            'cdesa.id as id_cdesa',
-            'cdesa.created_at as tanggal_daftar',
-            'cdesa_penduduk.id_pend',
-        ])
-            ->addSelect('tweb_penduduk.nik as nik', 'tweb_penduduk.nama as nama_pemilik')
-            ->addSelect('tweb_wil_clusterdesa.*')
-            ->selectRaw('IF(cdesa.jenis_pemilik = 1, tweb_penduduk.nama, cdesa.nama_pemilik_luar) as nama_pemilik')
-            ->selectRaw('IF(cdesa.jenis_pemilik = 1, CONCAT("RT ", tweb_wil_clusterdesa.rt, " / RW ", tweb_wil_clusterdesa.rw, " - ", tweb_wil_clusterdesa.dusun), cdesa.alamat_pemilik_luar) as alamat')
-            ->selectRaw('IF(cdesa.jenis_pemilik = 1, tweb_penduduk.nik, "-") as nik_pemilik')
-            ->selectRaw('IF(cdesa.jenis_pemilik = 1, tweb_penduduk.id, "-") as id_pemilik')
-            ->selectRaw('COUNT(DISTINCT persil.id) as jumlah')
-            ->leftJoin('mutasi_cdesa', static function ($join): void {
-                $join->on('mutasi_cdesa.id_cdesa_masuk', '=', 'cdesa.id')
-                    ->orOn('mutasi_cdesa.cdesa_keluar', '=', 'cdesa.id');
-            })
-            ->leftJoin('persil', static function ($join): void {
-                $join->on('persil.id', '=', 'mutasi_cdesa.id_persil')
-                    ->orOn('cdesa.id', '=', 'persil.cdesa_awal');
-            })
-            ->leftJoin('ref_persil_kelas', 'ref_persil_kelas.id', '=', 'persil.kelas')
-            ->leftJoin('cdesa_penduduk', 'cdesa_penduduk.id_cdesa', '=', 'cdesa.id')
-            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'cdesa_penduduk.id_pend')
-            ->leftJoin('tweb_wil_clusterdesa', 'tweb_wil_clusterdesa.id', '=', 'tweb_penduduk.id_cluster')
-            ->orderByRaw('CAST(cdesa.nomor as unsigned)')
-            ->groupBy('cdesa.id', 'cdesa_penduduk.id_pend', 'tweb_penduduk.id', 'tweb_wil_clusterdesa.id');
+        $sql = <<<SQL
+                    (select count(distinct persil.id)
+                    from mutasi_cdesa
+                    left join persil on  persil.id = mutasi_cdesa.id_persil
+                    where (mutasi_cdesa.id_cdesa_masuk = cdesa.id or mutasi_cdesa.cdesa_keluar = cdesa.id or persil.cdesa_awal = cdesa.id)
+                    )
+                    as {$alias}
+            SQL;
 
-        return $query;
+        return $query->selectRaw($sql);
     }
 
     public function scopeListCdesa($query, $kecuali = [])
     {
-        $query->selectData();
+        $query->with(['penduduk']);
 
         if ($kecuali) {
             $query->whereNotIn('cdesa.id', $kecuali);
@@ -117,7 +104,7 @@ class Cdesa extends BaseModel
 
         return $query->get()->map(function ($item) {
             // Mengisi nilai luas persil untuk setiap data
-            $luas_persil  = $this->jumlah_luas($item->id_cdesa);
+            $luas_persil  = $this->jumlah_luas($item->id);
             $item->basah  = $luas_persil['BASAH'];
             $item->kering = $luas_persil['KERING'];
 
@@ -267,5 +254,25 @@ class Cdesa extends BaseModel
         $hasil .= empty($mutasi['keterangan']) ? null : $mutasi['keterangan'];
 
         return $hasil . '</p>';
+    }
+
+    protected function getNamaPemilikAttribute()
+    {
+        return $this->jenis_pemilik == 1 ? ($this->penduduk?->nama ?? '-' ) : $this->nama_pemilik_luar;
+    }
+
+    protected function getNikPemilikAttribute()
+    {
+        return $this->jenis_pemilik == 1 ? ($this->penduduk?->nik ?? '-' ) : '-';
+    }
+
+    protected function getIdPemilikAttribute()
+    {
+        return $this->jenis_pemilik == 1 ? ($this->penduduk?->id ?? '-' ) : '-';
+    }
+
+    protected function getAlamatAttribute()
+    {
+        return $this->jenis_pemilik == 1 ? ($this->penduduk?->alamatWilayah ?? '-' ) : $this->alamat_pemilik_luar;
     }
 }
