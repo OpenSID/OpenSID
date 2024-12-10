@@ -38,6 +38,8 @@
 namespace App\Libraries;
 
 use App\Models\Modul;
+use App\Models\UserGrup;
+use App\Models\GrupAkses;
 use Illuminate\Database\Migrations\Migration;
 
 abstract class Migrator extends Migration
@@ -62,6 +64,17 @@ abstract class Migrator extends Migration
 
         // Simpan atau perbarui data modul
         $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'parent', 'urut']);
+
+        // Create Hak Akses Administator
+        $admin = new UserGrup();
+        $admin = $admin->withoutConfigId($data['config_id']);
+
+        $this->createHakAkses([
+            'config_id' => $data['config_id'],
+            'id_grup'   => $admin->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
+            'id_modul'  => $modul->where($data)->first()->id,
+            'akses'     => GrupAkses::HAPUS,
+        ]);
     }
 
     /**
@@ -85,5 +98,16 @@ abstract class Migrator extends Migration
             // Hapus modul itu sendiri
             $modul->delete();
         }
+    }
+
+    /**
+     * Tambah hak akses berdasarkan modul.
+     * 
+     * @return void
+     */
+    protected function createHakAkses(array $data)
+    {
+        $akses = new GrupAkses();
+        $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
     }
 }

@@ -45,6 +45,10 @@ class GrupAkses extends BaseModel
 {
     use ConfigId;
 
+    public const BACA  = 1;
+    public const UBAH  = 3;
+    public const HAPUS = 7;
+
     /**
      * The table associated with the model.
      *
