@@ -117,6 +117,7 @@ class Pelanggan_Controller extends Admin_Controller
     {
         hapus_cache('status_langganan');
         cache()->forget('siappakai');
+        cache()->forget('modul_aktif');
         session_success();
         sleep(3);
         redirect($this->controller);

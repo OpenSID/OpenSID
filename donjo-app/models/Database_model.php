@@ -159,6 +159,10 @@ class Database_model extends MY_Model
         // delete cache list path view blade
         cache()->forget('views_blade');
 
+        // delete cache modul_aktif dan siappakai
+        cache()->forget('siappakai');
+        cache()->forget('modul_aktif');
+
         SettingAplikasi::withoutGlobalScope(App\Scopes\ConfigIdScope::class)->where('key', '=', 'current_version')->update(['value' => $currentVersion]);
         SettingAplikasi::where(['key' => 'compatible_version_general'])->update(['value' => PREMIUM ? versiUmumSetara($currentVersion) : null]);
         $this->load->model('track_model');

@@ -157,15 +157,36 @@ trait ModulTrait
         }
 
         // Check demo mode and other conditions
-        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO)) || cache('siappakai') === true) {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
             return true;
         }
 
         // If module is not in the list of active modules, show error and redirect
-        if (! in_array($this->moduleName, cache('modul_aktif') ?? [])) {
+        if (! in_array($this->moduleName, $this->getLayananModul())) {
             set_session('error', 'Paket ' . $this->moduleName . ' belum bisa digunakan karena belum diaktivasi.');
 
             redirect('plugin');
         }
+    }
+
+    /**
+     * Daftar modul yang aktif berdasarkan status langganan.
+     */
+    protected function getLayananModul(): array
+    {
+        return cache()->rememberForever('modul_aktif', static function () {
+            $cache = app('ci')->cache->file->get('status_langganan');
+
+            return collect($cache->body->pemesanan)
+                ->filter(static fn ($data): bool => $data->status_pemesanan === 'aktif')
+                ->map(
+                    static fn ($data) => collect($data->layanan)
+                        ->filter(static fn ($layanan) => $layanan->nama_kategori === 'Modul')
+                        ->map(static fn ($layanan) => trim(str_replace('Modul', '', $layanan->nama)))
+                        ->toArray()
+                )
+                ->flatten()
+                ->toArray();
+        });
     }
 }
