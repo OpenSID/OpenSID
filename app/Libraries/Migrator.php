@@ -51,28 +51,30 @@ abstract class Migrator extends Migration
      */
     protected function createModul(array $data)
     {
-        $modul = new Modul();
-        $modul = $modul->withoutGlobalScope('config_id');
+        $modul = (new Modul())->withoutGlobalScope('config_id');
 
         $data['ikon_kecil'] ??= $data['ikon'];
+
         // Tetapkan nilai urut jika belum disediakan
-        if (! isset($data['urut'])) {
-            $data['urut'] = $data['parent'] == Modul::PARENT
-                ? $modul->max('urut') + 1
-                : $modul->where('parent', $data['parent'])->max('urut') + 1;
-        }
+        $data['urut'] ??= $data['parent'] == Modul::PARENT
+            ? $modul->max('urut') + 1
+            : $modul->where('parent', $data['parent'])->max('urut') + 1;
 
         // Simpan atau perbarui data modul
         $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'parent', 'urut']);
 
-        // Create Hak Akses Administator
-        $admin = new UserGrup();
-        $admin = $admin->withoutConfigId($data['config_id']);
+        // Buat Hak Akses Administrator
+        $adminGrupId = (new UserGrup())
+            ->withoutConfigId($data['config_id'])
+            ->where('slug', UserGrup::ADMINISTRATOR)
+            ->value('id');
+
+        $modulId = $modul->where($data)->value('id');
 
         $this->createHakAkses([
             'config_id' => $data['config_id'],
-            'id_grup'   => $admin->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
-            'id_modul'  => $modul->where($data)->first()->id,
+            'id_grup'   => $adminGrupId,
+            'id_modul'  => $modulId,
             'akses'     => GrupAkses::HAPUS,
         ]);
     }
@@ -107,7 +109,6 @@ abstract class Migrator extends Migration
      */
     protected function createHakAkses(array $data)
     {
-        $akses = new GrupAkses();
-        $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
+        (new GrupAkses())->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
     }
 }
