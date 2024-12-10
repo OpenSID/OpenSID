@@ -35,14 +35,12 @@
  *
  */
 
-namespace App\Libraries;
+namespace App\Traits;
 
 use App\Models\Modul;
-use App\Models\UserGrup;
-use App\Models\GrupAkses;
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\File;
 
-abstract class Migrator extends Migration
+trait Migrator
 {
     /**
      * Tambah atau perbarui data ke tabel modul.
@@ -51,32 +49,21 @@ abstract class Migrator extends Migration
      */
     protected function createModul(array $data)
     {
-        $modul = (new Modul())->withoutGlobalScope('config_id');
+        $modul = new Modul();
+        $modul = $modul->withoutGlobalScope('config_id');
 
         $data['ikon_kecil'] ??= $data['ikon'];
-
         // Tetapkan nilai urut jika belum disediakan
-        $data['urut'] ??= $data['parent'] == Modul::PARENT
-            ? $modul->max('urut') + 1
-            : $modul->where('parent', $data['parent'])->max('urut') + 1;
+        if (! isset($data['urut'])) {
+            $data['urut'] = $data['parent'] == Modul::PARENT
+                ? $modul->max('urut') + 1
+                : $modul->where('parent', $data['parent'])->max('urut') + 1;
+        }
 
         // Simpan atau perbarui data modul
         $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'parent', 'urut']);
 
-        // Buat Hak Akses Administrator
-        $adminGrupId = (new UserGrup())
-            ->withoutConfigId($data['config_id'])
-            ->where('slug', UserGrup::ADMINISTRATOR)
-            ->value('id');
-
-        $modulId = $modul->where($data)->value('id');
-
-        $this->createHakAkses([
-            'config_id' => $data['config_id'],
-            'id_grup'   => $adminGrupId,
-            'id_modul'  => $modulId,
-            'akses'     => GrupAkses::HAPUS,
-        ]);
+        cache()->flush();
     }
 
     /**
@@ -100,15 +87,39 @@ abstract class Migrator extends Migration
             // Hapus modul itu sendiri
             $modul->delete();
         }
+
+        cache()->flush();
     }
 
     /**
-     * Tambah hak akses berdasarkan modul.
-     * 
+     * Jalankan migrasi modul.
+     *
+     * @param string $name
+     * @param string $action
      * @return void
      */
-    protected function createHakAkses(array $data)
+    private function jalankanMigrasiModule(string $name, string $action = 'up'): void
     {
-        (new GrupAkses())->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
+        $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
+        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
+
+        // Mendapatkan daftar file migrasi
+        $migrations = File::files($directoryTable);
+
+        if ($action === 'up') {
+            // Mengurutkan berdasarkan nama file
+            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+        }
+
+        foreach ($migrations as $migrate) {
+            $migrateFile = require $migrate->getPathname();
+
+            match ($action) {
+                'down'  => $migrateFile->down(),
+                default => $migrateFile->up(),
+            };
+        }
+
+        cache()->flush();
     }
 }

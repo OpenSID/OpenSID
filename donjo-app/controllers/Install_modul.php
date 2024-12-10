@@ -35,12 +35,15 @@
  *
  */
 
+use App\Traits\Migrator;
 use Illuminate\Support\Facades\Http;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 // require_once('donjo-app/core/MY_Model.php');
 class Install_modul extends CI_Controller
 {
+    use Migrator;
+
     private readonly int|string $modulesDirectory;
 
     public function __construct()
@@ -66,7 +69,7 @@ class Install_modul extends CI_Controller
             $pasangBaru = false;
         }
         // jalankan migrasi dari paket
-        $this->jalankanMigrasi($name, 'up');
+        $this->jalankanMigrasiModule($name, 'up');
 
         if ($pasangBaru) {
             try {
@@ -98,31 +101,12 @@ class Install_modul extends CI_Controller
             if ($name === '' || $name === '0') {
                 log_message('error', 'Nama paket tidak boleh kosong');
             }
-            $this->jalankanMigrasi($name, 'down');
+            $this->jalankanMigrasiModule($name, 'down');
             // reset cache views_blade karena di MY_Controller diset cache rememberForever
             cache()->forget('views_blade');
             log_message('notice', 'Paket ' . $name . ' berhasil dihapus');
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
-        }
-    }
-
-    private function jalankanMigrasi(string $name, string $action = 'up'): void
-    {
-        $this->load->helper('directory');
-        $directoryTable = $this->modulesDirectory . $name . '/Database/Migrations';
-        $migrations     = directory_map($directoryTable, 1);
-        if ($action === 'up') {
-            usort($migrations, static fn ($a, $b): int => strcmp((string) $a, (string) $b));
-        }
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $directoryTable . DIRECTORY_SEPARATOR . $migrate;
-
-            match ($action) {
-                'down'  => $migrateFile->down(),
-                default => $migrateFile->up(),
-            };
         }
     }
 }
