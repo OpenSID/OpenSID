@@ -640,8 +640,9 @@ Route::group('stunting', static function (): void {
     Route::post('/deleteAllPaud', 'Stunting@deleteAllPaud')->name('stunting.deleteAllPaud');
     Route::get('/eksporPaud', 'Stunting@eksporPaud')->name('stunting.eksporPaud');
     // Rekapitulasi
-    Route::get('/rekapitulasi_ibu_hamil/{kuartal?}/{tahun?}/{id?}', 'Stunting@rekapitulasi_ibu_hamil')->name('stunting.rekapitulasi_ibu_hamil');
-    Route::get('/rekapitulasi_bulanan_anak/{kuartal?}/{tahun?}/{id?}', 'Stunting@rekapitulasi_bulanan_anak')->name('stunting.rekapitulasi_bulanan_anak');
+    Route::get('rekapitulasi_ibu_hamil/{kuartal?}/{tahun?}/{id?}', 'Stunting_rekapitulasi@ibu_hamil')->name('stunting.rekapitulasi_ibu_hamil');
+    Route::get('rekapitulasi_bulanan_anak/{kuartal?}/{tahun?}/{id?}', 'Stunting_rekapitulasi@bulanan_anak')->name('stunting.rekapitulasi_bulanan_anak');
+    Route::get('rekapitulasi_bulanan_balita/{kuartal?}/{tahun?}/{id?}', 'Stunting_rekapitulasi@bulanan_balita')->name('stunting.rekapitulasi_bulanan_balita');
     Route::get('/scorecard_konvergensi/{kuartal?}/{tahun?}/{id?}', 'Stunting@scorecard_konvergensi')->name('stunting.scorecard_konvergensi');
     Route::get('/dialog_sk/{aksi?}', 'Stunting@dialog_sk')->name('stunting.sk.dialog');
     Route::post('/aksi_sk/{aksi?}', 'Stunting@aksi_sk')->name('stunting.sk.aksi');

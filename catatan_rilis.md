@@ -5,6 +5,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 ### FITUR
 
 1. [#8797](https://github.com/OpenSID/OpenSID/issues/8797) Penambahan jenis query untuk modul buku administrasi desa pada modul shortcut.
+2. [#8771](https://github.com/OpenSID/OpenSID/issues/8771) Penambahan pemantauan dan rekapitulasi anak 2-6 tahun pada modul stunting.
 
 
 ### BUG
