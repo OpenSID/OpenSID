@@ -72,8 +72,8 @@ class ModuleCommand extends Command
     public function handle(): void
     {
         $this->info('Modul:');
-        $modules = array_map('basename', glob(base_path('modules/*'), GLOB_ONLYDIR));
-        $modules = array_diff($modules, ['Anjungan', 'Analisis']);
+        $modules = array_map('basename', glob(base_path('Modules/*'), GLOB_ONLYDIR));
+        $modules = array_diff($modules, MODUL_BAWAAN);
         $modules = array_combine(range(1, count($modules)), $modules);
 
         foreach ($modules as $key => $module) {
