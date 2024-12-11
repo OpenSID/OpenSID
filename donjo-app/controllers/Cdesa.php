@@ -131,7 +131,7 @@ class Cdesa extends Admin_Controller
 
         if ($data) {
             if ($req['data']['jenis_pemilik'] == 1) {
-                $data->penduduk()->create($req['penduduk']);
+                $data->cdesaPenduduk()->create($req['penduduk']);
             }
             redirect_with('success', 'Berhasil Tambah Data');
         }
@@ -149,9 +149,9 @@ class Cdesa extends Admin_Controller
         $data->fill($req['data']);
 
         if ($req['data']['jenis_pemilik'] == 1) {
-            $data->penduduk ? $data->penduduk->update($req['penduduk']) : $data->penduduk()->create($req['penduduk']);
+            $data->cdesaPenduduk ? $data->cdesaPenduduk->update($req['penduduk']) : $data->cdesaPenduduk()->create($req['penduduk']);
         } else {
-            $data->penduduk?->delete();
+            $data->cdesaPenduduk?->delete();
         }
 
         if ($data->save()) {
