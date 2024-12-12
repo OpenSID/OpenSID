@@ -37,12 +37,12 @@
 
 namespace App\Traits;
 
-use App\Models\Modul;
 use App\Enums\StatusEnum;
-use Illuminate\Support\Str;
+use App\Models\Modul;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 trait Migrator
 {
@@ -140,9 +140,9 @@ trait Migrator
         $migrations       = File::files($directoryTable);
 
         if ($action === 'up') {
-            usort($migrations, static fn($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
         } else {
-            usort($migrations, static fn($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
+            usort($migrations, static fn ($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
         }
 
         foreach ($migrations as $migrate) {
@@ -187,7 +187,7 @@ trait Migrator
         foreach ($data as $setting) {
             $this->createSetting($setting);
         }
-        
+
         return true;
     }
 
@@ -200,7 +200,7 @@ trait Migrator
     {
         $setting = new SettingAplikasi();
         $setting = $setting->withoutGlobalScope('config_id');
-        
+
         $setting->where($where)->delete();
 
         $setting->flushQueryCache();

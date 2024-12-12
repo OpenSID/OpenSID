@@ -37,9 +37,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Schema\Blueprint;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -103,7 +103,7 @@ class AppServiceProvider extends ServiceProvider
     private function logQuery()
     {
         \Illuminate\Support\Facades\DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
-            \Illuminate\Support\Facades\File::append(
+            File::append(
                 storage_path('/logs/query.log'),
                 $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
             );
@@ -112,7 +112,7 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Load service providers from modules.
-     * 
+     *
      * @return void
      */
     private function loadModuleServiceProvider()
