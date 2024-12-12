@@ -38,12 +38,15 @@
 namespace App\Traits;
 
 use App\Models\Modul;
+use App\Enums\StatusEnum;
+use Illuminate\Support\Str;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\File;
 
 trait Migrator
 {
     /**
-     * Tambah atau perbarui data ke tabel modul.
+     * Tambah atau perbarui data ke tabel setting_modul.
      *
      * @return void
      */
@@ -53,6 +56,7 @@ trait Migrator
         $modul = $modul->withoutGlobalScope('config_id');
 
         $data['ikon_kecil'] ??= $data['ikon'];
+
         // Tetapkan nilai urut jika belum disediakan
         if (! isset($data['urut'])) {
             $data['urut'] = $data['parent'] == Modul::PARENT
@@ -60,14 +64,48 @@ trait Migrator
                 : $modul->where('parent', $data['parent'])->max('urut') + 1;
         }
 
+        if (! isset($data['config_id'])) {
+            $data['config_id'] = identitas('id');
+        }
+
+        if (! isset($data['slug'])) {
+            $data['slug'] = Str::slug($data['modul']);
+        }
+
+        if (! isset($data['aktif'])) {
+            $data['aktif'] = StatusEnum::YA;
+        }
+
+        if (! isset($data['hidden'])) {
+            $data['hidden'] = 0;
+        }
+
+        if (isset($data['parent_slug'])) {
+            $parent         = $modul->where('config_id', $data['config_id'])->where('slug', $data['parent_slug'])->first();
+            $data['parent'] = $parent ? $parent->id : Modul::PARENT;
+            unset($data['parent_slug']);
+        }
+
         // Simpan atau perbarui data modul
-        $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'parent', 'urut']);
+        $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'level', 'hidden', 'ikon_kecil', 'parent']);
 
         cache()->flush();
     }
 
     /**
-     * Hapus data dari tabel modul berdasarkan config_id dan slug.
+     * Tambah atau perbarui beberapa data ke tabel setting_modul.
+     *
+     * @return void
+     */
+    protected function createModuls(array $data)
+    {
+        foreach ($data as $modul) {
+            $this->createModul($modul);
+        }
+    }
+
+    /**
+     * Hapus data dari tabel modul.
      *
      * @return void
      */
@@ -93,10 +131,6 @@ trait Migrator
 
     /**
      * Jalankan migrasi modul.
-     *
-     * @param string $name
-     * @param string $action
-     * @return void
      */
     private function jalankanMigrasiModule(string $name, string $action = 'up'): void
     {
@@ -121,5 +155,54 @@ trait Migrator
         }
 
         cache()->flush();
+    }
+
+    /**
+     * Tambah atau perbarui data ke tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function createSetting(array $data)
+    {
+        $setting = new SettingAplikasi();
+        $setting = $setting->withoutGlobalScope('config_id');
+
+        // Simpan atau perbarui data setting
+        $setting->upsert($data, ['config_id', 'key'], ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori']);
+
+        $setting->flushQueryCache();
+
+        return true;
+    }
+
+    /**
+     * Tambah atau perbarui beberapa data ke tabel setting_aplikasi.
+     *
+     * @return bool
+     */
+    protected function createSettings(array $data)
+    {
+        foreach ($data as $setting) {
+            $this->createSetting($setting);
+        }
+        
+        return true;
+    }
+
+    /**
+     * Hapus data dari tabel setting_aplikasi
+     *
+     * @return void
+     */
+    protected function deleteSetting(array $where)
+    {
+        $setting = new SettingAplikasi();
+        $setting = $setting->withoutGlobalScope('config_id');
+        
+        $setting->where($where)->delete();
+
+        $setting->flushQueryCache();
+
+        return true;
     }
 }
