@@ -37,8 +37,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->loadModuleServiceProvider();
     }
 
     /**
@@ -65,6 +67,11 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Register macro for userstamps columns.
+     *
+     * @return void
+     */
     protected function registerMacrosUserStamps()
     {
         Blueprint::macro('timesWithUserstamps', function () {
@@ -75,6 +82,11 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register macro for config_id column.
+     *
+     * @return void
+     */
     protected function registerMacrosConfigId()
     {
         Blueprint::macro('configId', function () {
@@ -83,6 +95,11 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Log query to file.
+     *
+     * @return void
+     */
     private function logQuery()
     {
         \Illuminate\Support\Facades\DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
@@ -91,5 +108,27 @@ class AppServiceProvider extends ServiceProvider
                 $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
             );
         });
+    }
+
+    /**
+     * Load service providers from modules.
+     * 
+     * @return void
+     */
+    private function loadModuleServiceProvider()
+    {
+        $modulesPath = $this->app->basePath('Modules');
+
+        $modules = File::directories($modulesPath);
+
+        foreach ($modules as $modulePath) {
+            $moduleName = basename($modulePath);
+
+            $providerClass = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
+
+            if (class_exists($providerClass)) {
+                $this->app->register($providerClass);
+            }
+        }
     }
 }

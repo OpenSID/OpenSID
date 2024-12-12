@@ -50,6 +50,7 @@ class Komentar extends BaseModel
 
     public const ACTIVE      = 1;
     public const NONACTIVE   = 2;
+    public const UNREAD      = 3;
     public const TIPE_MASUK  = 2;
     public const TIPE_KELUAR = 1;
     public const LOCK        = 1;
@@ -97,6 +98,18 @@ class Komentar extends BaseModel
     public function scopeEnable($query)
     {
         return $query->where('status', static::ACTIVE);
+    }
+
+    /**
+     * Scope a query to only enable category.
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeUnread($query)
+    {
+        return $query->whereColumn('updated_at', '<=', 'tgl_upload');
     }
 
     /**
@@ -185,5 +198,10 @@ class Komentar extends BaseModel
         static::deleting(static function ($komentar) {
             $komentar->children()->delete();
         });
+    }
+
+    public function isActive()
+    {
+        return $this->attributes['status'] == self::ACTIVE;
     }
 }

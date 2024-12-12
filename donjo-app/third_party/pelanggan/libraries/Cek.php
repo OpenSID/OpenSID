@@ -168,7 +168,7 @@ class Cek
 
     private function isDemoMode(): bool
     {
-        return config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO));
+        return ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)));
     }
 
     private function isUmum(): bool

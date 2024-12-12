@@ -37,11 +37,13 @@
 
 namespace App\Console\Commands;
 
+use App\Traits\Migrator;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 
 class ModuleCommand extends Command
 {
+    use Migrator;
+
     /**
      * The name and signature of the console command.
      *
@@ -72,8 +74,8 @@ class ModuleCommand extends Command
     public function handle(): void
     {
         $this->info('Modul:');
-        $modules = array_map('basename', glob(base_path('modules/*'), GLOB_ONLYDIR));
-        $modules = array_diff($modules, ['Anjungan', 'Analisis']);
+        $modules = array_map('basename', glob(base_path('Modules/*'), GLOB_ONLYDIR));
+        $modules = array_diff($modules, MODUL_BAWAAN);
         $modules = array_combine(range(1, count($modules)), $modules);
 
         foreach ($modules as $key => $module) {
@@ -91,11 +93,15 @@ class ModuleCommand extends Command
         $this->info('Migrasi:');
         $this->info('[1] Migrasi Up');
         $this->info('[2] Migrasi Down');
+        $this->info('[3] Migrasi Fresh');
         $migrasi = $this->ask('Pilih migrasi yang akan dijalankan (masukkan nomor):');
         if ($migrasi == 1) {
-            $this->jalankanMigrasi($modules[$module], 'up');
+            $this->jalankanMigrasiModule($modules[$module], 'up');
         } elseif ($migrasi == 2) {
-            $this->jalankanMigrasi($modules[$module], 'down');
+            $this->jalankanMigrasiModule($modules[$module], 'down');
+        } elseif ($migrasi == 3) {
+            $this->jalankanMigrasiModule($modules[$module], 'down');
+            $this->jalankanMigrasiModule($modules[$module], 'up');
         } else {
             $this->error('Pilihan tidak valid');
 
@@ -103,30 +109,5 @@ class ModuleCommand extends Command
         }
 
         $this->info('Selesai');
-    }
-
-    private function jalankanMigrasi(string $name, string $action = 'up'): void
-    {
-        $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
-        $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
-
-        // Mendapatkan daftar file migrasi
-        $migrations = File::files($directoryTable);
-
-        if ($action === 'up') {
-            // Mengurutkan berdasarkan nama file
-            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
-        }
-
-        foreach ($migrations as $migrate) {
-            $migrateFile = require $migrate->getPathname();
-
-            match ($action) {
-                'down'  => $migrateFile->down(),
-                default => $migrateFile->up(),
-            };
-        }
-
-        cache()->flush();
     }
 }

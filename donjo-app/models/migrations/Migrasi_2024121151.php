@@ -35,53 +35,12 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\ConfigId;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class GrupAkses extends BaseModel
+class Migrasi_2024121151 extends MY_Model
 {
-    use ConfigId;
-
-    public const BACA  = 1;
-    public const UBAH  = 3;
-    public const HAPUS = 7;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'grup_akses';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'config_id',
-        'id_grup',
-        'id_modul',
-        'akses',
-    ];
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    public function modul()
+    public function up()
     {
-        return $this->belongsTo(Modul::class, 'id_modul', 'id');
-    }
-
-    public function grup()
-    {
-        return $this->belongsTo(UserGrup::class, 'id_grup', 'id');
+        return true;
     }
 }
