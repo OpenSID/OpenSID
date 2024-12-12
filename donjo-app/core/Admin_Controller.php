@@ -121,7 +121,7 @@ class Admin_Controller extends MY_Controller
         $this->header['desa']                   = collect(identitas())->toArray();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
-        $this->header['notif_komentar']         = Komentar::whereStatus(Komentar::NONACTIVE)->count();
+        $this->header['notif_komentar']         = Komentar::unread()->whereNull('parent_id')->count();
         $this->header['notif_langganan']        = Pelanggan::status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = ($kode_desa || $force) ? null : $this->cek_pengumuman();

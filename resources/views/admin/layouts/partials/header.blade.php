@@ -62,7 +62,7 @@
 
                 @if (can('b', 'komentar'))
                     <li>
-                        <a href="{{ ci_route('komentar') }}">
+                        <a href="{{ ci_route('komentar') }}?status={{ App\Models\Komentar::UNREAD }}">
                             <i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;
                             @if ($notif['komentar'])
                                 <span class="badge" id="b_komentar">{{ $notif['komentar'] }}</span>
