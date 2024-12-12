@@ -41,6 +41,7 @@ use App\Models\Modul;
 use App\Enums\StatusEnum;
 use Illuminate\Support\Str;
 use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 
 trait Migrator
@@ -136,13 +137,12 @@ trait Migrator
     {
         $modulesDirectory = array_keys(config_item('modules_locations') ?? [])[0] ?? '';
         $directoryTable   = $modulesDirectory . '/' . $name . '/Database/Migrations';
-
-        // Mendapatkan daftar file migrasi
-        $migrations = File::files($directoryTable);
+        $migrations       = File::files($directoryTable);
 
         if ($action === 'up') {
-            // Mengurutkan berdasarkan nama file
-            usort($migrations, static fn ($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+            usort($migrations, static fn($a, $b): int => strcmp($a->getFilename(), $b->getFilename()));
+        } else {
+            usort($migrations, static fn($a, $b): int => strcmp($b->getFilename(), $a->getFilename()));
         }
 
         foreach ($migrations as $migrate) {
@@ -152,6 +152,8 @@ trait Migrator
                 'down'  => $migrateFile->down(),
                 default => $migrateFile->up(),
             };
+
+            Log::info("Migrasi {$action} {$migrate->getFilename()} berhasil dijalankan.");
         }
 
         cache()->flush();
