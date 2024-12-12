@@ -57,6 +57,7 @@ class Cdesa extends BaseModel
     protected $table = 'cdesa';
 
     protected $guarded = [];
+    protected $appends = ['nama_pemilik', 'nik_pemilik', 'id_pemilik', 'alamat'];
 
     /**
      * The timestamps for the model.
@@ -263,7 +264,7 @@ class Cdesa extends BaseModel
 
     protected function getNikPemilikAttribute()
     {
-        return $this->jenis_pemilik == 1 ? ($this->penduduk?->nik ?? '-' ) : '-';
+        return $this->jenis_pemilik == 1 ? ($this->penduduk?->nik ?? '-' ) : $this->nik_pemilik_luar;
     }
 
     protected function getIdPemilikAttribute()

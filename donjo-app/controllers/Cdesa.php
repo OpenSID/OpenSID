@@ -220,7 +220,14 @@ class Cdesa extends Admin_Controller
         $data['isi']       = 'admin.pertanahan.cdesa.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
 
-        return view('admin.layouts.components.format_cetak', $data);
+        if ($aksi == 'unduh') {
+            header('Content-type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=data_persil.xls');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+        }
+
+        view('admin.layouts.components.format_cetak', $data);
     }
 
     public function apipendudukdesa()
