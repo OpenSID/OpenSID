@@ -392,13 +392,13 @@ if (! function_exists('logger')) {
     /**
      * Log a debug message to the logs.
      *
-     * @param  string|null  $message
-     * @param  array  $context
+     * @param string|null $message
+     *
      * @return ($message is null ? \Illuminate\Log\LogManager : null)
      */
     function logger($message = null, array $context = [])
     {
-        if (is_null($message)) {
+        if (null === $message) {
             return app('Psr\Log\LoggerInterface');
         }
 

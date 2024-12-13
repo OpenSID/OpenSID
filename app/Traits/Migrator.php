@@ -37,14 +37,14 @@
 
 namespace App\Traits;
 
-use App\Models\Modul;
-use App\Models\UserGrup;
 use App\Enums\StatusEnum;
 use App\Models\GrupAkses;
-use Illuminate\Support\Str;
+use App\Models\Modul;
 use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\Log;
+use App\Models\UserGrup;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 trait Migrator
 {
@@ -220,7 +220,7 @@ trait Migrator
 
     /**
      * Tambah atau perbarui data ke tabel grup_akses.
-     * 
+     *
      * @return void
      */
     protected function createHakAkses(array $data)
