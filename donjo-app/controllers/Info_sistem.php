@@ -35,37 +35,38 @@
  *
  */
 
-use App\Libraries\Checker;
-use App\Libraries\Sistem;
 use App\Models\Area;
-use App\Models\Artikel;
-use App\Models\BantuanPeserta;
-use App\Models\BukuTamu;
-use App\Models\Config;
-use App\Models\Dokumen;
-use App\Models\DtksLampiran;
-use App\Models\Galery;
 use App\Models\Garis;
-use App\Models\KelompokAnggota;
-use App\Models\LaporanSinkronisasi;
-use App\Models\LogLogin;
-use App\Models\LogPenduduk;
+use App\Models\Point;
+use App\Models\Config;
+use App\Models\Galery;
 use App\Models\Lokasi;
+use App\Models\Produk;
+use App\Models\Simbol;
+use App\Models\Widget;
+use App\Models\Artikel;
+use App\Models\Dokumen;
+use App\Models\BukuTamu;
+use App\Models\LogLogin;
+use App\Models\Penduduk;
+use App\Libraries\Sistem;
+use App\Models\Pengaduan;
+use App\Libraries\Checker;
+use App\Models\LogPenduduk;
 use App\Models\MediaSosial;
 use App\Models\Pembangunan;
-use App\Models\PembangunanDokumentasi;
-use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
-use App\Models\Pengaduan;
-use App\Models\Point;
-use App\Models\Produk;
-use App\Models\SettingAplikasi;
-use App\Models\Simbol;
-use App\Models\SinergiProgram;
-use App\Models\Widget;
 use Illuminate\Support\Str;
-use Modules\Analisis\Models\AnalisisResponBukti;
+use App\Libraries\LogViewer;
+use App\Models\DtksLampiran;
+use App\Models\BantuanPeserta;
+use App\Models\SinergiProgram;
+use App\Models\KelompokAnggota;
+use App\Models\PendudukMandiri;
+use App\Models\SettingAplikasi;
+use App\Models\LaporanSinkronisasi;
+use App\Models\PembangunanDokumentasi;
 use Modules\Anjungan\Models\AnjunganMenu;
+use Modules\Analisis\Models\AnalisisResponBukti;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -83,10 +84,7 @@ class Info_sistem extends Admin_Controller
 
     public function index()
     {
-        // Logs viewer
-        $this->load->library('Log_Viewer');
-
-        $data                      = $this->log_viewer->showLogs();
+        $data                      = (new LogViewer)->showLogs();
         $data['ekstensi']          = Sistem::cekEkstensi();
         $data['kebutuhan_sistem']  = Sistem::cekKebutuhanSistem();
         $data['php']               = Sistem::cekPhp();
