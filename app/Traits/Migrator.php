@@ -37,12 +37,14 @@
 
 namespace App\Traits;
 
-use App\Enums\StatusEnum;
 use App\Models\Modul;
-use App\Models\SettingAplikasi;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
+use App\Models\UserGrup;
+use App\Enums\StatusEnum;
+use App\Models\GrupAkses;
 use Illuminate\Support\Str;
+use App\Models\SettingAplikasi;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 trait Migrator
 {
@@ -89,6 +91,14 @@ trait Migrator
 
         // Simpan atau perbarui data modul
         $modul->upsert($data, ['config_id', 'modul'], ['url', 'slug', 'level', 'hidden', 'ikon_kecil', 'parent']);
+
+        // Create Hak Akses Administator
+        $this->createHakAkses([
+            'config_id' => $data['config_id'],
+            'id_grup'   => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
+            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where($data)->first()->id,
+            'akses'     => GrupAkses::HAPUS,
+        ]);
 
         cache()->flush();
     }
@@ -206,5 +216,17 @@ trait Migrator
         $setting->flushQueryCache();
 
         return true;
+    }
+
+    /**
+     * Tambah atau perbarui data ke tabel grup_akses.
+     * 
+     * @return void
+     */
+    protected function createHakAkses(array $data)
+    {
+        $akses = new GrupAkses();
+        $akses = $akses->withoutGlobalScope('config_id');
+        $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
     }
 }
