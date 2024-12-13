@@ -35,14 +35,18 @@
  *
  */
 
+require_once 'AnjunganBaseController.php';
+
 use App\Enums\StatusEnum;
 use App\Models\BukuKeperluan;
+use Modules\BukuTamu\Models\KeperluanModel;
 
-class Buku_keperluan extends Anjungan_Controller
+class KeperluanController extends AnjunganBaseController
 {
     public $modul_ini           = 'buku-tamu';
     public $sub_modul_ini       = 'data-keperluan';
     public $kategori_pengaturan = 'buku-tamu';
+    public $aliasController     = 'buku_keperluan';
 
     public function __construct()
     {
@@ -53,7 +57,7 @@ class Buku_keperluan extends Anjungan_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(BukuKeperluan::query())
+            return datatables()->of(KeperluanModel::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -78,7 +82,7 @@ class Buku_keperluan extends Anjungan_Controller
                 ->make();
         }
 
-        return view('admin.buku_tamu.keperluan.index');
+        return view('bukutamu::backend.keperluan.index');
     }
 
     public function form($id = null)
@@ -88,21 +92,21 @@ class Buku_keperluan extends Anjungan_Controller
         if ($id) {
             $data['action']         = 'Ubah';
             $data['form_action']    = ci_route('buku_keperluan.update', $id);
-            $data['data_keperluan'] = BukuKeperluan::findOrFail($id);
+            $data['data_keperluan'] = KeperluanModel::findOrFail($id);
         } else {
             $data['action']         = 'Tambah';
             $data['form_action']    = ci_route('buku_keperluan.insert');
             $data['data_keperluan'] = null;
         }
 
-        return view('admin.buku_tamu.keperluan.form', $data);
+        return view('bukutamu::backend.keperluan.form', $data);
     }
 
     public function insert(): void
     {
         isCan('u');
 
-        if (BukuKeperluan::create($this->validate($this->request))) {
+        if (KeperluanModel::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -113,7 +117,7 @@ class Buku_keperluan extends Anjungan_Controller
     {
         isCan('u');
 
-        $data = BukuKeperluan::findOrFail($id);
+        $data = KeperluanModel::findOrFail($id);
 
         if ($data->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -126,7 +130,7 @@ class Buku_keperluan extends Anjungan_Controller
     {
         isCan('h');
 
-        if (BukuKeperluan::destroy($this->request['id_cb'] ?? $id) !== 0) {
+        if (KeperluanModel::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 

@@ -35,11 +35,14 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\BukuTamu\Models;
 
 use App\Traits\ConfigId;
+use App\Models\BaseModel;
+use App\Enums\JawabanKepuasanEnum;
+use Modules\BukuTamu\Models\TamuModel;
 
-class BukuPertanyaan extends BaseModel
+class KepuasanModel extends BaseModel
 {
     use ConfigId;
 
@@ -48,7 +51,7 @@ class BukuPertanyaan extends BaseModel
      *
      * @var string
      */
-    protected $table = 'buku_pertanyaan';
+    protected $table = 'buku_kepuasan';
 
     /**
      * The guarded with the model.
@@ -56,4 +59,43 @@ class BukuPertanyaan extends BaseModel
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The appends with the model.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'jawaban',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'date:Y-m-d H:i:s',
+        'updated_at' => 'date:Y-m-d H:i:s',
+    ];
+
+    /**
+     * Getter untuk jawaban
+     *
+     * @return string
+     */
+    public function getJawabanAttribute()
+    {
+        return JawabanKepuasanEnum::all()[$this->id_jawaban];
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function tamu()
+    {
+        return $this->hasOne(TamuModel::class, 'id', 'id_nama');
+    }
 }

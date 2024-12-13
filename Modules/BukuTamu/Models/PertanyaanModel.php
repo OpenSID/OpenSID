@@ -35,13 +35,12 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\BukuTamu\Models;
 
-use App\Enums\JenisKelaminEnum;
 use App\Traits\ConfigId;
-use Illuminate\Support\Facades\DB;
+use App\Models\BaseModel;
 
-class BukuTamu extends BaseModel
+class PertanyaanModel extends BaseModel
 {
     use ConfigId;
 
@@ -50,7 +49,7 @@ class BukuTamu extends BaseModel
      *
      * @var string
      */
-    protected $table = 'buku_tamu';
+    protected $table = 'buku_pertanyaan';
 
     /**
      * The guarded with the model.
@@ -58,57 +57,4 @@ class BukuTamu extends BaseModel
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * The appends with the model.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'url_foto',
-    ];
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function jk()
-    {
-        return $this->hasOne(Sex::class, 'id', 'jenis_kelamin');
-    }
-
-    /**
-     * Getter untuk url_foto
-     *
-     * @return string
-     */
-    public function getUrlFotoAttribute()
-    {
-        $lokasi = LOKASI_FOTO_BUKU_TAMU . $this->foto;
-
-        if (null === $this->foto || ! file_exists(FCPATH . $lokasi)) {
-            return $this->jenis_kelamin == JenisKelaminEnum::LAKI_LAKI ? FOTO_DEFAULT_PRIA : FOTO_DEFAULT_WANITA;
-        }
-
-        return base_url($lokasi);
-    }
-
-    public function scopeFilters($query, array $filters)
-    {
-        if (! empty($filters['tanggal'])) {
-            [$awal, $akhir] = explode(' - ', (string) $filters['tanggal']);
-            $query->whereBetween(DB::raw('DATE(created_at)'), [$awal, $akhir]);
-        }
-
-        return $query;
-    }
-
-    /**
-     * Setter untuk bidang
-     */
-    public function setBidangAttribute(mixed $value): void
-    {
-        $this->attributes['bidang'] = RefJabatan::find($value)->nama ?? null;
-    }
 }

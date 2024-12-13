@@ -35,35 +35,33 @@
  *
  */
 
-namespace App\Models;
+namespace App\Libraries;
 
-use App\Traits\ConfigId;
-
-class BukuKeperluan extends BaseModel
+class ShortcutModule
 {
-    use ConfigId;
+    public function scan()
+    {
+        $lokasiModules = FCPATH . 'Modules';
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'buku_keperluan';
+        return cache('shortcut_modules', function () use ($lokasiModules) {
+            $modules       = [];
 
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+            if (is_dir($lokasiModules)) {
+                $dirs = array_diff(scandir($lokasiModules), ['..', '.']);
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'created_at' => 'date:Y-m-d H:i:s',
-        'updated_at' => 'date:Y-m-d H:i:s',
-    ];
+                foreach ($dirs as $dir) {
+                    $shortcutFile = $lokasiModules . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'shortcut.php';
+
+                    if (file_exists($shortcutFile)) {
+                        $moduleShortcut = include $shortcutFile;
+                        if (is_array($moduleShortcut)) {
+                            $modules = array_merge($modules, $moduleShortcut);
+                        }
+                    }
+                }
+            }
+
+            return $modules;
+        });
+    }
 }

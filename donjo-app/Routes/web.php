@@ -133,13 +133,6 @@ Route::group('koneksi_database', static function (): void {
 });
 
 Route::group('', ['namespace' => 'fweb'], static function (): void {
-    Route::group('buku-tamu', static function (): void {
-        Route::get('/', 'Buku_tamu@index')->name('fweb.buku_tamu.index');
-        Route::post('/registrasi', 'Buku_tamu@registrasi')->name('fweb.buku_tamu.registrasi');
-        Route::get('/kepuasan/{id?}', 'Buku_tamu@kepuasan')->name('fweb.buku_tamu.kepuasan');
-        Route::match(['GET', 'POST'], '/jawaban/{id?}/{jawaban?}', 'Buku_tamu@jawaban')->name('fweb.buku_tamu.jawaban');
-    });
-
     Route::group('galeri', static function (): void {
         Route::get('/{parent?}/index/{p?}', 'Galeri@detail')->name('fweb.galeri.detail');
         // Route::get('/{parent?}/index', 'Galeri@detail')->name('fweb.galeri.detail');

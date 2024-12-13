@@ -35,25 +35,28 @@
  *
  */
 
-use App\Enums\JenisKelaminEnum;
-use App\Enums\StatusEnum;
-use App\Models\BukuKeperluan;
-use App\Models\BukuKepuasan;
-use App\Models\BukuTamu;
-use App\Models\RefJabatan;
+require_once 'AnjunganBaseController.php';
+
 use Carbon\Carbon;
+use App\Enums\StatusEnum;
+use App\Models\RefJabatan;
+use App\Enums\JenisKelaminEnum;
 use OpenSpout\Common\Entity\Row;
-use OpenSpout\Common\Entity\Style\Border;
-use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Writer\XLSX\Writer;
+use Modules\BukuTamu\Models\TamuModel;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Writer\XLSX\Writer;
+use OpenSpout\Common\Entity\Style\Border;
+use Modules\BukuTamu\Models\KepuasanModel;
+use Modules\BukuTamu\Models\KeperluanModel;
+use OpenSpout\Common\Entity\Style\BorderPart;
 
-class Buku_tamu extends Anjungan_Controller
+class TamuController extends AnjunganBaseController
 {
     public $modul_ini           = 'buku-tamu';
     public $sub_modul_ini       = 'data-tamu';
     public $kategori_pengaturan = 'buku-tamu';
+    public $aliasController     = 'buku_tamu';
 
     public function __construct()
     {
@@ -68,7 +71,7 @@ class Buku_tamu extends Anjungan_Controller
                 'tanggal' => $this->input->get('tanggal'),
             ];
 
-            return datatables()->of(BukuTamu::query()
+            return datatables()->of(TamuModel::query()
                 ->with('jk')
                 ->filters($filters))
                 ->addColumn('ceklist', static function ($row) {
@@ -95,7 +98,7 @@ class Buku_tamu extends Anjungan_Controller
                 ->make();
         }
 
-        return view('admin.buku_tamu.tamu.index');
+        return view('bukutamu::backend.tamu.index');
     }
 
     public function edit($id = null)
@@ -104,18 +107,18 @@ class Buku_tamu extends Anjungan_Controller
 
         $data['action']      = 'Ubah';
         $data['form_action'] = ci_route('buku_tamu.update', $id);
-        $data['buku_tamu']   = BukuTamu::findOrFail($id);
+        $data['buku_tamu']   = TamuModel::findOrFail($id);
         $data['bertemu']     = RefJabatan::pluck('nama', 'id');
-        $data['keperluan']   = BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
+        $data['keperluan']   = KeperluanModel::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id');
 
-        return view('admin.buku_tamu.tamu.form', $data);
+        return view('bukutamu::backend.tamu.form', $data);
     }
 
     public function update($id = null): void
     {
         isCan('u');
 
-        $dataTamu = BukuTamu::findOrFail($id);
+        $dataTamu =TamuModel::findOrFail($id);
 
         if ($dataTamu->update($this->validate())) {
             redirect_with('success', 'Berhasil Ubah Data');
@@ -143,8 +146,8 @@ class Buku_tamu extends Anjungan_Controller
     {
         isCan('h');
 
-        if (BukuTamu::destroy($this->request['id_cb'] ?? $id) !== 0) {
-            BukuKepuasan::whereIdNama($this->request['id_cb'] ?? $id)->delete();
+        if (TamuModel::destroy($this->request['id_cb'] ?? $id) !== 0) {
+            KepuasanModel::whereIdNama($this->request['id_cb'] ?? $id)->delete();
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -153,7 +156,7 @@ class Buku_tamu extends Anjungan_Controller
 
     public function cetak()
     {
-        return view('admin.buku_tamu.tamu.cetak', [
+        return view('bukutamu::backend.tamu.cetak', [
             'data_tamu' => $this->data(),
         ]);
     }
@@ -176,7 +179,7 @@ class Buku_tamu extends Anjungan_Controller
             'tanggal' => $this->input->get('tanggal') ?? null,
         ];
 
-        return BukuTamu::filters($filters);
+        return TamuModel::filters($filters);
     }
 
     public function ekspor(): void

@@ -1,4 +1,4 @@
-@extends('buku_tamu.index')
+@extends('bukutamu::frontend.index')
 
 @push('css')
     <style>

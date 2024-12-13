@@ -35,23 +35,23 @@
  *
  */
 
-use App\Enums\JawabanKepuasanEnum;
-use App\Enums\StatusEnum;
-use App\Models\BukuKeperluan;
-use App\Models\BukuKepuasan;
-use App\Models\BukuPertanyaan;
-use App\Models\BukuTamu;
-use App\Models\RefJabatan;
 use Carbon\Carbon;
+use App\Enums\StatusEnum;
+use App\Models\RefJabatan;
+use App\Enums\JawabanKepuasanEnum;
+use Modules\BukuTamu\Models\TamuModel;
+use Modules\BukuTamu\Models\KepuasanModel;
+use Modules\BukuTamu\Models\KeperluanModel;
+use Modules\BukuTamu\Models\PertanyaanModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Buku_tamu extends MY_Controller
+class BukuTamuController extends WebModulController
 {
     public function __construct()
     {
         parent::__construct();
-        if ($this->setting->layanan_mandiri == 0) {
+        if (setting('layanan_mandiri') == 0) {
             show_404();
         }
 
@@ -62,11 +62,11 @@ class Buku_tamu extends MY_Controller
 
     public function index()
     {
-        return view('buku_tamu.registrasi', [
+        return view('bukutamu::frontend.registrasi', [
             'aksi'      => ci_route('buku-tamu.registrasi'),
             'bertemu'   => RefJabatan::pluck('nama', 'id'),
-            'keperluan' => BukuKeperluan::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id'),
-            'kamera'    => $this->setting->buku_tamu_kamera,
+            'keperluan' => KeperluanModel::whereStatus(StatusEnum::YA)->pluck('keperluan', 'id'),
+            'kamera'    => setting('buku_tamu_kamera'),
         ]);
     }
 
@@ -77,7 +77,7 @@ class Buku_tamu extends MY_Controller
 
             // Identifikasi registrasi yang sama
             // Cek nama, telepon dan jenis kelamin pada hari yang sama
-            $cek_registrasi = BukuTamu::whereNama($post['nama'])
+            $cek_registrasi = TamuModel::whereNama($post['nama'])
                 ->whereTelepon($post['telepon'])
                 ->whereJenisKelamin($post['jenis_kelamin'])
                 ->whereDate('created_at', Carbon::now()->format('Y-m-d'))
@@ -85,7 +85,7 @@ class Buku_tamu extends MY_Controller
 
             if ($cek_registrasi) {
                 set_session('error', 'Registrasi Gagal Disimpan<br>Anda Sudah Melakukan Registrasi Hari Ini');
-            } elseif (BukuTamu::create($post)) {
+            } elseif (TamuModel::create($post)) {
                 set_session('success', 'Registrasi Berhasil Disimpan');
             } else {
                 set_session('error', 'Registrasi Gagal Disimpan');
@@ -100,22 +100,22 @@ class Buku_tamu extends MY_Controller
     public function kepuasan($id = null)
     {
         // Jangan tampilkan kalau belum ada daftar pertanyaan
-        $data['ada_pertanyaan'] = BukuPertanyaan::whereStatus(StatusEnum::YA)->exists();
+        $data['ada_pertanyaan'] = PertanyaanModel::whereStatus(StatusEnum::YA)->exists();
 
         if ($data['ada_pertanyaan']) {
             if ($id) {
                 $data['pertanyaan'] = $this->cek_pertanyaan($id);
                 $data['id']         = $id;
-                $view               = 'buku_tamu.pertanyaan';
+                $view               = 'bukutamu::frontend.pertanyaan';
             } else {
                 // Tamu yang belum isi indeks kepuasan
-                $kepuasan              = BukuKepuasan::whereDate('created_at', Carbon::today())->pluck('id_nama');
-                $data['tamu_hari_ini'] = BukuTamu::whereNotIn('id', $kepuasan)->whereDate('created_at', Carbon::today())->latest()->get();
-                $view                  = 'buku_tamu.kepuasan';
+                $kepuasan              = KepuasanModel::whereDate('created_at', Carbon::today())->pluck('id_nama');
+                $data['tamu_hari_ini'] = TamuModel::whereNotIn('id', $kepuasan)->whereDate('created_at', Carbon::today())->latest()->get();
+                $view                  = 'bukutamu::frontend.kepuasan';
             }
         } else {
             $data['tamu_hari_ini'] = null;
-            $view                  = 'buku_tamu.kepuasan';
+            $view                  = 'bukutamu::frontend.kepuasan';
         }
 
         return view($view, $data);
@@ -123,14 +123,14 @@ class Buku_tamu extends MY_Controller
 
     public function jawaban($id = null, $jawaban = null): void
     {
-        $tamu = BukuTamu::find($id);
+        $tamu = TamuModel::find($id);
 
         if (! $tamu || ! in_array($jawaban, JawabanKepuasanEnum::keys())) {
             set_session('error', 'Jawaban Gagal Disimpan');
         } else {
-            $cek_pertanyaan = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
-            $pertanyaan     = BukuPertanyaan::whereNotIn('id', $cek_pertanyaan)->whereStatus(StatusEnum::YA)->first();
-            BukuKepuasan::create([
+            $cek_pertanyaan = KepuasanModel::whereIdNama($id)->pluck('id_pertanyaan');
+            $pertanyaan     = PertanyaanModel::whereNotIn('id', $cek_pertanyaan)->whereStatus(StatusEnum::YA)->first();
+            KepuasanModel::create([
                 'id_nama'           => $tamu->id,
                 'id_pertanyaan'     => $pertanyaan->id,
                 'pertanyaan_statis' => $pertanyaan->pertanyaan,
@@ -150,8 +150,8 @@ class Buku_tamu extends MY_Controller
 
     private function cek_pertanyaan($id = null)
     {
-        $sudah_ada  = BukuKepuasan::whereIdNama($id)->pluck('id_pertanyaan');
-        $pertanyaan = BukuPertanyaan::whereNotIn('id', $sudah_ada)->whereStatus(StatusEnum::YA)->first();
+        $sudah_ada  = KepuasanModel::whereIdNama($id)->pluck('id_pertanyaan');
+        $pertanyaan = PertanyaanModel::whereNotIn('id', $sudah_ada)->whereStatus(StatusEnum::YA)->first();
 
         if (! $pertanyaan) {
             set_session('success', '<h1>TERIMA KASIH</h1><br><br>Anda Telah Membantu Kami Untuk Melayani Lebih Baik Lagi.');

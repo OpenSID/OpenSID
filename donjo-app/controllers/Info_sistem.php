@@ -35,6 +35,21 @@
  *
  */
 
+use App\Models\Area;
+use App\Models\Garis;
+use App\Models\Point;
+use App\Models\Config;
+use App\Models\Galery;
+use App\Models\Lokasi;
+use App\Models\Produk;
+use App\Models\Simbol;
+use App\Models\Widget;
+use App\Models\Artikel;
+use App\Models\Dokumen;
+use App\Models\LogLogin;
+use App\Models\Penduduk;
+use App\Libraries\Sistem;
+use App\Models\Pengaduan;
 use App\Libraries\Checker;
 use App\Libraries\LogViewer;
 use App\Libraries\Sistem;
@@ -55,16 +70,8 @@ use App\Models\Lokasi;
 use App\Models\MediaSosial;
 use App\Models\Pembangunan;
 use App\Models\PembangunanDokumentasi;
-use App\Models\Penduduk;
-use App\Models\PendudukMandiri;
-use App\Models\Pengaduan;
-use App\Models\Point;
-use App\Models\Produk;
-use App\Models\SettingAplikasi;
-use App\Models\Simbol;
-use App\Models\SinergiProgram;
-use App\Models\Widget;
-use Illuminate\Support\Str;
+use Modules\BukuTamu\Models\TamuModel;
+use Modules\Anjungan\Models\AnjunganMenu;
 use Modules\Analisis\Models\AnalisisResponBukti;
 use Modules\Anjungan\Models\AnjunganMenu;
 
@@ -250,7 +257,7 @@ class Info_sistem extends Admin_Controller
             LOKASI_FOTO_LEMBAGA   => [KelompokAnggota::class => ['foto']],
             LOKASI_GALERI         => [PembangunanDokumentasi::class => ['gambar'], Galery::class => ['gambar'], Pembangunan::class => ['foto']],
             LOKASI_FOTO_ARTIKEL   => [Artikel::class => ['gambar', 'gambar1', 'gambar2', 'gambar3']],
-            LOKASI_FOTO_BUKU_TAMU => [BukuTamu::class => ['foto']],
+            LOKASI_FOTO_BUKU_TAMU => [TamuModel::class => ['foto']],
             LOKASI_FOTO_LOKASI    => [Lokasi::class => ['foto']],
             LOKASI_FOTO_AREA      => [Area::class => ['foto']],
             LOKASI_FOTO_GARIS     => [Garis::class => ['foto']],

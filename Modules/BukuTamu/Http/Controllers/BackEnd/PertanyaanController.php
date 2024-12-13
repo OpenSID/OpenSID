@@ -35,15 +35,18 @@
  *
  */
 
-use App\Models\BukuKepuasan;
-use App\Models\BukuPertanyaan;
-use Carbon\Carbon;
+require_once 'AnjunganBaseController.php';
 
-class Buku_kepuasan extends Anjungan_Controller
+use App\Enums\StatusEnum;
+use App\Models\BukuPertanyaan;
+use Modules\BukuTamu\Models\PertanyaanModel;
+
+class PertanyaanController extends AnjunganBaseController
 {
     public $modul_ini           = 'buku-tamu';
-    public $sub_modul_ini       = 'data-kepuasan';
+    public $sub_modul_ini       = 'data-pertanyaan';
     public $kategori_pengaturan = 'buku-tamu';
+    public $aliasController     = 'buku_pertanyaan';
 
     public function __construct()
     {
@@ -54,43 +57,7 @@ class Buku_kepuasan extends Anjungan_Controller
     public function index()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(BukuPertanyaan::query()->whereIn('id', BukuKepuasan::select('id_pertanyaan')->groupBy('id_pertanyaan')))
-                ->addColumn('ceklist', static function ($row) {
-                    if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
-                    }
-                })
-                ->addIndexColumn()
-                ->addColumn('aksi', static function ($row): string {
-                    $aksi = '<a href="' . site_url('buku_kepuasan/show/' . $row->id) . '" class="btn bg-purple btn-sm" title="Lihat Data"><i class="fa fa-list"></i></a> ';
-
-                    if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
-                    }
-
-                    return $aksi;
-                })
-                ->rawColumns(['ceklist', 'aksi'])
-                ->make();
-        }
-
-        return view('admin.buku_tamu.kepuasan.index');
-    }
-
-    public function show($id = null)
-    {
-        BukuKepuasan::where('id_pertanyaan', $id)->first() ?? show_404();
-
-        return view('admin.buku_tamu.kepuasan.show', [
-            'id_pertanyaan' => $id,
-            'pertanyaan'    => BukuPertanyaan::find($id)->pertanyaan,
-        ]);
-    }
-
-    public function datatables_show($id = null)
-    {
-        if ($this->input->is_ajax_request()) {
-            return datatables()->of(BukuKepuasan::query()->where('id_pertanyaan', $id)->with('tamu'))
+            return datatables()->of(PertanyaanModel::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -100,37 +67,81 @@ class Buku_kepuasan extends Anjungan_Controller
                 ->addColumn('aksi', static function ($row): string {
                     $aksi = '';
 
+                    if (can('u')) {
+                        $aksi .= '<a href="' . ci_route('buku_pertanyaan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                    }
+
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('buku_kepuasan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('buku_pertanyaan.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
                 })
-                ->editColumn('created_at', static fn ($row): string => Carbon::parse($row->created_at)->dayName . ' / ' . tgl_indo($row->created_at))
-                ->rawColumns(['ceklist', 'aksi'])
+                ->addColumn('tampil', static fn ($row): string => '<span class="label label-' . ($row->status ? 'success' : 'danger') . '">' . StatusEnum::valueOf($row->status) . '</span>')
+                ->rawColumns(['ceklist', 'aksi', 'tampil'])
                 ->make();
         }
 
-        return show_404();
+        return view('bukutamu::backend.pertanyaan.index');
+    }
+
+    public function form($id = null)
+    {
+        isCan('u');
+
+        if ($id) {
+            $data['action']          = 'Ubah';
+            $data['form_action']     = ci_route('buku_pertanyaan.update', $id);
+            $data['data_pertanyaan'] = PertanyaanModel::findOrFail($id);
+        } else {
+            $data['action']          = 'Tambah';
+            $data['form_action']     = ci_route('buku_pertanyaan.insert');
+            $data['data_pertanyaan'] = null;
+        }
+
+        return view('bukutamu::backend.pertanyaan.form', $data);
+    }
+
+    public function insert(): void
+    {
+        isCan('u');
+
+        if (PertanyaanModel::create($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Tambah Data');
+        }
+
+        redirect_with('error', 'Gagal Tambah Data');
+    }
+
+    public function update($id = null): void
+    {
+        isCan('u');
+
+        $data = PertanyaanModel::findOrFail($id);
+
+        if ($data->update($this->validate($this->request))) {
+            redirect_with('success', 'Berhasil Ubah Data');
+        }
+
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
     public function delete($id = null): void
     {
         isCan('h');
 
-        if (BukuKepuasan::where('id_pertanyaan', $id)->delete()) {
+        if (PertanyaanModel::destroy($this->request['id_cb'] ?? $id) !== 0) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function deleteAll(): void
+    private function validate(array $request = []): array
     {
-        isCan('h');
-
-        foreach ($this->request['id_cb'] as $id) {
-            $this->delete($id);
-        }
+        return [
+            'pertanyaan' => htmlentities((string) $request['pertanyaan']),
+            'status'     => htmlentities((string) $request['status']),
+        ];
     }
 }

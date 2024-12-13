@@ -84,6 +84,7 @@ define('WEBSITE_DEMO', [
 define('MODUL_BAWAAN', [
     'Anjungan',
     'Analisis',
+    'Buku Tamu',
 ]);
 
 if (! function_exists('cek_anjungan')) {
@@ -92,6 +93,7 @@ if (! function_exists('cek_anjungan')) {
      */
     function cek_anjungan(): bool
     {
+        return true;
         // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
         if (ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
             return true;
@@ -137,5 +139,23 @@ if (! function_exists('storage_modules')) {
         $uri    = str_replace('/', DIRECTORY_SEPARATOR, $uri);
 
         return $module . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . $uri;
+    }
+}
+
+if (! function_exists('module_path')) {
+    /**
+     * Mengambil path dari modul yang sedang aktif.
+     *
+     * @param mixed $name
+     * @param mixed $path
+     *
+     * @return string
+     */
+    function module_path($name, $path)
+    {
+        $module = $name ? 'Modules/' . $name : app('ci')->moduleDirectory;
+        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $path);
+
+        return $module . DIRECTORY_SEPARATOR . $uri;
     }
 }

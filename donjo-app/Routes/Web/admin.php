@@ -2033,46 +2033,6 @@ Route::group('dtks', static function (): void {
     Route::post('/remove/{id}', 'Dtks@remove')->name('dtks.remove');
 });
 
-// Buku Tamu > Data Tamu
-Route::group('buku_tamu', static function (): void {
-    Route::get('/', 'Buku_tamu@index')->name('buku_tamu.index');
-    Route::get('/edit/{id}', 'Buku_tamu@edit')->name('buku_tamu.edit');
-    Route::post('/update/{id}', 'Buku_tamu@update')->name('buku_tamu.update');
-    Route::get('/delete/{id?}', 'Buku_tamu@delete')->name('buku_tamu.delete');
-    Route::post('/deleteAll', 'Buku_tamu@delete')->name('buku_tamu.delete-all');
-    Route::get('/cetak', 'Buku_tamu@cetak')->name('buku_tamu.cetak');
-    Route::get('/ekspor', 'Buku_tamu@ekspor')->name('buku_tamu.ekspor');
-});
-
-// Buku Tamu > Data Kepuasan
-Route::group('buku_kepuasan', static function (): void {
-    Route::get('/', 'Buku_kepuasan@index')->name('buku_kepuasan.index');
-    Route::get('/show/{id}', 'Buku_kepuasan@show')->name('buku_kepuasan.show');
-    Route::get('/datatables_show/{id}', 'Buku_kepuasan@datatables_show')->name('buku_kepuasan.datatables-show');
-    Route::get('/delete/{id?}', 'Buku_kepuasan@delete')->name('buku_kepuasan.delete');
-    Route::post('/deleteAll', 'Buku_kepuasan@deleteAll')->name('buku_kepuasan.delete-all');
-});
-
-// Buku Tamu > Data Pertanyaan
-Route::group('buku_pertanyaan', static function (): void {
-    Route::get('/', 'Buku_pertanyaan@index')->name('buku_pertanyaan.index');
-    Route::get('/form/{id?}', 'Buku_pertanyaan@form')->name('buku_pertanyaan.form');
-    Route::post('/insert', 'Buku_pertanyaan@insert')->name('buku_pertanyaan.insert');
-    Route::post('/update/{id?}', 'Buku_pertanyaan@update')->name('buku_pertanyaan.update');
-    Route::get('/delete/{id?}', 'Buku_pertanyaan@delete')->name('buku_pertanyaan.delete');
-    Route::post('/delete', 'Buku_pertanyaan@delete')->name('buku_pertanyaan.delete-all');
-});
-
-// Buku Tamu > Data Keperluan
-Route::group('buku_keperluan', static function (): void {
-    Route::get('/', 'Buku_keperluan@index')->name('buku_keperluan.index');
-    Route::get('/form/{id?}', 'Buku_keperluan@form')->name('buku_keperluan.form');
-    Route::post('/insert', 'Buku_keperluan@insert')->name('buku_keperluan.insert');
-    Route::post('/update/{id?}', 'Buku_keperluan@update')->name('buku_keperluan.update');
-    Route::get('/delete/{id?}', 'Buku_keperluan@delete')->name('buku_keperluan.delete');
-    Route::post('/delete', 'Buku_keperluan@delete')->name('buku_keperluan.delete-all');
-});
-
 Route::group('token', static function (): void {
     Route::get('/', 'Token@index')->name('token.index');
     Route::post('/update', 'Token@update')->name('token.update');

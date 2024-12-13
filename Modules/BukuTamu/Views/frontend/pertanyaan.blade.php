@@ -1,4 +1,4 @@
-@extends('buku_tamu.index')
+@extends('bukutamu::frontend.index')
 
 @section('content')
     <div class="col-xl-8 mb-5 mb-xl-10">
