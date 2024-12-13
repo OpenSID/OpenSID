@@ -83,6 +83,7 @@
         var baca = "{{ can('b') }}";
         var ubah = "{{ can('u') }}";
         var hapus = "{{ can('h') }}";
+        var SYARAT_SANDI = "{{ SYARAT_SANDI }}";
     </script>
     <!-- jQuery 3 -->
     <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>

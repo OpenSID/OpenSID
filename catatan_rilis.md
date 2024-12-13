@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 13. [#8792](https://github.com/OpenSID/OpenSID/issues/8792) Perbaikan menampilkan data c-desa.
 14. [#8793](https://github.com/OpenSID/OpenSID/issues/8793) Perbaikan tampilan halaman inventaris.
 15. [#8799](https://github.com/OpenSID/OpenSID/issues/8799) Perbaikan link dan data komentar yang ditampilkan dari notifikasi.
+16. [#8800](https://github.com/OpenSID/OpenSID/issues/8800) Perbaikan notifikasi gagal input password.
 
 
 ### TEKNIS
