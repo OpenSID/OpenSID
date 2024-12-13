@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8797](https://github.com/OpenSID/OpenSID/issues/8797) Penambahan jenis query untuk modul buku administrasi desa pada modul shortcut.
 2. [#8771](https://github.com/OpenSID/OpenSID/issues/8771) Penambahan pemantauan dan rekapitulasi anak 2-6 tahun pada modul stunting.
 3. [#8769](https://github.com/OpenSID/OpenSID/issues/8769) Penambahan inputan nik penduduk luar pada c-desa.
+4. [#7617](https://github.com/OpenSID/OpenSID/issues/7617) Penambahan filter berdasarkan bulan ekapitulasi pada modul stunting.
 
 
 ### BUG

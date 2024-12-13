@@ -5,12 +5,12 @@
 @section('title')
     <h1>
         Stunting
-        <small>3 Bulanan Anak 2-6 Tahun</small>
+        <small>Bulanan Anak 2-6 Tahun</small>
     </h1>
 @endsection
 
 @section('breadcrumb')
-    <li class="active">3 Bulanan Anak 2-6 Tahun</li>
+    <li class="active">Bulanan Anak 2-6 Tahun</li>
 @endsection
 
 @section('content')
@@ -24,46 +24,7 @@
         <div class="col-md-9 col-lg-9">
             <div class="box box-info">
                 <div class="box-header">
-                    <div class="col-md-8 no-padding">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <select name="kuartal" id="kuartal" required class="form-control input-sm" title="Pilih salah satu">
-                                    @foreach (kuartal2() as $item)
-                                        <option value="{{ $item['ke'] }}" {{ $item['ke'] == $kuartal ? 'selected' : '' }}>Kuartal ke {{ $item['ke'] }}
-                                            ({{ $item['bulan'] }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <select name="tahun" id="tahun" required class="form-control input-sm" title="Pilih salah satu">
-                                    @foreach ($tahun as $item)
-                                        <option value="{{ $item->tahun }}">{{ $item->tahun }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <select name="id" id="id" required class="form-control input-sm" title="Pilih salah satu">
-                                    <option value="">Semua</option>
-                                    @foreach ($posyandu as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $id ? 'selected' : '' }}>
-                                            {{ $item->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2 no-padding">
-                            <button type="button" class="btn btn-social btn-info btn-sm" id="cari">
-                                <i class="fa fa-search"></i> Cari
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-4 no-padding pull-right">
-                    </div>
+                    @include('admin.stunting.filter', ['urlFilter' => ci_route('stunting.rekapitulasi_bulanan_balita')])
                 </div>
 
                 <div class="box-body table-responsive">
@@ -94,7 +55,7 @@
                             <tr>
                                 <th class="text-center" style="vertical-align: middle;">Anak Usia 2 - < 3 Tahun</th>
                                 <th class="text-center" style="vertical-align: middle;">Anak Usia 3 - 6 Tahun</th>
-                                @for ($i = $awalKuartal; $i <= $akhirKuartal; $i++)
+                                @for ($i = $awalBulan; $i <= $akhirBulan; $i++)
                                     <th class="text-center" style="vertical-align: middle;">{{ getBulan($i) }}</th>
                                 @endfor
 
@@ -123,14 +84,3 @@
         </div>
     </div>
 @endsection
-@push('scripts')
-    <script>
-        $('#cari').click(function() {
-            let kuartal = $('#kuartal option:selected').val();
-            let tahun = $('#tahun option:selected').val();
-            let posyandu = $('#id option:selected').val();
-            window.location.href = "{{ ci_route('stunting.rekapitulasi_bulanan_balita') }}/" + kuartal + "/" +
-                tahun + "/" + posyandu;
-        });
-    </script>
-@endpush

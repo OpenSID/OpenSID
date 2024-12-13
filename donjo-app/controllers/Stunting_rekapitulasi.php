@@ -56,45 +56,66 @@ class Stunting_rekapitulasi extends Stunting
     ////////////////////////////////////
     public function ibu_hamil($kuartal = null, $tahun = null, $id = null)
     {
-        [$kuartal, $tahun] = $this->setKuartaTahun($kuartal, $tahun);
+        [$awalBulan, $akhirBulan, $tahun] = $this->setKuartaTahun($kuartal, $tahun);
 
-        $data             = $this->widget();
-        $data['navigasi'] = 'rekapitulasi-hasil-pemantauan-ibu-hamil';
-        $data['id']       = $id;
-        $data['posyandu'] = Posyandu::get();
-        $data             = array_merge($data, $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id));
+        $data               = $this->widget();
+        $data['navigasi']   = 'rekapitulasi-hasil-pemantauan-ibu-hamil';
+        $data['id']         = $id;
+        $data['posyandu']   = Posyandu::get();
+        $data['awalBulan']  = $awalBulan;
+        $data['akhirBulan'] = $akhirBulan;
+        $data               = array_merge($data, $this->rekap->get_data_range_ibu_hamil($awalBulan, $akhirBulan, $tahun, $id));
+        $tahunIni           = date('Y');
+        if (! $data['dataTahun']->contains('tahun', $tahunIni)) {
+            $tahunBaru        = new stdClass();
+            $tahunBaru->tahun = $tahunIni;
+            $data['dataTahun']->prepend($tahunBaru);
+        }
 
         return view('admin.stunting.rekapitulasi-ibu-hamil', $data);
     }
 
     public function bulanan_anak($kuartal = null, $tahun = null, $id = null)
     {
-        [$kuartal, $tahun] = $this->setKuartaTahun($kuartal, $tahun);
+        [$awalBulan, $akhirBulan, $tahun] = $this->setKuartaTahun($kuartal, $tahun);
 
-        $data             = $this->widget();
-        $data['navigasi'] = 'rekapitulasi-hasil-pemantauan-anak';
-        $data['id']       = $id;
-        $data['posyandu'] = Posyandu::get();
-        $data             = array_merge($data, $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id));
+        $data               = $this->widget();
+        $data['navigasi']   = 'rekapitulasi-hasil-pemantauan-anak';
+        $data['id']         = $id;
+        $data['posyandu']   = Posyandu::get();
+        $data['awalBulan']  = $awalBulan;
+        $data['akhirBulan'] = $akhirBulan;
+        $data               = array_merge($data, $this->rekap->get_data_range_bulanan_anak($awalBulan, $akhirBulan, $tahun, $id));
+        $tahunIni           = date('Y');
+        if (! $data['dataTahun']->contains('tahun', $tahunIni)) {
+            $tahunBaru        = new stdClass();
+            $tahunBaru->tahun = $tahunIni;
+            $data['dataTahun']->prepend($tahunBaru);
+        }
 
         return view('admin.stunting.rekapitulasi-bulanan-anak', $data);
     }
 
     public function bulanan_balita($kuartal = null, $tahun = null, $id = null)
     {
-        [$kuartal, $tahun]  = $this->setKuartaTahun($kuartal, $tahun);
-        $awalKuartal = (($kuartal - 1) * 3) + 1;
-        $akhirKuartal = $kuartal * 3;
-        $awalCreatedAt      = Carbon::createFromFormat('Y-m-d', $tahun . '-' . $awalKuartal . '-01')->startOfDay();
-        $akhirCreatedAt     = Carbon::createFromFormat('Y-m-d', $tahun . '-' . $akhirKuartal . '-01')->endOfMonth();
+        [$awalBulan, $akhirBulan, $tahun] = $this->setKuartaTahun($kuartal, $tahun);
+
+        $awalCreatedAt      = Carbon::createFromFormat('Y-m-d', $tahun . '-' . $awalBulan . '-01')->startOfDay();
+        $akhirCreatedAt     = Carbon::createFromFormat('Y-m-d', $tahun . '-' . $akhirBulan . '-01')->endOfMonth();
         $data               = $this->widget();
         $data['navigasi']   = 'rekapitulasi-hasil-pemantauan-balita';
         $data['id']         = $id;
         $data['kuartal']    = $kuartal;
-        $data['awalKuartal']= $awalKuartal;
-        $data['akhirKuartal']= $akhirKuartal; 
+        $data['awalBulan']  = $awalBulan;
+        $data['akhirBulan'] = $akhirBulan;
         $data['posyandu']   = Posyandu::get();
-        $data['tahun']      = Paud::select(DB::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
+        $data['dataTahun']  = Paud::select(DB::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
+        $tahunIni           = date('Y');
+        if (! $data['dataTahun']->contains('tahun', $tahunIni)) {
+            $tahunBaru        = new stdClass();
+            $tahunBaru->tahun = $tahunIni;
+            $data['dataTahun']->prepend($tahunBaru);
+        }
         $data['dataFilter'] = Paud::with(['kia', 'kia.anak'])
             ->when($id, static fn ($q) => $q->where('posyandu_id', $id))
             ->whereBetween('created_at', [$awalCreatedAt, $akhirCreatedAt])
@@ -105,31 +126,17 @@ class Stunting_rekapitulasi extends Stunting
 
     private function setKuartaTahun($kuartal, $tahun)
     {
-        if ($kuartal < 1 || $kuartal > 4) {
-            $kuartal = null;
-        }
-
         if ($kuartal == null) {
-            $bulanSekarang = date('m');
-
-            if ($bulanSekarang <= 3) {
-                $_kuartal = 1;
-            } elseif ($bulanSekarang <= 6) {
-                $_kuartal = 2;
-            } elseif ($bulanSekarang <= 9) {
-                $_kuartal = 3;
-            } elseif ($bulanSekarang <= 12) {
-                $_kuartal = 4;
-            }
+            $awalBulan  = date('m');
+            $akhirBulan = date('m');
+        } else {
+            [$awalBulan, $akhirBulan] = explode('__', $kuartal);
         }
 
-        if ($kuartal == null || $tahun == null) {
-            if ($tahun == null) {
-                $tahun = date('Y');
-            }
-            $kuartal = $_kuartal;
+        if ($tahun == null) {
+            $tahun = date('Y');
         }
 
-        return [$kuartal, $tahun];
+        return [$awalBulan, $akhirBulan, $tahun];
     }
 }

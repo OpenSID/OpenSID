@@ -60,6 +60,11 @@ class Rekap
             show_404('Terjadi Kesalahan di kuartal!');
         }
 
+        return $this->get_data_range_ibu_hamil($batasBulanBawah, $batasBulanAtas, $tahun, $id);
+    }
+
+    public function get_data_range_ibu_hamil($batasBulanBawah, $batasBulanAtas, $tahun, $id = null)
+    {
         $ibuHamil = DB::table('ibu_hamil')
             ->join('kia', 'ibu_hamil.kia_id', '=', 'kia.id')
             ->join('tweb_penduduk', 'kia.ibu_id', '=', 'tweb_penduduk.id')
@@ -329,7 +334,7 @@ class Rekap
         $data['_tahun']          = $tahun;
         $data['ibuHamil']        = $ibuHamil;
         $data['dataTahun']       = $dataTahun;
-        $data['kuartal']         = $kuartal;
+        // $data['kuartal']         = $kuartal;
 
         return $data;
     }
@@ -352,6 +357,11 @@ class Rekap
             show_404('Terjadi Kesalahan di kuartal!');
         }
 
+        return $this->get_data_range_bulanan_anak($batasBulanBawah, $batasBulanAtas, $tahun, $id);
+    }
+
+    public function get_data_range_bulanan_anak($batasBulanBawah, $batasBulanAtas, $tahun, $id = null)
+    {
         $bulananAnak = DB::table('bulanan_anak')
             ->join('kia', 'bulanan_anak.kia_id', '=', 'kia.id')
             ->join('tweb_penduduk', 'kia.anak_id', '=', 'tweb_penduduk.id')
@@ -531,7 +541,7 @@ class Rekap
                     show_404('kesalahan di kategori umur!');
                 }
 
-                if ($kuartal == 1) {
+                if ($batasBulanAtas == 3) {
                     if ($umurAnak <= 3) {
                         $tinggiBadan = 'TS';
                     } else {
@@ -547,7 +557,7 @@ class Rekap
 
                         $tinggiBadan = $hitungTinggiBadan > 0 ? 'Y' : 'T';
                     }
-                } elseif ($kuartal == 2) {
+                } elseif ($batasBulanAtas == 6) {
                     if ($umurAnak <= 3) {
                         $tinggiBadan = 'TS';
                     } else {
@@ -563,7 +573,7 @@ class Rekap
 
                         $tinggiBadan = $hitungTinggiBadan > 0 ? 'Y' : 'T';
                     }
-                } elseif ($kuartal == 3) {
+                } elseif ($batasBulanAtas == 9) {
                     if ($umurAnak <= 3) {
                         $tinggiBadan = 'TS';
                     } elseif ($umurAnak <= 8) {
@@ -598,7 +608,7 @@ class Rekap
 
                         $tinggiBadan = $TB_FEB_AGS > 1 ? 'Y' : 'T'; //ada di februari atau agustus
                     }
-                } elseif ($kuartal == 4) {
+                } elseif ($batasBulanAtas == 12) {
                     if ($umurAnak <= 6) {
                         $tinggiBadan = 'TS';
                     } elseif ($umurAnak <= 11) {
@@ -762,8 +772,8 @@ class Rekap
         $data['bulananAnak'] = $bulananAnak;
         $data['dataTahun']   = $dataTahun;
 
-        $data['_tahun']  = $tahun;
-        $data['kuartal'] = $kuartal;
+        $data['_tahun'] = $tahun;
+        // $data['kuartal'] = $kuartal;
 
         return $data;
     }

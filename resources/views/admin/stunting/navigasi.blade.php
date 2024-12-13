@@ -41,11 +41,11 @@
         <div class="box-body no-padding">
             <div class="box-footer no-padding">
                 <ul class="nav nav-stacked">
-                    <li class="@active($navigasi === 'rekapitulasi-hasil-pemantauan-ibu-hamil')"><a href="{{ ci_route('stunting.rekapitulasi_ibu_hamil') }}">3
+                    <li class="@active($navigasi === 'rekapitulasi-hasil-pemantauan-ibu-hamil')"><a href="{{ ci_route('stunting.rekapitulasi_ibu_hamil') }}">
                             Bulanan Ibu Hamil</a></li>
-                    <li class="@active($navigasi === 'rekapitulasi-hasil-pemantauan-anak')"><a href="{{ ci_route('stunting.rekapitulasi_bulanan_anak') }}">3
+                    <li class="@active($navigasi === 'rekapitulasi-hasil-pemantauan-anak')"><a href="{{ ci_route('stunting.rekapitulasi_bulanan_anak') }}">
                             Bulanan Anak 0-2 Tahun</a></li>
-                    <li class="@active($navigasi === 'rekapitulasi-hasil-pemantauan-balita')"><a href="{{ ci_route('stunting.rekapitulasi_bulanan_balita') }}">3
+                    <li class="@active($navigasi === 'rekapitulasi-hasil-pemantauan-balita')"><a href="{{ ci_route('stunting.rekapitulasi_bulanan_balita') }}">
                             Bulanan Anak 2-6 Tahun</a></li>
                 </ul>
             </div>
