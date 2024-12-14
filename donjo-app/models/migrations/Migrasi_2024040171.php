@@ -486,7 +486,7 @@ class Migrasi_2024040171 extends MY_Model
         }
 
         if (DB::table('shortcut')->where('config_id', $config_id)->count() == 0) {
-            DB::table('shortcut')->insert([
+            $shortcut = [
                 [
                     'config_id' => $config_id,
                     'judul'     => 'Wilayah [desa]',
@@ -575,7 +575,13 @@ class Migrasi_2024040171 extends MY_Model
                     'warna'     => '#39cccc',
                     'status'    => 1,
                 ],
-            ]);
+            ];
+
+            if (! Schema::hasColumn('shortcut', 'akses')) {
+                $shortcut = array_map(static fn ($item) => array_diff_key($item, ['akses' => '', 'link' => '']), $shortcut);
+            }
+
+            DB::table('shortcut')->insert($shortcut);
         }
 
         return $hasil && $this->tambah_modul([
