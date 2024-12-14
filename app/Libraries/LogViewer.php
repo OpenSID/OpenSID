@@ -35,13 +35,18 @@
  *
  */
 
+namespace App\Libraries;
+
+use Exception;
+use Illuminate\Support\Facades\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Log_Viewer
+class LogViewer
 {
-    public const LOG_LINE_START_PATTERN = '/((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE))[\\s\\-\\d:\\.\\/]+(-->)/';
-    public const LOG_DATE_PATTERN       = ['/^((ERROR)|(INFO)|(DEBUG)|(ALL)|(NOTICE))\\s\\-\\s/', '/\\s(-->)/'];
-    public const LOG_LEVEL_PATTERN      = '/^((ERROR)|(INFO)|(DEBUG)|(ALL)|(NOTICE))/';
+    public const LOG_LINE_START_PATTERN = '/^\\[\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}\\] \\w+\\.((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE)):/';
+    public const LOG_DATE_PATTERN       = ['/^\\[/', '/\\]\\s\\w+\\.((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE)):/'];
+    public const LOG_LEVEL_PATTERN      = '/\\b((INFO)|(ERROR)|(DEBUG)|(ALL)|(NOTICE))\\b/';
 
     //these are the config keys expected in the config.php
     public const LOG_FILE_PATTERN_CONFIG_KEY = 'clv_log_file_pattern';
@@ -64,7 +69,6 @@ class Log_Viewer
     private const API_CMD_VIEW              = 'view';
     private const API_CMD_DELETE            = 'delete';
 
-    private $CI;
     private static array $levelsIcon = [
         'INFO'   => 'glyphicon glyphicon-info-sign',
         'ERROR'  => 'glyphicon glyphicon-warning-sign',
@@ -102,16 +106,10 @@ class Log_Viewer
      */
     private function init(): void
     {
-        if (! function_exists('get_instance')) {
-            throw new Exception('This library works in a Code Igniter Project/Environment');
-        }
-
-        //initiate Code Igniter Instance
-        $this->CI = &get_instance();
-
+        $configLog = Config::get('app.log');
         //configure the log folder path and the file pattern for all the logs in the folder
-        $this->logFolderPath  = null !== $this->CI->config->item(self::LOG_FOLDER_PATH_CONFIG_KEY) ? rtrim($this->CI->config->item(self::LOG_FOLDER_PATH_CONFIG_KEY), '/') : rtrim(APPPATH, '/') . '/logs';
-        $this->logFilePattern = $this->CI->config->item(self::LOG_FILE_PATTERN_CONFIG_KEY) ?? 'log-*.php';
+        $this->logFolderPath  = null !== $configLog[self::LOG_FOLDER_PATH_CONFIG_KEY] ? rtrim($configLog[self::LOG_FOLDER_PATH_CONFIG_KEY], '/') : rtrim(APPPATH, '/') . '/logs';
+        $this->logFilePattern = $configLog[self::LOG_FILE_PATTERN_CONFIG_KEY] ?? 'opensid-*.log';
 
         //concatenate to form Full Log Path
         $this->fullLogFilePath = $this->logFolderPath . '/' . $this->logFilePattern;
@@ -127,9 +125,9 @@ class Log_Viewer
      */
     public function showLogs()
     {
-        if (null !== $this->CI->input->get('del')) {
-            $this->deleteFiles(base64_decode($this->CI->input->get('del'), true));
-            redirect($this->CI->uri->uri_string());
+        if (null !== request()->get('del')) {
+            $this->deleteFiles(base64_decode(request()->get('del'), true));
+            redirect(request()->getPathInfo());
 
             return;
         }
@@ -137,18 +135,18 @@ class Log_Viewer
         //process download of log file command
         //if the supplied file exists, then perform download
         //otherwise, just ignore which will resolve to page reloading
-        $dlFile = $this->CI->input->get('dl');
+        $dlFile = request()->get('dl');
         if (null !== $dlFile && file_exists($this->logFolderPath . '/' . basename(base64_decode($dlFile, true)))) {
             $file = $this->logFolderPath . '/' . basename(base64_decode($dlFile, true));
             $this->downloadFile($file);
         }
 
-        if (null !== $this->CI->input->get(self::API_QUERY_PARAM)) {
-            return $this->processAPIRequests($this->CI->input->get(self::API_QUERY_PARAM));
+        if (null !== request()->get(self::API_QUERY_PARAM)) {
+            return $this->processAPIRequests(request()->get(self::API_QUERY_PARAM));
         }
 
         //it will either get the value of f or return null
-        $fileName = $this->CI->input->get('f');
+        $fileName = request()->get('f');
 
         //get the log files from the log directory
         $files = $this->getFiles();
@@ -189,7 +187,7 @@ class Log_Viewer
             $response['log_files'] = $this->getFilesBase64Encoded();
         } elseif ($command === self::API_CMD_VIEW) {
             //respond to view the logs of a particular file
-            $file                  = $this->CI->input->get(self::API_FILE_QUERY_PARAM);
+            $file                  = request()->get(self::API_FILE_QUERY_PARAM);
             $response['log_files'] = $this->getFilesBase64Encoded();
 
             if (null === $file || empty($file)) {
@@ -197,14 +195,14 @@ class Log_Viewer
                 $response['error']['message'] = 'Invalid File Name Supplied: [' . json_encode($file, JSON_THROW_ON_ERROR) . ']';
                 $response['error']['code']    = 400;
             } else {
-                $singleLine         = $this->CI->input->get(self::API_LOG_STYLE_QUERY_PARAM);
+                $singleLine         = request()->get(self::API_LOG_STYLE_QUERY_PARAM);
                 $singleLine         = null !== $singleLine && ($singleLine === true || $singleLine === 'true' || $singleLine === '1');
                 $logs               = $this->processLogsForAPI($file, $singleLine);
                 $response['status'] = true;
                 $response['logs']   = $logs;
             }
         } elseif ($command === self::API_CMD_DELETE) {
-            $file = $this->CI->input->get(self::API_FILE_QUERY_PARAM);
+            $file = request()->get(self::API_FILE_QUERY_PARAM);
 
             if (null === $file) {
                 $response['status']           = false;
@@ -350,7 +348,7 @@ class Log_Viewer
      * extract the log level from the logLine
      *
      * @param $logLineStart - The single line that is the start of log line.
-     *                       extracted by getLogLineStart()
+     *                      extracted by getLogLineStart()
      *
      * @return log level e.g. ERROR, DEBUG, INFO
      */

@@ -36,6 +36,7 @@
  */
 
 use App\Libraries\Checker;
+use App\Libraries\LogViewer;
 use App\Libraries\Sistem;
 use App\Models\Area;
 use App\Models\Artikel;
@@ -83,10 +84,7 @@ class Info_sistem extends Admin_Controller
 
     public function index()
     {
-        // Logs viewer
-        $this->load->library('Log_Viewer');
-
-        $data                      = $this->log_viewer->showLogs();
+        $data                      = (new LogViewer())->showLogs();
         $data['ekstensi']          = Sistem::cekEkstensi();
         $data['kebutuhan_sistem']  = Sistem::cekKebutuhanSistem();
         $data['php']               = Sistem::cekPhp();

@@ -345,7 +345,8 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("pwdLengthNist", function(value, element) {
 		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/.test(value);
 		return this.optional(element) || valid;
-	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
+	}, SYARAT_SANDI);
+	
 
 	$('.pwdLengthNist').each(function() {
 		$(this).rules("add",
@@ -358,7 +359,7 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("pwdLengthNist_atau_kosong", function(value, element) {
 		valid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/.test(value);
 		return this.optional(element) || valid;
-	}, "Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus");
+	}, SYARAT_SANDI);
 
 	jQuery.validator.addMethod("bilangan", function(value, element) {
 		valid = /^[0-9]+$/.test(value);
