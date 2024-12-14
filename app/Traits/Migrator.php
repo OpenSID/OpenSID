@@ -96,7 +96,7 @@ trait Migrator
         $this->createHakAkses([
             'config_id' => $data['config_id'],
             'id_grup'   => UserGrup::withoutConfigId($data['config_id'])->where('slug', UserGrup::ADMINISTRATOR)->value('id'),
-            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where($data)->first()->id,
+            'id_modul'  => Modul::withoutConfigId($data['config_id'])->where('slug', $data['slug'])->first()->id,
             'akses'     => GrupAkses::HAPUS,
         ]);
 
