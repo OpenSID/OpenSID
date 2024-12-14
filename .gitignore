@@ -75,6 +75,8 @@ Modules/*
 !Modules/Analisis/**
 !Modules/BukuTamu/
 !Modules/BukuTamu/**
+!Modules/Kehadiran/
+!Modules/Kehadiran/**
 
 # Do not ignore specific files
 !Modules/.gitkeep

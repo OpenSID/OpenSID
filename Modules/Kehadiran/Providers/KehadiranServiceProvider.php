@@ -35,59 +35,45 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\Kehadiran\Providers;
 
-use App\Traits\ConfigId;
+use Illuminate\Support\ServiceProvider;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class KehadiranPengaduan extends BaseModel
+class KehadiranServiceProvider extends ServiceProvider
 {
-    use ConfigId;
-
     /**
-     * The table associated with the model.
-     *
      * @var string
      */
-    protected $table = 'kehadiran_pengaduan';
+    protected $moduleName = 'Kehadiran';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
+     * @var string
      */
-    public $timestamps = false;
+    protected $moduleNameLower = 'kehadiran';
 
     /**
-     * The attributes that are mass assignable.
+     * Boot the application events.
      *
-     * @var array
+     * @return void
      */
-    protected $fillable = [
-        'waktu',
-        'status',
-        'keterangan',
-        'id_penduduk',
-        'id_pamong',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'status' => 'boolean',
-    ];
-
-    public function pamong()
+    public function boot()
     {
-        return $this->belongsTo(Pamong::class, 'id_pamong');
+        $this->registerViews();
     }
 
-    public function mandiri()
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
     {
-        return $this->belongsTo(PendudukMandiri::class, 'id_penduduk');
+    }
+
+    public function registerViews(): void
+    {
+        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
+
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
     }
 }

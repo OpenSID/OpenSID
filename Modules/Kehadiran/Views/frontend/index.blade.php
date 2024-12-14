@@ -1,10 +1,10 @@
-@extends('kehadiran.layouts.index')
+@extends('kehadiran::frontend.layouts.index')
 
 @section('content')
 
     <div class="row vertical-align" style="background-color: #ffffff">
         <div class="col-sm-8 hidden-xs" style="padding: 0px;">
-            @include('kehadiran.left')
+            @include('kehadiran::frontend.left')
         </div>
         <div class="col-sm-4 col-xm-4">
             <div class="row">

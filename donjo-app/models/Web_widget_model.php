@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Kehadiran\Models\JamKerja;
+
 /*
  *
  * File ini bagian dari:
@@ -34,8 +36,6 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
-
-use App\Models\JamKerja;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

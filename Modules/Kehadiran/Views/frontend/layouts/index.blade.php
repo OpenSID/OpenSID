@@ -26,14 +26,16 @@
     <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
     <!-- Plugins -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-toggle.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/kehadiran-style.css') }}" />
-    @if ($setting->latar_kehadiran && ($latarKehadiran = default_file(LATAR_LOGIN . $setting->latar_kehadiran, DEFAULT_LATAR_KEHADIRAN_PERANGKAT)))
-        <style type="text/css">
-            .form-left {
-                background-image: url('{{ $latarKehadiran }}');
-            }
-        </style>
-    @endif
+    <link rel="stylesheet" href="{{ module_asset('css/style.css') }}" />
+    @php
+        $latarKehadiran = default_file(LATAR_LOGIN . $setting->latar_kehadiran, config('app.default_latar_kehadiran'));
+    @endphp
+    
+    <style type="text/css">
+        .form-left {
+            background-image: url('{{ $latarKehadiran }}');
+        }
+    </style>
     @stack('css')
 
     <?php if (cek_koneksi_internet()): ?>

@@ -35,37 +35,14 @@
  *
  */
 
-namespace App\Models;
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | API Hari Libur
+    |--------------------------------------------------------------------------
+    |
+    */
+    'api_hari_libur' => 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json',
 
-use App\Traits\ConfigId;
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class HariLibur extends BaseModel
-{
-    use ConfigId;
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'kehadiran_hari_libur';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'tanggal',
-        'keterangan',
-    ];
-}
+    'default_latar_kehadiran' => module_asset('img/bg.jpg'),
+];

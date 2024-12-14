@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Kehadiran\Models\JamKerja;
+
 /*
  *
  * File ini bagian dari:
@@ -35,15 +37,14 @@
  *
  */
 
-use App\Models\JamKerja;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kehadiran_jam_kerja extends Admin_Controller
+class JamKerjaController extends AdminModulController
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'jam-kerja';
     public $kategori_pengaturan = 'Kehadiran';
+    public $aliasController     = 'kehadiran_jam_kerja';
 
     public function __construct()
     {
@@ -53,7 +54,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
 
     public function index()
     {
-        return view('admin.jam_kerja.index');
+        return view('kehadiran::backend.jam_kerja.index');
     }
 
     public function datatables()
@@ -85,7 +86,7 @@ class Kehadiran_jam_kerja extends Admin_Controller
 
         $kehadiran_jam_kerja = JamKerja::findOrFail($id);
 
-        return view('admin.jam_kerja.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_jam_kerja' => $kehadiran_jam_kerja]);
+        return view('kehadiran::backend.jam_kerja.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_jam_kerja' => $kehadiran_jam_kerja]);
     }
 
     public function update($id = ''): void

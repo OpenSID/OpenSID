@@ -35,17 +35,15 @@
  *
  */
 
-use App\Models\Config;
-use App\Models\JamKerja;
-use App\Models\Kehadiran;
-use App\Models\Menu;
-use App\Models\Modul;
-use App\Models\SettingAplikasi;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\Menu;
+use App\Models\User;
+use App\Models\Modul;
+use App\Models\Config;
+use Illuminate\Support\Str;
+use App\Models\SettingAplikasi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
@@ -430,23 +428,6 @@ if (! function_exists('ci_db')) {
     function ci_db()
     {
         return ci()->db;
-    }
-}
-
-if (! function_exists('cek_kehadiran')) {
-    /**
-     * Cek perangkat lupa absen
-     */
-    function cek_kehadiran(): void
-    {
-        $cek_libur = JamKerja::libur()->first();
-        $cek_jam   = JamKerja::jamKerja()->first();
-        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
-        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
-            foreach ($kehadiran as $data) {
-                Kehadiran::lupaAbsen($data->tanggal);
-            }
-        }
     }
 }
 

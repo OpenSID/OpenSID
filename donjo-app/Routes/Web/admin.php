@@ -503,52 +503,6 @@ Route::group('laporan_penduduk', static function (): void {
     Route::post('/kirim', 'Laporan_penduduk@kirim')->name('laporan_penduduk.kirim');
 });
 
-// Kehadiran > Jam Kerja
-Route::group('kehadiran_jam_kerja', static function (): void {
-    Route::get('/', 'Kehadiran_jam_kerja@index')->name('kehadiran_jam_kerja.index');
-    Route::get('/datatables', 'Kehadiran_jam_kerja@datatables')->name('kehadiran_jam_kerja.datatables');
-    Route::get('/form/{id}', 'Kehadiran_jam_kerja@form')->name('kehadiran_jam_kerja.form');
-    Route::post('/update/{id}', 'Kehadiran_jam_kerja@update')->name('kehadiran_jam_kerja.update');
-});
-
-// Kehadiran > Hari Libur
-Route::group('kehadiran_hari_libur', static function (): void {
-    Route::get('/', 'Kehadiran_hari_libur@index')->name('kehadiran_hari_libur.index');
-    Route::get('/datatables', 'Kehadiran_hari_libur@datatables')->name('kehadiran_hari_libur.datatables');
-    Route::get('/form/{id?}', 'Kehadiran_hari_libur@form')->name('kehadiran_hari_libur.form');
-    Route::post('/create', 'Kehadiran_hari_libur@create')->name('kehadiran_hari_libur.create');
-    Route::post('/update/{id}', 'Kehadiran_hari_libur@update')->name('kehadiran_hari_libur.update');
-    Route::get('/delete/{id}', 'Kehadiran_hari_libur@delete')->name('kehadiran_hari_libur.delete');
-    Route::post('/delete_all', 'Kehadiran_hari_libur@delete_all')->name('kehadiran_hari_libur.delete_all');
-    Route::get('/import', 'Kehadiran_hari_libur@import')->name('kehadiran_hari_libur.import');
-});
-
-// Kehadiran > Rekapitulasi
-Route::group('kehadiran_rekapitulasi', static function (): void {
-    Route::get('/', 'Kehadiran_rekapitulasi@index')->name('kehadiran_rekapitulasi.index');
-    Route::get('/datatables', 'Kehadiran_rekapitulasi@datatables')->name('kehadiran_rekapitulasi.datatables');
-    Route::get('/ekspor', 'Kehadiran_rekapitulasi@ekspor')->name('kehadiran_rekapitulasi.ekspor');
-});
-
-// Kehadiran > Pengaduan
-Route::group('kehadiran_pengaduan', static function (): void {
-    Route::get('/', 'Kehadiran_pengaduan@index')->name('kehadiran_pengaduan.index');
-    Route::get('/datatables', 'Kehadiran_pengaduan@datatables')->name('kehadiran_pengaduan.datatables');
-    Route::get('/form/{id}', 'Kehadiran_pengaduan@form')->name('kehadiran_pengaduan.form');
-    Route::post('/update/{id}', 'Kehadiran_pengaduan@update')->name('kehadiran_pengaduan.update');
-});
-
-// Kehadiran > Alasan Keluar
-Route::group('kehadiran_keluar', static function (): void {
-    Route::get('/', 'Kehadiran_keluar@index')->name('kehadiran_keluar.index');
-    Route::get('/datatables', 'Kehadiran_keluar@datatables')->name('kehadiran_keluar.datatables');
-    Route::get('/form/{id?}', 'Kehadiran_keluar@form')->name('kehadiran_keluar.form');
-    Route::post('/create', 'Kehadiran_keluar@create')->name('kehadiran_keluar.create');
-    Route::post('/update/{id}', 'Kehadiran_keluar@update')->name('kehadiran_keluar.update');
-    Route::get('/delete/{id}', 'Kehadiran_keluar@delete')->name('kehadiran_keluar.delete');
-    Route::post('/delete_all', 'Kehadiran_keluar@delete_all')->name('kehadiran_keluar.delete_all');
-});
-
 // Kesehatan > Pendataan & Pemantauan Covid-19
 Route::group('covid19', static function (): void {
     // Pendataan

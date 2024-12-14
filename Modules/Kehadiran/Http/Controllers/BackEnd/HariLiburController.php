@@ -35,15 +35,16 @@
  *
  */
 
-use App\Models\AlasanKeluar;
+use Modules\Kehadiran\Models\HariLibur;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kehadiran_keluar extends Admin_Controller
+class HariLiburController extends AdminModulController
 {
     public $modul_ini           = 'kehadiran';
-    public $sub_modul_ini       = 'alasan-keluar';
+    public $sub_modul_ini       = 'hari-libur';
     public $kategori_pengaturan = 'Kehadiran';
+    public $aliasController     = 'kehadiran_hari_libur';
 
     public function __construct()
     {
@@ -53,13 +54,13 @@ class Kehadiran_keluar extends Admin_Controller
 
     public function index()
     {
-        return view('admin.alasan_keluar.index');
+        return view('kehadiran::backend.hari_libur.index');
     }
 
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AlasanKeluar::query())
+            return datatables()->of(HariLibur::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -70,15 +71,16 @@ class Kehadiran_keluar extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . ci_route('kehadiran_keluar.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . ci_route('kehadiran_hari_libur.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . ci_route('kehadiran_keluar.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . ci_route('kehadiran_hari_libur.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
                 })
+                ->editColumn('tanggal', static fn ($row) => tgl_indo($row->tanggal))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -91,23 +93,24 @@ class Kehadiran_keluar extends Admin_Controller
         isCan('u');
 
         if ($id) {
-            $action           = 'Ubah';
-            $form_action      = ci_route('kehadiran_keluar.update', $id);
-            $kehadiran_keluar = AlasanKeluar::findOrFail($id);
+            $action                        = 'Ubah';
+            $form_action                   = ci_route('kehadiran_hari_libur.update', $id);
+            $kehadiran_hari_libur          = HariLibur::findOrFail($id);
+            $kehadiran_hari_libur->tanggal = date('d-m-Y', strtotime($kehadiran_hari_libur->tanggal));
         } else {
-            $action           = 'Tambah';
-            $form_action      = ci_route('kehadiran_keluar.create');
-            $kehadiran_keluar = null;
+            $action               = 'Tambah';
+            $form_action          = ci_route('kehadiran_hari_libur.create');
+            $kehadiran_hari_libur = null;
         }
 
-        return view('admin.alasan_keluar.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_keluar' => $kehadiran_keluar]);
+        return view('kehadiran::backend.hari_libur.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_hari_libur' => $kehadiran_hari_libur]);
     }
 
     public function create(): void
     {
         isCan('u');
 
-        if (AlasanKeluar::create(static::validate($this->request))) {
+        if (HariLibur::create($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -118,9 +121,11 @@ class Kehadiran_keluar extends Admin_Controller
     {
         isCan('u');
 
-        $update = AlasanKeluar::findOrFail($id);
+        $update = HariLibur::findOrFail($id);
 
-        if ($update->update(static::validate($this->request, $id))) {
+        $data = $this->validate($this->request, $id);
+
+        if ($update->update($data)) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -131,7 +136,7 @@ class Kehadiran_keluar extends Admin_Controller
     {
         isCan('h');
 
-        if (AlasanKeluar::destroy($id)) {
+        if (HariLibur::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -142,22 +147,63 @@ class Kehadiran_keluar extends Admin_Controller
     {
         isCan('h');
 
-        if (AlasanKeluar::destroy($this->request['id_cb'])) {
+        if (HariLibur::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    protected static function validate($request = [], $id = null): array
+    private function validate(array $request = [], $id = ''): array
     {
-        $validated = [
-            'alasan'     => strip_tags((string) $request['alasan']),
+        $_POST['tanggal'] = date('Y-m-d', strtotime((string) $request['tanggal']));
+
+        $this->form_validation->set_error_delimiters('', '');
+        $rules = empty($id)
+            ? 'is_unique[kehadiran_hari_libur.tanggal]'
+            : "is_unique[kehadiran_hari_libur.tanggal,id,{$id}]";
+
+        $this->form_validation->set_rules([
+            [
+                'field'  => 'tanggal',
+                'label'  => 'Tanggal',
+                'rules'  => $rules,
+                'errors' => [
+                    'is_unique' => 'Tanggal terkait sudah ditambahkan pada hari libur',
+                ],
+            ],
+            [
+                'field' => 'keterangan',
+                'label' => 'Keterangan',
+                'rules' => 'required',
+            ],
+        ]);
+
+        if ($this->form_validation->run() !== true) {
+            redirect_with('error', trim(validation_errors()));
+        }
+
+        return [
+            'tanggal'    => date('Y-m-d', strtotime((string) $request['tanggal'])),
             'keterangan' => strip_tags((string) $request['keterangan']),
         ];
+    }
 
-        $validated['created_by'] = $id ? $validated['updated_by'] = ci_auth()->id : ci_auth()->id;
+    public function import(): void
+    {
+        isCan('u');
 
-        return $validated;
+        $kalender = file_get_contents(config('app.api_hari_libur'));
+        $tanggal  = json_decode($kalender, true);
+
+        $batch = collect($tanggal)->map(static fn ($item, $key): array => [
+            'config_id'  => identitas('id'),
+            'tanggal'    => $key,
+            'keterangan' => $item['summary'],
+        ])->filter(static fn ($value, $key): bool => $value['tanggal'] > date('Y') . '-01-01')->slice(0, -2);
+
+        HariLibur::upsert($batch->values()->toArray(), ['tanggal'], ['keterangan']);
+
+        redirect_with('success', 'Berhasil Tambah Data');
     }
 }

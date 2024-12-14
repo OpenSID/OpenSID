@@ -1,5 +1,7 @@
 <?php
 
+use Modules\Kehadiran\Models\KehadiranPengaduan;
+
 /*
  *
  * File ini bagian dari:
@@ -35,15 +37,14 @@
  *
  */
 
-use App\Models\KehadiranPengaduan;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kehadiran_pengaduan extends Admin_Controller
+class PengaduanController extends AdminModulController
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'kehadiran-pengaduan';
     public $kategori_pengaturan = 'Kehadiran';
+    public $aliasController     = 'kehadiran_pengaduan';
 
     public function __construct()
     {
@@ -53,7 +54,7 @@ class Kehadiran_pengaduan extends Admin_Controller
 
     public function index()
     {
-        return view('admin.pengaduan.index');
+        return view('kehadiran::backend.pengaduan.index');
     }
 
     public function datatables()
@@ -83,7 +84,7 @@ class Kehadiran_pengaduan extends Admin_Controller
 
         $kehadiran_pengaduan = KehadiranPengaduan::findOrFail($id);
 
-        return view('admin.pengaduan.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_pengaduan' => $kehadiran_pengaduan]);
+        return view('kehadiran::backend.pengaduan.form', ['action' => $action, 'form_action' => $form_action, 'kehadiran_pengaduan' => $kehadiran_pengaduan]);
     }
 
     public function update($id = ''): void

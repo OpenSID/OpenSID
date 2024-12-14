@@ -1,5 +1,8 @@
 <?php
 
+use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\Kehadiran;
+
 /*
  *
  * File ini bagian dari:
@@ -35,34 +38,19 @@
  *
  */
 
-namespace App\Models;
-
-use App\Traits\Author;
-use App\Traits\ConfigId;
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-class AlasanKeluar extends BaseModel
-{
-    use Author;
-    use ConfigId;
-
+if (! function_exists('cek_kehadiran')) {
     /**
-     * The table associated with the model.
-     *
-     * @var string
+     * Cek perangkat lupa absen
      */
-    protected $table = 'kehadiran_alasan_keluar';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'alasan',
-        'keterangan',
-        'created_by',
-        'updated_by',
-    ];
+    function cek_kehadiran(): void
+    {
+        $cek_libur = JamKerja::libur()->first();
+        $cek_jam   = JamKerja::jamKerja()->first();
+        $kehadiran = Kehadiran::where('status_kehadiran', 'hadir')->where('jam_keluar', null)->get();
+        if ($kehadiran->count() > 0 && ($cek_jam != null || $cek_libur != null)) {
+            foreach ($kehadiran as $data) {
+                Kehadiran::lupaAbsen($data->tanggal);
+            }
+        }
+    }
 }

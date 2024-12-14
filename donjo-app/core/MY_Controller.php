@@ -131,9 +131,6 @@ class MY_Controller extends CI_Controller
         $this->setting_model->init();
 
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-        // Cek perangkat lupa absen keluar
-        cek_kehadiran();
     }
 
     public function create_log_notifikasi_admin($next, $isi): void

@@ -35,10 +35,10 @@
  *
  */
 
-use App\Enums\StatusEnum;
-use App\Models\Kehadiran;
-use App\Models\Pamong;
 use Carbon\Carbon;
+use App\Models\Pamong;
+use App\Enums\StatusEnum;
+use Modules\Kehadiran\Models\Kehadiran;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

@@ -193,16 +193,6 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
     Route::get('/embed', 'Embed@index');
 });
 
-Route::group('kehadiran', ['namespace' => 'kehadiran'], static function (): void {
-    Route::get('/', 'Perangkat@index')->name('kehadiran.perangkat.index');
-    Route::post('/cek/{ektp?}', 'Perangkat@cek')->name('kehadiran.perangkat.cek');
-    Route::get('/masuk-ektp', 'Perangkat@masukEktp')->name('kehadiran.perangkat.masukEktp');
-    Route::post('/cek-ektp', 'Perangkat@cekEktp')->name('kehadiran.perangkat.cekEktp');
-    Route::get('/masuk', 'Perangkat@masuk')->name('kehadiran.perangkat.masuk');
-    Route::match(['GET', 'POST'], '/check-in-out', 'Perangkat@checkInOut')->name('kehadiran.perangkat.checkInOut');
-    Route::get('/logout', 'Perangkat@logout')->name('kehadiran.perangkat.logout');
-});
-
 Route::group('install', static function (): void {
     Route::match(['GET', 'POST'], '/', 'Install@index');
     Route::match(['GET', 'POST'], '/index', 'Install@index');

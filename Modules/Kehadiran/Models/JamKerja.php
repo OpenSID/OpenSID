@@ -35,10 +35,11 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\Kehadiran\Models;
 
-use App\Traits\ConfigId;
 use Carbon\Carbon;
+use App\Traits\ConfigId;
+use App\Models\BaseModel;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 
 defined('BASEPATH') || exit('No direct script access allowed');

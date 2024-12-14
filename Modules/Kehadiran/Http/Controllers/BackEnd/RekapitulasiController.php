@@ -35,20 +35,21 @@
  *
  */
 
-use App\Enums\StatusEnum;
-use App\Models\Kehadiran;
 use App\Models\Pamong;
-use Illuminate\Support\Facades\DB;
+use App\Enums\StatusEnum;
 use OpenSpout\Common\Entity\Row;
 use OpenSpout\Writer\XLSX\Writer;
+use Illuminate\Support\Facades\DB;
+use Modules\Kehadiran\Models\Kehadiran;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Kehadiran_rekapitulasi extends Admin_Controller
+class RekapitulasiController extends AdminModulController
 {
     public $modul_ini           = 'kehadiran';
     public $sub_modul_ini       = 'rekapitulasi';
     public $kategori_pengaturan = 'Kehadiran';
+    public $aliasController     = 'kehadiran_rekapitulasi';
 
     public function __construct()
     {
@@ -61,7 +62,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         $pamong    = Pamong::daftar()->get();
         $kehadiran = Kehadiran::get();
 
-        return view('admin.rekapitulasi.index', ['pamong' => $pamong, 'kehadiran' => $kehadiran]);
+        return view('kehadiran::backend.rekapitulasi.index', ['pamong' => $pamong, 'kehadiran' => $kehadiran]);
     }
 
     public function datatables()

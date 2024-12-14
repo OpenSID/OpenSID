@@ -35,19 +35,19 @@
  *
  */
 
+use App\Models\Agama;
+use App\Models\Pamong;
 use App\Enums\AgamaEnum;
+use App\Models\LogSurat;
+use App\Models\Penduduk;
+use App\Enums\StatusEnum;
+use App\Models\RefJabatan;
+use App\Models\PendidikanKK;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\PendidikanKKEnum;
-use App\Enums\StatusEnum;
-use App\Models\Agama;
-use App\Models\Kehadiran;
-use App\Models\KehadiranPengaduan;
-use App\Models\LogSurat;
-use App\Models\Pamong;
-use App\Models\PendidikanKK;
-use App\Models\Penduduk;
-use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use Modules\Kehadiran\Models\Kehadiran;
+use Modules\Kehadiran\Models\KehadiranPengaduan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

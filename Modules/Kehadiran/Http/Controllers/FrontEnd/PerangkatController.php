@@ -35,16 +35,16 @@
  *
  */
 
-use App\Models\AlasanKeluar;
-use App\Models\HariLibur;
-use App\Models\JamKerja;
-use App\Models\Kehadiran;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Modules\Kehadiran\Models\JamKerja;
+use Modules\Kehadiran\Models\HariLibur;
+use Modules\Kehadiran\Models\Kehadiran;
+use Modules\Kehadiran\Models\AlasanKeluar;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Perangkat extends Web_Controller
+class PerangkatController extends WebModulController
 {
     private string $tgl;
     private string $jam;
@@ -72,6 +72,9 @@ class Perangkat extends Web_Controller
         if ($this->mac) {
             $this->session->mac_address = $this->mac;
         }
+
+        // Cek perangkat lupa absen keluar
+        cek_kehadiran();
     }
 
     public function index()
@@ -87,7 +90,7 @@ class Perangkat extends Web_Controller
             'alasan'      => AlasanKeluar::get(),
         ];
 
-        return view('kehadiran.index', $data);
+        return view('kehadiran::frontend.index', $data);
     }
 
     public function cek($ektp = false)
@@ -156,7 +159,7 @@ class Perangkat extends Web_Controller
             'cek'           => $this->deteksi(),
         ];
 
-        return view('kehadiran.masuk', $data);
+        return view('kehadiran::frontend.masuk', $data);
     }
 
     public function checkInOut(): void
