@@ -185,6 +185,7 @@ define('DEFAULT_LOKASI_TEMA', 'vendor/themes/');
 // File
 define('DEFAULT_LATAR_SITEMAN', 'assets/css/images/latar_login.jpg');
 define('DEFAULT_LATAR_KEHADIRAN', 'assets/css/images/latar_login_mandiri.jpg');
+define('DEFAULT_LATAR_KEHADIRAN_PERANGKAT', 'assets/images/kehadiran/bg.jpg');
 define('DEFAULT_LATAR_WEBSITE', 'assets/front/css/images/latar_website.jpg');
 define('GAMBAR_QRCODE', 'assets/images/opensid.png');
 define('LOGO_GARUDA', 'assets/images/garuda.png');
@@ -238,6 +239,9 @@ define('CONFIG_THEMES', 'desa/upload/themes/');
 define('LATAR_SITEMAN', 'desa/pengaturan/siteman/images/latar_login.jpg');
 define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/latar_login_mandiri.jpg');
 define('FONT_SYSTEM_TINYMCE', ['Andale Mono', 'Arial', 'Arial Black', 'Bookman Old Style', 'Comic Sans MS', 'Courier New', 'Georgia', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana']);
+
+// Pesan Notifikasi
+define('SYARAT_SANDI', 'Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus');
 
 // Info Sistem
 define('EKSTENSI_WAJIB', serialize([

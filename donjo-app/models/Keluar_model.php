@@ -557,7 +557,7 @@ class Keluar_model extends MY_Model
 
         // TODO : Sederhanakan, ini berulang
         $data = $this->config_id('l')
-            ->select('l.*, k.nama AS perihal, k.kode_surat, n.nama AS nama_penduduk, l.nama_jabatan AS pamong_jabatan')
+            ->select('l.*, k.nama AS perihal, k.kode_surat, k.format_nomor_global, k.format_nomor, n.nama AS nama_penduduk, l.nama_jabatan AS pamong_jabatan')
             ->select('nama_pamong as pamong_nama')
             ->from('log_surat l')
             ->join('tweb_penduduk n', 'l.id_pend = n.id', 'left')
@@ -576,13 +576,15 @@ class Keluar_model extends MY_Model
         $format['config']['kode_desa'] = $kode_desa;
         $format['input']['nomor']      = $data->no_surat;
         $format['surat']               = [
-            'cek_thn'    => $data->tahun,
-            'cek_bln'    => $data->bulan,
-            'nomor'      => $data->no_surat,
-            'kode_surat' => $data->kode_surat,
+            'format_nomor_global' => $data->format_nomor_global,
+            'format_nomor'        => $data->format_nomor,
+            'cek_thn'             => $data->tahun,
+            'cek_bln'             => $data->bulan,
+            'nomor'               => $data->no_surat,
+            'kode_surat'          => $data->kode_surat,
         ];
 
-        $data->nomor_surat = $this->penomoran_surat_model->format_penomoran_surat($format);
+        $data->nomor_surat = FormatSurat::format_penomoran_surat($format);
 
         // Filter Output
         $output = [

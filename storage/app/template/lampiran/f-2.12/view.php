@@ -203,11 +203,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -526,11 +522,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -715,11 +707,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -906,11 +894,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -1213,11 +1197,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -1402,11 +1382,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -1601,11 +1577,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -1779,11 +1751,7 @@
             <td colspan="7" class="left">Kode Pos</td>
             <?php for ($i = 0; $i < 5; $i++) : ?>
                 <td class="kotak padat tengah">
-                    <?php if (isset($config['kode_pos'][$i])) : ?>
-                        <?= $config['kode_pos'][$i]; ?>
-                    <?php else : ?>
-                        &nbsp;
-                    <?php endif; ?>
+                    <?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
                 </td>
             <?php endfor; ?>
             <td colspan="5">&nbsp;</td>
@@ -1848,9 +1816,10 @@
             <td colspan="14" class="kotak">Tanggal Pemberkatan Perkawinan</td>
             <td>&nbsp;&nbsp;</td>
             <td colspan="2" class="tengah">Tgl</td>
-            <?php $tgl = date('dd', strtotime($input['tanggal_pemberkatan']));
-            $bln       = date('mm', strtotime($input['tanggal_pemberkatan']));
-            $thn       = date('Y', strtotime($input['tanggal_pemberkatan']));
+            <?php
+            $tgl = date('dd', strtotime($input['tanggal_pemberkatan'] ?? $input['tanggal_kawin']));
+            $bln = date('mm', strtotime($input['tanggal_pemberkatan'] ?? $input['tanggal_kawin']));
+            $thn = date('Y', strtotime($input['tanggal_pemberkatan'] ?? $input['tanggal_kawin']));
             ?>
             <?php for ($j = 0; $j < 2; $j++) : ?>
                 <td class="kotak tengah">

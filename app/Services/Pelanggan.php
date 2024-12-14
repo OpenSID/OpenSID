@@ -101,17 +101,6 @@ class Pelanggan
         }
 
         if ($cache = app('ci')->cache->file->get('status_langganan')) {
-            $modul = collect($cache->body->pemesanan)->filter(static fn ($data): bool => $data->status_pemesanan === 'aktif')
-                ->map(static fn ($data) => collect($data->layanan)->filter(static fn ($data): bool => $data->nama_kategori === 'Modul')
-                // ->map(fn ($data) => collect($data->layanan)->filter(fn ($data) => $data->nama_kategori === "Tema") // untuk testing
-                    ->map(static fn ($data) => $data->nama)->toArray())
-                ->flatten()
-                ->toArray();
-
-            if (count($modul) > 0) {
-                cache()->remember('modul_aktif', 60 * 60 * 24 * 365, static fn (): array => $modul);
-            }
-
             // set_session('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
             app('ci')->session->set_userdata('error_status_langganan', 'Tunggu sebentar, halaman akan dimuat ulang.');
 

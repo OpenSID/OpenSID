@@ -2,7 +2,7 @@
     if (empty($ekstensi)) {
         $ekstensi = 'xls';
     }
-    
+
     if ($aksi == 'unduh') {
         header('Content-type: application/' . $ekstensi);
         header('Content-Disposition: attachment; filename=' . namafile($file) . '.' . $ekstensi);
@@ -29,9 +29,7 @@
 
 <body>
     <div id="container">
-        <div id="body">
-            @include($isi)
-        </div>
+        <div id="body"> @include($isi) </div>
         @if ($letak_ttd && count($letak_ttd) > 0)
             <br />
             <table width="10%" style="text-align: center; @isset($ispdf) margin: auto; @endisset">

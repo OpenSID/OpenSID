@@ -47,9 +47,10 @@ class First_gallery_m extends MY_Model
         $row = $this->config_id()
             ->select('COUNT(id) AS id')
             ->where('enabled', 1)
-            ->where('tipe', 0)
+            ->where('parrent', 0)
             ->get('gambar_gallery')
             ->row_array();
+
         $jml_data = $row['id'];
 
         $this->load->library('paging');

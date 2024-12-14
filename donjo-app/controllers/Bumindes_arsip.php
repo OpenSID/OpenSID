@@ -39,7 +39,7 @@ use App\Services\ArsipFisikSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Bumindes_arsip extends Admin_controller
+class Bumindes_arsip extends Admin_Controller
 {
     public $modul_ini     = 'buku-administrasi-desa';
     public $sub_modul_ini = 'arsip-desa';

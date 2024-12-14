@@ -5,6 +5,20 @@
         .radius {
             border-radius: 5px;
         }
+
+        .small-box {
+            border-radius: 5px;
+            padding-bottom: 27px;
+        }
+
+        .small-box .icon {
+            top: -5px;
+        }
+
+        .small-box:hover {
+            transform: scale(1.01);
+            transition: 0.3s;
+        }
     </style>
 @endpush
 

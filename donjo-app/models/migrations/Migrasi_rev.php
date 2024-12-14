@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_rev extends MY_model
+class Migrasi_rev extends MY_Model
 {
     public function up()
     {

@@ -24,8 +24,8 @@
             </span>
         </div>
         <p class="help-block small">Pastikan format berkas telah sesuai. Format yang dibutuhkan dapat diunduh menggunakan tombol Unduh.</p>
-        <a href="{{ ci_route('unduh', encrypt('assets/import/format_impor_klasifikasi_surat.xlsx')) }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor
-            Klasifikasi</a>
+        <a href="{{ $format_impor }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Format Impor</a>
+        <a href="{{ $klasifikasi_surat }}" class="btn btn-social bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Klasifikasi</a>
     </div>
 </div>
 <div class="modal-footer">

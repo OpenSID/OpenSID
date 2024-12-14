@@ -327,7 +327,7 @@
                         e.preventDefault();
                         var id = $(e.target).closest('a').data('id')
                         Swal.fire({
-                            title: 'Apakah anda yakin ingin mengirim surat ini ke kecamatan?',
+                            title: 'Apakah anda yakin ingin mengirim surat ini ke ' + '{{ ucwords(setting('sebutan_kecamatan')) }}' + ' ?',
                             showCancelButton: true,
                             confirmButtonText: 'Kirim',
                             showLoaderOnConfirm: true,
@@ -368,11 +368,13 @@
                                 } else {
                                     Swal.fire({
                                         icon: 'success',
-                                        title: 'Dokumen berhasil dikirim ke kecamatan',
+                                        title: 'Dokumen berhasil dikirim ke ' + '{{ ucwords(setting('sebutan_kecamatan')) }}',
                                         showConfirmButton: true,
                                     }).then((result) => {
-                                        window.location.replace("{{ ci_route('keluar') }}");
-                                    })
+                                        if (result.isConfirmed) {
+                                            window.location.replace("{{ ci_route('keluar') }}");
+                                        }
+                                    });
                                 }
                             }
 

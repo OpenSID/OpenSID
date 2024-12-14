@@ -17,10 +17,7 @@ class S3File extends File
 
     public function calculateFilesize(): int
     {
-        return $this->getS3Client()->headObject([
-            'Bucket' => $this->getBucket(),
-            'Key'    => $this->getKey()
-        ])->get('ContentLength');
+        return $this->getReadableStream()->getSize();
     }
 
     public function setS3Client(S3Client $client): self
@@ -37,16 +34,6 @@ class S3File extends File
         }
 
         return $this->client;
-    }
-
-    public function getBucket(): string
-    {
-        return parse_url($this->getSource(), PHP_URL_HOST);
-    }
-
-    public function getKey(): string
-    {
-        return ltrim(parse_url($this->getSource(), PHP_URL_PATH), "/");
     }
 
     protected function buildReadableStream(): StreamInterface

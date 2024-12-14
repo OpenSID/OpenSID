@@ -37,19 +37,24 @@
 
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
+use App\Models\GrupAkses;
 use App\Models\Keluarga;
 use App\Models\KlasifikasiSurat;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk;
 use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
+use App\Models\SuplemenTerdata;
 use App\Models\User;
+use App\Traits\Collation;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Periksa_model extends MY_Model
 {
+    use Collation;
+
     public $periksa = [];
 
     public function __construct()
@@ -150,6 +155,13 @@ class Periksa_model extends MY_Model
             $this->periksa['nik_kepala_bukan_kepala_keluarga'] = $nik_kepala_bukan_kepala_keluarga->toArray();
         }
 
+        // keluarga tanpa nik_kepala
+        $keluarga_tanpa_nik_kepala = $this->deteksi_keluarga_tanpa_nik_kepala();
+        if (! $keluarga_tanpa_nik_kepala->isEmpty()) {
+            $this->periksa['masalah'][]                 = 'keluarga_tanpa_nik_kepala';
+            $this->periksa['keluarga_tanpa_nik_kepala'] = $keluarga_tanpa_nik_kepala->toArray();
+        }
+
         $klasifikasi_surat_ganda = $this->deteksi_klasifikasi_surat_ganda();
         if (! $klasifikasi_surat_ganda->isEmpty()) {
             $this->periksa['masalah'][]               = 'klasifikasi_surat_ganda';
@@ -160,6 +172,18 @@ class Periksa_model extends MY_Model
         if (! $tgllahir_null_kosong->isEmpty()) {
             $this->periksa['masalah'][]            = 'tgllahir_null_kosong';
             $this->periksa['tgllahir_null_kosong'] = $tgllahir_null_kosong->toArray();
+        }
+
+        $suplemen_terdata_kosong = $this->deteksi_suplemen_terdata_kosong();
+        if (! $suplemen_terdata_kosong->isEmpty()) {
+            $this->periksa['masalah'][]               = 'suplemen_terdata_kosong';
+            $this->periksa['suplemen_terdata_kosong'] = $suplemen_terdata_kosong->groupBy('id_suplemen')->toArray();
+        }
+
+        $modul_asing = $this->deteksi_modul_asing_grup_akses();
+        if (! $modul_asing->isEmpty()) {
+            $this->periksa['masalah'][]   = 'modul_asing';
+            $this->periksa['modul_asing'] = $modul_asing->toArray();
         }
 
         return $calon;
@@ -303,6 +327,13 @@ class Periksa_model extends MY_Model
         return Penduduk::withOnly(['keluarga'])->whereIn('id', static fn ($q) => $q->select(['nik_kepala'])->from('tweb_keluarga'))->where('kk_level', '!=', SHDKEnum::KEPALA_KELUARGA)->get();
     }
 
+    private function deteksi_keluarga_tanpa_nik_kepala()
+    {
+        $configId = identitas('id');
+
+        return Keluarga::selectRaw('tweb_keluarga.*, log_keluarga.id_peristiwa')->logTerakhir($configId, date('Y-m-d'))->with(['wilayah'])->whereNull('nik_kepala')->get();
+    }
+
     private function deteksi_klasifikasi_surat_ganda()
     {
         $config_id = identitas('id');
@@ -315,6 +346,18 @@ class Periksa_model extends MY_Model
         $config_id = identitas('id');
 
         return Penduduk::where('config_id', $config_id)->where('tanggallahir', '0000-00-00')->orWhereNull('tanggallahir')->get();
+    }
+
+    private function deteksi_suplemen_terdata_kosong()
+    {
+        $suplemenKeluarga = SuplemenTerdata::withOnly(['suplemen'])->sasaranKeluarga()->whereDoesntHave('keluarga');
+
+        return SuplemenTerdata::withOnly(['suplemen'])->sasaranPenduduk()->whereDoesntHave('penduduk')->union($suplemenKeluarga)->get();
+    }
+
+    private function deteksi_modul_asing_grup_akses()
+    {
+        return GrupAkses::with(['grup'])->whereDoesntHave('modul')->get();
     }
 
     public function perbaiki(): void
@@ -409,13 +452,7 @@ class Periksa_model extends MY_Model
         $tables = $this->periksa['collation_table'];
 
         if ($tables) {
-            foreach ($tables as $tbl) {
-                if ($this->db->table_exists($tbl['TABLE_NAME'])) {
-                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE {$this->db->dbcollat}");
-
-                    log_message('notice', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . " menjadi {$this->db->dbcollat}.");
-                }
-            }
+            $this->updateCollation($this->db->database, $this->db->dbcollat);
         }
 
         return $hasil;
@@ -506,6 +543,11 @@ class Periksa_model extends MY_Model
         DB::table('log_keluarga')->where('config_id', $configId)->whereNull('id_kk')->delete();
     }
 
+    private function perbaiki_modul_asing_grup_akses()
+    {
+        GrupAkses::whereDoesntHave('modul')->delete();
+    }
+
     private function perbaiki_keluarga_kepala_ganda(): void
     {
         $keluarga = $this->periksa['keluarga_kepala_ganda'];
@@ -523,6 +565,14 @@ class Periksa_model extends MY_Model
         $penduduk = $this->periksa['nik_kepala_bukan_kepala_keluarga'];
         if ($penduduk) {
             Penduduk::whereIn('id', array_column($penduduk, 'id'))->update(['kk_level' => SHDKEnum::KEPALA_KELUARGA]);
+        }
+    }
+
+    private function perbaiki_keluarga_tanpa_nik_kepala(): void
+    {
+        $keluarga = $this->periksa['keluarga_tanpa_nik_kepala'];
+        if ($keluarga) {
+            Keluarga::whereIn('id', array_column($keluarga, 'id'))->delete();
         }
     }
 
@@ -563,6 +613,14 @@ class Periksa_model extends MY_Model
 
             case 'nik_kepala_bukan_kepala_keluarga':
                 $this->perbaiki_nik_kepala_bukan_kepala_keluarga();
+                break;
+
+            case 'keluarga_tanpa_nik_kepala':
+                $this->perbaiki_keluarga_tanpa_nik_kepala();
+                break;
+
+            case 'modul_asing':
+                $this->perbaiki_modul_asing_grup_akses();
                 break;
 
             default:

@@ -38,6 +38,7 @@
 namespace App\Models;
 
 use App\Enums\StatusEnum;
+use App\Scopes\ConfigIdScope;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -97,5 +98,11 @@ class BaseModel extends Model
         }
 
         return false;
+    }
+
+    public static function scopeWithoutConfigId($query, $configId = '')
+    {
+        return $query->withoutGlobalScope(ConfigIdScope::class)
+            ->when($configId !== '', static fn ($query) => $query->where('config_id', $configId));
     }
 }

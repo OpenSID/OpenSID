@@ -60,6 +60,7 @@ use App\Models\Pamong;
 use App\Models\SettingAplikasi;
 use App\Models\SuratDinas;
 use CI_Controller;
+use DOMDocument;
 use Karriere\PdfMerge\PdfMerge;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
@@ -674,8 +675,8 @@ class TinyMCE
     public function generateSurat($surat, array $data, $margins, $defaultFont)
     {
         $surat = str_replace(base_url(), FCPATH, $surat);
-
-        $pdf = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
+        $surat = $this->updateHeightTd($surat);
+        $pdf   = (new Html2Pdf($data['surat']['orientasi'], $data['surat']['ukuran'], 'en', true, 'UTF-8', $margins))
             ->setTestTdInOnePage(true)
             ->setDefaultFont($defaultFont);
 
@@ -730,14 +731,15 @@ class TinyMCE
             return;
         }
 
-        $surat    = $data['surat'];
-        $config   = identitas();
-        $individu = $this->surat_model->get_data_surat($id);
+        $surat  = $data['surat'];
+        $config = identitas();
 
+        // TODO: Cek apakah ini masih digunakan
+        $individu = $this->surat_model->get_data_surat($id);
         // Data penandatangan terpilih
         $penandatangan = $this->surat_model->atas_nama($data);
 
-        $lampiran     = $input['lampiran'] ?? [];
+        $lampiran     = $input['lampiran'] ?? explode(',', $data['surat']['lampiran']);
         $format_surat = substitusiNomorSurat($input['nomor'], format_penomoran_surat($surat['format_nomor_global'], setting('format_nomor_surat'), $surat['format_nomor']));
         $format_surat = str_ireplace('[kode_surat]', $surat['kode_surat'], $format_surat);
         $format_surat = str_ireplace('[kode_desa]', $config['kode_desa'], $format_surat);
@@ -774,6 +776,7 @@ class TinyMCE
         $lampiran = $this->excludeLampiran($surat, $input ?? [], $lampiran ?? []);
 
         for ($i = 0; $i < count($lampiran); $i++) {
+            $lampiran[$i] = strtolower($lampiran[$i]);
             // Cek lampiran desa
             $view_lampiran[$i] = FCPATH . LOKASI_LAMPIRAN_SURAT_DESA . $lampiran[$i] . '/view.php';
 
@@ -797,6 +800,7 @@ class TinyMCE
         }
 
         $lampiran = ob_get_clean();
+
         if (isset($input) && ! empty($input)) {
             $data['input'] = $input;
         }
@@ -804,7 +808,7 @@ class TinyMCE
         $lampiran          = $this->gantiKodeIsian($data, false);
 
         // Replace Gambar menggunakan KodeIsianGambar
-        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat);
+        $data_gambar    = KodeIsianGambar::set($data['surat'], $lampiran, $surat, true);
         $lampiran       = $data_gambar['result'];
         $surat->urls_id = $data_gambar['urls_id'];
 
@@ -950,9 +954,9 @@ class TinyMCE
     public function cetak_surat_tinymce($surat, $jenis = null)
     {
         // Cek ada file
-        // if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
-        //     return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
-        // }
+        if (file_exists(FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+            return ambilBerkas($surat->nama_surat, $this->controller, null, LOKASI_ARSIP, true);
+        }
         $input            = json_decode($surat->input, true) ?? [];
         $isi_cetak        = $surat->isi_surat;
         $nama_surat       = $surat->nama_surat;
@@ -984,8 +988,46 @@ class TinyMCE
             $this->pdfMerge->merge(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
         } catch (Html2PdfException $e) {
             $formatter = new ExceptionFormatter($e);
-            dd($formatter);
             log_message('error', $formatter->getHtmlMessage());
         }
+    }
+
+    private function updateHeightTd($html)
+    {
+        // Load the HTML into DOMDocument
+        libxml_use_internal_errors(true); // Suppress warnings for malformed HTML
+        $dom = new DOMDocument();
+        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+
+        // Find all <td> elements
+        $rows = $dom->getElementsByTagName('tr');
+
+        // Loop through each <tr> element
+        foreach ($rows as $row) {
+            // Get the height from the <tr> style
+            $rowStyle = $row->getAttribute('style');
+            if (preg_match('/height:\s*(\d+px)/', $rowStyle, $matches)) {
+                $heightValue = $matches[1]; // Extract the height value (e.g., "18px")
+
+                // Get all <td> elements within this <tr>
+                $cells = $row->getElementsByTagName('td');
+
+                // Loop through each <td> element
+                foreach ($cells as $cell) {
+                    // Set the height in the style attribute of the <td>
+                    $cellStyle = $cell->getAttribute('style');
+                    // Update or add the height to the <td> style
+                    if (! empty($cellStyle)) {
+                        $cellStyle .= ' height: ' . $heightValue . ';';
+                    } else {
+                        $cellStyle = 'height: ' . $heightValue . ';';
+                    }
+                    $cell->setAttribute('style', $cellStyle);
+                }
+            }
+        }
+
+        return $dom->saveHTML();
     }
 }

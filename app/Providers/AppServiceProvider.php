@@ -38,6 +38,7 @@
 namespace App\Providers;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->loadModuleServiceProvider();
     }
 
     /**
@@ -60,8 +62,16 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerMacrosUserStamps();
         $this->registerMacrosConfigId();
+        if (ENVIRONMENT == 'development') {
+            $this->logQuery();
+        }
     }
 
+    /**
+     * Register macro for userstamps columns.
+     *
+     * @return void
+     */
     protected function registerMacrosUserStamps()
     {
         Blueprint::macro('timesWithUserstamps', function () {
@@ -72,11 +82,53 @@ class AppServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register macro for config_id column.
+     *
+     * @return void
+     */
     protected function registerMacrosConfigId()
     {
         Blueprint::macro('configId', function () {
             $this->integer('config_id');
             $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
         });
+    }
+
+    /**
+     * Log query to file.
+     *
+     * @return void
+     */
+    private function logQuery()
+    {
+        \Illuminate\Support\Facades\DB::listen(static function (\Illuminate\Database\Events\QueryExecuted $query) {
+            File::append(
+                storage_path('/logs/query.log'),
+                $query->sql . ' [' . implode(', ', $query->bindings) . ']' . '[' . $query->time . ']' . PHP_EOL
+            );
+        });
+    }
+
+    /**
+     * Load service providers from modules.
+     *
+     * @return void
+     */
+    private function loadModuleServiceProvider()
+    {
+        $modulesPath = $this->app->basePath('Modules');
+
+        $modules = File::directories($modulesPath);
+
+        foreach ($modules as $modulePath) {
+            $moduleName = basename($modulePath);
+
+            $providerClass = "Modules\\{$moduleName}\\Providers\\{$moduleName}ServiceProvider";
+
+            if (class_exists($providerClass)) {
+                $this->app->register($providerClass);
+            }
+        }
     }
 }

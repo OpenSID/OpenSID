@@ -49,15 +49,15 @@ class KodeIsianGambar
      */
     protected $ci;
 
-    public function __construct(private $request, private $result, private $surat = null)
+    public function __construct(private $request, private $result, private $surat = null, private $lampiran = false)
     {
         $this->ci = &get_instance();
         $this->ci->load->model('surat_model');
     }
 
-    public static function set($request, $result, $surat = null): array
+    public static function set($request, $result, $surat = null, $lampiran = false): array
     {
-        return (new self($request, $result, $surat))->setKodeIsianGambar();
+        return (new self($request, $result, $surat, $lampiran))->setKodeIsianGambar();
     }
 
     public function setKodeIsianGambar(): array
@@ -85,6 +85,7 @@ class KodeIsianGambar
 
         // QR_Code Surat
         if ($this->surat && $this->request['qr_code']) {
+            // dd('in', $this->request, $this->result, $this->surat);
             $cek    = $this->surat_model->buatQrCode($this->surat->nama_surat);
             $qrcode = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
             preg_match('/<img[^>]+src="([^"]*qrcode[^"]*temp[^"]*)"/i', $this->result, $matches);
@@ -96,14 +97,20 @@ class KodeIsianGambar
                     $this->surat->update(['isi_surat' => $this->result]);
                 }
             } else {
-                if ((setting('tte') == 1 && $this->surat->verifikasi_kades == LogSurat::TERIMA) || setting('tte') == 0) {
+                // cek juga jika lampiran true maka tidak perlu verifikasi_kades
+                if ((setting('tte') == 1 && ($this->surat->verifikasi_kades == LogSurat::TERIMA || $this->lampiran)) || setting('tte') == 0) {
                     $this->result = str_replace('[qr_code]', $qrcode, $this->result);
                 }
             }
 
             $this->urls_id = $cek['urls_id'];
         } else {
-            $this->result = str_replace('[qr_code]', '', $this->result);
+            $qrcode = '';
+            if ($this->request['qr_code']) {
+                $cek    = dummyQrCode($this->header['desa']['logo']);
+                $qrcode = ($cek['viewqr']) ? '<img src="' . $cek['viewqr'] . '" width="90" height="90" alt="qrcode-surat" />' : '';
+            }
+            $this->result = str_replace('[qr_code]', $qrcode, $this->result);
         }
 
         return [

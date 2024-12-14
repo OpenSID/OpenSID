@@ -177,7 +177,9 @@ class Klasifikasi extends Admin_Controller
     public function impor()
     {
         isCan('u');
-        $data['form_action'] = ci_route('klasifikasi.proses_impor');
+        $data['form_action']       = ci_route('klasifikasi.proses_impor');
+        $data['format_impor']      = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-klasifikasi-surat.xlsx'));
+        $data['klasifikasi_surat'] = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'klasifikasi-surat.xlsx'));
 
         return view('admin.klasifikasi.import', $data);
     }

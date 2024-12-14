@@ -60,7 +60,7 @@ class Peraturan extends Web_Controller
 
                 return $item;
             });
-        $data['pilihan_tahun']  = Dokumen::distinct('tahun')->hidup()->where('kategori', '!=', 1)->pluck('tahun');
+        $data['pilihan_tahun']  = Dokumen::distinct('tahun')->hidup()->where('kategori', '!=', 1)->orderBy('tahun')->pluck('tahun');
         $data['halaman_statis'] = 'peraturan/index';
         $data['tampil']         = $cekMenu;
 

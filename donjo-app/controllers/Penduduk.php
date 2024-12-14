@@ -65,6 +65,7 @@ use App\Models\LogKeluarga;
 use App\Models\LogPenduduk;
 use App\Models\Penduduk as PendudukModel;
 use App\Models\PendudukMap;
+use App\Models\PendudukSaja;
 use App\Models\RentangUmur;
 use App\Models\StatusKtp;
 use App\Models\SyaratSurat;
@@ -239,9 +240,11 @@ class Penduduk extends Admin_Controller
                 unset($statistikFilter);
             }
 
-            $dusun = $statistikFilter['dusun'] ?? null;
-            $rw    = $statistikFilter['rw'] ?? null;
-            $rt    = $statistikFilter['rt'] ?? null;
+            $dusun     = $statistikFilter['dusun'] ?? null;
+            $rw        = $statistikFilter['rw'] ?? null;
+            $rt        = $statistikFilter['rt'] ?? null;
+            $clusterId = $statistikFilter['idCluster'] ?? null;
+
             if ($rt) {
                 [$namaDusun, $namaRw] = explode('__', $rw);
                 $idCluster            = Wilayah::whereDusun($namaDusun)->whereRw($namaRw)->whereRt($rt)->select(['id'])->get()->pluck('id')->toArray();
@@ -256,6 +259,8 @@ class Penduduk extends Admin_Controller
         if (empty($idCluster) && ! empty($dusun)) {
             $idCluster = Wilayah::whereDusun($dusun)->select(['id'])->get()->pluck('id')->toArray();
         }
+
+        if ($clusterId) $idCluster = $clusterId;
 
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
@@ -349,6 +354,8 @@ class Penduduk extends Admin_Controller
                                 $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);
                                 if ($val == BELUM_MENGISI) {
                                     $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
+                                } elseif ($val == JUMLAH || $val == 2) {
+                                    $q->where(static fn ($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
                                 }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
@@ -432,6 +439,14 @@ class Penduduk extends Admin_Controller
                         $q->where('status_kawin', StatusKawinEnum::KAWIN)
                             ->where('akta_perkawinan', '')
                             ->whereNull('tanggalperkawinan');
+                    } elseif ($statusKawin == StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT) {
+                        $q->where('status_kawin', StatusKawinEnum::CERAIHIDUP)
+                            ->where('akta_perceraian', '!=', '')
+                            ->whereNotNull('tanggalperceraian');
+                    } elseif ($statusKawin == StatusKawinSpesifikEnum::CERAIHIDUP_BELUM_TERCATAT) {
+                        $q->where('status_kawin', StatusKawinEnum::CERAIHIDUP)
+                            ->where('akta_perceraian', '')
+                            ->whereNull('tanggalperceraian');
                     } else {
                         $q->where('status_kawin', $statusKawin);
                     }
@@ -876,6 +891,19 @@ class Penduduk extends Admin_Controller
         }
         akun_demo($id);
         $penduduk = PendudukModel::findOrFail($id);
+
+        if ($bantuan = $penduduk->pesertaBantuan()->get()) {
+            $links = $bantuan->map(static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
+
+            $links = "<ul>{$links}</ul>";
+
+            redirect_with('error', "Tidak dapat menghapus penduduk karena sudah terdaftar sebagai peserta bantuan: {$links}", '', true);
+        }
+
+        if ($penduduk->logSurat()->exists()) {
+            redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar di Arsip Layanan Surat.');
+        }
+
         $penduduk->delete();
 
         redirect_with('success', 'Penduduk berhasil dihapus', ci_route('penduduk'));
@@ -993,7 +1021,7 @@ class Penduduk extends Admin_Controller
     {
         isCan('u');
 
-        $penduduk = PendudukModel::findOrFail($id);
+        $penduduk = PendudukSaja::findOrFail($id);
 
         if ($penduduk->status_dasar != StatusDasarEnum::HIDUP) {
             redirect_with('error', 'Data penduduk dengan status dasar MATI/HILANG/PINDAH tidak dapat diubah!', ci_route("penduduk.ajax_penduduk_maps.{$id}.{$edit}"));
@@ -1004,6 +1032,19 @@ class Penduduk extends Admin_Controller
         $map->lat = $data['lat'];
         $map->lng = $data['lng'];
         $map->save();
+
+        // jika penduduk adalah kepala keluarga maka ubah anggota keluarga lainnya
+        if ($penduduk->isKepalaKeluarga()) {
+            $anggotaKeluarga = PendudukSaja::with(['map'])->status(StatusDasarEnum::HIDUP)->where('id_kk', $penduduk->id_kk)->where('id', '!=', $penduduk->id)->get();
+            if (! $anggotaKeluarga->isEmpty()) {
+                foreach ($anggotaKeluarga as $anggota) {
+                    $mapAnggota      = $anggota->map ?? new PendudukMap(['id' => $anggota->id]);
+                    $mapAnggota->lat = $data['lat'];
+                    $mapAnggota->lng = $data['lng'];
+                    $mapAnggota->save();
+                }
+            }
+        }
 
         set_session('success', 'Data berhasil disimpan');
 
@@ -1178,6 +1219,8 @@ class Penduduk extends Admin_Controller
         $dusun                                 = $this->input->get('dusun') ?? null;
         $rw                                    = $this->input->get('rw') ?? null;
         $rt                                    = $this->input->get('rt') ?? null;
+        $idCluster                             = $this->input->get('idCluster') ?? null;
+
         if (! empty($dusun)) {
             $this->statistikFilter['dusun'] = $dusun;
         }
@@ -1351,7 +1394,7 @@ class Penduduk extends Admin_Controller
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
         // pengecualian untuk kia dan 18
-        if (in_array($tipe, ['18', 'kia'])) {
+        if (in_array($tipe, ['18', 'kia', 'buku-nikah'])) {
             $this->statistikFilter[$session] = rawurldecode($nomor);
         }
 
@@ -1497,7 +1540,8 @@ class Penduduk extends Admin_Controller
     public function impor()
     {
         if (config_item('demo_mode') || data_lengkap()) {
-            redirect($this->controller);
+            $msg = 'Tidak dapat melakukan impor pada mode demo atau data sudah dinyatakan lengkap';
+            redirect_with('error', $msg);
         }
 
         isCan('u');
@@ -1505,6 +1549,7 @@ class Penduduk extends Admin_Controller
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor'),
             'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
+            'formatImpor'          => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-impor-excel.xlsm')),
         ];
 
         return view('admin.penduduk.impor', $data);
@@ -1534,6 +1579,11 @@ class Penduduk extends Admin_Controller
         $data = [
             'form_action'          => ci_route('penduduk.proses_impor_bip'),
             'boleh_hapus_penduduk' => $this->impor_model->boleh_hapus_penduduk(),
+            'formatBip2012'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2012.xls')),
+            'formatBip2016'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2016.xls')),
+            'formatBipEktp'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-ektp.xls')),
+            'formatBip2016Lutim'   => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-bip-2016-luwutimur.xls')),
+            'formatBipSiak'        => ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'format-siak.xls')),
         ];
 
         return view('admin.penduduk.impor_bip', $data);
@@ -1564,6 +1614,7 @@ class Penduduk extends Admin_Controller
 
             $writer = new Writer();
             $writer->openToBrowser(namafile('penduduk') . '.xlsx');
+            $writer->getCurrentSheet()->setName('Data Penduduk');
             $writer->addRow(Row::fromValues($daftar_kolom));
             //Isi Tabel
             $paramDatatable = json_decode($this->input->get('params'), 1);

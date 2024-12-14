@@ -88,6 +88,7 @@ Route::group('/first', static function (): void {
     Route::get('/statistik/{stat?}/{tipe?}', 'First@statistik')->name('first.statistik');
     Route::get('/kelompok/{slug?}', 'First@kelompok')->name('first.kelompok');
     Route::get('/suplemen/{slug?}', 'First@suplemen')->name('first.suplemen');
+    Route::get('/kesehatan/{slug?}', 'First@kesehatan')->name('first.kesehatan');
     Route::post('/ajax_peserta_program_bantuan', 'First@ajax_peserta_program_bantuan')->name('first.ajax_peserta_program_bantuan');
     Route::get('/dpt', 'First@dpt')->name('first.dpt');
     Route::get('/get_form_info', 'First@get_form_info')->name('first.get_form_info');
@@ -183,13 +184,20 @@ Route::group('', ['namespace' => 'fweb'], static function (): void {
 
     Route::get('/status-sdgs', 'Sdgs@index')->name('fweb.sdgs.index');
     Route::get('/peta', 'Peta@index')->name('fweb.peta.index');
+    Route::get('/data-statistik/{slug}/cetak/{aksi}', 'Statistik@cetak')->name('fweb.statistik.cetak');
     Route::get('/data-statistik/{slug?}', 'Statistik@index')->name('fweb.statistik.index');
     Route::get('/data-suplemen/{slug?}', 'Suplemen@detail')->name('fweb.suplemen.detail');
+    Route::get('/data-kesehatan/cetak/{aksi?}', 'Kesehatan@cetak')->name('fweb.kesehatan.cetak');
+    Route::get('/data-kesehatan/{slug?}', 'Kesehatan@detail')->name('fweb.kesehatan.detail');
     Route::get('/data-vaksinasi', 'Vaksin@index')->name('fweb.vaksin.index');
+    Route::get('/data-dpt', 'Dpt@index')->name('fweb.dpt');
     Route::get('/v/{alias?}', 'Verifikasi_surat@cek')->name('fweb.verifikasi_surat.cek');
     Route::get('/c1/{id_dokumen?}/{tipe?}', 'Verifikasi_surat@encode')->name('fweb.verifikasi_surat.encode');
     Route::get('/verifikasi-surat/{id_encoded?}', 'Verifikasi_surat@decode')->name('fweb.verifikasi_surat.decode');
     Route::get('/verifikasi-surat-dinas/{id_encoded?}', 'Verifikasi_surat@decodeSuratDinas')->name('fweb.verifikasi_surat.decode-surat-dinas');
+
+    // Embed
+    Route::get('/embed', 'Embed@index');
 });
 
 Route::group('kehadiran', ['namespace' => 'kehadiran'], static function (): void {

@@ -19,9 +19,11 @@
                 <div class="collapse box-body no-padding" id="collapseStatPenduduk">
                     <div id="bodyContent">
                         <div class="card card-body">
-                            @foreach ($list_ref as $key => $value)
-                                <li {{ jecho($lap, $key, 'class="active"') }}><a href="{{ ci_route("statistik.chart_gis_rt.{$key}.{$link}") }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk {{ $data_title }}">{{ $value }}</a></li>
-                            @endforeach
+                            <ol class="list-unstyled">
+                                @foreach ($list_ref as $key => $value)
+                                    <li class="@active($lap == $key)"><a href="{{ ci_route("statistik_web.chart_gis_rt.{$key}.{$link}") }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Penduduk {{ $data_title }}">{{ $value }}</a></li>
+                                @endforeach
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -37,9 +39,11 @@
                     ><i class="fa fa-heart"></i>Statistik Bantuan</a></p>
                 <div class="collapse box-body no-padding" id="collapseStatBantuan">
                     <div class="card card-body">
-                        @foreach ($list_bantuan as $key => $value)
-                            <li {{ jecho($lap, $key, 'class="active"') }}><a href="{{ ci_route("statistik.chart_gis_rt.{$key}.{$link}") }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Bantuan {{ $data_title }}">{{ $value }}</a></li>
-                        @endforeach
+                        <ol class="list-unstyled">
+                            @foreach ($list_bantuan as $key => $value)
+                                <li class="@active($lap == $key)"><a href="{{ ci_route("statistik_web.chart_gis_rt.{$key}.{$link}") }}" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Statistik Bantuan {{ $data_title }}">{{ $value }}</a></li>
+                            @endforeach
+                        </ol>
                     </div>
                 </div>
             </div>

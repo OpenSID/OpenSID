@@ -75,7 +75,7 @@ class Theme extends Admin_Controller
 
         $tema = $this->unggah_tema();
 
-        redirect_with($tema['status'], $tema['data']);
+        redirect_with($tema['status'] ? 'success' : 'error', $tema['data']);
     }
 
     public function pengaturan($id = '')
@@ -167,6 +167,7 @@ class Theme extends Admin_Controller
         $config['file_name']     = $nama_tema . '.zip';
 
         $this->upload->initialize($config);
+
         if ($this->upload->do_upload('userfile')) {
             $upload = $this->upload->data();
             $zip    = new ZipArchive();

@@ -37,6 +37,7 @@
 
 use App\Enums\StatusEnum;
 use App\Enums\TampilanArtikelEnum;
+use App\Libraries\Checker;
 use App\Models\Agenda;
 use App\Models\Artikel;
 use App\Models\Kategori;
@@ -197,6 +198,7 @@ class Web extends Admin_Controller
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
             $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
             $nama_file   = trim(str_replace(' ', '_', $nama_file));
+            $nama_file   = (new Checker(get_app_key(), $nama_file))->encrypt();
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
                 $hasil     = UploadArtikel($nama_file, $gambar);
@@ -237,6 +239,7 @@ class Web extends Admin_Controller
                 if ($data['link_dokumen'] == '') {
                     $data['link_dokumen'] = $data['judul'];
                 }
+                $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
                 UploadDocument2($nama_file);
             }
         }
@@ -312,7 +315,7 @@ class Web extends Admin_Controller
             $lokasi_file = $_FILES[$gambar]['tmp_name'];
             $nama_file   = $fp . '_' . $_FILES[$gambar]['name'];
             $nama_file   = trim(str_replace(' ', '_', $nama_file));
-
+            $nama_file   = (new Checker(get_app_key(), $nama_file))->encrypt();
             if (! empty($lokasi_file)) {
                 $tipe_file = TipeFile($_FILES[$gambar]);
                 $hasil     = UploadArtikel($nama_file, $gambar);
@@ -352,6 +355,7 @@ class Web extends Admin_Controller
                 if ($data['link_dokumen'] == '') {
                     $data['link_dokumen'] = $data['judul'];
                 }
+                $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
                 UploadDocument2($nama_file);
             }
         }

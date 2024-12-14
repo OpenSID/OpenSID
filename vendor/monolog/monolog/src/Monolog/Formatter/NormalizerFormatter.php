@@ -11,7 +11,7 @@
 
 namespace Monolog\Formatter;
 
-use Monolog\DateTimeImmutable;
+use Monolog\JsonSerializableDateTimeImmutable;
 use Monolog\Utils;
 use Throwable;
 use Monolog\LogRecord;
@@ -34,15 +34,11 @@ class NormalizerFormatter implements FormatterInterface
     protected string $basePath = '';
 
     /**
-     * @param  string|null       $dateFormat The format of the timestamp: one supported by DateTime::format
-     * @throws \RuntimeException If the function json_encode does not exist
+     * @param string|null $dateFormat The format of the timestamp: one supported by DateTime::format
      */
     public function __construct(?string $dateFormat = null)
     {
         $this->dateFormat = null === $dateFormat ? static::SIMPLE_DATE : $dateFormat;
-        if (!\function_exists('json_encode')) {
-            throw new \RuntimeException('PHP\'s json extension is required to use Monolog\'s NormalizerFormatter');
-        }
     }
 
     /**
@@ -167,7 +163,7 @@ class NormalizerFormatter implements FormatterInterface
      */
     protected function normalizeRecord(LogRecord $record): array
     {
-        /** @var array<mixed> $normalized */
+        /** @var array<mixed[]|scalar|null> $normalized */
         $normalized = $this->normalize($record->toArray());
 
         return $normalized;
@@ -252,7 +248,7 @@ class NormalizerFormatter implements FormatterInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array<array-key, string|int|array<string|int|array<string>>>
      */
     protected function normalizeException(Throwable $e, int $depth = 0)
     {
@@ -326,9 +322,9 @@ class NormalizerFormatter implements FormatterInterface
 
     protected function formatDate(\DateTimeInterface $date): string
     {
-        // in case the date format isn't custom then we defer to the custom DateTimeImmutable
+        // in case the date format isn't custom then we defer to the custom JsonSerializableDateTimeImmutable
         // formatting logic, which will pick the right format based on whether useMicroseconds is on
-        if ($this->dateFormat === self::SIMPLE_DATE && $date instanceof DateTimeImmutable) {
+        if ($this->dateFormat === self::SIMPLE_DATE && $date instanceof JsonSerializableDateTimeImmutable) {
             return (string) $date;
         }
 

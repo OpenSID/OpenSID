@@ -66,6 +66,7 @@ class Drive extends \Google\Service
       "https://www.googleapis.com/auth/drive.scripts";
 
   public $about;
+  public $accessproposals;
   public $apps;
   public $changes;
   public $channels;
@@ -107,6 +108,64 @@ class Drive extends \Google\Service
               'path' => 'about',
               'httpMethod' => 'GET',
               'parameters' => [],
+            ],
+          ]
+        ]
+    );
+    $this->accessproposals = new Drive\Resource\Accessproposals(
+        $this,
+        $this->serviceName,
+        'accessproposals',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'files/{fileId}/accessproposals/{proposalId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'proposalId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'files/{fileId}/accessproposals',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'resolve' => [
+              'path' => 'files/{fileId}/accessproposals/{proposalId}:resolve',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'fileId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'proposalId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

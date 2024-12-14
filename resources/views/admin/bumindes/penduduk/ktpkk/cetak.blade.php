@@ -106,7 +106,7 @@
                                     <td>{{ $data['warganegara'] }}</td>
                                     <td>{{ strtoupper($data['nama_ayah']) }}</td>
                                     <td>{{ strtoupper($data['nama_ibu']) }}</td>
-                                    <td>{{ tgl_indo_out($data['tgl_datang']) }}</td>
+                                    <td>{{ $data['tgl_datang'] }}</td>
                                     <td>{{ $data['log']['ket'] }}</td>
                                 </tr>
                             @endforeach

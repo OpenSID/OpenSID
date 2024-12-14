@@ -255,12 +255,13 @@
 @endsection
 @include('admin.layouts.components.datetime_picker')
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('js/tinymce-651/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tinymce-72/tinymce.min.js') }}"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: 'textarea',
             height: 700,
             promotion: false,
+            sandbox_iframes: false,
             theme: 'silver',
             formats: {
                 menjorok: {

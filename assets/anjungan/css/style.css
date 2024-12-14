@@ -14,7 +14,7 @@
 .topright-icon{width:10vh;height:10.5vh;background:var(--bg-wtran1);border:var(--border-white) 1px solid;text-align:center;margin:0 0 0 10px;cursor:pointer;overflow:hidden;}
 .topright-icon:hover{background:var(--bg-wtran2);}
 .topright-icon img{width:auto;height:3.5vh;margin:1vh auto 1vh;}
-.topright-icon p{font-size:80%;margin:0;line-height:1;opacity:0.8;}
+.topright-icon p{font-size:65%;margin:0;line-height:1;opacity:0.8;}
 .anjungan-middle{position:relative;overflow:hidden;height:81vh;}
 :-webkit-full-screen .anjungan-middle{height:77vh;}
 :-ms-fullscreen .anjungan-middle{height:77vh;}

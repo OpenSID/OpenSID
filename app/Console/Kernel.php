@@ -40,17 +40,31 @@ namespace App\Console;
 use App\Exceptions\Handler;
 use App\Services\Laravel;
 use Illuminate\Console\Application as Artisan;
+use Illuminate\Console\Events\CommandFinished;
+use Illuminate\Console\Events\CommandStarting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Console\Scheduling\ScheduleRunCommand;
 use Illuminate\Contracts\Console\Kernel as KernelContract;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use RuntimeException;
+use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Throwable;
 
 class Kernel implements KernelContract
 {
+    /**
+     * The Symfony event dispatcher implementation.
+     *
+     * @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface|null
+     */
+    protected $symfonyDispatcher;
+
     /**
      * The Artisan application instance.
      *
@@ -71,7 +85,9 @@ class Kernel implements KernelContract
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\AcakData',
+        Commands\AcakDataCommand::class,
+        Commands\ViewClearCommand::class,
+        Commands\ModuleCommand::class,
     ];
 
     /**
@@ -87,6 +103,8 @@ class Kernel implements KernelContract
     ) {
         if ($this->app->runningInConsole()) {
             $this->setRequestForConsole($this->app);
+        } else {
+            $this->rerouteSymfonyCommandEvents();
         }
 
         $this->app->prepareForConsoleCommand($this->aliases);
@@ -120,6 +138,34 @@ class Kernel implements KernelContract
             [],
             $server
         ));
+    }
+
+    /**
+     * Re-route the Symfony command events to their Laravel counterparts.
+     *
+     * @internal
+     *
+     * @return $this
+     */
+    public function rerouteSymfonyCommandEvents()
+    {
+        if (null === $this->symfonyDispatcher) {
+            $this->symfonyDispatcher = new EventDispatcher();
+
+            $this->symfonyDispatcher->addListener(ConsoleEvents::COMMAND, function (ConsoleCommandEvent $event) {
+                $this->app[Dispatcher::class]->dispatch(
+                    new CommandStarting($event->getCommand()->getName(), $event->getInput(), $event->getOutput())
+                );
+            });
+
+            $this->symfonyDispatcher->addListener(ConsoleEvents::TERMINATE, function (ConsoleTerminateEvent $event) {
+                $this->app[Dispatcher::class]->dispatch(
+                    new CommandFinished($event->getCommand()->getName(), $event->getInput(), $event->getOutput(), $event->getExitCode())
+                );
+            });
+        }
+
+        return $this;
     }
 
     /**
@@ -243,6 +289,12 @@ class Kernel implements KernelContract
             $artisan = new Artisan($this->app, $this->app->make('events'), $this->app->version());
             $artisan->setName('OpenSID');
             $artisan->resolveCommands($this->getCommands());
+            $artisan->setContainerCommandLoader();
+
+            if ($this->symfonyDispatcher instanceof EventDispatcher) {
+                $artisan->setDispatcher($this->symfonyDispatcher);
+                $artisan->setSignalsToDispatchEvent();
+            }
 
             return $this->artisan = $artisan;
         }

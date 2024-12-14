@@ -36,7 +36,7 @@
 
     <div class="row">
         @foreach ($shortcut as $sc)
-            @if (can('b', $sc['akses']))
+            @can($sc['akses'] . ':baca')
                 <div class="col-lg-3 col-sm-6 col-xs-12">
                     <div class="small-box" style="background-color: {!! $sc['warna'] !!}; border-radius: 5px;">
                         <div class="inner">
@@ -50,6 +50,6 @@
                     </div>
                 </div>
             @endif
-        @endforeach
-    </div>
-@endsection
+            @endforeach
+        </div>
+    @endsection

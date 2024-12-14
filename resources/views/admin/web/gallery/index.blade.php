@@ -78,6 +78,8 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('#status').val(1).trigger('change');
+
             var parent = '{{ $parent }}';
             var TableData = $('#tabeldata').DataTable({
                 responsive: true,
@@ -86,7 +88,13 @@
                 order: [
                     [7, 'asc']
                 ],
-                ajax: "{{ ci_route('gallery.datatables') }}?parent={{ $parent }}",
+                ajax: {
+                    url: "{{ ci_route('gallery.datatables') }}",
+                    data: function(req) {
+                        req.parent = parent;
+                        req.status = $('#status').val();
+                    }
+                },
                 columns: [{
                         data: 'drag-handle',
                         class: 'padat',

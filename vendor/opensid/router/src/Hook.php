@@ -102,7 +102,8 @@ class Hook
         if($isAjax || $isWeb) {
             Route::group(
                 '/',
-                ['middleware' => [ new RouteAjaxMiddleware() ]],
+                // ['middleware' => [ new RouteAjaxMiddleware() ]],
+                [],
                 function () use ($modulesLocation) {
                     // Include all routes web.php
                     $mapModules = [];
@@ -229,7 +230,7 @@ class Hook
             foreach(explode('/', $path) as $currentSegmentIndex => $segment) {
                 $key = [];
 
-                if(preg_match('/\{(.*?)\}+/', $segment)) {
+                if (preg_match('/\{(.*?)\}+/', (string) $segment)) {
 
                     foreach ($route->params as $param) {
                         if (empty($key[$param->getSegmentIndex()])) {
@@ -243,8 +244,10 @@ class Hook
                         if ($param->segmentIndex === $currentSegmentIndex) {
                             $segment = preg_replace('/\((.*)\):/', '', $segment);
 
-                            $segment = $URI->segment($currentSegmentIndex + 1);
-                            if ($segment !== null && preg_match('#^' . $key[$currentSegmentIndex] . '$#', $segment, $matches)) {
+                            $segmentValue = $URI->segment($currentSegmentIndex + 1) ?? '';
+                            $keyValue = $key[$currentSegmentIndex] ?? '';
+
+                            if (preg_match('#^' . $keyValue . '$#', $segmentValue, $matches)) {
                                 if (isset($matches[$pcount + 1 - $scount])) {
                                     $route->params[$pcount]->value = $matches[$pcount + 1 - $scount];
                                 }

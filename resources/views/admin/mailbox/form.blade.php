@@ -5,13 +5,13 @@
 @section('title')
     <h1>
         Kotak Pesan
-        <small>{{ $pesan ? 'Ubah' : 'Tambah' }} Kotak Pesan </small>
+        <small>{{ $pesan ? 'Balas' : 'Tambah' }} Kotak Pesan </small>
     </h1>
 @endsection
 
 @section('breadcrumb')
     <li><a href="{{ ci_route('komentar') }}"> Daftar Kotak Pesan </a></li>
-    <li class="active">{{ $pesan ? 'Ubah' : 'Tambah' }} Kotak Pesan </li>
+    <li class="active">{{ $pesan ? 'Balas' : 'Tambah' }} Kotak Pesan </li>
 @endsection
 
 @section('content')

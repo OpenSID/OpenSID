@@ -2,7 +2,7 @@
 
 @php
     preg_match('/(\d+)/', $errors->first('email'), $matches);
-    
+
     $second = $matches[0] ?? 0;
 @endphp
 
@@ -47,7 +47,29 @@
 
 @push('js')
     @if (setting('google_recaptcha'))
-        {!! app('captcha')->renderJs('id') !!}
+        {!! app('captcha')->renderJs('id', true, 'recaptchaCallback') !!}
+
+        <script>
+            var recaptchaCallback = function() {
+                grecaptcha.render(document.querySelector('.g-recaptcha'), {
+                    'sitekey': '{{ setting('google_recaptcha_site_key') }}',
+                    'error-callback': function() {
+                        $.ajax({
+                            url: '{{ site_url('siteman/matikan-captcha') }}',
+                            type: 'post',
+                            success: function(response) {
+                                // Redirect to the 'siteman' URL after disabling captcha
+                                window.location.href = '{{ site_url('siteman') }}';
+                            },
+                            error: function(xhr, status, error) {
+                                // Log the error for debugging
+                                console.error('Error in captcha disabling request:', error);
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
     @endif
 
     <script>

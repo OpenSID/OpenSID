@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Checker;
+
 define('FOTO_DEFAULT_PRIA', base_url('assets/images/pengguna/kuser.png'));
 define('FOTO_DEFAULT_WANITA', base_url('assets/images/pengguna/wuser.png'));
 
@@ -188,6 +190,7 @@ function UploadFoto(?string $fupload_name, ?string $old_foto, string $dimensi = 
         // Hapus old_foto
         unlink($lokasi . $old_foto);
     }
+
     $dimensi = generateDimensi($dimensi);
     ResizeGambar($uploadedImage['full_path'], $lokasi . $fupload_name, ['width' => $dimensi['width'], 'height' => $dimensi['height']]);
 
@@ -364,7 +367,7 @@ function UploadArtikel(string $fupload_name, $gambar): bool
     $ci                      = &get_instance();
     $config['upload_path']   = LOKASI_FOTO_ARTIKEL;
     $config['allowed_types'] = 'gif|jpg|png|jpeg';
-    $ci->load->library('upload');
+    $ci->load->library('MY_Upload', null, 'upload');
     $ci->upload->initialize($config);
 
     if (! $ci->upload->do_upload($gambar)) {
@@ -801,6 +804,7 @@ function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '', st
 
     if ($_FILES['foto']['tmp_name']) {
         $nama_file .= get_extension($_FILES['foto']['name']);
+        $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
         UploadFoto($nama_file, $old_foto, $dimensi, $lokasi);
     } elseif ($foto) {
         $nama_file .= '.png';
@@ -812,7 +816,7 @@ function upload_foto_penduduk(?string $nama_file = '', ?string $dimensi = '', st
             unlink($lokasi . $old_foto);
             unlink($lokasi . 'kecil_' . $old_foto);
         }
-
+        $nama_file = (new Checker(get_app_key(), $nama_file))->encrypt();
         file_put_contents($lokasi . $nama_file, $foto);
         file_put_contents($lokasi . 'kecil_' . $nama_file, $foto);
     } else {

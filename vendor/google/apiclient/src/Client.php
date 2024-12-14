@@ -321,7 +321,7 @@ class Client
      * @param ClientInterface $authHttp optional.
      * @return array access token
      */
-    public function fetchAccessTokenWithAssertion(ClientInterface $authHttp = null)
+    public function fetchAccessTokenWithAssertion(?ClientInterface $authHttp = null)
     {
         if (!$this->isUsingApplicationDefaultCredentials()) {
             throw new DomainException(
@@ -454,7 +454,7 @@ class Client
      * @param ClientInterface $http the http client object.
      * @return ClientInterface the http client object
      */
-    public function authorize(ClientInterface $http = null)
+    public function authorize(?ClientInterface $http = null)
     {
         $http = $http ?: $this->getHttpClient();
         $authHandler = $this->getAuthHandler();
@@ -1043,7 +1043,8 @@ class Client
 
         $key = isset($config['installed']) ? 'installed' : 'web';
         if (isset($config['type']) && $config['type'] == 'service_account') {
-            // application default credentials
+            // @TODO(v3): Remove this, as it isn't accurate. ADC applies only to determining
+            // credentials based on the user's environment.
             $this->useApplicationDefaultCredentials();
 
             // set the information from the config

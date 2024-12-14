@@ -192,6 +192,7 @@ class Laravel extends Container
         'validator'                                        => 'registerValidatorBindings',
         \Illuminate\Contracts\Validation\Factory::class    => 'registerValidatorBindings',
         'view'                                             => 'registerViewBindings',
+        'view.engine.resolver'                             => 'registerViewBindings',
         \Illuminate\Contracts\View\Factory::class          => 'registerViewBindings',
     ];
 
@@ -681,6 +682,7 @@ class Laravel extends Container
     protected function registerViewBindings()
     {
         $this->singleton('view', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view'));
+        $this->singleton('view.engine.resolver', fn () => $this->loadComponent('view', ViewServiceProvider::class, 'view.engine.resolver'));
     }
 
     /**
@@ -974,7 +976,8 @@ class Laravel extends Container
         $this->loadedConfigurations    = [];
         $this->afterResolvingCallbacks = [];
 
-        static::$instance = null;
+        static::$instance          = null;
+        static::$aliasesRegistered = false;
     }
 
     /**

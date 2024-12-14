@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-if ($individu) {
+if (count($individu) > 1) {
     // pengantian pria penduduk desa
     $input['nik_pria']             = $individu['nik'];
     $input['kk_pria']              = $individu['no_kk'];

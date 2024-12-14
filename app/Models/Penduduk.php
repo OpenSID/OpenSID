@@ -45,6 +45,7 @@ use App\Enums\SasaranEnum;
 use App\Enums\SHDKEnum;
 use App\Enums\StatusDasarEnum;
 use App\Enums\StatusKawinEnum;
+use App\Enums\StatusKawinSpesifikEnum;
 use App\Enums\StatusPendudukEnum;
 use App\Scopes\AccessWilayahScope;
 use App\Traits\Author;
@@ -583,13 +584,24 @@ class Penduduk extends BaseModel
      */
     public function getStatusPerkawinanAttribute()
     {
-        return ! empty($this->status_kawin) && $this->status_kawin != StatusKawinEnum::KAWIN
-            ? $this->statusKawin->nama
-            : (
-                empty($this->akta_perkawinan) && empty($this->tanggalperkawinan)
-                    ? 'KAWIN BELUM TERCATAT'
-                    : 'KAWIN TERCATAT'
-            );
+        $status = match ($this->status_kawin) {
+            StatusKawinSpesifikEnum::KAWIN_TERCATAT => $this->isBelumTercatat($this->akta_perkawinan, $this->tanggalperkawinan)
+                    ? StatusKawinSpesifikEnum::KAWIN_BELUM_TERCATAT
+                    : StatusKawinSpesifikEnum::KAWIN_TERCATAT,
+
+            StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT => $this->isBelumTercatat($this->akta_perceraian, $this->tanggalperceraian)
+                    ? StatusKawinSpesifikEnum::CERAIHIDUP_BELUM_TERCATAT
+                    : StatusKawinSpesifikEnum::CERAIHIDUP_TERCATAT,
+
+            default => $this->status_kawin,
+        };
+
+        return StatusKawinSpesifikEnum::valueOf($status);
+    }
+
+    private function isBelumTercatat($akta, $tanggal): bool
+    {
+        return empty($akta) && empty($tanggal);
     }
 
     /**
@@ -648,6 +660,18 @@ class Penduduk extends BaseModel
     public function scopeStatusDasar($query, array $value)
     {
         return $query->whereIn('status_dasar', $value);
+    }
+
+    /**
+     * Scope query untuk mendapatkan penduduk hidup
+     *
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeHidup($query, int $value)
+    {
+        return $query->where('status_dasar', $value);
     }
 
     /**
@@ -878,6 +902,11 @@ class Penduduk extends BaseModel
         return $this->belongsTo(Bahasa::class, 'bahasa_id');
     }
 
+    public function logSurat(): HasMany
+    {
+        return $this->hasMany(LogSurat::class, 'id_pend');
+    }
+
     /**
      * Get the map associated with the Penduduk
      */
@@ -929,7 +958,7 @@ class Penduduk extends BaseModel
             'wilayah',
             'keluarga',
             'rtm',
-        ])->with(['map'])->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
+        ])->with(['map'])->hidup(StatusDasarEnum::HIDUP)->selectRaw('*')->when($groupType, static function ($r) use ($groupType) {
             if ($groupType == 'rtm') {
                 return $r->whereNotNull('id_rtm')->where('id_rtm', '!=', 0)->where(['rtm_level' => 1])->selectRaw(DB::raw('(SELECT COUNT(*) FROM tweb_penduduk p WHERE p.id_rtm != 0 and p.id_rtm = tweb_penduduk.id_rtm) as jumlah_anggota'));
             }

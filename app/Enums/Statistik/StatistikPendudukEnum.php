@@ -200,6 +200,14 @@ class StatistikPendudukEnum extends BaseEnum
     }
 
     /**
+     * Get all key label
+     */
+    public static function allKeyLabel(): array
+    {
+        return collect(self::$data)->pluck('label', 'key')->toArray();
+    }
+
+    /**
      * Get slug from key
      */
     public static function slugFromKey(mixed $key): ?string

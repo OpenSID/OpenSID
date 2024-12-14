@@ -50,7 +50,7 @@
 <div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title">
-      <a href="<?= site_url('artikel/kategori/1001') ?>"><i class="fa fa-chart-bar mr-1"></i><?= $judul_widget ?></a>
+      <i class="fa fa-chart-bar mr-1"></i><?= $judul_widget ?>
     </h3>
   </div>
   <div class="box-body">

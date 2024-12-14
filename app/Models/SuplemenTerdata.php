@@ -142,4 +142,14 @@ class SuplemenTerdata extends BaseModel
 
         return $query;
     }
+
+    public function scopeSasaranPenduduk($query)
+    {
+        return $query->where('sasaran', self::PENDUDUK);
+    }
+
+    public function scopeSasaranKeluarga($query)
+    {
+        return $query->where('sasaran', self::KELUARGA);
+    }
 }

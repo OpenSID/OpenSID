@@ -82,15 +82,24 @@ class AnggotaKeluarga extends Admin_Controller
 
         $kk            = KeluargaModel::with(['anggota', 'kepalaKeluarga'])->find($id) ?? show_404();
         $data['no_kk'] = $kk->no_kk;
-        $data['main']  = $kk->anggota->map(static function ($item) {
+        $data['main']  = $kk->anggota->map(static function ($item) use ($kk) {
+            $item->bisaPecahKK = false;
+            if ($item->kk_level != SHDKEnum::KEPALA_KELUARGA) {
+                $item->bisaPecahKK = true;
+            } else {
+                if ($kk->anggota->count() == 1) {
+                    if ($item->sex == JenisKelaminEnum::PEREMPUAN) {
+                        $item->bisaPecahKK = true;
+                    }
+                }
+            }
             $item->hubungan = SHDKEnum::valueOf($item->kk_level);
             $item->sex      = JenisKelaminEnum::valueOf($item->sex);
 
             return $item;
         })->toArray();
         $data['kepala_kk'] = $kk->kepalaKeluarga;
-        // $data['program']   = $this->program_bantuan_model->get_peserta_program(2, $kk->no_kk);
-        $data['program'] = ['programkerja' => BantuanPeserta::with(['bantuan'])->whereHas('bantuan', static fn ($q) => $q->whereSasaran(SasaranEnum::KELUARGA))->wherePeserta($kk->no_kk)->get()->toArray()];
+        $data['program']   = ['programkerja' => BantuanPeserta::with(['bantuan'])->whereHas('bantuan', static fn ($q) => $q->whereSasaran(SasaranEnum::KELUARGA))->wherePeserta($kk->no_kk)->get()->toArray()];
 
         view('admin.penduduk.keluarga.anggota.index', $data);
     }
@@ -254,7 +263,7 @@ class AnggotaKeluarga extends Admin_Controller
         $data['suku']               = SukuEnum::all();
         $data['suku_penduduk']      = Penduduk::distinct()->select('suku')->whereNotNull('suku')->whereRaw('LENGTH(suku) > 0')->pluck('suku', 'suku');
         $data['nik_sementara']      = Penduduk::nikSementara();
-        $data['status_penduduk']    = StatusPendudukEnum::all();
+        $data['status_penduduk']    = [StatusPendudukEnum::TETAP => StatusPendudukEnum::valueOf(StatusPendudukEnum::TETAP)];
         $data['controller']         = 'keluarga';
         $data['jenis_peristiwa']    = $peristiwa;
 

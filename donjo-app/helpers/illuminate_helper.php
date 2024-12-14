@@ -388,6 +388,24 @@ if (! function_exists('info')) {
     }
 }
 
+if (! function_exists('logger')) {
+    /**
+     * Log a debug message to the logs.
+     *
+     * @param string|null $message
+     *
+     * @return ($message is null ? \Illuminate\Log\LogManager : null)
+     */
+    function logger($message = null, array $context = [])
+    {
+        if (null === $message) {
+            return app('Psr\Log\LoggerInterface');
+        }
+
+        return app('Psr\Log\LoggerInterface')->debug($message, $context);
+    }
+}
+
 if (! function_exists('old')) {
     /**
      * Retrieve an old input item.
@@ -403,13 +421,13 @@ if (! function_exists('old')) {
     }
 }
 
-if (! function_exists('fake') && class_exists(\Faker\Factory::class)) {
+if (! function_exists('fake') && class_exists(Faker\Factory::class)) {
     /**
      * Get a faker instance.
      *
      * @param string|null $locale
      *
-     * @return \Faker\Generator
+     * @return Faker\Generator
      */
     function fake($locale = null)
     {
@@ -419,10 +437,10 @@ if (! function_exists('fake') && class_exists(\Faker\Factory::class)) {
 
         $locale ??= 'en_US';
 
-        $abstract = \Faker\Generator::class . ':' . $locale;
+        $abstract = Faker\Generator::class . ':' . $locale;
 
         if (! app()->bound($abstract)) {
-            app()->singleton($abstract, static fn () => \Faker\Factory::create($locale));
+            app()->singleton($abstract, static fn () => Faker\Factory::create($locale));
         }
 
         return app()->make($abstract);

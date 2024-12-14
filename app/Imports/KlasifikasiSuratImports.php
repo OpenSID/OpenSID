@@ -53,7 +53,7 @@ class KlasifikasiSuratImports
     // constructor with a parameter
     public function __construct($path = null)
     {
-        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'klasifikasi_surat.xlsx';
+        $this->path = $path ?? DEFAULT_LOKASI_IMPOR . 'klasifikasi-surat.xlsx';
     }
 
     public function import(): bool

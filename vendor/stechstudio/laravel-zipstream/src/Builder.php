@@ -27,7 +27,7 @@ class Builder implements Responsable
 
     protected Collection $meta;
 
-    protected Collection $queue;
+    protected Queue $queue;
 
     protected OutputStream $outputStream;
 
@@ -37,7 +37,7 @@ class Builder implements Responsable
 
     public function __construct(array $files = [])
     {
-        $this->queue = collect();
+        $this->queue = new Queue();
 
         foreach ($files as $key => $value) {
             if (is_string($key)) {
@@ -71,23 +71,14 @@ class Builder implements Responsable
             $source = File::make($source, $zipPath);
         }
 
-        // Don't add two files with the same zip path
-        if (!$this->queue->has($source->getZipPath())) {
-            $this->queue->put($source->getZipPath(), $source);
-        }
+        $this->queue->addItem($source);
 
         return $this;
     }
 
     public function addFromDisk($disk, $source, ?string $zipPath): self
     {
-        $source = File::makeFromDisk($disk, $source, $zipPath);
-
-        if (!$this->queue->has($source->getZipPath())) {
-            $this->queue->put($source->getZipPath(), $source);
-        }
-
-        return $this;
+        return $this->add(File::makeFromDisk($disk, $source, $zipPath));
     }
 
     public function addRaw($content, string $zipPath): self

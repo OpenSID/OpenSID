@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{ site_url('statistik/clear/13') }}">Statistik Kependudukan</a></li>
+    <li class="breadcrumb-item"><a href="{{ ci_route('statistik.penduduk.13') }}">Statistik Kependudukan</a></li>
     <li class="active">Pengaturan Rentang Umur</li>
 @endsection
 
@@ -33,7 +33,7 @@
                 <div class="box-header with-border">
                     @if (can('u'))
                         <a
-                            href="{{ ci_route('statistik.form_rentang', 0) }}"
+                            href="{{ ci_route('statistik.rentang_umur.form') }}"
                             class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                             title="Tambah Rentang Umur"
                             data-remote="false"
@@ -47,7 +47,7 @@
                                 class='fa fa-trash-o'
                             ></i> Hapus</a>
                     @endif
-                    <a href="{{ site_url('statistik/clear/13') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+                    <a href="{{ ci_route('statistik.penduduk.13') }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
                         <i class="fa fa-arrow-circle-left "></i>Kembali ke Data Statistik
                     </a>
                 </div>
@@ -80,7 +80,7 @@
                     responsive: true,
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ ci_route('statistik.datatables_rentang_umur') }}",
+                    ajax: "{{ ci_route('statistik.rentang_umur.datatables') }}",
                     columns: [{
                             data: 'ceklist',
                             class: 'padat'

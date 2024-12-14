@@ -42,27 +42,17 @@
                             aplikasi.</label>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="form-group">
-                                <label>Akses Modul</label>
-                                <select class="form-control select2 required" id="akses" name="akses" data-placeholder="Pilih Akses Modul">
+                                <label>Query</label>
+                                <select class="form-control select2 required" id="raw_query" name="raw_query" data-placeholder="Pilih Query">
                                     <option value=""></option>
-                                    @foreach ($moduls as $kslug => $mdl)
-                                        <option value="{{ $kslug }}" @selected($kslug === $shortcut->akses)>
-                                            {{ SebutanDesa($mdl) }}</option>
+                                    @foreach ($modules as $key => $value)
+                                        <option value="{{ $key }}" @selected($key === $shortcut->raw_query) data-link="{{ $value['link'] }}">Jumlah {{ $key }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>Link</label>
-                                <input name="link" class="form-control input-sm required" maxlength="200" type="text" value="{{ $shortcut->link }}">
-                                <code id="url_hasil">{{ site_url($shortcut->link) }}</code>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Icon</label>
@@ -95,37 +85,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Jenis Query</label>
-                                <select id="jenis_query" class="form-control select2 required" name="jenis_query" data-placeholder="Pilih Jenis Query">
-                                    <option value="0" @selected(0 == $shortcut->jenis_query)>Otomatis</option>
-                                    <option value="1" @selected(1 == $shortcut->jenis_query)>Manual</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-8" id="query_otomatis" {!! in_array($shortcut->jenis_query, [1]) ? 'style="display: none;"' : '' !!}>
-                            <div class="form-group">
-                                <label>Query Otomatis</label>
-                                <select class="form-control select2 required" name="query_otomatis" data-placeholder="Pilih Query">
-                                    <option value=""></option>
-                                    @foreach ($querys as $key)
-                                        <option value="{{ $key }}" @selected($key === $shortcut->raw_query)>Jumlah
-                                            {{ $key }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group" id="query_manual" {!! in_array($shortcut->jenis_query, [null, 0]) ? 'style="display: none;"' : '' !!}>
-                        <label>Query Manual</label>
-                        <textarea name="query_manual" class="form-control input-sm" rows="5" placeholder="Contoh :
-- SELECT COUNT(*) as Jumlah FROM surat WHERE status='1'
-- DB::table('produk')->count()
-- Penduduk::count()">{{ $shortcut->raw_query }}</textarea>
-                    </div>
-
                 </div>
                 <div class="box-footer">
                     <button type="reset" class="btn btn-social btn-danger btn-sm"><i class="fa fa-times"></i>
@@ -164,9 +123,10 @@
                 $('#isi-judul').text(judul);
             });
 
-            $('input[name="link"]').on('keyup', function() {
-                $('#url_hasil').text('Hasil : ' + SITE_URL + $(this).val());
-                $('#isi-link').attr('href', SITE_URL + $(this).val());
+            $('#raw_query').on('change', function() {
+                link = SITE_URL + $(this).find('option:selected').data('link');
+
+                $('#isi-link').attr('href', link)
             });
 
             $('#icon').on('change', function() {
@@ -185,17 +145,6 @@
                     $('#isi-warna').removeClass('tp02');
                 } else {
                     $('#isi-warna').addClass('tp02');
-                }
-            });
-
-            $('#jenis_query').on('change', function() {
-                var jenis_query = $(this).val();
-                if (jenis_query == '0') {
-                    $('#query_manual').hide();
-                    $('#query_otomatis').show();
-                } else {
-                    $('#query_manual').show();
-                    $('#query_otomatis').hide();
                 }
             });
         });

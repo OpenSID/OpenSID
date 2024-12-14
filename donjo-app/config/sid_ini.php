@@ -78,6 +78,17 @@ $config['demo_user'] = [
     'password' => 'sid304',
 ];
 
+/*
+|--------------------------------------------------------------------------
+| Tingkatan Penggunaaan Database
+|--------------------------------------------------------------------------
+| 1. Tingkat 1 : Tidak ada batasan
+| 2. Tingkat 2 : Provinsi, 1 provinsi bisa banyak kabupaten, kecamatan, dan desa
+| 3. Tingkat 3 : Kabupaten, 1 kabupaten bisa banyak kecamatan dan desa (Default)
+| 4. Tingkat 4 : Kecamatan, 1 kecamatan bisa banyak desa
+*/
+$config['db_level'] = 1;
+
 // Delay kirim pesan layanan mandiri web, dalam satuan detik
 $config['rentang_kirim_pesan'] = 60;
 

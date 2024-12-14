@@ -240,11 +240,7 @@
 			<td colspan=3>Kode Pos</td>
 			<?php for ($i = 0; $i < 5; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($config['kode_pos'][$i])) : ?>
-						<?= $config['kode_pos'][$i]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					<?= str_split($config['kode_pos'])[$i] ?: '&nbsp;' ?>
 				</td>
 			<?php endfor; ?>
 			<td colspan=2 style="padding-left: -2px;">Telepon</td>
@@ -396,7 +392,7 @@
 		<tr>
 			<td>4.</td>
 			<td>Status KK Bagi Yang Tidak Pindah</td>
-			<td class="kotak satu"><?= ($input['status_kk_tidak_pindah_id']) ? $input['status_kk_bagi_yang_tidak_pindah'] : '-'; ?></td>
+			<td class="kotak satu"><?= $input['status_kk_bagi_yang_tidak_pindah'] ?? '-'; ?></td>
 			<td colspan=5 class="padat">1. Numpang KK</td>
 			<td colspan=6 class="padat">2. Membuat KK Baru</td>
 			<td colspan=7 class="padat">3. Nomor KK Tetap</td>

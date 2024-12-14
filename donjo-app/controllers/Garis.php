@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Checker;
 use App\Models\Area;
 use App\Models\Garis as GarisModel;
 use App\Models\Line;
@@ -127,7 +128,7 @@ class Garis extends Admin_Controller
             $data['form_action'] = ci_route('garis.update', implode('/', [$parent, $id]));
         }
 
-        $data['list_line'] = empty($parent) ? Line::subline()->whereHas('parent')->get() : Line::child($parent)->whereHas('parent')->get();
+        $data['list_line'] = empty($parent) ? Line::root()->with(['children' => static fn ($q) => $q->select(['id', 'parrent', 'nama'])])->get() : Line::child($parent)->whereHas('parent')->get();
         $data['tip']       = $this->tip;
 
         return view('admin.peta.garis.form', $data);
@@ -277,6 +278,7 @@ class Garis extends Admin_Controller
         $nama_file  = $_FILES['foto']['name'];
         $nama_file  = time() . '-' . str_replace(' ', '-', $nama_file);      // normalkan nama file
         if (! empty($garis_file)) {
+            $nama_file    = (new Checker(get_app_key(), $nama_file))->encrypt();
             $data['foto'] = UploadPeta($nama_file, LOKASI_FOTO_GARIS);
         } else {
             unset($data['foto']);

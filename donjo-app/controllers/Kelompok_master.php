@@ -139,15 +139,18 @@ class Kelompok_master extends Admin_Controller
 
     protected function delete_kelompok($id = '')
     {
-        $result = KelompokMaster::tipe($this->tipe)
-            ->doesntHave('kelompok')
-            ->find($id);
+        $master = KelompokMaster::withCount('kelompok')->tipe($this->tipe)->find($id);
 
-        if (! $result) {
-            redirect_with('error', "Tidak dapat ditemukan / Tidak dapat dihapus karena masih terdapat data {$this->tipe}");
+        if (! $master) {
+            redirect_with('error', 'Tidak ditemukan');
         }
 
-        $result->delete();
+        if ($master->kelompok_count) {
+            $linkKelompok = '<a href="' . ci_route($this->tipe) . '?default_status_dasar=0&default_kelompok=' . $master->id . '">Periksa data</a>';
+            redirect_with('error', "Tidak dapat dihapus karena masih terdapat data {$this->tipe}. <strong>{$linkKelompok}</strong>");
+        }
+
+        $master->delete();
     }
 
     protected function validate($request = []): array

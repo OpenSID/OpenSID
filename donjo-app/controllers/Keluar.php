@@ -49,6 +49,7 @@ use App\Models\Pamong;
 use App\Models\Penduduk;
 use App\Models\PermohonanSurat;
 use App\Models\RefJabatan;
+use App\Models\SettingAplikasi;
 use App\Models\Urls;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -404,7 +405,10 @@ class Keluar extends Admin_Controller
                 'keterangan'   => $this->request['alasan'],
             ]);
 
-            return view('admin.surat.konsep', ['content' => $content, 'aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'ubah' => true]);
+            $font_option = SettingAplikasi::where('key', '=', 'font_surat')->first()->option;
+            $margins     = json_decode((string) setting('surat_margin'), null) ?? FormatSurat::MARGINS;
+
+            return view('admin.surat.konsep', ['content' => $content, 'aksi_konsep' => $aksi_konsep, 'aksi_cetak' => $aksi_cetak, 'isi_surat' => $isi_surat, 'id_surat' => $id_surat, 'ubah' => true, 'font_option' => $font_option, 'margins' => $margins]);
         }
 
         set_session('error', "Data Surat {$surat->nama} tidak ditemukan");

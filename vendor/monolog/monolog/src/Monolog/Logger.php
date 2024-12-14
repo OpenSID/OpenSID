@@ -166,7 +166,7 @@ class Logger implements LoggerInterface, ResettableInterface
 
     /**
      * @param string             $name       The logging channel, a simple descriptive name that is attached to all log records
-     * @param HandlerInterface[] $handlers   Optional stack of handlers, the first one in the array is called first, etc.
+     * @param list<HandlerInterface> $handlers   Optional stack of handlers, the first one in the array is called first, etc.
      * @param callable[]         $processors Optional array of processors
      * @param DateTimeZone|null  $timezone   Optional timezone, if not provided date_default_timezone_get() will be used
      *
@@ -323,12 +323,13 @@ class Logger implements LoggerInterface, ResettableInterface
      * @param  int                    $level    The logging level (a Monolog or RFC 5424 level)
      * @param  string                 $message  The log message
      * @param  mixed[]                $context  The log context
-     * @param  DateTimeImmutable|null $datetime Optional log date to log into the past or future
+     * @param  JsonSerializableDateTimeImmutable|null $datetime Optional log date to log into the past or future
+     *
      * @return bool                   Whether the record has been processed
      *
      * @phpstan-param value-of<Level::VALUES>|Level $level
      */
-    public function addRecord(int|Level $level, string $message, array $context = [], DateTimeImmutable|null $datetime = null): bool
+    public function addRecord(int|Level $level, string $message, array $context = [], JsonSerializableDateTimeImmutable|null $datetime = null): bool
     {
         if (\is_int($level) && isset(self::RFC_5424_LEVELS[$level])) {
             $level = self::RFC_5424_LEVELS[$level];
@@ -356,7 +357,7 @@ class Logger implements LoggerInterface, ResettableInterface
             $recordInitialized = \count($this->processors) === 0;
 
             $record = new LogRecord(
-                datetime: $datetime ?? new DateTimeImmutable($this->microsecondTimestamps, $this->timezone),
+                datetime: $datetime ?? new JsonSerializableDateTimeImmutable($this->microsecondTimestamps, $this->timezone),
                 channel: $this->name,
                 level: self::toMonologLevel($level),
                 message: $message,
@@ -518,7 +519,7 @@ class Logger implements LoggerInterface, ResettableInterface
     public function isHandling(int|string|Level $level): bool
     {
         $record = new LogRecord(
-            datetime: new DateTimeImmutable($this->microsecondTimestamps, $this->timezone),
+            datetime: new JsonSerializableDateTimeImmutable($this->microsecondTimestamps, $this->timezone),
             channel: $this->name,
             message: '',
             level: self::toMonologLevel($level),

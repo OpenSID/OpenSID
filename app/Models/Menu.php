@@ -125,12 +125,19 @@ class Menu extends BaseModel
 
     public function childrens(): HasMany
     {
-        return $this->hasMany(Menu::class, 'parrent', 'id')->with(['childrens' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->orderBy('urut')]);
+        return $this->hasMany(Menu::class, 'parrent', 'id')->where('enabled', 1)->with(['childrens' => static fn ($q) => $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->orderBy('urut')->where('enabled', 1)]);
     }
 
     protected function getLinkUrlAttribute()
     {
-        return $this->attributes['link_tipe'] == 99 ? $this->attributes['link'] : menu_slug($this->attributes['link']);
+        if ($this->attributes['link_tipe'] == 99) {
+            return $this->attributes['link'];
+        }
+        if ($this->attributes['link_tipe'] == 88) {
+            return site_url('embed?url=' . $this->attributes['link']);
+        }
+
+        return menu_slug($this->attributes['link']);
     }
 
     public function getSelfParents()
@@ -152,10 +159,7 @@ class Menu extends BaseModel
     public function tree()
     {
         return $this->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])
-            ->where('parrent', 0)->where('enabled', 1)
-            ->with(['childrens' => static function ($q): void {
-                $q->select(['id', 'nama', 'parrent', 'link_tipe', 'link'])->where('enabled', 1)->orderBy('urut');
-            }])
+            ->where('parrent', 0)->where('enabled', 1)->with('childrens')
             ->orderBy('urut')
             ->get();
     }

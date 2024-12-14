@@ -243,11 +243,13 @@ class Produk extends BaseModel
         }
 
         foreach ($list_data as $data) {
-            $foto    = json_decode($data->foto, null);
-            $counter = count($foto);
+            $foto = json_decode($data->foto, true) ?? [];
 
-            for ($i = 0; $i < $counter; $i++) {
-                unlink(LOKASI_PRODUK . $foto[$i]);
+            foreach ($foto as $file_name) {
+                $file = LOKASI_PRODUK . $file_name;
+                if (file_exists($file)) {
+                    unlink($file);
+                }
             }
         }
     }

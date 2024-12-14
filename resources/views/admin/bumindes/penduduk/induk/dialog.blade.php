@@ -59,5 +59,10 @@
         delete(_objParams.draw)
         delete(_objParams.search)
         $('input[name=params]').val(JSON.stringify(_objParams))
+
+        $('#btn-ok').on('click', function() {
+            if (!$('#validasi').valid()) return false;
+            $('#modalBox').modal('hide')
+        })
     });
 </script>

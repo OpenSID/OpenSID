@@ -1,7 +1,7 @@
 @if (setting('sinkronisasi_opendk'))
     <div class="alert alert-warning alert-dismissible">
         <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
-        Fitur Sinkronisasi Surat TTE ke kecamatan saat ini masih berupa demo menunggu proses penyempurnaan dan terdapat kecamatan yang sudah mengimplentasikan TTE.
+        Fitur Sinkronisasi Surat TTE ke {{ setting('sebutan_kecamatan') }} saat ini masih berupa demo menunggu proses penyempurnaan dan terdapat {{ setting('sebutan_kecamatan') }} yang sudah mengimplentasikan TTE.
         Kami juga menghimbau kepada seluruh pengguna memberikan masukan terkait penyempurnaan fitur ini baik dari sisi OpenSID maupun OpenDK.
         Masukan dapat disampaikan di grup telegram, forum opendesa maupun issue di github.
     </div>
@@ -63,7 +63,7 @@
                 <div class="info-box bg-orange {{ $tab_ini == 13 ? 'active' : '' }}">
                     <span class="info-box-icon"><i class="fa fa-share-square fa-nav"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Kecamatan</span>
+                        <span class="info-box-text">{{ ucwords(setting('sebutan_kecamatan')) }}</span>
                         <span class="info-box-number">{{ $widgets['kecamatan'] }}</span>
                         <div class="progress">
                             <div class="progress-bar" style="width: 100%"></div>

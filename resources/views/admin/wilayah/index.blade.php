@@ -66,8 +66,13 @@
                             <th class="padat">No</th>
                             <th class="padat">Aksi</th>
                             <th>{{ $wilayah }}</th>
-                            <th>{{ $jabatan }} {{ $wilayah }}</th>
-                            <th>NIK {{ $jabatan }} {{ $wilayah }}</th>
+                            @if ($level == 'dusun')
+                                <th>{{ ucwords(setting('sebutan_kepala_dusun')) }}</th>
+                                <th>NIK {{ ucwords(setting('sebutan_kepala_dusun')) }}</th>
+                            @else
+                                <th>{{ $jabatan }} {{ $wilayah }}</th>
+                                <th>NIK {{ $jabatan }} {{ $wilayah }}</th>
+                            @endif
                             <th style="width:5%">RW</th>
                             <th style="width:5%">RT</th>
                             <th style="width:5%">KK</th>
