@@ -145,7 +145,7 @@ if (! function_exists('redirect_with')) {
         }
 
         if (empty($to)) {
-            $to = ci()->controller;
+            $to = ci()->aliasController ?? ci()->controller;
         }
 
         return redirect($to);

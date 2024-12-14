@@ -35,6 +35,48 @@
  *
  */
 
-return [
-    'view_path' => 'anjungan',
-];
+namespace Modules\Anjungan\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+class AnjunganServiceProvider extends ServiceProvider
+{
+    /**
+     * @var string
+     */
+    protected $moduleName = 'Anjungan';
+
+    /**
+     * @var string
+     */
+    protected $moduleNameLower = 'anjungan';
+
+    /**
+     * Boot the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerViews();
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+    }
+
+    /**
+     * Register views.
+     */
+    public function registerViews(): void
+    {
+        $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
+
+        $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
+}

@@ -93,7 +93,7 @@ if (! function_exists('cek_anjungan')) {
     function cek_anjungan(): bool
     {
         // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
-        if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
             return true;
         }
 
@@ -105,7 +105,7 @@ if (! function_exists('cek_anjungan')) {
     }
 }
 
-if (! function_exists('assets_modules')) {
+if (! function_exists('module_asset')) {
     /**
      * Mengambil asset dari modul yang sedang aktif.
      *

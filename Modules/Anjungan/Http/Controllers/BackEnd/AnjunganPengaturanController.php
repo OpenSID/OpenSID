@@ -41,10 +41,13 @@ use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan_pengaturan extends AnjunganModulController
+require_once 'AnjunganBaseController.php';
+
+class AnjunganPengaturanController extends AnjunganBaseController
 {
-    public $modul_ini     = 'anjungan';
-    public $sub_modul_ini = 'pengaturan-anjungan';
+    public $modul_ini       = 'anjungan';
+    public $sub_modul_ini   = 'pengaturan-anjungan';
+    public $aliasController = 'anjungan_pengaturan';
 
     public function __construct()
     {
@@ -60,7 +63,7 @@ class Anjungan_pengaturan extends AnjunganModulController
         $data['anjungan_artikel'] = json_decode($data['pengaturan']['anjungan_artikel'], null);
         $data['slides']           = Galery::where('parrent', 0)->where('enabled', 1)->get();
 
-        return view('admin.anjungan_pengaturan.index', $data);
+        return view('anjungan::backend.pengaturan.index', $data);
     }
 
     public function update(): void

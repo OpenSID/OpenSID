@@ -45,10 +45,13 @@ use Modules\Anjungan\Models\AnjunganMenu as Menu;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan_menu extends AnjunganModulController
+require_once 'AnjunganBaseController.php';
+
+class AnjunganMenuController extends AnjunganBaseController
 {
-    public $modul_ini     = 'anjungan';
-    public $sub_modul_ini = 'anjungan-menu';
+    public $modul_ini       = 'anjungan';
+    public $sub_modul_ini   = 'anjungan-menu';
+    public $aliasController = 'anjungan_menu';
 
     public function __construct()
     {
@@ -58,7 +61,7 @@ class Anjungan_menu extends AnjunganModulController
 
     public function index()
     {
-        return view('admin.anjungan_menu.index');
+        return view('anjungan::backend.menu.index');
     }
 
     public function datatables()
@@ -128,7 +131,7 @@ class Anjungan_menu extends AnjunganModulController
             $data['menu']        = null;
         }
 
-        return view('admin.anjungan_menu.form', $data);
+        return view('anjungan::backend.menu.form', $data);
     }
 
     public function insert(): void

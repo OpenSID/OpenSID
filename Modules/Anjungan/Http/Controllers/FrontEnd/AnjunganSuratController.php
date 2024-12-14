@@ -44,7 +44,7 @@ use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
-class AnjunganSurat extends MandiriModulController
+class AnjunganSuratController extends MandiriModulController
 {
     public function __construct()
     {
@@ -79,7 +79,7 @@ class AnjunganSurat extends MandiriModulController
             'form_action'          => $form_action,
         ];
 
-        return view('anjungan.surat.buat', $data);
+        return view('anjungan::frontend.surat.buat', $data);
     }
 
     public function form($id = '')
@@ -101,7 +101,7 @@ class AnjunganSurat extends MandiriModulController
         ]);
         $this->get_data_untuk_form($surat->url_surat, $data);
 
-        return view('anjungan.surat.form', $data);
+        return view('anjungan::frontend.surat.form', $data);
     }
 
     public function getSyarat($suratMaster)
@@ -188,7 +188,7 @@ class AnjunganSurat extends MandiriModulController
                 ->make();
         }
 
-        return view('anjungan.surat.permohonan');
+        return view('anjungan::frontend.surat.permohonan');
     }
 
     protected function print_connector()
@@ -200,7 +200,7 @@ class AnjunganSurat extends MandiriModulController
         try {
             $connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port'], 5);
         } catch (Exception $e) {
-            log_message('error', $e->getMessage());
+            logger()->error($e->getMessage());
 
             return false;
         }
@@ -257,7 +257,7 @@ class AnjunganSurat extends MandiriModulController
                         'chat_id'    => $this->setting->telegram_user_id,
                     ]);
                 } catch (Exception $e) {
-                    log_message('error', $e->getMessage());
+                    logger()->error($e->getMessage());
                 }
             }
         }

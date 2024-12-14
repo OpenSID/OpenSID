@@ -40,10 +40,11 @@ use Modules\Anjungan\Models\Anjungan as AnjunganModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Anjungan extends AdminModulController
+class AnjunganController extends AdminModulController
 {
-    public $modul_ini     = 'anjungan';
-    public $sub_modul_ini = 'daftar-anjungan';
+    public $modul_ini       = 'anjungan';
+    public $sub_modul_ini   = 'daftar-anjungan';
+    public $aliasController = 'anjungan';
 
     public function __construct()
     {
@@ -53,7 +54,7 @@ class Anjungan extends AdminModulController
 
     public function index()
     {
-        return view('admin.anjungan.index');
+        return view('anjungan::backend.anjungan.index');
     }
 
     public function datatables()
@@ -121,7 +122,7 @@ class Anjungan extends AdminModulController
             $data['anjungan']    = null;
         }
 
-        return view('admin.anjungan.form', $data);
+        return view('anjungan::backend.anjungan.form', $data);
     }
 
     public function insert(): void

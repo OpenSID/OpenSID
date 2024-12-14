@@ -15,7 +15,7 @@
 @section('content')
     @include('admin.layouts.components.notifikasi')
     @if (!cek_anjungan())
-        @include('admin.anjungan.peringatan')
+        @include('anjungan::backend.anjungan.peringatan')
     @else
         <div class="box box-info">
             <div class="box-header with-border">

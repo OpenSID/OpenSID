@@ -1,4 +1,4 @@
-@extends('anjungan.beranda.index')
+@extends('anjungan::frontend.beranda.index')
 
 @push('css')
     <style>
