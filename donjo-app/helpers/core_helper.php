@@ -84,7 +84,7 @@ define('WEBSITE_DEMO', [
 define('MODUL_BAWAAN', [
     'Anjungan',
     'Analisis',
-    'Buku Tamu',
+    'BukuTamu',
     'Kehadiran',
 ]);
 
