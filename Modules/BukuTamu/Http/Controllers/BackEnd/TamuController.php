@@ -37,19 +37,19 @@
 
 require_once 'AnjunganBaseController.php';
 
-use Carbon\Carbon;
+use App\Enums\JenisKelaminEnum;
 use App\Enums\StatusEnum;
 use App\Models\RefJabatan;
-use App\Enums\JenisKelaminEnum;
-use OpenSpout\Common\Entity\Row;
-use OpenSpout\Writer\XLSX\Writer;
+use Carbon\Carbon;
+use Modules\BukuTamu\Models\KeperluanModel;
+use Modules\BukuTamu\Models\KepuasanModel;
 use Modules\BukuTamu\Models\TamuModel;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Common\Entity\Style\Border;
+use OpenSpout\Common\Entity\Style\BorderPart;
 use OpenSpout\Common\Entity\Style\Color;
 use OpenSpout\Common\Entity\Style\Style;
-use OpenSpout\Common\Entity\Style\Border;
-use Modules\BukuTamu\Models\KepuasanModel;
-use Modules\BukuTamu\Models\KeperluanModel;
-use OpenSpout\Common\Entity\Style\BorderPart;
+use OpenSpout\Writer\XLSX\Writer;
 
 class TamuController extends AnjunganBaseController
 {
@@ -118,7 +118,7 @@ class TamuController extends AnjunganBaseController
     {
         isCan('u');
 
-        $dataTamu =TamuModel::findOrFail($id);
+        $dataTamu = TamuModel::findOrFail($id);
 
         if ($dataTamu->update($this->validate())) {
             redirect_with('success', 'Berhasil Ubah Data');

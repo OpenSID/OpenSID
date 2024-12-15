@@ -37,10 +37,9 @@
 
 namespace Modules\BukuTamu\Models;
 
-use App\Traits\ConfigId;
-use App\Models\BaseModel;
 use App\Enums\JawabanKepuasanEnum;
-use Modules\BukuTamu\Models\TamuModel;
+use App\Models\BaseModel;
+use App\Traits\ConfigId;
 
 class KepuasanModel extends BaseModel
 {

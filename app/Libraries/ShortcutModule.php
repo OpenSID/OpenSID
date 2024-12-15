@@ -44,7 +44,7 @@ class ShortcutModule
         $lokasiModules = FCPATH . 'Modules';
 
         return cache('shortcut_modules', function () use ($lokasiModules) {
-            $modules       = [];
+            $modules = [];
 
             if (is_dir($lokasiModules)) {
                 $dirs = array_diff(scandir($lokasiModules), ['..', '.']);

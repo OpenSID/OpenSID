@@ -37,11 +37,11 @@
 
 namespace Modules\BukuTamu\Models;
 
-use App\Models\Sex;
-use App\Traits\ConfigId;
+use App\Enums\JenisKelaminEnum;
 use App\Models\BaseModel;
 use App\Models\RefJabatan;
-use App\Enums\JenisKelaminEnum;
+use App\Models\Sex;
+use App\Traits\ConfigId;
 use Illuminate\Support\Facades\DB;
 
 class TamuModel extends BaseModel

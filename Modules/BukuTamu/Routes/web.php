@@ -35,7 +35,6 @@
  *
  */
 
-
 // FRONTEND
 Route::group('buku-tamu', ['namespace' => 'BukuTamu/FrontEnd'], static function (): void {
     Route::get('/', 'BukuTamuController@index')->name('fweb.buku_tamu.index');

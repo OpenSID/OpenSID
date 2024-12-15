@@ -38,8 +38,6 @@
 require_once 'AnjunganBaseController.php';
 
 use Carbon\Carbon;
-use App\Models\BukuKepuasan;
-use App\Models\BukuPertanyaan;
 use Modules\BukuTamu\Models\KepuasanModel;
 use Modules\BukuTamu\Models\PertanyaanModel;
 

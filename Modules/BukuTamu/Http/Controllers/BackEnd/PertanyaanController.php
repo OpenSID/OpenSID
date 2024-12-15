@@ -38,7 +38,6 @@
 require_once 'AnjunganBaseController.php';
 
 use App\Enums\StatusEnum;
-use App\Models\BukuPertanyaan;
 use Modules\BukuTamu\Models\PertanyaanModel;
 
 class PertanyaanController extends AnjunganBaseController

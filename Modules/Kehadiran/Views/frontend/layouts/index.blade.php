@@ -30,7 +30,7 @@
     @php
         $latarKehadiran = default_file(LATAR_LOGIN . $setting->latar_kehadiran, config('app.default_latar_kehadiran'));
     @endphp
-    
+
     <style type="text/css">
         .form-left {
             background-image: url('{{ $latarKehadiran }}');

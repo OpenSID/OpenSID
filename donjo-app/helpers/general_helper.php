@@ -35,15 +35,15 @@
  *
  */
 
-use Carbon\Carbon;
-use App\Models\Menu;
-use App\Models\User;
-use App\Models\Modul;
 use App\Models\Config;
-use Illuminate\Support\Str;
+use App\Models\Menu;
+use App\Models\Modul;
 use App\Models\SettingAplikasi;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)

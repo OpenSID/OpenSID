@@ -259,6 +259,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
 
             return $item;
         })->toArray();
+
         return view('analisis::statistik_jawaban.table_print', $data);
     }
 

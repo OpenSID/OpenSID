@@ -37,8 +37,8 @@
 
 namespace Modules\BukuTamu\Models;
 
-use App\Traits\ConfigId;
 use App\Models\BaseModel;
+use App\Traits\ConfigId;
 
 class KeperluanModel extends BaseModel
 {

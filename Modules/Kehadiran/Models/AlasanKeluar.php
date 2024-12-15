@@ -37,9 +37,9 @@
 
 namespace Modules\Kehadiran\Models;
 
+use App\Models\BaseModel;
 use App\Traits\Author;
 use App\Traits\ConfigId;
-use App\Models\BaseModel;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

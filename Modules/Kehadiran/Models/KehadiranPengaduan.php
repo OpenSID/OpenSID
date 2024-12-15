@@ -37,10 +37,10 @@
 
 namespace Modules\Kehadiran\Models;
 
-use App\Models\Pamong;
-use App\Traits\ConfigId;
 use App\Models\BaseModel;
+use App\Models\Pamong;
 use App\Models\PendudukMandiri;
+use App\Traits\ConfigId;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

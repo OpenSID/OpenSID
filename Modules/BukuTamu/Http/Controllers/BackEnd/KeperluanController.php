@@ -38,7 +38,6 @@
 require_once 'AnjunganBaseController.php';
 
 use App\Enums\StatusEnum;
-use App\Models\BukuKeperluan;
 use Modules\BukuTamu\Models\KeperluanModel;
 
 class KeperluanController extends AnjunganBaseController
