@@ -159,3 +159,19 @@ if (! function_exists('module_path')) {
         return $module . DIRECTORY_SEPARATOR . $uri;
     }
 }
+
+if (! function_exists('desa_storage')) {
+    /**
+     * Mengambil file dari storage desa.
+     *
+     * @param mixed $uri
+     *
+     * @return string
+     */
+    function desa_storage(string $uri)
+    {
+        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $uri);
+
+        return DESAPATH . $uri;
+    }
+}

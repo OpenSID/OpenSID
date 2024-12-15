@@ -35,35 +35,74 @@
  *
  */
 
-namespace App\Traits;
+namespace App\Repositories;
 
-use Exception;
+use App\Models\SettingAplikasi;
+use App\Traits\Upload;
 
-trait Upload
+class SettingAplikasiRepository
 {
-    protected function upload($file, $config = [], $redirectUrl = null)
+    protected $setting;
+
+    public function __construct()
     {
-        if (! is_dir($config['upload_path'])) {
-            folder($config['upload_path'], '0755', 'htaccess1');
-        }
+        $this->setting = new SettingAplikasi();
+    }
 
-        $this->load->library('MY_Upload', null, 'upload');
-        $this->upload->initialize($config);
+    /**
+     * Mengambil semua data pengaturan.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function get()
+    {
+        return $this->setting->all();
+    }
 
-        try {
-            $upload = $this->upload->do_upload($file);
+    /**
+     * Mengambil data pengaturan berdasarkan kategori.
+     *
+     * @param string $kategori
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByKategori($kategori)
+    {
+        return $this->setting->where('kategori', $kategori)->get();
+    }
 
-            if (! $upload) {
-                redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
-            }
+    /**
+     * Mengambil pengaturan pertama berdasarkan key.
+     *
+     * @param string $key
+     *
+     * @return SettingAplikasi|null
+     */
+    public function firstByKey($key)
+    {
+        return $this->setting->where('key', $key)->first();
+    }
 
-            $uploadData = $this->upload->data();
+    /**
+     * Memperbarui pengaturan berdasarkan key.
+     *
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return bool
+     */
+    public function updateWithKey($key, $value)
+    {
+        return $this->setting->where('key', $key)->update(['value' => $value]) > 0;
+    }
 
-            return $uploadData['file_name'];
-        } catch (Exception) {
-            redirect_with('error', $this->upload->display_errors(), $redirectUrl ?? $this->controller);
-        }
-
-        return null;
+    /**
+     * Membersihkan cache query.
+     *
+     * @return void
+     */
+    public function flushCache()
+    {
+        $this->setting->flushQueryCache();
     }
 }
