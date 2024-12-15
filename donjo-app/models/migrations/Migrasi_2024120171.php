@@ -37,7 +37,6 @@
 
 use App\Enums\StatusEnum;
 use App\Models\FormatSurat;
-use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
 use App\Observers\ClearCacheObserver;
@@ -121,7 +120,7 @@ class Migrasi_2024120171 extends MY_Model
 
             if (count($akses) == 1) {
                 if (array_keys($akses)[0] == '*') {
-                    $modul->each(function ($q) use ( $idGrup, $configId, $akses) {
+                    $modul->each(function ($q) use ($idGrup, $configId, $akses) {
                         $dataInsert = [
                             'config_id' => $configId,
                             'id_grup'   => $idGrup,

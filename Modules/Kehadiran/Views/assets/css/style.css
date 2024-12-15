@@ -1,0 +1,51 @@
+.login-box,
+.register-box {
+  width: auto;
+  min-width: 200px;
+  padding: 10%;
+}
+
+h1,
+h5 {
+  color: #fff;
+}
+h1 {
+  padding: 10px 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  -webkit-text-stroke: 0;
+  text-shadow: 2px 0px 10px rgb(27 27 27 / 10%);
+  font-weight: bold;
+  font-size: calc(18px + 6 * ((100vw - 320px) / 680));
+}
+
+.form-left {
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.callout {
+  position: absolute;
+  width: 100%;
+  bottom: 5%;
+  border-radius: 0px;
+  border-left: 5px solid #ffe000;
+  margin-left: 20px;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px 20px 5px 15px;
+}
+
+.jam {
+  width: 250px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}

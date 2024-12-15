@@ -40,6 +40,7 @@ namespace App\Models;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
 use App\Enums\SasaranEnum;
+use App\Libraries\ShortcutModule;
 use App\Traits\ConfigId;
 use App\Traits\ShortcutCache;
 use Exception;
@@ -153,6 +154,8 @@ class Shortcut extends BaseModel
 
         return cache()->rememberForever('shortcut_' . ci_auth()->id, static function () use ($isAdmin): array {
             $activeShortcut = self::where('status', '=', '1')->orderBy('urut')->get();
+
+            $shorcutModules = (new ShortcutModule())->scan();
 
             return [
                 'data'    => $activeShortcut,
@@ -406,7 +409,7 @@ class Shortcut extends BaseModel
                         'akses'  => 'program-bantuan',
                         'jumlah' => Bantuan::whereSasaran(SasaranEnum::KELOMPOK)->count(),
                     ],
-                ]),
+                ])->merge($shorcutModules),
             ];
         });
     }

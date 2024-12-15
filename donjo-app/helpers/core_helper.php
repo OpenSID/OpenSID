@@ -84,6 +84,8 @@ define('WEBSITE_DEMO', [
 define('MODUL_BAWAAN', [
     'Anjungan',
     'Analisis',
+    'Buku Tamu',
+    'Kehadiran',
 ]);
 
 if (! function_exists('cek_anjungan')) {
@@ -93,7 +95,7 @@ if (! function_exists('cek_anjungan')) {
     function cek_anjungan(): bool
     {
         // Lewati pengecekan jika web demo dan terdaftar sebagai pengecualian
-        if (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO))) {
+        if (ENVIRONMENT === 'development' || (config_item('demo_mode') && (in_array(get_domain(APP_URL), WEBSITE_DEMO)))) {
             return true;
         }
 
@@ -105,7 +107,7 @@ if (! function_exists('cek_anjungan')) {
     }
 }
 
-if (! function_exists('assets_modules')) {
+if (! function_exists('module_asset')) {
     /**
      * Mengambil asset dari modul yang sedang aktif.
      *
@@ -137,5 +139,39 @@ if (! function_exists('storage_modules')) {
         $uri    = str_replace('/', DIRECTORY_SEPARATOR, $uri);
 
         return $module . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . $uri;
+    }
+}
+
+if (! function_exists('module_path')) {
+    /**
+     * Mengambil path dari modul yang sedang aktif.
+     *
+     * @param mixed $name
+     * @param mixed $path
+     *
+     * @return string
+     */
+    function module_path($name, $path)
+    {
+        $module = $name ? 'Modules/' . $name : app('ci')->moduleDirectory;
+        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $path);
+
+        return $module . DIRECTORY_SEPARATOR . $uri;
+    }
+}
+
+if (! function_exists('desa_storage')) {
+    /**
+     * Mengambil file dari storage desa.
+     *
+     * @param mixed $uri
+     *
+     * @return string
+     */
+    function desa_storage(string $uri)
+    {
+        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $uri);
+
+        return DESAPATH . $uri;
     }
 }
