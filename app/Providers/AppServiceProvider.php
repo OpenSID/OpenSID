@@ -79,6 +79,8 @@ class AppServiceProvider extends ServiceProvider
             $this->integer('created_by')->nullable();
             $this->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
             $this->integer('updated_by')->nullable();
+            $this->timestamp('deleted_at')->nullable();
+            $this->integer('deleted_by')->nullable();
         });
     }
 
