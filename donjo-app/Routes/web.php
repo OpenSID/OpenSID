@@ -54,9 +54,6 @@ Route::get('sitemap', 'Sitemap@index');
 Route::get('feed.xml', 'Feed@index');
 Route::get('feed', 'Feed@index');
 
-// Rute untuk PPID
-Route::get('ppid', 'Api_informasi_publik@ppid');
-
 // Rute untuk Artikel Lama
 Route::group('/first/artikel', static function (): void {
     Route::get('/', 'First@utama');
