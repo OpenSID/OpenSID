@@ -1569,7 +1569,7 @@ function default_file($new_file = null, $default = null)
 {
     // jika $default ada kata Module/ maka diabaikan, maka langsung kembalikan $default
     // contoh: http://opensid.test/Modules/Kehadiran/Views/assets/css/style.css
-    if (preg_match('/Modules\//', $default)) {
+    if (preg_match('/modules\//', $default)) {
         $asset = $default;
     } else {
         $asset = asset(str_replace('assets/', '', $default));

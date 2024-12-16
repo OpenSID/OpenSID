@@ -37,6 +37,7 @@
 
 namespace Modules\Kehadiran\Providers;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class KehadiranServiceProvider extends ServiceProvider
@@ -59,6 +60,7 @@ class KehadiranServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerViews();
+        $this->registerAssets();
     }
 
     /**
@@ -75,5 +77,16 @@ class KehadiranServiceProvider extends ServiceProvider
         $sourcePath = FCPATH . 'Modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'Views';
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
+
+    public function registerAssets()
+    {
+        $publicPath = FCPATH . 'assets/modules/' . $this->moduleNameLower;
+        $assetPath = FCPATH . 'Modules/' . $this->moduleName . '/Views/assets';
+
+        if (!File::exists($publicPath)) {
+            File::ensureDirectoryExists(dirname($publicPath), 0755);
+            File::link($assetPath, $publicPath);
+        }
     }
 }

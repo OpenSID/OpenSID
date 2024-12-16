@@ -67,6 +67,7 @@ php.ini
 
 # Ignore all files in Modules
 Modules/*
+/assets/modules/*
 
 # Do not ignore Anjungan folder and its contents
 !Modules/Anjungan/
