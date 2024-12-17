@@ -38,7 +38,6 @@
 namespace App\Repositories;
 
 use App\Models\SettingAplikasi;
-use App\Traits\Upload;
 
 class SettingAplikasiRepository
 {

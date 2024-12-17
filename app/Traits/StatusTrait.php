@@ -59,7 +59,7 @@ trait StatusTrait
      */
     public function scopeStatus($query, $status)
     {
-        return $query->when($status !== '', function ($query) {
+        return $query->when($status !== '', static function ($query) {
             $query->where(self::getStatusColumn(), StatusEnum::YA);
         });
     }
@@ -91,8 +91,9 @@ trait StatusTrait
     /**
      * Mengubah status data.
      *
-     * @param mixed $id ID data yang akan diubah. Bisa berupa string (UUID) atau integer.
-     * @param bool $onlyOne Jika true, hanya satu data yang bisa aktif.
+     * @param mixed $id      ID data yang akan diubah. Bisa berupa string (UUID) atau integer.
+     * @param bool  $onlyOne Jika true, hanya satu data yang bisa aktif.
+     *
      * @return bool Mengembalikan true jika status berhasil diubah, false jika gagal.
      */
     public static function updateStatus($id, bool $onlyOne = false): bool

@@ -85,9 +85,9 @@ class BukuTamuServiceProvider extends ServiceProvider
     public function registerAssets()
     {
         $publicPath = FCPATH . 'assets/modules/' . $this->moduleNameLower;
-        $assetPath = FCPATH . 'Modules/' . $this->moduleName . '/Views/assets';
+        $assetPath  = FCPATH . 'Modules/' . $this->moduleName . '/Views/assets';
 
-        if (!File::exists($publicPath)) {
+        if (! File::exists($publicPath)) {
             File::ensureDirectoryExists(dirname($publicPath), 0755);
             File::link($assetPath, $publicPath);
         }

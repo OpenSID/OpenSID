@@ -137,6 +137,8 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register macro for slug column.
      *
+     * @param mixed $uniqueColumns
+     *
      * @return void
      */
     protected function registerMacrosSlug($uniqueColumns = ['config_id', 'slug'])

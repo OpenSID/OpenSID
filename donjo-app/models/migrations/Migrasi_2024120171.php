@@ -35,16 +35,14 @@
  *
  */
 
-use App\Models\Modul;
-use App\Models\UserGrup;
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
 use App\Models\FormatSurat;
-use Illuminate\Support\Facades\DB;
 use App\Observers\ClearCacheObserver;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use App\Services\Install\CreateGrupAksesService;
+use App\Traits\Migrator;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
