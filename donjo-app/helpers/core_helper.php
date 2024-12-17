@@ -84,7 +84,7 @@ define('WEBSITE_DEMO', [
 define('MODUL_BAWAAN', [
     'Anjungan',
     'Analisis',
-    'Buku Tamu',
+    'BukuTamu',
     'Kehadiran',
 ]);
 
@@ -117,11 +117,9 @@ if (! function_exists('module_asset')) {
      */
     function module_asset(string $uri)
     {
-        $module = app('ci')->router->fetch_module();
+        $module = strtolower(app('ci')->router->fetch_module());
 
-        // TODO:: file asset harusnya di symlink ke public/assets
-
-        return base_url('Modules/' . $module . '/Views/assets/' . $uri);
+        return asset("modules/{$module}/{$uri}");
     }
 }
 
@@ -135,10 +133,7 @@ if (! function_exists('storage_modules')) {
      */
     function module_storage(string $uri)
     {
-        $module = app('ci')->moduleDirectory;
-        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $uri);
-
-        return $module . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . $uri;
+        return app('ci')->moduleDirectory . DIRECTORY_SEPARATOR . 'Storage' . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $uri);
     }
 }
 
@@ -153,10 +148,9 @@ if (! function_exists('module_path')) {
      */
     function module_path($name, $path)
     {
-        $module = $name ? 'Modules/' . $name : app('ci')->moduleDirectory;
-        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $path);
+        $module = $name ? "Modules/{$name}" : app('ci')->moduleDirectory;
 
-        return $module . DIRECTORY_SEPARATOR . $uri;
+        return $module . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $path);
     }
 }
 
@@ -170,8 +164,6 @@ if (! function_exists('desa_storage')) {
      */
     function desa_storage(string $uri)
     {
-        $uri    = str_replace('/', DIRECTORY_SEPARATOR, $uri);
-
-        return DESAPATH . $uri;
+        return DESAPATH . str_replace('/', DIRECTORY_SEPARATOR, $uri);
     }
 }
