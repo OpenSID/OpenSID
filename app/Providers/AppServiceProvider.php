@@ -60,11 +60,37 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerMacrosUserStamps();
-        $this->registerMacrosConfigId();
+        $this->registerMacros();
         if (ENVIRONMENT == 'development') {
             $this->logQuery();
         }
+    }
+
+    /**
+     * Register custom macros.
+     *
+     * @return void
+     */
+    protected function registerMacros()
+    {
+        $this->registerMacrosConfigId();
+        $this->registerMacrosUserStamps();
+        $this->registerMacrosStatus();
+        $this->registerMacrosUrut();
+        $this->registerMacrosSlug();
+    }
+
+    /**
+     * Register macro for config_id column.
+     *
+     * @return void
+     */
+    protected function registerMacrosConfigId()
+    {
+        Blueprint::macro('configId', function () {
+            $this->integer('config_id');
+            $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+        });
     }
 
     /**
@@ -85,15 +111,39 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register macro for config_id column.
+     * Register macro for status column.
      *
      * @return void
      */
-    protected function registerMacrosConfigId()
+    protected function registerMacrosStatus()
     {
-        Blueprint::macro('configId', function () {
-            $this->integer('config_id');
-            $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
+        Blueprint::macro('status', function () {
+            $this->tinyInteger('status')->default(0);
+        });
+    }
+
+    /**
+     * Register macro for urut column.
+     *
+     * @return void
+     */
+    protected function registerMacrosUrut()
+    {
+        Blueprint::macro('urut', function () {
+            $this->integer('urut')->default(0);
+        });
+    }
+
+    /**
+     * Register macro for slug column.
+     *
+     * @return void
+     */
+    protected function registerMacrosSlug($uniqueColumns = ['config_id', 'slug'])
+    {
+        Blueprint::macro('slug', function () use ($uniqueColumns) {
+            $this->string('slug')->nullable();
+            $this->unique($uniqueColumns);
         });
     }
 
