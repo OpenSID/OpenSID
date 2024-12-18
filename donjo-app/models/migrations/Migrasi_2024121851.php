@@ -35,12 +35,21 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2024121151 extends MY_Model
+class Migrasi_2024121851 extends MY_Model
 {
     public function up()
     {
-        return true;
+        return $this->migrasi_2024121752(true);
+    }
+
+    public function migrasi_2024121752($hasil)
+    {
+        DB::statement("update tweb_surat_format set syarat_surat = NULL where syarat_surat = 'null'");
+
+        return $hasil;
     }
 }
