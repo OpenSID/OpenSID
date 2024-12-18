@@ -43,6 +43,10 @@ trait Upload
 {
     protected function upload($file, $config = [], $redirectUrl = null)
     {
+        if (! is_dir($config['upload_path'])) {
+            folder($config['upload_path'], '0755', 'htaccess1');
+        }
+
         $this->load->library('MY_Upload', null, 'upload');
         $this->upload->initialize($config);
 

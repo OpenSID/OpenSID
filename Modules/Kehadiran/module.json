@@ -1,0 +1,10 @@
+{
+    "name": "Contoh",
+    "alias": "Modul Contoh",
+    "description": "Mempermudah bukan mempersulit",
+    "keywords": [],
+    "priority": 0,
+    "providers": [],
+    "files": [],
+    "version": "1.0.1"
+}

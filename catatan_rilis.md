@@ -1,4 +1,4 @@
-Di rilis ini, versi 2412.0.1 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 2412.0.2 berisi [untuk diisi] dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 
@@ -35,7 +35,10 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8785](https://github.com/OpenSID/OpenSID/issues/8785) Penyesuaian collation database menggunakan utf8mb4_general_ci.
 2. [#8789](https://github.com/OpenSID/OpenSID/issues/8789) Penyesuaian lokasi anggota keluarga saat lokasi kepala keluarga diubah.
 3. [#8790](https://github.com/OpenSID/OpenSID/issues/8790) Penyesuaian link kategori artikel statis yang tidak digunakan.
-3. [#8801](https://github.com/OpenSID/OpenSID/issues/8801) Gunakan format log laravel agar seragam.
+4. [#8801](https://github.com/OpenSID/OpenSID/issues/8801) Gunakan format log laravel agar seragam.
+5. [#8782](https://github.com/OpenSID/OpenSID/issues/8782) Penyesuaian penggunaan data null pada tabel tweb_surat_format.
+
+
 ### KEAMANAN
 
 1. [#4308](https://github.com/OpenSID/premium/issues/4308) Peningkatan pembatasan akses pada folder .git dan .github.

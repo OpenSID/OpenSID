@@ -41,6 +41,9 @@ Route::group('internal_api', ['namespace' => 'internal_api'], static function ()
     Route::get('wilayah/get_rw', 'Wilayah@get_rw');
     Route::get('wilayah/get_rt', 'Wilayah@get_rt');
     Route::get('apipenduduksuplemen', 'Suplemen@apipenduduksuplemen');
+
+    // Rute untuk PPID
+    Route::get('ppid', 'Api_informasi_publik@ppid');
 });
 
 // Eksternal API

@@ -37,13 +37,14 @@
 
 namespace App\Models;
 
+use Exception;
+use App\Traits\ConfigId;
+use App\Enums\StatusEnum;
+use App\Enums\SasaranEnum;
+use App\Traits\ShortcutCache;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
-use App\Enums\SasaranEnum;
-use App\Enums\StatusEnum;
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Exception;
+use App\Libraries\ShortcutModule;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -154,6 +155,8 @@ class Shortcut extends BaseModel
 
         return cache()->rememberForever('shortcut_' . ci_auth()->id, static function () use ($isAdmin): array {
             $activeShortcut = self::where('status', '=', '1')->orderBy('urut')->get();
+
+            $shorcutModules = (new ShortcutModule())->scan();
 
             return [
                 'data'    => $activeShortcut,
@@ -497,7 +500,7 @@ class Shortcut extends BaseModel
                         'akses'  => 'administrasi-umum',
                         'jumlah' => DokumenHidup::peraturanDesa(3)->nonActive()->count(),
                     ],
-                ]),
+                ])->merge($shorcutModules),
             ];
         });
     }

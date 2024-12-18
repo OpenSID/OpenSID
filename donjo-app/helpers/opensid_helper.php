@@ -1567,7 +1567,15 @@ function gelar($gelar_depan = null, $nama = null, $gelar_belakang = null)
 
 function default_file($new_file = null, $default = null)
 {
-    return file_exists(FCPATH . $new_file) ? asset($new_file, false) : asset(str_replace('assets/', '', $default));
+    // jika $default ada kata Module/ maka diabaikan, maka langsung kembalikan $default
+    // contoh: http://opensid.test/Modules/Kehadiran/Views/assets/css/style.css
+    if (preg_match('/modules\//', $default)) {
+        $asset = $default;
+    } else {
+        $asset = asset(str_replace('assets/', '', $default));
+    }
+
+    return file_exists(FCPATH . $new_file) ? asset($new_file, false) : $asset;
 }
 
 // https://stackoverflow.com/questions/6824002/capitalize-last-letter-of-a-string
