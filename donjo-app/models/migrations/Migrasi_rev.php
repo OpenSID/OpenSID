@@ -35,18 +35,28 @@
  *
  */
 
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_rev extends MY_Model
 {
     public function up()
     {
-        return true;
+        $hasil = true;
 
+        return $this->migrasi_2024121752($hasil);
         // Migrasi berdasarkan config_id
         // $config_id = DB::table('config')->pluck('id')->toArray();
 
         // foreach ($config_id as $id) {
         // }
+    }
+
+    public function migrasi_2024121752($hasil)
+    {
+        DB::statement("update tweb_surat_format set syarat_surat = NULL where syarat_surat = 'null'");
+
+        return $hasil;
     }
 }

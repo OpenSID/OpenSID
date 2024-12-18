@@ -497,7 +497,7 @@ class Surat_master extends Admin_Controller
             'satuan_masa_berlaku'      => $request['satuan_masa_berlaku'],
             'jenis'                    => $jenis,
             'mandiri'                  => $request['mandiri'],
-            'syarat_surat'             => $request['mandiri'] ? json_encode($request['id_cb']) : null,
+            'syarat_surat'             => $request['mandiri'] ? ($request['id_cb'] ? json_encode($request['id_cb']) : null) : null,
             'qr_code'                  => $request['qr_code'],
             'logo_garuda'              => $request['logo_garuda'],
             'kecamatan'                => (int) ((setting('tte') == StatusEnum::YA) ? $request['kecamatan'] : 0),
