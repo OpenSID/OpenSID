@@ -35,6 +35,10 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
+require_once FCPATH . 'Modules/Analisis/Http/Controllers/AnalisisResponController.php';
+
 use App\Traits\Upload;
 use Illuminate\Support\Facades\DB;
 use Modules\Analisis\Models\AnalisisIndikator;
@@ -42,11 +46,7 @@ use Modules\Analisis\Models\AnalisisParameter;
 use Modules\Analisis\Models\AnalisisPeriode;
 use Modules\Analisis\Models\AnalisisRespon;
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
-require_once 'ANalisisResponController.php';
-
-class AnalisisResponChildController extends ANalisisResponController
+class AnalisisResponChildController extends AnalisisResponController
 {
     use Upload;
 

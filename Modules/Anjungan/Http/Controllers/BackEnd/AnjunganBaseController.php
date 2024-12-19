@@ -37,8 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-require_once 'AnjunganBaseController.php';
-
 class AnjunganBaseController extends AdminModulController
 {
     public function __construct()
