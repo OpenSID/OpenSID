@@ -35,7 +35,9 @@
  *
  */
 
-require_once 'AnjunganBaseController.php';
+defined('BASEPATH') || exit('No direct script access allowed');
+
+require_once FCPATH . 'Modules/BukuTamu/Http/Controllers/BackEnd/AnjunganBaseController.php';
 
 use Carbon\Carbon;
 use Modules\BukuTamu\Models\KepuasanModel;

@@ -35,13 +35,13 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
+require_once FCPATH . 'Modules/Anjungan/Http/Controllers/BackEnd/AnjunganBaseController.php';
+
 use App\Models\Galery;
 use App\Models\Kategori;
 use App\Models\SettingAplikasi;
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-require_once 'AnjunganBaseController.php';
 
 class AnjunganPengaturanController extends AnjunganBaseController
 {
