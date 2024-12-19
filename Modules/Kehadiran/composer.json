@@ -1,10 +1,10 @@
 {
-	"name": "opensid-modules/template",
-	"description": "Template untuk pengembangan Modul OpenSID",
+	"name": "opensid-modules/kehadiran",
+	"description": "Modul Kehadiran untuk OpenSID",
 	"license": "GPL-3.0-or-later",
 	"type": "library",
 	"keywords": [
-		"template",
+		"kehadiran",
 		"modules",
 		"opensid"
 	],
