@@ -81,7 +81,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosUrut();
         $this->registerMacrosSlug();
 
-        // tambahkan Schema::dropIfExistsDBGabungan('table_name') untuk menghapus tabel yang memiliki gabungan
         $this->registerMacrosDropIfExistsDBGabungan();
     }
 
@@ -164,7 +163,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
