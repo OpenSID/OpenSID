@@ -59,7 +59,6 @@ class SettingSeeder extends Seeder
 
         $this->createSettings([
             [
-                'config_id'  => $id,
                 'judul'      => 'Rentang Waktu Masuk',
                 'key'        => 'rentang_waktu_masuk',
                 'value'      => '10',
@@ -75,7 +74,6 @@ class SettingSeeder extends Seeder
                 'kategori' => 'Kehadiran',
             ],
             [
-                'config_id'  => $id,
                 'judul'      => 'Rentang Waktu Keluar',
                 'key'        => 'rentang_waktu_keluar',
                 'value'      => '10',
@@ -91,7 +89,6 @@ class SettingSeeder extends Seeder
                 'kategori' => 'Kehadiran',
             ],
             [
-                'config_id'  => $id,
                 'judul'      => 'Id Pengunjung Kehadiran',
                 'key'        => 'id_pengunjung_kehadiran',
                 'value'      => null,
@@ -104,7 +101,6 @@ class SettingSeeder extends Seeder
                 'kategori'   => 'Kehadiran',
             ],
             [
-                'config_id'  => $id,
                 'judul'      => 'Latar Kehadiran',
                 'key'        => 'latar_kehadiran',
                 'value'      => null,
@@ -113,7 +109,6 @@ class SettingSeeder extends Seeder
                 'kategori'   => 'Kehadiran',
             ],
             [
-                'config_id'  => $id,
                 'judul'      => 'MAC Adress Kehadiran',
                 'key'        => 'mac_adress_kehadiran',
                 'value'      => null,
@@ -126,7 +121,6 @@ class SettingSeeder extends Seeder
                 'kategori'   => 'kehadiran',
             ],
             [
-                'config_id'  => $id,
                 'judul'      => 'IP Adress Kehadiran',
                 'key'        => 'ip_adress_kehadiran',
                 'value'      => null,

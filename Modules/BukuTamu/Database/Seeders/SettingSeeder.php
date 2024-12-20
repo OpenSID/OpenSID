@@ -59,7 +59,6 @@ class SettingSeeder extends Seeder
 
         $this->createSettings([
             [
-                'config_id'  => $id,
                 'judul'      => 'Buku Tamu Kamera',
                 'key'        => 'buku_tamu_kamera',
                 'value'      => StatusEnum::YA,
