@@ -1,6 +1,6 @@
 {
 	"name": "opensid-modules/buku-tamu",
-	"description": "Buku TTamu untuk pengembangan Modul OpenSID",
+	"description": "Modul Buku Tamu untuk OpenSID",
 	"license": "GPL-3.0-or-later",
 	"type": "library",
 	"keywords": [

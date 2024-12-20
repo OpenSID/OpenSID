@@ -98,6 +98,10 @@ class CreateGrupAksesService
         foreach ($hakAksesBawaan as $role => $akses) {
             $idGrup = UserGrup::withoutConfigId($configId)->where('slug', $role)->first()->id;
 
+            if (! $idGrup) {
+                continue;
+            }
+
             if (count($akses) == 1) {
                 if (array_keys($akses)[0] == '*') {
                     $modul->each(function ($q) use ($idGrup, $configId, $akses) {
