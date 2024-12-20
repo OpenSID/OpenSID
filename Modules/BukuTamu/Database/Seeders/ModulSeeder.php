@@ -37,13 +37,9 @@
 
 namespace Modules\BukuTamu\Database\Seeders;
 
-use App\Models\Modul;
-use App\Models\UserGrup;
 use App\Traits\Migrator;
-use App\Enums\StatusEnum;
-use App\Models\GrupAkses;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class ModulSeeder extends Seeder
 {
@@ -74,36 +70,36 @@ class ModulSeeder extends Seeder
         // Sub Menu
         $this->createModuls([
             [
-                'modul'      => 'Data Tamu',
-                'slug'       => 'data-tamu',
-                'url'        => 'buku_tamu',
-                'ikon'       => 'fa-bookmark-o',
-                'level'      => 2,
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Tamu',
+                'slug'        => 'data-tamu',
+                'url'         => 'buku_tamu',
+                'ikon'        => 'fa-bookmark-o',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
             [
-                'modul'      => 'Data Kepuasan',
-                'slug'       => 'data-kepuasan',
-                'url'        => 'buku_kepuasan',
-                'ikon'       => 'fa-smile-o',
-                'level'      => 2,
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Kepuasan',
+                'slug'        => 'data-kepuasan',
+                'url'         => 'buku_kepuasan',
+                'ikon'        => 'fa-smile-o',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
             [
-                'modul'      => 'Data Pertanyaan',
-                'slug'       => 'data-pertanyaan',
-                'url'        => 'buku_pertanyaan',
-                'ikon'       => 'fa-question',
-                'level'      => 2,
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Pertanyaan',
+                'slug'        => 'data-pertanyaan',
+                'url'         => 'buku_pertanyaan',
+                'ikon'        => 'fa-question',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
             [
-                'modul'      => 'Data Keperluan',
-                'slug'       => 'data-keperluan',
-                'url'        => 'buku_keperluan',
-                'ikon'       => 'fa-send',
-                'level'      => 2,
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Keperluan',
+                'slug'        => 'data-keperluan',
+                'url'         => 'buku_keperluan',
+                'ikon'        => 'fa-send',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
         ]);
     }

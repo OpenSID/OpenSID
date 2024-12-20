@@ -229,9 +229,9 @@ trait Migrator
     {
         $akses = new GrupAkses();
         $akses = $akses->withoutGlobalScope('config_id');
-        
+
         $data['config_id'] ??= identitas('id');
-        
+
         $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
     }
 }

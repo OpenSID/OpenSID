@@ -37,7 +37,6 @@
 
 namespace App\Providers;
 
-use Closure;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -158,11 +157,14 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register macro for dropIfExistsDBGabungan.
      *
+     * @param mixed|null $table
+     * @param mixed|null $model
+     *
      * @return void
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
@@ -172,7 +174,6 @@ class AppServiceProvider extends ServiceProvider
             }
         });
     }
-
 
     /**
      * Log query to file.

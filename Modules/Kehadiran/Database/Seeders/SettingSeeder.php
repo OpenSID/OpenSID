@@ -37,10 +37,10 @@
 
 namespace Modules\Kehadiran\Database\Seeders;
 
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
-use Illuminate\Database\Seeder;
+use App\Traits\Migrator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
 {
@@ -93,12 +93,12 @@ class SettingSeeder extends Seeder
                 'key'        => 'id_pengunjung_kehadiran',
                 'value'      => null,
                 'keterangan' => 'ID Pengunjung Perangkat Kehadiran',
-                'jenis'     => 'input-text',
-                'attribute' => [
+                'jenis'      => 'input-text',
+                'attribute'  => [
                     'class'       => 'alfanumerik',
                     'placeholder' => 'ad02c373c2a8745d108aff863712fe92',
                 ],
-                'kategori'   => 'Kehadiran',
+                'kategori' => 'Kehadiran',
             ],
             [
                 'judul'      => 'Latar Kehadiran',
@@ -118,31 +118,31 @@ class SettingSeeder extends Seeder
                     'class'       => 'mac_address',
                     'placeholder' => '00:1B:44:11:3A:B7',
                 ],
-                'kategori'   => 'kehadiran',
+                'kategori' => 'kehadiran',
             ],
             [
                 'judul'      => 'IP Adress Kehadiran',
                 'key'        => 'ip_adress_kehadiran',
                 'value'      => null,
                 'keterangan' => 'IP Address Perangkat Kehadiran',
-                'jenis'     => 'input-text',
-                'attribute' => [
+                'jenis'      => 'input-text',
+                'attribute'  => [
                     'class'       => 'ip_address',
                     'placeholder' => '127.0.0.1',
                 ],
-                'attribute'  => 'class="ip_address" placeholder="127.0.0.1"',
-                'kategori'   => 'Kehadiran',
+                'attribute' => 'class="ip_address" placeholder="127.0.0.1"',
+                'kategori'  => 'Kehadiran',
             ],
             [
                 'judul'      => 'Tampilkan Kehadiran',
                 'key'        => 'tampilkan_kehadiran',
                 'value'      => StatusEnum::YA,
                 'keterangan' => 'Aktif / Non-aktifkan Halaman Website Kehadiran',
-                'jenis'     => 'select-boolean',
-                'attribute' => [
+                'jenis'      => 'select-boolean',
+                'attribute'  => [
                     'class' => 'required',
                 ],
-                'kategori'   => 'Kehadiran',
+                'kategori' => 'Kehadiran',
             ],
         ]);
     }

@@ -41,32 +41,52 @@ use Illuminate\Console\GeneratorCommand;
 
 class SeedMakeCommand extends GeneratorCommand
 {
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
     protected $signature   = 'module:make-seeder {name} {module}';
-    protected $description = 'Create a new module seeder in the specified module folder';
 
-    protected function rootNamespace()
-    {
-        return 'Modules\\' . $this->argument('module') . '\Database\Seeders';
-    }
-
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
     protected function getStub()
     {
         return base_path('app/Console/Commands/Modules/Stubs/seed.stub');
     }
 
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $this->rootNamespace();
-    }
-
+    /**
+     * Get the destination class path.
+     *
+     * @param  string  $name
+     * @return string
+     */
     protected function getPath($name)
     {
         return base_path('Modules/' . $this->argument('module') . '/Database/Seeders/' . $this->argument('name') . '.php');
     }
 
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
     public function handle(): void
     {
         parent::handle();
         $this->info('Seeder has been created successfully!');
+    }
+
+    /**
+     * Get the root namespace for the class.
+     *
+     * @return string
+     */
+    protected function rootNamespace()
+    {
+        return 'Modules\\' . $this->argument('module') . '\Database\Seeders';
     }
 }
