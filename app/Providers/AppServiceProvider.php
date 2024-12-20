@@ -166,7 +166,9 @@ class AppServiceProvider extends ServiceProvider
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
-                $model::withoutConfigId(identitas('id'))->delete();
+                if (Schema::hasTable($table)) {
+                    $model::withoutConfigId(identitas('id'))->delete();
+                }
             }
         });
     }
