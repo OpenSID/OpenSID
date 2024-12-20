@@ -892,6 +892,10 @@ class Penduduk extends Admin_Controller
         akun_demo($id);
         $penduduk = PendudukModel::findOrFail($id);
 
+        if ($penduduk->pamongUser()->exists()) {
+            redirect_with('error', 'Tidak dapat menghapus penduduk karena sudah terdaftar sebagai pengguna.');
+        }
+
         if ($bantuan = $penduduk->pesertaBantuan()->get()) {
             $links = $bantuan->map(static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
 
