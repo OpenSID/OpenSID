@@ -59,6 +59,7 @@ class KehadiranServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerConfig();
         $this->registerViews();
         $this->registerAssets();
     }
@@ -70,6 +71,19 @@ class KehadiranServiceProvider extends ServiceProvider
      */
     public function register()
     {
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/config.php',
+            $this->moduleNameLower
+        );
     }
 
     public function registerViews(): void

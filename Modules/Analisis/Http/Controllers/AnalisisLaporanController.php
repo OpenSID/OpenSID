@@ -80,7 +80,7 @@ class AnalisisLaporanController extends AdminModulController
     public function index($master)
     {
         $data = [
-            'judul'            => Analisis::judul_subjek($this->analisisMaster->subjek_tipe),
+            'judul'            => Analisis::judulSubjek($this->analisisMaster->subjek_tipe),
             'list_klasifikasi' => AnalisisKlasifikasi::where('id_master', $master)->get(),
             'analisis_periode' => $this->periodeAktif->id,
             'wilayah'          => Wilayah::treeAccess(),
@@ -92,7 +92,7 @@ class AnalisisLaporanController extends AdminModulController
 
     public function datatables($master)
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $sumberData = $this->sumberData();
 
             return datatables()->of($sumberData)
@@ -163,9 +163,9 @@ class AnalisisLaporanController extends AdminModulController
     }
 
     // $aksi = cetak/unduh
-    public function dialog_kuisioner($master, $id, $aksi = '')
+    public function dialogKuisioner($master, $id, $aksi = '')
     {
-        $data                = $this->modal_penandatangan();
+        $data                = $this->modal_penandatangan(); // TODO:: Sesuaikan dulu di controller utama
         $data['aksi']        = ucwords((string) $aksi);
         $data['form_action'] = ci_route("analisis_laporan.{$master}.daftar.{$id}.{$aksi}");
 
@@ -183,8 +183,8 @@ class AnalisisLaporanController extends AdminModulController
         $data['asubjek']      = $this->analisisMaster->subjek_tipe == AnalisisRefSubjekEnum::DESA ? ucwords(setting('sebutan_desa')) : AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
 
         $data['config']         = $this->header['desa'];
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['aksi']           = $aksi;
 
         return view('analisis::laporan.form_cetak', $data);
@@ -203,16 +203,16 @@ class AnalisisLaporanController extends AdminModulController
 
     public function cetak($master, $aksi = '')
     {
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+        $paramDatatable = json_decode((string) request('params'), 1);
         $_GET           = $paramDatatable;
 
         $query = $this->sumberData();
 
-        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
-        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['aksi']           = $aksi;
         $data['config']         = $this->header['desa'];
-        // $data['judul']           = Analisis::judul_subjek($this->analisisMaster->subjek_tipe);
+        // $data['judul']           = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
         $data['file']      = 'Laporan Hasil Analisis ' . AnalisisRefSubjekEnum::valueOf($this->analisisMaster->subjek_tipe);
         $data['isi']       = 'analisis_laporan.table_print';
         $data['main']      = $query->get();
@@ -221,16 +221,16 @@ class AnalisisLaporanController extends AdminModulController
         return view('analisis::admin.layouts.components.format_cetak', $data);
     }
 
-    public function ajax_multi_jawab($master)
+    public function ajaxMultiJawab($master)
     {
         $data['jawab']       = session('jawab') ?? '';
-        $data['main']        = (new Analisis())->multi_jawab($master);
+        $data['main']        = (new Analisis())->multiJawab($master);
         $data['form_action'] = ci_route("analisis_laporan.{$master}.multi_jawab_proses");
 
         return view('analisis::laporan.ajax_multi', $data);
     }
 
-    public function multi_jawab_proses($master)
+    public function multiJawabProses($master)
     {
         if (isset($_POST['id_cb'])) {
             unset($_SESSION['jawab'], $_SESSION['jmkf']);

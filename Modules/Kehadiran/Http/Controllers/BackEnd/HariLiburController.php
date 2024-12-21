@@ -193,7 +193,8 @@ class HariLiburController extends AdminModulController
     {
         isCan('u');
 
-        $kalender = file_get_contents(config('app.api_hari_libur'));
+        dd(config('kehadiran'));
+        $kalender = file_get_contents(config('kehadiran.api_hari_libur'));
         $tanggal  = json_decode($kalender, true);
 
         $batch = collect($tanggal)->map(static fn ($item, $key): array => [

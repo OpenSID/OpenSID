@@ -83,14 +83,14 @@ class AnalisisResponController extends AdminModulController
         $data = array_merge([
             'wilayah'     => Wilayah::treeAccess(),
             'namaPeriode' => $this->periodeAktif->nama,
-        ], Analisis::judul_subjek($this->analisisMaster->subjek_tipe));
+        ], Analisis::judulSubjek($this->analisisMaster->subjek_tipe));
 
         return view('analisis::respon.index', $data);
     }
 
     public function datatables($master)
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $sumberData = $this->sumberData();
 
             return datatables()->of($sumberData)
@@ -115,10 +115,10 @@ class AnalisisResponController extends AdminModulController
 
     private function sumberData()
     {
-        $dusun = $this->input->get('dusun') ?? null;
-        $rw    = $this->input->get('rw') ?? null;
-        $rt    = $this->input->get('rt') ?? null;
-        $isi   = $this->input->get('isi') ?? null;
+        $dusun = request()->get('dusun') ?? null;
+        $rw    = request()->get('rw') ?? null;
+        $rt    = request()->get('rt') ?? null;
+        $isi   = request()->get('isi') ?? null;
 
         $idCluster = $rt ? [$rt] : [];
 
@@ -158,7 +158,7 @@ class AnalisisResponController extends AdminModulController
     {
         isCan('u');
         $analisis            = new Analisis();
-        $data['fullscreen']  = $this->input->get('fs') ?? null;
+        $data['fullscreen']  = request()->get('fs') ?? null;
         $data['form_action'] = ci_route('analisis_respon.' . $master . '.update', $idSubjek);
         $data['idSubjek']    = $idSubjek;
 
@@ -215,7 +215,7 @@ class AnalisisResponController extends AdminModulController
     {
         $data['analisis_master'] = $this->analisisMaster;
 
-        return view('analisis_respon.import.data_ajax', $data);
+        return view('analisis::respon.import.data_ajax', $data);
     }
 
     /**
@@ -224,11 +224,11 @@ class AnalisisResponController extends AdminModulController
      * @param int   $tipe   | 1. Dengan isian data, 2. Dengan kode isian
      * @param mixed $master
      */
-    public function data_unduh($master)
+    public function dataUnduh($master)
     {
-        $paramDatatable      = json_decode((string) $this->input->post('params'), 1);
+        $paramDatatable      = json_decode((string) request('params'), 1);
         $_GET                = $paramDatatable;
-        $tipe                = $this->input->post('tipe') ?? 1;
+        $tipe                = request('tipe', 1);
         $data['subjek_tipe'] = $this->analisisMaster->subjek_tipe;
         $data['main']        = $this->sumberData()->get()->map(function ($item) {
 
@@ -256,9 +256,9 @@ class AnalisisResponController extends AdminModulController
             8       => 6,
             default => 7,
         };
-        $data['judul'] = Analisis::judul_subjek($this->analisisMaster->subjek_tipe);
+        $data['judul'] = Analisis::judulSubjek($this->analisisMaster->subjek_tipe);
 
-        return view('analisis_respon.import.data_unduh', $data);
+        return view('analisis::respon.import.data_unduh', $data);
     }
 
     public function import($master, $op = 0)
@@ -266,10 +266,10 @@ class AnalisisResponController extends AdminModulController
         isCan('u');
         $data['form_action'] = ci_route("analisis_respon.{$master}.import_proses", $op);
 
-        return view('analisis_respon.import.import', $data);
+        return view('analisis::respon.import.import', $data);
     }
 
-    public function import_proses($master, $op = 0): void
+    public function importProses($master, $op = 0): void
     {
         isCan('u');
         $periode    = $this->periodeAktif->id;
@@ -286,17 +286,17 @@ class AnalisisResponController extends AdminModulController
         }
     }
 
-    public function form_impor_bdt($master)
+    public function formImporBdt($master)
     {
         isCan('u');
         $data['form_action']     = ci_route("analisis_respon.{$master}.impor_bdt");
         $data['analisis_master'] = $this->analisisMaster;
         $data['formatImpor']     = ci_route('unduh', encrypt(DEFAULT_LOKASI_IMPOR . 'contoh-data-bdt2015.xlsx'));
 
-        return view('analisis_respon.import.impor_bdt', $data);
+        return view('analisis::respon.import.impor_bdt', $data);
     }
 
-    public function impor_bdt($master): void
+    public function imporBdt($master): void
     {
         isCan('u');
         DB::beginTransaction();

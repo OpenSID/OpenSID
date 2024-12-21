@@ -61,7 +61,7 @@ class AnjunganController extends AdminModulController
     {
         $status = cek_anjungan();
 
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             return datatables()->of(AnjunganModel::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {

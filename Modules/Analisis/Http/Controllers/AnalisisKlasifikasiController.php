@@ -67,7 +67,7 @@ class AnalisisKlasifikasiController extends AdminModulController
 
     public function datatables($master)
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $canUpdate = can('u');
             $canDelete = can('h');
 

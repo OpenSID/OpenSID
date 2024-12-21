@@ -59,7 +59,7 @@ Route::group('buku_tamu', ['namespace' => 'BukuTamu/BackEnd'], static function (
 Route::group('buku_kepuasan', ['namespace' => 'BukuTamu/BackEnd'], static function (): void {
     Route::get('/', 'KepuasanController@index')->name('buku_kepuasan.index');
     Route::get('/show/{id}', 'KepuasanController@show')->name('buku_kepuasan.show');
-    Route::get('/datatables_show/{id}', 'KepuasanController@datatables_show')->name('buku_kepuasan.datatables-show');
+    Route::get('/datatables_show/{id}', 'KepuasanController@datatablesShow')->name('buku_kepuasan.datatables-show');
     Route::get('/delete/{id?}', 'KepuasanController@delete')->name('buku_kepuasan.delete');
     Route::post('/deleteAll', 'KepuasanController@deleteAll')->name('buku_kepuasan.delete-all');
 });

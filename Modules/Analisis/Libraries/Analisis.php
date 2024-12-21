@@ -53,7 +53,7 @@ use Modules\Analisis\Models\AnalisisResponBukti;
 
 class Analisis
 {
-    public static function judul_subjek($subjek_tipe): ?array
+    public static function judulSubjek($subjek_tipe): ?array
     {
         switch ($subjek_tipe) {
             case AnalisisRefSubjekEnum::PENDUDUK:
@@ -431,7 +431,7 @@ class Analisis
         return $data;
     }
 
-    public function multi_jawab($master)
+    public function multiJawab($master)
     {
         $kf = session('jawab') ?? '7777777';
 

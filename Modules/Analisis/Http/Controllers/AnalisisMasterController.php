@@ -75,7 +75,7 @@ class AnalisisMasterController extends AdminModulController
 
     public function datatables()
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $canUpdate = can('u');
 
             return datatables()->of(AnalisisMaster::query())
@@ -166,7 +166,7 @@ class AnalisisMasterController extends AdminModulController
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    public function import_analisis()
+    public function importAnalisis()
     {
         isCan('u');
 
@@ -203,17 +203,17 @@ class AnalisisMasterController extends AdminModulController
         $fileName = 'analisis_' . urlencode((string) $master['nama']) . '_' . $tgl . '.xlsx';
         $writer->openToBrowser($fileName); // stream data directly to the browser
 
-        $this->ekspor_master($writer, $master);
-        $this->ekspor_pertanyaan($writer, $master);
-        $this->ekspor_jawaban($writer, $master);
-        $this->ekspor_klasifikasi($writer, $master);
+        $this->eksporMaster($writer, $master);
+        $this->eksporPertanyaan($writer, $master);
+        $this->eksporJawaban($writer, $master);
+        $this->eksporKlasifikasi($writer, $master);
 
         $writer->close();
 
         redirect('analisis_master');
     }
 
-    private function style_judul(): Style
+    private function styleJudul(): Style
     {
         $border = new Border(
             new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
@@ -228,7 +228,7 @@ class AnalisisMasterController extends AdminModulController
             ->setBorder($border);
     }
 
-    private function style_baris(): Style
+    private function styleBaris(): Style
     {
         $border = new Border(
             new BorderPart(Border::TOP, Color::GREEN, Border::WIDTH_THIN, Border::STYLE_SOLID),
@@ -241,7 +241,7 @@ class AnalisisMasterController extends AdminModulController
             ->setBorder($border);
     }
 
-    private function ekspor_master(Writer $writer, array $master): void
+    private function eksporMaster(Writer $writer, array $master): void
     {
         $sheet = $writer->getCurrentSheet();
         $sheet->setName('master');
@@ -267,7 +267,7 @@ class AnalisisMasterController extends AdminModulController
         }
     }
 
-    private function ekspor_pertanyaan(Writer $writer, array $master): void
+    private function eksporPertanyaan(Writer $writer, array $master): void
     {
         $sheet = $writer->addNewSheetAndMakeItCurrent();
         $sheet->setName('pertanyaan');
@@ -281,19 +281,19 @@ class AnalisisMasterController extends AdminModulController
             ['AKSI ANALISIS', 'act_analisis'],
         ];
         $judul  = array_column($daftar_kolom, 0);
-        $header = Row::fromValues($judul, $this->style_judul());
+        $header = Row::fromValues($judul, $this->styleJudul());
         $writer->addRow($header);
         // Tulis data
         $indikator = AnalisisIndikator::with(['kategori'])->where(['id_master' => $master['id']])->get()->toArray();
 
         foreach ($indikator as $p) {
             $baris_data = [$p['nomor'], $p['pertanyaan'], $p['kategori']['kategori'] ?? '', $p['id_tipe'], $p['bobot'], $p['act_analisis']];
-            $baris      = Row::fromValues($baris_data, $this->style_baris());
+            $baris      = Row::fromValues($baris_data, $this->styleBaris());
             $writer->addRow($baris);
         }
     }
 
-    private function ekspor_jawaban(Writer $writer, array $master): void
+    private function eksporJawaban(Writer $writer, array $master): void
     {
         $jawaban = $writer->addNewSheetAndMakeItCurrent();
         $jawaban->setName('jawaban');
@@ -305,19 +305,19 @@ class AnalisisMasterController extends AdminModulController
             ['NILAI', 'nilai'],
         ];
         $judul  = array_column($daftar_kolom, 0);
-        $header = Row::fromValues($judul, $this->style_judul());
+        $header = Row::fromValues($judul, $this->styleJudul());
         $writer->addRow($header);
         // Tulis data
         $parameter = AnalisisIndikator::with(['parameter'])->where(['id_master' => $master['id']])->get();
 
         foreach ($parameter as $p) {
             $baris_data = [$p['nomor'], $p['parameter']['kode_jawaban'] ?? '', $p['parameter']['jawaban'] ?? '', $p['parameter']['nilai'] ?? ''];
-            $baris      = Row::fromValues($baris_data, $this->style_baris());
+            $baris      = Row::fromValues($baris_data, $this->styleBaris());
             $writer->addRow($baris);
         }
     }
 
-    private function ekspor_klasifikasi(Writer $writer, array $master): void
+    private function eksporKlasifikasi(Writer $writer, array $master): void
     {
         $klasifikasi = $writer->addNewSheetAndMakeItCurrent();
         $klasifikasi->setName('klasifikasi');
@@ -328,19 +328,19 @@ class AnalisisMasterController extends AdminModulController
             ['NILAI MAKSIMAL', 'maxval'],
         ];
         $judul  = array_column($daftar_kolom, 0);
-        $header = Row::fromValues($judul, $this->style_judul());
+        $header = Row::fromValues($judul, $this->styleJudul());
         $writer->addRow($header);
         // Tulis data
         $klasifikasi = AnalisisKlasifikasi::where(['id_master' => $master['id']])->get();
 
         foreach ($klasifikasi as $k) {
             $baris_data = [$k['nama'], $k['minval'], $k['maxval']];
-            $baris      = Row::fromValues($baris_data, $this->style_baris());
+            $baris      = Row::fromValues($baris_data, $this->styleBaris());
             $writer->addRow($baris);
         }
     }
 
-    public function import_gform()
+    public function importGform()
     {
         isCan('u');
         $data['form_action'] = ci_route('analisis_master.exec_import_gform');
@@ -357,7 +357,7 @@ class AnalisisMasterController extends AdminModulController
      * - Jika 1 dan 2 kosong. 3 diisi. Import gform langsung menuju redirect field 3
      * - Jika semua tidak terisi (asumsi opensid ini yang jalan di server OpenDesa) ambil credential setting di file config
      */
-    private function get_redirect_uri()
+    private function getRedirectUri()
     {
         $api_gform_credential = setting('api_gform_credential') ?? config_item('api_gform_credential');
         if ($api_gform_credential) {
@@ -371,12 +371,12 @@ class AnalisisMasterController extends AdminModulController
         return $redirect_uri;
     }
 
-    public function exec_import_gform(): void
+    public function execImportGform(): void
     {
         isCan('u');
         $this->session->google_form_id = $this->request->get('input-form-id');
 
-        $REDIRECT_URI = $this->get_redirect_uri();
+        $REDIRECT_URI = $this->getRedirectUri();
         $protocol     = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
         $self_link    = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
@@ -399,7 +399,7 @@ class AnalisisMasterController extends AdminModulController
         }
     }
 
-    public function save_import_gform(): void
+    public function saveImportGform(): void
     {
         isCan('u');
 
@@ -412,12 +412,12 @@ class AnalisisMasterController extends AdminModulController
         redirect('analisis_master');
     }
 
-    public function update_gform($id = 0): void
+    public function updateGform($id = 0): void
     {
         isCan('u');
         $form_id = AnalisisMaster::find($id)?->gform_id;
 
-        $REDIRECT_URI = $this->get_redirect_uri();
+        $REDIRECT_URI = $this->getRedirectUri();
         $protocol     = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
         $self_link    = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
