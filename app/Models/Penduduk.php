@@ -1382,7 +1382,7 @@ class Penduduk extends BaseModel
 
     public function getLokasiAttribute()
     {
-        if ($this->rtm != '[]' && $this->rtm != null) {
+        if ($this->rtm->nik_kepala != null) {
             $id = $this->rtm->nik_kepala;
         } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
             $id = $this->keluarga->nik_kepala;

@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 15. [#8799](https://github.com/OpenSID/OpenSID/issues/8799) Perbaikan link dan data komentar yang ditampilkan dari notifikasi.
 16. [#8800](https://github.com/OpenSID/OpenSID/issues/8800) Perbaikan notifikasi gagal input password.
 17. [#8809](https://github.com/OpenSID/OpenSID/issues/8809) Perbaikan validasi hapus penduduk yang berelasi dengan akun pengguna.
+18. [#8828](https://github.com/OpenSID/OpenSID/issues/8828) Perbaikan titik koordinat penduduk. 
 
 
 ### TEKNIS
