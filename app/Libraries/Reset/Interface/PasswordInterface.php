@@ -34,8 +34,11 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+namespace App\Libraries\Reset\Interface;
 
-interface Password_interface
+use Closure;
+
+interface PasswordInterface
 {
     /**
      * Constant representing a successfully sent reminder.
@@ -140,7 +143,7 @@ interface Password_interface
     /**
      * Get the password reset token repository implementation.
      *
-     * @return Password_reset_interface
+     * @return PasswordResetInterface
      */
     public function getRepository();
 }

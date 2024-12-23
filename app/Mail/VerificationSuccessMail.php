@@ -35,40 +35,27 @@
  *
  */
 
-namespace App\Listeners;
+namespace App\Mail;
 
-use Exception;
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Container\Container;
-use NotificationChannels\Telegram\Telegram;
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
-class LockoutAdminListener
+class VerificationSuccessMail extends Mailable
 {
-    public function __construct(protected Container $app)
+    use Queueable; use SerializesModels;
+
+    public $name;
+
+    public function __construct($name)
     {
+        $this->name = $name;
     }
 
-    public function handle(Lockout $lockout): void
+    public function build()
     {
-        if ($this->app['auth']->guard('admin')->name !== 'admin' || $this->app['auth']->guard('admin_periksa')->name !== 'admin_periksa') {
-            return;
-        }
-
-        // TODO: gunakan laravel notification
-        if (setting('telegram_notifikasi') && cek_koneksi_internet()) {
-            $telegram = new Telegram(setting('telegram_token'));
-
-            try {
-                $telegram->sendMessage([
-                    'text' => <<<EOD
-                            Percobaan login gagal sebanyak 3 kali dengan input nama pengguna {$lockout->request?->username} dan IP Address {$lockout->request->ip()}.
-                        EOD,
-                    'parse_mode' => 'Markdown',
-                    'chat_id'    => $this->app['ci']->setting->telegram_user_id,
-                ]);
-            } catch (Exception $e) {
-                log_message('error', $e->getMessage());
-            }
-        }
+        return $this->from(config('mail.from.address'), 'OpenSID')
+            ->subject('Berhasil Verifikasi Email')
+            ->view('email.verifikasi-berhasil', ['nama' => $this->name]);
     }
 }

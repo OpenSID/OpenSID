@@ -35,23 +35,15 @@
  *
  */
 
-require_once 'donjo-app/libraries/Reset/Interface/Password_reset_interface.php';
+namespace App\Libraries\Reset;
 
-class Password_repository implements Password_reset_interface
-{
-    /**
-     * The active database connection.
-     *
-     * @var CI_DB_query_builder
-     */
-    protected $connection;
+use App\Libraries\Reset\Interface\PasswordResetInterface;
+use DateInterval;
+use DateTime;
+use Illuminate\Support\Facades\DB;
 
-    /**
-     * Intance class codeigniter.
-     *
-     * @var CI_Controller
-     */
-    protected $ci;
+class PasswordRepository implements PasswordResetInterface
+{    
 
     /**
      * The number of seconds a token should last.
@@ -64,9 +56,7 @@ class Password_repository implements Password_reset_interface
     protected int $throttle;
 
     public function __construct(int $expires = 60, int $throttle = 60)
-    {
-        $this->ci         = get_instance();
-        $this->connection = $this->ci->db;
+    {        
         $this->expires    = $expires * 60;
         $this->throttle   = $throttle;
     }
@@ -85,12 +75,12 @@ class Password_repository implements Password_reset_interface
         // the database so that we can verify the token within the actual reset.
         $token = $this->createNewToken();
 
-        $this->connection->set([
+        DB::table('password_resets')->insert([
             'email'      => $email,
             'token'      => password_hash($token, PASSWORD_BCRYPT),
             'created_at' => (new DateTime())->format('Y-m-d H:i:s'),
-        ])->insert('password_resets');
-
+        ]);
+        
         return $token;
     }
 
@@ -107,7 +97,7 @@ class Password_repository implements Password_reset_interface
      */
     public function exists($user, $token): bool
     {
-        $record = $this->connection->where('email', $user->email)->get('password_resets')->row();
+        $record = DB::table('password_resets')->where('email', $user->email)->first();
 
         $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->expires} seconds"))->format('Y-m-d H:i:s');
 
@@ -122,8 +112,8 @@ class Password_repository implements Password_reset_interface
         if ($this->throttle <= 0) {
             return false;
         }
-
-        $record = $this->connection->where('email', $user->email)->get('password_resets')->row();
+        
+        $record = DB::table('password_resets')->where('email', $user->email)->first();
 
         $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->throttle} seconds"))->format('Y-m-d H:i:s');
 
@@ -135,7 +125,7 @@ class Password_repository implements Password_reset_interface
      */
     public function destroy($user)
     {
-        return $this->connection->where('email', $user->email)->delete('password_resets');
+        return DB::table('password_resets')->where('email', $user->email)->delete();
     }
 
     /**
@@ -143,8 +133,7 @@ class Password_repository implements Password_reset_interface
      */
     public function destroyExpired()
     {
-        $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->expires} seconds"))->format('Y-m-d H:i:s');
-
-        return $this->connection->where('created_at <', $expiredAt)->delete('password_resets');
+        $expiredAt = (new DateTime())->sub(DateInterval::createFromDateString("{$this->expires} seconds"))->format('Y-m-d H:i:s');        
+        return DB::table('password_resets')->where('created_at <', $expiredAt)->delete();
     }
 }

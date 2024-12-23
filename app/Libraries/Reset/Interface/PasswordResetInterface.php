@@ -34,8 +34,8 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
-
-interface Password_reset_interface
+namespace App\Libraries\Reset\Interface;
+interface PasswordResetInterface
 {
     /**
      * Create a new token.

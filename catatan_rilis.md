@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 6. [#8803](https://github.com/OpenSID/OpenSID/issues/8803) Penyesuaian core bawaan Codeigniter 3.x.
 7. [#8817](https://github.com/OpenSID/OpenSID/issues/8817) Penyesuaian modul lapak menjadi module terpisah.
 8. [#8832](https://github.com/OpenSID/OpenSID/issues/8832) Penyesuaian illuminate bisa digunakan pada service provider.
+9. [#8804](https://github.com/OpenSID/OpenSID/issues/8804) Penyesuaian dan pemindahan library otp untuk email dan telegram.
 
 
 ### KEAMANAN

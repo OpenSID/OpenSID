@@ -34,8 +34,12 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+namespace App\Libraries\OTP;
 
-abstract class Abstract_manager
+use Closure;
+use InvalidArgumentException;
+
+abstract class AbstractManager
 {
     /**
      * The registered custom driver creators.
@@ -50,6 +54,8 @@ abstract class Abstract_manager
      * @var array
      */
     protected $drivers = [];
+
+    protected $container;
 
     /**
      * Get the default driver name.

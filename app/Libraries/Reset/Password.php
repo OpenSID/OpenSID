@@ -34,88 +34,23 @@
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
+namespace App\Libraries\Reset;
 
-interface OTP_interface
+use App\Libraries\OTP\AbstractManager;
+use App\Libraries\Reset\Email\EmailRepository;
+
+class Password extends AbstractManager
 {
     /**
-     * Kirim otp ke user.
-     *
-     * @param mixed $user
-     * @param mixed $otp
-     *
-     * @throws Exception
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function kirim_otp($user, $otp);
+    public function getDefaultDriver(): string
+    {
+        return 'email';
+    }
 
-    /**
-     * Verifikasi otp user.
-     *
-     * @param mixed $otp
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function verifikasi_otp($otp, $user = null);
-
-    /**
-     * Kirim pesan ke user telegram.
-     *
-     * @param mixed $user
-     * @param mixed $nama
-     *
-     * @throws Exception
-     *
-     * @return void
-     */
-    public function verifikasi_berhasil($user, $nama);
-
-    /**
-     * Cek verifikasi otp user.
-     *
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function cek_verifikasi_otp($user);
-
-    /**
-     * Kirim pesan permintaan pin baru ke user telegram.
-     *
-     * @param mixed $user = chatID
-     * @param mixed $pin
-     * @param mixed $nama
-     *
-     * @throws Exception
-     *
-     * @return void
-     */
-    public function kirim_pin_baru($user, $pin, $nama);
-
-    /**
-     * Cek akun sudah terdaftar.
-     *
-     * @param mixed $chat_id
-     *
-     * @return bool
-     */
-    public function cek_akun_terdaftar($chat_id);
-
-    /**
-     * Kirim Pesan
-     *
-     * ```php
-     * $data = [
-     *     'tujuan' => 'conto@mail.com',
-     *     'subjek' => 'Subjek',
-     *     'isi'    => 'Isi Pesan',
-     * ];
-     * ```
-     *
-     * @throws Exception
-     *
-     * @return bool
-     */
-    public function kirim_pesan(array $data = []);
+    public function createEmailDriver(): EmailRepository
+    {
+        return new EmailRepository(new PasswordRepository());
+    }
 }

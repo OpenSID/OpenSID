@@ -35,22 +35,29 @@
  *
  */
 
-require_once 'donjo-app/libraries/OTP/Abstract_manager.php';
-require_once 'donjo-app/libraries/Reset/Email/Email_repository.php';
-require_once 'donjo-app/libraries/Reset/Password_repository.php';
+namespace App\Mail;
 
-class Password extends Abstract_manager
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class NewPinMail extends Mailable
 {
-    /**
-     * {@inheritDoc}
-     */
-    public function getDefaultDriver(): string
+    use Queueable; use SerializesModels;
+
+    public $pin;
+    public $name;
+
+    public function __construct($pin, $name)
     {
-        return 'email';
+        $this->pin  = $pin;
+        $this->name = $name;
     }
 
-    public function createEmailDriver(): Email_repository
+    public function build()
     {
-        return new Email_repository(new Password_repository());
+        return $this->from(config('mail.from.address'), 'OpenSID')
+            ->subject('PIN Baru')
+            ->view('email.kirim-pin', ['pin' => $this->pin, 'nama' => $this->name]);
     }
 }

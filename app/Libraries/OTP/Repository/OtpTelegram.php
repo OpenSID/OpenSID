@@ -35,32 +35,29 @@
  *
  */
 
-require_once 'donjo-app/libraries/OTP/Interface/OTP_interface.php';
-require_once 'donjo-app/libraries/Telegram/Telegram.php';
+namespace App\Libraries\OTP\Repository;
 
-class OTP_telegram implements OTP_interface
+use App\Libraries\OTP\Interface\OtpInterface;
+use App\Models\PendudukSaja;
+use NotificationChannels\Telegram\Telegram;
+
+class OtpTelegram implements OtpInterface
 {
-    /**
-     * Intance class codeigniter.
-     *
-     * @var CI_Controller
-     */
-    protected $ci;
 
     protected Telegram $telegram;
 
     public function __construct()
-    {
-        $this->ci       = get_instance();
-        $this->telegram = new Telegram();
+    {        
+        $token = setting('telegram_token');
+        $this->telegram = new Telegram($token);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function kirim_otp($user, $otp)
+    public function kirimOtp($user, $otp)
     {
-        if ($this->cek_verifikasi_otp($user)) {
+        if ($this->cekVerifikasiOtp($user)) {
             return true;
         }
 
@@ -81,18 +78,14 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_otp($otp, $user = null): bool
+    public function verifikasiOtp($otp, $user = null): bool
     {
-        if ($this->cek_verifikasi_otp($user)) {
+        if ($this->cekVerifikasiOtp($user)) {
             return true;
         }
-
-        $token = $this->ci->db->from('tweb_penduduk')
-            ->where('telegram_token', $raw_token = hash('sha256', $otp))
-            ->get()
-            ->row();
-
-        if (null === $token) {
+        $raw_token = hash('sha256', $otp);
+        $token = PendudukSaja::where('telegram_token', $raw_token)->first();            
+        if (!$token) {
             return false;
         }
 
@@ -101,12 +94,10 @@ class OTP_telegram implements OTP_interface
         }
 
         if (hash_equals($token->telegram_token, $raw_token)) {
-            $this->ci->db
-                ->where('id', $user)
-                ->update('tweb_penduduk', [
+            PendudukSaja::where('id', $user)
+                ->update([
                     'telegram_tgl_verifikasi' => date('Y-m-d H:i:s'),
                 ]);
-
             return true;
         }
 
@@ -116,13 +107,9 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function cek_verifikasi_otp($user): bool
+    public function cekVerifikasiOtp($user): bool
     {
-        $token = $this->ci->db->from('tweb_penduduk')
-            ->select('telegram_tgl_verifikasi')
-            ->where('id', $user)
-            ->get()
-            ->row();
+        $token = PendudukSaja::select(['telegram_tgl_verifikasi'])->where('id', $user)->first();            
 
         return $token->telegram_tgl_verifikasi != null;
     }
@@ -130,7 +117,7 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_berhasil($user, $nama): void
+    public function verifikasiBerhasil($user, $nama): void
     {
         $this->telegram->sendMessage([
             'chat_id' => $user,
@@ -148,7 +135,7 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function kirim_pin_baru($user, $pin, $nama): void
+    public function kirimPinBaru($user, $pin, $nama): void
     {
         $pesanTelegram = [
             '[nama]'    => $nama,
@@ -168,15 +155,16 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function cek_akun_terdaftar($user): bool
+    public function cekAkunTerdaftar($user): bool
     {
-        return isset($this->ci->db) && $this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0;
+        $listId = is_array($user['id']) ? $user['id'] : [$user['id']];
+        return PendudukSaja::where('telegram', $user['telegram'])->whereNotIn('id', $listId)->doesntExist();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function kirim_pesan(array $data = []): void
+    public function kirimPesan(array $data = []): void
     {
         $this->telegram->sendMessage([
             'chat_id' => $data['tujuan'],

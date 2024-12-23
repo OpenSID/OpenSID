@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\FlxZipArchive;
+use App\Libraries\OTP\OtpManager;
 use App\Libraries\Sistem;
 use App\Models\LogBackup;
 use App\Models\LogRestoreDesa;
@@ -54,6 +55,7 @@ class Database extends Admin_Controller
 {
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'database';
+    private OtpManager $otp;
 
     public function __construct()
     {
@@ -61,7 +63,9 @@ class Database extends Admin_Controller
         isCan('b');
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
-        $this->load->library('OTP/OTP_manager', null, 'otp_library');
+        $this->otp = new OtpManager();
+
+        $this->otp->driver('email');
     }
 
     public function index(): void
@@ -323,9 +327,9 @@ class Database extends Admin_Controller
             $user->token_exp = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +5 minutes'));
             $user->save();
             if ($method == 'telegram') {
-                $this->otp_library->driver('telegram')->kirim_otp($user->id_telegram, $raw_token);
+                $this->otp->driver('telegram')->kirimOtp($user->id_telegram, $raw_token);
             } else {
-                $this->otp_library->driver('email')->kirim_otp($user->email, $raw_token);
+                $this->otp->driver('email')->kirimOtp($user->email, $raw_token);
             }
 
             return json([
