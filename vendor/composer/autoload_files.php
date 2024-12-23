@@ -35,4 +35,5 @@ return array(
     'ffaec35ff90c3d86543d09e59707f86b' => $vendorDir . '/opensid/router/src/helpers.php',
     'c379e2a4ec3735f6c4915556c8c81813' => $vendorDir . '/rap2hpoutre/fast-excel/src/functions/fastexcel.php',
     '0b47d6d4a00ca9112ba3953b49e7c9a4' => $vendorDir . '/yajra/laravel-datatables-oracle/src/helper.php',
+    'a06a647bb427618ccb2f2393a6b88fe9' => $baseDir . '/app/Helpers/illuminate_helper.php',
 );

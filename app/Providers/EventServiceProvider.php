@@ -48,6 +48,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        \App\Events\CodeIgniterEvent::class => [
+            \App\Listeners\CodeIgniterListener::class,
+        ],
         \Illuminate\Auth\Events\Registered::class => [
             \App\Listeners\Penduduk\SendEmailVerificationNotification::class,
             \App\Listeners\Penduduk\SendTelegramVerificationNotification::class,

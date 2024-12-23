@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-8803-sesuaikan-library',
-        'version' => 'dev-8803-sesuaikan-library',
-        'reference' => 'dee72b9627c2dd134c644e134fe2de67c1f8e8b3',
+        'pretty_version' => 'dev-issue#8832',
+        'version' => 'dev-issue#8832',
+        'reference' => '39c31baab7d846c9707854e78e710c2835433976',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -182,9 +182,9 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.386.0',
-            'version' => '0.386.0.0',
-            'reference' => 'cd08601dd729977f7198c72cd10d05901833bec0',
+            'pretty_version' => 'v0.387.0',
+            'version' => '0.387.0.0',
+            'reference' => '89b7126578e0aaf6d5584d6ef7c7af165766c850',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -674,9 +674,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-8803-sesuaikan-library',
-            'version' => 'dev-8803-sesuaikan-library',
-            'reference' => 'dee72b9627c2dd134c644e134fe2de67c1f8e8b3',
+            'pretty_version' => 'dev-issue#8832',
+            'version' => 'dev-issue#8832',
+            'reference' => '39c31baab7d846c9707854e78e710c2835433976',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
