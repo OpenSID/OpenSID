@@ -58,6 +58,7 @@ trait Migrator
         $modul = new Modul();
         $modul = $modul->withoutGlobalScope('config_id');
 
+        $data['config_id'] ??= identitas('id');
         $data['ikon_kecil'] ??= $data['ikon'];
 
         // Tetapkan nilai urut jika belum disediakan
@@ -65,10 +66,6 @@ trait Migrator
             $data['urut'] = $data['parent'] == Modul::PARENT
                 ? $modul->max('urut') + 1
                 : $modul->where('parent', $data['parent'])->max('urut') + 1;
-        }
-
-        if (! isset($data['config_id'])) {
-            $data['config_id'] = identitas('id');
         }
 
         if (! isset($data['slug'])) {
@@ -125,6 +122,7 @@ trait Migrator
         $modul = new Modul();
         $modul = $modul->withoutGlobalScope('config_id');
 
+        $data['config_id'] ??= identitas('id');
         $modul = $modul->where($where)->first();
 
         if ($modul) {
@@ -179,6 +177,8 @@ trait Migrator
         $setting = new SettingAplikasi();
         $setting = $setting->withoutGlobalScope('config_id');
 
+        $data['config_id'] ??= identitas('id');
+
         // Simpan atau perbarui data setting
         $setting->upsert($data, ['config_id', 'key'], ['judul', 'keterangan', 'jenis', 'option', 'attribute', 'kategori']);
 
@@ -211,6 +211,8 @@ trait Migrator
         $setting = new SettingAplikasi();
         $setting = $setting->withoutGlobalScope('config_id');
 
+        $data['config_id'] ??= identitas('id');
+
         $setting->where($where)->delete();
 
         $setting->flushQueryCache();
@@ -227,6 +229,9 @@ trait Migrator
     {
         $akses = new GrupAkses();
         $akses = $akses->withoutGlobalScope('config_id');
+
+        $data['config_id'] ??= identitas('id');
+
         $akses->upsert($data, ['config_id', 'id_grup', 'id_modul'], ['akses']);
     }
 }

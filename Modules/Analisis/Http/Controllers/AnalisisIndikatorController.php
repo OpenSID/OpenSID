@@ -73,11 +73,11 @@ class AnalisisIndikatorController extends AdminModulController
 
     public function datatables($master)
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $canUpdate      = can('u');
             $canDelete      = can('h');
-            $orderColumn    = $this->input->get('order')[0]['column'];
-            $orderDesc      = $this->input->get('order')[0]['dir'];
+            $orderColumn    = request()->input('order.0.column');
+            $orderDesc      = request()->input('order.0.dir');
             $analisisMaster = $this->analisisMaster;
 
             return datatables()->of(AnalisisIndikator::with(['kategori'])->whereIdMaster($master)

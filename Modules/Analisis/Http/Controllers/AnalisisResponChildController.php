@@ -92,16 +92,16 @@ class AnalisisResponChildController extends AnalisisResponController
             $data[$i]['no'] = $i + 1;
 
             if ($data[$i]['id_tipe'] == 1 || $data[$i]['id_tipe'] == 2) {
-                $data[$i]['parameter_respon'] = $this->list_jawab4($idSubjek, $data[$i]['id'], $per);
+                $data[$i]['parameter_respon'] = $this->listJawab4($idSubjek, $data[$i]['id'], $per);
             } else {
-                $data[$i]['parameter_respon'] = ($delik) ? '' : $this->list_jawab5($idSubjek, $data[$i]['id'], $per);
+                $data[$i]['parameter_respon'] = ($delik) ? '' : $this->listJawab5($idSubjek, $data[$i]['id'], $per);
             }
         }
 
         return $data;
     }
 
-    private function list_jawab4($id = 0, $in = 0, $per = 0)
+    private function listJawab4($id = 0, $in = 0, $per = 0)
     {
         $delik = session('delik');
         $query = AnalisisParameter::selectRaw('id as id_parameter,jawaban,kode_jawaban')
@@ -116,7 +116,7 @@ class AnalisisResponChildController extends AnalisisResponController
         return $query->get()->toArray();
     }
 
-    private function list_jawab5($id = 0, $in = 0, $per = 0)
+    private function listJawab5($id = 0, $in = 0, $per = 0)
     {
         return AnalisisRespon::selectRaw('analisis_parameter.id as id_parameter,analisis_parameter.jawaban')
             ->leftJoin('analisis_parameter', 'analisis_respon.id_parameter', '=', 'analisis_parameter.id')

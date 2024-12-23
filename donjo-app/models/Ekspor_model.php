@@ -115,7 +115,7 @@ class Ekspor_model extends MY_Model
 
         for ($i = 0; $i < $counter; $i++) {
             $baris = $data[$i];
-            array_walk($baris, fn (&$str, $key) => $this->bersihkanData($str, $key));
+            array_walk($baris, fn(&$str, $key) => $this->bersihkanData($str, $key));
             if (! empty($baris->tanggallahir)) {
                 $baris->tanggallahir = date_format(date_create($baris->tanggallahir), 'Y-m-d');
             }
@@ -253,7 +253,7 @@ class Ekspor_model extends MY_Model
             redirect('database');
         }
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain

@@ -123,7 +123,7 @@ class Pengaduan_model extends MY_Model
         $upload['file_name'] = '';
 
         if ($_FILES['foto']['error'] == 0) {
-            $this->load->library('MY_Upload', null, 'upload');
+            $this->load->library('upload', null, 'upload');
 
             $config['upload_path']   = LOKASI_PENGADUAN;
             $config['allowed_types'] = 'jpg|jpeg|png';

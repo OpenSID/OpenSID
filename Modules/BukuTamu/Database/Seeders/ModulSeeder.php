@@ -38,9 +38,8 @@
 namespace Modules\BukuTamu\Database\Seeders;
 
 use App\Traits\Migrator;
-use App\Enums\StatusEnum;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class ModulSeeder extends Seeder
 {
@@ -66,57 +65,41 @@ class ModulSeeder extends Seeder
             'ikon'      => 'fa-book',
             'level'     => 2,
             'parent'    => 0,
-            'hidden'    => 0,
         ]);
 
         // Sub Menu
         $this->createModuls([
             [
-                'modul'      => 'Data Tamu',
-                'slug'       => 'data-tamu',
-                'url'        => 'buku_tamu',
-                'aktif'      => StatusEnum::YA,
-                'ikon'       => 'fa-bookmark-o',
-                'urut'       => 1,
-                'level'      => 2,
-                'hidden'     => 0,
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Tamu',
+                'slug'        => 'data-tamu',
+                'url'         => 'buku_tamu',
+                'ikon'        => 'fa-bookmark-o',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
             [
-                'modul'      => 'Data Kepuasan',
-                'slug'       => 'data-kepuasan',
-                'url'        => 'buku_kepuasan',
-                'aktif'      => StatusEnum::YA,
-                'ikon'       => 'fa-smile-o',
-                'urut'       => 2,
-                'level'      => 2,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-smile-o',
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Kepuasan',
+                'slug'        => 'data-kepuasan',
+                'url'         => 'buku_kepuasan',
+                'ikon'        => 'fa-smile-o',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
             [
-                'modul'      => 'Data Pertanyaan',
-                'slug'       => 'data-pertanyaan',
-                'url'        => 'buku_pertanyaan',
-                'aktif'      => StatusEnum::YA,
-                'ikon'       => 'fa-question',
-                'urut'       => 3,
-                'level'      => 2,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-question',
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Pertanyaan',
+                'slug'        => 'data-pertanyaan',
+                'url'         => 'buku_pertanyaan',
+                'ikon'        => 'fa-question',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
             [
-                'modul'      => 'Data Keperluan',
-                'slug'       => 'data-keperluan',
-                'url'        => 'buku_keperluan',
-                'aktif'      => StatusEnum::YA,
-                'ikon'       => 'fa-send',
-                'urut'       => 4,
-                'level'      => 2,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-send',
-                'parent_slug'     => 'buku-tamu',
+                'modul'       => 'Data Keperluan',
+                'slug'        => 'data-keperluan',
+                'url'         => 'buku_keperluan',
+                'ikon'        => 'fa-send',
+                'level'       => 2,
+                'parent_slug' => 'buku-tamu',
             ],
         ]);
     }

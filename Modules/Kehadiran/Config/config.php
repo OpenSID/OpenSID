@@ -35,30 +35,14 @@
  *
  */
 
-class MY_Email extends CI_Email
-{
-    public $active = 0;
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | API Hari Libur
+    |--------------------------------------------------------------------------
+    |
+    */
+    'api_hari_libur' => 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json',
 
-    public function __construct(array $config = [])
-    {
-        parent::__construct($config);
-    }
-
-    /**
-     * Send Email
-     *
-     * @param bool $auto_clear = TRUE
-     *
-     * @return bool
-     */
-    public function send($auto_clear = true)
-    {
-        if (! $this->active) {
-            log_message('error', 'email tidak dikirim karena pengaturan notifikasi email dinonaktifkan');
-
-            return false;
-        }
-
-        return parent::send($auto_clear);
-    }
-}
+    'default_latar_kehadiran' => 'assets/img/bg.jpg', // module_asset('img/bg.jpg'),
+];

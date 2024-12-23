@@ -41,14 +41,29 @@ use Illuminate\Console\GeneratorCommand;
 
 class MigrationMakeCommand extends GeneratorCommand
 {
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
     protected $signature   = 'module:make-migration {name} {module}';
-    protected $description = 'Create a new module migration in the specified module folder';
 
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
     protected function getStub()
     {
         return base_path('app/Console/Commands/Modules/Stubs/migration.stub');
     }
 
+    /**
+     * Get the destination class path.
+     *
+     * @param  string  $name
+     * @return string
+     */
     protected function getPath($name)
     {
         return base_path('Modules/' . $this->argument('module') . '/Database/Migrations') . '/' . $this->getFileName() . '.php';

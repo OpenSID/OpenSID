@@ -35,7 +35,7 @@
  *
  */
 
-require_once APPPATH . '/libraries/MyException.php';
+use App\Libraries\MyException\MyException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 

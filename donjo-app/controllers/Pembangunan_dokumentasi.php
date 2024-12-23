@@ -87,11 +87,11 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
                     return '';
                 })
-                ->editColumn('persentase', static fn ($row): string => $row->persentase . '%')
+                ->editColumn('persentase', static fn($row): string => $row->persentase . '%')
                 ->orderColumn('persentase', static function ($query, $order): void {
                     $query->orderByRaw("CONVERT(persentase, SIGNED) {$order}");
                 })
-                ->editColumn('created_at', static fn ($row) => $row->created_at)
+                ->editColumn('created_at', static fn($row) => $row->created_at)
                 ->rawColumns(['ceklist', 'aksi', 'gambar'])
                 ->make();
         }
@@ -207,7 +207,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
     private function upload_gambar_pembangunan(string $jenis, $id = null, $old_foto = null)
     {
         // Inisialisasi library 'upload'
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_GALERI,
             'allowed_types' => 'jpg|jpeg|png',

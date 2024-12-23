@@ -90,7 +90,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
 
     public function datatables($master)
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $sumberData  = $this->sumberData();
             $idCluster   = $this->getCluster();
             $sbj         = $this->getQuerySubject($idCluster);
@@ -125,9 +125,9 @@ class AnalisisStatistikJawabanController extends AdminModulController
 
     private function getCluster()
     {
-        $dusun = $this->input->get('dusun') ?? null;
-        $rw    = $this->input->get('rw') ?? null;
-        $rt    = $this->input->get('rt') ?? null;
+        $dusun = request()->get('dusun') ?? null;
+        $rw    = request()->get('rw') ?? null;
+        $rt    = request()->get('rt') ?? null;
         if ($rt) {
             [$namaDusun, $namaRw]       = explode('__', $rw);
             $this->listCluster['dusun'] = $namaDusun;
@@ -180,16 +180,16 @@ class AnalisisStatistikJawabanController extends AdminModulController
         return $sbj;
     }
 
-    public function grafik_parameter($master, $id = '')
+    public function grafikParameter($master, $id = '')
     {
-        if ($this->input->get('dusun')) {
-            $this->filterColumn['dusun'] = $this->input->get('dusun');
+        if (request()->get('dusun')) {
+            $this->filterColumn['dusun'] = request()->get('dusun');
         }
-        if ($this->input->get('rw')) {
-            $this->filterColumn['rw'] = $this->input->get('rw');
+        if (request()->get('rw')) {
+            $this->filterColumn['rw'] = request()->get('rw');
         }
-        if ($this->input->get('rt')) {
-            $this->filterColumn['rt'] = $this->input->get('rt');
+        if (request()->get('rt')) {
+            $this->filterColumn['rt'] = request()->get('rt');
         }
 
         $idCluster                          = $this->getCluster();
@@ -207,17 +207,17 @@ class AnalisisStatistikJawabanController extends AdminModulController
         return view('analisis::statistik_jawaban.parameter.grafik_table', $data);
     }
 
-    public function subjek_parameter($master, $id, $par)
+    public function subjekParameter($master, $id, $par)
     {
 
-        if ($this->input->get('dusun')) {
-            $this->filterColumn['dusun'] = $this->input->get('dusun');
+        if (request()->get('dusun')) {
+            $this->filterColumn['dusun'] = request()->get('dusun');
         }
-        if ($this->input->get('rw')) {
-            $this->filterColumn['rw'] = $this->input->get('rw');
+        if (request()->get('rw')) {
+            $this->filterColumn['rw'] = request()->get('rw');
         }
-        if ($this->input->get('rt')) {
-            $this->filterColumn['rt'] = $this->input->get('rt');
+        if (request()->get('rt')) {
+            $this->filterColumn['rt'] = request()->get('rt');
         }
 
         $idCluster                             = $this->getCluster();
@@ -240,7 +240,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
 
     public function cetak($master)
     {
-        $tipe = $this->input->post('tipe') ?? 'cetak';
+        $tipe = request('tipe', 'cetak');
         if ($tipe == 'unduh') {
             $tgl = date('d_m_Y');
             header('Content-type: application/octet-stream');
@@ -248,7 +248,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
             header('Pragma: no-cache');
             header('Expires: 0');
         }
-        $paramDatatable = json_decode((string) $this->input->post('params'), 1);
+        $paramDatatable = json_decode((string) request('params'), 1);
         $_GET           = $paramDatatable;
         $idCluster      = $this->getCluster();
         $sbj            = $this->getQuerySubject($idCluster);
@@ -263,7 +263,7 @@ class AnalisisStatistikJawabanController extends AdminModulController
         return view('analisis::statistik_jawaban.table_print', $data);
     }
 
-    public function cetak_subjek($master, $id, $par, $tipe = 'cetak')
+    public function cetakSubjek($master, $id, $par, $tipe = 'cetak')
     {
         if ($tipe == 'unduh') {
             $tgl = date('d_m_Y');

@@ -38,9 +38,8 @@
 namespace Modules\Kehadiran\Database\Seeders;
 
 use App\Traits\Migrator;
-use App\Enums\StatusEnum;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class ModulSeeder extends Seeder
 {
@@ -66,58 +65,45 @@ class ModulSeeder extends Seeder
             'ikon'      => 'fa-calendar-check-o',
             'level'     => 0,
             'parent'    => 0,
-            'hidden'    => 0,
         ]);
 
         // Sub Menu
         $this->createModuls([
             [
-                'modul'      => 'Jam Kerja',
-                'slug'       => 'jam-kerja',
-                'url'        => 'kehadiran_jam_kerja',
-                'aktif'      => 1,
-                'ikon'       => 'fa-clock-o',
-                'urut'       => 2,
-                'level'      => 0,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-credit-card',
-                'parent_slug'     => 'kehadiran',
+                'modul'       => 'Jam Kerja',
+                'slug'        => 'jam-kerja',
+                'url'         => 'kehadiran_jam_kerja',
+                'ikon'        => 'fa-clock-o',
+                'urut'        => 2,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
             ],
             [
-                'modul'      => 'Hari Libur',
-                'slug'       => 'hari-libur',
-                'url'        => 'kehadiran_hari_libur',
-                'aktif'      => 1,
-                'ikon'       => 'fa-calendar',
-                'urut'       => 2,
-                'level'      => 0,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-credit-card',
-                'parent_slug'     => 'kehadiran',
+                'modul'       => 'Hari Libur',
+                'slug'        => 'hari-libur',
+                'url'         => 'kehadiran_hari_libur',
+                'ikon'        => 'fa-calendar',
+                'urut'        => 2,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
             ],
             [
-                'modul'      => 'Rekapitulasi',
-                'slug'       => 'rekapitulasi',
-                'url'        => 'kehadiran_rekapitulasi',
-                'aktif'      => 1,
-                'ikon'       => 'fa-list',
-                'urut'       => 2,
-                'level'      => 0,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-list',
-                'parent_slug'     => 'kehadiran',
+                'modul'       => 'Rekapitulasi',
+                'slug'        => 'rekapitulasi',
+                'url'         => 'kehadiran_rekapitulasi',
+                'ikon'        => 'fa-list',
+                'urut'        => 2,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
             ],
             [
-                'modul'      => 'Pengaduan',
-                'slug'       => 'kehadiran-pengaduan',
-                'url'        => 'kehadiran_pengaduan',
-                'aktif'      => 1,
-                'ikon'       => 'fa-exclamation',
-                'urut'       => 2,
-                'level'      => 0,
-                'hidden'     => 0,
-                'ikon_kecil' => 'fa-exclamation',
-                'parent_slug'     => 'kehadiran',
+                'modul'       => 'Pengaduan',
+                'slug'        => 'kehadiran-pengaduan',
+                'url'         => 'kehadiran_pengaduan',
+                'ikon'        => 'fa-exclamation',
+                'urut'        => 2,
+                'level'       => 0,
+                'parent_slug' => 'kehadiran',
             ],
         ]);
     }

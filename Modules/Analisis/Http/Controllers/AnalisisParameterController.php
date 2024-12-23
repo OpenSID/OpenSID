@@ -67,7 +67,7 @@ class AnalisisParameterController extends AdminModulController
 
     public function datatables($master, $indikator)
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             $canUpdate         = can('u');
             $analisisMaster    = AnalisisMaster::find($master);
             $analisisIndikator = AnalisisIndikator::findOrFail($indikator);

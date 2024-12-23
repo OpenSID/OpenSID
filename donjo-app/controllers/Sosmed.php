@@ -86,8 +86,8 @@ class Sosmed extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('url_icon', static fn ($row): string => '<a href="' . $row->new_link . '" target="_blank"><img src="' . $row->url_icon . '" class="img-thumbnail" width="50" height="50"></a>')
-                ->editColumn('enabled', static fn ($row): string => ($row->enabled == StatusEnum::YA) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
+                ->editColumn('url_icon', static fn($row): string => '<a href="' . $row->new_link . '" target="_blank"><img src="' . $row->url_icon . '" class="img-thumbnail" width="50" height="50"></a>')
+                ->editColumn('enabled', static fn($row): string => ($row->enabled == StatusEnum::YA) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>')
                 ->rawColumns(['ceklist', 'aksi', 'url_icon', 'enabled'])
                 ->make();
         }
@@ -176,7 +176,7 @@ class Sosmed extends Admin_Controller
     protected static function unggah($jenis = '')
     {
         $CI = &get_instance();
-        $CI->load->library('MY_Upload', null, 'upload');
+        $CI->load->library('upload', null, 'upload');
         folder(LOKASI_ICON_SOSMED);
 
         $CI->uploadConfig = [

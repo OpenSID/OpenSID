@@ -35,10 +35,8 @@
  *
  */
 
-use App\Models\ProdukKategori;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Modules\BukuTamu\Models\KeperluanModel;
 
 class Migrasi_25010171
@@ -61,7 +59,7 @@ class Migrasi_25010171
 
     public function down(): void
     {
-        Schema::dropIfExistsDBGabungan('buku_keperluan', function () {
+        Schema::dropIfExistsDBGabungan('buku_keperluan', static function () {
             KeperluanModel::withoutConfigId(identitas('id'))->delete();
         });
     }

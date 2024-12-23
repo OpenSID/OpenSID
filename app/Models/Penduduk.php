@@ -897,6 +897,16 @@ class Penduduk extends BaseModel
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    public function pamong(): HasOne
+    {
+        return $this->hasOne(Pamong::class, 'id_pend');
+    }
+
+    public function pamongUser(): HasOne
+    {
+        return $this->hasOne(Pamong::class, 'id_pend')->whereHas('user');
+    }
+
     public function bahasa()
     {
         return $this->belongsTo(Bahasa::class, 'bahasa_id');
@@ -1372,7 +1382,7 @@ class Penduduk extends BaseModel
 
     public function getLokasiAttribute()
     {
-        if ($this->rtm != '[]' && $this->rtm != null) {
+        if ($this->rtm->nik_kepala != null) {
             $id = $this->rtm->nik_kepala;
         } elseif ($this->keluarga != '[]' && $this->keluarga != null) {
             $id = $this->keluarga->nik_kepala;

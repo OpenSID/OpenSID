@@ -37,10 +37,10 @@
 
 namespace Modules\BukuTamu\Database\Seeders;
 
-use App\Traits\Migrator;
 use App\Enums\StatusEnum;
-use Illuminate\Database\Seeder;
+use App\Traits\Migrator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
 {
@@ -59,7 +59,6 @@ class SettingSeeder extends Seeder
 
         $this->createSettings([
             [
-                'config_id'  => $id,
                 'judul'      => 'Buku Tamu Kamera',
                 'key'        => 'buku_tamu_kamera',
                 'value'      => StatusEnum::YA,

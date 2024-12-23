@@ -196,7 +196,7 @@ class Lapak_model extends MY_Model
 
     private function upload_foto_produk(int $key = 1)
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         // Adakah berkas yang disertakan?
         if (empty($_FILES["foto_{$key}"]['name'])) {
             // Jika hapus (ceklis)

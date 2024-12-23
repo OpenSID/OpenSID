@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'opendesa/opensid',
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
-        'reference' => 'b7d2e812845f7cdad277348596a90e43eafff36e',
+        'pretty_version' => 'dev-8803-sesuaikan-library',
+        'version' => 'dev-8803-sesuaikan-library',
+        'reference' => 'dee72b9627c2dd134c644e134fe2de67c1f8e8b3',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -674,9 +674,9 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
-            'reference' => 'b7d2e812845f7cdad277348596a90e43eafff36e',
+            'pretty_version' => 'dev-8803-sesuaikan-library',
+            'version' => 'dev-8803-sesuaikan-library',
+            'reference' => 'dee72b9627c2dd134c644e134fe2de67c1f8e8b3',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1229,9 +1229,9 @@
             'dev_requirement' => false,
         ),
         'tijsverkoyen/css-to-inline-styles' => array(
-            'pretty_version' => 'v2.2.7',
-            'version' => '2.2.7.0',
-            'reference' => '83ee6f38df0a63106a9e4536e3060458b74ccedb',
+            'pretty_version' => 'v2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => '0d72ac1c00084279c1816675284073c5a337c20d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tijsverkoyen/css-to-inline-styles',
             'aliases' => array(),

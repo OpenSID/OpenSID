@@ -57,7 +57,7 @@ class PertanyaanController extends AnjunganBaseController
 
     public function index()
     {
-        if ($this->input->is_ajax_request()) {
+        if (request()->ajax()) {
             return datatables()->of(PertanyaanModel::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {

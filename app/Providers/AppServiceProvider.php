@@ -37,7 +37,6 @@
 
 namespace App\Providers;
 
-use Closure;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -82,7 +81,6 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMacrosUrut();
         $this->registerMacrosSlug();
 
-        // tambahkan Schema::dropIfExistsDBGabungan('table_name') untuk menghapus tabel yang memiliki gabungan
         $this->registerMacrosDropIfExistsDBGabungan();
     }
 
@@ -158,6 +156,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register macro for dropIfExistsDBGabungan.
      *
+     * @param mixed|null $table
+     * @param mixed|null $model
+     *
      * @return void
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
@@ -172,7 +173,6 @@ class AppServiceProvider extends ServiceProvider
             }
         });
     }
-
 
     /**
      * Log query to file.

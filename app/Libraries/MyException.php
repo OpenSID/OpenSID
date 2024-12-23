@@ -35,14 +35,22 @@
  *
  */
 
-return [
-    /*
-    |--------------------------------------------------------------------------
-    | API Hari Libur
-    |--------------------------------------------------------------------------
-    |
-    */
-    'api_hari_libur' => 'https://raw.githubusercontent.com/guangrei/APIHariLibur_V2/main/holidays.json',
+namespace App\Libraries;
 
-    'default_latar_kehadiran' => module_asset('img/bg.jpg'),
-];
+use Throwable;
+
+/**
+ * Define a custom exception class
+ */
+class MyException extends \Exception
+{
+    /**
+     * Exception khusus untuk tabel referensi kosong.
+     *
+     * {@inheritDoc}
+     */
+    public function __construct(string $message, int $code = 99001, ?Throwable $previous = null)
+    {
+        parent::__construct("[PERIKSA] Tabel referensi kosong: {$message}", $code, $previous);
+    }
+}
