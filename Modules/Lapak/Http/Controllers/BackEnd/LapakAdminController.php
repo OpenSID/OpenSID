@@ -35,14 +35,15 @@
  *
  */
 
+use App\Models\Pamong;
 use App\Enums\StatusEnum;
-use App\Models\Pelapak;
-use App\Models\Produk;
-use App\Models\ProdukKategori;
+use Modules\Lapak\Models\Produk;
+use Modules\Lapak\Models\Pelapak;
+use Modules\Lapak\Models\ProdukKategori;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Lapak_admin extends Admin_Controller
+class LapakAdminController extends AdminModulController
 {
     public $modul_ini           = 'lapak';
     public $kategori_pengaturan = 'Lapak';
@@ -51,7 +52,6 @@ class Lapak_admin extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('pamong_model');
     }
 
     public function index()
@@ -59,17 +59,17 @@ class Lapak_admin extends Admin_Controller
         $data['navigasi'] = Produk::navigasi();
 
         if ($data['navigasi']['jml_pelapak']['aktif'] <= 0) {
-            redirect_with('error', 'Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu', "{$this->controller}/pelapak");
+            redirect_with('error', 'Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu', "lapak_admin/pelapak");
         }
 
         if ($data['navigasi']['jml_kategori']['aktif'] <= 0) {
-            redirect_with('error', 'Kategori tidak tersedia, silakan tambah kategori terlebih dahulu', "{$this->controller}/kategori");
+            redirect_with('error', 'Kategori tidak tersedia, silakan tambah kategori terlebih dahulu', "lapak_admin/kategori");
         }
 
-        if ($this->input->is_ajax_request()) {
-            $status             = $this->input->get('status');
-            $id_pend            = $this->input->get('id_pend');
-            $id_produk_kategori = $this->input->get('id_produk_kategori');
+        if (request()->ajax()) {
+            $status             = request('status');
+            $id_pend            = request('id_pend');
+            $id_produk_kategori = request('id_produk_kategori');
 
             $query = Produk::listProduk()
                 ->when($status !== '', static function ($query) use ($status): void {
@@ -91,94 +91,92 @@ class Lapak_admin extends Admin_Controller
         $data['pelapak']  = Pelapak::listPelapak()->where('pelapak.status', 1)->get();
         $data['kategori'] = ProdukKategori::listKategori()->where('produk_kategori.status', 1)->get();
 
-        return view('admin.lapak.produk.index', $data);
+        return view('lapak::backend.produk.index', $data);
     }
 
-    public function produk_form($id = '')
+    public function produkForm($id = '')
     {
         isCan('u');
 
         if ($id) {
             $data['main']        = Produk::listProduk()->where('produk.id', $id)->first() ?? show_404();
             $data['aksi']        = 'Ubah';
-            $data['form_action'] = site_url("{$this->controller}/produk_update/{$id}");
+            $data['form_action'] = site_url("lapak_admin/produk_update/{$id}");
         } else {
             $data['main']                = new stdClass();
             $data['main']->tipe_potongan = 1;
             $data['aksi']                = 'Tambah';
-            $data['form_action']         = site_url("{$this->controller}/produk_insert");
+            $data['form_action']         = site_url("lapak_admin/produk_insert");
         }
 
         $data['pelapak']  = Pelapak::listPelapak()->where('pelapak.status', 1)->get();
         $data['kategori'] = ProdukKategori::listKategori()->where('produk_kategori.status', 1)->get();
         $data['satuan']   = Produk::listSatuan();
 
-        return view('admin.lapak.produk.form', $data);
+        return view('lapak::backend.produk.form', $data);
     }
 
-    public function produk_insert(): void
+    public function produkInsert(): void
     {
         isCan('u');
-        $post           = $this->input->post();
+        $post           = request()->post();
         $post['status'] = StatusEnum::YA;
         if ((new Produk())->produkInsert($post)) {
-            redirect_with('success', 'Berhasil menambah data', "{$this->controller}/produk");
+            redirect_with('success', 'Berhasil menambah data', "lapak_admin/produk");
         }
 
-        redirect_with('error', 'Gagal menambah data', "{$this->controller}/produk");
+        redirect_with('error', 'Gagal menambah data', "lapak_admin/produk");
     }
 
-    public function produk_update($id = ''): void
+    public function produkUpdate($id = ''): void
     {
         isCan('u');
 
-        if ((new Produk())->produkUpdate($id, $this->input->post())) {
-            redirect_with('success', 'Berhasil mengubah data', "{$this->controller}/produk");
+        if ((new Produk())->produkUpdate($id, request()->post())) {
+            redirect_with('success', 'Berhasil mengubah data', "lapak_admin/produk");
         }
 
-        redirect_with('error', 'Gagal mengubah data', "{$this->controller}/produk");
+        redirect_with('error', 'Gagal mengubah data', "lapak_admin/produk");
     }
 
-    public function produk_delete($id): void
+    public function produkDelete($id): void
     {
         isCan('h');
 
         if ((new Produk())->produkDelete($id)) {
-            redirect_with('success', 'Berhasil Hapus Data', "{$this->controller}/produk");
+            redirect_with('success', 'Berhasil Hapus Data', "lapak_admin/produk");
         }
 
-        redirect_with('error', 'Gagal Hapus Data', "{$this->controller}/produk");
+        redirect_with('error', 'Gagal Hapus Data', "lapak_admin/produk");
     }
 
-    public function produk_delete_all(): void
+    public function produkDeleteAll(): void
     {
         isCan('h');
 
         if ((new Produk())->produkDeleteAll()) {
-            redirect_with('success', 'Berhasil Hapus Data', "{$this->controller}/produk");
+            redirect_with('success', 'Berhasil Hapus Data', "lapak_admin/produk");
         }
 
-        redirect_with('error', 'Gagal Hapus Data', "{$this->controller}/produk");
+        redirect_with('error', 'Gagal Hapus Data', "lapak_admin/produk");
     }
 
-    public function produk_detail($id = 0)
+    public function produkDetail($id = 0)
     {
-        isCan('u');
-
         $data['main'] = Produk::listProduk()->where('produk.id', $id)->first() ?? show_404();
 
-        return view('admin.lapak.produk.detail', $data);
+        return view('lapak::backend.produk.detail', $data);
     }
 
-    public function produk_status($id = 0): void
+    public function produkStatus($id = 0): void
     {
         isCan('u');
 
         if (Produk::gantiStatus($id)) {
-            redirect_with('success', 'Berhasil mengubah data', "{$this->controller}/produk");
+            redirect_with('success', 'Berhasil mengubah data', "lapak_admin/produk");
         }
 
-        redirect_with('error', 'Gagal mengubah data', "{$this->controller}/produk");
+        redirect_with('error', 'Gagal mengubah data', "lapak_admin/produk");
     }
 
     public function dialog($aksi = 'cetak'): void
@@ -192,14 +190,13 @@ class Lapak_admin extends Admin_Controller
 
     public function aksi($aksi = 'cetak'): void
     {
-        $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['config']         = identitas();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['main']           = Produk::with(['pelapak.penduduk:id,nama', 'kategori:id,kategori'])->get();
         $data['file']           = 'Data Produk';
-        $data['isi']            = 'admin.lapak.produk.cetak';
+        $data['isi']            = 'lapak::backend.produk.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
 
         view('admin.layouts.components.format_cetak', $data);

@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 4. [#8801](https://github.com/OpenSID/OpenSID/issues/8801) Penyesuaian format log laravel agar seragam.
 5. [#8782](https://github.com/OpenSID/OpenSID/issues/8782) Penyesuaian penggunaan data null pada tabel tweb_surat_format.
 6. [#8803](https://github.com/OpenSID/OpenSID/issues/8803) Penyesuaian core bawaan Codeigniter 3.x.
+7. [#8817](https://github.com/OpenSID/OpenSID/issues/8817) Penyesuaian modul lapak menjadi module terpisah.
 
 
 ### KEAMANAN

@@ -35,9 +35,12 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\Lapak\Models;
 
+use App\Models\Penduduk;
 use App\Traits\ConfigId;
+use App\Models\BaseModel;
+use App\Models\PendudukHidup;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
@@ -111,23 +114,19 @@ class Pelapak extends BaseModel
 
     public function pelapakUpdateMaps($id = 0): void
     {
-        $post = ci()->input->post();
-
         $data = [
-            'lat'  => $post['lat'],
-            'lng'  => $post['lng'],
-            'zoom' => $post['zoom'],
+            'lat'  => request('lat'),
+            'lng'  => request('lng'),
+            'zoom' => request('zoom'),
         ];
         $this->where('id', $id)->update($data);
     }
 
     private function pelapakValidasi(): array
     {
-        $post = ci()->input->post();
-
         return [
-            'id_pend' => bilangan($post['id_pend']),
-            'telepon' => bilangan($post['telepon']),
+            'id_pend' => bilangan(request('id_pend')),
+            'telepon' => bilangan(request('telepon')),
         ];
     }
 
@@ -138,7 +137,7 @@ class Pelapak extends BaseModel
 
     public function pelapakDeleteAll(): void
     {
-        $id_cb = $_POST['id_cb'];
+        $id_cb = request('id_cb', []);
 
         foreach ($id_cb as $id) {
             $this->pelapakDelete($id);

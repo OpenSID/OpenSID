@@ -35,9 +35,10 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\Lapak\Models;
 
 use App\Traits\ConfigId;
+use App\Models\BaseModel;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
@@ -86,7 +87,7 @@ class ProdukKategori extends BaseModel
 
     public function kategoriDeleteAll(): void
     {
-        $id_cb = $_POST['id_cb'];
+        $id_cb = request('id_cb', []);
 
         foreach ($id_cb as $id) {
             $this->kategoriDelete($id);

@@ -35,39 +35,26 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 use Modules\Lapak\Models\Produk;
+use Modules\Lapak\Models\Pelapak;
 use Modules\Lapak\Models\ProdukKategori;
 
-class Lapak extends Mandiri_Controller
-{
-    public function index($p = 1)
-    {
-        $keyword     = $this->input->get('keyword', true);
-        $id_kategori = $this->input->get('id_kategori', true);
+return [
+    'Produk' => [
+        'link'   => 'lapak_admin',
+        'akses'  => 'lapak',
+        'jumlah' => Produk::count(),
+    ],
 
-        $kategori = ProdukKategori::get();
+    'Pelapak' => [
+        'link'   => 'lapak_admin',
+        'akses'  => 'lapak',
+        'jumlah' => Pelapak::count(),
+    ],
 
-        $produk = Produk::listProduk()
-            ->when($id_kategori, static function ($query, $kategori): void {
-                $query->where('id_produk_kategori', $kategori);
-            })
-            ->when($keyword, static function ($query, $keyword): void {
-                $query->where(static function ($query) use ($keyword): void {
-                    $query
-                        ->where('p.nama', 'like', "%{$keyword}%")
-                        ->orWhere('produk.nama', 'like', "%{$keyword}%")
-                        ->orWhere('pk.kategori', 'like', "%{$keyword}%")
-                        ->orWhere('produk.harga', 'like', "%{$keyword}%")
-                        ->orWhere('produk.satuan', 'like', "%{$keyword}%")
-                        ->orWhere('produk.potongan', 'like', "%{$keyword}%")
-                        ->orWhere('produk.deskripsi', 'like', "%{$keyword}%");
-                });
-            })
-            ->where('produk.status', 1)
-            ->paginate();
-
-        return view('layanan_mandiri.lapak.index', ['id_kategori' => $id_kategori, 'keyword' => $keyword, 'kategori' => $kategori, 'produk' => $produk]);
-    }
-}
+    'Kategori Produk' => [
+        'link'   => 'lapak_admin',
+        'akses'  => 'lapak',
+        'jumlah' => ProdukKategori::count(),
+    ],
+];

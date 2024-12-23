@@ -57,7 +57,7 @@ use App\Models\PembangunanDokumentasi;
 use App\Models\Penduduk;
 use App\Models\Pengaduan;
 use App\Models\Point;
-use App\Models\Produk;
+use Modules\Lapak\Models\Produk;
 use App\Models\Simbol;
 use App\Models\Widget;
 use Modules\Analisis\Models\AnalisisResponBukti;

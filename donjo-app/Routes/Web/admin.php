@@ -1379,64 +1379,6 @@ Route::group('pembangunan_dokumentasi', static function (): void {
     Route::post('/daftar/{id}/{aksi?}', 'Pembangunan_dokumentasi@daftar')->name('pembangunan_dokumentasi.daftar');
 });
 
-// Lapak
-Route::group('lapak_admin', static function (): void {
-    Route::get('/', static function (): void {
-        redirect('lapak_admin/produk');
-    });
-
-    // produk
-    Route::group('produk', static function (): void {
-        Route::get('/', 'Lapak_admin@index')->name('lapak_admin.produk.index');
-        Route::post('/', 'Lapak_admin@index')->name('lapak_admin.produk.datatables');
-
-        Route::get('/dialog/{aksi?}', 'Lapak_admin@dialog')->name('lapak_admin.produk.dialog');
-        Route::post('/aksi/{aksi?}', 'Lapak_admin@aksi')->name('lapak_admin.produk.aksi');
-    });
-    Route::get('/produk_form/{id?}', 'Lapak_admin@produk_form')->name('lapak_admin.form');
-    Route::post('/produk_insert', 'Lapak_admin@produk_insert')->name('lapak_admin.insert');
-    Route::post('/produk_update/{id?}', 'Lapak_admin@produk_update')->name('lapak_admin.update');
-    Route::get('/produk_delete/{id}', 'Lapak_admin@produk_delete')->name('lapak_admin.delete');
-    Route::post('/produk_delete_all', 'Lapak_admin@produk_delete_all')->name('lapak_admin.delete.all');
-    Route::get('/produk_detail/{id?}', 'Lapak_admin@produk_detail')->name('lapak_admin.detail');
-    Route::get('/produk_status/{id?}/{status?}', 'Lapak_admin@produk_status')->name('lapak_admin.produk.status');
-
-    // pelapak
-    Route::group('pelapak', static function (): void {
-        Route::get('/', 'Lapak_pelapak_admin@index')->name('lapak_admin.pelapak.index');
-        Route::post('/', 'Lapak_pelapak_admin@index')->name('lapak_admin.pelapak.datatables');
-
-        Route::get('/dialog/{aksi?}', 'Lapak_pelapak_admin@dialog')->name('lapak_admin.pelapak.dialog');
-        Route::post('/aksi/{aksi?}', 'Lapak_pelapak_admin@aksi')->name('lapak_admin.pelapak.aksi');
-    });
-    Route::get('/pelapak_form/{id?}', 'Lapak_pelapak_admin@pelapak_form')->name('lapak_admin.pelapak.form');
-    Route::get('/pelapak_maps/{id?}', 'Lapak_pelapak_admin@pelapak_maps')->name('lapak_admin.pelapak.maps');
-    Route::post('/pelapak_insert', 'Lapak_pelapak_admin@pelapak_insert')->name('lapak_admin.pelapak.insert');
-    Route::match(['GET', 'POST'], '/pelapak_update_maps/{id?}', 'Lapak_pelapak_admin@pelapak_update_maps')->name('lapak_admin.pelapak.update.maps');
-    Route::match(['GET', 'POST'], '/pelapak_update/{id?}', 'Lapak_pelapak_admin@pelapak_update')->name('lapak_admin.pelapak.update');
-    Route::get('/pelapak_delete/{id?}', 'Lapak_pelapak_admin@pelapak_delete')->name('lapak_admin.pelapak.delete');
-    Route::post('/pelapak_delete_all', 'Lapak_pelapak_admin@pelapak_delete_all')->name('lapak_admin.pelapak.delete.all');
-    Route::get('/pelapak_status/{id?}/{status?}', 'Lapak_pelapak_admin@pelapak_status')->name('lapak_admin.pelapak.status');
-
-    // kategori
-    Route::group('kategori', static function (): void {
-        Route::get('/', 'Lapak_kategori_admin@index')->name('lapak_kategori.index');
-        Route::post('/', 'Lapak_kategori_admin@index')->name('lapak_kategori.datatables');
-
-        Route::get('/dialog/{aksi?}', 'Lapak_kategori_admin@dialog')->name('lapak_kategori.dialog');
-        Route::post('/aksi/{aksi?}', 'Lapak_kategori_admin@aksi')->name('lapak_kategori.aksi');
-    });
-    Route::get('/kategori_form/{id?}', 'Lapak_kategori_admin@kategori_form')->name('lapak_admin.kategori.form');
-    Route::post('/kategori_insert', 'Lapak_kategori_admin@kategori_insert')->name('lapak_admin.kategori.insert');
-    Route::match(['GET', 'POST'], '/kategori_update/{id?}', 'Lapak_kategori_admin@kategori_update')->name('lapak_admin.kategori.update');
-    Route::get('/kategori_delete/{id?}', 'Lapak_kategori_admin@kategori_delete')->name('lapak_admin.kategori.delete');
-    Route::post('/kategori_delete_all', 'Lapak_kategori_admin@kategori_delete_all')->name('lapak_admin.kategori.delete.all');
-    Route::get('/kategori_status/{id?}/{status?}', 'Lapak_kategori_admin@kategori_status')->name('lapak_admin.kategori.status');
-
-    // pengaturan
-    Route::get('/pengaturan', 'Lapak_admin@pengaturan')->name('lapak_admin.pengaturan');
-});
-
 // Pengaduan
 Route::group('pengaduan_admin', static function (): void {
     Route::get('/', 'Pengaduan_admin@index')->name('pengaduan_admin.index');

@@ -4,7 +4,7 @@
 
 @section('title')
     <h1>
-        Pelapak
+        Kategori
         <small>Daftar Data</small>
     </h1>
 @endsection
@@ -17,24 +17,24 @@
     @include('admin.layouts.components.notifikasi')
     @include('admin.layouts.components.konfirmasi_hapus')
 
-    @include('admin.lapak.navigasi', $navigasi)
+    @include('lapak::backend.navigasi', $navigasi)
 
     <div class="box box-info">
         <div class="box-header with-border">
             @includeIf('admin.layouts.components.buttons.tambah', [
                 'modal' => true,
-                'url' => "lapak_admin/pelapak_form/{$main->id}",
+                'url' => "lapak_admin/kategori_form/{$main->id}",
             ])
             @includeIf('admin.layouts.components.buttons.hapus', [
-                'url' => 'lapak_admin/pelapak_delete_all',
+                'url' => 'lapak_admin/kategori_delete_all',
             ])
             @includeIf('admin.layouts.components.buttons.cetak', [
                 'modal' => true,
-                'url' => 'lapak_admin/pelapak/dialog/cetak',
+                'url' => 'lapak_admin/kategori/dialog/cetak',
             ])
             @includeIf('admin.layouts.components.buttons.unduh', [
                 'modal' => true,
-                'url' => 'lapak_admin/pelapak/dialog/unduh',
+                'url' => 'lapak_admin/kategori/dialog/unduh',
             ])
         </div>
         <form id="mainform" name="mainform" method="post">
@@ -50,14 +50,13 @@
                 </div>
                 <hr class="batas">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-pelapak">
+                    <table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-kategori">
                         <thead class="bg-gray disabled color-palette">
                             <tr>
                                 <th><input type="checkbox" id="checkall" /></th>
                                 <th>No</th>
                                 <th>Aksi</th>
-                                <th>Pelapak</th>
-                                <th>No. Telelpon</th>
+                                <th>Kategori</th>
                                 <th>Jumlah Produk</th>
                             </tr>
                         </thead>
@@ -71,7 +70,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            let tabel_produk = $('#tabel-pelapak').DataTable({
+            let tabel_produk = $('#tabel-kategori').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'autoWidth': false,
@@ -80,16 +79,16 @@
                     [3, 'desc']
                 ],
                 'columnDefs': [{
-                        'searchable': false,
-                        'targets': [0, 1, 2, 5]
-                    },
-                    {
                         'orderable': false,
                         'targets': [0, 1, 2]
                     },
                     {
+                        'searchable': false,
+                        'targets': [0, 1, 2, 4]
+                    },
+                    {
                         'className': 'padat',
-                        'targets': [0, 1, 4, 5]
+                        'targets': [0, 1, 4]
                     },
                     {
                         'className': 'aksi',
@@ -97,7 +96,7 @@
                     }
                 ],
                 'ajax': {
-                    'url': "{{ site_url('lapak_admin/pelapak') }}",
+                    'url': "{{ ci_route('lapak_admin/kategori') }}",
                     'method': 'get',
                     'data': function(d) {
                         d.status = $('#status').val();
@@ -118,44 +117,36 @@
                             let status;
                             if (data.status == 1) {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/pelapak_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Pelapak"><i class="fa fa-unlock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
                             } else {
                                 status =
-                                    `<a href="{{ site_url('lapak_admin/pelapak_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Pelapak"><i class="fa fa-lock"></i></a>`
+                                    `<a href="{{ site_url('lapak_admin/kategori_status/') }}${data.id}" class="btn bg-navy btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`
                             }
 
                             let hapus;
                             if (data.jumlah == 0) {
                                 hapus =
-                                    `<a href="#" data-href="{{ site_url('lapak_admin/pelapak_delete/') }}${data.id}" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
+                                    `<a href="#" data-href="{{ site_url('lapak_admin/kategori_delete/') }}${data.id}" class="btn bg-maroon btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
                             } else {
                                 hapus = ''
                             }
-
                             return `
                         @if (can('u'))
-                            <a href="{{ site_url('lapak_admin/pelapak_form/') }}${data.id}" title="Edit Data" class="btn bg-orange btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Pelapak"><i class="fa fa-edit"></i></a>
+                            <a href="{{ site_url('lapak_admin/kategori_form/') }}${data.id}" title="Edit Data" class="btn bg-orange btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Kategori"><i class="fa fa-edit"></i></a>
                             ${status}
                         @endif
                         @if (can('h'))
                             ${hapus}
                         @endif
-                        @if (can('u'))
-                            <a href="{{ site_url('lapak_admin/pelapak_maps/') }}${data.id}" class="btn bg-green btn-sm" title="Lokasi"><i class="fa fa-map"></i></a>
-                        @endif
                         `
                         }
                     },
                     {
-                        'data': 'pelapak',
-                        'name': 'p.nama'
-                    },
-                    {
-                        'data': 'telepon'
+                        'data': 'kategori'
                     },
                     {
                         'data': 'jumlah'
-                    }
+                    },
                 ],
                 'language': {
                     'url': "{{ base_url('/assets/bootstrap/js/dataTables.indonesian.lang') }}"

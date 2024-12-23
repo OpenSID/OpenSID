@@ -78,6 +78,8 @@ Modules/*
 !Modules/BukuTamu/**
 !Modules/Kehadiran/
 !Modules/Kehadiran/**
+!Modules/Lapak/
+!Modules/Lapak/**
 
 # Do not ignore specific files
 !Modules/.gitkeep

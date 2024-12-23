@@ -37,13 +37,13 @@
 
 namespace App\Models;
 
+use Exception;
+use App\Traits\ConfigId;
+use App\Enums\SasaranEnum;
+use App\Traits\ShortcutCache;
 use App\Enums\HubunganRTMEnum;
 use App\Enums\JenisKelaminEnum;
-use App\Enums\SasaranEnum;
 use App\Libraries\ShortcutModule;
-use App\Traits\ConfigId;
-use App\Traits\ShortcutCache;
-use Exception;
 use Spatie\EloquentSortable\SortableTrait;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -358,25 +358,6 @@ class Shortcut extends BaseModel
                         'link'   => 'mandiri',
                         'akses'  => 'pendaftar-layanan-mandiri',
                         'jumlah' => PendudukMandiri::status()->count(),
-                    ],
-
-                    // Lapak
-                    'Produk' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => Produk::count(),
-                    ],
-
-                    'Pelapak' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => Pelapak::count(),
-                    ],
-
-                    'Kategori Produk' => [
-                        'link'   => 'lapak_admin',
-                        'akses'  => 'lapak',
-                        'jumlah' => ProdukKategori::count(),
                     ],
 
                     // Bantuan

@@ -35,10 +35,13 @@
  *
  */
 
-use App\Models\Pelapak;
-use App\Models\Produk;
+use App\Models\Pamong;
+use App\Models\Wilayah;
+use App\Models\PendudukMap;
+use Modules\Lapak\Models\Produk;
+use Modules\Lapak\Models\Pelapak;
 
-class Lapak_pelapak_admin extends Admin_Controller
+class LapakPelapakAdminController extends AdminModulController
 {
     public $modul_ini           = 'lapak';
     public $aliasController     = 'lapak_admin';
@@ -49,17 +52,14 @@ class Lapak_pelapak_admin extends Admin_Controller
         parent::__construct();
         isCan('b');
         $this->load->model('penduduk_model');
-        $this->load->model('pamong_model');
     }
 
     public function index()
     {
         $data['navigasi'] = Produk::navigasi();
 
-        if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status');
-
-            log_message('error', json_encode($status));
+        if (request()->ajax()) {
+            $status = request('status');
 
             $query = Pelapak::listPelapak()
                 ->when($status !== '', static function ($query) use ($status): void {
@@ -71,10 +71,10 @@ class Lapak_pelapak_admin extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.lapak.pelapak.index', $data);
+        return view('lapak::backend.pelapak.index', $data);
     }
 
-    public function pelapak_form($id = '')
+    public function pelapakForm($id = '')
     {
         isCan('u');
 
@@ -88,16 +88,16 @@ class Lapak_pelapak_admin extends Admin_Controller
 
         $data['list_penduduk'] = (new Pelapak())->listPenduduk($data['main']->id_pend ?? 0);
 
-        return view('admin.lapak.pelapak.form', $data);
+        return view('lapak::backend.pelapak.form', $data);
     }
 
-    public function pelapak_maps($id = '')
+    public function pelapakMaps($id = '')
     {
         $desa    = $this->header['desa'];
         $pelapak = Pelapak::listPelapak()->where('pelapak.id', $id)->first() ?? show_404();
 
         if ($pelapak) {
-            $penduduk = $this->penduduk_model->get_penduduk_map($pelapak->id_pend);
+            $penduduk = PendudukMap::find($pelapak->id_pend)->first()?->toArray();
         }
 
         switch (true) {
@@ -128,22 +128,22 @@ class Lapak_pelapak_admin extends Admin_Controller
 
         $data['pelapak'] = $pelapak;
         $data['lokasi']  = [
-            'ini'  => $ini,
+            'ini'  => $ini, // TODO: ini apa?
             'lat'  => $lat,
             'lng'  => $lng,
             'zoom' => $zoom,
         ];
         $data['desa']        = $desa;
         $data['wil_atas']    = $desa;
-        $data['dusun_gis']   = $this->wilayah_model->list_dusun();
-        $data['rw_gis']      = $this->wilayah_model->list_rw();
-        $data['rt_gis']      = $this->wilayah_model->list_rt();
+        $data['dusun_gis']   = Wilayah::dusun()->get()->toArray();
+        $data['rw_gis']      = Wilayah::rw()->get()->toArray();
+        $data['rt_gis']      = Wilayah::rt()->get()->toArray();
         $data['form_action'] = site_url("lapak_admin/pelapak_update_maps/{$id}");
 
-        return view('admin.lapak.pelapak.maps', $data);
+        return view('lapak::backend.pelapak.maps', $data);
     }
 
-    public function pelapak_insert(): void
+    public function pelapakInsert(): void
     {
         isCan('u');
 
@@ -152,7 +152,7 @@ class Lapak_pelapak_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menambah data', 'lapak_admin/pelapak');
     }
 
-    public function pelapak_update_maps($id = ''): void
+    public function pelapakUpdateMaps($id = ''): void
     {
         isCan('u');
 
@@ -161,7 +161,7 @@ class Lapak_pelapak_admin extends Admin_Controller
         redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/pelapak');
     }
 
-    public function pelapak_update($id = ''): void
+    public function pelapakUpdate($id = ''): void
     {
         isCan('u');
 
@@ -170,7 +170,7 @@ class Lapak_pelapak_admin extends Admin_Controller
         redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/pelapak');
     }
 
-    public function pelapak_delete($id): void
+    public function pelapakDelete($id): void
     {
         isCan('h');
 
@@ -183,7 +183,7 @@ class Lapak_pelapak_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/pelapak');
     }
 
-    public function pelapak_delete_all(): void
+    public function pelapakDeleteAll(): void
     {
         isCan('h');
 
@@ -192,7 +192,7 @@ class Lapak_pelapak_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/pelapak');
     }
 
-    public function pelapak_status($id = 0): void
+    public function pelapakStatus($id = 0): void
     {
         isCan('u');
 
@@ -214,14 +214,13 @@ class Lapak_pelapak_admin extends Admin_Controller
 
     public function aksi($aksi = 'cetak'): void
     {
-        $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['config']         = identitas();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['main']           = Pelapak::with('penduduk:id,nama')->withCount('produk')->get();
         $data['file']           = 'Data Pelapak';
-        $data['isi']            = 'admin.lapak.pelapak.cetak';
+        $data['isi']            = 'lapak::backend.pelapak.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
 
         view('admin.layouts.components.format_cetak', $data);

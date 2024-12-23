@@ -39,7 +39,7 @@ namespace App\Console\Commands;
 
 use App\Models\Config;
 use App\Models\Keluarga;
-use App\Models\Pelapak;
+use Modules\Lapak\Models\Pelapak;
 use App\Models\Penduduk;
 use App\Models\Rtm;
 use App\Models\Wilayah;

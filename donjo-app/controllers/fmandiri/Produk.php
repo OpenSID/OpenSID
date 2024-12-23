@@ -36,10 +36,10 @@
  */
 
 use App\Enums\StatusEnum;
-use App\Models\Pelapak;
+use Modules\Lapak\Models\Pelapak;
 use App\Models\Penduduk;
-use App\Models\Produk as ProdukModel;
-use App\Models\ProdukKategori;
+use Modules\Lapak\Models\Produk as ProdukModel;
+use Modules\Lapak\Models\ProdukKategori;
 use App\Models\Wilayah;
 
 defined('BASEPATH') || exit('No direct script access allowed');

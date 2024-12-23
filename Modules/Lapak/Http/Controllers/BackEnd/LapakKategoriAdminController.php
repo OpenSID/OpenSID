@@ -35,10 +35,11 @@
  *
  */
 
-use App\Models\Produk;
-use App\Models\ProdukKategori;
+use App\Models\Pamong;
+use Modules\Lapak\Models\Produk;
+use Modules\Lapak\Models\ProdukKategori;
 
-class Lapak_kategori_admin extends Admin_Controller
+class LapakKategoriAdminController extends AdminModulController
 {
     public $modul_ini           = 'lapak';
     public $aliasController     = 'lapak_admin';
@@ -48,15 +49,14 @@ class Lapak_kategori_admin extends Admin_Controller
     {
         parent::__construct();
         isCan('b');
-        $this->load->model('pamong_model');
     }
 
     public function index()
     {
         $data['navigasi'] = Produk::navigasi();
 
-        if ($this->input->is_ajax_request()) {
-            $status = $this->input->get('status');
+        if (request()->ajax()) {
+            $status = request('status');
 
             $query = ProdukKategori::listKategori()
                 ->when($status !== '', static function ($query) use ($status): void {
@@ -68,10 +68,10 @@ class Lapak_kategori_admin extends Admin_Controller
                 ->make();
         }
 
-        return view('admin.lapak.kategori.index', $data);
+        return view('lapak::backend.kategori.index', $data);
     }
 
-    public function kategori_form($id = '')
+    public function kategoriForm($id = '')
     {
         isCan('u');
 
@@ -83,28 +83,28 @@ class Lapak_kategori_admin extends Admin_Controller
             $data['form_action'] = site_url('lapak_admin/kategori_insert');
         }
 
-        return view('admin.lapak.kategori.form', $data);
+        return view('lapak::backend.kategori.form', $data);
     }
 
-    public function kategori_insert(): void
+    public function kategoriInsert(): void
     {
         isCan('u');
 
-        (new ProdukKategori())->kategoriInsert($this->input->post());
+        (new ProdukKategori())->kategoriInsert(request()->post());
 
         redirect_with('success', 'Berhasil menambah data', 'lapak_admin/kategori');
     }
 
-    public function kategori_update($id = ''): void
+    public function kategoriUpdate($id = ''): void
     {
         isCan('u');
 
-        (new ProdukKategori())->kategoriUpdate($id, $this->input->post());
+        (new ProdukKategori())->kategoriUpdate($id, request()->post());
 
         redirect_with('success', 'Berhasil mengubah data', 'lapak_admin/kategori');
     }
 
-    public function kategori_delete($id): void
+    public function kategoriDelete($id): void
     {
         isCan('h');
 
@@ -117,7 +117,7 @@ class Lapak_kategori_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/kategori');
     }
 
-    public function kategori_delete_all(): void
+    public function kategoriDeleteAll(): void
     {
         isCan('h');
 
@@ -126,7 +126,7 @@ class Lapak_kategori_admin extends Admin_Controller
         redirect_with('success', 'Berhasil menghapus data', 'lapak_admin/kategori');
     }
 
-    public function kategori_status($id = 0): void
+    public function kategoriStatus($id = 0): void
     {
         isCan('u');
 
@@ -148,14 +148,13 @@ class Lapak_kategori_admin extends Admin_Controller
 
     public function aksi($aksi = 'cetak'): void
     {
-        $post                   = $this->input->post();
         $data['aksi']           = $aksi;
         $data['config']         = identitas();
-        $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
-        $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
+        $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => request('pamong_ttd')])->first()->toArray();
+        $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => request('pamong_ketahui')])->first()->toArray();
         $data['main']           = ProdukKategori::withCount('produk')->get();
         $data['file']           = 'Data Kategori Produk';
-        $data['isi']            = 'admin.lapak.kategori.cetak';
+        $data['isi']            = 'lapak::backend.kategori.cetak';
         $data['letak_ttd']      = ['1', '1', '1'];
 
         view('admin.layouts.components.format_cetak', $data);

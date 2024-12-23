@@ -35,9 +35,11 @@
  *
  */
 
-namespace App\Models;
+namespace Modules\Lapak\Models;
 
 use App\Traits\ConfigId;
+use App\Models\BaseModel;
+use App\Models\MediaSosial;
 use App\Traits\ShortcutCache;
 use Illuminate\Support\Facades\DB;
 
@@ -149,7 +151,7 @@ class Produk extends BaseModel
 
     public function produkDeleteAll()
     {
-        $id_cb  = $_POST['id_cb'];
+        $id_cb  = request('id_cb', []);
         $result = false;
 
         foreach ($id_cb as $id) {

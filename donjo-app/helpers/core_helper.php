@@ -86,6 +86,7 @@ define('MODUL_BAWAAN', [
     'Analisis',
     'BukuTamu',
     'Kehadiran',
+    'Lapak',
 ]);
 
 if (! function_exists('cek_anjungan')) {
