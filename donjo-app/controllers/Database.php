@@ -127,7 +127,7 @@ class Database extends Admin_Controller
         return Zip::create(
             name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
             files: collect(Storage::disk('desa')->allFiles())
-                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
+                ->mapWithKeys(static fn($file) => [base_path("desa/{$file}") => $file])
                 ->toArray()
         )
             ->response()
@@ -139,7 +139,7 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn ($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
+                ->addColumn('aksi', static fn($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -260,7 +260,7 @@ class Database extends Admin_Controller
         isCan('u');
         $this->load->model('sinkronisasi_model');
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->upload->initialize([
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'zip',
@@ -306,8 +306,8 @@ class Database extends Admin_Controller
             ], 400);
         }
 
-        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
-            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
+        $user = User::when($method == 'telegram', static fn($query) => $query->whereNotNull('telegram_verified_at'))
+            ->when($method == 'email', static fn($query) => $query->whereNotNull('email_verified_at'))
             ->first();
 
         if ($user == null) {
@@ -379,7 +379,7 @@ class Database extends Admin_Controller
             'max_size'      => max_upload() * 1024,
             'check_script'  => false,
         ];
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->upload->initialize($config);
 
         try {
@@ -438,7 +438,7 @@ class Database extends Admin_Controller
 
     public function file_restore()
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $uploadConfig = [
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain

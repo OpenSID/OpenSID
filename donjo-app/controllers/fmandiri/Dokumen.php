@@ -66,8 +66,8 @@ class Dokumen extends Mandiri_Controller
 
                     return $aksi . ('<a target="_blank" href="' . $downloadUrl . '" title="Unduh" class="btn bg-purple btn-sm"><i class="fa fa-eye"></i></a>');
                 })
-                ->editColumn('id_syarat', static fn ($data) => SyaratSurat::where('ref_syarat_id', $data->id_syarat)->first()->ref_syarat_nama)
-                ->editColumn('tgl_upload', static fn ($data) => tgl_indo2($data->tgl_upload))
+                ->editColumn('id_syarat', static fn($data) => SyaratSurat::where('ref_syarat_id', $data->id_syarat)->first()->ref_syarat_nama)
+                ->editColumn('tgl_upload', static fn($data) => tgl_indo2($data->tgl_upload))
                 ->rawColumns(['aksi', 'ref_syarat_nama', 'nama', 'tgl_upload'])
                 ->make();
         }
@@ -194,7 +194,7 @@ class Dokumen extends Mandiri_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {

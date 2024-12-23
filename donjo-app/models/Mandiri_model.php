@@ -357,7 +357,7 @@ class Mandiri_model extends MY_Model
 
     protected function upload_scan($key = 1)
     {
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->uploadConfig = [
             'upload_path'   => LOKASI_PENDAFTARAN,
             'allowed_types' => 'gif|jpg|jpeg|png',

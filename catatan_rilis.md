@@ -28,8 +28,9 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 1. [#8785](https://github.com/OpenSID/OpenSID/issues/8785) Penyesuaian collation database menggunakan utf8mb4_general_ci.
 2. [#8789](https://github.com/OpenSID/OpenSID/issues/8789) Penyesuaian lokasi anggota keluarga saat lokasi kepala keluarga diubah.
 3. [#8790](https://github.com/OpenSID/OpenSID/issues/8790) Penyesuaian link kategori artikel statis yang tidak digunakan.
-4. [#8801](https://github.com/OpenSID/OpenSID/issues/8801) Gunakan format log laravel agar seragam.
+4. [#8801](https://github.com/OpenSID/OpenSID/issues/8801) Penyesuaian format log laravel agar seragam.
 5. [#8782](https://github.com/OpenSID/OpenSID/issues/8782) Penyesuaian penggunaan data null pada tabel tweb_surat_format.
+6. [#8803](https://github.com/OpenSID/OpenSID/issues/8803) Penyesuaian core bawaan Codeigniter 3.x.
 
 
 ### KEAMANAN

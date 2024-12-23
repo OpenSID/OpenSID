@@ -149,7 +149,7 @@ class Penduduk extends Admin_Controller
 
                     return $result;
                 })
-                ->addColumn('foto', static fn ($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->foto, '', $row->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
+                ->addColumn('foto', static fn($row) => '<img class="penduduk_kecil" src="' . AmbilFoto($row->foto, '', $row->sex) . '" alt="Foto Penduduk" />')->addIndexColumn()
                 ->addColumn('aksi', static function ($row) use ($canUpdate, $canDelete): string {
                     $aksi = '<div class="btn-group">
                         <button type="button" class="btn btn-social btn-info btn-sm" data-toggle="dropdown"><i class="fa fa-arrow-circle-down"></i> Pilih Aksi</button>
@@ -193,11 +193,11 @@ class Penduduk extends Admin_Controller
                     </div>';
 
                     return $aksi;
-                })->editColumn('tgl_peristiwa', static fn ($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
-                ->editColumn('created_at', static fn ($q) => tgl_indo($q->created_at))
-                ->editColumn('nama', static fn ($q) => strtoupper($q->nama))
-                ->addColumn('umur', static fn ($q) => $q->umur)
-                ->addColumn('status_perkawinan', static fn ($q) => $q->statusPerkawinan)
+                })->editColumn('tgl_peristiwa', static fn($q) => $q->log_latest ? tgl_indo($q->log_latest->tgl_peristiwa) : tgl_indo($q->created_at))
+                ->editColumn('created_at', static fn($q) => tgl_indo($q->created_at))
+                ->editColumn('nama', static fn($q) => strtoupper($q->nama))
+                ->addColumn('umur', static fn($q) => $q->umur)
+                ->addColumn('status_perkawinan', static fn($q) => $q->statusPerkawinan)
                 ->rawColumns(['aksi', 'ceklist', 'foto'])
                 ->make();
         }
@@ -264,12 +264,12 @@ class Penduduk extends Admin_Controller
 
         return PendudukModel::with(['log_latest'])
             ->select('tweb_penduduk.*')
-            ->when($idCluster, static fn ($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
-            ->when($statusDasar, static fn ($q) => $q->whereStatusDasar($statusDasar))
-            ->when($statusPenduduk, static fn ($q) => $q->whereStatus($statusPenduduk))
-            ->when($nikSementara, static fn ($q) => $q->where('nik', 'like', '0%'))
-            ->when($sex, static fn ($q) => $q->whereSex($sex))
-            ->when($kumpulanNIK, static fn ($q) => $q->whereIn('nik', $kumpulanNIK))
+            ->when($idCluster, static fn($q) => $q->whereIn('tweb_penduduk.id_cluster', $idCluster))
+            ->when($statusDasar, static fn($q) => $q->whereStatusDasar($statusDasar))
+            ->when($statusPenduduk, static fn($q) => $q->whereStatus($statusPenduduk))
+            ->when($nikSementara, static fn($q) => $q->where('nik', 'like', '0%'))
+            ->when($sex, static fn($q) => $q->whereSex($sex))
+            ->when($kumpulanNIK, static fn($q) => $q->whereIn('nik', $kumpulanNIK))
             ->when($statistikFilter, static function ($q) use ($statistikFilter) {
                 if (isset($statistikFilter['umurx'])) {
                     if ($statistikFilter['umurx'] == BELUM_MENGISI) {
@@ -324,10 +324,10 @@ class Penduduk extends Admin_Controller
                             if ($map[$key] == 'ktp_el') {
                                 $q->wajibKtp();
                                 if ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('status_rekam', 0)->orWhereNull('status_rekam'));
+                                    $q->where(static fn($r) => $r->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('status_rekam', 0)->orWhereNull('status_rekam'));
                                 } else {
                                     if ($val == JUMLAH) {
-                                        $q->where(static fn ($r) => $r->whereNotNull('ktp_el')->whereNotIn('ktp_el', [0, 3]));
+                                        $q->where(static fn($r) => $r->whereNotNull('ktp_el')->whereNotIn('ktp_el', [0, 3]));
                                     } else {
                                         if ($val != TOTAL) {
                                             $statusKTP = StatusKtp::find($val);
@@ -339,7 +339,7 @@ class Penduduk extends Admin_Controller
                                 $umurObj['min'] = 0;
                                 $umurObj['max'] = 17;
                                 if ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('status_rekam', 0)->orWhereNull('status_rekam'));
+                                    $q->where(static fn($r) => $r->whereNull('ktp_el')->orWhere('ktp_el', 0)->orWhere('status_rekam', 0)->orWhereNull('status_rekam'));
                                 } else {
                                     if ($val == JUMLAH) {
                                         $q->where('ktp_el', 3);
@@ -353,16 +353,16 @@ class Penduduk extends Admin_Controller
                             } elseif ($map[$key] == 'akta_perkawinan') {
                                 $q->where('status_kawin', '!=', StatusKawinEnum::BELUMKAWIN);
                                 if ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
+                                    $q->where(static fn($r) => $r->where('akta_perkawinan', '=', '')->orWhereNull('akta_perkawinan'));
                                 } elseif ($val == JUMLAH || $val == 2) {
-                                    $q->where(static fn ($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
+                                    $q->where(static fn($r) => $r->where('akta_perkawinan', '!=', '')->whereNotNull('akta_perkawinan'));
                                 }
                             } elseif ($map[$key] == 'cacat_id') {
                                 if ($val == CacatEnum::TIDAK_CACAT) {
-                                    $q->where(static fn ($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
+                                    $q->where(static fn($r) => $r->where('cacat_id', '=', CacatEnum::TIDAK_CACAT)->orWhereNull('cacat_id'));
                                 } else {
                                     if ($val == JUMLAH) {
-                                        $q->where(static fn ($r) => $r->where('cacat_id', '!=', CacatEnum::TIDAK_CACAT)->whereNotNull('cacat_id'));
+                                        $q->where(static fn($r) => $r->where('cacat_id', '!=', CacatEnum::TIDAK_CACAT)->whereNotNull('cacat_id'));
                                     } else {
                                         $q->where($map[$key], $val);
                                     }
@@ -375,7 +375,7 @@ class Penduduk extends Admin_Controller
                                 }
                             } else {
                                 if ($val == BELUM_MENGISI) {
-                                    $q->where(static fn ($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
+                                    $q->where(static fn($r) => $r->whereNull($map[$key])->orWhere($map[$key], ''));
                                 } else {
                                     if ($val == JUMLAH) {
                                         $q->whereNotNull($map[$key])->where($map[$key], '!=', '');
@@ -479,7 +479,7 @@ class Penduduk extends Admin_Controller
                         return $q->whereHas('bantuan');
 
                     default:
-                        return $q->whereHas('bantuan', static fn ($r) => $r->where('program.id', $bantuan));
+                        return $q->whereHas('bantuan', static fn($r) => $r->where('program.id', $bantuan));
                 }
             })
             ->orderBy(DB::raw("CASE
@@ -506,7 +506,7 @@ class Penduduk extends Admin_Controller
 
             return json([
                 'results' => collect($penduduk->items())
-                    ->map(static fn ($item): array => [
+                    ->map(static fn($item): array => [
                         'id'   => $item->nik,
                         'text' => $item->nik,
                     ]),
@@ -655,8 +655,8 @@ class Penduduk extends Admin_Controller
 
                     return $aksi . ('<a href="' . ci_route('penduduk.unduh_berkas', $row->id) . '" class="btn bg-purple btn-sm" title="Unduh Dokumen"><i class="fa fa-download"></i></a>');
                 })
-                ->editColumn('jenis_dokumen', static fn ($row) => $row->jenisDokumen->ref_syarat_nama ?? '')
-                ->editColumn('tgl_upload', static fn ($row) => tgl_indo2($row->tgl_upload))
+                ->editColumn('jenis_dokumen', static fn($row) => $row->jenisDokumen->ref_syarat_nama ?? '')
+                ->editColumn('tgl_upload', static fn($row) => tgl_indo2($row->tgl_upload))
                 ->rawColumns(['aksi', 'ceklist'])
                 ->make();
         }
@@ -667,7 +667,7 @@ class Penduduk extends Admin_Controller
     public function dokumen_form(int $id, $id_dokumen = 0)
     {
         isCan('u');
-        $penduduk                   = PendudukModel::with(['keluarga', 'dokumen' => static fn ($q) => $q->whereId($id_dokumen)])->find($id) ?? show_404();
+        $penduduk                   = PendudukModel::with(['keluarga', 'dokumen' => static fn($q) => $q->whereId($id_dokumen)])->find($id) ?? show_404();
         $data['penduduk']           = ['id' => $id, 'nik' => $penduduk->nik];
         $data['jenis_syarat_surat'] = SyaratSurat::get();
 
@@ -801,7 +801,7 @@ class Penduduk extends Admin_Controller
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
@@ -897,7 +897,7 @@ class Penduduk extends Admin_Controller
         }
 
         if ($bantuan = $penduduk->pesertaBantuan()->get()) {
-            $links = $bantuan->map(static fn ($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
+            $links = $bantuan->map(static fn($item) => '<li><a href="' . ci_route("peserta_bantuan.detail.{$item->program_id}") . '" target="_blank">' . $item->bantuan->nama . '</a></li>')->implode('');
 
             $links = "<ul>{$links}</ul>";
 
@@ -1077,15 +1077,15 @@ class Penduduk extends Admin_Controller
         // pengecualian kk level kepala keluarga
         $excludeStatusMati = $data['nik']['kk_level'] == SHDKEnum::KEPALA_KELUARGA
             && $data['nik']?->keluarga?->anggota?->count() > 1
-                ? StatusDasarEnum::MATI
-                : null;
+            ? StatusDasarEnum::MATI
+            : null;
 
         // pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
         $excludeStatus = $data['nik']['status'] == StatusPendudukEnum::TETAP
             ? [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, StatusDasarEnum::PERGI, $excludeStatusMati]
             : [StatusDasarEnum::TIDAK_VALID, StatusDasarEnum::HIDUP, $excludeStatusMati];
 
-        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn ($key, $item) => ! in_array($item, $excludeStatus ))->all();
+        $data['list_status_dasar'] = collect(StatusDasarEnum::all())->filter(static fn($key, $item) => ! in_array($item, $excludeStatus))->all();
 
         view('admin.penduduk.ajax_edit_status_dasar', $data);
     }
@@ -1151,7 +1151,7 @@ class Penduduk extends Admin_Controller
 
     private function upload_akta_mati($id)
     {
-        $this->load->library('My_upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
 
         $config = [
             'upload_path'   => LOKASI_DOKUMEN,

@@ -249,25 +249,32 @@ class Web_dokumen_model extends MY_Model
         $this->list_data_sql($kat);
 
         switch ($o) {
-            case 1: $order = ' nama';
+            case 1:
+                $order = ' nama';
                 break;
 
-            case 2: $order = ' nama DESC';
+            case 2:
+                $order = ' nama DESC';
                 break;
 
-            case 3: $order = ' enabled';
+            case 3:
+                $order = ' enabled';
                 break;
 
-            case 4: $order = ' enabled DESC';
+            case 4:
+                $order = ' enabled DESC';
                 break;
 
-            case 5: $order = ' tgl_upload';
+            case 5:
+                $order = ' tgl_upload';
                 break;
 
-            case 6: $order = ' tgl_upload DESC';
+            case 6:
+                $order = ' tgl_upload DESC';
                 break;
 
-            default:$order = ' id';
+            default:
+                $order = ' id';
         }
         $data = $this->db
             ->select('*')
@@ -302,7 +309,7 @@ class Web_dokumen_model extends MY_Model
         $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['file_name']     = namafile($this->input->post('nama', true));
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('satuan')) {
@@ -495,7 +502,7 @@ class Web_dokumen_model extends MY_Model
             $data['id_pend']   = $value;
             $data['id_parent'] = $id;
             $data['config_id'] = $this->config_id;
-            $retval &= $this->db->insert('dokumen', $data);	// insert new data
+            $retval &= $this->db->insert('dokumen', $data);    // insert new data
         }
 
         return $retval;

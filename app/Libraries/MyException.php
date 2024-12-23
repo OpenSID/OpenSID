@@ -35,30 +35,22 @@
  *
  */
 
-class MY_Email extends CI_Email
+namespace App\Libraries;
+
+use Throwable;
+
+/**
+ * Define a custom exception class
+ */
+class MyException extends \Exception
 {
-    public $active = 0;
-
-    public function __construct(array $config = [])
-    {
-        parent::__construct($config);
-    }
-
     /**
-     * Send Email
+     * Exception khusus untuk tabel referensi kosong.
      *
-     * @param bool $auto_clear = TRUE
-     *
-     * @return bool
+     * {@inheritDoc}
      */
-    public function send($auto_clear = true)
+    public function __construct(string $message, int $code = 99001, ?Throwable $previous = null)
     {
-        if (! $this->active) {
-            log_message('error', 'email tidak dikirim karena pengaturan notifikasi email dinonaktifkan');
-
-            return false;
-        }
-
-        return parent::send($auto_clear);
+        parent::__construct("[PERIKSA] Tabel referensi kosong: {$message}", $code, $previous);
     }
 }

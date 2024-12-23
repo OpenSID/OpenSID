@@ -86,7 +86,7 @@ class Program_bantuan extends Admin_Controller
             $sasaran    = $this->input->get('sasaran') ?? null;
             $program_id = $this->input->get('program_id') ?? null;
 
-            return datatables()->of(Bantuan::getProgram($program_id)->when($sasaran, static fn ($q) => $q->where('sasaran', $sasaran)))
+            return datatables()->of(Bantuan::getProgram($program_id)->when($sasaran, static fn($q) => $q->where('sasaran', $sasaran)))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row): string {
                     $openKab = null === $row->config_id ? 'disabled' : '';
@@ -111,9 +111,9 @@ class Program_bantuan extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tampil_tanggal', static fn ($row): string => fTampilTgl($row->sdate, $row->edate))
-                ->editColumn('sasaran', static fn ($row): string => SasaranEnum::valueOf($row->sasaran))
-                ->editColumn('status', static fn ($row): string => AktifEnum::valueOf($row->status))
+                ->editColumn('tampil_tanggal', static fn($row): string => fTampilTgl($row->sdate, $row->edate))
+                ->editColumn('sasaran', static fn($row): string => SasaranEnum::valueOf($row->sasaran))
+                ->editColumn('status', static fn($row): string => AktifEnum::valueOf($row->status))
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -168,7 +168,7 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn ($item): array => [
+                ->map(static fn($item): array => [
                     'id'   => $item->id,
                     'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -207,7 +207,7 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn ($item): array => [
+                ->map(static fn($item): array => [
                     'id'   => $item->id,
                     'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -234,7 +234,7 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn ($item): array => [
+                ->map(static fn($item): array => [
                     'id'   => $item->rtm->no_kk,
                     'text' => 'No. RT : ' . $item->rtm->no_kk . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -261,7 +261,7 @@ class Program_bantuan extends Admin_Controller
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn ($item): array => [
+                ->map(static fn($item): array => [
                     'id'   => $item->id,
                     'text' => $item->nama_penduduk . ' [' . $item->nama_kelompok . ']' . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -375,7 +375,7 @@ class Program_bantuan extends Admin_Controller
     {
         isCan('u', 'program-bantuan');
 
-        $this->load->library('MY_Upload', null, 'upload');
+        $this->load->library('upload', null, 'upload');
         $this->upload->initialize([
             'upload_path'   => sys_get_temp_dir(),
             'allowed_types' => 'xls|xlsx|xlsm',
