@@ -495,7 +495,11 @@ class Pengurus extends Admin_Controller
         foreach ($atasan as $pamong) {
             $data['bagan']['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
         }
-        $data['bagan']['nodes'] = Pamong::status()->get()->toArray();
+        $data['bagan']['nodes'] = Pamong::status()->get()->map(static function ($item) {
+            $item->jabatan->nama = ($item->status_pejabat == StatusEnum::YA ? setting('sebutan_pj_kepala_desa') : '') . $item->jabatan->nama;
+
+            return $item;
+        })->toArray();
 
         view('admin.pengurus.bagan', $data);
     }

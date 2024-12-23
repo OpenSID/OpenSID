@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] telah ikut berkontribusi.
 16. [#8800](https://github.com/OpenSID/OpenSID/issues/8800) Perbaikan notifikasi gagal input password.
 17. [#8809](https://github.com/OpenSID/OpenSID/issues/8809) Perbaikan validasi hapus penduduk yang berelasi dengan akun pengguna.
 18. [#8828](https://github.com/OpenSID/OpenSID/issues/8828) Perbaikan titik koordinat penduduk. 
+19. [#8829](https://github.com/OpenSID/OpenSID/issues/8829) Perbaikan jabatan pemerintah desa pada surat dan bagan.
 
 
 ### TEKNIS
