@@ -35,6 +35,10 @@
  *
  */
 
+namespace App\Libraries;
+
+use Exception;
+
 /**
  * PHP Univarsel Feed Parser class
  *

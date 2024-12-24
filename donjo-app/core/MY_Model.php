@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\SettingAplikasi;
@@ -285,14 +286,14 @@ class MY_Model extends CI_Model
     // fungsi untuk format paginasi
     public function paginasi($page = 1, $jml_data = 0)
     {
-        $this->load->library('paging');
+        $paging           = new Paging();
         $cfg['page']      = $page;
         $cfg['per_page']  = $this->session->per_page ?? 10;
         $cfg['num_links'] = 10;
         $cfg['num_rows']  = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     /**

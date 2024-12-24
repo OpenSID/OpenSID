@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\FlxZipArchive;
+use app\Libraries\jobProses;
 use App\Libraries\OTP\OtpManager;
 use App\Libraries\Sistem;
 use App\Models\LogBackup;
@@ -56,6 +57,7 @@ class Database extends Admin_Controller
 {
     public $modul_ini     = 'pengaturan';
     public $sub_modul_ini = 'database';
+    private $jobProses;
     private OtpManager $otp;
 
     public function __construct()
@@ -64,8 +66,8 @@ class Database extends Admin_Controller
         isCan('b');
         $this->load->model(['ekspor_model', 'database_model']);
         $this->load->helper('number');
-        $this->otp = new OtpManager();
-
+        $this->jobProses = new jobProses();
+        $this->otp       = new OtpManager();
         $this->otp->driver('email');
     }
 
@@ -288,12 +290,10 @@ class Database extends Admin_Controller
 
     public function batal_backup(): void
     {
-        $this->load->library('job_prosess');
-        // ambil semua data pid yang masih dalam prosess
         $last_backup = LogBackup::where('status', '=', 0)->get();
 
         foreach ($last_backup as $value) {
-            $this->job_prosess->kill($value->pid_process);
+            $this->jobProses->kill($value->pid_process);
             $value->status = 3;
             $value->save();
         }

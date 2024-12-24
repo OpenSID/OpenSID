@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_gallery_model extends MY_Model
@@ -74,13 +76,13 @@ class Web_gallery_model extends MY_Model
         $row      = $this->db->get()->row_array();
         $jml_data = $row['jml'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_data_sql(): void
@@ -372,13 +374,13 @@ class Web_gallery_model extends MY_Model
         $row      = $this->db->get()->row_array();
         $jml_data = $row['jml'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_sub_gallery_sql($gal)

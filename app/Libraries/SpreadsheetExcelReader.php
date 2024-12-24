@@ -35,6 +35,8 @@
  *
  */
 
+namespace App\Libraries;
+
 define('NUM_BIG_BLOCK_DEPOT_BLOCKS_POS', 0x2C);
 define('SMALL_BLOCK_DEPOT_BLOCK_POS', 0x3C);
 define('ROOT_START_BLOCK_POS', 0x30);
@@ -318,7 +320,7 @@ define('SPREADSHEET_EXCEL_READER_TYPE_STANDARDWIDTH', 0x99);
 define('SPREADSHEET_EXCEL_READER_DEF_NUM_FORMAT', '%s');
 
 // Main Class
-class Spreadsheet_Excel_Reader
+class SpreadsheetExcelReader
 {
     // MK: Added to make data retrieval easier
     public $colnames         = [];

@@ -35,26 +35,29 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Libraries;
 
-class Job_prosess
-{
-    protected string $os;
+ class JobProses
+ {
+     protected string $os;
 
-    public function __construct()
-    {
-        $this->os = php_uname('s');
-    }
+     public function __construct()
+     {
+         $this->os = php_uname('s');
+     }
 
-    public function kill($pid): void
-    {
-        if (function_exists('posix_kill')) {
-            posix_kill($pid, SIGKILL);
-        } elseif ($this->os == 'Windows NT') {
-            //'F' to Force kill a process
-            exec("taskkill /pid {$pid} /F");
-        } elseif ($this->os == 'Linux') {
-            exec("kill -9 {$pid}");
-        }
-    }
-}
+     public static function kill($pid): void
+     {
+         if (function_exists('posix_kill')) {
+             posix_kill($pid, SIGKILL);
+         } else {
+             $os = php_uname('s');
+             if ($os == 'Windows NT') {
+                 //'F' to Force kill a process
+                 exec("taskkill /pid {$pid} /F");
+             } elseif ($os == 'Linux') {
+                 exec("kill -9 {$pid}");
+             }
+         }
+     }
+ }

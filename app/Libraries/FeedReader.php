@@ -35,16 +35,17 @@
  *
  */
 
+namespace App\Libraries;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Feed_Reader
+class FeedReader
 {
     private FeedParser $parser;
     public $items;
 
     public function __construct()
     {
-        include_once 'FeedParser.php';
         $this->buka_feed();
     }
 

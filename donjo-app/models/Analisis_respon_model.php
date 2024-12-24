@@ -35,17 +35,21 @@
  *
  */
 
+use App\Libraries\Paging;
+use App\Libraries\SpreadsheetExcelReader;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Analisis_respon_model extends MY_Model
 {
     protected $per;
     protected $master;
+    protected $subjek;
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('Spreadsheet_Excel_Reader');
+        // $this->load->library('Spreadsheet_Excel_Reader');
         $this->load->model('analisis_master_model');
         $this->per    = $this->analisis_master_model->get_aktif_periode();
         $this->master = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
@@ -192,7 +196,8 @@ class Analisis_respon_model extends MY_Model
                     ->group_end();
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
     }
 
@@ -250,13 +255,13 @@ class Analisis_respon_model extends MY_Model
             ->row()
             ->jml_data;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $_SESSION['per_page'];
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_data_sql()
@@ -319,7 +324,8 @@ class Analisis_respon_model extends MY_Model
                     ->where('u.rt <> "-"');
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
         if ($id_kelompok != 0) {
             $this->kelompok_sql($id_kelompok);
@@ -374,24 +380,30 @@ class Analisis_respon_model extends MY_Model
                     ->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.id');
+            case 1:
+                $this->db->order_by('u.id');
                 break;
 
-            case 2: $this->db->order_by('u.id DESC');
+            case 2:
+                $this->db->order_by('u.id DESC');
                 break;
 
-            case 3: $this->db->order_by('nama');
+            case 3:
+                $this->db->order_by('nama');
                 break;
 
-            case 4: $this->db->order_by('nama DESC');
+            case 4:
+                $this->db->order_by('nama DESC');
                 break;
 
-            default:$this->db->order_by('u.id');
+            default:
+                $this->db->order_by('u.id');
         }
 
         if ($limit > 0) {
@@ -457,19 +469,24 @@ class Analisis_respon_model extends MY_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.id');
+            case 1:
+                $this->db->order_by('u.id');
                 break;
 
-            case 2: $this->db->order_by('u.id DESC');
+            case 2:
+                $this->db->order_by('u.id DESC');
                 break;
 
-            case 3: $this->db->order_by('nama');
+            case 3:
+                $this->db->order_by('nama');
                 break;
 
-            case 4: $this->db->order_by('nama DESC');
+            case 4:
+                $this->db->order_by('nama DESC');
                 break;
 
-            default:$this->db->order_by('u.id');
+            default:
+                $this->db->order_by('u.id');
         }
 
         $data    = $this->db->get()->result_array();
@@ -966,7 +983,8 @@ class Analisis_respon_model extends MY_Model
                     ->where('u.rt <> "-"');
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
         $data = $this->db
             ->where('u.id', $id)
@@ -1013,7 +1031,8 @@ class Analisis_respon_model extends MY_Model
                         ->get('penduduk_hidup u')
                         ->result_array();
 
-                default: return null;
+                default:
+                    return null;
             }
         }
 
@@ -1182,7 +1201,7 @@ class Analisis_respon_model extends MY_Model
                     'message' => 'File yang diunggah harus berformat .xls',
                 ];
             }
-            $data  = new Spreadsheet_Excel_Reader($_FILES['respon']['tmp_name']);
+            $data  = new SpreadsheetExcelReader($_FILES['respon']['tmp_name']);
             $s     = 0;
             $baris = $data->rowcount($s);
             $kolom = $data->colcount($s);

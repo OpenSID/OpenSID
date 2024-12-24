@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Klasifikasi_model extends MY_model
@@ -69,13 +71,13 @@ class Klasifikasi_model extends MY_model
             ->select('COUNT(*) as jml')
             ->get()->row()->jml;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $_SESSION['per_page'];
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // Digunakan untuk paging dan query utama supaya jumlah data selalu sama
@@ -96,19 +98,24 @@ class Klasifikasi_model extends MY_model
 
         //Ordering SQL
         switch ($o) {
-            case 1: $order = 'u.kode';
+            case 1:
+                $order = 'u.kode';
                 break;
 
-            case 2: $order = 'u.kode DESC';
+            case 2:
+                $order = 'u.kode DESC';
                 break;
 
-            case 3: $order = 'u.nama';
+            case 3:
+                $order = 'u.nama';
                 break;
 
-            case 4: $order = 'u.nama DESC';
+            case 4:
+                $order = 'u.nama DESC';
                 break;
 
-            default:$order = 'u.kode';
+            default:
+                $order = 'u.kode';
         }
 
         $data = $this->db
