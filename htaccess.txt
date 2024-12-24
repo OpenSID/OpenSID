@@ -1,0 +1,80 @@
+#============
+# Di server yg ada Apache, gunakan file ini untuk menghapus index.php dari url OpenSID,
+# dan untuk mengamankan folder desa.
+# Untuk mengaktifkan, ubah nama file ini menjadi .htaccess,
+# Sesudah aktif, misalnya, modul Web bisa dipanggil dengan http://localhost/first.
+# Untuk menggunakan fitur ini, pastikan konfigurasi Apache di server SID
+# mengizinkan penggunaan .htaccess
+#============
+RewriteEngine on
+RewriteBase /
+# Apabila menggunakan sub-domain atau sub-folder gunakan bentuk berikut
+# RewriteBase /nama-sub-folder/
+
+# Prevent index dirs
+RewriteCond $1
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+# General dirs / files
+RewriteCond $1 !^(index\.php|resources|robots\.txt)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+# Protect Folder Not Index
+Options All -Indexes
+
+# Paksa menggunakan https
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Restrict access to DotFiles (like .htaccess, , .gitignore....)
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Restrict access to system files
+<FilesMatch "^(composer.json|composer.lock|mitra|app_key|phpunit.xml|phpunit.xml.dist|rector)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "(?i)\.(zip|rar)$">
+  Deny from all
+</FilesMatch>
+
+# Expire Caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access 1 year"
+  
+  #Font
+  AddType application/Cabin-Regular-TTF .ttf
+  AddType application/fontawesome-webfont .woff2
+  
+  # Images
+  ExpiresByType image/jpg "access 1 year"
+  ExpiresByType image/jpeg "access 1 year"
+  ExpiresByType image/gif "access 1 year"
+  ExpiresByType image/png "access 1 year"
+  ExpiresByType image/webp "access 1 year"
+  ExpiresByType image/svg+xml "access 1 year"
+  ExpiresByType image/x-icon "access 1 year"
+
+  # Video
+  ExpiresByType video/mp4 "access 1 year"
+  ExpiresByType video/mpeg "access 1 year"
+
+  # CSS, JavaScript
+  ExpiresByType text/css "access 1 year"
+  ExpiresByType application/javascript "access 1 year"
+  ExpiresByType application/x-javascript "access 1 year"
+
+  # Others
+  ExpiresByType application/pdf "access 1 year"
+  ExpiresByType application/x-shockwave-flash "access 1 year"
+  ExpiresByType application/font-woff "access 1 year" 
+  ExpiresByType application/font-woff2 "access 1 year"
+</IfModule>

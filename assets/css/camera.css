@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600');
+
+.modal-dialog {
+	position: relative;
+	display: table;
+	overflow-y: auto;
+	overflow-x: auto;
+	width: auto;
+	min-width: 300px;
+}
+
+#cropimage, #imageprev, #kamera, #kamera video {
+	width: 100%;
+	height: auto;
+}
+
+@media only screen and (max-width:767px) {
+	.modal-dialog {
+		display: block;
+	}
+
+	#cropimage, #imageprev, #kamera, #kamera video {
+		width:100% !important;
+		height: auto !important;
+	}
+}

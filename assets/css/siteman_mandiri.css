@@ -1,0 +1,227 @@
+/*
+ * File ini berisi CSS ubahan desa untuk tampilan login mandiri
+ * Letakkan file ini di: desa/pengaturan/siteman/siteman_mandiri.css
+*/
+
+/* Sebagai contoh:
+ * - Perubahan css di bawah memungkinkan penggunaan gambar untuk latar belakang halaman siteman.
+ *   Gambar yang digunakan harus ditempatkan di desa/pengaturan/siteman/images/latar_login_mandiri.jpg
+ *
+*/
+
+/*
+ * Ubah latar login/siteman pd halaman admin Pengaturan > Aplikasi, upload dan ganti latar login sesuia yg diinginkan.
+ *
+ */
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+
+body.login {
+  background: url(images/latar_login_mandiri.jpg) no-repeat center fixed;
+  background-size: cover;
+  background-color: #efefef;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+li.list-item-layan {
+  border: 1px solid teal;
+  border-radius: 10px;
+  margin: 10px;
+  transition: all 0.4s;
+}
+li.list-item-layan:hover {
+  background: teal;
+}
+li.list-item-layan a {
+  color: teal;
+  display: block;
+}
+li.list-item-layan a:hover {
+  color: #fff;
+}
+
+.login .row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login .top-content .inner-bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  max-width: 100%;
+  background: rgba(9, 9, 9, 0.4);
+}
+
+.login .container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.login .form-box.col-sm-6 {
+  background: #fefefe;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 8px 8px rgba(9, 9, 9, 0.1);
+}
+
+.login .col-sm-offset-3 {
+  margin-left: 0;
+}
+
+.login .form-box > [class*="form-"] {
+  background: inherit;
+  border-radius: 0;
+  padding: 10px 12px;
+}
+
+.login hr {
+  border: none;
+  background: transparent;
+}
+
+.login .form-box > .form-top {
+  background: teal;
+}
+
+.login .form-top > .login-footer-top {
+  margin-top: 3px;
+}
+
+.login .form-top > .login-footer-top h1 {
+  padding: 10px 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #fff;
+  -webkit-text-stroke: 0;
+  text-shadow: 2px 0px 10px rgba(27, 27, 27, 0.1);
+  font-weight: bold;
+  font-size: calc(18px + 6 * ((100vw - 320px) / 680));
+}
+
+.login .form-top > .login-footer-top h3 {
+  color: #ccc;
+  text-transform: unset;
+  letter-spacing: 1px;
+}
+
+.login .form-box > .form-bottom {
+  margin-top: 20px;
+}
+
+.login .form-top img {
+  max-width: 70px;
+  height: auto;
+}
+
+.login .login-form input.form-control {
+  background-color: rgba(175, 170, 170, 0.3);
+  border: 1px solid rgba(175, 170, 170, 0.3);
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+.hubungi {
+  border: 2px solid #ccc;
+  font-size: 10px;
+  padding: 5px;
+  color: #ccc;
+  border-radius: 10px;
+  transition: all 0.4s;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  width: 150px;
+  margin: 10px auto 0;
+  display: block;
+}
+.hubungi:hover {
+  background: #ccc;
+  color: teal;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.login button.btn {
+  width: 100% !important;
+  border: 2px solid teal;
+  background: transparent;
+  color: teal;
+  transition: all 0.4s;
+  margin-top: 0;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.login button.btn:hover {
+  background: teal;
+  color: #fff;
+  opacity: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .row-top-fmandiri {
+    margin-top: -10px;
+  }
+
+  .login .form-box.col-sm-6 {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .login .form-box > [class*="form-"] {
+    padding: 70px 40px;
+  }
+
+  .login .form-box > .form-top {
+    color: #fff;
+    position: relative;
+    width: 60%;
+  }
+
+  .form-top img {
+    max-width: 120px;
+  }
+
+  .login .form-box > .form-bottom {
+    width: 50%;
+    margin: auto;
+    padding-bottom: 30px;
+  }
+
+  .login .form-bottom > .form-login {
+    width: 30%;
+    margin: 25px auto;
+  }
+
+  .login .form-login input.form-control {
+    width: calc((100% * 1px) - 520px);
+    margin: auto;
+  }
+
+  .login button.btn {
+    padding: 0px 15px;
+    height: auto;
+  }
+}

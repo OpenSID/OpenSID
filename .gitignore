@@ -1,0 +1,72 @@
+# Abaikan folder desa
+desa/*
+
+# Abaikan file
+*.log
+log-*.php
+info.php
+**/.DS_Store
+sftp-config.json
+.php-cs-fixer.cache
+/.htaccess
+*.sql
+mitra
+generate-route.php
+
+# Abaikan file cache milik phpintel (plugin sublime text)
+.phpintel/*
+.idea/*
+
+# Abaikan file milik library Release dan Curly
+*.pem
+version.json
+
+# obfuscator
+Obfuscator.php
+
+# Abaikan tema premium
+vendor/themes/denatra/
+vendor/themes/silir/
+vendor/themes/batuah/
+vendor/themes/denava/
+
+# Abaikan isian folder vendor
+vendor/codeigniter/framework/*
+!vendor/codeigniter/framework/system/
+
+# Abaikan dokumentasi
+vendor/*/*/.github
+vendor/*/*/*.md
+!vendor/*/*/catatan_rilis.md
+vendor/*/*/*.TXT
+vendor/*/*/*.cache
+vendor/*/*/*.yml
+vendor/*/*/*.dist
+vendor/*/*/*.xml
+vendor/*/*/.gitignore
+vendor/*/*/LICENSE
+test/
+tests/
+doc/
+docs/
+example/
+examples/
+/tools/
+
+vendor/libreoffice/*
+vendor/mikey179/*
+.vscode/*
+/node_modules
+.cache-rector/*
+!.cache-rector/.gitkeep
+
+storage/framework
+storage/logs
+
+php.ini
+
+Modules/*
+!Modules/.gitkeep
+!Modules/.htaccess
+!Modules/index.html
+.phpunit.result.cache
