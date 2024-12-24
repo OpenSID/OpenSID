@@ -50,7 +50,6 @@ class Analisis_import_model extends MY_Model
         $this->load->model('analisis_master_model');
         $this->load->model('analisis_periode_model');
         $this->load->model('analisis_respon_model');
-        $this->load->library('Spreadsheet_Excel_Reader');
     }
 
     private function upload_file_analisis()

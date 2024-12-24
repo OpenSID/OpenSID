@@ -35,6 +35,9 @@
  *
  */
 
+use App\Libraries\FeedReader;
+use App\Libraries\Paging;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class First_artikel_m extends MY_Model
@@ -70,8 +73,8 @@ class First_artikel_m extends MY_Model
             return null;
         }
 
-        $this->load->library('Feed_Reader');
-        $feed = new Feed_Reader($sumber_feed);
+        // $this->load->library('Feed_Reader');
+        $feed = new FeedReader($sumber_feed);
 
         return array_slice($feed->items, 0, 2);
     }
@@ -93,13 +96,13 @@ class First_artikel_m extends MY_Model
         $jml = $this->db->get()
             ->row()->jml;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->setting->web_artikel_per_page;
         $cfg['num_rows'] = $jml;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function paging_artikel_sql(): void
@@ -206,13 +209,13 @@ class First_artikel_m extends MY_Model
             ->row_array();
         $jml_data = $row['id'];
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = 20;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     public function full_arsip($offset = 0, $limit = 50)
@@ -447,13 +450,13 @@ class First_artikel_m extends MY_Model
         $this->db->select('COUNT(a.id) AS jml');
         $jml_data = $this->db->get()->row()->jml;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->setting->web_artikel_per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // Query sama untuk paging and ambil daftar artikel menurut kategori

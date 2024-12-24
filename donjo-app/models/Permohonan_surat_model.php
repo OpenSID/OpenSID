@@ -35,12 +35,13 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
+use App\Libraries\Paging;
 use App\Models\Dokumen;
 use App\Models\LogSurat;
 use App\Models\PermohonanSurat;
 use App\Models\SyaratSurat;
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Permohonan_surat_model extends MY_Model
 {
@@ -120,14 +121,14 @@ class Permohonan_surat_model extends MY_Model
         $this->list_data_sql();
         $jml_data = $this->db->get()->row()->jml;
 
-        $this->load->library('paging');
+        $paging           = new Paging();
         $cfg['page']      = $p;
         $cfg['per_page']  = $this->session->per_page;
         $cfg['num_links'] = 10;
         $cfg['num_rows']  = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     private function list_data_sql(): void

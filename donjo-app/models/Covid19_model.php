@@ -35,6 +35,8 @@
  *
  */
 
+use App\Libraries\Paging;
+
 define('TUJUAN_MUDIK', serialize([
     'Liburan'            => '1',
     'Menjenguk Keluarga' => '2',
@@ -185,14 +187,14 @@ class Covid19_model extends MY_Model
 
         // paging
         if ($this->session->has_userdata('per_page') && $this->session->userdata('per_page') > 0) {
-            $this->load->library('paging');
+            $paging = new Paging();
 
             $cfg['page']     = $page;
             $cfg['per_page'] = $this->session->userdata('per_page');
             $cfg['num_rows'] = $this->get_pemudik()->num_rows();
 
-            $this->paging->init($cfg);
-            $retval['paging'] = $this->paging;
+            $paging->init($cfg);
+            $retval['paging'] = $paging;
         }
         // paging end
 
@@ -319,14 +321,14 @@ class Covid19_model extends MY_Model
 
         // paging
         if ($this->session->has_userdata('per_page') && $this->session->userdata('per_page') > 0) {
-            $this->load->library('paging');
+            $paging = new Paging();
 
             $cfg['page']     = $page;
             $cfg['per_page'] = $this->session->userdata('per_page');
             $cfg['num_rows'] = $this->get_pantau_pemudik($filter_tgl, $filter_nik)->num_rows();
 
-            $this->paging->init($cfg);
-            $retval['paging'] = $this->paging;
+            $paging->init($cfg);
+            $retval['paging'] = $paging;
         }
         // paging end
 

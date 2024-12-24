@@ -35,6 +35,7 @@
  *
  */
 
+use App\Libraries\Paging;
 use App\Models\Suplemen;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -137,13 +138,13 @@ class Suplemen_model extends MY_Model
             ->row()
             ->jumlah;
 
-        $this->load->library('paging');
+        $paging          = new Paging();
         $cfg['page']     = $p;
         $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
-        $this->paging->init($cfg);
+        $paging->init($cfg);
 
-        return $this->paging;
+        return $paging;
     }
 
     // TODO:: Hapus ini, masih dipanggil di model ini
