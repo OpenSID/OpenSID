@@ -252,8 +252,8 @@ class Admin_pembangunan extends Admin_Controller
     {
         isCan('u');
 
-        $data['lokasi']                 = Pembangunan::findOrFail($id)->toArray();
-        $data['desa']                   = $this->header['desa'];
+        $data['lokasi'] = Pembangunan::findOrFail($id)->toArray();
+
         $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
         $data['rw_gis']                 = Wilayah::rw()->get()->toArray();

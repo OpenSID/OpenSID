@@ -198,7 +198,6 @@ class Inventaris_gedung extends Admin_Controller
         $data           = $this->modal_penandatangan();
         $data['aksi']   = $aksi;
         $data['main']   = $query->orderByRaw('YEAR(tanggal_dokument) asc')->get();
-        $data['config'] = $this->header['desa'];
         $data['pamong'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong')])->first()->toArray();
         if ($tahun = $this->input->post('tahun')) {
             $data['main'] = $query->whereYear('tanggal_dokument', $tahun)->get();

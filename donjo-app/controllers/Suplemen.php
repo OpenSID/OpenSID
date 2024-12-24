@@ -97,7 +97,7 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('sasaran', static fn($row): mixed => unserialize(SASARAN)[$row->sasaran])
+                ->editColumn('sasaran', static fn ($row): mixed => unserialize(SASARAN)[$row->sasaran])
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -204,7 +204,7 @@ class Suplemen extends Admin_Controller
                 $aksesWilayah = $user->akses_wilayah ?? [];
             }
 
-            return datatables()->of(SuplemenTerdata::anggota($sasaran, $id)->when($batasiWilayah, static fn($q) => $q->whereIn('tweb_wil_clusterdesa.id', $aksesWilayah))->filter($filters))
+            return datatables()->of(SuplemenTerdata::anggota($sasaran, $id)->when($batasiWilayah, static fn ($q) => $q->whereIn('tweb_wil_clusterdesa.id', $aksesWilayah))->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -228,9 +228,9 @@ class Suplemen extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('tanggallahir', static fn($row) => tgl_indo($row->tanggallahir))
-                ->editColumn('sex', static fn($row) => JenisKelaminEnum::valueOf($row->sex))
-                ->editColumn('alamat', static fn($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
+                ->editColumn('tanggallahir', static fn ($row) => tgl_indo($row->tanggallahir))
+                ->editColumn('sex', static fn ($row) => JenisKelaminEnum::valueOf($row->sex))
+                ->editColumn('alamat', static fn ($row): string => 'RT/RW ' . $row->rt . '/' . $row->rw . ' - ' . strtoupper($row->dusun))
                 ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
@@ -366,12 +366,12 @@ class Suplemen extends Admin_Controller
                         ->orWhere('nama', 'like', "%{$cari}%");
                 });
             })
-            ->whereNotIn('id', static fn($q) => $q->select(['penduduk_id'])->whereNotNull('penduduk_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
+            ->whereNotIn('id', static fn ($q) => $q->select(['penduduk_id'])->whereNotNull('penduduk_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
             ->paginate(10);
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn($item): array => [
+                ->map(static fn ($item): array => [
                     'id'   => $item->id,
                     'text' => 'NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -400,13 +400,13 @@ class Suplemen extends Admin_Controller
                 });
             })
             ->whereIn('tweb_penduduk.kk_level', ['1'])
-            ->whereNotIn('tweb_penduduk.id_kk', static fn($q) => $q->select(['keluarga_id'])->whereNotNull('keluarga_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
+            ->whereNotIn('tweb_penduduk.id_kk', static fn ($q) => $q->select(['keluarga_id'])->whereNotNull('keluarga_id')->from('suplemen_terdata')->where('id_suplemen', $id_suplemen))
             ->orderBy('tweb_penduduk.id_kk')
             ->paginate(10);
 
         return json([
             'results' => collect($penduduk->items())
-                ->map(static fn($item): array => [
+                ->map(static fn ($item): array => [
                     'id'   => $item->id,
                     'text' => 'No KK : ' . $item->no_kk . ' - ' . $item->pendudukHubungan->nama . '- NIK : ' . $item->nik . ' - ' . $item->nama . ' RT-' . $item->wilayah->rt . ', RW-' . $item->wilayah->rw . ', ' . strtoupper((string) setting('sebutan_dusun')) . ' ' . $item->wilayah->dusun,
                 ]),
@@ -433,7 +433,6 @@ class Suplemen extends Admin_Controller
             $data['suplemen']       = ModelsSuplemen::findOrFail($id)->toArray();
             $data['terdata']        = SuplemenTerdata::anggota($data['suplemen']['sasaran'], $data['suplemen']['id'])->get()->toArray();
             $data['sasaran']        = unserialize(SASARAN);
-            $data['config']         = $this->header['desa'];
             $data['pamong_ttd']     = $this->pamong_model->get_data($this->request['pamong_ttd']);
             $data['pamong_ketahui'] = $this->pamong_model->get_data($this->request['pamong_ketahui']);
             $data['aksi']           = $aksi;

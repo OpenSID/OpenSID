@@ -138,8 +138,8 @@ class Garis extends Admin_Controller
     {
         $data['garis'] = GarisModel::with(['line'])->find($id)->toArray();
 
-        $data['parent']                 = $parent;
-        $data['desa']                   = $this->header['desa'];
+        $data['parent'] = $parent;
+
         $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = Wilayah::dusun()->get()->toArray();
         $data['rw_gis']                 = Wilayah::rw()->get()->toArray();

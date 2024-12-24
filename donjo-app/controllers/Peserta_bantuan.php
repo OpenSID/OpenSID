@@ -304,11 +304,10 @@ class Peserta_bantuan extends Admin_Controller
     {
         if ($program_id > 0) {
             // $data                = $this->modal_penandatangan();
-            $data['aksi']   = $aksi;
-            $data['main']   = Bantuan::getProgramPeserta($program_id);
-            $data['config'] = $this->header['desa'];
-            $data['file']   = 'Peserta Bantuan';
-            $data['isi']    = 'admin.program_bantuan.peserta.cetak';
+            $data['aksi'] = $aksi;
+            $data['main'] = Bantuan::getProgramPeserta($program_id);
+            $data['file'] = 'Peserta Bantuan';
+            $data['isi']  = 'admin.program_bantuan.peserta.cetak';
             // $data['letak_ttd']   = ['2', '2', '9'];
             $data['sasaran'] = unserialize(SASARAN);
 

@@ -452,8 +452,7 @@ class Pengurus extends Admin_Controller
         $kehadiran = $this->input->post('kehadiran') ?? null;
         $ttd       = $this->modal_penandatangan();
 
-        $data['desa'] = $this->header['desa'];
-        $query        = Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status))->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
+        $query = Pamong::urut()->when($status, static fn ($q) => $q->where('pamong_status', $status))->when($kehadiran, static fn ($q) => $q->where('kehadiran', $kehadiran));
 
         $paramDatatable = json_decode($this->input->post('params'), 1);
         $ids            = $this->input->post('id_cb') ?? null;
@@ -483,7 +482,6 @@ class Pengurus extends Admin_Controller
 
     public function bagan($ada_bpd = ''): void
     {
-        $data['desa']    = $this->header['desa'];
         $data['ada_bpd'] = ! empty($ada_bpd);
 
         $atasan = Pamong::select('atasan', 'pamong_id')

@@ -221,7 +221,6 @@ class Wilayah extends Admin_Controller
     {
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['desa']           = $this->header['desa'];
         $data['dusuns']         = WilayahModel::dusun()->with([
             'kepala', 'rws' => static fn ($q) => $q->orderBy('urut')->with([
                 'kepala', 'rts' => static fn ($q) => $q->orderBy('urut')->with('kepala')->withCount([
@@ -532,7 +531,6 @@ class Wilayah extends Admin_Controller
     public function ajax_kantor_dusun_maps(int $id): void
     {
         $data['wil_atas'] = $this->header['desa'];
-        $data['desa']     = $this->header['desa'];
         $sebutan_desa     = ucwords((string) setting('sebutan_desa'));
         $namadesa         = $data['wil_atas']['nama_desa'];
 
@@ -558,7 +556,6 @@ class Wilayah extends Admin_Controller
     public function ajax_wilayah_dusun_maps(int $id): void
     {
         $data['wil_atas'] = $this->header['desa'];
-        $data['desa']     = $this->header['desa'];
         $sebutan_desa     = ucwords((string) setting('sebutan_desa'));
         $namadesa         = $data['wil_atas']['nama_desa'];
         $this->ubah_lokasi_peta($data['wil_atas'], 'index', "Peta Wilayah {$sebutan_desa} {$namadesa} Belum Dilengkapi");
@@ -581,7 +578,6 @@ class Wilayah extends Admin_Controller
 
     public function ajax_kantor_rw_maps(int $id, int $id_dusun): void
     {
-        $data['desa']     = $this->header['desa'];
         $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();
         $sebutan_dusun    = ucwords((string) setting('sebutan_dusun'));
         $dusun            = $data['wil_atas']['dusun'];
@@ -606,7 +602,6 @@ class Wilayah extends Admin_Controller
 
     public function ajax_wilayah_rw_maps(int $id, int $id_dusun): void
     {
-        $data['desa']     = $this->header['desa'];
         $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();
         $sebutan_dusun    = ucwords((string) setting('sebutan_dusun'));
         $dusun            = $data['wil_atas']['dusun'];
@@ -632,7 +627,6 @@ class Wilayah extends Admin_Controller
     public function ajax_kantor_rt_maps(int $id, int $id_rw): void
     {
         $dataRW           = WilayahModel::find($id_rw)->toArray();
-        $data['desa']     = $this->header['desa'];
         $data['wil_atas'] = $dataRW;
         $id_dusun         = WilayahModel::dusun()->whereDusun($dataRW['dusun'])->first()->id;
         if ($dataRW['rw'] == '-') {
@@ -663,7 +657,6 @@ class Wilayah extends Admin_Controller
     {
         $dataRW           = WilayahModel::find($id_rw)->toArray();
         $id_dusun         = WilayahModel::dusun()->whereDusun($dataRW['dusun'])->first()->id;
-        $data['desa']     = $this->header['desa'];
         $data['wil_atas'] = $dataRW;
         if ($dataRW['rw'] == '-') {
             $data['wil_atas'] = WilayahModel::find($id_dusun)->toArray();

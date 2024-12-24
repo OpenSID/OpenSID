@@ -92,7 +92,7 @@ class Lembaran_desa extends Admin_Controller
 
                     return $aksi;
                 })
-                ->editColumn('enabled', static fn($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
+                ->editColumn('enabled', static fn ($row): string => $row->enabled == StatusEnum::YA ? 'Ya' : 'Tidak')
                 ->editColumn('additional', static function ($row): array {
                     $attr                    = json_decode($row->attr, true);
                     $data['jenis_peraturan'] = $attr['jenis_peraturan'];
@@ -238,7 +238,7 @@ class Lembaran_desa extends Admin_Controller
 
             return $array;
         })->toArray();
-        $data['config']    = $this->header['desa'];
+
         $data['file']      = 'Lembaran Desa';
         $data['isi']       = 'admin.dokumen.lembaran_desa.cetak';
         $data['letak_ttd'] = ['1', '1', '2'];

@@ -198,10 +198,10 @@ class Inventaris_jalan extends Admin_Controller
 
     public function cetak($aksi = '')
     {
-        $data              = $this->modal_penandatangan();
-        $data['aksi']      = $aksi;
-        $data['tahun']     = $this->input->post('tahun');
-        $data['config']    = $this->header['desa'];
+        $data          = $this->modal_penandatangan();
+        $data['aksi']  = $aksi;
+        $data['tahun'] = $this->input->post('tahun');
+
         $data['isi']       = 'admin.inventaris.jalan.cetak';
         $data['letak_ttd'] = ['1', '2', '12'];
         $data['file']      = 'Jalan_Irigasi_Jaringan_';

@@ -3,11 +3,11 @@
         <tr>
             <td>
                 @if ($aksi != 'unduh')
-                    <img class="logo" src="{{ gambar_desa($config['logo']) }}" alt="logo-desa">
+                    <img class="logo" src="{{ gambar_desa($desa['logo']) }}" alt="logo-desa">
                 @endif
                 <h1 class="judul">
-                    PEMERINTAH {{ strtoupper(setting('sebutan_kabupaten')) }} {{ strtoupper($config['nama_kabupaten']) }} <br> {{ strtoupper(setting('sebutan_kecamatan')) }} {{ strtoupper($config['nama_kecamatan']) }}<br> {{ strtoupper(setting('sebutan_desa')) }}
-                    {{ strtoupper($config['nama_desa']) }}
+                    PEMERINTAH {{ strtoupper(setting('sebutan_kabupaten')) }} {{ strtoupper($desa['nama_kabupaten']) }} <br> {{ strtoupper(setting('sebutan_kecamatan')) }} {{ strtoupper($desa['nama_kecamatan']) }}<br> {{ strtoupper(setting('sebutan_desa')) }}
+                    {{ strtoupper($desa['nama_desa']) }}
                 </h1>
             </td>
         </tr>

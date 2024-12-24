@@ -61,8 +61,8 @@
         <!-- Print Body -->
         <div id="body">
             <div class="desa" align="center">
-                <h3>BUKU INVENTARIS DAN KEKAYAAN {{ strtoupper(setting('sebutan_desa') . ' ' . $config['nama_desa']) }}</h3>
-                <h3>{{ strtoupper(setting('sebutan_kecamatan') . ' ' . $config['nama_kecamatan'] . ' ' . setting('sebutan_kabupaten') . ' ' . $config['nama_kabupaten']) }}</h3>
+                <h3>BUKU INVENTARIS DAN KEKAYAAN {{ strtoupper(setting('sebutan_desa') . ' ' . $desa['nama_desa']) }}</h3>
+                <h3>{{ strtoupper(setting('sebutan_kecamatan') . ' ' . $desa['nama_kecamatan'] . ' ' . setting('sebutan_kabupaten') . ' ' . $desa['nama_kabupaten']) }}</h3>
                 <h3>{{ !empty($tahun) && $tahun != 'semua' ? 'TAHUN ' . $tahun : '' }}</h3>
                 <br>
             </div>

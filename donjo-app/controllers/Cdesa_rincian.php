@@ -55,7 +55,6 @@ class Cdesa_rincian extends Admin_Controller
     public function index($rincian)
     {
         $data['rincian'] = Cdesa::with(['penduduk'])->findOrFail($rincian);
-        $data['desa']    = $this->header['desa'];
 
         return view('admin.pertanahan.cdesa.rincian.index', $data);
     }

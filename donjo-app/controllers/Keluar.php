@@ -598,7 +598,7 @@ class Keluar extends Admin_Controller
             $kirim_telegram = User::whereHas('pamong', static fn ($query) => $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0'))
                 ->where('notif_telegram', '=', '1')
                 ->get();
-            if(setting('telegram_notifikasi')){
+            if (setting('telegram_notifikasi')) {
                 $telegram = new Telegram(setting('telegram_token'));
 
                 foreach ($kirim_telegram as $value) {
@@ -621,7 +621,6 @@ class Keluar extends Admin_Controller
                     ]);
                 }
             }
-            
 
             // log ke notifikasi
             $kirimFCM = <<<EOD
@@ -895,10 +894,8 @@ class Keluar extends Admin_Controller
         ];
         $data['aksi']           = $aksi;
         $data['input']          = $this->input->post();
-        $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
-        $data['desa']           = $this->header['desa'];
         $data['main']           = LogSurat::withOnly(['formatSurat', 'penduduk', 'pamong', 'user'])->whereNull('deleted_at')->arsip($this->isAdmin, $listJabatan)->orderBy('tanggal', 'desc')->get();
 
         //pengaturan data untuk format cetak/ unduh

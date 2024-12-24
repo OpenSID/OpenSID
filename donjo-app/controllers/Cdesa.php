@@ -210,7 +210,6 @@ class Cdesa extends Admin_Controller
     {
         $data                   = $this->modal_penandatangan();
         $data['aksi']           = $aksi;
-        $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ttd')])->first()->toArray();
         $data['pamong_ketahui'] = Pamong::selectData()->where(['pamong_id' => $this->input->post('pamong_ketahui')])->first()->toArray();
         $data['main']           = CdesaModel::listCdesa();
@@ -272,7 +271,6 @@ class Cdesa extends Admin_Controller
         $data['kering'] = CdesaModel::cetakMutasi($id, 'KERING');
 
         $data['aksi'] = 'cetak';
-        $data['desa'] = $this->header['desa'];
 
         $data['file'] = 'Form C-Desa ' . date('Y-m-d');
 

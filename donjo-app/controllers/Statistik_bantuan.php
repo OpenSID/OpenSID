@@ -247,7 +247,6 @@ class Statistik_bantuan extends Admin_Controller
         $data['main']       = $query;
         $data['stat']       = LaporanPenduduk::judulStatistik($id);
         $data['aksi']       = $aksi;
-        $data['config']     = $this->header['desa'];
         $data['file']       = 'Statistik penduduk';
         $data['isi']        = 'admin.statistik.cetak';
         $data['letak_ttd']  = ['2', '2', '9'];
