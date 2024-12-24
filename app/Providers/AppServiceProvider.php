@@ -170,7 +170,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerMacrosDropIfExistsDBGabungan($table = null, $model = null)
     {
-        Schema::macro('dropIfExistsDBGabungan', static function ($table, $model) {
+        Schema::macro('dropIfExistsDBGabungan', function ($table, $model) { 
             if (DB::table('config')->count() === 1) {
                 Schema::dropIfExists($table);
             } else {
@@ -179,6 +179,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
+
     }
 
     /**
