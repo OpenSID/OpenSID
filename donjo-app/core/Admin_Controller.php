@@ -60,7 +60,6 @@ class Admin_Controller extends MY_Controller
         // To inherit directly the attributes of the parent class.
         parent::__construct();
         $this->CI = &get_instance();
-        $this->load->library('cek', null, 'premium');
         $this->controller = strtolower($this->router->fetch_class());
         if (! auth()) {
             redirect('siteman');
@@ -96,10 +95,9 @@ class Admin_Controller extends MY_Controller
             redirect('identitas_desa');
         }
 
-        $validasi = $this->premium->validasi();
-        $force    = $this->session->force_change_password;
+        $force = $this->session->force_change_password;
 
-        if ($force && $validasi && ! $kode_desa && $this->controller != 'pengguna') {
+        if ($force && ! $kode_desa && $this->controller != 'pengguna') {
             redirect('pengguna#sandi');
         }
 

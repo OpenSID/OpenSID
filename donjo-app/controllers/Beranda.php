@@ -73,10 +73,10 @@ class Beranda extends Admin_Controller
         $info = [];
 
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
-            $url_rilis = ($this->premium->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
+            $url_rilis = config_item('rilis_umum');
 
             $release = new Release();
-            $release->setApiUrl($url_rilis)->setCurrentVersion($this->versi_setara);
+            $release->setApiUrl($url_rilis)->setCurrentVersion();
 
             if ($release->isAvailable()) {
                 $info['update_available'] = $release->isAvailable();
@@ -85,10 +85,6 @@ class Beranda extends Admin_Controller
                 $info['release_name']     = $release->getReleaseName();
                 $info['release_body']     = $release->getReleaseBody();
                 $info['url_download']     = $release->getReleaseDownload();
-
-                if ($this->versi_setara) {
-                    $info['current_version'] .= '(' . $release->getCurrentVersion() . ')';
-                }
             } else {
                 $info['update_available'] = false;
             }
