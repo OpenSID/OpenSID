@@ -92,7 +92,14 @@ class AppServiceProvider extends ServiceProvider
     protected function registerMacrosConfigId()
     {
         Blueprint::macro('configId', function () {
-            $this->integer('config_id')->nullable()->after('id');
+            $columns = $this->getColumns();
+            if (in_array('id', $columns)) {
+                $this->integer('config_id')->nullable()->after('id');
+            } elseif (in_array('uuid', $columns)) {
+                $this->integer('config_id')->nullable()->after('uuid');
+            } else {
+                $this->integer('config_id')->nullable();
+            }
             $this->foreign('config_id')->references('id')->on('config')->onUpdate('cascade')->onDelete('cascade');
         });
     }
