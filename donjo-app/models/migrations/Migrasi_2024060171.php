@@ -36,6 +36,7 @@
  */
 
 use App\Enums\StatusEnum;
+use App\Models\Config;
 use App\Models\GrupAkses;
 use App\Models\Modul;
 use App\Models\UserGrup;
@@ -65,7 +66,7 @@ class Migrasi_2024060171 extends MY_Model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024050271($hasil, $id);
@@ -1135,6 +1136,7 @@ class Migrasi_2024060171 extends MY_Model
 
     protected function migrasi_2024053151($hasil)
     {
+        DB::table('tweb_wil_clusterdesa')->where('dusun', '')->delete();
         DB::table('tweb_wil_clusterdesa')->where('rt', '')->update(['rt' => 0]);
         DB::table('tweb_wil_clusterdesa')->where('rw', '')->update(['rw' => 0]);
 

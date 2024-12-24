@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Config;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
@@ -59,7 +60,7 @@ class Migrasi_2024090171 extends MY_Model
         $hasil = $this->migrasi_2024082051($hasil);
 
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil && $this->migrasi_2024082651($hasil, $id);

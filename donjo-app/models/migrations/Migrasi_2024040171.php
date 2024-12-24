@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Config;
 use App\Models\KaderMasyarakat;
 use App\Models\Modul;
 use App\Models\PendudukMandiri;
@@ -73,7 +74,7 @@ class Migrasi_2024040171 extends MY_Model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024030151($hasil, $id);

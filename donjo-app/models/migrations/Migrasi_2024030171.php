@@ -36,6 +36,7 @@
  */
 
 use App\Imports\KlasifikasiSuratImports;
+use App\Models\Config;
 use Illuminate\Support\Facades\DB;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -60,7 +61,7 @@ class Migrasi_2024030171 extends MY_Model
     protected function migrasi_data($hasil)
     {
         // Migrasi berdasarkan config_id
-        $config_id = DB::table('config')->pluck('id')->toArray();
+        $config_id = Config::appKey()->pluck('id')->toArray();
 
         foreach ($config_id as $id) {
             $hasil = $hasil && $this->migrasi_2024020651($hasil, $id);

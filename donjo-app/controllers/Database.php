@@ -47,6 +47,7 @@ use App\Models\SettingAplikasi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use STS\ZipStream\Facades\Zip;
 use Symfony\Component\Process\Process;
@@ -100,11 +101,12 @@ class Database extends Admin_Controller
         set_time_limit(0);              // making maximum execution time unlimited
         ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
         ob_end_flush();
-        $mode = $this->input->get('mode');
+        $doesntHaveMigrasiConfigId = ! Schema::hasColumn('migrasi', 'config_id');
+        $mode                      = $this->input->get('mode');
         if ($mode == 'all') {
-            Migrasi::whereNotNull('id')->delete();
+            Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->whereNotNull('id')->delete();
         } else {
-            $migrasiTerakhir = Migrasi::orderBy('id', 'desc')->first();
+            $migrasiTerakhir = Migrasi::when($doesntHaveMigrasiConfigId, static fn ($q) => $q->withoutConfigId())->orderBy('id', 'desc')->first();
             if ($migrasiTerakhir) {
                 $migrasiTerakhir->delete();
             }
@@ -131,7 +133,7 @@ class Database extends Admin_Controller
         return Zip::create(
             name: 'backup_folder_desa_' . date('Y_m_d') . '.zip',
             files: collect(Storage::disk('desa')->allFiles())
-                ->mapWithKeys(static fn($file) => [base_path("desa/{$file}") => $file])
+                ->mapWithKeys(static fn ($file) => [base_path("desa/{$file}") => $file])
                 ->toArray()
         )
             ->response()
@@ -143,7 +145,7 @@ class Database extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             return datatables(LogBackup::query())
                 ->addIndexColumn()
-                ->addColumn('aksi', static fn($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
+                ->addColumn('aksi', static fn ($row): string => '<a href="#" data-href="' . ci_route('database.inkremental_delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ')
                 ->rawColumns(['aksi'])
                 ->make();
         }
@@ -310,8 +312,8 @@ class Database extends Admin_Controller
             ], 400);
         }
 
-        $user = User::when($method == 'telegram', static fn($query) => $query->whereNotNull('telegram_verified_at'))
-            ->when($method == 'email', static fn($query) => $query->whereNotNull('email_verified_at'))
+        $user = User::when($method == 'telegram', static fn ($query) => $query->whereNotNull('telegram_verified_at'))
+            ->when($method == 'email', static fn ($query) => $query->whereNotNull('email_verified_at'))
             ->first();
 
         if ($user == null) {
